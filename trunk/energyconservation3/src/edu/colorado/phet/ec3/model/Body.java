@@ -91,6 +91,10 @@ public class Body {
         public AbstractSpline getSpline( int i ) {
             return (AbstractSpline)splines.get( i );
         }
+
+        public int getSplineCount() {
+            return splines.size();
+        }
     }
 
     public Body( EnergyConservationModel model ) {

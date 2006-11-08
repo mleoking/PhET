@@ -97,7 +97,8 @@ public class SplineInteraction {
     }
 
     private double getCollisionScore( AbstractSpline spline, Body body ) {
-        boolean a = isColliding( spline, body ) && !wasColliding( spline, body );
+        Point2D pt = spline.evaluateAnalytical( spline.getDistAlongSpline( body.getCenterOfMass(), 0, spline.getLength(), 100 ) );
+        boolean a = isColliding( spline, body ) && !wasColliding( spline, body ) && movingTowards( body, pt );
         return a ? 0 : Double.POSITIVE_INFINITY;
     }
 
