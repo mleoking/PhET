@@ -127,8 +127,12 @@ public class SplineMode implements UpdateMode {
                     boolean finalGreater = finalE > origE;
                     String text = finalGreater ? "Gained Energy" : "Lost Energy";
                     System.out.println( "After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ", rolling back changes: " + text );
-
-                    setBodyState( origState, body );
+                    System.out.println( "Attempting to fix the energy through the height." );
+                    for( int i = 0; i < 10 && !fixed; i++ ) {
+                        fixed = fixed || new EnergyConserver().conserveEnergyViaH( body, origState.getTotalEnergy() );
+                    }
+                    System.out.println( "after some iterations of fixing the height, fixed=" + fixed );
+                    //setBodyState( origState, body );
                 }
             }
             //maybe could fix by rotation?, i think no.

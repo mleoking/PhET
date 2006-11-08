@@ -39,7 +39,7 @@ public class BodyGraphic extends PNode {
     protected boolean debugCenter = false;
 
     private PPath feetDebugger;
-    private boolean debugFeet = true;
+    private boolean debugFeet = false;
 
     public BodyGraphic( final EnergySkateParkModule ec3Module, Body body ) {
         this.ec3Module = ec3Module;
