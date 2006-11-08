@@ -6,10 +6,7 @@ import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
@@ -29,12 +26,6 @@ public class BackgroundScreenNode extends PhetPNode {
         this.ec3Canvas = ec3Canvas;
         this.backgroundImage = backgroundImage;
         this.floorGraphic = floorGraphic;
-        Timer timer = new Timer( 1000, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                update();
-            }
-        } );
-        timer.start();
     }
 
     public void update() {
