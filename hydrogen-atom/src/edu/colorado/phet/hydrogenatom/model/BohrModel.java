@@ -156,7 +156,8 @@ public class BohrModel extends AbstractHydrogenAtom {
      * - the photon was emitted by the atom
      */
     private boolean canAbsorb( Photon photon ) {
-        return !photon.wasEmitted();
+//        return !photon.wasEmitted();
+        return false;//XXX
     }
     
     //----------------------------------------------------------------------------

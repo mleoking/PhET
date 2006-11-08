@@ -23,8 +23,8 @@ public class HAVersion {
 //    public static final String NUMBER = "sandbox";
 //    public static final String CVS_TAG = "hydrogenatom-sandbox";
     
-    public static final String NUMBER = "0.00.07";
-    public static final String CVS_TAG = "hydrogenatom-0-00-07-2006-11-04";
+    public static final String NUMBER = "0.00.08";
+    public static final String CVS_TAG = "hydrogenatom-0-00-08-2006-11-08";
     
     /* This class is not intended for instantiation. */
     private HAVersion() {}
