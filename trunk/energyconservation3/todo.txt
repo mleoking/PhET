@@ -5,6 +5,7 @@ Remaining Work
 Bugs: 
  
 The skater gets stuck in a track sometimes (bounces back and forth, centered on the track)
+    >>This problem still occurs, but with less probability for normal circumstances.
 
 Jetpack is shown in an incorrect position when the character is on the track.
 
@@ -41,10 +42,12 @@ The skater hung up on the top of the ramp easily if I was trying to retest my tr
 
 - in space, the thruster doesn't seem to work like gravity still
  >>Clarifying....
- 
+
 He gains energy when you move the track around.  I’m not sure how serious this is because moving the track is not exactly the usual routine while a skater is on the track.
+>>I think this is the desired behavior.
 
 If I create a track that has another slightly above, he just slides right through like it’s not there – again maybe not a priority.
+>>I think this is the desired behavior as well.
 
 Sometimes he bounces off the end of a track that he should just fly off of.
  >>I can't reproduce this yet.
