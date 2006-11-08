@@ -149,10 +149,10 @@ public class MoleculeTrackerPane extends PNode implements SimpleObserver {
 
             // Position the molecule graphics
             double cmDist = selectedMolecule.getPosition().distance( nearestToSelectedMolecule.getPosition() );
-            double edgeDist = module.getMRModel().getReaction().getCollisionDistance( freeMolecule, boundMolecule.getParentComposite() );
+            double edgeDist = module.getMRModel().getReaction().getDistanceToCollision( freeMolecule, boundMolecule.getParentComposite() );
             // In the middle of the reaction, the collision distance is underfined
             if( Double.isNaN( edgeDist ) ) {
-//                edgeDist = model.getReaction().getCollisionDistance( freeMolecule, boundMolecule.getParentComposite() );
+//                edgeDist = model.getReaction().getDistanceToCollision( freeMolecule, boundMolecule.getParentComposite() );
                 edgeDist = 0;
             }
 //            double edgeDist = cmDist - selectedMolecule.getRadius() - nearestToSelectedMolecule.getRadius();

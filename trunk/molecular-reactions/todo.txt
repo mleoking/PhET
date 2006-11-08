@@ -1,3 +1,6 @@
+- Make most Reaction methods static
+- Use CollisionParams to replace individual computations of the same thing
+- Icons and molecules in energy panel need to overlap
 - New collision model
     - Molecules overlap. They come into contact at the foot of the profile hill, and
     proceed until they either have expended their relative kinetic energy, or the
