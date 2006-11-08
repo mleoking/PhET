@@ -19,4 +19,14 @@ public class SchrodingerModel extends AbstractHydrogenAtom {
     public SchrodingerModel( Point2D position ) {
         super( position, 0 /* orientation */ );
     }
+    
+    /**
+     * Moves an alpha particle using a Rutherford Scattering algorithm.
+     * 
+     * @param alphaParticle
+     * @param dt
+     */
+    public void moveAlphaParticle( AlphaParticle alphaParticle, double dt ) {
+        RutherfordScattering.moveParticle( this, alphaParticle, dt );
+    }
 }
