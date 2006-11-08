@@ -12,12 +12,15 @@
 package edu.colorado.phet.hydrogenatom.view.atom;
 
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.BohrModel;
+import edu.colorado.phet.hydrogenatom.model.PlumPuddingModel;
+import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.*;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
@@ -30,13 +33,6 @@ import edu.umd.cs.piccolo.PNode;
  * @version $Revision$
  */
 public class BohrNode extends AbstractHydrogenAtomNode implements Observer {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final int DEFAULT_SELECTED_ORBIT = 1; //XXX hack, for demo purposes
-    private static final int NUMBER_OF_ORBITS = 6;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -63,8 +59,10 @@ public class BohrNode extends AbstractHydrogenAtomNode implements Observer {
         _atom.addObserver( this );
         
         _orbitNodes = new ArrayList();
-        for ( int orbit = 1; orbit <= NUMBER_OF_ORBITS; orbit++ ) {
-            PNode orbitNode = OrbitFactory.createOrbitNode( orbit );
+        int numberOfStates = atom.getNumberOfStates();
+        for ( int i = 1; i <= numberOfStates; i++ ) {
+            double radius = atom.getOrbitRadius( i );
+            PNode orbitNode = OrbitFactory.createOrbitNode( radius );
             addChild( orbitNode );
             _orbitNodes.add( orbitNode );
         }
@@ -81,10 +79,18 @@ public class BohrNode extends AbstractHydrogenAtomNode implements Observer {
         }
         
         _protonNode.setOffset( 0, 0 );
-        PNode orbitNode = (PNode)_orbitNodes.get( DEFAULT_SELECTED_ORBIT - 1 );
+        PNode orbitNode = getOrbitNode( atom.getState() );
         _electronNode.setOffset( orbitNode.getFullBounds().getWidth() / 2, 0 );
         
-        update( null, null );
+        Point2D atomPosition = _atom.getPosition();
+        Point2D nodePosition = ModelViewTransform.transform( atomPosition );
+        setOffset( nodePosition );
+        
+        update( _atom, SolarSystemModel.PROPERTY_ELECTRON_POSITION );
+    }
+    
+    private PNode getOrbitNode( int state ) {
+        return (PNode)_orbitNodes.get( state - 1 );
     }
 
     //----------------------------------------------------------------------------
@@ -97,6 +103,15 @@ public class BohrNode extends AbstractHydrogenAtomNode implements Observer {
      * @param arg
      */
     public void update( Observable o, Object arg ) {
-        setOffset( ModelViewTransform.transform( _atom.getPosition() ) ); 
+        if ( o == _atom ) {
+            if ( arg == PlumPuddingModel.PROPERTY_ELECTRON_OFFSET ) {
+                // the electron has moved
+                Point2D electronOffset = _atom.getElectronOffset();
+                // treat coordinates as distances, since _electronNode is a child node
+                double nodeX = ModelViewTransform.transform( electronOffset.getX() );
+                double nodeY = ModelViewTransform.transform( electronOffset.getY() );
+                _electronNode.setOffset( nodeX, nodeY );
+            }
+        }
     }
 }
