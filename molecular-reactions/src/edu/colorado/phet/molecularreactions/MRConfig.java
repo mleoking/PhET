@@ -21,7 +21,7 @@ import java.awt.*;/* Copyright 2003-2004, University of Colorado */
 public class MRConfig {
 
     // Version
-    public static final String VERSION = "0.00.05";
+    public static final String VERSION = "0.00.09";
 
     // Prefix of the strings bundles
     public static final String LOCALIZATION_BUNDLE = "localization/MRStrings";

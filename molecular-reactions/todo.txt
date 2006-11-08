@@ -1,16 +1,7 @@
+- With strip chart up for a long time, the sim choked
 - Make most Reaction methods static
 - Use CollisionParams to replace individual computations of the same thing
 - Icons and molecules in energy panel need to overlap
-- New collision model
-    - Molecules overlap. They come into contact at the foot of the profile hill, and
-    proceed until they either have expended their relative kinetic energy, or the
-    center of the smaller molecule has reached the edge of the larger one.
-    - Scale the width of the hill on the energy panel so users can see the molecules
-    climbing the hill.
-    - Maybe make the molecules larger on the simple module
-
-- With strip chart up for a long time, the sim choked
-- Make things resizable
 - Phet logo should be centered over the control panel
 - Option to show bonds of selected molecule only
 - Thermometer
@@ -174,3 +165,14 @@ Done
 11-02-06 - Reload button for Simple module
 11-02-06 - Tracking pane loses the B molecule
 
+11-08-06 - New collision model
+    - Molecules overlap. They come into contact at the foot of the profile hill, and
+    proceed until they either have expended their relative kinetic energy, or the
+    center of the smaller molecule has reached the edge of the larger one.
+    - Scale the width of the hill on the energy panel so users can see the molecules
+    climbing the hill.
+    - Maybe make the molecules larger on the simple module
+
+11-08-06 - Simulation is resizable
+11-08-06 - Added thermometer
+11-08-06 - Simple panel reactions are consistently reversible
