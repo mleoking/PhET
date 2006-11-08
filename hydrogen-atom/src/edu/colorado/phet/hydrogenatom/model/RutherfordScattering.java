@@ -34,9 +34,29 @@ public class RutherfordScattering {
     // Formatter, for debug output
     private static final DecimalFormat F = new DecimalFormat( "0.00" );
     
+    // Value of x used when x==0 (this algorithm fails when x==0)
+    public static final double X_MIN = 0.00000001;
+    
     /* Not intended for instantiation */
     private RutherfordScattering() {}
 
+    /**
+     * Gets the value x0.
+     * This value must be > 0, and is adjusted accordingly.
+     * 
+     * @param atom
+     * @param alphaParticle
+     * @return
+     */
+    public static double getX0( AbstractHydrogenAtom atom, AlphaParticle alphaParticle ) {
+        assert( X_MIN > 0 );
+        double x0 = Math.abs( alphaParticle.getInitialPosition().getX() - atom.getX() );
+        if ( x0 == 0 ) {
+            x0 = X_MIN;
+        }
+        return x0;
+    }
+    
     /**
      * Moves an alpha particle under the influence of a hydrogen atom.
      * <p>
@@ -55,34 +75,50 @@ public class RutherfordScattering {
      */
     public static void moveParticle( AbstractHydrogenAtom atom, AlphaParticle alphaParticle, final double dt, final double D ) {
 
-        // This algorithm assumes that alpha particles oriented parallel to the y axis.
-        assert( alphaParticle.getOrientation() == Math.toRadians( -90 ) );
+        assert( dt > 0 );
+        assert( D > 0 );
         
-        // initial distance between particle and the y-axis
-        final double b = Math.abs( alphaParticle.getInitialPosition().getX() - atom.getX() );
-        // particle initial speed
-        final double v0 = alphaParticle.getInitialSpeed();
+        // This algorithm assumes that alpha particles are moving vertically from bottom to top.
+        assert( alphaParticle.getOrientation() == Math.toRadians( -90 ) );
+
+        // Alpha particle's initial position, relative to the atom's center.
+        final double x0 = getX0( atom, alphaParticle );
+        double y0 = alphaParticle.getInitialPosition().getY() - atom.getY();
+        y0 *= -1; // flip y0 sign from model to algorithm
+
+        // b, horizontal distance to atom's center at y == negative infinity
+        final double b1 = Math.sqrt( ( x0 * x0 ) + ( y0 * y0 ) );
+        final double b = 0.5 * ( x0 + Math.sqrt( ( -2 * D * b1 ) - ( 2 * D * y0 ) + ( x0 * x0 ) ) );
+        assert ( b > 0 );
 
         // particle's current position and speed
         double x = alphaParticle.getX();
-        double y = alphaParticle.getY(); 
-        double v = alphaParticle.getSpeed();
+        double y = alphaParticle.getY();
+        final double v = alphaParticle.getSpeed();
+        final double v0 = alphaParticle.getInitialSpeed();
         
         // adjust for atom position
         x -= atom.getX();
         y -= atom.getY();
+        
+        // This algorithm fails for x < 0, so adjust accordingly.
+        int sign = 1;
+        if ( x < 0 ) {
+            x *= -1;
+            sign = -1;
+        }
+        assert( x >= 0 );
         
         // flip y sign from model to algorithm
         y *= -1;
         
         // convert current position to Polar coordinates, measured counterclockwise from the -y axis
         final double r = Math.sqrt( ( x * x ) + ( y * y ) );
-        final double phi = Math.atan( -x / y );
+        final double phi = Math.atan2( -y, x );
 
         // new position (in Polar coordinates) and speed
-        final double t1 = ( r / b );
-        final double t2 = ( ( b * Math.cos( phi ) ) - ( ( D / 2 ) * Math.sin( phi ) ) );
-        final double phiNew = phi + ( ( b * v * dt ) / ( r * Math.sqrt( ( b * b ) + ( t1 * t1 * t2 * t2 ) ) ) );
+        final double t1 = ( ( b * Math.cos( phi ) ) - ( ( D / 2 ) * Math.sin( phi ) ) );
+        final double phiNew = phi + ( ( b * b * v * dt ) / ( r * Math.sqrt( Math.pow( b, 4 )  + ( r * r * t1 * t1 ) ) ) );
         final double rNew = Math.abs( ( b * b ) / ( ( b * Math.sin( phiNew ) ) + ( ( D / 2 ) * ( Math.cos( phiNew ) - 1 ) ) ) );
         final double vNew = v0 * Math.sqrt( 1 - ( D / rNew ) );
         
@@ -115,12 +151,15 @@ public class RutherfordScattering {
             System.out.println( "    vNew=" + F.format( vNew ) );
         }
         
+        // Adjust the sign of x.
+        xNew *= sign;
+        
+        // flip y sign from algorithm to model
+        yNew *= -1;
+        
         // adjust for atom position
         xNew += atom.getX();
         yNew += atom.getY();
-        
-        // flip y sign from algorithm to model
-        y *= -1;
         
         alphaParticle.setPosition( xNew, yNew );
         alphaParticle.setSpeed( vNew );

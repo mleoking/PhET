@@ -304,25 +304,34 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     
     /**
      * Moves an alpha particle using a Rutherford Scattering algorithm.
-     * If the alpha particle's initial x position is the same as the atom's,
-     * then divide-by-zero errors can occur (since b=0), so simply use 
-     * the default method of moving the alpha particle.
+     * <p>
+     * 
      * 
      * @param alphaParticle
      * @param dt
      */
     public void moveAlphaParticle( AlphaParticle alphaParticle, double dt ) {
-        final double b = alphaParticle.getInitialPosition().getX() - getX();
-        if ( b == 0 ) {
-            super.moveAlphaParticle( alphaParticle, dt );
-        }
-        else {
-            final double L = HAConstants.ANIMATION_BOX_SIZE.height;
-            final double R = _radius;
-            final double DB = L / 4;
-            final double D = ( b <= R ) ? ( ( DB * b * b ) / ( R * R ) ) : DB;
-            RutherfordScattering.moveParticle( this, alphaParticle, dt, D );
-        }
+        final double D = getD( alphaParticle );
+        RutherfordScattering.moveParticle( this, alphaParticle, dt, D );
+    }
+    
+    /**
+     * Gets the constant D, used by Rutherford Scattering algorithm.
+     * See data/Rutherford_Scattering.pdf
+     * <p>
+     * If the alpha particle's initial x position is the same as the atom's,
+     * then divide-by-zero errors can occur (since b=0), so we make sure 
+     * that x0 is never exactly zero.
+     * 
+     * @param alphaParticle
+     * @return double
+     */
+    private double getD( AlphaParticle alphaParticle ) {
+        final double DB = BohrModel.getD();
+        final double x0 = RutherfordScattering.getX0( this, alphaParticle );
+        final double R = _radius;
+        final double D = ( x0 <= R ) ? ( ( DB * x0 * x0 ) / ( R * R ) ) : DB;
+        return D;
     }
     
     //----------------------------------------------------------------------------
