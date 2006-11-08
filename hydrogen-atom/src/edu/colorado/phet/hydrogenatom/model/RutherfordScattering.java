@@ -35,27 +35,10 @@ public class RutherfordScattering {
     private static final DecimalFormat F = new DecimalFormat( "0.00" );
     
     // Value of x used when x==0 (this algorithm fails when x==0)
-    public static final double X_MIN = 0.0000001;
+    public static final double X_MIN = 0.01;
     
     /* Not intended for instantiation */
     private RutherfordScattering() {}
-
-    /**
-     * Gets the value x0.
-     * This value must be > 0, and is adjusted accordingly.
-     * 
-     * @param atom
-     * @param alphaParticle
-     * @return
-     */
-    public static double getX0( AbstractHydrogenAtom atom, AlphaParticle alphaParticle ) {
-        assert( X_MIN > 0 );
-        double x0 = Math.abs( alphaParticle.getInitialPosition().getX() - atom.getX() );
-        if ( x0 == 0 ) {
-            x0 = X_MIN;
-        }
-        return x0;
-    }
     
     /**
      * Moves an alpha particle under the influence of a hydrogen atom.
@@ -73,16 +56,18 @@ public class RutherfordScattering {
      * @param dt the time step
      * @param D the constant D
      */
-    public static void moveParticle( AbstractHydrogenAtom atom, AlphaParticle alphaParticle, final double dt, final double D ) {
+    public static void moveParticle( AbstractHydrogenAtom atom, AlphaParticle alphaParticle, final double dt ) {
 
         assert( dt > 0 );
-        assert( D > 0 );
         
         // This algorithm assumes that alpha particles are moving vertically from bottom to top.
         assert( alphaParticle.getOrientation() == Math.toRadians( -90 ) );
 
+        final double D = getD( atom, alphaParticle );
+        
         // Alpha particle's initial position, relative to the atom's center.
         final double x0 = getX0( atom, alphaParticle );
+        assert( x0 > 0 );
         double y0 = alphaParticle.getInitialPosition().getY() - atom.getY();
         y0 *= -1; // flip y0 sign from model to algorithm
 
@@ -161,7 +146,44 @@ public class RutherfordScattering {
         alphaParticle.setPosition( xNew, yNew );
         alphaParticle.setSpeed( vNew );
     }
+
+    /*
+     * Gets the value x0.
+     * This value must be > 0, and is adjusted accordingly.
+     * 
+     * @param atom
+     * @param alphaParticle
+     * @return
+     */
+    private static double getX0( AbstractHydrogenAtom atom, AlphaParticle alphaParticle ) {
+        double x0 = Math.abs( alphaParticle.getInitialPosition().getX() - atom.getX() );
+        if ( x0 == 0 ) {
+            x0 = X_MIN;
+        }
+        return x0;
+    }
     
+    /*
+     * Gets the constant D.
+     * 
+     * @param alphaParticle
+     * @return double
+     */
+    private static double getD( AbstractHydrogenAtom atom, AlphaParticle alphaParticle ) {
+        double D = 0;
+        final double L = HAConstants.ANIMATION_BOX_SIZE.height;
+        final double DB = L / 16;
+        if ( atom instanceof PlumPuddingModel ) {
+            final double x0 = RutherfordScattering.getX0( atom, alphaParticle );
+            final double R = ((PlumPuddingModel)atom).getRadius();
+            D = ( x0 <= R ) ? ( ( DB * x0 * x0 ) / ( R * R ) ) : DB;
+        }
+        else {
+            D = DB;
+        }
+        return D;
+    }
+
     /**
      * Enables debugging output.
      * Used by Developer Controls dialog.

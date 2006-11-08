@@ -235,20 +235,7 @@ public class BohrModel extends AbstractHydrogenAtom {
      * @param dt
      */
     public void moveAlphaParticle( AlphaParticle alphaParticle, double dt ) {
-        final double D = getD();
-        RutherfordScattering.moveParticle( this, alphaParticle, dt, D );
-    }
-    
-    /**
-     * Gets the constant D, used by Rutherford Scattering algorithm.
-     * See data/Rutherford_Scattering.pdf
-     * 
-     * @return double
-     */
-    public static double getD() {
-        final double L = HAConstants.ANIMATION_BOX_SIZE.height;
-        final double D = L / 16;
-        return D;
+        RutherfordScattering.moveParticle( this, alphaParticle, dt );
     }
     
     //----------------------------------------------------------------------------
