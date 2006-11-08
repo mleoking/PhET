@@ -47,21 +47,9 @@ public class ThermometerGraphic extends PNode {
     // Instance data and methods
     //----------------------------------------------------------------
 
-//    private BarGauge fillNode;
     private Ellipse2D.Double bulb;
     private NumberFormat formatter = new DecimalFormat( "#0" );
-    private Point2D location;
-    private double scale;
-    private double maxScreenLevel;
-    private double thickness;
-    private double value;
-    private Rectangle2D boundingRect;
     private Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
-    private FontMetrics fontMetrics;
-    private double rectBorderThickness = 2;
-    private RoundRectangle2D.Double readoutRect = new RoundRectangle2D.Double();
-    private RoundRectangle2D.Double innerRect = new RoundRectangle2D.Double();
-    private BasicStroke rectStroke = new BasicStroke( 3 );
     private float columnStrokeWidth = 1.5f;
     private BasicStroke columnStroke = new BasicStroke( columnStrokeWidth );
     private Color rectColor = Color.yellow;
@@ -79,18 +67,18 @@ public class ThermometerGraphic extends PNode {
     private double overallHeight = 80;
     private MRModel model;
     private Rectangle2D column;
-    private double maxKe = 100;
     private double fillHeightScale;
 
     /**
-     * @param minLevel
-     * @param maxLevel
+     * @param minModelValue
+     * @param maxModelValue
      */
-    public ThermometerGraphic( MRModel model, IClock clock, double minLevel, double maxLevel ) {
+    public ThermometerGraphic( MRModel model, IClock clock, double minModelValue, double maxModelValue ) {
         this.model = model;
 
+
         column = new Rectangle2D.Double(0,0,columnWidth, overallHeight - bulbRadius );
-        fillHeightScale = (overallHeight - bulbRadius) / maxKe;
+        fillHeightScale = (overallHeight - bulbRadius) / maxModelValue;
         PPath columnNode = new PPath( column );
         columnNode.setPaint( new Color( 0,0,0,0 ) );
 
@@ -100,10 +88,6 @@ public class ThermometerGraphic extends PNode {
         bulb = new Ellipse2D.Double( 0,0, bulbRadius * 2, bulbRadius * 2 );
         PPath bulbNode = new PPath( bulb );
         bulbNode.setPaint( Color.red );
-        this.location = location;
-        this.thickness = thickness;
-        scale = maxScreenLevel / maxLevel;
-        this.maxScreenLevel = maxScreenLevel;
         setPickable( false );
 
         fillNode.setOffset( -columnWidth / 2, 0 );

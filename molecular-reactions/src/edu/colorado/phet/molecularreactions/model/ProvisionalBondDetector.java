@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
+import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,9 +63,7 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
 //        if( true ) return;
 
         // Determine how far apart two molecules can be and have a provisional bond
-        // todo: get rid of 2 * in the following statement
-        double provisionalBondMaxLength = model.getEnergyProfile().getThresholdWidth() / 2;
-//        double provisionalBondMaxLength = 2 * model.getEnergyProfile().getThresholdWidth() / 2;
+//        double provisionalBondMaxLength = model.getEnergyProfile().getThresholdWidth() / 2;
 
         // Look for SimpleMolecules that qualify for tentative bonds. If there is not a tentative bond
         // for a pair, then create one.
@@ -90,13 +89,16 @@ public class ProvisionalBondDetector implements ModelElement, PublishingModel.Mo
 
                             // Are the molecules within the provisional bonding distance?
                             double moleculeSeparation = reaction.getDistanceToCollision( sm1, cm );
-                            if( !Double.isNaN( moleculeSeparation) && moleculeSeparation <= provisionalBondMaxLength ) {
+                            if( !Double.isNaN( moleculeSeparation) && moleculeSeparation <= 0 ) {
+//                            if( !Double.isNaN( moleculeSeparation) && moleculeSeparation <= provisionalBondMaxLength ) {
 
                                 // If no provisional bond exists for either of these two simple molecules, create one
                                 if( !bondedMolecules.contains( sm1 ) || !bondedMolecules.contains( sm2 ) ) {
-                                    ProvisionalBond bond = new ProvisionalBond( sm1, sm2, provisionalBondMaxLength, model );
+                                    CollisionParams params = new CollisionParams( sm1, cm );
+                                    double d = sm1.getPosition().distance( params.getbMolecule().getPosition() );
+                                    ProvisionalBond bond = new ProvisionalBond( sm1, sm2, d, model );
+//                                    ProvisionalBond bond = new ProvisionalBond( sm1, sm2, provisionalBondMaxLength, model );
                                     newBondList.add( bond );
-//                                    model.addModelElement( bond );
                                     bondedMolecules.add( sm1 );
                                     bondedMolecules.add( sm2 );
                                 }

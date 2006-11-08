@@ -86,7 +86,7 @@ public class SpatialView extends PNode {
                                                                         80 );
         thermometerGraphic.setOffset( model.getBox().getMaxX() - 20,
                                       model.getBox().getMinY() - 20 );
-        canvas.addChild( thermometerGraphic );
+        megm.addGraphic( thermometerGraphic, topLayer );
     }
 
     private void createTemperatureControl( MRModel model, PSwingCanvas pSwingCanvas ) {
