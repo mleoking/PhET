@@ -38,11 +38,12 @@ public class EnergyMoleculeGraphic extends PNode {
             SimpleMolecule smX = components[0] instanceof MoleculeB ? components[1] : components[0];
             EnergySimpleMoleculeGraphic mgB = new EnergySimpleMoleculeGraphic( smB );
             mgB.setOffset( 0, 0 );
-            addChild( mgB );
             EnergySimpleMoleculeGraphic mgX = new EnergySimpleMoleculeGraphic( smX );
             int direction = smX instanceof MoleculeA ? -1 : 1;
-            mgX.setOffset( 0, direction *( mgB.getMolecule().getRadius() + mgX.getMolecule().getRadius() ) );
+            mgX.setOffset( 0, direction *Math.max( mgB.getMolecule().getRadius(), mgX.getMolecule().getRadius() ) );
+
             addChild( mgX );
+            addChild( mgB );
         }
     }
 }
