@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.ec3.common.Legend;
 import edu.colorado.phet.ec3.common.MeasuringTape;
@@ -18,6 +19,7 @@ import java.awt.event.ComponentListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -107,6 +109,29 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             }
         } );
         setZeroPointVisible( false );
+
+//        addClouds();
+    }
+
+    private void addClouds() {
+        Random random = new Random();
+        BufferedImage newImage = null;
+        try {
+            newImage = ImageLoader.loadBufferedImage( "images/cloud2.gif" );
+            newImage = BufferedImageUtils.flipY( newImage );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
+        for( int i = 0; i < 10; i++ ) {
+
+            PImage image = new PImage( newImage );
+            image.setOffset( ( random.nextDouble() - 0.5 ) * 30, random.nextDouble() * 20 + 5 );
+            image.setScale( 0.01 );
+
+            addWorldChild( image );
+        }
     }
 
 //    public PNode getToolboxPlaceholder() {
