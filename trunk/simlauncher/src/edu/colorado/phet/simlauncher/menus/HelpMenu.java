@@ -13,7 +13,6 @@ package edu.colorado.phet.simlauncher.menus;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.simlauncher.Configuration;
 import edu.colorado.phet.simlauncher.SimLauncher;
-import edu.colorado.phet.simlauncher.actions.SimLauncherHelpAction;
 
 import javax.help.CSH;
 import javax.help.HelpBroker;
@@ -33,11 +32,6 @@ class HelpMenu extends JMenu {
     public HelpMenu() {
         super( "Help" );
 
-        JMenuItem simLauncherHelp = new JMenuItem( "SimLauncher help");
-        simLauncherHelp.addActionListener( new SimLauncherHelpAction() );
-        add( simLauncherHelp );
-
-
         // Find the HelpSet file and create the HelpSet object:
         String helpHS = "help/SimLauncherHelp.hs";
         ClassLoader cl = this.getClass().getClassLoader();
@@ -55,7 +49,7 @@ class HelpMenu extends JMenu {
         // Create a HelpBroker object:
         HelpBroker hb = hs.createHelpBroker();
         // Create a "Help" menu item to trigger the help viewer:
-        JMenuItem helpTopicsMI = new JMenuItem( "Help Topics");
+        JMenuItem helpTopicsMI = new JMenuItem( "SimLauncher help");
         helpTopicsMI.addActionListener(new CSH.DisplayHelpFromSource( hb )  );
         add(helpTopicsMI);
 
