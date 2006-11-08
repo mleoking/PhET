@@ -9,7 +9,6 @@
 
 -libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'
 
--dontshrink
 -dontoptimize
 -dontobfuscate
 -dontusemixedcaseclassnames
@@ -26,9 +25,9 @@
     public **[] values();
 }
 
--keep class edu.colorado.phet.common.util.services.*
+-keep class edu.colorado.phet.common.util.services.**
  
--keep class javax.jnlp.*
+-keep class javax.jnlp.**
 
 -keep class org.jfree.chart.resources.JFreeChartResources
 
