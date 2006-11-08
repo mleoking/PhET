@@ -6,7 +6,10 @@ import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
@@ -17,15 +20,21 @@ import java.awt.image.BufferedImage;
  * Copyright (c) Jun 1, 2006 by Sam Reid
  */
 
-public class BackgroundNode extends PhetPNode {
+public class BackgroundScreenNode extends PhetPNode {
     private EnergySkateParkSimulationPanel ec3Canvas;
     private Image backgroundImage;
     private PNode floorGraphic;
 
-    public BackgroundNode( EnergySkateParkSimulationPanel ec3Canvas, Image backgroundImage, PNode floorGraphic ) {
+    public BackgroundScreenNode( EnergySkateParkSimulationPanel ec3Canvas, Image backgroundImage, PNode floorGraphic ) {
         this.ec3Canvas = ec3Canvas;
         this.backgroundImage = backgroundImage;
         this.floorGraphic = floorGraphic;
+        Timer timer = new Timer( 1000, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                update();
+            }
+        } );
+        timer.start();
     }
 
     public void update() {
@@ -33,20 +42,18 @@ public class BackgroundNode extends PhetPNode {
             removeAllChildren();
         }
         else {
-//            System.out.println( "EC3RootNode.updateBackgroundImage@" + System.currentTimeMillis() );
             BufferedImage i2 = BufferedImageUtils.toBufferedImage( backgroundImage );
             if( ec3Canvas.getHeight() > 0 && ec3Canvas.getWidth() > 0 ) {
                 i2 = BufferedImageUtils.rescaleYMaintainAspectRatio( i2, ec3Canvas.getHeight() );
-//                System.out.println( "i2.getHeight( ) = " + i2.getHeight() + ", canvasHeight=" + ec3Canvas.getHeight() );
             }
             removeAllChildren();
             PImage child = new PImage( i2 );
-//        double overshootY = ec3Canvas.getHeight() - child.getFullBounds().getHeight();
             double maxY = floorGraphic.getGlobalFullBounds().getMinY();
             Point2D.Double loc = new Point2D.Double( 0, maxY );
             globalToLocal( loc );
-//        child.translate( 0, -loc.y + getEC3Panel().getHeight() );
             double dy = child.getFullBounds().getHeight() - maxY;
+//            Point2D.Double pt = new Point2D.Double(1,1);
+//            child.scale( ec3Canvas.getRootNode().worldToScreen( pt ););
             child.translate( 0, -dy );
             addChild( child );
         }

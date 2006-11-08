@@ -42,7 +42,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private boolean ignoreThermal = true;
     private PauseIndicator pauseIndicator;
     private Legend legend;
-    private BackgroundNode screenBackground;
+    private BackgroundScreenNode screenBackground;
     private SplineToolbox splineToolbox;
 //    private PNode toolboxPlaceholder;
     private FloorGraphic floorGraphic;
@@ -67,7 +67,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         pauseIndicator = new PauseIndicator( ec3Module, ec3Canvas, this );
         legend = new EC3Legend( ec3Module );
         floorGraphic = new FloorGraphic( floor );
-        screenBackground = new BackgroundNode( ec3Canvas, null, floorGraphic );
+        screenBackground = new BackgroundScreenNode( ec3Canvas, null, floorGraphic );
         zeroPointPotentialGraphic = new ZeroPointPotentialGraphic( ec3Canvas );
         offscreenManIndicator = new OffscreenManIndicator( ec3Canvas, ec3Module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
         gridNode = new GridNode();
@@ -114,7 +114,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 //    }
 
 
-    public BackgroundNode getBackground() {
+    public BackgroundScreenNode getBackground() {
         return screenBackground;
     }
 
