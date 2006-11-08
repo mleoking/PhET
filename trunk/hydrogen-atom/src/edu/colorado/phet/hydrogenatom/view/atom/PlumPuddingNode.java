@@ -13,13 +13,13 @@ package edu.colorado.phet.hydrogenatom.view.atom;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.PlumPuddingModel;
 import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
@@ -95,7 +95,7 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
         Point2D nodePosition = ModelViewTransform.transform( atomPosition );
         setOffset( nodePosition );
         
-        update( _atom, SolarSystemModel.PROPERTY_ELECTRON_POSITION );
+        update( _atom, AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET );
     }
     
     //----------------------------------------------------------------------------
@@ -109,13 +109,16 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
      */
     public void update( Observable o, Object arg ) {
         if ( o == _atom ) {
-            if ( arg == PlumPuddingModel.PROPERTY_ELECTRON_OFFSET ) {
+            if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET ) {
                 // the electron has moved
                 Point2D electronOffset = _atom.getElectronOffset();
                 // treat coordinates as distances, since _electronNode is a child node
                 double nodeX = ModelViewTransform.transform( electronOffset.getX() );
                 double nodeY = ModelViewTransform.transform( electronOffset.getY() );
                 _electronNode.setOffset( nodeX, nodeY );
+            }
+            else if ( arg == SolarSystemModel.PROPERTY_ATOM_IONIZED ) {
+                //XXX
             }
         }
     }

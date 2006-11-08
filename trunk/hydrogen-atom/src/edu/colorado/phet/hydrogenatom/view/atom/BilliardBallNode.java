@@ -71,7 +71,7 @@ public class BilliardBallNode extends AbstractHydrogenAtomNode implements Observ
         PNode billiardBallNode = new SphericalNode( diameter, roundGradient, true /* convertToImage */ );
         addChild( billiardBallNode );
 
-        update( null, null );
+        setOffset( ModelViewTransform.transform( _atom.getPosition() ) );
     }
     
     //----------------------------------------------------------------------------
@@ -80,10 +80,10 @@ public class BilliardBallNode extends AbstractHydrogenAtomNode implements Observ
 
     /**
      * Updates the view to match the model.
+     * Since this model doesn't show any animation of the atom,
+     * there is nothing to be done.
      * @param o
      * @param arg
      */
-    public void update( Observable o, Object arg ) {
-        setOffset( ModelViewTransform.transform( _atom.getPosition() ) );
-    }
+    public void update( Observable o, Object arg ) {}
 }

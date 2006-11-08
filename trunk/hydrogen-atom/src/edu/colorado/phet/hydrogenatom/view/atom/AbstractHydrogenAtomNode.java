@@ -14,6 +14,7 @@ package edu.colorado.phet.hydrogenatom.view.atom;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
+import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -53,10 +54,12 @@ public class AbstractHydrogenAtomNode extends PhetPNode {
         private static final Paint EXCITED_PAINT = ElectronNode.getColor();
         private static final Stroke EXCITED_STROKE = new BasicStroke( 6f );
         
+        /* Not intended for instantiation */
         private OrbitFactory() {}
         
         protected static PPath createOrbitNode( double radius ) {
-            Shape shape = new Ellipse2D.Double( -radius, -radius, 2 * radius, 2 * radius );
+            double nodeRadius = ModelViewTransform.transform( radius );
+            Shape shape = new Ellipse2D.Double( -nodeRadius, -nodeRadius, 2 * nodeRadius, 2 * nodeRadius );
             PPath orbitNode = new PPath();
             orbitNode.setPathTo( shape );
             orbitNode.setStroke( ORBIT_STROKE );
@@ -65,7 +68,8 @@ public class AbstractHydrogenAtomNode extends PhetPNode {
         }
 
         protected static PPath createExcitedNode( double radius ) {
-            Shape shape = new Ellipse2D.Double( -radius, -radius, 2 * radius, 2 * radius );
+            double nodeRadius = ModelViewTransform.transform( radius );
+            Shape shape = new Ellipse2D.Double( -nodeRadius, -nodeRadius, 2 * nodeRadius, 2 * nodeRadius );
             PPath orbitNode = new PPath();
             orbitNode.setPathTo( shape );
             orbitNode.setStroke( EXCITED_STROKE );

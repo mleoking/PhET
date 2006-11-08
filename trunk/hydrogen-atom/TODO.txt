@@ -23,7 +23,6 @@ MEDIUM PRIORITY:
 - replace AtomicModelSelection.getSelectionName
 
 LOW PRIORITY:
-- move common PROPERTY constants to AbstractHydrogenAtom
 - add WavelengthControl.setTrackSize(Dimension)
 - add WavelengthControl.setKnobSize(Dimension)
 - size "UV" and "IR" labels to fit WavelengthControl track height
@@ -43,6 +42,8 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/8/06) - remove model stuff from DeBroglieNode
+(11/8/06) - move all PROPERTY constants to AbstractHydrogenAtom
 (11/8/06) - DeBroglieModel extends BohrModel (they are identical, different visual representation)
 (11/8/06) - move orbit and state stuff out of BohrNode and into BohrModel
 (11/7/06) - add basic code for moving particles and absorbing/emitting photons to BohrModel

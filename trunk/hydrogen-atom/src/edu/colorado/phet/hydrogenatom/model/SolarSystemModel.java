@@ -39,13 +39,6 @@ import java.awt.geom.Point2D;
 public class SolarSystemModel extends AbstractHydrogenAtom {
     
     //----------------------------------------------------------------------------
-    // Public class data
-    //----------------------------------------------------------------------------
-    
-    public static final String PROPERTY_ELECTRON_POSITION = "electronPosition";
-    public static final String PROPERTY_DESTROYED = "destroyed";
-    
-    //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
     
@@ -141,12 +134,12 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
             
             // move the electron and notify observers
             setElectronPosition( _electronAngle, _electronDistance );
-            notifyObservers( PROPERTY_ELECTRON_POSITION );
+            notifyObservers( PROPERTY_ELECTRON_OFFSET );
             
             // was the atom destroyed?
             if ( _electronDistance == 0 ) {
                 _destroyed = true;
-                notifyObservers( PROPERTY_DESTROYED ); 
+                notifyObservers( PROPERTY_ATOM_DESTROYED ); 
             }
         }
     }
