@@ -29,6 +29,9 @@ public class BufferedImageUtils {
      * @return the resized image
      */
     public static BufferedImage rescaleYMaintainAspectRatio( BufferedImage im, int height ) {
+        if (im.getHeight( )==height){
+            return im;
+        }
         double iny = im.getHeight();
         double dy = height / iny;
         return rescaleFractional( im, dy, dy );
@@ -40,6 +43,9 @@ public class BufferedImageUtils {
      * @return the resized image
      */
     public static BufferedImage rescaleXMaintainAspectRatio( BufferedImage im, int width ) {
+        if (im.getWidth()==width){
+            return im;
+        }
         double inx = im.getWidth();
         double dx = width / inx;
         return rescaleFractional( im, dx, dx );
