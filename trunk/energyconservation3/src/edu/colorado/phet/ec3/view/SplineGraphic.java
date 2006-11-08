@@ -8,6 +8,7 @@ import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.event.PopupMenuHandler;
+import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -20,9 +21,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * User: Sam Reid
@@ -34,7 +32,9 @@ import java.util.Collections;
 public class SplineGraphic extends PNode {
     private EnergySkateParkSimulationPanel ec3Canvas;
     private AbstractSpline spline;
-    private PPath pathLayer;
+    private PPath splinePath;
+    private PhetPPath splineFrontPath;
+
     private PNode controlPointLayer;
 
     private Point2D.Double[] initDragSpline;
@@ -54,12 +54,14 @@ public class SplineGraphic extends PNode {
         this.ec3Canvas = ec3Canvas;
         this.spline = spline;
         this.splineSurface = splineSurface;
-        pathLayer = new PPath();
-        pathLayer.setStroke( new BasicStroke( AbstractSpline.SPLINE_THICKNESS ) );
-        pathLayer.setStrokePaint( Color.black );
+        splinePath = new PhetPPath( getTrackStroke( 1.0f ), Color.black );
+        splineFrontPath = new PhetPPath( getRailroadStroke( 0.4f ), Color.gray );
+        splineFrontPath.setPickable( false );
+        splineFrontPath.setChildrenPickable( false );
         controlPointLayer = new PNode();
 
-        addChild( pathLayer );
+        addChild( splinePath );
+        addChild( splineFrontPath );
         addChild( controlPointLayer );
 
         updateAll();
@@ -76,9 +78,17 @@ public class SplineGraphic extends PNode {
                 finishDragSpline();
             }
         };
-        pathLayer.addInputEventListener( this.dragHandler );
-        pathLayer.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-        pathLayer.addInputEventListener( new PopupMenuHandler( ec3Canvas, new PathPopupMenu( ec3Canvas ) ) );
+        splinePath.addInputEventListener( this.dragHandler );
+        splinePath.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        splinePath.addInputEventListener( new PopupMenuHandler( ec3Canvas, new PathPopupMenu( ec3Canvas ) ) );
+    }
+
+    private BasicStroke getTrackStroke( float thickness ) {
+        return new BasicStroke( AbstractSpline.SPLINE_THICKNESS * thickness );
+    }
+
+    private BasicStroke getRailroadStroke( float thickness ) {
+        return new BasicStroke( AbstractSpline.SPLINE_THICKNESS * thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[]{AbstractSpline.SPLINE_THICKNESS * 0.4f, AbstractSpline.SPLINE_THICKNESS * 0.6f}, 0 );
     }
 
     public void disableDragHandler() {
@@ -132,6 +142,8 @@ public class SplineGraphic extends PNode {
             rollerCoasterMode.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     spline.setRollerCoasterMode( rollerCoasterMode.isSelected() );
+                    lastRenderState = null;
+                    updateAll();//todo should be notification mechanism
                 }
             } );
 
@@ -215,8 +227,12 @@ public class SplineGraphic extends PNode {
         setPickable( splineSurface.isInteractive() );
         setChildrenPickable( splineSurface.isInteractive() );
         if( changed() ) {
-            pathLayer.removeAllChildren();
-            pathLayer.setPathTo( spline.getInterpolationPath() );
+//            splinePath.removeAllChildren();
+            splinePath.setPathTo( spline.getInterpolationPath() );
+//            splinePath.setStrokePaint( spline.isRollerCoasterMode() ? Color.red : Color.black );
+            splineFrontPath.setPathTo( spline.getInterpolationPath() );
+            splineFrontPath.setVisible( spline.isRollerCoasterMode() );
+            splineFrontPath.setStrokePaint( spline.isRollerCoasterMode() ? Color.gray : Color.black );
 
             controlPointLayer.removeAllChildren();
 //        pathLayer.setPathTo( new Rectangle( 50,50,50,50) );
@@ -236,7 +252,6 @@ public class SplineGraphic extends PNode {
                     child.setStrokePaint( Color.black );
                 }
             }
-            updateReverseSpline();
             lastRenderState = splineSurface.copy();
         }
         setVisible( !( spline instanceof FloorSpline ) );
@@ -280,7 +295,7 @@ public class SplineGraphic extends PNode {
                 }
 
                 proposeMatchesEndpoint( index );
-                updateReverseSpline();
+//                updateReverseSpline();
                 updateAll();
                 event.setHandled( true );
             }
@@ -289,9 +304,9 @@ public class SplineGraphic extends PNode {
         controlCircle.addInputEventListener( new PopupMenuHandler( ec3Canvas, new ControlCirclePopupMenu( index ) ) );
     }
 
-    private void updateReverseSpline() {
-//        reverse.setControlPoints( reverse( spline.getControlPoints() ) );
-    }
+//    private void updateReverseSpline() {
+////        reverse.setControlPoints( reverse( spline.getControlPoints() ) );
+//    }
 
     class ControlCirclePopupMenu extends JPopupMenu {
         public ControlCirclePopupMenu( final int index ) {
@@ -349,12 +364,6 @@ public class SplineGraphic extends PNode {
         if( index == 0 || index == numControlPointGraphics() - 1 ) {
             controlPointLoc = new Point2D.Double( spline.controlPointAt( index ).getX(), spline.controlPointAt( index ).getY() );
         }
-    }
-
-    private Point2D[] reverse( Point2D[] controlPoints ) {
-        ArrayList list = new ArrayList( Arrays.asList( controlPoints ) );
-        Collections.reverse( list );
-        return (Point2D[])list.toArray( new Point2D[0] );
     }
 
     public PNode getControlPointGraphic( int index ) {
