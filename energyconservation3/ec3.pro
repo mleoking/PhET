@@ -26,6 +26,10 @@
     public **[] values();
 }
 
+-keep class edu.colorado.phet.common.util.services.*
+ 
+-keep class javax.jnlp.*
+
 -keep class org.jfree.chart.resources.JFreeChartResources
 
 -keep class org.jfree.resources.JCommonResources
