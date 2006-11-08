@@ -7,6 +7,7 @@ import edu.colorado.phet.ec3.EnergySkateParkModule;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -33,10 +34,12 @@ public class BodyGraphic extends PNode {
     private EnergySkateParkModule ec3Module;
     private PPath boundsDebugPPath;
     private PImage pImage;
+
     private PPath centerDebugger;
-    //    private JetPackGraphic jetPackGraphic;
-    //    private boolean debugCenter = true;
     protected boolean debugCenter = false;
+
+    private PPath feetDebugger;
+    private boolean debugFeet = true;
 
     public BodyGraphic( final EnergySkateParkModule ec3Module, Body body ) {
         this.ec3Module = ec3Module;
@@ -56,6 +59,11 @@ public class BodyGraphic extends PNode {
             centerDebugger.setPaint( Color.red );
             if( debugCenter ) {
                 addChild( centerDebugger );
+            }
+
+            feetDebugger = new PhetPPath( Color.green );
+            if( debugFeet ) {
+                addChild( feetDebugger );
             }
         }
         catch( IOException e ) {
@@ -146,6 +154,7 @@ public class BodyGraphic extends PNode {
 
         pImage.setTransform( createSkaterTransform() );
         centerDebugger.setPathTo( new Rectangle2D.Double( body.getAttachPoint().getX(), body.getAttachPoint().getY(), 0.1, 0.1 ) );
+        feetDebugger.setPathTo( body.getFeetShape() );
 //        invalidateFullBounds();
     }
 

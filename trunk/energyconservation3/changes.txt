@@ -3,6 +3,10 @@ Bugfix: When you move from space to earth the "use arrow keys to thrust" stays u
 Bugfix: When I pulled up energy vs time graph, and messed around with pausing, using cursor, and trying to go again ... it got confused. (Right now I can't get the guy to start moving again ... even when I hit Reset.)
 Added friction for bounces, when friction is enabled.
             Added coefficient of restitution as a nonlinear function of friction coefficient.
+Added insurance that the skater won't pass through a spline while in free-fall.
+Removed some bogus collision code (for handling ends of spline).
+Added code that prevents the skater from bouncing back and forth centered on a track.
+Added save/load for splines & skaters.
 
 1.02.11 (11-3-2006)
 Made the "Return The Skater" button pop up when the skater is partially offscreen (rather than when he is completely offscreen).
