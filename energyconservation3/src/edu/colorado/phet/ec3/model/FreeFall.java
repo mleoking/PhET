@@ -26,9 +26,9 @@ public class FreeFall extends ForceMode implements Derivable {
         if( topFinal != topOrig && bodyCollidingWithSpline ) {
             System.out.println( "Passed through spline" );
             new SplineInteraction( energyConservationModel ).doCollision( body.getCollisionState().getSpline( 0 ), body );
-            int numTries = 3;
+            int maxTries = 5;
             int count = 0;
-            while( topOrig != body.createCollisionState().isTop() && count < numTries ) {
+            while( topOrig != body.createCollisionState().isTop() && count < maxTries ) {
                 stepIgnoreSplines( body, dt );
                 count++;
                 System.out.println( "Restoration count = " + count );

@@ -53,8 +53,8 @@ public class EnergyConserver {
         return body.getTotalEnergy() - desiredTotalEnergy;
     }
 
-    private boolean conserveEnergyViaH( Body body, double desiredMechEnergy ) {
-        double dE = getDE( body, desiredMechEnergy );
+    public boolean conserveEnergyViaH( Body body, double desiredTotalEnergy ) {
+        double dE = getDE( body, desiredTotalEnergy );
         if( dE == 0 ) {
             return true;
         }
