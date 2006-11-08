@@ -55,6 +55,33 @@ public class Body {
     private ArrayList listeners = new ArrayList();
     private EnergyConservationModel energyConservationModel;
 
+    private ArrayList stateRecordHistory = new ArrayList();
+
+    public int getNumHistoryPoints() {
+        return stateRecordHistory.size();
+    }
+
+    public static class StateRecord {
+        private ArrayList splines = new ArrayList();
+        private Body body;
+
+        public StateRecord( Body body ) {
+            this.body = body;
+        }
+
+        public void addCollisionSpline( AbstractSpline spline ) {
+            splines.add( spline );
+        }
+
+        public boolean containsSpline( AbstractSpline spline ) {
+            return splines.contains( spline );
+        }
+
+        public Body getBody() {
+            return body;
+        }
+    }
+
     public Body( EnergyConservationModel model ) {
         this( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), model.getPotentialEnergyMetric(), model );
     }
@@ -100,6 +127,11 @@ public class Body {
     }
 
     public void stepInTime( double dt ) {
+        StateRecord collisionList = createCollisionState();
+        stateRecordHistory.add( collisionList );
+        if( stateRecordHistory.size() > 100 ) {
+            stateRecordHistory.remove( 0 );
+        }
         if( isUserControlled() ) {
             this.storedTotalEnergy = getTotalEnergy();
         }
@@ -118,6 +150,26 @@ public class Body {
             facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAttachmentPointRotation() ) ) > 0;
         }
         EnergyDebugger.stepFinished( this );
+    }
+
+    private StateRecord createCollisionState() {
+        StateRecord stateRecord = new StateRecord( copyState() );
+        ArrayList splines = energyConservationModel.getAllSplines();
+        for( int i = 0; i < splines.size(); i++ ) {
+            AbstractSpline abstractSpline = (AbstractSpline)splines.get( i );
+            if( new SplineInteraction( energyConservationModel ).isColliding( abstractSpline, this ) ) {
+                stateRecord.addCollisionSpline( abstractSpline );
+            }
+        }
+        return stateRecord;
+    }
+
+    public StateRecord getCollisionStateFromEnd( int i ) {
+        return (StateRecord)stateRecordHistory.get( stateRecordHistory.size() - 1 - i );
+    }
+
+    public StateRecord getCollisionState() {
+        return (StateRecord)stateRecordHistory.get( stateRecordHistory.size() - 1 );
     }
 
     private UpdateMode getMode() {
@@ -328,9 +380,10 @@ public class Body {
         return new Point2D.Double( attachmentPoint.getX(), attachmentPoint.getY() );
     }
 
-    public Shape getReducedShape() {
-        double dw = width * 0.2;
-        double dh = height * 0.2;
+    public Shape getReducedShape( double fractionalSize ) {
+        double scale = ( 1.0 - fractionalSize ) / 2.0;
+        double dw = width * scale;
+        double dh = height * scale;
         return getTransform().createTransformedShape( new Rectangle2D.Double( dw, dh, width - 2 * dw, height - 2 * dh ) );
     }
 
