@@ -25,6 +25,8 @@
     public **[] values();
 }
 
+-keep class edu.colorado.phet.common.util.services.InputStreamFileContents
+
 -keep class edu.colorado.phet.common.util.services.**
  
 -keep class javax.jnlp.**
