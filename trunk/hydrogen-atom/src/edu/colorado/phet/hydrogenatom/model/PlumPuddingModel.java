@@ -62,7 +62,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private static final int MAX_PHOTONS_ABSORBED = 1; //WARNING: Untested with values != 1
     
     /* how close a photon and electron must be to collide */
-    private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = PhotonNode.DIAMETER;
+    private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = PhotonNode.DIAMETER / 2;
     
     /* wavelength of emitted photons */
     private static final double PHOTON_EMISSION_WAVELENGTH = 150; // nm

@@ -38,7 +38,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     private static final double MIN_PROTON_ELECTRON_SPACING = 2;
     
     /* how close a photon and electron must be to collide */
-    private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = PhotonNode.DIAMETER;
+    private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = PhotonNode.DIAMETER / 2;
     
     /* probability that photon will be emitted */
     public static final double PHOTON_EMISSION_PROBABILITY = 0.1; // 1.0 = 100%
@@ -65,7 +65,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     
     public BohrModel( Point2D position ) {
         super( position, 0 /* orientation */ );
-        _state = 1;
+        _state = 3;
         _orbitRadii = createOrbitRadii( NUMBER_OF_STATES );
         _numberOfPhotonsAbsorbed = 0;
         _electronOffset = new Point2D.Double( getOrbitRadius( _state ), 0 ); //XXX randomize position on 1st orbit?
@@ -126,6 +126,8 @@ public class BohrModel extends AbstractHydrogenAtom {
     
     /*
      * Creates N orbit radii.
+     * The ground orbit is fudged so that the visual representation
+     * of the electron and proton won't overlap.
      */
     private static double[] createOrbitRadii( int numberOfOrbits ) {
         final double protonDiameter = new ProtonNode().getDiameter();
@@ -133,8 +135,8 @@ public class BohrModel extends AbstractHydrogenAtom {
         final double minGroundRadius = protonDiameter + electronDiameter + MIN_PROTON_ELECTRON_SPACING;
         double[] radii = new double[ NUMBER_OF_STATES ];
         radii[0] = Math.min( GROUND_ORBIT_RADIUS, minGroundRadius );
-        for ( int i = 1; i < radii.length; i++ ) {
-            radii[i] = i * i * GROUND_ORBIT_RADIUS;
+        for ( int n = 2; n <= radii.length; n++ ) {
+            radii[n - 1] = n * n * GROUND_ORBIT_RADIUS;
         }
         return radii;
     }
