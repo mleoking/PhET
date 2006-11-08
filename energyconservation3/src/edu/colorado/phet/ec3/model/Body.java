@@ -63,14 +63,16 @@ public class Body {
 
     public static class StateRecord {
         private ArrayList splines = new ArrayList();
+        private ArrayList sides = new ArrayList();
         private Body body;
 
         public StateRecord( Body body ) {
             this.body = body;
         }
 
-        public void addCollisionSpline( AbstractSpline spline ) {
+        public void addCollisionSpline( AbstractSpline spline, boolean top ) {
             splines.add( spline );
+            sides.add( new Boolean( top ) );
         }
 
         public boolean containsSpline( AbstractSpline spline ) {
@@ -79,6 +81,15 @@ public class Body {
 
         public Body getBody() {
             return body;
+        }
+
+        //todo this is a simplification that just check if it was top for any collision spline
+        public boolean isTop() {
+            return sides.size() > 0 && ( (Boolean)sides.get( 0 ) ).equals( new Boolean( true ) );
+        }
+
+        public AbstractSpline getSpline( int i ) {
+            return (AbstractSpline)splines.get( i );
         }
     }
 
@@ -152,16 +163,26 @@ public class Body {
         EnergyDebugger.stepFinished( this );
     }
 
-    private StateRecord createCollisionState() {
+    public StateRecord createCollisionState() {
         StateRecord stateRecord = new StateRecord( copyState() );
         ArrayList splines = energyConservationModel.getAllSplines();
         for( int i = 0; i < splines.size(); i++ ) {
             AbstractSpline abstractSpline = (AbstractSpline)splines.get( i );
             if( new SplineInteraction( energyConservationModel ).isColliding( abstractSpline, this ) ) {
-                stateRecord.addCollisionSpline( abstractSpline );
+                boolean side = getSide( abstractSpline );
+                stateRecord.addCollisionSpline( abstractSpline, side );
             }
         }
         return stateRecord;
+    }
+
+    private boolean getSide( AbstractSpline spline ) {
+        double pt = spline.getDistAlongSpline( getCenterOfMass(), 0, spline.getLength(), 100 );
+        Point2D point2D = spline.evaluateAnalytical( pt );
+
+        Vector2D.Double cmVector = new Vector2D.Double( point2D, getCenterOfMass() );
+        Vector2D.Double normal = new Vector2D.Double( spline.getUnitNormalVector( pt ) );
+        return normal.dot( cmVector ) >= 0;
     }
 
     public StateRecord getCollisionStateFromEnd( int i ) {

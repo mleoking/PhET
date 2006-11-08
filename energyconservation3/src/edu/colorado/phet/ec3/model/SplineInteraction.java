@@ -117,7 +117,7 @@ public class SplineInteraction {
         return !area.isEmpty();
     }
 
-    private void doCollision( AbstractSpline collisionSpline, Body body ) {
+    public void doCollision( AbstractSpline collisionSpline, Body body ) {
         Area area = new Area( collisionSpline.getArea() );//todo: remove this duplicate computation if it is a performance problem
         area.intersect( new Area( body.getReducedShape( 0.9 ) ) );
         Rectangle2D intersectionBounds = area.getBounds2D();
