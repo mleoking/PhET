@@ -134,7 +134,6 @@ public class SplineInteraction {
         newVelocity.add( collisionSpline.getUnitNormalVector( x ).getScaledInstance( -perpPart ) );
 
         //override for testing
-//        newVelocity=new Vector2D.Double( body.getVelocity().getScaledInstance( -1));
         double alpha = 5;
         double speedScale = 1.0 * Math.exp( -alpha * body.getFrictionCoefficient() );
         double newSpeed = body.getSpeed() * speedScale;
@@ -150,6 +149,4 @@ public class SplineInteraction {
         body.convertToFreefall();
         body.setAngularVelocity( parallelPart / 2 );
     }
-
-
 }

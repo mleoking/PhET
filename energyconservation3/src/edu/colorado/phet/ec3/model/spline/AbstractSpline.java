@@ -36,6 +36,7 @@ public abstract class AbstractSpline implements Cloneable {
     public static final float SPLINE_THICKNESS = 0.25f;//meters
     private boolean userControlled = false;
     private double frictionCoefficient = 0;
+    private boolean rollerCoasterMode = false;
 //    private AbstractSpline reverseSpline = null;
 
     public boolean equals( Object obj ) {
@@ -57,7 +58,7 @@ public abstract class AbstractSpline implements Cloneable {
             clone.segmentPath = new SegmentPath();
             clone.generalPath = new GeneralPath();
             clone.areaShape = null;
-
+            clone.rollerCoasterMode = this.rollerCoasterMode;
             clone.setAllDirty();
 
             return clone;
@@ -235,6 +236,14 @@ public abstract class AbstractSpline implements Cloneable {
     public abstract double getLength();
 
     public abstract AbstractVector2D getUnitParallelVector( double x );
+
+    public boolean isRollerCoasterMode() {
+        return rollerCoasterMode;
+    }
+
+    public void setRollerCoasterMode( boolean rollerCoasterMode ) {
+        this.rollerCoasterMode = rollerCoasterMode;
+    }
 
     public static interface SplineCriteria {
         double evaluate( Point2D loc );

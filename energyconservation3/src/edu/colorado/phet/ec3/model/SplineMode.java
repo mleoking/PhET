@@ -150,7 +150,7 @@ public class SplineMode implements UpdateMode {
     private boolean shouldFlyOff( double x, Body body ) {
         boolean flyOffTop = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x ) ) > 0 && isSplineTop( spline, x, body );
         boolean flyOffBottom = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x ) ) < 0 && !isSplineTop( spline, x, body );
-        return flyOffTop || flyOffBottom;
+        return ( flyOffTop || flyOffBottom ) && !spline.isRollerCoasterMode();
     }
 
     private Vector2D.Double updateNormalForce( Body origState, Body body, AbstractVector2D netForce, double dt ) {
