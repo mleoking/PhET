@@ -19,13 +19,20 @@ public class FreeFall extends ForceMode implements Derivable {
     }
 
     public void stepInTime( Body body, double dt ) {
+        boolean bodyCollidingWithSpline = body.getCollisionState().getSplineCount() > 0;
         boolean topOrig = body.getCollisionState().isTop();
         stepIgnoreSplines( body, dt );
         boolean topFinal = body.createCollisionState().isTop();
-        if( topFinal != topOrig ) {
+        if( topFinal != topOrig && bodyCollidingWithSpline ) {
             System.out.println( "Passed through spline" );
             new SplineInteraction( energyConservationModel ).doCollision( body.getCollisionState().getSpline( 0 ), body );
-            stepIgnoreSplines( body, dt );
+            int numTries = 3;
+            int count = 0;
+            while( topOrig != body.createCollisionState().isTop() && count < numTries ) {
+                stepIgnoreSplines( body, dt );
+                count++;
+                System.out.println( "Restoration count = " + count );
+            }
         }
         else {
             new SplineInteraction( energyConservationModel ).interactWithSplines( body );
