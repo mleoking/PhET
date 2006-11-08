@@ -138,8 +138,8 @@ public class SplineMode implements UpdateMode {
     }
 
     private boolean shouldFlyOff( double x, Body body ) {
-        boolean flyOffTop = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x ) ) > 0 && isSplineTop( x, body );
-        boolean flyOffBottom = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x ) ) < 0 && !isSplineTop( x, body );
+        boolean flyOffTop = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x ) ) > 0 && isSplineTop( spline, x, body );
+        boolean flyOffBottom = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x ) ) < 0 && !isSplineTop( spline, x, body );
         return flyOffTop || flyOffBottom;
     }
 
@@ -170,11 +170,11 @@ public class SplineMode implements UpdateMode {
         else if( dA < -maxRotationDTheta ) {
             dA = -maxRotationDTheta;
         }
-        double offset = isSplineTop( x, body ) ? 0.0 : Math.PI;
+        double offset = isSplineTop( spline, x, body ) ? 0.0 : Math.PI;
         body.rotateAboutAttachmentPoint( dA + offset );
     }
 
-    private boolean isSplineTop( double x, Body body ) {
+    public static boolean isSplineTop( AbstractSpline spline, double x, Body body ) {
         Vector2D.Double cmVector = new Vector2D.Double( body.getAttachPoint(), body.getCenterOfMass() );
         Vector2D.Double attachVector = new Vector2D.Double( body.getAttachPoint(), body.getCenterOfMass() );
         return cmVector.dot( spline.getUnitNormalVector( x ) ) > 0 && attachVector.dot( spline.getUnitNormalVector( x ) ) > 0;
