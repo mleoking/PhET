@@ -57,14 +57,12 @@ public class MRModule extends Module {
         spatialView = new SpatialView( this, spatialViewSize );
         spatialView.setOffset( insets.left, insets.top );
         canvas.addWorldChild( spatialView );
-//        canvas.addScreenChild( spatialView );
 
         // Create energy view
         energyView = new EnergyView( this );
         energyView.setOffset( insets.left + spatialView.getFullBounds().getWidth() + insets.left,
                               insets.top );
         canvas.addWorldChild( energyView );
-//        canvas.addScreenChild( energyView );
     }
     
     protected void reset() {

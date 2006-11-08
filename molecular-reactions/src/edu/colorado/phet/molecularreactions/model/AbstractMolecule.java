@@ -140,6 +140,21 @@ abstract public class AbstractMolecule extends Body implements Collidable {
     }
 
     /**
+     * If the molecule is part of a larger composite, return 0, because the
+     * KE is taken care of by the composite
+     *
+     * @return the kinetic energy, if it's not part of a composite, 0 if it is
+     */
+    public double getKineticEnergy() {
+        if( !isPartOfComposite() ) {
+            return super.getKineticEnergy();
+        }
+        else {
+            return 0;
+        }
+    }
+
+    /**
      * If the molecule is part of a larger composite, there should be no stepInTime
      * behavior. It will be taken care of by the CompositeMolecule
      *
@@ -150,6 +165,8 @@ abstract public class AbstractMolecule extends Body implements Collidable {
             super.stepInTime( dt );
         }
     }
+
+
 
     public void applyForce( Vector2D force, Point2D ptOfApplication ) {
 

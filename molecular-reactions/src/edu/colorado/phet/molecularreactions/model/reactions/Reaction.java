@@ -27,8 +27,8 @@ import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeColl
  * @version $Revision$
  */
 abstract public class Reaction {
+    private static ReactionCriteria reactionCriteria;
     private EnergyProfile energyProfile;
-    private ReactionCriteria reactionCriteria;
 
     /**
      * @param energyProfile
@@ -43,7 +43,7 @@ abstract public class Reaction {
         return energyProfile;
     }
 
-    public ReactionCriteria getReactionCriteria() {
+    public static ReactionCriteria getReactionCriteria() {
         return reactionCriteria;
     }
 
@@ -68,7 +68,7 @@ abstract public class Reaction {
      * @param molecule2
      * @return true if the molecules are of the correct type for the reaction
      */
-    public boolean moleculesAreProperTypes( AbstractMolecule molecule1, AbstractMolecule molecule2 ) {
+    public static boolean moleculesAreProperTypes( AbstractMolecule molecule1, AbstractMolecule molecule2 ) {
         return getReactionCriteria().moleculesAreProperTypes( molecule1, molecule2 );
     }
 
@@ -80,7 +80,7 @@ abstract public class Reaction {
     abstract public double getThresholdEnergy( AbstractMolecule mA, AbstractMolecule mB );
 
     // The distance between the points on two molecules that can react that are closest to each other
-    abstract public double getCollisionDistance( AbstractMolecule mA, AbstractMolecule mB );
+    abstract public double getDistanceToCollision( AbstractMolecule mA, AbstractMolecule mB );
 
     // The vector between the points on two molecules that can react that are closest to each other, directed
     // from the first parameter molecule to the second

@@ -353,6 +353,19 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
         return getCM();
     }
 
+    /**
+     * Rotates the molecule through a specified angle
+     * @param theta
+     */
+    public void rotate( double theta ) {
+        for( int i = 0; i < components.length; i++ ) {
+            SimpleMolecule component = components[i];
+            Vector2D v = new Vector2D.Double( getCM(), component.getPosition() );
+            v.rotate( theta );
+            component.setPosition( getCM().getX() + v.getX(), getCM().getY() + v.getY() );
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------
     // Events and listeners
     //--------------------------------------------------------------------------------------------------

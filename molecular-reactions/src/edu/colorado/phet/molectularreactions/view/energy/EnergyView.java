@@ -14,6 +14,8 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
+import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.view.*;
@@ -285,6 +287,10 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
     /**
      * Updates the positions of the graphics
+     * <p/>
+     * We have a problem because the colliding molecules step their positions before we determine that
+     * a hard collision should take place. And so the cursor ends up showing the molecules as having
+     * gone over the threshold when they really couldn't have.
      */
     public void update() {
         if( selectedMolecule != null && selectedMoleculeGraphic != null && nearestToSelectedMoleculeGraphic != null ) {
@@ -311,7 +317,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                 System.out.println( "selectedMolecule = " + selectedMolecule );
                 System.out.println( "nearestToSelectedMolecule = " + nearestToSelectedMolecule );
                 return;
-//                throw new RuntimeException( "internal error" );
             }
 
             // Figure out on which side of the centerline the molecules should appear
@@ -338,10 +343,15 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
             // Position the molecule graphics
             double cmDist = selectedMolecule.getPosition().distance( nearestToSelectedMolecule.getPosition() );
-            double edgeDist = module.getMRModel().getReaction().getCollisionDistance( freeMolecule, boundMolecule.getParentComposite() );
+            A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)module.getMRModel().getReaction();
+            double edgeDist = reaction.getDistanceToCollision( freeMolecule, boundMolecule.getParentComposite() );
+
+            // The distance that the molecules have to overlap to react
+            double distAtFootOfHill = Math.min( selectedMolecule.getRadius(), nearestToSelectedMolecule.getRadius() );
+
             // In the middle of the reaction, the collision distance is underfined
             if( Double.isNaN( edgeDist ) ) {
-//                edgeDist = model.getReaction().getCollisionDistance( freeMolecule, boundMolecule.getParentComposite() );
+//                edgeDist = model.getReaction().getDistanceToCollision( freeMolecule, boundMolecule.getParentComposite() );
                 edgeDist = 0;
             }
 //            double edgeDist = cmDist - selectedMolecule.getRadius() - nearestToSelectedMolecule.getRadius();
@@ -349,7 +359,18 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             double yOffset = 35;
             double xOffset = 20;
 
-            double xOffsetFromCenter = Math.min( curveAreaSize.getWidth() / 2 - xOffset, edgeDist );
+            // Determine what the max overlap would be based on the energy of the molecules
+            double collisionEnergy = MRModelUtil.getCollisionEnergy( freeMolecule, boundMolecule.getParentComposite() );
+            double floorEnergy = boundMolecule.getParentComposite() instanceof MoleculeAB ?
+                                 reaction.getEnergyProfile().getRightLevel() :
+                                 reaction.getEnergyProfile().getLeftLevel();
+            double slope = ( reaction.getEnergyProfile().getPeakLevel() - floorEnergy) / (reaction.getEnergyProfile().getThresholdWidth() / 2 );
+            double minDx = collisionEnergy / slope;
+
+            // Scale the actual inter-molecular distance to the scale of the energy profile
+            double r = ( reaction.getEnergyProfile().getThresholdWidth() / 2 ) / distAtFootOfHill;
+            double dx = Math.max(( edgeDist + distAtFootOfHill ) * r, minDx ) ;
+            double xOffsetFromCenter = Math.min( curveAreaSize.getWidth() / 2 - xOffset, dx );
             double x = curveAreaSize.getWidth() / 2 + ( xOffsetFromCenter * direction );
             Point2D midPoint = new Point2D.Double( x, yOffset + maxSeparation / 2 );
             double yMin = midPoint.getY() - Math.min( cmDist, maxSeparation ) / 2;
@@ -448,7 +469,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
             selectedMolecule = newTrackedMolecule;
             if( selectedMoleculeGraphic != null
-                && moleculeLayer.getChildrenReference().contains( selectedMoleculeGraphic )) {
+                && moleculeLayer.getChildrenReference().contains( selectedMoleculeGraphic ) ) {
                 moleculeLayer.removeChild( selectedMoleculeGraphic );
             }
 
