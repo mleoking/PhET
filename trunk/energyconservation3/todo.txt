@@ -2,8 +2,6 @@
 Remaining Work
 #######################################
 
-Bugs: 
- 
 The skater gets stuck in a track sometimes (bounces back and forth, centered on the track)
     >>This problem still occurs, but with less probability for normal circumstances.
 
