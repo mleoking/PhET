@@ -25,11 +25,25 @@
     public **[] values();
 }
 
--keep class edu.colorado.phet.common.util.services.InputStreamFileContents
-
--keep class edu.colorado.phet.common.util.services.**
+-keep public class edu.colorado.phet.common.util.services.**{
+    public protected *;
+}
  
--keep class javax.jnlp.**
+-keep public class javax.jnlp.**{
+    public protected *;
+}
+
+-keep public class gnu.xml.aelfred2.**{
+    public protected *;
+}
+
+-keep public class javax.xml.parsers.**{
+    public protected *;
+}
+
+-keep public class edu.colorado.phet.ec3.serialization.**{
+    public protected *;
+}
 
 -keep class org.jfree.chart.resources.JFreeChartResources
 
