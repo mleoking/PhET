@@ -13,10 +13,16 @@ package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.geom.Point2D;
 
-
-public class DeBroglieModel extends AbstractHydrogenAtom {
+/**
+ * DeBroglieModel is the deBroglie model of a hydrogen atom.
+ * It is identical to the Bohr model, but has a different visual representation.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
+public class DeBroglieModel extends BohrModel {
 
     public DeBroglieModel( Point2D position ) {
-        super( position, 0 /* orientation */ );
+        super( position );
     }
 }

@@ -47,22 +47,16 @@ public class AbstractHydrogenAtomNode extends PhetPNode {
      */
     protected static class OrbitFactory {
 
-        private static final double GROUND_ORBIT_DIAMETER = 17;
         private static final Color ORBIT_COLOR = Color.WHITE;
         private static final Stroke ORBIT_STROKE = 
             new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 );
         private static final Paint EXCITED_PAINT = ElectronNode.getColor();
         private static final Stroke EXCITED_STROKE = new BasicStroke( 6f );
-        private static final double PROTON_ELECTRON_SPACING = 2;
-        
-        private static final double PROTON_DIAMETER = new ProtonNode().getDiameter();
-        private static final double ELECTRON_DIAMETER = new ElectronNode().getDiameter();
         
         private OrbitFactory() {}
         
-        protected static PPath createOrbitNode( int orbit ) {
-            final double diameter = calculateOrbitDiameter( orbit );
-            Shape shape = new Ellipse2D.Double( -diameter / 2, -diameter / 2, diameter, diameter );
+        protected static PPath createOrbitNode( double radius ) {
+            Shape shape = new Ellipse2D.Double( -radius, -radius, 2 * radius, 2 * radius );
             PPath orbitNode = new PPath();
             orbitNode.setPathTo( shape );
             orbitNode.setStroke( ORBIT_STROKE );
@@ -70,25 +64,13 @@ public class AbstractHydrogenAtomNode extends PhetPNode {
             return orbitNode;
         }
 
-        protected static PPath createExcitedNode( int orbit ) {
-            final double diameter = calculateOrbitDiameter( orbit );
-            Shape shape = new Ellipse2D.Double( -diameter / 2, -diameter / 2, diameter, diameter );
+        protected static PPath createExcitedNode( double radius ) {
+            Shape shape = new Ellipse2D.Double( -radius, -radius, 2 * radius, 2 * radius );
             PPath orbitNode = new PPath();
             orbitNode.setPathTo( shape );
             orbitNode.setStroke( EXCITED_STROKE );
             orbitNode.setStrokePaint( EXCITED_PAINT );
             return orbitNode;
-        }
-
-        protected static double calculateOrbitDiameter( int orbit ) {
-            double diameter = orbit * orbit * GROUND_ORBIT_DIAMETER;
-            if ( orbit == 1 ) {
-                double minDiameter = PROTON_DIAMETER + ELECTRON_DIAMETER + PROTON_ELECTRON_SPACING;
-                if ( minDiameter > diameter ) {
-                    diameter = minDiameter;
-                }
-            }
-            return diameter;
         }
     }
 }

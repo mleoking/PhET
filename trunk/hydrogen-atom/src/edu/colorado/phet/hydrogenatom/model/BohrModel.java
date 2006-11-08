@@ -17,7 +17,9 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonAbsorbedEvent;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedEvent;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
+import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
+import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 
 
 public class BohrModel extends AbstractHydrogenAtom {
@@ -33,6 +35,15 @@ public class BohrModel extends AbstractHydrogenAtom {
     // Private class data
     //----------------------------------------------------------------------------
     
+    /* Number of electron states supported by this model */
+    private static final int NUMBER_OF_STATES = 6;
+    
+    /* Radius of the electron's ground state */
+    private static final double GROUND_ORBIT_RADIUS = 8.5;
+    
+    /* Minimum spacing between the proton and electron shapes */
+    private static final double MIN_PROTON_ELECTRON_SPACING = 2;
+    
     /* how close a photon and electron must be to collide */
     private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = PhotonNode.DIAMETER;
     
@@ -46,6 +57,10 @@ public class BohrModel extends AbstractHydrogenAtom {
     // Instance data
     //----------------------------------------------------------------------------
     
+    // Current state that the electron is in, 1=ground
+    private int _state;
+    // orbit radii
+    private double[] _orbitRadii;
     // number of photons the atom has absorbed and is "holding"
     private int _numberOfPhotonsAbsorbed;
     // offset of the electron relative to atom's center
@@ -57,13 +72,42 @@ public class BohrModel extends AbstractHydrogenAtom {
     
     public BohrModel( Point2D position ) {
         super( position, 0 /* orientation */ );
+        _state = 1;
+        _orbitRadii = createOrbitRadii( NUMBER_OF_STATES );
         _numberOfPhotonsAbsorbed = 0;
-        _electronOffset = new Point2D.Double( 0, 0 );
+        _electronOffset = new Point2D.Double( getOrbitRadius( _state ), 0 ); //XXX randomize position on 1st orbit?
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the state that the electron is in.
+     * Zero is the ground state.
+     * @return int
+     */
+    public int getState() {
+        return _state;
+    }
+    
+    /**
+     * Gets the number of electron states that the model supports.
+     * This is the same as the number of orbits.
+     * @return int
+     */
+    public int getNumberOfStates() {
+        return _orbitRadii.length;
+    }
+    
+    /**
+     * Gets the radius for a specified state.
+     * @param state
+     * @return
+     */
+    public double getOrbitRadius( int state ) {
+        return _orbitRadii[ state - 1 ];
+    }
     
     /**
      * Gets the electron's offset, relative to the atom's center.
@@ -86,6 +130,21 @@ public class BohrModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     // utilities
     //----------------------------------------------------------------------------
+    
+    /*
+     * Creates N orbit radii.
+     */
+    private static double[] createOrbitRadii( int numberOfOrbits ) {
+        final double protonDiameter = new ProtonNode().getDiameter();
+        final double electronDiameter = new ElectronNode().getDiameter();
+        final double minGroundRadius = protonDiameter + electronDiameter + MIN_PROTON_ELECTRON_SPACING;
+        double[] radii = new double[ NUMBER_OF_STATES ];
+        radii[0] = Math.min( GROUND_ORBIT_RADIUS, minGroundRadius );
+        for ( int i = 1; i < radii.length; i++ ) {
+            radii[i] = i * i * GROUND_ORBIT_RADIUS;
+        }
+        return radii;
+    }
     
     /*
      * Cannot absorb a photon if any of these are true:
