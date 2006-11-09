@@ -44,10 +44,13 @@ public class BohrModel extends AbstractHydrogenAtom {
     private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = PhotonNode.DIAMETER / 2;
     
     /* probability that photon will be emitted */
-    public static final double PHOTON_EMISSION_PROBABILITY = 0.1; // 1.0 = 100%
+    private static final double PHOTON_EMISSION_PROBABILITY = 0.01; // 1.0 = 100%
     
     /* probability that photon will be absorbed */
-    public static final double PHOTON_ABSORPTION_PROBABILITY = 0.5; // 1.0 = 100%
+    private static final double PHOTON_ABSORPTION_PROBABILITY = 0.5; // 1.0 = 100%
+    
+    /* change in orbit angle per dt */
+    private static final double ELECTRON_ANGLE_DELTA = Math.toRadians( 10 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -61,6 +64,8 @@ public class BohrModel extends AbstractHydrogenAtom {
     private int _numberOfPhotonsAbsorbed;
     // offset of the electron relative to atom's center
     private Point2D _electronOffset;
+    // current angle of electron
+    private double _electronAngle;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -72,6 +77,7 @@ public class BohrModel extends AbstractHydrogenAtom {
         _orbitRadii = createOrbitRadii( NUMBER_OF_STATES );
         _numberOfPhotonsAbsorbed = 0;
         _electronOffset = new Point2D.Double( getOrbitRadius( _electronState ), 0 ); //XXX randomize position on 1st orbit?
+        _electronAngle = 0;
     }
     
     //----------------------------------------------------------------------------
@@ -120,16 +126,6 @@ public class BohrModel extends AbstractHydrogenAtom {
         return _electronOffset;
     }
     
-    /*
-     * Gets the electron's position in world coordinates.
-     * This is the electron's offset adjusted by the atom's position.
-     */
-    private Point2D getElectronPosition() {
-        double x = getX() + _electronOffset.getX();
-        double y = getY() + _electronOffset.getY();
-        return new Point2D.Double( x, y );
-    }
-    
     //----------------------------------------------------------------------------
     // utilities
     //----------------------------------------------------------------------------
@@ -156,8 +152,29 @@ public class BohrModel extends AbstractHydrogenAtom {
      * - the photon was emitted by the atom
      */
     private boolean canAbsorb( Photon photon ) {
-//        return !photon.wasEmitted();
-        return false;//XXX
+        return !( photon.wasEmitted() || _numberOfPhotonsAbsorbed == NUMBER_OF_STATES - 1 );
+    }
+    
+    /*
+     * Gets the electron's position in world coordinates.
+     * This is the electron's offset adjusted by the atom's position.
+     */
+    private Point2D getElectronPosition() {
+        double x = getX() + _electronOffset.getX();
+        double y = getY() + _electronOffset.getY();
+        return new Point2D.Double( x, y );
+    }
+    
+    /*
+     * Updates the electron's offset to match its current orbit and angle.
+     * This is essentially a conversion from Cartesian to Polar coordinates.
+     */
+    private void updateElectronOffset() {
+        double radius = getOrbitRadius( _electronState );
+        double x = radius * Math.sin( _electronAngle );
+        double y = radius * Math.cos( _electronAngle );
+        _electronOffset.setLocation( x, y );
+        notifyObservers( PROPERTY_ELECTRON_OFFSET );
     }
     
     //----------------------------------------------------------------------------
@@ -171,6 +188,9 @@ public class BohrModel extends AbstractHydrogenAtom {
         _numberOfPhotonsAbsorbed += 1;
         PhotonAbsorbedEvent event = new PhotonAbsorbedEvent( this, photon );
         firePhotonAbsorbedEvent( event );
+        
+        _electronState += 1;
+        notifyObservers( PROPERTY_ELECTRON_STATE );
     }
     
     /*
@@ -195,6 +215,10 @@ public class BohrModel extends AbstractHydrogenAtom {
             Photon photon = new Photon( wavelength, position, orientation, speed, true /* emitted */ );
             PhotonEmittedEvent event = new PhotonEmittedEvent( this, photon );
             firePhotonEmittedEvent( event );
+            
+            // Change states
+            _electronState -= 1;
+            notifyObservers( PROPERTY_ELECTRON_STATE );
         }
     }
     
@@ -247,11 +271,16 @@ public class BohrModel extends AbstractHydrogenAtom {
      * XXX
      */
     public void stepInTime( double dt ) {
-       if ( _numberOfPhotonsAbsorbed > 0 ) {
+        
+       // clockwise orbit
+        _electronAngle -= dt * ( ELECTRON_ANGLE_DELTA / ( _electronState * _electronState ) );
+        updateElectronOffset();
+
+        if ( _numberOfPhotonsAbsorbed > 0 ) {
             // Randomly emit a photon
             if ( Math.random() < PHOTON_EMISSION_PROBABILITY ) {
                 emitPhoton();
             }
-       }
+        }
     }
 }

@@ -8,6 +8,7 @@ HIGH PRIORITY:
 - flesh out Bohr model
 
 MEDIUM PRIORITY:
+- photons will sometimes get stuck inside the billiard ball when they collide with it
 - implement DeBroglie model
 - implement Schrodinger model
 - implement Experiment model (particles should go behind black box)
@@ -41,6 +42,8 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/8/06) - add adhoc state change to Bohr absorb/emit, for testing electron motion
+(11/8/06) - add electron motion to Bohr model
 ***** CVS tag hydrogenatom-0-00-08-2006-11-08
 (11/8/06) - add Rutherford scattering to Schrodinger model
 (11/8/06) - add workaround for alpha particles that get stuck in center of plum pudding
