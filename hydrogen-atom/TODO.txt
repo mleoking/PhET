@@ -8,7 +8,6 @@ HIGH PRIORITY:
 - flesh out Bohr model
 
 MEDIUM PRIORITY:
-- photons will sometimes get stuck inside the billiard ball when they collide with it
 - implement DeBroglie model
 - implement Schrodinger model
 - implement Experiment model (particles should go behind black box)
@@ -17,7 +16,7 @@ MEDIUM PRIORITY:
 - implement energy diagrams, reuse Ron's stuff
 - "atom destroyed" message for Solar System model
 - "atom ionized" message and electron flying in/out for Plum Pudding, Bohr, deBroglie, Schrodinger models
-- when gun type or atomic model is changed, delete all photons & alpha particles, clear spectrometer
+- clear spectrometer when atomic model is changed
 - ignore spectral line table entries with node>6
 - handle model-view transform differently?
 - replace AtomicModelSelection.getSelectionName
@@ -42,7 +41,11 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
-(11/8/06) - fix "closeness" deflection workaround on left side of plum pudding atom
+(11/9/06) - reduce radius of plum pudding
+(11/9/06) - reduce radius of billiard ball
+(11/9/06) - add collided flag to Photon to prevent it from getting stuck inside the billiard ball
+(11/9/06) - don't remove all particles when switch the type of the gun
+(11/9/06) - fix "closeness" deflection workaround on left side of plum pudding atom
 (11/8/06) - add adhoc state change to Bohr absorb/emit, for testing electron motion
 (11/8/06) - add electron motion to Bohr model
 ***** CVS tag hydrogenatom-0-00-08-2006-11-08

@@ -56,7 +56,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     
     /* default radius of the atom, tweaked to match PlumPuddingNode image */
-    private static final double DEFAULT_RADIUS = 90;
+    private static final double DEFAULT_RADIUS = 50;
     
     /* maximum number of photons that can be absorbed */
     private static final int MAX_PHOTONS_ABSORBED = 1; //WARNING: Untested with values != 1
