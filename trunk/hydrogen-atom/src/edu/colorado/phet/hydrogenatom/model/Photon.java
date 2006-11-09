@@ -34,8 +34,12 @@ public class Photon extends MovingObject implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
+    /* photon's wavelength, immutable */
     private double _wavelength;
+    /* was the photon emitted by the atom? immutable, used by collision detection */
     private boolean _emitted;
+    /* did the photon already collide with the atom */
+    private boolean _collided;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -65,8 +69,9 @@ public class Photon extends MovingObject implements ModelElement {
         if ( wavelength < 0 ) {
             throw new IllegalArgumentException( "invalid wavelength: " + wavelength );
         }
-        _emitted = emitted;
         _wavelength = wavelength;
+        _emitted = emitted;
+        _collided = false;
     }
     
     //----------------------------------------------------------------------------
@@ -89,8 +94,30 @@ public class Photon extends MovingObject implements ModelElement {
         return ColorUtils.wavelengthToColor( _wavelength );
     }
     
+    /**
+     * Was this photon emitted by the atom?
+     * @return true or false
+     */
     public boolean wasEmitted() {
         return _emitted;
+    }
+    
+    /**
+     * When a photon collides with an atom, we set this to true.
+     * This excludes the photon from future collision detection,
+     * and prevents it from bouncing around inside the atom.
+     * @param collided true or false
+     */
+    public void setCollided( boolean collided ) {
+        _collided = collided;
+    }
+    
+    /**
+     * Did this photon collide with the atom?
+     * @return true or false
+     */
+    public boolean isCollided() {
+        return _collided;
     }
     
     //----------------------------------------------------------------------------
