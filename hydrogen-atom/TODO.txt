@@ -42,6 +42,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/8/06) - fix "closeness" deflection workaround on left side of plum pudding atom
 (11/8/06) - add adhoc state change to Bohr absorb/emit, for testing electron motion
 (11/8/06) - add electron motion to Bohr model
 ***** CVS tag hydrogenatom-0-00-08-2006-11-08

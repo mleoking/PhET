@@ -319,7 +319,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      */
     public void moveAlphaParticle( AlphaParticle alphaParticle, double dt ) {
         final double closeness = 10;
-        if ( alphaParticle.getX() - getX() < closeness ) {
+        if ( Math.abs( alphaParticle.getX() - getX() ) < closeness ) {
             // This workaround assumes that alpha particles are moving vertically from bottom to top.
             assert( alphaParticle.getOrientation() == Math.toRadians( -90 ) );
             super.moveAlphaParticle( alphaParticle, dt );
