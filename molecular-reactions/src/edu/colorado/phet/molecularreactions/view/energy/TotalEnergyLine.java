@@ -31,12 +31,13 @@ import java.awt.geom.Line2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class TotalEnergyLine extends PNode /*implements SimpleObserver*/ {
+public class TotalEnergyLine extends PNode {
+    public static final Paint linePaint = Color.red;
+    public static final Stroke lineStroke = new BasicStroke( 2 );
+
     private Line2D line;
     private PPath lineNode;
-    private Stroke lineStroke = new BasicStroke( 2 );
 //    private Stroke lineStroke = new PFixedWidthStroke( 1 );
-    private Paint linePaint = Color.red;
     private Dimension bounds;
     private MRModel model;
     private double scale;
