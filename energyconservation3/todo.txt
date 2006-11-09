@@ -2,60 +2,60 @@
 Remaining Work
 #######################################
 
-The skater gets stuck in a track sometimes (bounces back and forth, centered on the track)
-    >>This problem still occurs, but with less probability for normal circumstances.
-
-Jetpack is shown in an incorrect position when the character is on the track.
+Load is throwing an exception, "body.debug angles inconsistent"
 
 Are history buttons displaying total energy without thermal, and calling it total?
-
-I was trying to simulate gravity using a downward thrust on the skater, 
-and it essentially works, but it appears that the thrust is not 
-constant, perhaps, but increases a little if you hold down the down 
-arrow?  I was thinking that the desired functionality would be that a 
-constant push on the down arrow would provide a constant thrust, and 
-therefore the skater, with no friction, would simply replicate the 
-affect in a gravitational field.  This would be a great way to show that 
-gravity can not be distinguished from an accelerating frame of 
-reference.  But, in the current simulation, even without friction the 
-motion is damped and KE goes to zero (over a long period of time).  Do I 
-have the interpretation incorrect?  Or did you create the functionality 
-as you did for another reason?
->> Could I do this by just adding energy when thrust is turned on/off, 
-        and modeling the thrust as another term in the 'total' gravity?
->>Question is in to the group.
-
-Energy is not conserved when I move the gravity slider.  
-Sometimes when I move the slider to higher gravity he’ll gain energy and go off the end of a track that he was previously 
-confined to when on earth.  
-Other times when I move the slider from earth to Jupiter to earth he will not 
-get as high in the earth frame as he had been in the earth before changing gravity.  
->>Clarifying.
-
-The skater hung up on the top of the ramp easily if I was trying to retest my track.
-        Clarifying...
-        
+    Yes, add a thermal energy readout, and fix the total energy value.
+       
 - slow motion button doesn't seem to work right
         Clarifying...
- 
-He gains energy when you move the track around.  I’m not sure how serious this is because moving the track is not exactly the usual routine while a skater is on the track.
->>I think this is the desired behavior.
 
-If I create a track that has another slightly above, he just slides right through like it’s not there – again maybe not a priority.
->>I think this is the desired behavior as well.
+After some combination of recording and playback, the track graphic becomes dissociated from the skater.
+        The skater will continue to traverse the path where the track used to be, ever after it has been dragged.
+        
+Fix Bounciness to be coefficient of restitution.
 
-Sometimes he bounces off the end of a track that he should just fly off of.
- >>I can't reproduce this yet.
- 
- He just froze after the 20th time along this track.  You can see below the situation where he moves right through the track, 
-the thrust message remains and he froze.
->>Can't reproduce
+1kg min mass.
 
-- the energy vs time graph stopped plotting anything at one point and even though man was going I couldn't get it to plot.
- >>Having trouble reproducing this.
-         
+-When coefficient of friction is turned to maximum and there is a lot of
+gravity (maximum) the skater falls through the track at the bottom point and
+bounces around the bottom of the screen
+before shooting off in a random direction (his exact reaction varies each
+time).
+
+-A mass of 0.0 kg can be selected for the skater who will then disappear and
+cannot be
+brought back without setting the mass above zero even if the "Return Skater"
+button is
+clicked. (maybe include an error message explaining how the mass of the
+skater cannot be
+zero)
+
+-If the friction menu is opened or the skater reset during the simulation
+the arrow keys to
+control thrust will scroll (up and down) the side menu as well (as far as I
+know this does
+NOT happen with the Skater Properties menu).
+        Make the friction slider not respond to keypress
+
+-Skater can bounce off the ground and continue to do so if the track is set
+as a straight
+line into the ground (also occurs if the vertex of the track is brought
+below the ground ).
+        Skater should continue to traverse the track while underground.
+
+-If the skater goes off screen and the user is holding down an arrow key
+when they click
+"bring back the skater" or "return skater" the skater will return and
+immediately start
+thrusting in that direction regardless of what arrow keys are or are not
+being pushed.  The
+only way to fix this is to reset the entire simulation.
+        We couldn't reproduce this.
+
+
 #################################################################
-Low Priority
+Low Priority or Deprecated
 #######################################
 User-selectable skater/vehicle graphics.
 Crashing skater?
@@ -102,3 +102,10 @@ Maybe we shouldn't implement this until we have decided on the activity, what th
 
 Bug: Wiggle me appears when moving the slider.
 >>is this fixed?
+
+Jetpack is shown in an incorrect position when the character is on the track.
+
+-If curvature of the track is too great (not gradual enough) the skater
+cannot move passed
+the vertex and will bounce off of it.
+        This only happens if it's not 'rollercoaster mode' and if the skater flys away from the track.
