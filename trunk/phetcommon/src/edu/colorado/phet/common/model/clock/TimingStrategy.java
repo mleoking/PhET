@@ -37,6 +37,7 @@ public interface TimingStrategy {
      */
     public static class Constant implements TimingStrategy {
         private double simulationTimeChange;
+        private double timeChangeWhileStepping;
 
         /**
          * Construct a Constant TimeConverter with the specified constant change in simulation time per tick.
@@ -44,8 +45,14 @@ public interface TimingStrategy {
          * @param simulationTimeChange the specified constant change in simulation time per tick.
          */
         public Constant( double simulationTimeChange ) {
-            this.simulationTimeChange = simulationTimeChange;
+            this(simulationTimeChange,simulationTimeChange);
         }
+
+        public Constant( double simulationTimeChange, double timeChangeWhileStepping ) {
+            this.simulationTimeChange=simulationTimeChange;
+            this.timeChangeWhileStepping=timeChangeWhileStepping;
+        }
+
 
         /**
          * Returns the constant value for the simulation time change.
@@ -59,7 +66,7 @@ public interface TimingStrategy {
         }
 
         public double getSimulationTimeChangeForPausedClock() {
-            return simulationTimeChange;
+            return timeChangeWhileStepping;
         }
     }
 
