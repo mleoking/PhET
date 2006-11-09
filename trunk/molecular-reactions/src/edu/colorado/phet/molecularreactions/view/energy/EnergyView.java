@@ -14,7 +14,6 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.Resetable;
@@ -28,6 +27,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Line2D;
 
 /**
  * EnergyView
@@ -85,7 +85,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     private EnergyCursor cursor;
     private Insets curveAreaInsets = new Insets( 20, 30, 40, 10 );
     private Dimension curveAreaSize;
-    private Font axisFont = UIManager.getFont( "Label.font" );
+    private Font labelFont;
     private PNode moleculePaneAxisNode;
     private PNode moleculeLayer;
     private SeparationIndicatorArrow separationIndicatorArrow;
@@ -102,6 +102,10 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     public EnergyView( MRModule module ) {
         this.module = module;
         MRModel model = module.getMRModel();
+
+        // Set up the font for labels
+        Font defaultFont = UIManager.getFont( "Label.font" );
+        labelFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
 
         // The pane that has the molecules
         moleculePane = createMoleculePane();
@@ -225,8 +229,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         curveLayer.addChild( energyProfileGraphic );
 
         // Create the line that shows total energy
-        totalEnergyLine = new TotalEnergyLine( curveAreaSize, model, module.getClock() );
-        curveLayer.addChild( totalEnergyLine );
+        this.totalEnergyLine = new TotalEnergyLine( curveAreaSize, model, module.getClock() );
+        curveLayer.addChild( this.totalEnergyLine );
 
         // Create the cursor
         cursor = new EnergyCursor( curveAreaSize.getHeight(), 0, curveAreaSize.getWidth(), model );
@@ -249,6 +253,40 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                                     -yAxis.getFullBounds().getHeight() / 2 );
         yAxis.setOffset( curveAreaInsets.left / 2, curvePane.getFullBounds().getHeight() / 2 );
         curvePane.addChild( yAxis );
+
+        // Add a legend
+        PNode legend = new PNode();
+        Line2D.Double legendLine = new Line2D.Double( 0, 0, 15, 0 );
+        PPath totalEnergyLine = new PPath( legendLine );
+        totalEnergyLine.setStroke( TotalEnergyLine.lineStroke );
+        totalEnergyLine.setStrokePaint( TotalEnergyLine.linePaint );
+        PText totalEnergyText = new PText( SimStrings.get( "EnergyView.Legend.totalEnergy" ) );
+        totalEnergyText.setFont( labelFont );
+        totalEnergyText.setTextPaint( Color.white );
+        legend.addChild( totalEnergyLine );
+        legend.addChild( totalEnergyText );
+
+        PPath potentialEnergyLine = new PPath( legendLine );
+        potentialEnergyLine.setStroke( TotalEnergyLine.lineStroke );
+        potentialEnergyLine.setStrokePaint( curveColor );
+        PText potentialEnergyText = new PText( SimStrings.get( "EnergyView.Legend.potentialEnergy" ) );
+        potentialEnergyText.setFont( labelFont );
+        potentialEnergyText.setTextPaint( Color.white );
+        legend.addChild( potentialEnergyLine );
+        legend.addChild( potentialEnergyText );
+
+        Insets insets = new Insets( 5, 30, 0, 30 );
+        potentialEnergyLine.setOffset( insets.left,
+                                       insets.top + potentialEnergyText.getFullBounds().getHeight() / 2 );
+        potentialEnergyText.setOffset( potentialEnergyLine.getOffset().getX() + potentialEnergyLine.getFullBounds().getWidth() + 10,
+                                       insets.top );
+
+        totalEnergyText.setOffset( curvePaneSize.getWidth() - insets.right - totalEnergyText.getFullBounds().getWidth(),
+                                   insets.top );
+        totalEnergyLine.setOffset( totalEnergyText.getOffset().getX() - 10 - totalEnergyLine.getFullBounds().getWidth(),
+                                   insets.top + totalEnergyText.getFullBounds().getHeight() / 2 );
+        legend.setOffset( 0, 0 );
+        curvePane.addChild( legend );
 
         return curvePane;
     }
@@ -274,7 +312,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         separationIndicatorArrow = new SeparationIndicatorArrow( Color.black );
         moleculePaneAxisNode.addChild( separationIndicatorArrow );
         PText siaLabel = new PText( SimStrings.get( "EnergyView.separation" ) );
-        siaLabel.setFont( axisFont );
+        siaLabel.setFont( labelFont );
         siaLabel.rotate( -Math.PI / 2 );
         siaLabel.setOffset( curveAreaInsets.left / 2 - siaLabel.getFullBounds().getWidth() + 2,
                             moleculePane.getFullBounds().getHeight() / 2 + siaLabel.getFullBounds().getHeight() / 2 );
