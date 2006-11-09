@@ -42,6 +42,8 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/9/06) - used canned values provide by Sam McKagan for Bohr orbit radii, don't compute
+(11/9/06) - start Bohr electron at a random angle
 (11/9/06) - remove ability to change animation box size from SimString file, too many things depend on its value
 (11/9/06) - constrain animation box to be square
 (11/9/06) - read animation box size from config file only in HAConstants

@@ -28,17 +28,11 @@ public class BohrModel extends AbstractHydrogenAtom {
     // Private class data
     //----------------------------------------------------------------------------
     
-    /* Number of electron states supported by this model */
-    private static final int NUMBER_OF_STATES = 6;
-    
     /* Ground state */
     private static final int GROUND_STATE = 1;
     
-    /* Radius of the electron's ground state */
-    private static final double GROUND_ORBIT_RADIUS = 8.5;
-    
-    /* Minimum spacing between the proton and electron shapes */
-    private static final double MIN_PROTON_ELECTRON_SPACING = 2;
+    /* Radius of each orbit supported by this model */
+    private static final double[] ORBIT_RADII = { 15, 45, 82, 125, 175, 237 };
     
     /* how close a photon and electron must be to collide */
     private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = PhotonNode.DIAMETER / 2;
@@ -58,14 +52,12 @@ public class BohrModel extends AbstractHydrogenAtom {
     
     // electron state
     private int _electronState;
-    // orbit radii
-    private double[] _orbitRadii;
     // number of photons the atom has absorbed and is "holding"
     private int _numberOfPhotonsAbsorbed;
-    // offset of the electron relative to atom's center
-    private Point2D _electronOffset;
     // current angle of electron
     private double _electronAngle;
+    // offset of the electron relative to atom's center
+    private Point2D _electronOffset;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -74,10 +66,10 @@ public class BohrModel extends AbstractHydrogenAtom {
     public BohrModel( Point2D position ) {
         super( position, 0 /* orientation */ );
         _electronState = GROUND_STATE;
-        _orbitRadii = createOrbitRadii( NUMBER_OF_STATES );
         _numberOfPhotonsAbsorbed = 0;
-        _electronOffset = new Point2D.Double( getOrbitRadius( _electronState ), 0 ); //XXX randomize position on 1st orbit?
-        _electronAngle = 0;
+        _electronAngle = RandomUtils.nextOrientation();
+        _electronOffset = new Point2D.Double();
+        updateElectronOffset();
     }
     
     //----------------------------------------------------------------------------
@@ -98,7 +90,7 @@ public class BohrModel extends AbstractHydrogenAtom {
      * @return int
      */
     public int getNumberOfStates() {
-        return _orbitRadii.length;
+        return ORBIT_RADII.length;
     }
     
     /**
@@ -115,7 +107,7 @@ public class BohrModel extends AbstractHydrogenAtom {
      * @return
      */
     public double getOrbitRadius( int state ) {
-        return _orbitRadii[ state - GROUND_STATE ];
+        return ORBIT_RADII[ state - GROUND_STATE ];
     }
     
     /**
@@ -131,28 +123,11 @@ public class BohrModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     
     /*
-     * Creates N orbit radii.
-     * The ground orbit is fudged so that the visual representation
-     * of the electron and proton won't overlap.
-     */
-    private static double[] createOrbitRadii( int numberOfOrbits ) {
-        final double protonDiameter = new ProtonNode().getDiameter();
-        final double electronDiameter = new ElectronNode().getDiameter();
-        final double minGroundRadius = protonDiameter + electronDiameter + MIN_PROTON_ELECTRON_SPACING;
-        double[] radii = new double[ NUMBER_OF_STATES ];
-        radii[0] = Math.min( GROUND_ORBIT_RADIUS, minGroundRadius );
-        for ( int n = 2; n <= radii.length; n++ ) {
-            radii[n - 1] = n * n * GROUND_ORBIT_RADIUS;
-        }
-        return radii;
-    }
-    
-    /*
      * Cannot absorb a photon if any of these are true:
      * - the photon was emitted by the atom
      */
     private boolean canAbsorb( Photon photon ) {
-        return !( photon.wasEmitted() || _numberOfPhotonsAbsorbed == NUMBER_OF_STATES - 1 );
+        return !( photon.wasEmitted() || _numberOfPhotonsAbsorbed == getNumberOfStates() - 1 );
     }
     
     /*
@@ -175,6 +150,24 @@ public class BohrModel extends AbstractHydrogenAtom {
         double y = radius * Math.cos( _electronAngle );
         _electronOffset.setLocation( x, y );
         notifyObservers( PROPERTY_ELECTRON_OFFSET );
+    }
+    
+    /**
+     * Creates radii for N orbits.
+     * This is the physically correct way to specify the orbits.
+     * In this sim, we use distorted orbits, so this method is not used.
+     * We keep it here for historical purposes.
+     * 
+     * @param numberOfOrbits
+     * @param groundOrbitRadius
+     * @return double[] of orbits
+     */
+    public static double[] createOrbitRadii( int numberOfOrbits, double groundOrbitRadius ) {
+        double[] radii = new double[numberOfOrbits];
+        for ( int n = 1; n <= numberOfOrbits; n++ ) {
+            radii[n - 1] = n * n * groundOrbitRadius;
+        }
+        return radii;
     }
     
     //----------------------------------------------------------------------------
