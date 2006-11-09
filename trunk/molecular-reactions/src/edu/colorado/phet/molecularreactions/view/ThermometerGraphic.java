@@ -19,9 +19,7 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 import java.text.NumberFormat;
 import java.text.DecimalFormat;
 
@@ -66,6 +64,7 @@ public class ThermometerGraphic extends PNode {
     private double columnWidth = 8;
     private double overallHeight = 80;
     private MRModel model;
+    private double maxModelValue;
     private Rectangle2D column;
     private double fillHeightScale;
 
@@ -75,9 +74,12 @@ public class ThermometerGraphic extends PNode {
      */
     public ThermometerGraphic( MRModel model, IClock clock, double minModelValue, double maxModelValue ) {
         this.model = model;
+        this.maxModelValue = maxModelValue;
 
 
         column = new Rectangle2D.Double(0,0,columnWidth, overallHeight - bulbRadius );
+        PPath columnBackground = new PPath( column );
+        columnBackground.setPaint( Color.white );
         fillHeightScale = (overallHeight - bulbRadius) / maxModelValue;
         PPath columnNode = new PPath( column );
         columnNode.setPaint( new Color( 0,0,0,0 ) );
@@ -90,10 +92,12 @@ public class ThermometerGraphic extends PNode {
         bulbNode.setPaint( Color.red );
         setPickable( false );
 
+        columnBackground.setOffset(  -columnWidth / 2, 0 );
         fillNode.setOffset( -columnWidth / 2, 0 );
         bulbNode.setOffset( -bulbRadius, overallHeight - bulbRadius * 2);
         columnNode.setOffset( -columnWidth / 2, 0 );
 
+        addChild( columnBackground );
         addChild( fillNode );
         addChild( columnNode );
         addChild( bulbNode );
@@ -102,7 +106,8 @@ public class ThermometerGraphic extends PNode {
     }
 
     public void update() {
-        double ke = model.getAverageKineticEnergy() * fillHeightScale;
+        double modelValue = Math.min( model.getTemperature(), maxModelValue );
+        double ke =  modelValue * fillHeightScale;
         System.out.println( "ke = " + ke );
         columnFill.setFrame( 0, column.getHeight() - ke, column.getWidth(), ke );
         fillNode.setPathTo( columnFill);

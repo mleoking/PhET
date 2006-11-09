@@ -36,6 +36,8 @@ public class MRConfig {
     public static final double LAUNCHER_MIN_THETA = -Math.PI / 4;
     public static final double LAUNCHER_MAX_THETA = Math.PI / 4;
     public static final double LAUNCHER_MAX_EXTENSION = 70;
+    public static final double RUNNING_DT = 1;
+    public static final double STEPPING_DT = 0.3;
 
     // View Constants
     public static final int BAR_CHART_MAX_Y = 20;

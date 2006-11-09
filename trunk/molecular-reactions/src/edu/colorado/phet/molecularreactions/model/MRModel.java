@@ -59,6 +59,7 @@ public class MRModel extends PublishingModel {
     private SelectedMoleculeTracker selectedMoleculeTracker;
     private double potentialEnergyStored;
     private List potentialEnergySources = new ArrayList();
+    private List kineticEnergySources = new ArrayList( );
     private TemperatureControl tempCtrl;
     // The amount of energy added or removed from the model in a time step
     // by objects such as the temperature control. This is used in tweaking
@@ -114,17 +115,19 @@ public class MRModel extends PublishingModel {
         if( modelElement instanceof PotentialEnergySource ) {
             potentialEnergySources.add( modelElement );
         }
+        if( modelElement instanceof KineticEnergySource ) {
+            kineticEnergySources.add( modelElement );
+        }
     }
 
     public void removeModelElement( ModelElement modelElement ) {
-        if( modelElement instanceof ProvisionalBond ) {
-//            System.out.println( "MRModel.removeModelElement: ProvisionalBond" );
-        }
-
         super.removeModelElement( modelElement );
 
         if( modelElement instanceof PotentialEnergySource ) {
             potentialEnergySources.remove( modelElement );
+        }
+        if( modelElement instanceof KineticEnergySource ) {
+            kineticEnergySources.remove( modelElement );
         }
     }
 
@@ -249,7 +252,7 @@ public class MRModel extends PublishingModel {
         List modelElements = getModelElements();
         for( int i = 0; i < modelElements.size(); i++ ) {
             Object o = modelElements.get( i );
-            if( o instanceof Body ) {
+            if( o instanceof Body && o instanceof KineticEnergySource ) {
                 Body body = (Body)o;
                 keTotal += body.getKineticEnergy();
             }
@@ -257,19 +260,14 @@ public class MRModel extends PublishingModel {
         return keTotal;
     }
 
-    public double getAverageKineticEnergy() {
-        double keTotal = 0;
-        List modelElements = getModelElements();
-        int cnt = 0;
-        for( int i = 0; i < modelElements.size(); i++ ) {
-            Object o = modelElements.get( i );
-            if( o instanceof Body ) {
-                Body body = (Body)o;
-                cnt++;
-                keTotal += body.getKineticEnergy();
-            }
-        }
-        return keTotal / cnt;        
+    /**
+     * Gets the temperature of the system, which is taken to be the
+     * average kinetic energy of all the KineticEnergySources. 
+     * @return
+     */
+    public double getTemperature() {
+        int cnt = kineticEnergySources.size();
+        return cnt > 0 ? getTotalKineticEnergy() / cnt : 0;
     }
 
     public double getTotalPotentialEnergy() {

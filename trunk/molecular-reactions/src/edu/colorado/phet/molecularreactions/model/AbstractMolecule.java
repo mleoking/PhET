@@ -34,7 +34,7 @@ import java.util.EventListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-abstract public class AbstractMolecule extends Body implements Collidable {
+abstract public class AbstractMolecule extends Body implements Collidable, KineticEnergySource {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods

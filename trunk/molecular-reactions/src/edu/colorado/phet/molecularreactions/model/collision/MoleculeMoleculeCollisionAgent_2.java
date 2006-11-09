@@ -26,7 +26,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent, MRModel.ModelListener {
+public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
 
     private Vector2D n = new Vector2D.Double();
     private Vector2D vRel = new Vector2D.Double();
@@ -42,7 +42,7 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent, MRMod
      */
     public MoleculeMoleculeCollisionAgent_2( final MRModel model ) {
         reactionCriteria = model.getReaction().getReactionCriteria();
-        model.addListener( this );
+//        model.addListener( this );
     }
 
     /**
@@ -149,18 +149,20 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent, MRMod
             return;
         }
 
-        // Create a composite molecule if ReactionCriteria are met
-        if( model.getReaction().moleculesAreProperTypes( (AbstractMolecule)bodyA,
-                                                         (AbstractMolecule)bodyB ) ) {
+        // If the molecules aren't of a type that could react, simply do a hard sphere collision
+        if( !model.getReaction().moleculesAreProperTypes( (AbstractMolecule)bodyA,
+                                                          (AbstractMolecule)bodyB ) ) {
+            doHardSphereCollision( collisionPt, bodyA, bodyB, loa );
+        }
+        // Otherwise, create a composite molecule if ReactionCriteria are met
+        else {
             SimpleMolecule mA = collisionSpec.getFreeMolecule();
             SimpleMolecule mB = collisionSpec.getSimpleMoleculeB();
             EnergyProfile profile = model.getEnergyProfile();
             double thresholdWidth = Math.max( mA.getRadius(), mB.getRadius() );
-//            double thresholdWidth = Math.min( mA.getRadius(), mB.getRadius() );
             double floorLevel = collisionSpec.getCompositeMolecule() instanceof MoleculeAB ?
                                 profile.getRightLevel() : profile.getLeftLevel();
             double hillHeight = profile.getPeakLevel() - floorLevel;
-            System.out.println( "hillHeight = " + hillHeight );
             double slope = Math.atan2( hillHeight, thresholdWidth );
 
             boolean outOfEnergy = false;
@@ -182,17 +184,12 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent, MRMod
             // Otherwise we need to know whether they have gotten as far up the slope of the
             // energy profile as they can get, and need to start moving appart
             else {
-
                 // Otherwise, see if they have enough energy to keep getting closer
                 double dE = Math.tan( slope ) * Math.abs( collisionDistance );
-//                double dCE = MRModelUtil.getCollisionEnergy( collisionSpec.getFreeMolecule(),
-//                                                             collisionSpec.getCompositeMolecule() );
                 outOfEnergy = dE > dCE;
 
                 // If are out of energy, do a hard sphere collision
                 if( outOfEnergy ) {
-                    double d = model.getReaction().getDistanceToCollision( collisionSpec.getFreeMolecule(),
-                                                                           collisionSpec.getCompositeMolecule() );
                     doHardSphereCollision( collisionPt, bodyA, bodyB, loa );
                 }
             }
@@ -253,21 +250,5 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent, MRMod
             bodyA.setOmega( bodyA.getOmega() + dOmegaA );
             bodyB.setOmega( bodyB.getOmega() + dOmegaB );
         }
-    }
-
-//--------------------------------------------------------------------------------------------------
-// Implementation of MRModel.ModelListener
-//--------------------------------------------------------------------------------------------------
-
-    public void reactionThresholdChanged( MRModel model ) {
-//        this.reactionThreshold = model.getEnergyProfile().getPeakLevel();
-    }
-
-    public void modelElementAdded( ModelElement element ) {
-        // noop
-    }
-
-    public void modelElementRemoved( ModelElement element ) {
-        // noop
     }
 }
