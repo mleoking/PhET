@@ -42,7 +42,7 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean SHOW_MODEL_SHAPE = true;
+    private static final boolean SHOW_MODEL_SHAPE = false;
     
     //----------------------------------------------------------------------------
     // Instance data
