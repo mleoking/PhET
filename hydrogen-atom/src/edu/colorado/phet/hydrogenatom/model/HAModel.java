@@ -37,7 +37,7 @@ import edu.colorado.phet.hydrogenatom.model.Gun.GunFiredListener;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HAModel extends Model implements Observer, GunFiredListener, PhotonAbsorbedListener, PhotonEmittedListener {
+public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedListener, PhotonEmittedListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -82,7 +82,6 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
         
         _gun = gun;
         _gun.addGunFiredListener( this );
-        _gun.addObserver( this );
         super.addModelElement( _gun );
         
         _space = space;
@@ -263,23 +262,6 @@ public class HAModel extends Model implements Observer, GunFiredListener, Photon
             AlphaParticle alphaParticle = (AlphaParticle)a.next();
             if ( !_space.contains( alphaParticle ) ) {
                 removeModelElement( alphaParticle );
-            }
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Remove all photons and alpha particles when the gun is
-     * switched between firing photons and alpha particles.
-     */
-    public void update( Observable o, Object arg ) {
-        if ( o == _gun ) {
-            if ( arg == Gun.PROPERTY_MODE ) {
-                removeAllAlphaParticles();
-                removeAllPhotons(); 
             }
         }
     } 
