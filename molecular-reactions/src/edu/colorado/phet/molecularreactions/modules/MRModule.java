@@ -11,11 +11,12 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.view.SpatialView;
 import edu.colorado.phet.molecularreactions.view.energy.EnergyView;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -37,7 +38,7 @@ public class MRModule extends Module {
     private Dimension spatialViewSize = new Dimension( 520, 500 );
 
     public MRModule( String name ) {
-        super( name, new SwingClock( 40, 1 ) );
+        super( name, new VariableConstantTickClock( new SwingClock( 40, MRConfig.RUNNING_DT ), MRConfig.RUNNING_DT ) );
 
         // Create the model
         MRModel model = new MRModel( getClock() );
@@ -63,6 +64,18 @@ public class MRModule extends Module {
         energyView.setOffset( insets.left + spatialView.getFullBounds().getWidth() + insets.left,
                               insets.top );
         canvas.addWorldChild( energyView );
+
+        // Add an agent that will make the clock's time step smaller when it's
+        // being single stepped.
+        getClock().addClockListener( new ClockAdapter() {
+            public void clockStarted( ClockEvent clockEvent ) {
+                ((VariableConstantTickClock)getClock()).setDt( MRConfig.RUNNING_DT );
+            }
+
+            public void clockPaused( ClockEvent clockEvent ) {
+                ((VariableConstantTickClock)getClock()).setDt( MRConfig.STEPPING_DT );
+            }
+        });
     }
     
     protected void reset() {

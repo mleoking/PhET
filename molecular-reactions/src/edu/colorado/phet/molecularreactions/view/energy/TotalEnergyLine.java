@@ -17,6 +17,7 @@ import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.util.PFixedWidthStroke;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -33,7 +34,8 @@ import java.awt.geom.Line2D;
 public class TotalEnergyLine extends PNode /*implements SimpleObserver*/ {
     private Line2D line;
     private PPath lineNode;
-    private Stroke lineStroke = new BasicStroke( 1 );
+    private Stroke lineStroke = new BasicStroke( 2 );
+//    private Stroke lineStroke = new PFixedWidthStroke( 1 );
     private Paint linePaint = Color.red;
     private Dimension bounds;
     private MRModel model;
