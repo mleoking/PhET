@@ -42,7 +42,7 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean SHOW_MODEL_SHAPE = false;
+    private static final boolean SHOW_MODEL_SHAPE = true;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -66,7 +66,7 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
         _atom.addObserver( this );
         
         PImage puddingNode = PImageFactory.create( HAConstants.IMAGE_PLUM_PUDDING );
-        puddingNode.scale( 0.65 );
+        puddingNode.scale( 0.35 );
         
         _electronNode = new ElectronNode();
         
