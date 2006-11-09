@@ -39,7 +39,7 @@ public class BilliardBallModel extends AbstractHydrogenAtom {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double DEFAULT_RADIUS = 100;
+    private static final double DEFAULT_RADIUS = 50;
     
     private static final double MIN_DEFLECTION_ANGLE = Math.toRadians( 120 );
     private static final double MAX_DEFLECTION_ANGLE = Math.toRadians( 170 );
@@ -95,11 +95,14 @@ public class BilliardBallModel extends AbstractHydrogenAtom {
      */
     public void movePhoton( Photon photon, double dt ) {
         Point2D position = photon.getPosition();
-        if ( _shape.contains( position ) ) {
-            final int sign = ( position.getX() > getX() ) ? 1 : -1;
-            final double deflection = sign * RandomUtils.nextDouble( MIN_DEFLECTION_ANGLE, MAX_DEFLECTION_ANGLE );
-            final double orientation = photon.getOrientation() + deflection;
-            photon.setOrientation( orientation );
+        if ( !photon.isCollided() ) {
+            if ( _shape.contains( position ) ) {
+                final int sign = ( position.getX() > getX() ) ? 1 : -1;
+                final double deflection = sign * RandomUtils.nextDouble( MIN_DEFLECTION_ANGLE, MAX_DEFLECTION_ANGLE );
+                final double orientation = photon.getOrientation() + deflection;
+                photon.setOrientation( orientation );
+                photon.setCollided( true );
+            }
         }
         super.movePhoton( photon, dt );
     }
