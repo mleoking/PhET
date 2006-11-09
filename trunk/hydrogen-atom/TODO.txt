@@ -6,6 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - flesh out Bohr model
+- make radii of billiard ball, plum pudding, and Bohr 1st orbit to be "about the same"
 
 MEDIUM PRIORITY:
 - change how particle production rate is specificed, number in box should range from 1-N based on intensity
