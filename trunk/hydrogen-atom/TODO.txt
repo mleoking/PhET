@@ -42,6 +42,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/9/06) - remove ability to change animation box size from SimString file, too many things depend on its value
 (11/9/06) - constrain animation box to be square
 (11/9/06) - read animation box size from config file only in HAConstants
 (11/9/06) - reduce radius of plum pudding

@@ -51,8 +51,7 @@ public class HAConstants {
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 750, 750 );
 
     // Animation box size, must be square!
-    private static final int ANIMATION_BOX_WIDTH = SimStrings.getInt( "animationBox.size", 475 );
-    public static final Dimension ANIMATION_BOX_SIZE = new Dimension( ANIMATION_BOX_WIDTH, ANIMATION_BOX_WIDTH );
+    public static final Dimension ANIMATION_BOX_SIZE = new Dimension( 475, 475 );
     
     public static final Dimension TINY_BOX_SIZE = new Dimension( 10, 10 );
 
