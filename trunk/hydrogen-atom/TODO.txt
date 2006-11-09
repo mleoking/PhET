@@ -8,6 +8,7 @@ HIGH PRIORITY:
 - flesh out Bohr model
 
 MEDIUM PRIORITY:
+- change how particle production rate is specificed, number in box should range from 1-N based on intensity
 - implement DeBroglie model
 - implement Schrodinger model
 - implement Experiment model (particles should go behind black box)
@@ -41,6 +42,8 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/9/06) - constrain animation box to be square
+(11/9/06) - read animation box size from config file only in HAConstants
 (11/9/06) - reduce radius of plum pudding
 (11/9/06) - reduce radius of billiard ball
 (11/9/06) - add collided flag to Photon to prevent it from getting stuck inside the billiard ball

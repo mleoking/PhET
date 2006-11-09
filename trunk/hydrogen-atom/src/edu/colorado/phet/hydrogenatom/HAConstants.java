@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 
 
@@ -49,7 +50,10 @@ public class HAConstants {
 
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 750, 750 );
 
-    public static final Dimension ANIMATION_BOX_SIZE = new Dimension( 475, 475 );
+    // Animation box size, must be square!
+    private static final int ANIMATION_BOX_WIDTH = SimStrings.getInt( "animationBox.size", 475 );
+    public static final Dimension ANIMATION_BOX_SIZE = new Dimension( ANIMATION_BOX_WIDTH, ANIMATION_BOX_WIDTH );
+    
     public static final Dimension TINY_BOX_SIZE = new Dimension( 10, 10 );
 
     public static final Dimension BOX_OF_HYDROGEN_SIZE = new Dimension( 70, 70 );
