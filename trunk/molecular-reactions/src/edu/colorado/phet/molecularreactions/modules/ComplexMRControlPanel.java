@@ -117,7 +117,8 @@ public class ComplexMRControlPanel extends MRControlPanel {
                     module.setGraphicTypeVisible( showBondsBtn.isSelected() );
                 }
             } );
-            showBondsBtn.setSelected( true );
+            showBondsBtn.setSelected( false );
+            module.setGraphicTypeVisible( showBondsBtn.isSelected() );
 
             showStripChartBtn = new DialogCheckBox( SimStrings.get( "Control.showStripChart" ) );
             showStripChartBtn.addActionListener( new ActionListener() {
@@ -140,7 +141,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
                                                                  new Insets( 0, 0, 0, 0 ), 0, 0 );
                 final ButtonGroup chartOptionsBG = new ButtonGroup();
                 trackMoleculeBtn = new JRadioButton( SimStrings.get( "Control.trackMolecule" ) );
-                trackMoleculeBtn .addActionListener( new ActionListener() {
+                trackMoleculeBtn.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         setEnergyViewChartOptions( module );
                     }
@@ -172,7 +173,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
                 showNoneBtn.setSelected( true );
                 chartOptionsBG.add( showNoneBtn );
 
-                chartOptionsPanel.add( trackMoleculeBtn, gbc );
+//                chartOptionsPanel.add( trackMoleculeBtn, gbc );
                 chartOptionsPanel.add( showBarChartBtn, gbc );
                 chartOptionsPanel.add( showPieChartBtn, gbc );
                 chartOptionsPanel.add( showNoneBtn, gbc );
@@ -195,7 +196,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
             GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                              1, 1, 1, 1,
                                                              GridBagConstraints.WEST,
-                                                             GridBagConstraints.NONE,
+                                                             GridBagConstraints.HORIZONTAL,
                                                              insets, 0, 0 );
             add( chartOptionsPanel, gbc );
             add( showStripChartBtn, gbc );
