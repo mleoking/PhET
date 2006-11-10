@@ -17,6 +17,7 @@ public class HistoryPoint {
     private double ke;
     private double pe;
     private double totalEnergy;
+    private double thermalEnergy;
 
     public HistoryPoint( EnergyConservationModel model, Body body ) {
         this.model = model;
@@ -26,7 +27,8 @@ public class HistoryPoint {
         this.time = model.getTime();
         this.ke = body.getKineticEnergy();
         this.pe = body.getPotentialEnergy();
-        this.totalEnergy = body.getMechanicalEnergy();
+        this.thermalEnergy = body.getThermalEnergy();
+        this.totalEnergy = body.getTotalEnergy();
     }
 
     public double getX() {
@@ -51,5 +53,9 @@ public class HistoryPoint {
 
     public double getPe() {
         return pe;
+    }
+
+    public double getThermalEnergy() {
+        return thermalEnergy;
     }
 }

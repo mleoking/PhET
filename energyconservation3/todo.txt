@@ -2,14 +2,6 @@
 Remaining Work
 #######################################
 
-Load is throwing an exception, "body.debug angles inconsistent"
-
-Are history buttons displaying total energy without thermal, and calling it total?
-    Yes, add a thermal energy readout, and fix the total energy value.
-       
-- slow motion button doesn't seem to work right
-        Clarifying...
-
 After some combination of recording and playback, the track graphic becomes dissociated from the skater.
         The skater will continue to traverse the path where the track used to be, ever after it has been dragged.
         
@@ -51,7 +43,11 @@ being pushed.  The
 only way to fix this is to reset the entire simulation.
         We couldn't reproduce this.
 
-
+Load is throwing an exception, "body.debug angles inconsistent"
+        This may be fixed now, I had trouble reproducing this problem.
+               
+- slow motion button doesn't seem to work right
+        Clarifying...
 #################################################################
 Low Priority or Deprecated
 #######################################
