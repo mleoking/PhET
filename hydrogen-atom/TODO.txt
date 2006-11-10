@@ -6,9 +6,11 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - flesh out Bohr model
-- make radii of billiard ball, plum pudding, and Bohr 1st orbit to be "about the same"
+- add dialog displaying spectral line table to menubar
+- performance of Bohr degraded when I added absorb/emit code
 
 MEDIUM PRIORITY:
+- RandomUtils shouldn't share the same random number generator (in Math) for all methods
 - stimulated emission for Bohr model
 - add "show traces" feature for alpha particles
 - change how particle production rate is specificed, number in box should range from 1-N based on intensity
@@ -45,6 +47,8 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/10/06) - first pass at photon absorb/emit in Bohr
+(11/10/06) - reorg photon absorption code in PlumPuddingModel to be similar to BohrModel
 (11/10/06) - reduce radii of Bohr orbits 2-6 so that 6th orbit's dashed line fits fully in box
 (11/10/06) - make PlumPuddingNode automatically scale its image to match the model's radius
 (11/10/06) - reduce billiard ball and plum pudding radii to 30
