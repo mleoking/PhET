@@ -39,7 +39,7 @@ public class BilliardBallModel extends AbstractHydrogenAtom {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double DEFAULT_RADIUS = 50;
+    private static final double DEFAULT_RADIUS = 30;
     
     private static final double MIN_DEFLECTION_ANGLE = Math.toRadians( 120 );
     private static final double MAX_DEFLECTION_ANGLE = Math.toRadians( 170 );

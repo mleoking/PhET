@@ -66,7 +66,10 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
         _atom.addObserver( this );
         
         PImage puddingNode = PImageFactory.create( HAConstants.IMAGE_PLUM_PUDDING );
-        puddingNode.scale( 0.35 );
+        double imageHeight = puddingNode.getHeight();
+        double atomHeight = 2 * atom.getRadius();
+        double imageScale = atomHeight / imageHeight;
+        puddingNode.scale( imageScale );
         
         _electronNode = new ElectronNode();
         
