@@ -5,8 +5,6 @@ Remaining Work
 After some combination of recording and playback, the track graphic becomes dissociated from the skater.
         The skater will continue to traverse the path where the track used to be, ever after it has been dragged.
         
-Is the skater's physics correct as a function of mass?
-
 -When coefficient of friction is turned to maximum and there is a lot of
 gravity (maximum) the skater falls through the track at the bottom point and
 bounces around the bottom of the screen
@@ -14,34 +12,27 @@ before shooting off in a random direction (his exact reaction varies each
 time).
 
 -A mass of 0.0 kg can be selected for the skater who will then disappear and
-cannot be
-brought back without setting the mass above zero even if the "Return Skater"
-button is
-clicked. (maybe include an error message explaining how the mass of the
-skater cannot be
-zero)
+cannot be brought back without setting the mass above zero even if the "Return Skater"
+button is clicked. (maybe include an error message explaining how the mass of the
+skater cannot be zero)
 
 -If the friction menu is opened or the skater reset during the simulation
-the arrow keys to
-control thrust will scroll (up and down) the side menu as well (as far as I
-know this does
-NOT happen with the Skater Properties menu).
+the arrow keys to control thrust will scroll (up and down) the side menu as well (as far as I
+know this does NOT happen with the Skater Properties menu).
         Make the friction slider not respond to keypress
 
 -Skater can bounce off the ground and continue to do so if the track is set
-as a straight
-line into the ground (also occurs if the vertex of the track is brought
+as a straight line into the ground (also occurs if the vertex of the track is brought
 below the ground ).
         Skater should continue to traverse the track while underground.
 
 -If the skater goes off screen and the user is holding down an arrow key
-when they click
-"bring back the skater" or "return skater" the skater will return and
-immediately start
-thrusting in that direction regardless of what arrow keys are or are not
-being pushed.  The
-only way to fix this is to reset the entire simulation.
+when they click "bring back the skater" or "return skater" the skater will return and
+immediately start thrusting in that direction regardless of what arrow keys are or are not
+being pushed.  The only way to fix this is to reset the entire simulation.
         We couldn't reproduce this.
+
+Is the skater's physics correct as a function of mass?
 
 Load is throwing an exception, "body.debug angles inconsistent"
         This may be fixed now, I had trouble reproducing this problem.
