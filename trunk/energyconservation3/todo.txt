@@ -13,7 +13,8 @@ being pushed.  The only way to fix this is to reset the entire simulation.
 
 Is the skater's physics correct as a function of mass?
 
-Load is throwing an exception, "body.debug angles inconsistent"
+Save/Load not working sometimes
+        Could be: throwing an exception, "body.debug angles inconsistent"
         This may be fixed now; I was unable to reproduce the problem so I can't claim this with much certainty.
                
 - slow motion button doesn't seem to work right
