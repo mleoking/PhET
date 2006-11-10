@@ -62,9 +62,11 @@ public class HistoryPointGraphic extends PNode {
 
     private void update() {
         setOffset( historyPoint.getX(), historyPoint.getY() );
+        String heatString = historyPoint.getThermalEnergy() != 0 ? "Thermal Energy=" + format( historyPoint.getThermalEnergy() ) + " J<br>" : "";
         html = ( "<html>" +
                  "Kinetic Energy=" + format( historyPoint.getKE() ) + " J<br>" +
                  "Potential Energy=" + format( historyPoint.getPe() ) + " J<br>" +
+                 heatString +
                  "Total Energy=" + format( historyPoint.getTotalEnergy() ) + " J<br>" +
                  "</html>" );
         if( isHTMLVisible() ) {
