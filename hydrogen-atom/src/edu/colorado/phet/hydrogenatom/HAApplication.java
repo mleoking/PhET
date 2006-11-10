@@ -26,6 +26,7 @@ import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.hydrogenatom.dialog.SpectralLineTableDialog;
 import edu.colorado.phet.hydrogenatom.menu.DeveloperMenu;
 import edu.colorado.phet.hydrogenatom.menu.OptionsMenu;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
@@ -53,6 +54,7 @@ public class HAApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     
     private JDialog _legendDialog;
+    private JDialog _spectralLineTableDialog;
     private HAModule _module;
     
     //----------------------------------------------------------------------------
@@ -117,6 +119,15 @@ public class HAApplication extends PiccoloPhetApplication {
                 }
             } );
             helpMenu.add( legendMenuItem );
+            
+            JMenuItem spectralLineTableMenuItem = new JMenuItem( SimStrings.get( "menu.help.spectralLineTable" ) );
+            spectralLineTableMenuItem.setMnemonic( SimStrings.getChar( "menu.help.spectralLineTable.mnemonic") );
+            spectralLineTableMenuItem.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    handleSpectralLineTableDialog();
+                }
+            } );
+            helpMenu.add( spectralLineTableMenuItem );
         }
     }
     
@@ -127,7 +138,7 @@ public class HAApplication extends PiccoloPhetApplication {
     /*
      * If the legend dialog exists, pop it to the front.
      * Otherwise create a new one and show it.
-     * When the legend dialog is closed, it removes itself.
+     * When the dialog is closed, it removes itself.
      */
     private void handleLegendDialog() {
         if ( _legendDialog != null ) {
@@ -142,6 +153,27 @@ public class HAApplication extends PiccoloPhetApplication {
                 }
             } );
             _legendDialog.show();
+        }
+    }
+    
+    /*
+     * If the spectral line table dialog exists, pop it to the front.
+     * Otherwise create a new one and show it.
+     * When the dialog is closed, it removes itself.
+     */
+    private void handleSpectralLineTableDialog() {
+        if ( _spectralLineTableDialog != null ) {
+            _spectralLineTableDialog.toFront();
+        }
+        else {
+            PhetFrame frame = getPhetFrame();
+            _spectralLineTableDialog = new SpectralLineTableDialog( frame );
+            _spectralLineTableDialog.addWindowListener( new WindowAdapter() {
+                public void windowClosed( WindowEvent event ) {
+                    _spectralLineTableDialog = null;
+                }
+            } );
+            _spectralLineTableDialog.show();
         }
     }
     

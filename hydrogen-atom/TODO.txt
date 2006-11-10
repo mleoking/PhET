@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - flesh out Bohr model
-- add dialog displaying spectral line table to menubar
 - performance of Bohr degraded when I added absorb/emit code
 
 MEDIUM PRIORITY:
@@ -47,6 +46,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/10/06) - add dialog displaying spectral line table to menubar
 (11/10/06) - add developer controls for disabling parts of Bohr absorb/emit
 (11/10/06) - first pass at photon absorb/emit in Bohr
 (11/10/06) - reorg photon absorption code in PlumPuddingModel to be similar to BohrModel
