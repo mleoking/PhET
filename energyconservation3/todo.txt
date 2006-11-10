@@ -5,12 +5,6 @@ Remaining Work
 After some combination of recording and playback, the track graphic becomes dissociated from the skater.
         The skater will continue to traverse the path where the track used to be, even after it has been dragged.
         
--If the skater goes off screen and the user is holding down an arrow key
-when they click "bring back the skater" or "return skater" the skater will return and
-immediately start thrusting in that direction regardless of what arrow keys are or are not
-being pushed.  The only way to fix this is to reset the entire simulation.
-        We couldn't reproduce this.
-
 Save/Load not working sometimes
         Could be: throwing an exception, "body.debug angles inconsistent"
         This may be fixed now; I was unable to reproduce the problem so I can't claim this with much certainty.
@@ -79,3 +73,9 @@ the vertex and will bounce off of it.
         
 - slow motion button doesn't seem to work right
         Clarifying...
+        
+-If the skater goes off screen and the user is holding down an arrow key
+when they click "bring back the skater" or "return skater" the skater will return and
+immediately start thrusting in that direction regardless of what arrow keys are or are not
+being pushed.  The only way to fix this is to reset the entire simulation.
+        We couldn't reproduce this.

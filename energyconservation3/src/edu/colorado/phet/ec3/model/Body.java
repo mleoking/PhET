@@ -185,7 +185,7 @@ public class Body {
                 facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAttachmentPointRotation() ) ) > 0;
             }
         }
-        System.out.println( "facingRight = " + facingRight + ", speed=" + getSpeed() );
+//        System.out.println( "facingRight = " + facingRight + ", speed=" + getSpeed() );
         EnergyDebugger.stepFinished( this );
     }
 
