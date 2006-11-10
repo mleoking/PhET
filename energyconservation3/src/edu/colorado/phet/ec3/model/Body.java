@@ -170,7 +170,7 @@ public class Body {
             this.storedTotalEnergy = getTotalEnergy();
         }
         EnergyDebugger.stepStarted( this, dt );
-        int NUM_STEPS_PER_UPDATE = 1;
+        int NUM_STEPS_PER_UPDATE = 2;
         for( int i = 0; i < NUM_STEPS_PER_UPDATE; i++ ) {
             double ei = new State( this ).getTotalEnergy();
             getMode().stepInTime( this, dt / NUM_STEPS_PER_UPDATE );
@@ -180,9 +180,12 @@ public class Body {
                 System.out.println( "err=" + err + ", i=" + i );
             }
         }
-        if( !isFreeFallMode() && !isUserControlled() ) {
-            facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAttachmentPointRotation() ) ) > 0;
+        if( getSpeed() > 0.01 ) {
+            if( !isFreeFallMode() && !isUserControlled() ) {
+                facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAttachmentPointRotation() ) ) > 0;
+            }
         }
+        System.out.println( "facingRight = " + facingRight + ", speed=" + getSpeed() );
         EnergyDebugger.stepFinished( this );
     }
 

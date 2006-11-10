@@ -122,9 +122,16 @@ public class SplineMode implements UpdateMode {
                         System.out.println( "Reduced heat to solve energy crisis." );
                         fixed = true;
                     }
+                    else {
+                        System.out.println( "Had Error, but can't wholly correct with heat, removing what we can." );
+                        body.addThermalEnergy( -gainedHeat );
+                    }
                 }
                 else {
                     System.out.println( "Energy error: lost " + origState.getEnergyDifferenceAbs( body ) + " joules" );
+                    System.out.println( "The system lost energy while friction was on!!! error=" + origState.getEnergyDifferenceAbs( body ) );
+
+                    //rarely happens
                 }
             }
         }
