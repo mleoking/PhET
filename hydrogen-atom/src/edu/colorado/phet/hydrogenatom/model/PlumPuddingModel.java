@@ -218,16 +218,6 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     }
     
     /*
-     * Cannot absorb a photon if any of these are true:
-     * - the photon was emitted by the atom
-     * - we've already absorbed the max
-     * - we've emitted out last photon and haven't completed oscillation.
-     */
-    private boolean canAbsorb( Photon photon ) {
-        return !( photon.wasEmitted() || _numberOfPhotonsAbsorbed == MAX_PHOTONS_ABSORBED || ( _numberOfPhotonsAbsorbed == 0 && _electronIsMoving ) );
-    }
-    
-    /*
      * Determines if the sign (+-) on two numbers is different.
      */
     private boolean signIsDifferent( double d1, double d2 ) {
@@ -237,6 +227,16 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     // Photon absorption and emission
     //----------------------------------------------------------------------------
+    
+    /*
+     * Cannot absorb a photon if any of these are true:
+     * - the photon was emitted by the atom
+     * - we've already absorbed the max
+     * - we've emitted out last photon and haven't completed oscillation.
+     */
+    private boolean canAbsorb( Photon photon ) {
+        return !( photon.wasEmitted() || _numberOfPhotonsAbsorbed == MAX_PHOTONS_ABSORBED || ( _numberOfPhotonsAbsorbed == 0 && _electronIsMoving ) );
+    }
     
     /*
      * Absorbs the specified photon.
