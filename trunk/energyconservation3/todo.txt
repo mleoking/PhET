@@ -7,9 +7,8 @@ After some combination of recording and playback, the track graphic becomes diss
         
 -When coefficient of friction is turned to maximum and there is a lot of
 gravity (maximum) the skater falls through the track at the bottom point and
-bounces around the bottom of the screen
-before shooting off in a random direction (his exact reaction varies each
-time).
+bounces around the bottom of the screen before shooting off in a random direction 
+(his exact reaction varies each time).
 
 -A mass of 0.0 kg can be selected for the skater who will then disappear and
 cannot be brought back without setting the mass above zero even if the "Return Skater"
