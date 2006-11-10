@@ -29,14 +29,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentListener;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 /**
  * ComplexModule
- * <p>
+ * <p/>
  * This module has controls for putting lots of molecules in the box and
- * charting their properties is different ways
+ * charting their properties is different ways, and for running experiments
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -53,7 +54,7 @@ public class ComplexModule extends MRModule {
      *
      */
     public ComplexModule() {
-        super( SimStrings.get( "Module.complexModuleTitle" ));
+        super( SimStrings.get( "Module.complexModuleTitle" ) );
 
         // Disable marking of the selected molecule and its nearest neighbor
         AbstractSimpleMoleculeGraphic.setMarkSelectedMolecule( true );
@@ -122,7 +123,7 @@ public class ComplexModule extends MRModule {
         }
     }
 
-    public void setStripChartVisible( boolean visible, DialogCheckBox showStripChartBtn ) {
+    public void setStripChartVisible( boolean visible ) {
         if( visible ) {
             final MoleculePopulationsStripChart stripChart = new MoleculePopulationsStripChart( getMRModel(), getClock(), 500, 0, 20, 1 );
             ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
@@ -137,7 +138,7 @@ public class ComplexModule extends MRModule {
             stripChartCanvas.setPreferredSize( new Dimension( chartPanel.getPreferredSize() ) );
 
             // Add a rescale button
-            JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale"));
+            JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale" ) );
             rescaleBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     stripChart.rescale();
@@ -145,20 +146,29 @@ public class ComplexModule extends MRModule {
             } );
             PSwing rescaleNode = new PSwing( stripChartCanvas, rescaleBtn );
             rescaleNode.setOffset( chartPanel.getPreferredSize().getWidth() - rescaleNode.getFullBounds().getWidth() - 10,
-                                   chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() - 10);
+                                   chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() - 10 );
             stripChartCanvas.addScreenChild( rescaleNode );
 
             stripChartDlg.getContentPane().add( stripChartCanvas );
             stripChartDlg.pack();
             stripChartDlg.setVisible( true );
-
-            if( showStripChartBtn != null ) {
-                stripChartDlg.addComponentListener( showStripChartBtn );
-            }
         }
         else if( stripChartNode != null ) {
             stripChartNode = null;
             stripChartDlg.setVisible( false );
+        }
+    }
+
+    /**
+     * Variant that hooks a ComponentListener to the dialog, so it will knwo if the
+     * user has closed the dialog by clicking on the X in its frame.
+     * @param visible
+     * @param showStripChartBtn
+     */
+    public void setStripChartVisible( boolean visible, ComponentListener showStripChartBtn ) {
+        setStripChartVisible( visible );
+        if( visible && showStripChartBtn != null ) {
+            stripChartDlg.addComponentListener( showStripChartBtn );
         }
     }
 
