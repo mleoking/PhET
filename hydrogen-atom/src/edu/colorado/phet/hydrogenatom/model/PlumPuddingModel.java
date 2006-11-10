@@ -239,13 +239,26 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     }
     
     /*
-     * Absorbs the specified photon.
+     * Attempts to absorb the specified photon.
+     * @param photon
+     * @param returns true or false
      */
-    private void absorbPhoton( Photon photon ) {
-        _numberOfPhotonsAbsorbed += 1;
-        assert( _numberOfPhotonsAbsorbed <= MAX_PHOTONS_ABSORBED );
-        PhotonAbsorbedEvent event = new PhotonAbsorbedEvent( this, photon );
-        firePhotonAbsorbedEvent( event );
+    private boolean absorbPhoton( Photon photon ) {
+        boolean absorbed = false;
+        if ( canAbsorb( photon ) ) {
+            Point2D electronPosition = getElectronPosition();
+            Point2D photonPosition = photon.getPosition();
+            if ( pointsCollide( electronPosition, photonPosition, PHOTON_ELECTRON_COLLISION_THRESHOLD ) ) {
+                if ( Math.random() < PHOTON_ABSORPTION_PROBABILITY ) {
+                    _numberOfPhotonsAbsorbed += 1;
+                    assert( _numberOfPhotonsAbsorbed <= MAX_PHOTONS_ABSORBED );
+                    PhotonAbsorbedEvent event = new PhotonAbsorbedEvent( this, photon );
+                    firePhotonAbsorbedEvent( event );
+                    absorbed = true;
+                }
+            }
+        }
+        return absorbed;
     }
     
     /*
@@ -276,27 +289,13 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     
     /**
-     * Moves a photon.
-     * A collision occurs when a photon comes "close" to the electron.
-     * If a collision occurs, there is a probability of absorption.
+     * Tries to absorb the photon.
+     * If it's not absorbed, the photon is moved.
      * 
      * @param photon
      */
     public void movePhoton( Photon photon, double dt ) {
-        
-        boolean absorbed = false;
-        
-        if ( canAbsorb( photon ) ) {
-            Point2D electronPosition = getElectronPosition();
-            Point2D photonPosition = photon.getPosition();
-            if ( pointsCollide( electronPosition, photonPosition, PHOTON_ELECTRON_COLLISION_THRESHOLD ) ) {
-                if ( Math.random() < PHOTON_ABSORPTION_PROBABILITY ) {
-                    absorbPhoton( photon );
-                    absorbed = true;
-                }
-            }
-        }
-        
+        boolean absorbed = absorbPhoton( photon );
         if ( !absorbed ) {
             super.movePhoton( photon, dt );
         }
