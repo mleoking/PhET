@@ -32,7 +32,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     private static final int GROUND_STATE = 1;
     
     /* Radius of each orbit supported by this model */
-    private static final double[] ORBIT_RADII = { 15, 45, 82, 125, 175, 237 };
+    private static final double[] ORBIT_RADII = { 15, 44, 81, 124, 174, 233 };
     
     /* how close a photon and electron must be to collide */
     private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = PhotonNode.DIAMETER / 2;
