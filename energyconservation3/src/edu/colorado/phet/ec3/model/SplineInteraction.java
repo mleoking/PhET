@@ -134,8 +134,9 @@ public class SplineInteraction {
         newVelocity.add( collisionSpline.getUnitNormalVector( x ).getScaledInstance( -perpPart ) );
 
         //override for testing
-        double alpha = 5;
-        double speedScale = 1.0 * Math.exp( -alpha * body.getFrictionCoefficient() );
+//        double alpha = 5;
+//        double speedScale = 1.0 * Math.exp( -alpha * body.getFrictionCoefficient() );
+        double speedScale = body.getCoefficientOfRestitution();
         double newSpeed = body.getSpeed() * speedScale;
         if( newSpeed > origSpeed ) {
             throw new RuntimeException( "Body gained speed on collision" );
