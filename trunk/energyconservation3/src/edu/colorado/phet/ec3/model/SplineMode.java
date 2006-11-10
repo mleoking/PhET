@@ -117,9 +117,8 @@ public class SplineMode implements UpdateMode {
                     double gainedHeat = body.getThermalEnergy() - origState.getThermalEnergy();
                     System.out.println( "gained " + gainedHeat + " joules of heat" );
                     if( gainedHeat > gainedEnergyValue ) {
-                        double valueByWhichToReduceHeat = gainedHeat - gainedEnergyValue;
-                        body.addThermalEnergy( -valueByWhichToReduceHeat );
-                        System.out.println( "Reduced heat to solve energy crisis." );
+                        body.addThermalEnergy( -gainedEnergyValue );
+                        System.out.println( "Reduced heat to solve energy crisis: newError=" + origState.getEnergyDifferenceAbs( body ) );
                         fixed = true;
                     }
                     else {
