@@ -36,7 +36,7 @@ public class Floor {
     }
 
     private void stepInTime( Body b, double dt ) {
-        if( b.getMinY() < y ) {
+        if( b.getMinY() < y && !b.isSplineMode() ) {
             double origEnergy = b.getTotalEnergy();
             double overshoot = b.getMinY() - y;
             b.setAttachmentPointPosition( b.getX(), b.getY() - overshoot );
