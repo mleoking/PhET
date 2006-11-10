@@ -1,7 +1,6 @@
 - With strip chart up for a long time, the sim choked
 - Make most Reaction methods static
 - Use CollisionParams to replace individual computations of the same thing
-- Icons and molecules in energy panel need to overlap
 - Phet logo should be centered over the control panel
 - Option to show bonds of selected molecule only
 - Thermometer
@@ -176,3 +175,10 @@ Done
 11-08-06 - Simulation is resizable
 11-08-06 - Added thermometer
 11-08-06 - Simple panel reactions are consistently reversible
+
+11-08-06 - Clock runs at 1/3x when single stepping so you can see the
+    gray bar go up the profile
+11-08-06 - Added legend to the energy pane
+11-08-06 - On experiment panel, bonds are off by default
+11-08-06 - On experiment panel, bonds are off by default
+11-08-06 - Icons and molecules in energy panel need to overlap
