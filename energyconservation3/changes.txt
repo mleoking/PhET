@@ -1,4 +1,4 @@
-1.02.14
+1.02.14 (11-10-2006)
 Bugfix: History buttons are displaying total energy without thermal, and calling it total.
             -Added a thermal energy readout, and fix the total energy value to reflect all energy (not just mechanical energy).
 Reduced maximum allowed friction.
