@@ -95,6 +95,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     private PPath upperPane;
     private PPath moleculePane;
     private EnergyProfileGraphic energyProfileGraphic;
+    private PNode curvePaneLegend;
 
     /**
      *
@@ -192,6 +193,14 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     }
 
     /**
+     * Sets the visibility of the legend for the profile curve
+     * @param visible
+     */
+    public void setProfileLegendVisible( boolean visible ) {
+        curvePaneLegend.setVisible( visible );
+    }
+
+    /**
      * Sets the visibility of the total energy line
      *
      * @param visible
@@ -254,8 +263,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         yAxis.setOffset( curveAreaInsets.left / 2, curvePane.getFullBounds().getHeight() / 2 );
         curvePane.addChild( yAxis );
 
-        // Add a legend
-        PNode legend = new PNode();
+        // Add a curvePaneLegend
+        curvePaneLegend = new PNode();
         Line2D.Double legendLine = new Line2D.Double( 0, 0, 15, 0 );
         PPath totalEnergyLine = new PPath( legendLine );
         totalEnergyLine.setStroke( TotalEnergyLine.lineStroke );
@@ -263,8 +272,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         PText totalEnergyText = new PText( SimStrings.get( "EnergyView.Legend.totalEnergy" ) );
         totalEnergyText.setFont( labelFont );
         totalEnergyText.setTextPaint( Color.white );
-        legend.addChild( totalEnergyLine );
-        legend.addChild( totalEnergyText );
+        curvePaneLegend.addChild( totalEnergyLine );
+        curvePaneLegend.addChild( totalEnergyText );
 
         PPath potentialEnergyLine = new PPath( legendLine );
         potentialEnergyLine.setStroke( TotalEnergyLine.lineStroke );
@@ -272,8 +281,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         PText potentialEnergyText = new PText( SimStrings.get( "EnergyView.Legend.potentialEnergy" ) );
         potentialEnergyText.setFont( labelFont );
         potentialEnergyText.setTextPaint( Color.white );
-        legend.addChild( potentialEnergyLine );
-        legend.addChild( potentialEnergyText );
+        curvePaneLegend.addChild( potentialEnergyLine );
+        curvePaneLegend.addChild( potentialEnergyText );
 
         Insets insets = new Insets( 5, 30, 0, 30 );
         potentialEnergyLine.setOffset( insets.left,
@@ -285,8 +294,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                                    insets.top );
         totalEnergyLine.setOffset( totalEnergyText.getOffset().getX() - 10 - totalEnergyLine.getFullBounds().getWidth(),
                                    insets.top + totalEnergyText.getFullBounds().getHeight() / 2 );
-        legend.setOffset( 0, 0 );
-        curvePane.addChild( legend );
+        curvePaneLegend.setOffset( 0, 0 );
+        curvePane.addChild( curvePaneLegend );
 
         return curvePane;
     }

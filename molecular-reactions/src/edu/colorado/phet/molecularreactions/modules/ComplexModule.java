@@ -15,17 +15,13 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.util.PieChartNode;
-import edu.colorado.phet.molecularreactions.util.StripChart;
 import edu.colorado.phet.molecularreactions.util.DialogCheckBox;
 import edu.colorado.phet.molecularreactions.view.*;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChartNode;
-import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChart;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsStripChart;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import edu.umd.cs.piccolo.PNode;
 import org.jfree.chart.ChartPanel;
 
@@ -75,6 +71,7 @@ public class ComplexModule extends MRModule {
 
         // Don't show the total energy line on the energy view
         getEnergyView().setTotalEnergyLineVisible( false );
+        getEnergyView().setProfileLegendVisible( false );
     }
 
     public void activate() {
