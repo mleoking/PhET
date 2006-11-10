@@ -25,9 +25,9 @@ public class BohrModel extends AbstractHydrogenAtom {
     // Debug
     //----------------------------------------------------------------------------
     
-    public final boolean DEBUG_ASBORPTION_ENABLED = true;
-    public final boolean DEBUG_EMISSION_ENABLED = true;
-    public final boolean DEBUG_STIMULATED_EMISSION_ENABLED = true; 
+    public static boolean DEBUG_ASBORPTION_ENABLED = true;
+    public static boolean DEBUG_EMISSION_ENABLED = true;
+    public static boolean DEBUG_STIMULATED_EMISSION_ENABLED = true; 
     
     //----------------------------------------------------------------------------
     // Private class data
@@ -56,6 +56,9 @@ public class BohrModel extends AbstractHydrogenAtom {
     
     /* wavelengths must be less than this close to be considered equal */
     private static final double WAVELENGTH_CLOSENESS_THRESHOLD = 1;
+    
+    /* How close an emitted photon is placed to the photon that causes stimulated emission */
+    private static final double STIMULATED_EMISSION_X_OFFSET = 10;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -303,7 +306,7 @@ public class BohrModel extends AbstractHydrogenAtom {
             return;
         }
         
-        if ( _electronState > GROUND_STATE ) {
+        if ( _electronState > GROUND_STATE && !photon.isEmitted() ) {
             
             // Do the photon and electron collide?
             Point2D electronPosition = getElectronPosition();
@@ -331,7 +334,9 @@ public class BohrModel extends AbstractHydrogenAtom {
                     
                     // New photon's properties
                     double wavelength = photon.getWavelength();
-                    Point2D position = new Point2D.Double( photon.getPosition().getX() + 5, photon.getPosition().getY() );
+                    final double x = photon.getX() + STIMULATED_EMISSION_X_OFFSET;
+                    final double y = photon.getY();
+                    Point2D position = new Point2D.Double( x, y );
                     double orientation = photon.getOrientation();
                     double speed = HAConstants.PHOTON_INITIAL_SPEED;
                     
