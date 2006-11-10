@@ -8,7 +8,7 @@ Skater can traverse the track while underground.
 Relabeled "Slow Motion" to "Playback Slow"
 Bugfix: After some combination of recording and playback, the track graphic becomes dissociated from the skater.
             The skater will continue to traverse the path where the track used to be, even after it has been dragged.
-            This solution is a bit of a hack, not elegant, passes tests, but not guaranteed accurate.
+                    This solution is a bit of a hack, not elegant, passes tests, but not guaranteed accurate.
 
 1.02.13 (11-10-2006)
 Set the bounciness to correspond to the bounciness slider.
