@@ -12,6 +12,8 @@ bounces around the bottom of the screen before shooting off in a random directio
 (his exact reaction varies each time).
         This problem is partially reduced.  Friction + Gravity + Track Curvature increases probability of getting this problem.
         
+
+        
 #################################################################
 Low Priority or Deprecated
 #######################################
