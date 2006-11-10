@@ -15,10 +15,7 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -27,6 +24,7 @@ import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.hydrogenatom.control.SliderControl;
+import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.hydrogenatom.model.HAModel;
 import edu.colorado.phet.hydrogenatom.model.RutherfordScattering;
@@ -57,6 +55,9 @@ public class DeveloperControlsDialog extends JDialog {
     private SliderControl _ticksPerAlphaParticleSlider;
     private JCheckBox _particleLimitCheckBox;
     private JCheckBox _rutherfordScatteringOutputCheckBox;
+    private JCheckBox _bohrAbsorptionCheckBox;
+    private JCheckBox _bohrEmissionCheckBox;
+    private JCheckBox _bohrStimulatedEmissionCheckBox;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,27 +82,36 @@ public class DeveloperControlsDialog extends JDialog {
     
     private JPanel createInputPanel() {
 
-        EventListener listener = new EventListener();
-
         // Photon production
         double ticksPerPhoton = _module.getGun().getTicksPerPhoton();
         _ticksPerPhotonSlider = new SliderControl( ticksPerPhoton, 1, 20, 20, 0, 1, "Fired 1 photon every", "ticks", 3, SLIDER_INSETS );
-        _ticksPerPhotonSlider.addChangeListener( listener );
               
         // Alpha Particle production
         double ticksPerAlphaParticle = _module.getGun().getTicksPerAlphaParticle();
         _ticksPerAlphaParticleSlider = new SliderControl( ticksPerAlphaParticle, 1, 20, 20, 0, 1, "Fired 1 alpha particle", "ticks", 3, SLIDER_INSETS );
-        _ticksPerAlphaParticleSlider.addChangeListener( listener );
         
         // Limits model to one particle at a time
         _particleLimitCheckBox = new JCheckBox( "Limit model to 1 particle" );
         _particleLimitCheckBox.setSelected( HAModel.isSingleParticleLimitEnabled() );
-        _particleLimitCheckBox.addChangeListener( listener );
         
         // Enables debug output from Rutherford Scattering algorithm
         _rutherfordScatteringOutputCheckBox = new JCheckBox( "Rutherford Scattering debug output" );
-        _rutherfordScatteringOutputCheckBox.setSelected( RutherfordScattering.isDebugOutputEnabled() );
+        _rutherfordScatteringOutputCheckBox.setSelected( RutherfordScattering.DEBUG_OUTPUT_ENABLED );
+        
+        // Bohr absorption/emission enables
+        _bohrAbsorptionCheckBox = new JCheckBox( "absorption enabled", BohrModel.DEBUG_ASBORPTION_ENABLED );
+        _bohrEmissionCheckBox = new JCheckBox( "emission enabled", BohrModel.DEBUG_EMISSION_ENABLED );
+        _bohrStimulatedEmissionCheckBox = new JCheckBox( "stimulated emission enabled", BohrModel.DEBUG_STIMULATED_EMISSION_ENABLED );
+        
+        // Event handling
+        EventListener listener = new EventListener();
+        _ticksPerPhotonSlider.addChangeListener( listener );
+        _ticksPerAlphaParticleSlider.addChangeListener( listener );
+        _particleLimitCheckBox.addChangeListener( listener );
         _rutherfordScatteringOutputCheckBox.addChangeListener( listener );
+        _bohrAbsorptionCheckBox.addChangeListener( listener );
+        _bohrEmissionCheckBox.addChangeListener( listener );
+        _bohrStimulatedEmissionCheckBox.addChangeListener( listener );
         
         // Layout
         JPanel panel = new JPanel();
@@ -117,6 +127,11 @@ public class DeveloperControlsDialog extends JDialog {
         layout.addComponent( _particleLimitCheckBox, row++, 0 );
         layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _rutherfordScatteringOutputCheckBox, row++, 0 );
+        layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( new JLabel( "Bohr model:"), row++, 0 );
+        layout.addComponent( _bohrAbsorptionCheckBox, row++, 0 );
+        layout.addComponent( _bohrEmissionCheckBox, row++, 0 );
+        layout.addComponent( _bohrStimulatedEmissionCheckBox, row++, 0 );
         
         return panel;
     }
@@ -143,6 +158,15 @@ public class DeveloperControlsDialog extends JDialog {
             else if ( source == _rutherfordScatteringOutputCheckBox ) {
                 handleRutherfordScatteringOutputCheckBox();
             }
+            else if ( source == _bohrAbsorptionCheckBox ) {
+                handleBohrAbsorptionEmission();
+            }
+            else if ( source == _bohrEmissionCheckBox ) {
+                handleBohrAbsorptionEmission();
+            }
+            else if ( source == _bohrStimulatedEmissionCheckBox ) {
+                handleBohrAbsorptionEmission();
+            }
         }
     }
     
@@ -161,6 +185,12 @@ public class DeveloperControlsDialog extends JDialog {
     }
     
     private void handleRutherfordScatteringOutputCheckBox() {
-        RutherfordScattering.setDebugOutputEnabled( _rutherfordScatteringOutputCheckBox.isSelected() );
+        RutherfordScattering.DEBUG_OUTPUT_ENABLED = _rutherfordScatteringOutputCheckBox.isSelected();
+    }
+    
+    private void handleBohrAbsorptionEmission() {
+        BohrModel.DEBUG_ASBORPTION_ENABLED = _bohrAbsorptionCheckBox.isSelected();
+        BohrModel.DEBUG_EMISSION_ENABLED = _bohrEmissionCheckBox.isSelected();
+        BohrModel.DEBUG_STIMULATED_EMISSION_ENABLED = _bohrStimulatedEmissionCheckBox.isSelected();
     }
 }

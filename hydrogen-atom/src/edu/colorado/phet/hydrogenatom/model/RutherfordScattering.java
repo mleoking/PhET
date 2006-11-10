@@ -29,7 +29,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 public class RutherfordScattering {
 
     // Prints debugging output
-    private static boolean _debugOutputEnabled = false;
+    public static boolean DEBUG_OUTPUT_ENABLED = false;
     
     // Formatter, for debug output
     private static final DecimalFormat F = new DecimalFormat( "0.00" );
@@ -118,7 +118,7 @@ public class RutherfordScattering {
         double yNew = -rNew * Math.cos( phiNew );
         
         // Debugging output, in coordinates relative to atom's center
-        if ( _debugOutputEnabled ) {
+        if ( DEBUG_OUTPUT_ENABLED ) {
             System.out.println( "RutherfordScattering.moveParticle" );
             System.out.println( "  particle id=" + alphaParticle.getId() );
             System.out.println( "  atom type=" + atom.getClass().getName() );
@@ -188,23 +188,5 @@ public class RutherfordScattering {
             D = DB;
         }
         return D;
-    }
-
-    /**
-     * Enables debugging output.
-     * Used by Developer Controls dialog.
-     * 
-     * @param enabled true or false
-     */
-    public static void setDebugOutputEnabled( boolean enabled ) {
-        _debugOutputEnabled = enabled;
-    }
-    
-    /**
-     * Is debugging output enabled?
-     * @return true or false
-     */
-    public static boolean isDebugOutputEnabled() {
-        return _debugOutputEnabled;
     }
 }
