@@ -1,4 +1,4 @@
-1.02.13
+1.02.13 (11-10-2006)
 Set the bounciness to correspond to the bounciness slider.
 Set the minimum mass of the skater to 1.0 kg.
 Fixed a bug that caused save/load to fail sometimes.
