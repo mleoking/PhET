@@ -1,9 +1,6 @@
 #################################################################
 Remaining Work
 #######################################
-
-After some combination of recording and playback, the track graphic becomes dissociated from the skater.
-        The skater will continue to traverse the path where the track used to be, even after it has been dragged.
         
 Save/Load not working sometimes
         Could be: throwing an exception, "body.debug angles inconsistent"
@@ -79,3 +76,8 @@ when they click "bring back the skater" or "return skater" the skater will retur
 immediately start thrusting in that direction regardless of what arrow keys are or are not
 being pushed.  The only way to fix this is to reset the entire simulation.
         We couldn't reproduce this.
+        
+After some combination of recording and playback, the track graphic becomes dissociated from the skater.
+        The skater will continue to traverse the path where the track used to be, even after it has been dragged.
+        This solution is a bit of a hack.
+        

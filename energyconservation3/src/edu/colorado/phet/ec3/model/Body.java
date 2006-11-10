@@ -66,6 +66,12 @@ public class Body {
         stateRecordHistory.clear();
     }
 
+    public void stayInSplineModeNewSpline( AbstractSpline spline ) {
+        if( getMode() instanceof SplineMode ) {
+            SplineMode splineMode = (SplineMode)getMode();
+            splineMode.setSpline( spline );
+        }
+    }
 
     public static class StateRecord {
         private ArrayList states = new ArrayList();
