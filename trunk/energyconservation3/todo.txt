@@ -3,7 +3,7 @@ Remaining Work
 #######################################
 
 After some combination of recording and playback, the track graphic becomes dissociated from the skater.
-        The skater will continue to traverse the path where the track used to be, ever after it has been dragged.
+        The skater will continue to traverse the path where the track used to be, even after it has been dragged.
         
 -If the skater goes off screen and the user is holding down an arrow key
 when they click "bring back the skater" or "return skater" the skater will return and
