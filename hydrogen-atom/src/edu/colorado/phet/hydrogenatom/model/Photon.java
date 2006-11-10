@@ -98,7 +98,7 @@ public class Photon extends MovingObject implements ModelElement {
      * Was this photon emitted by the atom?
      * @return true or false
      */
-    public boolean wasEmitted() {
+    public boolean isEmitted() {
         return _emitted;
     }
     

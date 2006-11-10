@@ -235,7 +235,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      * - we've emitted out last photon and haven't completed oscillation.
      */
     private boolean canAbsorb( Photon photon ) {
-        return !( photon.wasEmitted() || _numberOfPhotonsAbsorbed == MAX_PHOTONS_ABSORBED || ( _numberOfPhotonsAbsorbed == 0 && _electronIsMoving ) );
+        return !( photon.isEmitted() || _numberOfPhotonsAbsorbed == MAX_PHOTONS_ABSORBED || ( _numberOfPhotonsAbsorbed == 0 && _electronIsMoving ) );
     }
     
     /*
