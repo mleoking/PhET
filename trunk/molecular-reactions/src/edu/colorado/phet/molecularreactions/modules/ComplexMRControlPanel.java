@@ -47,7 +47,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
                                                          1, 1, 1, 1,
                                                          GridBagConstraints.NORTH,
                                                          GridBagConstraints.NONE,
-                                                         new Insets( 10, 0, 0, 0 ), 0, 0 );
+                                                         new Insets( 5, 0, 0, 0 ), 0, 0 );
 
         // Legend
 //        Legend legend = new Legend();

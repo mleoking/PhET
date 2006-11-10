@@ -53,8 +53,7 @@ public class ExperimentSetupPanel extends JPanel {
                                                                    0,
                                                                    Math.PI * 2 );
 
-        setBorder( ControlBorderFactory.createPrimaryBorder( "" ) );
-
+        // Create the controls
         JLabel topLineLbl = new JLabel( SimStrings.get( "ExperimentSetup.topLine" ) );
         JLabel numALbl = new JLabel( SimStrings.get( "ExperimentSetup.numA" ) );
         JLabel numBCLbl = new JLabel( SimStrings.get( "ExperimentSetup.numBC" ) );
@@ -67,6 +66,9 @@ public class ExperimentSetupPanel extends JPanel {
         numCTF = new RangeLimitedIntegerTextField( 0, 99 );
 
         JButton goBtn = new GoStopResetBtn( module );
+
+        // Add a border
+        setBorder( ControlBorderFactory.createPrimaryBorder( "Experimental Controls" ) );
 
         // Lay out the controls
         GridBagConstraints labelGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
@@ -101,6 +103,9 @@ public class ExperimentSetupPanel extends JPanel {
         add( goBtn, labelGbc );
     }
 
+    /**
+     * Adds molecules to the model as specified in the controls
+     */
     private void initModel() {
         generateMolecules( MoleculeA.class, Integer.parseInt( numATF.getText() ));
         generateMolecules( MoleculeBC.class, Integer.parseInt( numBCTF.getText() ));
@@ -122,6 +127,9 @@ public class ExperimentSetupPanel extends JPanel {
         }
     }
 
+    /**
+     * Three state button for controlling the experiment
+     */
     private class GoStopResetBtn extends JButton {
         private Object go = new Object();
         private Object stop = new Object();
@@ -130,6 +138,9 @@ public class ExperimentSetupPanel extends JPanel {
         private String goString = SimStrings.get( "ExperimentSetup.go" );
         private String stopString = SimStrings.get( "ExperimentSetup.stop" );
         private String setupString = SimStrings.get( "ExperimentSetup.setup" );
+        private Color goColor = Color.green;
+        private Color stopColor = Color.red;
+        private Color setupColor = Color.yellow;
         private IClock clock;
         private MRModule module;
 
@@ -137,24 +148,10 @@ public class ExperimentSetupPanel extends JPanel {
             this.clock = module.getClock();
             this.module = module;
             state = setup;
-            setText( getTextForState() );
+            setText( setupString );
+            setBackground( setupColor );
             addActionListener( new ActionHandler() );
         }
-
-        private String getTextForState() {
-            String result = null;
-            if( state == setup ) {
-                result = setupString;
-            }
-            else if( state == go ) {
-                result = goString;
-            }
-            else if( state == stop ) {
-                result = stopString;
-            }
-            return result;
-        }
-
 
         private class ActionHandler implements ActionListener {
             public void actionPerformed( ActionEvent e ) {
@@ -162,18 +159,24 @@ public class ExperimentSetupPanel extends JPanel {
                     clock.start();
                     initModel();
                     state = stop;
-                    setText( getTextForState() );
+                    setText( stopString );
+                    setBackground( stopColor );
+//                    setForeground( stopColor );
                 }
                 else if( state == stop ) {
                     clock.pause();
                     state = setup;
-                    setText( getTextForState() );
+                    setText( setupString );
+                    setBackground( setupColor );
+//                    setForeground( setupColor );
                 }
                 else if( state == setup ) {
                     module.reset();
                     clock.pause();
                     state = go;
-                    setText( getTextForState() );
+                    setText( goString );
+                    setBackground( goColor );
+//                    setForeground( goColor );
                 }
             }
         }
