@@ -15,6 +15,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.util.RangeLimitedIntegerTextField;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
+import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.model.*;
 
 import javax.swing.*;
@@ -34,10 +35,10 @@ public class ExperimentSetupPanel extends JPanel {
     private JTextField numABTF;
     private JTextField numCTF;
     private MoleculeParamGenerator moleculeParamGenerator;
-    private MRModule module;
+    private ComplexModule module;
 
 
-    public ExperimentSetupPanel( MRModule module ) {
+    public ExperimentSetupPanel( ComplexModule module ) {
         super( new GridBagLayout() );
         this.module = module;
 
@@ -106,11 +107,13 @@ public class ExperimentSetupPanel extends JPanel {
     /**
      * Adds molecules to the model as specified in the controls
      */
-    private void initModel() {
+    private void startExperiment() {
         generateMolecules( MoleculeA.class, Integer.parseInt( numATF.getText() ));
         generateMolecules( MoleculeBC.class, Integer.parseInt( numBCTF.getText() ));
         generateMolecules( MoleculeAB.class, Integer.parseInt( numABTF.getText() ));
         generateMolecules( MoleculeC.class, Integer.parseInt( numCTF.getText() ));
+
+        module.setStripChartVisible( true );
     }
 
     private void generateMolecules( Class moleculeClass, int numMolecules ) {
@@ -157,18 +160,16 @@ public class ExperimentSetupPanel extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 if( state == go ) {
                     clock.start();
-                    initModel();
+                    startExperiment();
                     state = stop;
                     setText( stopString );
                     setBackground( stopColor );
-//                    setForeground( stopColor );
                 }
                 else if( state == stop ) {
                     clock.pause();
                     state = setup;
                     setText( setupString );
                     setBackground( setupColor );
-//                    setForeground( setupColor );
                 }
                 else if( state == setup ) {
                     module.reset();
@@ -176,7 +177,6 @@ public class ExperimentSetupPanel extends JPanel {
                     state = go;
                     setText( goString );
                     setBackground( goColor );
-//                    setForeground( goColor );
                 }
             }
         }
