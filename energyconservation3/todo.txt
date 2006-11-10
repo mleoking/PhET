@@ -14,9 +14,6 @@ being pushed.  The only way to fix this is to reset the entire simulation.
 Save/Load not working sometimes
         Could be: throwing an exception, "body.debug angles inconsistent"
         This may be fixed now; I was unable to reproduce the problem so I can't claim this with much certainty.
-               
-- slow motion button doesn't seem to work right
-        Clarifying...
 
 -When coefficient of friction is turned to maximum and there is a lot of
 gravity (maximum) the skater falls through the track at the bottom point and
@@ -79,3 +76,6 @@ Jetpack is shown in an incorrect position when the character is on the track.
 cannot move passed
 the vertex and will bounce off of it.
         This only happens if it's not 'rollercoaster mode' and if the skater flys away from the track.
+        
+- slow motion button doesn't seem to work right
+        Clarifying...
