@@ -71,10 +71,6 @@ public class SplineMode implements UpdateMode {
     boolean fixEnergyOnSpline( final Body origState, double x2, final Body body, double epsilon ) {
         Body beforeFix = body.copyState();
         //look for an adjacent position with a more accurate energy
-//        double epsilon = 0.01;//1E-7
-
-//        double epsilon = 0.0001;//0.5 sometimes     
-//        double epsilon = 0.01;
         double x3 = getDistAlongSplineBinarySearch( x2, epsilon, 60, 5, new AbstractSpline.SplineCriteria() {
             public double evaluate( Point2D loc ) {
                 body.setAttachmentPointPosition( loc );
@@ -116,8 +112,7 @@ public class SplineMode implements UpdateMode {
         if( !fixed ) {
             //look for a nearby rotation and/or spline position that conserves energy...?
             //wait until upside up to stop in a well
-            if( netForce.getMagnitude() < 5000 && ( Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) < 0.1 ) )
-            {
+            if( netForce.getMagnitude() < 5000 && ( Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) < 0.1 ) ) {
                 System.out.println( "Looks like the bottom of a well: Stopping..." );
                 setBodyState( origState, body );
             }
@@ -128,20 +123,26 @@ public class SplineMode implements UpdateMode {
                     boolean finalGreater = finalE > origE;
                     String text = finalGreater ? "Gained Energy" : "Lost Energy";
                     System.out.println( "After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ", rolling back changes: " + text );
-                    System.out.println( "Attempting to fix the energy through the height." );
-                    for( int i = 0; i < 10 && !fixed; i++ ) {
-                        fixed = fixed || new EnergyConserver().conserveEnergyViaH( body, origState.getTotalEnergy() );
+                    if( origState.getEnergyDifferenceAbs( body ) < 10 ) {
+                        System.out.println( "Attempting to fix the energy through the height." );
+                        for( int i = 0; i < 10 && !fixed; i++ ) {
+                            fixed = fixed || new EnergyConserver().conserveEnergyViaH( body, origState.getTotalEnergy() );
+                        }
+                        System.out.println( "after some iterations of fixing the height, fixed=" + fixed );
+//                    if( Math.abs( body.getY() - origState.getY() ) > 0.5 ) {
+                        if( Math.abs( body.getY() - origState.getY() ) > 0.1 ) {
+                            System.out.println( "had a huge change in vertical position to fix energy." );
+                            double dx = 0.2;
+                            body.setAttachmentPointPosition( origState.getAttachPoint().getX() + ( random.nextDouble() - 0.5 ) * 2 * dx, origState.getAttachPoint().getY() );
+                            AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( origState.getSpeed(), random.nextDouble() * Math.PI * 2 );
+                            body.setVelocity( newVelocity );
+                            body.setLastFallTime( spline, System.currentTimeMillis() );
+                            body.convertToFreefall();
+                            body.setFreeFallMode();
+                        }
                     }
-                    System.out.println( "after some iterations of fixing the height, fixed=" + fixed );
-                    if( Math.abs( body.getY() - origState.getY() ) > 0.5 ) {
-                        System.out.println( "had a huge change in vertical position to fix energy." );
-                        double dx = 0.2;
-                        body.setAttachmentPointPosition( origState.getAttachPoint().getX() + ( random.nextDouble() - 0.5 ) * 2 * dx, origState.getAttachPoint().getY() );
-                        AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( origState.getSpeed(), random.nextDouble() * Math.PI * 2 );
-                        body.setVelocity( newVelocity );
-                        body.setLastFallTime( spline, System.currentTimeMillis() );
-                        body.convertToFreefall();
-                        body.setFreeFallMode();
+                    else {
+                        System.out.println( "Energy error was more than 10, skipping correction." );
                     }
                     //setBodyState( origState, body );
                 }

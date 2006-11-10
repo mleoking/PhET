@@ -10,11 +10,6 @@ gravity (maximum) the skater falls through the track at the bottom point and
 bounces around the bottom of the screen before shooting off in a random direction 
 (his exact reaction varies each time).
 
--A mass of 0.0 kg can be selected for the skater who will then disappear and
-cannot be brought back without setting the mass above zero even if the "Return Skater"
-button is clicked. (maybe include an error message explaining how the mass of the
-skater cannot be zero)
-
 -If the friction menu is opened or the skater reset during the simulation
 the arrow keys to control thrust will scroll (up and down) the side menu as well (as far as I
 know this does NOT happen with the Skater Properties menu).
