@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- flesh out Bohr model
+- test Bohr state transitions
 - performance of Bohr degraded when I added absorb/emit code
 
 MEDIUM PRIORITY:
