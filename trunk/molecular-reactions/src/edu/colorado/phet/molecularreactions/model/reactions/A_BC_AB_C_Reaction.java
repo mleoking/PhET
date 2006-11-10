@@ -25,11 +25,10 @@ import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeColl
  * @version $Revision$
  */
 public class A_BC_AB_C_Reaction extends Reaction {
-    private static EnergyProfile energyProfile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
-                                                                    MRConfig.DEFAULT_REACTION_THRESHOLD,
-                                                                    MRConfig.DEFAULT_REACTION_THRESHOLD * .6,
-                                                                    100 );
-//50 );
+    private static EnergyProfile energyProfile = new EnergyProfile( MRConfig.DEAFULT_ENERGY_PROFILE.getLeftLevel(),
+                                                                    MRConfig.DEAFULT_ENERGY_PROFILE.getPeakLevel(),
+                                                                    MRConfig.DEAFULT_ENERGY_PROFILE.getRightLevel(),
+                                                                    MRConfig.DEAFULT_ENERGY_PROFILE.getThresholdWidth() );
     private MRModel model;
 
     /**
@@ -442,11 +441,12 @@ public class A_BC_AB_C_Reaction extends Reaction {
 
     /**
      * Returns the distance that the centers of two molecules must be apart for them to react
+     *
      * @param mA
      * @param mB
      * @return
      */
-    public static double getReactionOffset( AbstractMolecule mA, AbstractMolecule mB  ){
+    public static double getReactionOffset( AbstractMolecule mA, AbstractMolecule mB ) {
         double result = Double.POSITIVE_INFINITY;
         if( moleculesAreProperTypes( mA, mB ) ) {
             CollisionParams params = new CollisionParams( mA, mB );
@@ -463,7 +463,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
             // Get the distance the molecules would be apart from each other when a reaction occured
             double reactionDist = Math.max( params.getbMolecule().getRadius(), params.getFreeMolecule().getRadius() );
 
-            double distBetweenReactants = params.getbMolecule().getPosition().distance( params.getFreeMolecule().getPosition());
+            double distBetweenReactants = params.getbMolecule().getPosition().distance( params.getFreeMolecule().getPosition() );
             result = distBetweenReactants - reactionDist;
         }
         return result;

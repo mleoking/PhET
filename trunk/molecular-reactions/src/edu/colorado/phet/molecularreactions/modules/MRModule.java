@@ -92,7 +92,7 @@ public class MRModule extends Module {
         return spatialView;
     }
 
-    protected EnergyView getEnergyView() {
+    public EnergyView getEnergyView() {
         return energyView;
     }
 

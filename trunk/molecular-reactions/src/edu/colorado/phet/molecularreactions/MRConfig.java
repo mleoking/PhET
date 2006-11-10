@@ -1,5 +1,7 @@
 package edu.colorado.phet.molecularreactions;
 
+import edu.colorado.phet.molecularreactions.model.EnergyProfile;
+
 import javax.swing.*;
 import java.awt.*;/* Copyright 2003-2004, University of Colorado */
 
@@ -38,6 +40,10 @@ public class MRConfig {
     public static final double LAUNCHER_MAX_EXTENSION = 70;
     public static final double RUNNING_DT = 1;
     public static final double STEPPING_DT = 0.3;
+    public static final EnergyProfile DEAFULT_ENERGY_PROFILE = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
+                                                                                  MRConfig.DEFAULT_REACTION_THRESHOLD,
+                                                                                  MRConfig.DEFAULT_REACTION_THRESHOLD * .6,
+                                                                                  100 );
 
     // View Constants
     public static final int BAR_CHART_MAX_Y = 20;
