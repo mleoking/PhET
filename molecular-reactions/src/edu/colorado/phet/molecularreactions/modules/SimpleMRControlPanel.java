@@ -15,6 +15,7 @@ import edu.colorado.phet.molecularreactions.model.Launcher;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
+import edu.colorado.phet.molecularreactions.view.ReactionChooserPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,11 +39,14 @@ public class SimpleMRControlPanel extends MRControlPanel {
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                          1, 1, 1, 1,
                                                          GridBagConstraints.NORTH,
-                                                         GridBagConstraints.NONE,
+                                                         GridBagConstraints.HORIZONTAL,
                                                          new Insets( 10, 0, 0, 0 ), 0, 0 );
         launcherOptionsPanel = new LauncherOptionsPanel( module );
         add( launcherOptionsPanel, gbc );
 
+        add( new ReactionChooserPanel( module ), gbc );
+
+        gbc.fill = GridBagConstraints.NONE;
         JButton reloadBtn = new JButton( SimStrings.get("Control.reload"));
         reloadBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

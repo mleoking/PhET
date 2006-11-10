@@ -43,6 +43,12 @@ abstract public class Reaction {
         return energyProfile;
     }
 
+    public void setEnergyProfile( EnergyProfile energyProfile ) {
+        this.energyProfile.setLeftLevel( energyProfile.getLeftLevel());
+        this.energyProfile.setRightLevel( energyProfile.getRightLevel());
+        this.energyProfile.setPeakLevel( energyProfile.getPeakLevel());        
+    }
+
     public static ReactionCriteria getReactionCriteria() {
         return reactionCriteria;
     }
@@ -56,6 +62,7 @@ abstract public class Reaction {
         }
         return result;
     }
+
 
     //--------------------------------------------------------------------------------------------------
     // Abstract and template methods
