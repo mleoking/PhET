@@ -45,6 +45,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/10/06) - reduce radii of Bohr orbits 2-6 so that 6th orbit's dashed line fits fully in box
 (11/10/06) - make PlumPuddingNode automatically scale its image to match the model's radius
 (11/10/06) - reduce billiard ball and plum pudding radii to 30
 (11/10/06) - tried to make plum pudding look like "red cotton candy" but failed, asked for example
