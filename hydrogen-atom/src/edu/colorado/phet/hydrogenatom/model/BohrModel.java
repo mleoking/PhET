@@ -81,8 +81,6 @@ public class BohrModel extends AbstractHydrogenAtom {
         _electronAngle = RandomUtils.nextOrientation();
         _electronOffset = new Point2D.Double();
         updateElectronOffset();
-        
-        printStateTransitionTable();//XXX
     }
     
     //----------------------------------------------------------------------------
@@ -104,7 +102,6 @@ public class BohrModel extends AbstractHydrogenAtom {
     private void setElectronState( int state ) {
         assert( state >= GROUND_STATE && state <= GROUND_STATE + getNumberOfStates() - 1 );
         if ( state != _electronState ) {
-            System.out.println( "BohrModel.setElectronState " + _electronState + " -> " + state );//XXX 
             _electronState = state;
             notifyObservers( PROPERTY_ELECTRON_STATE );
         }
@@ -186,20 +183,6 @@ public class BohrModel extends AbstractHydrogenAtom {
             radii[n - 1] = n * n * groundOrbitRadius;
         }
         return radii;
-    }
-    
-    /**
-     * Prints a state transition table for photon absorption.
-     */
-    private void printStateTransitionTable() {
-        System.out.println( "Bohr photon absorption:" );
-        DecimalFormat formatter = new DecimalFormat( "0.0" );
-        final int maxState = GROUND_STATE + getNumberOfStates() - 1;
-        for ( int m = GROUND_STATE; m < maxState; m++ ) {
-            for ( int n = m + 1; n <= maxState; n++ ) {
-                System.out.println( "  " + m + " -> " + n + " = " + formatter.format( getWavelengthAbsorbed( m, n ) ) + " nm" );
-            }
-        }
     }
     
     //----------------------------------------------------------------------------
