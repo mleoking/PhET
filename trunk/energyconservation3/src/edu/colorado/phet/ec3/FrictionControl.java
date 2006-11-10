@@ -39,8 +39,14 @@ public class FrictionControl extends VerticalLayoutPanel {
             }
         } );
         modelSlider.setTextFieldVisible( false );
+        setIgnoreKeyEvents( true );
         modelSlider.setExtremumLabels( new JLabel( EnergySkateParkStrings.getString( "none" ) ), new JLabel( EnergySkateParkStrings.getString( "lots" ) ) );
         addFullWidth( modelSlider );
+
+    }
+
+    private void setIgnoreKeyEvents( boolean ignoreKeyEvents ) {
+        setFocusable( !ignoreKeyEvents );
     }
 
     public ModelSlider getModelSlider() {
