@@ -56,6 +56,7 @@ public class Body {
     private EnergyConservationModel energyConservationModel;
 
     private ArrayList stateRecordHistory = new ArrayList();
+    private boolean debugAnglesEnabled = false;
 
     public int getNumHistoryPoints() {
         return stateRecordHistory.size();
@@ -493,8 +494,10 @@ public class Body {
     }
 
     private void debugAngles() {
-        if( cmRotation != 0 && attachmentPointRotation != 0 ) {
-            throw new RuntimeException( "angles inconsistent" );
+        if( debugAnglesEnabled ) {
+            if( cmRotation != 0 && attachmentPointRotation != 0 ) {
+                throw new RuntimeException( "angles inconsistent" );
+            }
         }
     }
 
