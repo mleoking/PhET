@@ -19,6 +19,7 @@ import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
+import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
@@ -84,6 +85,7 @@ public class MRModel extends PublishingModel {
     public void setInitialConditions() {
         // Create the reaction object;
         reaction = new A_BC_AB_C_Reaction( this );
+        reaction.setEnergyProfile( MRConfig.DEAFULT_ENERGY_PROFILE );
 
         // Add a box
         box = new Box2D( new Point2D.Double( 30, 30 ),

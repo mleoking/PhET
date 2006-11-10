@@ -30,6 +30,10 @@ import java.awt.event.MouseEvent;
  */
 public class ReactionChooserPanel extends JPanel {
 
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private static EnergyProfile r1Profile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
                                                                 MRConfig.DEFAULT_REACTION_THRESHOLD,
                                                                 MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
@@ -44,7 +48,6 @@ public class ReactionChooserPanel extends JPanel {
                                                                 MRConfig.DEFAULT_REACTION_THRESHOLD * .7,
                                                                 MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
                                                                 100 );
-    private MRModule module;
 
     private static class Reaction {
         EnergyProfile energyProfile;
@@ -62,9 +65,16 @@ public class ReactionChooserPanel extends JPanel {
     private static Reaction R3 = new Reaction( r3Profile );
 
 
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
+
+    private MRModule module;
+
     private JRadioButton r1RB;
     private JRadioButton r2RB;
     private JRadioButton r3RB;
+    private JRadioButton designYourOwnRB;
     private Reaction currentReaction;
 
 
@@ -78,13 +88,16 @@ public class ReactionChooserPanel extends JPanel {
         r1RB = new JRadioButton();
         r2RB = new JRadioButton();
         r3RB = new JRadioButton();
+        designYourOwnRB = new JRadioButton();
         bg.add( r1RB );
         bg.add( r2RB );
         bg.add( r3RB );
+        bg.add( designYourOwnRB );
 
         r1RB.addActionListener( new ReactionSelectorRBAction() );
         r2RB.addActionListener( new ReactionSelectorRBAction() );
         r3RB.addActionListener( new ReactionSelectorRBAction() );
+        designYourOwnRB.addActionListener( new ReactionSelectorRBAction() );
 
         JLabel iconA = new JLabel( new MoleculeIcon( MoleculeA.class ) );
         iconA.addMouseListener( new MoleculeIconMouseAdapter( r1RB ) );
@@ -92,6 +105,8 @@ public class ReactionChooserPanel extends JPanel {
         iconBC.addMouseListener( new MoleculeIconMouseAdapter( r2RB ) );
         JLabel iconAB = new JLabel( new MoleculeIcon( MoleculeAB.class ) );
         iconAB.addMouseListener( new MoleculeIconMouseAdapter( r3RB ) );
+        JLabel designYourOwnLbl = new JLabel( SimStrings.get("ExperimentSetup.designYourOwn"));
+        designYourOwnLbl.addMouseListener( new MoleculeIconMouseAdapter( designYourOwnRB ));
 
         setLayout( new GridBagLayout() );
         int rbAnchor = GridBagConstraints.EAST;
@@ -105,6 +120,7 @@ public class ReactionChooserPanel extends JPanel {
         add( r1RB, gbc );
         add( r2RB, gbc );
         add( r3RB, gbc );
+        add( designYourOwnRB, gbc );
         gbc.gridy = 0;
         gbc.gridy = GridBagConstraints.RELATIVE;
         gbc.gridx = 1;
@@ -113,6 +129,7 @@ public class ReactionChooserPanel extends JPanel {
         add( iconA, gbc );
         add( iconBC, gbc );
         add( iconAB, gbc );
+        add( designYourOwnLbl, gbc );
 
         r1RB.setSelected( true );
         currentReaction = R1;
@@ -134,6 +151,9 @@ public class ReactionChooserPanel extends JPanel {
         }
         if( r3RB.isSelected() ) {
             currentReaction = R3;
+        }
+        if( designYourOwnRB.isSelected() ) {
+            module.getEnergyView().setProfileManipulable( designYourOwnRB.isSelected() );
         }
 
         module.getMRModel().getReaction().setEnergyProfile( currentReaction.getEnergyProfile() );

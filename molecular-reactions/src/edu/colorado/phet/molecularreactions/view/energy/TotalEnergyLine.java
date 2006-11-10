@@ -37,7 +37,6 @@ public class TotalEnergyLine extends PNode {
 
     private Line2D line;
     private PPath lineNode;
-//    private Stroke lineStroke = new PFixedWidthStroke( 1 );
     private Dimension bounds;
     private MRModel model;
     private double scale;
@@ -64,6 +63,9 @@ public class TotalEnergyLine extends PNode {
                 update();
             }
         });
+
+        setChildrenPickable( false );
+        setPickable( false );
     }
 
     public void update() {
