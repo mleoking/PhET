@@ -27,7 +27,6 @@ public class MoleculeCounter implements PublishingModel.ModelListener,
     private Class moleculeClass;
     // Flag to mark that we are adding or removing molecules from the model,
     // so that we don't respond to add/remove messages from the model
-    private boolean selfUpdating;
     private int cnt;
     private MRModel model;
 
@@ -56,7 +55,7 @@ public class MoleculeCounter implements PublishingModel.ModelListener,
     //--------------------------------------------------------------------------------------------------
 
     public void modelElementAdded( ModelElement element ) {
-        if( !selfUpdating && moleculeClass.isInstance( element ) ) {
+        if( moleculeClass.isInstance( element ) ) {
             setMoleculeCount();
         }
     }

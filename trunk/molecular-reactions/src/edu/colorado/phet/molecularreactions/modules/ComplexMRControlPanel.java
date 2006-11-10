@@ -19,6 +19,7 @@ import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.util.DialogCheckBox;
 import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
 import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
+import edu.colorado.phet.molecularreactions.view.ExperimentSetupPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -74,8 +75,9 @@ public class ComplexMRControlPanel extends MRControlPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add( moleculeInstanceControlPanel, gbc );
         add( optionsPanel, gbc );
+        add( new ExperimentSetupPanel( module ), gbc );
         gbc.fill = GridBagConstraints.NONE;
-        add( selectMoleculeBtn, gbc );
+//        add( selectMoleculeBtn, gbc );
         add( resetBtn, gbc );
     }
 
@@ -226,7 +228,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
 
         public void reset() {
             showStripChartBtn.setSelected( false );
-            showBondsBtn.setSelected( true );
+            showBondsBtn.setSelected( false );
 
             module.setStripChartVisible( showStripChartBtn.isSelected(), showStripChartBtn );
             module.setBarChartVisible( showBarChartBtn.isSelected() );

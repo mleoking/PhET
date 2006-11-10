@@ -78,7 +78,7 @@ public class MRModule extends Module {
         });
     }
     
-    protected void reset() {
+    public void reset() {
         getModel().removeAllModelElements();
         ( (MRModel)getModel() ).setInitialConditions();
         energyView.reset();
