@@ -2,6 +2,7 @@
 Bugfix: History buttons are displaying total energy without thermal, and calling it total.
     Added a thermal energy readout, and fix the total energy value to reflect all energy (not just mechanical energy).
 Reduced maximum allowed friction.
+Removed keypress focus from friction control (so it won't change while using thrust).
 
 1.02.13 (11-10-2006)
 Set the bounciness to correspond to the bounciness slider.
