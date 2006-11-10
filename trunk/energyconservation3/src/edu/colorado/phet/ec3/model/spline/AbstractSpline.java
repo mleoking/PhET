@@ -245,6 +245,17 @@ public abstract class AbstractSpline implements Cloneable {
         this.rollerCoasterMode = rollerCoasterMode;
     }
 
+    public double getDistance( AbstractSpline spline ) {
+        double sum = 0;
+        int count = 0;
+        for( int i = 0; i < getControlPoints().length && i < spline.getControlPoints().length; i++ ) {
+            sum += getControlPoints()[i].distance( spline.getControlPoints()[i] );
+            count++;
+        }
+
+        return sum / count + 100 * ( getControlPoints().length - spline.getControlPoints().length );
+    }
+
     public static interface SplineCriteria {
         double evaluate( Point2D loc );
     }

@@ -181,6 +181,51 @@ public class EnergyConservationModel {
         this.time = model.time;
         this.gravity = model.gravity;
         //todo: some model objects are not getting copied over correctly, body's spline strategy could refer to different splines
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body)bodies.get( i );
+            if( body.isSplineMode() ) {
+                AbstractSpline spline = body.getSpline();
+                if( !containsSpline( spline ) ) {
+//                    new RuntimeException( "Skater is on a track that the model doesn't currently know about" ).printStackTrace();
+                    AbstractSpline bestMatch = getBestSplineMatch( spline );
+                    if( bestMatch == null ) {
+                        System.out.println( "\"Skater is on a track that the model doesn't currently know about\" = " + "Skater is on a track that the model doesn't currently know about" );
+                    }
+                    else {
+                        body.stayInSplineModeNewSpline( bestMatch );
+                    }
+                }
+            }
+        }
+    }
+
+    private AbstractSpline getBestSplineMatch( AbstractSpline spline ) {
+        if( containsSpline( spline ) ) {
+            return spline;
+        }
+        else {
+            double bestScore = Double.POSITIVE_INFINITY;
+            AbstractSpline best = null;
+            for( int i = 0; i < splineSurfaces.size(); i++ ) {
+                SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
+                double score = spline.getDistance( splineSurface.getSpline() );
+                if( score < bestScore ) {
+                    bestScore = score;
+                    best = splineSurface.getSpline();
+                }
+            }
+            return best;
+        }
+    }
+
+    private boolean containsSpline( AbstractSpline spline ) {
+        for( int i = 0; i < splineSurfaces.size(); i++ ) {
+            SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
+            if( splineSurface.contains( spline ) ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public double timeSinceLastHistory() {

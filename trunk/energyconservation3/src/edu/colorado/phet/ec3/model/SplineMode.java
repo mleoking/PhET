@@ -300,4 +300,7 @@ public class SplineMode implements UpdateMode {
         return splineMode;
     }
 
+    public void setSpline( AbstractSpline spline ) {
+        this.spline = spline;
+    }
 }
