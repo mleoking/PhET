@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.controller.SelectReactionAction;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -30,57 +31,15 @@ import java.awt.event.MouseEvent;
  */
 public class ReactionChooserPanel extends JPanel {
 
-    //--------------------------------------------------------------------------------------------------
-    // Class fields and methods
-    //--------------------------------------------------------------------------------------------------
-
-    private static EnergyProfile r1Profile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
-                                                                MRConfig.DEFAULT_REACTION_THRESHOLD,
-                                                                MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
-                                                                100 );
-
-    private static EnergyProfile r2Profile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
-                                                                MRConfig.DEFAULT_REACTION_THRESHOLD * .7,
-                                                                MRConfig.DEFAULT_REACTION_THRESHOLD * .4,
-                                                                100 );
-
-    private static EnergyProfile r3Profile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .7,
-                                                                MRConfig.DEFAULT_REACTION_THRESHOLD * .7,
-                                                                MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
-                                                                100 );
-
-    private static class Reaction {
-        EnergyProfile energyProfile;
-        public Reaction( EnergyProfile energyProfile ) {
-            this.energyProfile = energyProfile;
-        }
-
-        public EnergyProfile getEnergyProfile() {
-            return energyProfile;
-        }
-    }
-
-    private static Reaction R1 = new Reaction( r1Profile );
-    private static Reaction R2 = new Reaction( r2Profile );
-    private static Reaction R3 = new Reaction( r3Profile );
-
-
-    //--------------------------------------------------------------------------------------------------
-    // Instance fields and methods
-    //--------------------------------------------------------------------------------------------------
-
-    private MRModule module;
-
+    private AbstractAction selectionAction;
     private JRadioButton r1RB;
     private JRadioButton r2RB;
     private JRadioButton r3RB;
     private JRadioButton designYourOwnRB;
-    private Reaction currentReaction;
 
 
     public ReactionChooserPanel( MRModule module ) {
         super( new GridBagLayout() );
-        this.module = module;
 
         setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ExperimentSetup.reactionSelector" ) ) );
 
@@ -94,10 +53,11 @@ public class ReactionChooserPanel extends JPanel {
         bg.add( r3RB );
         bg.add( designYourOwnRB );
 
-        r1RB.addActionListener( new ReactionSelectorRBAction() );
-        r2RB.addActionListener( new ReactionSelectorRBAction() );
-        r3RB.addActionListener( new ReactionSelectorRBAction() );
-        designYourOwnRB.addActionListener( new ReactionSelectorRBAction() );
+        selectionAction = new SelectReactionAction( module, r1RB, r2RB, r3RB, designYourOwnRB );
+        r1RB.addActionListener( selectionAction  );
+        r2RB.addActionListener( selectionAction );
+        r3RB.addActionListener( selectionAction  );
+        designYourOwnRB.addActionListener( selectionAction  );
 
         JLabel iconA = new JLabel( new MoleculeIcon( MoleculeA.class ) );
         iconA.addMouseListener( new MoleculeIconMouseAdapter( r1RB ) );
@@ -105,8 +65,9 @@ public class ReactionChooserPanel extends JPanel {
         iconBC.addMouseListener( new MoleculeIconMouseAdapter( r2RB ) );
         JLabel iconAB = new JLabel( new MoleculeIcon( MoleculeAB.class ) );
         iconAB.addMouseListener( new MoleculeIconMouseAdapter( r3RB ) );
-        JLabel designYourOwnLbl = new JLabel( SimStrings.get("ExperimentSetup.designYourOwn"));
-        designYourOwnLbl.addMouseListener( new MoleculeIconMouseAdapter( designYourOwnRB ));
+        JLabel designYourOwnLbl = new JLabel( SimStrings.get( "ExperimentSetup.designYourOwn" ) );
+        designYourOwnLbl.addMouseListener( new MoleculeIconMouseAdapter( designYourOwnRB ) );
+
 
         setLayout( new GridBagLayout() );
         int rbAnchor = GridBagConstraints.EAST;
@@ -132,36 +93,11 @@ public class ReactionChooserPanel extends JPanel {
         add( designYourOwnLbl, gbc );
 
         r1RB.setSelected( true );
-        currentReaction = R1;
     }
 
-    private class ReactionSelectorRBAction extends AbstractAction {
-
-        public void actionPerformed( ActionEvent e ) {
-            setReaction();
-        }
-    }
-
-    private void setReaction() {
-        if( r1RB.isSelected() ) {
-            currentReaction = R1;
-        }
-        if( r2RB.isSelected() ) {
-            currentReaction = R2;
-        }
-        if( r3RB.isSelected() ) {
-            currentReaction = R3;
-        }
-        if( designYourOwnRB.isSelected() ) {
-            module.getEnergyView().setProfileManipulable( designYourOwnRB.isSelected() );
-        }
-
-        module.getMRModel().getReaction().setEnergyProfile( currentReaction.getEnergyProfile() );
-    }
 
     public void reset() {
         r1RB.setSelected( true );
-        currentReaction = R1;
     }
 
     private class MoleculeIconMouseAdapter extends MouseAdapter {
@@ -173,8 +109,7 @@ public class ReactionChooserPanel extends JPanel {
 
         public void mouseClicked( MouseEvent e ) {
             toggleBtn.setSelected( true );
-            setReaction();
+            selectionAction.actionPerformed( new ActionEvent( e.getSource(), e.getID(), "" ) );
         }
     }
-
 }
