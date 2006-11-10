@@ -183,8 +183,8 @@ public class EC3ControlPanel extends ControlPanel {
 
         editSkaterPanel.addControl( restitution );
 
-        final ModelSlider mass = new ModelSlider( EnergySkateParkStrings.getString( "mass" ), EnergySkateParkStrings.getString( "kg" ), 0, 200, 75 );
-        mass.setModelTicks( new double[]{0, 75, 200} );
+        final ModelSlider mass = new ModelSlider( EnergySkateParkStrings.getString( "mass" ), EnergySkateParkStrings.getString( "kg" ), 1, 200, 75 );
+        mass.setModelTicks( new double[]{1, 75, 200} );
         mass.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 EnergyConservationModel model = module.getEnergyConservationModel();

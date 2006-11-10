@@ -13,9 +13,7 @@ Are history buttons displaying total energy without thermal, and calling it tota
 After some combination of recording and playback, the track graphic becomes dissociated from the skater.
         The skater will continue to traverse the path where the track used to be, ever after it has been dragged.
         
-Fix Bounciness slider to control the coefficient of restitution.
-
-1kg min mass.
+Is the skater's physics correct as a function of mass?
 
 -When coefficient of friction is turned to maximum and there is a lot of
 gravity (maximum) the skater falls through the track at the bottom point and

@@ -24,7 +24,7 @@ public class EnergyConserver {
         }
         //increasing the speed threshold from 0.001 to 0.1 causes the moon-sticking problem to go away.
         for( int i = 0; i < numIterations; i++ ) {
-            if( body.getSpeed() > speedThreshold ) {
+            if( body.getSpeed() > speedThreshold && body.getMass() > 1 ) {
                 boolean done = conserveEnergyViaV( body, desiredTotalEnergy );
                 if( done ) {
                     return true;
@@ -54,13 +54,18 @@ public class EnergyConserver {
     }
 
     public boolean conserveEnergyViaH( Body body, double desiredTotalEnergy ) {
-        double dE = getDE( body, desiredTotalEnergy );
-        if( dE == 0 ) {
-            return true;
+        if( body.getMass() > 1 && Math.abs(body.getGravity()) > 1 ) {
+            double dE = getDE( body, desiredTotalEnergy );
+            if( dE == 0 ) {
+                return true;
+            }
+            double dh = dE / body.getMass() / body.getGravity();
+            body.translate( 0, dh );
+            return false;
         }
-        double dh = dE / body.getMass() / body.getGravity();
-        body.translate( 0, dh );
-        return false;
+        else {
+            return false;
+        }
 //        System.out.println( "------->requested mechEnergy = " + desiredMechEnergy+ ", obtained me=" + model.getMechanicalEnergy( body ));
     }
 }
