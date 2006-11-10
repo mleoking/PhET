@@ -1,6 +1,7 @@
 1.02.13
 Set the bounciness to correspond to the bounciness slider.
 Set the minimum mass of the skater to 1.0 kg.
+Fixed a bug that caused save/load to fail sometimes.
 
 1.02.12 (11-8-2006)
 Bugfix: When you move from space to earth the "use arrow keys to thrust" stays up.
