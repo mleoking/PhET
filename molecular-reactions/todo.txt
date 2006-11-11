@@ -1,3 +1,7 @@
+- Add "Design your own" to the combo box on Experiments
+- "Reload" should not reset the reaction
+- strip chart controls
+
 - With strip chart up for a long time, the sim choked
 - Make most Reaction methods static
 - Use CollisionParams to replace individual computations of the same thing

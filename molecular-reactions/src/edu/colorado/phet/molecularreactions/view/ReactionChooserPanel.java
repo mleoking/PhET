@@ -10,12 +10,13 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
-import edu.colorado.phet.molecularreactions.MRConfig;
-import edu.colorado.phet.molecularreactions.controller.SelectReactionAction;
-import edu.colorado.phet.molecularreactions.modules.MRModule;
-import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.controller.SelectReactionAction;
+import edu.colorado.phet.molecularreactions.model.MoleculeA;
+import edu.colorado.phet.molecularreactions.model.MoleculeAB;
+import edu.colorado.phet.molecularreactions.model.MoleculeBC;
+import edu.colorado.phet.molecularreactions.modules.MRModule;
+import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 
 import javax.swing.*;
 import java.awt.*;
