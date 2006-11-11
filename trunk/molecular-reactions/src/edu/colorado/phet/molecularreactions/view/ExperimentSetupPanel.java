@@ -101,6 +101,7 @@ public class ExperimentSetupPanel extends JPanel {
 
         labelGbc.gridwidth = 2;
         labelGbc.anchor = GridBagConstraints.CENTER;
+        add( new ReactionChooserComboBox( module ), labelGbc);
         add( goBtn, labelGbc );
     }
 
