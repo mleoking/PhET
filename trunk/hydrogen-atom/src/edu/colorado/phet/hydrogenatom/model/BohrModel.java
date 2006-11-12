@@ -29,6 +29,8 @@ public class BohrModel extends AbstractHydrogenAtom {
     public static boolean DEBUG_EMISSION_ENABLED = true;
     public static boolean DEBUG_STIMULATED_EMISSION_ENABLED = true; 
     
+    private static boolean DEBUG_OUTPUT_ENABLED = true;
+    
     //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
@@ -43,7 +45,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = PhotonNode.DIAMETER / 2;
     
     /* probability that photon will be absorbed */
-    private static final double PHOTON_ABSORPTION_PROBABILITY = 0.5; // 1.0 = 100%
+    private static final double PHOTON_ABSORPTION_PROBABILITY = 1.0; //XXX 0.5; // 1.0 = 100%
     
     /* probability that photon will be emitted */
     private static final double PHOTON_EMISSION_PROBABILITY = 0.1; // 1.0 = 100%
@@ -55,7 +57,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     private static final double ELECTRON_ANGLE_DELTA = Math.toRadians( 10 );
     
     /* wavelengths must be less than this close to be considered equal */
-    private static final double WAVELENGTH_CLOSENESS_THRESHOLD = 1;
+    private static final double WAVELENGTH_CLOSENESS_THRESHOLD = 0.5;
     
     /* How close an emitted photon is placed to the photon that causes stimulated emission */
     private static final double STIMULATED_EMISSION_X_OFFSET = 10;
@@ -203,36 +205,43 @@ public class BohrModel extends AbstractHydrogenAtom {
             return absorbed;
         }
         
-        // Do the photon and electron collide?
-        Point2D electronPosition = getElectronPosition();
-        Point2D photonPosition = photon.getPosition();
-        final boolean collide = pointsCollide( electronPosition, photonPosition, PHOTON_ELECTRON_COLLISION_THRESHOLD );
-        
-        if ( collide ) {
-            
-            // Can the photon be absorbed?...
-            boolean canAbsorb = false;
-            int newState = 0;
-            final int maxState = GROUND_STATE + getNumberOfStates() - 2; // model's highest state can't absorb
-            final double photonWavelength = photon.getWavelength();
-            for ( int n = _electronState + 1; n <= maxState && !canAbsorb; n++ ) {
-                final double transitionWavelength = getWavelengthAbsorbed( _electronState, n );
-                if ( close( photonWavelength, transitionWavelength ) ) {
-                    canAbsorb = true;
-                    newState = n;
+        if ( !photon.isEmitted() ) {
+
+            // Do the photon and electron collide?
+            Point2D electronPosition = getElectronPosition();
+            Point2D photonPosition = photon.getPosition();
+            final boolean collide = pointsCollide( electronPosition, photonPosition, PHOTON_ELECTRON_COLLISION_THRESHOLD );
+
+            if ( collide ) {
+
+                // Can the photon be absorbed?...
+                boolean canAbsorb = false;
+                int newState = 0;
+                final int maxState = GROUND_STATE + getNumberOfStates() - 1;
+                final double photonWavelength = photon.getWavelength();
+                for ( int n = _electronState + 1; n <= maxState && !canAbsorb; n++ ) {
+                    final double transitionWavelength = getWavelengthAbsorbed( _electronState, n );
+                    if ( close( photonWavelength, transitionWavelength ) ) {
+                        canAbsorb = true;
+                        newState = n;
+                    }
                 }
-            }
-            
-            // Absorb the photon with some probability...
-            if ( canAbsorb && Math.random() < PHOTON_ABSORPTION_PROBABILITY ) {
-                
-                // absorb photon
-                absorbed = true;
-                PhotonAbsorbedEvent event = new PhotonAbsorbedEvent( this, photon );
-                firePhotonAbsorbedEvent( event );
-                
-                // move electron to new state
-                setElectronState( newState );
+
+                // Absorb the photon with some probability...
+                if ( canAbsorb && Math.random() < PHOTON_ABSORPTION_PROBABILITY ) {
+
+                    // absorb photon
+                    absorbed = true;
+                    PhotonAbsorbedEvent event = new PhotonAbsorbedEvent( this, photon );
+                    firePhotonAbsorbedEvent( event );
+
+                    if ( DEBUG_OUTPUT_ENABLED ) {
+                        System.out.println( "BohrModel: absorbed photon, wavelength=" + photonWavelength );
+                    }
+
+                    // move electron to new state
+                    setElectronState( newState );
+                }
             }
         }
         
@@ -264,6 +273,10 @@ public class BohrModel extends AbstractHydrogenAtom {
                 Photon photon = new Photon( wavelength, position, orientation, speed, true /* emitted */ );
                 PhotonEmittedEvent event = new PhotonEmittedEvent( this, photon );
                 firePhotonEmittedEvent( event );
+                
+                if ( DEBUG_OUTPUT_ENABLED ) {
+                    System.out.println( "BohrModel: emitted photon, wavelength=" + wavelength );
+                }
                 
                 // move electron to new state
                 setElectronState( newState );
@@ -327,6 +340,10 @@ public class BohrModel extends AbstractHydrogenAtom {
                     Photon emittedPhoton = new Photon( wavelength, position, orientation, speed, true /* emitted */ );
                     PhotonEmittedEvent event = new PhotonEmittedEvent( this, emittedPhoton );
                     firePhotonEmittedEvent( event );
+                    
+                    if ( DEBUG_OUTPUT_ENABLED ) {
+                        System.out.println( "BohrModel: stimulated emission of photon, wavelength=" + wavelength );
+                    }
                     
                     // move electron to new state
                     setElectronState( newState );

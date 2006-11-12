@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- test Bohr state transitions
 - performance of Bohr degraded when I added absorb/emit code
 
 MEDIUM PRIORITY:
@@ -45,6 +44,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/12/06) - tested Bohr state transitions, fixed bugs
 (11/12/06) - improve layout of Spectral Line Table dialog
 (11/10/06) - add dialog displaying spectral line table to menubar
 (11/10/06) - add developer controls for disabling parts of Bohr absorb/emit
