@@ -25,11 +25,13 @@ public class BohrModel extends AbstractHydrogenAtom {
     // Debug
     //----------------------------------------------------------------------------
     
+    /* used to turn off aspects of this model from the Developer Controls dialog */
     public static boolean DEBUG_ASBORPTION_ENABLED = true;
     public static boolean DEBUG_EMISSION_ENABLED = true;
     public static boolean DEBUG_STIMULATED_EMISSION_ENABLED = true; 
     
-    private static boolean DEBUG_OUTPUT_ENABLED = true;
+    /* enabled debugging output */
+    private static boolean DEBUG_OUTPUT_ENABLED = false;
     
     //----------------------------------------------------------------------------
     // Private class data

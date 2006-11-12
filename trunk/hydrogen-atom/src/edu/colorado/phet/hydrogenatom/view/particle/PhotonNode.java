@@ -48,7 +48,8 @@ public class PhotonNode extends PhetPNode implements Observer {
     /* draws an outline around the full bonds of the node */
     private static final boolean DEBUG_SHOW_FULL_DIAMETER = false;
     
-    private static final boolean DEBUG_OUTPUT_ENABLED = true;
+    /* enabled debug output for the image cache */
+    private static final boolean DEBUG_CACHE_ENABLED = false;
     
     //----------------------------------------------------------------------------
     // Class data
@@ -259,7 +260,7 @@ public class PhotonNode extends PhetPNode implements Observer {
         public void put( double wavelength, Image image ) {
             Object key = wavelengthToKey( wavelength );
             _map.put( key, image );
-            if ( DEBUG_OUTPUT_ENABLED ) {
+            if ( DEBUG_CACHE_ENABLED ) {
                 System.out.println( "PhotonNode.ImageCache.put size=" + _map.size() );
             }
         }

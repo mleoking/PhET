@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- performance of Bohr degraded when I added absorb/emit code
+- Bohr gets jerky when you change wavelength (or just click in wavelength textfield)
 
 MEDIUM PRIORITY:
 - RandomUtils shouldn't share the same random number generator (in Math) for all methods
