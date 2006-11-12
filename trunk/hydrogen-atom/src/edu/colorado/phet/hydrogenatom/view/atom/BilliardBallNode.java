@@ -11,24 +11,17 @@
 
 package edu.colorado.phet.hydrogenatom.view.atom;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
-import java.awt.Stroke;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.BilliardBallModel;
 import edu.colorado.phet.hydrogenatom.util.RoundGradientPaint;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
-import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.hydrogenatom.view.SphericalNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * BilliardBallNode is the visual representation of the "billiard ball" model of the hydrogen atom.
