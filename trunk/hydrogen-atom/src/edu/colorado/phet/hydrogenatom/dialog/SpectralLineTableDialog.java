@@ -29,6 +29,7 @@ import edu.colorado.phet.hydrogenatom.model.BohrModel;
 public class SpectralLineTableDialog extends JDialog {
 
     private static final DecimalFormat WAVELENGTH_FORMATTER = new DecimalFormat( "0.0" );
+    private static final char LEFT_RIGHT_ARROW = '\u2194';
     
     public SpectralLineTableDialog( Frame owner ) {
         super( owner, SimStrings.get( "dialog.spectralLineTable.title") );
@@ -51,19 +52,19 @@ public class SpectralLineTableDialog extends JDialog {
     private JPanel createInputPanel() {
         
         JPanel panel = new JPanel();
-        panel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
+        panel.setBorder( new EmptyBorder( 10, 20, 10, 20 ) );
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
-        layout.setInsets( new Insets( 0, 10, 0, 10 ) );
+        layout.setInsets( new Insets( 0, 0, 0, 0 ) );
+        layout.setMinimumWidth( 1, 15 );
+        layout.setMinimumWidth( 3, 3 );
         panel.setLayout( layout );
         int row = 0;
-        int col = 0;
         
-        layout.addComponent( new JLabel( SimStrings.get( "dialog.spectralLineTable.state" ) ), row, col++ );
-        layout.addComponent( new JLabel( SimStrings.get( "dialog.spectralLineTable.state" ) ), row, col++ );
-        layout.addComponent( new JLabel( SimStrings.get( "dialog.spectralLineTable.wavelength" ) ), row, col++ );
+        layout.addAnchoredComponent( new JLabel( SimStrings.get( "dialog.spectralLineTable.transition" ) ), row, 0, GridBagConstraints.CENTER );
+        layout.addAnchoredComponent( new JLabel( SimStrings.get( "dialog.spectralLineTable.wavelength" ) ), row, 2, GridBagConstraints.EAST );
+        layout.addAnchoredComponent( new JLabel( SimStrings.get( "(nm)" ) ), row, 4, GridBagConstraints.WEST );
         row++;
-        col = 0;
-        layout.addComponent( new JSeparator(), row, col, 3, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( new JSeparator(), row, 0, 5, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL );
         row++;
 
         final int groundState = BohrModel.getGroundState();
@@ -73,10 +74,9 @@ public class SpectralLineTableDialog extends JDialog {
             for ( int n = m + 1; n <= maxState; n++ ) {
                 double wavelength = BohrModel.getWavelengthAbsorbed( m, n );
                 String s = WAVELENGTH_FORMATTER.format( wavelength );
-                col = 0;
-                layout.addComponent( new JLabel( Integer.toString( m ) ), row, col++ );
-                layout.addComponent( new JLabel( Integer.toString( n ) ), row, col++ );
-                layout.addAnchoredComponent( new JLabel( s ), row, col++, GridBagConstraints.EAST );
+                String transition = m + " " + LEFT_RIGHT_ARROW + " " + n;
+                layout.addAnchoredComponent( new JLabel( transition ), row, 0, GridBagConstraints.CENTER );
+                layout.addAnchoredComponent( new JLabel( s ), row, 2, GridBagConstraints.EAST );
                 row++;
             }
         }
