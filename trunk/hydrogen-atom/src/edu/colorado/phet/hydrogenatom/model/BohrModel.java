@@ -47,7 +47,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = PhotonNode.DIAMETER / 2;
     
     /* probability that photon will be absorbed */
-    private static final double PHOTON_ABSORPTION_PROBABILITY = 1.0; //XXX 0.5; // 1.0 = 100%
+    private static final double PHOTON_ABSORPTION_PROBABILITY = 0.5; // 1.0 = 100%
     
     /* probability that photon will be emitted */
     private static final double PHOTON_EMISSION_PROBABILITY = 0.1; // 1.0 = 100%

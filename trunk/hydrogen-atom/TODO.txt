@@ -43,6 +43,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/12/06) - sync with phetcommon
 (11/12/06) - cache photon images
 (11/12/06) - tested Bohr state transitions, fixed bugs
 (11/12/06) - improve layout of Spectral Line Table dialog
