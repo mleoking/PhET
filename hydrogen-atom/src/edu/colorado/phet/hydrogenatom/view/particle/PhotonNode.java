@@ -14,6 +14,7 @@ package edu.colorado.phet.hydrogenatom.view.particle;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -41,11 +42,17 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class PhotonNode extends PhetPNode implements Observer {
 
     //----------------------------------------------------------------------------
-    // Class data
+    // Debug
     //----------------------------------------------------------------------------
     
     /* draws an outline around the full bonds of the node */
     private static final boolean DEBUG_SHOW_FULL_DIAMETER = false;
+    
+    private static final boolean DEBUG_OUTPUT_ENABLED = true;
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     /* determines whether UV and IR photons are labeled */
     private static final boolean SHOW_UV_IR_LABELS = false;
@@ -65,6 +72,11 @@ public class PhotonNode extends PhetPNode implements Observer {
     private static final Color IR_LABEL_COLOR = IR_CROSSHAIRS_COLOR;
     private static final Font UV_IR_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 9 );
     
+    // Image cache, shared by all instances
+    private static final Integer UV_IMAGE_KEY = new Integer( (int)( VisibleColor.MIN_WAVELENGTH - 1 ) );
+    private static final Integer IR_IMAGE_KEY = new Integer( (int)( VisibleColor.MAX_WAVELENGTH + 1 ) );
+    private static final ImageCache IMAGE_CACHE = new ImageCache();
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -82,7 +94,7 @@ public class PhotonNode extends PhetPNode implements Observer {
     public PhotonNode( Photon photon ) {
         super();
         
-        Image image = createPhotonImage( photon.getWavelength() );
+        Image image = lookupPhotonImage( photon.getWavelength() );
         PImage imageNode = new PImage( image );
         addChild( imageNode );
         
@@ -103,6 +115,20 @@ public class PhotonNode extends PhetPNode implements Observer {
         
         _photon = photon;
         _photon.addObserver( this );
+    }
+    
+    /*
+     * Gets the photon image from the cache.
+     * If we don't have an image for the specified wavelength,
+     * create one and add it to the cache.
+     */
+    private static final Image lookupPhotonImage( double wavelength ) {
+        Image image = IMAGE_CACHE.get( wavelength );
+        if ( image == null ) {
+            image = createPhotonImage( wavelength );
+            IMAGE_CACHE.put( wavelength, image );
+        }     
+        return image;
     }
     
     /**
@@ -210,6 +236,64 @@ public class PhotonNode extends PhetPNode implements Observer {
         return crosshairs;
     }
 
+    //----------------------------------------------------------------------------
+    // Image cache
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Cache that maps wavelengths to images.
+     */
+    private static class ImageCache {
+
+        private HashMap _map;
+
+        public ImageCache() {
+            _map = new HashMap();
+        }
+
+        /**
+         * Puts an image in the cache.
+         * @param wavelength
+         * @param image
+         */
+        public void put( double wavelength, Image image ) {
+            Object key = wavelengthToKey( wavelength );
+            _map.put( key, image );
+            if ( DEBUG_OUTPUT_ENABLED ) {
+                System.out.println( "PhotonNode.ImageCache.put size=" + _map.size() );
+            }
+        }
+
+        /**
+         * Gets an image from the cache.
+         * @param wavelength
+         * @return Image, possibly null
+         */
+        public Image get( double wavelength ) {
+            Object key = wavelengthToKey( wavelength );
+            return (Image) _map.get( key );
+        }
+        
+        /*
+         * Converts a wavelength to a key.
+         * Visible wavelengths are mapped with integer precision.
+         * All UV wavelengths map to the same key, ditto for IR.
+         */
+        private Object wavelengthToKey( double wavelength ) {
+            Object key = null;
+            if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
+                key = UV_IMAGE_KEY;
+            }
+            else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
+                key = IR_IMAGE_KEY;
+            }
+            else {
+                key = new Integer( (int) wavelength );
+            }
+            return key;
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
