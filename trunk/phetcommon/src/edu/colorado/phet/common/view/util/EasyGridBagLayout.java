@@ -49,9 +49,6 @@ public class EasyGridBagLayout extends GridBagLayout {
     // Panel to be managed
     private JPanel _panel;
 
-    // Reuse, to conserve memory.
-    private GridBagConstraints _constraints;
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -79,8 +76,6 @@ public class EasyGridBagLayout extends GridBagLayout {
         _insets = new Insets( DEFAULT_INSETS.top, DEFAULT_INSETS.left, DEFAULT_INSETS.bottom, DEFAULT_INSETS.right );
 
         _panel = panel;
-
-        _constraints = new GridBagConstraints();
     }
 
     //----------------------------------------------------------------------------
@@ -336,16 +331,18 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @param insets    the insets
      */
     public void addComponent( JComponent component, int row, int column, int width, int height, int anchor, int fill, Insets insets ) {
+        
         // Load the GridBagConstraints
-        _constraints.gridx = column;
-        _constraints.gridy = row;
-        _constraints.gridwidth = width;
-        _constraints.gridheight = height;
-        _constraints.anchor = anchor;
-        _constraints.fill = fill;
-        _constraints.insets = _insets;
-        _constraints.ipadx = _ipadx;
-        _constraints.ipady = _ipady;
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = column;
+        constraints.gridy = row;
+        constraints.gridwidth = width;
+        constraints.gridheight = height;
+        constraints.anchor = anchor;
+        constraints.fill = fill;
+        constraints.insets = _insets;
+        constraints.ipadx = _ipadx;
+        constraints.ipady = _ipady;
 
         // Determine sensible weights
         {
@@ -360,26 +357,26 @@ public class EasyGridBagLayout extends GridBagLayout {
 
             switch( fill ) {
                 case GridBagConstraints.HORIZONTAL:
-                    _constraints.weightx = weightx;
-                    _constraints.weighty = 0.0;
+                    constraints.weightx = weightx;
+                    constraints.weighty = 0.0;
                     break;
                 case GridBagConstraints.VERTICAL:
-                    _constraints.weightx = 0.0;
-                    _constraints.weighty = weighty;
+                    constraints.weightx = 0.0;
+                    constraints.weighty = weighty;
                     break;
                 case GridBagConstraints.BOTH:
-                    _constraints.weightx = weightx;
-                    _constraints.weighty = weighty;
+                    constraints.weightx = weightx;
+                    constraints.weighty = weighty;
                     break;
                 case GridBagConstraints.NONE:
-                    _constraints.weightx = 0.0;
-                    _constraints.weighty = 0.0;
+                    constraints.weightx = 0.0;
+                    constraints.weighty = 0.0;
                     break;
             }
         }
 
         // Add the component to the managed panel.
-        _panel.add( component, _constraints );
+        _panel.add( component, constraints );
     }
 
     //----------------------------------------------------------------------------
