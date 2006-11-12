@@ -13,7 +13,7 @@ MEDIUM PRIORITY:
 - add "show traces" feature for alpha particles
 - implement DeBroglie model
 - implement Schrodinger model
-- implement Experiment model (particles should go behind black box)
+- ExperimentNode should be in front of photons and alpha particles
 - finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
 - implement spectrometer model
 - implement energy diagrams, reuse Ron's stuff
