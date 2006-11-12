@@ -62,7 +62,7 @@ public class SpectralLineTableDialog extends JDialog {
         
         layout.addAnchoredComponent( new JLabel( SimStrings.get( "dialog.spectralLineTable.transition" ) ), row, 0, GridBagConstraints.CENTER );
         layout.addAnchoredComponent( new JLabel( SimStrings.get( "dialog.spectralLineTable.wavelength" ) ), row, 2, GridBagConstraints.EAST );
-        layout.addAnchoredComponent( new JLabel( SimStrings.get( "(nm)" ) ), row, 4, GridBagConstraints.WEST );
+        layout.addAnchoredComponent( new JLabel( "(nm)" ), row, 4, GridBagConstraints.WEST );
         row++;
         layout.addComponent( new JSeparator(), row, 0, 5, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL );
         row++;
