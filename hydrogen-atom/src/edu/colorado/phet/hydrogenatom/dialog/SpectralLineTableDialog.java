@@ -28,7 +28,7 @@ import edu.colorado.phet.hydrogenatom.model.BohrModel;
 
 public class SpectralLineTableDialog extends JDialog {
 
-    private static final DecimalFormat WAVELENGTH_FORMATTER = new DecimalFormat( "0.0" );
+    private static final DecimalFormat WAVELENGTH_FORMATTER = new DecimalFormat( "0" );
     private static final char LEFT_RIGHT_ARROW = '\u2194';
     
     public SpectralLineTableDialog( Frame owner ) {
