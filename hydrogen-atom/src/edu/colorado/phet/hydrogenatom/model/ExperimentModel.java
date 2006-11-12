@@ -13,10 +13,16 @@ package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.geom.Point2D;
 
-
-public class ExperimentModel extends AbstractHydrogenAtom {
+/**
+ * ExperimentModel is the model when we are in "Experiment" mode,
+ * and is identical to the Schrodinger model.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
+public class ExperimentModel extends SchrodingerModel {
     
     public ExperimentModel( Point2D position ) {
-        super( position, 0 /* orientation */ );
+        super( position );
     }
 }
