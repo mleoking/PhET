@@ -58,9 +58,6 @@ public class Gun extends FixedObject implements ModelElement {
     private static final double DEFAULT_LIGHT_INTENSITY = 0;
     private static final double DEFAULT_ALPHA_PARTICLE_INTENSITY = 0;
     
-    private static final int DEFAULT_TICKS_PER_PHOTON = 10;
-    private static final int DEFAULT_TICKS_PER_ALPHA_PARTICLE = 10;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -74,6 +71,8 @@ public class Gun extends FixedObject implements ModelElement {
     private double _minWavelength, _maxWavelength; // range of wavelength
     private double _alphaParticlesIntensity; // intensity of the alpha particles, 0.0-1.0
     private Random _random; // random number generator, for white light wavelength
+    
+    private int _maxParticles;
     private double _ticksPerPhoton;
     private double _ticksPerAlphaParticle;
     private double _ticksSincePhotonFired;
@@ -110,10 +109,9 @@ public class Gun extends FixedObject implements ModelElement {
         _maxWavelength = maxWavelength;
         _alphaParticlesIntensity = DEFAULT_ALPHA_PARTICLE_INTENSITY;
         _random = new Random();
-        _ticksPerPhoton = DEFAULT_TICKS_PER_PHOTON;
-        _ticksPerAlphaParticle = DEFAULT_TICKS_PER_ALPHA_PARTICLE;
         _ticksSincePhotonFired = 0;
         _ticksSinceAlphaParticleFired = 0;
+        setMaxParticles( 20 );
         
         _listenerList = new EventListenerList();
     }
@@ -222,22 +220,14 @@ public class Gun extends FixedObject implements ModelElement {
         return _alphaParticlesIntensity;
     }
     
-    public void setTicksPerPhoton( double ticks ) {
-        assert( ticks > 0 );
-        _ticksPerPhoton = ticks;
+    public void setMaxParticles( int maxParticles ) {
+        _maxParticles = maxParticles;
+        _ticksPerPhoton = ( HAConstants.ANIMATION_BOX_SIZE.height / HAConstants.PHOTON_INITIAL_SPEED ) / maxParticles;
+        _ticksPerAlphaParticle = _ticksPerPhoton;
     }
     
-    public double getTicksPerPhoton() {
-        return _ticksPerPhoton;
-    }
-    
-    public void setTicksPerAlphaParticle( double ticks ) {
-        assert( ticks > 0 );
-        _ticksPerAlphaParticle = ticks;
-    }
-    
-    public double getTicksPerAlphaParticle() {
-        return _ticksPerAlphaParticle;
+    public double getMaxParticles() {
+        return _maxParticles;
     }
     
     //----------------------------------------------------------------------------
