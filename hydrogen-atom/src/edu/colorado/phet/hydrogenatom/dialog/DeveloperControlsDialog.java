@@ -51,9 +51,7 @@ public class DeveloperControlsDialog extends JDialog {
     
     private HAModule _module;
     
-    private SliderControl _ticksPerPhotonSlider;
-    private SliderControl _ticksPerAlphaParticleSlider;
-    private JCheckBox _particleLimitCheckBox;
+    private SliderControl _maxParticlesSlider;
     private JCheckBox _rutherfordScatteringOutputCheckBox;
     private JCheckBox _bohrAbsorptionCheckBox;
     private JCheckBox _bohrEmissionCheckBox;
@@ -82,17 +80,9 @@ public class DeveloperControlsDialog extends JDialog {
     
     private JPanel createInputPanel() {
 
-        // Photon production
-        double ticksPerPhoton = _module.getGun().getTicksPerPhoton();
-        _ticksPerPhotonSlider = new SliderControl( ticksPerPhoton, 1, 20, 20, 0, 1, "Fired 1 photon every", "ticks", 3, SLIDER_INSETS );
-              
-        // Alpha Particle production
-        double ticksPerAlphaParticle = _module.getGun().getTicksPerAlphaParticle();
-        _ticksPerAlphaParticleSlider = new SliderControl( ticksPerAlphaParticle, 1, 20, 20, 0, 1, "Fired 1 alpha particle", "ticks", 3, SLIDER_INSETS );
-        
-        // Limits model to one particle at a time
-        _particleLimitCheckBox = new JCheckBox( "Limit model to 1 particle" );
-        _particleLimitCheckBox.setSelected( HAModel.isSingleParticleLimitEnabled() );
+        // Photon & alpha particle production
+        double maxParticles = _module.getGun().getMaxParticles();
+        _maxParticlesSlider = new SliderControl( maxParticles, 1, 40, 40, 0, 0, "Max particles in box:", "", 3, SLIDER_INSETS );
         
         // Enables debug output from Rutherford Scattering algorithm
         _rutherfordScatteringOutputCheckBox = new JCheckBox( "Rutherford Scattering debug output" );
@@ -105,9 +95,7 @@ public class DeveloperControlsDialog extends JDialog {
         
         // Event handling
         EventListener listener = new EventListener();
-        _ticksPerPhotonSlider.addChangeListener( listener );
-        _ticksPerAlphaParticleSlider.addChangeListener( listener );
-        _particleLimitCheckBox.addChangeListener( listener );
+        _maxParticlesSlider.addChangeListener( listener );
         _rutherfordScatteringOutputCheckBox.addChangeListener( listener );
         _bohrAbsorptionCheckBox.addChangeListener( listener );
         _bohrEmissionCheckBox.addChangeListener( listener );
@@ -120,11 +108,7 @@ public class DeveloperControlsDialog extends JDialog {
         layout.setInsets( new Insets( 0, 0, 0, 0 ) );
         panel.setLayout( layout );
         int row = 0;
-        layout.addComponent( _ticksPerPhotonSlider, row++, 0 ); 
-        layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
-        layout.addComponent( _ticksPerAlphaParticleSlider, row++, 0 );
-        layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
-        layout.addComponent( _particleLimitCheckBox, row++, 0 );
+        layout.addComponent( _maxParticlesSlider, row++, 0 ); 
         layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _rutherfordScatteringOutputCheckBox, row++, 0 );
         layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
@@ -146,14 +130,8 @@ public class DeveloperControlsDialog extends JDialog {
 
         public void stateChanged( ChangeEvent event ) {
             Object source = event.getSource();
-            if ( source == _ticksPerPhotonSlider ) {
-                handleTicksPerPhotonSlider();
-            }
-            else if ( source == _ticksPerAlphaParticleSlider ) {
-                handleTicksPerAlphaParticleSlider();
-            }
-            else if ( source == _particleLimitCheckBox ) {
-                handleParticleLimitCheckBox();
+            if ( source == _maxParticlesSlider ) {
+                handleMaxParticlesSlider();
             }
             else if ( source == _rutherfordScatteringOutputCheckBox ) {
                 handleRutherfordScatteringOutputCheckBox();
@@ -170,18 +148,9 @@ public class DeveloperControlsDialog extends JDialog {
         }
     }
     
-    private void handleTicksPerPhotonSlider() {
+    private void handleMaxParticlesSlider() {
         Gun gun = _module.getGun();
-        gun.setTicksPerPhoton( _ticksPerPhotonSlider.getValue() );
-    }
-    
-    private void handleTicksPerAlphaParticleSlider() {
-        Gun gun = _module.getGun();
-        gun.setTicksPerAlphaParticle( _ticksPerAlphaParticleSlider.getValue() ); 
-    }
-    
-    private void handleParticleLimitCheckBox() {
-        HAModel.setSingleParticleLimitEnabled( _particleLimitCheckBox.isSelected() );
+        gun.setMaxParticles( (int)_maxParticlesSlider.getValue() );
     }
     
     private void handleRutherfordScatteringOutputCheckBox() {

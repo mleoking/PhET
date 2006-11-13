@@ -24,6 +24,7 @@ MEDIUM PRIORITY:
 - replace AtomicModelSelection.getSelectionName
 
 LOW PRIORITY:
+- add "H emission spectrum" option to "white" and "monochrome" options for gun (discuss with SM first)
 - add WavelengthControl.setTrackSize(Dimension)
 - add WavelengthControl.setKnobSize(Dimension)
 - size "UV" and "IR" labels to fit WavelengthControl track height
