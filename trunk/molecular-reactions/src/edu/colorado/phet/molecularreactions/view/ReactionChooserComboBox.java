@@ -39,13 +39,13 @@ public class ReactionChooserComboBox extends JComboBox {
     private JRadioButton r3RB;
     private JRadioButton designYourOwnRB;
 
-    private MoleculeIcon r1Item;
-    private MoleculeIcon r2Item;
-    private MoleculeIcon r3Item;
-
-
+    /**
+     * 
+     * @param module
+     */
     public ReactionChooserComboBox( MRModule module ) {
 
+        setRenderer( new DefaultListCellRenderer() );
         ButtonGroup bg = new ButtonGroup();
         r1RB = new JRadioButton();
         r2RB = new JRadioButton();
@@ -57,39 +57,44 @@ public class ReactionChooserComboBox extends JComboBox {
         bg.add( r3RB );
         bg.add( designYourOwnRB );
 
-        selectionAction = new SelectReactionAction( module, r1RB, r2RB, r3RB, designYourOwnRB );
+        selectionAction = new SelectReactionAction( module );
         r1RB.addActionListener( selectionAction  );
         r2RB.addActionListener( selectionAction );
         r3RB.addActionListener( selectionAction  );
         designYourOwnRB.addActionListener( selectionAction  );
 
-        r1Item = new MoleculeIcon( MoleculeA.class );
-        r2Item = new MoleculeIcon( MoleculeBC.class );
-        r3Item = new MoleculeIcon( MoleculeAB.class );
+        final ImageIcon r1Item = new MoleculeIcon( MoleculeA.class );
+        final ImageIcon r2Item = new MoleculeIcon( MoleculeBC.class );
+        final ImageIcon r3Item = new MoleculeIcon( MoleculeAB.class );
+        final String designYourOwnItem = SimStrings.get( "ExperimentSetup.designYourOwn" );
         addItem( r1Item );
         addItem( r2Item );
         addItem( r3Item );
-//        addItem( SimStrings.get( "ExperimentSetup.designYourOwn" ) );
+        addItem( designYourOwnItem );
 
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 Object selection = ReactionChooserComboBox.this.getSelectedItem();
+                String command = "";
                 if( selection == r1Item ) {
-                    r1RB.setSelected( true );
+                    command = SelectReactionAction.R1_ACTION;
                 }
                 if( selection == r2Item ) {
-                    r2RB.setSelected( true );
+                    command = SelectReactionAction.R2_ACTION;
                 }
                 if( selection == r3Item ) {
-                    r3RB.setSelected( true );
+                    command = SelectReactionAction.R3_ACTION;
+
                 }
-                selectionAction.actionPerformed( new ActionEvent( e.getSource(), e.getID(), "" ) );
+                if( selection == designYourOwnItem ) {
+                    command = SelectReactionAction.DESIGN_YOUR_OWN_ACTION;
+                }
+                selectionAction.actionPerformed( new ActionEvent( e.getSource(), e.getID(), command ) );
             }
         } );
 
         r1RB.setSelected( true );
     }
-
 
     public void reset() {
         r1RB.setSelected( true );

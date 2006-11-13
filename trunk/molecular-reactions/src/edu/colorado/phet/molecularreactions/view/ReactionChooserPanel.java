@@ -23,6 +23,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
 
 /**
  * ReactionChooser
@@ -32,15 +33,18 @@ import java.awt.event.MouseEvent;
  */
 public class ReactionChooserPanel extends JPanel {
 
-    private AbstractAction selectionAction;
+//    private AbstractAction selectionAction;
     private JRadioButton r1RB;
     private JRadioButton r2RB;
     private JRadioButton r3RB;
     private JRadioButton designYourOwnRB;
+    private MRModule module;
+    private ActionListener selectionListener;
 
 
     public ReactionChooserPanel( MRModule module ) {
         super( new GridBagLayout() );
+        this.module = module;
 
         setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ExperimentSetup.reactionSelector" ) ) );
 
@@ -54,11 +58,11 @@ public class ReactionChooserPanel extends JPanel {
         bg.add( r3RB );
         bg.add( designYourOwnRB );
 
-        selectionAction = new SelectReactionAction( module, r1RB, r2RB, r3RB, designYourOwnRB );
-        r1RB.addActionListener( selectionAction  );
-        r2RB.addActionListener( selectionAction );
-        r3RB.addActionListener( selectionAction  );
-        designYourOwnRB.addActionListener( selectionAction  );
+        selectionListener = new SelectionHandler();
+        r1RB.addActionListener( selectionListener  );
+        r2RB.addActionListener( selectionListener );
+        r3RB.addActionListener( selectionListener  );
+        designYourOwnRB.addActionListener( selectionListener  );
 
         JLabel iconA = new JLabel( new MoleculeIcon( MoleculeA.class ) );
         iconA.addMouseListener( new MoleculeIconMouseAdapter( r1RB ) );
@@ -68,7 +72,6 @@ public class ReactionChooserPanel extends JPanel {
         iconAB.addMouseListener( new MoleculeIconMouseAdapter( r3RB ) );
         JLabel designYourOwnLbl = new JLabel( SimStrings.get( "ExperimentSetup.designYourOwn" ) );
         designYourOwnLbl.addMouseListener( new MoleculeIconMouseAdapter( designYourOwnRB ) );
-
 
         setLayout( new GridBagLayout() );
         int rbAnchor = GridBagConstraints.EAST;
@@ -110,7 +113,29 @@ public class ReactionChooserPanel extends JPanel {
 
         public void mouseClicked( MouseEvent e ) {
             toggleBtn.setSelected( true );
-            selectionAction.actionPerformed( new ActionEvent( e.getSource(), e.getID(), "" ) );
+            selectionListener.actionPerformed( new ActionEvent( e.getSource(), e.getID(), "" ) );
+        }
+    }
+
+
+    private class SelectionHandler implements ActionListener {
+
+        public void actionPerformed( ActionEvent e ) {
+            SelectReactionAction action = new SelectReactionAction( module );
+            String command = "";
+            if( r1RB.isSelected() ) {
+                command = SelectReactionAction.R1_ACTION;
+            }
+            if( r2RB.isSelected() ) {
+                command = SelectReactionAction.R2_ACTION;
+            }
+            if( r3RB.isSelected() ) {
+                command = SelectReactionAction.R3_ACTION;
+            }
+            if( designYourOwnRB.isSelected() ) {
+                command = SelectReactionAction.DESIGN_YOUR_OWN_ACTION;
+            }
+            action.actionPerformed( new ActionEvent( e.getSource(), e.getID(), command ) );
         }
     }
 }
