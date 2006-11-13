@@ -13,6 +13,8 @@ package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.hydrogenatom.util.RandomUtils;
+
 /**
  * SolarSystemModel models the hydrogen atom as a classical solar system.
  * <p>
@@ -86,7 +88,7 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
         
         _electronOffset = new Point2D.Double();
         _electronDistance = ELECTRON_DISTANCE;
-        _electronAngle = Math.random() * Math.toRadians( 360 );
+        _electronAngle = RandomUtils.nextAngle();
         _electronAngleDelta = ELECTRON_ANGLE_DELTA;
         _destroyed = false;
         

@@ -12,11 +12,10 @@
 package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
+import java.util.Random;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
-import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 
 
 public class BohrModel extends AbstractHydrogenAtom {
@@ -72,15 +71,31 @@ public class BohrModel extends AbstractHydrogenAtom {
     // offset of the electron relative to atom's center
     private Point2D _electronOffset;
     
+    // random number generator for absorption probability
+    private Random _randomAbsorption;
+    // random number generator for emission probability
+    private Random _randomEmission;
+    // random number generator for stimulated emission probability
+    private Random _randomStimulatedEmission;
+    // random number generator for electron state selection
+    private Random _randomState;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public BohrModel( Point2D position ) {
         super( position, 0 /* orientation */ );
+        
         _electronState = GROUND_STATE;
-        _electronAngle = RandomUtils.nextOrientation();
+        _electronAngle = RandomUtils.nextAngle();
         _electronOffset = new Point2D.Double();
+        
+        _randomAbsorption = new Random();
+        _randomEmission = new Random();
+        _randomStimulatedEmission = new Random();
+        _randomState = new Random();
+        
         updateElectronOffset();
     }
     
@@ -227,7 +242,7 @@ public class BohrModel extends AbstractHydrogenAtom {
                 }
 
                 // Absorb the photon with some probability...
-                if ( canAbsorb && Math.random() < PHOTON_ABSORPTION_PROBABILITY ) {
+                if ( canAbsorb && _randomAbsorption.nextDouble() < PHOTON_ABSORPTION_PROBABILITY ) {
 
                     // absorb photon
                     absorbed = true;
@@ -257,14 +272,14 @@ public class BohrModel extends AbstractHydrogenAtom {
         }
         
         if ( _electronState > GROUND_STATE ) {
-            if ( Math.random() < PHOTON_EMISSION_PROBABILITY ) {
+            if ( _randomEmission.nextDouble() < PHOTON_EMISSION_PROBABILITY ) {
                 
                 // Randomly pick a new state, each state has equal probability.
-                final int newState = GROUND_STATE + (int)( Math.random() * ( _electronState - GROUND_STATE ) );
+                final int newState = GROUND_STATE + (int)( _randomState.nextDouble() * ( _electronState - GROUND_STATE ) );
                 
                 // New photon's properties
                 Point2D position = getElectronPosition();
-                double orientation = RandomUtils.nextOrientation();
+                double orientation = RandomUtils.nextAngle();
                 double speed = HAConstants.PHOTON_INITIAL_SPEED;
                 double wavelength = getWavelengthEmitted( _electronState, newState );
                 
@@ -323,7 +338,7 @@ public class BohrModel extends AbstractHydrogenAtom {
                 }
                 
                 // Emit a photon with some probability...
-                if ( stimulatesEmission && Math.random() < PHOTON_STIMULATED_EMISSION_PROBABILITY ) {
+                if ( stimulatesEmission && _randomStimulatedEmission.nextDouble() < PHOTON_STIMULATED_EMISSION_PROBABILITY ) {
                     // This algorithm assumes that photons are moving vertically from bottom to top.
                     assert( photon.getOrientation() == Math.toRadians( -90 ) );
                     
