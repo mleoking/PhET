@@ -14,19 +14,19 @@ package edu.colorado.phet.hydrogenatom.dialog;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Toolkit;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.hydrogenatom.control.SliderControl;
 import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.model.Gun;
-import edu.colorado.phet.hydrogenatom.model.HAModel;
 import edu.colorado.phet.hydrogenatom.model.RutherfordScattering;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
 
@@ -38,12 +38,13 @@ import edu.colorado.phet.hydrogenatom.module.HAModule;
  * @version $Revision$
  */
 public class DeveloperControlsDialog extends JDialog {
-
+    
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
+    private static final int MIN_PARTICLES = 1;
+    private static final int MAX_PARTICLES = 40;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -51,7 +52,7 @@ public class DeveloperControlsDialog extends JDialog {
     
     private HAModule _module;
     
-    private SliderControl _maxParticlesSlider;
+    private JSpinner _maxParticlesSpinner;
     private JCheckBox _rutherfordScatteringOutputCheckBox;
     private JCheckBox _bohrAbsorptionCheckBox;
     private JCheckBox _bohrEmissionCheckBox;
@@ -81,8 +82,20 @@ public class DeveloperControlsDialog extends JDialog {
     private JPanel createInputPanel() {
 
         // Photon & alpha particle production
-        double maxParticles = _module.getGun().getMaxParticles();
-        _maxParticlesSlider = new SliderControl( maxParticles, 1, 40, 40, 0, 0, "Max particles in box:", "", 3, SLIDER_INSETS );
+        HorizontalLayoutPanel maxParticlesPanel = new HorizontalLayoutPanel();
+        {
+            JLabel label = new JLabel( "Max particles in box:" );
+            
+            int maxParticles = _module.getGun().getMaxParticles();
+            SpinnerModel model = new SpinnerNumberModel( maxParticles, MIN_PARTICLES, MAX_PARTICLES, 1 /* stepSize */);
+            _maxParticlesSpinner = new JSpinner( model );
+            JFormattedTextField tf = ( (JSpinner.DefaultEditor) _maxParticlesSpinner.getEditor() ).getTextField();
+            tf.setEditable( false );
+            
+            maxParticlesPanel.setInsets( new Insets( 5, 5, 5, 5 ) );
+            maxParticlesPanel.add( label );
+            maxParticlesPanel.add( _maxParticlesSpinner );
+        }
         
         // Enables debug output from Rutherford Scattering algorithm
         _rutherfordScatteringOutputCheckBox = new JCheckBox( "Rutherford Scattering debug output" );
@@ -95,7 +108,7 @@ public class DeveloperControlsDialog extends JDialog {
         
         // Event handling
         EventListener listener = new EventListener();
-        _maxParticlesSlider.addChangeListener( listener );
+        _maxParticlesSpinner.addChangeListener( listener );
         _rutherfordScatteringOutputCheckBox.addChangeListener( listener );
         _bohrAbsorptionCheckBox.addChangeListener( listener );
         _bohrEmissionCheckBox.addChangeListener( listener );
@@ -105,10 +118,10 @@ public class DeveloperControlsDialog extends JDialog {
         JPanel panel = new JPanel();
         panel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
-        layout.setInsets( new Insets( 0, 0, 0, 0 ) );
+        layout.setInsets( new Insets( 3, 5, 3, 5 ) );
         panel.setLayout( layout );
         int row = 0;
-        layout.addComponent( _maxParticlesSlider, row++, 0 ); 
+        layout.addComponent( maxParticlesPanel, row++, 0 ); 
         layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _rutherfordScatteringOutputCheckBox, row++, 0 );
         layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
@@ -130,7 +143,7 @@ public class DeveloperControlsDialog extends JDialog {
 
         public void stateChanged( ChangeEvent event ) {
             Object source = event.getSource();
-            if ( source == _maxParticlesSlider ) {
+            if ( source == _maxParticlesSpinner ) {
                 handleMaxParticlesSlider();
             }
             else if ( source == _rutherfordScatteringOutputCheckBox ) {
@@ -150,7 +163,9 @@ public class DeveloperControlsDialog extends JDialog {
     
     private void handleMaxParticlesSlider() {
         Gun gun = _module.getGun();
-        gun.setMaxParticles( (int)_maxParticlesSlider.getValue() );
+        SpinnerNumberModel spinnerModel = (SpinnerNumberModel) _maxParticlesSpinner.getModel();
+        int maxParticles = spinnerModel.getNumber().intValue();
+        gun.setMaxParticles( maxParticles );
     }
     
     private void handleRutherfordScatteringOutputCheckBox() {
