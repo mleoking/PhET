@@ -20,23 +20,23 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
- * AnimationRegionNode is the region in which animation
+ * AnimationBoxNode is the box in which animation
  * of atoms, photons and alpha particles takes place.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class AnimationRegionNode extends PClip {
+public class AnimationBoxNode extends PClip {
 
     public static final Stroke STROKE = new BasicStroke( 2f );
     public static final Color STROKE_COLOR = Color.WHITE;
     
-    public AnimationRegionNode( Dimension size ) {
+    public AnimationBoxNode( Dimension size ) {
         super();
         Shape clip = new Rectangle2D.Double( 0, 0, size.width, size.height );
         setPathTo( clip );
-        setPaint(  HAConstants.ANIMATION_REGION_COLOR );
+        setPaint(  HAConstants.ANIMATION_BOX_COLOR );
         setStroke( STROKE );
-        setStrokePaint( HAConstants.ANIMATION_REGION_STROKE_COLOR );
+        setStrokePaint( HAConstants.ANIMATION_BOX_STROKE_COLOR );
     }
 }

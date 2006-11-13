@@ -42,6 +42,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/13/06) - change "animation region" to "animation box" throughout
 (11/13/06) - make PlumPuddingModel and BohrModel use separate instances of Random for absorb/emit probabilities
 (11/13/06) - make RandomUtils methods share an instance of Random, instead of using Math.random
 (11/13/06) - add developer control for setting "closeness" required for photon absorption
