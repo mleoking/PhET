@@ -20,6 +20,7 @@ import edu.colorado.phet.molecularreactions.view.*;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChartNode;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsStripChart;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChartNode;
+import edu.colorado.phet.molecularreactions.view.charts.StripChartDialog;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolo.PNode;
@@ -43,7 +44,6 @@ import java.util.List;
  * @version $Revision$
  */
 public class ComplexModule extends MRModule {
-    private PSwing stripChartNode;
     private JDialog stripChartDlg;
     private ComplexMRControlPanel controlPanel;
     private PumpGraphic pumpGraphic;
@@ -123,45 +123,30 @@ public class ComplexModule extends MRModule {
         }
     }
 
+    /**
+     * Set visibility of the strip chart
+     *
+     * @param visible
+     */
     public void setStripChartVisible( boolean visible ) {
+
         if( visible ) {
-            final MoleculePopulationsStripChart stripChart = new MoleculePopulationsStripChart( getMRModel(), getClock(), 500, 0, 20, 1 );
-            ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
-            chartPanel.setPreferredSize( new java.awt.Dimension( 400, 200 ) );
-            stripChartNode = new PSwing( (PhetPCanvas)getSimulationPanel(), chartPanel );
-
-            // Dialog
-            stripChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
-            stripChartDlg.setResizable( false );
-            PhetPCanvas stripChartCanvas = new PhetPCanvas();
-            stripChartCanvas.addScreenChild( stripChartNode );
-            stripChartCanvas.setPreferredSize( new Dimension( chartPanel.getPreferredSize() ) );
-
-            // Add a rescale button
-            JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale" ) );
-            rescaleBtn.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    stripChart.rescale();
-                }
-            } );
-            PSwing rescaleNode = new PSwing( stripChartCanvas, rescaleBtn );
-            rescaleNode.setOffset( chartPanel.getPreferredSize().getWidth() - rescaleNode.getFullBounds().getWidth() - 10,
-                                   chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() - 10 );
-            stripChartCanvas.addScreenChild( rescaleNode );
-
-            stripChartDlg.getContentPane().add( stripChartCanvas );
-            stripChartDlg.pack();
+            if( stripChartDlg == null ) {
+//                stripChartDlg = new StripChartDialog( this );
+                stripChartDlg = createStripChartDialog();
+            }
             stripChartDlg.setVisible( true );
         }
-        else if( stripChartNode != null ) {
-            stripChartNode = null;
+        else if( !visible && stripChartDlg != null ) {
             stripChartDlg.setVisible( false );
+            stripChartDlg = null;
         }
     }
 
     /**
      * Variant that hooks a ComponentListener to the dialog, so it will knwo if the
      * user has closed the dialog by clicking on the X in its frame.
+     *
      * @param visible
      * @param showStripChartBtn
      */
@@ -170,6 +155,36 @@ public class ComplexModule extends MRModule {
         if( visible && showStripChartBtn != null ) {
             stripChartDlg.addComponentListener( showStripChartBtn );
         }
+    }
+
+    private JDialog createStripChartDialog() {
+        final MoleculePopulationsStripChart stripChart = new MoleculePopulationsStripChart( getMRModel(), getClock(), 500, 0, 20, 1 );
+        ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
+        chartPanel.setPreferredSize( new Dimension( 400, 200 ) );
+
+        // Dialog
+        JDialog stripChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
+        stripChartDlg.setResizable( false );
+        PhetPCanvas stripChartCanvas = new PhetPCanvas();
+        PNode stripChartNode = new PSwing( stripChartCanvas, chartPanel );
+        stripChartCanvas.addScreenChild( stripChartNode );
+        stripChartCanvas.setPreferredSize( new Dimension( chartPanel.getPreferredSize() ) );
+
+        // Add a rescale button
+        JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale" ) );
+        rescaleBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                stripChart.rescale();
+            }
+        } );
+        PSwing rescaleNode = new PSwing( stripChartCanvas, rescaleBtn );
+        rescaleNode.setOffset( chartPanel.getPreferredSize().getWidth() - rescaleNode.getFullBounds().getWidth() - 10,
+                               chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() - 10 );
+        stripChartCanvas.addScreenChild( rescaleNode );
+
+        stripChartDlg.getContentPane().add( stripChartCanvas );
+        stripChartDlg.pack();
+        return stripChartDlg;
     }
 
     /**

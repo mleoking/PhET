@@ -19,6 +19,12 @@ import java.awt.event.ActionEvent;
 
 /**
  * SelectReactionAction
+ * <p>
+ * This started out to be an action that would be shared by a set of radio buttons
+ * and a combo box, but after writing them, it didn't seem to pan out cleanly. The
+ * way that the choice of reaction is selected is through the command attribute
+ * of the ActionEvent, which is a string. Not what I would use if I weren't tied to
+ * using an AbstractAction. 
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -28,6 +34,10 @@ public class SelectReactionAction extends AbstractAction {
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
+    public static String R1_ACTION = "R1";
+    public static String R2_ACTION = "R2";
+    public static String R3_ACTION = "R3";
+    public static String DESIGN_YOUR_OWN_ACTION = "design your own";
 
     private static EnergyProfile r1Profile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
                                                                 MRConfig.DEFAULT_REACTION_THRESHOLD,
@@ -43,7 +53,6 @@ public class SelectReactionAction extends AbstractAction {
                                                                 MRConfig.DEFAULT_REACTION_THRESHOLD * .7,
                                                                 MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
                                                                 100 );
-    private AbstractAction selectionAction;
 
     private static class Reaction {
         EnergyProfile energyProfile;
@@ -65,34 +74,35 @@ public class SelectReactionAction extends AbstractAction {
     private Reaction currentReaction;
 
     private MRModule module;
-    private JToggleButton r1Btn;
-    private JToggleButton r2Btn;
-    private JToggleButton r3Btn;
-    private JToggleButton designYourOwnBtn;
 
-    public SelectReactionAction( MRModule module, JToggleButton r1Btn, JToggleButton r2Btn, JToggleButton r3Btn, JToggleButton deisgnYourOwnBtn ) {
+    public SelectReactionAction( MRModule module ) {
         this.module = module;
-        this.r1Btn = r1Btn;
-        this.r2Btn = r2Btn;
-        this.r3Btn = r3Btn;
-        this.designYourOwnBtn = deisgnYourOwnBtn;
     }
 
     public void actionPerformed( ActionEvent e ) {
-        setReaction();
+        setReaction( e.getActionCommand() );
     }
 
-    private void setReaction() {
-        if( r1Btn.isSelected() ) {
+    private void setReaction( String actionCommand ) {
+        boolean designYourOwn = false;
+        if( actionCommand.equals( "R1" ) ) {
             currentReaction = R1;
         }
-        if( r2Btn.isSelected() ) {
+        else if( actionCommand.equals( "R2" ) ) {
             currentReaction = R2;
         }
-        if( r3Btn.isSelected() ) {
+        else if( actionCommand.equals( "R3" ) ) {
             currentReaction = R3;
         }
-        module.getEnergyView().setProfileManipulable( designYourOwnBtn.isSelected() );
-        module.getMRModel().getReaction().setEnergyProfile( currentReaction.getEnergyProfile() );
+        else if( actionCommand.equals( "design your own" ) ) {
+            designYourOwn = true;
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
+        module.getEnergyView().setProfileManipulable( designYourOwn );
+        if( currentReaction != null ) {
+            module.getMRModel().getReaction().setEnergyProfile( currentReaction.getEnergyProfile() );
+        }
     }
 }
