@@ -86,11 +86,12 @@ public class HAConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
+    // NOTE: font sizes are configurable in the SimStrings file!
+    
     // Default font properties
     public static final String DEFAULT_FONT_NAME = new JLabel( "PhET" ).getFont().getName();
     public static final int DEFAULT_FONT_STYLE = Font.BOLD;
     public static final int DEFAULT_FONT_SIZE = 16;
-    // NOTE: font sizes are configurable in the SimStrings file!
     
     //----------------------------------------------------------------------------
     // Strokes
