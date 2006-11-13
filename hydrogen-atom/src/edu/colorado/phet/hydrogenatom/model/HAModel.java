@@ -38,30 +38,6 @@ import edu.colorado.phet.hydrogenatom.model.Gun.GunFiredListener;
  * @version $Revision$
  */
 public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedListener, PhotonEmittedListener {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    // Restricts the model to 1 photon or alpha particle at a time, for debugging.
-    private static boolean _singleParticleLimitEnabled = false;
-    
-    /**
-     * Sets whether the model is limited to a single particle.
-     * This is used for debugging, and is set from the Developer Controls dialog.
-     * @param enabled true or false
-     */
-    public static void setSingleParticleLimitEnabled( boolean enabled ) {
-        _singleParticleLimitEnabled = enabled;
-    }
-    
-    /**
-     * Is the model limited to a single particle?
-     * @return true or false
-     */
-    public static boolean isSingleParticleLimitEnabled() {
-        return _singleParticleLimitEnabled;
-    }
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -116,15 +92,9 @@ public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedLi
      */
     public void addModelElement( ModelElement modelElement ) {
         if ( modelElement instanceof Photon ) {
-            if ( _singleParticleLimitEnabled && _photons.size() > 0 ) {
-                return;
-            }
             _photons.add( modelElement );
         }
         else if ( modelElement instanceof AlphaParticle ) {
-            if ( _singleParticleLimitEnabled && _alphaParticles.size() > 0 ) {
-                return;
-            }
             _alphaParticles.add( modelElement );
         }
         else if ( modelElement instanceof AbstractHydrogenAtom ) {
