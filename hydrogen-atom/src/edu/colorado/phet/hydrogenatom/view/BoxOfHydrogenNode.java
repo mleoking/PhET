@@ -105,7 +105,7 @@ public class BoxOfHydrogenNode extends PhetPNode {
         }
 
         // Tiny box
-        _tinyBoxNode = new AnimationRegionNode( tinyBoxSize );
+        _tinyBoxNode = new AnimationBoxNode( tinyBoxSize );
         
         // Label, origin in upper-left corner of bounds
         HTMLNode labelNode = new HTMLNode();

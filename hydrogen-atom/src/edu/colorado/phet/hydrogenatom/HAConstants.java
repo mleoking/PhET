@@ -122,9 +122,9 @@ public class HAConstants {
     // Color used for alpha particle intensity slider
     public static final Color ALPHA_PARTICLES_COLOR = UV_TRACK_COLOR;
     
-    // Color of the animation area
-    public static final Color ANIMATION_REGION_COLOR = Color.BLACK;
-    public static final Color ANIMATION_REGION_STROKE_COLOR = Color.WHITE;
+    // Color of the animation box
+    public static final Color ANIMATION_BOX_COLOR = Color.BLACK;
+    public static final Color ANIMATION_BOX_STROKE_COLOR = Color.WHITE;
     
     // Color for photon used on controls & in legends
     public static final double PHOTON_ICON_WAVELENGTH = 530; // nm (green)

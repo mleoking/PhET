@@ -55,7 +55,12 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * HAModule is the sole module for this simulation.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class HAModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
@@ -78,8 +83,8 @@ public class HAModule extends PiccoloModule {
     private BeamNode _beamNode;
     private GunNode _gunNode;
 
-    // Animation region
-    private AnimationRegionNode _animationRegionNode;
+    // Animation box
+    private AnimationBoxNode _animationBoxNode;
     private ZoomIndicatorNode _zoomIndicatorNode;
 
     // Spectrometer
@@ -220,10 +225,10 @@ public class HAModule extends PiccoloModule {
             }
         }
 
-        // Animation region
+        // Animation box
         {
             // animation box
-            _animationRegionNode = new AnimationRegionNode( HAConstants.ANIMATION_BOX_SIZE );
+            _animationBoxNode = new AnimationBoxNode( HAConstants.ANIMATION_BOX_SIZE );
 
             // zoom indicator
             _zoomIndicatorNode = new ZoomIndicatorNode();
@@ -285,7 +290,7 @@ public class HAModule extends PiccoloModule {
             _rootNode.addChild( _modeSwitch );
             _rootNode.addChild( _atomicModelSelector );
             _rootNode.addChild( _boxBeamGunParent );
-            _rootNode.addChild( _animationRegionNode );
+            _rootNode.addChild( _animationBoxNode );
             _rootNode.addChild( _zoomIndicatorNode );
             _rootNode.addChild( _gunControlPanel );
             _rootNode.addChild( _spectrometerCheckBoxNode );
@@ -300,7 +305,7 @@ public class HAModule extends PiccoloModule {
         // Model-View management
         //----------------------------------------------------------------------------
         
-        _modelViewManager = new HAModelViewManager( _model, _animationRegionNode );
+        _modelViewManager = new HAModelViewManager( _model, _animationBoxNode );
         
         //----------------------------------------------------------------------------
         // Control
@@ -405,20 +410,20 @@ public class HAModule extends PiccoloModule {
             _boxBeamGunParent.setOffset( ab.getMaxX() + xSpacing, ab.getY() );
         }
         
-        // Animation Region
+        // Animation box
         {
             // to the right of the box/beam/gun, below the "not to scale" label
             PBounds bb = _boxBeamGunParent.getFullBounds();
             PBounds ntsb = _notToScaleLabel.getFullBounds();
             x = bb.getMaxX() + xSpacing;
             y = yMargin + ntsb.getHeight() + ySpacing;
-            _animationRegionNode.setOffset( x, y );
+            _animationBoxNode.setOffset( x, y );
         }
         
         // "Drawings are not to scale" note
         {
-            // centered above animation region
-            PBounds bb = _animationRegionNode.getFullBounds();
+            // centered above animation box
+            PBounds bb = _animationBoxNode.getFullBounds();
             x = bb.getX() + ( ( bb.getWidth() - _notToScaleLabel.getFullBounds().getWidth() ) / 2 );
             y = ( bb.getY() - _notToScaleLabel.getFullBounds().getHeight() ) / 2;
             _notToScaleLabel.setOffset( x, y );
@@ -432,8 +437,8 @@ public class HAModule extends PiccoloModule {
             _gunControlPanel.setOffset( x, y );
         }
         
-        // Adjust gun and gun control panel locations so they don't overlap animation region 
-        double overlap = ( _animationRegionNode.getFullBounds().getMaxY() + ySpacing ) - _gunControlPanel.getFullBounds().getY();
+        // Adjust gun and gun control panel locations so they don't overlap animation box 
+        double overlap = ( _animationBoxNode.getFullBounds().getMaxY() + ySpacing ) - _gunControlPanel.getFullBounds().getY();
         if ( overlap > 0 ) {
             _boxBeamGunParent.setOffset( _boxBeamGunParent.getFullBounds().getX(), _boxBeamGunParent.getFullBounds().getY() + overlap );
             _gunControlPanel.setOffset( _gunControlPanel.getFullBounds().getX(), _gunControlPanel.getFullBounds().getY() + overlap );
@@ -444,14 +449,14 @@ public class HAModule extends PiccoloModule {
             PBounds tb = _boxOfHydrogenNode.getTinyBoxGlobalBounds();
             Point2D tp = _rootNode.globalToLocal( tb.getOrigin() );
             Dimension2D td = _rootNode.globalToLocal( tb.getSize() );
-            PBounds ab = _animationRegionNode.getFullBounds();
+            PBounds ab = _animationBoxNode.getFullBounds();
             _zoomIndicatorNode.update( tp, td, ab.getOrigin(), ab.getSize() );
         }
 
         // Energy Diagram
         {
             // checkbox to the right of the black box, at top of canvas
-            x = _animationRegionNode.getFullBounds().getMaxX() + xSpacing;
+            x = _animationBoxNode.getFullBounds().getMaxX() + xSpacing;
             y = yMargin;
             _energyDiagramCheckBoxNode.setOffset( x, y );
 
@@ -463,21 +468,21 @@ public class HAModule extends PiccoloModule {
         
         // Legend
         {
-            x = _animationRegionNode.getFullBounds().getMaxX() + xSpacing;
-            y = _animationRegionNode.getFullBounds().getY() + ( ( _animationRegionNode.getFullBounds().getHeight() -  _legendNode.getFullBounds().getHeight() ) / 2 );
+            x = _animationBoxNode.getFullBounds().getMaxX() + xSpacing;
+            y = _animationBoxNode.getFullBounds().getY() + ( ( _animationBoxNode.getFullBounds().getHeight() -  _legendNode.getFullBounds().getHeight() ) / 2 );
             _legendNode.setOffset( x, y );
         }
 
         // Spectrometer
         {
-            // spectrometer below animation region, to the right of gun control panel
+            // spectrometer below animation box, to the right of gun control panel
             x = _gunControlPanel.getFullBounds().getMaxX() + xSpacing;
-            y = _animationRegionNode.getFullBounds().getMaxY() + ySpacing;
+            y = _animationBoxNode.getFullBounds().getMaxY() + ySpacing;
             _spectrometerNode.setOffset( x, y );
 
-            // checkbox at lower right of animation region
-            x = _animationRegionNode.getFullBounds().getMaxX() + xSpacing;
-            y = _animationRegionNode.getFullBounds().getMaxY() - _spectrometerCheckBoxNode.getFullBounds().getHeight();
+            // checkbox at lower right of animation box
+            x = _animationBoxNode.getFullBounds().getMaxX() + xSpacing;
+            y = _animationBoxNode.getFullBounds().getMaxY() - _spectrometerCheckBoxNode.getFullBounds().getHeight();
             _spectrometerCheckBoxNode.setOffset( x, y );
         }
         
