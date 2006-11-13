@@ -15,6 +15,7 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
@@ -95,6 +96,11 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     // the amplitude of the electron just before emitting its last photon
     private double _previousAmplitude;
     
+    // random number generator for absorption probability
+    private Random _randomAbsorption;
+    // random number generator for emission probability
+    private Random _randomEmission;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -105,6 +111,9 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      */
     public PlumPuddingModel( Point2D position ) {
         this( position, DEFAULT_RADIUS );
+        
+        _randomAbsorption = new Random();
+        _randomEmission = new Random();
     }
     
     /*
@@ -168,7 +177,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      */
     private void updateElectronLine() {
         
-        double angle = RandomUtils.nextOrientation();
+        double angle = RandomUtils.nextAngle();
         double x = Math.abs( _radius * Math.sin( angle ) );
         double y = RandomUtils.nextSign() * _radius * Math.cos( angle );
         _electronLine.setLine( -x, -y, x, y );
@@ -246,7 +255,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
             Point2D electronPosition = getElectronPosition();
             Point2D photonPosition = photon.getPosition();
             if ( pointsCollide( electronPosition, photonPosition, ABSORPTION_CLOSENESS ) ) {
-                if ( Math.random() < PHOTON_ABSORPTION_PROBABILITY ) {
+                if ( _randomAbsorption.nextDouble() < PHOTON_ABSORPTION_PROBABILITY ) {
                     _numberOfPhotonsAbsorbed++;
                     assert( _numberOfPhotonsAbsorbed <= MAX_PHOTONS_ABSORBED );
                     PhotonAbsorbedEvent event = new PhotonAbsorbedEvent( this, photon );
@@ -270,7 +279,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
             Point2D position = getElectronPosition();
             
             // Pick a random orientation
-            double orientation = RandomUtils.nextOrientation();
+            double orientation = RandomUtils.nextAngle();
             
             double speed = HAConstants.PHOTON_INITIAL_SPEED;
             
@@ -346,13 +355,13 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
             moveElectron( dt, amplitude );
             
             // Randomly emit a photon after completing an oscillation cycle
-            boolean b1 = ( Math.random() < PHOTON_EMISSION_PROBABILITY );
-            boolean b2 = ( getNumberOfElectronOscillations() != 0 );
-            if ( b1 && b2 ) {
-                emitPhoton();
-                if ( _numberOfPhotonsAbsorbed == 0 ) {
-                    // If we have not more photons, remember amplitude so we can complete oscillation.
-                    _previousAmplitude = amplitude;
+            if ( getNumberOfElectronOscillations() != 0 ) {
+                if ( _randomEmission.nextDouble() < PHOTON_EMISSION_PROBABILITY ) {
+                    emitPhoton();
+                    if ( _numberOfPhotonsAbsorbed == 0 ) {
+                        // If we have not more photons, remember amplitude so we can complete oscillation.
+                        _previousAmplitude = amplitude;
+                    }
                 }
             }
         }
