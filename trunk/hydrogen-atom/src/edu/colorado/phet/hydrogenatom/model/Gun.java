@@ -223,7 +223,7 @@ public class Gun extends FixedObject implements ModelElement {
         _dtPerGunFired = ( HAConstants.ANIMATION_BOX_SIZE.height / HAConstants.PHOTON_INITIAL_SPEED ) / maxParticles;
     }
     
-    public double getMaxParticles() {
+    public int getMaxParticles() {
         return _maxParticles;
     }
     
