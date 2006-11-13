@@ -19,6 +19,7 @@ import java.util.EventObject;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 
 /**
  * AbstractHydrogenAtom is the base class for all hydrogen atom models.
@@ -31,6 +32,9 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
     //----------------------------------------------------------------------------
     // Public class data
     //----------------------------------------------------------------------------
+    
+    /* how close a photon and electron must be for the photon to be absorbed */
+    public static int ABSORPTION_CLOSENESS = (int)( PhotonNode.DIAMETER / 2 );
     
     public static final String PROPERTY_ELECTRON_STATE = "electronState";
     public static final String PROPERTY_ELECTRON_OFFSET = "electronOffset";

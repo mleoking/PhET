@@ -14,7 +14,6 @@ package edu.colorado.phet.hydrogenatom.dialog;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.Toolkit;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -25,6 +24,7 @@ import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.hydrogenatom.model.RutherfordScattering;
@@ -43,8 +43,8 @@ public class DeveloperControlsDialog extends JDialog {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final int MIN_PARTICLES = 1;
-    private static final int MAX_PARTICLES = 40;
+    private static final int MIN_PARTICLES_IN_BOX = 1;
+    private static final int MAX_PARTICLES_IN_BOX = 40;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -53,6 +53,7 @@ public class DeveloperControlsDialog extends JDialog {
     private HAModule _module;
     
     private JSpinner _maxParticlesSpinner;
+    private JSpinner _absorptionClosenessSpinner;
     private JCheckBox _rutherfordScatteringOutputCheckBox;
     private JCheckBox _bohrAbsorptionCheckBox;
     private JCheckBox _bohrEmissionCheckBox;
@@ -87,7 +88,7 @@ public class DeveloperControlsDialog extends JDialog {
             JLabel label = new JLabel( "Max particles in box:" );
             
             int maxParticles = _module.getGun().getMaxParticles();
-            SpinnerModel model = new SpinnerNumberModel( maxParticles, MIN_PARTICLES, MAX_PARTICLES, 1 /* stepSize */);
+            SpinnerModel model = new SpinnerNumberModel( maxParticles, MIN_PARTICLES_IN_BOX, MAX_PARTICLES_IN_BOX, 1 /* stepSize */);
             _maxParticlesSpinner = new JSpinner( model );
             JFormattedTextField tf = ( (JSpinner.DefaultEditor) _maxParticlesSpinner.getEditor() ).getTextField();
             tf.setEditable( false );
@@ -95,6 +96,22 @@ public class DeveloperControlsDialog extends JDialog {
             maxParticlesPanel.setInsets( new Insets( 5, 5, 5, 5 ) );
             maxParticlesPanel.add( label );
             maxParticlesPanel.add( _maxParticlesSpinner );
+        }
+        
+        // How close photon must be to electron for it to be absorbed
+        HorizontalLayoutPanel absorptionClosenessPanel = new HorizontalLayoutPanel();
+        {
+            JLabel label = new JLabel( "Photon absorbed when this close:" );
+            
+            int closeness = AbstractHydrogenAtom.ABSORPTION_CLOSENESS;
+            SpinnerModel model = new SpinnerNumberModel( closeness, closeness, closeness * 4, 1 /* stepSize */);
+            _absorptionClosenessSpinner = new JSpinner( model );
+            JFormattedTextField tf = ( (JSpinner.DefaultEditor) _absorptionClosenessSpinner.getEditor() ).getTextField();
+            tf.setEditable( false );
+            
+            absorptionClosenessPanel.setInsets( new Insets( 5, 5, 5, 5 ) );
+            absorptionClosenessPanel.add( label );
+            absorptionClosenessPanel.add( _absorptionClosenessSpinner );
         }
         
         // Enables debug output from Rutherford Scattering algorithm
@@ -109,6 +126,7 @@ public class DeveloperControlsDialog extends JDialog {
         // Event handling
         EventListener listener = new EventListener();
         _maxParticlesSpinner.addChangeListener( listener );
+        _absorptionClosenessSpinner.addChangeListener( listener );
         _rutherfordScatteringOutputCheckBox.addChangeListener( listener );
         _bohrAbsorptionCheckBox.addChangeListener( listener );
         _bohrEmissionCheckBox.addChangeListener( listener );
@@ -122,6 +140,8 @@ public class DeveloperControlsDialog extends JDialog {
         panel.setLayout( layout );
         int row = 0;
         layout.addComponent( maxParticlesPanel, row++, 0 ); 
+        layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( absorptionClosenessPanel, row++, 0 ); 
         layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _rutherfordScatteringOutputCheckBox, row++, 0 );
         layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
@@ -144,7 +164,10 @@ public class DeveloperControlsDialog extends JDialog {
         public void stateChanged( ChangeEvent event ) {
             Object source = event.getSource();
             if ( source == _maxParticlesSpinner ) {
-                handleMaxParticlesSlider();
+                handleMaxParticlesSpinner();
+            }
+            else if ( source == _absorptionClosenessSpinner ) {
+                handleAbsorptionClosenessSpinner();
             }
             else if ( source == _rutherfordScatteringOutputCheckBox ) {
                 handleRutherfordScatteringOutputCheckBox();
@@ -161,11 +184,17 @@ public class DeveloperControlsDialog extends JDialog {
         }
     }
     
-    private void handleMaxParticlesSlider() {
+    private void handleMaxParticlesSpinner() {
         Gun gun = _module.getGun();
         SpinnerNumberModel spinnerModel = (SpinnerNumberModel) _maxParticlesSpinner.getModel();
         int maxParticles = spinnerModel.getNumber().intValue();
         gun.setMaxParticles( maxParticles );
+    }
+    
+    private void handleAbsorptionClosenessSpinner() {
+        SpinnerNumberModel spinnerModel = (SpinnerNumberModel) _absorptionClosenessSpinner.getModel();
+        int closeness = spinnerModel.getNumber().intValue();
+        AbstractHydrogenAtom.ABSORPTION_CLOSENESS = closeness;
     }
     
     private void handleRutherfordScatteringOutputCheckBox() {
