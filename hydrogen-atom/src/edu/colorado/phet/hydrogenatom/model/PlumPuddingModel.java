@@ -61,9 +61,6 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     /* maximum number of photons that can be absorbed */
     private static final int MAX_PHOTONS_ABSORBED = 1; //WARNING: Untested with values != 1
     
-    /* how close a photon and electron must be to collide */
-    private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = PhotonNode.DIAMETER / 2;
-    
     /* wavelength of emitted photons */
     private static final double PHOTON_EMISSION_WAVELENGTH = 150; // nm
     
@@ -248,7 +245,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
         if ( canAbsorb( photon ) ) {
             Point2D electronPosition = getElectronPosition();
             Point2D photonPosition = photon.getPosition();
-            if ( pointsCollide( electronPosition, photonPosition, PHOTON_ELECTRON_COLLISION_THRESHOLD ) ) {
+            if ( pointsCollide( electronPosition, photonPosition, ABSORPTION_CLOSENESS ) ) {
                 if ( Math.random() < PHOTON_ABSORPTION_PROBABILITY ) {
                     _numberOfPhotonsAbsorbed++;
                     assert( _numberOfPhotonsAbsorbed <= MAX_PHOTONS_ABSORBED );

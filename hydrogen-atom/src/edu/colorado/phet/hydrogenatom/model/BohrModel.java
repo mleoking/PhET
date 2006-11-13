@@ -43,9 +43,6 @@ public class BohrModel extends AbstractHydrogenAtom {
     /* Radius of each orbit supported by this model */
     private static final double[] ORBIT_RADII = { 15, 44, 81, 124, 174, 233 };
     
-    /* how close a photon and electron must be to collide */
-    private static final double PHOTON_ELECTRON_COLLISION_THRESHOLD = PhotonNode.DIAMETER / 2;
-    
     /* probability that photon will be absorbed */
     private static final double PHOTON_ABSORPTION_PROBABILITY = 0.5; // 1.0 = 100%
     
@@ -212,7 +209,7 @@ public class BohrModel extends AbstractHydrogenAtom {
             // Do the photon and electron collide?
             Point2D electronPosition = getElectronPosition();
             Point2D photonPosition = photon.getPosition();
-            final boolean collide = pointsCollide( electronPosition, photonPosition, PHOTON_ELECTRON_COLLISION_THRESHOLD );
+            final boolean collide = pointsCollide( electronPosition, photonPosition, ABSORPTION_CLOSENESS );
 
             if ( collide ) {
 
@@ -309,7 +306,7 @@ public class BohrModel extends AbstractHydrogenAtom {
             // Do the photon and electron collide?
             Point2D electronPosition = getElectronPosition();
             Point2D photonPosition = photon.getPosition();
-            final boolean collide = pointsCollide( electronPosition, photonPosition, PHOTON_ELECTRON_COLLISION_THRESHOLD );
+            final boolean collide = pointsCollide( electronPosition, photonPosition, ABSORPTION_CLOSENESS );
             
             if ( collide ) {
                 
