@@ -108,7 +108,8 @@ public class PlateGraphic extends CompositePhetGraphic implements HeatingElement
             alphaLut[i] = (short)temperature;
             redLut[i] = 255;
         }
-        BufferedImage newImg = new BufferedImage( image.getWidth(), image.getHeight(), image.getType() );
+        BufferedImage newImg = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+//        BufferedImage newImg = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE);
         temperatureOp.filter( image, newImg );
 
         // The LookupOp gave every pixel in the new image the same alpha. If there are any pixels in the
