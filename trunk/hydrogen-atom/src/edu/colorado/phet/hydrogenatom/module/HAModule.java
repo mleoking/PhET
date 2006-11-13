@@ -354,8 +354,8 @@ public class HAModule extends PiccoloModule {
         gun.setMode( GunMode.PHOTONS );
         gun.setLightType( LightType.MONOCHROMATIC );
         gun.setWavelength( VisibleColor.MIN_WAVELENGTH );
-        gun.setLightIntensity( 1 );
-        gun.setAlphaParticlesIntensity( 1 );
+        gun.setLightIntensity( .5 );
+        gun.setAlphaParticlesIntensity( .5 );
         
         _spectrometerCheckBox.setSelected( true );
         _energyDiagramCheckBox.setSelected( false );

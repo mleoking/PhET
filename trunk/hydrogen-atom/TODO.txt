@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- change how particle production rate is specificed, number in box should range from 1-N based on intensity
+- add developer control for setting how closeness required for photon absorption
 - Bohr gets jerky when you change wavelength (or just click in wavelength textfield)
 
 MEDIUM PRIORITY:
@@ -44,6 +44,8 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/12/06) - change default "max particles" to 20, default intensity to 50%
+(11/12/06) - specify gun firing rate as "max particles in box"
 (11/12/06) - ExperimentModel extends SchrodingerModel
 ***** CVS tag hydrogenatom-0-00-09-2006-11-12
 (11/12/06) - sync with phetcommon

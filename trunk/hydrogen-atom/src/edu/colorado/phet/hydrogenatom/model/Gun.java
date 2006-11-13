@@ -72,11 +72,9 @@ public class Gun extends FixedObject implements ModelElement {
     private double _alphaParticlesIntensity; // intensity of the alpha particles, 0.0-1.0
     private Random _random; // random number generator, for white light wavelength
     
-    private int _maxParticles;
-    private double _ticksPerPhoton;
-    private double _ticksPerAlphaParticle;
-    private double _ticksSincePhotonFired;
-    private double _ticksSinceAlphaParticleFired;
+    private int _maxParticles; // particles in the animation box when gun intensity is 100%
+    private double _dtPerGunFired; // dt between each firing of the gun
+    private double _dtSinceGunFired; // dt since the gun was last fired
     
     private EventListenerList _listenerList;
     
@@ -109,8 +107,8 @@ public class Gun extends FixedObject implements ModelElement {
         _maxWavelength = maxWavelength;
         _alphaParticlesIntensity = DEFAULT_ALPHA_PARTICLE_INTENSITY;
         _random = new Random();
-        _ticksSincePhotonFired = 0;
-        _ticksSinceAlphaParticleFired = 0;
+        
+        _dtSinceGunFired = 0;
         setMaxParticles( 20 );
         
         _listenerList = new EventListenerList();
@@ -222,8 +220,7 @@ public class Gun extends FixedObject implements ModelElement {
     
     public void setMaxParticles( int maxParticles ) {
         _maxParticles = maxParticles;
-        _ticksPerPhoton = ( HAConstants.ANIMATION_BOX_SIZE.height / HAConstants.PHOTON_INITIAL_SPEED ) / maxParticles;
-        _ticksPerAlphaParticle = _ticksPerPhoton;
+        _dtPerGunFired = ( HAConstants.ANIMATION_BOX_SIZE.height / HAConstants.PHOTON_INITIAL_SPEED ) / maxParticles;
     }
     
     public double getMaxParticles() {
@@ -387,12 +384,12 @@ public class Gun extends FixedObject implements ModelElement {
      */
     private void firePhotons( double dt ) {
 
-        _ticksSincePhotonFired += ( _lightIntensity * dt );
+        _dtSinceGunFired += ( _lightIntensity * dt );
         
         // Fire a photon?
-        if ( _ticksSincePhotonFired >= _ticksPerPhoton ) {
+        if ( _dtSinceGunFired >= _dtPerGunFired ) {
             
-            _ticksSincePhotonFired = _ticksSincePhotonFired % _ticksPerPhoton;
+            _dtSinceGunFired = _dtSinceGunFired % _dtPerGunFired;
             
             // Pick a randon location along the gun's nozzle width
             Point2D position = getRandomNozzlePoint();
@@ -424,11 +421,11 @@ public class Gun extends FixedObject implements ModelElement {
      */
     private void fireAlphaParticles( double dt ) {
 
-        _ticksSinceAlphaParticleFired += ( _alphaParticlesIntensity * dt );
+        _dtSinceGunFired += ( _alphaParticlesIntensity * dt );
 
-        if ( _ticksSinceAlphaParticleFired >= _ticksPerAlphaParticle ) {
+        if ( _dtSinceGunFired >= _dtPerGunFired ) {
 
-            _ticksSinceAlphaParticleFired = _ticksSinceAlphaParticleFired % _ticksPerAlphaParticle;
+            _dtSinceGunFired = _dtSinceGunFired % _dtPerGunFired;
             
             // Pick a randon location along the gun's nozzle width
             Point2D position = getRandomNozzlePoint();
