@@ -35,7 +35,7 @@ public class SplineMode implements UpdateMode {
         double x1 = lastX;
         pointVelocityAlongSpline( x1, body );
         AbstractVector2D netForce = getNetForce( x1, body );
-        System.out.println( "netForce = " + netForce );
+//        System.out.println( "netForce = " + netForce );
         new ForceMode( netForce ).stepInTime( body, dt );
         afterNewton = body.copyState();
 
@@ -54,7 +54,7 @@ public class SplineMode implements UpdateMode {
         }
         else {
             double thermalEnergy = getFrictionForce( ( x1 + x2 ) / 2, body ).getMagnitude() * origState.getPositionVector().getSubtractedInstance( body.getPositionVector() ).getMagnitude() * 1E2;
-            System.out.println( "thermalEnergy = " + thermalEnergy );
+//            System.out.println( "thermalEnergy = " + thermalEnergy );
             body.addThermalEnergy( thermalEnergy );
             lastX = x2;
 
@@ -81,9 +81,9 @@ public class SplineMode implements UpdateMode {
         if( !fixed && body.getSpeed() >= 0.0001 ) {
             //increasing the speed threshold from 0.001 to 0.1 causes the moon-sticking problem to go away.
             fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.0001 );
-            if( fixed ) {
-                System.out.println( "Fixed with velocity 1" );
-            }
+//            if( fixed ) {
+//                System.out.println( "Fixed with velocity 1" );
+//            }
         }
         if( !fixed && Math.abs( spline.getUnitNormalVector( x2 ).getY() ) < 0.9 ) {
             double epsilon = 0.001;//1E-8     
@@ -157,6 +157,7 @@ public class SplineMode implements UpdateMode {
                     }
                     else {
                         System.out.println( "couldn't fix on spline, getting stuck." );
+                        fixEnergyOnSplineTakeBest( origState, x2, body, 0.01 );
                         setBodyState( origState, body );
                     }
                 }
@@ -166,6 +167,16 @@ public class SplineMode implements UpdateMode {
 
     boolean fixEnergyOnSpline( final Body origState, final double x2, final Body body, double epsilon ) {
         Body beforeSearch = body.copyState();
+        fixEnergyOnSplineTakeBest( origState, x2, body, epsilon );
+        boolean fixed = origState.getEnergyDifferenceAbs( body ) < 1E-4;
+        if( !fixed ) {
+            body.setAttachmentPointPosition( beforeSearch.getAttachPoint() );
+            body.setAttachmentPointRotation( beforeSearch.getAttachmentPointRotation() );
+        }
+        return fixed;
+    }
+
+    private void fixEnergyOnSplineTakeBest( final Body origState, final double x2, final Body body, double epsilon ) {
         double x3 = getDistAlongSplineBinarySearch( x2, epsilon, 60, 5, new AbstractSpline.SplineCriteria() {
             public double evaluate( Point2D loc ) {
                 body.setAttachmentPointPosition( loc );
@@ -175,12 +186,6 @@ public class SplineMode implements UpdateMode {
         } );
         body.setAttachmentPointPosition( spline.evaluateAnalytical( x3 ) );
         rotateBody( x2, 1.0, Double.POSITIVE_INFINITY, body );
-        boolean fixed = origState.getEnergyDifferenceAbs( body ) < 1E-4;
-        if( !fixed ) {
-            body.setAttachmentPointPosition( beforeSearch.getAttachPoint() );
-            body.setAttachmentPointRotation( beforeSearch.getAttachmentPointRotation() );
-        }
-        return fixed;
     }
 
     private double getDistAlongSplineBinarySearch( double center, double epsilon, int numPts, int numIterations, AbstractSpline.SplineCriteria splineCriteria ) {
