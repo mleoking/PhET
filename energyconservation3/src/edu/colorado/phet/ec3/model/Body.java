@@ -177,7 +177,7 @@ public class Body {
             this.storedTotalEnergy = getTotalEnergy();
         }
         EnergyDebugger.stepStarted( this, dt );
-        int NUM_STEPS_PER_UPDATE = 2;
+        int NUM_STEPS_PER_UPDATE = 1;
         for( int i = 0; i < NUM_STEPS_PER_UPDATE; i++ ) {
             double ei = new State( this ).getTotalEnergy();
             getMode().stepInTime( this, dt / NUM_STEPS_PER_UPDATE );

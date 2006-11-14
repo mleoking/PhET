@@ -46,6 +46,9 @@ public class EnergyConserver {
         double dv = dE / body.getMass() / body.getSpeed();
         AbstractVector2D dvVector = body.getVelocity().getInstanceOfMagnitude( -dv );
         body.setVelocity( dvVector.getAddedInstance( body.getVelocity() ) );
+        if( Math.abs( getDE( body, desiredTotalEnergy ) ) < 1E-6 ) {
+            return true;
+        }
         return false;
     }
 
@@ -54,7 +57,7 @@ public class EnergyConserver {
     }
 
     public boolean conserveEnergyViaH( Body body, double desiredTotalEnergy ) {
-        if( body.getMass() > 1 && Math.abs(body.getGravity()) > 1 ) {
+        if( body.getMass() > 1 && Math.abs( body.getGravity() ) > 1 ) {
             double dE = getDE( body, desiredTotalEnergy );
             if( dE == 0 ) {
                 return true;
