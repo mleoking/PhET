@@ -18,7 +18,6 @@ MEDIUM PRIORITY:
 - "atom ionized" message and electron flying in/out for Plum Pudding, Bohr, deBroglie, Schrodinger models
 - clear spectrometer when atomic model is changed
 - handle model-view transform differently?
-- replace AtomicModelSelection.getSelectionName
 
 LOW PRIORITY:
 - add "H emission spectrum" option to "white" and "monochrome" options for gun (discuss with SM first)
@@ -41,6 +40,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/14/06) - fix AtomicModelSelector.getSelectionName so that labels don't contain HTML
 (11/14/06) - make ExperimentNode very dark gray instead of black
 (11/14/06) - put ExperimentNode in front of photons and alpha particles
 (11/14/06) - add layers to AnimationBoxNode
