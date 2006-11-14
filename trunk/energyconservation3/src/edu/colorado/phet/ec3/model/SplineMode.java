@@ -163,7 +163,7 @@ public class SplineMode implements UpdateMode {
     }
 
     boolean fixEnergyOnSpline( final Body origState, final double x2, final Body body, double epsilon ) {
-        Body beforeFix = body.copyState();
+//        Body beforeFix = body.copyState();
         //look for an adjacent position with a more accurate energy
         double x3 = getDistAlongSplineBinarySearch( x2, epsilon, 60, 5, new AbstractSpline.SplineCriteria() {
             public double evaluate( Point2D loc ) {
@@ -174,8 +174,8 @@ public class SplineMode implements UpdateMode {
         } );
         body.setAttachmentPointPosition( spline.evaluateAnalytical( x3 ) );
         rotateBody( x2, 1.0, Double.POSITIVE_INFINITY, body );
-        double origError = Math.abs( origState.getTotalEnergy() - beforeFix.getTotalEnergy() );
-        double newError = Math.abs( origState.getTotalEnergy() - body.getTotalEnergy() );
+//        double origError = Math.abs( origState.getTotalEnergy() - beforeFix.getTotalEnergy() );
+//        double newError = Math.abs( origState.getTotalEnergy() - body.getTotalEnergy() );
         return origState.getEnergyDifferenceAbs( body ) < 1E-4;
 //        return newError == 0;//probably never
 //        System.out.println( "x2=" + x2 + ", x3=" + x3 + ", origEnergy=" + origState.getTotalEnergy() + ", beforeFix=" + beforeFix.getTotalEnergy() + ", after fix=" + body.getTotalEnergy() +", origError="+origError+", newError="+newError);
