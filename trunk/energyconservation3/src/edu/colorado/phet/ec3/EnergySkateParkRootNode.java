@@ -46,7 +46,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private Legend legend;
     private BackgroundScreenNode screenBackground;
     private SplineToolbox splineToolbox;
-//    private PNode toolboxPlaceholder;
+    //    private PNode toolboxPlaceholder;
     private FloorGraphic floorGraphic;
     private ZeroPointPotentialGraphic zeroPointPotentialGraphic;
     public static final Color SKY_COLOR = new Color( 170, 200, 220 );
@@ -332,6 +332,8 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void addJetPackGraphic( PNode jetPackGraphic ) {
         jetPackGraphics.addChild( jetPackGraphic );
+        int[] x = {1, 2, 3};
+        String[] s = {",", "b"};
     }
 
     private void updateSplines() {
