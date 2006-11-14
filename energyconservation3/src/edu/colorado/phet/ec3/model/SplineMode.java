@@ -42,10 +42,12 @@ public class SplineMode implements UpdateMode {
         double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 60, 2 );
 //        double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 600, 3 );
         if( x2 <= 0 || x2 >= spline.getLength() - 0.01 ) {//fly off the end of the spline
+            fixEnergy( origState, netForce, x2, body, dt );
             body.setLastFallTime( spline, System.currentTimeMillis() );
             body.setFreeFallMode();
         }
         else if( shouldFlyOff( x2, body ) ) {
+            fixEnergy( origState, netForce, x2, body, dt );
             body.setLastFallTime( spline, System.currentTimeMillis() );
             body.setFreeFallMode();
             body.setAngularVelocity( 0.0 );
@@ -140,7 +142,7 @@ public class SplineMode implements UpdateMode {
                     System.out.println( "trying to fix on spline again..." );
                     boolean splineFixed = false;
                     double minEpsilon = 0.01;
-                    double maxEpsilon = 1.0;
+                    double maxEpsilon = 0.1;
                     int numSteps = 5;
                     for( int i = 0; i < numSteps; i++ ) {
                         double epsilon = minEpsilon + ( maxEpsilon - minEpsilon ) * i / ( (double)numSteps );
