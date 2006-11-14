@@ -57,16 +57,8 @@ public class SplineMode implements UpdateMode {
 
             //todo: make sure we sank into the spline before applying this change
             //these 2 steps are sometimes changing the energy by a lot!!!
-//            Body beforeAttach = body.copyState();
             body.setAttachmentPointPosition( spline.evaluateAnalytical( x2 ) );
             rotateBody( x2, dt, Double.POSITIVE_INFINITY, body );
-//            rotateBody( x2, dt, Math.PI/32, body );
-//            if( body.getTotalEnergy() > origState.getTotalEnergy() && body.getEnergyDifferenceAbs( origState ) > 1 && body.getKineticEnergy() < body.getEnergyDifferenceAbs( origState ) ) {
-//                body.setLastFallTime( spline, System.currentTimeMillis() );
-//                body.setFreeFallMode();
-//                body.setAngularVelocity( 0.0 );
-//                return;
-//            }
 
             if( !isUserControlled( body ) ) {
                 fixEnergy( origState, netForceWithoutNormal.getAddedInstance( lastNormalForce ), x2, body, dt );
