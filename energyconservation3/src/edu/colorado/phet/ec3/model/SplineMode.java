@@ -52,16 +52,25 @@ public class SplineMode implements UpdateMode {
         else {
             double thermalEnergy = getFrictionForce( ( x1 + x2 ) / 2, body ).getMagnitude() * origState.getPositionVector().getSubtractedInstance( body.getPositionVector() ).getMagnitude();
             body.addThermalEnergy( thermalEnergy );
+//            double deltaV=thermalEnergy/body.getMass()/body.getSpeed();
+//            double newSpeed=body.getSpeed()-deltaV;
+//            if (newSpeed<0){
+//                newSpeed=0;
+//            }
+//            if( body.getFrictionCoefficient() > 0 ) {
+//                body.setVelocity( Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude() * 0.5, body.getVelocity().getAngle() ) );
+//            }
             lastX = x2;
+            System.out.println( "origState.getSpeed() = " + origState.getSpeed() + ", newSpeed=" + body.getSpeed() + ", deltaThermal=" + thermalEnergy );
 
             //todo: make sure we sank into the spline before applying this change
             //these 2 steps are sometimes changing the energy by a lot!!!
             body.setAttachmentPointPosition( spline.evaluateAnalytical( x2 ) );
             rotateBody( x2, dt, Double.POSITIVE_INFINITY, body );
 
-            if( !isUserControlled( body ) ) {
-                fixEnergy( origState, netForceWithoutNormal.getAddedInstance( lastNormalForce ), x2, body, dt );
-            }
+//            if( !isUserControlled( body ) ) {
+//                fixEnergy( origState, netForceWithoutNormal.getAddedInstance( lastNormalForce ), x2, body, dt );
+//            }
             lastState = body.copyState();
             lastNormalForce = updateNormalForce( origState, body, netForceWithoutNormal, dt );
         }
@@ -270,7 +279,7 @@ public class SplineMode implements UpdateMode {
     private AbstractVector2D getFrictionForce( double x, Body body ) {
         //todo kind of a funny workaround for getting friction on the ground.
         double coefficient = Math.max( body.getFrictionCoefficient(), spline.getFrictionCoefficient() );
-        double fricMag = coefficient * lastNormalForce.getMagnitude() / 10.0;//todo should the normal force be computed as emergent?
+        double fricMag = coefficient * lastNormalForce.getMagnitude() / 10;//todo should the normal force be computed as emergent?
         if( body.getVelocity().getMagnitude() > 0 ) {
             return body.getVelocity().getInstanceOfMagnitude( -fricMag );
         }
