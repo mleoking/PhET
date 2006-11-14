@@ -57,9 +57,9 @@ public class SplineMode implements UpdateMode {
 //            if (newSpeed<0){
 //                newSpeed=0;
 //            }
-            if( body.getFrictionCoefficient() > 0 && body.getSpeed() < 5 ) {
+            if( body.getFrictionCoefficient() > 0 ) {
                 double speedThreshold = Math.min( origState.getVelocity().getMagnitude(), body.getVelocity().getMagnitude() );
-                body.setVelocity( Vector2D.Double.parseAngleAndMagnitude( speedThreshold * 0.99, body.getVelocity().getAngle() ) );
+                body.setVelocity( Vector2D.Double.parseAngleAndMagnitude( speedThreshold * 0.999, body.getVelocity().getAngle() ) );
             }
             lastX = x2;
             System.out.println( "origState.getSpeed() = " + origState.getSpeed() + ", newSpeed=" + body.getSpeed() + ", deltaThermal=" + thermalEnergy );
@@ -69,9 +69,9 @@ public class SplineMode implements UpdateMode {
             body.setAttachmentPointPosition( spline.evaluateAnalytical( x2 ) );
             rotateBody( x2, dt, Double.POSITIVE_INFINITY, body );
 
-//            if( !isUserControlled( body ) ) {
-//                fixEnergy( origState, netForceWithoutNormal.getAddedInstance( lastNormalForce ), x2, body, dt );
-//            }
+            if( !isUserControlled( body ) ) {
+                fixEnergy( origState, netForceWithoutNormal.getAddedInstance( lastNormalForce ), x2, body, dt );
+            }
             lastState = body.copyState();
             lastNormalForce = updateNormalForce( origState, body, netForceWithoutNormal, dt );
         }
