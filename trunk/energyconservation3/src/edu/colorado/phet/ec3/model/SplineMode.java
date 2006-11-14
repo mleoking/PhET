@@ -145,27 +145,10 @@ public class SplineMode implements UpdateMode {
                     }
                     else {
                         System.out.println( "couldn't fix on spline, getting stuck." );
-                        double xSpeed = ( body.getX() - origState.getX() ) / dt;
-//                    System.out.println( "xSpeed = " + xSpeed );
-//                    double speedThreshold = 2.0;
-//                    xSpeed = xSpeed > 0 ? Math.min( xSpeed, speedThreshold ) : Math.max( xSpeed, -speedThreshold );
-                        //have to push the body to move to the surface of the spline, otherwise gets stuck easily
-
-                        body.setVelocity( origState.getVelocity() );
-                        pointVelocityAlongSpline( lastX, body );
-
-//                    xSpeed = body.getVelocity().getX() > 0 ? speedThreshold : -speedThreshold;
-                        xSpeed = 0.0;
-                        body.setAttachmentPointPosition( origState.getAttachPoint().getX() + xSpeed * dt, origState.getAttachPoint().getY() );
-
-                        body.setThermalEnergy( origState.getThermalEnergy() );
-                        body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
+                        setBodyState( origState, body );
                     }
-                    //setBodyState( origState, body );
                 }
             }
-            //maybe could fix by rotation?, i think no.
-            //could fix with friction, if friction is enabled.
         }
     }
 
