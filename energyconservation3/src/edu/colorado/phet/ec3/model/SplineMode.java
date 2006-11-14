@@ -57,9 +57,10 @@ public class SplineMode implements UpdateMode {
 //            if (newSpeed<0){
 //                newSpeed=0;
 //            }
-//            if( body.getFrictionCoefficient() > 0 ) {
-//                body.setVelocity( Vector2D.Double.parseAngleAndMagnitude( body.getVelocity().getMagnitude() * 0.5, body.getVelocity().getAngle() ) );
-//            }
+            if( body.getFrictionCoefficient() > 0 && body.getSpeed() < 5 ) {
+                double speedThreshold = Math.min( origState.getVelocity().getMagnitude(), body.getVelocity().getMagnitude() );
+                body.setVelocity( Vector2D.Double.parseAngleAndMagnitude( speedThreshold * 0.99, body.getVelocity().getAngle() ) );
+            }
             lastX = x2;
             System.out.println( "origState.getSpeed() = " + origState.getSpeed() + ", newSpeed=" + body.getSpeed() + ", deltaThermal=" + thermalEnergy );
 
