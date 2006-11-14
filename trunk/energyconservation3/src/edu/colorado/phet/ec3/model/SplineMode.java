@@ -73,11 +73,7 @@ public class SplineMode implements UpdateMode {
         body.setVelocity( spline.getUnitParallelVector( x1 ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() * sign ) );
     }
 
-    private void fixEnergy( Body origState, AbstractVector2D netForce, double x2, Body body, double dt ) {
-
-    }
-
-    private void fixEnergyORIG( Body origState, AbstractVector2D netForce, double x2, final Body body, double dt ) {
+    private void fixEnergy( Body origState, AbstractVector2D netForce, double x2, final Body body, double dt ) {
         boolean fixed = false;
 
         if( !fixed && body.getSpeed() >= 0.0001 ) {
@@ -198,18 +194,6 @@ public class SplineMode implements UpdateMode {
         return ( flyOffTop || flyOffBottom ) && !spline.isRollerCoasterMode();
     }
 
-//    private Vector2D.Double updateNormalForce( Body origState, Body body, AbstractVector2D netForce, double dt ) {
-//        //numerically unstable, since we divide by dt^2
-//        //2m/t^2 (x1-x0-v0t)-Fa
-//        Vector2D.Double vec = new Vector2D.Double();
-//        vec.add( body.getPositionVector() );
-//        vec.subtract( origState.getPositionVector() );
-//        vec.subtract( origState.getVelocity() );
-//        vec.scale( 2 * body.getMass() / dt / dt );
-//        vec.subtract( netForce );
-//        return vec;
-//    }
-
     private void rotateBody( double x, double dt, double maxRotationDTheta, Body body ) {
         double bodyAngle = body.getAttachmentPointRotation();
         double dA = spline.getUnitParallelVector( x ).getAngle() - bodyAngle;
@@ -253,7 +237,6 @@ public class SplineMode implements UpdateMode {
         body.convertToSpline();
         lastX = getDistAlongSpline( body.getAttachPoint() );
         lastState = body.copyState();
-//        lastNormalForce = new Vector2D.Double();
     }
 
     private double getDistAlongSpline( Point2D pt, double min, double max, double numPts ) {
@@ -286,22 +269,10 @@ public class SplineMode implements UpdateMode {
         return Vector2D.Double.parseAngleAndMagnitude( length, -angle );
     }
 
-//    private Vector2D.Double updateNormalForce( Body origState, Body body, AbstractVector2D netForce, double dt ) {
-//        //numerically unstable, since we divide by dt^2
-//        //2m/t^2 (x1-x0-v0t)-Fa
-//        Vector2D.Double vec = new Vector2D.Double();
-//        vec.add( body.getPositionVector() );
-//        vec.subtract( origState.getPositionVector() );
-//        vec.subtract( origState.getVelocity() );
-//        vec.scale( 2 * body.getMass() / dt / dt );
-//        vec.subtract( netForce );
-//        return vec;
-//    }
-
     private AbstractVector2D getFrictionForce( double x, Body body ) {
         //todo kind of a funny workaround for getting friction on the ground.
         double coefficient = Math.max( body.getFrictionCoefficient(), spline.getFrictionCoefficient() );
-        double fricMag = coefficient * getNormalForce( x, body ).getMagnitude() / 10;//todo should the normal force be computed as emergent?
+        double fricMag = coefficient * getNormalForce( x, body ).getMagnitude();//todo should the normal force be computed as emergent?
         if( body.getVelocity().getMagnitude() > 0 ) {
             return body.getVelocity().getInstanceOfMagnitude( -fricMag );
         }
