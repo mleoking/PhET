@@ -15,7 +15,8 @@ public class FloorSpline extends CubicSpline {
         super( 4 );
         addControlPoint( -5, 0 );
         addControlPoint( 20, 0 );
-        setFrictionCoefficient( 0.03);
+//        setFrictionCoefficient( 0.03);
+        setFrictionCoefficient( 0.01 );
     }
 
 }
