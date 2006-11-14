@@ -35,8 +35,7 @@ public class SplineMode implements UpdateMode {
     public void stepInTime( Body body, double dt ) {
         Body origState = body.copyState();
         double x1 = lastX;
-        double sign = spline.getUnitParallelVector( x1 ).dot( body.getVelocity() ) > 0 ? 1 : -1;
-        body.setVelocity( spline.getUnitParallelVector( x1 ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() * sign ) );
+        pointVelocityAlongSpline( x1, body );
         AbstractVector2D netForceWithoutNormal = getNetForcesWithoutNormal( x1, body );
         new ForceMode( netForceWithoutNormal ).stepInTime( body, dt );
         afterNewton = body.copyState();
@@ -58,18 +57,30 @@ public class SplineMode implements UpdateMode {
 
             //todo: make sure we sank into the spline before applying this change
             //these 2 steps are sometimes changing the energy by a lot!!!
+//            Body beforeAttach = body.copyState();
             body.setAttachmentPointPosition( spline.evaluateAnalytical( x2 ) );
             rotateBody( x2, dt, Double.POSITIVE_INFINITY, body );
+//            if( body.getTotalEnergy() > origState.getTotalEnergy() && body.getEnergyDifferenceAbs( origState ) > 1 && body.getKineticEnergy() < body.getEnergyDifferenceAbs( origState ) ) {
+//                body.setLastFallTime( spline, System.currentTimeMillis() );
+//                body.setFreeFallMode();
+//                body.setAngularVelocity( 0.0 );
+//                return;
+//            }
 
             if( !isUserControlled( body ) ) {
-                fixEnergy( origState, netForceWithoutNormal.getAddedInstance( lastNormalForce ), x2, body );
+                fixEnergy( origState, netForceWithoutNormal.getAddedInstance( lastNormalForce ), x2, body, dt );
             }
             lastState = body.copyState();
             lastNormalForce = updateNormalForce( origState, body, netForceWithoutNormal, dt );
         }
     }
 
-    private void fixEnergy( Body origState, AbstractVector2D netForce, double x2, final Body body ) {
+    private void pointVelocityAlongSpline( double x1, Body body ) {
+        double sign = spline.getUnitParallelVector( x1 ).dot( body.getVelocity() ) > 0 ? 1 : -1;
+        body.setVelocity( spline.getUnitParallelVector( x1 ).getInstanceOfMagnitude( body.getVelocity().getMagnitude() * sign ) );
+    }
+
+    private void fixEnergy( Body origState, AbstractVector2D netForce, double x2, final Body body, double dt ) {
         boolean fixed = false;
         if( !fixed && body.getSpeed() >= 0.1 ) {
             //increasing the speed threshold from 0.001 to 0.1 causes the moon-sticking problem to go away.
@@ -123,8 +134,14 @@ public class SplineMode implements UpdateMode {
                     boolean gainedEnergy = finalE > origE;
                     String text = gainedEnergy ? "Gained Energy" : "Lost Energy";
                     System.out.println( text + ", After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ". " + ", velocity=" + body.getVelocity() + ", DeltaVelocity=" + body.getVelocity().getSubtractedInstance( origState.getVelocity() ) + ", deltaY=" + ( body.getY() - origState.getY() ) + ", deltaThermal=" + ( body.getThermalEnergy() - origState.getThermalEnergy() ) + ", ke=" + body.getKineticEnergy() + ", pe=" + body.getPotentialEnergy() + ", deltaKE=" + ( body.getKineticEnergy() - origState.getKineticEnergy() ) + ", deltaPE=" + ( body.getPotentialEnergy() - origState.getPotentialEnergy() ) );
-                    body.setAttachmentPointPosition( body.getX(), origState.getAttachPoint().getY() );
+                    double xSpeed = ( body.getX() - origState.getX() ) / dt;
+                    System.out.println( "xSpeed = " + xSpeed );
+                    double speedThreshold = 2.0;
+                    xSpeed = xSpeed > 0 ? Math.min( xSpeed, speedThreshold ) : Math.max( xSpeed, -speedThreshold );
+                    body.setAttachmentPointPosition( origState.getAttachPoint().getX() + xSpeed * dt, origState.getAttachPoint().getY() );
                     body.setVelocity( origState.getVelocity() );
+                    pointVelocityAlongSpline( lastX, body );
+
                     body.setThermalEnergy( origState.getThermalEnergy() );
                     body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
                     //setBodyState( origState, body );
