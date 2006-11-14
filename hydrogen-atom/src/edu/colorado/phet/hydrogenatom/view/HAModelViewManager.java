@@ -13,7 +13,7 @@ package edu.colorado.phet.hydrogenatom.view;
 
 import edu.colorado.phet.hydrogenatom.factory.*;
 import edu.colorado.phet.hydrogenatom.model.Model;
-import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.PLayer;
 
 /**
  * HAModelViewManager is an extension of ModelViewManager that
@@ -24,20 +24,26 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class HAModelViewManager extends ModelViewManager {
 
-    public HAModelViewManager( Model model, PNode parentNode ) {
+    public HAModelViewManager( Model model, AnimationBoxNode animationBoxNode ) {
         super( model );
         
-        // Particles
-        addNodeFactory( new PhotonNodeFactory( parentNode ) );
-        addNodeFactory( new AlphaParticleNodeFactory( parentNode ) );
+        PLayer bottomLayer = animationBoxNode.getBottomLayer();
+        PLayer middleLayer = animationBoxNode.getMiddleLayer();
+        PLayer topLayer = animationBoxNode.getTopLayer();
         
-        // Atoms
-        addNodeFactory( new ExperimentNodeFactory( parentNode ) );
-        addNodeFactory( new BilliardBallNodeFactory( parentNode ) );
-        addNodeFactory( new BohrNodeFactory( parentNode ) );
-        addNodeFactory( new DeBroglieNodeFactory( parentNode ) );
-        addNodeFactory( new PlumPuddingNodeFactory( parentNode ) );
-        addNodeFactory( new SchrodingerNodeFactory( parentNode ) );
-        addNodeFactory( new SolarSystemNodeFactory( parentNode ) );
+        // Particles are in the middle layer
+        addNodeFactory( new PhotonNodeFactory( middleLayer ) );
+        addNodeFactory( new AlphaParticleNodeFactory( middleLayer ) );
+        
+        // "Experiement" atom is in front of particles
+        addNodeFactory( new ExperimentNodeFactory( topLayer ) );
+        
+        // All other atoms are behind particles
+        addNodeFactory( new BilliardBallNodeFactory( bottomLayer ) );
+        addNodeFactory( new BohrNodeFactory( bottomLayer ) );
+        addNodeFactory( new DeBroglieNodeFactory( bottomLayer ) );
+        addNodeFactory( new PlumPuddingNodeFactory( bottomLayer ) );
+        addNodeFactory( new SchrodingerNodeFactory( bottomLayer ) );
+        addNodeFactory( new SolarSystemNodeFactory( bottomLayer ) );
     }
 }

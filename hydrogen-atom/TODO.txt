@@ -11,7 +11,6 @@ MEDIUM PRIORITY:
 - add "show traces" feature for alpha particles
 - implement DeBroglie model
 - implement Schrodinger model
-- ExperimentNode should be in front of photons and alpha particles
 - finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
 - implement spectrometer model
 - implement energy diagrams, reuse Ron's stuff
@@ -42,6 +41,9 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/14/06) - make ExperimentNode very dark gray instead of black
+(11/14/06) - put ExperimentNode in front of photons and alpha particles
+(11/14/06) - add layers to AnimationBoxNode
 (11/13/06) - change "animation region" to "animation box" throughout
 (11/13/06) - make PlumPuddingModel and BohrModel use separate instances of Random for absorb/emit probabilities
 (11/13/06) - make RandomUtils methods share an instance of Random, instead of using Math.random
