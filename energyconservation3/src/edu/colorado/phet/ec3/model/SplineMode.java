@@ -20,7 +20,6 @@ public class SplineMode implements UpdateMode {
     private double lastX;
     private Body lastState;
     private Body afterNewton;
-//    private Vector2D.Double lastNormalForce = new Vector2D.Double();
 
     public SplineMode( EnergyConservationModel model, AbstractSpline spline ) {
         this.model = model;
@@ -36,9 +35,8 @@ public class SplineMode implements UpdateMode {
         double x1 = lastX;
         pointVelocityAlongSpline( x1, body );
         AbstractVector2D netForce = getNetForce( x1, body );
-//        System.out.println( "netForceWithoutNormal = " + netForceWithoutNormal );
+        System.out.println( "netForce = " + netForce );
         new ForceMode( netForce ).stepInTime( body, dt );
-//        new ForceMode( netForceWithoutNormal ).stepInTime( body, dt );
         afterNewton = body.copyState();
 
         double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 60, 2 );
@@ -53,14 +51,10 @@ public class SplineMode implements UpdateMode {
             body.setAngularVelocity( 0.0 );
         }
         else {
-            double thermalEnergy = getFrictionForce( ( x1 + x2 ) / 2, body ).getMagnitude() * origState.getPositionVector().getSubtractedInstance( body.getPositionVector() ).getMagnitude();
+            double thermalEnergy = getFrictionForce( ( x1 + x2 ) / 2, body ).getMagnitude() * origState.getPositionVector().getSubtractedInstance( body.getPositionVector() ).getMagnitude() * 1E2;
+            System.out.println( "thermalEnergy = " + thermalEnergy );
             body.addThermalEnergy( thermalEnergy );
-//            if( body.getFrictionCoefficient() > 0 ) {
-//                double speedThreshold = Math.min( origState.getVelocity().getMagnitude(), body.getVelocity().getMagnitude() );
-//                body.setVelocity( Vector2D.Double.parseAngleAndMagnitude( speedThreshold * 0.99, body.getVelocity().getAngle() ) );
-//            }
             lastX = x2;
-//            System.out.println( "origState.getSpeed() = " + origState.getSpeed() + ", newSpeed=" + body.getSpeed() + ", deltaThermal=" + thermalEnergy );
 
             //todo: make sure we sank into the spline before applying this change
             //these 2 steps are sometimes changing the energy by a lot!!!
@@ -71,7 +65,6 @@ public class SplineMode implements UpdateMode {
                 fixEnergy( origState, netForce, x2, body, dt );
             }
             lastState = body.copyState();
-//            lastNormalForce = updateNormalForce( origState, body, netForce, dt );
         }
     }
 
@@ -273,13 +266,13 @@ public class SplineMode implements UpdateMode {
                 body.getGravityForce(),
                 body.getThrust(),
                 getFrictionForce( x, body ),
+                getNormalForce( x, body )
         };
         Vector2D.Double sum = new Vector2D.Double();
         for( int i = 0; i < forces.length; i++ ) {
             AbstractVector2D force = forces[i];
             sum.add( force );
         }
-        sum.add( getNormalForce( x, body ) );
         if( Double.isNaN( sum.getX() ) ) {
             System.out.println( "nan" );
         }
@@ -289,7 +282,8 @@ public class SplineMode implements UpdateMode {
     private AbstractVector2D getNormalForce( double x, Body body ) {
         AbstractVector2D n = spline.getUnitNormalVector( x );
         double length = body.getGravityForce().dot( n );
-        return Vector2D.Double.parseAngleAndMagnitude( length, n.getAngle() );
+        double angle = isSplineTop( spline, x, body ) ? n.getAngle() : n.getAngle() + Math.PI;
+        return Vector2D.Double.parseAngleAndMagnitude( length, -angle );
     }
 
 //    private Vector2D.Double updateNormalForce( Body origState, Body body, AbstractVector2D netForce, double dt ) {
