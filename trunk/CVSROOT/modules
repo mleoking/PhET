@@ -228,3 +228,6 @@ jnlphacker-module jnlphacker
 # javadetector - Used by installer and InstallAnywhere to see if the client computer
 # has an acceptable JVM 
 javadetector-module javadetector
+
+# cvsutil - A utilitiy for move modiifying the CVSROOT of source trees
+cvsutil cvsutil
