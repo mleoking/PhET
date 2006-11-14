@@ -17,6 +17,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.util.StripChart;
 import edu.colorado.phet.molecularreactions.view.MoleculePaints;
+import edu.umd.cs.piccolo.PNode;
 import org.jfree.chart.plot.PlotOrientation;
 
 import java.awt.*;
@@ -43,11 +44,10 @@ public class MoleculePopulationsStripChart extends StripChart {
     private double updateInterval;
     private double timeSinceLastUpdate;
 
-    private int buffSize = 10;
-//    private int buffSize = fps * 60 * 3;
-    private double[][] buffer = new double[5][buffSize];
-    private int buffHead = 0;
-    private int buffTail = buffSize - 1;
+//    private int buffSize = 10;
+//    private double[][] buffer = new double[5][buffSize];
+//    private int buffHead = 0;
+//    private int buffTail = buffSize - 1;
 
     /**
      *
@@ -93,18 +93,6 @@ public class MoleculePopulationsStripChart extends StripChart {
         super.setYRange( 0, (int)(maxCnt * 1.5 ));
     }
 
-
-    public void dumpBuffer() {
-        int numBufferEntries = ( buffHead - buffTail - 1 + buffSize ) % buffSize;
-
-        System.out.println( "===================================" );
-
-        for( int i = 0; i < numBufferEntries; i++ ) {
-            int buffIdx = Math.abs(buffHead + buffSize - i) % buffSize;
-            System.out.println( "buffer = " + buffer[T][buffIdx ] );
-        }
-    }
-
     private class Updater extends ClockAdapter {
 
         public void clockTicked( ClockEvent clockEvent ) {
@@ -115,17 +103,16 @@ public class MoleculePopulationsStripChart extends StripChart {
                 addData( 1, clockEvent.getSimulationTime(), counterBC.getCnt() );
                 addData( 2, clockEvent.getSimulationTime(), counterAB.getCnt() );
                 addData( 3, clockEvent.getSimulationTime(), counterC.getCnt() );
-
-                buffHead = (buffHead + 1) % buffSize;
-                if( buffHead == buffTail ) {
-                    buffTail = (buffTail + 1) % buffSize;
-                }
-                buffer[T][buffHead] = clockEvent.getSimulationTime();
-                buffer[A][buffHead] = counterA.getCnt();
-                buffer[BC][buffHead] = counterBC.getCnt();
-                buffer[AB][buffHead] = counterAB.getCnt();
-                buffer[C][buffHead] = counterC.getCnt();
-                dumpBuffer();
+//
+//                buffHead = (buffHead + 1) % buffSize;
+//                if( buffHead == buffTail ) {
+//                    buffTail = (buffTail + 1) % buffSize;
+//                }
+//                buffer[T][buffHead] = clockEvent.getSimulationTime();
+//                buffer[A][buffHead] = counterA.getCnt();
+//                buffer[BC][buffHead] = counterBC.getCnt();
+//                buffer[AB][buffHead] = counterAB.getCnt();
+//                buffer[C][buffHead] = counterC.getCnt();
             }
         }
     }

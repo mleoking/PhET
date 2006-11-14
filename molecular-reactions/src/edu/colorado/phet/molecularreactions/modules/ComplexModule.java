@@ -15,12 +15,12 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.util.DialogCheckBox;
 import edu.colorado.phet.molecularreactions.view.*;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChartNode;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsStripChart;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChartNode;
-import edu.colorado.phet.molecularreactions.view.charts.StripChartDialog;
+import edu.colorado.phet.molecularreactions.view.charts.StripChartAdjuster;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolo.PNode;
@@ -158,9 +158,11 @@ public class ComplexModule extends MRModule {
     }
 
     private JDialog createStripChartDialog() {
-        final MoleculePopulationsStripChart stripChart = new MoleculePopulationsStripChart( getMRModel(), getClock(), 500, 0, 20, 1 );
+        Dimension chartSize = new Dimension( 400, 200 );
+        double xAxisRange = 500;
+        final MoleculePopulationsStripChart stripChart = new MoleculePopulationsStripChart( getMRModel(), getClock(), xAxisRange, 0, 20, 1 );
         ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
-        chartPanel.setPreferredSize( new Dimension( 400, 200 ) );
+        chartPanel.setPreferredSize( chartSize );
 
         // Dialog
         JDialog stripChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
@@ -168,7 +170,6 @@ public class ComplexModule extends MRModule {
         PhetPCanvas stripChartCanvas = new PhetPCanvas();
         PNode stripChartNode = new PSwing( stripChartCanvas, chartPanel );
         stripChartCanvas.addScreenChild( stripChartNode );
-        stripChartCanvas.setPreferredSize( new Dimension( chartPanel.getPreferredSize() ) );
 
         // Add a rescale button
         JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale" ) );
@@ -182,8 +183,25 @@ public class ComplexModule extends MRModule {
                                chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() - 10 );
         stripChartCanvas.addScreenChild( rescaleNode );
 
+        // Add a scrollbar
+        JScrollBar scrollBar = new JScrollBar( JScrollBar.HORIZONTAL, 0 , 20, 0, (int)xAxisRange );
+        scrollBar.addAdjustmentListener( new StripChartAdjuster( stripChart ) );
+
+        Insets scrollBarInsets = new Insets( 3, 50, 3, 10 );
+        scrollBar.setPreferredSize( new Dimension( (int)(stripChartNode.getFullBounds().getWidth() - scrollBarInsets.left - scrollBarInsets.right), 15 ));
+        PSwing scrollBarNode = new PSwing( stripChartCanvas, scrollBar );
+        Dimension dialogSize = new Dimension( (int)chartSize.getWidth(),
+                                        (int)(chartSize.getHeight() + scrollBarNode.getFullBounds().getHeight() +
+                                        scrollBarInsets.top + scrollBarInsets.bottom ));
+
+        scrollBarNode.setOffset(scrollBarInsets.left,
+                                dialogSize.getHeight() - scrollBarNode.getFullBounds().getHeight() - scrollBarInsets.bottom );
+        stripChartCanvas.addScreenChild( scrollBarNode );
+
+        stripChartCanvas.setPreferredSize( dialogSize );
         stripChartDlg.getContentPane().add( stripChartCanvas );
         stripChartDlg.pack();
+
         return stripChartDlg;
     }
 
