@@ -50,17 +50,22 @@ public class MoleculePopulationsStripChart extends StripChart {
 //    private int buffTail = buffSize - 1;
 
     /**
-     *
      * @param model
      * @param clock
      * @param xAxisRange
      * @param minY
      * @param maxY
      * @param updateInterval
+     * @param buffSize
      */
-    public MoleculePopulationsStripChart( MRModel model, IClock clock, double xAxisRange, double minY, double maxY,
-                                          double updateInterval ) {
-        super( title, seriesNames, xAxisLabel, yAxisLabel, orienation, xAxisRange, minY, maxY );
+    public MoleculePopulationsStripChart( MRModel model,
+                                          IClock clock,
+                                          double xAxisRange,
+                                          double minY,
+                                          double maxY,
+                                          double updateInterval,
+                                          int buffSize ) {
+        super( title, seriesNames, xAxisLabel, yAxisLabel, orienation, xAxisRange, minY, maxY, buffSize );
 
         this.updateInterval = updateInterval;
 
@@ -90,7 +95,7 @@ public class MoleculePopulationsStripChart extends StripChart {
         maxCnt = Math.max( maxCnt, counterC.getCnt() );
 
         // Make vertical scale 1.5x the max count
-        super.setYRange( 0, (int)(maxCnt * 1.5 ));
+        super.setYRange( 0, (int)( maxCnt * 1.5 ) );
     }
 
     private class Updater extends ClockAdapter {
@@ -99,10 +104,20 @@ public class MoleculePopulationsStripChart extends StripChart {
             timeSinceLastUpdate += clockEvent.getSimulationTimeChange();
             if( timeSinceLastUpdate > updateInterval ) {
                 timeSinceLastUpdate = 0;
-                addData( 0, clockEvent.getSimulationTime(), counterA.getCnt() );
-                addData( 1, clockEvent.getSimulationTime(), counterBC.getCnt() );
-                addData( 2, clockEvent.getSimulationTime(), counterAB.getCnt() );
-                addData( 3, clockEvent.getSimulationTime(), counterC.getCnt() );
+
+                addData( clockEvent.getSimulationTime(),
+                         new double[]{counterA.getCnt(),
+                                 counterBC.getCnt(),
+                                 counterAB.getCnt(),
+                                 counterC.getCnt(),
+                                 counterA.getCnt()
+                         } );
+
+
+//                addData( 0, clockEvent.getSimulationTime(), counterA.getCnt() );
+//                addData( 1, clockEvent.getSimulationTime(), counterBC.getCnt() );
+//                addData( 2, clockEvent.getSimulationTime(), counterAB.getCnt() );
+//                addData( 3, clockEvent.getSimulationTime(), counterC.getCnt() );
 //
 //                buffHead = (buffHead + 1) % buffSize;
 //                if( buffHead == buffTail ) {
