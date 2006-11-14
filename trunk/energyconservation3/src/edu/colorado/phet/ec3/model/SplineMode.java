@@ -143,12 +143,12 @@ public class SplineMode implements UpdateMode {
                 setBodyState( origState, body );
             }
             else {
-                if( origState.getEnergyDifferenceAbs( body ) > 1E-2 ) {
+                if( origState.getEnergyDifferenceAbs( body ) > 1E-6 ) {
                     double finalE = body.getTotalEnergy();
                     double origE = origState.getTotalEnergy();
                     boolean gainedEnergy = finalE > origE;
                     String text = gainedEnergy ? "Gained Energy" : "Lost Energy";
-                    System.out.println( "After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ", rolling back changes: " + text );
+                    System.out.println( text + ", After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ". " + ", velocity=" + body.getVelocity() );
                     body.setAttachmentPointPosition( body.getX(), origState.getAttachPoint().getY() );
 //                    body.setAttachmentPointPosition( origState.getAttachPoint().getX(), origState.getAttachPoint().getY() );
                     body.setVelocity( origState.getVelocity() );
