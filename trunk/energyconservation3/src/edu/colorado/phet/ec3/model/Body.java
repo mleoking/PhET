@@ -167,6 +167,7 @@ public class Body {
     }
 
     public void stepInTime( double dt ) {
+        System.out.println( "getGravity() = " + getGravity() );
         StateRecord collisionList = createCollisionState();
         stateRecordHistory.add( collisionList );
         if( stateRecordHistory.size() > 100 ) {

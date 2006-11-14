@@ -136,9 +136,10 @@ public class SplineMode implements UpdateMode {
                     String text = gainedEnergy ? "Gained Energy" : "Lost Energy";
                     System.out.println( text + ", After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ". " + ", velocity=" + body.getVelocity() + ", DeltaVelocity=" + body.getVelocity().getSubtractedInstance( origState.getVelocity() ) + ", deltaY=" + ( body.getY() - origState.getY() ) + ", deltaThermal=" + ( body.getThermalEnergy() - origState.getThermalEnergy() ) + ", ke=" + body.getKineticEnergy() + ", pe=" + body.getPotentialEnergy() + ", deltaKE=" + ( body.getKineticEnergy() - origState.getKineticEnergy() ) + ", deltaPE=" + ( body.getPotentialEnergy() - origState.getPotentialEnergy() ) );
                     double xSpeed = ( body.getX() - origState.getX() ) / dt;
-                    System.out.println( "xSpeed = " + xSpeed );
+//                    System.out.println( "xSpeed = " + xSpeed );
                     double speedThreshold = 2.0;
 //                    xSpeed = xSpeed > 0 ? Math.min( xSpeed, speedThreshold ) : Math.max( xSpeed, -speedThreshold );
+                    //have to push the body to move to the surface of the spline, otherwise gets stuck easily
                     xSpeed = xSpeed > 0 ? speedThreshold : -speedThreshold;
                     body.setAttachmentPointPosition( origState.getAttachPoint().getX() + xSpeed * dt, origState.getAttachPoint().getY() );
                     body.setVelocity( origState.getVelocity() );
