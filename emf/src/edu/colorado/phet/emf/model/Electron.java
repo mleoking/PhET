@@ -13,11 +13,9 @@ import edu.colorado.phet.emf.model.movement.ManualMovement;
 import edu.colorado.phet.emf.model.movement.MovementType;
 import edu.colorado.phet.emf.model.movement.SinusoidalMovement;
 import edu.colorado.phet.mechanics.Body;
-import edu.colorado.phet.coreadditions.CircularBuffer;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 public class Electron extends Body {
 
@@ -30,8 +28,6 @@ public class Electron extends Body {
     private double runningTime;
     private Vector2D.Float staticFieldStrength = new Vector2D.Float();
     private Vector2D.Float dynamicFieldStrength = new Vector2D.Float();
-    private Vector2D.Float fieldStrength = new Vector2D.Float();
-
 
 
     // Number of time steps between emitting field elements. This
@@ -40,20 +36,15 @@ public class Electron extends Body {
     private int steps = 0;
 
     // The position history of the electron
-    private CircularBuffer positionHistory = new CircularBuffer( s_retardedFieldLength );
-//    private Point2D[] positionHistory = new Point2D.Float[s_retardedFieldLength];
+    private Point2D[] positionHistory = new Point2D.Float[s_retardedFieldLength];
     // The acceleration history of the electron
-    private CircularBuffer accelerationHistory = new CircularBuffer(s_retardedFieldLength );
-//    private Vector2D.Float[] accelerationHistory = new Vector2D.Float[s_retardedFieldLength];
+    private Vector2D.Float[] accelerationHistory = new Vector2D.Float[s_retardedFieldLength];
     // The history of the maximum acceleration the electron courld have had at
     // a point in time. This is needed so viewers can properly scale the actual
     // accelerations
-    private CircularBuffer maxAccelerationHistory = new CircularBuffer(s_retardedFieldLength);
-//    private CircularBuffer maxAccelerationHistory = new CircularBuffer(s_retardedFieldLength);
-//    private Vector2D.Float[] maxAccelerationHistory = new Vector2D.Float[s_retardedFieldLength];
+    private Vector2D.Float[] maxAccelerationHistory = new Vector2D.Float[s_retardedFieldLength];
     // The history of what movement strategy was in place a point in time
-    private CircularBuffer movementStrategyHistory = new CircularBuffer( s_retardedFieldLength );
-//    private MovementType[] movementStrategyHistory = new MovementType[s_retardedFieldLength];
+    private MovementType[] movementStrategyHistory = new MovementType[s_retardedFieldLength];
 
     private boolean changeFreq;
     private float newFreq;
@@ -67,15 +58,10 @@ public class Electron extends Body {
         this.startPosition = new Point2D.Double( startPosition.getX(), startPosition.getY() );
         this.currentPosition = new Point2D.Double( startPosition.getX(), startPosition.getY() );
         for( int i = 0; i < s_retardedFieldLength; i++ ) {
-            positionHistory.add( new Point2D.Float( (float)startPosition.getX(),
-                                                    (float)startPosition.getY() ));
-            accelerationHistory.add( new Vector2D.Float());
-            maxAccelerationHistory.add( new Vector2D.Float() );
-            movementStrategyHistory.add( null );
-//            positionHistory[i] = new Point2D.Float( (float)startPosition.getX(),
-//                                                    (float)startPosition.getY() );
-//            accelerationHistory[i] = new Vector2D.Float();
-//            maxAccelerationHistory[i] = new Vector2D.Float();
+            positionHistory[i] = new Point2D.Float( (float)startPosition.getX(),
+                                                    (float)startPosition.getY() );
+            accelerationHistory[i] = new Vector2D.Float();
+            maxAccelerationHistory[i] = new Vector2D.Float();
         }
     }
 
@@ -144,41 +130,28 @@ public class Electron extends Body {
     }
 
     private void recordPosition( Point2D position ) {
-        for( int i = 0; i < s_stepSize; i++ ) {
-            positionHistory.remove();
-            accelerationHistory.remove();
-            maxAccelerationHistory.remove();
-            movementStrategyHistory.remove();
+
+        for( int i = s_retardedFieldLength - 1; i > s_stepSize - 1; i-- ) {
+            positionHistory[i].setLocation( positionHistory[i - s_stepSize] );
+            accelerationHistory[i].setX( accelerationHistory[i - s_stepSize].getX() );
+            accelerationHistory[i].setY( accelerationHistory[i - s_stepSize].getY() );
+            maxAccelerationHistory[i].setX( maxAccelerationHistory[i - s_stepSize].getX() );
+            maxAccelerationHistory[i].setY( maxAccelerationHistory[i - s_stepSize].getY() );
+            movementStrategyHistory[i] = movementStrategyHistory[i - s_stepSize];
         }
 
-//        for( int i = s_retardedFieldLength - 1; i > s_stepSize - 1; i-- ) {
-//            positionHistory[i].setLocation( positionHistory[i - s_stepSize] );
-//            accelerationHistory[i].setX( accelerationHistory[i - s_stepSize].getX() );
-//            accelerationHistory[i].setY( accelerationHistory[i - s_stepSize].getY() );
-//            maxAccelerationHistory[i].setX( maxAccelerationHistory[i - s_stepSize].getX() );
-//            maxAccelerationHistory[i].setY( maxAccelerationHistory[i - s_stepSize].getY() );
-//            movementStrategyHistory[i] = movementStrategyHistory[i - s_stepSize];
-//        }
-
-//        Vector2D.Float a = (Vector2D.Float)accelerationHistory.get( accelerationHistory.size() - 1 );
-        Vector2D.Float a = (Vector2D.Float)accelerationHistory.get(0);
-
-//        Vector2D.Float a = accelerationHistory[0];
+        Vector2D.Float a = accelerationHistory[0];
         double df = ( a.getY() - movementStrategy.getAcceleration( this ) * s_B ) / s_stepSize;
-
         for( int i = 0; i < s_stepSize; i++ ) {
-            positionHistory.add(position );
-            accelerationHistory.add( new Vector2D.Float(0, movementStrategy.getAcceleration( this ) * s_B + i * df ));
-            maxAccelerationHistory.add(new Vector2D.Float(0, movementStrategy.getMaxAcceleration( this ) * s_B ));
-            movementStrategyHistory.add( this.movementStrategy );
-//            positionHistory[i].setLocation( position );
-//            accelerationHistory[i].setY( movementStrategy.getAcceleration( this ) * s_B + i * df );
-//            maxAccelerationHistory[i].setY( movementStrategy.getMaxAcceleration( this ) * s_B );
-//            movementStrategyHistory[i] = this.movementStrategy;
+            positionHistory[i].setLocation( position );
+            accelerationHistory[i].setY( movementStrategy.getAcceleration( this ) * s_B + i * df );
+            maxAccelerationHistory[i].setY( movementStrategy.getMaxAcceleration( this ) * s_B );
+            movementStrategyHistory[i] = this.movementStrategy;
         }
     }
 
     public Vector2D getVelocity() {
+//    public Vector2D.Float getVelocity() {
         return this.velocity;
     }
 
@@ -210,14 +183,12 @@ public class Electron extends Body {
         // !!!! This is where you I answered Noah's concern of 11/3/03
         // todo: this won't look right in the full-field view
         double distanceFromSource = location.distance( this.getStartPosition() );
+//                double distanceFromSource = location.distance( this.getCurrentPosition() );
         if( distanceFromSource == 0 ) {
             throw new RuntimeException( "Asked for r=0 field." );
         }
 
-//        Point2D generatingPos = (Point2D)this.positionHistory.get(positionHistory.size() - (int)distanceFromSource - 1);
-        System.out.println( "distanceFromSource = " + distanceFromSource );
-        Point2D generatingPos = (Point2D)this.positionHistory.get((int)distanceFromSource);
-//        Point2D generatingPos = this.positionHistory[(int)distanceFromSource];
+        Point2D generatingPos = this.positionHistory[(int)distanceFromSource];
 
         // Using the following line may or may not be more accurate. I'm not sure, since
         // the index we use into the positionHistory buffer is based on the current position
@@ -235,6 +206,8 @@ public class Electron extends Body {
         // Set the magnitude of the field to the acceleration of the electron, reduced by
         // the by the distance from the source
         float acceleration = this.getAccelerationAt( (int)distanceFromSource );
+        //        float distanceScaleFactor = (float)Math.max( ( Math.pow( distanceFromSource, 0.5 ) ), 1.0 );
+
         float distanceScaleFactor = 0;
         if( distanceFromSource == 0 ) {
             distanceScaleFactor = 1;
@@ -254,6 +227,8 @@ public class Electron extends Body {
         return dynamicFieldStrength;
     }
 
+    private Vector2D.Float fieldStrength = new Vector2D.Float();
+
     public Vector2D.Float getFieldAtLocation( Point2D location ) {
         fieldStrength.setX( 0 );
         fieldStrength.setY( 0 );
@@ -267,16 +242,11 @@ public class Electron extends Body {
     }
 
     private float getAccelerationAt( int x ) {
-//        return (float)((Vector2D)accelerationHistory.get(Math.max( accelerationHistory.size() - x - 1, 0 ))).getY();
-        return (float)((Vector2D)accelerationHistory.get( x )).getY();
-//        return (float)((Vector2D)accelerationHistory.get(Math.min( x, accelerationHistory.size() - 1 ))).getY();
-//        return (float)accelerationHistory[Math.min( x, accelerationHistory.length - 1 )].getY();
+        return (float)accelerationHistory[Math.min( x, accelerationHistory.length - 1 )].getY();
     }
 
     public float getPositionAt( int x ) {
-        return (float)((Point2D)positionHistory.get( x )).getY();
-//        return (float)((Point2D)positionHistory.get(Math.min( x, positionHistory.size() - 1 ))).getY();
-//        return (float)positionHistory[Math.min( x, positionHistory.length - 1 )].getY();
+        return (float)positionHistory[Math.min( x, positionHistory.length - 1 )].getY();
     }
 
     public float getPositionAt( Point2D p ) {
@@ -286,9 +256,7 @@ public class Electron extends Body {
 
     public MovementType getMovementTypeAt( Point2D location ) {
         int x = (int)( location.distance( this.currentPosition ) );
-        return (MovementType)movementStrategyHistory.get( x );
-//        return (MovementType)movementStrategyHistory.get( movementStrategyHistory.size() - x - 1 );
-//        return movementStrategyHistory[x];
+        return movementStrategyHistory[x];
     }
 
     public double getMass() {
@@ -320,14 +288,12 @@ public class Electron extends Body {
 
     public Vector2D.Float getMaxAccelerationAtLocation( Point2D.Double location ) {
         double distanceFromSource = location.distance( this.getStartPosition() );
-        return (Vector2D.Float)this.maxAccelerationHistory.get((int)distanceFromSource);
-//        return this.maxAccelerationHistory[(int)distanceFromSource];
+        return this.maxAccelerationHistory[(int)distanceFromSource];
     }
 
     public Vector2D.Float getMaxAccelerationAtLocation( Point location ) {
         double distanceFromSource = location.distance( this.getStartPosition() );
-        return (Vector2D.Float)this.maxAccelerationHistory.get((int)distanceFromSource);
-//        return this.maxAccelerationHistory[(int)distanceFromSource];
+        return this.maxAccelerationHistory[(int)distanceFromSource];
     }
 
     /**
@@ -337,11 +303,9 @@ public class Electron extends Body {
      */
     public boolean isFieldOff( double x ) {
         boolean result = true;
-        for( int i = 0; i < accelerationHistory.size()
-//        for( int i = 0; i < accelerationHistory.length
+        for( int i = 0; i < accelerationHistory.length
                         && i < (int)x && result == true; i++ ) {
-            Vector2D.Float field = (Vector2D.Float)accelerationHistory.get(i);
-//            Vector2D.Float field = accelerationHistory[i];
+            Vector2D.Float field = accelerationHistory[i];
             if( field.getX() != 0 || field.getY() != 0 ) {
                 result = false;
             }
@@ -349,6 +313,7 @@ public class Electron extends Body {
         return result;
     }
 
+//    public Point2D getCM() {
     public Point2D.Double getCM() {
         return (Point2D.Double)getPosition();
     }
