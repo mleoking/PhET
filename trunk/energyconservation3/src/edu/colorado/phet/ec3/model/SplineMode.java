@@ -128,21 +128,28 @@ public class SplineMode implements UpdateMode {
                     boolean gainedEnergy = finalE > origE;
                     String text = gainedEnergy ? "Gained Energy" : "Lost Energy";
                     System.out.println( text + ", After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ". " + ", velocity=" + body.getVelocity() + ", DeltaVelocity=" + body.getVelocity().getSubtractedInstance( origState.getVelocity() ) + ", deltaY=" + ( body.getY() - origState.getY() ) + ", deltaThermal=" + ( body.getThermalEnergy() - origState.getThermalEnergy() ) + ", ke=" + body.getKineticEnergy() + ", pe=" + body.getPotentialEnergy() + ", deltaKE=" + ( body.getKineticEnergy() - origState.getKineticEnergy() ) + ", deltaPE=" + ( body.getPotentialEnergy() - origState.getPotentialEnergy() ) );
-                    double xSpeed = ( body.getX() - origState.getX() ) / dt;
+
+                    System.out.println( "trying to fix on spline again..." );
+                    double epsilon = 0.5;//1E-8     
+                    fixEnergyOnSpline( origState, x2, body, epsilon );
+                    System.out.println( "origState.getEnergyDifferenceAbs( body ) = " + origState.getEnergyDifferenceAbs( body ) );
+                    if( origState.getEnergyDifferenceAbs( body ) > 1E-4 ) {
+                        double xSpeed = ( body.getX() - origState.getX() ) / dt;
 //                    System.out.println( "xSpeed = " + xSpeed );
 //                    double speedThreshold = 2.0;
 //                    xSpeed = xSpeed > 0 ? Math.min( xSpeed, speedThreshold ) : Math.max( xSpeed, -speedThreshold );
-                    //have to push the body to move to the surface of the spline, otherwise gets stuck easily
+                        //have to push the body to move to the surface of the spline, otherwise gets stuck easily
 
-                    body.setVelocity( origState.getVelocity() );
-                    pointVelocityAlongSpline( lastX, body );
+                        body.setVelocity( origState.getVelocity() );
+                        pointVelocityAlongSpline( lastX, body );
 
 //                    xSpeed = body.getVelocity().getX() > 0 ? speedThreshold : -speedThreshold;
-                    xSpeed = 0.0;
-                    body.setAttachmentPointPosition( origState.getAttachPoint().getX() + xSpeed * dt, origState.getAttachPoint().getY() );
+                        xSpeed = 0.0;
+                        body.setAttachmentPointPosition( origState.getAttachPoint().getX() + xSpeed * dt, origState.getAttachPoint().getY() );
 
-                    body.setThermalEnergy( origState.getThermalEnergy() );
-                    body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
+                        body.setThermalEnergy( origState.getThermalEnergy() );
+                        body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
+                    }
                     //setBodyState( origState, body );
                 }
             }
@@ -151,16 +158,18 @@ public class SplineMode implements UpdateMode {
         }
     }
 
-    boolean fixEnergyOnSpline( final Body origState, double x2, final Body body, double epsilon ) {
+    boolean fixEnergyOnSpline( final Body origState, final double x2, final Body body, double epsilon ) {
         Body beforeFix = body.copyState();
         //look for an adjacent position with a more accurate energy
         double x3 = getDistAlongSplineBinarySearch( x2, epsilon, 60, 5, new AbstractSpline.SplineCriteria() {
             public double evaluate( Point2D loc ) {
                 body.setAttachmentPointPosition( loc );
+                rotateBody( x2, 1.0, Double.POSITIVE_INFINITY, body );
                 return Math.abs( body.getTotalEnergy() - origState.getTotalEnergy() );
             }
         } );
         body.setAttachmentPointPosition( spline.evaluateAnalytical( x3 ) );
+        rotateBody( x2, 1.0, Double.POSITIVE_INFINITY, body );
         double origError = Math.abs( origState.getTotalEnergy() - beforeFix.getTotalEnergy() );
         double newError = Math.abs( origState.getTotalEnergy() - body.getTotalEnergy() );
         return newError == 0;//probably never
