@@ -140,8 +140,8 @@ public class SplineMode implements UpdateMode {
                     System.out.println( text + ", After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ". " + ", velocity=" + body.getVelocity() + ", DeltaVelocity=" + body.getVelocity().getSubtractedInstance( origState.getVelocity() ) + ", deltaY=" + ( body.getY() - origState.getY() ) + ", deltaThermal=" + ( body.getThermalEnergy() - origState.getThermalEnergy() ) + ", ke=" + body.getKineticEnergy() + ", pe=" + body.getPotentialEnergy() + ", deltaKE=" + ( body.getKineticEnergy() - origState.getKineticEnergy() ) + ", deltaPE=" + ( body.getPotentialEnergy() - origState.getPotentialEnergy() ) );
                     System.out.println( "trying to fix on spline again..." );
                     boolean splineFixed = false;
-                    double minEpsilon = 0.01;
-                    double maxEpsilon = 0.1;
+                    double minEpsilon = 0.001;
+                    double maxEpsilon = 0.01;
                     int numSteps = 5;
                     for( int i = 0; i < numSteps; i++ ) {
                         double epsilon = minEpsilon + ( maxEpsilon - minEpsilon ) * i / ( (double)numSteps );
