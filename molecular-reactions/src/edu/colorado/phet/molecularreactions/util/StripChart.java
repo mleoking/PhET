@@ -35,7 +35,7 @@ import java.util.EventListener;
  * <p/>
  * The StripChart buffers data so that it can retain more data than is shows at
  * any one time. This allows it to be scrolled back and forth through the
- * collected data.
+ * collected data. A circular buffer implemented in arrays is used.
  *
  * @author Ron LeMaster
  * @version $Revision$

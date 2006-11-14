@@ -10,25 +10,30 @@
  */
 package edu.colorado.phet.molecularreactions.view.charts;
 
+import edu.colorado.phet.molecularreactions.util.StripChart;
+
 import java.awt.event.AdjustmentListener;
 import java.awt.event.AdjustmentEvent;
 
 /**
  * StripChartAdjuster
+ * <p>
+ * Adjusts the visible range of a StripChart. Used in conjunction with
+ * a control like a JScrollBar
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class StripChartAdjuster implements AdjustmentListener {
-    private MoleculePopulationsStripChart stripChart;
+    private StripChart stripChart;
 
-    public StripChartAdjuster( MoleculePopulationsStripChart stripChart ) {
+    public StripChartAdjuster( StripChart stripChart ) {
         this.stripChart = stripChart;
     }
 
     public void adjustmentValueChanged( AdjustmentEvent e ) {
         int value = e.getValue();
+        
         stripChart.setMinX( value );
-        System.out.println( "value = " + value );
     }
 }
