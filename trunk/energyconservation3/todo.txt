@@ -9,9 +9,7 @@ bounces around the bottom of the screen before shooting off in a random directio
         This problem is partially reduced.  Friction + Gravity + Track Curvature increases probability of getting this problem.
         
 See Wendy's previous email about energy conservation across gravity changes.
-
-Deleting a control point during spline traversal causes crash.
-        
+       
 #################################################################
 Low Priority or Deprecated
 #######################################
