@@ -9,7 +9,10 @@ bounces around the bottom of the screen before shooting off in a random directio
         This problem is partially reduced.  Friction + Gravity + Track Curvature increases probability of getting this problem.
         
 See Wendy's previous email about energy conservation across gravity changes.
-       
+
+Identified a problem that caused skater to get stuck on the high part of his spline traversal.
+Fixed this, but more problems arose.
+
 #################################################################
 Low Priority or Deprecated
 #######################################

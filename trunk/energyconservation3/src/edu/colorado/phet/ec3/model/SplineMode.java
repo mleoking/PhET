@@ -139,12 +139,12 @@ public class SplineMode implements UpdateMode {
                     Body beforeStep = body.copyState();
                     System.out.println( "trying to fix on spline again..." );
                     boolean splineFixed = false;
-                    for( double epsilon = 0.1; epsilon < 0.55 && !splineFixed; epsilon += 0.1 ) {
+                    for( double epsilon = 0.1; epsilon < 0.35 && !splineFixed; epsilon += 0.1 ) {
                         splineFixed = splineFixed || fixEnergyOnSpline( origState, x2, body, epsilon );
-                        if( !splineFixed ) {
-                            setBodyState( beforeStep, body );
-                        }
-                        else {
+                        if( splineFixed ) {
+//                            setBodyState( beforeStep, body );
+//                        }
+//                        else {
                             System.out.println( "spline fixed for epsilon=" + epsilon );
                         }
                     }
