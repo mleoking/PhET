@@ -2,10 +2,6 @@
 Remaining Work
 #######################################
         
-Save/Load not working sometimes
-        Could be: throwing an exception, "body.debug angles inconsistent"
-        This may be fixed now; I was unable to reproduce the problem so I can't claim this with much certainty.
-
 -When coefficient of friction is turned to maximum and there is a lot of
 gravity (maximum) the skater falls through the track at the bottom point and
 bounces around the bottom of the screen before shooting off in a random direction 
@@ -82,4 +78,8 @@ being pushed.  The only way to fix this is to reset the entire simulation.
 After some combination of recording and playback, the track graphic becomes dissociated from the skater.
         The skater will continue to traverse the path where the track used to be, even after it has been dragged.
         This solution is a bit of a hack.
+
+Save/Load not working sometimes
+        Could be: throwing an exception, "body.debug angles inconsistent"
+        This may be fixed now; I was unable to reproduce the problem so I can't claim this with much certainty.
         
