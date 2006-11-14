@@ -6,7 +6,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 
 import java.awt.geom.Point2D;
-import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -128,10 +127,18 @@ public class SplineMode implements UpdateMode {
                     boolean gainedEnergy = finalE > origE;
                     String text = gainedEnergy ? "Gained Energy" : "Lost Energy";
                     System.out.println( text + ", After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ". " + ", velocity=" + body.getVelocity() + ", DeltaVelocity=" + body.getVelocity().getSubtractedInstance( origState.getVelocity() ) + ", deltaY=" + ( body.getY() - origState.getY() ) + ", deltaThermal=" + ( body.getThermalEnergy() - origState.getThermalEnergy() ) + ", ke=" + body.getKineticEnergy() + ", pe=" + body.getPotentialEnergy() + ", deltaKE=" + ( body.getKineticEnergy() - origState.getKineticEnergy() ) + ", deltaPE=" + ( body.getPotentialEnergy() - origState.getPotentialEnergy() ) );
-
+                    Body beforeStep = body.copyState();
                     System.out.println( "trying to fix on spline again..." );
-                    double epsilon = 0.5;//1E-8     
-                    fixEnergyOnSpline( origState, x2, body, epsilon );
+                    boolean splineFixed = false;
+                    for( double epsilon = 0.1; epsilon < 0.55 && !splineFixed; epsilon += 0.1 ) {
+                        splineFixed = splineFixed || fixEnergyOnSpline( origState, x2, body, epsilon );
+                        if( !splineFixed ) {
+                            setBodyState( beforeStep, body );
+                        }
+                        else {
+                            System.out.println( "spline fixed for epsilon=" + epsilon );
+                        }
+                    }
                     System.out.println( "origState.getEnergyDifferenceAbs( body ) = " + origState.getEnergyDifferenceAbs( body ) );
                     if( origState.getEnergyDifferenceAbs( body ) < 1E-4 ) {
                         System.out.println( "fixed by moving elsewhere on spline" );
@@ -163,8 +170,6 @@ public class SplineMode implements UpdateMode {
     }
 
     boolean fixEnergyOnSpline( final Body origState, final double x2, final Body body, double epsilon ) {
-//        Body beforeFix = body.copyState();
-        //look for an adjacent position with a more accurate energy
         double x3 = getDistAlongSplineBinarySearch( x2, epsilon, 60, 5, new AbstractSpline.SplineCriteria() {
             public double evaluate( Point2D loc ) {
                 body.setAttachmentPointPosition( loc );
@@ -174,11 +179,7 @@ public class SplineMode implements UpdateMode {
         } );
         body.setAttachmentPointPosition( spline.evaluateAnalytical( x3 ) );
         rotateBody( x2, 1.0, Double.POSITIVE_INFINITY, body );
-//        double origError = Math.abs( origState.getTotalEnergy() - beforeFix.getTotalEnergy() );
-//        double newError = Math.abs( origState.getTotalEnergy() - body.getTotalEnergy() );
         return origState.getEnergyDifferenceAbs( body ) < 1E-4;
-//        return newError == 0;//probably never
-//        System.out.println( "x2=" + x2 + ", x3=" + x3 + ", origEnergy=" + origState.getTotalEnergy() + ", beforeFix=" + beforeFix.getTotalEnergy() + ", after fix=" + body.getTotalEnergy() +", origError="+origError+", newError="+newError);
     }
 
     private double getDistAlongSplineBinarySearch( double center, double epsilon, int numPts, int numIterations, AbstractSpline.SplineCriteria splineCriteria ) {
@@ -190,8 +191,6 @@ public class SplineMode implements UpdateMode {
         }
         return best;
     }
-
-    static final Random random = new Random();
 
     private void setBodyState( Body state, Body body ) {
         body.setVelocity( state.getVelocity() );
