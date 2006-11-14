@@ -83,7 +83,7 @@ public class SplineMode implements UpdateMode {
             fixed = fixed || fixEnergyOnSpline( origState, x2, body, epsilon );
         }
         if( !fixed ) {
-            fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.001 );
+            fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.0001 );
         }
         if( !fixed ) {
             //try to fix with heat
