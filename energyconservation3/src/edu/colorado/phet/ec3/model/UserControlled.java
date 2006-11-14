@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.model;
 
+import edu.colorado.phet.common.math.Vector2D;
+
 /**
  * User: Sam Reid
  * Date: Sep 26, 2005
@@ -20,6 +22,7 @@ public class UserControlled implements UpdateMode {
 //        body.setCMRotation( 0 );
 //        body.setAttachmentPointRotation( Math.PI );
         body.convertToFreefall();
+        body.setVelocity( new Vector2D.Double( 0, 0 ) );
     }
 
     public UpdateMode copy() {
