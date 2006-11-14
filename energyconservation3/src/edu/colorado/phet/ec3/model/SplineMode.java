@@ -60,6 +60,7 @@ public class SplineMode implements UpdateMode {
 //            Body beforeAttach = body.copyState();
             body.setAttachmentPointPosition( spline.evaluateAnalytical( x2 ) );
             rotateBody( x2, dt, Double.POSITIVE_INFINITY, body );
+//            rotateBody( x2, dt, Math.PI/32, body );
 //            if( body.getTotalEnergy() > origState.getTotalEnergy() && body.getEnergyDifferenceAbs( origState ) > 1 && body.getKineticEnergy() < body.getEnergyDifferenceAbs( origState ) ) {
 //                body.setLastFallTime( spline, System.currentTimeMillis() );
 //                body.setFreeFallMode();
@@ -137,7 +138,8 @@ public class SplineMode implements UpdateMode {
                     double xSpeed = ( body.getX() - origState.getX() ) / dt;
                     System.out.println( "xSpeed = " + xSpeed );
                     double speedThreshold = 2.0;
-                    xSpeed = xSpeed > 0 ? Math.min( xSpeed, speedThreshold ) : Math.max( xSpeed, -speedThreshold );
+//                    xSpeed = xSpeed > 0 ? Math.min( xSpeed, speedThreshold ) : Math.max( xSpeed, -speedThreshold );
+                    xSpeed = xSpeed > 0 ? speedThreshold : -speedThreshold;
                     body.setAttachmentPointPosition( origState.getAttachPoint().getX() + xSpeed * dt, origState.getAttachPoint().getY() );
                     body.setVelocity( origState.getVelocity() );
                     pointVelocityAlongSpline( lastX, body );
