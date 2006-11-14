@@ -124,7 +124,7 @@ public class SplineMode implements UpdateMode {
         if( !fixed ) {
             //look for a nearby rotation and/or spline position that conserves energy...?
             //wait until upside up to stop in a well
-            System.out.println( "netForce.getMagnitude() = " + netForce.getMagnitude() + ", absSinRot=" + Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) );
+//            System.out.println( "netForce.getMagnitude() = " + netForce.getMagnitude() + ", absSinRot=" + Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) );
             if( netForce.getMagnitude() < 5000 && ( Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) < 0.1 ) ) {
                 System.out.println( "Looks like the bottom of a well: Stopping..." );
                 setBodyState( origState, body );
@@ -138,14 +138,15 @@ public class SplineMode implements UpdateMode {
                     System.out.println( text + ", After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ". " + ", velocity=" + body.getVelocity() + ", DeltaVelocity=" + body.getVelocity().getSubtractedInstance( origState.getVelocity() ) + ", deltaY=" + ( body.getY() - origState.getY() ) + ", deltaThermal=" + ( body.getThermalEnergy() - origState.getThermalEnergy() ) + ", ke=" + body.getKineticEnergy() + ", pe=" + body.getPotentialEnergy() + ", deltaKE=" + ( body.getKineticEnergy() - origState.getKineticEnergy() ) + ", deltaPE=" + ( body.getPotentialEnergy() - origState.getPotentialEnergy() ) );
                     double xSpeed = ( body.getX() - origState.getX() ) / dt;
 //                    System.out.println( "xSpeed = " + xSpeed );
-                    double speedThreshold = 2.0;
+//                    double speedThreshold = 2.0;
 //                    xSpeed = xSpeed > 0 ? Math.min( xSpeed, speedThreshold ) : Math.max( xSpeed, -speedThreshold );
                     //have to push the body to move to the surface of the spline, otherwise gets stuck easily
 
                     body.setVelocity( origState.getVelocity() );
                     pointVelocityAlongSpline( lastX, body );
 
-                    xSpeed = body.getVelocity().getX() > 0 ? speedThreshold : -speedThreshold;
+//                    xSpeed = body.getVelocity().getX() > 0 ? speedThreshold : -speedThreshold;
+                    xSpeed = 0.0;
                     body.setAttachmentPointPosition( origState.getAttachPoint().getX() + xSpeed * dt, origState.getAttachPoint().getY() );
 
                     body.setThermalEnergy( origState.getThermalEnergy() );
