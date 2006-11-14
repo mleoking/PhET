@@ -52,17 +52,12 @@ public class SplineMode implements UpdateMode {
         else {
             double thermalEnergy = getFrictionForce( ( x1 + x2 ) / 2, body ).getMagnitude() * origState.getPositionVector().getSubtractedInstance( body.getPositionVector() ).getMagnitude();
             body.addThermalEnergy( thermalEnergy );
-//            double deltaV=thermalEnergy/body.getMass()/body.getSpeed();
-//            double newSpeed=body.getSpeed()-deltaV;
-//            if (newSpeed<0){
-//                newSpeed=0;
-//            }
             if( body.getFrictionCoefficient() > 0 ) {
                 double speedThreshold = Math.min( origState.getVelocity().getMagnitude(), body.getVelocity().getMagnitude() );
-                body.setVelocity( Vector2D.Double.parseAngleAndMagnitude( speedThreshold * 0.999, body.getVelocity().getAngle() ) );
+                body.setVelocity( Vector2D.Double.parseAngleAndMagnitude( speedThreshold * 0.99, body.getVelocity().getAngle() ) );
             }
             lastX = x2;
-            System.out.println( "origState.getSpeed() = " + origState.getSpeed() + ", newSpeed=" + body.getSpeed() + ", deltaThermal=" + thermalEnergy );
+//            System.out.println( "origState.getSpeed() = " + origState.getSpeed() + ", newSpeed=" + body.getSpeed() + ", deltaThermal=" + thermalEnergy );
 
             //todo: make sure we sank into the spline before applying this change
             //these 2 steps are sometimes changing the energy by a lot!!!
@@ -85,9 +80,9 @@ public class SplineMode implements UpdateMode {
     private void fixEnergy( Body origState, AbstractVector2D netForce, double x2, final Body body, double dt ) {
         boolean fixed = false;
 
-        if( !fixed && body.getSpeed() >= 0.0001 ) {
+        if( !fixed && body.getSpeed() >= 0.01 ) {
             //increasing the speed threshold from 0.001 to 0.1 causes the moon-sticking problem to go away.
-            fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.0001 );
+            fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.01 );
         }
         if( !fixed && Math.abs( spline.getUnitNormalVector( x2 ).getY() ) < 0.9 ) {
             double epsilon = 0.001;//1E-8     
@@ -162,6 +157,7 @@ public class SplineMode implements UpdateMode {
     }
 
     boolean fixEnergyOnSpline( final Body origState, final double x2, final Body body, double epsilon ) {
+        Body beforeSearch = body.copyState();
         double x3 = getDistAlongSplineBinarySearch( x2, epsilon, 60, 5, new AbstractSpline.SplineCriteria() {
             public double evaluate( Point2D loc ) {
                 body.setAttachmentPointPosition( loc );
@@ -171,7 +167,12 @@ public class SplineMode implements UpdateMode {
         } );
         body.setAttachmentPointPosition( spline.evaluateAnalytical( x3 ) );
         rotateBody( x2, 1.0, Double.POSITIVE_INFINITY, body );
-        return origState.getEnergyDifferenceAbs( body ) < 1E-4;
+        boolean fixed = origState.getEnergyDifferenceAbs( body ) < 1E-4;
+        if( !fixed ) {
+            body.setAttachmentPointPosition( beforeSearch.getAttachPoint() );
+            body.setAttachmentPointRotation( beforeSearch.getAttachmentPointRotation() );
+        }
+        return fixed;
     }
 
     private double getDistAlongSplineBinarySearch( double center, double epsilon, int numPts, int numIterations, AbstractSpline.SplineCriteria splineCriteria ) {
