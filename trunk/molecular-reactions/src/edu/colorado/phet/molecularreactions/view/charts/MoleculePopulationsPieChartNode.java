@@ -54,6 +54,10 @@ public class MoleculePopulationsPieChartNode extends PNode {
                          title.getFullBounds().getHeight() / 2 );
 
         // Legend
+        createLegend( bounds );
+    }
+
+    private void createLegend( Rectangle2D bounds ) {
         double paintSwatchWidth = 15;
         double paintSwatchHeight = 10;
         Rectangle2D rect = new Rectangle2D.Double( 0, -paintSwatchHeight / 2, paintSwatchWidth, paintSwatchHeight );
@@ -105,6 +109,5 @@ public class MoleculePopulationsPieChartNode extends PNode {
                                yPaintSwatchOffset );
         mCTextNode.setOffset( bounds.getWidth() - textInsets.right,
                               yPaintSwatchOffset + yTextAdjustment );
-
     }
 }

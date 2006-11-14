@@ -39,6 +39,13 @@ public class StripChart {
     private XYLineAndShapeRenderer renderer;
     private XYPlot plot;
 
+    private int buffSize = 10;
+    private double[][] buffer;
+    private int clockBufferIdx;
+    private int buffHead = 0;
+    private int buffTail = buffSize - 1;
+
+
     /**
      *
      * @param title
@@ -61,6 +68,8 @@ public class StripChart {
         this.xAxisRange = xAxisRange;
 
         series = new XYSeries[seriesNames.length + 1 ];
+        buffer = new double[seriesNames.length + 1][buffSize];
+        clockBufferIdx = seriesNames.length;
         XYSeriesCollection dataset = new XYSeriesCollection();
         for( int i = 0; i < series.length - 1; i++ ) {
             series[i] = new XYSeries( seriesNames[i] );
@@ -103,17 +112,67 @@ public class StripChart {
 
     public void addData( int seriesNum, double x, double y ) {
         series[seriesNum].add( x, y );
-        while( x - series[seriesNum].getDataItem( 0 ).getX().doubleValue() > xAxisRange ) {
-            series[seriesNum].remove( 0 );
-        }
+//        while( x - series[seriesNum].getDataItem( 0 ).getX().doubleValue() > xAxisRange ) {
+//            series[seriesNum].remove( 0 );
+//        }
+
 
         XYPlot plot = (XYPlot)chart.getPlot();
-        double xOrigin = series[seriesNum].getX( 0 ).doubleValue();
-        plot.getDomainAxis().setRange( xOrigin, xOrigin + xAxisRange );
+        double minX = Math.max( x - xAxisRange, 0);
+        double maxX = Math.max( x, xAxisRange );
+        plot.getDomainAxis().setRange( minX, maxX );
+
+//        double xOrigin = series[seriesNum].getX( 0 ).doubleValue();
+//        plot.getDomainAxis().setRange( xOrigin, xOrigin + xAxisRange );
+
+        buffHead = (buffHead + 1) % buffSize;
+        if( buffHead == buffTail ) {
+            buffTail = (buffTail + 1) % buffSize;
+        }
+        buffer[clockBufferIdx][buffHead] = x;
+        buffer[seriesNum][buffHead] = y;
     }
 
     public JFreeChart getChart() {
         return chart;
+    }
+
+    public void setMinX( double x ) {
+        XYPlot plot = (XYPlot)chart.getPlot();
+        double minX = Math.min( x, getMaxTime() - xAxisRange );
+        double maxX = Math.min( x + xAxisRange, getMaxTime() );
+        plot.getDomainAxis().setRange( minX, maxX );
+    }
+
+    private double getMaxTime() {
+        int newestIdx = (buffHead + buffSize - 1) % buffSize;
+        return buffer[clockBufferIdx][newestIdx];
+    }
+
+
+    /**
+     * Set the vertical range of the chart
+     *
+     * @param minY
+     * @param maxY
+     */
+    public void setYRange( int minY, int maxY ) {
+        plot.getRangeAxis().setRange( minY, maxY );
+    }
+
+
+    /**
+     * For test purposes
+     */
+    public void dumpBuffer() {
+        int numBufferEntries = ( buffHead - buffTail - 1 + buffSize ) % buffSize;
+
+        System.out.println( "===================================" );
+
+        for( int i = 0; i < numBufferEntries; i++ ) {
+            int buffIdx = Math.abs(buffHead + buffSize - i) % buffSize;
+            System.out.println( "buffer = " + buffer[clockBufferIdx][buffIdx ] );
+        }
     }
 
 
@@ -143,15 +202,5 @@ public class StripChart {
         } );
         clock.start();
 
-    }
-
-    /**
-     * Set the vertical range of the chart
-     * 
-     * @param minY
-     * @param maxY
-     */
-    public void setYRange( int minY, int maxY ) {
-        plot.getRangeAxis().setRange( minY, maxY );
     }
 }
