@@ -56,7 +56,8 @@ public class SplineMode implements UpdateMode {
             body.addThermalEnergy( thermalEnergy );
             lastX = x2;
 
-            //make sure we sank into the spline before applying this change
+            //todo: make sure we sank into the spline before applying this change
+            //these 2 steps are sometimes changing the energy by a lot!!!
             body.setAttachmentPointPosition( spline.evaluateAnalytical( x2 ) );
             rotateBody( x2, dt, Double.POSITIVE_INFINITY, body );
 
@@ -66,32 +67,6 @@ public class SplineMode implements UpdateMode {
             lastState = body.copyState();
             lastNormalForce = updateNormalForce( origState, body, netForceWithoutNormal, dt );
         }
-    }
-
-    boolean fixEnergyOnSpline( final Body origState, double x2, final Body body, double epsilon ) {
-        Body beforeFix = body.copyState();
-        //look for an adjacent position with a more accurate energy
-        double x3 = getDistAlongSplineBinarySearch( x2, epsilon, 60, 5, new AbstractSpline.SplineCriteria() {
-            public double evaluate( Point2D loc ) {
-                body.setAttachmentPointPosition( loc );
-                return Math.abs( body.getTotalEnergy() - origState.getTotalEnergy() );
-            }
-        } );
-        body.setAttachmentPointPosition( spline.evaluateAnalytical( x3 ) );
-        double origError = Math.abs( origState.getTotalEnergy() - beforeFix.getTotalEnergy() );
-        double newError = Math.abs( origState.getTotalEnergy() - body.getTotalEnergy() );
-        return newError == 0;//probably never
-//        System.out.println( "x2=" + x2 + ", x3=" + x3 + ", origEnergy=" + origState.getTotalEnergy() + ", beforeFix=" + beforeFix.getTotalEnergy() + ", after fix=" + body.getTotalEnergy() +", origError="+origError+", newError="+newError);
-    }
-
-    private double getDistAlongSplineBinarySearch( double center, double epsilon, int numPts, int numIterations, AbstractSpline.SplineCriteria splineCriteria ) {
-        double best = 0;
-        for( int i = 0; i < numIterations; i++ ) {
-            best = spline.minimizeCriteria( Math.max( center - epsilon, 0 ), Math.min( spline.getLength(), center + epsilon ), numPts, splineCriteria );
-            center = best;
-            epsilon = epsilon / numPts * 2;
-        }
-        return best;
     }
 
     private void fixEnergy( Body origState, AbstractVector2D netForce, double x2, final Body body ) {
@@ -134,7 +109,6 @@ public class SplineMode implements UpdateMode {
             }
         }
 
-
         if( !fixed ) {
             //look for a nearby rotation and/or spline position that conserves energy...?
             //wait until upside up to stop in a well
@@ -148,41 +122,43 @@ public class SplineMode implements UpdateMode {
                     double origE = origState.getTotalEnergy();
                     boolean gainedEnergy = finalE > origE;
                     String text = gainedEnergy ? "Gained Energy" : "Lost Energy";
-                    System.out.println( text + ", After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ". " + ", velocity=" + body.getVelocity() );
+                    System.out.println( text + ", After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ". " + ", velocity=" + body.getVelocity() + ", DeltaVelocity=" + body.getVelocity().getSubtractedInstance( origState.getVelocity() ) + ", deltaY=" + ( body.getY() - origState.getY() ) + ", deltaThermal=" + ( body.getThermalEnergy() - origState.getThermalEnergy() ) + ", ke=" + body.getKineticEnergy() + ", pe=" + body.getPotentialEnergy() + ", deltaKE=" + ( body.getKineticEnergy() - origState.getKineticEnergy() ) + ", deltaPE=" + ( body.getPotentialEnergy() - origState.getPotentialEnergy() ) );
                     body.setAttachmentPointPosition( body.getX(), origState.getAttachPoint().getY() );
-//                    body.setAttachmentPointPosition( origState.getAttachPoint().getX(), origState.getAttachPoint().getY() );
                     body.setVelocity( origState.getVelocity() );
                     body.setThermalEnergy( origState.getThermalEnergy() );
                     body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
-
-//                    if( origState.getEnergyDifferenceAbs( body ) < 10 ) {
-//                        System.out.println( "Attempting to fix the energy through the height." );
-//                        for( int i = 0; i < 10 && !fixed; i++ ) {
-//                            fixed = fixed || new EnergyConserver().conserveEnergyViaH( body, origState.getTotalEnergy() );
-//                        }
-//                        System.out.println( "after some iterations of fixing the height, fixed=" + fixed );
-////                    if( Math.abs( body.getY() - origState.getY() ) > 0.5 ) {
-//                        if( Math.abs( body.getY() - origState.getY() ) > 0.1 ) {
-//                    System.out.println( "had a huge change in vertical position to fix energy." );
-//                    double dx = 0.2;
-//                    body.setAttachmentPointPosition( origState.getAttachPoint().getX() + ( random.nextDouble() - 0.5 ) * 2 * dx, origState.getAttachPoint().getY() );
-//                    AbstractVector2D newVelocity = Vector2D.Double.parseAngleAndMagnitude( origState.getSpeed(), random.nextDouble() * Math.PI * 2 );
-//                    body.setVelocity( newVelocity );
-//                    body.setLastFallTime( spline, System.currentTimeMillis() );
-//                    body.convertToFreefall();
-//                    body.setFreeFallMode();
-//                    body.clearCollisionHistory();
-//                        }
-//                    }
-//                    else {
-//                        System.out.println( "Energy error was more than 10, skipping correction." );
-//                    }
                     //setBodyState( origState, body );
                 }
             }
             //maybe could fix by rotation?, i think no.
             //could fix with friction, if friction is enabled.
         }
+    }
+
+    boolean fixEnergyOnSpline( final Body origState, double x2, final Body body, double epsilon ) {
+        Body beforeFix = body.copyState();
+        //look for an adjacent position with a more accurate energy
+        double x3 = getDistAlongSplineBinarySearch( x2, epsilon, 60, 5, new AbstractSpline.SplineCriteria() {
+            public double evaluate( Point2D loc ) {
+                body.setAttachmentPointPosition( loc );
+                return Math.abs( body.getTotalEnergy() - origState.getTotalEnergy() );
+            }
+        } );
+        body.setAttachmentPointPosition( spline.evaluateAnalytical( x3 ) );
+        double origError = Math.abs( origState.getTotalEnergy() - beforeFix.getTotalEnergy() );
+        double newError = Math.abs( origState.getTotalEnergy() - body.getTotalEnergy() );
+        return newError == 0;//probably never
+//        System.out.println( "x2=" + x2 + ", x3=" + x3 + ", origEnergy=" + origState.getTotalEnergy() + ", beforeFix=" + beforeFix.getTotalEnergy() + ", after fix=" + body.getTotalEnergy() +", origError="+origError+", newError="+newError);
+    }
+
+    private double getDistAlongSplineBinarySearch( double center, double epsilon, int numPts, int numIterations, AbstractSpline.SplineCriteria splineCriteria ) {
+        double best = 0;
+        for( int i = 0; i < numIterations; i++ ) {
+            best = spline.minimizeCriteria( Math.max( center - epsilon, 0 ), Math.min( spline.getLength(), center + epsilon ), numPts, splineCriteria );
+            center = best;
+            epsilon = epsilon / numPts * 2;
+        }
+        return best;
     }
 
     static final Random random = new Random();
