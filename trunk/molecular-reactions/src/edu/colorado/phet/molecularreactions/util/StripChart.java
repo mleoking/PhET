@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.util;/* Copyright 2003-2004, Univer
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.util.EventChannel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -21,12 +22,20 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.data.Range;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.EventListener;
 
 /**
- * edu.colorado.phet.molecularreactions.util.StripChart
+ * StripChart
+ * <p/>
+ * A scrolling strip chart implemented with JFreeChart objects.
+ * <p/>
+ * The StripChart buffers data so that it can retain more data than is shows at
+ * any one time. This allows it to be scrolled back and forth through the
+ * collected data.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -39,15 +48,15 @@ public class StripChart {
     private XYLineAndShapeRenderer renderer;
     private XYPlot plot;
 
-    private int buffSize = 10;
+    private int buffSize = 2;
     private double[][] buffer;
     private int clockBufferIdx;
     private int buffHead = 0;
     private int buffTail = buffSize - 1;
-
+    private boolean recording;
+    private double t0;
 
     /**
-     *
      * @param title
      * @param seriesNames
      * @param xAxisLabel
@@ -65,13 +74,40 @@ public class StripChart {
                        double xAxisRange,
                        double minY,
                        double maxY ) {
-        this.xAxisRange = xAxisRange;
+        this( title, seriesNames, xAxisLabel, yAxisLabel, orienation, xAxisRange, minY, maxY, 1 );
+    }
 
-        series = new XYSeries[seriesNames.length + 1 ];
+
+    /**
+     * @param title
+     * @param seriesNames
+     * @param xAxisLabel
+     * @param yAxisLabel
+     * @param orienation
+     * @param xAxisRange
+     * @param minY
+     * @param maxY
+     * @param buffSize
+     */
+    public StripChart( String title,
+                       String[] seriesNames,
+                       String xAxisLabel,
+                       String yAxisLabel,
+                       PlotOrientation orienation,
+                       double xAxisRange,
+                       double minY,
+                       double maxY,
+                       int buffSize ) {
+        this.xAxisRange = xAxisRange;
+        this.buffSize = buffSize;
+        buffTail = buffSize - 1;
+
+
+        series = new XYSeries[seriesNames.length ];
         buffer = new double[seriesNames.length + 1][buffSize];
         clockBufferIdx = seriesNames.length;
         XYSeriesCollection dataset = new XYSeriesCollection();
-        for( int i = 0; i < series.length - 1; i++ ) {
+        for( int i = 0; i < series.length; i++ ) {
             series[i] = new XYSeries( seriesNames[i] );
             dataset.addSeries( series[i] );
         }
@@ -95,42 +131,49 @@ public class StripChart {
             renderer.setSeriesLinesVisible( i, true );
             renderer.setSeriesShapesVisible( i, false );
         }
-        renderer.setSeriesLinesVisible( series.length - 1, false );
-        renderer.setSeriesShapesVisible( series.length - 1, false );
+        renderer.setSeriesLinesVisible( series.length, false );
+        renderer.setSeriesShapesVisible( series.length, false );
         renderer.setToolTipGenerator( new StandardXYToolTipGenerator() );
         renderer.setDefaultEntityRadius( 6 );
         plot.setRenderer( renderer );
     }
 
+    /**
+     * Causes the chart to start recording
+     */
+    public void startRecording( double t0 ) {
+        recording = true;
+        this.t0 = t0;
+    }
+
     public void setSeriesPaint( int seriesNum, Paint paint ) {
-        renderer.setSeriesPaint( seriesNum, paint );    
+        renderer.setSeriesPaint( seriesNum, paint );
     }
 
     public void setStroke( Stroke stroke ) {
         renderer.setStroke( stroke );
     }
 
-    public void addData( int seriesNum, double x, double y ) {
-        series[seriesNum].add( x, y );
-//        while( x - series[seriesNum].getDataItem( 0 ).getX().doubleValue() > xAxisRange ) {
-//            series[seriesNum].remove( 0 );
-//        }
+    public void addData( double t, double[] y ) {
+        if( recording ) {
+            double tRec = t - t0;
+            for( int seriesNum = 0; seriesNum < series.length; seriesNum++ ) {
+                series[seriesNum].add( tRec, y[seriesNum] );
+                buffer[seriesNum][buffHead] = y[seriesNum];
+            }
+            buffer[clockBufferIdx][buffHead] = tRec;
 
+            XYPlot plot = (XYPlot)chart.getPlot();
+            double minX = Math.max( buffer[clockBufferIdx][buffHead] - xAxisRange, 0 );
+            double maxX = Math.max( buffer[clockBufferIdx][buffHead], xAxisRange );
+            plot.getDomainAxis().setRange( minX, maxX );
 
-        XYPlot plot = (XYPlot)chart.getPlot();
-        double minX = Math.max( x - xAxisRange, 0);
-        double maxX = Math.max( x, xAxisRange );
-        plot.getDomainAxis().setRange( minX, maxX );
-
-//        double xOrigin = series[seriesNum].getX( 0 ).doubleValue();
-//        plot.getDomainAxis().setRange( xOrigin, xOrigin + xAxisRange );
-
-        buffHead = (buffHead + 1) % buffSize;
-        if( buffHead == buffTail ) {
-            buffTail = (buffTail + 1) % buffSize;
+            buffHead = ( buffHead + 1 ) % buffSize;
+            if( buffHead == buffTail ) {
+                buffTail = ( buffTail + 1 ) % buffSize;
+            }
+            listenerProxy.dataChanged();
         }
-        buffer[clockBufferIdx][buffHead] = x;
-        buffer[seriesNum][buffHead] = y;
     }
 
     public JFreeChart getChart() {
@@ -145,10 +188,13 @@ public class StripChart {
     }
 
     private double getMaxTime() {
-        int newestIdx = (buffHead + buffSize - 1) % buffSize;
+        int newestIdx = ( buffHead + buffSize - 1 ) % buffSize;
         return buffer[clockBufferIdx][newestIdx];
     }
 
+    private double getMinTime() {
+        return buffer[clockBufferIdx][buffTail];
+    }
 
     /**
      * Set the vertical range of the chart
@@ -160,47 +206,47 @@ public class StripChart {
         plot.getRangeAxis().setRange( minY, maxY );
     }
 
+    /**
+     * Get the maximum x value in the strip chart buffer
+     *
+     * @return the maximum x value in the data buffer
+     */
+    public double getMaxX() {
+        return getMaxTime();
+    }
 
     /**
-     * For test purposes
+     * Get the minimum x value in the strip chart buffer
+     *
+     * @return the minimum x value in the data buffer
      */
-    public void dumpBuffer() {
-        int numBufferEntries = ( buffHead - buffTail - 1 + buffSize ) % buffSize;
+    public double getMinX() {
+        return getMinTime();
+    }
 
-        System.out.println( "===================================" );
+    public double getViewableRangeX() {
+        Range range = getChart().getXYPlot().getDomainAxis().getRange();
+        return range.getLength();
+    }
 
-        for( int i = 0; i < numBufferEntries; i++ ) {
-            int buffIdx = Math.abs(buffHead + buffSize - i) % buffSize;
-            System.out.println( "buffer = " + buffer[clockBufferIdx][buffIdx ] );
-        }
+    //--------------------------------------------------------------------------------------------------
+    // Events and listeners
+    //--------------------------------------------------------------------------------------------------
+
+    public interface Listener extends EventListener {
+        void dataChanged();
+    }
+
+    private EventChannel eventChannel = new EventChannel( Listener.class );
+    private Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
+
+    public void addListener( Listener listener ) {
+        eventChannel.addListener( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        eventChannel.removeListener( listener );
     }
 
 
-    public static void main( String[] args ) {
-        JFrame frame = new JFrame( "Strip Chart Test" );
-        final StripChart stripChart = new StripChart( "Test Chart",
-                                                      new String[]{"A", "B"},
-                                                      "t",
-                                                      "n",
-                                                      PlotOrientation.VERTICAL,
-                                                      10,
-                                                      -4, 4 );
-        ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
-        chartPanel.setPreferredSize( new java.awt.Dimension( 500, 300 ) );
-        frame.setContentPane( chartPanel );
-        frame.pack();
-        frame.setVisible( true );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-
-        SwingClock clock = new SwingClock( 40, .1 );
-        clock.addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent clockEvent ) {
-                double t = clockEvent.getSimulationTime();
-                stripChart.addData( 0, t, 3 * Math.sin( t ) );
-                stripChart.addData( 1, t, 3 * Math.cos( t ) );
-            }
-        } );
-        clock.start();
-
-    }
 }

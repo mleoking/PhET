@@ -20,7 +20,7 @@ import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarCh
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsStripChart;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChartNode;
 import edu.colorado.phet.molecularreactions.view.charts.StripChartAdjuster;
-import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.util.StripChart;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolo.PNode;
@@ -159,8 +159,15 @@ public class ComplexModule extends MRModule {
 
     private JDialog createStripChartDialog() {
         Dimension chartSize = new Dimension( 400, 200 );
-        double xAxisRange = 500;
-        final MoleculePopulationsStripChart stripChart = new MoleculePopulationsStripChart( getMRModel(), getClock(), xAxisRange, 0, 20, 1 );
+        final double xAxisRange = 100;
+//        final double xAxisRange = 500;
+        final MoleculePopulationsStripChart stripChart = new MoleculePopulationsStripChart( getMRModel(),
+                                                                                            getClock(),
+                                                                                            xAxisRange,
+                                                                                            0,
+                                                                                            20,
+                                                                                            1,
+                                                                                            200 );
         ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
         chartPanel.setPreferredSize( chartSize );
 
@@ -184,23 +191,34 @@ public class ComplexModule extends MRModule {
         stripChartCanvas.addScreenChild( rescaleNode );
 
         // Add a scrollbar
-        JScrollBar scrollBar = new JScrollBar( JScrollBar.HORIZONTAL, 0 , 20, 0, (int)xAxisRange );
+        final JScrollBar scrollBar = new JScrollBar( JScrollBar.HORIZONTAL, 0, (int)stripChart.getViewableRangeX(), 0, (int)xAxisRange );
         scrollBar.addAdjustmentListener( new StripChartAdjuster( stripChart ) );
 
         Insets scrollBarInsets = new Insets( 3, 50, 3, 10 );
-        scrollBar.setPreferredSize( new Dimension( (int)(stripChartNode.getFullBounds().getWidth() - scrollBarInsets.left - scrollBarInsets.right), 15 ));
+        scrollBar.setPreferredSize( new Dimension( (int)( stripChartNode.getFullBounds().getWidth() - scrollBarInsets.left - scrollBarInsets.right ), 15 ) );
         PSwing scrollBarNode = new PSwing( stripChartCanvas, scrollBar );
         Dimension dialogSize = new Dimension( (int)chartSize.getWidth(),
-                                        (int)(chartSize.getHeight() + scrollBarNode.getFullBounds().getHeight() +
-                                        scrollBarInsets.top + scrollBarInsets.bottom ));
+                                              (int)( chartSize.getHeight() + scrollBarNode.getFullBounds().getHeight() +
+                                                     scrollBarInsets.top + scrollBarInsets.bottom ) );
 
-        scrollBarNode.setOffset(scrollBarInsets.left,
-                                dialogSize.getHeight() - scrollBarNode.getFullBounds().getHeight() - scrollBarInsets.bottom );
+        scrollBarNode.setOffset( scrollBarInsets.left,
+                                 dialogSize.getHeight() - scrollBarNode.getFullBounds().getHeight() - scrollBarInsets.bottom );
         stripChartCanvas.addScreenChild( scrollBarNode );
+        stripChart.addListener( new StripChart.Listener() {
+            public void dataChanged() {
+                scrollBar.setMaximum( (int)stripChart.getMaxX() );
+                scrollBar.setMinimum( (int)stripChart.getMinX() );
+                scrollBar.setVisibleAmount( (int)stripChart.getViewableRangeX() );
+                scrollBar.setValue( (int)stripChart.getMaxX());
+            }
+        } );
 
         stripChartCanvas.setPreferredSize( dialogSize );
         stripChartDlg.getContentPane().add( stripChartCanvas );
         stripChartDlg.pack();
+
+        // Start the strip chart recording
+        stripChart.startRecording( getClock().getSimulationTime() );
 
         return stripChartDlg;
     }
