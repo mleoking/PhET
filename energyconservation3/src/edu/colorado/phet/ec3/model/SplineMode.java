@@ -150,6 +150,12 @@ public class SplineMode implements UpdateMode {
                     boolean gainedEnergy = finalE > origE;
                     String text = gainedEnergy ? "Gained Energy" : "Lost Energy";
                     System.out.println( "After everything we tried, still have Energy error=" + origState.getEnergyDifferenceAbs( body ) + ", rolling back changes: " + text );
+//                    body.setAttachmentPointPosition( body.getX(), origState.getAttachPoint().getY() );
+                    body.setAttachmentPointPosition( origState.getAttachPoint().getX(), origState.getAttachPoint().getY() );
+                    body.setVelocity( origState.getVelocity() );
+                    body.setThermalEnergy( origState.getThermalEnergy() );
+                    body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
+
 //                    if( origState.getEnergyDifferenceAbs( body ) < 10 ) {
 //                        System.out.println( "Attempting to fix the energy through the height." );
 //                        for( int i = 0; i < 10 && !fixed; i++ ) {
