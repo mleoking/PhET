@@ -75,7 +75,7 @@ public class SplineMode implements UpdateMode {
 
     private void fixEnergy( Body origState, AbstractVector2D netForce, double x2, final Body body, double dt ) {
         boolean fixed = false;
-        if( !fixed && body.getSpeed() >= 0.1 ) {
+        if( !fixed && body.getSpeed() >= 0.001 ) {
             //increasing the speed threshold from 0.001 to 0.1 causes the moon-sticking problem to go away.
             fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.001 );
         }
@@ -133,7 +133,11 @@ public class SplineMode implements UpdateMode {
                     double epsilon = 0.5;//1E-8     
                     fixEnergyOnSpline( origState, x2, body, epsilon );
                     System.out.println( "origState.getEnergyDifferenceAbs( body ) = " + origState.getEnergyDifferenceAbs( body ) );
-                    if( origState.getEnergyDifferenceAbs( body ) > 1E-4 ) {
+                    if( origState.getEnergyDifferenceAbs( body ) < 1E-4 ) {
+                        System.out.println( "fixed by moving elsewhere on spline" );
+                    }
+                    else {
+                        System.out.println( "couldn't fix on spline, getting stuck." );
                         double xSpeed = ( body.getX() - origState.getX() ) / dt;
 //                    System.out.println( "xSpeed = " + xSpeed );
 //                    double speedThreshold = 2.0;
@@ -172,7 +176,8 @@ public class SplineMode implements UpdateMode {
         rotateBody( x2, 1.0, Double.POSITIVE_INFINITY, body );
         double origError = Math.abs( origState.getTotalEnergy() - beforeFix.getTotalEnergy() );
         double newError = Math.abs( origState.getTotalEnergy() - body.getTotalEnergy() );
-        return newError == 0;//probably never
+        return origState.getEnergyDifferenceAbs( body ) < 1E-4;
+//        return newError == 0;//probably never
 //        System.out.println( "x2=" + x2 + ", x3=" + x3 + ", origEnergy=" + origState.getTotalEnergy() + ", beforeFix=" + beforeFix.getTotalEnergy() + ", after fix=" + body.getTotalEnergy() +", origError="+origError+", newError="+newError);
     }
 
