@@ -1,5 +1,6 @@
 1.02.14
 Bugfix: There is an error with friction on the ground, and falling through the ground.
+Bugfix: Deleting a control point during spline traversal crashes the application.
 
 1.02.14 (11-10-2006)
 Bugfix: History buttons are displaying total energy without thermal, and calling it total.

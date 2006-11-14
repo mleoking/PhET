@@ -85,30 +85,28 @@ public class SplineMode implements UpdateMode {
         if( !fixed ) {
             fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.0001 );
         }
-        if( !fixed ) {
+        if( !fixed && body.getFrictionCoefficient() > 0 ) {
             //try to fix with heat
-            if( body.getFrictionCoefficient() > 0 ) {
-                if( body.getTotalEnergy() > origState.getTotalEnergy() ) {
-                    double gainedEnergyValue = origState.getEnergyDifferenceAbs( body );
-                    System.out.println( "Energy error: gained " + gainedEnergyValue + " joules" );
-                    double gainedHeat = body.getThermalEnergy() - origState.getThermalEnergy();
-                    System.out.println( "gained " + gainedHeat + " joules of heat" );
-                    if( gainedHeat > gainedEnergyValue ) {
-                        body.addThermalEnergy( -gainedEnergyValue );
-                        System.out.println( "Reduced heat to solve energy crisis: newError=" + origState.getEnergyDifferenceAbs( body ) );
-                        fixed = true;
-                    }
-                    else {
-                        System.out.println( "Had Error, but can't wholly correct with heat, removing what we can." );
-                        body.addThermalEnergy( -gainedHeat );
-                    }
+            if( body.getTotalEnergy() > origState.getTotalEnergy() ) {
+                double gainedEnergyValue = origState.getEnergyDifferenceAbs( body );
+                System.out.println( "Energy error: gained " + gainedEnergyValue + " joules" );
+                double gainedHeat = body.getThermalEnergy() - origState.getThermalEnergy();
+                System.out.println( "gained " + gainedHeat + " joules of heat" );
+                if( gainedHeat > gainedEnergyValue ) {
+                    body.addThermalEnergy( -gainedEnergyValue );
+                    System.out.println( "Reduced heat to solve energy crisis: newError=" + origState.getEnergyDifferenceAbs( body ) );
+                    fixed = true;
                 }
                 else {
-                    System.out.println( "Energy error: lost " + origState.getEnergyDifferenceAbs( body ) + " joules" );
-                    System.out.println( "The system lost energy while friction was on!!! error=" + origState.getEnergyDifferenceAbs( body ) );
-
-                    //rarely happens
+                    System.out.println( "Had Error, but can't wholly correct with heat, removing what we can." );
+                    body.addThermalEnergy( -gainedHeat );
                 }
+            }
+            else {
+                System.out.println( "Energy error: lost " + origState.getEnergyDifferenceAbs( body ) + " joules" );
+                System.out.println( "The system lost energy while friction was on!!! error=" + origState.getEnergyDifferenceAbs( body ) );
+
+                //rarely happens
             }
         }
 
