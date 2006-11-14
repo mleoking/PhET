@@ -138,12 +138,30 @@ public class Body {
         storedTotalEnergy = getTotalEnergy();
     }
 
+    public void setState( Body body ) {
+        this.angularVelocity = body.angularVelocity;
+        this.attachmentPoint.setLocation( body.attachmentPoint );
+        this.velocity.setComponents( body.velocity.getX(), body.velocity.getY() );
+        this.acceleration.setComponents( body.acceleration.getX(), body.velocity.getY() );
+        this.mass = body.mass;
+        this.attachmentPointRotation = body.attachmentPointRotation;
+        this.cmRotation = body.cmRotation;
+        this.mode = body.mode.copy();
+        this.thermalEnergy = body.thermalEnergy;
+        this.facingRight = body.facingRight;
+        this.xThrust = body.xThrust;
+        this.yThrust = body.yThrust;
+        this.coefficientOfRestitution = body.coefficientOfRestitution;
+        this.potentialEnergyMetric = body.potentialEnergyMetric.copy();
+        this.storedTotalEnergy = body.storedTotalEnergy;
+    }
+
     public Body copyState() {
         Body copy = new Body( width, height, potentialEnergyMetric, energyConservationModel );
         copy.angularVelocity = this.angularVelocity;
         copy.attachmentPoint.setLocation( attachmentPoint );
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
-        copy.acceleration.setComponents( acceleration.getX(), velocity.getY() );
+        copy.acceleration.setComponents( acceleration.getX(), acceleration.getY() );
         copy.mass = mass;
         copy.attachmentPointRotation = attachmentPointRotation;
         copy.cmRotation = cmRotation;
@@ -166,7 +184,10 @@ public class Body {
         return storedTotalEnergy;
     }
 
+    boolean recurse = false;
+
     public void stepInTime( double dt ) {
+        Body orig = copyState();
 //        System.out.println( "getGravity() = " + getGravity() );
         StateRecord collisionList = createCollisionState();
         stateRecordHistory.add( collisionList );
@@ -185,6 +206,12 @@ public class Body {
             double err = Math.abs( ef - ei );
             if( err > 1E-6 ) {
                 System.out.println( "err=" + err + ", i=" + i );
+                if( !recurse ) {
+                    setState( orig );
+                    recurse = true;
+                    stepInTime( dt );
+                    recurse = false;
+                }
             }
         }
         if( getSpeed() > 0.01 ) {
