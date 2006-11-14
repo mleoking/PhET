@@ -9,6 +9,8 @@ bounces around the bottom of the screen before shooting off in a random directio
         This problem is partially reduced.  Friction + Gravity + Track Curvature increases probability of getting this problem.
         
 There is an error with friction on the ground, and falling through the ground.
+
+See Wendy's previous email about energy conservation across gravity changes.
         
 #################################################################
 Low Priority or Deprecated
