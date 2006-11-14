@@ -108,6 +108,9 @@ faraday-module faraday &phetcommon-dir &phetgraphics-dir
 # Fourier Transforms
 fourier-module fourier &phetcommon-dir &phetgraphics-dir &charts-dir
 
+# Hydrogen Atom
+hydrogenatom-module hydrogenatom &phetcommon-dir &piccolo-dir &piccolo-phetdir
+
 # Optical Pulse Shaper
 shaper-module shaper &phetcommon-dir &phetgraphics-dir &charts-dir
 
