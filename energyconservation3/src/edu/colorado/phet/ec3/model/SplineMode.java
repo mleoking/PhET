@@ -74,9 +74,9 @@ public class SplineMode implements UpdateMode {
 
     private void fixEnergy( Body origState, AbstractVector2D netForce, double x2, final Body body, double dt ) {
         boolean fixed = false;
-        if( !fixed && body.getSpeed() >= 0.001 ) {
+        if( !fixed && body.getSpeed() >= 0.0001 ) {
             //increasing the speed threshold from 0.001 to 0.1 causes the moon-sticking problem to go away.
-            fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.001 );
+            fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.0001 );
         }
         if( !fixed && Math.abs( spline.getUnitNormalVector( x2 ).getY() ) < 0.9 ) {
             double epsilon = 0.001;//1E-8     
