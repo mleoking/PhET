@@ -133,32 +133,32 @@ public class AtomicModelSelector extends PhetPNode {
         quantumLabel.setFont( continuumFont );
         quantumLabel.setTextPaint( CONTINUUM_CLASSICAL_COLOR ); // yes, this is correct
         
-        _billiardBallLabel = new HTMLNode( SimStrings.get( "label.billardBall" ) );
+        _billiardBallLabel = new HTMLNode( SimStrings.get( "button.billiardBall" ) );
         _billiardBallLabel.setFont( buttonFont );
         widthNodes.add( _billiardBallLabel );
         heightNodes.add( _billiardBallLabel );
 
-        _plumPuddingLabel = new HTMLNode( SimStrings.get( "label.plumPudding" ) );
+        _plumPuddingLabel = new HTMLNode( SimStrings.get( "button.plumPudding" ) );
         _plumPuddingLabel.setFont( buttonFont );
         widthNodes.add( _plumPuddingLabel );
         heightNodes.add( _plumPuddingLabel );
         
-        _solarSystemLabel = new HTMLNode( SimStrings.get( "label.solarSystem" ) );
+        _solarSystemLabel = new HTMLNode( SimStrings.get( "button.solarSystem" ) );
         _solarSystemLabel.setFont( buttonFont );
         widthNodes.add( _solarSystemLabel );
         heightNodes.add( _solarSystemLabel );
         
-        _bohrLabel = new HTMLNode( SimStrings.get( "label.bohr" ) );
+        _bohrLabel = new HTMLNode( SimStrings.get( "button.bohr" ) );
         _bohrLabel.setFont( buttonFont );
         widthNodes.add( _bohrLabel );
         heightNodes.add( _bohrLabel );
         
-        _deBroglieLabel = new HTMLNode( SimStrings.get( "label.deBroglie" ) );
+        _deBroglieLabel = new HTMLNode( SimStrings.get( "button.deBroglie" ) );
         _deBroglieLabel.setFont( buttonFont );
         widthNodes.add( _deBroglieLabel );
         heightNodes.add( _deBroglieLabel );
         
-        _schrodingerLabel = new HTMLNode( SimStrings.get( "label.schrodinger" ) );
+        _schrodingerLabel = new HTMLNode( SimStrings.get( "button.schrodinger" ) );
         _schrodingerLabel.setFont( buttonFont );
         widthNodes.add( _schrodingerLabel );
         heightNodes.add( _schrodingerLabel );
@@ -433,27 +433,38 @@ public class AtomicModelSelector extends PhetPNode {
         return _selectedModel;
     }
     
-    //XXX This should be removed, the name will contain HTML markup.
+
+    /**
+     * Gets the name of the model that is selected.
+     * This name will not contain any HTML markup; it will be a simple text string.
+     * @return String
+     */
     public String getSelectionName() {
-        String name = null;
+        String resourceName = null;
         if ( _selectedModel == AtomicModel.BILLIARD_BALL ) {
-            name = _billiardBallLabel.getHTML();
+            resourceName = "label.billiardBall";
         }
         else if ( _selectedModel == AtomicModel.PLUM_PUDDING ) {
-            name = _plumPuddingLabel.getHTML();
+            resourceName = "label.plumPudding";
         }
         else if ( _selectedModel == AtomicModel.SOLAR_SYSTEM ) {
-            name = _solarSystemLabel.getHTML();
+            resourceName = "label.solarSystem";
         }
         else if ( _selectedModel == AtomicModel.BOHR ) {
-            name = _bohrLabel.getHTML();
+            resourceName = "label.bohr";
         }
         else if ( _selectedModel == AtomicModel.DEBROGLIE ) {
-            name = _deBroglieLabel.getHTML();
+            resourceName = "label.deBroglie";
         }
         else if ( _selectedModel == AtomicModel.SCHRODINGER ) {
-            name = _schrodingerLabel.getHTML();
+            resourceName = "label.schrodinger";
         }
+        
+        String name = SimStrings.get( resourceName );
+        if ( name.indexOf( "<html>" ) != -1 ) {
+            System.err.println( "WARNING: SimStrings resource " + resourceName + " should not contain HTML!" );
+        }
+        
         return name;
     }
     
