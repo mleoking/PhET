@@ -140,10 +140,12 @@ public class SplineMode implements UpdateMode {
                     double speedThreshold = 2.0;
 //                    xSpeed = xSpeed > 0 ? Math.min( xSpeed, speedThreshold ) : Math.max( xSpeed, -speedThreshold );
                     //have to push the body to move to the surface of the spline, otherwise gets stuck easily
-                    xSpeed = xSpeed > 0 ? speedThreshold : -speedThreshold;
-                    body.setAttachmentPointPosition( origState.getAttachPoint().getX() + xSpeed * dt, origState.getAttachPoint().getY() );
+
                     body.setVelocity( origState.getVelocity() );
                     pointVelocityAlongSpline( lastX, body );
+
+                    xSpeed = body.getVelocity().getX() > 0 ? speedThreshold : -speedThreshold;
+                    body.setAttachmentPointPosition( origState.getAttachPoint().getX() + xSpeed * dt, origState.getAttachPoint().getY() );
 
                     body.setThermalEnergy( origState.getThermalEnergy() );
                     body.setAttachmentPointRotation( origState.getAttachmentPointRotation() );
