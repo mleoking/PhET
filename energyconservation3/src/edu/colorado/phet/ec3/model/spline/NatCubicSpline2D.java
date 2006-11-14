@@ -38,6 +38,13 @@ public class NatCubicSpline2D implements Spline2D {
             segmentIndex = X.length - 1;
             distAlongSegment = 1;
         }
+        if( segmentIndex < 0 ) {
+            segmentIndex = 0;
+        }
+        if( segmentIndex >= X.length ) {
+            segmentIndex = X.length - 1;
+        }
+
         return new Point2D.Double( X[segmentIndex].eval( distAlongSegment ), Y[segmentIndex].eval( distAlongSegment ) );
     }
 }
