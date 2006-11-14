@@ -124,6 +124,7 @@ public class SplineMode implements UpdateMode {
         if( !fixed ) {
             //look for a nearby rotation and/or spline position that conserves energy...?
             //wait until upside up to stop in a well
+            System.out.println( "netForce.getMagnitude() = " + netForce.getMagnitude() + ", absSinRot=" + Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) );
             if( netForce.getMagnitude() < 5000 && ( Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) < 0.1 ) ) {
                 System.out.println( "Looks like the bottom of a well: Stopping..." );
                 setBodyState( origState, body );
