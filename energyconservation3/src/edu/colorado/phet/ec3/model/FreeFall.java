@@ -32,8 +32,7 @@ public class FreeFall extends ForceMode implements Derivable {
             new SplineInteraction( energyConservationModel ).doCollision( passedThrough, body );
             int maxTries = 2;
             int count = 0;
-            while( getCrossedSpline( origState, body.createCollisionState() ) != null && count < maxTries )
-            {                  //todo: should we set it so this spline can't be grabbed soon?
+            while( getCrossedSpline( origState, body.createCollisionState() ) != null && count < maxTries ) {                  //todo: should we set it so this spline can't be grabbed soon?
                 stepIgnoreSplines( body, dt );
                 count++;
                 System.out.println( "Restoration count = " + count );
@@ -47,7 +46,7 @@ public class FreeFall extends ForceMode implements Derivable {
 
     private AbstractSpline getCrossedSpline( Body.StateRecord a, Body.StateRecord b ) {
         ArrayList splines = new ArrayList();
-        for( int i = 0; i < a. getSplineCount(); i++ ) {
+        for( int i = 0; i < a.getSplineCount(); i++ ) {
             AbstractSpline spline = a.getSpline( i );
             if( b.containsSpline( spline ) ) {
                 splines.add( spline );
@@ -63,14 +62,12 @@ public class FreeFall extends ForceMode implements Derivable {
     }
 
     private boolean isCrossed( Body.TraversalState x, Body.TraversalState y ) {
-//        if( x.isTop() && y.isTop() ) {
         if( x.isTop() == y.isTop() ) {
             //not a crossing, since they were both on the same side.
             return false;
         }
         double epsilon = 0.02;
-        if( x.getScalarAlongSpline() <= 0 || y.getScalarAlongSpline() <= 0 || x.getScalarAlongSpline() >= x.getSpline().getLength() - epsilon || y.getScalarAlongSpline() >= y.getSpline().getLength() - epsilon )
-        {
+        if( x.getScalarAlongSpline() <= 0 || y.getScalarAlongSpline() <= 0 || x.getScalarAlongSpline() >= x.getSpline().getLength() - epsilon || y.getScalarAlongSpline() >= y.getSpline().getLength() - epsilon ) {
             //bogus result because we passed the end of the spline
             return false;
         }
@@ -87,8 +84,10 @@ public class FreeFall extends ForceMode implements Derivable {
         setNetForce( getTotalForce( body ) );
         super.stepInTime( body, dt );
         body.setCMRotation( body.getCMRotation() + body.getAngularVelocity() * dt );
-        new EnergyConserver().fixEnergy( body, origEnergy );
-        double DE = Math.abs( body.getMechanicalEnergy() - origEnergy );
+
+        new EnergyConserver().fixEnergyWithVelocity( body, origEnergy, 10, 0.01 );
+//        new EnergyConserver().conserveEnergyViaH( body, origEnergy );
+        double DE = Math.abs( body.getTotalEnergy() - origEnergy );
         if( DE > 1E-6 ) {
             System.out.println( "energy conservation error in free fall: " + DE );
         }
