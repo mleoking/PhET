@@ -22,7 +22,7 @@ import java.io.IOException;
 
 public class EnergySkateParkApplication extends PhetApplication {
     private EnergySkateParkModule module;
-    private static final String VERSION = "1.02.14";
+    private static final String VERSION = "1.02.15";
     public static double SIMULATION_TIME_DT = 0.03;
 
     public EnergySkateParkApplication( String[] args ) {
