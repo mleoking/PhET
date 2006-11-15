@@ -1,10 +1,13 @@
 #################################################################
 Remaining Work
 #######################################
+
+Sometimes the skater gets stuck.  Difficult to reproduce.        
         
 When the user clicks on a track  (for a right-click menu), it thinks the user is dragging the spline, so doesn't work to conserve energy.
 
 Could try searching ahead a few steps to see if the skater will get stuck...
+
 #################################################################
 Low Priority or Deprecated
 #######################################

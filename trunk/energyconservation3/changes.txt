@@ -1,4 +1,7 @@
 1.02.14 (11-15-2006)
+Improved spline traversal code:
+        more accurate representation of normal force
+        small bugfixes & parameter edits    
 Bugfix: There is an error with friction on the ground, and falling through the ground.
 Bugfix: Deleting a control point during spline traversal crashes the application.
 Bugfix: Gravity value doesn't change sometimes after a record/playback.
