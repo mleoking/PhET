@@ -13,8 +13,6 @@ See Wendy's previous email about energy conservation across gravity changes.
 Identified a problem that caused skater to get stuck on the high part of his spline traversal.
 Fixed this, but more problems arose.
 
-gravity broken?
-
 When the user clicks on a track  (for a right-click menu), it thinks the user is dragging the spline, so doesn't work to conserve energy.
 
 Could try searching ahead a few steps to see if the skater will get stuck..
