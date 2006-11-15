@@ -14,6 +14,8 @@ Identified a problem that caused skater to get stuck on the high part of his spl
 Fixed this, but more problems arose.
 
 gravity broken?
+
+When the user clicks on a track  (for a right-click menu), it thinks the user is dragging the spline, so doesn't work to conserve energy.
 #################################################################
 Low Priority or Deprecated
 #######################################
