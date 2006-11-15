@@ -281,7 +281,7 @@ public class SplineMode implements UpdateMode {
 
     private AbstractVector2D getNormalForce( double x, Body body ) {
         AbstractVector2D n = spline.getUnitNormalVector( x );
-        double length = body.getGravityForce().dot( n );
+        double length = body.getGravityForce().getAddedInstance( body.getThrust() ).dot( n );
         double angle = isSplineTop( spline, x, body ) ? n.getAngle() : n.getAngle() + Math.PI;
         return Vector2D.Double.parseAngleAndMagnitude( length, -angle );
     }

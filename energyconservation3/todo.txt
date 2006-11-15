@@ -13,6 +13,7 @@ See Wendy's previous email about energy conservation across gravity changes.
 Identified a problem that caused skater to get stuck on the high part of his spline traversal.
 Fixed this, but more problems arose.
 
+gravity broken?
 #################################################################
 Low Priority or Deprecated
 #######################################
