@@ -35,11 +35,12 @@ public class SplineMode implements UpdateMode {
         double x1 = lastX;
         pointVelocityAlongSpline( x1, body );
         AbstractVector2D netForce = getNetForce( x1, body );
-//        System.out.println( "netForce = " + netForce );
+        System.out.println( "netForce = " + netForce );
         new ForceMode( netForce ).stepInTime( body, dt );
         afterNewton = body.copyState();
 
-        double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 60, 2 );
+//        double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 60, 2 );
+        double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 60, 3 );
 //        double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 600, 3 );
         if( x2 <= 0 || x2 >= spline.getLength() - 0.01 ) {//fly off the end of the spline
             fixEnergy( origState, netForce, x2, body, dt );
