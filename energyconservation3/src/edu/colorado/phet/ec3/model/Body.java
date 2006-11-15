@@ -205,7 +205,7 @@ public class Body {
             double ef = getTotalEnergy();
             double err = Math.abs( ef - ei );
             if( err > 1E-6 ) {
-                System.out.println( "err=" + err + ", i=" + i );
+                System.out.println( "err=" + err + ", i=" + i + ", mode=" + getMode() );
                 if( !recurse ) {
                     setState( orig );
                     recurse = true;
