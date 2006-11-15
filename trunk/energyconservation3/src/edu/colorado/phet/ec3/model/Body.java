@@ -58,6 +58,26 @@ public class Body {
     private ArrayList stateRecordHistory = new ArrayList();
     private boolean debugAnglesEnabled = false;
 
+    public Body( EnergyConservationModel model ) {
+        this( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), model.getPotentialEnergyMetric(), model );
+    }
+
+    public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, EnergyConservationModel energyConservationModel ) {
+        this.energyConservationModel = energyConservationModel;
+        userMode = new UserControlled();
+        this.freeFall = new FreeFall( energyConservationModel );
+        this.width = width;
+        this.height = height;
+        this.potentialEnergyMetric = potentialEnergyMetric;
+        cmRotation = Math.PI;
+        mode = freeFall;
+        storedTotalEnergy = getTotalEnergy();
+    }
+
+    public void setPotentialEnergyMetric( PotentialEnergyMetric potentialEnergyMetric ) {
+        this.potentialEnergyMetric = potentialEnergyMetric;
+    }
+
     public int getNumHistoryPoints() {
         return stateRecordHistory.size();
     }
@@ -122,22 +142,6 @@ public class Body {
         }
     }
 
-    public Body( EnergyConservationModel model ) {
-        this( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), model.getPotentialEnergyMetric(), model );
-    }
-
-    public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, EnergyConservationModel energyConservationModel ) {
-        this.energyConservationModel = energyConservationModel;
-        userMode = new UserControlled();
-        this.freeFall = new FreeFall( energyConservationModel );
-        this.width = width;
-        this.height = height;
-        this.potentialEnergyMetric = potentialEnergyMetric;
-        cmRotation = Math.PI;
-        mode = freeFall;
-        storedTotalEnergy = getTotalEnergy();
-    }
-
     public void setState( Body body ) {
         this.angularVelocity = body.angularVelocity;
         this.attachmentPoint.setLocation( body.attachmentPoint );
@@ -187,6 +191,7 @@ public class Body {
     boolean recurse = false;
 
     public void stepInTime( double dt ) {
+//        System.out.println( "getGravity() = " + getGravity() );
         Body orig = copyState();
 //        System.out.println( "getGravity() = " + getGravity() );
         StateRecord collisionList = createCollisionState();
