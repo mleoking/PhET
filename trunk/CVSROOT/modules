@@ -156,7 +156,7 @@ ideal-gas ideal-gas-v3 &phetcommon-dir &phetgraphics-dir &mechanics-module
 travoltage travoltage &phetcommon-dir &piccolo-dir &piccolo-phet-dir
 
 # Lasers
-lasers lasers &phetgraphics-module &collision-dir &controls-dir &mechanics-module
+lasers lasers &phetgraphics-module &collision-dir &controls-dir &mechanics-module &quantum-rjl
 
 # Localizations
 localizations localizations
