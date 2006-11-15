@@ -1,4 +1,4 @@
-1.02.14 (11-15-2006)
+1.02.15 (11-15-2006)
 Improved spline traversal code:
         more accurate representation of normal force
         small bugfixes & parameter edits    
