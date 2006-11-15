@@ -12,6 +12,8 @@ package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
@@ -21,6 +23,7 @@ import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsStrip
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChartNode;
 import edu.colorado.phet.molecularreactions.view.charts.StripChartAdjuster;
 import edu.colorado.phet.molecularreactions.util.StripChart;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolo.PNode;
@@ -159,15 +162,15 @@ public class ComplexModule extends MRModule {
 
     private JDialog createStripChartDialog() {
         Dimension chartSize = new Dimension( 400, 200 );
-        final double xAxisRange = 100;
-//        final double xAxisRange = 500;
+        final double xAxisRange = MRConfig.STRIP_CHART_VISIBLE_TIME_RANGE ;
+        int numBufferedDataPoints = MRConfig.STRIP_CHART_BUFFER_SIZE;
         final MoleculePopulationsStripChart stripChart = new MoleculePopulationsStripChart( getMRModel(),
                                                                                             getClock(),
                                                                                             xAxisRange,
                                                                                             0,
                                                                                             20,
                                                                                             1,
-                                                                                            200 );
+                                                                                            numBufferedDataPoints );
         ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
         chartPanel.setPreferredSize( chartSize );
 
@@ -212,6 +215,18 @@ public class ComplexModule extends MRModule {
                 scrollBar.setValue( (int)stripChart.getMaxX());
             }
         } );
+
+        // The scroll bar should only be enabled when the clock is paused
+        getClock().addClockListener( new ClockAdapter() {
+            public void clockStarted( ClockEvent clockEvent ) {
+                scrollBar.setEnabled( false );
+            }
+
+            public void clockPaused( ClockEvent clockEvent ) {
+                scrollBar.setEnabled( true );
+            }
+        });
+        scrollBar.setEnabled( !getClock().isRunning() );
 
         stripChartCanvas.setPreferredSize( dialogSize );
         stripChartDlg.getContentPane().add( stripChartCanvas );

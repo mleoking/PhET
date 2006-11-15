@@ -32,6 +32,7 @@ public class MRConfig {
     public static boolean DEBUG = true;
 
     // Model constants
+    public static int CLOCK_FPS = 25;
     public static double MAX_REACTION_THRESHOLD = 5E2;
     public static double DEFAULT_REACTION_THRESHOLD = MAX_REACTION_THRESHOLD * .7;
     public static final double MAX_SPEED = 3;
@@ -49,6 +50,8 @@ public class MRConfig {
     public static final int BAR_CHART_MAX_Y = 20;
     public static final int PIE_CHART_DIAM_FACTOR = 3;
     public static final double ENERGY_VIEW_PROFILE_VERTICAL_SCALE = 1;
+    public static final int STRIP_CHART_BUFFER_SIZE = 3 * 60 * CLOCK_FPS;
+    public static final double STRIP_CHART_VISIBLE_TIME_RANGE = 300;
 
     // Colors
     public static final Color SPATIAL_VIEW_BACKGROUND = new Color( 255, 255, 225 );
