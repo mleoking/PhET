@@ -35,7 +35,7 @@ public class SplineMode implements UpdateMode {
         double x1 = lastX;
         pointVelocityAlongSpline( x1, body );
         AbstractVector2D netForce = getNetForce( x1, body );
-        System.out.println( "netForce = " + netForce );
+//        System.out.println( "netForce = " + netForce );
         new ForceMode( netForce ).stepInTime( body, dt );
         afterNewton = body.copyState();
 
