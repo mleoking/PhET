@@ -130,6 +130,8 @@ public class SplineMode implements UpdateMode {
             if( netForce.getMagnitude() < 5000 && ( Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) < 0.1 ) ) {
                 System.out.println( "Looks like the bottom of a well: Stopping..." );
                 setBodyState( origState, body );
+                body.setVelocity( new ImmutableVector2D.Double( 0, 0 ) );
+                body.addThermalEnergy( origState.getTotalEnergy() - body.getTotalEnergy() );
             }
             else {
                 if( origState.getEnergyDifferenceAbs( body ) > 1E-6 ) {
