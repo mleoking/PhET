@@ -39,7 +39,7 @@ public class EnergyDebugger {
 
     public static void stepFinished( Body body ) {
         double dE = new State( body ).getTotalEnergy() - origEnergy;
-        if( Math.abs( dE ) > 10E-6 ) {
+        if( Math.abs( dE ) > 10E-6 && !body.isUserControlled() ) {
             System.out.println( "STEP FINISHED dE = " + dE + ", totalEnergy=" + new State( body ).getTotalEnergy() );
         }
     }

@@ -26,7 +26,7 @@ public class SplineInteraction {
         AbstractSpline grabSpline = getGrabSpline( body );
         if( grabSpline != null ) {
             body.setSplineMode( energyConservationModel, grabSpline );
-            System.out.println( "grabSpline = " + grabSpline );
+//            System.out.println( "grabSpline = " + grabSpline );
         }
         else {
             tryCollision( body );
@@ -73,7 +73,7 @@ public class SplineInteraction {
         AbstractSpline collisionSpline = getCollisionSpline( body );
         if( collisionSpline != null ) {
             doCollision( collisionSpline, body );
-            System.out.println( "collisionSpline = " + collisionSpline );
+//            System.out.println( "collisionSpline = " + collisionSpline );
         }
         else {
             body.convertToFreefall();

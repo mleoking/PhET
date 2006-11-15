@@ -204,7 +204,7 @@ public class Body {
             getMode().stepInTime( this, dt / NUM_STEPS_PER_UPDATE );
             double ef = getTotalEnergy();
             double err = Math.abs( ef - ei );
-            if( err > 1E-6 ) {
+            if( err > 1E-6 && !isUserControlled() ) {
                 System.out.println( "err=" + err + ", i=" + i + ", mode=" + getMode() );
                 if( !recurse ) {
                     setState( orig );
