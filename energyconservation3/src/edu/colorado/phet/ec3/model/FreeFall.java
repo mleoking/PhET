@@ -84,11 +84,12 @@ public class FreeFall extends ForceMode implements Derivable {
         setNetForce( getTotalForce( body ) );
         super.stepInTime( body, dt );
         body.setCMRotation( body.getCMRotation() + body.getAngularVelocity() * dt );
-
-        new EnergyConserver().fixEnergyWithVelocity( body, origEnergy, 10, 0.01 );
+        if( !body.isUserControlled() ) {
+            new EnergyConserver().fixEnergyWithVelocity( body, origEnergy, 10, 0.01 );
+        }
 //        new EnergyConserver().conserveEnergyViaH( body, origEnergy );
         double DE = Math.abs( body.getTotalEnergy() - origEnergy );
-        if( DE > 1E-6 ) {
+        if( DE > 1E-6 && !body.isUserControlled() ) {
             System.out.println( "energy conservation error in free fall: " + DE );
         }
     }
