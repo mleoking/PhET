@@ -26,12 +26,10 @@ public class SplineMode implements UpdateMode {
         this.spline = spline;
     }
 
-    public boolean isUserControlled( Body body ) {
-        return body.isUserControlled() || spline.isUserControlled();
-    }
-
     public void stepInTime( Body body, double dt ) {
         Body origState = body.copyState();
+//        System.out.println( "body.isUserControlled() = " + body.isUserControlled() );
+//        double x1 = body.isUserControlled()?getDistAlongSplineSearch( body.getAttachPoint(), lastX, 5, 60, 3 ):lastX;
         double x1 = lastX;
         pointVelocityAlongSpline( x1, body );
         AbstractVector2D netForce = getNetForce( x1, body );
@@ -64,9 +62,9 @@ public class SplineMode implements UpdateMode {
             body.setAttachmentPointPosition( spline.evaluateAnalytical( x2 ) );
             rotateBody( x2, dt, Double.POSITIVE_INFINITY, body );
 
-            if( !isUserControlled( body ) ) {
-                fixEnergy( origState, netForce, x2, body, dt );
-            }
+//            if( !isUserControlled( body ) ) {
+            fixEnergy( origState, netForce, x2, body, dt );
+//            }
             lastState = body.copyState();
         }
     }
@@ -123,8 +121,8 @@ public class SplineMode implements UpdateMode {
                 //rarely happens
             }
         }
+        if( !fixed && !body.isUserControlled() ) {
 
-        if( !fixed ) {
             //look for a nearby rotation and/or spline position that conserves energy...?
             //wait until upside up to stop in a well
 //            System.out.println( "netForce.getMagnitude() = " + netForce.getMagnitude() + ", absSinRot=" + Math.abs( Math.sin( body.getAttachmentPointRotation() ) ) );

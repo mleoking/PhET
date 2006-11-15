@@ -19,9 +19,9 @@ public class EnergyConserver {
     }
 
     public boolean fixEnergyWithVelocity( Body body, double desiredTotalEnergy, int numIterations, double speedThreshold ) {
-        if( body.isUserControlled() ) {
-            return true;
-        }
+//        if( body.isUserControlled() ) {
+//            return true;
+//        }
         //increasing the speed threshold from 0.001 to 0.1 causes the moon-sticking problem to go away.
         for( int i = 0; i < numIterations; i++ ) {
             if( body.getSpeed() > speedThreshold && body.getMass() > 1 ) {
