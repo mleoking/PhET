@@ -1,3 +1,7 @@
+1.02.16 (11-15-2006)
+Bugfix: When the interacts with the track, energy is not conserved.
+        Now energy is conserved when possible, unless the user has added energy to the system.
+
 1.02.15 (11-15-2006)
 Improved spline traversal code:
         more accurate representation of normal force
