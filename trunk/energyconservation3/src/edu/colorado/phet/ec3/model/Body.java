@@ -336,7 +336,7 @@ public class Body {
     }
 
     public boolean isUserControlled() {
-        return mode == userMode || getThrust().getMagnitude() > 0;
+        return mode == userMode || getThrust().getMagnitude() > 0 || ( isSplineMode() && getSpline().isUserControlled() );
     }
 
     public void setUserControlled( boolean userControlled ) {
