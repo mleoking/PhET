@@ -1,3 +1,6 @@
+1.02.18
+Bugfix: Skater with mass of 1kg gets stuck a lot.
+
 1.02.17 (11-15-2006)
 Bugfix: fixed a bug introduced in 1.02.16 that caused thrust to behave incorrectly in free fall and spline mode.
 
