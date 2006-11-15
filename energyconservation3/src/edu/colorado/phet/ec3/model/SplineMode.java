@@ -63,7 +63,7 @@ public class SplineMode implements UpdateMode {
             rotateBody( x2, dt, Double.POSITIVE_INFINITY, body );
 
 //            if( !isUserControlled( body ) ) {
-            System.out.println( "body.getThrust().getMagnitude() = " + body.getThrust().getMagnitude() + ", ltz=" + ( body.getThrust().getMagnitude() <= 0 ) );
+//            System.out.println( "body.getThrust().getMagnitude() = " + body.getThrust().getMagnitude() + ", ltz=" + ( body.getThrust().getMagnitude() <= 0 ) );
             if( body.getThrust().getMagnitude() <= 0 ) {
                 fixEnergy( origState, netForce, x2, body, dt );
             }
