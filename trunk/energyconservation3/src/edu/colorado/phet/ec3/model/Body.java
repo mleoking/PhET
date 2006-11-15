@@ -189,6 +189,7 @@ public class Body {
     }
 
     boolean recurse = false;
+    boolean debugging = false;
 
     public void stepInTime( double dt ) {
 //        System.out.println( "getGravity() = " + getGravity() );
@@ -211,7 +212,7 @@ public class Body {
             double err = Math.abs( ef - ei );
             if( err > 1E-6 && !isUserControlled() ) {
                 System.out.println( "err=" + err + ", i=" + i + ", mode=" + getMode() );
-                if( !recurse ) {
+                if( !recurse && debugging ) {
                     setState( orig );
                     recurse = true;
                     stepInTime( dt );

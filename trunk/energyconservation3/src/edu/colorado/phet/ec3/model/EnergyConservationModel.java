@@ -35,7 +35,8 @@ public class EnergyConservationModel {
         this.initZeroPointPotentialY = zeroPointPotentialY;
         potentialEnergyMetric = new PotentialEnergyMetric() {
             public double getPotentialEnergy( Body body ) {
-                return copy().getPotentialEnergy( body );
+                double h = EnergyConservationModel.this.zeroPointPotentialY - body.getCenterOfMass().getY();
+                return body.getMass() * gravity * h;
             }
 
             public double getGravity() {
@@ -43,7 +44,7 @@ public class EnergyConservationModel {
             }
 
             public PotentialEnergyMetric copy() {
-                return new ImmutablePotentialEnergyMetric( EnergyConservationModel.this.zeroPointPotentialY, gravity );
+                return this;
             }
         };
     }
@@ -183,6 +184,7 @@ public class EnergyConservationModel {
         //todo: some model objects are not getting copied over correctly, body's spline strategy could refer to different splines
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
+            body.setPotentialEnergyMetric( getPotentialEnergyMetric() );
             if( body.isSplineMode() ) {
                 AbstractSpline spline = body.getSpline();
                 if( !containsSpline( spline ) ) {
