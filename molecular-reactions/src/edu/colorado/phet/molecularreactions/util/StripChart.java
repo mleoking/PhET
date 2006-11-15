@@ -183,6 +183,7 @@ public class StripChart {
     public void setMinX( double x ) {
         XYPlot plot = (XYPlot)chart.getPlot();
         double minX = Math.min( x, getMaxTime() - xAxisRange );
+//        double minX = Math.max(  0, Math.min( x, getMaxTime() - xAxisRange )) ;
         double maxX = Math.min( x + xAxisRange, getMaxTime() );
         plot.getDomainAxis().setRange( minX, maxX );
     }

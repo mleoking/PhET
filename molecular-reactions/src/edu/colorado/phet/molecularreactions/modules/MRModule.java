@@ -38,7 +38,9 @@ public class MRModule extends Module {
     private Dimension spatialViewSize = new Dimension( 520, 500 );
 
     public MRModule( String name ) {
-        super( name, new VariableConstantTickClock( new SwingClock( 40, MRConfig.RUNNING_DT ), MRConfig.RUNNING_DT ) );
+        super( name, new VariableConstantTickClock( new SwingClock( 1000 / MRConfig.CLOCK_FPS, 
+                                                                    MRConfig.RUNNING_DT ),
+                                                    MRConfig.RUNNING_DT ) );
 
         // Create the model
         MRModel model = new MRModel( getClock() );
