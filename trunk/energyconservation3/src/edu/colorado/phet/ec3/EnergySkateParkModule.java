@@ -108,7 +108,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
         getModulePanel().setClockControlPanel( timeSeriesPlaybackPanel );
         setDefaults();
-
+        setLogoPanelVisible( Toolkit.getDefaultToolkit().getScreenSize().height > 768 );
         new WiggleMeInSpace( this ).start();
     }
 
