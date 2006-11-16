@@ -33,6 +33,13 @@ public class BohrModel extends AbstractHydrogenAtom {
     private static boolean DEBUG_OUTPUT_ENABLED = false;
     
     //----------------------------------------------------------------------------
+    // Public class data
+    //----------------------------------------------------------------------------
+    
+    /* minimum time (clock time change) that electron stays in a state before emission can occur */
+    public static int MIN_TIME_IN_STATE = 50;
+    
+    //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
     
@@ -66,6 +73,8 @@ public class BohrModel extends AbstractHydrogenAtom {
     
     // electron state
     private int _electronState;
+    // time that the electron has been in its current state
+    private double _timeInState;
     // current angle of electron
     private double _electronAngle;
     // offset of the electron relative to atom's center
@@ -88,6 +97,7 @@ public class BohrModel extends AbstractHydrogenAtom {
         super( position, 0 /* orientation */ );
         
         _electronState = GROUND_STATE;
+        _timeInState = 0;
         _electronAngle = RandomUtils.nextAngle();
         _electronOffset = new Point2D.Double();
         
@@ -119,6 +129,7 @@ public class BohrModel extends AbstractHydrogenAtom {
         assert( state >= GROUND_STATE && state <= GROUND_STATE + getNumberOfStates() - 1 );
         if ( state != _electronState ) {
             _electronState = state;
+            _timeInState = 0;
             notifyObservers( PROPERTY_ELECTRON_STATE );
         }
     }
@@ -219,7 +230,7 @@ public class BohrModel extends AbstractHydrogenAtom {
             return absorbed;
         }
         
-        if ( !photon.isEmitted() ) {
+        if ( _timeInState >= MIN_TIME_IN_STATE && !photon.isEmitted() ) {
 
             // Do the photon and electron collide?
             Point2D electronPosition = getElectronPosition();
@@ -271,7 +282,7 @@ public class BohrModel extends AbstractHydrogenAtom {
             return;
         }
         
-        if ( _electronState > GROUND_STATE ) {
+        if ( _timeInState >= MIN_TIME_IN_STATE && _electronState > GROUND_STATE ) {
             if ( _randomEmission.nextDouble() < PHOTON_EMISSION_PROBABILITY ) {
                 
                 // Randomly pick a new state, each state has equal probability.
@@ -316,7 +327,7 @@ public class BohrModel extends AbstractHydrogenAtom {
             return;
         }
         
-        if ( _electronState > GROUND_STATE && !photon.isEmitted() ) {
+        if (  _timeInState >= MIN_TIME_IN_STATE && _electronState > GROUND_STATE && !photon.isEmitted() ) {
             
             // Do the photon and electron collide?
             Point2D electronPosition = getElectronPosition();
@@ -411,8 +422,13 @@ public class BohrModel extends AbstractHydrogenAtom {
     
     /**
      * Moves a photon.
+     * <p>
      * A collision occurs when a photon comes "close" to the electron.
      * If a collision occurs, there is a probability of absorption.
+     * If there is no absorption, then there may be stimulated emission.
+     * <p>
+     * Nothing is allowed to happen until the electron has been in its 
+     * current state for a minimum time period.
      * 
      * @param photon
      */
@@ -444,6 +460,9 @@ public class BohrModel extends AbstractHydrogenAtom {
      */
     public void stepInTime( double dt ) {
 
+        // Keep track of how long the electron has been in its current state.
+        _timeInState += dt;
+        
         // clockwise orbit
         _electronAngle -= dt * ( ELECTRON_ANGLE_DELTA / ( _electronState * _electronState ) );
         updateElectronOffset();
