@@ -28,9 +28,7 @@ public class PieChartIndicator extends PNode {
     public PieChartIndicator( EnergySkateParkModule module, BodyGraphic body ) {
         this.module = module;
         this.bodyGraphic = body;
-        PieChartNode.PieValue[] values = createPieValues();
-        Rectangle createPieRect = createPieRect();
-        pieChartNode = new PieChartNode( values, createPieRect );
+        pieChartNode = new PieChartNode( createPieValues(), createPieRect() );
         addChild( pieChartNode );
         setPickable( false );
         setChildrenPickable( false );
@@ -61,10 +59,10 @@ public class PieChartIndicator extends PNode {
 
     private double getTotalEnergy( Body body ) {
         if( ignoreThermal ) {
-            return body.getMechanicalEnergy();
+            return body.getKineticEnergy() + Math.abs( body.getPotentialEnergy() );
         }
         else {
-            return body.getMechanicalEnergy() + body.getThermalEnergy();
+            return body.getKineticEnergy() + Math.abs( body.getPotentialEnergy() ) + body.getThermalEnergy();
         }
     }
 
@@ -76,18 +74,18 @@ public class PieChartIndicator extends PNode {
         if( module.getEnergyConservationModel().numBodies() > 0 ) {
             Body body = module.getEnergyConservationModel().bodyAt( 0 );
             double ke = body.getKineticEnergy();
-            double pe = body.getPotentialEnergy();
+            double pe = Math.abs( body.getPotentialEnergy() );
             double therm = body.getThermalEnergy();
 
             PieChartNode.PieValue[] values = new PieChartNode.PieValue[]{
                     new PieChartNode.PieValue( ke, getLookAndFeel().getKEColor() ),
-                    new PieChartNode.PieValue( pe, getLookAndFeel().getPEColor() ),
+                    ( body.getPotentialEnergy() > 0 ) ? new PieChartNode.PieValue( pe, getLookAndFeel().getPEColor() ) : new PieChartNode.PieValue( pe, Color.black ),
                     new PieChartNode.PieValue( therm, getLookAndFeel().getThermalEnergyColor() )
             };
             if( ignoreThermal ) {
                 values = new PieChartNode.PieValue[]{
                         new PieChartNode.PieValue( ke, getLookAndFeel().getKEColor() ),
-                        new PieChartNode.PieValue( pe, getLookAndFeel().getPEColor() ),
+                        ( body.getPotentialEnergy() > 0 ) ? new PieChartNode.PieValue( pe, getLookAndFeel().getPEColor() ) : new PieChartNode.PieValue( pe, Color.black ),
                 };
             }
             // new PieChartNode.PieValue( 20, Color.pink ), new PieChartNode.PieValue( 15, Color.blue )};

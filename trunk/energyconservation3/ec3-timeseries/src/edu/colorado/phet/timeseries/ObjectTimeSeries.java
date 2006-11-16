@@ -27,7 +27,12 @@ public class ObjectTimeSeries {
     }
 
     public ObjectTimePoint getLastPoint() {
-        return lastPointAt( 0 );
+        if( pts.size() > 0 ) {
+            return lastPointAt( 0 );
+        }
+        else {
+            return null;
+        }
     }
 
     public int size() {
