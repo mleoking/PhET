@@ -79,30 +79,10 @@ public class CCKApplication extends PiccoloPhetApplication {
 
     private static FrameSetup createFrameSetup() {
         if( Toolkit.getDefaultToolkit().getScreenSize().height <= 768 ) {
-            return new FrameSetup.MaxExtent( new TopCenter( Toolkit.getDefaultToolkit().getScreenSize().width, 700 ) );
+            return new FrameSetup.MaxExtent( new FrameSetup.TopCenter( Toolkit.getDefaultToolkit().getScreenSize().width, 700 ) );
         }
         else {
-            return new TopCenter( Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height - 100 );
-        }
-    }
-
-    public static class TopCenter implements FrameSetup {
-        private int width;
-        private int height;
-
-        public TopCenter( int width, int height ) {
-            this.width = width;
-            this.height = height;
-        }
-
-        // todo: add test to see that the requested dimensions aren't bigger than the screen
-        public void initialize( JFrame frame ) {
-            Toolkit tk = Toolkit.getDefaultToolkit();
-            Dimension d = tk.getScreenSize();
-            int x = ( d.width - width ) / 2;
-            int y = 0;
-            frame.setLocation( x, y );
-            frame.setSize( width, height );
+            return new FrameSetup.TopCenter( Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height - 100 );
         }
     }
 
