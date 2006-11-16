@@ -1,3 +1,9 @@
+1.02.20
+
+1.02.19 (11-15-2006)
+Bugfix: potential energy (pie chart) is wrong when PE=0 line makes PE negative
+Made pie chart piece black for negative potential energy.
+
 1.02.18 (11-15-2006)
 Bugfix: Skater with mass of 1kg gets stuck a lot.
 
