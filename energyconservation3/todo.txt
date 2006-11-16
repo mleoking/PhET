@@ -2,6 +2,13 @@
 Remaining Work
 #######################################      
         
+arrow keys in space makes him vanish on one run...
+        Couldn't Reproduce this.
+
+after record/playback/reset, there is a hidden track graphic or something...  I get a cursor hand when I mouse over it.
+
+energy vs. time chart not big enough to see all the data
+
 When the user clicks on a track  (for a right-click menu), it thinks the user is dragging the spline, so doesn't work to conserve energy.
 
 Could try searching ahead a few steps to see if the skater will get stuck...
@@ -10,11 +17,12 @@ If left on and the yellow dots of the path record allowed to accumulate, it
 seems to cause tremendous lag in the program (maybe set a limit on how long it can be 
 left on?)
 
-Sometimes the skater gets stuck.  Difficult to reproduce.
+Sometimes the skater gets stuck.
+        Difficult to reproduce.
 
 One run caused the skater to behave as if he had 0.001 mass (in space).  Couldn't reproduce.
 
-Maybe the skater should point his feet toward the closest track?
+Maybe the skater should point his feet toward the closest track when the user is dragging him.
 
 #################################################################
 Low Priority or Deprecated

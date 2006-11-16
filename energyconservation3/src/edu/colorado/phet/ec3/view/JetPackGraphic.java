@@ -34,6 +34,11 @@ public class JetPackGraphic extends BodyGraphic {
 
     }
 
+    public void setBody( Body body ) {
+        super.setBody( body );
+        origBody = body;
+    }
+
     public void update() {
         if( origBody != null ) {
             Body b = origBody.copyState();
