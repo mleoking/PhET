@@ -6,13 +6,13 @@ When the user clicks on a track  (for a right-click menu), it thinks the user is
 
 Could try searching ahead a few steps to see if the skater will get stuck...
 
-Does it really make sense to have a ground while in space? (not saved since location just needs to be space to see)
-
 If left on and the yellow dots of the path record allowed to accumulate, it 
 seems to cause tremendous lag in the program (maybe set a limit on how long it can be 
 left on?)
 
 Sometimes the skater gets stuck.  Difficult to reproduce.
+
+One run caused the skater to behave as if he had 0.001 mass (in space).  Couldn't reproduce.
 
 #################################################################
 Low Priority or Deprecated
