@@ -1,5 +1,6 @@
 1.02.20 (11-15-2006)
 Removed logo panel for users with screen height<=768 pixels.
+Bugfix: after record and playback, the rocket graphic doesn't appear
 
 1.02.19 (11-15-2006)
 Bugfix: potential energy (pie chart) is wrong when PE=0 line makes PE negative
