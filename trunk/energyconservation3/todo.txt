@@ -14,6 +14,8 @@ Sometimes the skater gets stuck.  Difficult to reproduce.
 
 One run caused the skater to behave as if he had 0.001 mass (in space).  Couldn't reproduce.
 
+Maybe the skater should point his feet toward the closest track?
+
 #################################################################
 Low Priority or Deprecated
 #######################################
@@ -72,3 +74,6 @@ gravity (maximum) the skater falls through the track at the bottom point and
 bounces around the bottom of the screen before shooting off in a random direction 
 (his exact reaction varies each time).
         This problem is partially reduced.  Friction + Gravity + Track Curvature increases probability of getting this problem.
+        
+after record/playback/reset, then gravity in space, friction is not working
+	This is correct behaivor.
