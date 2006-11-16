@@ -12,7 +12,6 @@
 package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
 
