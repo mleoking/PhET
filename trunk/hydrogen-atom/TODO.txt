@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - make plum pudding a slightly darker red
 - add min time that electron must stay in a state before emission occurs, include dev control
-- make electron a brighter blue
 - make white light weighted towards wavelengths from the absorption spectrum, all UV from absorption spectrum
 - make legend font bigger
 - Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
@@ -333,6 +332,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(11/16/06) - make electron a brighter blue (any light will be indistinguishable from neutron gray)
 (11/16/06) - add "H emission spectrum" option to "white" and "monochrome" options for gun (weighted white light instead)
 (11/7/06) - change global coordinate system so that atom is centered at the origin (not necessary, too destabilizing, code would not be general)
 (11/6/06) - handle AlphaParticle orientation in AlphaParticleNode (not supported by Rutherford Scattering algorith, and Sam McKagan says not necessary)
