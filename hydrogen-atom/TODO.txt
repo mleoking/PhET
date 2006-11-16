@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add min time that electron must stay in a state before emission occurs, include dev control
 - make white light weighted towards wavelengths from the absorption spectrum, all UV from absorption spectrum
 - implement DeBroglie model
 
@@ -42,6 +41,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/16/06) - add min time that electron must stay in a Bohr state before emission occurs, include dev control
 (11/16/06) - removed asset files that are no longer relevant
 (11/16/06) - make plum pudding 20% darker red
 (11/16/06) - set gun's default wavelength to 530

@@ -55,9 +55,11 @@ public class DeveloperControlsDialog extends JDialog {
     private JSpinner _maxParticlesSpinner;
     private JSpinner _absorptionClosenessSpinner;
     private JCheckBox _rutherfordScatteringOutputCheckBox;
+
     private JCheckBox _bohrAbsorptionCheckBox;
     private JCheckBox _bohrEmissionCheckBox;
     private JCheckBox _bohrStimulatedEmissionCheckBox;
+    private JSpinner _minStateTimeSpinner;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -123,6 +125,24 @@ public class DeveloperControlsDialog extends JDialog {
         _bohrEmissionCheckBox = new JCheckBox( "emission enabled", BohrModel.DEBUG_EMISSION_ENABLED );
         _bohrStimulatedEmissionCheckBox = new JCheckBox( "stimulated emission enabled", BohrModel.DEBUG_STIMULATED_EMISSION_ENABLED );
         
+        // Min time that electron stays in a state
+        HorizontalLayoutPanel minStateTimePanel = new HorizontalLayoutPanel();
+        {
+            JLabel label = new JLabel( "<html>Min time that electron must spend<br>in a state before it can emit a photon:</html>" );
+            JLabel units = new JLabel( "dt" );
+            
+            int minStateTime = (int) BohrModel.MIN_TIME_IN_STATE;
+            SpinnerModel model = new SpinnerNumberModel( minStateTime, 1, 300, 1 /* stepSize */);
+            _minStateTimeSpinner = new JSpinner( model );
+            JFormattedTextField tf = ( (JSpinner.DefaultEditor) _minStateTimeSpinner.getEditor() ).getTextField();
+            tf.setEditable( false );
+            
+            minStateTimePanel.setInsets( new Insets( 5, 5, 5, 5 ) );
+            minStateTimePanel.add( label );
+            minStateTimePanel.add( _minStateTimeSpinner );
+            minStateTimePanel.add( units );
+        }
+        
         // Event handling
         EventListener listener = new EventListener();
         _maxParticlesSpinner.addChangeListener( listener );
@@ -131,6 +151,7 @@ public class DeveloperControlsDialog extends JDialog {
         _bohrAbsorptionCheckBox.addChangeListener( listener );
         _bohrEmissionCheckBox.addChangeListener( listener );
         _bohrStimulatedEmissionCheckBox.addChangeListener( listener );
+        _minStateTimeSpinner.addChangeListener( listener );
         
         // Layout
         JPanel panel = new JPanel();
@@ -149,6 +170,8 @@ public class DeveloperControlsDialog extends JDialog {
         layout.addComponent( _bohrAbsorptionCheckBox, row++, 0 );
         layout.addComponent( _bohrEmissionCheckBox, row++, 0 );
         layout.addComponent( _bohrStimulatedEmissionCheckBox, row++, 0 );
+        layout.addComponent( minStateTimePanel, row++, 0 );
+        layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
         
         return panel;
     }
@@ -181,6 +204,9 @@ public class DeveloperControlsDialog extends JDialog {
             else if ( source == _bohrStimulatedEmissionCheckBox ) {
                 handleBohrAbsorptionEmission();
             }
+            else if ( source == _minStateTimeSpinner ) {
+                handleMinStateTime();
+            }
         }
     }
     
@@ -205,5 +231,11 @@ public class DeveloperControlsDialog extends JDialog {
         BohrModel.DEBUG_ASBORPTION_ENABLED = _bohrAbsorptionCheckBox.isSelected();
         BohrModel.DEBUG_EMISSION_ENABLED = _bohrEmissionCheckBox.isSelected();
         BohrModel.DEBUG_STIMULATED_EMISSION_ENABLED = _bohrStimulatedEmissionCheckBox.isSelected();
+    }
+    
+    private void handleMinStateTime() {
+        SpinnerNumberModel spinnerModel = (SpinnerNumberModel) _minStateTimeSpinner.getModel();
+        int minStateTime = spinnerModel.getNumber().intValue();
+        BohrModel.MIN_TIME_IN_STATE = minStateTime;
     }
 }
