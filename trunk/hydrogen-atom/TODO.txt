@@ -5,14 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- make plum pudding a slightly darker red
 - add min time that electron must stay in a state before emission occurs, include dev control
 - make white light weighted towards wavelengths from the absorption spectrum, all UV from absorption spectrum
-
-- Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
+- implement DeBroglie model
 
 MEDIUM PRIORITY:
-- implement DeBroglie model
 - add "show traces" feature for alpha particles
 - implement Schrodinger model
 - finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
@@ -22,8 +19,10 @@ MEDIUM PRIORITY:
 - "atom ionized" message and electron flying in/out for Plum Pudding, Bohr, deBroglie, Schrodinger models
 - clear spectrometer when atomic model is changed
 - handle model-view transform differently?
+- Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
 
 LOW PRIORITY:
+- reduce size of image files that are being scaled down (eg, plum pudding)
 - add WavelengthControl.setTrackSize(Dimension)
 - add WavelengthControl.setKnobSize(Dimension)
 - size "UV" and "IR" labels to fit WavelengthControl track height
@@ -43,6 +42,8 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/16/06) - removed asset files that are no longer relevant
+(11/16/06) - make plum pudding a slightly darker red
 (11/16/06) - set gun's default wavelength to 530
 (11/16/06) - make legend font bigger
 (11/14/06) - fix AtomicModelSelector.getSelectionName so that labels don't contain HTML
