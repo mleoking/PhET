@@ -43,7 +43,7 @@ LOW PRIORITY:
 
 DONE:
 (11/16/06) - removed asset files that are no longer relevant
-(11/16/06) - make plum pudding a slightly darker red
+(11/16/06) - make plum pudding 20% darker red
 (11/16/06) - set gun's default wavelength to 530
 (11/16/06) - make legend font bigger
 (11/14/06) - fix AtomicModelSelector.getSelectionName so that labels don't contain HTML
