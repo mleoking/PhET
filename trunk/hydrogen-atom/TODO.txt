@@ -8,7 +8,7 @@ HIGH PRIORITY:
 - make plum pudding a slightly darker red
 - add min time that electron must stay in a state before emission occurs, include dev control
 - make white light weighted towards wavelengths from the absorption spectrum, all UV from absorption spectrum
-- make legend font bigger
+
 - Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
 
 MEDIUM PRIORITY:
@@ -43,6 +43,8 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/16/06) - set gun's default wavelength to 530
+(11/16/06) - make legend font bigger
 (11/14/06) - fix AtomicModelSelector.getSelectionName so that labels don't contain HTML
 (11/14/06) - make ExperimentNode very dark gray instead of black
 (11/14/06) - put ExperimentNode in front of photons and alpha particles

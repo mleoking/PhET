@@ -50,7 +50,7 @@ public class LegendPanel extends JPanel {
 
     private static final String FONT_NAME = HAConstants.DEFAULT_FONT_NAME;
     private static final int FONT_STYLE = HAConstants.DEFAULT_FONT_STYLE;
-    private static final int DEFAULT_FONT_SIZE = HAConstants.DEFAULT_FONT_SIZE;
+    private static final int DEFAULT_FONT_SIZE = 18;
     private static final String FONT_SIZE_RESOURCE = "legend.font.size";
 
     //----------------------------------------------------------------------------
