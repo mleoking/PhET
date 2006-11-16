@@ -358,7 +358,7 @@ public class HAModule extends PiccoloModule {
         gun.setEnabled( false );
         gun.setMode( GunMode.PHOTONS );
         gun.setLightType( LightType.MONOCHROMATIC );
-        gun.setWavelength( VisibleColor.MIN_WAVELENGTH );
+        gun.setWavelength( HAConstants.PHOTON_ICON_WAVELENGTH );
         gun.setLightIntensity( .5 );
         gun.setAlphaParticlesIntensity( .5 );
         
