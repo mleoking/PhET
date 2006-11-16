@@ -6,10 +6,11 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - make white light weighted towards wavelengths from the absorption spectrum, all UV from absorption spectrum
-- implement DeBroglie model
+- implement DeBroglie visual representation
 
 MEDIUM PRIORITY:
 - add "show traces" feature for alpha particles
+- implement Schrodinger visual representation
 - implement Schrodinger model
 - finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
 - implement spectrometer model
@@ -17,10 +18,10 @@ MEDIUM PRIORITY:
 - "atom destroyed" message for Solar System model
 - "atom ionized" message and electron flying in/out for Plum Pudding, Bohr, deBroglie, Schrodinger models
 - clear spectrometer when atomic model is changed
-- handle model-view transform differently?
-- Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
 
 LOW PRIORITY:
+- Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
+- handle model-view transform differently?
 - reduce size of image files that are being scaled down (eg, plum pudding)
 - add WavelengthControl.setTrackSize(Dimension)
 - add WavelengthControl.setKnobSize(Dimension)
