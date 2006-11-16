@@ -5,11 +5,16 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- Bohr gets jerky when you change wavelength (or just click in wavelength textfield)
+- make plum pudding a slightly darker red
+- add min time that electron must stay in a state before emission occurs, include dev control
+- make electron a brighter blue
+- make white light weighted towards wavelengths from the absorption spectrum, all UV from absorption spectrum
+- make legend font bigger
+- Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
 
 MEDIUM PRIORITY:
-- add "show traces" feature for alpha particles
 - implement DeBroglie model
+- add "show traces" feature for alpha particles
 - implement Schrodinger model
 - finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
 - implement spectrometer model
@@ -20,7 +25,6 @@ MEDIUM PRIORITY:
 - handle model-view transform differently?
 
 LOW PRIORITY:
-- add "H emission spectrum" option to "white" and "monochrome" options for gun (discuss with SM first)
 - add WavelengthControl.setTrackSize(Dimension)
 - add WavelengthControl.setKnobSize(Dimension)
 - size "UV" and "IR" labels to fit WavelengthControl track height
@@ -329,6 +333,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(11/16/06) - add "H emission spectrum" option to "white" and "monochrome" options for gun (weighted white light instead)
 (11/7/06) - change global coordinate system so that atom is centered at the origin (not necessary, too destabilizing, code would not be general)
 (11/6/06) - handle AlphaParticle orientation in AlphaParticleNode (not supported by Rutherford Scattering algorith, and Sam McKagan says not necessary)
 (11/1/06) - use constructive geometry to create plum pudding shape that matches image file (approximate as an ellipse)
