@@ -3,6 +3,11 @@
 #######################
 
 "Advanced" controls should be show/hide, not enable/disable
+    When Steve used CCK in class yesterday, some students interpreted the 
+    "Disable" button in the advanced section as "disabling" or "turning off" 
+    wire resistivity.  This is a reasonable, but wrong interpretation, and 
+    it might be better to change the button from "enable/disable" to 
+    "show/hide" to avoid this confusion in the future.
 
 Voltage chart reads wrong value after switching sizes
 
@@ -12,24 +17,18 @@ Inductor & capacitor incorrectly readout ohms, not Henries & Farads
 
 Change in AC Frequency shows readout for voltage.
 
-When Steve used CCK in class yesterday, some students interpreted the 
-"Disable" button in the advanced section as "disabling" or "turning off" 
-wire resistivity.  This is a reasonable, but wrong interpretation, and 
-it might be better to change the button from "enable/disable" to 
-"show/hide" to avoid this confusion in the future.
-
-Sam
-I think the present behavior may be a bug; I think we wanted to design it so that the advanced panel had to be enabled for wire resistivity to be on.  Do you think this is a good way to organize it, or should we change it to show/hide and make it so resistivity can be on while the advanced panel is hidden?
-
 Noncontact ammeter doesn't update its reading when wire resistivity changes.
 
-Noad F. just told me that something unexpected happened today when he was using the CCK in a lecture: He had a circuit partially built, then tried to undo something by reflexively hitting Ctrl-Z. His circuit dissappear, and was replaced by a battery and a resistor with electrons flowing in both directions through them. I tested this on my PC, and the same thing happened.
- 
-Is this some test behavior you put in an forgot to take out? It should probably be take out.
+He had a circuit partially built, then tried to undo something by reflexively hitting Ctrl-Z. 
+His circuit dissappear, and was replaced by a battery and a resistor with electrons flowing in both directions through them. 
+I tested this on my PC, and the same thing happened.
+This test behaviour should be taken out.
 
-I was just talking with Steve Pollock about his use of the CCK in his class, and he presented a request: He would like to be able to reduce the number of significant figures in the ammeter so that the resistance in the wires doesn't keep the numbers from looking perfect when he constructs simple circuits. He said that when he first builds a simple parallel circuit, he would like the currents to look exactly the same in both branches. With three decimal places, they don't, and he has t explain it at a time when he'd rather not.
-
-See faraday's AC source graphics?
+He would like to be able to reduce the number of significant figures in the ammeter 
+so that the resistance in the wires doesn't keep the numbers from looking perfect when he
+constructs simple circuits. He said that when he first builds a simple parallel circuit, he would 
+like the currents to look exactly the same in both branches. With three decimal places, they don't, 
+and he has to explain it at a time when he'd rather not.
 
 Get the time units to work out correctly.
 
@@ -47,10 +46,6 @@ sure if it's effects can be easily seen with a more complicated circuit.
 up rather high, only one of the caps catches on fire (the one near the 
 battery).  See cck_fire.gif.
 >>Couldn't reproduce this yet.
-
--When you have 2 caps in the play area and you turn one of them 180 degrees 
-around, it looks a little strange next to the other one that has not been 
-turned around--sort of an MC Escher effect.  See cck_escher.gif.
 
 -There's a slight issues with the capacitors.  I charged up two identical 
 capacitor at different voltages (100 V and 10 V) so that there are different 
@@ -73,6 +68,7 @@ to the point where the mouse isn't working well and it is frustrating
 to build anything... is there any hope of improving this (ever)???
 -I noticed the same performance issues as Kathy.  As soon as there were many 
 components in the play area, things got bogged down.
+        Is this fixed in the piccolo version?
 
 - is there any way to make the current graph smoother?  Right now it 
 shows features that aren't really there?
@@ -89,25 +85,18 @@ The potential drop is constantly changing,
 based on other elements in the circuit, and I'm not sure of a good way to 
 account for both of these issues.
 
-- I ran across a wierd bug, (see attached). I had a nice looking 
+- I ran across a weird bug, (see attached). I had a nice looking 
 circuit and when I was trying to add a bulb to it, it was sort of 
 bogging down as I was dragging the bulb, and then all of a sudden it 
 collapsed to one line, as shown and totally changed the components in 
 the circuit (?). Do you have a short cut of keys that I may have pushed?
 >>I hope this problem will disappear when CCK is moved to piccolo.
+        Has this problem disappeared in the piccolo rewrite?
 
-For future:
-Quantitative graph values.
-Quantitative CCK can wait until after AAPT
-- graphs ... would be nice to add dashed grid in background so easier 
-to read where you are, also would be nice to have a cursor which 
-could move around and scroll along graph, this would require a play, 
-pause, step  button to be added in bottom of sim.
-
-Bug:
 > We found a bug in AC cck.  See the attached screenshot.  To reproduce
 > it, hook up the circuit so it's all attached in a circle, then split the
 > junction that's shown split in the screenshot.
+        See screenshot in email.
 
   There is something I noticed a while ago and forgot to mention.  On CCK there is a clear button and it’s in a tool cluster labeled ‘File’; 
   however, it’s job is that of reset and brings the sim back to it’s initial setup.  Can you call it reset and move it out of that tool cluster?  
@@ -115,13 +104,28 @@ Bug:
 >>Asking for clarification.
   Circuit does fit better.  I’m not crazy about requiring labels on all these clusters however on Advanced, it is necessary unless you replace Enable 
   with Advanced.  Deleting these cluster titles may be especially helpful in AC CCK if you’re running out of room.  What do you think?
-  
-  Rename "File" to "Circuit" in the control panel.
+            Retitle the top tool cluster from "File" to "Circuit" in the control panel.
 
 Froze at Merlot talk.
-Retitle the top tool cluster from "File" to "Circuit"
+
 Bug report from McKagan: open circuit still conducts in particular situations
-Rewrite graphics in piccolo.
+
+•	There is still a visible voltage drop across a plain wire, this should be removed.
+
+################################################
+#New Features
+#######################
+See faraday's AC source graphics?
+
+Quantitative graph values.
+Quantitative CCK can wait until after AAPT
+- graphs ... would be nice to add dashed grid in background so easier 
+to read where you are, also would be nice to have a cursor which 
+could move around and scroll along graph, this would require a play, 
+pause, step  button to be added in bottom of sim.
+•	Graph controls (quantitative)
+o	Cursor
+o	Readout
 
 While working on the interview paper Carl thought of a possible addition to CCK.
 What do you think about adding a person who can be used to test out the physiological responses to electricity.  
@@ -133,16 +137,6 @@ making it too much fun and CCK is already very full.  Possibly put him in the ad
 We came up with this because one of the benefits of simulations is being able to take risks 
 without negative consequences and when students study electricity this is one of the most engaging 
 topics and in lab students are quite often afraid of electrocuting themselves.  What do you think?
-
-•	Graph controls (quantitative)
-o	Cursor
-o	Readout
-•	There is still a visible voltage drop across a plain wire, this should be removed.
-
-################################################
-#Requested Features
-#######################
-
 
 ################################################
 #Lower Priority
@@ -175,3 +169,7 @@ Quantitative numerical tests for RC, RLC Circuits, etc.
 definitely a decrease in performance and things ran a bit slower.  If you 
 grab a wire, say, from the tool bar and drag it around in the play area, 
 there is a noticeable lag between the cursor and the wire moving with it.
+
+-When you have 2 caps in the play area and you turn one of them 180 degrees 
+around, it looks a little strange next to the other one that has not been 
+turned around--sort of an MC Escher effect.  See cck_escher.gif.
