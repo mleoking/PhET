@@ -14,6 +14,7 @@ package edu.colorado.phet.hydrogenatom.model;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.Random;
@@ -21,7 +22,6 @@ import java.util.Random;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.enums.GunMode;
@@ -58,6 +58,9 @@ public class Gun extends FixedObject implements ModelElement {
     private static final double DEFAULT_LIGHT_INTENSITY = 0;
     private static final double DEFAULT_ALPHA_PARTICLE_INTENSITY = 0;
     
+    // probability that a "white light" photon's wavelength will be chose from the atom's absorption spectrum
+    private static final double ABSORPTION_SPECTRUM_WEIGHT = 0.75; // 1.0 = 100%
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -70,11 +73,14 @@ public class Gun extends FixedObject implements ModelElement {
     private double _wavelength; // wavelength of the light
     private double _minWavelength, _maxWavelength; // range of wavelength
     private double _alphaParticlesIntensity; // intensity of the alpha particles, 0.0-1.0
-    private Random _random; // random number generator, for white light wavelength
     
     private int _maxParticles; // particles in the animation box when gun intensity is 100%
     private double _dtPerGunFired; // dt between each firing of the gun
     private double _dtSinceGunFired; // dt since the gun was last fired
+    
+    private double[] _absorptionSpectrum; // wavelengths that can be absorbed by an atom
+    private Random _randomWavelength = new Random(); // random number generator for wavelength
+    private Random _randomPosition; // random number generator for photon position
     
     private EventListenerList _listenerList;
     
@@ -106,12 +112,16 @@ public class Gun extends FixedObject implements ModelElement {
         _minWavelength = minWavelength;
         _maxWavelength = maxWavelength;
         _alphaParticlesIntensity = DEFAULT_ALPHA_PARTICLE_INTENSITY;
-        _random = new Random();
+      
+        _randomWavelength = new Random();
+        _randomPosition = new Random();
         
         _dtSinceGunFired = 0;
         setMaxParticles( 20 );
         
         _listenerList = new EventListenerList();
+        
+        _absorptionSpectrum = BohrModel.getAbsorptionSpectrum( _minWavelength, _maxWavelength );
     }
     
     //----------------------------------------------------------------------------
@@ -319,12 +329,39 @@ public class Gun extends FixedObject implements ModelElement {
     //----------------------------------------------------------------------------
     
     /*
-     * Gets a random wavelength in the gun's wavelength range.
+     * Gets a wavelength that would be appropriate for a new photon.
+     * <p>
+     * For monochromatic light, we simply use the value of the gun's
+     * monochromatic wavelength.
+     * <p>
+     * For white light, the wavelength is randomly chosen.
+     * Instead of simply picking a wavelength from the gun's entire range,
+     * we give a higher weight to those wavelengths that are in the 
+     * atom's absorption spectrum. This increases the probability that
+     * the photon we fire will interact with the atom.
      * 
      * @return double
      */
     private double getRandomWavelength() {
-        return ( _random.nextDouble() * ( _maxWavelength - _minWavelength ) ) + _minWavelength;
+
+        double wavelength = 0;
+
+        if ( _lightType == LightType.MONOCHROMATIC ) {
+            wavelength = _wavelength;
+        }
+        else { 
+            /* white light */
+            if ( _randomWavelength.nextDouble() < ABSORPTION_SPECTRUM_WEIGHT ) {
+                int i = (int) ( _randomWavelength.nextDouble() * _absorptionSpectrum.length );
+                wavelength = _absorptionSpectrum[i];
+            }
+            else {
+                wavelength = ( _randomWavelength.nextDouble() * ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) ) + VisibleColor.MIN_WAVELENGTH;
+            }
+        }
+        
+        assert( wavelength >= _minWavelength && wavelength <= _maxWavelength );
+        return wavelength;
     }
     
     /*
@@ -337,7 +374,7 @@ public class Gun extends FixedObject implements ModelElement {
         
         // Start with the gun's origin at zero, gun pointing to the right
         double x = 1;
-        double y = ( _random.nextDouble() * _nozzleWidth ) - ( _nozzleWidth / 2 );
+        double y = ( _randomPosition.nextDouble() * _nozzleWidth ) - ( _nozzleWidth / 2 );
 
         // Rotate by gun's orientation
         Point2D p1 = new Point2D.Double( x, y );
@@ -391,19 +428,11 @@ public class Gun extends FixedObject implements ModelElement {
             
             _dtSinceGunFired = _dtSinceGunFired % _dtPerGunFired;
             
-            // Pick a randon location along the gun's nozzle width
+            // Photon properties
             Point2D position = getRandomNozzlePoint();
-
-            // Direction of photon is same as gun's orientation.
             double orientation = getOrientation();
-            
             double speed = HAConstants.PHOTON_INITIAL_SPEED;
-
-            // For white light, assign a random wavelength to each photon.
-            double wavelength = _wavelength;
-            if ( _lightType == LightType.WHITE ) {
-                wavelength = getRandomWavelength();
-            }
+            double wavelength = getRandomWavelength();
 
             // Create the photon
             Photon photon = new Photon( wavelength, position, orientation, speed );
