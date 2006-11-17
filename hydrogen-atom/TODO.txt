@@ -43,6 +43,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/17/06) - increase range of "max particles in box" to [1,100]
 (11/17/06) - make generation of photons for white light be weighted towards wavelengths from the Bohr absorption spectrum
 (11/16/06) - add min time that electron must stay in a Bohr state before emission occurs, include dev control
 (11/16/06) - removed asset files that are no longer relevant
