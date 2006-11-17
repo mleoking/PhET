@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - implement DeBroglie visual representation
-- add dev controls for setting colors of electron, proton, neutron, etc.
 
 MEDIUM PRIORITY:
 - generate white light photons based on electron's state?
