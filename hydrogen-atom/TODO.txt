@@ -5,10 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- generate white light photons based on electron's state?
 - implement DeBroglie visual representation
+- add dev controls for setting colors of electron, proton, neutron, etc.
 
 MEDIUM PRIORITY:
+- generate white light photons based on electron's state?
 - add "show traces" feature for alpha particles
 - implement Schrodinger visual representation
 - implement Schrodinger model
