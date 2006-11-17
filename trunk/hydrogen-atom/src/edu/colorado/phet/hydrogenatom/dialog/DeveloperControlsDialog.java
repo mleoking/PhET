@@ -44,7 +44,7 @@ public class DeveloperControlsDialog extends JDialog {
     //----------------------------------------------------------------------------
     
     private static final int MIN_PARTICLES_IN_BOX = 1;
-    private static final int MAX_PARTICLES_IN_BOX = 40;
+    private static final int MAX_PARTICLES_IN_BOX = 100;
     
     //----------------------------------------------------------------------------
     // Instance data
