@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- generate white light photons based on electron's state?
 - implement DeBroglie visual representation
 
 MEDIUM PRIORITY:
