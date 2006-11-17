@@ -12,6 +12,7 @@
 package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
@@ -210,6 +211,39 @@ public class BohrModel extends AbstractHydrogenAtom {
             radii[n - 1] = n * n * groundOrbitRadius;
         }
         return radii;
+    }
+    
+    /**
+     * Gets the set of wavelengths that can be absorbed.
+     * When firing white light, the gun preference to firing these wavelengths
+     * so that the probability of seeing a photon absorbed is higher.
+     * 
+     * @param minWavelength
+     * @param maxWavelength
+     * @return double[]
+     */
+    public static double[] getAbsorptionSpectrum( double minWavelength, double maxWavelength ) {
+        
+        // Create the set of wavelengths, include only those between min and max.
+        ArrayList wavelengths = new ArrayList();
+        int n = getNumberOfStates();
+        int g = getGroundState();
+        for ( int i = g; i < g + n - 1; i++ ) {
+            for ( int j = i + 1; j < g + n; j++ ) {
+                double wavelength = getWavelengthAbsorbed( i, j );
+                if ( wavelength >= minWavelength && wavelength <= maxWavelength ) {
+                    wavelengths.add( new Double( wavelength ) );
+                }
+            }
+        }
+        
+        // Convert to double[]
+        double[] spectrum = new double[wavelengths.size()];
+        for ( int i = 0; i < wavelengths.size(); i++ ) {
+            spectrum[i] = ( (Double) wavelengths.get( i ) ).doubleValue();
+//            System.out.println( "spectrum[" + i + "]=" + spectrum[i] );//XXX
+        }
+        return spectrum;
     }
     
     //----------------------------------------------------------------------------
