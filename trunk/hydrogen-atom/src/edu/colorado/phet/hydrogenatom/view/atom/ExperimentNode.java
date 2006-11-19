@@ -35,18 +35,20 @@ public class ExperimentNode extends PhetPNode implements Observer {
     private static final Stroke BOX_STROKE = new BasicStroke( 2f );
     private static final Dimension BOX_SIZE = new Dimension( 250, 250 );
     
-    private ExperimentModel _hydrogenAtom;
+    private ExperimentModel _atom;
     
-    public ExperimentNode( ExperimentModel hydrogenAtom ) {
+    public ExperimentNode( ExperimentModel atom ) {
         super();
         
         setPickable( false );
         setChildrenPickable( false );
         
-        _hydrogenAtom = hydrogenAtom;
-        _hydrogenAtom.addObserver( this );
+        _atom = atom;
+        _atom.addObserver( this );
         
-        PPath boxNode = new PPath( new Rectangle2D.Double( 0, 0, BOX_SIZE.width, BOX_SIZE.height ) );
+        double w = BOX_SIZE.width;
+        double h = BOX_SIZE.height;
+        PPath boxNode = new PPath( new Rectangle2D.Double( -w / 2, -h / 2, w, h ) );
         boxNode.setPaint( BOX_FILL_COLOR );
         boxNode.setStroke( BOX_STROKE );
         boxNode.setStrokePaint( BOX_STROKE_COLOR );
@@ -62,14 +64,15 @@ public class ExperimentNode extends PhetPNode implements Observer {
         addChild( boxNode );
         addChild( textNode );
         
-        update( null, null );
+        setOffset( ModelViewTransform.transform( _atom.getPosition() ) );
     }
     
-    public void update( Observable o, Object arg ) {
-        Point2D p = ModelViewTransform.transform( _hydrogenAtom.getPosition() );
-        PBounds fb = getFullBounds();
-        double x = p.getX() - ( fb.getWidth() / 2 );
-        double y = p.getY() - ( fb.getHeight() / 2 );
-        setOffset( x, y );
-    }
+    /**
+     * Updates the view to match the model.
+     * Since this model doesn't show any animation of the atom,
+     * there is nothing to be done.
+     * @param o
+     * @param arg
+     */
+    public void update( Observable o, Object arg ) {}
 }
