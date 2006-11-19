@@ -27,7 +27,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
 import edu.colorado.phet.hydrogenatom.control.GunControlPanel;
@@ -38,6 +37,7 @@ import edu.colorado.phet.hydrogenatom.energydiagrams.DeBroglieEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
+import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
 import edu.colorado.phet.hydrogenatom.enums.GunMode;
 import edu.colorado.phet.hydrogenatom.enums.LightType;
 import edu.colorado.phet.hydrogenatom.help.HAWiggleMe;
@@ -45,6 +45,7 @@ import edu.colorado.phet.hydrogenatom.model.*;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode;
 import edu.colorado.phet.hydrogenatom.view.*;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendNode;
+import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.PiccoloModule;
@@ -661,5 +662,20 @@ public class HAModule extends PiccoloModule {
         _canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
         Dimension worldSize = new Dimension( (int) dim.getWidth(), (int) dim.getHeight() );
         return worldSize;
+    }
+    
+    /**
+     * Sets the type of view for deBroglie atoms.
+     * If the current atom is a deBroglie atom, then reset the model
+     * so that the view will update.
+     * 
+     * @param view
+     */
+    public void setDeBroglieView( DeBroglieView view ) {
+        DeBroglieModel.DEFAULT_VIEW = view;
+        AbstractHydrogenAtom atom = _model.getAtom();
+        if ( atom instanceof DeBroglieModel ) {
+            ( (DeBroglieModel) atom ).setView( view );
+        }
     }
 }
