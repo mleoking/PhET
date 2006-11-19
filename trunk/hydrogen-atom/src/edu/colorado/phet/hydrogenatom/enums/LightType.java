@@ -25,7 +25,7 @@ public class LightType extends AbstractEnum {
         super( name );
     }
     
-    // Well type values
+    // Enum values
     public static final LightType WHITE = new LightType( "white" );
     public static final LightType MONOCHROMATIC = new LightType( "monochromatic" );
     

@@ -25,7 +25,7 @@ public class GunMode extends AbstractEnum {
         super( name );
     }
     
-    // Well type values
+    // Enum values
     public static final GunMode PHOTONS = new GunMode( "photons" );
     public static final GunMode ALPHA_PARTICLES = new GunMode( "alphaParticles" );
     
