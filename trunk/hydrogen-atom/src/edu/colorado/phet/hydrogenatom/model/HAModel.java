@@ -80,6 +80,10 @@ public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedLi
         return _gun;
     }
     
+    public AbstractHydrogenAtom getAtom() {
+        return _atom;
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement management
     //----------------------------------------------------------------------------
