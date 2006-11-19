@@ -6,7 +6,10 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - change Bohr so that electron has a velocity, so we can calculate period T=circumference/velocity
-- implement DeBroglie visual representation
+- implement DeBroglie "brightness" representation
+- implement DeBroglie "brightness magnitude" representation
+- implement DeBroglie "radial distance" representation
+- implement DeBroglie "height 3D" representation
 
 MEDIUM PRIORITY:
 - generate white light photons based on electron's state?
