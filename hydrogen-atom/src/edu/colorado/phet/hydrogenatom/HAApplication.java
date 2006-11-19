@@ -150,6 +150,9 @@ public class HAApplication extends PiccoloPhetApplication {
             PhetFrame frame = getPhetFrame();
             _legendDialog = new LegendDialog( frame );
             _legendDialog.addWindowListener( new WindowAdapter() {
+                public void windowClosing( WindowEvent event ) {
+                    _legendDialog = null;
+                }
                 public void windowClosed( WindowEvent event ) {
                     _legendDialog = null;
                 }
@@ -171,6 +174,9 @@ public class HAApplication extends PiccoloPhetApplication {
             PhetFrame frame = getPhetFrame();
             _spectralLineTableDialog = new SpectralLineTableDialog( frame );
             _spectralLineTableDialog.addWindowListener( new WindowAdapter() {
+                public void windowClosing( WindowEvent event ) {
+                    _spectralLineTableDialog = null;
+                }
                 public void windowClosed( WindowEvent event ) {
                     _spectralLineTableDialog = null;
                 }
