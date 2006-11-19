@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- change Bohr so that electron has a velocity, so we can calculate period T=circumference/velocity
+- change Bohr so that electron has a velocity, so we can calculate deBroglie period T=circumference/velocity
 - implement DeBroglie "brightness" representation
 - implement DeBroglie "brightness magnitude" representation
 - implement DeBroglie "radial distance" representation
