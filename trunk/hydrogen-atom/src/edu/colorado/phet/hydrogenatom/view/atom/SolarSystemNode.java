@@ -102,7 +102,7 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
                 double nodeY = ModelViewTransform.transform( electronOffset.getY() );
                 _electronNode.setOffset( nodeX, nodeY );
             }
-            else if ( arg == SolarSystemModel.PROPERTY_ATOM_DESTROYED ) {
+            else if ( arg == AbstractHydrogenAtom.PROPERTY_ATOM_DESTROYED ) {
                 _protonNode.setVisible( false );
                 _electronNode.setVisible( false );
                 _kaboomNode.setVisible( true );
