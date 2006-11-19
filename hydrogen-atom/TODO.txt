@@ -44,6 +44,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/18/06) - create hierarchy of "view strategies" for use in DeBroglieNode
 (11/18/06) - hook up "deBrogile view" menu to DeBroglieNode via DeBroglieModel
 (11/18/06) - revise DeBrogileViewMenu and SimStrings
 (11/18/06) - create DeBroglieView enumeration
