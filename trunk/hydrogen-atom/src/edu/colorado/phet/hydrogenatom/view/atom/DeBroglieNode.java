@@ -21,14 +21,16 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
-import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
+import edu.colorado.phet.hydrogenatom.view.atom.AbstractHydrogenAtomNode.OrbitFactory;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
  * DeBroglieNode is the visual representation of the deBroglie model of the hydrogen atom.
+ * The deBroglie model has 4 different visual representations, implemented as 
+ * subclasses of AbstractDeBroglieViewStrategy.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -39,10 +41,8 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ArrayList _orbitNodes; // array of PNode
-    private ProtonNode _protonNode;
-    
     private DeBroglieModel _atom; // model element
+    private AbstractDeBroglieViewStrategy _viewStrategy;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -57,32 +57,13 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
         
         _atom = atom;
         _atom.addObserver( this );
-        System.out.println( "DeBroglieNode.init view=" + _atom.getView() );//XXX
         
-        _orbitNodes = new ArrayList();
-        int groundState = DeBroglieModel.getGroundState();
-        int numberOfStates = DeBroglieModel.getNumberOfStates();
-        for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
-            double radius = atom.getOrbitRadius( state );
-            PNode orbitNode = OrbitFactory.createOrbitNode( radius );
-            addChild( orbitNode );
-            _orbitNodes.add( orbitNode );
-        }
+        _viewStrategy = createViewStrategy( _atom );
+        addChild( _viewStrategy );
         
-        _protonNode = new ProtonNode();
-        addChild( _protonNode );
-        
-        OriginNode originNode = new OriginNode( Color.GREEN );
-        if ( HAConstants.SHOW_ORIGIN_NODES ) {
-            addChild( originNode );
-        }
-        
-        Point2D atomPosition = _atom.getPosition();
+        Point2D atomPosition = atom.getPosition();
         Point2D nodePosition = ModelViewTransform.transform( atomPosition );
         setOffset( nodePosition );
-        
-        _protonNode.setOffset( 0, 0 );
-        update( _atom, AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE );
     }
     
     //----------------------------------------------------------------------------
@@ -97,18 +78,112 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
     public void update( Observable o, Object arg ) {
         if ( o == _atom ) {
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {
-                //XXX
+                _viewStrategy.update();
             }
             else if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET ) {
-                //XXX
-            }
-            else if ( arg == DeBroglieModel.PROPERTY_VIEW ) {
-                //XXX
-                System.out.println( "DeBroglieNode.update view=" + _atom.getView() );//XXX
+                _viewStrategy.update();
             }
             else if ( arg == AbstractHydrogenAtom.PROPERTY_ATOM_IONIZED ) {
                 //XXX
             }
+            else if ( arg == DeBroglieModel.PROPERTY_VIEW ) {
+                removeChild( _viewStrategy );
+                _viewStrategy = createViewStrategy( _atom );
+                addChild( _viewStrategy );
+            }
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // View strategies
+    //----------------------------------------------------------------------------
+    
+    /**
+     * AbstractDeBroglieViewStrategy is the base class for all view strategies.
+     * A view strategy is a PNode that renders the deBroglie model using a 
+     * specific visual representation.
+     */
+    public static abstract class AbstractDeBroglieViewStrategy extends PNode {
+
+        private DeBroglieModel _atom;
+
+        public AbstractDeBroglieViewStrategy( DeBroglieModel atom ) {
+            super();
+            _atom = atom;
+        }
+        
+        protected DeBroglieModel getAtom() {
+            return _atom;
+        }
+
+        /**
+         * Updates the visual representation of the atom.
+         */
+        public abstract void update();
+    }
+    
+    /**
+     * AbstractDeBroglie2DViewStrategy is the base class for all 2D 
+     * view strategies.  These representations all have a static proton at the 
+     * center of the atom, surrounded by static lines that show the orbits.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    public static abstract class AbstractDeBroglie2DViewStrategy extends AbstractDeBroglieViewStrategy {
+
+        public AbstractDeBroglie2DViewStrategy( DeBroglieModel atom ) {
+            super( atom );
+            initStaticNodes();
+        }
+        
+        /*
+         * Creates nodes for the proton and orbits.
+         */
+        private void initStaticNodes() {
+
+            // Orbits
+            int groundState = DeBroglieModel.getGroundState();
+            int numberOfStates = DeBroglieModel.getNumberOfStates();
+            for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
+                double radius = getAtom().getOrbitRadius( state );
+                PNode orbitNode = OrbitFactory.createOrbitNode( radius );
+                addChild( orbitNode );
+            }
+            
+            // Proton
+            ProtonNode protonNode = new ProtonNode();
+            protonNode.setOffset( 0, 0 );
+            addChild( protonNode );
+        }
+    }
+    
+    /**
+     * Factory method for creating a view strategy for the atom.
+     * @param atom
+     * @return IDeBroglieViewStrategy
+     */
+    private static AbstractDeBroglieViewStrategy createViewStrategy( DeBroglieModel atom ) {
+
+        AbstractDeBroglieViewStrategy strategy = null;
+        
+        DeBroglieView view = atom.getView();
+        if ( view == DeBroglieView.BRIGHTNESS_MAGNITUDE ) {
+            strategy = new DeBroglieBrightnessMagnitudeNode( atom );
+        }
+        else if ( view == DeBroglieView.BRIGHTNESS ) {
+            strategy = new DeBroglieBrightnessNode( atom );
+        }
+        else if ( view == DeBroglieView.RADIAL_DISTANCE ) {
+            strategy = new DeBroglieRadialDistanceNode( atom );
+        }
+        else if ( view == DeBroglieView.HEIGHT_3D ) {
+            strategy = new DeBroglieHeight3DNode( atom );
+        }
+        else {
+            throw new UnsupportedOperationException( "unsupported DeBroglieView: " + view );
+        }
+        
+        return strategy;
     }
 }
