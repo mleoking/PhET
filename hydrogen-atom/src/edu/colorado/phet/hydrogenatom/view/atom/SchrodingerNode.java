@@ -78,7 +78,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET ) {
                 //XXX
             }
-            else if ( arg == SolarSystemModel.PROPERTY_ATOM_IONIZED ) {
+            else if ( arg == AbstractHydrogenAtom.PROPERTY_ATOM_IONIZED ) {
                 //XXX
             }
         }

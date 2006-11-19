@@ -120,7 +120,7 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
                 double nodeY = ModelViewTransform.transform( electronOffset.getY() );
                 _electronNode.setOffset( nodeX, nodeY );
             }
-            else if ( arg == SolarSystemModel.PROPERTY_ATOM_IONIZED ) {
+            else if ( arg == AbstractHydrogenAtom.PROPERTY_ATOM_IONIZED ) {
                 //XXX
             }
         }

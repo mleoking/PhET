@@ -108,7 +108,7 @@ public class BohrNode extends AbstractHydrogenAtomNode implements Observer {
                 double nodeY = ModelViewTransform.transform( electronOffset.getY() );
                 _electronNode.setOffset( nodeX, nodeY );
             }
-            else if ( arg == SolarSystemModel.PROPERTY_ATOM_IONIZED ) {
+            else if ( arg == AbstractHydrogenAtom.PROPERTY_ATOM_IONIZED ) {
                 //XXX
             }
         }
