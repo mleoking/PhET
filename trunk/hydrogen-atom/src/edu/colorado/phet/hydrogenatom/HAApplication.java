@@ -95,10 +95,12 @@ public class HAApplication extends PiccoloPhetApplication {
      */
     private void initMenubar( String[] args ) {
 
+        assert( _module != null );
+        
         final PhetFrame frame = getPhetFrame();
         
         // Options menu
-        OptionsMenu optionsMenu = new OptionsMenu();
+        OptionsMenu optionsMenu = new OptionsMenu( _module );
         frame.addMenu( optionsMenu );
 
         // Developer menu

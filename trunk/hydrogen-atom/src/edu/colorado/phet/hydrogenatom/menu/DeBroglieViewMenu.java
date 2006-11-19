@@ -20,6 +20,7 @@ import javax.swing.JRadioButtonMenuItem;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
+import edu.colorado.phet.hydrogenatom.module.HAModule;
 
 /**
  * DeBroglieViewMenu is the "deBroglie View" submenu that appears in menu bar's Options menu.
@@ -29,15 +30,19 @@ import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
  */
 public class DeBroglieViewMenu extends JMenu {
 
+    private HAModule _module;
+    
     private JRadioButtonMenuItem _brightnessMagnitudeMenuItem;
     private JRadioButtonMenuItem _brightnessMenuItem;
     private JRadioButtonMenuItem _radialDistanceMenuItem;
     private JRadioButtonMenuItem _height3DMenuItem;
 
-    public DeBroglieViewMenu() {
+    public DeBroglieViewMenu( HAModule module ) {
         super( SimStrings.get( "menu.deBroglieView" ) );
         setMnemonic( SimStrings.getChar( "menu.deBroglieView.mnemonic" ) );
 
+        _module = module;
+        
         _brightnessMagnitudeMenuItem = new JRadioButtonMenuItem( SimStrings.get( "menu.deBroglieView.brightnessMagnitude" ) );
         _brightnessMenuItem = new JRadioButtonMenuItem( SimStrings.get( "menu.deBroglieView.brightness" ) );
         _radialDistanceMenuItem = new JRadioButtonMenuItem( SimStrings.get( "menu.deBroglieView.radialDistance" ) );
@@ -83,6 +88,9 @@ public class DeBroglieViewMenu extends JMenu {
         else if ( source == _height3DMenuItem ) {
             view = DeBroglieView.HEIGHT_3D;
         }
-        //XXX tell DeBroglieNode instance about view
+        else {
+            throw new UnsupportedOperationException( "unsupported event source" );
+        }
+        _module.setDeBroglieView( view );
     }
 }

@@ -5,11 +5,13 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- Spectral Line Table dialog can't be reopened if closed via window dressing
+- change Bohr so that electron has a velocity, so we can calculate period T=circumference/velocity
 - implement DeBroglie visual representation
 
 MEDIUM PRIORITY:
 - generate white light photons based on electron's state?
-- add "show traces" feature for alpha particles
+- add "show traces" feature for alpha particles (need to interpolate curve between points)
 - implement Schrodinger visual representation
 - implement Schrodinger model
 - finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
@@ -42,6 +44,9 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/18/06) - hook up "deBrogile view" menu to DeBroglieNode via DeBroglieModel
+(11/18/06) - revise DeBrogileViewMenu and SimStrings
+(11/18/06) - create DeBroglieView enumeration
 (11/17/06) - increase range of "max particles in box" to [1,100]
 (11/17/06) - make generation of photons for white light be weighted towards wavelengths from the Bohr absorption spectrum
 (11/16/06) - add min time that electron must stay in a Bohr state before emission occurs, include dev control

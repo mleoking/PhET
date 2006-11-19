@@ -18,12 +18,12 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
 import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
-import edu.colorado.phet.hydrogenatom.view.atom.AbstractHydrogenAtomNode.OrbitFactory;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -34,7 +34,7 @@ import edu.umd.cs.piccolo.PNode;
  * @version $Revision$
  */
 public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer {
-    
+        
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -57,10 +57,11 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
         
         _atom = atom;
         _atom.addObserver( this );
+        System.out.println( "DeBroglieNode.init view=" + _atom.getView() );//XXX
         
         _orbitNodes = new ArrayList();
-        int groundState = atom.getGroundState();
-        int numberOfStates = atom.getNumberOfStates();
+        int groundState = DeBroglieModel.getGroundState();
+        int numberOfStates = DeBroglieModel.getNumberOfStates();
         for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
             double radius = atom.getOrbitRadius( state );
             PNode orbitNode = OrbitFactory.createOrbitNode( radius );
@@ -98,7 +99,14 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {
                 //XXX
             }
-            else if ( arg == SolarSystemModel.PROPERTY_ATOM_IONIZED ) {
+            else if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET ) {
+                //XXX
+            }
+            else if ( arg == DeBroglieModel.PROPERTY_VIEW ) {
+                //XXX
+                System.out.println( "DeBroglieNode.update view=" + _atom.getView() );//XXX
+            }
+            else if ( arg == AbstractHydrogenAtom.PROPERTY_ATOM_IONIZED ) {
                 //XXX
             }
         }
