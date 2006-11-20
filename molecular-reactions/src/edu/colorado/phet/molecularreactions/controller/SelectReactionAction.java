@@ -12,7 +12,7 @@ package edu.colorado.phet.molecularreactions.controller;
 
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
-import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -39,21 +39,6 @@ public class SelectReactionAction extends AbstractAction {
     public static String R3_ACTION = "R3";
     public static String DESIGN_YOUR_OWN_ACTION = "design your own";
 
-    private static EnergyProfile r1Profile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
-                                                                MRConfig.DEFAULT_REACTION_THRESHOLD,
-                                                                MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
-                                                                100 );
-
-    private static EnergyProfile r2Profile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
-                                                                MRConfig.DEFAULT_REACTION_THRESHOLD * .7,
-                                                                MRConfig.DEFAULT_REACTION_THRESHOLD * .4,
-                                                                100 );
-
-    private static EnergyProfile r3Profile = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .7,
-                                                                MRConfig.DEFAULT_REACTION_THRESHOLD * .7,
-                                                                MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
-                                                                100 );
-
     private static class Reaction {
         EnergyProfile energyProfile;
 
@@ -66,10 +51,14 @@ public class SelectReactionAction extends AbstractAction {
         }
     }
 
-    private static Reaction R1 = new Reaction( r1Profile );
-    private static Reaction R2 = new Reaction( r2Profile );
-    private static Reaction R3 = new Reaction( r3Profile );
+    private static Reaction R1 = new Reaction( Profiles.R1 );
+    private static Reaction R2 = new Reaction( Profiles.R2 );
+    private static Reaction R3 = new Reaction( Profiles.R3 );
 
+    
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
 
     private Reaction currentReaction;
 
