@@ -12,8 +12,8 @@
 package edu.colorado.phet.hydrogenatom.view.atom;
 
 import java.awt.Color;
-import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
+import java.util.ArrayList;
 
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode.AbstractDeBroglie2DViewStrategy;
@@ -35,13 +35,16 @@ class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double RING_WIDTH = 10;
+    private static final double RING_WIDTH = 5;
+    private static final double RING_STEP_SIZE = 3;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private PNode _ringNode;
+    private ArrayList _ringGeometry; // array of PPath
+    private int _previousState;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,6 +53,8 @@ class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
     public DeBroglieBrightnessNode( DeBroglieModel atom ) {
         super( atom );
         _ringNode = new PNode();
+        _ringGeometry = new ArrayList();
+        _previousState = DeBroglieModel.getGroundState() - 1; // force initialization
         addChild( _ringNode );
         update();
     }
@@ -66,29 +71,69 @@ class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
      */
     public void update() {
 
-        _ringNode.removeAllChildren();
-
-        DeBroglieModel atom = getAtom();
-        int steps = 36;
-        double radius = atom.getElectronOrbitRadius();
+        int steps = getRingSteps();
+        int state = getAtom().getElectronState();
+        
+        if ( state != _previousState ) {
+            _previousState = state;
+            updateRingGeometry( steps );
+        }
 
         for ( int i = 0; i < steps; i++ ) {
 
             double angle = ( 2 * Math.PI ) * ( (double) i / steps );
-            double amplitude = atom.getAmplitude( angle );
+            double amplitude = getAtom().getAmplitude( angle );
             Color color = amplitudeToColor( amplitude );
 
-            double diameter = 15;
-            Shape shape = new Ellipse2D.Double( -diameter/2, -diameter/2, diameter, diameter );
+            PPath pathNode = (PPath)_ringGeometry.get( i );
+            pathNode.setPaint( color );
+        }
+    }
+    
+    private int getRingSteps() {
+        DeBroglieModel atom = getAtom();
+        double radius = atom.getElectronOrbitRadius();
+        double circumference = Math.PI * ( 2 * radius );
+        int steps = (int) ( circumference / RING_STEP_SIZE ) + 1;
+        return steps;
+    }
+    
+    private void updateRingGeometry( int steps ) {
+        
+        _ringNode.removeAllChildren();
+        _ringGeometry.clear();
 
-            PPath path = new PPath( shape );
-            path.setPaint( color );
-            path.setStroke( null );
-            _ringNode.addChild( path );
+        double radius = getAtom().getElectronOrbitRadius();
+        for ( int i = 0; i < steps; i++ ) {
 
-            double x = radius * Math.cos( angle );
-            double y = radius * Math.sin( angle );
-            path.setOffset( x, y );
+            double angle = ( 2 * Math.PI ) * ( (double) i / steps );
+
+            double r1 = radius - ( RING_WIDTH / 2 );
+            double r2 = radius + ( RING_WIDTH / 2 );
+            double cos1 = Math.cos( angle );
+            double sin1 = Math.sin( angle );
+            double a2 = angle + ( 2 * Math.PI / steps ) + 0.001;
+            double cos2 = Math.cos( a2 );
+            double sin2 = Math.sin( a2 );
+            double x1 = r1 * cos1;
+            double y1 = r1 * sin1;
+            double x2 = r2 * cos1;
+            double y2 = r2 * sin1;
+            double x3 = r2 * cos2;
+            double y3 = r2 * sin2;
+            double x4 = r1 * cos2;
+            double y4 = r1 * sin2;
+            GeneralPath path = new GeneralPath();
+            path.moveTo( (float) x1, (float) y1 );
+            path.lineTo( (float) x2, (float) y2 );
+            path.lineTo( (float) x3, (float) y3 );
+            path.lineTo( (float) x4, (float) y4 );
+            path.closePath();
+
+            PPath pathNode = new PPath( path );
+            pathNode.setStroke( null );
+            _ringNode.addChild( pathNode );
+            _ringGeometry.add( pathNode );
         }
     }
     
