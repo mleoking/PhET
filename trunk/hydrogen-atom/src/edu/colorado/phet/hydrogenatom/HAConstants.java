@@ -169,9 +169,6 @@ public class HAConstants {
     public static final String IMAGE_SPECTROMETER_SNAPSHOT = IMAGES_DIRECTORY + "spectrometerSnapshot.png";
     public static final String IMAGE_SPECTRUM = IMAGES_DIRECTORY + "spectrum.png";
     
-    //XXX temporary images
-    public static final String IMAGE_SCHRODINGER_ATOM = IMAGES_DIRECTORY + "tmp-schrodingerAtom.png";
-    
     //----------------------------------------------------------------------------
     // Cursors
     //----------------------------------------------------------------------------

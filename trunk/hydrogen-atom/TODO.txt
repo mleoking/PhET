@@ -46,6 +46,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/20/06) - remove temporary Schrodinger atom image, replace with "not implemented" text
 ***** CVS tag hydrogenatom-0-00-10-2006-11-18
 (11/18/06) - bugfix: Legend & Spectral Line Table dialogs can't be reopened if closed via window dressing
 (11/18/06) - create hierarchy of "view strategies" for use in DeBroglieNode
