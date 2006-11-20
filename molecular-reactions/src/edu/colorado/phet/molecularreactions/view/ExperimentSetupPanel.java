@@ -61,10 +61,11 @@ public class ExperimentSetupPanel extends JPanel {
         JLabel numABLbl = new JLabel( SimStrings.get( "ExperimentSetup.numAB" ) );
         JLabel numCLbl = new JLabel( SimStrings.get( "ExperimentSetup.numC" ) );
 
-        numATF = new RangeLimitedIntegerTextField( 0, 99 );
-        numBCTF = new RangeLimitedIntegerTextField( 0, 99 );
-        numABTF = new RangeLimitedIntegerTextField( 0, 99 );
-        numCTF = new RangeLimitedIntegerTextField( 0, 99 );
+        int maxMolecules = 200;
+        numATF = new RangeLimitedIntegerTextField( 0, maxMolecules );
+        numBCTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
+        numABTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
+        numCTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
 
         JButton goBtn = new GoStopResetBtn( module );
 
