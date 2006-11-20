@@ -1,4 +1,3 @@
-- Add "Design your own" to the combo box on Experiments
 - "Reload" should not reset the reaction
 - strip chart controls
 
@@ -186,3 +185,4 @@ Done
 11-08-06 - On experiment panel, bonds are off by default
 11-08-06 - On experiment panel, bonds are off by default
 11-08-06 - Icons and molecules in energy panel need to overlap
+11-08-06 - Add "Design your own" to the combo box on Experiments

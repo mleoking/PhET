@@ -18,10 +18,7 @@ import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.*;
-import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChartNode;
-import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsStripChart;
-import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChartNode;
-import edu.colorado.phet.molecularreactions.view.charts.StripChartAdjuster;
+import edu.colorado.phet.molecularreactions.view.charts.*;
 import edu.colorado.phet.molecularreactions.util.StripChart;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -135,8 +132,7 @@ public class ComplexModule extends MRModule {
 
         if( visible ) {
             if( stripChartDlg == null ) {
-//                stripChartDlg = new StripChartDialog( this );
-                stripChartDlg = createStripChartDialog();
+                stripChartDlg = new StripChartDialog( this );
             }
             stripChartDlg.setVisible( true );
         }
@@ -158,84 +154,6 @@ public class ComplexModule extends MRModule {
         if( visible && showStripChartBtn != null ) {
             stripChartDlg.addComponentListener( showStripChartBtn );
         }
-    }
-
-    private JDialog createStripChartDialog() {
-        Dimension chartSize = new Dimension( 400, 200 );
-        final double xAxisRange = MRConfig.STRIP_CHART_VISIBLE_TIME_RANGE ;
-        int numBufferedDataPoints = MRConfig.STRIP_CHART_BUFFER_SIZE;
-        final MoleculePopulationsStripChart stripChart = new MoleculePopulationsStripChart( getMRModel(),
-                                                                                            getClock(),
-                                                                                            xAxisRange,
-                                                                                            0,
-                                                                                            20,
-                                                                                            1,
-                                                                                            numBufferedDataPoints );
-        ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
-        chartPanel.setPreferredSize( chartSize );
-
-        // Dialog
-        JDialog stripChartDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
-        stripChartDlg.setResizable( false );
-        PhetPCanvas stripChartCanvas = new PhetPCanvas();
-        PNode stripChartNode = new PSwing( stripChartCanvas, chartPanel );
-        stripChartCanvas.addScreenChild( stripChartNode );
-
-        // Add a rescale button
-        JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale" ) );
-        rescaleBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                stripChart.rescale();
-            }
-        } );
-        PSwing rescaleNode = new PSwing( stripChartCanvas, rescaleBtn );
-        rescaleNode.setOffset( chartPanel.getPreferredSize().getWidth() - rescaleNode.getFullBounds().getWidth() - 10,
-                               chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() - 10 );
-        stripChartCanvas.addScreenChild( rescaleNode );
-
-        // Add a scrollbar
-        final JScrollBar scrollBar = new JScrollBar( JScrollBar.HORIZONTAL, 0, (int)stripChart.getViewableRangeX(), 0, (int)xAxisRange );
-        scrollBar.addAdjustmentListener( new StripChartAdjuster( stripChart ) );
-
-        Insets scrollBarInsets = new Insets( 3, 50, 3, 10 );
-        scrollBar.setPreferredSize( new Dimension( (int)( stripChartNode.getFullBounds().getWidth() - scrollBarInsets.left - scrollBarInsets.right ), 15 ) );
-        PSwing scrollBarNode = new PSwing( stripChartCanvas, scrollBar );
-        Dimension dialogSize = new Dimension( (int)chartSize.getWidth(),
-                                              (int)( chartSize.getHeight() + scrollBarNode.getFullBounds().getHeight() +
-                                                     scrollBarInsets.top + scrollBarInsets.bottom ) );
-
-        scrollBarNode.setOffset( scrollBarInsets.left,
-                                 dialogSize.getHeight() - scrollBarNode.getFullBounds().getHeight() - scrollBarInsets.bottom );
-        stripChartCanvas.addScreenChild( scrollBarNode );
-        stripChart.addListener( new StripChart.Listener() {
-            public void dataChanged() {
-                scrollBar.setMaximum( (int)stripChart.getMaxX() );
-                scrollBar.setMinimum( (int)stripChart.getMinX() );
-                scrollBar.setVisibleAmount( (int)stripChart.getViewableRangeX() );
-                scrollBar.setValue( (int)stripChart.getMaxX());
-            }
-        } );
-
-        // The scroll bar should only be enabled when the clock is paused
-        getClock().addClockListener( new ClockAdapter() {
-            public void clockStarted( ClockEvent clockEvent ) {
-                scrollBar.setEnabled( false );
-            }
-
-            public void clockPaused( ClockEvent clockEvent ) {
-                scrollBar.setEnabled( true );
-            }
-        });
-        scrollBar.setEnabled( !getClock().isRunning() );
-
-        stripChartCanvas.setPreferredSize( dialogSize );
-        stripChartDlg.getContentPane().add( stripChartCanvas );
-        stripChartDlg.pack();
-
-        // Start the strip chart recording
-        stripChart.startRecording( getClock().getSimulationTime() );
-
-        return stripChartDlg;
     }
 
     /**
