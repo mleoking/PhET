@@ -15,7 +15,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.util.ViewUtils;
-import edu.colorado.phet.lasers.view.PhotonGraphic;
+import edu.colorado.phet.quantum.view.PhotonGraphic;
 
 import javax.swing.*;
 import java.awt.*;

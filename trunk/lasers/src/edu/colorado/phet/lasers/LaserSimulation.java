@@ -21,8 +21,8 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.PhotoWindow;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
-import edu.colorado.phet.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.view.AtomGraphic;
+import edu.colorado.phet.quantum.model.AtomicState;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

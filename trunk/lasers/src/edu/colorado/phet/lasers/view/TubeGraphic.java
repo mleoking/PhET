@@ -10,7 +10,6 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.quantum.model.Tube;
-import edu.colorado.phet.quantum.model.Tube;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;

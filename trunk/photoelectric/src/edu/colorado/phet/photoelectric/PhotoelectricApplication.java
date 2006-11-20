@@ -12,9 +12,9 @@ package edu.colorado.phet.photoelectric;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 
 import javax.swing.*;

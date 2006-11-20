@@ -11,7 +11,6 @@
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.common.util.PhysicsUtil;
-import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.quantum.model.Atom;
 import edu.colorado.phet.quantum.model.AtomicState;

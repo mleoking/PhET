@@ -12,12 +12,11 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.util.PhysicsUtil;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.*;
@@ -25,10 +24,10 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.quantum.QuantumConfig;
 import edu.colorado.phet.quantum.model.Atom;
 import edu.colorado.phet.quantum.model.AtomicState;
 import edu.colorado.phet.quantum.model.Beam;
-import edu.colorado.phet.quantum.QuantumConfig;
 
 import javax.swing.*;
 import java.awt.*;

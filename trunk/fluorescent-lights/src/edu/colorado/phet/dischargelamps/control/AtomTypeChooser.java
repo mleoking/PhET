@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.dischargelamps.control;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.quantum.model.ElementProperties;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

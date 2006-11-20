@@ -11,8 +11,6 @@
 package edu.colorado.phet.photoelectric.model;
 
 import edu.colorado.phet.quantum.model.ElementProperties;
-import edu.colorado.phet.quantum.model.ElementProperties;
-import edu.colorado.phet.quantum.model.ElementProperties;
 
 /**
  * TargetMaterial

@@ -26,8 +26,8 @@ import edu.colorado.phet.lasers.model.atom.ThreeLevelElementProperties;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollisonExpert;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
-import edu.colorado.phet.quantum.model.*;
 import edu.colorado.phet.quantum.QuantumConfig;
+import edu.colorado.phet.quantum.model.*;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

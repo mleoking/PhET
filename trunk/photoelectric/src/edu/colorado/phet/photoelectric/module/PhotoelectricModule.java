@@ -26,12 +26,7 @@ import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.control.BatterySlider;
 import edu.colorado.phet.dischargelamps.model.Battery;
 import edu.colorado.phet.dischargelamps.view.BatteryReadout;
-import edu.colorado.phet.quantum.view.PlateGraphic;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-import edu.colorado.phet.quantum.model.Tube;
-import edu.colorado.phet.quantum.model.Beam;
-import edu.colorado.phet.quantum.model.PhotonEmittedEvent;
-import edu.colorado.phet.quantum.model.PhotonEmittedListener;
 import edu.colorado.phet.lasers.view.BeamCurtainGraphic;
 import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.lasers.view.TubeGraphic;
@@ -42,7 +37,8 @@ import edu.colorado.phet.photoelectric.controller.PhotoelectricControlPanel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
 import edu.colorado.phet.photoelectric.view.*;
-import edu.colorado.phet.quantum.model.Photon;
+import edu.colorado.phet.quantum.model.*;
+import edu.colorado.phet.quantum.view.PlateGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -539,7 +535,7 @@ public class PhotoelectricModule extends BaseLaserModule {
      * beam view. This prevents the delay in response of the target when the wavelength or
      * intensity of the beam is changed.
      */
-    private class PhotonPlacementManager implements PhotonEmittedListener {
+    private class PhotonPlacementManager implements PhotonEmissionListener {
         public void photonEmitted( PhotonEmittedEvent event ) {
 //        public void photonEmittedEventOccurred(PhotonEmittedEvent event) {
             if( viewType == BEAM_VIEW ) {

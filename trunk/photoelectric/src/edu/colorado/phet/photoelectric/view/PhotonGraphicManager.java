@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.photoelectric.view;
 
-import edu.colorado.phet.quantum.model.PhotonEmittedEvent;
-import edu.colorado.phet.quantum.model.PhotonEmittedListener;
-import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 import edu.colorado.phet.quantum.model.Photon;
+import edu.colorado.phet.quantum.model.PhotonEmissionListener;
+import edu.colorado.phet.quantum.model.PhotonEmittedEvent;
+import edu.colorado.phet.quantum.view.PhotonGraphic;
 
 /**
  * PhotonGraphicManager
@@ -28,7 +28,7 @@ import edu.colorado.phet.quantum.model.Photon;
 
 /**
  */
-public class PhotonGraphicManager implements PhotonEmittedListener {
+public class PhotonGraphicManager implements PhotonEmissionListener {
     private PhotoelectricModule module;
 
     public PhotonGraphicManager( PhotoelectricModule module ) {

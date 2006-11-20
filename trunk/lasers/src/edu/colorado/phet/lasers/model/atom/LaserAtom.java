@@ -1,11 +1,11 @@
 package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.quantum.model.PropertiesBasedAtom;
-import edu.colorado.phet.quantum.model.ElementProperties;
-import edu.colorado.phet.quantum.model.AtomicState;
-import edu.colorado.phet.quantum.model.Photon;
-import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.quantum.model.AtomicState;
+import edu.colorado.phet.quantum.model.ElementProperties;
+import edu.colorado.phet.quantum.model.Photon;
+import edu.colorado.phet.quantum.model.PropertiesBasedAtom;
 
 /**
  * LaserAtom

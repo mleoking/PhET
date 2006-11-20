@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantum.AtomicStateFactory;
 import edu.colorado.phet.quantum.model.AtomicState;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * HydrogenProperties

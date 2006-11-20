@@ -19,10 +19,11 @@ import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.EventListener;
 import java.util.Random;
 
 /**
- * CollimatedBeam
+ * Beam
  * <p/>
  * A PhotonSource of photons that all have identical speeds. Their directions can
  * vary by a specified fanout angle.
@@ -61,7 +62,7 @@ public class Beam extends Particle implements PhotonSource {
 
     /**
      * @param wavelength
-     * @param origin              The center point of the beam
+     * @param origin
      * @param length
      * @param beamWidth
      * @param direction
@@ -100,7 +101,7 @@ public class Beam extends Particle implements PhotonSource {
     /**
      * Returns a shape that bounds the beam
      *
-     * @return
+     * @return a Shape that bounds the beam
      */
     public Shape getBounds() {
         double alpha = getFanout() / 2;
@@ -111,7 +112,7 @@ public class Beam extends Particle implements PhotonSource {
         path.lineToRelative( 0, getBeamWidth() + getLength() * Math.sin( alpha ) );
         path.lineToRelative( -getLength() * Math.cos( alpha ), -getLength() * Math.sin( alpha ) / 2 );
         path.lineTo( getPosition() );
-        AffineTransform atx = AffineTransform.getRotateInstance( getDirection().getAngle(), getPosition().getX(), getPosition().getY() );
+        AffineTransform atx = AffineTransform.getRotateInstance( getDirection(), getPosition().getX(), getPosition().getY() );
         Shape shape = path.getGeneralPath().createTransformedShape( atx );
         return shape;
     }
@@ -120,8 +121,8 @@ public class Beam extends Particle implements PhotonSource {
         this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.SPEED );
     }
 
-    public Vector2D getDirection() {
-        return new Vector2D.Double( velocity ).normalize();
+    public double getDirection() {
+        return velocity.getAngle();
     }
 
     public void setBeamWidth( double beamWidth ) {
@@ -152,34 +153,11 @@ public class Beam extends Particle implements PhotonSource {
         }
         this.photonsPerSecond = photonsPerSecond;
         nextTimeToProducePhoton = getNextTimeToProducePhoton();
-        changeListenerProxy.rateChangeOccurred( new ChangeEvent( this ) );
-    }
-
-    /**
-     * @param intensity
-     * @param minWavelength
-     * @param maxWavelength
-     */
-    public void setIntensity( double intensity, double minWavelength, double maxWavelength ) {
-        double wavelengthRange = maxWavelength - minWavelength;
-        double middleWavelength = wavelengthRange / 2 + minWavelength;
-        double photonRate = intensity * ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ) );
-        setPhotonsPerSecond( photonRate );
-    }
-
-    public double getIntensity( double minWavelength, double maxWavelength ) {
-        double wavelengthRange = maxWavelength - minWavelength;
-        double middleWavelength = wavelengthRange / 2 + minWavelength;
-        double intensity = photonsPerSecond / ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ) );
-        return intensity;
+        rateChangeListenerProxy.rateChangeOccurred( new RateChangeEvent( this ) );
     }
 
     public double getMaxPhotonsPerSecond() {
         return this.maxPhotonsPerSecond;
-    }
-
-    public double getMaxIntensity() {
-        return maxPhotonsPerSecond;
     }
 
     public void setMaxPhotonsPerSecond( int maxPhotonsPerSecond ) {
@@ -188,7 +166,7 @@ public class Beam extends Particle implements PhotonSource {
 
     public void setWavelength( double wavelength ) {
         this.wavelength = wavelength;
-        changeListenerProxy.wavelengthChanged( new ChangeEvent( this ) );
+        wavelengthChangeListenerProxy.wavelengthChanged( new WavelengthChangeEvent( this ) );
     }
 
     public double getWavelength() {
@@ -208,8 +186,8 @@ public class Beam extends Particle implements PhotonSource {
         double r = startPositionGenerator.nextDouble();
         double inset = 10;  // inset from the edges of the "beam" that photons are emitted
         double d = r * ( ( getBeamWidth() - inset ) / 2 ) * ( startPositionGenerator.nextBoolean() ? 1 : -1 );
-        double dx = d * Math.sin( getDirection().getAngle() );
-        double dy = -d * Math.cos( getDirection().getAngle() );
+        double dx = d * Math.sin( getDirection() );
+        double dy = -d * Math.cos( getDirection() );
         return new Point2D.Double( getPosition().getX() + dx, getPosition().getY() + dy );
     }
 
@@ -217,23 +195,21 @@ public class Beam extends Particle implements PhotonSource {
     // Time-dependent behavior
     //----------------------------------------------------------------
 
-    long t = 0;
-
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
 
         // Produce photons
         if( isEnabled() ) {
             timeSinceLastPhotonProduced += dt;
-            t += dt;
             if( nextTimeToProducePhoton < timeSinceLastPhotonProduced ) {
+
                 int nPhotons = (int)( timeSinceLastPhotonProduced * getPhotonsPerSecond() / 1E3 );
                 for( int i = 0; i < nPhotons; i++ ) {
                     // Set the photon's velocity to a fanout angle proportional to its distance from the
                     // center of the beam
                     Point2D photonLoc = genPosition();
                     double angle = ( photonLoc.distance( getPosition() ) / getBeamWidth() / 2 ) * getFanout();
-                    double alpha = getDirection().getAngle()
+                    double alpha = getDirection()
                                    - Math.atan2( photonLoc.getY() - getPosition().getY(),
                                                  photonLoc.getX() - getPosition().getX() );
                     if( alpha > 0 ) {
@@ -243,7 +219,7 @@ public class Beam extends Particle implements PhotonSource {
                     final Photon newPhoton = Photon.create( this.getWavelength(),
                                                             photonLoc,
                                                             photonVelocity );
-                    emissionListenerProxy.photonEmitted( new PhotonEmittedEvent( this, newPhoton ) );
+                    photonEmittedListenerProxy.photonEmitted( new PhotonEmittedEvent( this, newPhoton ) );
                 }
                 nextTimeToProducePhoton = getNextTimeToProducePhoton();
                 timeSinceLastPhotonProduced = 0;
@@ -261,28 +237,29 @@ public class Beam extends Particle implements PhotonSource {
     // Event Handling
     //---------------------------------------------------------------------
 
-    //----------------------------------------------------------------
-    // PhotonSource implementation
-    //----------------------------------------------------------------
-    private EventChannel changeListenerChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeListenerChannel.getListenerProxy();
-    private EventChannel photonEmissionChannel = new EventChannel( PhotonEmissionListener.class );
-    private PhotonEmissionListener emissionListenerProxy = (PhotonEmissionListener)photonEmissionChannel.getListenerProxy();
+    private EventChannel rateChangeEventChannel = new EventChannel( RateChangeListener.class );
+    private RateChangeListener rateChangeListenerProxy = (RateChangeListener)rateChangeEventChannel.getListenerProxy();
 
-    public void addChangeListener( ChangeListener listener ) {
-        changeListenerChannel.addListener( listener );
+    private EventChannel wavelengthChangeEventChannel = new EventChannel( WavelengthChangeListener.class );
+    private WavelengthChangeListener wavelengthChangeListenerProxy = (WavelengthChangeListener)wavelengthChangeEventChannel.getListenerProxy();
+
+    private EventChannel photonEmittedEventChannel = new EventChannel( PhotonEmissionListener.class );
+    private PhotonEmissionListener photonEmittedListenerProxy = (PhotonEmissionListener)photonEmittedEventChannel.getListenerProxy();
+
+    public void addRateChangeListener( RateChangeListener rateChangeListener ) {
+        rateChangeEventChannel.addListener( rateChangeListener );
     }
 
-    public void removeChangeListener( ChangeListener listener ) {
-        changeListenerChannel.removeListener( listener );
+    public void addWavelengthChangeListener( WavelengthChangeListener wavelengthChangeListener ) {
+        wavelengthChangeEventChannel.addListener( wavelengthChangeListener );
     }
 
-    public void addPhotonEmissionListener( PhotonEmissionListener listener ) {
-        photonEmissionChannel.addListener( listener );
+    public void addPhotonEmittedListener( PhotonEmissionListener photonEmittedListener ) {
+        photonEmittedEventChannel.addListener( photonEmittedListener );
     }
 
-    public void removePhotonEmissionListener( PhotonEmissionListener listener ) {
-        photonEmissionChannel.removeListener( listener );
+    public void removeListener( EventListener listener ) {
+        rateChangeEventChannel.removeListener( listener );
     }
 }
 

@@ -14,9 +14,12 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.ModelEventChannel;
-import edu.colorado.phet.dischargelamps.model.*;
+import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
+import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
+import edu.colorado.phet.quantum.model.Electron;
+import edu.colorado.phet.quantum.model.ElectronSource;
 import edu.colorado.phet.quantum.model.Photon;
-import edu.colorado.phet.quantum.model.*;
+import edu.colorado.phet.quantum.model.Plate;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
