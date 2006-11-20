@@ -11,19 +11,13 @@
 package edu.colorado.phet.photoelectric.model;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.util.PhysicsUtil;
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.ModelEventChannel;
+import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.dischargelamps.model.*;
-import edu.colorado.phet.quantum.model.PhotonEmittedListener;
+import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
-import edu.colorado.phet.quantum.model.PhotonSource;
-import edu.colorado.phet.quantum.*;
-import edu.colorado.phet.quantum.model.Beam;
 import edu.colorado.phet.quantum.model.*;
 
 import java.awt.geom.Point2D;
@@ -170,7 +164,7 @@ public class PhotoelectricModel extends DischargeLampModel {
 
         // Add an intensity meter for the beam
         beamIntensityMeter = new BeamIntensityMeter( clock );
-        getBeam().addPhotonEmittedListener( new PhotonEmittedListener() {
+        getBeam().addPhotonEmittedListener( new PhotonEmissionListener() {
             public void photonEmitted( PhotonEmittedEvent event ) {
                 beamIntensityMeter.recordPhoton();
             }
@@ -319,12 +313,10 @@ public class PhotoelectricModel extends DischargeLampModel {
     //----------------------------------------------------------------
     // Listeners for tracking the creation and destruction of
     // certain model elements
-    //----------------------------------------------------------------
-
     /**
      * Tracks the creation and destruction of photons
      */
-    private class PhotonTracker implements PhotonEmittedListener, Photon.LeftSystemEventListener {
+    private class PhotonTracker implements PhotonEmissionListener, Photon.LeftSystemEventListener {
         public void photonEmitted( PhotonEmittedEvent event ) {
             Photon photon = event.getPhoton();
             addModelElement( photon );
@@ -337,9 +329,12 @@ public class PhotoelectricModel extends DischargeLampModel {
         }
     }
 
+    //----------------------------------------------------------------
+
     /**
      * Track the creation and destruction of electrions
      */
+
     private class ElectronTracker implements ElectronSource.ElectronProductionListener, Electron.ChangeListener {
 
         public void electronProduced( ElectronSource.ElectronProductionEvent event ) {

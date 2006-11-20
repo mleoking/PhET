@@ -15,7 +15,6 @@ import edu.colorado.phet.dischargelamps.model.DefaultEnergyEmissionStrategy;
 import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
 import edu.colorado.phet.quantum.model.EnergyEmissionStrategy;
-import edu.colorado.phet.quantum.model.EnergyEmissionStrategy;
 
 /**
  * Zinc

@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.view.util.VisibleColor;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 

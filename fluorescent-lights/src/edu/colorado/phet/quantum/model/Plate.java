@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.quantum.model;
 
-import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.common.model.BaseModel;
 
 import java.awt.geom.Point2D;

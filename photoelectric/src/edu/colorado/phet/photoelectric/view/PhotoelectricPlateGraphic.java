@@ -13,8 +13,8 @@ package edu.colorado.phet.photoelectric.view;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.quantum.view.PlateGraphic;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
+import edu.colorado.phet.quantum.view.PlateGraphic;
 
 import java.awt.*;
 import java.util.ArrayList;

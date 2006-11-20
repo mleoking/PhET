@@ -15,7 +15,6 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.quantum.model.Tube;
-import edu.colorado.phet.quantum.model.Tube;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;

@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
-import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -23,14 +23,13 @@ import edu.colorado.phet.dischargelamps.SingleAtomModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.quantum.model.Atom;
-import edu.colorado.phet.quantum.model.GroundState;
-import edu.colorado.phet.quantum.model.Plate;
 import edu.colorado.phet.quantum.model.Electron;
+import edu.colorado.phet.quantum.model.Plate;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Ellipse2D;
 
 /**
  * CollisionEnergyIndicator

@@ -30,29 +30,44 @@ public interface PhotonSource {
 
     double getWavelength();
 
-    void addChangeListener( ChangeListener rateChangeListener );
+    void addRateChangeListener( RateChangeListener rateChangeListener );
 
-    void addPhotonEmissionListener( PhotonEmissionListener photonEmissionListener );
+    void addWavelengthChangeListener( WavelengthChangeListener wavelengthChangeListener );
 
-    void removePhotonEmissionListener( PhotonEmissionListener listener );
+    void addPhotonEmittedListener( PhotonEmissionListener photonEmittedListener );
+
+    void removeListener( EventListener listener );
 
 
     //----------------------------------------------------------------
-    // Inner classes 
+    // Inner classes
     //----------------------------------------------------------------
 
-    public class ChangeEvent extends EventObject {
-        public ChangeEvent( PhotonSource source ) {
+    public class RateChangeEvent extends EventObject {
+        public RateChangeEvent( PhotonSource source ) {
             super( source );
         }
 
-        public PhotonSource getPhotonSource() {
-            return (PhotonSource)getSource();
+        public double getRate() {
+            return ( (PhotonSource)getSource() ).getPhotonsPerSecond();
         }
     }
 
-    public interface ChangeListener extends EventListener {
-        public void rateChangeOccurred( ChangeEvent event );
-        public void wavelengthChanged( ChangeEvent event );
+    public interface RateChangeListener extends EventListener {
+        public void rateChangeOccurred( RateChangeEvent event );
+    }
+
+    public class WavelengthChangeEvent extends EventObject {
+        public WavelengthChangeEvent( PhotonSource source ) {
+            super( source );
+        }
+
+        public double getWavelength() {
+            return ( (PhotonSource)getSource() ).getWavelength();
+        }
+    }
+
+    public interface WavelengthChangeListener extends EventListener {
+        public void wavelengthChanged( WavelengthChangeEvent event );
     }
 }

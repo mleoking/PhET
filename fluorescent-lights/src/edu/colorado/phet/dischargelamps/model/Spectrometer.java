@@ -12,8 +12,8 @@ package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.ModelEventChannel;
+import edu.colorado.phet.quantum.model.PhotonEmissionListener;
 import edu.colorado.phet.quantum.model.PhotonEmittedEvent;
-import edu.colorado.phet.quantum.model.PhotonEmittedListener;
 
 import java.util.EventListener;
 import java.util.EventObject;
@@ -28,7 +28,7 @@ import java.util.Map;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Spectrometer implements PhotonEmittedListener {
+public class Spectrometer implements PhotonEmissionListener {
     private Map wavelengthToPhotonNumberMap = new HashMap();
     private boolean isRunning = false;
 

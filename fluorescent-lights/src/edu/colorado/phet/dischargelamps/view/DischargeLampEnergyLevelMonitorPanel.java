@@ -12,14 +12,17 @@
 package edu.colorado.phet.dischargelamps.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
-import edu.colorado.phet.common.view.util.*;
+import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
@@ -39,10 +42,10 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.EventListener;
 
 /**
  * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.

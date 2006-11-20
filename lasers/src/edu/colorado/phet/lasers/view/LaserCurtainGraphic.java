@@ -14,7 +14,6 @@ import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.quantum.model.AtomicState;

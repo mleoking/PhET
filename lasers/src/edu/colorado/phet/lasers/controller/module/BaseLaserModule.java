@@ -24,19 +24,16 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
 import edu.colorado.phet.lasers.help.EnergyLevelPanelHelp;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.quantum.model.Tube;
 import edu.colorado.phet.lasers.model.mirror.BandPass;
 import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.view.*;
 import edu.colorado.phet.lasers.view.monitors.PowerMeterGraphic;
+import edu.colorado.phet.quantum.QuantumConfig;
 import edu.colorado.phet.quantum.model.*;
 import edu.colorado.phet.quantum.view.AnnotatedAtomGraphic;
-import edu.colorado.phet.lasers.view.AtomGraphic;
-import edu.colorado.phet.lasers.view.PhotonGraphic;
-import edu.colorado.phet.lasers.view.TubeGraphic;
-import edu.colorado.phet.quantum.QuantumConfig;
+import edu.colorado.phet.quantum.view.PhotonGraphic;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -537,7 +534,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
     // Event handling
     //-------------------------------------------------------------------------------------------------
 
-    public class InternalPhotonEmittedListener implements PhotonEmittedListener {
+    public class InternalPhotonEmittedListener implements PhotonEmissionListener {
 
         public void photonEmitted( PhotonEmittedEvent event ) {
 
