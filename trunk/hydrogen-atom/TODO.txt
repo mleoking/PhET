@@ -5,10 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- change Bohr so that electron has a velocity, so we can calculate deBroglie period T=circumference/velocity
+- implement photon and alpha particle collision detection for deBroglie, override Bohr
 - implement DeBroglie "brightness" representation
 - implement DeBroglie "brightness magnitude" representation
-- implement DeBroglie "radial distance" representation
 - implement DeBroglie "height 3D" representation
 
 MEDIUM PRIORITY:
@@ -46,6 +45,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/20/06) - implement DeBroglie "radial distance" representation
 (11/20/06) - remove temporary Schrodinger atom image, replace with "not implemented" text
 ***** CVS tag hydrogenatom-0-00-10-2006-11-18
 (11/18/06) - bugfix: Legend & Spectral Line Table dialogs can't be reopened if closed via window dressing
