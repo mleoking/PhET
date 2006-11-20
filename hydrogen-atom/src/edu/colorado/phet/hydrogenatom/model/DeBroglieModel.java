@@ -52,4 +52,18 @@ public class DeBroglieModel extends BohrModel {
     public DeBroglieView getView() {
         return _view;
     }
+    
+    /**
+     * DeBroglie is represented as a standing wave on a ring.
+     * This method determines the wave's amplitude at some angle.
+     * 
+     * @param angle
+     * @return -1 <= amplitude <= 1
+     */
+    public double getAmplitude( double angle ) {
+        int state = getElectronState();
+        double electronAngle = getElectronAngle();
+        double amplitude = Math.sin( state * angle ) * Math.sin( electronAngle );
+        return amplitude;
+    }
 }
