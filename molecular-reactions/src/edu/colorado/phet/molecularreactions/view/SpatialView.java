@@ -70,9 +70,6 @@ public class SpatialView extends PNode {
         megm.addGraphicFactory( new TemperatureControlGraphicFactory( pSwingCanvas, bondLayer ) );
         megm.scanModel();
 
-//        // Temperature control
-//        createTemperatureControl( model, pSwingCanvas );
-//
         // Graphic that shows the components of the reaction
         ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(), Color.black );
         reactionGraphic.setOffset( model.getBox().getMinX() + model.getBox().getWidth() / 2,
