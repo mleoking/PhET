@@ -123,6 +123,7 @@ class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
             double y3 = r2 * sin2;
             double x4 = r1 * cos2;
             double y4 = r1 * sin2;
+            
             GeneralPath path = new GeneralPath();
             path.moveTo( (float) x1, (float) y1 );
             path.lineTo( (float) x2, (float) y2 );
