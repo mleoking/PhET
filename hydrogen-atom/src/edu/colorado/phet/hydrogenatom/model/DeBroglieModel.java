@@ -24,19 +24,35 @@ import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
  */
 public class DeBroglieModel extends BohrModel {
 
+    //----------------------------------------------------------------------------
+    // Public class data
+    //----------------------------------------------------------------------------
+    
     public static final String PROPERTY_VIEW = "view";
     
     public static DeBroglieView DEFAULT_VIEW = DeBroglieView.BRIGHTNESS_MAGNITUDE;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private DeBroglieView _view;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public DeBroglieModel( Point2D position ) {
         super( position );
         _view = DEFAULT_VIEW;
     }
     
+    //----------------------------------------------------------------------------
+    // Mutators and accessors
+    //----------------------------------------------------------------------------
+    
     /**
-     * Sets the view.
+     * Sets the type of view.
      * This really shouldn't be in the model, but in our current architecture,
      * the only way to pass information to view components is via the model.
      * 
@@ -49,6 +65,10 @@ public class DeBroglieModel extends BohrModel {
         }
     }
     
+    /**
+     * Gets the type of view.
+     * @return DeBroglieView
+     */
     public DeBroglieView getView() {
         return _view;
     }
@@ -64,6 +84,7 @@ public class DeBroglieModel extends BohrModel {
         int state = getElectronState();
         double electronAngle = getElectronAngle();
         double amplitude = Math.sin( state * angle ) * Math.sin( electronAngle );
+        assert( amplitude >= -1 && amplitude <= 1 );
         return amplitude;
     }
 }
