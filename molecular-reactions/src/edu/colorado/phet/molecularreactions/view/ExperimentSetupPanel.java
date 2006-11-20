@@ -17,6 +17,7 @@ import edu.colorado.phet.molecularreactions.util.RangeLimitedIntegerTextField;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.MRConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,7 +62,7 @@ public class ExperimentSetupPanel extends JPanel {
         JLabel numABLbl = new JLabel( SimStrings.get( "ExperimentSetup.numAB" ) );
         JLabel numCLbl = new JLabel( SimStrings.get( "ExperimentSetup.numC" ) );
 
-        int maxMolecules = 200;
+        int maxMolecules = MRConfig.MAX_MOLECULE_CNT;
         numATF = new RangeLimitedIntegerTextField( 0, maxMolecules );
         numBCTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
         numABTF = new RangeLimitedIntegerTextField( 0, maxMolecules );

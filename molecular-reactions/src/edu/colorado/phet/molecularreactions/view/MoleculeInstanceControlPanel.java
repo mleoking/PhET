@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.view;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
+import edu.colorado.phet.molecularreactions.MRConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +30,7 @@ import java.util.List;
  */
 public class MoleculeInstanceControlPanel extends JPanel {
     private List counters = new ArrayList( );
+    private int maxMoleculeCnt = MRConfig.MAX_MOLECULE_CNT;
 
     public MoleculeInstanceControlPanel( MRModel model ) {
 
@@ -37,13 +39,13 @@ public class MoleculeInstanceControlPanel extends JPanel {
         JLabel abLabel = new JLabel( new MoleculeIcon( MoleculeAB.class ) );
         JLabel bcLabel = new JLabel( new MoleculeIcon( MoleculeBC.class ) );
 
-        MoleculeCountSpinner aMC = new MoleculeCountSpinner( MoleculeA.class, model );
+        MoleculeCountSpinner aMC = new MoleculeCountSpinner( MoleculeA.class, model, maxMoleculeCnt );
         counters.add( aMC );
-        MoleculeCountSpinner cMC = new MoleculeCountSpinner( MoleculeC.class, model );
+        MoleculeCountSpinner cMC = new MoleculeCountSpinner( MoleculeC.class, model, maxMoleculeCnt );
         counters.add( cMC );
-        MoleculeCountSpinner abMC = new MoleculeCountSpinner( MoleculeAB.class, model );
+        MoleculeCountSpinner abMC = new MoleculeCountSpinner( MoleculeAB.class, model, maxMoleculeCnt );
         counters.add( abMC );
-        MoleculeCountSpinner bcMC = new MoleculeCountSpinner( MoleculeBC.class, model );
+        MoleculeCountSpinner bcMC = new MoleculeCountSpinner( MoleculeBC.class, model, maxMoleculeCnt );
         counters.add( bcMC );
 
         // Lay out the controls
