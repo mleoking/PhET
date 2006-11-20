@@ -116,6 +116,7 @@ public class ExperimentSetupPanel extends JPanel {
         generateMolecules( MoleculeC.class, Integer.parseInt( numCTF.getText() ));
 
         module.setStripChartVisible( true );
+        module.rescaleStripChart();
     }
 
     private void generateMolecules( Class moleculeClass, int numMolecules ) {

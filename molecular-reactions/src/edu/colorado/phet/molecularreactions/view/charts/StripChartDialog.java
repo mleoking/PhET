@@ -37,6 +37,7 @@ import java.awt.event.ActionListener;
  * @version $Revision$
  */
 public class StripChartDialog extends JDialog {
+    private MoleculePopulationsStripChart stripChart;
 
     public StripChartDialog( MRModule module ) {
         super(PhetUtilities.getPhetFrame(), false);
@@ -45,13 +46,13 @@ public class StripChartDialog extends JDialog {
         Dimension chartSize = new Dimension( 400, 200 );
         final double xAxisRange = MRConfig.STRIP_CHART_VISIBLE_TIME_RANGE ;
         int numBufferedDataPoints = MRConfig.STRIP_CHART_BUFFER_SIZE;
-        final MoleculePopulationsStripChart stripChart = new MoleculePopulationsStripChart( module.getMRModel(),
-                                                                                            module.getClock(),
-                                                                                            xAxisRange,
-                                                                                            0,
-                                                                                            20,
-                                                                                            1,
-                                                                                            numBufferedDataPoints );
+        stripChart = new MoleculePopulationsStripChart( module.getMRModel(),
+                                                        module.getClock(),
+                                                        xAxisRange,
+                                                        0,
+                                                        20,
+                                                        1,
+                                                        numBufferedDataPoints );
         ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
         chartPanel.setPreferredSize( chartSize );
 
@@ -114,5 +115,12 @@ public class StripChartDialog extends JDialog {
 
         // Start the strip chart recording
         stripChart.startRecording( module.getClock().getSimulationTime() );
+    }
+
+    /**
+     * Rescale the strip chart
+     */
+    public void rescaleChart() {
+        stripChart.rescale();
     }
 }
