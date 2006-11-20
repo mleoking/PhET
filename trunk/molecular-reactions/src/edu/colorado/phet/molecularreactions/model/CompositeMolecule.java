@@ -87,26 +87,8 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
         setComponents( molecules );
     }
 
-    public Vector2D getVelocity() {
-//        if( components != null ) {
-//            double vx = 0;
-//            double vy = 0;
-//            double px = 0;
-//            double py = 0;
-//            for( int i = 0; i < components.length; i++ ) {
-//                Body body = (Body)components[i];
-//                vx += body.getVelocity().getX() * body.getMass() / this.getMass();
-//                vy += body.getVelocity().getY() * body.getMass() / this.getMass();
-//                px += body.getPosition().getX() * body.getMass() / this.getMass();
-//                py += body.getPosition().getY() * body.getMass() / this.getMass();
-//            }
-//            setVelocity( vx, vy );
-//        }
-        return super.getVelocity();
-    }
-
     public Bond[] getBonds() {
-        if( bonds == null ) {
+        if( bonds == null && getComponentMolecules().length >= 1 ) {
             bonds = new Bond[]{new Bond( getComponentMolecules()[0], getComponentMolecules()[1] )};
         }
         return bonds;
@@ -219,9 +201,14 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
     }
 
     public Rectangle2D getBoundingBox() {
-        boundingBox.setRect( components[0].getBoundingBox() );
-        for( int i = 1; i < components.length; i++ ) {
-            boundingBox = boundingBox.createUnion( components[i].getBoundingBox() );
+        if( components.length >= 1 ) {
+            boundingBox.setRect( components[0].getBoundingBox() );
+            for( int i = 1; i < components.length; i++ ) {
+                boundingBox = boundingBox.createUnion( components[i].getBoundingBox() );
+            }
+        }
+        else {
+            boundingBox.setRect( 0,0,0,0 );
         }
         return boundingBox;
     }
@@ -355,6 +342,7 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
 
     /**
      * Rotates the molecule through a specified angle
+     *
      * @param theta
      */
     public void rotate( double theta ) {

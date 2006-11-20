@@ -35,7 +35,6 @@ public class CollisionAgent implements ModelElement {
         // todo: DEBUG. move elsewhere
         SpringCollision.Spring spring = new SpringCollision.Spring( 10, model.getReaction().getEnergyProfile().getThresholdWidth() / 2 );
         moleculeMoleculeCollisionAgent = new MoleculeMoleculeCollisionAgent_2( model );
-//        moleculeMoleculeCollisionAgent = new MoleculeMoleculeHardSphereCollisionAgent( model );
         moleculeBoxCollisionAgent = new MoleculeBoxCollisionAgent();
     }
 
@@ -62,11 +61,6 @@ public class CollisionAgent implements ModelElement {
                             }
                         }
                     }
-
-                    // Don't know why this was here. rjl 10/13/06
-//                    if( !collidedWithMolecule ) {
-//                        moleculeA.setAcceleration( 0,0 );
-//                    }
 
                     // Check for collisions between the molecule and the box. Note that we have to
                     // do this several times so that cases in which a molecule
