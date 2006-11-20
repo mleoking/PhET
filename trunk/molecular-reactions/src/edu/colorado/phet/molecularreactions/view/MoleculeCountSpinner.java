@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
 
 import javax.swing.*;
@@ -40,12 +41,14 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
     // so that we don't respond to add/remove messages from the model
     private boolean selfUpdating;
     private MoleculeParamGenerator moleculeParamGenerator;
+    private int maxValue;
 
     /**
      * @param moleculeClass
      * @param model
      */
-    public MoleculeCountSpinner( final Class moleculeClass, final MRModel model ) {
+    public MoleculeCountSpinner( final Class moleculeClass, final MRModel model, int maxValue ) {
+        this.maxValue = maxValue;
 
         JFormattedTextField tf = ( (JSpinner.DefaultEditor)getEditor() ).getTextField();
         tf.setColumns( 2 );
@@ -71,6 +74,11 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
         this.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 selfUpdating = true;
+
+                if( ( (Integer)getValue() ).intValue() > MoleculeCountSpinner.this.maxValue ) {
+                    resetValue();
+                }
+
                 final int diff = ( (Integer)getValue() ).intValue() - cnt;
                 for( int i = 0; i < Math.abs( diff ); i++ ) {
 
@@ -79,9 +87,6 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
 
                             // Do we need to add molecules?
                             if( diff > 0 ) {
-                                Point2D p = new Point2D.Double( model.getBox().getMinX() + 120,
-                                                                model.getBox().getMinY() + 120 );
-                                Vector2D v = new Vector2D.Double( 2, 2 );
                                 AbstractMolecule m = MoleculeFactory.createMolecule( moleculeClass,
                                                                                      moleculeParamGenerator );
                                 addMoleculeToModel( m, model );
@@ -160,6 +165,15 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
         cnt = n;
         setValue( new Integer( n ) );
     }
+
+
+    private void resetValue() {
+        setValue( new Integer( this.maxValue ) );
+        JOptionPane.showMessageDialog( this,
+                                       SimStrings.get( "Util.maxValueExceeded" ) );
+        requestFocus();
+    }
+
 
     //--------------------------------------------------------------------------------------------------
     // Implementation of PublishingModel.Listener

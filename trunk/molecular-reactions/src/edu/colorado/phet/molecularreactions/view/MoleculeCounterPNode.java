@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -38,7 +39,7 @@ public class MoleculeCounterPNode extends PNode {
         innerBackground.setPaint( Color.white );
         addChild( innerBackground );
 
-        MoleculeCountSpinner moleculeCounter = new MoleculeCountSpinner( moleculeClass, model );
+        MoleculeCountSpinner moleculeCounter = new MoleculeCountSpinner( moleculeClass, model, MRConfig.MAX_MOLECULE_CNT );
         moleculeCounter.setBorder( null );
         PSwing readout = new PSwing( canvas, moleculeCounter );
         readout.setOffset( 10, 23 );

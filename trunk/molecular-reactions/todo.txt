@@ -1,4 +1,3 @@
-- "Reload" should not reset the reaction
 - strip chart controls
 
 - With strip chart up for a long time, the sim choked
@@ -186,3 +185,13 @@ Done
 11-08-06 - On experiment panel, bonds are off by default
 11-08-06 - Icons and molecules in energy panel need to overlap
 11-08-06 - Add "Design your own" to the combo box on Experiments
+
+11-20-06 - "Reload" doesn't reset the reaction
+11-20-06 - Strip chart starts running with 0 on the left
+11-20-06 - Strip chart rescales when an experiment is started
+11-20-06 - Components are removed from Composite molecules when reaction occurs so the composite
+    can't be involved in another reaction before the time step is complete and it truly leaves
+    the model
+11-20-06 - If user enters number of molecules that exceeds maximum, a dialog appears
+
+
