@@ -29,7 +29,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MoleculeMoleculeHardSphereCollisionAgent implements MRCollisionAgent,  MRModel.ModelListener {
+public class MoleculeMoleculeHardSphereCollisionAgent implements MRCollisionAgent {
 
     private Vector2D n = new Vector2D.Double();
     private Vector2D vRel = new Vector2D.Double();
@@ -45,7 +45,6 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRCollisionAgen
      */
     public MoleculeMoleculeHardSphereCollisionAgent( final MRModel model ) {
         reactionCriteria = model.getReaction().getReactionCriteria();
-        model.addListener( this );
     }
 
     /**
@@ -257,21 +256,5 @@ public class MoleculeMoleculeHardSphereCollisionAgent implements MRCollisionAgen
 //        bodyB.getVelocity().multiply( fvB );
             }
         }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // Implementation of MRModel.ModelListener
-    //--------------------------------------------------------------------------------------------------
-
-    public void reactionThresholdChanged( MRModel model ) {
-//        this.reactionThreshold = model.getEnergyProfile().getPeakLevel();
-    }
-
-    public void modelElementAdded( ModelElement element ) {
-        // noop
-    }
-
-    public void modelElementRemoved( ModelElement element ) {
-        // noop
     }
 }

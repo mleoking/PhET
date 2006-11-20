@@ -17,9 +17,11 @@ import edu.colorado.phet.molecularreactions.model.MoleculeA;
 import edu.colorado.phet.molecularreactions.model.MoleculeBC;
 import edu.colorado.phet.molecularreactions.model.MoleculeAB;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
@@ -63,7 +65,15 @@ public class ReactionChooserComboBox extends JComboBox {
         r3RB.addActionListener( selectionAction  );
         designYourOwnRB.addActionListener( selectionAction  );
 
-        final ImageIcon r1Item = new MoleculeIcon( MoleculeA.class );
+        ImageIcon ii = new MoleculeIcon( MoleculeA.class );
+//        final ImageIcon r1Item = new MoleculeIcon( MoleculeA.class );
+
+        BufferedImage bi = (BufferedImage)ii.getImage();
+        MakeDuotoneImageOp imgOp = new MakeDuotoneImageOp( new Color( 0, 90, 0 ));
+        bi = imgOp.filter( bi, null );
+        final ImageIcon r1Item = new ImageIcon( bi );
+
+
         final ImageIcon r2Item = new MoleculeIcon( MoleculeBC.class );
         final ImageIcon r3Item = new MoleculeIcon( MoleculeAB.class );
         final String designYourOwnItem = SimStrings.get( "ExperimentSetup.designYourOwn" );

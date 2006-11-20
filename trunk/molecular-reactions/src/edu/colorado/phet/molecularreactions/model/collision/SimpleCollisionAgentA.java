@@ -29,7 +29,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SimpleCollisionAgentA implements MRModel.ModelListener {
+public class SimpleCollisionAgentA {
 
     private Vector2D n = new Vector2D.Double();
     private Vector2D vRel = new Vector2D.Double();
@@ -45,7 +45,6 @@ public class SimpleCollisionAgentA implements MRModel.ModelListener {
      */
     public SimpleCollisionAgentA( final MRModel model ) {
         reactionCriteria = model.getReaction().getReactionCriteria();
-        model.addListener( this );
     }
 
     /**
@@ -254,21 +253,5 @@ public class SimpleCollisionAgentA implements MRModel.ModelListener {
 //        bodyB.getVelocity().multiply( fvB );
             }
         }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // Implementation of MRModel.ModelListener
-    //--------------------------------------------------------------------------------------------------
-
-    public void reactionThresholdChanged( MRModel model ) {
-//        this.reactionThreshold = model.getEnergyProfile().getPeakLevel();
-    }
-
-    public void modelElementAdded( ModelElement element ) {
-        // noop
-    }
-
-    public void modelElementRemoved( ModelElement element ) {
-        // noop
     }
 }
