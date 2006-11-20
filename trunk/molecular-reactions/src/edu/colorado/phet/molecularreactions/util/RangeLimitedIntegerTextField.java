@@ -50,6 +50,7 @@ public class RangeLimitedIntegerTextField extends JTextField {
                         }
                     }
                     catch( NumberFormatException nfe ) {
+                        setText( "0" );
                     }
                 }
 
