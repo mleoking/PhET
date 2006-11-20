@@ -89,7 +89,7 @@ public class StripChartDialog extends JDialog {
         stripChartCanvas.addScreenChild( scrollBarNode );
         stripChart.addListener( new StripChart.Listener() {
             public void dataChanged() {
-                scrollBar.setMaximum( (int)stripChart.getMaxX() );
+                scrollBar.setMaximum( (int)Math.max( stripChart.getMaxX(), xAxisRange ) );
                 scrollBar.setMinimum( (int)stripChart.getMinX() );
                 scrollBar.setVisibleAmount( (int)stripChart.getViewableRangeX() );
                 scrollBar.setValue( (int)stripChart.getMaxX());
