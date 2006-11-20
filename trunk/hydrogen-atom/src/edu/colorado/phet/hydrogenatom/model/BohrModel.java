@@ -59,7 +59,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     /* probability of stimulated emission should be the same as absorption */
     private static final double PHOTON_STIMULATED_EMISSION_PROBABILITY = PHOTON_ABSORPTION_PROBABILITY;
     
-    /* change in orbit angle per dt */
+    /* change in orbit angle per dt for ground state orbit */
     private static final double ELECTRON_ANGLE_DELTA = Math.toRadians( 10 );
     
     /* wavelengths must be less than this close to be considered equal */
@@ -167,6 +167,28 @@ public class BohrModel extends AbstractHydrogenAtom {
      */
     public Point2D getElectronOffset() {
         return _electronOffset;
+    }
+    
+    /**
+     * Gets the current angle of the electron.
+     * The orbit radius and this angle determine the electron's offset
+     * in Polar coordinates.
+     * 
+     * @return
+     */
+    public double getElectronAngle() {
+        return _electronAngle;
+    }
+    
+    /**
+     * Gets the radisu of the electron's orbit.
+     * The orbit radius and the electron's angle determine the electron's offset
+     * in Polar coordinates.
+     * 
+     * @return
+     */
+    public double getElectronOrbitRadius() {
+        return getOrbitRadius( _electronState );
     }
     
     //----------------------------------------------------------------------------
