@@ -44,7 +44,7 @@ import java.util.List;
  * @version $Revision$
  */
 public class ComplexModule extends MRModule {
-    private JDialog stripChartDlg;
+    private StripChartDialog stripChartDlg;
     private ComplexMRControlPanel controlPanel;
     private PumpGraphic pumpGraphic;
     private PNode barChartNode;
@@ -123,6 +123,12 @@ public class ComplexModule extends MRModule {
         }
     }
 
+    public void rescaleStripChart() {
+        if( stripChartDlg != null ) {
+            stripChartDlg.rescaleChart();
+        }
+    }
+
     /**
      * Set visibility of the strip chart
      *
@@ -143,7 +149,7 @@ public class ComplexModule extends MRModule {
     }
 
     /**
-     * Variant that hooks a ComponentListener to the dialog, so it will knwo if the
+     * Variant that hooks a ComponentListener to the dialog, so it will know if the
      * user has closed the dialog by clicking on the X in its frame.
      *
      * @param visible
