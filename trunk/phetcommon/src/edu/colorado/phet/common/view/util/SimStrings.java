@@ -160,7 +160,7 @@ public class SimStrings {
     
     /**
      * Gets a double value from the localization resource file.
-     * If key's value is not an double, the specified default value is returned.
+     * If key's value is not a double, the specified default value is returned.
      * @param key
      * @param defaultValue
      * @return double
