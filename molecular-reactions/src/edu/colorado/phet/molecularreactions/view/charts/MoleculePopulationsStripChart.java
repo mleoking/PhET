@@ -44,11 +44,6 @@ public class MoleculePopulationsStripChart extends StripChart {
     private double updateInterval;
     private double timeSinceLastUpdate;
 
-//    private int buffSize = 10;
-//    private double[][] buffer = new double[5][buffSize];
-//    private int buffHead = 0;
-//    private int buffTail = buffSize - 1;
-
     /**
      * @param model
      * @param clock
@@ -112,22 +107,6 @@ public class MoleculePopulationsStripChart extends StripChart {
                                  counterC.getCnt(),
                                  counterA.getCnt()
                          } );
-
-
-//                addData( 0, clockEvent.getSimulationTime(), counterA.getCnt() );
-//                addData( 1, clockEvent.getSimulationTime(), counterBC.getCnt() );
-//                addData( 2, clockEvent.getSimulationTime(), counterAB.getCnt() );
-//                addData( 3, clockEvent.getSimulationTime(), counterC.getCnt() );
-//
-//                buffHead = (buffHead + 1) % buffSize;
-//                if( buffHead == buffTail ) {
-//                    buffTail = (buffTail + 1) % buffSize;
-//                }
-//                buffer[T][buffHead] = clockEvent.getSimulationTime();
-//                buffer[A][buffHead] = counterA.getCnt();
-//                buffer[BC][buffHead] = counterBC.getCnt();
-//                buffer[AB][buffHead] = counterAB.getCnt();
-//                buffer[C][buffHead] = counterC.getCnt();
             }
         }
     }
