@@ -79,19 +79,6 @@ public class ColorUtils {
      */
     private static double interpolate( double value1, double value2, double distance ) {
         assert ( distance >= 0 && distance <= 1 );
-        double value = 0;
-        if ( value1 == value2 ) {
-            value = value1;
-        }
-        else if ( distance == 0 ) {
-            value = value1; 
-        }
-        else if ( distance == 1 ) {
-            value = value2;
-        }
-        else {
-            value = value1 + ( distance * ( value2 - value1 ) );
-        }
-        return value;
+        return value1 + ( distance * ( value2 - value1 ) );
     }
 }
