@@ -44,9 +44,7 @@ abstract public class Reaction {
     }
 
     public void setEnergyProfile( EnergyProfile energyProfile ) {
-        this.energyProfile.setLeftLevel( energyProfile.getLeftLevel());
-        this.energyProfile.setRightLevel( energyProfile.getRightLevel());
-        this.energyProfile.setPeakLevel( energyProfile.getPeakLevel());        
+        this.energyProfile = energyProfile;
     }
 
     public static ReactionCriteria getReactionCriteria() {

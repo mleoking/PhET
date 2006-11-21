@@ -138,7 +138,9 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         addChild( curvePane );
 
         // Listen for changes in the selected molecule and the molecule closest to it
-        model.addSelectedMoleculeTrackerListener( new SelectedMoleculeListener() );
+        SelectedMoleculeListener selectedMoleculeListener = new SelectedMoleculeListener();
+        model.addSelectedMoleculeTrackerListener( selectedMoleculeListener );
+        model.addListener( selectedMoleculeListener );
         update();
     }
 
@@ -194,6 +196,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
     /**
      * Sets the visibility of the legend for the profile curve
+     *
      * @param visible
      */
     public void setProfileLegendVisible( boolean visible ) {
@@ -215,8 +218,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
      * @param moleculePane
      * @return a PNode
      */
-    private PPath createCurvePane( PPath moleculePane, MRModel model ) {
-        PNode curveLayer = new PNode();
+    private PPath createCurvePane( PPath moleculePane, final MRModel model ) {
+        final PNode curveLayer = new PNode();
         curveLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
         PNode cursorLayer = new PNode();
         cursorLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
@@ -229,13 +232,16 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         curvePane.addChild( curveLayer );
         curvePane.addChild( cursorLayer );
 
-        // Create the curve
+        // Create the curve, and add a listener to the model that will update the curve if the
+        // model's energy profile changes
         curveAreaSize = new Dimension( (int)curvePaneSize.getWidth() - curveAreaInsets.left - curveAreaInsets.right,
                                        (int)curvePaneSize.getHeight() - curveAreaInsets.top - curveAreaInsets.bottom );
-        energyProfileGraphic = new EnergyProfileGraphic( model.getEnergyProfile(),
-                                                         curveAreaSize,
-                                                         curveColor );
-        curveLayer.addChild( energyProfileGraphic );
+        createCurve( model, curveLayer );
+        model.addListener( new MRModel.ModelListener() {
+            public void energyProfileChanged( EnergyProfile profile ) {
+                createCurve( model, curveLayer );
+            }
+        } );
 
         // Create the line that shows total energy
         this.totalEnergyLine = new TotalEnergyLine( curveAreaSize, model, module.getClock() );
@@ -298,6 +304,16 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         curvePane.addChild( curvePaneLegend );
 
         return curvePane;
+    }
+
+    private void createCurve( MRModel model, PNode curveLayer ) {
+        if( energyProfileGraphic != null ) {
+            curveLayer.removeChild( energyProfileGraphic );
+        }
+        energyProfileGraphic = new EnergyProfileGraphic( model.getEnergyProfile(),
+                                                         curveAreaSize,
+                                                         curveColor );
+        curveLayer.addChild( energyProfileGraphic );
     }
 
     /**
@@ -496,7 +512,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     // Inner classes
     //--------------------------------------------------------------------------------------------------
 
-    private class SelectedMoleculeListener implements SelectedMoleculeTracker.Listener {
+    private class SelectedMoleculeListener implements SelectedMoleculeTracker.Listener, MRModel.ModelListener {
+
         public void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule,
                                                  SimpleMolecule prevTrackedMolecule ) {
             if( selectedMolecule != null ) {
@@ -534,7 +551,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                 moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
             }
             nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( newClosestMolecule.getFullMolecule(),
-                                                                     module.getMRModel().getEnergyProfile() );
+                                                                          module.getMRModel().getEnergyProfile() );
             moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
 
             newClosestMolecule.addObserver( EnergyView.this );
@@ -547,6 +564,22 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 //            }
 
             update();
+        }
+
+
+        public void energyProfileChanged( EnergyProfile profile ) {
+            if( selectedMoleculeGraphic != null ) {
+                moleculeLayer.removeChild( selectedMoleculeGraphic );
+                selectedMoleculeGraphic = new EnergyMoleculeGraphic( selectedMolecule.getFullMolecule(),
+                                                                     profile );
+                moleculeLayer.addChild( selectedMoleculeGraphic );
+            }
+            if( nearestToSelectedMoleculeGraphic != null ) {
+                moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
+                nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( nearestToSelectedMolecule.getFullMolecule(),
+                                                                              profile );
+                moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
+            }
         }
     }
 
