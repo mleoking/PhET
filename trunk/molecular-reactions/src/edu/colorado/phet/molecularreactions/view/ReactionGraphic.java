@@ -31,16 +31,24 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ReactionGraphic extends RegisterablePNode {
+public class ReactionGraphic extends RegisterablePNode implements MRModel.ModelListener {
+    private PImage aNode = new PImage();
+    private PImage cNode = new PImage( );
+    private PImage abNode= new PImage( );
+    private PImage bcNode = new PImage( );
 
+    /**
+     *
+     * @param reaction
+     * @param arrowColor
+     * @param model
+     */
     public ReactionGraphic( Reaction reaction, Color arrowColor, MRModel model ) {
+
+        model.addListener( this );
         if( reaction instanceof A_BC_AB_C_Reaction ) {
             Insets insets = new Insets( 0, 3, 0, 3 );
-            EnergyProfile profile = model.getEnergyProfile();
-            PNode aNode = new PImage( new MoleculeIcon( MoleculeA.class, profile ).getImage() );
-            PNode cNode = new PImage( new MoleculeIcon( MoleculeC.class, profile ).getImage() );
-            PNode abNode = new PImage( new MoleculeIcon( MoleculeAB.class, profile ).getImage() );
-            PNode bcNode = new PImage( new MoleculeIcon( MoleculeBC.class, profile ).getImage() );
+            setMoleculeImages( model.getEnergyProfile() );
 
             Arrow arrowC = new Arrow( new Point2D.Double( 0, 0 ),
                                      new Point2D.Double( 30, 0 ),
@@ -94,5 +102,20 @@ public class ReactionGraphic extends RegisterablePNode {
         Point2D offset = new Point2D.Double( nodeToLeft.getOffset().getX() + nodeToLeft.getFullBounds().getWidth() + insets.left + insets.right,
                                              -nodeToSet.getFullBounds().getHeight() / 2 );
         nodeToSet.setOffset( offset );
+    }
+
+    private void setMoleculeImages( EnergyProfile profile ) {
+        aNode.setImage( new MoleculeIcon( MoleculeA.class, profile ).getImage() );
+        cNode.setImage( new MoleculeIcon( MoleculeC.class, profile ).getImage() );
+        abNode.setImage( new MoleculeIcon( MoleculeAB.class, profile ).getImage() );
+        bcNode.setImage( new MoleculeIcon( MoleculeBC.class, profile ).getImage() );
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of MRModel.ModelListener
+    //--------------------------------------------------------------------------------------------------
+
+    public void energyProfileChanged( EnergyProfile profile ) {
+        setMoleculeImages( profile );
     }
 }
