@@ -224,7 +224,8 @@ public class MoleculeTrackerPane extends PNode implements SimpleObserver {
             }
 
             if( newTrackedMolecule != null ) {
-                selectedMoleculeGraphic = new EnergyMoleculeGraphic( newTrackedMolecule );
+                selectedMoleculeGraphic = new EnergyMoleculeGraphic( newTrackedMolecule,
+                                                                     module.getMRModel().getEnergyProfile() );
                 moleculeLayer.addChild( selectedMoleculeGraphic );
                 newTrackedMolecule.addObserver( MoleculeTrackerPane.this );
 //                if( bondGraphic != null ) {
@@ -252,7 +253,8 @@ public class MoleculeTrackerPane extends PNode implements SimpleObserver {
             if( nearestToSelectedMoleculeGraphic != null ) {
                 moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
             }
-            nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( newClosestMolecule );
+            nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( newClosestMolecule,
+                                                                     module.getMRModel().getEnergyProfile() );
             moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
 
             newClosestMolecule.addObserver( MoleculeTrackerPane.this );

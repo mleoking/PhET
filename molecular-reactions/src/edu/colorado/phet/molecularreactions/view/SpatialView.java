@@ -20,6 +20,7 @@ import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.factories.CompositeMoleculeGraphicFactory;
 import edu.colorado.phet.molecularreactions.view.factories.ProvisionalBondGraphicFactory;
 import edu.colorado.phet.molecularreactions.view.factories.SimpleMoleculeGraphicFactory;
+import edu.colorado.phet.molecularreactions.view.factories.BondGraphicFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -62,7 +63,7 @@ public class SpatialView extends PNode {
 
         // Create the graphic manager and add required factories to it
         megm = new ModelElementGraphicManager( model, canvas );
-        megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( moleculeLayer ) );
+        megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( module.getMRModel(), moleculeLayer ) );
         megm.addGraphicFactory( new BoxGraphicFactory() );
         megm.addGraphicFactory( new CompositeMoleculeGraphicFactory( bondLayer ) );
         megm.addGraphicFactory( new ProvisionalBondGraphicFactory( bondLayer ) );

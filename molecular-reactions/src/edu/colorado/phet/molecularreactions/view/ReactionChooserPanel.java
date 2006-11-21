@@ -33,7 +33,6 @@ import java.awt.event.ActionListener;
  */
 public class ReactionChooserPanel extends JPanel {
 
-//    private AbstractAction selectionAction;
     private JRadioButton r1RB;
     private JRadioButton r2RB;
     private JRadioButton r3RB;

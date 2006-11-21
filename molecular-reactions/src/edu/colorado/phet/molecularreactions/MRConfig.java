@@ -42,7 +42,7 @@ public class MRConfig {
     public static final double LAUNCHER_MAX_EXTENSION = 70;
     public static final double RUNNING_DT = 1;
     public static final double STEPPING_DT = 0.3;
-    public static final EnergyProfile DEAFULT_ENERGY_PROFILE = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
+    public static final EnergyProfile DEFAULT_ENERGY_PROFILE = new EnergyProfile( MRConfig.DEFAULT_REACTION_THRESHOLD * .1,
                                                                                   MRConfig.DEFAULT_REACTION_THRESHOLD,
                                                                                   MRConfig.DEFAULT_REACTION_THRESHOLD * .6,
                                                                                   100 );

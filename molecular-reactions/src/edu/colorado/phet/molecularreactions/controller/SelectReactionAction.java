@@ -38,6 +38,7 @@ public class SelectReactionAction extends AbstractAction {
     public static String R2_ACTION = "R2";
     public static String R3_ACTION = "R3";
     public static String DESIGN_YOUR_OWN_ACTION = "design your own";
+    public static String DEFAULT_ACTION = "default";
 
     private static class Reaction {
         EnergyProfile energyProfile;
@@ -54,6 +55,8 @@ public class SelectReactionAction extends AbstractAction {
     private static Reaction R1 = new Reaction( Profiles.R1 );
     private static Reaction R2 = new Reaction( Profiles.R2 );
     private static Reaction R3 = new Reaction( Profiles.R3 );
+    private static Reaction DEFAULT = new Reaction( Profiles.DEFAULT );
+    private static Reaction DYO = new Reaction( Profiles.DYO );
 
     
     //--------------------------------------------------------------------------------------------------
@@ -74,16 +77,21 @@ public class SelectReactionAction extends AbstractAction {
 
     private void setReaction( String actionCommand ) {
         boolean designYourOwn = false;
-        if( actionCommand.equals( "R1" ) ) {
+        if( actionCommand.equals( R1_ACTION ) ) {
             currentReaction = R1;
         }
-        else if( actionCommand.equals( "R2" ) ) {
+        else if( actionCommand.equals( R2_ACTION ) ) {
             currentReaction = R2;
         }
-        else if( actionCommand.equals( "R3" ) ) {
+        else if( actionCommand.equals( R3_ACTION ) ) {
             currentReaction = R3;
         }
-        else if( actionCommand.equals( "design your own" ) ) {
+        else if( actionCommand.equals( DESIGN_YOUR_OWN_ACTION ) ) {
+            currentReaction = DYO;
+            designYourOwn = true;
+        }
+        else if( actionCommand.equals( DEFAULT ) ) {
+            currentReaction = DYO;
             designYourOwn = true;
         }
         else {
@@ -91,7 +99,7 @@ public class SelectReactionAction extends AbstractAction {
         }
         module.getEnergyView().setProfileManipulable( designYourOwn );
         if( currentReaction != null ) {
-            module.getMRModel().getReaction().setEnergyProfile( currentReaction.getEnergyProfile() );
+            module.getMRModel().setEnergyProfile( currentReaction.getEnergyProfile() );
         }
     }
 }

@@ -61,7 +61,7 @@ public class SpringTestModule4 extends Module {
         PNode canvas = new PNode();
         simPanel.addScreenChild( canvas );
         ModelElementGraphicManager megm = new ModelElementGraphicManager( model, simPanel.getPhetRootNode() );
-        megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( canvas ) );
+        megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( model, canvas ) );
         megm.addGraphicFactory( new SpringTestModule4.SpringGraphicFactory( canvas ) );
 
         // Make springs that conform to the thresholds of the energy profile

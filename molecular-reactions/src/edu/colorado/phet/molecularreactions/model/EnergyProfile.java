@@ -39,6 +39,13 @@ public class EnergyProfile {
         this.rightLevel = rightLevel;
     }
 
+    public EnergyProfile( EnergyProfile profile ) {
+        this.thresholdWidth = profile.thresholdWidth;
+        this.peakLevel = profile.peakLevel;
+        this.leftLevel = profile.leftLevel;
+        this.rightLevel = profile.rightLevel;
+    }
+
     public double getLeftLevel() {
         return leftLevel;
     }
@@ -76,11 +83,11 @@ public class EnergyProfile {
     EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
     ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 
-    public void addChangeListener ( ChangeListener listener ) {
+    public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
     }
 
-    public void removeChangeListener ( ChangeListener listener ) {
+    public void removeChangeListener( ChangeListener listener ) {
         changeEventChannel.removeListener( listener );
     }
 }

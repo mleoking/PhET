@@ -1,3 +1,6 @@
+- Apply flyweight pattern to molecule images 
+- when you change to profile on one panel, it changes on the other, too.
+
 - strip chart controls
 
 - With strip chart up for a long time, the sim choked
