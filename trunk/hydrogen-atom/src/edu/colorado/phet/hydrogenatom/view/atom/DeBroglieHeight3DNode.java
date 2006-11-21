@@ -20,7 +20,7 @@ import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode.AbstractDeBroglieV
 import edu.umd.cs.piccolo.nodes.PText;
 
 
-class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
+public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     
     public DeBroglieHeight3DNode( DeBroglieModel atom ) {
         super( atom );
