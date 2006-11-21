@@ -29,16 +29,16 @@ import edu.colorado.phet.hydrogenatom.util.ColorUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-class DeBroglieBrightnessMagnitudeNode extends DeBroglieBrightnessNode {
+public class DeBroglieBrightnessMagnitudeNode extends DeBroglieBrightnessNode {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
     // color used when amplitude = 1
-    private static final Color MAX_COLOR = Color.BLUE;
+    public static Color MAX_COLOR = Color.BLUE;
     // color used when amplitude = 0
-    private static final Color MIN_COLOR = Color.WHITE;
+    public static Color MIN_COLOR = Color.WHITE;
     
     //----------------------------------------------------------------------------
     // Constructors

@@ -40,6 +40,13 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
     // radial width of the ring representation,
     // public because it's used by collision detection code in the model
     public static final double RING_WIDTH = 5;
+  
+    // color used when amplitude = +1
+    public static Color PLUS_COLOR = Color.BLUE;
+    // color used when amplitude = -1
+    public static Color MINUS_COLOR = Color.WHITE;
+    // color used when amplitude = 0
+    public static Color ZERO_COLOR = ColorUtils.interpolateRBGA( MINUS_COLOR, PLUS_COLOR, 0.5 );
     
     //----------------------------------------------------------------------------
     // Private class data
@@ -47,13 +54,6 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
     
     // distance along the ring's circumference that each polygon occupies
     private static final double POLYGON_SIZE = 3;
-    
-    // color used when amplitude = +1
-    private static final Color PLUS_COLOR = Color.BLUE;
-    // color used when amplitude = -1
-    private static final Color MINUS_COLOR = Color.WHITE;
-    // color used when amplitude = 0
-    private static final Color ZERO_COLOR = ColorUtils.interpolateRBGA( MINUS_COLOR, PLUS_COLOR, 0.5 );
     
     //----------------------------------------------------------------------------
     // Instance data
