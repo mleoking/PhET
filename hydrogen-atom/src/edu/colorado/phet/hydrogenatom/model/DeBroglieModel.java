@@ -14,6 +14,8 @@ package edu.colorado.phet.hydrogenatom.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
+import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieBrightnessNode;
+import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 
 /**
  * DeBroglieModel is the deBroglie model of a hydrogen atom.
@@ -98,5 +100,34 @@ public class DeBroglieModel extends BohrModel {
      */
     public double getAmplitude( double angle ) {
         return getAmplitude( angle, getElectronState() );
+    }
+    
+    //----------------------------------------------------------------------------
+    // BohrModel overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Determines whether a photon collides with this atom.
+     * In this case, the photon collides with the atom if it
+     * hits the ring used to represent the standing wave.
+     * 
+     * @param photon
+     * @return true or false
+     */
+    protected boolean collides( Photon photon ) {
+        
+        // position of photon relative to atom's center
+        double x = photon.getX() - getX();
+        double y = photon.getY() - getY();
+        
+        // distance of photon and electron from atom's center
+        double photonRadius = Math.sqrt( ( x * x ) + ( y * y ) );
+        double orbitRadius = getElectronOrbitRadius();
+        
+        // how close the photon's center must be to a point on the electron's orbit
+        double closeness = ( DeBroglieBrightnessNode.RING_WIDTH / 2 ) + ( PhotonNode.DIAMETER / 2 );
+        
+        boolean collides = ( Math.abs( photonRadius - orbitRadius ) <= closeness );
+        return collides;
     }
 }

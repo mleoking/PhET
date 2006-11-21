@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - improve performance of DeBroglie "brightness" and "brightness magnitude" representations
-- implement photon collision detection for deBroglie (collide with ring)
 - implement DeBroglie "height 3D" representation
 
 MEDIUM PRIORITY:
@@ -44,6 +43,8 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/21/06) - implement photon collision detection for deBroglie (collide with ring)
+(11/21/06) - modify Bohr model to allow subclasses to override photon collision detection
 (11/21/06) - use color interpolation to map amplitude to colors for DeBroglie brightness representation
 (11/21/06) - write ColorUtils.interpolateRGB
 (11/20/06) - 2nd pass at DeBroglie "brightness" and "brightness magnitude" representations (correct but slow)
