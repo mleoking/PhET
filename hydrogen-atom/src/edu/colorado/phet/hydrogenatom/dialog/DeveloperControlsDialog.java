@@ -272,6 +272,5 @@ public class DeveloperControlsDialog extends JDialog {
         SpinnerNumberModel spinnerModel = (SpinnerNumberModel) _deBroglieRadialAmplitudeSpinner.getModel();
         double value = spinnerModel.getNumber().intValue() / 100.0;
         DeBroglieRadialDistanceNode.RADIAL_OFFSET_FACTOR = value;
-        System.out.println( "DeBroglieRadialDistanceNode.RADIAL_OFFSET_FACTOR=" + DeBroglieRadialDistanceNode.RADIAL_OFFSET_FACTOR );
     }
 }
