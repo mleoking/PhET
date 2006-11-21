@@ -62,7 +62,7 @@ public class DeveloperControlsDialog extends JDialog {
     private JCheckBox _bohrEmissionCheckBox;
     private JCheckBox _bohrStimulatedEmissionCheckBox;
     private JSpinner _minStateTimeSpinner;
-    private SliderControl _deBroglieRadialAmplitudeSlider;
+    private JSpinner _deBroglieRadialAmplitudeSpinner;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -146,15 +146,24 @@ public class DeveloperControlsDialog extends JDialog {
             minStateTimePanel.add( units );
         }
         
-        // deBroglie radial amplitude slider
+        // deBroglie radial amplitude control
+        HorizontalLayoutPanel deBroglieRadialAmplitudePanel = new HorizontalLayoutPanel();
         {
+            JLabel label = new JLabel( "Max radial amplitude:" );
+            JLabel units = new JLabel( "% of orbit radius" );
+            
             int value = (int)( DeBroglieRadialDistanceNode.RADIAL_OFFSET_FACTOR * 100 );
             int min = 5;
-            int max = 30;
-            String label = "Max radial amplitude is";
-            String units = "% of orbit radius";
-            _deBroglieRadialAmplitudeSlider = new SliderControl( value, min, max, max-min, 0, 0, label, units, 3 );
-            _deBroglieRadialAmplitudeSlider.setTextEditable( false );
+            int max = 50;
+            SpinnerModel model = new SpinnerNumberModel( value, min, max, 1 /* stepSize */);
+            _deBroglieRadialAmplitudeSpinner = new JSpinner( model );
+            JFormattedTextField tf = ( (JSpinner.DefaultEditor) _deBroglieRadialAmplitudeSpinner.getEditor() ).getTextField();
+            tf.setEditable( false );
+            
+            deBroglieRadialAmplitudePanel.setInsets( new Insets( 5, 5, 5, 5 ) );
+            deBroglieRadialAmplitudePanel.add( label );
+            deBroglieRadialAmplitudePanel.add( _deBroglieRadialAmplitudeSpinner );
+            deBroglieRadialAmplitudePanel.add( units );
         }
         
         // Event handling
@@ -166,7 +175,7 @@ public class DeveloperControlsDialog extends JDialog {
         _bohrEmissionCheckBox.addChangeListener( listener );
         _bohrStimulatedEmissionCheckBox.addChangeListener( listener );
         _minStateTimeSpinner.addChangeListener( listener );
-        _deBroglieRadialAmplitudeSlider.addChangeListener( listener );
+        _deBroglieRadialAmplitudeSpinner.addChangeListener( listener );
         
         // Layout
         JPanel panel = new JPanel();
@@ -188,7 +197,7 @@ public class DeveloperControlsDialog extends JDialog {
         layout.addComponent( minStateTimePanel, row++, 0 );
         layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( new JLabel( "deBroglie model:"), row++, 0 );
-        layout.addComponent( _deBroglieRadialAmplitudeSlider, row++, 0 );
+        layout.addComponent( deBroglieRadialAmplitudePanel, row++, 0 );
         
         return panel;
     }
@@ -224,8 +233,8 @@ public class DeveloperControlsDialog extends JDialog {
             else if ( source == _minStateTimeSpinner ) {
                 handleMinStateTime();
             }
-            else if ( source == _deBroglieRadialAmplitudeSlider ) {
-                handleDeBroglieRadialAmplitudeSlider();
+            else if ( source == _deBroglieRadialAmplitudeSpinner ) {
+                handleDeBroglieRadialAmplitudeSpinner();
             }
         }
     }
@@ -259,8 +268,10 @@ public class DeveloperControlsDialog extends JDialog {
         BohrModel.MIN_TIME_IN_STATE = minStateTime;
     }
     
-    private void handleDeBroglieRadialAmplitudeSlider() {
-        double value = _deBroglieRadialAmplitudeSlider.getValue() / 100;
+    private void handleDeBroglieRadialAmplitudeSpinner() {
+        SpinnerNumberModel spinnerModel = (SpinnerNumberModel) _deBroglieRadialAmplitudeSpinner.getModel();
+        double value = spinnerModel.getNumber().intValue() / 100.0;
         DeBroglieRadialDistanceNode.RADIAL_OFFSET_FACTOR = value;
+        System.out.println( "DeBroglieRadialDistanceNode.RADIAL_OFFSET_FACTOR=" + DeBroglieRadialDistanceNode.RADIAL_OFFSET_FACTOR );
     }
 }
