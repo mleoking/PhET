@@ -90,16 +90,18 @@ public class SelectReactionAction extends AbstractAction {
             currentReaction = DYO;
             designYourOwn = true;
         }
-        else if( actionCommand.equals( DEFAULT ) ) {
-            currentReaction = DYO;
-            designYourOwn = true;
+        else if( actionCommand.equals( DEFAULT_ACTION ) ) {
+            currentReaction = DEFAULT;
         }
         else {
             throw new IllegalArgumentException();
         }
+
         module.getEnergyView().setProfileManipulable( designYourOwn );
         if( currentReaction != null ) {
             module.getMRModel().setEnergyProfile( currentReaction.getEnergyProfile() );
+
+            module.reset();
         }
     }
 }

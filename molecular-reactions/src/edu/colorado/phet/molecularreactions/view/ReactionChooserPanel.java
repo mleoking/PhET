@@ -33,6 +33,7 @@ import java.awt.event.ActionListener;
  */
 public class ReactionChooserPanel extends JPanel {
 
+    private JRadioButton defaultRB;
     private JRadioButton r1RB;
     private JRadioButton r2RB;
     private JRadioButton r3RB;
@@ -48,21 +49,26 @@ public class ReactionChooserPanel extends JPanel {
         setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ExperimentSetup.reactionSelector" ) ) );
 
         ButtonGroup bg = new ButtonGroup();
+        defaultRB = new JRadioButton();
         r1RB = new JRadioButton();
         r2RB = new JRadioButton();
         r3RB = new JRadioButton();
         designYourOwnRB = new JRadioButton();
+        bg.add( defaultRB );
         bg.add( r1RB );
         bg.add( r2RB );
         bg.add( r3RB );
         bg.add( designYourOwnRB );
 
         selectionListener = new SelectionHandler();
+        defaultRB.addActionListener( selectionListener  );
         r1RB.addActionListener( selectionListener  );
         r2RB.addActionListener( selectionListener );
         r3RB.addActionListener( selectionListener  );
         designYourOwnRB.addActionListener( selectionListener  );
 
+        JLabel iconDefault = new JLabel( new MoleculeIcon( MoleculeA.class ) );
+        iconDefault.addMouseListener( new MoleculeIconMouseAdapter( defaultRB ) );
         JLabel iconA = new JLabel( new MoleculeIcon( MoleculeA.class ) );
         iconA.addMouseListener( new MoleculeIconMouseAdapter( r1RB ) );
         JLabel iconBC = new JLabel( new MoleculeIcon( MoleculeBC.class ) );
@@ -81,21 +87,23 @@ public class ReactionChooserPanel extends JPanel {
                                                          rbAnchor,
                                                          GridBagConstraints.NONE,
                                                          insets, 0, 0 );
+        add( defaultRB, gbc );
         add( r1RB, gbc );
         add( r2RB, gbc );
         add( r3RB, gbc );
         add( designYourOwnRB, gbc );
+
         gbc.gridy = 0;
         gbc.gridy = GridBagConstraints.RELATIVE;
         gbc.gridx = 1;
         gbc.anchor = iconAnchor;
-
+        add( iconDefault, gbc );
         add( iconA, gbc );
         add( iconBC, gbc );
         add( iconAB, gbc );
         add( designYourOwnLbl, gbc );
 
-        r1RB.setSelected( true );
+        defaultRB.setSelected( true );
     }
 
 
@@ -122,6 +130,9 @@ public class ReactionChooserPanel extends JPanel {
         public void actionPerformed( ActionEvent e ) {
             SelectReactionAction action = new SelectReactionAction( module );
             String command = "";
+            if( defaultRB.isSelected() ) {
+                command = SelectReactionAction.DEFAULT_ACTION;
+            }
             if( r1RB.isSelected() ) {
                 command = SelectReactionAction.R1_ACTION;
             }
