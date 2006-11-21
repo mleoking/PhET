@@ -5,9 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- implement photon and alpha particle collision detection for deBroglie, override Bohr
-- implement DeBroglie "brightness" representation
-- implement DeBroglie "brightness magnitude" representation
+- improve performance of DeBroglie "brightness" and "brightness magnitude" representations
+- implement color for DeBroglie "brightness" representation
+- implement photon collision detection for deBroglie (collide with ring)
 - implement DeBroglie "height 3D" representation
 
 MEDIUM PRIORITY:
