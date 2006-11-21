@@ -6,8 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - improve performance of DeBroglie "brightness" and "brightness magnitude" representations
-- implement color for DeBroglie "brightness" representation as interpolation between 3 colors
-- reimplement color for DeBroglie "brightness magnitude" as interpolation between 2 colors
 - implement photon collision detection for deBroglie (collide with ring)
 - implement DeBroglie "height 3D" representation
 
@@ -46,6 +44,8 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/20/06) - use color interpolation to map amplitude to colors for DeBroglie brightness representation
+(11/20/06) - write ColorUtils.interpolateRGB
 (11/20/06) - 2nd pass at DeBroglie "brightness" and "brightness magnitude" representations (correct but slow)
 (11/20/06) - 1st pass at DeBroglie "brightness" and "brightness magnitude" representations (approx a ring using circles)
 (11/20/06) - implement DeBroglie "radial distance" representation

@@ -14,6 +14,7 @@ package edu.colorado.phet.hydrogenatom.view.atom;
 import java.awt.Color;
 
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
+import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 
 /**
  * DeBroglieBrightnessMagnitudeNode represents the deBroglie model
@@ -30,6 +31,13 @@ import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
  */
 class DeBroglieBrightnessMagnitudeNode extends DeBroglieBrightnessNode {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final Color MAX_COLOR = Color.BLUE;
+    private static final Color MIN_COLOR = Color.WHITE;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -50,11 +58,7 @@ class DeBroglieBrightnessMagnitudeNode extends DeBroglieBrightnessNode {
     protected Color amplitudeToColor( double amplitude ) {
         assert( amplitude >= -1 && amplitude <= 1 );
         double magnitude = Math.abs( amplitude );
-        double f = 0.7;
-        int r = (int)( ( f * 255 ) - ( f * 255 * magnitude ) );
-        int g = (int)( ( f * 255 ) - ( f * 255 * magnitude ) );
-        int b = 255;
-        Color color = new Color( r, g, b );
+        Color color = ColorUtils.interpolateRBGA( MIN_COLOR, MAX_COLOR, magnitude );
         return color;
     }
 
