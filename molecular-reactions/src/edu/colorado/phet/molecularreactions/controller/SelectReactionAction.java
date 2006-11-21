@@ -100,8 +100,8 @@ public class SelectReactionAction extends AbstractAction {
         module.getEnergyView().setProfileManipulable( designYourOwn );
         if( currentReaction != null ) {
             module.getMRModel().setEnergyProfile( currentReaction.getEnergyProfile() );
-
             module.reset();
+            module.getMRModel().setEnergyProfile( currentReaction.getEnergyProfile() );
         }
     }
 }
