@@ -125,7 +125,7 @@ public class DeBroglieModel extends BohrModel {
         double orbitRadius = getElectronOrbitRadius();
         
         // how close the photon's center must be to a point on the electron's orbit
-        double closeness = ( DeBroglieBrightnessNode.RING_WIDTH / 2 ) + ( PhotonNode.DIAMETER / 2 );
+        double closeness = ABSORPTION_CLOSENESS + ( DeBroglieBrightnessNode.RING_WIDTH / 2 );
         
         boolean collides = ( Math.abs( photonRadius - orbitRadius ) <= closeness );
         return collides;
