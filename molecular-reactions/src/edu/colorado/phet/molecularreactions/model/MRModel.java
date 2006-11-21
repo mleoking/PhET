@@ -60,7 +60,7 @@ public class MRModel extends PublishingModel {
     private SelectedMoleculeTracker selectedMoleculeTracker;
     private double potentialEnergyStored;
     private List potentialEnergySources = new ArrayList();
-    private List kineticEnergySources = new ArrayList( );
+    private List kineticEnergySources = new ArrayList();
     private TemperatureControl tempCtrl;
     // The amount of energy added or removed from the model in a time step
     // by objects such as the temperature control. This is used in tweaking
@@ -109,7 +109,7 @@ public class MRModel extends PublishingModel {
         addModelElement( selectedMoleculeTracker );
 
         // Add an agent that will create provisional bonds when appropriate
-        addModelElement( new ProvisionalBondDetector( this ) );
+//        addModelElement( new ProvisionalBondDetector( this ) );
     }
 
     public void addModelElement( ModelElement modelElement ) {
@@ -214,7 +214,7 @@ public class MRModel extends PublishingModel {
             Object o = modelElements.get( i );
             if( o instanceof Body ) {
                 Body body = (Body)o;
-                body.setVelocity( body.getVelocity().scale( r ));
+                body.setVelocity( body.getVelocity().scale( r ) );
                 body.setOmega( body.getOmega() * r );
             }
         }
@@ -223,12 +223,13 @@ public class MRModel extends PublishingModel {
     }
 
 
-    Vector2D lastM = new Vector2D.Double( );
+    Vector2D lastM = new Vector2D.Double();
+
     public void monitorEnergy() {
         List modelElements = getModelElements();
         double pe = 0;
         double ke = 0;
-        Vector2D m = new Vector2D.Double( );
+        Vector2D m = new Vector2D.Double();
         int pBondCnt = 0;
         int springCnt = 0;
         for( int i = 0; i < modelElements.size(); i++ ) {
@@ -238,19 +239,19 @@ public class MRModel extends PublishingModel {
             springCnt += o instanceof ReactionSpring ? 1 : 0;
 
             if( o instanceof PotentialEnergySource ) {
-                pe += ((PotentialEnergySource)o).getPE();
+                pe += ( (PotentialEnergySource)o ).getPE();
             }
-            if( o instanceof Body && !( o instanceof SimpleMolecule && ((SimpleMolecule)o).isPartOfComposite() )) {
-                ke += ((Body)o).getKineticEnergy();
+            if( o instanceof Body && !( o instanceof SimpleMolecule && ( (SimpleMolecule)o ).isPartOfComposite() ) ) {
+                ke += ( (Body)o ).getKineticEnergy();
             }
 
-            if( o instanceof AbstractMolecule && !( o instanceof AbstractMolecule && ((AbstractMolecule)o).isPartOfComposite() )) {
+            if( o instanceof AbstractMolecule && !( o instanceof AbstractMolecule && ( (AbstractMolecule)o ).isPartOfComposite() ) ) {
 //                Body b = (Body)o;
 //                System.out.println( "b = " + b.getClass() + "\tm = " + b.getMomentum() );
-                m.add(((Body)o).getMomentum());
+                m.add( ( (Body)o ).getMomentum() );
             }
         }
-        DecimalFormat df = new DecimalFormat( "#.000");
+        DecimalFormat df = new DecimalFormat( "#.000" );
 //        System.out.println( "te = " + df.format( pe + ke ) + "\tpe = " + df.format( pe ) + "\tke = " + df.format( ke ) + "\tm = " + df.format( m.getMagnitude() ));
     }
 
@@ -269,7 +270,8 @@ public class MRModel extends PublishingModel {
 
     /**
      * Gets the temperature of the system, which is taken to be the
-     * average kinetic energy of all the KineticEnergySources. 
+     * average kinetic energy of all the KineticEnergySources.
+     *
      * @return
      */
     public double getTemperature() {
@@ -292,6 +294,21 @@ public class MRModel extends PublishingModel {
 
     public void addEnergy( double de ) {
         dEnergy = de;
+    }
+
+    /**
+     * Removes all molecules and bonds from the model
+     */
+    public void removeAllMolecules() {
+        List modelElements = getModelElements();
+        for( int i = modelElements.size() - 1; i >= 0; i-- ) {
+            ModelElement me = (ModelElement)modelElements.get( i );
+            if( me instanceof AbstractMolecule
+                || me instanceof Bond
+                || me instanceof ProvisionalBond ) {
+                removeModelElement( me );
+            }
+        }
     }
 
     //--------------------------------------------------------------------------------------------------

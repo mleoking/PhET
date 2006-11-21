@@ -1,5 +1,4 @@
 - Apply flyweight pattern to molecule images 
-- when you change to profile on one panel, it changes on the other, too.
 
 - strip chart controls
 
@@ -197,4 +196,6 @@ Done
     the model
 11-20-06 - If user enters number of molecules that exceeds maximum, a dialog appears
 
-
+11-21-06 - when you change to profile on one panel, it changes on the other, too.
+11-21-06 - Colors of all molecule icons change when you change the reaction
+11-21-06 - gray cursor bar now properly moves through the potential hill in all situations
