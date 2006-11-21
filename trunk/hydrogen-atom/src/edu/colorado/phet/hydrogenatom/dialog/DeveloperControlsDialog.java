@@ -24,11 +24,13 @@ import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.hydrogenatom.control.SliderControl;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.hydrogenatom.model.RutherfordScattering;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
+import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieRadialDistanceNode;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.
@@ -60,6 +62,7 @@ public class DeveloperControlsDialog extends JDialog {
     private JCheckBox _bohrEmissionCheckBox;
     private JCheckBox _bohrStimulatedEmissionCheckBox;
     private JSpinner _minStateTimeSpinner;
+    private SliderControl _deBroglieRadialAmplitudeSlider;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -143,6 +146,17 @@ public class DeveloperControlsDialog extends JDialog {
             minStateTimePanel.add( units );
         }
         
+        // deBroglie radial amplitude slider
+        {
+            int value = (int)( DeBroglieRadialDistanceNode.RADIAL_OFFSET_FACTOR * 100 );
+            int min = 5;
+            int max = 30;
+            String label = "Max radial amplitude is";
+            String units = "% of orbit radius";
+            _deBroglieRadialAmplitudeSlider = new SliderControl( value, min, max, max-min, 0, 0, label, units, 3 );
+            _deBroglieRadialAmplitudeSlider.setTextEditable( false );
+        }
+        
         // Event handling
         EventListener listener = new EventListener();
         _maxParticlesSpinner.addChangeListener( listener );
@@ -152,6 +166,7 @@ public class DeveloperControlsDialog extends JDialog {
         _bohrEmissionCheckBox.addChangeListener( listener );
         _bohrStimulatedEmissionCheckBox.addChangeListener( listener );
         _minStateTimeSpinner.addChangeListener( listener );
+        _deBroglieRadialAmplitudeSlider.addChangeListener( listener );
         
         // Layout
         JPanel panel = new JPanel();
@@ -166,12 +181,14 @@ public class DeveloperControlsDialog extends JDialog {
         layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _rutherfordScatteringOutputCheckBox, row++, 0 );
         layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
-        layout.addComponent( new JLabel( "Bohr model:"), row++, 0 );
+        layout.addComponent( new JLabel( "Bohr/deBroglie/Schrodinger models:"), row++, 0 );
         layout.addComponent( _bohrAbsorptionCheckBox, row++, 0 );
         layout.addComponent( _bohrEmissionCheckBox, row++, 0 );
         layout.addComponent( _bohrStimulatedEmissionCheckBox, row++, 0 );
         layout.addComponent( minStateTimePanel, row++, 0 );
         layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( new JLabel( "deBroglie model:"), row++, 0 );
+        layout.addComponent( _deBroglieRadialAmplitudeSlider, row++, 0 );
         
         return panel;
     }
@@ -207,6 +224,9 @@ public class DeveloperControlsDialog extends JDialog {
             else if ( source == _minStateTimeSpinner ) {
                 handleMinStateTime();
             }
+            else if ( source == _deBroglieRadialAmplitudeSlider ) {
+                handleDeBroglieRadialAmplitudeSlider();
+            }
         }
     }
     
@@ -237,5 +257,10 @@ public class DeveloperControlsDialog extends JDialog {
         SpinnerNumberModel spinnerModel = (SpinnerNumberModel) _minStateTimeSpinner.getModel();
         int minStateTime = spinnerModel.getNumber().intValue();
         BohrModel.MIN_TIME_IN_STATE = minStateTime;
+    }
+    
+    private void handleDeBroglieRadialAmplitudeSlider() {
+        double value = _deBroglieRadialAmplitudeSlider.getValue() / 100;
+        DeBroglieRadialDistanceNode.RADIAL_OFFSET_FACTOR = value;
     }
 }
