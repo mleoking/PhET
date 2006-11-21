@@ -43,8 +43,11 @@ class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
     // distance along the ring's circumference that each polygon occupies
     private static final double POLYGON_SIZE = 3;
     
+    // color used when amplitude = +1
     private static final Color PLUS_COLOR = Color.BLUE;
+    // color used when amplitude = -1
     private static final Color MINUS_COLOR = Color.WHITE;
+    // color used when amplitude = 0
     private static final Color ZERO_COLOR = ColorUtils.interpolateRBGA( MINUS_COLOR, PLUS_COLOR, 0.5 );
     
     //----------------------------------------------------------------------------
@@ -172,7 +175,7 @@ class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
     }
     
     /**
-     * Maps the magnitude of the specified amplitude to a color.
+     * Maps the specified amplitude to a color.
      * May be overridden by subclasses to provide different representations.
      * 
      * @param amplitude
