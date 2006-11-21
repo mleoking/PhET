@@ -44,6 +44,8 @@ LOW PRIORITY:
 
 DONE:
 ***** CVS tag hydrogenatom-0-00-11-2006-11-21
+(11/21/06) - fix DeBroglieModel to use COLLISION_CLOSENESS in its collision detection
+(11/21/06) - rename AbstractHydrogenAtom.ABSORPTION_CLOSENESS to COLLISION_CLOSENESS
 (11/21/06) - clean up Developer Controls dialog to make it clearer
 (11/21/06) - add developer controls for colors used in deBroglie brightness representations
 (11/21/06) - add developer control for radial amplitude view of deBroglie
