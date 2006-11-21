@@ -283,7 +283,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     protected boolean collides( Photon photon ) {
         Point2D electronPosition = getElectronPosition();
         Point2D photonPosition = photon.getPosition();
-        return pointsCollide( electronPosition, photonPosition, ABSORPTION_CLOSENESS );
+        return pointsCollide( electronPosition, photonPosition, COLLISION_CLOSENESS );
     }
     
     /*
