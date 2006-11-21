@@ -48,6 +48,10 @@ public class ColorUtils {
     
     /**
      * Interpolates between 2 colors in RGBA space.
+     * When distance is 0, color1 is returned.
+     * When distance is 1, color2 is returned.
+     * Other values of distance return a color somewhere between color1 and color2.
+     * Each color component is interpolated separately.
      * 
      * @param color1
      * @param color2
