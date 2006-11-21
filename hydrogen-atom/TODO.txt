@@ -5,8 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- improve performance of DeBroglie "brightness" and "brightness magnitude" representations
 - implement DeBroglie "height 3D" representation
+- improve performance of DeBroglie "brightness" and "brightness magnitude" representations
 
 MEDIUM PRIORITY:
 - generate white light photons based on electron's state?
