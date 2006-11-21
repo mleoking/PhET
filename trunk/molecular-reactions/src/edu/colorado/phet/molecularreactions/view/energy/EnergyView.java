@@ -391,8 +391,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             // had a chance to change the nearestToSelectedMolecule. The easiest thing to do
             // in this case is take a pass for now...
             else {
-                System.out.println( "selectedMolecule = " + selectedMolecule );
-                System.out.println( "nearestToSelectedMolecule = " + nearestToSelectedMolecule );
+//                System.out.println( "selectedMolecule = " + selectedMolecule );
+//                System.out.println( "nearestToSelectedMolecule = " + nearestToSelectedMolecule );
                 return;
             }
 

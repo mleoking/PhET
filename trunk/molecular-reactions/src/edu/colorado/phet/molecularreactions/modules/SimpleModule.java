@@ -174,6 +174,8 @@ public class SimpleModule extends MRModule {
      */
     public void setMolecules( MRModel model, SimpleMolecule launcherMolecule ) {
 
+        model.removeAllMolecules();
+
         // Save the class so we know what to make if we are asked to reload
         launcherMoleculeClass = launcherMolecule.getClass();
 
