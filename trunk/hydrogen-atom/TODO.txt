@@ -6,7 +6,8 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - improve performance of DeBroglie "brightness" and "brightness magnitude" representations
-- implement color for DeBroglie "brightness" representation
+- implement color for DeBroglie "brightness" representation as interpolation between 3 colors
+- reimplement color for DeBroglie "brightness magnitude" as interpolation between 2 colors
 - implement photon collision detection for deBroglie (collide with ring)
 - implement DeBroglie "height 3D" representation
 
