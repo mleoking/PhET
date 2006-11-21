@@ -35,7 +35,9 @@ class DeBroglieBrightnessMagnitudeNode extends DeBroglieBrightnessNode {
     // Class data
     //----------------------------------------------------------------------------
     
+    // color used when amplitude = 1
     private static final Color MAX_COLOR = Color.BLUE;
+    // color used when amplitude = 0
     private static final Color MIN_COLOR = Color.WHITE;
     
     //----------------------------------------------------------------------------
