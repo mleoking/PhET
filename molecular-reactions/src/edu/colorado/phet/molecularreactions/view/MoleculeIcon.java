@@ -30,29 +30,29 @@ public class MoleculeIcon extends ImageIcon {
     // to be offset in order for it to look like it's touching the other component
     private int contactOffset = -8;
 
-    public MoleculeIcon( Class moleculeClass ) {
+    public MoleculeIcon( Class moleculeClass, EnergyProfile profile ) {
         PNode pNode = null;
         Image image = null;
         if( moleculeClass == MoleculeA.class ) {
-            pNode = new IconGraphic( new MoleculeA() );
+            pNode = new IconGraphic( new MoleculeA(), profile );
         }
         if( moleculeClass == MoleculeB.class ) {
-            pNode = new IconGraphic( new MoleculeB() );
+            pNode = new IconGraphic( new MoleculeB(), profile );
         }
         if( moleculeClass == MoleculeC.class ) {
-            pNode = new IconGraphic( new MoleculeC() );
+            pNode = new IconGraphic( new MoleculeC(), profile );
         }
         if( moleculeClass == MoleculeAB.class ) {
-            PNode aNode = new IconGraphic( new MoleculeA() );
-            PNode bNode = new IconGraphic( new MoleculeB() );
+            PNode aNode = new IconGraphic( new MoleculeA(), profile );
+            PNode bNode = new IconGraphic( new MoleculeB(), profile );
             pNode = new PNode();
             pNode.addChild( aNode );
             pNode.addChild( bNode );
             bNode.setOffset( aNode.getFullBounds().getWidth() + contactOffset, 0 );
         }
         if( moleculeClass == MoleculeBC.class ) {
-            PNode bNode = new IconGraphic( new MoleculeB() );
-            PNode cNode = new IconGraphic( new MoleculeC() );
+            PNode bNode = new IconGraphic( new MoleculeB(), profile );
+            PNode cNode = new IconGraphic( new MoleculeC(), profile );
             pNode = new PNode();
             pNode.addChild( cNode );
             pNode.addChild( bNode );
@@ -65,8 +65,8 @@ public class MoleculeIcon extends ImageIcon {
 
     private class IconGraphic extends AbstractSimpleMoleculeGraphic {
 
-        public IconGraphic( SimpleMolecule molecule ) {
-            super( molecule, Profiles.DEFAULT, true );
+        public IconGraphic( SimpleMolecule molecule, EnergyProfile profile ) {
+            super( molecule, profile, true );
         }
     }
 }

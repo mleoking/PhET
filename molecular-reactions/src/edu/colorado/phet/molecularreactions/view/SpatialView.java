@@ -72,7 +72,7 @@ public class SpatialView extends PNode {
         megm.scanModel();
 
         // Graphic that shows the components of the reaction
-        ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(), Color.black );
+        ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(), Color.black, model );
         reactionGraphic.setOffset( model.getBox().getMinX() + model.getBox().getWidth() / 2,
                                    canvas.getHeight() - reactionGraphic.getHeight() - 20 );
         canvas.addChild( reactionGraphic );

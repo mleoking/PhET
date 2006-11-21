@@ -34,10 +34,11 @@ public class MoleculeInstanceControlPanel extends JPanel {
 
     public MoleculeInstanceControlPanel( MRModel model ) {
 
-        JLabel aLabel = new JLabel( new MoleculeIcon( MoleculeA.class ) );
-        JLabel cLabel = new JLabel(  new MoleculeIcon( MoleculeC.class )  );
-        JLabel abLabel = new JLabel( new MoleculeIcon( MoleculeAB.class ) );
-        JLabel bcLabel = new JLabel( new MoleculeIcon( MoleculeBC.class ) );
+        EnergyProfile profile = model.getEnergyProfile();
+        JLabel aLabel = new JLabel( new MoleculeIcon( MoleculeA.class, profile ) );
+        JLabel cLabel = new JLabel(  new MoleculeIcon( MoleculeC.class, profile )  );
+        JLabel abLabel = new JLabel( new MoleculeIcon( MoleculeAB.class, profile ) );
+        JLabel bcLabel = new JLabel( new MoleculeIcon( MoleculeBC.class, profile ) );
 
         MoleculeCountSpinner aMC = new MoleculeCountSpinner( MoleculeA.class, model, maxMoleculeCnt );
         counters.add( aMC );

@@ -15,6 +15,7 @@ import edu.colorado.phet.molecularreactions.controller.SelectReactionAction;
 import edu.colorado.phet.molecularreactions.model.MoleculeA;
 import edu.colorado.phet.molecularreactions.model.MoleculeAB;
 import edu.colorado.phet.molecularreactions.model.MoleculeBC;
+import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 
@@ -67,13 +68,13 @@ public class ReactionChooserPanel extends JPanel {
         r3RB.addActionListener( selectionListener  );
         designYourOwnRB.addActionListener( selectionListener  );
 
-        JLabel iconDefault = new JLabel( new MoleculeIcon( MoleculeA.class ) );
+        JLabel iconDefault = new JLabel( new MoleculeIcon( MoleculeA.class, Profiles.DEFAULT ) );
         iconDefault.addMouseListener( new MoleculeIconMouseAdapter( defaultRB ) );
-        JLabel iconA = new JLabel( new MoleculeIcon( MoleculeA.class ) );
+        JLabel iconA = new JLabel( new MoleculeIcon( MoleculeA.class, Profiles.R1 ) );
         iconA.addMouseListener( new MoleculeIconMouseAdapter( r1RB ) );
-        JLabel iconBC = new JLabel( new MoleculeIcon( MoleculeBC.class ) );
+        JLabel iconBC = new JLabel( new MoleculeIcon( MoleculeBC.class, Profiles.R2 ) );
         iconBC.addMouseListener( new MoleculeIconMouseAdapter( r2RB ) );
-        JLabel iconAB = new JLabel( new MoleculeIcon( MoleculeAB.class ) );
+        JLabel iconAB = new JLabel( new MoleculeIcon( MoleculeAB.class, Profiles.R3 ) );
         iconAB.addMouseListener( new MoleculeIconMouseAdapter( r3RB ) );
         JLabel designYourOwnLbl = new JLabel( SimStrings.get( "ExperimentSetup.designYourOwn" ) );
         designYourOwnLbl.addMouseListener( new MoleculeIconMouseAdapter( designYourOwnRB ) );

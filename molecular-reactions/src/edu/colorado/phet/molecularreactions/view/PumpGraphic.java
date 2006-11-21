@@ -185,13 +185,13 @@ public class PumpGraphic extends PNode implements Resetable {
             abRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
             bcRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
 
-            JLabel iconA = new JLabel( new MoleculeIcon( MoleculeA.class ) );
+            JLabel iconA = new JLabel( new MoleculeIcon( MoleculeA.class, model.getEnergyProfile() ) );
             iconA.addMouseListener( new MoleculeIconMouseAdapter( aRB ) );
-            JLabel iconBC = new JLabel( new MoleculeIcon( MoleculeBC.class ) );
+            JLabel iconBC = new JLabel( new MoleculeIcon( MoleculeBC.class, model.getEnergyProfile() ) );
             iconBC.addMouseListener( new MoleculeIconMouseAdapter( bcRB ) );
-            JLabel iconAB = new JLabel( new MoleculeIcon( MoleculeAB.class ) );
+            JLabel iconAB = new JLabel( new MoleculeIcon( MoleculeAB.class, model.getEnergyProfile() ) );
             iconAB.addMouseListener( new MoleculeIconMouseAdapter( abRB ) );
-            JLabel iconC = new JLabel( new MoleculeIcon( MoleculeC.class ) );
+            JLabel iconC = new JLabel( new MoleculeIcon( MoleculeC.class, model.getEnergyProfile() ) );
             iconC.addMouseListener( new MoleculeIconMouseAdapter( cRB ) );
 
             setLayout( new GridBagLayout() );
