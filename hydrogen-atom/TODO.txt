@@ -43,6 +43,7 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
+(11/21/06) - add developer control for radial amplitude view of deBroglie
 (11/21/06) - implement photon collision detection for deBroglie (collide with ring)
 (11/21/06) - modify Bohr model to allow subclasses to override photon collision detection
 (11/21/06) - use color interpolation to map amplitude to colors for DeBroglie brightness representation
