@@ -17,6 +17,7 @@ import edu.colorado.phet.molecularreactions.model.MoleculeA;
 import edu.colorado.phet.molecularreactions.model.MoleculeBC;
 import edu.colorado.phet.molecularreactions.model.MoleculeAB;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
+import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 
@@ -29,7 +30,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * ReactionChooser
+ * ReactionChooserComboBox
+ * <p>
+ * A JComboBox whose items are selectors for the reaction to be used
+ * by the model
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -72,18 +76,10 @@ public class ReactionChooserComboBox extends JComboBox {
 
         EnergyProfile profile = module.getMRModel().getEnergyProfile();
         
-        ImageIcon ii = new MoleculeIcon( MoleculeA.class, profile );
-//        final ImageIcon r1Item = new MoleculeIcon( MoleculeA.class );
-
-        final ImageIcon defaultItem = new MoleculeIcon( MoleculeA.class, profile );
-        BufferedImage bi = (BufferedImage)ii.getImage();
-        MakeDuotoneImageOp imgOp = new MakeDuotoneImageOp( new Color( 0, 90, 0 ));
-        bi = imgOp.filter( bi, null );
-        final ImageIcon r1Item = new ImageIcon( bi );
-
-
-        final ImageIcon r2Item = new MoleculeIcon( MoleculeBC.class, profile );
-        final ImageIcon r3Item = new MoleculeIcon( MoleculeAB.class, profile );
+        final ImageIcon defaultItem = ReactionSelectorIcons.getIcon( Profiles.DEFAULT );
+        final ImageIcon r1Item = ReactionSelectorIcons.getIcon( Profiles.R1 );
+        final ImageIcon r2Item = ReactionSelectorIcons.getIcon( Profiles.R2 );
+        final ImageIcon r3Item = ReactionSelectorIcons.getIcon( Profiles.R3 );
         final String designYourOwnItem = SimStrings.get( "ExperimentSetup.designYourOwn" );
 
         addItem( defaultItem );

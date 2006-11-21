@@ -150,7 +150,6 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
                     labelNode = PImageFactory.create( "images/molecule-label-C.png" );
                 }
             }
-//            moleculeNode.rotate( -Math.PI / 8 );
             moleculeNode.setOffset( -moleculeNode.getImage().getWidth( null ) / 2, -moleculeNode.getImage().getHeight( null ) / 2 );
             addChild( moleculeNode );
             if( labelNode != null ) {
