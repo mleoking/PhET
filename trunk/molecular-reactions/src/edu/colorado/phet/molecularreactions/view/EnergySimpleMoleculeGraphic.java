@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.molecularreactions.model.Selectable;
+import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 
 /**
  * SimpleMoleculeGraphic
@@ -21,8 +22,8 @@ import edu.colorado.phet.molecularreactions.model.Selectable;
  */
 public class EnergySimpleMoleculeGraphic extends AbstractSimpleMoleculeGraphic {
 
-    public EnergySimpleMoleculeGraphic( SimpleMolecule molecule ) {
-        super( molecule );
+    public EnergySimpleMoleculeGraphic( SimpleMolecule molecule, EnergyProfile profile ) {
+        super( molecule, profile );
     }
 
     public void update() {

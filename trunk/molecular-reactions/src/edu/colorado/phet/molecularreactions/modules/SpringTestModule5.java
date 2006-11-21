@@ -61,7 +61,7 @@ public class SpringTestModule5 extends Module {
         PNode canvas = new PNode();
         simPanel.addScreenChild( canvas );
         ModelElementGraphicManager megm = new ModelElementGraphicManager( model, simPanel.getPhetRootNode() );
-        megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( canvas ) );
+        megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( model, canvas ) );
         megm.addGraphicFactory( new SpringTestModule5.SpringGraphicFactory( canvas ) );
 
         // Make model objects

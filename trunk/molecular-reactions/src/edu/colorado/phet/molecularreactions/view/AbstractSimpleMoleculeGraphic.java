@@ -11,7 +11,9 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
@@ -22,6 +24,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.geom.Ellipse2D;
 import java.util.HashMap;
 
@@ -104,16 +107,18 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
 
     /**
      * @param molecule
+     * @param profile
      */
-    public AbstractSimpleMoleculeGraphic( SimpleMolecule molecule ) {
-        this( molecule, false );
+    public AbstractSimpleMoleculeGraphic( SimpleMolecule molecule, EnergyProfile profile ) {
+        this( molecule, profile, false );
     }
 
     /**
      * @param molecule
+     * @param profile
      * @param annotate
      */
-    public AbstractSimpleMoleculeGraphic( SimpleMolecule molecule, boolean annotate ) {
+    public AbstractSimpleMoleculeGraphic( SimpleMolecule molecule, EnergyProfile profile, boolean annotate ) {
         this.molecule = molecule;
         molecule.addObserver( this );
         molecule.addListener( this );
@@ -152,6 +157,15 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
                 labelNode.setOffset( -labelNode.getFullBounds().getWidth() / 2,
                                      -labelNode.getFullBounds().getHeight() / 2 );
                 addChild( labelNode );
+            }
+
+            // If we aren't using the default or "design your own" energy profile, we need to
+            // change the color of the image
+            if( profile != Profiles.DEFAULT && profile != Profiles.DYO ) {
+                Color duotoneHue = MoleculePaints.getColor( molecule, profile);
+                MakeDuotoneImageOp imgOp = new MakeDuotoneImageOp( duotoneHue );
+                BufferedImage bi = imgOp.filter( (BufferedImage)moleculeNode.getImage(), null );
+                moleculeNode.setImage( bi );
             }
 
             // Halo and CM mark for use when showing the "selected molecule"

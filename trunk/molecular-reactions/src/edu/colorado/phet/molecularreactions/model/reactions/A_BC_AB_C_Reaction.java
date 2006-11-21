@@ -25,10 +25,11 @@ import edu.colorado.phet.molecularreactions.model.collision.MoleculeMoleculeColl
  * @version $Revision$
  */
 public class A_BC_AB_C_Reaction extends Reaction {
-    private static EnergyProfile energyProfile = new EnergyProfile( MRConfig.DEAFULT_ENERGY_PROFILE.getLeftLevel(),
-                                                                    MRConfig.DEAFULT_ENERGY_PROFILE.getPeakLevel(),
-                                                                    MRConfig.DEAFULT_ENERGY_PROFILE.getRightLevel(),
-                                                                    MRConfig.DEAFULT_ENERGY_PROFILE.getThresholdWidth() );
+    private static EnergyProfile energyProfile = MRConfig.DEFAULT_ENERGY_PROFILE;
+//    private static EnergyProfile energyProfile = new EnergyProfile( MRConfig.DEFAULT_ENERGY_PROFILE.getLeftLevel(),
+//                                                                    MRConfig.DEFAULT_ENERGY_PROFILE.getPeakLevel(),
+//                                                                    MRConfig.DEFAULT_ENERGY_PROFILE.getRightLevel(),
+//                                                                    MRConfig.DEFAULT_ENERGY_PROFILE.getThresholdWidth() );
     private MRModel model;
 
     /**

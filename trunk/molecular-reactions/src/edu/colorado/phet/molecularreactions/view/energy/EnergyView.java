@@ -510,7 +510,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             }
 
             if( newTrackedMolecule != null ) {
-                selectedMoleculeGraphic = new EnergyMoleculeGraphic( newTrackedMolecule.getFullMolecule() );
+                selectedMoleculeGraphic = new EnergyMoleculeGraphic( newTrackedMolecule.getFullMolecule(),
+                                                                     module.getMRModel().getEnergyProfile() );
                 moleculeLayer.addChild( selectedMoleculeGraphic );
                 newTrackedMolecule.addObserver( EnergyView.this );
                 moleculePaneAxisNode.setVisible( true );
@@ -532,7 +533,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             if( nearestToSelectedMoleculeGraphic != null ) {
                 moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
             }
-            nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( newClosestMolecule.getFullMolecule() );
+            nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( newClosestMolecule.getFullMolecule(),
+                                                                     module.getMRModel().getEnergyProfile() );
             moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
 
             newClosestMolecule.addObserver( EnergyView.this );

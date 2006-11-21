@@ -59,7 +59,7 @@ public class SpringTestModule2 extends Module {
         ModelElementGraphicManager megm = new ModelElementGraphicManager( model,
                                                                           simPanel.getPhetRootNode() );
         model.addListener( megm );
-        megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( canvas ) );
+        megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( model, canvas ) );
         megm.addGraphicFactory( new SpringGraphicFactory( Spring.class, canvas ));
 
         {

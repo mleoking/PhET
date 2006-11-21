@@ -58,7 +58,7 @@ public class SpringTestModule extends Module {
         ModelElementGraphicManager megm = new ModelElementGraphicManager( model,
                                                                           simPanel.getPhetRootNode() );
         model.addListener( megm );
-        megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( canvas ) );
+        megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( model, canvas ) );
 
         {
             Point2D fixedPt = new Point2D.Double( 500, 200 );

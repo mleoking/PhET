@@ -10,10 +10,8 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.molecularreactions.model.MoleculeA;
-import edu.colorado.phet.molecularreactions.model.MoleculeB;
-import edu.colorado.phet.molecularreactions.model.MoleculeC;
-import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
+import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -47,9 +45,9 @@ public class Legend extends JPanel {
         SimpleMolecule mB = new MoleculeB();
         SimpleMolecule mC = new MoleculeC();
 
-        PNode pA = new SpatialSimpleMoleculeGraphic( mA );
-        PNode pB = new SpatialSimpleMoleculeGraphic( mB );
-        PNode pC = new SpatialSimpleMoleculeGraphic( mC );
+        PNode pA = new SpatialSimpleMoleculeGraphic( mA, Profiles.DEFAULT );
+        PNode pB = new SpatialSimpleMoleculeGraphic( mB, Profiles.DEFAULT );
+        PNode pC = new SpatialSimpleMoleculeGraphic( mC, Profiles.DEFAULT );
 
         add( createMoleculeIconComponent( pA ), gbc );
         gbc.gridx = 1;
