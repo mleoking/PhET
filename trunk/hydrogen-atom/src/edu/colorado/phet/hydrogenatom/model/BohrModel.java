@@ -272,6 +272,20 @@ public class BohrModel extends AbstractHydrogenAtom {
     // Photon absorption and emission
     //----------------------------------------------------------------------------
     
+    /**
+     * Determines whether a photon collides with this atom.
+     * In this case, we treat the photon and electron as points, 
+     * and see if the points are close enough to cause a collision.
+     * 
+     * @param photon
+     * @return true or false
+     */
+    protected boolean collides( Photon photon ) {
+        Point2D electronPosition = getElectronPosition();
+        Point2D photonPosition = photon.getPosition();
+        return pointsCollide( electronPosition, photonPosition, ABSORPTION_CLOSENESS );
+    }
+    
     /*
      * Attempts to absorb the specified photon.
      * 
@@ -289,9 +303,7 @@ public class BohrModel extends AbstractHydrogenAtom {
         if ( _timeInState >= MIN_TIME_IN_STATE && !photon.isEmitted() ) {
 
             // Do the photon and electron collide?
-            Point2D electronPosition = getElectronPosition();
-            Point2D photonPosition = photon.getPosition();
-            final boolean collide = pointsCollide( electronPosition, photonPosition, ABSORPTION_CLOSENESS );
+            final boolean collide = collides( photon );
 
             if ( collide ) {
 
@@ -386,9 +398,7 @@ public class BohrModel extends AbstractHydrogenAtom {
         if (  _timeInState >= MIN_TIME_IN_STATE && _electronState > GROUND_STATE && !photon.isEmitted() ) {
             
             // Do the photon and electron collide?
-            Point2D electronPosition = getElectronPosition();
-            Point2D photonPosition = photon.getPosition();
-            final boolean collide = pointsCollide( electronPosition, photonPosition, ABSORPTION_CLOSENESS );
+            final boolean collide = collides( photon );
             
             if ( collide ) {
                 
