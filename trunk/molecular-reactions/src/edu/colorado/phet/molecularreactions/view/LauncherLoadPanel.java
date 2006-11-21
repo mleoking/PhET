@@ -68,8 +68,8 @@ public class LauncherLoadPanel extends JPanel {
         gbc.gridx = 1;
         gbc.anchor = iconAnchor;
         gbc.insets = rightInsets;
-        add( new JLabel( new MoleculeIcon( MoleculeA.class ) ), gbc );
-        add( new JLabel( new MoleculeIcon( MoleculeC.class ) ), gbc );
+        add( new JLabel( new MoleculeIcon( MoleculeA.class, module.getMRModel().getEnergyProfile() ) ), gbc );
+        add( new JLabel( new MoleculeIcon( MoleculeC.class, module.getMRModel().getEnergyProfile() ) ), gbc );
 
         cRB.setSelected( true );
         currentMoleculeType = MoleculeA.class;

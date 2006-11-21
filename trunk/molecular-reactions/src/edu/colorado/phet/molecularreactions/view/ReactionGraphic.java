@@ -11,10 +11,7 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.view.graphics.Arrow;
-import edu.colorado.phet.molecularreactions.model.MoleculeA;
-import edu.colorado.phet.molecularreactions.model.MoleculeAB;
-import edu.colorado.phet.molecularreactions.model.MoleculeBC;
-import edu.colorado.phet.molecularreactions.model.MoleculeC;
+import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
@@ -36,13 +33,14 @@ import java.awt.geom.Point2D;
  */
 public class ReactionGraphic extends RegisterablePNode {
 
-    public ReactionGraphic( Reaction reaction, Color arrowColor ) {
+    public ReactionGraphic( Reaction reaction, Color arrowColor, MRModel model ) {
         if( reaction instanceof A_BC_AB_C_Reaction ) {
             Insets insets = new Insets( 0, 3, 0, 3 );
-            PNode aNode = new PImage( new MoleculeIcon( MoleculeA.class ).getImage() );
-            PNode cNode = new PImage( new MoleculeIcon( MoleculeC.class ).getImage() );
-            PNode abNode = new PImage( new MoleculeIcon( MoleculeAB.class ).getImage() );
-            PNode bcNode = new PImage( new MoleculeIcon( MoleculeBC.class ).getImage() );
+            EnergyProfile profile = model.getEnergyProfile();
+            PNode aNode = new PImage( new MoleculeIcon( MoleculeA.class, profile ).getImage() );
+            PNode cNode = new PImage( new MoleculeIcon( MoleculeC.class, profile ).getImage() );
+            PNode abNode = new PImage( new MoleculeIcon( MoleculeAB.class, profile ).getImage() );
+            PNode bcNode = new PImage( new MoleculeIcon( MoleculeBC.class, profile ).getImage() );
 
             Arrow arrowC = new Arrow( new Point2D.Double( 0, 0 ),
                                      new Point2D.Double( 30, 0 ),

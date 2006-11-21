@@ -10,10 +10,7 @@
  */
 package edu.colorado.phet.molecularreactions.view.charts;
 
-import edu.colorado.phet.molecularreactions.model.MoleculeA;
-import edu.colorado.phet.molecularreactions.model.MoleculeAB;
-import edu.colorado.phet.molecularreactions.model.MoleculeBC;
-import edu.colorado.phet.molecularreactions.model.MoleculeC;
+import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.util.BarChart;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChart;
@@ -53,10 +50,11 @@ public class MoleculePopulationsBarChartNode extends PNode {
         barChartPSwing.setOffset( barChartInsets.left,0 );
 
         this.addChild( barChartPSwing );
-        PNode mANode = new PImage( new MoleculeIcon( MoleculeA.class ).getImage() );
-        PNode mBCNode = new PImage( new MoleculeIcon( MoleculeBC.class ).getImage() );
-        PNode mABNode = new PImage( new MoleculeIcon( MoleculeAB.class ).getImage() );
-        PNode mCNode = new PImage( new MoleculeIcon( MoleculeC.class ).getImage() );
+        EnergyProfile profile = module.getMRModel().getEnergyProfile();
+        PNode mANode = new PImage( new MoleculeIcon( MoleculeA.class, profile ).getImage() );
+        PNode mBCNode = new PImage( new MoleculeIcon( MoleculeBC.class, profile ).getImage() );
+        PNode mABNode = new PImage( new MoleculeIcon( MoleculeAB.class, profile ).getImage() );
+        PNode mCNode = new PImage( new MoleculeIcon( MoleculeC.class, profile ).getImage() );
         this.addChild( mANode );
         this.addChild( mBCNode );
         this.addChild( mABNode );

@@ -128,7 +128,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         PPath legendNode = new PPath( new Rectangle2D.Double( 0, 0, width, 40 ) );
         legendNode.setPaint( Color.black );
         legendNode.setOffset( 0, upperPaneSize.getHeight() + curvePaneSize.getHeight() );
-        ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(), Color.white );
+        ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(), Color.white, module.getMRModel() );
         legendNode.addChild( reactionGraphic );
         reactionGraphic.setOffset( legendNode.getWidth() / 2, legendNode.getHeight() - 20 );
         addChild( legendNode );
