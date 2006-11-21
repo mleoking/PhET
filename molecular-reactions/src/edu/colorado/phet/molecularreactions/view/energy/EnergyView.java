@@ -423,9 +423,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)module.getMRModel().getReaction();
             double edgeDist = reaction.getDistanceToCollision( freeMolecule, boundMolecule.getParentComposite() );
 
-            // The distance that the molecules have to overlap to react
-            double distAtFootOfHill = Math.min( selectedMolecule.getRadius(), nearestToSelectedMolecule.getRadius() );
-
             // In the middle of the reaction, the collision distance is underfined
             if( Double.isNaN( edgeDist ) ) {
 //                edgeDist = model.getReaction().getDistanceToCollision( freeMolecule, boundMolecule.getParentComposite() );
@@ -437,16 +434,28 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             double xOffset = 20;
 
             // Determine what the max overlap would be based on the energy of the molecules
-            double collisionEnergy = MRModelUtil.getCollisionEnergy( freeMolecule, boundMolecule.getParentComposite() );
-            double floorEnergy = boundMolecule.getParentComposite() instanceof MoleculeAB ?
-                                 reaction.getEnergyProfile().getRightLevel() :
-                                 reaction.getEnergyProfile().getLeftLevel();
-            double slope = ( reaction.getEnergyProfile().getPeakLevel() - floorEnergy ) / ( reaction.getEnergyProfile().getThresholdWidth() / 2 );
-            double minDx = collisionEnergy / slope;
+//            double collisionEnergy = MRModelUtil.getCollisionEnergy( freeMolecule, boundMolecule.getParentComposite() );
+//            double floorEnergy = boundMolecule.getParentComposite() instanceof MoleculeAB ?
+//                                 reaction.getEnergyProfile().getRightLevel() :
+//                                 reaction.getEnergyProfile().getLeftLevel();
+//            double slope = ( reaction.getEnergyProfile().getPeakLevel() - floorEnergy ) / ( reaction.getEnergyProfile().getThresholdWidth() / 2 );
+//            double minDx = collisionEnergy / slope;
+//
+//            System.out.println( "minDx = " + minDx );
+
+            // The distance between the molecule's CMs when they first come into contact
+            double separationAtFootOfHill = Math.min( selectedMolecule.getRadius(), nearestToSelectedMolecule.getRadius() );
 
             // Scale the actual inter-molecular distance to the scale of the energy profile
-            double r = ( reaction.getEnergyProfile().getThresholdWidth() / 2 ) / distAtFootOfHill;
-            double dx = Math.max( ( edgeDist + distAtFootOfHill ) * r, minDx );
+            double r = ( reaction.getEnergyProfile().getThresholdWidth() / 2 ) / separationAtFootOfHill;
+            double separationAtReaction = A_BC_AB_C_Reaction.getReactionOffset( freeMolecule, boundMolecule );
+            double currentSeparation = freeMolecule.getPosition().distance( boundMolecule.getPosition());
+            double currentOverlap = separationAtFootOfHill - currentSeparation;
+            double reactionOverlap = separationAtFootOfHill - separationAtReaction;
+            double dr = currentOverlap / reactionOverlap * r;
+
+
+            double dx = Math.max( ( edgeDist + separationAtFootOfHill ) * r, dr );
             double xOffsetFromCenter = Math.min( curveAreaSize.getWidth() / 2 - xOffset, dx );
             double x = curveAreaSize.getWidth() / 2 + ( xOffsetFromCenter * direction );
             Point2D midPoint = new Point2D.Double( x, yOffset + maxSeparation / 2 );
