@@ -45,7 +45,8 @@ LOW PRIORITY:
 - update images on atom model selector buttons
 
 DONE:
-(11/20/06) - first pass at  DeBroglie "brightness" and "brightness magnitude" representations (approx a ring using circles)
+(11/20/06) - 2nd pass at DeBroglie "brightness" and "brightness magnitude" representations (correct but slow)
+(11/20/06) - 1st pass at DeBroglie "brightness" and "brightness magnitude" representations (approx a ring using circles)
 (11/20/06) - implement DeBroglie "radial distance" representation
 (11/20/06) - remove temporary Schrodinger atom image, replace with "not implemented" text
 ***** CVS tag hydrogenatom-0-00-10-2006-11-18
