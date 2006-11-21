@@ -26,6 +26,7 @@ import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.model.Gun;
@@ -44,15 +45,27 @@ import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieRadialDistanceNode;
  */
 public class DeveloperControlsDialog extends JDialog implements ColorChooserFactory.Listener {
     
+    // Marker class for color chips
     private static class ColorChip extends JLabel {
         public ColorChip() {
             super();
         }
     }
     
+    // Title labels
+    private static class TitleLabel extends JLabel {
+        public TitleLabel( String title ) {
+            super( title );
+            setForeground( TITLE_COLOR );
+            setFont( TITLE_FONT );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
+    
+    private static final Insets DEFAULT_INSETS = new Insets( 3, 3, 3, 3 );
     
     private static final int MIN_PARTICLES_IN_BOX = 1;
     private static final int MAX_PARTICLES_IN_BOX = 100;
@@ -61,6 +74,9 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     private static final int COLOR_CHIP_HEIGHT = 15;
     private static final Stroke COLOR_CHIP_STROKE = new BasicStroke( 1f );
     private static final Color COLOR_CHIP_BORDER_COLOR = Color.BLACK;
+    
+    private static final Color TITLE_COLOR = Color.RED;
+    private static final Font TITLE_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -121,7 +137,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             JFormattedTextField tf = ( (JSpinner.DefaultEditor) _maxParticlesSpinner.getEditor() ).getTextField();
             tf.setEditable( false );
             
-            maxParticlesPanel.setInsets( new Insets( 5, 5, 5, 5 ) );
+            maxParticlesPanel.setInsets( DEFAULT_INSETS );
             maxParticlesPanel.add( label );
             maxParticlesPanel.add( _maxParticlesSpinner );
         }
@@ -137,7 +153,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             JFormattedTextField tf = ( (JSpinner.DefaultEditor) _absorptionClosenessSpinner.getEditor() ).getTextField();
             tf.setEditable( false );
             
-            absorptionClosenessPanel.setInsets( new Insets( 5, 5, 5, 5 ) );
+            absorptionClosenessPanel.setInsets( DEFAULT_INSETS );
             absorptionClosenessPanel.add( label );
             absorptionClosenessPanel.add( _absorptionClosenessSpinner );
         }
@@ -163,7 +179,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             JFormattedTextField tf = ( (JSpinner.DefaultEditor) _bohrMinStateTimeSpinner.getEditor() ).getTextField();
             tf.setEditable( false );
             
-            minStateTimePanel.setInsets( new Insets( 5, 5, 5, 5 ) );
+            minStateTimePanel.setInsets( DEFAULT_INSETS );
             minStateTimePanel.add( label );
             minStateTimePanel.add( _bohrMinStateTimeSpinner );
             minStateTimePanel.add( units );
@@ -181,7 +197,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             _deBroglieBrightnessMagnitudeZeroColor = new ColorChip();
             setColor( _deBroglieBrightnessMagnitudeZeroColor, DeBroglieBrightnessMagnitudeNode.MIN_COLOR );
             
-            deBroglieBrightnessMagnitudeColorsPanel.setInsets( new Insets( 5, 5, 5, 5 ) );
+            deBroglieBrightnessMagnitudeColorsPanel.setInsets( DEFAULT_INSETS );
             deBroglieBrightnessMagnitudeColorsPanel.add( titleLabel );
             deBroglieBrightnessMagnitudeColorsPanel.add( plusLabel );
             deBroglieBrightnessMagnitudeColorsPanel.add( _deBroglieBrightnessMagnitudePlusColor );
@@ -228,7 +244,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             JFormattedTextField tf = ( (JSpinner.DefaultEditor) _deBroglieRadialAmplitudeSpinner.getEditor() ).getTextField();
             tf.setEditable( false );
             
-            deBroglieRadialAmplitudePanel.setInsets( new Insets( 5, 5, 5, 5 ) );
+            deBroglieRadialAmplitudePanel.setInsets( DEFAULT_INSETS );
             deBroglieRadialAmplitudePanel.add( label );
             deBroglieRadialAmplitudePanel.add( _deBroglieRadialAmplitudeSpinner );
             deBroglieRadialAmplitudePanel.add( units );
@@ -258,20 +274,20 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
         panel.setLayout( layout );
         int row = 0;
         {
-            layout.addComponent( new JLabel( "Global controls:" ), row++, 0 );
+            layout.addComponent( new TitleLabel( "Global:" ), row++, 0 );
             layout.addComponent( maxParticlesPanel, row++, 0 );
             layout.addComponent( absorptionClosenessPanel, row++, 0 );
             layout.addComponent( _rutherfordScatteringOutputCheckBox, row++, 0 );
             layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
             
-            layout.addComponent( new JLabel( "Bohr/deBroglie/Schrodinger controls:" ), row++, 0 );
+            layout.addComponent( new TitleLabel( "Bohr/deBroglie/Schr\u00f6dinger:" ), row++, 0 );
             layout.addComponent( _bohrAbsorptionCheckBox, row++, 0 );
             layout.addComponent( _bohrEmissionCheckBox, row++, 0 );
             layout.addComponent( _bohrStimulatedEmissionCheckBox, row++, 0 );
             layout.addComponent( minStateTimePanel, row++, 0 );
             layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
             
-            layout.addComponent( new JLabel( "deBroglie controls:" ), row++, 0 );
+            layout.addComponent( new TitleLabel( "deBroglie:" ), row++, 0 );
             layout.addComponent( deBroglieBrightnessMagnitudeColorsPanel, row++, 0 );
             layout.addComponent( deBroglieBrightnessColorsPanel, row++, 0 );
             layout.addComponent( deBroglieRadialAmplitudePanel, row++, 0 );
