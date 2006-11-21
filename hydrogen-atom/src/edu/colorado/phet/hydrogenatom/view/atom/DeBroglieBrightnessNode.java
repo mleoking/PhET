@@ -16,6 +16,7 @@ import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
+import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode.AbstractDeBroglie2DViewStrategy;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -41,6 +42,10 @@ class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
     
     // distance along the ring's circumference that each polygon occupies
     private static final double POLYGON_SIZE = 3;
+    
+    private static final Color PLUS_COLOR = Color.BLUE;
+    private static final Color MINUS_COLOR = Color.WHITE;
+    private static final Color ZERO_COLOR = ColorUtils.interpolateRBGA( MINUS_COLOR, PLUS_COLOR, 0.5 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -85,16 +90,7 @@ class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
         }
 
         // Use amplitude to set the color of each polygon in the ring.
-        int numberOfPolygons = _polygons.size();
-        for ( int i = 0; i < numberOfPolygons; i++ ) {
-
-            double angle = ( 2 * Math.PI ) * ( (double) i / numberOfPolygons );
-            double amplitude = getAtom().getAmplitude( angle );
-            Color color = amplitudeToColor( amplitude );
-
-            PPath pathNode = (PPath)_polygons.get( i );
-            pathNode.setPaint( color );
-        }
+        updateRingColors();
     }
     
     /*
@@ -150,9 +146,28 @@ class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
             // Draw the polygon using a node
             PPath pathNode = new PPath( path );
             pathNode.setStroke( null );
+            pathNode.setPaint( Color.RED ); // so we can see if any polgons don't get paint set properly
             
             _ringNode.addChild( pathNode );
             _polygons.add( pathNode );
+        }
+    }
+    
+    /*
+     * Updates the colors of the ring's polygons to match 
+     * the amplitude of the standing wave.
+     */
+    private void updateRingColors() {
+        // Use amplitude to set the color of each polygon in the ring.
+        int numberOfPolygons = _polygons.size();
+        for ( int i = 0; i < numberOfPolygons; i++ ) {
+
+            double angle = ( 2 * Math.PI ) * ( (double) i / numberOfPolygons );
+            double amplitude = getAtom().getAmplitude( angle );
+            Color color = amplitudeToColor( amplitude );
+
+            PPath pathNode = (PPath)_polygons.get( i );
+            pathNode.setPaint( color );
         }
     }
     
@@ -165,6 +180,13 @@ class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
      */
     protected Color amplitudeToColor( double amplitude ) {
         assert( amplitude >= -1 && amplitude <= 1 );
-        return Color.RED;//XXX
+        Color color = null;
+        if ( amplitude > 0 ) {
+            color = ColorUtils.interpolateRBGA( ZERO_COLOR, PLUS_COLOR, amplitude );
+        }
+        else {
+            color = ColorUtils.interpolateRBGA( ZERO_COLOR, MINUS_COLOR, -amplitude );
+        }
+        return color;
     }
 }
