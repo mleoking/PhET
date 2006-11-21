@@ -158,6 +158,11 @@ public class MRModel extends PublishingModel {
         return reaction;
     }
 
+    public void setEnergyProfile( EnergyProfile profile ) {
+        getReaction().setEnergyProfile( profile );
+        modelListenerProxy.energyProfileChanged( profile );
+    }
+
     public EnergyProfile getEnergyProfile() {
         return reaction.getEnergyProfile();
     }
@@ -293,7 +298,7 @@ public class MRModel extends PublishingModel {
     // Events and listeners
     //--------------------------------------------------------------------------------------------------
     public interface ModelListener extends EventListener {
-        void reactionThresholdChanged( MRModel model );
+        void energyProfileChanged( EnergyProfile profile );
     }
 
     private EventChannel modelEventChannel = new EventChannel( ModelListener.class );
