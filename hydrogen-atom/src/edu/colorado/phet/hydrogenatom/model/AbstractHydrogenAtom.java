@@ -32,8 +32,8 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
     // Public class data
     //----------------------------------------------------------------------------
     
-    /* how close a photon and electron must be for the photon to be absorbed */
-    public static int ABSORPTION_CLOSENESS = (int)( PhotonNode.DIAMETER / 2 );
+    /* how close a photon and electron must be for the photon to collide */
+    public static int COLLISION_CLOSENESS = (int)( PhotonNode.DIAMETER / 2 );
     
     public static final String PROPERTY_ELECTRON_STATE = "electronState";
     public static final String PROPERTY_ELECTRON_OFFSET = "electronOffset";

@@ -147,7 +147,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
         {
             JLabel label = new JLabel( "Photon absorbed when this close:" );
             
-            int closeness = AbstractHydrogenAtom.ABSORPTION_CLOSENESS;
+            int closeness = AbstractHydrogenAtom.COLLISION_CLOSENESS;
             SpinnerModel model = new SpinnerNumberModel( closeness, closeness, closeness * 4, 1 /* stepSize */);
             _absorptionClosenessSpinner = new JSpinner( model );
             JFormattedTextField tf = ( (JSpinner.DefaultEditor) _absorptionClosenessSpinner.getEditor() ).getTextField();
@@ -379,7 +379,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     private void handleAbsorptionClosenessSpinner() {
         SpinnerNumberModel spinnerModel = (SpinnerNumberModel) _absorptionClosenessSpinner.getModel();
         int closeness = spinnerModel.getNumber().intValue();
-        AbstractHydrogenAtom.ABSORPTION_CLOSENESS = closeness;
+        AbstractHydrogenAtom.COLLISION_CLOSENESS = closeness;
     }
     
     private void handleRutherfordScatteringOutputCheckBox() {
