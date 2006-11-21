@@ -19,6 +19,7 @@ MEDIUM PRIORITY:
 - "atom destroyed" message for Solar System model
 - "atom ionized" message and electron flying in/out for Plum Pudding, Bohr, deBroglie, Schrodinger models
 - clear spectrometer when atomic model is changed
+- update images on atom model selector buttons
 
 LOW PRIORITY:
 - Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
@@ -40,7 +41,6 @@ LOW PRIORITY:
 - fix problem with updating drag bounds of ConstrainedDragHandler, as used in WavelengthControl
 - create layout nodes for creating Piccolo-based control panels
 - rewrite AtomicModelSelector to use inner classes, or layout node
-- update images on atom model selector buttons
 
 DONE:
 ***** CVS tag hydrogenatom-0-00-11-2006-11-21
