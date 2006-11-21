@@ -36,6 +36,7 @@ import java.awt.event.ActionListener;
 public class ReactionChooserComboBox extends JComboBox {
 
     private AbstractAction selectionAction;
+    private JRadioButton defaultRB;
     private JRadioButton r1RB;
     private JRadioButton r2RB;
     private JRadioButton r3RB;
@@ -49,17 +50,20 @@ public class ReactionChooserComboBox extends JComboBox {
 
         setRenderer( new DefaultListCellRenderer() );
         ButtonGroup bg = new ButtonGroup();
+        defaultRB = new JRadioButton();
         r1RB = new JRadioButton();
         r2RB = new JRadioButton();
         r3RB = new JRadioButton();
         designYourOwnRB = new JRadioButton();
 
+        bg.add( defaultRB );
         bg.add( r1RB );
         bg.add( r2RB );
         bg.add( r3RB );
         bg.add( designYourOwnRB );
 
         selectionAction = new SelectReactionAction( module );
+        defaultRB.addActionListener( selectionAction  );
         r1RB.addActionListener( selectionAction  );
         r2RB.addActionListener( selectionAction );
         r3RB.addActionListener( selectionAction  );
@@ -68,6 +72,7 @@ public class ReactionChooserComboBox extends JComboBox {
         ImageIcon ii = new MoleculeIcon( MoleculeA.class );
 //        final ImageIcon r1Item = new MoleculeIcon( MoleculeA.class );
 
+        final ImageIcon defaultItem = new MoleculeIcon( MoleculeA.class );
         BufferedImage bi = (BufferedImage)ii.getImage();
         MakeDuotoneImageOp imgOp = new MakeDuotoneImageOp( new Color( 0, 90, 0 ));
         bi = imgOp.filter( bi, null );
@@ -77,6 +82,8 @@ public class ReactionChooserComboBox extends JComboBox {
         final ImageIcon r2Item = new MoleculeIcon( MoleculeBC.class );
         final ImageIcon r3Item = new MoleculeIcon( MoleculeAB.class );
         final String designYourOwnItem = SimStrings.get( "ExperimentSetup.designYourOwn" );
+
+        addItem( defaultItem );
         addItem( r1Item );
         addItem( r2Item );
         addItem( r3Item );
@@ -86,6 +93,9 @@ public class ReactionChooserComboBox extends JComboBox {
             public void actionPerformed( ActionEvent e ) {
                 Object selection = ReactionChooserComboBox.this.getSelectedItem();
                 String command = "";
+                if( selection == defaultItem ) {
+                    command = SelectReactionAction.DEFAULT_ACTION;
+                }
                 if( selection == r1Item ) {
                     command = SelectReactionAction.R1_ACTION;
                 }
@@ -103,7 +113,7 @@ public class ReactionChooserComboBox extends JComboBox {
             }
         } );
 
-        r1RB.setSelected( true );
+        defaultRB.setSelected( true );
     }
 
     public void reset() {
