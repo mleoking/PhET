@@ -27,7 +27,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 
 /**
- * ReactionChooser
+ * ReactionChooserPanel
+ * <p>
+ * A JPanel with radio buttons for selecting a reaction
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -68,13 +70,13 @@ public class ReactionChooserPanel extends JPanel {
         r3RB.addActionListener( selectionListener  );
         designYourOwnRB.addActionListener( selectionListener  );
 
-        JLabel iconDefault = new JLabel( new MoleculeIcon( MoleculeA.class, Profiles.DEFAULT ) );
+        JLabel iconDefault = new JLabel( ReactionSelectorIcons.getIcon( Profiles.DEFAULT ) );
         iconDefault.addMouseListener( new MoleculeIconMouseAdapter( defaultRB ) );
-        JLabel iconA = new JLabel( new MoleculeIcon( MoleculeA.class, Profiles.R1 ) );
+        JLabel iconA = new JLabel( ReactionSelectorIcons.getIcon( Profiles.R1 ) );
         iconA.addMouseListener( new MoleculeIconMouseAdapter( r1RB ) );
-        JLabel iconBC = new JLabel( new MoleculeIcon( MoleculeBC.class, Profiles.R2 ) );
+        JLabel iconBC = new JLabel( ReactionSelectorIcons.getIcon( Profiles.R2 ) );
         iconBC.addMouseListener( new MoleculeIconMouseAdapter( r2RB ) );
-        JLabel iconAB = new JLabel( new MoleculeIcon( MoleculeAB.class, Profiles.R3 ) );
+        JLabel iconAB = new JLabel( ReactionSelectorIcons.getIcon( Profiles.R3 ) );
         iconAB.addMouseListener( new MoleculeIconMouseAdapter( r3RB ) );
         JLabel designYourOwnLbl = new JLabel( SimStrings.get( "ExperimentSetup.designYourOwn" ) );
         designYourOwnLbl.addMouseListener( new MoleculeIconMouseAdapter( designYourOwnRB ) );
