@@ -45,7 +45,7 @@ import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieRadialDistanceNode;
  */
 public class DeveloperControlsDialog extends JDialog implements ColorChooserFactory.Listener {
     
-    // Marker class for color chips
+    // Color chips (marker class)
     private static class ColorChip extends JLabel {
         public ColorChip() {
             super();
