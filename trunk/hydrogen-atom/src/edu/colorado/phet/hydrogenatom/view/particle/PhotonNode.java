@@ -52,7 +52,14 @@ public class PhotonNode extends PhetPNode implements Observer {
     private static final boolean DEBUG_CACHE_ENABLED = false;
     
     //----------------------------------------------------------------------------
-    // Class data
+    // Public class data
+    //----------------------------------------------------------------------------
+    
+    // public because it's used by collision detection code in the model
+    public static final double DIAMETER = 30;
+    
+    //----------------------------------------------------------------------------
+    // Private class data
     //----------------------------------------------------------------------------
     
     /* determines whether UV and IR photons are labeled */
@@ -60,8 +67,6 @@ public class PhotonNode extends PhetPNode implements Observer {
     
     /* determines whether to color the crosshairs for UV and IR photons */
     private static final boolean SHOW_UV_IR_CROSSHAIRS = true;
-    
-    public static final double DIAMETER = 30;
     
     private static final int PHOTON_COLOR_ALPHA = 130;
     private static final Color HILITE_COLOR = new Color( 255, 255, 255, 180 );

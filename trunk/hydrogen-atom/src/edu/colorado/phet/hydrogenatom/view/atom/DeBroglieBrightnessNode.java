@@ -31,14 +31,19 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
+public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
     
     //----------------------------------------------------------------------------
-    // Class data
+    // Public class data
     //----------------------------------------------------------------------------
     
-    // radial width of the ring
-    private static final double RING_WIDTH = 5;
+    // radial width of the ring representation,
+    // public because it's used by collision detection code in the model
+    public static final double RING_WIDTH = 5;
+    
+    //----------------------------------------------------------------------------
+    // Private class data
+    //----------------------------------------------------------------------------
     
     // distance along the ring's circumference that each polygon occupies
     private static final double POLYGON_SIZE = 3;
@@ -117,6 +122,7 @@ class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
         _polygons.clear();
 
         double radius = getAtom().getElectronOrbitRadius();
+        
         for ( int i = 0; i < numberOfPolygons; i++ ) {
 
             double a1 = ( 2 * Math.PI ) * ( (double) i / numberOfPolygons );
