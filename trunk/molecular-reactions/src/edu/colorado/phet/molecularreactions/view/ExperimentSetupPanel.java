@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.util.RangeLimitedIntegerTextField;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
@@ -19,6 +20,7 @@ import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.MRConfig;
 
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -37,11 +39,22 @@ public class ExperimentSetupPanel extends JPanel {
     private JTextField numCTF;
     private MoleculeParamGenerator moleculeParamGenerator;
     private ComplexModule module;
+    private MoleculeCounter moleculeACounter;
+    private MoleculeCounter moleculeBCCounter;
+    private MoleculeCounter moleculeABCounter;
+    private MoleculeCounter moleculeCCounter;
+
+    private boolean hasBeenReset = true;
 
 
     public ExperimentSetupPanel( ComplexModule module ) {
         super( new GridBagLayout() );
         this.module = module;
+
+        moleculeACounter = new MoleculeCounter( MoleculeA.class, module.getMRModel() );
+        moleculeBCCounter = new MoleculeCounter( MoleculeBC.class, module.getMRModel() );
+        moleculeABCounter = new MoleculeCounter( MoleculeAB.class, module.getMRModel() );
+        moleculeCCounter = new MoleculeCounter( MoleculeC.class, module.getMRModel() );
 
         // Create a generator for molecule parameters
         Rectangle2D r = module.getMRModel().getBox().getBounds();
@@ -69,6 +82,12 @@ public class ExperimentSetupPanel extends JPanel {
         numCTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
 
         JButton goBtn = new GoStopResetBtn( module );
+        JButton resetBtn = new JButton( SimStrings.get( "ExperimentSet.reset" ) );
+        resetBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                reset();
+            }
+        } );
 
         // Add a border
         setBorder( ControlBorderFactory.createPrimaryBorder( "Experimental Controls" ) );
@@ -103,36 +122,91 @@ public class ExperimentSetupPanel extends JPanel {
 
         labelGbc.gridwidth = 2;
         labelGbc.anchor = GridBagConstraints.CENTER;
-        add( new ReactionChooserComboBox( module ), labelGbc);
+        add( new ReactionChooserComboBox( module ), labelGbc );
         add( goBtn, labelGbc );
+        add( resetBtn, labelGbc );
     }
 
     /**
      * Adds molecules to the model as specified in the controls
      */
     private void startExperiment() {
-        generateMolecules( MoleculeA.class, Integer.parseInt( numATF.getText() ));
-        generateMolecules( MoleculeBC.class, Integer.parseInt( numBCTF.getText() ));
-        generateMolecules( MoleculeAB.class, Integer.parseInt( numABTF.getText() ));
-        generateMolecules( MoleculeC.class, Integer.parseInt( numCTF.getText() ));
+
+        int dA = Integer.parseInt( numATF.getText() ) - moleculeACounter.getCnt();
+        int dBC = Integer.parseInt( numBCTF.getText() ) - moleculeBCCounter.getCnt();
+        int dAB = Integer.parseInt( numABTF.getText() ) - moleculeABCounter.getCnt();
+        int dC = Integer.parseInt( numCTF.getText() ) - moleculeCCounter.getCnt();
+
+        generateMolecules( MoleculeA.class, dA );
+        generateMolecules( MoleculeBC.class, dBC );
+        generateMolecules( MoleculeAB.class, dAB );
+        generateMolecules( MoleculeC.class, dC );
+//        generateMolecules( MoleculeA.class, Integer.parseInt( numATF.getText() ));
+//        generateMolecules( MoleculeBC.class, Integer.parseInt( numBCTF.getText() ));
+//        generateMolecules( MoleculeAB.class, Integer.parseInt( numABTF.getText() ));
+//        generateMolecules( MoleculeC.class, Integer.parseInt( numCTF.getText() ));
 
         module.setStripChartVisible( true );
-        module.rescaleStripChart();
+        if( hasBeenReset ) {
+            module.rescaleStripChart();
+            hasBeenReset = false;
+        }
     }
 
     private void generateMolecules( Class moleculeClass, int numMolecules ) {
-        for( int i = 0; i < numMolecules; i++ ) {
-            AbstractMolecule m = MoleculeFactory.createMolecule( moleculeClass,
-                                                                 moleculeParamGenerator );
-            if( m instanceof CompositeMolecule ) {
-                CompositeMolecule cm = (CompositeMolecule)m;
-                for( int j = 0; j < cm.getComponentMolecules().length; j++ ) {
-                    module.getMRModel().addModelElement( cm.getComponentMolecules()[j] );
+        MRModel model = module.getMRModel();
+
+        // Adding molecules?
+        if( numMolecules > 0 ) {
+            for( int i = 0; i < numMolecules; i++ ) {
+                AbstractMolecule m = MoleculeFactory.createMolecule( moleculeClass,
+                                                                     moleculeParamGenerator );
+                if( m instanceof CompositeMolecule ) {
+                    CompositeMolecule cm = (CompositeMolecule)m;
+                    for( int j = 0; j < cm.getComponentMolecules().length; j++ ) {
+                        model.addModelElement( cm.getComponentMolecules()[j] );
+                    }
+                }
+                model.addModelElement( m );
+            }
+        }
+        // Removing molecules?
+        else {
+            for( int i = numMolecules; i < 0; i++ ) {
+                List modelElements = model.getModelElements();
+                boolean moleculeRemoved = false;
+                for( int j = 0; j < modelElements.size() && !moleculeRemoved; j++ ) {
+                    Object o = modelElements.get( j );
+                    if( moleculeClass.isInstance( o ) ) {
+                        if( o instanceof CompositeMolecule ) {
+                            CompositeMolecule cm = (CompositeMolecule)o;
+                            for( int k = 0; k < cm.getComponentMolecules().length; k++ ) {
+                                model.removeModelElement( cm.getComponentMolecules()[k] );
+                            }
+                        }
+                        model.removeModelElement( (ModelElement)o );
+                    }
                 }
             }
-            module.getMRModel().addModelElement( m );
         }
     }
+
+    private void reset() {
+
+        numATF.setText( "0" );
+        numBCTF.setText( "0" );
+        numABTF.setText( "0" );
+        numCTF.setText( "0" );
+
+        generateMolecules( MoleculeA.class, -moleculeACounter.getCnt() );
+        generateMolecules( MoleculeBC.class, -moleculeBCCounter.getCnt() );
+        generateMolecules( MoleculeAB.class, -moleculeABCounter.getCnt() );
+        generateMolecules( MoleculeC.class, -moleculeCCounter.getCnt() );
+
+
+        hasBeenReset = true;
+    }
+
 
     /**
      * Three state button for controlling the experiment
@@ -154,26 +228,45 @@ public class ExperimentSetupPanel extends JPanel {
         public GoStopResetBtn( MRModule module ) {
             this.clock = module.getClock();
             this.module = module;
-            state = setup;
-            setText( setupString );
-            setBackground( setupColor );
+            setState( stop );
+//            state = go;
+//            setText( setupString );
+//            setBackground( setupColor );
             addActionListener( new ActionHandler() );
         }
+
+        private void setState( Object state ) {
+            this.state = state;
+            if( state == go ) {
+                clock.start();
+                startExperiment();
+                setText( stopString );
+                setBackground( stopColor );
+            }
+            if( state == stop ) {
+                clock.pause();
+                setText( goString );
+                setBackground( goColor );
+            }
+        }
+
 
         private class ActionHandler implements ActionListener {
             public void actionPerformed( ActionEvent e ) {
                 if( state == go ) {
-                    clock.start();
-                    startExperiment();
-                    state = stop;
-                    setText( stopString );
-                    setBackground( stopColor );
+                    setState( stop );
+//                    clock.start();
+//                    startExperiment();
+//                    state = stop;
+//                    setText( stopString );
+//                    setBackground( stopColor );
                 }
                 else if( state == stop ) {
-                    clock.pause();
-                    state = setup;
-                    setText( setupString );
-                    setBackground( setupColor );
+                    setState( go );
+//                    clock.pause();
+//                    state = go;
+//                    setText( goString );
+//                    setBackground( goColor );
                 }
                 else if( state == setup ) {
                     module.reset();

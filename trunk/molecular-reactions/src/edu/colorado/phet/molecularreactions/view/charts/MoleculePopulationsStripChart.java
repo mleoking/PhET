@@ -17,7 +17,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.util.StripChart;
 import edu.colorado.phet.molecularreactions.view.MoleculePaints;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import org.jfree.chart.plot.PlotOrientation;
 
 import java.awt.*;
@@ -83,7 +83,7 @@ public class MoleculePopulationsStripChart extends StripChart {
 
     public void rescale() {
         // Find largest molecule population
-        int maxCnt = 0;
+        int maxCnt = MRConfig.STRIP_CHART_MIN_RANGE_Y;
         maxCnt = Math.max( maxCnt, counterA.getCnt() );
         maxCnt = Math.max( maxCnt, counterBC.getCnt() );
         maxCnt = Math.max( maxCnt, counterAB.getCnt() );

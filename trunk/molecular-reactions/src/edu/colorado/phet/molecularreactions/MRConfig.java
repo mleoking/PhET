@@ -53,6 +53,7 @@ public class MRConfig {
     public static final double ENERGY_VIEW_PROFILE_VERTICAL_SCALE = 1;
     public static final int STRIP_CHART_BUFFER_SIZE = 3 * 60 * CLOCK_FPS;
     public static final double STRIP_CHART_VISIBLE_TIME_RANGE = 300;
+    public static final int STRIP_CHART_MIN_RANGE_Y = 10;
 
     // Colors
     public static final Color SPATIAL_VIEW_BACKGROUND = new Color( 255, 255, 225 );
