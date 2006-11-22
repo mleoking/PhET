@@ -42,7 +42,6 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
      */
     public MoleculeMoleculeCollisionAgent_2( final MRModel model ) {
         reactionCriteria = model.getReaction().getReactionCriteria();
-//        model.addListener( this );
     }
 
     /**
@@ -151,7 +150,11 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
 
         // If the molecules aren't of a type that could react, simply do a hard sphere collision
         if( !model.getReaction().moleculesAreProperTypes( (AbstractMolecule)bodyA,
-                                                          (AbstractMolecule)bodyB ) ) {
+                                                          (AbstractMolecule)bodyB )
+            || ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeA
+                 && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC
+                 || collisionSpec.getSimpleMoleculeA() instanceof MoleculeC
+                    && collisionSpec.getSimpleMoleculeB() instanceof MoleculeA ) ) {
             doHardSphereCollision( collisionPt, bodyA, bodyB, loa );
         }
         // Otherwise, create a composite molecule if ReactionCriteria are met
