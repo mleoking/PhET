@@ -50,4 +50,8 @@ public class Config {
     public static final double CONTAINMENT_EXPLOSION_THRESHOLD = 400;
 //    public static final double CONTAINMENT_EXPLOSION_THRESHOLD = 100;
     public static final double CONTAINMENT_NEUTRON_ABSORPTION_PROBABILITY = 0.9;
+
+    // Colors
+    public static final int CONTROLLED_CHAIN_REACTION_BACKGROUND = 220;
+//    public static final Color CONTROLLED_CHAIN_REACTION_BACKGROUND = new Color( 220, 220, 220 );
 }
