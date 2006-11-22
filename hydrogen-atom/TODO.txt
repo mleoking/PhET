@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- remove n-dependence of oscillation frequency from deBroglie (make all levels oscillate at same frequency as n=1)
 - implement DeBroglie "height 3D" representation
 - improve performance of DeBroglie "brightness" and "brightness magnitude" representations
 
@@ -44,6 +43,8 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+***** CVS tag hydrogenatom-0-00-12-2006-11-22
+(11/22/06) - remove n-dependence of oscillation frequency from deBroglie (make all levels oscillate at same frequency as n=1)
 ***** CVS tag hydrogenatom-0-00-11-2006-11-21
 (11/21/06) - fix DeBroglieModel to use COLLISION_CLOSENESS in its collision detection
 (11/21/06) - rename AbstractHydrogenAtom.ABSORPTION_CLOSENESS to COLLISION_CLOSENESS

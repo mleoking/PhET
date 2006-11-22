@@ -181,6 +181,14 @@ public class BohrModel extends AbstractHydrogenAtom {
     }
     
     /**
+     * Gets the change in electron angle per unit of time.
+     * @return double
+     */
+    protected double getElectronAngleDelta() {
+       return ELECTRON_ANGLE_DELTA;
+    }
+    
+    /**
      * Gets the radisu of the electron's orbit.
      * The orbit radius and the electron's angle determine the electron's offset
      * in Polar coordinates.
@@ -529,11 +537,23 @@ public class BohrModel extends AbstractHydrogenAtom {
         // Keep track of how long the electron has been in its current state.
         _timeInState += dt;
         
-        // clockwise orbit
-        _electronAngle -= dt * ( ELECTRON_ANGLE_DELTA / ( _electronState * _electronState ) );
+        // Advance the electron along its orbit
+        _electronAngle = calculateNewElectronAngle( dt );
         updateElectronOffset();
 
         // Attempt to emit a photon
         emitPhoton();
+    }
+    
+    /**
+     * Calculates the new electron angle for some time step.
+     * Subclasses may override this to produce different oscillation behavior.
+     * 
+     * @param dt
+     * @return double
+     */
+    protected double calculateNewElectronAngle( double dt ) {
+        double deltaAngle = dt * ( ELECTRON_ANGLE_DELTA / ( _electronState * _electronState ) );
+        return _electronAngle - deltaAngle; // clockwise
     }
 }
