@@ -23,6 +23,11 @@ import java.awt.image.BufferedImage;
 
 /**
  * LegendPanel
+ * <p>
+ * This is the class used for the legend for all modules. A module indicates
+ * what items it wants to have in the legend by implementing the abstract method
+ * List getLegendClasses(), which returns a list of LegendItem instances. LegendItem
+ * is an enumeration inner class defined in this class.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -44,6 +49,7 @@ public class LegendPanel extends JPanel {
     public static final LegendItem U239 = new LegendItem();
     public static final LegendItem Po210 = new LegendItem();
     public static final LegendItem Pb206 = new LegendItem();
+    public static final LegendItem DAUGHTER_NUCLEI = new LegendItem();
 
     /**
      * @param modelClasses
@@ -83,6 +89,12 @@ public class LegendPanel extends JPanel {
 
         Nucleus pb206 = new Lead207( new Point2D.Double() );
         ImageIcon pb206Icon = createIcon( pb206 );
+
+        Nucleus ru = new Rubidium( new Point2D.Double() );
+        ImageIcon ruIcon = createIcon( ru );
+
+        Nucleus cs = new Cesium( new Point2D.Double() );
+        ImageIcon csIcon = createIcon( cs );
 
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         this.setBorder( BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "NuclearPhysicsControlPanel.LegendBorder" ) ) );
@@ -125,6 +137,13 @@ public class LegendPanel extends JPanel {
         if( allModelClasses || modelClasses.contains( Pb206 ) ) {
             add( new JLabel( pb206Icon, SwingConstants.RIGHT ), iconGbc );
             add( new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.Lead207Label" ), SwingConstants.LEFT ), textGbc );
+        }
+        if( allModelClasses || modelClasses.contains( DAUGHTER_NUCLEI ) ) {
+            JPanel jp = new JPanel( new GridLayout( 1,2));
+            jp.add( new JLabel( ruIcon, SwingConstants.RIGHT ) );
+            jp.add( new JLabel( csIcon, SwingConstants.RIGHT ) );
+            add( jp, iconGbc );
+            add( new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.DaughterNucleiLabel" ), SwingConstants.LEFT ), textGbc );
         }
     }
 

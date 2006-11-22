@@ -144,7 +144,8 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         LegendPanel.LegendItem[] legendClasses = new LegendPanel.LegendItem[]{
                 LegendPanel.NEUTRON,
                 LegendPanel.PROTON,
-                LegendPanel.U235
+                LegendPanel.U235,
+                LegendPanel.DAUGHTER_NUCLEI
         };
         return Arrays.asList( legendClasses );
     }
