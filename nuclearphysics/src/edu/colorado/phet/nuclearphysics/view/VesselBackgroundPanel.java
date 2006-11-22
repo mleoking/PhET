@@ -12,6 +12,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.nuclearphysics.model.Vessel;
+import edu.colorado.phet.nuclearphysics.Config;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -28,9 +29,9 @@ public class VesselBackgroundPanel extends PhetShapeGraphic implements Vessel.Ch
     // Class data
     //----------------------------------------------------------------
 
-    private static int baseGray = 180;
+    private static int baseGray = Config.CONTROLLED_CHAIN_REACTION_BACKGROUND;
     private static double maxTemp = Vessel.MAX_TEMPERATURE;
-    private static Color DEFAULT_COLOR = new Color( 180, 180, 180 );
+    private static Color DEFAULT_COLOR = new Color( baseGray, baseGray, baseGray );
     private static Color[] lut = new Color[100];
 
     static {
