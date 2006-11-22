@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- remove n-dependence of oscillation frequency from deBroglie (make all levels oscillate at same frequency as n=1)
 - implement DeBroglie "height 3D" representation
 - improve performance of DeBroglie "brightness" and "brightness magnitude" representations
 
