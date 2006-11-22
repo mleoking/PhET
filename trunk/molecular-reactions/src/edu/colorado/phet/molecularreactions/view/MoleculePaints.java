@@ -102,15 +102,15 @@ public class MoleculePaints {
     private static Map mapDYO = new HashMap();
 
     static {
-        mapR1.put( MoleculeA.class, new Color( 0, 250, 0 ) );
+        mapR1.put( MoleculeA.class, new Color( 0, 150, 0 ) );
         mapR1.put( MoleculeB.class, new Color( 150, 0, 0 ) );
         mapR1.put( MoleculeC.class, new Color( 0, 0, 250 ) );
 
-        mapR2.put( MoleculeA.class, new Color( 0, 250, 250 ) );
+        mapR2.put( MoleculeA.class, new Color( 0, 100, 250 ) );
         mapR2.put( MoleculeB.class, new Color( 250, 0, 250 ) );
-        mapR2.put( MoleculeC.class, new Color( 250, 250, 0 ) );
+        mapR2.put( MoleculeC.class, new Color( 150, 150, 0 ) );
 
-        mapR3.put( MoleculeA.class, new Color( 250, 60, 0 ) );
+        mapR3.put( MoleculeA.class, new Color( 200, 60, 0 ) );
         mapR3.put( MoleculeB.class, new Color( 0, 150, 0 ) );
         mapR3.put( MoleculeC.class, new Color( 60, 0, 250 ) );
 
