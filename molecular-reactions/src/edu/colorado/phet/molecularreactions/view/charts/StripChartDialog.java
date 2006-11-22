@@ -50,7 +50,7 @@ public class StripChartDialog extends JDialog {
                                                         module.getClock(),
                                                         xAxisRange,
                                                         0,
-                                                        20,
+                                                        MRConfig.STRIP_CHART_MIN_RANGE_Y,
                                                         1,
                                                         numBufferedDataPoints );
         ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
