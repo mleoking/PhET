@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * MoleculeInstanceControlPanel
  * <p/>
- * Panel that shows the number of each type of molecule
+ * Panel that has spinners for the number of each type of molecule
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -59,7 +59,6 @@ public class MoleculeInstanceControlPanel extends JPanel {
         setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.numMolecules" ) ) );
         setLayout( new GridBagLayout() );
         Insets insets = new Insets( 2, 0, 2, 0 );
-//        Insets insets = new Insets( 2, 2, 2, 2 );
         GridBagConstraints gbc = new GridBagConstraints( 0,
                                                          GridBagConstraints.RELATIVE,
                                                          1, 1, 1, 1,
