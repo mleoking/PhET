@@ -8,9 +8,13 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
 import edu.colorado.phet.nuclearphysics.view.LegendPanel;
@@ -19,6 +23,8 @@ import edu.colorado.phet.nuclearphysics.Config;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.AffineTransformOp;
 import java.awt.geom.*;
 import java.util.*;
 import java.util.List;
@@ -174,8 +180,54 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
                 explodingGraphics.add( new ExplodingContainmentGraphic( MultipleNucleusFissionModule.this, containmentGraphic ) );
                 getPhysicalPanel().removeGraphic( containmentGraphic );
                 setContainmentEnabled( false );
+
+                // Add a mushroom cloud
+                PhetImageGraphic mushroomCloudGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/mc-10.jpg");
+                getPhysicalPanel().addGraphic( mushroomCloudGraphic );
+                ImageGraphicExpander ige = new ImageGraphicExpander( mushroomCloudGraphic );
+                getClock().addClockListener( ige );
+
+                // Display a message
+                Font font = new Font( "Lucida sans", Font.ITALIC, 72);
+                PhetTextGraphic2 textGraphic = new PhetTextGraphic2( getPhysicalPanel(), font, "You have made an atomic bomb", Color.red );
+                getPhysicalPanel().addGraphic( textGraphic );
+                textGraphic.setLocation( -800, 0);
             }
         } );
+    }
+
+    private class ImageGraphicExpander implements ClockListener {
+        private PhetImageGraphic pig;
+        private AffineTransform atx = AffineTransform.getScaleInstance( 1.1, 1.1 );
+        private AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
+
+        public ImageGraphicExpander( PhetImageGraphic pig ) {
+            this.pig = pig;
+        }
+
+        public void clockTicked( ClockEvent clockEvent ) {
+            BufferedImage bi = pig.getImage();
+            bi = atxOp.filter( bi, null );
+            pig.setImage( bi );
+            pig.repaint();
+            pig.setLocation( -bi.getWidth() / 2, - bi.getHeight() / 2);
+        }
+
+        public void clockStarted( ClockEvent clockEvent ) {
+
+        }
+
+        public void clockPaused( ClockEvent clockEvent ) {
+
+        }
+
+        public void simulationTimeChanged( ClockEvent clockEvent ) {
+
+        }
+
+        public void simulationTimeReset( ClockEvent clockEvent ) {
+
+        }
     }
 
     private void removeContainment() {
