@@ -29,16 +29,22 @@ import java.util.List;
  * @version $Revision$
  */
 public class MoleculeInstanceControlPanel extends JPanel {
-    private List counters = new ArrayList( );
+    private List counters = new ArrayList();
     private int maxMoleculeCnt = MRConfig.MAX_MOLECULE_CNT;
+    private JLabel aLabel = new JLabel();
+    private JLabel cLabel = new JLabel();
+    private JLabel abLabel = new JLabel();
+    private JLabel bcLabel = new JLabel();
 
-    public MoleculeInstanceControlPanel( MRModel model ) {
+    public MoleculeInstanceControlPanel( final MRModel model ) {
 
-        EnergyProfile profile = model.getEnergyProfile();
-        JLabel aLabel = new JLabel( new MoleculeIcon( MoleculeA.class, profile ) );
-        JLabel cLabel = new JLabel(  new MoleculeIcon( MoleculeC.class, profile )  );
-        JLabel abLabel = new JLabel( new MoleculeIcon( MoleculeAB.class, profile ) );
-        JLabel bcLabel = new JLabel( new MoleculeIcon( MoleculeBC.class, profile ) );
+        // Add a listener to the model that will update the icons if the energy profile changes
+        model.addListener( new MRModel.ModelListener() {
+            public void energyProfileChanged( EnergyProfile profile ) {
+                updateIcons( model.getEnergyProfile() );
+            }
+        } );
+        updateIcons( model.getEnergyProfile() );
 
         MoleculeCountSpinner aMC = new MoleculeCountSpinner( MoleculeA.class, model, maxMoleculeCnt );
         counters.add( aMC );
@@ -50,7 +56,7 @@ public class MoleculeInstanceControlPanel extends JPanel {
         counters.add( bcMC );
 
         // Lay out the controls
-        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get("Control.numMolecules")) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.numMolecules" ) ) );
         setLayout( new GridBagLayout() );
         Insets insets = new Insets( 2, 0, 2, 0 );
 //        Insets insets = new Insets( 2, 2, 2, 2 );
@@ -73,6 +79,13 @@ public class MoleculeInstanceControlPanel extends JPanel {
         add( bcMC, gbc );
         add( abMC, gbc );
         add( cMC, gbc );
+    }
+
+    private void updateIcons( EnergyProfile profile ) {
+        aLabel.setIcon( new MoleculeIcon( MoleculeA.class, profile ) );
+        cLabel.setIcon( new MoleculeIcon( MoleculeC.class, profile ) );
+        abLabel.setIcon( new MoleculeIcon( MoleculeAB.class, profile ) );
+        bcLabel.setIcon( new MoleculeIcon( MoleculeBC.class, profile ) );
     }
 
     public void setCountersEditable( boolean editable ) {
