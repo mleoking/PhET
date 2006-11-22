@@ -160,8 +160,27 @@ public class PumpGraphic extends PNode implements Resetable {
         private JRadioButton cRB;
         private JRadioButton abRB;
         private JRadioButton bcRB;
+        private JLabel iconA = new JLabel();
+        private JLabel iconBC = new JLabel();
+        private JLabel iconAB = new JLabel();
+        private JLabel iconC = new JLabel();
 
         public MoleculeTypeSelector() {
+
+            // Add listeners to the icons so they will actively select the radio buttons next to them
+            iconA.addMouseListener( new MoleculeIconMouseAdapter( aRB ) );
+            iconBC.addMouseListener( new MoleculeIconMouseAdapter( bcRB ) );
+            iconAB.addMouseListener( new MoleculeIconMouseAdapter( abRB ) );
+            iconC.addMouseListener( new MoleculeIconMouseAdapter( cRB ) );
+
+            // Listen for changes in the energy profile, and update the icons when they occur
+            model.addListener( new MRModel.ModelListener() {
+                public void energyProfileChanged( EnergyProfile profile ) {
+                    updateIcons();
+                }
+            } );
+            updateIcons();
+
             setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.moleculeType" ) ) );
             setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
 
@@ -184,15 +203,6 @@ public class PumpGraphic extends PNode implements Resetable {
             cRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
             abRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
             bcRB.setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
-
-            JLabel iconA = new JLabel( new MoleculeIcon( MoleculeA.class, model.getEnergyProfile() ) );
-            iconA.addMouseListener( new MoleculeIconMouseAdapter( aRB ) );
-            JLabel iconBC = new JLabel( new MoleculeIcon( MoleculeBC.class, model.getEnergyProfile() ) );
-            iconBC.addMouseListener( new MoleculeIconMouseAdapter( bcRB ) );
-            JLabel iconAB = new JLabel( new MoleculeIcon( MoleculeAB.class, model.getEnergyProfile() ) );
-            iconAB.addMouseListener( new MoleculeIconMouseAdapter( abRB ) );
-            JLabel iconC = new JLabel( new MoleculeIcon( MoleculeC.class, model.getEnergyProfile() ) );
-            iconC.addMouseListener( new MoleculeIconMouseAdapter( cRB ) );
 
             setLayout( new GridBagLayout() );
             int rbAnchor = GridBagConstraints.CENTER;
@@ -219,6 +229,13 @@ public class PumpGraphic extends PNode implements Resetable {
 
             aRB.setSelected( true );
             currentMoleculeType = MoleculeA.class;
+        }
+
+        private void updateIcons() {
+            iconA.setIcon( new MoleculeIcon( MoleculeA.class, model.getEnergyProfile() ) );
+            iconBC.setIcon( new MoleculeIcon( MoleculeBC.class, model.getEnergyProfile() ) );
+            iconAB.setIcon( new MoleculeIcon( MoleculeAB.class, model.getEnergyProfile() ) );
+            iconC.setIcon( new MoleculeIcon( MoleculeC.class, model.getEnergyProfile() ) );
         }
 
         private class MoleculeSelectorRBAction extends AbstractAction {
