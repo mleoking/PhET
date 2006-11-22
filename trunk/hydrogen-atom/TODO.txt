@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - improve performance of DeBroglie "brightness" and "brightness magnitude" representations
 
 MEDIUM PRIORITY:
-- generate white light photons based on electron's state?
 - add "show traces" feature for alpha particles (need to interpolate curve between points)
 - implement Schrodinger visual representation
 - implement Schrodinger model
@@ -24,6 +23,7 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
+- generate white light photons based on electron's state?
 - handle model-view transform differently?
 - reduce size of image files that are being scaled down (eg, plum pudding)
 - add WavelengthControl.setTrackSize(Dimension)
