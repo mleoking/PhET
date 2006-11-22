@@ -12,35 +12,38 @@ package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImageOp;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.AffineTransform;
 import java.util.HashMap;
+import java.io.IOException;
 
 /**
- * AbstractSimpleMoleculeGraphic
+ * SimpleMoleculeGraphic
  * <p/>
  * Base class used in the spatial and energy views for the graphics for simple molecules
  * <p/>
- * The radius of the molecule is not used for the radius of the disk used in the graphic. Rather,
- * the disk is smaller, so that the bonds between molecules can be shown as a line. This may need
- * to change so that collisions look more natural on the screen.
+ * The buffered images used for the PImage nodes are shared between all instances for each
+ * type of molecule. This is the flyweight GOF design pattern.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-abstract public class AbstractSimpleMoleculeGraphic extends PNode implements SimpleObserver, SimpleMolecule.ChangeListener {
+abstract public class SimpleMoleculeGraphic extends PNode implements SimpleObserver, SimpleMolecule.ChangeListener {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -65,14 +68,46 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
 //    private static boolean MARK_SELECTED_MOLECULE = true;
     private static boolean MARK_SELECTED_MOLECULE = false;
 
-    static {
-        AbstractSimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeA.class, AbstractSimpleMoleculeGraphic.moleculeAColor );
-        AbstractSimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeB.class, AbstractSimpleMoleculeGraphic.moleculeBColor );
-        AbstractSimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeC.class, AbstractSimpleMoleculeGraphic.moleculeCColor );
+    private static BufferedImage moleculeAImg;
+    private static BufferedImage moleculeBImg;
+    private static BufferedImage moleculeCImg;
 
-        AbstractSimpleMoleculeGraphic.moleculeTypeToAnnotation.put( MoleculeA.class, "A" );
-        AbstractSimpleMoleculeGraphic.moleculeTypeToAnnotation.put( MoleculeB.class, "B" );
-        AbstractSimpleMoleculeGraphic.moleculeTypeToAnnotation.put( MoleculeC.class, "C" );
+    static {
+        try {
+            moleculeAImg = ImageLoader.loadBufferedImage( "images/glass-molecule-A.png" );
+            moleculeBImg = ImageLoader.loadBufferedImage( "images/glass-molecule-B.png" );
+            moleculeCImg = ImageLoader.loadBufferedImage( "images/glass-molecule-C.png" );
+
+            RenderingHints hints = new RenderingHints( RenderingHints.KEY_INTERPOLATION,
+                                                       RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY );
+            double scaleA = new MoleculeA().getRadius() * 2 / moleculeAImg.getWidth();
+            moleculeAImg = scaleImage( moleculeAImg, scaleA );
+
+            double scaleB = new MoleculeB().getRadius() * 2 / moleculeBImg.getWidth();
+            moleculeBImg = scaleImage( moleculeBImg, scaleB );
+
+            double scaleC = new MoleculeC().getRadius() * 2 / moleculeCImg.getWidth();
+            moleculeCImg = scaleImage( moleculeCImg, scaleC );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private static BufferedImage scaleImage( BufferedImage img, double scale) {
+        AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
+        BufferedImageOp op = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
+        return op.filter( img, null );
+    }
+
+    static {
+        SimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeA.class, SimpleMoleculeGraphic.moleculeAColor );
+        SimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeB.class, SimpleMoleculeGraphic.moleculeBColor );
+        SimpleMoleculeGraphic.moleculeTypeToColor.put( MoleculeC.class, SimpleMoleculeGraphic.moleculeCColor );
+
+        SimpleMoleculeGraphic.moleculeTypeToAnnotation.put( MoleculeA.class, "A" );
+        SimpleMoleculeGraphic.moleculeTypeToAnnotation.put( MoleculeB.class, "B" );
+        SimpleMoleculeGraphic.moleculeTypeToAnnotation.put( MoleculeC.class, "C" );
     }
 
     private static Color getColor( SimpleMolecule molecule ) {
@@ -92,7 +127,7 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
     }
 
     public static void setMarkSelectedMolecule( boolean mark ) {
-        AbstractSimpleMoleculeGraphic.MARK_SELECTED_MOLECULE = mark;
+        SimpleMoleculeGraphic.MARK_SELECTED_MOLECULE = mark;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -109,16 +144,19 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
      * @param molecule
      * @param profile
      */
-    public AbstractSimpleMoleculeGraphic( SimpleMolecule molecule, EnergyProfile profile ) {
+    public SimpleMoleculeGraphic( SimpleMolecule molecule, EnergyProfile profile ) {
         this( molecule, profile, false );
     }
 
     /**
+     * Constructor that provides option of the graphic being annotated with a letter that
+     * indicates the type of molecule.
+     *
      * @param molecule
      * @param profile
      * @param annotate
      */
-    public AbstractSimpleMoleculeGraphic( SimpleMolecule molecule, EnergyProfile profile, boolean annotate ) {
+    public SimpleMoleculeGraphic( SimpleMolecule molecule, EnergyProfile profile, boolean annotate ) {
         this.molecule = molecule;
         molecule.addObserver( this );
         molecule.addListener( this );
@@ -127,25 +165,19 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
             PImage moleculeNode = null;
             PImage labelNode = null;
             if( molecule instanceof MoleculeA ) {
-                moleculeNode = PImageFactory.create( "images/glass-molecule-A.png",
-                                                     new Dimension( (int)new MoleculeA().getRadius() * 2,
-                                                                    (int)new MoleculeA().getRadius() * 2 ) );
+                moleculeNode = new PImage( moleculeAImg );
                 if( annotate ) {
                     labelNode = PImageFactory.create( "images/molecule-label-A.png" );
                 }
             }
             if( molecule instanceof MoleculeB ) {
-                moleculeNode = PImageFactory.create( "images/glass-molecule-B.png",
-                                                     new Dimension( (int)new MoleculeB().getRadius() * 2,
-                                                                    (int)new MoleculeB().getRadius() * 2 ) );
+                moleculeNode = new PImage( moleculeBImg );
                 if( annotate ) {
                     labelNode = PImageFactory.create( "images/molecule-label-B.png" );
                 }
             }
             if( molecule instanceof MoleculeC ) {
-                moleculeNode = PImageFactory.create( "images/glass-molecule-C.png",
-                                                     new Dimension( (int)new MoleculeC().getRadius() * 2,
-                                                                    (int)new MoleculeC().getRadius() * 2 ) );
+                moleculeNode = new PImage( moleculeCImg );
                 if( annotate ) {
                     labelNode = PImageFactory.create( "images/molecule-label-C.png" );
                 }
@@ -193,9 +225,9 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
                                             -radius,
                                             radius * 2,
                                             radius * 2 );
-            pPath = new PPath( s, AbstractSimpleMoleculeGraphic.defaultStroke );
-            pPath.setPaint( AbstractSimpleMoleculeGraphic.getColor( molecule ) );
-            pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.defaultStrokePaint );
+            pPath = new PPath( s, SimpleMoleculeGraphic.defaultStroke );
+            pPath.setPaint( SimpleMoleculeGraphic.getColor( molecule ) );
+            pPath.setStrokePaint( SimpleMoleculeGraphic.defaultStrokePaint );
             addChild( pPath );
 
             // The CM marker
@@ -243,8 +275,8 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
                     pPath.setVisible( true );
                 }
                 else {
-                    pPath.setStroke( AbstractSimpleMoleculeGraphic.selectedStroke );
-                    pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.selectedStrokePaint );
+                    pPath.setStroke( SimpleMoleculeGraphic.selectedStroke );
+                    pPath.setStrokePaint( SimpleMoleculeGraphic.selectedStrokePaint );
                 }
             }
             else if( molecule.getSelectionStatus() == Selectable.NEAREST_TO_SELECTED ) {
@@ -258,8 +290,8 @@ abstract public class AbstractSimpleMoleculeGraphic extends PNode implements Sim
                     pPath.setVisible( false );
                 }
                 else {
-                    pPath.setStroke( AbstractSimpleMoleculeGraphic.defaultStroke );
-                    pPath.setStrokePaint( AbstractSimpleMoleculeGraphic.defaultStrokePaint );
+                    pPath.setStroke( SimpleMoleculeGraphic.defaultStroke );
+                    pPath.setStrokePaint( SimpleMoleculeGraphic.defaultStrokePaint );
                 }
             }
         }

@@ -11,7 +11,6 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
@@ -63,7 +62,7 @@ public class MoleculeIcon extends ImageIcon {
     }
 
 
-    private class IconGraphic extends AbstractSimpleMoleculeGraphic {
+    private class IconGraphic extends SimpleMoleculeGraphic {
 
         public IconGraphic( SimpleMolecule molecule, EnergyProfile profile ) {
             super( molecule, profile, true );
