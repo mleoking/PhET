@@ -23,15 +23,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * TestControlPanel
+ * SimpleMRControlPanel
+ * <p>
+ * Control panel for the Simple module
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-//public class TestControlPanel extends ControlPanel {
 public class SimpleMRControlPanel extends MRControlPanel {
-    private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
-    private SimpleMRControlPanel.LauncherOptionsPanel launcherOptionsPanel;
+    private LauncherOptionsPanel launcherOptionsPanel;
 
     public SimpleMRControlPanel( final SimpleModule module ) {
         super( new GridBagLayout() );
