@@ -76,7 +76,6 @@ public class ThermometerGraphic extends PNode {
         this.model = model;
         this.maxModelValue = maxModelValue;
 
-
         column = new Rectangle2D.Double(0,0,columnWidth, overallHeight - bulbRadius );
         PPath columnBackground = new PPath( column );
         columnBackground.setPaint( Color.white );

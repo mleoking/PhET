@@ -1,4 +1,3 @@
-- Apply flyweight pattern to molecule images 
 
 - strip chart controls
 
@@ -199,3 +198,13 @@ Done
 11-21-06 - when you change to profile on one panel, it changes on the other, too.
 11-21-06 - Colors of all molecule icons change when you change the reaction
 11-21-06 - gray cursor bar now properly moves through the potential hill in all situations
+11-21-06 - Gray cursor doesn't climb the profile if there is enough energy for a reaction.
+    It jumps from one side to the other
+11-21-06 - Rescale thermometer so changes aren't so big
+11-21-06 - If you change the launched molecule type while a reaction is going on, funny things
+    happen. You get a bond floating in space
+11-21-06 - Add a "default" reaction to the selection list
+11-21-06 - Setup/Go/Stop --> Go/Stop, and a Reset
+
+11-22-06 - Apply flyweight pattern to molecule images
+11-22-06 - Embed thermometer in wall for Simple Module
