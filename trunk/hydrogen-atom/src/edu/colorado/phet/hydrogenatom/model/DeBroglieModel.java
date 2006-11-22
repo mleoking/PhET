@@ -130,4 +130,17 @@ public class DeBroglieModel extends BohrModel {
         boolean collides = ( Math.abs( photonRadius - orbitRadius ) <= closeness );
         return collides;
     }
+    
+    /**
+     * Calculates the new electron angle for some time step.
+     * In this case, the change in angle (and thus the oscillation frequency)
+     * is the same of all states of the electron.
+     * 
+     * @param dt
+     * @return double
+     */
+    protected double calculateNewElectronAngle( double dt ) {
+        double deltaAngle = dt * getElectronAngleDelta();
+        return getElectronAngle() - deltaAngle; // clockwise
+    }
 }
