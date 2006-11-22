@@ -146,6 +146,10 @@ public class SimpleModule extends MRModule {
         TemperatureControl tempCtrl = model.getTemperatureControl();
         tempCtrl.setPosition( model.getBox().getMaxX() - 50, tempCtrl.getPosition().getY() );
 
+        // Embed the thermometer in the wall of the box
+        getSpatialView().setThermometerPosition( model.getBox().getMaxX() + 8,
+                                                 model.getBox().getMinY() - 20 );
+
         // Add the launcher and its graphic
         if( launcher == null ) {
             launcher = new Launcher( launcherTipLocation );

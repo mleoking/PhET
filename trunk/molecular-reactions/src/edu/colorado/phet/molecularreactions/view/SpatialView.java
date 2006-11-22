@@ -27,6 +27,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
 
 /**
  * SpatialView
@@ -43,6 +44,7 @@ public class SpatialView extends PNode {
     private PNode boxLayer = new PNode();
     private PNode topLayer = new PNode();
     private ModelElementGraphicManager megm;
+    private ThermometerGraphic thermometerGraphic;
 
     /**
      * @param module
@@ -78,7 +80,7 @@ public class SpatialView extends PNode {
         canvas.addChild( reactionGraphic );
 
         // Add the thermometer
-        ThermometerGraphic thermometerGraphic = new ThermometerGraphic( model,
+        thermometerGraphic = new ThermometerGraphic( model,
                                                                         module.getClock(),
                                                                         10,
                                                                         120 );
@@ -98,6 +100,10 @@ public class SpatialView extends PNode {
 
     public PNode getTopLayer() {
         return topLayer;
+    }
+
+    public void setThermometerPosition( double x, double y ) {
+        thermometerGraphic.setOffset( x, y );
     }
 
     //--------------------------------------------------------------------------------------------------
