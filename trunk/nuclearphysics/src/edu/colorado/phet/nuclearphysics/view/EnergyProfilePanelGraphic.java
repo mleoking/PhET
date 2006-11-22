@@ -305,6 +305,8 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         g2.fill( EnergyProfilePanelGraphic.arrowhead );
 
         // Tick marks
+        // Asked to remove by Danielle Harlow, 11/2006
+        if( false)
         {
             g2.setTransform( orgTx );
             int tickSpacing = 35;
@@ -363,7 +365,8 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     private void drawLegend( Graphics2D g2 ) {
         GraphicsState gs = new GraphicsState( g2 );
 
-        int legendWidth = 180;
+        int legendWidth = 250;
+//        int legendWidth = 180;
         int legendHeight = 60;
         Insets insetsFromPanel = new Insets( 0, 0, 100, 28 );
         Stroke borderStroke = new BasicStroke( 3 );

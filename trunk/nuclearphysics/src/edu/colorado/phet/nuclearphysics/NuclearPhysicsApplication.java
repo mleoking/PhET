@@ -72,7 +72,8 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
      * @return a JComponent that's the PhetTabbedPane for the app
      */
     public JComponent createTabbedPane( Module[] modules ) {
-        phetTabbedPane = (PhetTabbedPane)super.createTabbedPane( modules );
+        phetTabbedPane = (PhetTabbedPane)super.createTabbedPane(  );
+//        phetTabbedPane = (PhetTabbedPane)super.createTabbedPane( modules );
         phetTabbedPane.setSelectedTabColor( backgroundColor );
         return phetTabbedPane;
     }
