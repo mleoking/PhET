@@ -20,7 +20,7 @@ import edu.colorado.phet.molecularreactions.model.EnergyProfile;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class EnergySimpleMoleculeGraphic extends AbstractSimpleMoleculeGraphic {
+public class EnergySimpleMoleculeGraphic extends SimpleMoleculeGraphic {
 
     public EnergySimpleMoleculeGraphic( SimpleMolecule molecule, EnergyProfile profile ) {
         super( molecule, profile );

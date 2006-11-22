@@ -12,24 +12,15 @@ package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.*;
 import edu.colorado.phet.molecularreactions.view.charts.*;
-import edu.colorado.phet.molecularreactions.util.StripChart;
-import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolo.PNode;
-import org.jfree.chart.ChartPanel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentListener;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
@@ -57,7 +48,7 @@ public class ComplexModule extends MRModule {
         super( SimStrings.get( "Module.complexModuleTitle" ) );
 
         // Disable marking of the selected molecule and its nearest neighbor
-        AbstractSimpleMoleculeGraphic.setMarkSelectedMolecule( true );
+        SimpleMoleculeGraphic.setMarkSelectedMolecule( true );
 
         // Add the pump
         MRModel model = getMRModel();
@@ -78,7 +69,7 @@ public class ComplexModule extends MRModule {
     public void activate() {
         super.activate();
         // True marking of the selected molecule and its nearest neighbor
-        AbstractSimpleMoleculeGraphic.setMarkSelectedMolecule( true );
+        SimpleMoleculeGraphic.setMarkSelectedMolecule( true );
     }
 
     public void reset() {

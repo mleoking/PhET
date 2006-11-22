@@ -18,7 +18,7 @@ import edu.colorado.phet.molecularreactions.controller.RunAction;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
-import edu.colorado.phet.molecularreactions.view.AbstractSimpleMoleculeGraphic;
+import edu.colorado.phet.molecularreactions.view.SimpleMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.LauncherGraphic;
 import edu.colorado.phet.molecularreactions.view.LauncherLoadPanel;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
@@ -94,7 +94,7 @@ public class SimpleModule extends MRModule {
     public void activate() {
         super.activate();
         // Disable marking of the selected molecule and its nearest neighbor
-        AbstractSimpleMoleculeGraphic.setMarkSelectedMolecule( false );
+        SimpleMoleculeGraphic.setMarkSelectedMolecule( false );
     }
 
     public Launcher getLauncher() {
