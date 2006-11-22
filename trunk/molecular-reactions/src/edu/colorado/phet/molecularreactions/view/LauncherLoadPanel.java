@@ -13,9 +13,7 @@ package edu.colorado.phet.molecularreactions.view;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.modules.SimpleModule;
-import edu.colorado.phet.molecularreactions.model.MoleculeA;
-import edu.colorado.phet.molecularreactions.model.MoleculeC;
-import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
+import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
@@ -24,6 +22,8 @@ import java.awt.event.ActionEvent;
 
 /**
  * LauncherLoadPanel
+ * <p>
+ * Provides options for which type of molecule is loaded in the launcher
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -31,11 +31,25 @@ import java.awt.event.ActionEvent;
 public class LauncherLoadPanel extends JPanel {
     private JRadioButton aRB;
     private JRadioButton cRB;
-    private Class currentMoleculeType;
     private SimpleModule module;
+    private JLabel moleculeCLabel;
+    private JLabel moleculeALabel;
 
     public LauncherLoadPanel( SimpleModule module ) {
         this.module = module;
+
+        moleculeALabel = new JLabel();
+        moleculeALabel.setHorizontalAlignment( JLabel.CENTER );
+        moleculeCLabel = new JLabel();
+        moleculeCLabel.setHorizontalAlignment( JLabel.CENTER );
+        // Add a listener to the model that will update the icons if the energy profile changes
+        module.getMRModel().addListener( new MRModel.ModelListener() {
+            public void energyProfileChanged( EnergyProfile profile ) {
+                updateIcons();
+            }
+        } );
+        updateIcons();
+
         setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.launcherType" ) ) );
         setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
 
@@ -68,11 +82,15 @@ public class LauncherLoadPanel extends JPanel {
         gbc.gridx = 1;
         gbc.anchor = iconAnchor;
         gbc.insets = rightInsets;
-        add( new JLabel( new MoleculeIcon( MoleculeA.class, module.getMRModel().getEnergyProfile() ) ), gbc );
-        add( new JLabel( new MoleculeIcon( MoleculeC.class, module.getMRModel().getEnergyProfile() ) ), gbc );
+        add( moleculeALabel, gbc );
+        add( moleculeCLabel, gbc );
 
         cRB.setSelected( true );
-        currentMoleculeType = MoleculeA.class;
+    }
+
+    private void updateIcons() {
+        moleculeALabel.setIcon( new MoleculeIcon( MoleculeA.class, module.getMRModel().getEnergyProfile() ) );
+        moleculeCLabel.setIcon(new MoleculeIcon( MoleculeC.class, module.getMRModel().getEnergyProfile() ) );
     }
 
     public void setMolecule( SimpleMolecule launcherMolecule ) {
