@@ -23,7 +23,6 @@ import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
-import edu.colorado.phet.hydrogenatom.view.atom.AbstractHydrogenAtomNode.OrbitFactory;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -147,7 +146,7 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
             int numberOfStates = DeBroglieModel.getNumberOfStates();
             for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
                 double radius = getAtom().getOrbitRadius( state );
-                PNode orbitNode = OrbitFactory.createOrbitNode( radius );
+                PNode orbitNode = OrbitNodeFactory.createOrbitNode( radius );
                 addChild( orbitNode );
             }
             
