@@ -133,6 +133,8 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
     }
 
     /**
+     * Produces the results of a collision between molecules
+     * 
      * @param model
      * @param bodyA
      * @param bodyB
@@ -150,14 +152,19 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
 
         // If the molecules aren't of a type that could react, simply do a hard sphere collision
         if( !model.getReaction().moleculesAreProperTypes( (AbstractMolecule)bodyA,
-                                                          (AbstractMolecule)bodyB )
-            || ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeA
-                 && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC
-                 || collisionSpec.getSimpleMoleculeA() instanceof MoleculeC
-                    && collisionSpec.getSimpleMoleculeB() instanceof MoleculeA ) ) {
+                                                          (AbstractMolecule)bodyB )) {
             doHardSphereCollision( collisionPt, bodyA, bodyB, loa );
         }
-        // Otherwise, create a composite molecule if ReactionCriteria are met
+        // Otherwise, create a composite molecule if ReactionCriteria are met. This is a pretty
+        // complicated deal here. We first determine if the colliding mollecules have made it up
+        // to the top of the energy curve, by seeing if they overlap sufficiently.
+        // If that has happened, then a reaction occurs. If it hasn't, we determine if there is
+        // some collision energy left, in which case we don't do anything, and let the molecules
+        // move closer together in the next time step. BUT, in a final test, we see if the collision
+        // is occuring between a free A or C molecule and the A or C component of a composite
+        // molecule. If that's the case, then the molecules should just undergo a hard sphere
+        // collision. I've tried rearranging this code so it's not so obtuse, but haven't been
+        // successful.
         else {
             SimpleMolecule mA = collisionSpec.getFreeMolecule();
             SimpleMolecule mB = collisionSpec.getSimpleMoleculeB();
@@ -194,6 +201,16 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
                 // If are out of energy, do a hard sphere collision
                 if( outOfEnergy ) {
                     doHardSphereCollision( collisionPt, bodyA, bodyB, loa );
+                }
+
+                // If we have a free molecule hitting the non-B component of a composite
+                // molecule, do a hard sphere collision
+                if( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeA
+                      && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC
+                      || collisionSpec.getSimpleMoleculeA() instanceof MoleculeC
+                         && collisionSpec.getSimpleMoleculeB() instanceof MoleculeA ) ) {
+                    doHardSphereCollision( collisionPt, bodyA, bodyB, loa );
+
                 }
             }
         }
