@@ -65,7 +65,7 @@ public class BohrNode extends AbstractHydrogenAtomNode implements Observer {
         int numberOfStates = BohrModel.getNumberOfStates();
         for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
             double radius = atom.getOrbitRadius( state );
-            PNode orbitNode = OrbitFactory.createOrbitNode( radius );
+            PNode orbitNode = OrbitNodeFactory.createOrbitNode( radius );
             addChild( orbitNode );
             _orbitNodes.add( orbitNode );
         }

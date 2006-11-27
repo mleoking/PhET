@@ -43,6 +43,7 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+(11/27/06) - move OrbitNodeFactory to its own file
 ***** CVS tag hydrogenatom-0-00-12-2006-11-22
 (11/22/06) - remove n-dependence of oscillation frequency from deBroglie (make all levels oscillate at same frequency as n=1)
 ***** CVS tag hydrogenatom-0-00-11-2006-11-21
