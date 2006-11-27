@@ -24,7 +24,11 @@ import javax.swing.*;
 
 /**
 
- * Tests "Dave 3D" package from http://www.cs.cf.ac.uk/Dave/JAVA/3d/3d.html
+ * Tests "Dave 3D" package from http://www.cs.cf.ac.uk/Dave/JAVA/3d/3d.html.
+
+ * Displays an animated standing wave on a ring.
+
+ * The wave can be rotated in 3D space.
 
  */
 
@@ -144,6 +148,8 @@ public class TestDave3D extends JPanel {
 
         
 
+        // Remember where the user last clicked on the model
+
         addMouseListener( new MouseAdapter() {
 
             public void mousePressed( MouseEvent e ) {
@@ -157,6 +163,8 @@ public class TestDave3D extends JPanel {
         } );
 
         
+
+        // Drag on the model to rotate
 
         addMouseMotionListener( new MouseMotionAdapter() {
 
@@ -185,6 +193,8 @@ public class TestDave3D extends JPanel {
         } );
 
         
+
+        // Periodically advances the standing wave
 
         Timer timer = new Timer( 30, new ActionListener() {
 
@@ -258,6 +268,14 @@ public class TestDave3D extends JPanel {
 
     
 
+    /**
+
+     * Sets the standing wave's frequency.
+
+     * @param frequency
+
+     */
+
     public void setFrequency( int frequency ) {
 
         this.frequency = frequency;
@@ -265,6 +283,14 @@ public class TestDave3D extends JPanel {
     }
 
     
+
+    /**
+
+     * Gets the standing wave's frequency.
+
+     * @return
+
+     */
 
     public int getFrequency() {
 
@@ -281,6 +307,12 @@ public class TestDave3D extends JPanel {
     //----------------------------------------------------------------------------
 
     
+
+    /*
+
+     * ??
+
+     */
 
     private float xfac() {
 
@@ -384,9 +416,25 @@ public class TestDave3D extends JPanel {
 
     /*
 
-     * Converts an array of 3D points to an input stream,
+     * Converts an array of 3D points to an input stream.
 
-     * required by the Model3D constructor.
+     * The Model3D constructor is expecting to read an input stream,
+
+     * most likely from a file that contains info about the model.
+
+     * The input stream format is reportedly the same as the Wavefront OBJ file format.
+
+     * Tokens found in Dave's sample data files:
+
+     * v = vertex
+
+     * l = line
+
+     * f = face
+
+     * fo = ?
+
+     * g = ?
 
      */
 
