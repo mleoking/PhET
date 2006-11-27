@@ -1,7 +1,7 @@
 <project name="General Ant Build Script" default="Generate Jar" basedir=".">
 
     <property name="distname" value="cvsmigrate"/>
-    <property name="main.class" value="CvsMigrate" />
+    <property name="main.class" value="CvsUtil" />
 
     <!--  Set ant output directories.  -->
     <property name="ant.output" value="../ant_output"/>
