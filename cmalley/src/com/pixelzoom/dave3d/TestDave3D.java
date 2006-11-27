@@ -24,7 +24,7 @@ import javax.swing.*;
 
 /**
 
- * Tests "Dave 3D" package from http://www.cs.cf.ac.uk/Dave/JAVA/3d/3d.html.
+ * Tests the "Dave 3D" package from http://www.cs.cf.ac.uk/Dave/JAVA/3d/3d.html.
 
  * Displays an animated standing wave on a ring.
 
