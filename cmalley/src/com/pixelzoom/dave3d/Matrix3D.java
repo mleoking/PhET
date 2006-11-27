@@ -4,7 +4,9 @@ package com.pixelzoom.dave3d;
 /**
  * Matrix3D is a fairly conventional 3D matrix that can transform sets of
  * 3D points and perform a variety of manipulations on the transform.
+ * <p>
  * This code came from http://www.cs.cf.ac.uk/Dave/JAVA/3d/3d.html
+ * Copyright Dr. A. D. Marshall, Cardiff School of Computer Science
  */
 public class Matrix3D {
 

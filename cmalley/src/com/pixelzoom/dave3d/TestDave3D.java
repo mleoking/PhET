@@ -24,15 +24,47 @@ import javax.swing.*;
 
 /**
 
- * Test the Model3D and Matrix3D classes from
-
- * http://www.cs.cf.ac.uk/Dave/JAVA/3d/3d.html
+ * Tests "Dave 3D" package from http://www.cs.cf.ac.uk/Dave/JAVA/3d/3d.html
 
  */
 
-public class TestModel3D extends JPanel {
+public class TestDave3D extends JPanel {
 
 
+
+    //----------------------------------------------------------------------------
+
+    // Data structures
+
+    //----------------------------------------------------------------------------
+
+    
+
+    private static class Point3D {
+
+        double x, y, z;
+
+        public Point3D( double x, double y, double z ) {
+
+            this.x = x;
+
+            this.y = y;
+
+            this.z = z;
+
+        }
+
+    }
+
+    
+
+    //----------------------------------------------------------------------------
+
+    // Class data
+
+    //----------------------------------------------------------------------------
+
+    
 
     private static final float SCALE_FUDGE = 1;
 
@@ -44,7 +76,15 @@ public class TestModel3D extends JPanel {
 
     
 
-    private Model3D model3d;
+    //----------------------------------------------------------------------------
+
+    // Instance data
+
+    //----------------------------------------------------------------------------
+
+    
+
+    private Model3D model3D;
 
     private float xfac;
 
@@ -58,9 +98,23 @@ public class TestModel3D extends JPanel {
 
     private int frequency;
 
+    
 
+    //----------------------------------------------------------------------------
 
-    public TestModel3D() throws IOException {
+    // Constructors
+
+    //----------------------------------------------------------------------------
+
+    
+
+    /**
+
+     * Constructor.
+
+     */
+
+    public TestDave3D() throws IOException {
 
         super();
 
@@ -158,13 +212,83 @@ public class TestModel3D extends JPanel {
 
     
 
+    //----------------------------------------------------------------------------
+
+    // Public interface
+
+    //----------------------------------------------------------------------------
+
+
+
+    /**
+
+     * Draws the 3D model.
+
+     */
+
+    public void paintComponent( Graphics g ) {
+
+        Graphics2D g2 = (Graphics2D) g;
+
+        g2.setPaint( Color.WHITE );
+
+        g2.fillRect( 0, 0, getWidth(), getHeight() );
+
+        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+
+        if ( model3D != null ) {
+
+            model3D.mat.unit();
+
+            model3D.mat.translate( -( model3D.xmin + model3D.xmax ) / 2, -( model3D.ymin + model3D.ymax ) / 2, -( model3D.zmin + model3D.zmax ) / 2 );
+
+            model3D.mat.mult( amat );
+
+            model3D.mat.scale( xfac, -xfac, 16 * xfac / getWidth() );
+
+            model3D.mat.translate( getWidth() / 2, getHeight() / 2, 8 );
+
+            model3D.transformed = false;
+
+            model3D.paint( g );
+
+        }
+
+    }
+
+    
+
+    public void setFrequency( int frequency ) {
+
+        this.frequency = frequency;
+
+    }
+
+    
+
+    public int getFrequency() {
+
+        return frequency;
+
+    }
+
+    
+
+    //----------------------------------------------------------------------------
+
+    // Private methods
+
+    //----------------------------------------------------------------------------
+
+    
+
     private float xfac() {
 
-        float xw = model3d.xmax - model3d.xmin;
+        float xw = model3D.xmax - model3D.xmin;
 
-        float yw = model3d.ymax - model3d.ymin;
+        float yw = model3D.ymax - model3D.ymin;
 
-        float zw = model3d.zmax - model3d.zmin;
+        float zw = model3D.zmax - model3D.zmin;
 
         if ( yw > xw ) {
 
@@ -208,13 +332,11 @@ public class TestModel3D extends JPanel {
 
         InputStream is = pointsToStream( pts );
 
-        model3d = new Model3D( is );
+        model3D = new Model3D( is );
 
+        model3D.compress();
 
-
-        model3d.compress();
-
-        model3d.findBB();
+        model3D.findBB();
 
         
 
@@ -232,13 +354,13 @@ public class TestModel3D extends JPanel {
 
      */
 
-    private Point3D[] getPoints( int numPts, double radius, double zFreq, double zAmp, double zPhase ) {
+    private Point3D[] getPoints( int numberOfPoints, double radius, double zFreq, double zAmp, double zPhase ) {
 
-        Point3D[] pts = new Point3D[numPts];
+        Point3D[] points = new Point3D[numberOfPoints];
 
-        for ( int i = 0; i < numPts; i++ ) {
+        for ( int i = 0; i < numberOfPoints; i++ ) {
 
-            double frac = i / ( (double) numPts - 1 );
+            double frac = i / ( (double) numberOfPoints - 1 );
 
             double angle = Math.PI * 2 * frac;
 
@@ -250,11 +372,11 @@ public class TestModel3D extends JPanel {
 
             Point3D pt = new Point3D( x, y, z );
 
-            pts[i] = pt;
+            points[i] = pt;
 
         }
 
-        return pts;
+        return points;
 
     }
 
@@ -268,33 +390,33 @@ public class TestModel3D extends JPanel {
 
      */
 
-    private InputStream pointsToStream( Point3D[] pts ) {
+    private InputStream pointsToStream( Point3D[] points ) {
 
         StringBuffer buf = new StringBuffer();
 
-        DecimalFormat de = new DecimalFormat( "0.0000" );
+        DecimalFormat formatter = new DecimalFormat( "0.0000" );
 
-        for ( int i = 0; i < pts.length; i++ ) {
+        for ( int i = 0; i < points.length; i++ ) {
 
-            Point3D pt = pts[i];
+            Point3D p = points[i];
 
             buf.append( "v " );
 
-            buf.append( de.format( pt.getX() ) );
+            buf.append( formatter.format( p.x ) );
 
             buf.append( " " );
 
-            buf.append( de.format( pt.getY() ) );
+            buf.append( formatter.format( p.y ) );
 
             buf.append( " " );
 
-            buf.append( de.format( pt.getZ() ) );
+            buf.append( formatter.format( p.z ) );
 
             buf.append( System.getProperty( "line.separator" ) );
 
         }
 
-        for ( int i = 1; i <= pts.length; i++ ) {
+        for ( int i = 1; i <= points.length; i++ ) {
 
             buf.append( "l " );
 
@@ -310,7 +432,7 @@ public class TestModel3D extends JPanel {
 
         buf.append( "l " );
 
-        buf.append( pts.length - 1 );
+        buf.append( points.length - 1 );
 
         buf.append( " 1" );
 
@@ -322,43 +444,27 @@ public class TestModel3D extends JPanel {
 
 
 
-    public void paintComponent( Graphics g ) {
+    //----------------------------------------------------------------------------
 
-        Graphics2D g2 = (Graphics2D) g;
+    // main
 
-        g2.setPaint( Color.WHITE );
+    //----------------------------------------------------------------------------
 
-        g2.fillRect( 0, 0, getWidth(), getHeight() );
+    
 
-        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+    /**
 
-        if ( model3d != null ) {
+     * Builds the user interface.
 
-            model3d.mat.unit();
+     * The 3D model is in the left panel, controls are in the right panel.
 
-            model3d.mat.translate( -( model3d.xmin + model3d.xmax ) / 2, -( model3d.ymin + model3d.ymax ) / 2, -( model3d.zmin + model3d.zmax ) / 2 );
-
-            model3d.mat.mult( amat );
-
-            model3d.mat.scale( xfac, -xfac, 16 * xfac / getWidth() );
-
-            model3d.mat.translate( getWidth() / 2, getHeight() / 2, 8 );
-
-            model3d.transformed = false;
-
-            model3d.paint( g );
-
-        }
-
-    }
-
-
+     */
 
     public static void main( String[] args ) throws IOException {
 
         
 
-        final TestModel3D pane = new TestModel3D();
+        final TestDave3D pane = new TestDave3D();
 
         
 
@@ -368,7 +474,7 @@ public class TestModel3D extends JPanel {
 
             public void actionPerformed( ActionEvent e ) {
 
-                pane.frequency++;
+                pane.setFrequency( pane.getFrequency() + 1 );
 
                 pane.repaint();
 
@@ -384,7 +490,7 @@ public class TestModel3D extends JPanel {
 
             public void actionPerformed( ActionEvent e ) {
 
-                pane.frequency--;
+                pane.setFrequency( pane.getFrequency() - 1 );
 
                 pane.repaint();
 

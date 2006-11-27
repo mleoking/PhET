@@ -16,7 +16,11 @@ import java.io.*;
 
  * Model3D is the representation of a 3D model.
 
+ * <p>
+
  * This code came from http://www.cs.cf.ac.uk/Dave/JAVA/3d/3d.html
+
+ * Copyright Dr. A. D. Marshall, Cardiff School of Computer Science
 
  */
 
@@ -185,26 +189,6 @@ public class Model3D {
         }
 
         is.close();
-
-    }
-
-    
-
-    public Model3D( Point3D[] points ) {
-
-        mat = new Matrix3D();
-
-        mat.xrot( 20 );
-
-        mat.yrot( 30 );
-
-        for ( int i = 0; i < points.length; i++ ) {
-
-            Point3D p = points[i];
-
-            addVert( (float)p.getX(), (float)p.getY(), (float)p.getZ() );
-
-        }
 
     }
 
