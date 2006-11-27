@@ -28,6 +28,8 @@ import java.awt.event.*;
 
 /**
  * ExperimentSetupPanel
+ * <p>
+ * Contains the controls for setting up and running an experiment
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -45,8 +47,12 @@ public class ExperimentSetupPanel extends JPanel {
     private MoleculeCounter moleculeCCounter;
 
     private boolean hasBeenReset = true;
+    private JButton resetBtn;
 
-
+    /**
+     *
+     * @param module
+     */
     public ExperimentSetupPanel( ComplexModule module ) {
         super( new GridBagLayout() );
         this.module = module;
@@ -81,13 +87,15 @@ public class ExperimentSetupPanel extends JPanel {
         numABTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
         numCTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
 
-        JButton goBtn = new GoStopResetBtn( module );
-        JButton resetBtn = new JButton( SimStrings.get( "ExperimentSet.reset" ) );
+        // Must create reset button before the stop/go button, because the
+        // stop/go button references the reset button
+        resetBtn = new JButton( SimStrings.get( "ExperimentSet.reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 reset();
             }
         } );
+        JButton goBtn = new GoStopBtn( module );
 
         // Add a border
         setBorder( ControlBorderFactory.createPrimaryBorder( "Experimental Controls" ) );
@@ -211,7 +219,7 @@ public class ExperimentSetupPanel extends JPanel {
     /**
      * Three state button for controlling the experiment
      */
-    private class GoStopResetBtn extends JButton {
+    private class GoStopBtn extends JButton {
         private Object go = new Object();
         private Object stop = new Object();
         private Object setup = new Object();
@@ -225,13 +233,10 @@ public class ExperimentSetupPanel extends JPanel {
         private IClock clock;
         private MRModule module;
 
-        public GoStopResetBtn( MRModule module ) {
+        public GoStopBtn( MRModule module ) {
             this.clock = module.getClock();
             this.module = module;
             setState( stop );
-//            state = go;
-//            setText( setupString );
-//            setBackground( setupColor );
             addActionListener( new ActionHandler() );
         }
 
@@ -239,12 +244,14 @@ public class ExperimentSetupPanel extends JPanel {
             this.state = state;
             if( state == go ) {
                 clock.start();
+                resetBtn.setEnabled( false );
                 startExperiment();
                 setText( stopString );
                 setBackground( stopColor );
             }
             if( state == stop ) {
                 clock.pause();
+                resetBtn.setEnabled( true );
                 setText( goString );
                 setBackground( goColor );
             }
@@ -255,18 +262,9 @@ public class ExperimentSetupPanel extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 if( state == go ) {
                     setState( stop );
-//                    clock.start();
-//                    startExperiment();
-//                    state = stop;
-//                    setText( stopString );
-//                    setBackground( stopColor );
                 }
                 else if( state == stop ) {
                     setState( go );
-//                    clock.pause();
-//                    state = go;
-//                    setText( goString );
-//                    setBackground( goColor );
                 }
                 else if( state == setup ) {
                     module.reset();
