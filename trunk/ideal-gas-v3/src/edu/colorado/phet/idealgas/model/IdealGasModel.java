@@ -333,9 +333,9 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         deltaKE += dKE;
     }
 
-    public void addPotentialEnergyToSystem( double dPE ) {
-        deltaPE += dPE;
-    }
+//    public void addPotentialEnergyToSystem( double dPE ) {
+//        deltaPE += dPE;
+//    }
 
     /**
      * Returns the total energy OF THE GAS PARTICLES in the model. Note that this
