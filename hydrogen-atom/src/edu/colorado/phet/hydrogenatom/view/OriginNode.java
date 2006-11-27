@@ -31,6 +31,9 @@ public class OriginNode extends PhetPNode {
     
     public OriginNode( Color color ) {
         super();
+        setPickable( false );
+        setChildrenPickable( false );
+        
         PPath originNode = new PPath();
         originNode.setPathTo( new Ellipse2D.Double(-(DIAMETER/2), -(DIAMETER)/2, DIAMETER, DIAMETER ) );
         originNode.setStroke( null );

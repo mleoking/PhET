@@ -42,5 +42,7 @@ public class NeutronNode extends SphericalNode {
     
     public NeutronNode() {
         super( DIAMETER, ROUND_GRADIENT, STROKE, STROKE_PAINT, true /* convertToImage */ );
+        setPickable( false );
+        setChildrenPickable( false );
     }
 }

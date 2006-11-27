@@ -99,6 +99,8 @@ public class PhotonNode extends PhetPNode implements Observer {
      */
     public PhotonNode( Photon photon ) {
         super();
+        setPickable( false );
+        setChildrenPickable( false );
         
         Image image = lookupPhotonImage( photon.getWavelength() );
         PImage imageNode = new PImage( image );
