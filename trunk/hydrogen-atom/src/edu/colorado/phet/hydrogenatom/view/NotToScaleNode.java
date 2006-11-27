@@ -42,6 +42,8 @@ public class NotToScaleNode extends PhetPNode {
     
     public NotToScaleNode() {
         super();
+        setPickable( false );
+        setChildrenPickable( false );
         
         int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );

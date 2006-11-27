@@ -108,6 +108,8 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
 
         public AbstractDeBroglieViewStrategy( DeBroglieModel atom ) {
             super();
+            setPickable( false );
+            setChildrenPickable( false );
             _atom = atom;
         }
         

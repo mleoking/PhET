@@ -172,6 +172,8 @@ public class LegendPanel extends JPanel {
 
         public LegendNode( PSwingCanvas canvas ) {
             super();
+            setPickable( false );
+            setChildrenPickable( false );
             LegendPanel panel = new LegendPanel();
             PSwing pswing = new PSwing( canvas, panel );
             addChild( pswing );

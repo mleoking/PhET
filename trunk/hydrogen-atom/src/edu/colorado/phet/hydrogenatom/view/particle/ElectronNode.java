@@ -38,6 +38,8 @@ public class ElectronNode extends SphericalNode {
 
     public ElectronNode() {
         super( DIAMETER, ROUND_GRADIENT, STROKE, STROKE_PAINT, true /* convertToImage */ );
+        setPickable( false );
+        setChildrenPickable( false );
     }
     
     public static final Color getColor() {

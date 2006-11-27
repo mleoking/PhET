@@ -61,6 +61,8 @@ public class AlphaParticleNode extends PhetPNode implements Observer {
      */
     public AlphaParticleNode( AlphaParticle alphaParticle ) {
         super();
+        setPickable( false );
+        setChildrenPickable( false );
         
         Image image = createImage();
         PImage imageNode = new PImage( image );

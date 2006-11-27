@@ -34,6 +34,8 @@ class OrbitNodeFactory {
         orbitNode.setPathTo( shape );
         orbitNode.setStroke( ORBIT_STROKE );
         orbitNode.setStrokePaint( ORBIT_COLOR );
+        orbitNode.setPickable( false );
+        orbitNode.setChildrenPickable( false );
         return orbitNode;
     }
     
@@ -50,6 +52,8 @@ class OrbitNodeFactory {
         orbitNode.setPathTo( shape );
         orbitNode.setStroke( ORBIT_STROKE );
         orbitNode.setStrokePaint( ORBIT_COLOR );
+        orbitNode.setPickable( false );
+        orbitNode.setChildrenPickable( false );
         return orbitNode; 
     }
 }
