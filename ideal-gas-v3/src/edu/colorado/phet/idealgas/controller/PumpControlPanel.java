@@ -93,8 +93,9 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
          * Handles molecules leaving and re-entering the box
          */
         public void update() {
-            SwingUtilities.invokeLater(  new Runnable() {
-                public void run() {
+//            SwingUtilities.invokeLater(  new Runnable() {
+//                public void run() {
+
 //                    int padding = 5;
 //                    b.setRect( box.getBoundsInternal().getX() - padding,
 //                               box.getBoundsInternal().getY() - padding,
@@ -110,8 +111,8 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
                         isInBox = true;
                         spinner.incrementValue();
                     }
-                }
-            } );
+//                }
+//            } );
         }
     }
 }

@@ -20,6 +20,13 @@ import java.awt.*;
  */
 public class IdealGasConfig {
 
+    // Title, description and version number
+    public static final String TITLE = "Ideal Gas Law";
+    public static final String DESCRIPTION = "<html>A simulation for investigating"
+                                             + "<br>the model of gasses.</html>";
+    public static final String VERSION = "3.05";
+
+    // Location of localized strings
     public static final String localizedStringsPath = "localization/IdealGasStrings";
 
     // Global control parameters
@@ -41,12 +48,6 @@ public class IdealGasConfig {
     // Calibration factor for stopwatch. Determined from data given me by Linda Koch and Jack Barbera
     public static final double TIME_SCALE_FACTOR = 1.71;
     public static final double PIXELS_PER_NANOMETER = 45.4;
-
-    // Title, description and version number
-    public static final String TITLE = "Ideal Gas Law";
-    public static final String DESCRIPTION = "<html>A simulation for investigating"
-                                             + "<br>the model of gasses.</html>";
-    public static final String VERSION = "3.04";
 
     // Images
     public static final String IMAGE_DIRECTORY = "images/";
