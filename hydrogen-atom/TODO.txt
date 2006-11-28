@@ -5,7 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- why does PNode3D.paint get called only when PNode3D has a child node?
+- set bounds of deBroglie 3D view based on bounds of 3D wireframe model
+- replace InputStream stuff in wireframe model code
+- add ability to set fore and back colors for wireframe model rendering
+- tweak orientation of wireframe view so that it aligns with 2D orbits
+- use ModelViewTransform when mapping deBroglie model to wireframe view
 - implement DeBroglie "height 3D" representation
 - improve performance of DeBroglie "brightness" and "brightness magnitude" representations
 
