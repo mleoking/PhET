@@ -138,9 +138,7 @@ public class TestModel3D extends JPanel {
 
         amat = new Matrix3D();
 
-        amat.yrot( 20 );
-
-        amat.xrot( 20 );
+        amat.xrot( 70 );
 
         tmat = new Matrix3D();
 
