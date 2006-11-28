@@ -20,7 +20,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
 import edu.colorado.phet.hydrogenatom.model3d.Matrix3D;
-import edu.colorado.phet.hydrogenatom.model3d.Model3D;
+import edu.colorado.phet.hydrogenatom.model3d.Wireframe3D;
 import edu.colorado.phet.hydrogenatom.model3d.PNode3D;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode.AbstractDeBroglieViewStrategy;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
@@ -34,7 +34,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     private static final Stroke WAVE_STROKE = new BasicStroke( 2f );
     
     private PNode3D _waveNode;
-    private int count = 0;
+    private int count = 0;//XXX get rid of this, get values from model
     private Matrix3D _amat;
     
     public DeBroglieHeight3DNode( DeBroglieModel atom ) {
@@ -73,30 +73,30 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
 
         Point3D[] points = getPoints( WAVE_POINTS, radius, WAVE_FREQUENCY, amplitude, phase );
         InputStream stream = pointsToStream( points );
-        Model3D model3d = null;
+        Wireframe3D wireframe = null;
         try {
-            model3d = new Model3D( stream );
+            wireframe = new Wireframe3D( stream );
         }
         catch ( IOException ioe ) {
             throw new RuntimeException( ioe );
         }
         
-        model3d.compress();
-        model3d.findBB();
+        wireframe.compress();
+        wireframe.findBB();
         
-        Matrix3D matrix = model3d.getMatrix();
+        Matrix3D matrix = wireframe.getMatrix();
         matrix.unit();
-        float xt = -( model3d.getXMin() + model3d.getXMax() ) / 2;
-        float yt = -( model3d.getYMin() + model3d.getYMax() ) / 2;
-        float zt = -( model3d.getZMin() + model3d.getZMax() ) / 2;
+        float xt = -( wireframe.getXMin() + wireframe.getXMax() ) / 2;
+        float yt = -( wireframe.getYMin() + wireframe.getYMax() ) / 2;
+        float zt = -( wireframe.getZMin() + wireframe.getZMax() ) / 2;
         matrix.translate( xt, yt, zt );
         matrix.mult( _amat );
-        model3d.setTransformed( false );
+        wireframe.setTransformed( false );
         
         if ( _waveNode != null ) {
             removeChild( _waveNode );
         }
-        _waveNode = new PNode3D( model3d, WAVE_STROKE );
+        _waveNode = new PNode3D( wireframe, WAVE_STROKE );
         addChild( _waveNode );
         
         count++;

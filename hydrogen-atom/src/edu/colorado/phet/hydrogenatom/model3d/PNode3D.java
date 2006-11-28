@@ -24,18 +24,18 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 
 public class PNode3D extends PNode {
 
-    private Model3D _model3D;
+    private Wireframe3D _wireframe;
     private Stroke _stroke;
     
-    public PNode3D( Model3D model3d, Stroke stroke ) {
+    public PNode3D( Wireframe3D wireframe, Stroke stroke ) {
         super();
         
-        _model3D = model3d;
+        _wireframe = wireframe;
         _stroke = stroke;
         
         //HACK to get the bounds to refresh
         PPath boundsPath = new PPath();
-        boundsPath.setPathTo( new Rectangle2D.Double( -500, -500, 1000, 1000 ) );//XXX size to model!
+        boundsPath.setPathTo( new Rectangle2D.Double( -500, -500, 1000, 1000 ) );//XXX size to wireframe!
         boundsPath.setStroke( null );
         boundsPath.setPaint( new Color( 0, 0, 0, 0 ) );
         addChild( boundsPath );
@@ -52,7 +52,7 @@ public class PNode3D extends PNode {
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g2.setStroke( _stroke );
         
-        _model3D.paint( paintContext.getGraphics() );
+        _wireframe.paint( paintContext.getGraphics() );
         
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, saveAntialiasValue );
         g2.setStroke( saveStroke );
