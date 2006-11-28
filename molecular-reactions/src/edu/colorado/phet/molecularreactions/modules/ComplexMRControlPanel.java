@@ -86,6 +86,10 @@ public class ComplexMRControlPanel extends MRControlPanel {
         optionsPanel.reset();
     }
 
+    public void setExperimentRunning( boolean running ) {
+        getMoleculeInstanceControlPanel().setCountersEditable( !running );
+    }
+
     //--------------------------------------------------------------------------------------------------
     // Inner classes
     //--------------------------------------------------------------------------------------------------

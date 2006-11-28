@@ -77,6 +77,7 @@ public class SelectReactionAction extends AbstractAction {
 
     private void setReaction( String actionCommand ) {
         boolean designYourOwn = false;
+        System.out.println( "actionCommand = " + actionCommand );
         if( actionCommand.equals( R1_ACTION ) ) {
             currentReaction = R1;
         }
@@ -97,11 +98,16 @@ public class SelectReactionAction extends AbstractAction {
             throw new IllegalArgumentException();
         }
 
-        module.getEnergyView().setProfileManipulable( designYourOwn );
         if( currentReaction != null ) {
+            // I'm not sure why the profile has to be set before the module is reset,
+            // but it does
             module.getMRModel().setEnergyProfile( currentReaction.getEnergyProfile() );
             module.reset();
             module.getMRModel().setEnergyProfile( currentReaction.getEnergyProfile() );
         }
+
+        // This must come after the energy profile is set. Otherwise, it has no effect
+        // on the new profile
+        module.getEnergyView().setProfileManipulable( designYourOwn );
     }
 }

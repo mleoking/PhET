@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.view.energy;
 
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -23,6 +24,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.GeneralPath;
 
 /**
  * EnergyCurve
@@ -47,6 +51,9 @@ class EnergyProfileGraphic extends PNode {
     private EnergyProfile energyProfile;
     private Dimension size;
     private boolean manipulable;
+    private PNode leftFloorMouseIndicator;
+    private PNode rightFloorMouseIndicator;
+    private PNode centralMouseIndicator;
 
     /**
      * @param size  size of the area in which the curve is to be drawn
@@ -83,7 +90,39 @@ class EnergyProfileGraphic extends PNode {
         centralCurve.setStroke( new BasicStroke( 3 ) );
         centralCurve.addInputEventListener( new PeakMouseHandler( x2 - 5, x2 + 5 ) );
 
+        // Double-headed arrows to indicate when the curve is manipulable
+        createMouseIndicatorArrows();
+
         update( energyProfile );
+    }
+
+    private void createMouseIndicatorArrows() {
+        // Arrow dimensions
+        double a = 10;
+        double b = 6;
+        double c = 8;
+        double d = 2;
+        Arrow downArrow = new Arrow( new Point2D.Double( 0, 0 ),
+                                     new Point2D.Double( 0, a ),
+                                     b, c, d );
+        Arrow upArrow = new Arrow( new Point2D.Double( 0, 0 ),
+                                   new Point2D.Double( 0, -a ),
+                                   b, c, d );
+        GeneralPath path = downArrow.getShape();
+        path.append( upArrow.getShape(), false );
+
+        leftFloorMouseIndicator = createMouseIndicatorNode( path );
+        rightFloorMouseIndicator = createMouseIndicatorNode( path );
+        centralMouseIndicator = createMouseIndicatorNode( path );
+    }
+
+    private PNode createMouseIndicatorNode( GeneralPath path ) {
+        PPath mouseIndicator = new PPath( path );
+        mouseIndicator.setStrokePaint( Color.white );
+        addChild( mouseIndicator );
+        mouseIndicator.setPickable( false );
+        mouseIndicator.setVisible( false );
+        return mouseIndicator;
     }
 
     private void update( EnergyProfile energyProfile ) {
@@ -92,6 +131,12 @@ class EnergyProfileGraphic extends PNode {
         rightFloor.setOffset( rightFloor.getOffset().getX(),
                               size.getHeight() - energyProfile.getRightLevel() * modelToViewScale );
         peakLevel = size.getHeight() - energyProfile.getPeakLevel() * modelToViewScale;
+
+        leftFloorMouseIndicator.setOffset( x1 / 2,
+                                           leftFloor.getOffset().getY() );
+        rightFloorMouseIndicator.setOffset( x3 + x1 / 2,
+                                            rightFloor.getOffset().getY() );
+        centralMouseIndicator.setOffset( x2, peakLevel );
         updateCentralCurve();
     }
 
@@ -114,6 +159,11 @@ class EnergyProfileGraphic extends PNode {
 
     public void setManipulable( boolean manipulable ) {
         this.manipulable = manipulable;
+
+        // If the curve is manipulable, show arrows on it to let the user know
+        leftFloorMouseIndicator.setVisible( manipulable );
+        rightFloorMouseIndicator.setVisible( manipulable );
+        centralMouseIndicator.setVisible( manipulable );
     }
 
     /**
@@ -141,6 +191,7 @@ class EnergyProfileGraphic extends PNode {
 
         /**
          * Set the level in the model.
+         *
          * @param event
          */
         public void mouseDragged( PInputEvent event ) {
@@ -149,7 +200,7 @@ class EnergyProfileGraphic extends PNode {
                 double dy = event.getDelta().getHeight();
                 double eventX = event.getPositionRelativeTo( centralCurve.getParent() ).getX();
                 if( eventX <= x1 ) {
-                    double level = Math.min( size.height/ modelToViewScale,
+                    double level = Math.min( size.height / modelToViewScale,
                                              Math.max( 0,
                                                        energyProfile.getLeftLevel() - dy / modelToViewScale ) );
                     energyProfile.setLeftLevel( level );
@@ -201,7 +252,7 @@ class EnergyProfileGraphic extends PNode {
             double eventY = event.getPositionRelativeTo( centralCurve.getParent() ).getY();
             if( eventY >= 0 && eventY <= size.height && manipulable ) {
                 double dy = event.getDelta().getHeight();
-                double level = Math.min( size.height/ modelToViewScale,
+                double level = Math.min( size.height / modelToViewScale,
                                          Math.max( 0,
                                                    energyProfile.getPeakLevel() - dy / modelToViewScale ) );
                 energyProfile.setPeakLevel( level );
