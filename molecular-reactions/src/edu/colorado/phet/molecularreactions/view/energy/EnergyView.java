@@ -69,9 +69,10 @@ import java.awt.geom.Line2D;
  */
 public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
-    private int width = 300;
+    private int width = (int)MRConfig.ENERGY_VIEW_SIZE.getWidth();
     private Dimension upperPaneSize = new Dimension( width, 150 );
-    private Dimension curvePaneSize = new Dimension( width, 310 );
+    private Dimension curvePaneSize = new Dimension( width, (int)(MRConfig.ENERGY_VIEW_SIZE.getHeight() - upperPaneSize.getHeight() ));
+//    private Dimension curvePaneSize = new Dimension( width, 310 );
     private Color moleculePaneBackgroundColor = MRConfig.MOLECULE_PANE_BACKGROUND;
     private Color energyPaneBackgroundColor = Color.black;
     private Color curveColor = Color.cyan;

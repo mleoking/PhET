@@ -77,7 +77,6 @@ public class SelectReactionAction extends AbstractAction {
 
     private void setReaction( String actionCommand ) {
         boolean designYourOwn = false;
-        System.out.println( "actionCommand = " + actionCommand );
         if( actionCommand.equals( R1_ACTION ) ) {
             currentReaction = R1;
         }

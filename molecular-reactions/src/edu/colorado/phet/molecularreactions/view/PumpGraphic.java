@@ -218,6 +218,7 @@ public class PumpGraphic extends PNode implements Resetable {
             add( abRB, gbc );
             add( cRB, gbc );
             gbc.gridy = 0;
+
             gbc.gridy = GridBagConstraints.RELATIVE;
             gbc.gridx = 1;
             gbc.anchor = iconAnchor;
@@ -233,9 +234,13 @@ public class PumpGraphic extends PNode implements Resetable {
 
         private void updateIcons() {
             iconA.setIcon( new MoleculeIcon( MoleculeA.class, model.getEnergyProfile() ) );
+            iconA.setHorizontalAlignment( JLabel.HORIZONTAL );
             iconBC.setIcon( new MoleculeIcon( MoleculeBC.class, model.getEnergyProfile() ) );
+            iconBC.setHorizontalAlignment( JLabel.HORIZONTAL );
             iconAB.setIcon( new MoleculeIcon( MoleculeAB.class, model.getEnergyProfile() ) );
+            iconAB.setHorizontalAlignment( JLabel.HORIZONTAL );
             iconC.setIcon( new MoleculeIcon( MoleculeC.class, model.getEnergyProfile() ) );
+            iconC.setHorizontalAlignment( JLabel.HORIZONTAL );
         }
 
         private class MoleculeSelectorRBAction extends AbstractAction {

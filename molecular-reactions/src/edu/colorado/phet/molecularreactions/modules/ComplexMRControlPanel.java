@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
 import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.util.DialogCheckBox;
@@ -182,10 +183,21 @@ public class ComplexMRControlPanel extends MRControlPanel {
                 chartOptionsPanel.add( showNoneBtn, gbc );
             }
 
+            //--------------------------------------------------------------------------------------------------
+            // The check box that enables the manipulation of the energy profile with the mouse
+            //--------------------------------------------------------------------------------------------------
+
             designReactionBtn = new JCheckBox( SimStrings.get( "Control.designReaction"));
             designReactionBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.getEnergyView().setProfileManipulable( designReactionBtn.isSelected() );
+                }
+            } );
+            // Add a listener that will check/uncheck the designReactionBtn check box if
+            // the reaction is changed by some other control
+            module.getMRModel().addListener( new MRModel.ModelListener() {
+                public void energyProfileChanged( EnergyProfile profile ) {
+                    designReactionBtn.setSelected( profile == Profiles.DYO );
                 }
             } );
 
