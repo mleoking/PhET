@@ -178,9 +178,15 @@ public class ComplexMRControlPanel extends MRControlPanel {
                 chartOptionsBG.add( showNoneBtn );
 
 //                chartOptionsPanel.add( trackMoleculeBtn, gbc );
+                gbc.gridy = 0;
                 chartOptionsPanel.add( showBarChartBtn, gbc );
-                chartOptionsPanel.add( showPieChartBtn, gbc );
+                gbc.gridx = 1;
                 chartOptionsPanel.add( showNoneBtn, gbc );
+//                chartOptionsPanel.add( showPieChartBtn, gbc );
+                gbc.gridx = 0;
+                gbc.gridy = 1;
+                chartOptionsPanel.add( showPieChartBtn, gbc );
+//                chartOptionsPanel.add( showNoneBtn, gbc );
             }
 
             //--------------------------------------------------------------------------------------------------
@@ -207,13 +213,14 @@ public class ComplexMRControlPanel extends MRControlPanel {
 
             setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.options" ) ) );
             setLayout( new GridBagLayout() );
-            Insets insets = new Insets( 0, 10, 0, 5 );
+            Insets insets = new Insets( 0, 0, 0, 0 );
             GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                              1, 1, 1, 1,
                                                              GridBagConstraints.WEST,
                                                              GridBagConstraints.HORIZONTAL,
                                                              insets, 0, 0 );
             add( chartOptionsPanel, gbc );
+            gbc.insets = new Insets( 0, 10, 0, 5 );
             add( showStripChartBtn, gbc );
             add( showBondsBtn, gbc );
             add( designReactionBtn, gbc );

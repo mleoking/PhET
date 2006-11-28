@@ -48,7 +48,9 @@ public class MRConfig {
                                                                                   100 );
 
     // View Constants
-    public static final Dimension SPATIAL_VIEW_SIZE = new Dimension( 850, 575 );
+    public static final Dimension SIMULATION_PANEL_SIZE = new Dimension( 850, 575 );
+    public static final Dimension SPATIAL_VIEW_SIZE = new Dimension( 520, 530 );
+//    public static final Dimension SPATIAL_VIEW_SIZE = new Dimension( 850, 575 );
     public static final Dimension ENERGY_VIEW_SIZE = new Dimension( 300, 490 );
     public static final int BAR_CHART_MAX_Y = 20;
     public static final int PIE_CHART_DIAM_FACTOR = 3;

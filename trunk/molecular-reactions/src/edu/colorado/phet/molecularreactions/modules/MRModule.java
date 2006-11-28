@@ -20,7 +20,6 @@ import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -31,10 +30,10 @@ import java.awt.*;
  */
 public class MRModule extends Module {
 
-    private Dimension size = MRConfig.SPATIAL_VIEW_SIZE;
+    private Dimension canvasSize = MRConfig.SIMULATION_PANEL_SIZE;
     private SpatialView spatialView;
     private EnergyView energyView;
-    private Dimension spatialViewSize = new Dimension( 520, 530 );
+    private Dimension spatialViewSize = MRConfig.SPATIAL_VIEW_SIZE;
 
     public MRModule( String name ) {
         super( name, new VariableConstantTickClock( new SwingClock( 1000 / MRConfig.CLOCK_FPS, 
@@ -49,7 +48,7 @@ public class MRModule extends Module {
         setControlPanel( new ControlPanel() );
 
         // Create the basic graphics
-        PhetPCanvas canvas = new PhetPCanvas( size );
+        PhetPCanvas canvas = new PhetPCanvas( canvasSize );
         setSimulationPanel( canvas );
 
         // Set up the sizes and locations of the views
