@@ -142,9 +142,7 @@ public class Wireframe3D {
 
     private float xmin, xmax, ymin, ymax, zmin, zmax;
 
-    private Color gr[]; // grayscale color palette
-
-    private Color color;
+    private Color palette[]; // color palette
 
 
 
@@ -312,9 +310,69 @@ public class Wireframe3D {
 
     
 
-    public void setColor( Color color ) {
+    public void setColors( Color front, Color back ) {
 
-        this.color = color;
+
+
+        int fr = front.getRed();
+
+        int fg = front.getGreen();
+
+        int fb = front.getBlue();
+
+        
+
+        int br = back.getRed();
+
+        int bg = back.getGreen();
+
+        int bb = back.getBlue();
+
+        
+
+        float rdelta = ( fr - br ) / 16f;
+
+        float gdelta = ( fg - bg ) / 16f;
+
+        float bdelta = ( fb - bb ) / 16f;
+
+        
+
+        for ( int i = 0; i < 16; i++ ) {
+
+            float r = ( fr - ( i * rdelta ) ) / 255f;
+
+            float g = ( fg - ( i * gdelta ) ) / 255f;
+
+            float b = ( fb - ( i * bdelta ) ) / 255f;
+
+            palette[i] = new Color( r, g, b );
+
+//            System.out.println( "palette[" + i + "]=" + palette[i] );//XXX
+
+        }
+
+    }
+
+    
+
+    /*
+
+     * Initializes a grayscale color palette.
+
+     */
+
+    private void initGrayPalette() {
+
+        palette = new Color[16];
+
+        for ( int i = 0; i < 16; i++ ) {
+
+            int grey = (int) ( 170 * ( 1 - Math.pow( i / 15.0, 2.3 ) ) );
+
+            palette[i] = new Color( grey, grey, grey );
+
+        }
 
     }
 
@@ -552,32 +610,6 @@ public class Wireframe3D {
 
     }
 
-
-
-    /*
-
-     * Initializes a grayscale color palette.
-
-     * Warning! The size of the color palette is hardcoded into this
-
-     * method and the paint method.
-
-     */
-
-    private void initGrayPalette() {
-
-        gr = new Color[16];
-
-        for ( int i = 0; i < 16; i++ ) {
-
-            int grey = (int) ( 170 * ( 1 - Math.pow( i / 15.0, 2.3 ) ) );
-
-            gr[i] = new Color( grey, grey, grey );
-
-        }
-
-    }
-
     
 
     /**
@@ -620,41 +652,29 @@ public class Wireframe3D {
 
             int p2 = ( T & 0xFFFF ) * 3;
 
-            
 
-            if ( color != null ) {
 
-                // use a single color
+            // choose a color from the palette based on depth
 
-                g.setColor( color );
+            int grey = v[p1 + 2] + v[p2 + 2];
+
+            if ( grey < 0 ) {
+
+                grey = 0;
 
             }
 
-            else {
+            else if ( grey > 15 ) {
 
-                // use a grayscale palette to provide depth cues
+                grey = 15;
 
-                int grey = v[p1 + 2] + v[p2 + 2];
+            }
 
-                if ( grey < 0 ) {
+            if ( grey != lg ) {
 
-                    grey = 0;
+                lg = grey;
 
-                }
-
-                else if ( grey > 15 ) {
-
-                    grey = 15;
-
-                }
-
-                if ( grey != lg ) {
-
-                    lg = grey;
-
-                    g.setColor( gr[grey] );
-
-                }
+                g.setColor( palette[grey] );
 
             }
 

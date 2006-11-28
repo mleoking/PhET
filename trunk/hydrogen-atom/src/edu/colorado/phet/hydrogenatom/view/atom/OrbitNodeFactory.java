@@ -42,12 +42,12 @@ class OrbitNodeFactory {
     /**
      * Creates a node that shows the orbit in pseudo-3D perspective.
      * @param radius
-     * @param widthToHeightRatio
+     * @param yxRatio ratio of height (y) to width (x)
      * @return PPath
      */
-    protected static PPath createPerspectiveOrbitNode( double radius, double widthToHeightRatio ) {
+    protected static PPath createPerspectiveOrbitNode( double radius, double yxRatio ) {
         double nodeRadius = ModelViewTransform.transform( radius );
-        Shape shape = new Ellipse2D.Double( -nodeRadius, -nodeRadius / widthToHeightRatio, 2 * nodeRadius, 2 * nodeRadius / widthToHeightRatio );
+        Shape shape = new Ellipse2D.Double( -nodeRadius, -nodeRadius * yxRatio, 2 * nodeRadius, 2 * nodeRadius * yxRatio );
         PPath orbitNode = new PPath();
         orbitNode.setPathTo( shape );
         orbitNode.setStroke( ORBIT_STROKE );

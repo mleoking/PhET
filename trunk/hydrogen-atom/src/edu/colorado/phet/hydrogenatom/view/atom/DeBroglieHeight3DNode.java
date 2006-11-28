@@ -32,18 +32,19 @@ import edu.umd.cs.piccolo.PNode;
 public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     
     private static final int WAVE_POINTS = 200;
-    private static final int WAVE_FREQUENCY = 6;
     private static final Stroke WAVE_STROKE = new BasicStroke( 2f );
-    private static final Color WAVE_COLOR = ElectronNode.getColor();
+    private static final Color WAVE_FRONT_COLOR = ElectronNode.getColor();
+    private static final Color WAVE_BACK_COLOR = WAVE_FRONT_COLOR.darker().darker();
+    private static final double MAX_HEIGHT = 15; // screen coordinates
+    private static final double VIEW_ANGLE = 70; // degrees
     
     private PNode3D _waveNode;
-    private int count = 0;//XXX get rid of this, get values from model
     private Matrix3D _amat;
     
     public DeBroglieHeight3DNode( DeBroglieModel atom ) {
         super( atom );
         _amat = new Matrix3D();
-        _amat.xrot( 60 );
+        _amat.xrot( VIEW_ANGLE );
         initStaticNodes();
         update();
     }
@@ -56,9 +57,10 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         // Orbits (pseudo-3D perspective)
         int groundState = DeBroglieModel.getGroundState();
         int numberOfStates = DeBroglieModel.getNumberOfStates();
+        double yxRatio = 0.4;
         for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
             double radius = getAtom().getOrbitRadius( state );
-            PNode orbitNode = OrbitNodeFactory.createPerspectiveOrbitNode( radius, 2 );
+            PNode orbitNode = OrbitNodeFactory.createPerspectiveOrbitNode( radius, yxRatio );
             addChild( orbitNode );
         }
         
@@ -69,12 +71,8 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     }
     
     public void update() {
-        
-        double amplitude = 6 * Math.sin( count / 10.0 );
-        double phase = count / 100.0;
-        double radius = getAtom().getElectronOrbitRadius();
 
-        Point3D[] points = getPoints( WAVE_POINTS, radius, WAVE_FREQUENCY, amplitude, phase );
+        Point3D[] points = getPoints( WAVE_POINTS );
         InputStream stream = pointsToStream( points );
         Wireframe3D wireframe = null;
         try {
@@ -87,7 +85,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         wireframe.compress();
         wireframe.findBB();
         
-        wireframe.setColor( WAVE_COLOR );
+        wireframe.setColors( WAVE_FRONT_COLOR, WAVE_BACK_COLOR );
         
         Matrix3D matrix = wireframe.getMatrix();
         matrix.unit();
@@ -103,21 +101,21 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         }
         _waveNode = new PNode3D( wireframe, WAVE_STROKE );
         addChild( _waveNode );
-        
-        count++;
     }
     
     /*
-     * Gets the points that approximate a standing wave.
+     * Gets the points that represent the current state of the atom.
      */
-    private static Point3D[] getPoints( int numberOfPoints, double radius, double zFreq, double zAmp, double zPhase ) {
+    private Point3D[] getPoints( int numberOfPoints ) {
+        
+        double radius = getAtom().getElectronOrbitRadius();
         Point3D[] points = new Point3D[numberOfPoints];
         for ( int i = 0; i < numberOfPoints; i++ ) {
             double frac = i / ( (double) numberOfPoints - 1 );
             double angle = Math.PI * 2 * frac;
             double x = radius * Math.cos( angle );
             double y = radius * Math.sin( angle );
-            double z = zAmp * Math.sin( angle * zFreq + zPhase );
+            double z = MAX_HEIGHT * getAtom().getAmplitude( angle );
             Point3D pt = new Point3D( x, y, z );
             points[i] = pt;
         }

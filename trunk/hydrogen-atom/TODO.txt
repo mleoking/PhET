@@ -5,12 +5,15 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- draw 3D orbits using Wireframe3D
+- make Wireframe3D mutable, allow change of verticies
+- bug: wireframe color goes to white periodically
 - set bounds of deBroglie 3D view based on bounds of 3D wireframe model
 - replace InputStream stuff in wireframe model code
-- tweak orientation of wireframe view so that it aligns with 2D orbits
 - use ModelViewTransform when mapping deBroglie model to wireframe view
-- implement DeBroglie "height 3D" representation
-- improve performance of DeBroglie "brightness" and "brightness magnitude" representations
+- implement collision detection with deBroglie 3D perspective orbits
+- improve performance of deBroglie "brightness" and "brightness magnitude" representations
+- improve performance of deBroglie 3D representation
 
 MEDIUM PRIORITY:
 - add "show traces" feature for alpha particles (need to interpolate curve between points)
@@ -47,6 +50,8 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+(11/28/06) - change OrbitFactory to use y:x ratio when creating perspective orbits
+(11/28/06) - add ability to set front & back colors for wireframe model rendering, to provide visual depth cues
 (11/28/06) - add ability to set a color for wireframe model rendering
 (11/28/06) - first pass at 3D deBroglie view using Sun's Wireframe code
 (11/27/06) - setPickable(false) on all non-interactive nodes
