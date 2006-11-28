@@ -65,7 +65,9 @@ public class ReactionGraphic extends RegisterablePNode implements MRModel.ModelL
             arrowCNode.setPaint( arrowColor );
             arrowCNode.setStrokePaint( arrowColor);
             arrowNode.addChild( arrowCNode );
-            arrowCNode.setOffset( arrowANode.getWidth(), 0);
+            arrowANode.setOffset( 0, arrowANode.getFullBounds().getHeight() / 2 );
+            arrowCNode.setOffset( arrowANode.getWidth(), arrowANode.getFullBounds().getHeight() / 2 );
+//            arrowCNode.setOffset( arrowANode.getWidth(), 0);
 
             Font font = new Font( "Lucida sans", Font.BOLD, 18);
             PText plusA = new PText( "+" );

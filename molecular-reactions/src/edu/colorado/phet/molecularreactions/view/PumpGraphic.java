@@ -142,7 +142,7 @@ public class PumpGraphic extends PNode implements Resetable {
 
         private AbstractMolecule createMolecule() {
             double x = model.getBox().getMaxX() - 20;
-            double y = model.getBox().getMaxY() - 100;
+            double y = model.getBox().getMaxY() - 80;
             Rectangle2D creationBounds = new Rectangle2D.Double( x, y, 1, 1 );
             RandomMoleculeParamGenerator moleculeParamGenerator = new RandomMoleculeParamGenerator( creationBounds,
                                                                                                     MRConfig.MAX_SPEED,

@@ -47,11 +47,11 @@ public class MoleculePopulationsPieChartNode extends PNode {
         pieChart.setOffset( -bounds.getWidth() / 6, 0 );
 
         // Title
-        PText title = new PText( SimStrings.get( "StripChart.title"));
-        title.setFont( MRConfig.CHART_TITLE_FONT );
-        addChild( title );
-        title.setOffset( bounds.getX() + ( bounds.getWidth() - title.getFullBounds().getWidth()) / 2,
-                         title.getFullBounds().getHeight() / 2 );
+//        PText title = new PText( SimStrings.get( "StripChart.title"));
+//        title.setFont( MRConfig.CHART_TITLE_FONT );
+//        addChild( title );
+//        title.setOffset( bounds.getX() + ( bounds.getWidth() - title.getFullBounds().getWidth()) / 2,
+//                         title.getFullBounds().getHeight() / 2 );
 
         // Legend
         createLegend( bounds );
@@ -109,5 +109,12 @@ public class MoleculePopulationsPieChartNode extends PNode {
                                yPaintSwatchOffset );
         mCTextNode.setOffset( bounds.getWidth() - textInsets.right,
                               yPaintSwatchOffset + yTextAdjustment );
+
+        PText title = new PText( SimStrings.get( "StripChart.title"));
+        title.setFont( MRConfig.CHART_TITLE_FONT );
+        addChild( title );
+        double x = bounds.getWidth() - title.getFullBounds().getWidth() - 20;
+//        double x = bounds.getWidth() - textInsets.right - (textInsets.right - paintSwatchInsets.right ) / 2 - title.getFullBounds().getWidth() / 2;
+        title.setOffset( x, title.getFullBounds().getHeight() / 2 );
     }
 }
