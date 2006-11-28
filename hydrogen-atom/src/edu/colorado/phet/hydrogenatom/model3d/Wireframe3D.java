@@ -92,6 +92,8 @@
 
  * 11/28/06 - changed class name to Wireframe3D, since that's what it does
 
+ * 11/28/06 - add ability to set an optional color, used instead of grayscale palette
+
  */
 
 
@@ -140,6 +142,10 @@ public class Wireframe3D {
 
     private float xmin, xmax, ymin, ymax, zmin, zmax;
 
+    private Color gr[]; // grayscale color palette
+
+    private Color color;
+
 
 
     /*
@@ -149,6 +155,8 @@ public class Wireframe3D {
      */
 
     public Wireframe3D( InputStream is ) throws IOException {
+
+        initGrayPalette();
 
         mat = new Matrix3D();
 
@@ -299,6 +307,14 @@ public class Wireframe3D {
     public void setTransformed( boolean transformed ) {
 
         this.transformed = transformed;
+
+    }
+
+    
+
+    public void setColor( Color color ) {
+
+        this.color = color;
 
     }
 
@@ -538,9 +554,31 @@ public class Wireframe3D {
 
 
 
-    static Color gr[];
+    /*
 
+     * Initializes a grayscale color palette.
 
+     * Warning! The size of the color palette is hardcoded into this
+
+     * method and the paint method.
+
+     */
+
+    private void initGrayPalette() {
+
+        gr = new Color[16];
+
+        for ( int i = 0; i < 16; i++ ) {
+
+            int grey = (int) ( 170 * ( 1 - Math.pow( i / 15.0, 2.3 ) ) );
+
+            gr[i] = new Color( grey, grey, grey );
+
+        }
+
+    }
+
+    
 
     /**
 
@@ -559,22 +597,6 @@ public class Wireframe3D {
         }
 
         transform();
-
-        if ( gr == null ) {
-
-            gr = new Color[16];
-
-            for ( int i = 0; i < 16; i++ ) {
-
-                int grey = (int) ( 170 * ( 1 - Math.pow( i / 15.0, 2.3 ) ) );
-
-                gr[i] = new Color( grey, grey, grey );
-
-                gr[i] = Color.BLUE; //XXX
-
-            }
-
-        }
 
         int lg = 0;
 
@@ -598,27 +620,45 @@ public class Wireframe3D {
 
             int p2 = ( T & 0xFFFF ) * 3;
 
-            int grey = v[p1 + 2] + v[p2 + 2];
+            
 
-            if ( grey < 0 ) {
+            if ( color != null ) {
 
-                grey = 0;
+                // use a single color
 
-            }
-
-            if ( grey > 15 ) {
-
-                grey = 15;
+                g.setColor( color );
 
             }
 
-            if ( grey != lg ) {
+            else {
 
-                lg = grey;
+                // use a grayscale palette to provide depth cues
 
-                g.setColor( gr[grey] );
+                int grey = v[p1 + 2] + v[p2 + 2];
+
+                if ( grey < 0 ) {
+
+                    grey = 0;
+
+                }
+
+                else if ( grey > 15 ) {
+
+                    grey = 15;
+
+                }
+
+                if ( grey != lg ) {
+
+                    lg = grey;
+
+                    g.setColor( gr[grey] );
+
+                }
 
             }
+
+
 
             g.drawLine( v[p1], v[p1 + 1], v[p2], v[p2 + 1] );
 

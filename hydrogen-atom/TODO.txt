@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - set bounds of deBroglie 3D view based on bounds of 3D wireframe model
 - replace InputStream stuff in wireframe model code
-- add ability to set fore and back colors for wireframe model rendering
 - tweak orientation of wireframe view so that it aligns with 2D orbits
 - use ModelViewTransform when mapping deBroglie model to wireframe view
 - implement DeBroglie "height 3D" representation
@@ -48,6 +47,7 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+(11/28/06) - add ability to set a color for wireframe model rendering
 (11/28/06) - first pass at 3D deBroglie view using Sun's Wireframe code
 (11/27/06) - setPickable(false) on all non-interactive nodes
 (11/27/06) - move OrbitNodeFactory to its own file
