@@ -1,5 +1,7 @@
+- the "Design a reaction" check box needs to respond to when the "design your own" reaction
+    is selected
 
-- strip chart controls
+
 
 - With strip chart up for a long time, the sim choked
 - Make most Reaction methods static

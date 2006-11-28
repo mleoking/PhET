@@ -314,6 +314,12 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                                                          curveAreaSize,
                                                          curveColor );
         curveLayer.addChild( energyProfileGraphic );
+
+        // This keeps the total energy line above the curve on the display
+        if( totalEnergyLine != null ) {
+            curveLayer.removeChild( totalEnergyLine );
+            curveLayer.addChild( totalEnergyLine );
+        }
     }
 
     /**
