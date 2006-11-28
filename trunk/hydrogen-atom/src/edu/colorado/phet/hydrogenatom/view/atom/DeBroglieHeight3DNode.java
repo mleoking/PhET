@@ -12,6 +12,7 @@
 package edu.colorado.phet.hydrogenatom.view.atom;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Stroke;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -20,9 +21,10 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
 import edu.colorado.phet.hydrogenatom.model3d.Matrix3D;
-import edu.colorado.phet.hydrogenatom.model3d.Wireframe3D;
 import edu.colorado.phet.hydrogenatom.model3d.PNode3D;
+import edu.colorado.phet.hydrogenatom.model3d.Wireframe3D;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode.AbstractDeBroglieViewStrategy;
+import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -32,6 +34,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     private static final int WAVE_POINTS = 200;
     private static final int WAVE_FREQUENCY = 6;
     private static final Stroke WAVE_STROKE = new BasicStroke( 2f );
+    private static final Color WAVE_COLOR = ElectronNode.getColor();
     
     private PNode3D _waveNode;
     private int count = 0;//XXX get rid of this, get values from model
@@ -83,6 +86,8 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         
         wireframe.compress();
         wireframe.findBB();
+        
+        wireframe.setColor( WAVE_COLOR );
         
         Matrix3D matrix = wireframe.getMatrix();
         matrix.unit();
