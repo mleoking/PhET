@@ -1,6 +1,6 @@
 
 
-package com.pixelzoom.dave3d;
+package com.pixelzoom.model3d;
 
 
 
@@ -24,7 +24,11 @@ import javax.swing.*;
 
 /**
 
- * Tests the "Dave 3D" package from http://www.cs.cf.ac.uk/Dave/JAVA/3d/3d.html.
+ * Tests the Model3D and Matrix3D classes that Sun distributes
+
+ * with it's Wireframe applet example.
+
+ * <p>
 
  * Displays an animated standing wave on a ring.
 
@@ -32,7 +36,7 @@ import javax.swing.*;
 
  */
 
-public class TestDave3D extends JPanel {
+public class TestModel3D extends JPanel {
 
 
 
@@ -118,7 +122,7 @@ public class TestDave3D extends JPanel {
 
      */
 
-    public TestDave3D() throws IOException {
+    public TestModel3D() throws IOException {
 
         super();
 
@@ -512,7 +516,7 @@ public class TestDave3D extends JPanel {
 
         
 
-        final TestDave3D pane = new TestDave3D();
+        final TestModel3D pane = new TestModel3D();
 
         
 
