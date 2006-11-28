@@ -53,7 +53,8 @@ package edu.colorado.phet.hydrogenatom.model3d;
  * Matrix3D is a fairly conventional 3D matrix that can transform sets of
  * 3D points and perform a variety of manipulations on the transform.
  * <p>
- * This code was distributed with JDK 1.4.2, as the Wireframe example applet.
+ * This code was distributed with JDK 1.4.2 as class Matrix3D, 
+ * in the Wireframe example applet.
  */
 public class Matrix3D {
 
