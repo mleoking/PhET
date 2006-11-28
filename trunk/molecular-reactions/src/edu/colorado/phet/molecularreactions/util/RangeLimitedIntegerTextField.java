@@ -32,7 +32,7 @@ public class RangeLimitedIntegerTextField extends JTextField {
             setHorizontalAlignment( JTextField.RIGHT );
             this.maxValue = maxValue;
             setText( "0" );
-            setPreferredSize( new Dimension( 40, (int)getPreferredSize().getHeight() ) );
+            setPreferredSize( new Dimension( 30, (int)getPreferredSize().getHeight() ) );
 
             addFocusListener( new FocusAdapter() {
                 public void focusLost( FocusEvent e ) {

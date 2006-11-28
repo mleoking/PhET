@@ -114,22 +114,35 @@ public class ExperimentSetupPanel extends JPanel {
                                                                   GridBagConstraints.NONE,
                                                                   new Insets( 2, 3, 3, 3 ),
                                                                   0, 0 );
-        labelGbc.gridwidth = 2;
+        // Header
+        labelGbc.gridwidth = 4;
         add( topLineLbl, labelGbc );
+
+        // Labels
         labelGbc.gridwidth = 1;
         labelGbc.anchor = GridBagConstraints.EAST;
         add( numALbl, labelGbc );
         add( numBCLbl, labelGbc );
+        labelGbc.gridy = 0;
+        labelGbc.gridx = 2;
+        labelGbc.gridy = GridBagConstraints.RELATIVE;
         add( numABLbl, labelGbc );
         add( numCLbl, labelGbc );
 
-        add( numATF, textFieldGbc );
+        // Text fields
         textFieldGbc.gridy = GridBagConstraints.RELATIVE;
+        add( numATF, textFieldGbc );
         add( numBCTF, textFieldGbc );
+        textFieldGbc.gridy = 1;
+        textFieldGbc.gridx = 3;
+        textFieldGbc.gridy = GridBagConstraints.RELATIVE;
         add( numABTF, textFieldGbc );
         add( numCTF, textFieldGbc );
 
-        labelGbc.gridwidth = 2;
+        labelGbc.gridx = 0;
+        labelGbc.gridwidth = 4;
+        labelGbc.anchor = GridBagConstraints.WEST;
+        add( new JLabel( "Select a reaction:"), labelGbc );
         labelGbc.anchor = GridBagConstraints.CENTER;
         add( new ReactionChooserComboBox( module ), labelGbc );
         add( goStopBtn, labelGbc );
