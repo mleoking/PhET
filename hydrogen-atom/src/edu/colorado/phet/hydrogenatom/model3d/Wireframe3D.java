@@ -90,6 +90,8 @@
 
  * 11/28/06 - added some comments
 
+ * 11/28/06 - changed class name to Wireframe3D, since that's what it does
+
  */
 
 
@@ -108,15 +110,17 @@ import java.io.*;
 
 /**
 
- * Model3D is the representation of a 3D model.
+ * Wireframe3D draws a wireframe 3D model.
 
  * <p>
 
- * This code was distributed with JDK 1.4.2, as the Wireframe example applet.
+ * This code was distributed with JDK 1.4.2 as class Model3D, 
+
+ * in the Wireframe example applet.
 
  */
 
-public class Model3D {
+public class Wireframe3D {
 
 
 
@@ -144,7 +148,7 @@ public class Model3D {
 
      */
 
-    public Model3D( InputStream is ) throws IOException {
+    public Wireframe3D( InputStream is ) throws IOException {
 
         mat = new Matrix3D();
 
