@@ -31,11 +31,10 @@ import java.awt.*;
  */
 public class MRModule extends Module {
 
-    private Dimension size = new Dimension( 850, 575 );
-    private ControlPanel mrControlPanel;
+    private Dimension size = MRConfig.SPATIAL_VIEW_SIZE;
     private SpatialView spatialView;
     private EnergyView energyView;
-    private Dimension spatialViewSize = new Dimension( 520, 500 );
+    private Dimension spatialViewSize = new Dimension( 520, 530 );
 
     public MRModule( String name ) {
         super( name, new VariableConstantTickClock( new SwingClock( 1000 / MRConfig.CLOCK_FPS, 
@@ -86,10 +85,6 @@ public class MRModule extends Module {
         energyView.reset();
     }
     
-    protected JPanel getMRControlPanel() {
-        return mrControlPanel;
-    }
-
     protected SpatialView getSpatialView() {
         return spatialView;
     }

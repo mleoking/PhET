@@ -83,11 +83,6 @@ public class ComplexModule extends MRModule {
         setStripChartVisible( false, null );
     }
 
-    public void setCountersEditable( boolean editable ) {
-        ComplexMRControlPanel controlPanel = (ComplexMRControlPanel)getMRControlPanel();
-        controlPanel.getMoleculeInstanceControlPanel().setCountersEditable( editable );
-    }
-
     public void setPieChartVisible( boolean visible ) {
         if( visible ) {
             Rectangle2D.Double bounds = new Rectangle2D.Double( 0, 0,
