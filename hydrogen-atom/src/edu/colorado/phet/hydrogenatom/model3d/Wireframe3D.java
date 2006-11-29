@@ -106,6 +106,8 @@
 
  * 11/28/06 - reorganize code and add section headers
 
+ * 11/28/06 - add '_' prefix to all instance data, makes it easier for me to grok
+
  */
 
 
@@ -116,13 +118,7 @@ package edu.colorado.phet.hydrogenatom.model3d;
 
 import java.awt.*;
 
-import java.awt.BasicStroke;
-
-import java.awt.Color;
-
-import java.awt.Graphics;
-
-import java.awt.Stroke;
+import java.awt.geom.Line2D;
 
 import java.io.*;
 
@@ -164,29 +160,31 @@ public class Wireframe3D {
 
     
 
-    private float vert[];
+    private float _vert[];
 
-    private int tvert[];
+    private int _tvert[];
 
-    private int nvert;
+    private int _nvert;
 
-    private int maxvert;
+    private int _maxvert;
 
-    private int con[];
+    private int _con[];
 
-    private int ncon, maxcon;
+    private int _ncon;
 
-    private boolean transformed;
+    private int _maxcon;
 
-    private Matrix3D mat;
+    private boolean _transformed;
 
-    private float xmin, xmax, ymin, ymax, zmin, zmax;
+    private Matrix3D _matrix;
 
-    private Color palette[]; // color palette
+    private float _xmin, _xmax, _ymin, _ymax, _zmin, _zmax;
 
-    private boolean antialias;
+    private Color _palette[]; // color palette
 
-    private Stroke stroke;
+    private boolean _antialias;
+
+    private Stroke _stroke;
 
 
 
@@ -206,13 +204,13 @@ public class Wireframe3D {
 
     public Wireframe3D( InputStream is ) throws IOException {
 
-        antialias = true; // enabled by default
+        _antialias = true; // enabled by default
 
-        stroke = DEFAULT_STROKE;
+        _stroke = DEFAULT_STROKE;
 
         initPaletteGray();
 
-        mat = new Matrix3D();
+        _matrix = new Matrix3D();
 
         parseStream( is );
 
@@ -234,7 +232,7 @@ public class Wireframe3D {
 
     public Matrix3D getMatrix() {
 
-        return mat;
+        return _matrix;
 
     }
 
@@ -242,7 +240,7 @@ public class Wireframe3D {
 
     public void setTransformed( boolean transformed ) {
 
-        this.transformed = transformed;
+        _transformed = transformed;
 
     }
 
@@ -258,7 +256,7 @@ public class Wireframe3D {
 
     public void setStroke( Stroke stroke ) {
 
-        this.stroke = stroke;
+        _stroke = stroke;
 
     }
 
@@ -266,7 +264,7 @@ public class Wireframe3D {
 
     public void setAntialias( boolean antialias ) {
 
-        this.antialias = antialias;
+        _antialias = antialias;
 
     }
 
@@ -274,7 +272,7 @@ public class Wireframe3D {
 
     public boolean getAntialias() {
 
-        return antialias;
+        return _antialias;
 
     }
 
@@ -282,7 +280,7 @@ public class Wireframe3D {
 
     public float getXMax() {
 
-        return xmax;
+        return _xmax;
 
     }
 
@@ -290,7 +288,7 @@ public class Wireframe3D {
 
     public float getXMin() {
 
-        return xmin;
+        return _xmin;
 
     }
 
@@ -298,7 +296,7 @@ public class Wireframe3D {
 
     public float getYMax() {
 
-        return ymax;
+        return _ymax;
 
     }
 
@@ -306,7 +304,7 @@ public class Wireframe3D {
 
     public float getYMin() {
 
-        return ymin;
+        return _ymin;
 
     }
 
@@ -314,7 +312,7 @@ public class Wireframe3D {
 
     public float getZMax() {
 
-        return zmax;
+        return _zmax;
 
     }
 
@@ -322,7 +320,7 @@ public class Wireframe3D {
 
     public float getZMin() {
 
-        return zmin;
+        return _zmin;
 
     }
 
@@ -352,7 +350,7 @@ public class Wireframe3D {
 
 
 
-        if ( vert == null || nvert <= 0 ) {
+        if ( _vert == null || _nvert <= 0 ) {
 
             return;
 
@@ -366,13 +364,13 @@ public class Wireframe3D {
 
         int lg = 0;
 
-        int lim = ncon;
+        int lim = _ncon;
 
-        int c[] = con;
+        int c[] = _con;
 
-        int v[] = tvert;
+        int v[] = _tvert;
 
-        if ( lim <= 0 || nvert <= 0 ) {
+        if ( lim <= 0 || _nvert <= 0 ) {
 
             return;
 
@@ -390,17 +388,19 @@ public class Wireframe3D {
 
         
 
-        if ( antialias ) {
+        if ( _antialias ) {
 
             g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
         }
 
-        g2.setStroke( stroke );
+        g2.setStroke( _stroke );
 
         
 
         // Draw wireframe
+
+        Line2D line = new Line2D.Float();
 
         for ( int i = 0; i < lim; i++ ) {
 
@@ -432,15 +432,17 @@ public class Wireframe3D {
 
                 lg = colorIndex;
 
-                g2.setColor( palette[colorIndex] );
+                g2.setColor( _palette[colorIndex] );
 
             }
 
+            line.setLine( v[p1], v[p1 + 1], v[p2], v[p2 + 1] );
 
-
-            g2.drawLine( v[p1], v[p1 + 1], v[p2], v[p2 + 1] );
+            g2.draw( line );
 
         }
+
+
 
         
 
@@ -614,13 +616,13 @@ public class Wireframe3D {
 
     private void initPaletteGray() {
 
-        palette = new Color[16];
+        _palette = new Color[16];
 
         for ( int i = 0; i < 16; i++ ) {
 
             int grey = (int) ( 170 * ( 1 - Math.pow( i / 15.0, 2.3 ) ) );
 
-            palette[i] = new Color( grey, grey, grey );
+            _palette[i] = new Color( grey, grey, grey );
 
         }
 
@@ -670,7 +672,7 @@ public class Wireframe3D {
 
             float b = ( fb - ( i * bdelta ) ) / 255f;
 
-            palette[i] = new Color( r, g, b );
+            _palette[i] = new Color( r, g, b );
 
         }
 
@@ -686,27 +688,27 @@ public class Wireframe3D {
 
     private int addVert( float x, float y, float z ) {
 
-        int i = nvert;
+        int i = _nvert;
 
-        if ( i >= maxvert ) {
+        if ( i >= _maxvert ) {
 
-            if ( vert == null ) {
+            if ( _vert == null ) {
 
-                maxvert = 100;
+                _maxvert = 100;
 
-                vert = new float[maxvert * 3];
+                _vert = new float[_maxvert * 3];
 
             }
 
             else {
 
-                maxvert *= 2;
+                _maxvert *= 2;
 
-                float nv[] = new float[maxvert * 3];
+                float nv[] = new float[_maxvert * 3];
 
-                System.arraycopy( vert, 0, nv, 0, vert.length );
+                System.arraycopy( _vert, 0, nv, 0, _vert.length );
 
-                vert = nv;
+                _vert = nv;
 
             }
 
@@ -714,13 +716,13 @@ public class Wireframe3D {
 
         i *= 3;
 
-        vert[i] = x;
+        _vert[i] = x;
 
-        vert[i + 1] = y;
+        _vert[i + 1] = y;
 
-        vert[i + 2] = z;
+        _vert[i + 2] = z;
 
-        return nvert++;
+        return _nvert++;
 
     }
 
@@ -734,33 +736,33 @@ public class Wireframe3D {
 
     private void addLine( int p1, int p2 ) {
 
-        int i = ncon;
+        int i = _ncon;
 
-        if ( p1 >= nvert || p2 >= nvert ) {
+        if ( p1 >= _nvert || p2 >= _nvert ) {
 
             return;
 
         }
 
-        if ( i >= maxcon ) {
+        if ( i >= _maxcon ) {
 
-            if ( con == null ) {
+            if ( _con == null ) {
 
-                maxcon = 100;
+                _maxcon = 100;
 
-                con = new int[maxcon];
+                _con = new int[_maxcon];
 
             }
 
             else {
 
-                maxcon *= 2;
+                _maxcon *= 2;
 
-                int nv[] = new int[maxcon];
+                int nv[] = new int[_maxcon];
 
-                System.arraycopy( con, 0, nv, 0, con.length );
+                System.arraycopy( _con, 0, nv, 0, _con.length );
 
-                con = nv;
+                _con = nv;
 
             }
 
@@ -776,9 +778,9 @@ public class Wireframe3D {
 
         }
 
-        con[i] = ( p1 << 16 ) | p2;
+        _con[i] = ( p1 << 16 ) | p2;
 
-        ncon = i + 1;
+        _ncon = i + 1;
 
     }
 
@@ -792,21 +794,21 @@ public class Wireframe3D {
 
     private void transform() {
 
-        if ( transformed || nvert <= 0 ) {
+        if ( _transformed || _nvert <= 0 ) {
 
             return;
 
         }
 
-        if ( tvert == null || tvert.length < nvert * 3 ) {
+        if ( _tvert == null || _tvert.length < _nvert * 3 ) {
 
-            tvert = new int[nvert * 3];
+            _tvert = new int[_nvert * 3];
 
         }
 
-        mat.transform( vert, tvert, nvert );
+        _matrix.transform( _vert, _tvert, _nvert );
 
-        transformed = true;
+        _transformed = true;
 
     }
 
@@ -820,7 +822,7 @@ public class Wireframe3D {
 
     private void sort( int lo0, int hi0 ) {
 
-        int a[] = con;
+        int a[] = _con;
 
         int lo = lo0;
 
@@ -886,11 +888,11 @@ public class Wireframe3D {
 
     private void compress() {
 
-        int limit = ncon;
+        int limit = _ncon;
 
-        int c[] = con;
+        int c[] = _con;
 
-        sort( 0, ncon - 1 );
+        sort( 0, _ncon - 1 );
 
         int d = 0;
 
@@ -912,7 +914,7 @@ public class Wireframe3D {
 
         }
 
-        ncon = d;
+        _ncon = d;
 
     }
 
@@ -926,13 +928,13 @@ public class Wireframe3D {
 
     private void findBB() {
 
-        if ( nvert <= 0 ) {
+        if ( _nvert <= 0 ) {
 
             return;
 
         }
 
-        float v[] = vert;
+        float v[] = _vert;
 
         float xmin = v[0], xmax = xmin;
 
@@ -940,7 +942,7 @@ public class Wireframe3D {
 
         float zmin = v[2], zmax = zmin;
 
-        for ( int i = nvert * 3; ( i -= 3 ) > 0; ) {
+        for ( int i = _nvert * 3; ( i -= 3 ) > 0; ) {
 
             float x = v[i];
 
@@ -986,17 +988,17 @@ public class Wireframe3D {
 
         }
 
-        this.xmax = xmax;
+        this._xmax = xmax;
 
-        this.xmin = xmin;
+        this._xmin = xmin;
 
-        this.ymax = ymax;
+        this._ymax = ymax;
 
-        this.ymin = ymin;
+        this._ymin = ymin;
 
-        this.zmax = zmax;
+        this._zmax = zmax;
 
-        this.zmin = zmin;
+        this._zmin = zmin;
 
     }
 
