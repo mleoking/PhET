@@ -7,7 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - Wireframe3D looks like it's only using 2 colors from color palette
 - remove HACK in PNode3D that makes bounds appear correct
-- use ModelViewTransform when mapping deBroglie model to wireframe view
+- use ModelViewTransform when mapping deBroglie model to 3D wireframe view
 - implement collision detection with deBroglie 3D orbits
 - emit photons along deBroglie 3D orbits
 
