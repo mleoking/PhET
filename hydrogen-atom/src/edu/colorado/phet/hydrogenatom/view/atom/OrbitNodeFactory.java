@@ -27,7 +27,7 @@ class OrbitNodeFactory {
      * @param radius
      * @return PPath
      */
-    protected static PPath createOrbitNode( double radius ) {
+    public static PPath createOrbitNode( double radius ) {
         double nodeRadius = ModelViewTransform.transform( radius );
         Shape shape = new Ellipse2D.Double( -nodeRadius, -nodeRadius, 2 * nodeRadius, 2 * nodeRadius );
         PPath orbitNode = new PPath();
@@ -45,7 +45,7 @@ class OrbitNodeFactory {
      * @param yxRatio ratio of height (y) to width (x)
      * @return PPath
      */
-    protected static PPath createPerspectiveOrbitNode( double radius, double yxRatio ) {
+    public static PPath createPerspectiveOrbitNode( double radius, double yxRatio ) {
         double nodeRadius = ModelViewTransform.transform( radius );
         Shape shape = new Ellipse2D.Double( -nodeRadius, -nodeRadius * yxRatio, 2 * nodeRadius, 2 * nodeRadius * yxRatio );
         PPath orbitNode = new PPath();
