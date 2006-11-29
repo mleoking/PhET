@@ -82,6 +82,7 @@ public class MRModule extends Module {
         getModel().removeAllModelElements();
         ( (MRModel)getModel() ).setInitialConditions();
         energyView.reset();
+        getClock().start();
     }
     
     protected SpatialView getSpatialView() {
