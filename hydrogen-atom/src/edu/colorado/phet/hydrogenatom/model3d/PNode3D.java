@@ -25,17 +25,19 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 public class PNode3D extends PNode {
 
     private Wireframe3D _wireframe;
-    private Stroke _stroke;
     
-    public PNode3D( Wireframe3D wireframe, Stroke stroke ) {
+    public PNode3D( Wireframe3D wireframe ) {
         super();
         
         _wireframe = wireframe;
-        _stroke = stroke;
         
         //HACK to get the bounds to refresh
         PPath boundsPath = new PPath();
-        boundsPath.setPathTo( new Rectangle2D.Double( -500, -500, 1000, 1000 ) );//XXX size to wireframe!
+        double x = _wireframe.getXMin();
+        double y = _wireframe.getYMin();
+        double w = _wireframe.getXMax() - x;
+        double h = _wireframe.getYMax() - y;
+        boundsPath.setPathTo( new Rectangle2D.Double( x, y, w, h ) );
         boundsPath.setStroke( null );
         boundsPath.setPaint( new Color( 0, 0, 0, 0 ) );
         addChild( boundsPath );
@@ -43,18 +45,6 @@ public class PNode3D extends PNode {
     
     protected void paint( PPaintContext paintContext ) {
         super.paint( paintContext );
-        
-        Graphics2D g2 = paintContext.getGraphics();
-        
-        Object saveAntialiasValue = g2.getRenderingHint( RenderingHints.KEY_ANTIALIASING );
-        Stroke saveStroke = g2.getStroke();
-        
-        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        g2.setStroke( _stroke );
-        
         _wireframe.paint( paintContext.getGraphics() );
-        
-        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, saveAntialiasValue );
-        g2.setStroke( saveStroke );
     }
 }
