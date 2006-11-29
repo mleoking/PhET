@@ -9,6 +9,7 @@ Remove ground from space.
 Match ground color to planet.
 
 Point feet at track when dragging.
+Maybe the skater should point his feet toward the closest track when the user is dragging him.
 
 Dropping from a height, sometimes the skater gets stuck in the ground
     I think we discussed this and decided it's okay to leave this.
@@ -42,8 +43,6 @@ Sometimes the skater gets stuck.
         Difficult to reproduce.
 
 One run caused the skater to behave as if he had 0.001 mass (in space).  Couldn't reproduce.
-
-Maybe the skater should point his feet toward the closest track when the user is dragging him.
 
 1.  The values for energy show up under the yellow record dots so you can't read the values.
 
