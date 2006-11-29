@@ -8,7 +8,6 @@ HIGH PRIORITY:
 - wireframe looks like it's only using 2 colors from color palette
 - make 3D orbits look like dashed lines
 - remove HACK in PNode3D that makes bounds appear correct
-- bug: wireframe for electron level=1 is clipped, node bounds wrong?
 - make Wireframe3D mutable, allow change of verticies
 - use ModelViewTransform when mapping deBroglie model to wireframe view
 - implement collision detection with deBroglie 3D orbits
@@ -52,6 +51,7 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+(11/29/06) - set width of stroke for Wireframe3D, adjust for stroke width when computing bounds
 (11/28/06) - major overhaul and bug fixes in Wireframe3D, get rid of parser
 (11/28/06) - set bounds of PNode3D based on bounds of its associated Wireframe3D
 (11/28/06) - draw 3D orbits using Wireframe3D

@@ -160,7 +160,7 @@ public class Wireframe3D {
 
     
 
-    private static final Stroke DEFAULT_STROKE = new BasicStroke( 1f );
+    private static final float DEFAULT_STROKE_WIDTH = 1;
 
     
 
@@ -232,6 +232,10 @@ public class Wireframe3D {
 
     private boolean _antialias;
 
+    // Width of Stroke used to draw the line segments
+
+    private float _strokeWidth;
+
     // Stroke used to draw the line segments
 
     private Stroke _stroke;
@@ -260,7 +264,9 @@ public class Wireframe3D {
 
         _antialias = true; // enabled by default
 
-        _stroke = DEFAULT_STROKE;
+        _strokeWidth = DEFAULT_STROKE_WIDTH;
+
+        _stroke = createStroke( _strokeWidth );
 
         _palette = createGrayPalette();
 
@@ -336,9 +342,17 @@ public class Wireframe3D {
 
     
 
-    public void setStroke( Stroke stroke ) {
+    public void setStrokeWidth( float strokeWidth ) {
 
-        _stroke = stroke;
+        if ( strokeWidth != _strokeWidth ) {
+
+            _strokeWidth = strokeWidth;
+
+            _stroke = createStroke( strokeWidth );
+
+        }
+
+        updateBounds();
 
     }
 
@@ -347,14 +361,6 @@ public class Wireframe3D {
     public void setAntialias( boolean antialias ) {
 
         _antialias = antialias;
-
-    }
-
-    
-
-    public boolean getAntialias() {
-
-        return _antialias;
 
     }
 
@@ -888,17 +894,17 @@ public class Wireframe3D {
 
         }
 
-        _xmax = xmax;
+        _xmax = xmax + _strokeWidth;
 
-        _xmin = xmin;
+        _xmin = xmin - _strokeWidth;
 
-        _ymax = ymax;
+        _ymax = ymax + _strokeWidth;
 
-        _ymin = ymin;
+        _ymin = ymin - _strokeWidth;
 
-        _zmax = zmax;
+        _zmax = zmax + _strokeWidth;
 
-        _zmin = zmin;
+        _zmin = zmin - _strokeWidth;
 
     }
 
@@ -909,6 +915,20 @@ public class Wireframe3D {
     // Static
 
     //----------------------------------------------------------------------------
+
+    
+
+    /*
+
+     * Encapsulates all Stroke creation.
+
+     */
+
+    private static Stroke createStroke( float width ) {
+
+        return new BasicStroke( width );
+
+    }
 
     
 

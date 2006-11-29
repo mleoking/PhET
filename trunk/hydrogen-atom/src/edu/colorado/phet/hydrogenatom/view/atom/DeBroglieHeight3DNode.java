@@ -43,12 +43,12 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     private static final double VIEW_ANGLE = 70; // degrees
     
     private static final int ORBIT_POINTS = 200;
-    private static final Stroke ORBIT_STROKE = new BasicStroke( 1f );
+    private static final float ORBIT_STROKE_WIDTH = 1f;
     private static final Color ORBIT_FRONT_COLOR = OrbitNodeFactory.getOrbitColor();
     private static final Color ORBIT_BACK_COLOR = ORBIT_FRONT_COLOR.darker().darker();
     
     private static final int WAVE_POINTS = 200;
-    private static final Stroke WAVE_STROKE = new BasicStroke( 2f );
+    private static final float WAVE_STROKE_WIDTH = 2f;
     private static final Color WAVE_FRONT_COLOR = ElectronNode.getColor();
     private static final Color WAVE_BACK_COLOR = WAVE_FRONT_COLOR.darker().darker();
     
@@ -127,7 +127,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         Point3D[] points = getWavePoints( WAVE_POINTS, atom );
         Wireframe3D wireframe = new Wireframe3D( points );
         wireframe.setColors( WAVE_FRONT_COLOR, WAVE_BACK_COLOR );
-        wireframe.setStroke( WAVE_STROKE );
+        wireframe.setStrokeWidth( WAVE_STROKE_WIDTH );
         
         Matrix3D matrix = wireframe.getMatrix();
         matrix.unit();
@@ -149,7 +149,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         Point3D[] points = getOrbitPoints( numberOfPoints, radius );
         Wireframe3D wireframe = new Wireframe3D( points );
         wireframe.setColors( ORBIT_FRONT_COLOR, ORBIT_BACK_COLOR );
-        wireframe.setStroke( ORBIT_STROKE );
+        wireframe.setStrokeWidth( ORBIT_STROKE_WIDTH );
         
         Matrix3D matrix = wireframe.getMatrix();
         matrix.unit();
