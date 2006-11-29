@@ -36,6 +36,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
     private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
     private OptionsPanel optionsPanel;
     private JButton selectMoleculeBtn;
+    private ExperimentSetupPanel experimentSetupPanel;
 
     public ComplexMRControlPanel( final ComplexModule module ) {
         super( new GridBagLayout() );
@@ -73,7 +74,8 @@ public class ComplexMRControlPanel extends MRControlPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add( moleculeInstanceControlPanel, gbc );
         add( optionsPanel, gbc );
-        add( new ExperimentSetupPanel( module ), gbc );
+        experimentSetupPanel = new ExperimentSetupPanel( module );
+        add( experimentSetupPanel, gbc );
         gbc.fill = GridBagConstraints.NONE;
 //        add( selectMoleculeBtn, gbc );
         add( resetBtn, gbc );
@@ -85,6 +87,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
 
     public void reset() {
         optionsPanel.reset();
+        experimentSetupPanel.reset();
     }
 
     public void setExperimentRunning( boolean running ) {
@@ -255,6 +258,8 @@ public class ComplexMRControlPanel extends MRControlPanel {
             module.setBarChartVisible( showBarChartBtn.isSelected() );
             module.setPieChartVisible( showPieChartBtn.isSelected() );
             module.setGraphicTypeVisible( showBondsBtn.isSelected() );
+
+
 //            module.setStripChartVisible( showStripChartBtn.isSelected(), showStripChartBtn );
 //            module.setBarChartVisible( showBarChartBtn.isSelected() );
 //            module.setGraphicTypeVisible( showBondsBtn.isSelected() );

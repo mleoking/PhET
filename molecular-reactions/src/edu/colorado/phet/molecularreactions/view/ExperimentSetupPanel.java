@@ -15,6 +15,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.util.RangeLimitedIntegerTextField;
+import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.model.*;
@@ -34,7 +35,7 @@ import java.awt.event.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ExperimentSetupPanel extends JPanel {
+public class ExperimentSetupPanel extends JPanel implements Resetable {
     private JTextField numATF;
     private JTextField numBCTF;
     private JTextField numABTF;
@@ -122,21 +123,21 @@ public class ExperimentSetupPanel extends JPanel {
         labelGbc.gridwidth = 1;
         labelGbc.anchor = GridBagConstraints.EAST;
         add( numALbl, labelGbc );
-        add( numBCLbl, labelGbc );
+        add( numABLbl, labelGbc );
         labelGbc.gridy = 0;
         labelGbc.gridx = 2;
         labelGbc.gridy = GridBagConstraints.RELATIVE;
-        add( numABLbl, labelGbc );
+        add( numBCLbl, labelGbc );
         add( numCLbl, labelGbc );
 
         // Text fields
         textFieldGbc.gridy = GridBagConstraints.RELATIVE;
         add( numATF, textFieldGbc );
-        add( numBCTF, textFieldGbc );
+        add( numABTF, textFieldGbc );
         textFieldGbc.gridy = 1;
         textFieldGbc.gridx = 3;
         textFieldGbc.gridy = GridBagConstraints.RELATIVE;
-        add( numABTF, textFieldGbc );
+        add( numBCTF, textFieldGbc );
         add( numCTF, textFieldGbc );
 
         labelGbc.gridx = 0;
@@ -229,7 +230,7 @@ public class ExperimentSetupPanel extends JPanel {
     /**
      * Resets everything
      */
-    private void reset() {
+    public void reset() {
 
         numATF.setText( "0" );
         numBCTF.setText( "0" );
@@ -259,7 +260,6 @@ public class ExperimentSetupPanel extends JPanel {
         static Object setup = new Object();
         private Object state = setup;
         private String goString = SimStrings.get( "ExperimentSetup.go" );
-//        private String stopString = "Pause";
         private String stopString = SimStrings.get( "ExperimentSetup.stop" );
         private String setupString = SimStrings.get( "ExperimentSetup.setup" );
         private Color goColor = Color.green;
@@ -281,7 +281,6 @@ public class ExperimentSetupPanel extends JPanel {
             this.state = state;
             if( state == go ) {
                 clock.start();
-//                resetBtn.setEnabled( false );
                 parent.startExperiment();
                 setText( stopString );
                 setBackground( stopColor );
@@ -289,7 +288,6 @@ public class ExperimentSetupPanel extends JPanel {
             }
             if( state == stop ) {
                 clock.pause();
-//                resetBtn.setEnabled( true );
                 setText( goString );
                 setBackground( goColor );
                 parent.setExperimentRunning( false );
@@ -305,13 +303,6 @@ public class ExperimentSetupPanel extends JPanel {
                 else if( state == stop ) {
                     setState( go );
                 }
-//                else if( state == setup ) {
-//                    module.reset();
-//                    clock.pause();
-//                    state = go;
-//                    setText( goString );
-//                    setBackground( goColor );
-//                }
             }
         }
     }
