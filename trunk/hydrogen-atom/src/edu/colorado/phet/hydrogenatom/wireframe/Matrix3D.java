@@ -47,7 +47,7 @@
  * 11/28/06 - added some comments
  */
 
-package edu.colorado.phet.hydrogenatom.model3d;
+package edu.colorado.phet.hydrogenatom.wireframe;
 
 /**
  * Matrix3D is a fairly conventional 3D matrix that can transform sets of

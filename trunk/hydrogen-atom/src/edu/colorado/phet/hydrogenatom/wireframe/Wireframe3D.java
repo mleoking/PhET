@@ -126,7 +126,7 @@
 
 
 
-package edu.colorado.phet.hydrogenatom.model3d;
+package edu.colorado.phet.hydrogenatom.wireframe;
 
 
 
@@ -166,32 +166,6 @@ public class Wireframe3D {
 
     //----------------------------------------------------------------------------
 
-    // Data structures
-
-    //----------------------------------------------------------------------------
-
-    
-
-    public static class Point3D {
-
-        public double x, y, z;
-
-        public Point3D( double x, double y, double z ) {
-
-            this.x = x;
-
-            this.y = y;
-
-            this.z = z;
-
-        }
-
-    }
-
-    
-
-    //----------------------------------------------------------------------------
-
     // Instance data
 
     //----------------------------------------------------------------------------
@@ -212,6 +186,12 @@ public class Wireframe3D {
 
     private int _maxcon;
 
+    
+
+    // bounds of the model
+
+    private float _xmin, _xmax, _ymin, _ymax, _zmin, _zmax;
+
     // has the model been transformed?
 
     private boolean _transformed;
@@ -219,10 +199,6 @@ public class Wireframe3D {
     // matrix associated with the model
 
     private Matrix3D _matrix;
-
-    // bounds of the model
-
-    private float _xmin, _xmax, _ymin, _ymax, _zmin, _zmax;
 
     // palette used to color the line segments
 
@@ -280,31 +256,63 @@ public class Wireframe3D {
 
     /**
 
-     * Creates a 3D wireframe model from a set of points.
+     * Creates a 3D wireframe model with a set of verticies
 
-     * Assumes that the points are one continuous piece of wire.
+     * but no lines connecting the vertices.
+
+     * Call setLine to specify how the verticies are connected.
 
      */
 
-    public Wireframe3D( Point3D[] points ) {
+    public Wireframe3D( Vertex3D[] verticies ) {
 
         this();
 
-        for ( int i = 0; i < points.length; i++ ) {
+        for ( int i = 0; i < verticies.length; i++ ) {
 
-            Point3D p = points[i];
-
-            addVertex( (float) p.x, (float) p.y, (float) p.z );
+            addVertex( verticies[i] );
 
         }
 
-        for ( int i = 0; i < points.length - 1; i++ ) {
+    }
 
-            addLine( i, i + 1 );
+    
+
+    /**
+
+     * Creates a 3D wireframe model with a set of verticies and lines.
+
+     * @param verticies
+
+     * @param lines indicies into vertices, consecutive entries define a line
+
+     */
+
+    public Wireframe3D( Vertex3D[] verticies, int[] lines ) {
+
+        this( verticies );
+
+        for ( int i = 0; i < lines.length - 1; i += 2 ) {
+
+            int i1 = lines[i];
+
+            int i2 = lines[i + 1];
+
+            if ( i1 < 0 || i1 > verticies.length - 1 ) {
+
+                throw new IllegalArgumentException( "line index out of range: " + i1 );
+
+            }
+
+            if ( i2 < 0 || i2 > verticies.length - 1 ) {
+
+                throw new IllegalArgumentException( "line index out of range: " + i2 );
+
+            }
+
+            addLine( i1, i2 );
 
         }
-
-        done();
 
     }
 
@@ -549,6 +557,22 @@ public class Wireframe3D {
     // Private
 
     //----------------------------------------------------------------------------
+
+    
+
+    /**
+
+     * Adds a vertex.
+
+     * @param v
+
+     */
+
+    public int addVertex( Vertex3D v ) {
+
+        return addVertex( v._x, v._y, v._z );
+
+    }
 
     
 

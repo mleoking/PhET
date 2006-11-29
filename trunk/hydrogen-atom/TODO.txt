@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- reuse Point3D[] whereever possible
 - wireframe looks like it's only using 2 colors from color palette
 - remove HACK in PNode3D that makes bounds appear correct
 - make Wireframe3D mutable, allow change of verticies
@@ -50,6 +51,10 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+(11/29/06) - make DeBroglieHeight3DNode responsible for specifying how wireframe verticies are connected
+(11/29/06) - new constructors for Wireframe3D
+(11/29/06) - change Point3D to Vertex3D, put in its own class file, change names accordingly in client source
+(11/29/06) - move all wireframe code to wireframe package (was model3d package)
 (11/29/06) - make 3D orbits look like dashed lines by connecting every-other point in wireframe
 (11/29/06) - set width of stroke for Wireframe3D, adjust for stroke width when computing bounds
 (11/28/06) - major overhaul and bug fixes in Wireframe3D, get rid of parser
