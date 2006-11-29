@@ -4,9 +4,6 @@ Remaining Work
 
 getNormalForce( double x, Body body )  in SplineMode is sometimes pulling the skater to the track.
 
-Does BackgroundScreenNode depend on using same instance of floor graphic?
->>that's ok, we're reusing instance.
-
 Point feet at track when dragging.
 Maybe the skater should point his feet toward the closest track when the user is dragging him.
 
@@ -155,3 +152,6 @@ bounces around the bottom of the screen before shooting off in a random directio
         
 after record/playback/reset, then gravity in space, friction is not working
 	This is correct behaivor.
+	
+Does BackgroundScreenNode depend on using same instance of floor graphic?
+>>that's ok, we're reusing instance.
