@@ -44,12 +44,12 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     private static final double VIEW_ANGLE = 70; // degrees, rotation about the x-axis
     private static final double VIEW_ANGLE_DELTA = 5; // degrees
     
-    private static final int ORBIT_POINTS = 200;
+    private static final int ORBIT_VERTICIES = 200;
     private static final float ORBIT_STROKE_WIDTH = 1f;
     private static final Color ORBIT_FRONT_COLOR = OrbitNodeFactory.getOrbitColor();
     private static final Color ORBIT_BACK_COLOR = ORBIT_FRONT_COLOR.darker().darker();
     
-    private static final int WAVE_POINTS = 200;
+    private static final int WAVE_VERTICIES = 200;
     private static final float WAVE_STROKE_WIDTH = 2f;
     private static final Color WAVE_FRONT_COLOR = ElectronNode.getColor();
     private static final Color WAVE_BACK_COLOR = WAVE_FRONT_COLOR.darker().darker();
@@ -63,6 +63,8 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     private Matrix3D _viewMatrix; // matrix used to set view angle
     private double _viewAngle; // the current view angle
     private boolean _rotationDone; // are we done rotating the wireframe into place?
+    private Vertex3D[] _orbitVerticies; // reusable verticies for orbits
+    private Vertex3D[] _waveVerticies; // reusable verticies for wave
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -70,10 +72,24 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     
     public DeBroglieHeight3DNode( DeBroglieModel atom ) {
         super( atom );
-        assert( VIEW_ANGLE >= 0 && VIEW_ANGLE <= 90 );
+        
+        assert( VIEW_ANGLE >= 0 && VIEW_ANGLE <= 90 ); // for view angle animation
+        assert( ORBIT_VERTICIES % 2 == 0 ); // for faking dashed line style in 3D
+        
         _viewMatrix = new Matrix3D();
         _viewAngle = ( ROTATE_INTO_PLACE ? 0 : VIEW_ANGLE );
         _rotationDone = false;
+        
+        _orbitVerticies = new Vertex3D[ ORBIT_VERTICIES ];
+        for ( int i = 0; i < _orbitVerticies.length; i++ ) {
+            _orbitVerticies[i] = new Vertex3D();
+        }
+        
+        _waveVerticies = new Vertex3D[ WAVE_VERTICIES ];
+        for ( int i = 0; i < _waveVerticies.length; i++ ) {
+            _waveVerticies[i] = new Vertex3D();
+        }
+        
         update();
     }
     
@@ -94,7 +110,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
             if ( _staticNode != null ) {
                 removeChild( _staticNode );
             }
-            _staticNode = createStaticNode( getAtom(), _viewMatrix );
+            _staticNode = createStaticNode( getAtom(), _viewMatrix, _orbitVerticies );
             _staticNode.setOffset( -_staticNode.getWidth() / 2, -_staticNode.getHeight() / 2 );
             addChild( _staticNode );
             
@@ -112,18 +128,18 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         if ( _waveNode != null ) {
             removeChild( _waveNode );
         }
-        _waveNode = create3DWaveNode( getAtom(), _viewMatrix );
+        _waveNode = create3DWaveNode( getAtom(), _viewMatrix, _waveVerticies );
         addChild( _waveNode );
     }
     
     //----------------------------------------------------------------------------
-    // private
+    // Node creation
     //----------------------------------------------------------------------------
     
     /*
      * Creates the static parts of the view and flattens everything to a single PImage node.
      */
-    private static PNode createStaticNode( DeBroglieModel atom, Matrix3D viewMatrix ) {
+    private static PNode createStaticNode( DeBroglieModel atom, Matrix3D viewMatrix, Vertex3D[] verticies ) {
 
         PNode parentNode = new PNode();
         
@@ -132,7 +148,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         int numberOfStates = DeBroglieModel.getNumberOfStates();
         for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
             double radius = atom.getOrbitRadius( state );
-            Wireframe3DNode orbitNode = create3DOrbitNode( ORBIT_POINTS, radius, viewMatrix );
+            Wireframe3DNode orbitNode = create3DOrbitNode( radius, viewMatrix, verticies );
             parentNode.addChild( orbitNode );
         }
         
@@ -150,10 +166,10 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     /*
      * Creates a 3D wave node.
      */
-    private static Wireframe3DNode create3DWaveNode( DeBroglieModel atom, Matrix3D viewMatrix ) {
+    private static Wireframe3DNode create3DWaveNode( DeBroglieModel atom, Matrix3D viewMatrix, Vertex3D[] verticies ) {
         
         // Compute the verticies
-        Vertex3D[] verticies = getWaveVerticies( WAVE_POINTS, atom );
+        getWaveVerticies( atom, verticies );
         
         // Create the wireframe model
         Wireframe3D wireframe = new Wireframe3D( verticies );
@@ -181,21 +197,15 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     /*
      * Creates a 3D orbit node.
      */
-    private static Wireframe3DNode create3DOrbitNode( final int numberOfVerticies, final double radius, Matrix3D viewMatrix ) {
-        
-        // This algorithm requires an even number of verticies.
-        int n = numberOfVerticies;
-        if ( n % 2 != 0 ) {
-            n += 1;
-        }
+    private static Wireframe3DNode create3DOrbitNode( final double radius, Matrix3D viewMatrix, Vertex3D[] verticies ) {
         
         // Compute the verticies
-        Vertex3D[] verticies = getOrbitVerticies( n, radius );
+        getOrbitVerticies( radius, verticies );
         
         // Create the wireframe model
         Wireframe3D wireframe = new Wireframe3D( verticies );
         // Connect every-other pair of verticies to simulate a dashed line.
-        for ( int i = 0; i < n - 1; i += 2 ) {
+        for ( int i = 0; i < verticies.length - 1; i += 2 ) {
             wireframe.addLine( i, i + 1 );
         }
         wireframe.done();
@@ -216,43 +226,45 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     }
     
     //----------------------------------------------------------------------------
-    // private static
+    // Verticies computation
     //----------------------------------------------------------------------------
     
     /*
      * Gets the verticies that approximate the standing wave.
-     * The number of verticies returned will be numberOfVerticies+1,
-     * since an extra vertex is added to close the ends of the wave.
      */
-    private static Vertex3D[] getWaveVerticies( int numberOfVerticies, DeBroglieModel atom ) {
-        double radius = atom.getElectronOrbitRadius();
+    private static Vertex3D[] getWaveVerticies( DeBroglieModel atom, Vertex3D[] verticies ) {
+        
+        int numberOfVerticies = verticies.length;
         double deltaAngle = ( 2 * Math.PI ) / numberOfVerticies;
-        Vertex3D[] verticies = new Vertex3D[numberOfVerticies];
+        double radius = atom.getElectronOrbitRadius();
+        
         for ( int i = 0; i < numberOfVerticies; i++ ) {
             double angle = i * deltaAngle;
             double x = radius * Math.cos( angle );
             double y = radius * Math.sin( angle );
             double z = MAX_HEIGHT * atom.getAmplitude( angle );
-            Vertex3D v = new Vertex3D( (float) x, (float) y, (float) z );
-            verticies[i] = v;
+            verticies[i].setLocation( (float) x, (float) y, (float) z );
         }
+        
         return verticies;
     }
 
     /*
      * Gets the verticies that approximate an orbit.
      */
-    private static Vertex3D[] getOrbitVerticies( int numberOfVerticies, double radius ) {
-        Vertex3D[] verticies = new Vertex3D[numberOfVerticies];
+    private static Vertex3D[] getOrbitVerticies( double radius, Vertex3D[] verticies ) {
+        
+        int numberOfVerticies = verticies.length;
         double deltaAngle = ( 2 * Math.PI ) / numberOfVerticies;
+        
         for ( int i = 0; i < numberOfVerticies; i++ ) {
             double angle = i * deltaAngle;
             double x = radius * Math.cos( angle );
             double y = radius * Math.sin( angle );
             double z = 0;
-            Vertex3D v = new Vertex3D( (float) x, (float) y, (float) z );
-            verticies[i] = v;
+            verticies[i].setLocation( (float) x, (float) y, (float) z );
         }
+        
         return verticies;
     }
 }
