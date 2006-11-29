@@ -4,6 +4,7 @@ package edu.colorado.phet.ec3.model;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 
 /**
  * User: Sam Reid
@@ -16,6 +17,10 @@ public class Floor {
     private double y;
     private Vector2D normal = new Vector2D.Double( 0, 1 );
     private EnergySkateParkModel model;
+
+    public Floor( EnergySkateParkModel model ) {
+        this( model, -AbstractSpline.SPLINE_THICKNESS );
+    }
 
     public Floor( EnergySkateParkModel model, double y ) {
         this.model = model;
