@@ -14,4 +14,6 @@ public interface UpdateMode {
     void init( Body body );
 
     UpdateMode copy();
+
+    void finish( Body body );
 }

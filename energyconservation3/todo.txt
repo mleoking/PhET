@@ -36,12 +36,6 @@ This picture shows him after he bounces on his head because he fell off the trac
 
 Fix "ignore thermal" to be "show thermal", on by default.
 
-Clear thermal when manipulating the skater.
-
-"Record Path" button should be moved after the tool checkboxes.
-
-move "record path" so it's not next to "return skater"
-
 >>We had to assume the grass acts like the ramp and that was a conceptual issue. The team has talked about changing the ground to look like the ramp to help. Right now, the two sims treat grass differently and that should be resolved.
 
 He should have at least 1/2mgr (where r is radius of curvature of track) worth of kinetic energy to be able to stick to it (when he is vertical). Right now his stickiness doesn't seem to be affected by the local r.

@@ -16,17 +16,21 @@ public class UserControlled implements UpdateMode {
     }
 
     public void stepInTime( Body body, double dt ) {
+        double deltaThermal = 500;
+        body.setThermalEnergy( Math.max( body.getThermalEnergy() - deltaThermal, 0.0 ) );
     }
 
     public void init( Body body ) {
-//        body.setCMRotation( 0 );
-//        body.setAttachmentPointRotation( Math.PI );
         body.convertToFreefall();
         body.setVelocity( new Vector2D.Double( 0, 0 ) );
     }
 
     public UpdateMode copy() {
         return new UserControlled();
+    }
+
+    public void finish( Body body ) {
+        body.setThermalEnergy( 0.0 );
     }
 
 }

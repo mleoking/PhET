@@ -29,10 +29,10 @@ import java.io.IOException;
  * Copyright (c) Sep 30, 2005 by Sam Reid
  */
 
-public class EC3ControlPanel extends ControlPanel {
+public class EnergySkateParkControlPanel extends ControlPanel {
     private EnergySkateParkModule module;
 
-    public EC3ControlPanel( final EnergySkateParkModule module ) {
+    public EnergySkateParkControlPanel( final EnergySkateParkModule module ) {
         this.module = module;
         JButton reset = new JButton( EnergySkateParkStrings.getString( "reset" ) );
         reset.addActionListener( new ActionListener() {
@@ -49,7 +49,7 @@ public class EC3ControlPanel extends ControlPanel {
             }
         } );
         addControl( resetSkater );
-        addControlFullWidth( new PathRecordContol( module ) );
+
 
         BufferedImage measuringTapeIcon = null;
         try {
@@ -89,7 +89,7 @@ public class EC3ControlPanel extends ControlPanel {
         addControlFullWidth( new IconComponent( zeroPointPotential, potentialIcon ) );
 
         addControlFullWidth( new GridLinesCheckBox( module ) );
-
+        addControlFullWidth( new PathRecordContol( module ) );
 //        getControlPane().setAnchor( GridBagConstraints.CENTER );
 //        getControlPane().setFillNone();
 
