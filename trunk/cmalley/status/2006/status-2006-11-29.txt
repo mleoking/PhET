@@ -1,0 +1,24 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Nov 23 - Nov 29, 2006 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Hydrogen Atom:
+  - published 0.00.12, 0.00.13
+  - remove n-dependence of oscillation frequency from deBroglie
+  - implemented most of 3D visual representation for deBroglie model
+  
+WHAT'S NEXT:
+  
+  o continue work on Hydrogen Atom simulation, see: 
+    http://www.colorado.edu/physics/phet/dev/hydrogen-atom/TODO.html
+    
+  o publish Bound States 1.02 ?
+    
+ISSUES:
+ 
+  o none
+  
+--
