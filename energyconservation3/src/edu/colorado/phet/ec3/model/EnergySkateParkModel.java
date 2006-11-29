@@ -15,9 +15,6 @@ import java.util.ArrayList;
  */
 
 public class EnergySkateParkModel {
-    public static final double G_EARTH = -9.81;
-    public static final double G_MOON = -1.62;
-    public static final double G_JUPITER = -25.95;
 
     private double time = 0;
     private ArrayList history = new ArrayList();
@@ -30,6 +27,10 @@ public class EnergySkateParkModel {
     private boolean recordPath = false;
     private double initZeroPointPotentialY;
     private PotentialEnergyMetric potentialEnergyMetric;
+
+    public static final double G_EARTH = -9.81;
+    public static final double G_MOON = -1.62;
+    public static final double G_JUPITER = -25.95;
 
     public EnergySkateParkModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
@@ -167,6 +168,14 @@ public class EnergySkateParkModel {
                 i--;
             }
         }
+    }
+
+    public boolean hasFloor() {
+        return getFloorCount() > 0;
+    }
+
+    public int getFloorCount() {
+        return floors.size();
     }
 
     private boolean hasFloorSpline() {

@@ -35,7 +35,7 @@ public abstract class Planet {
     }
 
     private void setupGravity( EnergySkateParkModule module ) {
-        module.getEnergyConservationModel().setGravity( gravity );
+        module.getEnergySkateParkModel().setGravity( gravity );
     }
 
     protected abstract void setupImage( EnergySkateParkModule module );

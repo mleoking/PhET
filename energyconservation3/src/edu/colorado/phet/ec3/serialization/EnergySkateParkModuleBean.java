@@ -24,11 +24,11 @@ public class EnergySkateParkModuleBean {
     }
 
     public EnergySkateParkModuleBean( EnergySkateParkModule module ) {
-        for( int i = 0; i < module.getEnergyConservationModel().numBodies(); i++ ) {
-            addBody( module.getEnergyConservationModel().bodyAt( i ) );
+        for( int i = 0; i < module.getEnergySkateParkModel().numBodies(); i++ ) {
+            addBody( module.getEnergySkateParkModel().bodyAt( i ) );
         }
-        for( int i = 0; i < module.getEnergyConservationModel().numSplineSurfaces(); i++ ) {
-            SplineSurface splineSurface = module.getEnergyConservationModel().splineSurfaceAt( i );
+        for( int i = 0; i < module.getEnergySkateParkModel().numSplineSurfaces(); i++ ) {
+            SplineSurface splineSurface = module.getEnergySkateParkModel().splineSurfaceAt( i );
             if( !( splineSurface.getSpline() instanceof FloorSpline ) ) {
                 addSplineSurface( splineSurface );
             }
@@ -60,18 +60,18 @@ public class EnergySkateParkModuleBean {
     }
 
     public void apply( EnergySkateParkModule module ) {
-        module.getEnergyConservationModel().removeAllBodies();
+        module.getEnergySkateParkModel().removeAllBodies();
         for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = new Body( module.getEnergyConservationModel() );
+            Body body = new Body( module.getEnergySkateParkModel() );
             ( (BodyElement)bodies.get( i ) ).apply( body );
-            module.getEnergyConservationModel().addBody( body );
+            module.getEnergySkateParkModel().addBody( body );
         }
 
-        module.getEnergyConservationModel().removeAllSplineSurfaces();
+        module.getEnergySkateParkModel().removeAllSplineSurfaces();
         for( int i = 0; i < splines.size(); i++ ) {
-            module.getEnergyConservationModel().addSplineSurface( ( (SplineElement)splines.get( i ) ).toSplineSurface() );
+            module.getEnergySkateParkModel().addSplineSurface( ( (SplineElement)splines.get( i ) ).toSplineSurface() );
         }
-        module.getEnergyConservationModel().updateFloorState();
+        module.getEnergySkateParkModel().updateFloorState();
     }
 
     public static class BodyElement {

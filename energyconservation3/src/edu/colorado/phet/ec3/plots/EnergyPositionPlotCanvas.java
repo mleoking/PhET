@@ -90,11 +90,11 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         public abstract double getValue();
 
         public Body getBody() {
-            return module.getEnergyConservationModel().bodyAt( 0 );
+            return module.getEnergySkateParkModel().bodyAt( 0 );
         }
 
         public EnergySkateParkModel getModel() {
-            return module.getEnergyConservationModel();
+            return module.getEnergySkateParkModel();
         }
 
         public Color getColor() {
@@ -135,7 +135,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         };
 
 
-        ec3Module.getEnergyConservationModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+        ec3Module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void preStep( double dt ) {
                 update();
             }
@@ -268,8 +268,8 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         if( !isActive() ) {
             return;
         }
-        if( module.getEnergyConservationModel().numBodies() > 0 ) {
-            Body body = module.getEnergyConservationModel().bodyAt( 0 );
+        if( module.getEnergySkateParkModel().numBodies() > 0 ) {
+            Body body = module.getEnergySkateParkModel().bodyAt( 0 );
             double x = toImageLocation( body.getX(), 0 ).getX();
             verticalBar.setPathTo( new Line2D.Double( x, 0, x, getHeight() ) );
 

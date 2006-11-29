@@ -118,7 +118,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyModel.stepInTime( dt );
     }
 
-    public EnergySkateParkModel getEnergyConservationModel() {
+    public EnergySkateParkModel getEnergySkateParkModel() {
         return energyModel;
     }
 
@@ -143,8 +143,8 @@ public class EnergySkateParkModule extends PiccoloModule {
 
 
     public void resetSkater() {
-        if( getEnergyConservationModel().numBodies() > 0 ) {
-            Body body = getEnergyConservationModel().bodyAt( 0 );
+        if( getEnergySkateParkModel().numBodies() > 0 ) {
+            Body body = getEnergySkateParkModel().bodyAt( 0 );
             resetSkater( body );
         }
     }
@@ -164,7 +164,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     private void init() {
         final Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(),
-                                    energyModel.getPotentialEnergyMetric(), getEnergyConservationModel() );
+                                    energyModel.getPotentialEnergyMetric(), getEnergySkateParkModel() );
         body.setAttachmentPointPosition( getDefaultBodyPosition() );
         energyModel.addBody( body );
         energyCanvas.getRootNode().updateGraphics();
@@ -204,7 +204,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void setRecordPath( boolean selected ) {
-        this.getEnergyConservationModel().setRecordPath( selected );
+        this.getEnergySkateParkModel().setRecordPath( selected );
     }
 
     public boolean isMeasuringTapeVisible() {
@@ -224,7 +224,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void clearPaths() {
-        this.getEnergyConservationModel().clearPaths();
+        this.getEnergySkateParkModel().clearPaths();
     }
 
     public void setEnergyTimePlotVisible( boolean b ) {
@@ -239,14 +239,14 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void setCoefficientOfFriction( double value ) {
-        for( int i = 0; i < getEnergyConservationModel().numBodies(); i++ ) {
-            Body body = getEnergyConservationModel().bodyAt( i );
+        for( int i = 0; i < getEnergySkateParkModel().numBodies(); i++ ) {
+            Body body = getEnergySkateParkModel().bodyAt( i );
             body.setFrictionCoefficient( value );
         }
     }
 
     public void clearHeat() {
-        getEnergyConservationModel().clearHeat();
+        getEnergySkateParkModel().clearHeat();
     }
 
     public void setEnergyPositionPlotVisible( boolean b ) {
@@ -255,7 +255,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void setCoefficientOfRestitution( double rest ) {
-        EnergySkateParkModel model = getEnergyConservationModel();
+        EnergySkateParkModel model = getEnergySkateParkModel();
         for( int i = 0; i < model.numBodies(); i++ ) {
             Body b = model.bodyAt( i );
             b.setCoefficientOfRestitution( rest );

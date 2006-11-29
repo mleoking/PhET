@@ -28,7 +28,7 @@ public class TestLoop {
 
     private void start() {
         energySkateParkApplication.startApplication();
-        energySkateParkApplication.getModule().getEnergyConservationModel().removeAllSplineSurfaces();
+        energySkateParkApplication.getModule().getEnergySkateParkModel().removeAllSplineSurfaces();
         CubicSpline spline = new CubicSpline();
 //add control points
         spline.addControlPoint( 2.856047700170355, 6.399488926746162 );
@@ -40,6 +40,6 @@ public class TestLoop {
         spline.addControlPoint( 11.60145654446832, 0.43431858330000445 );
         spline.addControlPoint( 13.62360305213442, 1.073160150591316 );
 
-        energySkateParkApplication.getModule().getEnergyConservationModel().addSplineSurface( new SplineSurface( spline ) );
+        energySkateParkApplication.getModule().getEnergySkateParkModel().addSplineSurface( new SplineSurface( spline ) );
     }
 }

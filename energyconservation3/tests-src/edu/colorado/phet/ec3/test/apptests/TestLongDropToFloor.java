@@ -26,6 +26,6 @@ public class TestLongDropToFloor {
 
     private void start() {
         energySkateParkApplication.startApplication();
-        energySkateParkApplication.getModule().getEnergyConservationModel().splineSurfaceAt( 1 ).translate( 5, 0 );
+        energySkateParkApplication.getModule().getEnergySkateParkModel().splineSurfaceAt( 1 ).translate( 5, 0 );
     }
 }

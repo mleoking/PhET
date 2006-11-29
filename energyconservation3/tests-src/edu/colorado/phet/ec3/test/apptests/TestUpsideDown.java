@@ -28,7 +28,7 @@ public class TestUpsideDown {
 
     private void start() {
         energySkateParkApplication.startApplication();
-        energySkateParkApplication.getModule().getEnergyConservationModel().removeAllSplineSurfaces();
+        energySkateParkApplication.getModule().getEnergySkateParkModel().removeAllSplineSurfaces();
         CubicSpline spline = new CubicSpline();
         //add control points
         spline.addControlPoint( 2.9071550255536627, 6.9361158432708665 );
@@ -36,6 +36,6 @@ public class TestUpsideDown {
         spline.addControlPoint( 12.098807750812382, 3.9589341322445595 );
         spline.addControlPoint( 11.10316012198109, 5.302291326059799 );
         spline.addControlPoint( 5.746260633054336, 5.366175482788927 );
-        energySkateParkApplication.getModule().getEnergyConservationModel().addSplineSurface( new SplineSurface( spline ) );
+        energySkateParkApplication.getModule().getEnergySkateParkModel().addSplineSurface( new SplineSurface( spline ) );
     }
 }

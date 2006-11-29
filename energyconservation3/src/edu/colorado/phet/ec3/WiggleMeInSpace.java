@@ -27,9 +27,9 @@ public class WiggleMeInSpace {
         hintNode.setTextColor( Color.white );
         hintNode.setShadowTextColor( Color.darkGray );
         hintNode.setShadowTextOffset( 1 );
-        module.getEnergyConservationModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void gravityChanged() {
-                if( module.getEnergyConservationModel().getGravity() == 0.0 && !hintDone ) {
+                if( module.getEnergySkateParkModel().getGravity() == 0.0 && !hintDone ) {
                     startHint();
                 }
                 else {
@@ -55,7 +55,7 @@ public class WiggleMeInSpace {
         getRootNode().addScreenChild( hintNode );
         hintNode.setOffset( module.getEnergyConservationCanvas().getWidth() / 2, hintNode.getFullBounds().getHeight() / 2 );
         hintNode.animateTo( module.getEnergyConservationCanvas().getWidth() / 2, (int)( module.getEnergyConservationCanvas().getHeight() * 1.0 / 4.0 ) );
-        module.getEnergyConservationModel().bodyAt( 0 ).addListener( new Body.Listener() {
+        module.getEnergySkateParkModel().bodyAt( 0 ).addListener( new Body.Listener() {
             public void thrustChanged() {
                 hintNode.setVisible( false );
                 hintDone = true;
