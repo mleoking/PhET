@@ -29,7 +29,7 @@ import java.awt.event.*;
 
 /**
  * ExperimentSetupPanel
- * <p>
+ * <p/>
  * Contains the controls for setting up and running an experiment
  *
  * @author Ron LeMaster
@@ -52,7 +52,6 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     private GoStopBtn goStopBtn;
 
     /**
-     *
      * @param module
      */
     public ExperimentSetupPanel( ComplexModule module ) {
@@ -143,7 +142,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         labelGbc.gridx = 0;
         labelGbc.gridwidth = 4;
         labelGbc.anchor = GridBagConstraints.WEST;
-        add( new JLabel( "Select a reaction:"), labelGbc );
+        add( new JLabel( "Select a reaction:" ), labelGbc );
         labelGbc.anchor = GridBagConstraints.CENTER;
         add( new ReactionChooserComboBox( module ), labelGbc );
         add( goStopBtn, labelGbc );
@@ -155,22 +154,18 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
      */
     private void startExperiment() {
 
-        int dA = Integer.parseInt( numATF.getText() ) - moleculeACounter.getCnt();
-        int dBC = Integer.parseInt( numBCTF.getText() ) - moleculeBCCounter.getCnt();
-        int dAB = Integer.parseInt( numABTF.getText() ) - moleculeABCounter.getCnt();
-        int dC = Integer.parseInt( numCTF.getText() ) - moleculeCCounter.getCnt();
-
-        generateMolecules( MoleculeA.class, dA );
-        generateMolecules( MoleculeBC.class, dBC );
-        generateMolecules( MoleculeAB.class, dAB );
-        generateMolecules( MoleculeC.class, dC );
-//        generateMolecules( MoleculeA.class, Integer.parseInt( numATF.getText() ));
-//        generateMolecules( MoleculeBC.class, Integer.parseInt( numBCTF.getText() ));
-//        generateMolecules( MoleculeAB.class, Integer.parseInt( numABTF.getText() ));
-//        generateMolecules( MoleculeC.class, Integer.parseInt( numCTF.getText() ));
-
-        module.setStripChartVisible( true );
         if( hasBeenReset ) {
+            int dA = Integer.parseInt( numATF.getText() ) - moleculeACounter.getCnt();
+            int dBC = Integer.parseInt( numBCTF.getText() ) - moleculeBCCounter.getCnt();
+            int dAB = Integer.parseInt( numABTF.getText() ) - moleculeABCounter.getCnt();
+            int dC = Integer.parseInt( numCTF.getText() ) - moleculeCCounter.getCnt();
+
+            generateMolecules( MoleculeA.class, dA );
+            generateMolecules( MoleculeBC.class, dBC );
+            generateMolecules( MoleculeAB.class, dAB );
+            generateMolecules( MoleculeC.class, dC );
+
+            module.setStripChartVisible( true );
             module.rescaleStripChart();
             hasBeenReset = false;
         }
@@ -221,10 +216,13 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
      */
     private void setExperimentRunning( boolean isRunning ) {
         module.setExperimentRunning( isRunning );
-        numATF.setEditable( !isRunning );
-        numBCTF.setEditable( !isRunning );
-        numABTF.setEditable( !isRunning );
-        numCTF.setEditable( !isRunning );
+    }
+
+    private void setInitialConditionsEditable( boolean editable ) {
+        numATF.setEditable( editable );
+        numBCTF.setEditable( editable );
+        numABTF.setEditable( editable );
+        numCTF.setEditable( editable );
     }
 
     /**
@@ -232,6 +230,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
      */
     public void reset() {
 
+        setInitialConditionsEditable( true );
         numATF.setText( "0" );
         numBCTF.setText( "0" );
         numABTF.setText( "0" );
@@ -248,6 +247,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         module.getClock().start();
 
         hasBeenReset = true;
+//        setExperimentRunning( false );
     }
 
 
@@ -284,7 +284,8 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
                 parent.startExperiment();
                 setText( stopString );
                 setBackground( stopColor );
-                parent.setExperimentRunning( true );
+                module.setExperimentRunning( true );
+                parent.setInitialConditionsEditable( false );
             }
             if( state == stop ) {
                 clock.pause();
