@@ -100,6 +100,10 @@
 
  * 11/28/06 - automatically call compress and findBB after parsing input stream
 
+ * 11/28/06 - move parsing of input stream into its own method, called from constructor
+
+ * 11/28/06 - remove bogus rotations applied to matrix in constructor, start with unit matrix
+
  */
 
 
@@ -182,9 +186,25 @@ public class Wireframe3D {
 
         mat = new Matrix3D();
 
-        mat.xrot( 20 );
+        parseStream( is );
 
-        mat.yrot( 30 );
+        compress();
+
+        findBB();
+
+    }
+
+    
+
+    /*
+
+     * Reads and parses an input stream that contains the description
+
+     * of the wireframe model.
+
+     */
+
+    private void parseStream( InputStream is ) throws IOException {
 
         Reader r = new BufferedReader( new InputStreamReader( is ) );
 
@@ -313,10 +333,6 @@ public class Wireframe3D {
         }
 
         is.close();
-
-        compress();
-
-        findBB();
 
     }
 
