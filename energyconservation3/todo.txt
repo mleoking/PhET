@@ -18,14 +18,13 @@ energy vs. time chart not big enough to see all the data
 
 When the user clicks on a track  (for a right-click menu or to drag it), it thinks the user is dragging the spline, so doesn't work to conserve energy.
 
-Could try searching ahead a few steps to see if the skater will get stuck...
-
 If left on and the yellow dots of the path record allowed to accumulate, it 
 seems to cause tremendous lag in the program (maybe set a limit on how long it can be 
 left on?)
 
 Sometimes the skater gets stuck.
         Difficult to reproduce.
+        Could try searching ahead a few steps to see if the skater will get stuck...
 
 One run caused the skater to behave as if he had 0.001 mass (in space).  Couldn't reproduce.
 
