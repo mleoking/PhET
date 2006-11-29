@@ -10,8 +10,6 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.ec3.common.StringOutputStream;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergySkateParkModel;
-import edu.colorado.phet.ec3.model.Floor;
-import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.ec3.plots.BarGraphCanvas;
@@ -72,10 +70,9 @@ public class EnergySkateParkModule extends PiccoloModule {
         this.phetFrame = phetFrame;
         energyModel = new EnergySkateParkModel( floorY + 10 );
 
-        energyModel.addFloorSpline();
+//        energyModel.addFloorSpline();
+//        energyModel.addFloor( new Floor( getEnergyConservationModel() ) );
 
-        Floor floor = new Floor( getEnergyConservationModel(), -AbstractSpline.SPLINE_THICKNESS );
-        energyModel.addFloor( floor );
         setModel( new BaseModel() );
 
         energyTimeSeriesModel = new EC3TimeSeriesModel( this );
@@ -140,7 +137,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyTimeSeriesModel.setLiveMode();
         energyTimePlotCanvas.reset();
         init();
-        energyModel.addFloorSpline();
+//        energyModel.addFloorSpline();
         energyTimeSeriesModel.startLiveMode();
     }
 

@@ -48,6 +48,7 @@ public class EnergySkateParkModel {
                 return this;
             }
         };
+        updateFloorState();
     }
 
     public int numSplineSurfaces() {
@@ -88,6 +89,7 @@ public class EnergySkateParkModel {
                 EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
                 energyModelListener.gravityChanged();
             }
+            updateFloorState();
         }
     }
 
@@ -135,7 +137,49 @@ public class EnergySkateParkModel {
         bodies.remove( i );
     }
 
-    public void addFloorSpline() {
+    public void updateFloorState() {
+        if( Math.abs( getGravity() ) > 0 && !hasFloorSpline() ) {
+            addFloorSpline();
+            removeFloors();
+            addFloor( new Floor( this ) );
+        }
+        if( Math.abs( getGravity() ) == 0 && hasFloorSpline() ) {
+            removeFloorSpline();
+            removeFloors();
+        }
+    }
+
+    private void removeFloors() {
+        while( floors.size() > 0 ) {
+            removeFloor( 0 );
+        }
+    }
+
+    private void removeFloor( int i ) {
+        floors.remove( i );
+    }
+
+    private void removeFloorSpline() {
+        for( int i = 0; i < splineSurfaces.size(); i++ ) {
+            SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
+            if( splineSurface.getSpline() instanceof FloorSpline ) {
+                removeSplineSurface( splineSurface );
+                i--;
+            }
+        }
+    }
+
+    private boolean hasFloorSpline() {
+        for( int i = 0; i < splineSurfaces.size(); i++ ) {
+            SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
+            if( splineSurface.getSpline() instanceof FloorSpline ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void addFloorSpline() {
         addSplineSurface( new SplineSurface( new FloorSpline(), false ) );
     }
 
@@ -298,7 +342,7 @@ public class EnergySkateParkModel {
         return (Body)bodies.get( i );
     }
 
-    public void addFloor( Floor floor ) {
+    private void addFloor( Floor floor ) {
         floors.add( floor );
     }
 
@@ -343,6 +387,7 @@ public class EnergySkateParkModel {
         history.clear();
         gravity = G_EARTH;
         zeroPointPotentialY = initZeroPointPotentialY;
+        updateFloorState();
     }
 
     public static class EnergyModelListenerAdapter implements EnergyModelListener {
