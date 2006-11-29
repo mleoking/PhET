@@ -94,6 +94,12 @@
 
  * 11/28/06 - add ability to set an optional color, used instead of grayscale palette
 
+ * 11/28/06 - add ability to specify the Stroke used to draw the lines in the wireframe
+
+ * 11/28/06 - add ability to specify whether lines are antialiased
+
+ * 11/28/06 - automatically call compress and findBB after parsing input stream
+
  */
 
 
@@ -102,9 +108,15 @@ package edu.colorado.phet.hydrogenatom.model3d;
 
 
 
+import java.awt.*;
+
+import java.awt.BasicStroke;
+
 import java.awt.Color;
 
 import java.awt.Graphics;
+
+import java.awt.Stroke;
 
 import java.io.*;
 
@@ -126,6 +138,10 @@ public class Wireframe3D {
 
 
 
+    private static final Stroke DEFAULT_STROKE = new BasicStroke( 1f );
+
+    
+
     private float vert[];
 
     private int tvert[];
@@ -144,6 +160,10 @@ public class Wireframe3D {
 
     private Color palette[]; // color palette
 
+    private boolean antialias;
+
+    private Stroke stroke;
+
 
 
     /*
@@ -153,6 +173,10 @@ public class Wireframe3D {
      */
 
     public Wireframe3D( InputStream is ) throws IOException {
+
+        antialias = false;
+
+        stroke = DEFAULT_STROKE;
 
         initGrayPalette();
 
@@ -290,6 +314,10 @@ public class Wireframe3D {
 
         is.close();
 
+        compress();
+
+        findBB();
+
     }
 
 
@@ -351,6 +379,22 @@ public class Wireframe3D {
 //            System.out.println( "palette[" + i + "]=" + palette[i] );//XXX
 
         }
+
+    }
+
+    
+
+    public void setStroke( Stroke stroke ) {
+
+        this.stroke = stroke;
+
+    }
+
+    
+
+    public void setAntialias( boolean antialias ) {
+
+        this.antialias = antialias;
 
     }
 
@@ -578,7 +622,7 @@ public class Wireframe3D {
 
      */
 
-    public void compress() {
+    private void compress() {
 
         int limit = ncon;
 
@@ -620,7 +664,9 @@ public class Wireframe3D {
 
      */
 
-    public void paint( Graphics g ) {
+    public void paint( Graphics2D g2 ) {
+
+
 
         if ( vert == null || nvert <= 0 ) {
 
@@ -628,7 +674,11 @@ public class Wireframe3D {
 
         }
 
+        
+
         transform();
+
+        
 
         int lg = 0;
 
@@ -644,6 +694,30 @@ public class Wireframe3D {
 
         }
 
+        
+
+        // Save graphics state
+
+        Color saveColor = g2.getColor();
+
+        Object saveAntialiasValue = g2.getRenderingHint( RenderingHints.KEY_ANTIALIASING );
+
+        Stroke saveStroke = g2.getStroke();
+
+        
+
+        if ( antialias ) {
+
+            g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+
+        }
+
+        g2.setStroke( stroke );
+
+        
+
+        // Draw wireframe
+
         for ( int i = 0; i < lim; i++ ) {
 
             int T = c[i];
@@ -656,33 +730,43 @@ public class Wireframe3D {
 
             // choose a color from the palette based on depth
 
-            int grey = v[p1 + 2] + v[p2 + 2];
+            int colorIndex = v[p1 + 2] + v[p2 + 2];
 
-            if ( grey < 0 ) {
+            if ( colorIndex < 0 ) {
 
-                grey = 0;
-
-            }
-
-            else if ( grey > 15 ) {
-
-                grey = 15;
+                colorIndex = 0;
 
             }
 
-            if ( grey != lg ) {
+            else if ( colorIndex > 15 ) {
 
-                lg = grey;
+                colorIndex = 15;
 
-                g.setColor( palette[grey] );
+            }
+
+            if ( colorIndex != lg ) {
+
+                lg = colorIndex;
+
+                g2.setColor( palette[colorIndex] );
 
             }
 
 
 
-            g.drawLine( v[p1], v[p1 + 1], v[p2], v[p2 + 1] );
+            g2.drawLine( v[p1], v[p1 + 1], v[p2], v[p2 + 1] );
 
         }
+
+        
+
+        // Restore graphics state
+
+        g2.setColor( saveColor );
+
+        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, saveAntialiasValue );
+
+        g2.setStroke( saveStroke );
 
     }
 
@@ -694,7 +778,7 @@ public class Wireframe3D {
 
      */
 
-    public void findBB() {
+    private void findBB() {
 
         if ( nvert <= 0 ) {
 

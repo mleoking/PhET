@@ -5,15 +5,18 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- draw 3D orbits using Wireframe3D
+- wireframe looks like it's only using 2 colors from color palette
+- 3D orbits look lousy
+- remove HACK in PNode3D that makes bounds appear correct
+- bug: wireframe for electron level=1 is clipped, node bounds wrong?
 - make Wireframe3D mutable, allow change of verticies
 - bug: wireframe color goes to white periodically
-- set bounds of deBroglie 3D view based on bounds of 3D wireframe model
 - replace InputStream stuff in wireframe model code
 - use ModelViewTransform when mapping deBroglie model to wireframe view
-- implement collision detection with deBroglie 3D perspective orbits
+- implement collision detection with deBroglie 3D orbits
 - improve performance of deBroglie "brightness" and "brightness magnitude" representations
 - improve performance of deBroglie 3D representation
+- make sure that all calls to OrbitFactory pass radius values that have ModelViewTransform applied
 
 MEDIUM PRIORITY:
 - add "show traces" feature for alpha particles (need to interpolate curve between points)
@@ -50,6 +53,9 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+(11/28/06) - set bounds of PNode3D based on bounds of its associated Wireframe3D
+(11/28/06) - draw 3D orbits using Wireframe3D
+(11/28/06) - add essential features to Wireframe3D
 (11/28/06) - change OrbitFactory to use y:x ratio when creating perspective orbits
 (11/28/06) - add ability to set front & back colors for wireframe model rendering, to provide visual depth cues
 (11/28/06) - add ability to set a color for wireframe model rendering
