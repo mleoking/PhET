@@ -15,9 +15,9 @@ import edu.colorado.phet.common.math.Vector2D;
 public class Floor {
     private double y;
     private Vector2D normal = new Vector2D.Double( 0, 1 );
-    private EnergyConservationModel model;
+    private EnergySkateParkModel model;
 
-    public Floor( EnergyConservationModel model, double y ) {
+    public Floor( EnergySkateParkModel model, double y ) {
         this.model = model;
         this.y = y;
     }

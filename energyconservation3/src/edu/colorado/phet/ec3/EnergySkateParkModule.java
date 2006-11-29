@@ -9,7 +9,7 @@ import edu.colorado.phet.common.util.services.PhetServiceManager;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.ec3.common.StringOutputStream;
 import edu.colorado.phet.ec3.model.Body;
-import edu.colorado.phet.ec3.model.EnergyConservationModel;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 import edu.colorado.phet.ec3.model.Floor;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
@@ -44,7 +44,7 @@ import java.io.InputStream;
  */
 
 public class EnergySkateParkModule extends PiccoloModule {
-    private EnergyConservationModel energyModel;
+    private EnergySkateParkModel energyModel;
     private EnergySkateParkSimulationPanel energyCanvas;
     private EnergyLookAndFeel energyLookAndFeel = new EnergyLookAndFeel();
     private JDialog barChartFrame;
@@ -70,7 +70,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     public EnergySkateParkModule( String name, IClock clock, PhetFrame phetFrame ) {
         super( name, clock );
         this.phetFrame = phetFrame;
-        energyModel = new EnergyConservationModel( floorY + 10 );
+        energyModel = new EnergySkateParkModel( floorY + 10 );
 
         addFloorSpline();
 
@@ -129,7 +129,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyModel.stepInTime( dt );
     }
 
-    public EnergyConservationModel getEnergyConservationModel() {
+    public EnergySkateParkModel getEnergyConservationModel() {
         return energyModel;
     }
 
@@ -201,7 +201,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         return energyModel.copyState();
     }
 
-    public void setState( EnergyConservationModel model ) {
+    public void setState( EnergySkateParkModel model ) {
         energyModel.setState( model );
         redrawAllGraphics();
     }
@@ -266,7 +266,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void setCoefficientOfRestitution( double rest ) {
-        EnergyConservationModel model = getEnergyConservationModel();
+        EnergySkateParkModel model = getEnergyConservationModel();
         for( int i = 0; i < model.numBodies(); i++ ) {
             Body b = model.bodyAt( i );
             b.setCoefficientOfRestitution( rest );

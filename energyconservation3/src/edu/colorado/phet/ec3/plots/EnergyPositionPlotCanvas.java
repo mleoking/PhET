@@ -7,7 +7,7 @@ import edu.colorado.phet.ec3.EnergySkateParkStrings;
 import edu.colorado.phet.ec3.common.LucidaSansFont;
 import edu.colorado.phet.ec3.common.SavedGraph;
 import edu.colorado.phet.ec3.model.Body;
-import edu.colorado.phet.ec3.model.EnergyConservationModel;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -93,7 +93,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
             return module.getEnergyConservationModel().bodyAt( 0 );
         }
 
-        public EnergyConservationModel getModel() {
+        public EnergySkateParkModel getModel() {
             return module.getEnergyConservationModel();
         }
 
@@ -135,7 +135,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         };
 
 
-        ec3Module.getEnergyConservationModel().addEnergyModelListener( new EnergyConservationModel.EnergyModelListenerAdapter() {
+        ec3Module.getEnergyConservationModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void preStep( double dt ) {
                 update();
             }

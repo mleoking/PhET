@@ -4,7 +4,7 @@ package edu.colorado.phet.ec3;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.ec3.model.Body;
-import edu.colorado.phet.ec3.model.EnergyConservationModel;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
@@ -35,7 +35,7 @@ import java.util.Comparator;
 
 public class EnergySkateParkSimulationPanel extends PhetPCanvas {
     private EnergySkateParkModule ec3Module;
-    private EnergyConservationModel ec3Model;
+    private EnergySkateParkModel ec3Model;
     private MultiKeyHandler multiKeyHandler = new MultiKeyHandler();
     private EnergySkateParkRootNode rootNode;
     private double matchThresholdWorldCoordinates = 1.5;
@@ -130,7 +130,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
     }
 
     private void addThrust() {
-        ec3Model.addEnergyModelListener( new EnergyConservationModel.EnergyModelListenerAdapter() {
+        ec3Model.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void preStep( double dt ) {
                 updateThrust();
             }
@@ -280,7 +280,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
         rootNode.removeSplineGraphic( splineGraphic );
     }
 
-    public EnergyConservationModel getEnergyConservationModel() {
+    public EnergySkateParkModel getEnergyConservationModel() {
         return ec3Model;
     }
 

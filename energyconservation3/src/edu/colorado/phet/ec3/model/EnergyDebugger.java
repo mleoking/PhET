@@ -44,6 +44,6 @@ public class EnergyDebugger {
         }
     }
 
-    public static void postProcessed( EnergyConservationModel model, Body body, double dt, String name ) {
+    public static void postProcessed( EnergySkateParkModel model, Body body, double dt, String name ) {
     }
 }

@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
-import edu.colorado.phet.ec3.model.EnergyConservationModel;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 
 /**
@@ -21,7 +21,7 @@ public class EC3TimeSeriesModel extends TimeSeriesModel {
     }
 
     protected void setModelState( Object v ) {
-        module.setState( (EnergyConservationModel)v );
+        module.setState( (EnergySkateParkModel)v );
     }
 
     protected boolean confirmReset() {

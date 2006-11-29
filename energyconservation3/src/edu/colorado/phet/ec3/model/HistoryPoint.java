@@ -9,7 +9,7 @@ package edu.colorado.phet.ec3.model;
  */
 
 public class HistoryPoint {
-    private EnergyConservationModel model;
+    private EnergySkateParkModel model;
     private Body body;
     private double x;
     private double y;
@@ -19,7 +19,7 @@ public class HistoryPoint {
     private double totalEnergy;
     private double thermalEnergy;
 
-    public HistoryPoint( EnergyConservationModel model, Body body ) {
+    public HistoryPoint( EnergySkateParkModel model, Body body ) {
         this.model = model;
         this.body = body;
         this.x = body.getX();

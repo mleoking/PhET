@@ -2,7 +2,7 @@ package edu.colorado.phet.ec3.view.bargraphs;
 
 import edu.colorado.phet.ec3.EnergyLookAndFeel;
 import edu.colorado.phet.ec3.EnergySkateParkStrings;
-import edu.colorado.phet.ec3.model.EnergyConservationModel;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 
 import java.awt.*;
 
@@ -25,7 +25,7 @@ public abstract class ValueAccessor {
         return name;
     }
 
-    public abstract double getValue( EnergyConservationModel rampPhysicalModel );
+    public abstract double getValue( EnergySkateParkModel rampPhysicalModel );
 
     public Color getColor() {
         return color;
@@ -37,7 +37,7 @@ public abstract class ValueAccessor {
             super( EnergySkateParkStrings.getString( "kinetic" ), lookAndFeel.getKEColor() );
         }
 
-        public double getValue( EnergyConservationModel rampPhysicalModel ) {
+        public double getValue( EnergySkateParkModel rampPhysicalModel ) {
             if( rampPhysicalModel.numBodies() == 0 ) {
                 return 0;
             }
@@ -50,7 +50,7 @@ public abstract class ValueAccessor {
             super( EnergySkateParkStrings.getString( "potential" ), lookAndFeel.getPEColor() );
         }
 
-        public double getValue( EnergyConservationModel rampPhysicalModel ) {
+        public double getValue( EnergySkateParkModel rampPhysicalModel ) {
             if( rampPhysicalModel.numBodies() == 0 ) {
                 return 0;
             }
@@ -64,7 +64,7 @@ public abstract class ValueAccessor {
             super( EnergySkateParkStrings.getString( "total" ), lookAndFeel.getTotalEnergyColor() );
         }
 
-        public double getValue( EnergyConservationModel rampPhysicalModel ) {
+        public double getValue( EnergySkateParkModel rampPhysicalModel ) {
             if( rampPhysicalModel.numBodies() == 0 ) {
                 return 0;
             }
@@ -78,7 +78,7 @@ public abstract class ValueAccessor {
             super( EnergySkateParkStrings.getString( "thermal" ), lookAndFeel.getThermalEnergyColor() );
         }
 
-        public double getValue( EnergyConservationModel rampPhysicalModel ) {
+        public double getValue( EnergySkateParkModel rampPhysicalModel ) {
             if( rampPhysicalModel.numBodies() == 0 ) {
                 return 0;
             }

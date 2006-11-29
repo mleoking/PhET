@@ -5,7 +5,7 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.ec3.common.Legend;
 import edu.colorado.phet.ec3.common.MeasuringTape;
-import edu.colorado.phet.ec3.model.EnergyConservationModel;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 import edu.colorado.phet.ec3.model.Floor;
 import edu.colorado.phet.ec3.view.*;
 import edu.colorado.phet.piccolo.PhetRootPNode;
@@ -55,7 +55,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     public EnergySkateParkRootNode( EnergySkateParkModule ec3Module, EnergySkateParkSimulationPanel ec3Canvas ) {
         this.ec3Module = ec3Module;
         this.ec3Canvas = ec3Canvas;
-        EnergyConservationModel ec3Model = getModel();
+        EnergySkateParkModel ec3Model = getModel();
         Floor floor = ec3Model.floorAt( 0 );
 
         ec3Canvas.setBackground( SKY_COLOR );
@@ -162,7 +162,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         pieCharts.addChild( pieChartIndicator );
     }
 
-    private EnergyConservationModel getModel() {
+    private EnergySkateParkModel getModel() {
         return ec3Module.getEnergyConservationModel();
     }
 

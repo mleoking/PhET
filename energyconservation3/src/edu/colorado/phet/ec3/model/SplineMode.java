@@ -15,13 +15,13 @@ import java.awt.geom.Point2D;
  */
 
 public class SplineMode implements UpdateMode {
-    private EnergyConservationModel model;
+    private EnergySkateParkModel model;
     private AbstractSpline spline;
     private double lastX;
     private Body lastState;
     private Body afterNewton;
 
-    public SplineMode( EnergyConservationModel model, AbstractSpline spline ) {
+    public SplineMode( EnergySkateParkModel model, AbstractSpline spline ) {
         this.model = model;
         this.spline = spline;
     }

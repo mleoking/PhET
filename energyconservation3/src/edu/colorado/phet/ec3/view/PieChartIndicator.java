@@ -4,7 +4,7 @@ package edu.colorado.phet.ec3.view;
 import edu.colorado.phet.ec3.EnergyLookAndFeel;
 import edu.colorado.phet.ec3.EnergySkateParkModule;
 import edu.colorado.phet.ec3.model.Body;
-import edu.colorado.phet.ec3.model.EnergyConservationModel;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -66,7 +66,7 @@ public class PieChartIndicator extends PNode {
         }
     }
 
-    private EnergyConservationModel getModel() {
+    private EnergySkateParkModel getModel() {
         return module.getEnergyConservationModel();
     }
 
