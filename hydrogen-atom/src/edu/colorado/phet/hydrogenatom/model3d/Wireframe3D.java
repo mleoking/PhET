@@ -206,7 +206,7 @@ public class Wireframe3D {
 
     public Wireframe3D( InputStream is ) throws IOException {
 
-        antialias = false;
+        antialias = true; // enabled by default
 
         stroke = DEFAULT_STROKE;
 
@@ -267,6 +267,14 @@ public class Wireframe3D {
     public void setAntialias( boolean antialias ) {
 
         this.antialias = antialias;
+
+    }
+
+    
+
+    public boolean getAntialias() {
+
+        return antialias;
 
     }
 

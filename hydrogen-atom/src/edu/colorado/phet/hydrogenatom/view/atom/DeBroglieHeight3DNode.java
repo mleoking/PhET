@@ -108,7 +108,6 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         
         wireframe.setColors( WAVE_FRONT_COLOR, WAVE_BACK_COLOR );
         wireframe.setStroke( WAVE_STROKE );
-        wireframe.setAntialias( true );
         
         Matrix3D matrix = wireframe.getMatrix();
         matrix.unit();
@@ -203,7 +202,6 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         
         wireframe.setColors( ORBIT_FRONT_COLOR, ORBIT_BACK_COLOR );
         wireframe.setStroke( ORBIT_STROKE );
-        wireframe.setAntialias( true );
         
         Matrix3D matrix = wireframe.getMatrix();
         matrix.unit();
