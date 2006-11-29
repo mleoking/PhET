@@ -38,10 +38,6 @@ Fix "ignore thermal" to be "show thermal", on by default.
 
 Clear thermal when manipulating the skater.
 
-"Record Path" should be the button label, clear can still be next to it.
-
-"Record Path" should be a button, not a checkbox.
-
 "Record Path" button should be moved after the tool checkboxes.
 
 move "record path" so it's not next to "return skater"

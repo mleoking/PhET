@@ -49,24 +49,7 @@ public class EC3ControlPanel extends ControlPanel {
             }
         } );
         addControl( resetSkater );
-
-        JPanel pathPanel = new JPanel( new BorderLayout() );
-        pathPanel.setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "path" ) ) );
-        final JCheckBox recordPath = new JCheckBox( EnergySkateParkStrings.getString( "record" ), module.getEnergySkateParkModel().isRecordPath() );
-        recordPath.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setRecordPath( recordPath.isSelected() );
-            }
-        } );
-        final JButton clearHistory = new JButton( EnergySkateParkStrings.getString( "clear" ) );
-        clearHistory.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.clearPaths();
-            }
-        } );
-        pathPanel.add( recordPath, BorderLayout.WEST );
-        pathPanel.add( clearHistory, BorderLayout.EAST );
-        addControlFullWidth( pathPanel );
+        addControlFullWidth( new PathRecordContol( module ) );
 
         BufferedImage measuringTapeIcon = null;
         try {
