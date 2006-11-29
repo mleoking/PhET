@@ -168,7 +168,9 @@ public class Wireframe3D {
 
     private int tvert[];
 
-    private int nvert, maxvert;
+    private int nvert;
+
+    private int maxvert;
 
     private int con[];
 
