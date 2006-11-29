@@ -2,7 +2,7 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.ec3.model.HistoryPoint;
-import edu.colorado.phet.piccolo.nodes.HTMLNode;
+import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
 public class HistoryPointGraphic extends PNode {
     private HistoryPoint historyPoint;
     private DecimalFormat formatter = new DecimalFormat( "0.00" );
-    private HTMLNode htmlGraphic;
+    private ShadowHTMLGraphic htmlGraphic;
     private String html = "";
 
     public HistoryPointGraphic( final HistoryPoint historyPoint ) {
@@ -34,7 +34,10 @@ public class HistoryPointGraphic extends PNode {
         path.setStroke( new BasicStroke( (float)( 1.0f * scale ) ) );
         path.setPaint( Color.yellow );
 
-        htmlGraphic = new HTMLNode();
+        htmlGraphic = new ShadowHTMLGraphic( "" );
+        htmlGraphic.setShadowOffset( 1, 1 );
+        htmlGraphic.setShadowColor( Color.white );
+        htmlGraphic.setColor( Color.black );
 
         htmlGraphic.scale( scale );
         htmlGraphic.transformBy( AffineTransform.getScaleInstance( 1, -1 ) );
@@ -52,7 +55,7 @@ public class HistoryPointGraphic extends PNode {
         }
         else {
             updateHTMLText();
-            addChild( htmlGraphic );
+            addChild( 0, htmlGraphic );
         }
     }
 
@@ -75,7 +78,7 @@ public class HistoryPointGraphic extends PNode {
     }
 
     private void updateHTMLText() {
-        htmlGraphic.setHTML( html );
+        htmlGraphic.setHtml( html );
     }
 
     private boolean isHTMLVisible() {
