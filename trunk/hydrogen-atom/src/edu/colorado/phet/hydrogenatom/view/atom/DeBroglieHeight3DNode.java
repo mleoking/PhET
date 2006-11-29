@@ -144,10 +144,26 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     /*
      * Creates a 3D orbit node.
      */
-    private static Wireframe3DNode create3DOrbitNode( int numberOfPoints, double radius, Matrix3D viewMatrix ) {
+    private static Wireframe3DNode create3DOrbitNode( final int numberOfPoints, final double radius, Matrix3D viewMatrix ) {
         
-        Point3D[] points = getOrbitPoints( numberOfPoints, radius );
-        Wireframe3D wireframe = new Wireframe3D( points );
+        // This algorithm requires an even number of points.
+        int n = numberOfPoints;
+        if ( n % 2 != 0 ) {
+            n += 1;
+        }
+        
+        Point3D[] points = getOrbitPoints( n, radius );
+        Wireframe3D wireframe = new Wireframe3D();
+        // Add all of the points
+        for ( int i = 0; i < n; i++ ) {
+            Point3D p = points[i];
+            wireframe.addVertex( (float) p.x, (float) p.y, (float) p.z );
+        }
+        // Connect every-other pair of points to simulate a dashed line.
+        for ( int i = 0; i < n - 1; i += 2 ) {
+            wireframe.addLine( i, i + 1 );
+        }
+        wireframe.done();
         wireframe.setColors( ORBIT_FRONT_COLOR, ORBIT_BACK_COLOR );
         wireframe.setStrokeWidth( ORBIT_STROKE_WIDTH );
         
@@ -165,6 +181,8 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     
     /*
      * Gets the points that approximate the standing wave.
+     * The number of points returned will be numberOfPoints+1,
+     * since an extra point is added to close the ends of the wave.
      */
     private static Point3D[] getWavePoints( int numberOfPoints, DeBroglieModel atom ) {
         double radius = atom.getElectronOrbitRadius();
@@ -184,6 +202,8 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
 
     /*
      * Gets the points that approximate an orbit.
+     * The number of points returned will be numberOfPoints+1,
+     * since an extra point is added to close the ends of the orbit.
      */
     private static Point3D[] getOrbitPoints( int numberOfPoints, double radius ) {
         Point3D[] points = new Point3D[numberOfPoints + 1];
