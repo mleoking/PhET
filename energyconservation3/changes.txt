@@ -3,6 +3,7 @@ Removed the floor from outer space.
         Stretched outer-space graphic to fit screen without floor graphic.
 Set color of ground to match location (i.e. earth is green, moon is gray).
 The skater points his feet toward the closest track when the user is dragging him.
+Changed "Friction>>" to "Track Friction>>" for the friction button.
 
 1.02.20 (11-15-2006)
 Removed logo panel for users with screen height<=768 pixels.

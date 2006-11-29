@@ -18,10 +18,6 @@ energy vs. time chart not big enough to see all the data
 
 When the user clicks on a track  (for a right-click menu or to drag it), it thinks the user is dragging the spline, so doesn't work to conserve energy.
 
-If left on and the yellow dots of the path record allowed to accumulate, it 
-seems to cause tremendous lag in the program (maybe set a limit on how long it can be 
-left on?)
-
 1.  The values for energy show up under the yellow record dots so you can't read the values.
 
 2.  I was wondering why there are buttons that say 'zoom out' and 'zoom in' on the Energy vs. Position graph rather than our standard magnifying glass buttons.
@@ -49,8 +45,6 @@ Clear thermal when manipulating the skater.
 "Record Path" button should be moved after the tool checkboxes.
 
 move "record path" so it's not next to "return skater"
-
-Put "track friction" instead of "friction" as the label for the friction button.
 
 >>We had to assume the grass acts like the ramp and that was a conceptual issue. The team has talked about changing the ground to look like the ramp to help. Right now, the two sims treat grass differently and that should be resolved.
 
@@ -151,3 +145,7 @@ after record/playback/reset, then gravity in space, friction is not working
 	
 Does BackgroundScreenNode depend on using same instance of floor graphic?
 >>that's ok, we're reusing instance.
+
+If left on and the yellow dots of the path record allowed to accumulate, it 
+seems to cause tremendous lag in the program (maybe set a limit on how long it can be 
+left on?)
