@@ -1,6 +1,7 @@
 package edu.colorado.phet.molecularreactions;
 
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
+import edu.colorado.phet.molecularreactions.model.MoleculeA;
 
 import javax.swing.*;
 import java.awt.*;/* Copyright 2003-2004, University of Colorado */
@@ -46,6 +47,7 @@ public class MRConfig {
                                                                                   MRConfig.DEFAULT_REACTION_THRESHOLD,
                                                                                   MRConfig.DEFAULT_REACTION_THRESHOLD * .6,
                                                                                   100 );
+    public static final Class DEFAULT_LAUNCHER_MOLECULE_CLASS = MoleculeA.class;
 
     // View Constants
     public static final Dimension SIMULATION_PANEL_SIZE = new Dimension( 850, 575 );
