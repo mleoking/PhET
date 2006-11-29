@@ -260,7 +260,7 @@ public class Matrix3D {
      * the array constitute a point.  tv ends up holding the transformed
      * points as integers; three successive entries per point
      */
-    public void transform( float v[], int tv[], int nvert ) {
+    public void transform( float v[], float tv[], int nvert ) {
         float lxx = xx, lxy = xy, lxz = xz, lxo = xo;
         float lyx = yx, lyy = yy, lyz = yz, lyo = yo;
         float lzx = zx, lzy = zy, lzz = zz, lzo = zo;
@@ -268,9 +268,9 @@ public class Matrix3D {
             float x = v[i];
             float y = v[i + 1];
             float z = v[i + 2];
-            tv[i] = (int) ( x * lxx + y * lxy + z * lxz + lxo );
-            tv[i + 1] = (int) ( x * lyx + y * lyy + z * lyz + lyo );
-            tv[i + 2] = (int) ( x * lzx + y * lzy + z * lzz + lzo );
+            tv[i] = ( x * lxx + y * lxy + z * lxz + lxo );
+            tv[i + 1] = ( x * lyx + y * lyy + z * lyz + lyo );
+            tv[i + 2] = ( x * lzx + y * lzy + z * lzz + lzo );
         }
     }
 
