@@ -30,14 +30,24 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
-
+/**
+ * DeBroglieHeight3DNode
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final double MAX_HEIGHT = 15; // screen coordinates
     private static final double VIEW_ANGLE = 70; // degrees
     
     private static final int ORBIT_POINTS = 200;
-    private static final Stroke ORBIT_STROKE = new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 );
+    private static final Stroke ORBIT_STROKE = 
+        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 );
     private static final Color ORBIT_FRONT_COLOR = Color.WHITE;
     private static final Color ORBIT_BACK_COLOR = ORBIT_FRONT_COLOR.darker().darker();
     
@@ -46,8 +56,29 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     private static final Color WAVE_FRONT_COLOR = ElectronNode.getColor();
     private static final Color WAVE_BACK_COLOR = WAVE_FRONT_COLOR.darker().darker();
     
+    //----------------------------------------------------------------------------
+    // Data structures
+    //----------------------------------------------------------------------------
+    
+    private static class Point3D {
+        double x, y, z;
+        public Point3D( double x, double y, double z ) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private PNode3D _waveNode;
     private Matrix3D _viewAngleMatrix; // matrix used to set view angle
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public DeBroglieHeight3DNode( DeBroglieModel atom ) {
         super( atom );
@@ -57,36 +88,16 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         update();
     }
     
-    /*
-     * Creates nodes for the proton and orbits.
-     */
-    private void initStaticNodes() {
-
-        PNode parentNode = new PNode();
-        
-        // 3D orbits
-        int groundState = DeBroglieModel.getGroundState();
-        int numberOfStates = DeBroglieModel.getNumberOfStates();
-        for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
-            double radius = getAtom().getOrbitRadius( state );
-            PNode3D orbitNode = createOrbitNode3D( radius, ORBIT_POINTS );
-            parentNode.addChild( orbitNode );
-        }
-        
-        // Proton
-        ProtonNode protonNode = new ProtonNode();
-        protonNode.setOffset( 0, 0 );
-        parentNode.addChild( protonNode );
-        
-        // Convert all static nodes to a single image
-        PImage imageNode = new PImage( parentNode.toImage() );
-        imageNode.setOffset( -imageNode.getWidth()/2, -imageNode.getHeight()/2 );
-        addChild( imageNode );
-    }
+    //----------------------------------------------------------------------------
+    // AbstractDeBroglieViewStrategy implementation
+    //----------------------------------------------------------------------------
     
+    /**
+     * Updates the view to match the model.
+     */
     public void update() {
 
-        Point3D[] points = getPoints( WAVE_POINTS );
+        Point3D[] points = getWavePoints( WAVE_POINTS );
         InputStream stream = pointsToStream( points );
         Wireframe3D wireframe = null;
         try {
@@ -115,10 +126,41 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         addChild( _waveNode );
     }
     
+    //----------------------------------------------------------------------------
+    // private
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Creates the static parts of the view and flattens everything to a single PImage node.
+     */
+    private void initStaticNodes() {
+
+        PNode parentNode = new PNode();
+        
+        // 3D orbits
+        int groundState = DeBroglieModel.getGroundState();
+        int numberOfStates = DeBroglieModel.getNumberOfStates();
+        for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
+            double radius = getAtom().getOrbitRadius( state );
+            PNode3D orbitNode = createOrbitNode3D( radius, ORBIT_POINTS );
+            parentNode.addChild( orbitNode );
+        }
+        
+        // Proton
+        ProtonNode protonNode = new ProtonNode();
+        protonNode.setOffset( 0, 0 );
+        parentNode.addChild( protonNode );
+        
+        // Convert all static nodes to a single image
+        PImage imageNode = new PImage( parentNode.toImage() );
+        imageNode.setOffset( -imageNode.getWidth()/2, -imageNode.getHeight()/2 );
+        addChild( imageNode );
+    }
+    
     /*
      * Gets the points that represent the current state of the atom.
      */
-    private Point3D[] getPoints( int numberOfPoints ) {
+    private Point3D[] getWavePoints( int numberOfPoints ) {
         
         double radius = getAtom().getElectronOrbitRadius();
         Point3D[] points = new Point3D[numberOfPoints];
@@ -135,53 +177,8 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     }
     
     /*
-     * Converts an array of 3D points to an input stream.
-     * The Model3D constructor is expecting to read an input stream,
-     * most likely from a file that contains info about the model.
-     * The input stream format is reportedly the same as the Wavefront OBJ file format.
-     * Tokens found in Dave's sample data files:
-     * v = vertex
-     * l = line
-     * f = face
-     * fo = ?
-     * g = ?
+     * Creates a 3D orbit node.
      */
-    private static InputStream pointsToStream( Point3D[] points ) {
-        StringBuffer buf = new StringBuffer();
-        DecimalFormat formatter = new DecimalFormat( "0.0000" );
-        for ( int i = 0; i < points.length; i++ ) {
-            Point3D p = points[i];
-            buf.append( "v " );
-            buf.append( formatter.format( p.x ) );
-            buf.append( " " );
-            buf.append( formatter.format( p.y ) );
-            buf.append( " " );
-            buf.append( formatter.format( p.z ) );
-            buf.append( System.getProperty( "line.separator" ) );
-        }
-        for ( int i = 1; i <= points.length; i++ ) {
-            buf.append( "l " );
-            buf.append( i );
-            buf.append( " " );
-            buf.append( i + 1 );
-            buf.append( System.getProperty( "line.separator" ) );
-        }
-        buf.append( "l " );
-        buf.append( points.length - 1 );
-        buf.append( " 1" );
-        InputStream is = new ByteArrayInputStream( buf.toString().getBytes() );
-        return is;
-    }
-    
-    private static class Point3D {
-        double x, y, z;
-        public Point3D( double x, double y, double z ) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-    }
-    
     private PNode3D createOrbitNode3D( double radius, int numberOfPoints ) {
         
         Point3D[] points = new Point3D[numberOfPoints];
@@ -217,5 +214,47 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         orbit3d.setTransformed( false );
         
         return new PNode3D( orbit3d );
+    }
+    
+    /*
+     * Converts an array of 3D points to an input stream.
+     * 
+     * The Wireframe3D constructor is expecting to read an input stream,
+     * most likely from a file that contains info about the model.
+     * The input stream format is reportedly similar to the Wavefront OBJ 
+     * file format, but that has not been confirmed.
+     * 
+     * Tokens appearing in Wireframe3D's parser include:
+     * v = vertex
+     * l = line
+     * f = face
+     * fo = ?
+     * # = comment
+     */
+    private static InputStream pointsToStream( Point3D[] points ) {
+        StringBuffer buf = new StringBuffer();
+        DecimalFormat formatter = new DecimalFormat( "0.0000" );
+        for ( int i = 0; i < points.length; i++ ) {
+            Point3D p = points[i];
+            buf.append( "v " );
+            buf.append( formatter.format( p.x ) );
+            buf.append( " " );
+            buf.append( formatter.format( p.y ) );
+            buf.append( " " );
+            buf.append( formatter.format( p.z ) );
+            buf.append( System.getProperty( "line.separator" ) );
+        }
+        for ( int i = 1; i <= points.length; i++ ) {
+            buf.append( "l " );
+            buf.append( i );
+            buf.append( " " );
+            buf.append( i + 1 );
+            buf.append( System.getProperty( "line.separator" ) );
+        }
+        buf.append( "l " );
+        buf.append( points.length - 1 );
+        buf.append( " 1" );
+        InputStream is = new ByteArrayInputStream( buf.toString().getBytes() );
+        return is;
     }
 }
