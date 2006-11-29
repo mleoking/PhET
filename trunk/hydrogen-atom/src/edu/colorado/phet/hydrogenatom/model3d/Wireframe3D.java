@@ -108,6 +108,8 @@
 
  * 11/28/06 - add '_' prefix to all instance data, makes it easier for me to grok
 
+ * 11/28/06 - improve precision of drawing by using Line2D.Float
+
  */
 
 
