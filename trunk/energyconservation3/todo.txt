@@ -4,9 +4,6 @@ Remaining Work
 
 getNormalForce( double x, Body body )  in SplineMode is sometimes pulling the skater to the track.
 
-Point feet at track when dragging.
-Maybe the skater should point his feet toward the closest track when the user is dragging him.
-
 Dropping from a height, sometimes the skater gets stuck in the ground
     I think we discussed this and decided it's okay to leave this.
     
