@@ -1,12 +1,7 @@
 #################################################################
 Remaining Work
-#######################################      
-
-getNormalForce( double x, Body body )  in SplineMode is sometimes pulling the skater to the track.
-
-Dropping from a height, sometimes the skater gets stuck in the ground
-    I think we discussed this and decided it's okay to leave this.
-    
+#######################################
+   
 Record, pause, switch location, go doesn't keep the switch location.
 
 go, pause, switch, go might also have the same problem
@@ -17,9 +12,6 @@ In E vs. T graph, rescaling the y axis shouldn't center on the E=0 axis.
  
 For E vs T. graph (and maybe other graphs), should have moving man style zoom buttons.
         
-arrow keys in space makes him vanish on one run...
-        Couldn't Reproduce this.
-
 after record/playback/reset, there is a hidden track graphic or something...  I get a cursor hand when I mouse over it.
 
 energy vs. time chart not big enough to see all the data
@@ -87,6 +79,14 @@ and need to start again.
 Default should show thermal for pie chart.
 
 Should the pie chart button be by the other charting options?
+
+getNormalForce( double x, Body body )  in SplineMode is sometimes pulling the skater to the track.
+
+Dropping from a height, sometimes the skater gets stuck in the ground
+    I think we discussed this and decided it's okay to leave this.
+
+arrow keys in space makes him vanish on one run...
+        Couldn't Reproduce this.
 
 #################################################################
 Low Priority or Deprecated
