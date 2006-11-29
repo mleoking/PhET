@@ -19,15 +19,16 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 /**
- * MoleculeCounter
+ * MoleculeCounterSpinner
  * <p/>
- * Listens to the model to detect when molecules are added and removed to the model,
- * and listens
+ * A JSpinner that controls and displays the number of molecules of a specified type.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -42,6 +43,7 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
     private boolean selfUpdating;
     private MoleculeParamGenerator moleculeParamGenerator;
     private int maxValue;
+    private boolean hasFocus;
 
     /**
      * @param moleculeClass
@@ -71,48 +73,20 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
         setValue( new Integer( 0 ) );
 
         // Respond to changes in the spinner
-        this.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                selfUpdating = true;
+        this.addChangeListener( new SpinnerChangeListener( moleculeClass, model ) );
 
-                if( ( (Integer)getValue() ).intValue() > MoleculeCountSpinner.this.maxValue ) {
-                    resetValue();
-                }
+        // Track focus
+        ( (NumberEditor)getEditor() ).getTextField().addFocusListener( new FocusAdapter() {
+            public void focusGained( FocusEvent e ) {
+//                System.out.println( "MoleculeCountSpinner.focusGained" );
+//                System.out.println( "moleculeClass = " + moleculeClass );
+                hasFocus = true;
+            }
 
-                final int diff = ( (Integer)getValue() ).intValue() - cnt;
-                for( int i = 0; i < Math.abs( diff ); i++ ) {
-
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-
-                            // Do we need to add molecules?
-                            if( diff > 0 ) {
-                                AbstractMolecule m = MoleculeFactory.createMolecule( moleculeClass,
-                                                                                     moleculeParamGenerator );
-                                addMoleculeToModel( m, model );
-                            }
-
-                            // Do we need to remove molecules?
-                            else if( diff < 0 ) {
-                                List modelElements = model.getModelElements();
-                                for( int j = modelElements.size() - 1; j >= 0; j-- ) {
-                                    Object o = modelElements.get( j );
-                                    if( moleculeClass.isInstance( o ) && !( (AbstractMolecule)o ).isPartOfComposite() )
-                                    {
-                                        AbstractMolecule molecule = (AbstractMolecule)o;
-                                        removeMoleculeFromModel( molecule, model );
-                                        break;
-                                    }
-                                }
-                                // We need to set the value in the text field in case we were asked to remove a
-                                // molecule that couldn't be removed
-                                setMoleculeCount();
-                            }
-                        }
-                    } );
-                }
-
-                selfUpdating = false;
+            public void focusLost( FocusEvent e ) {
+//                System.out.println( "MoleculeCountSpinner.focusLost" );
+//                System.out.println( "moleculeClass = " + moleculeClass );
+                hasFocus = false;
             }
         } );
     }
@@ -168,27 +142,9 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
 
 
     private void resetValue() {
-        setValue( new Integer( this.maxValue ) );
-        JOptionPane.showMessageDialog( this,
-                                       SimStrings.get( "Util.maxValueExceeded" ) );
+        setValue( new Integer( 0 ) );
+        JOptionPane.showMessageDialog( this, SimStrings.get( "Util.maxValueExceeded" ) );
         requestFocus();
-    }
-
-
-    //--------------------------------------------------------------------------------------------------
-    // Implementation of PublishingModel.Listener
-    //--------------------------------------------------------------------------------------------------
-
-    public void modelElementAdded( ModelElement element ) {
-        if( !selfUpdating && moleculeClass.isInstance( element ) ) {
-            setMoleculeCount();
-        }
-    }
-
-    public void modelElementRemoved( ModelElement element ) {
-        if( !selfUpdating && moleculeClass.isInstance( element ) ) {
-            setMoleculeCount();
-        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -197,5 +153,84 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
 
     public void statusChanged( AbstractMolecule molecule ) {
         setMoleculeCount();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of PublishingModel.Listener
+    //--------------------------------------------------------------------------------------------------
+
+    public void modelElementAdded( ModelElement element ) {
+//        System.out.println( "this.moleculeClass = " + this.moleculeClass );
+//        System.out.println( "hasFocus = " + hasFocus );
+        if( !selfUpdating && moleculeClass.isInstance( element ) ) {
+            setMoleculeCount();
+        }
+    }
+
+    public void modelElementRemoved( ModelElement element ) {
+//        System.out.println( "this.moleculeClass = " + this.moleculeClass );
+//        System.out.println( "hasFocus = " + hasFocus );
+        if( !selfUpdating && moleculeClass.isInstance( element ) ) {
+            setMoleculeCount();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
+
+    private class SpinnerChangeListener implements ChangeListener {
+        private final Class moleculeClass;
+        private final MRModel model;
+
+        public SpinnerChangeListener( Class moleculeClass, MRModel model ) {
+            this.moleculeClass = moleculeClass;
+            this.model = model;
+        }
+
+        public void stateChanged( ChangeEvent e ) {
+            selfUpdating = true;
+
+            if( ( (Integer)getValue() ).intValue() > MoleculeCountSpinner.this.maxValue ) {
+                resetValue();
+            }
+
+            final int diff = ( (Integer)getValue() ).intValue() - cnt;
+            if( diff != 0 ) {
+                System.out.println( "diff = " + diff );
+            }
+            for( int i = 0; i < Math.abs( diff ); i++ ) {
+
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+
+                        // Do we need to add molecules?
+                        if( diff > 0 ) {
+                            AbstractMolecule m = MoleculeFactory.createMolecule( moleculeClass,
+                                                                                 moleculeParamGenerator );
+                            addMoleculeToModel( m, model );
+                        }
+
+                        // Do we need to remove molecules?
+                        else if( diff < 0 ) {
+                            List modelElements = model.getModelElements();
+                            for( int j = modelElements.size() - 1; j >= 0; j-- ) {
+                                Object o = modelElements.get( j );
+                                if( moleculeClass.isInstance( o ) && !( (AbstractMolecule)o ).isPartOfComposite() ) {
+                                    AbstractMolecule molecule = (AbstractMolecule)o;
+                                    removeMoleculeFromModel( molecule, model );
+                                    break;
+                                }
+                            }
+                            // We need to set the value in the text field in case we were asked to remove a
+                            // molecule that couldn't be removed
+                            setMoleculeCount();
+                        }
+                    }
+                } );
+            }
+
+            selfUpdating = false;
+        }
     }
 }

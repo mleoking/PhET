@@ -28,6 +28,8 @@ import java.awt.event.ActionListener;
 
 /**
  * ComplexMRControlPanel
+ * <p>
+ * The control panel for the ComplexModule
  *
  * @author Ron LeMaster
  * @version $Revision$
