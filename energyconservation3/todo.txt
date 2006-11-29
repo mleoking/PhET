@@ -1,6 +1,27 @@
 #################################################################
 Remaining Work
 #######################################      
+
+getNormalForce( double x, Body body )  in SplineMode is sometimes pulling the skater to the track.
+
+Remove ground from space.
+
+Match ground color to planet.
+
+Point feet at track when dragging.
+
+Dropping from a height, sometimes the skater gets stuck in the ground
+    I think we discussed this and decided it's okay to leave this.
+    
+Record, pause, switch location, go doesn't keep the switch location.
+
+go, pause, switch, go might also have the same problem
+
+Pausing 'go' then pressing 'playback' should have 'slow' enabled.
+
+In E vs. T graph, rescaling the y axis shouldn't center on the E=0 axis.
+ 
+For E vs T. graph (and maybe other graphs), should have moving man style zoom buttons.
         
 arrow keys in space makes him vanish on one run...
         Couldn't Reproduce this.
@@ -23,6 +44,57 @@ Sometimes the skater gets stuck.
 One run caused the skater to behave as if he had 0.001 mass (in space).  Couldn't reproduce.
 
 Maybe the skater should point his feet toward the closest track when the user is dragging him.
+
+1.  The values for energy show up under the yellow record dots so you can't read the values.
+
+2.  I was wondering why there are buttons that say 'zoom out' and 'zoom in' on the Energy vs. Position graph rather than our standard magnifying glass buttons.
+
+3.  When I choose copy on this same graph, I get a window with a copy but that window will disappear behind everything else as soon as I click on anything associated with the simulation.  Can you make it stay forward like the other windows do?
+
+4.  I'm not sure how this copy is supposed to function but it has the same graph at the bottom half of the window and the top half (ok 60%) is black but includes data that goes off scale on the original Energy vs. Position graph.  Is this the idea?
+
+5. Reset does not get rid of the tape measure if you have it out.
+
+6. The skater sticks to the track when traveling in a loop at a speed that would never allow him to stay on the track.  He would crash on his head for sure.  I can create a loop where he falls off as he comes to the top, bounces off the track below and then sticks to the track above him again
+
+This picture shows him after he bounces on his head because he fell off the track as he was traveling to the left upside down.  He still has an upward velocity in this picture.  He will get to the track and stay on after this show.  He keeps repeating this path indefinitely.
+
+7. The potential Energy Reference line is Red but potential energy on the graphs is blue.
+
+Fix "ignore thermal" to be "show thermal", on by default.
+
+Clear thermal when manipulating the skater.
+
+"Record Path" should be the button label, clear can still be next to it.
+
+"Record Path" should be a button, not a checkbox.
+
+"Record Path" button should be moved after the tool checkboxes.
+
+move "record path" so it's not next to "return skater"
+
+Put "track friction" instead of "friction" as the label for the friction button.
+
+>>We had to assume the grass acts like the ramp and that was a conceptual issue. The team has talked about changing the ground to look like the ramp to help. Right now, the two sims treat grass differently and that should be resolved.
+
+He should have at least 1/2mgr (where r is radius of curvature of track) worth of kinetic energy to be able to stick to it (when he is vertical). Right now his stickiness doesn't seem to be affected by the local r.
+ 
+ Resetting the skater should clear thermal.
+ 
+I'm still leaning towards the world ending when he goes off one side or the
+other.  I can't see value in tracking his actions when we can't see him.  On
+top of that, we reset things when he is returned.  I think as soon as the
+return skater label appears, students realize they have fallen out of range
+and need to start again.
+ >>Maybe we should pause the simulation when he moves off?
+ >>Or maybe we should add walls?
+ >>Or maybe we should have the camera follow him when he moves off?
+  >>I think it would be confusing to have different physics based on whether the camera can see the skater.
+  >>A popup that says "landed on grass"
+
+Default should show thermal for pie chart.
+
+Should the pie chart button be by the other charting options?
 
 #################################################################
 Low Priority or Deprecated
