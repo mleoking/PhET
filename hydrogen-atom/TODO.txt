@@ -56,6 +56,7 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+(11/28/06) - major overhaul and bug fixes in Wireframe3D, get rid of parser
 (11/28/06) - set bounds of PNode3D based on bounds of its associated Wireframe3D
 (11/28/06) - draw 3D orbits using Wireframe3D
 (11/28/06) - add essential features to Wireframe3D
