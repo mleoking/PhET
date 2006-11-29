@@ -20,7 +20,8 @@ import java.awt.event.ActionListener;
 public class PieChartControlPanel extends VerticalLayoutPanel {
     private EnergySkateParkModule module;
     private EnergySkateParkControlPanel EnergySkateParkControlPanel;
-    private JCheckBox ignoreThermal;
+    //    private JCheckBox ignoreThermal;
+    private JCheckBox showThermal;
 
     public PieChartControlPanel( final EnergySkateParkModule module, EnergySkateParkControlPanel EnergySkateParkControlPanel ) {
         this.module = module;
@@ -29,19 +30,29 @@ public class PieChartControlPanel extends VerticalLayoutPanel {
         final JCheckBox pieChart = new JCheckBox( EnergySkateParkStrings.getString( "show" ), module.isPieChartVisible() );
         pieChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                ignoreThermal.setEnabled( pieChart.isSelected() );
+//                ignoreThermal.setEnabled( pieChart.isSelected() );
+                showThermal.setEnabled( pieChart.isSelected() );
                 module.setPieChartVisible( pieChart.isSelected() );
             }
         } );
         add( pieChart );
 
-        ignoreThermal = new JCheckBox( EnergySkateParkStrings.getString( "ignore.thermal" ), module.getEnergyConservationCanvas().getRootNode().getIgnoreThermal() );
-        ignoreThermal.addActionListener( new ActionListener() {
+//        ignoreThermal = new JCheckBox( EnergySkateParkStrings.getString( "ignore.thermal" ), module.getEnergyConservationCanvas().getRootNode().getIgnoreThermal() );
+//        ignoreThermal.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                module.getEnergyConservationCanvas().getRootNode().setIgnoreThermal( ignoreThermal.isSelected() );
+//            }
+//        } );
+//        add( ignoreThermal );
+//        ignoreThermal.setEnabled( pieChart.isSelected() );
+
+        showThermal = new JCheckBox( EnergySkateParkStrings.getString( "show.thermal" ), !module.getEnergyConservationCanvas().getRootNode().getIgnoreThermal() );
+        showThermal.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.getEnergyConservationCanvas().getRootNode().setIgnoreThermal( ignoreThermal.isSelected() );
+                module.getEnergyConservationCanvas().getRootNode().setIgnoreThermal( !showThermal.isSelected() );
             }
         } );
-        add( ignoreThermal );
-        ignoreThermal.setEnabled( pieChart.isSelected() );
+        add( showThermal );
+        showThermal.setEnabled( pieChart.isSelected() );
     }
 }

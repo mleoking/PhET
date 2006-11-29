@@ -9,6 +9,7 @@ Changed "Record Path" from a checkbox to a button.
 Clear thermal when manipulating the skater.
         The energy dissipates in a smooth animation, not all at once.
 Resetting the skater clears the thermal energy.
+Changed "Hide Thermal" to "Show Thermal" for the pie chart controls.
 
 1.02.20 (11-15-2006)
 Removed logo panel for users with screen height<=768 pixels.
