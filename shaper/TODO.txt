@@ -22,6 +22,7 @@ PHETCOMMON:
 
 
 DONE:
+(11/29/06) - reformat description in SimStrings file to fit new About dialog
 (7/12/06) - change codebase tag in JNLP files to work with PhET installer
 (1/2/06) - changes to support new ModulePanel layout
 (12/27/05) - changes to support phetcommon's new Module and Clock architecture
