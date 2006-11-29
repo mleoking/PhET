@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+(11/29/06) - add workaround for selecting all text when a DoubleSpinner gains focus
 (10/20/06) - add data/credits.html
 1.07.00...
 (10/4/06) - published new version to PhET web site

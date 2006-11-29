@@ -18,6 +18,7 @@ import java.awt.event.FocusListener;
 import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 
 
 /**
@@ -63,10 +64,17 @@ public class DoubleSpinner extends JSpinner implements FocusListener {
     
     /*
      * When the spinner gains focus, select its contents.
-     * NOTE: This currently does not work; see Bug ID 4699955 at bugs.sun.com
+     * <p>
+     * NOTE: 
+     * This currently does not work; see Bug ID 4699955 at bugs.sun.com
+     * A workaround is to call selectAll in invokeLater.
      */
     public void focusGained( FocusEvent e ) {
-        _textField.selectAll();
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                _textField.selectAll();
+            }
+        });
     }
 
     public void focusLost( FocusEvent e ) {}
