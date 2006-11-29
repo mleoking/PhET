@@ -122,6 +122,10 @@
 
  * 11/28/06 - javadoc and comments
 
+ * 11/28/06 - give more descriptive names to all member data
+
+ * 11/28/06 - change precision of transformed indicies from int to float
+
  */
 
 
@@ -172,21 +176,29 @@ public class Wireframe3D {
 
     
 
-    private float _vert[];
+    // the model's transformation matrix
 
-    private int _tvert[];
+    private Matrix3D _matrix;
 
-    private int _nvert;
+    // storage for verticies, may be larger than actual number of verticies
 
-    private int _maxvert;
+    private float _verticies[];
 
-    private int _con[];
+    // actual number of verticies
 
-    private int _ncon;
+    private int _numberOfVerticies;
 
-    private int _maxcon;
+    // storage for lines, may be larger than actual number of lines
 
-    
+    private int _lines[];
+
+    // actual number of lines
+
+    private int _numberOfLines;
+
+    // storage for transformed verticies, may be larger than actual number of verticies
+
+    private float _transformedVerticies[];
 
     // bounds of the model
 
@@ -195,10 +207,6 @@ public class Wireframe3D {
     // has the model been transformed?
 
     private boolean _transformed;
-
-    // matrix associated with the model
-
-    private Matrix3D _matrix;
 
     // palette used to color the line segments
 
@@ -238,15 +246,31 @@ public class Wireframe3D {
 
     public Wireframe3D() {
 
+        // Defaults for all instance data
+
+        _matrix = new Matrix3D();
+
+        _verticies = new float[300];
+
+        _numberOfVerticies = 0;
+
+        _lines = new int[100];
+
+        _numberOfLines = 0;
+
+        _transformedVerticies = new float[_verticies.length];
+
+        _xmin = _xmax = _ymin = _ymax = _zmin = _zmax = 0;
+
+        _transformed = false;
+
+        _palette = createGrayPalette();
+
         _antialias = true; // enabled by default
 
         _strokeWidth = DEFAULT_STROKE_WIDTH;
 
         _stroke = createStroke( _strokeWidth );
-
-        _palette = createGrayPalette();
-
-        _matrix = new Matrix3D();
 
         _line = new Line2D.Float();
 
@@ -446,7 +470,7 @@ public class Wireframe3D {
 
 
 
-        if ( _vert == null || _nvert <= 0 ) {
+        if ( _numberOfVerticies == 0 || _numberOfLines == 0 ) {
 
             return;
 
@@ -456,23 +480,7 @@ public class Wireframe3D {
 
         transform();
 
-        
 
-        int prevIndex = -1;
-
-        int lim = _ncon;
-
-        int c[] = _con;
-
-        int v[] = _tvert;
-
-        if ( lim <= 0 || _nvert <= 0 ) {
-
-            return;
-
-        }
-
-        
 
         // Save graphics state
 
@@ -496,9 +504,13 @@ public class Wireframe3D {
 
         // Draw wireframe
 
-        for ( int i = 0; i < lim; i++ ) {
+        int prevColorIndex = -1;
 
-            int T = c[i];
+        for ( int i = 0; i < _numberOfLines; i++ ) {
+
+            
+
+            int T = _lines[i];
 
             int p1 = ( ( T >> 16 ) & 0xFFFF ) * 3;
 
@@ -508,7 +520,7 @@ public class Wireframe3D {
 
             // choose a color from the palette based on depth
 
-            int colorIndex = v[p1 + 2] + v[p2 + 2];
+            int colorIndex = (int)( _transformedVerticies[p1 + 2] + _transformedVerticies[p2 + 2] );
 
             if ( colorIndex < 0 ) {
 
@@ -522,9 +534,13 @@ public class Wireframe3D {
 
             }
 
-            if ( colorIndex != prevIndex ) {
+            
 
-                prevIndex = colorIndex;
+            // if the color index has changed, set the graphics context
+
+            if ( colorIndex != prevColorIndex ) {
+
+                prevColorIndex = colorIndex;
 
                 g2.setColor( _palette[colorIndex] );
 
@@ -532,7 +548,9 @@ public class Wireframe3D {
 
             
 
-            _line.setLine( v[p1], v[p1 + 1], v[p2], v[p2 + 1] );
+            // draw the line
+
+            _line.setLine( _transformedVerticies[p1], _transformedVerticies[p1 + 1], _transformedVerticies[p2], _transformedVerticies[p2 + 1] );
 
             g2.draw( _line );
 
@@ -566,11 +584,13 @@ public class Wireframe3D {
 
      * @param v
 
+     * @return the total number of verticies
+
      */
 
     public int addVertex( Vertex3D v ) {
 
-        return addVertex( v._x, v._y, v._z );
+        return addVertex( v.getX(), v.getY(), v.getZ() );
 
     }
 
@@ -586,45 +606,43 @@ public class Wireframe3D {
 
      * @param z
 
+     * @return the total number of verticies
+
      */
 
     public int addVertex( float x, float y, float z ) {
 
-        int i = _nvert;
+        
 
-        if ( i >= _maxvert ) {
+        // If we've run out of space, resize the verticies array.
 
-            if ( _vert == null ) {
+        if ( _numberOfVerticies >= _verticies.length / 3 ) {
 
-                _maxvert = 100;
+            float newVerticies[] = new float[_verticies.length * 2];
 
-                _vert = new float[_maxvert * 3];
+            System.arraycopy( _verticies, 0, newVerticies, 0, _verticies.length );
 
-            }
-
-            else {
-
-                _maxvert *= 2;
-
-                float nv[] = new float[_maxvert * 3];
-
-                System.arraycopy( _vert, 0, nv, 0, _vert.length );
-
-                _vert = nv;
-
-            }
+            _verticies = newVerticies;
 
         }
 
-        i *= 3;
+        
 
-        _vert[i] = x;
+        // Add the vertex
 
-        _vert[i + 1] = y;
+        int i = _numberOfVerticies * 3;
 
-        _vert[i + 2] = z;
+        _verticies[i] = x;
 
-        return _nvert++;
+        _verticies[i + 1] = y;
+
+        _verticies[i + 2] = z;
+
+        _numberOfVerticies++;
+
+        
+
+        return _numberOfVerticies;
 
     }
 
@@ -638,55 +656,61 @@ public class Wireframe3D {
 
      * @param index2 index of second vertex
 
+     * @return the total number of lines
+
      */
 
-    public void addLine( int index1, int index2 ) {
+    public int addLine( int index1, int index2 ) {
 
-        int i = _ncon;
+        // Validate indicies
 
-        if ( index1 >= _nvert || index2 >= _nvert ) {
+        if ( index1 >= _numberOfVerticies ) {
 
-            return;
+            throw new IllegalArgumentException( "line index1 out of range: " + index1 );
+
+        }
+
+        if ( index2 >= _numberOfVerticies ) {
+
+            throw new IllegalArgumentException( "line index2 out of range: " + index2 );
 
         }
 
-        if ( i >= _maxcon ) {
+        
 
-            if ( _con == null ) {
+        // If we've run out of space, resize the lines array.
 
-                _maxcon = 100;
+        if ( _numberOfLines >= _lines.length ) {
 
-                _con = new int[_maxcon];
+                int newLines[] = new int[_lines.length * 2];
 
-            }
+                System.arraycopy( _lines, 0, newLines, 0, _lines.length );
 
-            else {
-
-                _maxcon *= 2;
-
-                int nv[] = new int[_maxcon];
-
-                System.arraycopy( _con, 0, nv, 0, _con.length );
-
-                _con = nv;
-
-            }
+                _lines = newLines;
 
         }
+
+        
+
+        // Add the line
 
         if ( index1 > index2 ) {
 
-            int t = index1;
+            int tmp = index1;
 
             index1 = index2;
 
-            index2 = t;
+            index2 = tmp;
 
         }
 
-        _con[i] = ( index1 << 16 ) | index2;
+        _lines[_numberOfLines] = ( index1 << 16 ) | index2;
 
-        _ncon = i + 1;
+        _numberOfLines++;
+
+        
+
+        return _numberOfLines;
 
     }
 
@@ -700,9 +724,45 @@ public class Wireframe3D {
 
     public void done() {
 
-        compress();
-
         updateBounds();
+
+    }
+
+
+
+    /**
+
+     * Call this if you suspect that your dataset might contain duplicate lines.
+
+     */
+
+    public void compress() {
+
+        sort( 0, _numberOfLines - 1 );
+
+        int newNumberOfLines = 0;
+
+        int index = 0;
+
+        int prevIndex = -1;
+
+        for ( int i = 0; i < _numberOfLines; i++ ) {
+
+            index = _lines[i];
+
+            if ( prevIndex != index ) {
+
+                _lines[newNumberOfLines] = index;
+
+                newNumberOfLines++;
+
+            }
+
+            prevIndex = index;
+
+        }
+
+        _numberOfLines = newNumberOfLines;
 
     }
 
@@ -724,19 +784,21 @@ public class Wireframe3D {
 
     private void transform() {
 
-        if ( _transformed || _nvert <= 0 ) {
+        if ( _transformed || _numberOfVerticies <= 0 ) {
 
             return;
 
         }
 
-        if ( _tvert == null || _tvert.length < _nvert * 3 ) {
+        // Resize the destination array if it's too small
 
-            _tvert = new int[_nvert * 3];
+        if ( _transformedVerticies.length < _numberOfVerticies * 3 ) {
+
+            _transformedVerticies = new float[_numberOfVerticies * 3];
 
         }
 
-        _matrix.transform( _vert, _tvert, _nvert );
+        _matrix.transform( _verticies, _transformedVerticies, _numberOfVerticies );
 
         _transformed = true;
 
@@ -750,13 +812,13 @@ public class Wireframe3D {
 
      */
 
-    private void sort( int lo0, int hi0 ) {
-
-        int a[] = _con;
+    private void sort( final int lo0, final int hi0 ) {
 
         int lo = lo0;
 
         int hi = hi0;
+
+        int tmp = 0;
 
         if ( lo >= hi ) {
 
@@ -764,17 +826,17 @@ public class Wireframe3D {
 
         }
 
-        int mid = a[( lo + hi ) / 2];
+        int mid = _lines[( lo + hi ) / 2];
 
         while ( lo < hi ) {
 
-            while ( lo < hi && a[lo] < mid ) {
+            while ( lo < hi && _lines[lo] < mid ) {
 
                 lo++;
 
             }
 
-            while ( lo < hi && a[hi] >= mid ) {
+            while ( lo < hi && _lines[hi] >= mid ) {
 
                 hi--;
 
@@ -782,11 +844,11 @@ public class Wireframe3D {
 
             if ( lo < hi ) {
 
-                int T = a[lo];
+                tmp = _lines[lo];
 
-                a[lo] = a[hi];
+                _lines[lo] = _lines[hi];
 
-                a[hi] = T;
+                _lines[hi] = tmp;
 
             }
 
@@ -794,57 +856,17 @@ public class Wireframe3D {
 
         if ( hi < lo ) {
 
-            int T = hi;
+            tmp = hi;
 
             hi = lo;
 
-            lo = T;
+            lo = tmp;
 
         }
 
         sort( lo0, lo );
 
         sort( lo == lo0 ? lo + 1 : lo, hi0 );
-
-    }
-
-
-
-    /*
-
-     * Eliminates duplicate lines.
-
-     */
-
-    private void compress() {
-
-        int limit = _ncon;
-
-        int c[] = _con;
-
-        sort( 0, _ncon - 1 );
-
-        int d = 0;
-
-        int pp1 = -1;
-
-        for ( int i = 0; i < limit; i++ ) {
-
-            int p1 = c[i];
-
-            if ( pp1 != p1 ) {
-
-                c[d] = p1;
-
-                d++;
-
-            }
-
-            pp1 = p1;
-
-        }
-
-        _ncon = d;
 
     }
 
@@ -858,13 +880,13 @@ public class Wireframe3D {
 
     private void updateBounds() {
 
-        if ( _nvert <= 0 ) {
+        if ( _numberOfVerticies <= 0 ) {
 
             return;
 
         }
 
-        float v[] = _vert;
+        float v[] = _verticies;
 
         float xmin = v[0], xmax = xmin;
 
@@ -872,7 +894,7 @@ public class Wireframe3D {
 
         float zmin = v[2], zmax = zmin;
 
-        for ( int i = _nvert * 3; ( i -= 3 ) > 0; ) {
+        for ( int i = _numberOfVerticies * 3; ( i -= 3 ) > 0; ) {
 
             float x = v[i];
 
