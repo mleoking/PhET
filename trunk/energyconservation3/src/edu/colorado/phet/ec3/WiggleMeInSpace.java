@@ -2,7 +2,7 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.ec3.model.Body;
-import edu.colorado.phet.ec3.model.EnergyConservationModel;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -27,7 +27,7 @@ public class WiggleMeInSpace {
         hintNode.setTextColor( Color.white );
         hintNode.setShadowTextColor( Color.darkGray );
         hintNode.setShadowTextOffset( 1 );
-        module.getEnergyConservationModel().addEnergyModelListener( new EnergyConservationModel.EnergyModelListenerAdapter() {
+        module.getEnergyConservationModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void gravityChanged() {
                 if( module.getEnergyConservationModel().getGravity() == 0.0 && !hintDone ) {
                     startHint();

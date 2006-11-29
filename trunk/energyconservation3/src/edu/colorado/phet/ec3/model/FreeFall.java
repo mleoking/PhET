@@ -15,10 +15,10 @@ import java.util.ArrayList;
  */
 
 public class FreeFall extends ForceMode implements Derivable {
-    private EnergyConservationModel energyConservationModel;
+    private EnergySkateParkModel energySkateParkModel;
 
-    public FreeFall( EnergyConservationModel energyConservationModel ) {
-        this.energyConservationModel = energyConservationModel;
+    public FreeFall( EnergySkateParkModel energySkateParkModel ) {
+        this.energySkateParkModel = energySkateParkModel;
     }
 
     public void stepInTime( Body body, double dt ) {
@@ -29,7 +29,7 @@ public class FreeFall extends ForceMode implements Derivable {
         if( passedThrough != null ) {
 //            System.out.println( "Passed through spline, at first, top=" + topOrig + ", but now top=" + topFinal );
             System.out.println( "Passed through spline: " + passedThrough );
-            new SplineInteraction( energyConservationModel ).doCollision( passedThrough, body );
+            new SplineInteraction( energySkateParkModel ).doCollision( passedThrough, body );
             int maxTries = 2;
             int count = 0;
             while( getCrossedSpline( origState, body.createCollisionState() ) != null && count < maxTries ) {                  //todo: should we set it so this spline can't be grabbed soon?
@@ -40,7 +40,7 @@ public class FreeFall extends ForceMode implements Derivable {
 //            body.clearCollisionHistory();
         }
         else {
-            new SplineInteraction( energyConservationModel ).interactWithSplines( body );
+            new SplineInteraction( energySkateParkModel ).interactWithSplines( body );
         }
     }
 
@@ -104,6 +104,6 @@ public class FreeFall extends ForceMode implements Derivable {
     }
 
     public UpdateMode copy() {
-        return new FreeFall( energyConservationModel );
+        return new FreeFall( energySkateParkModel );
     }
 }

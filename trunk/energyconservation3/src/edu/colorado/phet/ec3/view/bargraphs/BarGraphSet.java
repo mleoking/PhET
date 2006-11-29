@@ -9,7 +9,7 @@ import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.ec3.EnergyLookAndFeel;
 import edu.colorado.phet.ec3.EnergySkateParkSimulationPanel;
-import edu.colorado.phet.ec3.model.EnergyConservationModel;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 public class BarGraphSet extends PNode {
     private EnergySkateParkSimulationPanel rampPanel;
-    private EnergyConservationModel rampPhysicalModel;
+    private EnergySkateParkModel rampPhysicalModel;
     private ModelViewTransform1D transform1D;
     private double barChartHeight;
     private double barWidth;
@@ -53,7 +53,7 @@ public class BarGraphSet extends PNode {
     private ArrayList barGraphics = new ArrayList();
     private boolean minimized = false;
 
-    public BarGraphSet( EnergySkateParkSimulationPanel rampPanel, EnergyConservationModel rampPhysicalModel, String title, ModelViewTransform1D transform1D ) {
+    public BarGraphSet( EnergySkateParkSimulationPanel rampPanel, EnergySkateParkModel rampPhysicalModel, String title, ModelViewTransform1D transform1D ) {
         this.rampPanel = rampPanel;
         this.rampPhysicalModel = rampPhysicalModel;
         this.transform1D = transform1D;

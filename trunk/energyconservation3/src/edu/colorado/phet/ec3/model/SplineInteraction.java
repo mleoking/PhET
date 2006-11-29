@@ -15,17 +15,17 @@ import java.util.ArrayList;
  * Copyright (c) Nov 7, 2006 by Sam Reid
  */
 public class SplineInteraction {
-    private EnergyConservationModel energyConservationModel;
+    private EnergySkateParkModel energySkateParkModel;
 
-    public SplineInteraction( EnergyConservationModel energyConservationModel ) {
-        this.energyConservationModel = energyConservationModel;
+    public SplineInteraction( EnergySkateParkModel energySkateParkModel ) {
+        this.energySkateParkModel = energySkateParkModel;
     }
 
     public void interactWithSplines( Body body ) {
         body.convertToSpline();
         AbstractSpline grabSpline = getGrabSpline( body );
         if( grabSpline != null ) {
-            body.setSplineMode( energyConservationModel, grabSpline );
+            body.setSplineMode( energySkateParkModel, grabSpline );
 //            System.out.println( "grabSpline = " + grabSpline );
         }
         else {
@@ -37,7 +37,7 @@ public class SplineInteraction {
     private AbstractSpline getGrabSpline( Body body ) {
         double bestScore = Double.POSITIVE_INFINITY;
         AbstractSpline bestSpline = null;
-        ArrayList allSplines = energyConservationModel.getAllSplines();
+        ArrayList allSplines = energySkateParkModel.getAllSplines();
         for( int i = 0; i < allSplines.size(); i++ ) {
             double score = getGrabScore( (AbstractSpline)allSplines.get( i ), body );
             if( score < bestScore ) {
@@ -84,7 +84,7 @@ public class SplineInteraction {
     private AbstractSpline getCollisionSpline( Body body ) {
         double bestScore = Double.POSITIVE_INFINITY;
         AbstractSpline bestSpline = null;
-        ArrayList allSplines = energyConservationModel.getAllSplines();
+        ArrayList allSplines = energySkateParkModel.getAllSplines();
         for( int i = 0; i < allSplines.size(); i++ ) {
             double score = getCollisionScore( (AbstractSpline)allSplines.get( i ), body );
             if( score < bestScore ) {

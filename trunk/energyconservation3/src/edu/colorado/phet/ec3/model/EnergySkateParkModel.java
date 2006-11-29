@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Copyright (c) Sep 21, 2005 by Sam Reid
  */
 
-public class EnergyConservationModel {
+public class EnergySkateParkModel {
     public static final double G_EARTH = -9.81;
     public static final double G_MOON = -1.62;
     public static final double G_JUPITER = -25.95;
@@ -30,12 +30,12 @@ public class EnergyConservationModel {
     private double initZeroPointPotentialY;
     private PotentialEnergyMetric potentialEnergyMetric;
 
-    public EnergyConservationModel( double zeroPointPotentialY ) {
+    public EnergySkateParkModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
         this.initZeroPointPotentialY = zeroPointPotentialY;
         potentialEnergyMetric = new PotentialEnergyMetric() {
             public double getPotentialEnergy( Body body ) {
-                double h = EnergyConservationModel.this.zeroPointPotentialY - body.getCenterOfMass().getY();
+                double h = EnergySkateParkModel.this.zeroPointPotentialY - body.getCenterOfMass().getY();
                 return body.getMass() * gravity * h;
             }
 
@@ -134,7 +134,7 @@ public class EnergyConservationModel {
         bodies.remove( i );
     }
 
-    static interface EnergyConservationModelListener {
+    static interface Listener {
         public void numBodiesChanged();
 
         public void numFloorsChanged();
@@ -144,8 +144,8 @@ public class EnergyConservationModel {
         public void paramChanged();
     }
 
-    public EnergyConservationModel copyState() {
-        EnergyConservationModel copy = new EnergyConservationModel( zeroPointPotentialY );
+    public EnergySkateParkModel copyState() {
+        EnergySkateParkModel copy = new EnergySkateParkModel( zeroPointPotentialY );
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
             copy.bodies.add( body.copyState() );
@@ -164,7 +164,7 @@ public class EnergyConservationModel {
         return copy;
     }
 
-    public void setState( EnergyConservationModel model ) {
+    public void setState( EnergySkateParkModel model ) {
         bodies.clear();
         floors.clear();
         splineSurfaces.clear();

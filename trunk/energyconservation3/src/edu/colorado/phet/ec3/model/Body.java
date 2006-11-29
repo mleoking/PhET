@@ -53,19 +53,19 @@ public class Body {
     private long lastFallTime;
 
     private ArrayList listeners = new ArrayList();
-    private EnergyConservationModel energyConservationModel;
+    private EnergySkateParkModel energySkateParkModel;
 
     private ArrayList stateRecordHistory = new ArrayList();
     private boolean debugAnglesEnabled = false;
 
-    public Body( EnergyConservationModel model ) {
+    public Body( EnergySkateParkModel model ) {
         this( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), model.getPotentialEnergyMetric(), model );
     }
 
-    public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, EnergyConservationModel energyConservationModel ) {
-        this.energyConservationModel = energyConservationModel;
+    public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, EnergySkateParkModel energySkateParkModel ) {
+        this.energySkateParkModel = energySkateParkModel;
         userMode = new UserControlled();
-        this.freeFall = new FreeFall( energyConservationModel );
+        this.freeFall = new FreeFall( energySkateParkModel );
         this.width = width;
         this.height = height;
         this.potentialEnergyMetric = potentialEnergyMetric;
@@ -161,7 +161,7 @@ public class Body {
     }
 
     public Body copyState() {
-        Body copy = new Body( width, height, potentialEnergyMetric, energyConservationModel );
+        Body copy = new Body( width, height, potentialEnergyMetric, energySkateParkModel );
         copy.angularVelocity = this.angularVelocity;
         copy.attachmentPoint.setLocation( attachmentPoint );
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
@@ -231,10 +231,10 @@ public class Body {
 
     public StateRecord createCollisionState() {
         StateRecord stateRecord = new StateRecord( copyState() );
-        ArrayList splines = energyConservationModel.getAllSplines();
+        ArrayList splines = energySkateParkModel.getAllSplines();
         for( int i = 0; i < splines.size(); i++ ) {
             AbstractSpline spline = (AbstractSpline)splines.get( i );
-            if( new SplineInteraction( energyConservationModel ).isColliding( spline, this ) ) {
+            if( new SplineInteraction( energySkateParkModel ).isColliding( spline, this ) ) {
                 stateRecord.addCollisionSpline( spline, getTraversalState( spline ) );
             }
         }
@@ -379,7 +379,7 @@ public class Body {
         return mass;
     }
 
-    public void setSplineMode( EnergyConservationModel model, AbstractSpline spline ) {
+    public void setSplineMode( EnergySkateParkModel model, AbstractSpline spline ) {
         boolean same = false;
         if( mode instanceof SplineMode ) {
             SplineMode sm = (SplineMode)mode;

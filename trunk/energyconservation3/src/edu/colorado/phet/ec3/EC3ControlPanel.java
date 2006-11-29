@@ -11,7 +11,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.ec3.common.IconComponent;
 import edu.colorado.phet.ec3.controls.PieChartControlPanel;
 import edu.colorado.phet.ec3.model.Body;
-import edu.colorado.phet.ec3.model.EnergyConservationModel;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -187,7 +187,7 @@ public class EC3ControlPanel extends ControlPanel {
         mass.setModelTicks( new double[]{1, 75, 200} );
         mass.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                EnergyConservationModel model = module.getEnergyConservationModel();
+                EnergySkateParkModel model = module.getEnergyConservationModel();
                 for( int i = 0; i < model.numBodies(); i++ ) {
                     Body b = model.bodyAt( i );
                     b.setMass( mass.getValue() );

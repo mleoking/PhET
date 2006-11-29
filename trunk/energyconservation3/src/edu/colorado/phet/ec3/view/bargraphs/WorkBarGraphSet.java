@@ -4,7 +4,7 @@ package edu.colorado.phet.ec3.view.bargraphs;
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.ec3.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.ec3.EnergySkateParkStrings;
-import edu.colorado.phet.ec3.model.EnergyConservationModel;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 
 /**
  * User: Sam Reid
@@ -14,8 +14,8 @@ import edu.colorado.phet.ec3.model.EnergyConservationModel;
  */
 
 public class WorkBarGraphSet extends BarGraphSet {
-    public WorkBarGraphSet( EnergySkateParkSimulationPanel energySkaterSimulationPanel, EnergyConservationModel energyConservationModel, ModelViewTransform1D transform1D ) {
-        super( energySkaterSimulationPanel, energyConservationModel, EnergySkateParkStrings.getString( "work" ), transform1D );
+    public WorkBarGraphSet( EnergySkateParkSimulationPanel energySkaterSimulationPanel, EnergySkateParkModel energySkateParkModel, ModelViewTransform1D transform1D ) {
+        super( energySkaterSimulationPanel, energySkateParkModel, EnergySkateParkStrings.getString( "work" ), transform1D );
         ValueAccessor[] workAccess = new ValueAccessor[]{
 //            new ValueAccessor.TotalWork( getLookAndFeel() ),
 //            new ValueAccessor.GravityWork( getLookAndFeel() ),

@@ -4,7 +4,7 @@ package edu.colorado.phet.ec3.view.bargraphs;
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.ec3.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.ec3.EnergySkateParkStrings;
-import edu.colorado.phet.ec3.model.EnergyConservationModel;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 
 /**
  * User: Sam Reid
@@ -14,8 +14,8 @@ import edu.colorado.phet.ec3.model.EnergyConservationModel;
  */
 
 public class EnergyBarGraphSet extends BarGraphSet {
-    public EnergyBarGraphSet( EnergySkateParkSimulationPanel canvas, EnergyConservationModel energyConservationModel, ModelViewTransform1D transform1D ) {
-        super( canvas, energyConservationModel, EnergySkateParkStrings.getString( "energy" ), transform1D );
+    public EnergyBarGraphSet( EnergySkateParkSimulationPanel canvas, EnergySkateParkModel energySkateParkModel, ModelViewTransform1D transform1D ) {
+        super( canvas, energySkateParkModel, EnergySkateParkStrings.getString( "energy" ), transform1D );
         ValueAccessor[] energyAccess = new ValueAccessor[]{
                 new ValueAccessor.KineticEnergy( super.getLookAndFeel() ),
                 new ValueAccessor.PotentialEnergy( getLookAndFeel() ),

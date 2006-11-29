@@ -1,7 +1,7 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.ec3.model.EnergyConservationModel;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -60,7 +60,7 @@ public abstract class Planet {
 
     public static class Earth extends Planet {
         protected Earth() {
-            super( EnergySkateParkStrings.getString( "earth" ), EnergyConservationModel.G_EARTH );
+            super( EnergySkateParkStrings.getString( "earth" ), EnergySkateParkModel.G_EARTH );
         }
 
         protected void setupImage( EnergySkateParkModule module ) {
@@ -78,7 +78,7 @@ public abstract class Planet {
 
     public static class Moon extends Planet {
         public Moon() {
-            super( EnergySkateParkStrings.getString( "moon" ), EnergyConservationModel.G_MOON );
+            super( EnergySkateParkStrings.getString( "moon" ), EnergySkateParkModel.G_MOON );
         }
 
         protected void setupImage( EnergySkateParkModule module ) {
@@ -95,7 +95,7 @@ public abstract class Planet {
 
     public static class Jupiter extends Planet {
         public Jupiter() {
-            super( EnergySkateParkStrings.getString( "jupiter" ), EnergyConservationModel.G_JUPITER );
+            super( EnergySkateParkStrings.getString( "jupiter" ), EnergySkateParkModel.G_JUPITER );
         }
 
         protected void setupImage( EnergySkateParkModule module ) {
