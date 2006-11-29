@@ -110,6 +110,18 @@
 
  * 11/28/06 - improve precision of drawing by using Line2D.Float
 
+ * 11/28/06 - add Point3D inner class
+
+ * 11/28/06 - assume one continuos piece of wire, replace InputStream with Point3D[] in constructor
+
+ * 11/28/06 - make addVertex and addLine public
+
+ * 11/28/06 - fix bug in paint method, prevIndex should be initialzed to -1
+
+ * 11/28/06 - rename some methods
+
+ * 11/28/06 - javadoc and comments
+
  */
 
 
@@ -121,8 +133,6 @@ package edu.colorado.phet.hydrogenatom.model3d;
 import java.awt.*;
 
 import java.awt.geom.Line2D;
-
-import java.io.*;
 
 
 
@@ -156,6 +166,32 @@ public class Wireframe3D {
 
     //----------------------------------------------------------------------------
 
+    // Data structures
+
+    //----------------------------------------------------------------------------
+
+    
+
+    public static class Point3D {
+
+        public double x, y, z;
+
+        public Point3D( double x, double y, double z ) {
+
+            this.x = x;
+
+            this.y = y;
+
+            this.z = z;
+
+        }
+
+    }
+
+    
+
+    //----------------------------------------------------------------------------
+
     // Instance data
 
     //----------------------------------------------------------------------------
@@ -176,17 +212,33 @@ public class Wireframe3D {
 
     private int _maxcon;
 
+    // has the model been transformed?
+
     private boolean _transformed;
+
+    // matrix associated with the model
 
     private Matrix3D _matrix;
 
+    // bounds of the model
+
     private float _xmin, _xmax, _ymin, _ymax, _zmin, _zmax;
 
-    private Color _palette[]; // color palette
+    // palette used to color the line segments
+
+    private Color _palette[];
+
+    // Is antialiasing enabled?
 
     private boolean _antialias;
 
+    // Stroke used to draw the line segments
+
     private Stroke _stroke;
+
+    // reusable line, for rendering
+
+    private Line2D _line;
 
 
 
@@ -198,27 +250,55 @@ public class Wireframe3D {
 
     
 
-    /*
+    /**
 
-     * Creates a 3D wireframe model by parsing an input stream.
+     * Creates a 3D wireframe model with no verticies or lines.
 
      */
 
-    public Wireframe3D( InputStream is ) throws IOException {
+    public Wireframe3D() {
 
         _antialias = true; // enabled by default
 
         _stroke = DEFAULT_STROKE;
 
-        initPaletteGray();
+        _palette = createGrayPalette();
 
         _matrix = new Matrix3D();
 
-        parseStream( is );
+        _line = new Line2D.Float();
 
-        compress();
+    }
 
-        findBB();
+    
+
+    /**
+
+     * Creates a 3D wireframe model from a set of points.
+
+     * Assumes that the points are one continuous piece of wire.
+
+     */
+
+    public Wireframe3D( Point3D[] points ) {
+
+        this();
+
+        for ( int i = 0; i < points.length; i++ ) {
+
+            Point3D p = points[i];
+
+            addVertex( (float) p.x, (float) p.y, (float) p.z );
+
+        }
+
+        for ( int i = 0; i < points.length - 1; i++ ) {
+
+            addLine( i, i + 1 );
+
+        }
+
+        done();
 
     }
 
@@ -250,7 +330,7 @@ public class Wireframe3D {
 
     public void setColors( Color front, Color back ) {
 
-        initPalette( front, back );
+        _palette = createColorPalette( front, back );
 
     }
 
@@ -364,7 +444,7 @@ public class Wireframe3D {
 
         
 
-        int lg = 0;
+        int prevIndex = -1;
 
         int lim = _ncon;
 
@@ -402,8 +482,6 @@ public class Wireframe3D {
 
         // Draw wireframe
 
-        Line2D line = new Line2D.Float();
-
         for ( int i = 0; i < lim; i++ ) {
 
             int T = c[i];
@@ -430,9 +508,9 @@ public class Wireframe3D {
 
             }
 
-            if ( colorIndex != lg ) {
+            if ( colorIndex != prevIndex ) {
 
-                lg = colorIndex;
+                prevIndex = colorIndex;
 
                 g2.setColor( _palette[colorIndex] );
 
@@ -440,9 +518,9 @@ public class Wireframe3D {
 
             
 
-            line.setLine( v[p1], v[p1 + 1], v[p2], v[p2 + 1] );
+            _line.setLine( v[p1], v[p1 + 1], v[p2], v[p2 + 1] );
 
-            g2.draw( line );
+            g2.draw( _line );
 
         }
 
@@ -468,227 +546,19 @@ public class Wireframe3D {
 
     
 
-    /*
+    /**
 
-     * Reads and parses an input stream that contains the description
+     * Adds a vertex.
 
-     * of the wireframe model.
+     * @param x
+
+     * @param y
+
+     * @param z
 
      */
 
-    private void parseStream( InputStream is ) throws IOException {
-
-        Reader r = new BufferedReader( new InputStreamReader( is ) );
-
-        StreamTokenizer st = new StreamTokenizer( r );
-
-        st.eolIsSignificant( true );
-
-        st.commentChar( '#' );
-
-        scan: while ( true ) {
-
-            switch ( st.nextToken() ) {
-
-            default:
-
-                break scan;
-
-            case StreamTokenizer.TT_EOL:
-
-                break;
-
-            case StreamTokenizer.TT_WORD:
-
-                if ( "v".equals( st.sval ) ) {
-
-                    double x = 0, y = 0, z = 0;
-
-                    if ( st.nextToken() == StreamTokenizer.TT_NUMBER ) {
-
-                        x = st.nval;
-
-                        if ( st.nextToken() == StreamTokenizer.TT_NUMBER ) {
-
-                            y = st.nval;
-
-                            if ( st.nextToken() == StreamTokenizer.TT_NUMBER ) {
-
-                                z = st.nval;
-
-                            }
-
-                        }
-
-                    }
-
-                    addVert( (float) x, (float) y, (float) z );
-
-                    while ( st.ttype != StreamTokenizer.TT_EOL && st.ttype != StreamTokenizer.TT_EOF ) {
-
-                        st.nextToken();
-
-                    }
-
-                }
-
-                else if ( "f".equals( st.sval ) || "fo".equals( st.sval ) || "l".equals( st.sval ) ) {
-
-                    int start = -1;
-
-                    int prev = -1;
-
-                    int n = -1;
-
-                    while ( true ) {
-
-                        if ( st.nextToken() == StreamTokenizer.TT_NUMBER ) {
-
-                            n = (int) st.nval;
-
-                            if ( prev >= 0 ) {
-
-                                addLine( prev - 1, n - 1 );
-
-                            }
-
-                            if ( start < 0 ) {
-
-                                start = n;
-
-                            }
-
-                            prev = n;
-
-                        }
-
-                        else if ( st.ttype == '/' ) {
-
-                            st.nextToken();
-
-                        }
-
-                        else {
-
-                            break;
-
-                        }
-
-                    }
-
-                    if ( start >= 0 ) {
-
-                        addLine( start - 1, prev - 1 );
-
-                    }
-
-                    if ( st.ttype != StreamTokenizer.TT_EOL ) {
-
-                        break scan;
-
-                    }
-
-                }
-
-                else {
-
-                    while ( st.nextToken() != StreamTokenizer.TT_EOL && st.ttype != StreamTokenizer.TT_EOF ) {
-
-                        ;
-
-                    }
-
-                }
-
-            }
-
-        }
-
-        is.close();
-
-    }
-
-    
-
-    /*
-
-     * Initializes the palette to a range of grays.
-
-     */
-
-    private void initPaletteGray() {
-
-        _palette = new Color[16];
-
-        for ( int i = 0; i < 16; i++ ) {
-
-            int grey = (int) ( 170 * ( 1 - Math.pow( i / 15.0, 2.3 ) ) );
-
-            _palette[i] = new Color( grey, grey, grey );
-
-        }
-
-    }
-
-    
-
-    /*
-
-     * Initializes the palette to a range of colors.
-
-     */
-
-    private void initPalette( Color front, Color back ) {
-
-
-
-        int fr = front.getRed();
-
-        int fg = front.getGreen();
-
-        int fb = front.getBlue();
-
-        
-
-        int br = back.getRed();
-
-        int bg = back.getGreen();
-
-        int bb = back.getBlue();
-
-        
-
-        float rdelta = ( fr - br ) / 16f;
-
-        float gdelta = ( fg - bg ) / 16f;
-
-        float bdelta = ( fb - bb ) / 16f;
-
-        
-
-        for ( int i = 0; i < 16; i++ ) {
-
-            float r = ( fr - ( i * rdelta ) ) / 255f;
-
-            float g = ( fg - ( i * gdelta ) ) / 255f;
-
-            float b = ( fb - ( i * bdelta ) ) / 255f;
-
-            _palette[i] = new Color( r, g, b );
-
-        }
-
-    }
-
-    
-
-    /*
-
-     * Adds a vertex to this model.
-
-     */
-
-    private int addVert( float x, float y, float z ) {
+    public int addVertex( float x, float y, float z ) {
 
         int i = _nvert;
 
@@ -730,17 +600,21 @@ public class Wireframe3D {
 
 
 
-    /*
+    /**
 
-     * Adds a line from vertex p1 to vertex p2.
+     * Adds a line between 2 verticies.
+
+     * @param index1 index of first vertex
+
+     * @param index2 index of second vertex
 
      */
 
-    private void addLine( int p1, int p2 ) {
+    public void addLine( int index1, int index2 ) {
 
         int i = _ncon;
 
-        if ( p1 >= _nvert || p2 >= _nvert ) {
+        if ( index1 >= _nvert || index2 >= _nvert ) {
 
             return;
 
@@ -770,23 +644,47 @@ public class Wireframe3D {
 
         }
 
-        if ( p1 > p2 ) {
+        if ( index1 > index2 ) {
 
-            int t = p1;
+            int t = index1;
 
-            p1 = p2;
+            index1 = index2;
 
-            p2 = t;
+            index2 = t;
 
         }
 
-        _con[i] = ( p1 << 16 ) | p2;
+        _con[i] = ( index1 << 16 ) | index2;
 
         _ncon = i + 1;
 
     }
 
 
+
+    /**
+
+     * Call this after you're done adding verticies and lines.
+
+     */
+
+    public void done() {
+
+        compress();
+
+        updateBounds();
+
+    }
+
+    
+
+    //----------------------------------------------------------------------------
+
+    // Private
+
+    //----------------------------------------------------------------------------
+
+    
 
     /*
 
@@ -922,13 +820,13 @@ public class Wireframe3D {
 
     
 
-    /**
+    /*
 
      * Finds the bounding box of this model.
 
      */
 
-    private void findBB() {
+    private void updateBounds() {
 
         if ( _nvert <= 0 ) {
 
@@ -990,17 +888,121 @@ public class Wireframe3D {
 
         }
 
-        this._xmax = xmax;
+        _xmax = xmax;
 
-        this._xmin = xmin;
+        _xmin = xmin;
 
-        this._ymax = ymax;
+        _ymax = ymax;
 
-        this._ymin = ymin;
+        _ymin = ymin;
 
-        this._zmax = zmax;
+        _zmax = zmax;
 
-        this._zmin = zmin;
+        _zmin = zmin;
+
+    }
+
+    
+
+    //----------------------------------------------------------------------------
+
+    // Static
+
+    //----------------------------------------------------------------------------
+
+    
+
+    /*
+
+     * Creates a grayscale palette.
+
+     */
+
+    private static Color[] createGrayPalette() {
+
+        Color[] palette = new Color[16];
+
+        for ( int i = 0; i < 16; i++ ) {
+
+            int grey = (int) ( 170 * ( 1 - Math.pow( i / 15.0, 2.3 ) ) );
+
+            palette[i] = new Color( grey, grey, grey );
+
+        }
+
+        return palette;
+
+    }
+
+    
+
+    /*
+
+     * Creates a color palette that is an interpolation of 2 colors.
+
+     * 
+
+     * @param front color that is closest to the camera
+
+     * @param back color that is farthest from the camera
+
+     */
+
+    private static Color[] createColorPalette( Color front, Color back ) {
+
+
+
+        Color[] palette = new Color[16];
+
+        
+
+        // front components
+
+        int fr = front.getRed();
+
+        int fg = front.getGreen();
+
+        int fb = front.getBlue();
+
+        
+
+        // back components
+
+        int br = back.getRed();
+
+        int bg = back.getGreen();
+
+        int bb = back.getBlue();
+
+        
+
+        // component deltas between front and back
+
+        float rdelta = ( fr - br ) / 16f;
+
+        float gdelta = ( fg - bg ) / 16f;
+
+        float bdelta = ( fb - bb ) / 16f;
+
+        
+
+        // interpolate color components from front to back
+
+        for ( int i = 0; i < 16; i++ ) {
+
+            float r = ( fr - ( i * rdelta ) ) / 255f;
+
+            float g = ( fg - ( i * gdelta ) ) / 255f;
+
+            float b = ( fb - ( i * bdelta ) ) / 255f;
+
+            palette[i] = new Color( r, g, b );
+
+        }
+
+        
+
+        return palette;
 
     }
 
