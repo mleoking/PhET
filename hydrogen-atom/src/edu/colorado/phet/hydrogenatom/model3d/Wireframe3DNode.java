@@ -18,12 +18,17 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
-
-public class PNode3D extends PNode {
+/**
+ * Wireframe3DNode is a Piccolo node that draws a Wireframe3D model.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
+public class Wireframe3DNode extends PNode {
 
     private Wireframe3D _wireframe;
     
-    public PNode3D( Wireframe3D wireframe ) {
+    public Wireframe3DNode( Wireframe3D wireframe ) {
         super();
         
         _wireframe = wireframe;

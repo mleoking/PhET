@@ -21,7 +21,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
 import edu.colorado.phet.hydrogenatom.model3d.Matrix3D;
-import edu.colorado.phet.hydrogenatom.model3d.PNode3D;
+import edu.colorado.phet.hydrogenatom.model3d.Wireframe3DNode;
 import edu.colorado.phet.hydrogenatom.model3d.Wireframe3D;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode.AbstractDeBroglieViewStrategy;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
@@ -73,7 +73,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PNode3D _waveNode;
+    private Wireframe3DNode _waveNode;
     private Matrix3D _viewAngleMatrix; // matrix used to set view angle
     
     //----------------------------------------------------------------------------
@@ -122,7 +122,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         if ( _waveNode != null ) {
             removeChild( _waveNode );
         }
-        _waveNode = new PNode3D( wireframe );
+        _waveNode = new Wireframe3DNode( wireframe );
         addChild( _waveNode );
     }
     
@@ -142,7 +142,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         int numberOfStates = DeBroglieModel.getNumberOfStates();
         for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
             double radius = getAtom().getOrbitRadius( state );
-            PNode3D orbitNode = createOrbitNode3D( radius, ORBIT_POINTS );
+            Wireframe3DNode orbitNode = create3DOrbitNode( radius, ORBIT_POINTS );
             parentNode.addChild( orbitNode );
         }
         
@@ -179,7 +179,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     /*
      * Creates a 3D orbit node.
      */
-    private PNode3D createOrbitNode3D( double radius, int numberOfPoints ) {
+    private Wireframe3DNode create3DOrbitNode( double radius, int numberOfPoints ) {
         
         Point3D[] points = new Point3D[numberOfPoints];
         for ( int i = 0; i < numberOfPoints; i++ ) {
@@ -193,27 +193,27 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         }
         
         InputStream stream = pointsToStream( points );
-        Wireframe3D orbit3d = null;
+        Wireframe3D wireframe = null;
         try {
-            orbit3d = new Wireframe3D( stream );
+            wireframe = new Wireframe3D( stream );
         }
         catch ( IOException ioe ) {
             throw new RuntimeException( ioe );
         }
         
-        orbit3d.setColors( ORBIT_FRONT_COLOR, ORBIT_BACK_COLOR );
-        orbit3d.setStroke( ORBIT_STROKE );
+        wireframe.setColors( ORBIT_FRONT_COLOR, ORBIT_BACK_COLOR );
+        wireframe.setStroke( ORBIT_STROKE );
         
-        Matrix3D matrix = orbit3d.getMatrix();
+        Matrix3D matrix = wireframe.getMatrix();
         matrix.unit();
-        float xt = -( orbit3d.getXMin() + orbit3d.getXMax() ) / 2;
-        float yt = -( orbit3d.getYMin() + orbit3d.getYMax() ) / 2;
-        float zt = -( orbit3d.getZMin() + orbit3d.getZMax() ) / 2;
+        float xt = -( wireframe.getXMin() + wireframe.getXMax() ) / 2;
+        float yt = -( wireframe.getYMin() + wireframe.getYMax() ) / 2;
+        float zt = -( wireframe.getZMin() + wireframe.getZMax() ) / 2;
         matrix.translate( xt, yt, zt );
         matrix.mult( _viewAngleMatrix );
-        orbit3d.setTransformed( false );
+        wireframe.setTransformed( false );
         
-        return new PNode3D( orbit3d );
+        return new Wireframe3DNode( wireframe );
     }
     
     /*
