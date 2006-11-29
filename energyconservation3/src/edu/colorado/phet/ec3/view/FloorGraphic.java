@@ -1,6 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.view;
 
+import edu.colorado.phet.ec3.EnergySkateParkModule;
+import edu.colorado.phet.ec3.Planet;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 import edu.colorado.phet.ec3.model.Floor;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.umd.cs.piccolo.PNode;
@@ -18,25 +21,50 @@ import java.awt.geom.Rectangle2D;
  */
 
 public class FloorGraphic extends PNode {
+    private EnergySkateParkModule module;
+    private EnergySkateParkModel energySkateParkModel;
     private Floor floor;
+    private PPath groundPPath;
+    private PPath groundLinePPath;
 
-    public FloorGraphic( Floor floor ) {
+    public FloorGraphic( EnergySkateParkModule module, EnergySkateParkModel energySkateParkModel, Floor floor ) {
+        this.module = module;
+        this.energySkateParkModel = energySkateParkModel;
+        energySkateParkModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void gravityChanged() {
+                update();
+            }
+        } );
         this.floor = floor;
         double y = floor.getY();
         float offsetY = 3 * AbstractSpline.SPLINE_THICKNESS / 2;
         double xMin = -1000;
         double xMax = 1000;
         double height = 1000;
-        PPath earth = new PPath( new Rectangle2D.Double( xMin, y - height, xMax - xMin, height + offsetY ) );
-        earth.setPaint( new Color( 100, 170, 100 ) );
-        earth.setStroke( null );
-        addChild( earth );
+        groundPPath = new PPath( new Rectangle2D.Double( xMin, y - height, xMax - xMin, height + offsetY ) );
+        groundPPath.setPaint( new Color( 100, 170, 100 ) );
+        groundPPath.setStroke( null );
+        addChild( groundPPath );
 
         Line2D.Double line = new Line2D.Double( xMin, y + offsetY, xMax, y + offsetY );
-        PPath path = new PPath( line );
-        path.setStroke( new BasicStroke( 0.03f ) );
-        path.setStrokePaint( new Color( 0, 130, 0 ) );
+        groundLinePPath = new PPath( line );
+        groundLinePPath.setStroke( new BasicStroke( 0.03f ) );
+        groundLinePPath.setStrokePaint( new Color( 0, 130, 0 ) );
 
-        addChild( path );
+        addChild( groundLinePPath );
+
+        update();
+    }
+
+    private void update() {
+        Planet[] planets = module.getPlanets();
+        for( int i = 0; i < planets.length; i++ ) {
+            Planet planet = planets[i];
+            if( planet.getGravity() == energySkateParkModel.getGravity() ) {
+                groundPPath.setPaint( planet.getGroundPaint() );
+                groundLinePPath.setStrokePaint( planet.getGroundLinePaint() );
+                setVisible( planet.isGroundVisible() );
+            }
+        }
     }
 }

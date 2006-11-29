@@ -67,7 +67,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         measuringTape = new MeasuringTape( coordScale, new Point2D.Double( 100, 100 ), bodyGraphics );//any world node should do here, no?
         pauseIndicator = new PauseIndicator( module, simulationPanel, this );
         legend = new EC3Legend( module );
-        floorGraphic = new FloorGraphic( floor );
+        floorGraphic = new FloorGraphic( module, getModel(), floor );
         screenBackground = new BackgroundScreenNode( simulationPanel, null, floorGraphic );
         zeroPointPotentialGraphic = new ZeroPointPotentialGraphic( simulationPanel );
         offscreenManIndicator = new OffscreenManIndicator( simulationPanel, module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
@@ -108,7 +108,11 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             }
         } );
         setZeroPointVisible( false );
-
+        getModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            public void gravityChanged() {
+                updateGraphics();
+            }
+        } );
 //        addClouds();
     }
 
@@ -243,7 +247,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public void updateGraphics() {
-        updateFloorGraphics();
+//        updateFloorGraphics();
         updateSplines();
         updateBodies();
         updateJetPacks();
@@ -253,9 +257,9 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         offscreenManIndicator.update();
     }
 
-    private void updateFloorGraphics() {
-        floorGraphic.setVisible( module.getEnergySkateParkModel().hasFloor() );
-    }
+//    private void updateFloorGraphics() {
+//        floorGraphic.setVisible( module.getEnergySkateParkModel().hasFloor() );
+//    }
 
     private void updateZeroPotential() {
         zeroPointPotentialGraphic.setZeroPointPotential( getModel().getZeroPointPotentialY() );

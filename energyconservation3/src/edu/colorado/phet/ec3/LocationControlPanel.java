@@ -23,12 +23,16 @@ public class LocationControlPanel extends VerticalLayoutPanel {
 
     public LocationControlPanel( EnergySkateParkModule module ) {
         this.module = module;
-
-        PlanetButton space = new PlanetButton( module, new Planet.Space(), false );
-        PlanetButton moon = new PlanetButton( module, new Planet.Moon(), false );
-        PlanetButton earth = new PlanetButton( module, new Planet.Earth(), true );
-        PlanetButton jupiter = new PlanetButton( module, new Planet.Jupiter(), false );
-        planetButtons = new PlanetButton[]{space, moon, earth, jupiter};
+        Planet[] planets = module.getPlanets();
+        planetButtons = new PlanetButton[planets.length];
+        for( int i = 0; i < planets.length; i++ ) {
+            planetButtons[i] = new PlanetButton( module, planets[i], planets[i].isDefault() );
+        }
+//        PlanetButton space = new PlanetButton( module, new Planet.Space(), false );
+//        PlanetButton moon = new PlanetButton( module, new Planet.Moon(), false );
+//        PlanetButton earth = new PlanetButton( module, new Planet.Earth(), true );
+//        PlanetButton jupiter = new PlanetButton( module, new Planet.Jupiter(), false );
+//        planetButtons = new PlanetButton[]{space, moon, earth, jupiter};
 //        location.add( space );
 //        location.add( moon );
 //        location.add( earth );
@@ -38,10 +42,14 @@ public class LocationControlPanel extends VerticalLayoutPanel {
         verticalLayoutPanel.setFillHorizontal();
         showBackgroundCheckbox = new JCheckBox( EnergySkateParkStrings.getString( "show.background" ), true );
         verticalLayoutPanel.add( showBackgroundCheckbox );
-        verticalLayoutPanel.add( space );
-        verticalLayoutPanel.add( moon );
-        verticalLayoutPanel.add( earth );
-        verticalLayoutPanel.add( jupiter );
+        for( int i = 0; i < planets.length; i++ ) {
+//            Planet planet = planets[i];
+            verticalLayoutPanel.add( planetButtons[i] );
+        }
+//        verticalLayoutPanel.add( space );
+//        verticalLayoutPanel.add( moon );
+//        verticalLayoutPanel.add( earth );
+//        verticalLayoutPanel.add( jupiter );
         final JComponent gravitySlider = new GravitySlider( module );
         verticalLayoutPanel.addFullWidth( gravitySlider );
 

@@ -4,10 +4,6 @@ Remaining Work
 
 getNormalForce( double x, Body body )  in SplineMode is sometimes pulling the skater to the track.
 
-Match ground color to planet.
-
-Stretch outer-space graphic to fit screen without floor graphic.
-
 Does BackgroundScreenNode depend on using same instance of floor graphic?
 >>that's ok, we're reusing instance.
 

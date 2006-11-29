@@ -28,6 +28,7 @@ public class EnergySkateParkModel {
     private double initZeroPointPotentialY;
     private PotentialEnergyMetric potentialEnergyMetric;
 
+    public static final double G_SPACE = 0.0;
     public static final double G_EARTH = -9.81;
     public static final double G_MOON = -1.62;
     public static final double G_JUPITER = -25.95;

@@ -297,4 +297,8 @@ public class EnergySkateParkModule extends PiccoloModule {
             energySkateParkModelBean.apply( this );
         }
     }
+
+    public Planet[] getPlanets() {
+        return new Planet[]{new Planet.Space(), new Planet.Moon(), new Planet.Earth(), new Planet.Jupiter()};
+    }
 }
