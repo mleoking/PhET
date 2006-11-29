@@ -16,9 +16,9 @@ package edu.colorado.phet.hydrogenatom.wireframe;
  */
 public class Vertex3D {
 
-    float _z;
-    float _y;
-    float _x;
+    private float _x;
+    private float _y;
+    private float _z;
 
     public Vertex3D( float x, float y, float z ) {
         setLocation( x, y, z );
