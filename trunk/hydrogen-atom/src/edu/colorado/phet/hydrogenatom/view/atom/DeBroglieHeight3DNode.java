@@ -46,7 +46,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     private static final double VIEW_ANGLE = 70; // degrees
     
     private static final int ORBIT_POINTS = 200;
-    private static final Stroke ORBIT_STROKE = OrbitNodeFactory.getOrbitStroke();
+    private static final Stroke ORBIT_STROKE = new BasicStroke( 1f );
     private static final Color ORBIT_FRONT_COLOR = OrbitNodeFactory.getOrbitColor();
     private static final Color ORBIT_BACK_COLOR = ORBIT_FRONT_COLOR.darker().darker();
     
