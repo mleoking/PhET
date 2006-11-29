@@ -940,6 +940,8 @@ public class Wireframe3D {
 
      * Creates a color palette that is an interpolation of 2 colors.
 
+     * Uses integer precision for the color components.
+
      * 
 
      * @param front color that is closest to the camera
@@ -997,6 +999,98 @@ public class Wireframe3D {
             float b = ( fb - ( i * bdelta ) ) / 255f;
 
             palette[i] = new Color( r, g, b );
+
+        }
+
+        
+
+        return palette;
+
+    }
+
+    
+
+    /*
+
+     * Creates a color palette that is an interpolation of 2 colors.
+
+     * Uses floating point precision, works better when front and back
+
+     * colors are very similar, but is also slightly more expensive.
+
+     * 
+
+     * @param front color that is closest to the camera
+
+     * @param back color that is farthest from the camera
+
+     */
+
+    private static Color[] createColorPaletteFloat( Color front, Color back ) {
+
+
+
+        final int paletteSize = 16;
+
+        
+
+        Color[] palette = new Color[paletteSize];
+
+        
+
+        // front components
+
+        float[] fc = front.getComponents( null );
+
+        float fr = fc[0];
+
+        float fg = fc[1];
+
+        float fb = fc[2];
+
+        float fa = fc[3];
+
+        
+
+        // back components
+
+        float[] bc = back.getComponents( null );
+
+        float br = bc[0];
+
+        float bg = bc[1];
+
+        float bb = bc[2];
+
+        float ba = bc[3];
+
+        
+
+        // component deltas between front and back
+
+        float rdelta = ( fr - br ) / paletteSize;
+
+        float gdelta = ( fg - bg ) / paletteSize;
+
+        float bdelta = ( fb - bb ) / paletteSize;
+
+        float adelta = ( fa - ba ) / paletteSize;
+
+        
+
+        // interpolate color components from front to back
+
+        for ( int i = 0; i < 16; i++ ) {
+
+            float r = ( fr - ( i * rdelta ) );
+
+            float g = ( fg - ( i * gdelta ) );
+
+            float b = ( fb - ( i * bdelta ) );
+
+            float a = ( fa - ( i * adelta ) );
+
+            palette[i] = new Color( r, g, b, a );
 
         }
 
