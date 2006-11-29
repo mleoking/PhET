@@ -23,6 +23,10 @@ public class Vertex3D {
     public Vertex3D( float x, float y, float z ) {
         setLocation( x, y, z );
     }
+    
+    public Vertex3D() {
+        this( 0, 0, 0 );
+    }
 
     public void setLocation( float x, float y, float z ) {
         _x = x;
