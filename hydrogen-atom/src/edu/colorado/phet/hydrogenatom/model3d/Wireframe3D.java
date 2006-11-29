@@ -438,13 +438,13 @@ public class Wireframe3D {
 
             }
 
+            
+
             line.setLine( v[p1], v[p1 + 1], v[p2], v[p2 + 1] );
 
             g2.draw( line );
 
         }
-
-
 
         
 
