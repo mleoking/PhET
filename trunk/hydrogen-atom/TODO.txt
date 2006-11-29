@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- reuse Point3D[] whereever possible
+- reuse Vertex3D[] whereever possible
 - wireframe looks like it's only using 2 colors from color palette
 - remove HACK in PNode3D that makes bounds appear correct
 - make Wireframe3D mutable, allow change of verticies

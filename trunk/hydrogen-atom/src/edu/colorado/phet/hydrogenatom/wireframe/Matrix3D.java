@@ -45,6 +45,7 @@
  * 11/28/06 - made all member data private
  * 11/28/06 - added missing public modifiers to methods
  * 11/28/06 - added some comments
+ * 11/29/06 - change precision of transform method from int to float
  */
 
 package edu.colorado.phet.hydrogenatom.wireframe;
