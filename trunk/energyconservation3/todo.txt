@@ -40,8 +40,7 @@ Fix "ignore thermal" to be "show thermal", on by default.
 
 He should have at least 1/2mgr (where r is radius of curvature of track) worth of kinetic energy to be able to stick to it (when he is vertical). Right now his stickiness doesn't seem to be affected by the local r.
  
- Resetting the skater should clear thermal.
- 
+
 I'm still leaning towards the world ending when he goes off one side or the
 other.  I can't see value in tracking his actions when we can't see him.  On
 top of that, we reset things when he is returned.  I think as soon as the

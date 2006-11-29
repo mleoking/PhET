@@ -156,6 +156,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         body.setAttachmentPointPosition( getDefaultBodyPosition() );
         body.resetMode();
         body.setVelocity( 0, 0 );
+        body.setThermalEnergy( 0.0 );
     }
 
     private double getDefaultBodyAngle() {
