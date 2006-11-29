@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - make Wireframe3D mutable, allow change of verticies
-- reuse Vertex3D[] whereever possible
+- reuse Vertex3D[] where possible
 - wireframe looks like it's only using 2 colors from color palette
 - remove HACK in PNode3D that makes bounds appear correct
 - use ModelViewTransform when mapping deBroglie model to wireframe view
