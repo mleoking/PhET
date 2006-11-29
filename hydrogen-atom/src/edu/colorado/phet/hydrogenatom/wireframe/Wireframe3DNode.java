@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.hydrogenatom.model3d;
+package edu.colorado.phet.hydrogenatom.wireframe;
 
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
