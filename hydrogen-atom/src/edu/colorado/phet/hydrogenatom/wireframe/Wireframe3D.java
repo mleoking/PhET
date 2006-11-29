@@ -572,9 +572,35 @@ public class Wireframe3D {
 
     //----------------------------------------------------------------------------
 
-    // Private
+    // Vertex and line management
 
     //----------------------------------------------------------------------------
+
+    
+
+    /**
+
+     * Adds multiple verticies.
+
+     * @param verticies
+
+     * @return the total number of verticies
+
+     */
+
+    public int addVerticies( Vertex3D[] verticies ) {
+
+        int numberOfVerticies = 0;
+
+        for ( int i = 0; i < verticies.length; i++ ) {
+
+            numberOfVerticies = addVertex( verticies[i] );
+
+        }
+
+        return numberOfVerticies;
+
+    }
 
     
 
@@ -639,6 +665,10 @@ public class Wireframe3D {
         _verticies[i + 2] = z;
 
         _numberOfVerticies++;
+
+        
+
+        _transformed = false;
 
         
 
@@ -715,6 +745,24 @@ public class Wireframe3D {
     }
 
 
+
+    /**
+
+     * Resets the wireframe to have no verticies or lines.
+
+     */
+
+    public void reset() {
+
+        _numberOfVerticies = 0;
+
+        _numberOfLines = 0;
+
+        _transformed = false;
+
+    }
+
+    
 
     /**
 

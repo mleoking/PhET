@@ -41,7 +41,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     private static final boolean ROTATE_INTO_PLACE = true;
     
     private static final double MAX_HEIGHT = 15; // screen coordinates
-    private static final double VIEW_ANGLE = 70; // degrees, rotation about the x-axis
+    private static final double FINAL_VIEW_ANGLE = 70; // degrees, rotation about the x-axis
     private static final double VIEW_ANGLE_DELTA = 5; // degrees
     
     private static final int ORBIT_VERTICIES = 200;
@@ -61,10 +61,11 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     private PNode _staticNode;
     private Wireframe3DNode _waveNode;
     private Matrix3D _viewMatrix; // matrix used to set view angle
-    private double _viewAngle; // the current view angle
-    private boolean _rotationDone; // are we done rotating the wireframe into place?
+    private double _currentViewAngle; // the current view angle
+    private boolean _finalViewAngleDrawn; // are we done rotating the wireframe into place?
     private Vertex3D[] _orbitVerticies; // reusable verticies for orbits
     private Vertex3D[] _waveVerticies; // reusable verticies for wave
+    private Wireframe3D _waveWireframe; // reusable wireframe for wave
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -73,12 +74,13 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     public DeBroglieHeight3DNode( DeBroglieModel atom ) {
         super( atom );
         
-        assert( VIEW_ANGLE >= 0 && VIEW_ANGLE <= 90 ); // for view angle animation
+        assert( FINAL_VIEW_ANGLE >= 0 && FINAL_VIEW_ANGLE <= 90 ); // for view angle animation
         assert( ORBIT_VERTICIES % 2 == 0 ); // for faking dashed line style in 3D
         
+        _currentViewAngle = ( ROTATE_INTO_PLACE ? 0 : FINAL_VIEW_ANGLE );
+        _finalViewAngleDrawn = false;
         _viewMatrix = new Matrix3D();
-        _viewAngle = ( ROTATE_INTO_PLACE ? 0 : VIEW_ANGLE );
-        _rotationDone = false;
+        _viewMatrix.xrot( _currentViewAngle );
         
         _orbitVerticies = new Vertex3D[ ORBIT_VERTICIES ];
         for ( int i = 0; i < _orbitVerticies.length; i++ ) {
@@ -89,6 +91,14 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         for ( int i = 0; i < _waveVerticies.length; i++ ) {
             _waveVerticies[i] = new Vertex3D();
         }
+        
+        _waveWireframe = new Wireframe3D();
+        
+        _staticNode = new PNode();
+        addChild( _staticNode );
+        
+        _waveNode = new Wireframe3DNode( _waveWireframe );
+        addChild( _waveNode );
         
         update();
     }
@@ -101,98 +111,101 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
      * Updates the view to match the model.
      */
     public void update() {
+        updateWaveNode();
+        if ( !_finalViewAngleDrawn ) {
+            updateStaticNode();
+            updateViewMatrix();
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Private updaters
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the static parts of the view and flattens them to a PImage node.
+     */
+    private void updateStaticNode() {
+
+        _staticNode.removeAllChildren();
         
-        if ( !_rotationDone ) {
-            
+        PNode parentNode = new PNode();
+        {
+            // 3D orbits
+            int groundState = DeBroglieModel.getGroundState();
+            int numberOfStates = DeBroglieModel.getNumberOfStates();
+            for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
+                double radius = getAtom().getOrbitRadius( state );
+                Wireframe3DNode orbitNode = create3DOrbitNode( radius, _viewMatrix, _orbitVerticies );
+                parentNode.addChild( orbitNode );
+            }
+
+            // Proton
+            ProtonNode protonNode = new ProtonNode();
+            protonNode.setOffset( 0, 0 );
+            parentNode.addChild( protonNode );
+        }
+        
+        // Convert all static nodes to a single image
+        PImage imageNode = new PImage( parentNode.toImage() );
+        imageNode.setOffset( -imageNode.getWidth() / 2, -imageNode.getHeight() / 2 );
+        
+        _staticNode.addChild( imageNode );
+    }
+    
+    /*
+     * Updates the 3D wave node.
+     */
+    private void updateWaveNode() {
+        
+        // Compute the verticies
+        getWaveVerticies( getAtom(), _waveVerticies );
+        
+        // Create the wireframe model
+        _waveWireframe.reset();
+        _waveWireframe.addVerticies( _waveVerticies );
+        for ( int i = 0; i < _waveVerticies.length - 1; i++ ) {
+            _waveWireframe.addLine( i, i + 1 );
+        }
+        _waveWireframe.addLine( _waveVerticies.length - 1, 0 ); // close the path
+        _waveWireframe.done();
+        _waveWireframe.setColors( WAVE_FRONT_COLOR, WAVE_BACK_COLOR );
+        _waveWireframe.setStrokeWidth( WAVE_STROKE_WIDTH );
+        
+        // Transform the model
+        Matrix3D matrix = _waveWireframe.getMatrix();
+        matrix.unit();
+        float xt = -( _waveWireframe.getXMin() + _waveWireframe.getXMax() ) / 2;
+        float yt = -( _waveWireframe.getYMin() + _waveWireframe.getYMax() ) / 2;
+        float zt = -( _waveWireframe.getZMin() + _waveWireframe.getZMax() ) / 2;
+        matrix.translate( xt, yt, zt );
+        matrix.mult( _viewMatrix );
+        
+        // Add the model to the node
+        _waveNode.setWireframe( _waveWireframe );
+    }
+    
+    /*
+     * Updates the view matrix, accounting for possible 
+     * animation of the view rotating into place.
+     */
+    private void updateViewMatrix() {
+        if ( _currentViewAngle == FINAL_VIEW_ANGLE ) {
+            _finalViewAngleDrawn = true;
+        }
+        else {
+            _currentViewAngle += VIEW_ANGLE_DELTA;
+            if ( _currentViewAngle > FINAL_VIEW_ANGLE ) {
+                _currentViewAngle = FINAL_VIEW_ANGLE;
+            }
             _viewMatrix.unit();
-            _viewMatrix.xrot( _viewAngle );
-            
-            if ( _staticNode != null ) {
-                removeChild( _staticNode );
-            }
-            _staticNode = createStaticNode( getAtom(), _viewMatrix, _orbitVerticies );
-            _staticNode.setOffset( -_staticNode.getWidth() / 2, -_staticNode.getHeight() / 2 );
-            addChild( _staticNode );
-            
-            if ( _viewAngle == VIEW_ANGLE ) {
-                _rotationDone = true;
-            }
-            else {
-                _viewAngle += VIEW_ANGLE_DELTA;
-                if ( _viewAngle > VIEW_ANGLE ) {
-                    _viewAngle = VIEW_ANGLE;
-                }
-            }
+            _viewMatrix.xrot( _currentViewAngle );
         }
-        
-        if ( _waveNode != null ) {
-            removeChild( _waveNode );
-        }
-        _waveNode = create3DWaveNode( getAtom(), _viewMatrix, _waveVerticies );
-        addChild( _waveNode );
     }
     
     //----------------------------------------------------------------------------
     // Node creation
     //----------------------------------------------------------------------------
-    
-    /*
-     * Creates the static parts of the view and flattens everything to a single PImage node.
-     */
-    private static PNode createStaticNode( DeBroglieModel atom, Matrix3D viewMatrix, Vertex3D[] verticies ) {
-
-        PNode parentNode = new PNode();
-        
-        // 3D orbits
-        int groundState = DeBroglieModel.getGroundState();
-        int numberOfStates = DeBroglieModel.getNumberOfStates();
-        for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
-            double radius = atom.getOrbitRadius( state );
-            Wireframe3DNode orbitNode = create3DOrbitNode( radius, viewMatrix, verticies );
-            parentNode.addChild( orbitNode );
-        }
-        
-        // Proton
-        ProtonNode protonNode = new ProtonNode();
-        protonNode.setOffset( 0, 0 );
-        parentNode.addChild( protonNode );
-        
-        // Convert all static nodes to a single image
-        PImage imageNode = new PImage( parentNode.toImage() );
-        
-        return imageNode;
-    }
-    
-    /*
-     * Creates a 3D wave node.
-     */
-    private static Wireframe3DNode create3DWaveNode( DeBroglieModel atom, Matrix3D viewMatrix, Vertex3D[] verticies ) {
-        
-        // Compute the verticies
-        getWaveVerticies( atom, verticies );
-        
-        // Create the wireframe model
-        Wireframe3D wireframe = new Wireframe3D( verticies );
-        for ( int i = 0; i < verticies.length - 1; i++ ) {
-            wireframe.addLine( i, i + 1 );
-        }
-        wireframe.addLine( verticies.length - 1, 0 ); // close the path
-        wireframe.done();
-        wireframe.setColors( WAVE_FRONT_COLOR, WAVE_BACK_COLOR );
-        wireframe.setStrokeWidth( WAVE_STROKE_WIDTH );
-        
-        // Transform the model
-        Matrix3D matrix = wireframe.getMatrix();
-        matrix.unit();
-        float xt = -( wireframe.getXMin() + wireframe.getXMax() ) / 2;
-        float yt = -( wireframe.getYMin() + wireframe.getYMax() ) / 2;
-        float zt = -( wireframe.getZMin() + wireframe.getZMax() ) / 2;
-        matrix.translate( xt, yt, zt );
-        matrix.mult( viewMatrix );
-        wireframe.setTransformed( false );
-        
-        return new Wireframe3DNode( wireframe );
-    }
     
     /*
      * Creates a 3D orbit node.
@@ -220,7 +233,6 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         float zt = -( wireframe.getZMin() + wireframe.getZMax() ) / 2;
         matrix.translate( xt, yt, zt );
         matrix.mult( viewMatrix );
-        wireframe.setTransformed( false );
         
         return new Wireframe3DNode( wireframe );
     }
