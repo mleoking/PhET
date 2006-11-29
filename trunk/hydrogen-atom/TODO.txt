@@ -7,6 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - Wireframe3D looks like it's only using 2 colors from color palette
 - remove HACK in PNode3D that makes bounds appear correct
+- deBrogile 3D leaves visual artifacts when atom is at level=1 (paint bounds wrong?)
 - use ModelViewTransform when mapping deBroglie model to 3D wireframe view
 - implement collision detection with deBroglie 3D orbits
 - emit photons along deBroglie 3D orbits
@@ -51,6 +52,7 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+(11/29/06) - add temp hack for deBroglie 3D bounds paint problem
 (11/29/06) - big reorg of DeBroglieHeight3DNode in order to optimize memory usage
 (11/29/06) - make Wireframe3D and Wireframe3DNode mutable, reuse where possible
 (11/29/06) - reuse Vertex3D[] where possible in 3D deBroglie view

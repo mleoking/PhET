@@ -59,10 +59,11 @@ public class Wireframe3DNode extends PNode {
     }
     
     private void updateBounds() {
-        double x = _wireframe.getXMin();
-        double y = _wireframe.getYMin();
-        double w = _wireframe.getXMax() - x;
-        double h = _wireframe.getYMax() - y;
+        double fudge = 10; //HACK bounds aren't quite right, causes visual artifacts
+        double x = _wireframe.getXMin() - fudge;
+        double y = _wireframe.getYMin() - fudge;
+        double w = _wireframe.getXMax() - x + fudge;
+        double h = _wireframe.getYMax() - y + fudge;
         _boundsRect.setRect( x, y, w, h );
         _boundsNode.setPathTo( _boundsRect );
     }
