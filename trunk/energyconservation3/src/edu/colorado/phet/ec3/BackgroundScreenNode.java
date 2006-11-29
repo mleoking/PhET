@@ -9,6 +9,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -26,6 +28,11 @@ public class BackgroundScreenNode extends PhetPNode {
         this.ec3Canvas = simulationPanel;
         this.backgroundImage = backgroundImage;
         this.floorGraphic = floorGraphic;
+        floorGraphic.addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                update();
+            }
+        } );
     }
 
     public void update() {
@@ -40,10 +47,12 @@ public class BackgroundScreenNode extends PhetPNode {
             removeAllChildren();
             PImage child = new PImage( i2 );
             double maxY = floorGraphic.getGlobalFullBounds().getMinY();
-            Point2D.Double loc = new Point2D.Double( 0, maxY );
-            globalToLocal( loc );
-            double dy = child.getFullBounds().getHeight() - maxY;
-            child.translate( 0, -dy );
+            if( floorGraphic.getVisible() ) {
+                Point2D.Double loc = new Point2D.Double( 0, maxY );
+                globalToLocal( loc );
+                double dy = child.getFullBounds().getHeight() - maxY;
+                child.translate( 0, -dy );
+            }
             addChild( child );
         }
     }
