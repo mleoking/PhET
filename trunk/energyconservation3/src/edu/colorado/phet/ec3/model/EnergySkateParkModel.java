@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.model;
 
+import edu.colorado.phet.ec3.FloorSpline;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 
@@ -132,6 +133,10 @@ public class EnergySkateParkModel {
 
     private void removeBody( int i ) {
         bodies.remove( i );
+    }
+
+    public void addFloorSpline() {
+        addSplineSurface( new SplineSurface( new FloorSpline(), false ) );
     }
 
     static interface Listener {
