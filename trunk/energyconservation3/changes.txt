@@ -1,3 +1,6 @@
+1.02.21
+Removed the floor from outer space.
+
 1.02.20 (11-15-2006)
 Removed logo panel for users with screen height<=768 pixels.
 Bugfix: after record and playback, the rocket graphic doesn't appear
