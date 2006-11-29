@@ -12,6 +12,7 @@ import edu.colorado.phet.ec3.common.IconComponent;
 import edu.colorado.phet.ec3.controls.PieChartControlPanel;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergySkateParkModel;
+import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -20,6 +21,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
 /**
@@ -63,6 +66,11 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         measuringTape.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setMeasuringTapeVisible( measuringTape.isSelected() );
+            }
+        } );
+        getMeasuringTapeNode( module ).addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                measuringTape.setSelected( getMeasuringTapeNode( module ).getVisible() );
             }
         } );
         addControlFullWidth( new IconComponent( measuringTape, measuringTapeIcon ) );
@@ -198,6 +206,10 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         addControl( editSkaterPanel );
 
 
+    }
+
+    private PNode getMeasuringTapeNode( EnergySkateParkModule module ) {
+        return module.getEnergyConservationCanvas().getRootNode().getMeasuringTapeNode();
     }
 
     private VerticalLayoutPanel getLocationPanel( EnergySkateParkModule module ) {

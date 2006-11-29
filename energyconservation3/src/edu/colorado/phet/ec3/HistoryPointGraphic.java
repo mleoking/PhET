@@ -25,6 +25,7 @@ public class HistoryPointGraphic extends PNode {
     private DecimalFormat formatter = new DecimalFormat( "0.00" );
     private ShadowHTMLGraphic htmlGraphic;
     private String html = "";
+    private boolean readoutVisible = false;
 
     public HistoryPointGraphic( final HistoryPoint historyPoint ) {
         this.historyPoint = historyPoint;
@@ -41,22 +42,19 @@ public class HistoryPointGraphic extends PNode {
 
         htmlGraphic.scale( scale );
         htmlGraphic.transformBy( AffineTransform.getScaleInstance( 1, -1 ) );
-        addInputEventListener( new PBasicInputEventHandler() {
+        PBasicInputEventHandler eventHandler = new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 toggleVisible();
             }
-        } );
+        };
+        addInputEventListener( eventHandler );
+        htmlGraphic.addInputEventListener( eventHandler );
         update();
     }
 
     private void toggleVisible() {
-        if( getChildrenReference().contains( htmlGraphic ) ) {
-            removeChild( htmlGraphic );
-        }
-        else {
-            updateHTMLText();
-            addChild( 0, htmlGraphic );
-        }
+        this.readoutVisible = !this.readoutVisible;
+        update();
     }
 
     private String format( double pe ) {
@@ -72,21 +70,22 @@ public class HistoryPointGraphic extends PNode {
                  heatString +
                  "Total Energy=" + format( historyPoint.getTotalEnergy() ) + " J<br>" +
                  "</html>" );
-        if( isHTMLVisible() ) {
-            updateHTMLText();
+        if( readoutVisible ) {
+            htmlGraphic.setHtml( html );
         }
-    }
-
-    private void updateHTMLText() {
-        htmlGraphic.setHtml( html );
-    }
-
-    private boolean isHTMLVisible() {
-        return getChildrenReference().contains( htmlGraphic );
+        getReadoutGraphic().setVisible( readoutVisible );
+        getReadoutGraphic().setPickable( readoutVisible );
+        getReadoutGraphic().setChildrenPickable( readoutVisible );
+        getReadoutGraphic().setOffset( historyPoint.getX(), historyPoint.getY() );
+//        getReadoutGraphic().setTransform( getTransform() );
     }
 
     public void setHistoryPoint( HistoryPoint historyPoint ) {
         this.historyPoint = historyPoint;
         update();
+    }
+
+    public PNode getReadoutGraphic() {
+        return htmlGraphic;
     }
 }

@@ -2,9 +2,8 @@
 Remaining Work
 #######################################
    
-Record, pause, switch location, go doesn't keep the switch location.
-
-go, pause, switch, go might also have the same problem
+Record, pause, switch location, go remain in the newly selected location.
+>>Go, pause, switch, go might also have the same problem
 
 Pausing 'go' then pressing 'playback' should have 'slow' enabled.
 
@@ -16,28 +15,14 @@ after record/playback/reset, there is a hidden track graphic or something...  I 
 
 energy vs. time chart not big enough to see all the data
 
-When the user clicks on a track  (for a right-click menu or to drag it), it thinks the user is dragging the spline, so doesn't work to conserve energy.
-
-1.  The values for energy show up under the yellow record dots so you can't read the values.
-
 2.  I was wondering why there are buttons that say 'zoom out' and 'zoom in' on the Energy vs. Position graph rather than our standard magnifying glass buttons.
 
-3.  When I choose copy on this same graph, I get a window with a copy but that window will disappear behind everything else as soon as I click on anything associated with the simulation.  Can you make it stay forward like the other windows do?
+3.  When I choose copy on this same graph, I get a window with a copy but that window will disappear behind everything else as soon as 
+I click on anything associated with the simulation.  Can you make it stay forward like the other windows do?
 
-4.  I'm not sure how this copy is supposed to function but it has the same graph at the bottom half of the window and the top half (ok 60%) is black but includes data that goes off scale on the original Energy vs. Position graph.  Is this the idea?
+4.  I'm not sure how this copy is supposed to function but it has the same graph at the bottom half of the window and the top half 
+(ok 60%) is black but includes data that goes off scale on the original Energy vs. Position graph.  Is this the idea?
 
-5. Reset does not get rid of the tape measure if you have it out.
-
-6. The skater sticks to the track when traveling in a loop at a speed that would never allow him to stay on the track.  He would crash on his head for sure.  I can create a loop where he falls off as he comes to the top, bounces off the track below and then sticks to the track above him again
-
-This picture shows him after he bounces on his head because he fell off the track as he was traveling to the left upside down.  He still has an upward velocity in this picture.  He will get to the track and stay on after this show.  He keeps repeating this path indefinitely.
-
-7. The potential Energy Reference line is Red but potential energy on the graphs is blue.
-
->>We had to assume the grass acts like the ramp and that was a conceptual issue. The team has talked about changing the ground to look like the ramp to help. Right now, the two sims treat grass differently and that should be resolved.
-
-He should have at least 1/2mgr (where r is radius of curvature of track) worth of kinetic energy to be able to stick to it (when he is vertical). Right now his stickiness doesn't seem to be affected by the local r.
- 
 I'm still leaning towards the world ending when he goes off one side or the
 other.  I can't see value in tracking his actions when we can't see him.  On
 top of that, we reset things when he is returned.  I think as soon as the
@@ -49,23 +34,21 @@ and need to start again.
   >>I think it would be confusing to have different physics based on whether the camera can see the skater.
   >>A popup that says "landed on grass"
 
+6. The skater sticks to the track when traveling in a loop at a speed that would never allow him to stay on the track.  He would crash on his head for sure.  I can create a loop where he falls off as he comes to the top, bounces off the track below and then sticks to the track above him again
+This picture shows him after he bounces on his head because he fell off the track as he was traveling to the left upside down.  He still has an upward velocity in this picture.  He will get to the track and stay on after this show.  He keeps repeating this path indefinitely.
+getNormalForce( double x, Body body )  in SplineMode is sometimes pulling the skater to the track.
+He should have at least 1/2mgr (where r is radius of curvature of track) worth of kinetic energy to be able to stick to it (when he is vertical). Right now his stickiness doesn't seem to be affected by the local r.
+
+>>We had to assume the grass acts like the ramp and that was a conceptual issue. 
+The team has talked about changing the ground to look like the ramp to help. 
+Right now, the two sims treat grass differently and that should be resolved.
+
+#################################################################
+Questions
+#######################################
 >>Maybe pie chart should always show thermal...?
 
-Should the pie chart button be by the other charting options?
-
-getNormalForce( double x, Body body )  in SplineMode is sometimes pulling the skater to the track.
-
-Dropping from a height, sometimes the skater gets stuck in the ground
-    I think we discussed this and decided it's okay to leave this.
-
-arrow keys in space makes him vanish on one run...
-        Couldn't Reproduce this.
-
-Sometimes the skater gets stuck.
-        Difficult to reproduce.
-        Could try searching ahead a few steps to see if the skater will get stuck...
-
-One run caused the skater to behave as if he had 0.001 mass (in space).  Couldn't reproduce this.
+Should the pie chart button be inside the control panel with the other charting options?
 
 #################################################################
 Low Priority or Deprecated
@@ -135,3 +118,15 @@ Does BackgroundScreenNode depend on using same instance of floor graphic?
 If left on and the yellow dots of the path record allowed to accumulate, it 
 seems to cause tremendous lag in the program (maybe set a limit on how long it can be 
 left on?)
+
+Dropping from a height, sometimes the skater gets stuck in the ground
+    I think we discussed this and decided it's okay to leave this.
+    
+Sometimes the skater gets stuck.
+        Difficult to reproduce.
+        Could try searching ahead a few steps to see if the skater will get stuck...
+
+One run caused the skater to behave as if he had 0.001 mass (in space).  Couldn't reproduce this.
+
+arrow keys in space made him vanish on one run...
+        Couldn't Reproduce this.
