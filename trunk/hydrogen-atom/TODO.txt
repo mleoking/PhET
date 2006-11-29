@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- make Wireframe3D mutable, allow change of verticies
 - wireframe looks like it's only using 2 colors from color palette
 - remove HACK in PNode3D that makes bounds appear correct
 - use ModelViewTransform when mapping deBroglie model to wireframe view
@@ -51,6 +50,8 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+(11/29/06) - big reorg of DeBroglieHeight3DNode in order to optimize memory usage
+(11/29/06) - make Wireframe3D and Wireframe3DNode mutable, reuse where possible
 (11/29/06) - reuse Vertex3D[] where possible in 3D deBroglie view
 (11/29/06) - make deBroglie 3D view (optionally) rotate into place
 (11/29/06) - increase precision of Martrix3D transformation from int to float
