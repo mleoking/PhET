@@ -36,6 +36,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private EnergySkateParkModule module;
     private EnergySkateParkSimulationPanel simulationPanel;
     private PNode historyGraphics = new PNode();
+    private PNode historyReadouts = new PNode();
     private MeasuringTape measuringTape;
     private static final boolean DEFAULT_TAPE_VISIBLE = false;
     private static final boolean DEFAULT_PIE_CHART_VISIBLE = false;
@@ -82,6 +83,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addWorldChild( bodyGraphics );
 
         addWorldChild( historyGraphics );
+        addWorldChild( historyReadouts );
         addScreenChild( measuringTape );
         addScreenChild( pieCharts );
         addScreenChild( pauseIndicator );
@@ -216,6 +218,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         clearBuses();
         pieCharts.removeAllChildren();
         setZeroPointVisible( false );
+        setMeasuringTapeVisible( false );
 //        resetDefaults();//needs MVC update before this will work.
     }
 
@@ -292,10 +295,12 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void removeHistoryPointGraphic( HistoryPointGraphic graphic ) {
         historyGraphics.removeChild( graphic );
+        historyReadouts.removeChild( graphic.getReadoutGraphic() );
     }
 
     private void addHistoryGraphic( HistoryPointGraphic historyPointGraphic ) {
         historyGraphics.addChild( historyPointGraphic );
+        historyReadouts.addChild( historyPointGraphic.getReadoutGraphic() );
     }
 
     private int numHistoryGraphics() {
@@ -434,5 +439,9 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     public void setGridVisible( boolean selected ) {
         gridNode.setVisible( selected );
+    }
+
+    public PNode getMeasuringTapeNode() {
+        return measuringTape;
     }
 }

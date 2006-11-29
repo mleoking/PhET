@@ -60,11 +60,6 @@ public class EnergySkateParkModule extends PiccoloModule {
     private EnergyPositionPlotCanvas energyPositionCanvas;
     private PhetFrame phetFrame;
 
-    /**
-     * @param name
-     * @param clock
-     * @param phetFrame
-     */
     public EnergySkateParkModule( String name, IClock clock, PhetFrame phetFrame ) {
         super( name, clock );
         this.phetFrame = phetFrame;
