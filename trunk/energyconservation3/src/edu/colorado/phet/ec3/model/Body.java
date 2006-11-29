@@ -394,6 +394,9 @@ public class Body {
     }
 
     private void setMode( UpdateMode mode ) {
+        if( this.mode != null ) {
+            this.mode.finish( this );
+        }
         this.mode = mode;
         mode.init( this );
     }

@@ -192,4 +192,10 @@ public class ForceMode implements UpdateMode, Derivable {
     public UpdateMode copy() {
         return new ForceMode();
     }
+
+    public void finish( Body body ) {
+    }
+
+    public void finish() {
+    }
 }

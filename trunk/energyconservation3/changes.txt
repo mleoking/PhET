@@ -5,6 +5,9 @@ Set color of ground to match location (i.e. earth is green, moon is gray).
 The skater points his feet toward the closest track when the user is dragging him.
 Changed "Friction>>" to "Track Friction>>" for the friction button.
 Changed "Record Path" from a checkbox to a button.
+"Record Path" was moved below the tool checkboxes.
+Clear thermal when manipulating the skater.
+        The energy dissipates in a smooth animation, not all at once.
 
 1.02.20 (11-15-2006)
 Removed logo panel for users with screen height<=768 pixels.

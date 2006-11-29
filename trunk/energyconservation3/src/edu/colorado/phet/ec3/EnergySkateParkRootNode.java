@@ -41,7 +41,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private static final boolean DEFAULT_PIE_CHART_VISIBLE = false;
     private PNode pieCharts = new PNode();
     private OffscreenManIndicator offscreenManIndicator;
-    private boolean ignoreThermal = true;
+    private boolean ignoreThermal = false;
     private PauseIndicator pauseIndicator;
     private Legend legend;
     private BackgroundScreenNode screenBackground;

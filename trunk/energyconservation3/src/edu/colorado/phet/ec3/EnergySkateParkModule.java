@@ -81,8 +81,8 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyCanvas = new EnergySkateParkSimulationPanel( this );
         setSimulationPanel( energyCanvas );
 
-        EC3ControlPanel EC3ControlPanel = new EC3ControlPanel( this );
-        setControlPanel( EC3ControlPanel );
+        EnergySkateParkControlPanel EnergySkateParkControlPanel = new EnergySkateParkControlPanel( this );
+        setControlPanel( EnergySkateParkControlPanel );
 
         barChartFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "bar.charts" ), false );
         barChartFrame.setContentPane( new BarGraphCanvas( this ) );

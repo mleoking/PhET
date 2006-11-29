@@ -2,7 +2,7 @@
 package edu.colorado.phet.ec3.controls;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.ec3.EC3ControlPanel;
+import edu.colorado.phet.ec3.EnergySkateParkControlPanel;
 import edu.colorado.phet.ec3.EnergySkateParkModule;
 import edu.colorado.phet.ec3.EnergySkateParkStrings;
 
@@ -19,29 +19,29 @@ import java.awt.event.ActionListener;
 
 public class PieChartControlPanel extends VerticalLayoutPanel {
     private EnergySkateParkModule module;
-    private EC3ControlPanel EC3ControlPanel;
-    private JCheckBox mechOnly;
+    private EnergySkateParkControlPanel EnergySkateParkControlPanel;
+    private JCheckBox ignoreThermal;
 
-    public PieChartControlPanel( final EnergySkateParkModule module, EC3ControlPanel EC3ControlPanel ) {
+    public PieChartControlPanel( final EnergySkateParkModule module, EnergySkateParkControlPanel EnergySkateParkControlPanel ) {
         this.module = module;
-        this.EC3ControlPanel = EC3ControlPanel;
+        this.EnergySkateParkControlPanel = EnergySkateParkControlPanel;
         setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "energy.pie.chart" ) ) );
         final JCheckBox pieChart = new JCheckBox( EnergySkateParkStrings.getString( "show" ), module.isPieChartVisible() );
         pieChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                mechOnly.setEnabled( pieChart.isSelected() );
+                ignoreThermal.setEnabled( pieChart.isSelected() );
                 module.setPieChartVisible( pieChart.isSelected() );
             }
         } );
         add( pieChart );
 
-        mechOnly = new JCheckBox( EnergySkateParkStrings.getString( "ignore.thermal" ), module.getEnergyConservationCanvas().getRootNode().getIgnoreThermal() );
-        mechOnly.addActionListener( new ActionListener() {
+        ignoreThermal = new JCheckBox( EnergySkateParkStrings.getString( "ignore.thermal" ), module.getEnergyConservationCanvas().getRootNode().getIgnoreThermal() );
+        ignoreThermal.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.getEnergyConservationCanvas().getRootNode().setIgnoreThermal( mechOnly.isSelected() );
+                module.getEnergyConservationCanvas().getRootNode().setIgnoreThermal( ignoreThermal.isSelected() );
             }
         } );
-        add( mechOnly );
-        mechOnly.setEnabled( pieChart.isSelected() );
+        add( ignoreThermal );
+        ignoreThermal.setEnabled( pieChart.isSelected() );
     }
 }
