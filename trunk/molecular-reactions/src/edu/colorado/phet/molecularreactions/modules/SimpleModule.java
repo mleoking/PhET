@@ -21,6 +21,7 @@ import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.SimpleMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.LauncherGraphic;
 import edu.colorado.phet.molecularreactions.view.LauncherLoadPanel;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -46,7 +47,7 @@ public class SimpleModule extends MRModule {
     private SimpleMolecule m3;
     private CompositeMolecule cm;
     private SimpleMolecule launcherMolecule;
-    private Class launcherMoleculeClass = MoleculeC.class;
+    private Class launcherMoleculeClass = MRConfig.DEFAULT_LAUNCHER_MOLECULE_CLASS;
     private LauncherLoadPanel launcherLoadPanel;
 
     /**

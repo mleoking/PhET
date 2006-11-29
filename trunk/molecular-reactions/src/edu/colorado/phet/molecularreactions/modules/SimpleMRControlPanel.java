@@ -127,12 +127,15 @@ public class SimpleMRControlPanel extends MRControlPanel {
         private class LauncherRBActionListener implements ActionListener {
 
             public void actionPerformed( ActionEvent e ) {
+                Launcher.MovementType movementType = null;
                 if( oneDRB.isSelected() ) {
-                    module.getLauncher().setMovementType( Launcher.ONE_DIMENSIONAL );
+                    movementType=Launcher.ONE_DIMENSIONAL;
                 }
                 if( twoDRB.isSelected() ) {
-                    module.getLauncher().setMovementType( Launcher.TWO_DIMENSIONAL );
+                    movementType = Launcher.TWO_DIMENSIONAL;
                 }
+                module.reset();
+                module.getLauncher().setMovementType( movementType );
             }
         }
 

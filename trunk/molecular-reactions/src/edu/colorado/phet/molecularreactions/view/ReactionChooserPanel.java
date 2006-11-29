@@ -12,9 +12,7 @@ package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.controller.SelectReactionAction;
-import edu.colorado.phet.molecularreactions.model.MoleculeA;
-import edu.colorado.phet.molecularreactions.model.MoleculeAB;
-import edu.colorado.phet.molecularreactions.model.MoleculeBC;
+import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
@@ -34,7 +32,7 @@ import java.awt.event.ActionListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ReactionChooserPanel extends JPanel {
+public class ReactionChooserPanel extends JPanel implements MRModel.ModelListener {
 
     private JRadioButton defaultRB;
     private JRadioButton r1RB;
@@ -48,6 +46,7 @@ public class ReactionChooserPanel extends JPanel {
     public ReactionChooserPanel( MRModule module ) {
         super( new GridBagLayout() );
         this.module = module;
+        module.getMRModel().addListener( this );
 
         setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ExperimentSetup.reactionSelector" ) ) );
 
@@ -109,7 +108,6 @@ public class ReactionChooserPanel extends JPanel {
         defaultRB.setSelected( true );
     }
 
-
     public void reset() {
         r1RB.setSelected( true );
     }
@@ -150,5 +148,17 @@ public class ReactionChooserPanel extends JPanel {
             }
             action.actionPerformed( new ActionEvent( e.getSource(), e.getID(), command ) );
         }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of MRModel.ModelListener
+    //--------------------------------------------------------------------------------------------------
+
+    public void energyProfileChanged( EnergyProfile profile ) {
+        defaultRB.setSelected( profile == Profiles.DEFAULT );
+        r1RB.setSelected( profile == Profiles.R1 );
+        r2RB.setSelected( profile == Profiles.R2 );
+        r3RB.setSelected( profile == Profiles.R3 );
+        designYourOwnRB.setSelected( profile == Profiles.DYO );
     }
 }

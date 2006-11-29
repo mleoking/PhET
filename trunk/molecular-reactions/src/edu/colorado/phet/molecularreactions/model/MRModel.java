@@ -85,7 +85,7 @@ public class MRModel extends PublishingModel {
     public void setInitialConditions() {
         // Create the reaction object;
         reaction = new A_BC_AB_C_Reaction( this );
-        reaction.setEnergyProfile( MRConfig.DEFAULT_ENERGY_PROFILE );
+        setEnergyProfile( MRConfig.DEFAULT_ENERGY_PROFILE );
 
         // Add a box
         box = new Box2D( new Point2D.Double( 30, 30 ),
