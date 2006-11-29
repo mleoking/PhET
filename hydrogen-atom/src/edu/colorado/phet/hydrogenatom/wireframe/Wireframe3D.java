@@ -122,9 +122,9 @@
 
  * 11/28/06 - javadoc and comments
 
- * 11/28/06 - give more descriptive names to all member data
+ * 11/29/06 - give more descriptive names to all member data
 
- * 11/28/06 - change precision of transformed indicies from int to float
+ * 11/29/06 - change precision of matrix transform from int to float
 
  */
 
