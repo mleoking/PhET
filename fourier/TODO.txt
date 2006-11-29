@@ -53,6 +53,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(11/29/06) - add missing description in SimStrings file, format for new About dialog
 3.01.00
 (2/2/06) - wait to initialize sound until user clicks Sound checkbox, because some users have hosed audio drivers
 (2/2/06) - handle all Exception types in DiscreteControlPanel.initSound, not just expected audio exceptions
