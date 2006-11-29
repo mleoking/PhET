@@ -17,6 +17,7 @@ HIGH PRIORITY:
 - improve performance of deBroglie "brightness" and "brightness magnitude" representations
 - improve performance of deBroglie 3D representation
 - make sure that all calls to OrbitFactory pass radius values that have ModelViewTransform applied
+- OrbitNodeFactory.createPerspectiveOrbitNode is not used?...
 
 MEDIUM PRIORITY:
 - add "show traces" feature for alpha particles (need to interpolate curve between points)
