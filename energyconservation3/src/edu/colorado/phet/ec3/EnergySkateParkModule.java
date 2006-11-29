@@ -72,7 +72,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         this.phetFrame = phetFrame;
         energyModel = new EnergySkateParkModel( floorY + 10 );
 
-        addFloorSpline();
+        energyModel.addFloorSpline();
 
         Floor floor = new Floor( getEnergyConservationModel(), -AbstractSpline.SPLINE_THICKNESS );
         energyModel.addFloor( floor );
@@ -112,14 +112,6 @@ public class EnergySkateParkModule extends PiccoloModule {
         new WiggleMeInSpace( this ).start();
     }
 
-    public void addFloorSpline() {
-        CubicSpline floorSpline = new FloorSpline();
-
-        SplineSurface splineSurface = new SplineSurface( floorSpline );
-        splineSurface.setInteractive( false );
-        energyModel.addSplineSurface( splineSurface );
-    }
-
     private void setDefaults() {
         setBarChartVisible( DEFAULT_BAR_CHARTS_VISIBLE );
         setEnergyTimePlotVisible( DEFAULT_PLOT_VISIBLE );
@@ -148,7 +140,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyTimeSeriesModel.setLiveMode();
         energyTimePlotCanvas.reset();
         init();
-        addFloorSpline();
+        energyModel.addFloorSpline();
         energyTimeSeriesModel.startLiveMode();
     }
 

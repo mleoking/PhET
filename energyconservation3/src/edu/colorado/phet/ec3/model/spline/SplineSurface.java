@@ -10,10 +10,15 @@ package edu.colorado.phet.ec3.model.spline;
 
 public class SplineSurface {
     private AbstractSpline spline;
-    private boolean interactive = true;
+    private boolean interactive;
 
-    public SplineSurface( AbstractSpline top ) {
-        this.spline = top;
+    public SplineSurface( AbstractSpline spline ) {
+        this( spline, true );
+    }
+
+    public SplineSurface( AbstractSpline spline, boolean interactive ) {
+        this.spline = spline;
+        this.interactive = interactive;
     }
 
     public SplineSurface copy() {

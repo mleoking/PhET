@@ -71,7 +71,7 @@ public class EnergySkateParkModuleBean {
         for( int i = 0; i < splines.size(); i++ ) {
             module.getEnergyConservationModel().addSplineSurface( ( (SplineElement)splines.get( i ) ).toSplineSurface() );
         }
-        module.addFloorSpline();
+        module.getEnergyConservationModel().addFloorSpline();
     }
 
     public static class BodyElement {
