@@ -78,6 +78,8 @@ public class ComplexModule extends MRModule {
         setInitialConditions();
         controlPanel.reset();
         pumpGraphic.reset();
+//        setPieChartVisible( false );
+//        setBarChartVisible( false );
     }
 
     private void setInitialConditions() {

@@ -242,8 +242,9 @@ public class ExperimentSetupPanel extends JPanel {
         generateMolecules( MoleculeC.class, -moleculeCCounter.getCnt() );
 
         module.setStripChartVisible( false );
-        module.getClock().start();
         goStopBtn.setState( GoStopBtn.stop );
+        // This must come after the state of the goStopBtn has been set
+        module.getClock().start();
 
         hasBeenReset = true;
     }

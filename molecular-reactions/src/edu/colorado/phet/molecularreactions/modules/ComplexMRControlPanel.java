@@ -248,11 +248,16 @@ public class ComplexMRControlPanel extends MRControlPanel {
 
         public void reset() {
             showStripChartBtn.setSelected( false );
+            showNoneBtn.setSelected( true );
             showBondsBtn.setSelected( false );
 
             module.setStripChartVisible( showStripChartBtn.isSelected(), showStripChartBtn );
             module.setBarChartVisible( showBarChartBtn.isSelected() );
+            module.setPieChartVisible( showPieChartBtn.isSelected() );
             module.setGraphicTypeVisible( showBondsBtn.isSelected() );
+//            module.setStripChartVisible( showStripChartBtn.isSelected(), showStripChartBtn );
+//            module.setBarChartVisible( showBarChartBtn.isSelected() );
+//            module.setGraphicTypeVisible( showBondsBtn.isSelected() );
         }
     }
 
