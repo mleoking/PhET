@@ -16,7 +16,7 @@ after record/playback/reset, there is a hidden track graphic or something...  I 
 
 energy vs. time chart not big enough to see all the data
 
-When the user clicks on a track  (for a right-click menu), it thinks the user is dragging the spline, so doesn't work to conserve energy.
+When the user clicks on a track  (for a right-click menu or to drag it), it thinks the user is dragging the spline, so doesn't work to conserve energy.
 
 Could try searching ahead a few steps to see if the skater will get stuck...
 
