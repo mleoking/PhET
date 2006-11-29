@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+(11/29/06) - add workaround for selecting all text when a DoubleSpinner gains focus
 (10/20/06) - add data/credits.html
 (8/24/06) - remove unused args from BSAbstractApplication.initModules
 1.01.03...
