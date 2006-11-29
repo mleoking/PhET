@@ -37,8 +37,12 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     // Class data
     //----------------------------------------------------------------------------
     
+    // Setting this to true cause the wireframe to rotate into place
+    private static final boolean ROTATE_INTO_PLACE = true;
+    
     private static final double MAX_HEIGHT = 15; // screen coordinates
-    private static final double VIEW_ANGLE = 70; // degrees
+    private static final double VIEW_ANGLE = 70; // degrees, rotation about the x-axis
+    private static final double VIEW_ANGLE_DELTA = 5; // degrees
     
     private static final int ORBIT_POINTS = 200;
     private static final float ORBIT_STROKE_WIDTH = 1f;
@@ -54,8 +58,11 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private PNode _staticNode;
     private Wireframe3DNode _waveNode;
     private Matrix3D _viewMatrix; // matrix used to set view angle
+    private double _viewAngle; // the current view angle
+    private boolean _rotationDone; // are we done rotating the wireframe into place?
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -63,11 +70,10 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     
     public DeBroglieHeight3DNode( DeBroglieModel atom ) {
         super( atom );
+        assert( VIEW_ANGLE >= 0 && VIEW_ANGLE <= 90 );
         _viewMatrix = new Matrix3D();
-        _viewMatrix.xrot( VIEW_ANGLE );
-        PNode staticNode = createStaticNode( atom, _viewMatrix );
-        staticNode.setOffset( -staticNode.getWidth()/2, -staticNode.getHeight()/2 );
-        addChild( staticNode );
+        _viewAngle = ( ROTATE_INTO_PLACE ? 0 : VIEW_ANGLE );
+        _rotationDone = false;
         update();
     }
     
@@ -79,6 +85,30 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
      * Updates the view to match the model.
      */
     public void update() {
+        
+        if ( !_rotationDone ) {
+            
+            _viewMatrix.unit();
+            _viewMatrix.xrot( _viewAngle );
+            
+            if ( _staticNode != null ) {
+                removeChild( _staticNode );
+            }
+            _staticNode = createStaticNode( getAtom(), _viewMatrix );
+            _staticNode.setOffset( -_staticNode.getWidth() / 2, -_staticNode.getHeight() / 2 );
+            addChild( _staticNode );
+            
+            if ( _viewAngle == VIEW_ANGLE ) {
+                _rotationDone = true;
+            }
+            else {
+                _viewAngle += VIEW_ANGLE_DELTA;
+                if ( _viewAngle > VIEW_ANGLE ) {
+                    _viewAngle = VIEW_ANGLE;
+                }
+            }
+        }
+        
         if ( _waveNode != null ) {
             removeChild( _waveNode );
         }
@@ -87,7 +117,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     }
     
     //----------------------------------------------------------------------------
-    // private static
+    // private
     //----------------------------------------------------------------------------
     
     /*
@@ -184,6 +214,10 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         
         return new Wireframe3DNode( wireframe );
     }
+    
+    //----------------------------------------------------------------------------
+    // private static
+    //----------------------------------------------------------------------------
     
     /*
      * Gets the verticies that approximate the standing wave.
