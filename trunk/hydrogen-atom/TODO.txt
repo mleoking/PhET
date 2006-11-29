@@ -26,6 +26,7 @@ MEDIUM PRIORITY:
 - "atom ionized" message and electron flying in/out for Plum Pudding, Bohr, deBroglie, Schrodinger models
 - clear spectrometer when atomic model is changed
 - update images on atom model selector buttons
+- is ModelViewTransform used everywhere is should be in view?
 
 LOW PRIORITY:
 - Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
