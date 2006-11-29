@@ -11,6 +11,9 @@ Clear thermal when manipulating the skater.
 Resetting the skater clears the thermal energy.
 Changed "Hide Thermal" to "Show Thermal" for the pie chart controls.
 Show Thermal is now default for pie chart.
+Bugfix: The values for energy show up under the yellow record dots so you can't read the values.
+Bugfix: Reset does not get rid of the tape measure if you have it out.
+Bugfix: The potential Energy Reference line is Red but potential energy on the graphs is blue.
 
 1.02.20 (11-15-2006)
 Removed logo panel for users with screen height<=768 pixels.
