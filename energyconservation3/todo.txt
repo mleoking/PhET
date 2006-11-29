@@ -4,8 +4,6 @@ Remaining Work
 
 getNormalForce( double x, Body body )  in SplineMode is sometimes pulling the skater to the track.
 
-Remove ground from space.
-
 Match ground color to planet.
 
 Point feet at track when dragging.

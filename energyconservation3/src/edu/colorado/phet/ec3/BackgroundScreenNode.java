@@ -22,8 +22,8 @@ public class BackgroundScreenNode extends PhetPNode {
     private Image backgroundImage;
     private PNode floorGraphic;
 
-    public BackgroundScreenNode( EnergySkateParkSimulationPanel ec3Canvas, Image backgroundImage, PNode floorGraphic ) {
-        this.ec3Canvas = ec3Canvas;
+    public BackgroundScreenNode( EnergySkateParkSimulationPanel simulationPanel, Image backgroundImage, PNode floorGraphic ) {
+        this.ec3Canvas = simulationPanel;
         this.backgroundImage = backgroundImage;
         this.floorGraphic = floorGraphic;
     }
@@ -43,8 +43,6 @@ public class BackgroundScreenNode extends PhetPNode {
             Point2D.Double loc = new Point2D.Double( 0, maxY );
             globalToLocal( loc );
             double dy = child.getFullBounds().getHeight() - maxY;
-//            Point2D.Double pt = new Point2D.Double(1,1);
-//            child.scale( ec3Canvas.getRootNode().worldToScreen( pt ););
             child.translate( 0, -dy );
             addChild( child );
         }
