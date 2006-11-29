@@ -1,10 +1,13 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.view;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.ec3.EnergySkateParkModule;
 import edu.colorado.phet.ec3.model.Body;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
@@ -18,9 +21,12 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -31,7 +37,7 @@ import java.io.IOException;
 
 public class BodyGraphic extends PNode {
     private Body body;
-    private EnergySkateParkModule ec3Module;
+    private EnergySkateParkModule energySkateParkModule;
     private PPath boundsDebugPPath;
     private PImage pImage;
 
@@ -41,8 +47,8 @@ public class BodyGraphic extends PNode {
     private PPath feetDebugger;
     private boolean debugFeet = false;
 
-    public BodyGraphic( final EnergySkateParkModule ec3Module, Body body ) {
-        this.ec3Module = ec3Module;
+    public BodyGraphic( final EnergySkateParkModule ec3Module, final Body body ) {
+        this.energySkateParkModule = ec3Module;
         this.body = body;
         boundsDebugPPath = new PPath( new Rectangle2D.Double( 0, 0, body.getWidth(), body.getHeight() ) );
         boundsDebugPPath.setStroke( null );
@@ -102,6 +108,7 @@ public class BodyGraphic extends PNode {
                 }
                 if( okToTranslate ) {
                     getBody().translate( delta.getWidth(), delta.getHeight() );
+                    updateDragAngle();
                 }
 
             }
@@ -125,6 +132,53 @@ public class BodyGraphic extends PNode {
         } );
 
         update();
+    }
+
+    private void updateDragAngle() {
+        AbstractSpline spline = getGrabSpline( body );
+        if( spline != null ) {
+            Point2D center = body.getCenterOfMass();
+            double alongSpline = spline.getDistAlongSpline( center, 0, spline.getLength(), 100 );
+            Point2D splineLocation = spline.evaluateAnalytical( alongSpline );
+            Vector2D vec = new Vector2D.Double( splineLocation, center );
+            double offsetAngle = 0.0;
+            AbstractVector2D unitNormal = spline.getUnitNormalVector( alongSpline );
+            if( vec.dot( unitNormal ) > 0 ) {
+                offsetAngle = Math.PI / 2;
+            }
+            else {
+                offsetAngle = -Math.PI / 2;
+            }
+            body.setCMRotation( unitNormal.getAngle() + offsetAngle );
+        }
+    }
+
+    private AbstractSpline getGrabSpline( Body body ) {
+        double bestScore = Double.POSITIVE_INFINITY;
+        AbstractSpline bestSpline = null;
+        ArrayList allSplines = getEnergySkateParkModel().getAllSplines();
+        for( int i = 0; i < allSplines.size(); i++ ) {
+            double score = getGrabScore( (AbstractSpline)allSplines.get( i ), body );
+            if( score < bestScore ) {
+                bestScore = score;
+                bestSpline = (AbstractSpline)allSplines.get( i );
+            }
+        }
+        return bestSpline;
+    }
+
+    private EnergySkateParkModel getEnergySkateParkModel() {
+        return energySkateParkModule.getEnergySkateParkModel();
+    }
+
+    private double getGrabScore( AbstractSpline spline, Body body ) {
+        Area feet = new Area( body.getFeetShape() );
+        feet.add( new Area( AffineTransform.getTranslateInstance( 0, body.getFeetShape().getBounds2D().getHeight() ).createTransformedShape( body.getFeetShape() ) ) );
+        feet.add( new Area( AffineTransform.getTranslateInstance( 0, body.getFeetShape().getBounds2D().getHeight() * 2 ).createTransformedShape( body.getFeetShape() ) ) );
+        Area splineArea = new Area( spline.getArea() );
+        splineArea.intersect( feet );
+        boolean collide = !splineArea.isEmpty();
+        return collide ? 0 : Double.POSITIVE_INFINITY;
     }
 
     protected void setImage( Image image ) {
