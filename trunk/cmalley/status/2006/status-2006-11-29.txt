@@ -1,7 +1,7 @@
 --
 Chris Malley (PixelZoom, Inc.) - Weekly Status Report
 
-PERIOD: Nov 23 - Nov 29, 2006 (Thu-Wed)
+PERIOD: Nov 27 - Nov 29, 2006 (Thu-Wed)
 
 ACCOMPLISHMENTS:
 
