@@ -23,6 +23,22 @@ class OrbitNodeFactory {
     private OrbitNodeFactory() {}
     
     /**
+     * Gets the Color used to draw orbits.
+     * @return Color
+     */
+    public static Color getOrbitColor() {
+        return ORBIT_COLOR;
+    }
+    
+    /**
+     * Gets the Stroke used to draw orbits.
+     * @return Stroke
+     */
+    public static Stroke getOrbitStroke() {
+        return ORBIT_STROKE;
+    }
+    
+    /**
      * Creates a node that shows the orbit in 2D.
      * @param radius
      * @return PPath
