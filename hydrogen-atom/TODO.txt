@@ -52,6 +52,7 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+***** CVS tag hydrogenatom-0-00-13-2006-11-29
 (11/29/06) - add temp hack for deBroglie 3D bounds paint problem
 (11/29/06) - big reorg of DeBroglieHeight3DNode in order to optimize memory usage
 (11/29/06) - make Wireframe3D and Wireframe3DNode mutable, reuse where possible
