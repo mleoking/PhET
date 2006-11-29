@@ -51,6 +51,7 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+(11/29/06) - increase precision of Martrix3D transformation from int to float
 (11/29/06) - make DeBroglieHeight3DNode responsible for specifying how wireframe verticies are connected
 (11/29/06) - new constructors for Wireframe3D
 (11/29/06) - change Point3D to Vertex3D, put in its own class file, change names accordingly in client source
