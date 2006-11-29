@@ -5,10 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- make deBroglie 3D view rotate into place
+- make Wireframe3D mutable, allow change of verticies
 - reuse Vertex3D[] whereever possible
 - wireframe looks like it's only using 2 colors from color palette
 - remove HACK in PNode3D that makes bounds appear correct
-- make Wireframe3D mutable, allow change of verticies
 - use ModelViewTransform when mapping deBroglie model to wireframe view
 - implement collision detection with deBroglie 3D orbits
 - improve performance of deBroglie "brightness" and "brightness magnitude" representations
