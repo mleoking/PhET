@@ -7,6 +7,8 @@ IN PROGRESS:
 HIGH PRIORITY:
 - wireframe looks like it's only using 2 colors from color palette
 - 3D orbits look lousy
+- missing geometry when >200 verticies supplied to Wireframe3D
+- 6th 3D orbit path doesn't look closed on right edge
 - remove HACK in PNode3D that makes bounds appear correct
 - bug: wireframe for electron level=1 is clipped, node bounds wrong?
 - make Wireframe3D mutable, allow change of verticies
