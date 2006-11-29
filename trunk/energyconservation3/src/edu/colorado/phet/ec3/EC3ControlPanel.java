@@ -52,7 +52,7 @@ public class EC3ControlPanel extends ControlPanel {
 
         JPanel pathPanel = new JPanel( new BorderLayout() );
         pathPanel.setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "path" ) ) );
-        final JCheckBox recordPath = new JCheckBox( EnergySkateParkStrings.getString( "record" ), module.getEnergyConservationModel().isRecordPath() );
+        final JCheckBox recordPath = new JCheckBox( EnergySkateParkStrings.getString( "record" ), module.getEnergySkateParkModel().isRecordPath() );
         recordPath.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setRecordPath( recordPath.isSelected() );
@@ -175,8 +175,8 @@ public class EC3ControlPanel extends ControlPanel {
 //        } );
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
-                if( module.getEnergyConservationModel().numBodies() > 0 ) {
-                    restitution.setValue( module.getEnergyConservationModel().bodyAt( 0 ).getCoefficientOfRestitution() );
+                if( module.getEnergySkateParkModel().numBodies() > 0 ) {
+                    restitution.setValue( module.getEnergySkateParkModel().bodyAt( 0 ).getCoefficientOfRestitution() );
                 }
             }
         } );
@@ -187,7 +187,7 @@ public class EC3ControlPanel extends ControlPanel {
         mass.setModelTicks( new double[]{1, 75, 200} );
         mass.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                EnergySkateParkModel model = module.getEnergyConservationModel();
+                EnergySkateParkModel model = module.getEnergySkateParkModel();
                 for( int i = 0; i < model.numBodies(); i++ ) {
                     Body b = model.bodyAt( i );
                     b.setMass( mass.getValue() );
@@ -205,8 +205,8 @@ public class EC3ControlPanel extends ControlPanel {
 //        } );
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
-                if( module.getEnergyConservationModel().numBodies() > 0 ) {
-                    mass.setValue( module.getEnergyConservationModel().bodyAt( 0 ).getMass() );
+                if( module.getEnergySkateParkModel().numBodies() > 0 ) {
+                    mass.setValue( module.getEnergySkateParkModel().bodyAt( 0 ).getMass() );
                 }
             }
         } );

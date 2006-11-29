@@ -60,12 +60,12 @@ public class LocationControlPanel extends VerticalLayoutPanel {
         boolean matched = false;
         for( int i = 0; i < planetButtons.length; i++ ) {
             Planet planet = planetButtons[i].getPlanet();
-            if( module.getEnergyConservationModel().getGravity() == planet.getGravity() ) {
+            if( module.getEnergySkateParkModel().getGravity() == planet.getGravity() ) {
                 planet.apply( module );
                 matched = true;
             }
 //            planetButtons[i].setSelected( module.getEnergyConservationModel().getGravity() == planet.getGravity() );
-            boolean match = module.getEnergyConservationModel().getGravity() == planet.getGravity();
+            boolean match = module.getEnergySkateParkModel().getGravity() == planet.getGravity();
             planetButtons[i].setSelected( match );
         }
         if( !matched ) {

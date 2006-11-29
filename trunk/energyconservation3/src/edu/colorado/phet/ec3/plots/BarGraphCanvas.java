@@ -27,7 +27,7 @@ public class BarGraphCanvas extends PSwingCanvas {
 
     public BarGraphCanvas( final EnergySkateParkModule module ) {
         this.module = module;
-        EnergyBarGraphSet energyBarGraphSet = new EnergyBarGraphSet( module.getEnergyConservationCanvas(), module.getEnergyConservationModel(),
+        EnergyBarGraphSet energyBarGraphSet = new EnergyBarGraphSet( module.getEnergyConservationCanvas(), module.getEnergySkateParkModel(),
                                                                      new ModelViewTransform1D( 0, 7000, 0, 500 ) );
         getLayer().addChild( energyBarGraphSet );
         energyBarGraphSet.translate( 45, 45 );

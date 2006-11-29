@@ -67,12 +67,12 @@ public class PieChartIndicator extends PNode {
     }
 
     private EnergySkateParkModel getModel() {
-        return module.getEnergyConservationModel();
+        return module.getEnergySkateParkModel();
     }
 
     private PieChartNode.PieValue[] createPieValues() {
-        if( module.getEnergyConservationModel().numBodies() > 0 ) {
-            Body body = module.getEnergyConservationModel().bodyAt( 0 );
+        if( module.getEnergySkateParkModel().numBodies() > 0 ) {
+            Body body = module.getEnergySkateParkModel().bodyAt( 0 );
             double ke = body.getKineticEnergy();
             double pe = Math.abs( body.getPotentialEnergy() );
             double therm = body.getThermalEnergy();

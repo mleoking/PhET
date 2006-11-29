@@ -45,12 +45,12 @@ public class GravitySlider extends ModelSlider {
 //        setNumMinorTicksPerMajorTick( 2 );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                module.getEnergyConservationModel().setGravity( -getValue() );
+                module.getEnergySkateParkModel().setGravity( -getValue() );
             }
         } );
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
-                double val = module.getEnergyConservationModel().getGravity();
+                double val = module.getEnergySkateParkModel().getGravity();
                 setValue( -val );
 
             }

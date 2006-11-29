@@ -45,7 +45,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
     public EnergySkateParkSimulationPanel( EnergySkateParkModule ec3Module ) {
         super( new Rectangle2D.Double( 0, -1, 15, 10 ) );
         this.ec3Module = ec3Module;
-        this.ec3Model = ec3Module.getEnergyConservationModel();
+        this.ec3Model = ec3Module.getEnergySkateParkModel();
         this.rootNode = new EnergySkateParkRootNode( ec3Module, this );
         setPhetRootNode( rootNode );
         addFocusRequest();

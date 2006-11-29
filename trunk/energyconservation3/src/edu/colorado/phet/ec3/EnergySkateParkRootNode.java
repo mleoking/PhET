@@ -33,8 +33,8 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private PNode jetPackGraphics = new PNode();
     private PNode splineGraphics = new PNode();
     private PNode buses;
-    private EnergySkateParkModule ec3Module;
-    private EnergySkateParkSimulationPanel ec3Canvas;
+    private EnergySkateParkModule module;
+    private EnergySkateParkSimulationPanel simulationPanel;
     private PNode historyGraphics = new PNode();
     private MeasuringTape measuringTape;
     private static final boolean DEFAULT_TAPE_VISIBLE = false;
@@ -46,32 +46,31 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private Legend legend;
     private BackgroundScreenNode screenBackground;
     private SplineToolbox splineToolbox;
-    //    private PNode toolboxPlaceholder;
     private FloorGraphic floorGraphic;
     private ZeroPointPotentialGraphic zeroPointPotentialGraphic;
     public static final Color SKY_COLOR = new Color( 170, 200, 220 );
     private GridNode gridNode;
 
-    public EnergySkateParkRootNode( EnergySkateParkModule ec3Module, EnergySkateParkSimulationPanel ec3Canvas ) {
-        this.ec3Module = ec3Module;
-        this.ec3Canvas = ec3Canvas;
+    public EnergySkateParkRootNode( EnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
+        this.module = module;
+        this.simulationPanel = simulationPanel;
         EnergySkateParkModel ec3Model = getModel();
         Floor floor = ec3Model.floorAt( 0 );
 
-        ec3Canvas.setBackground( SKY_COLOR );
+        simulationPanel.setBackground( SKY_COLOR );
 //        toolboxPlaceholder = new PNode();
 
 //        screenBackground.addChild( new PPath( new Ellipse2D.Double( 50, 50, 300, 300 ) ) );
-        splineToolbox = new SplineToolbox( ec3Canvas, this );
+        splineToolbox = new SplineToolbox( simulationPanel, this );
 
         double coordScale = 1.0 / 1.0;
         measuringTape = new MeasuringTape( coordScale, new Point2D.Double( 100, 100 ), bodyGraphics );//any world node should do here, no?
-        pauseIndicator = new PauseIndicator( ec3Module, ec3Canvas, this );
-        legend = new EC3Legend( ec3Module );
+        pauseIndicator = new PauseIndicator( module, simulationPanel, this );
+        legend = new EC3Legend( module );
         floorGraphic = new FloorGraphic( floor );
-        screenBackground = new BackgroundScreenNode( ec3Canvas, null, floorGraphic );
-        zeroPointPotentialGraphic = new ZeroPointPotentialGraphic( ec3Canvas );
-        offscreenManIndicator = new OffscreenManIndicator( ec3Canvas, ec3Module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
+        screenBackground = new BackgroundScreenNode( simulationPanel, null, floorGraphic );
+        zeroPointPotentialGraphic = new ZeroPointPotentialGraphic( simulationPanel );
+        offscreenManIndicator = new OffscreenManIndicator( simulationPanel, module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
         gridNode = new GridNode();
 
         addScreenChild( screenBackground );
@@ -94,7 +93,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         setGridVisible( false );
 
         resetDefaults();
-        ec3Canvas.addComponentListener( new ComponentListener() {
+        simulationPanel.addComponentListener( new ComponentListener() {
             public void componentHidden( ComponentEvent e ) {
             }
 
@@ -157,13 +156,13 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public void initPieChart() {
-        PieChartIndicator pieChartIndicator = new PieChartIndicator( ec3Module, bodyGraphicAt( 0 ) );
+        PieChartIndicator pieChartIndicator = new PieChartIndicator( module, bodyGraphicAt( 0 ) );
         pieChartIndicator.setIgnoreThermal( ignoreThermal );
         pieCharts.addChild( pieChartIndicator );
     }
 
     private EnergySkateParkModel getModel() {
-        return ec3Module.getEnergyConservationModel();
+        return module.getEnergySkateParkModel();
     }
 
     protected void paint( PPaintContext paintContext ) {
@@ -244,6 +243,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public void updateGraphics() {
+        updateFloorGraphics();
         updateSplines();
         updateBodies();
         updateJetPacks();
@@ -251,6 +251,10 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         updatePieChart();
         updateZeroPotential();
         offscreenManIndicator.update();
+    }
+
+    private void updateFloorGraphics() {
+        floorGraphic.setVisible( module.getEnergySkateParkModel().hasFloor() );
     }
 
     private void updateZeroPotential() {
@@ -296,7 +300,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void updateBodies() {
         while( numBodyGraphics() < getModel().numBodies() ) {
-            addBodyGraphic( new BodyGraphic( ec3Module, getModel().bodyAt( 0 ) ) );
+            addBodyGraphic( new BodyGraphic( module, getModel().bodyAt( 0 ) ) );
         }
         while( numBodyGraphics() > getModel().numBodies() ) {
             removeBodyGraphic( bodyGraphicAt( numBodyGraphics() - 1 ) );
@@ -308,7 +312,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void updateJetPacks() {
         while( numJetPackGraphics() < getModel().numBodies() ) {
-            addJetPackGraphic( new JetPackGraphic( ec3Module, getModel().bodyAt( 0 ) ) );
+            addJetPackGraphic( new JetPackGraphic( module, getModel().bodyAt( 0 ) ) );
         }
         while( numJetPackGraphics() > getModel().numBodies() ) {
             removeJetPackGraphic( jetPackGraphicAt( numBodyGraphics() - 1 ) );
@@ -338,7 +342,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void updateSplines() {
         while( numSplineGraphics() < getModel().numSplineSurfaces() ) {
-            addSplineGraphic( new SplineGraphic( ec3Canvas, getModel().splineSurfaceAt( 0 ) ) );
+            addSplineGraphic( new SplineGraphic( simulationPanel, getModel().splineSurfaceAt( 0 ) ) );
         }
         while( numSplineGraphics() > getModel().numSplineSurfaces() ) {
             removeSplineGraphic( splineGraphicAt( numSplineGraphics() - 1 ) );
@@ -409,7 +413,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     private EnergySkateParkSimulationPanel getEC3Panel() {
-        return ec3Canvas;
+        return simulationPanel;
     }
 
     public void setZeroPointVisible( boolean selected ) {
