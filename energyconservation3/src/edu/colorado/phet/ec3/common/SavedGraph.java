@@ -12,10 +12,10 @@ import java.awt.*;
  */
 
 public class SavedGraph {
-    private JFrame frame;
+    private JDialog frame;
 
-    public SavedGraph( String title, Image image ) {
-        this.frame = new JFrame( title );
+    public SavedGraph( Frame owner, String title, Image image ) {
+        this.frame = new JDialog( owner, title, false );
         ImageIcon imageIcon = new ImageIcon( image );
         frame.setContentPane( new JLabel( imageIcon ) );
         frame.pack();
