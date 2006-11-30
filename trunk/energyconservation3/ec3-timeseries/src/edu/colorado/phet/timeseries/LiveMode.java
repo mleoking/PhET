@@ -18,9 +18,12 @@ public class LiveMode extends Mode {
     }
 
     public void initialize() {
-        if( getTimeSeriesModel().getSeries().getLastPoint() != null ) {
-            getTimeSeriesModel().setModelState( getTimeSeriesModel().getSeries().getLastPoint().getValue() );
-        }
+        //11-29-2006: Removed this code to fix this problem:
+        //Record, pause, switch location, go should remain in the newly selected location.
+
+//        if( getTimeSeriesModel().getSeries().getLastPoint() != null ) {
+//            getTimeSeriesModel().setModelState( getTimeSeriesModel().getSeries().getLastPoint().getValue() );
+//        }
     }
 
     public void step() {

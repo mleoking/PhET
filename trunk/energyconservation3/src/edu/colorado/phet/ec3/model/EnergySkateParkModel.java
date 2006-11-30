@@ -15,7 +15,6 @@ import java.util.ArrayList;
  */
 
 public class EnergySkateParkModel {
-
     private double time = 0;
     private ArrayList history = new ArrayList();
     private ArrayList bodies = new ArrayList();
@@ -140,14 +139,22 @@ public class EnergySkateParkModel {
     }
 
     public void updateFloorState() {
-        if( Math.abs( getGravity() ) > 0 && !hasFloorSpline() ) {
+        int desiredNumFloors = Math.abs( getGravity() ) > 0 ? 1 : 0;
+        while( getNumFloorSplines() > desiredNumFloors ) {
+            removeFloorSpline();
+        }
+        while( getNumFloorSplines() < desiredNumFloors ) {
             addFloorSpline();
-            removeFloors();
+        }
+        while( getFloorCount() < desiredNumFloors ) {
             addFloor( new Floor( this ) );
         }
-        if( Math.abs( getGravity() ) == 0 && hasFloorSpline() ) {
-            removeFloorSpline();
-            removeFloors();
+        while( getFloorCount() > desiredNumFloors ) {
+            removeFloor( 0 );
+        }
+        if( getFloorCount() == 2 || getNumFloorSplines() == 2 ) {
+            System.out.println( "getFloorCount() = " + getFloorCount() );
+            System.out.println( "getNumFloorSplines() = " + getNumFloorSplines() );
         }
     }
 
@@ -179,14 +186,19 @@ public class EnergySkateParkModel {
         return floors.size();
     }
 
-    private boolean hasFloorSpline() {
+    private int getNumFloorSplines() {
+        int sum = 0;
         for( int i = 0; i < splineSurfaces.size(); i++ ) {
             SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
             if( splineSurface.getSpline() instanceof FloorSpline ) {
-                return true;
+                sum++;
             }
         }
-        return false;
+        return sum;
+    }
+
+    private boolean hasFloorSpline() {
+        return getNumFloorSplines() > 0;
     }
 
     private void addFloorSpline() {
@@ -239,7 +251,7 @@ public class EnergySkateParkModel {
         this.history.clear();
         this.history.addAll( model.history );
         this.time = model.time;
-        this.gravity = model.gravity;
+        setGravity( model.gravity );
         //todo: some model objects are not getting copied over correctly, body's spline strategy could refer to different splines
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
@@ -258,6 +270,7 @@ public class EnergySkateParkModel {
                 }
             }
         }
+        updateFloorState();
     }
 
     private AbstractSpline getBestSplineMatch( AbstractSpline spline ) {
@@ -395,7 +408,7 @@ public class EnergySkateParkModel {
         bodies.clear();
         splineSurfaces.clear();
         history.clear();
-        gravity = G_EARTH;
+        setGravity( G_EARTH );
         zeroPointPotentialY = initZeroPointPotentialY;
         updateFloorState();
     }
