@@ -30,6 +30,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.AffineTransformOp;
 import java.util.*;
 import java.util.List;
 
@@ -207,7 +209,6 @@ public class ControlledFissionModule extends ChainReactionModule {
                                                              getPhysicalPanel().getNucleonTx() );
         getPhysicalPanel().addGraphic( controlRodGroupGraphic, CONTROL_ROD_LAYER );
 
-
         // Add a thermometer and a listener that will control the thermometer
         double thermometerColumnHeight = 400;
         final VesselThermometer thermometer = new VesselThermometer( getPhysicalPanel(),
@@ -302,7 +303,7 @@ public class ControlledFissionModule extends ChainReactionModule {
                                       model,
                                       rodAbsorptionProbability );
             model.addModelElement( rods[i] );
-        }        
+        }
         return rods;
     }
 
@@ -491,6 +492,74 @@ public class ControlledFissionModule extends ChainReactionModule {
     }
 
     /**
+     * Overrides the superclass behavior to create a graphic that is bigger than it otherwise
+     * would be
+     *
+     * @param particle
+     */
+    protected void addNeutron( final NuclearParticle particle ) {
+        this.getModel().addModelElement( particle );
+        final NeutronGraphic ng = new BigNeutronGraphic( particle );
+        getPhysicalPanel().addGraphic( ng );
+
+        particle.addListener( new NuclearModelElement.Listener() {
+            public void leavingSystem( NuclearModelElement nme ) {
+                getPhysicalPanel().removeGraphic( ng );
+                particle.removeListener( this );
+            }
+        } );
+    }
+
+
+    /**
+     * Overrides the superclass behavior to create a graphic that is bigger than it otherwise
+     * would be
+     *
+     * @param particle
+     */
+    protected void addNeutron( final NuclearParticle particle, Nucleus nucleus ) {
+        this.getModel().addModelElement( particle );
+        final NeutronGraphic ng = new BigNeutronGraphic( particle );
+        getPhysicalPanel().addGraphic( ng );
+
+        particle.addListener( new NuclearModelElement.Listener() {
+            public void leavingSystem( NuclearModelElement nme ) {
+                getPhysicalPanel().removeGraphic( ng );
+                particle.removeListener( this );
+            }
+        } );
+    }
+
+
+    /**
+     * Need to figure out how to make the image bigger without scaling the translation, too
+     * @param neutron
+     * @return
+     */
+    protected NeutronGraphic createNeutronGraphic( NuclearParticle neutron ) {
+        return new BigNeutronGraphic( neutron );
+    }
+
+    private class BigNeutronGraphic extends NeutronGraphic {
+
+        public BigNeutronGraphic() {
+            super();
+        }
+
+        public BigNeutronGraphic( NuclearParticle particle ) {
+            super( particle );
+        }
+
+
+        public void paint( Graphics2D g, double x, double y ) {
+            AffineTransform orgAtx = g.getTransform();
+            g.transform( AffineTransform.getScaleInstance( 1, 1 ));
+            super.paint( g, x, y );
+            g.setTransform( orgAtx);
+        }
+    }
+
+    /**
      * Prevents the fission products from flying apart by setting their positions and setting their
      * velocities to 0 before calling the parent class behavior
      *
@@ -529,7 +598,7 @@ public class ControlledFissionModule extends ChainReactionModule {
         do {
             double x = vessel.getBounds().getMinX() + random.nextDouble() * vessel.getBounds().getWidth();
             double y = vessel.getBounds().getMinY() + random.nextDouble() * vessel.getBounds().getHeight();
-            setNeutronLaunchPoint( new Point2D.Double( x, y ));
+            setNeutronLaunchPoint( new Point2D.Double( x, y ) );
         } while( vessel.isInChannel( getNeutronLaunchPoint() ) );
 
         // Fire the neutron toward the center of the vessel
