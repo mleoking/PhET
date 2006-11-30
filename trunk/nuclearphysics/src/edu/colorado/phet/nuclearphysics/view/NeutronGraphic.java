@@ -26,17 +26,17 @@ public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
     private static Color color = Color.gray;
     private static BufferedImage neutronImage;
     private static AffineTransform atx = new AffineTransform();
-    private static Ellipse2D.Double circle;
-    private NuclearParticle myParticle;
+//    private static Ellipse2D.Double circle;
+//    private NuclearParticle myParticle;
 
     static {
         ImageLoader imgLoader = new ImageLoader();
         try {
             neutronImage = imgLoader.loadImage( "images/gray-xsml.gif" );
-            circle = new Ellipse2D.Double( 0,
-                                           0,
-                                           neutronImage.getWidth(),
-                                           neutronImage.getWidth() );
+//            circle = new Ellipse2D.Double( 0,
+//                                           0,
+//                                           neutronImage.getWidth(),
+//                                           neutronImage.getWidth() );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -49,7 +49,7 @@ public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
 
     public NeutronGraphic( NuclearParticle particle ) {
         super( particle, NeutronGraphic.color );
-        this.myParticle = particle;
+//        this.myParticle = particle;
     }
 
     public void paint( Graphics2D g, double x, double y ) {
@@ -57,14 +57,14 @@ public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
         g.drawImage( neutronImage, atx, this );
         g.setColor( Color.black );
         g.setStroke( outlineStroke );
-        AffineTransform orgTx = g.getTransform();
+//        AffineTransform orgTx = g.getTransform();
         GraphicsUtil.setAntiAliasingOn( g );
-        g.transform( atx );
-        g.draw( circle );
+//        g.transform( atx );
+//        g.draw( circle );
 
-        g.setTransform( orgTx );
+//        g.setTransform( orgTx );
 
-        g.setColor( Color.red );
+//        g.setColor( Color.red );
 //        if( myParticle != null ) {
 //            g.drawLine( (int)myParticle.getPositionPrev().getX(), (int)myParticle.getPositionPrev().getY(),
 //                        (int)myParticle.getPosition().getX(), (int)myParticle.getPosition().getY() );
