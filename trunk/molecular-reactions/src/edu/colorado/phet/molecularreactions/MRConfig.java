@@ -24,7 +24,7 @@ import java.awt.*;/* Copyright 2003-2004, University of Colorado */
 public class MRConfig {
 
     // Version
-    public static final String VERSION = "0.00.11";
+    public static final String VERSION = "0.00.13";
 
     // Prefix of the strings bundles
     public static final String LOCALIZATION_BUNDLE = "localization/MRStrings";
@@ -64,6 +64,8 @@ public class MRConfig {
     // Colors
     public static final Color SPATIAL_VIEW_BACKGROUND = new Color( 255, 255, 225 );
     public static final Color MOLECULE_PANE_BACKGROUND = new Color( 237, 255, 235 );
+    public static final Paint TOTAL_ENERGY_COLOR = Color.yellow;
+    public static final Color POTENTIAL_ENERGY_COLOR = Color.cyan;
 
     // Images
     public static final String IMAGE_DIRECTORY = "images/";

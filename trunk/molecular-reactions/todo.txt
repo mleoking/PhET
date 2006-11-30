@@ -210,3 +210,18 @@ Done
 
 11-22-06 - Apply flyweight pattern to molecule images
 11-22-06 - Embed thermometer in wall for Simple Module
+
+11-29-06 - the "Design a reaction" check box responds when the "design your own" reaction
+    is selected
+11-29-06 - Reset on the experiments panel resets the bar chart and pie chart, too
+11-29-06 - Swap AB and BC text fields on the eXperimentSetup panel
+11-29-06 - Reset All on the experiments panel resets the state of the experiment setup panel
+11-29-06 - Go/Pause button on experiment control panel reads "Go" and "Stop" for now, until we come up with a better
+    label. When the experiment is paused, the spinners at the top of the control panel are enabled so the user can
+    change the number of molecules, but the original conditions text fields remain disabled until reset is clicked.
+11-29-06 - Strip chart opens autoscaled to the number of molecules in the model, or 10, whichever is larger.
+11-29-06 - Temperature control bug fixed.
+11-29-06 - Default free molecule on Simple panel is an A
+11-29-06 - Reset All resets the reaction
+11-29-06 - Changing Launcher Options also reloads the launcher
+11-29-06 - Made profile colors consistent with Energy Skate Park
