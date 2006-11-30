@@ -25,14 +25,19 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.hydrogenatom.model.BohrModel;
 
-
-public class SpectralLineTableDialog extends JDialog {
+/**
+ * TransitionsDialog shows the wavelengths that cause state transitions.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
+public class TransitionsDialog extends JDialog {
 
     private static final DecimalFormat WAVELENGTH_FORMATTER = new DecimalFormat( "0" );
     private static final char LEFT_RIGHT_ARROW = '\u2194';
     
-    public SpectralLineTableDialog( Frame owner ) {
-        super( owner, SimStrings.get( "dialog.spectralLineTable.title") );
+    public TransitionsDialog( Frame owner ) {
+        super( owner, SimStrings.get( "dialog.transitions.title") );
         setResizable( false );
         
         JPanel inputPanel = createInputPanel();
@@ -60,8 +65,8 @@ public class SpectralLineTableDialog extends JDialog {
         panel.setLayout( layout );
         int row = 0;
         
-        layout.addAnchoredComponent( new JLabel( SimStrings.get( "dialog.spectralLineTable.transition" ) ), row, 0, GridBagConstraints.CENTER );
-        layout.addAnchoredComponent( new JLabel( SimStrings.get( "dialog.spectralLineTable.wavelength" ) ), row, 2, GridBagConstraints.EAST );
+        layout.addAnchoredComponent( new JLabel( SimStrings.get( "dialog.transitions.transition" ) ), row, 0, GridBagConstraints.CENTER );
+        layout.addAnchoredComponent( new JLabel( SimStrings.get( "dialog.transitions.wavelength" ) ), row, 2, GridBagConstraints.EAST );
         layout.addAnchoredComponent( new JLabel( "(nm)" ), row, 4, GridBagConstraints.WEST );
         row++;
         layout.addComponent( new JSeparator(), row, 0, 5, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL );
