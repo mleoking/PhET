@@ -58,84 +58,32 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
     private EnergyType total;
     private JPanel southPanel;
 
-    public void chartRangeChanged() {
-        updateGraphics();
-    }
-
-    static abstract class EnergyType {
-        private EnergySkateParkModule module;
-        String name;
-        private Color color;
-        private EnergyPositionPlotCanvas energyPositionPlotCanvas;
-        boolean visible = true;
-
-        public EnergyType( EnergySkateParkModule module, String name, Color color, EnergyPositionPlotCanvas energyPositionPlotCanvas ) {
-            this.module = module;
-            this.name = name;
-            this.color = color;
-            this.energyPositionPlotCanvas = energyPositionPlotCanvas;
-        }
-
-        public JCheckBox createCheckBox() {
-            final JCheckBox checkBox = new JCheckBox( name, true );
-            checkBox.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    visible = checkBox.isSelected();
-                    energyPositionPlotCanvas.reset();
-                }
-            } );
-            return checkBox;
-        }
-
-        public abstract double getValue();
-
-        public Body getBody() {
-            return module.getEnergySkateParkModel().bodyAt( 0 );
-        }
-
-        public EnergySkateParkModel getModel() {
-            return module.getEnergySkateParkModel();
-        }
-
-        public Color getColor() {
-            return color;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public boolean isVisible() {
-            return visible;
-        }
-    }
-
-    public EnergyPositionPlotCanvas( EnergySkateParkModule ec3Module ) {
+    public EnergyPositionPlotCanvas( EnergySkateParkModule module ) {
         super( new Dimension( 100, 100 ) );
-        this.module = ec3Module;
-        ke = new EnergyType( module, EnergySkateParkStrings.getString( "kinetic" ), module.getEnergyLookAndFeel().getKEColor(), this ) {
+        this.module = module;
+        ke = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "kinetic" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getKEColor(), this ) {
             public double getValue() {
                 return getBody().getKineticEnergy();
             }
         };
-        pe = new EnergyType( module, EnergySkateParkStrings.getString( "potential" ), module.getEnergyLookAndFeel().getPEColor(), this ) {
+        pe = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "potential" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getPEColor(), this ) {
             public double getValue() {
                 return getBody().getPotentialEnergy();
             }
         };
-        thermal = new EnergyType( module, EnergySkateParkStrings.getString( "thermal" ), module.getEnergyLookAndFeel().getThermalEnergyColor(), this ) {
+        thermal = new EnergyType( EnergyPositionPlotCanvas.this.module, EnergySkateParkStrings.getString( "thermal" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getThermalEnergyColor(), this ) {
             public double getValue() {
                 return getBody().getThermalEnergy();
             }
         };
-        total = new EnergyType( ec3Module, EnergySkateParkStrings.getString( "total" ), module.getEnergyLookAndFeel().getTotalEnergyColor(), this ) {
+        total = new EnergyType( module, EnergySkateParkStrings.getString( "total" ), EnergyPositionPlotCanvas.this.module.getEnergyLookAndFeel().getTotalEnergyColor(), this ) {
             public double getValue() {
                 return getBody().getTotalEnergy();
             }
         };
 
 
-        ec3Module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void preStep( double dt ) {
                 update();
             }
@@ -189,7 +137,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         verticalBar.setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1, new float[]{10, 3}, 0 ) );
         verticalBar.setStrokePaint( Color.black );
         addScreenChild( verticalBar );
-        legend = new EC3Legend( ec3Module );
+        legend = new EC3Legend( module );
         legend.addTotalEnergyEntry();
         legend.setFont( new LucidaSansFont( 12 ) );
         addScreenChild( legend );
@@ -211,7 +159,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         BufferedImage c2 = new BufferedImage( copy.getWidth( null ), copy.getHeight( null ) - southPanel.getHeight(), BufferedImage.TYPE_INT_RGB );//trim the south part.
         c2.createGraphics().drawImage( copy, new AffineTransform(), null );
         String energyVsPosition = EnergySkateParkStrings.getString( "energy.vs.position.save" );
-        SavedGraph savedGraph = new SavedGraph( energyVsPosition + saveCount + ")", c2 );
+        SavedGraph savedGraph = new SavedGraph( module.getPhetFrame(), energyVsPosition + saveCount + ")", c2 );
         savedGraph.setVisible( true );
         saveCount++;
     }
@@ -360,4 +308,57 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         double y1 = chart.getXYPlot().getRangeAxisForDataset( 0 ).valueToJava2D( y, dataArea, chart.getXYPlot().getRangeAxisEdge() );
         return new Point2D.Double( x1, y1 );
     }
+
+    public void chartRangeChanged() {
+        updateGraphics();
+    }
+
+    static abstract class EnergyType {
+        private EnergySkateParkModule module;
+        String name;
+        private Color color;
+        private EnergyPositionPlotCanvas energyPositionPlotCanvas;
+        boolean visible = true;
+
+        public EnergyType( EnergySkateParkModule module, String name, Color color, EnergyPositionPlotCanvas energyPositionPlotCanvas ) {
+            this.module = module;
+            this.name = name;
+            this.color = color;
+            this.energyPositionPlotCanvas = energyPositionPlotCanvas;
+        }
+
+        public JCheckBox createCheckBox() {
+            final JCheckBox checkBox = new JCheckBox( name, true );
+            checkBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    visible = checkBox.isSelected();
+                    energyPositionPlotCanvas.reset();
+                }
+            } );
+            return checkBox;
+        }
+
+        public abstract double getValue();
+
+        public Body getBody() {
+            return module.getEnergySkateParkModel().bodyAt( 0 );
+        }
+
+        public EnergySkateParkModel getModel() {
+            return module.getEnergySkateParkModel();
+        }
+
+        public Color getColor() {
+            return color;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public boolean isVisible() {
+            return visible;
+        }
+    }
+
 }

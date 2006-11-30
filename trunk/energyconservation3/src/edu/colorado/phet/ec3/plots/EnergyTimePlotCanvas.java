@@ -83,7 +83,6 @@ public class EnergyTimePlotCanvas extends PhetPCanvas {
         plot.addTimeSeries( peSeries );
         units.add( new DataUnit( peSeries ) );
 
-
         ec3Module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
                 if( ec3Module.getTimeSeriesModel().isRecording() ) {

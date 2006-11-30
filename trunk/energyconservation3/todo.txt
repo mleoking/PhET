@@ -12,9 +12,6 @@ energy vs. time chart not big enough to see all the data
 
 2.  I was wondering why there are buttons that say 'zoom out' and 'zoom in' on the Energy vs. Position graph rather than our standard magnifying glass buttons.
 
-3.  When I choose copy on this same graph, I get a window with a copy but that window will disappear behind everything else as soon as 
-I click on anything associated with the simulation.  Can you make it stay forward like the other windows do?
-
 4.  I'm not sure how this copy is supposed to function but it has the same graph at the bottom half of the window and the top half 
 (ok 60%) is black but includes data that goes off scale on the original Energy vs. Position graph.  Is this the idea?
 

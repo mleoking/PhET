@@ -295,4 +295,8 @@ public class EnergySkateParkModule extends PiccoloModule {
     public Planet[] getPlanets() {
         return new Planet[]{new Planet.Space(), new Planet.Moon(), new Planet.Earth(), new Planet.Jupiter()};
     }
+
+    public Frame getPhetFrame() {
+        return phetFrame;
+    }
 }
