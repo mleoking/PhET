@@ -167,8 +167,9 @@ public class SimpleModule extends MRModule {
         else if( launcherMoleculeClass == MoleculeA.class ) {
             launcherMolecule = new MoleculeA();
         }
-        setMolecules( model, launcherMolecule );
-        launcherLoadPanel.setMolecule( launcherMolecule );
+
+        // Create the molecules
+        SwingUtilities.invokeLater( new MoleculeCreator( model, launcherMolecule ) );
     }
 
     /**
@@ -254,6 +255,21 @@ public class SimpleModule extends MRModule {
             return new Params( new Point2D.Double( launcherMolecule.getPosition().getX(),
                                                    model.getBox().getMinY() + model.getBox().getHeight() / 2 ),
                                new Vector2D.Double(), 0 );
+        }
+    }
+
+    private class MoleculeCreator implements Runnable {
+        private final MRModel model;
+        private final SimpleMolecule launcherMolecule;
+
+        public MoleculeCreator( MRModel model, SimpleMolecule launcherMolecule ) {
+            this.model = model;
+            this.launcherMolecule = launcherMolecule;
+        }
+
+        public void run() {
+            setMolecules( model, launcherMolecule );
+            launcherLoadPanel.setMolecule( launcherMolecule );
         }
     }
 }

@@ -28,6 +28,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.GeneralPath;
 
 /**
  * EnergyView
@@ -71,10 +72,10 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
     private int width = (int)MRConfig.ENERGY_VIEW_SIZE.getWidth();
     private Dimension upperPaneSize = new Dimension( width, 150 );
-    private Dimension curvePaneSize = new Dimension( width, (int)(MRConfig.ENERGY_VIEW_SIZE.getHeight() - upperPaneSize.getHeight() ));
-//    private Dimension curvePaneSize = new Dimension( width, 310 );
+    private Dimension curvePaneSize = new Dimension( width, (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() - upperPaneSize.getHeight() ) );
+    //    private Dimension curvePaneSize = new Dimension( width, 310 );
     private Color moleculePaneBackgroundColor = MRConfig.MOLECULE_PANE_BACKGROUND;
-    private Color energyPaneBackgroundColor = Color.black;
+    private Color energyPaneBackgroundColor = MRConfig.ENERGY_PANE_BACKGROUND;
     private Color curveColor = MRConfig.POTENTIAL_ENERGY_COLOR;
 
     private SimpleMolecule selectedMolecule;
@@ -127,9 +128,12 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
         // The graphic that shows the reaction mechanics
         PPath legendNode = new PPath( new Rectangle2D.Double( 0, 0, width, 40 ) );
-        legendNode.setPaint( Color.black );
+        legendNode.setPaint( MRConfig.ENERGY_PANE_BACKGROUND );
+        legendNode.setStrokePaint( new Color(0,0,0,0));
         legendNode.setOffset( 0, upperPaneSize.getHeight() + curvePaneSize.getHeight() );
-        ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(), Color.white, module.getMRModel() );
+        ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(),
+                                                               MRConfig.ENERGY_PANE_TEXT_COLOR,
+                                                               module.getMRModel() );
         legendNode.addChild( reactionGraphic );
         reactionGraphic.setOffset( legendNode.getWidth() / 2, legendNode.getHeight() - 20 );
         addChild( legendNode );
@@ -137,6 +141,14 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         // The pane that has the curve and cursor
         curvePane = createCurvePane( moleculePane, model );
         addChild( curvePane );
+
+        // Put a border around the energy view
+        Rectangle2D bRect = new Rectangle2D.Double( 0,0,
+                                                    curvePane.getFullBounds().getWidth(),
+                                                    curvePane.getFullBounds().getHeight() + legendNode.getFullBounds().getHeight());
+        PPath border = new PPath( bRect );
+        border.setOffset( curvePane.getOffset() );
+        addChild( border );
 
         // Listen for changes in the selected molecule and the molecule closest to it
         SelectedMoleculeListener selectedMoleculeListener = new SelectedMoleculeListener();
@@ -230,6 +242,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                                                              curvePaneSize.getHeight() ) );
         curvePane.setOffset( 0, moleculePane.getHeight() );
         curvePane.setPaint( energyPaneBackgroundColor );
+        curvePane.setStrokePaint( new Color(0,0,0,0));
         curvePane.addChild( curveLayer );
         curvePane.addChild( cursorLayer );
 
@@ -256,7 +269,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         // Add axes
         RegisterablePNode xAxis = new RegisterablePNode( new AxisNode( SimStrings.get( "EnergyView.ReactionCoordinate" ),
                                                                        200,
-                                                                       Color.white,
+                                                                       MRConfig.ENERGY_PANE_TEXT_COLOR,
                                                                        AxisNode.HORIZONTAL,
                                                                        AxisNode.BOTTOM ) );
         xAxis.setRegistrationPoint( xAxis.getFullBounds().getWidth() / 2, 0 );
@@ -264,7 +277,10 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                          curvePane.getHeight() - 25 );
         curvePane.addChild( xAxis );
 
-        RegisterablePNode yAxis = new RegisterablePNode( new AxisNode( "Energy", 200, Color.white, AxisNode.VERTICAL, AxisNode.TOP ) );
+        RegisterablePNode yAxis = new RegisterablePNode( new AxisNode( "Energy", 200,
+                                                                       MRConfig.ENERGY_PANE_TEXT_COLOR,
+                                                                       AxisNode.VERTICAL,
+                                                                       AxisNode.TOP ) );
         yAxis.setRegistrationPoint( yAxis.getFullBounds().getWidth() / 2,
                                     -yAxis.getFullBounds().getHeight() / 2 );
         yAxis.setOffset( curveAreaInsets.left / 2, curvePane.getFullBounds().getHeight() / 2 );
@@ -278,7 +294,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         totalEnergyLine.setStrokePaint( TotalEnergyLine.linePaint );
         PText totalEnergyText = new PText( SimStrings.get( "EnergyView.Legend.totalEnergy" ) );
         totalEnergyText.setFont( labelFont );
-        totalEnergyText.setTextPaint( Color.white );
+        totalEnergyText.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR);
         curvePaneLegend.addChild( totalEnergyLine );
         curvePaneLegend.addChild( totalEnergyText );
 
@@ -287,7 +303,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         potentialEnergyLine.setStrokePaint( curveColor );
         PText potentialEnergyText = new PText( SimStrings.get( "EnergyView.Legend.potentialEnergy" ) );
         potentialEnergyText.setFont( labelFont );
-        potentialEnergyText.setTextPaint( Color.white );
+        potentialEnergyText.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR);
         curvePaneLegend.addChild( potentialEnergyLine );
         curvePaneLegend.addChild( potentialEnergyText );
 
