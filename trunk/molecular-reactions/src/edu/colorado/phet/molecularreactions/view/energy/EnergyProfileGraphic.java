@@ -118,7 +118,7 @@ class EnergyProfileGraphic extends PNode {
 
     private PNode createMouseIndicatorNode( GeneralPath path ) {
         PPath mouseIndicator = new PPath( path );
-        mouseIndicator.setStrokePaint( Color.white );
+        mouseIndicator.setStrokePaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
         addChild( mouseIndicator );
         mouseIndicator.setPickable( false );
         mouseIndicator.setVisible( false );

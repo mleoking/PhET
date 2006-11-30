@@ -66,7 +66,7 @@ public class MRConfig {
     public static final Color MOLECULE_PANE_BACKGROUND = new Color( 237, 255, 235 );
     public static final Color ENERGY_PANE_BACKGROUND = Color.white;
     public static final Color ENERGY_PANE_TEXT_COLOR = Color.black;
-    public static final Paint TOTAL_ENERGY_COLOR = Color.yellow;
+    public static final Paint TOTAL_ENERGY_COLOR = new Color( 100, 140, 0 );
     public static final Color POTENTIAL_ENERGY_COLOR = Color.blue;
 
     // Images
