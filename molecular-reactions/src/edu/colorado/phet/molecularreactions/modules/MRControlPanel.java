@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.molecularreactions.util.Resetable;
+import edu.colorado.phet.molecularreactions.MRConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,17 +26,26 @@ abstract public class MRControlPanel extends JPanel implements Resetable {
 
     public MRControlPanel( LayoutManager layout, boolean isDoubleBuffered ) {
         super( layout, isDoubleBuffered );
+        init();
     }
 
     public MRControlPanel( LayoutManager layout ) {
         super( layout );
+        init();
     }
 
     public MRControlPanel( boolean isDoubleBuffered ) {
         super( isDoubleBuffered );
+        init();
     }
 
     public MRControlPanel() {
         super();
+        init();
+    }
+
+    private void init() {
+        Component strut = Box.createHorizontalStrut( MRConfig.CONTROL_PANEL_WIDTH );        
+        add( strut );
     }
 }

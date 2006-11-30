@@ -17,6 +17,7 @@ import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.*;
 import edu.colorado.phet.molecularreactions.view.charts.*;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
@@ -24,6 +25,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.Rectangle2D;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -59,8 +61,13 @@ public class ComplexModule extends MRModule {
                                model.getBox().getMinY() + model.getBox().getHeight() + 15 - pumpGraphic.getPumpBaseLocation().getY() );
         getSpatialView().addChild( pumpGraphic );
 
-        controlPanel = new ComplexMRControlPanel( this );
-        getControlPanel().addControl( controlPanel );
+//        controlPanel = new ComplexMRControlPanel( this );
+//        getControlPanel().addControlFullWidth( controlPanel );
+        Component strut = Box.createHorizontalStrut( MRConfig.CONTROL_PANEL_WIDTH );
+        getControlPanel().addControl( strut );
+        ComplexMRControlPanel.addControls( this );
+
+        
 
         // Don't show the total energy line on the energy view
         getEnergyView().setTotalEnergyLineVisible( false );

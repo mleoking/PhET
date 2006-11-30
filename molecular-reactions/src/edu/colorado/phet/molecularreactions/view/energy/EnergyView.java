@@ -71,8 +71,9 @@ import java.awt.geom.GeneralPath;
 public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
     private int width = (int)MRConfig.ENERGY_VIEW_SIZE.getWidth();
-    private Dimension upperPaneSize = new Dimension( width, 150 );
-    private Dimension curvePaneSize = new Dimension( width, (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() - upperPaneSize.getHeight() ) );
+    private Dimension upperPaneSize = MRConfig.GRAPH_PANE_SIZE;
+//    private Dimension upperPaneSize = new Dimension( width, 150 );
+    private Dimension curvePaneSize = new Dimension( width, (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight()) - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height);
     //    private Dimension curvePaneSize = new Dimension( width, 310 );
     private Color moleculePaneBackgroundColor = MRConfig.MOLECULE_PANE_BACKGROUND;
     private Color energyPaneBackgroundColor = MRConfig.ENERGY_PANE_BACKGROUND;
@@ -127,7 +128,9 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         addChild( upperPane );
 
         // The graphic that shows the reaction mechanics
-        PPath legendNode = new PPath( new Rectangle2D.Double( 0, 0, width, 40 ) );
+        PPath legendNode = new PPath( new Rectangle2D.Double( 0, 0,
+                                                              MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.width,
+                                                              MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height ));
         legendNode.setPaint( MRConfig.ENERGY_PANE_BACKGROUND );
         legendNode.setStrokePaint( new Color(0,0,0,0));
         legendNode.setOffset( 0, upperPaneSize.getHeight() + curvePaneSize.getHeight() );

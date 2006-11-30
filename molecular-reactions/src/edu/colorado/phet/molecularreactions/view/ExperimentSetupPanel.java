@@ -104,7 +104,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         // Lay out the controls
         GridBagConstraints labelGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                               1, 1, 1, 1,
-                                                              GridBagConstraints.CENTER,
+                                                              GridBagConstraints.WEST,
                                                               GridBagConstraints.NONE,
                                                               new Insets( 2, 3, 3, 3 ),
                                                               0, 0 );

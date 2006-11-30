@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
 import edu.colorado.phet.molecularreactions.model.*;
@@ -39,6 +40,22 @@ public class ComplexMRControlPanel extends MRControlPanel {
     private OptionsPanel optionsPanel;
     private JButton selectMoleculeBtn;
     private ExperimentSetupPanel experimentSetupPanel;
+    private JButton resetBtn;
+
+    /**
+     * This is an attempt to prevent the ControlPanel from adding space on the right when the
+     * controls extend slightly below the bottom of the play area. It didn't work, by the way
+     * 
+     * @param module
+     */
+    public static void addControls( ComplexModule module ) {
+        ComplexMRControlPanel cp = new ComplexMRControlPanel( module );
+        ControlPanel controlPanel = module.getControlPanel();
+        controlPanel.addControlFullWidth( cp.moleculeInstanceControlPanel );
+        controlPanel.addControlFullWidth( cp.optionsPanel );
+        controlPanel.addControlFullWidth( cp.experimentSetupPanel );
+        controlPanel.addControl( cp.resetBtn );
+    }
 
     public ComplexMRControlPanel( final ComplexModule module ) {
         super( new GridBagLayout() );
@@ -65,7 +82,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
         optionsPanel = new OptionsPanel( module );
 
         // Reset button
-        JButton resetBtn = new JButton( SimStrings.get( "Control.reset" ) );
+        resetBtn = new JButton( SimStrings.get( "Control.reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
