@@ -4,6 +4,7 @@ Bugfix: Record, pause, switch location, go should remain in the newly selected l
         Now 'Go' doesn't initialize to the last-recorded-state before starting.
 Bugfix: Pausing 'go' then pressing 'playback' should have 'slow' enabled.
 Energy vs. Position graph 'copies' stay in front of the simulation frame.
+Energy vs. Position graph changed text-labeled zoom buttons to magnifying glass icons.
 
 1.02.21 (11-29-2006)
 Removed the floor from outer space.
