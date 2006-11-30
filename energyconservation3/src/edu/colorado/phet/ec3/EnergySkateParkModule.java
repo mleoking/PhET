@@ -51,8 +51,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     private EC3TimeSeriesModel energyTimeSeriesModel;
     private JDialog chartFrame;
     private EnergyTimePlotCanvas energyTimePlotCanvas;
-    public static final int energyFrameWidth = 200;
-    public static final int chartFrameHeight = 200;
+
     private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
     private Point2D.Double defaultBodyPosition = new Point2D.Double( 4, 7.25 );
@@ -60,14 +59,13 @@ public class EnergySkateParkModule extends PiccoloModule {
     private EnergyPositionPlotCanvas energyPositionCanvas;
     private PhetFrame phetFrame;
 
+    public static final int energyFrameWidth = 200;
+    public static final int chartFrameHeight = 200;
+
     public EnergySkateParkModule( String name, IClock clock, PhetFrame phetFrame ) {
         super( name, clock );
         this.phetFrame = phetFrame;
         energyModel = new EnergySkateParkModel( floorY + 10 );
-
-//        energyModel.addFloorSpline();
-//        energyModel.addFloor( new Floor( getEnergyConservationModel() ) );
-
         setModel( new BaseModel() );
 
         energyTimeSeriesModel = new EC3TimeSeriesModel( this );
