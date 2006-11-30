@@ -25,6 +25,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImageOp;
 import java.awt.geom.*;
 import java.util.*;
 import java.util.List;
@@ -142,7 +143,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         // If the containment is enabled, recreate it, so it will be fully
         // displayed
 //        if( containment != null ) {
-            setContainmentEnabled( false );
+        setContainmentEnabled( false );
 //            setContainmentEnabled( true );
 //        }
         computeNeutronLaunchParams();
@@ -182,35 +183,43 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
                 setContainmentEnabled( false );
 
                 // Add a mushroom cloud
-                PhetImageGraphic mushroomCloudGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/mc-10.jpg");
+                PhetImageGraphic mushroomCloudGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/mc-10.jpg" );
                 getPhysicalPanel().addGraphic( mushroomCloudGraphic );
-                ImageGraphicExpander ige = new ImageGraphicExpander( mushroomCloudGraphic );
+                Dimension targetSize = new Dimension( (int)(getApparatusPanel().getSize( ).width / getPhysicalPanel().getScale()),
+                                                      (int)(getApparatusPanel().getSize( ).height / getPhysicalPanel().getScale()));
+                ImageGraphicExpander ige = new ImageGraphicExpander( mushroomCloudGraphic, targetSize );
                 getClock().addClockListener( ige );
 
                 // Display a message
-                Font font = new Font( "Lucida sans", Font.ITALIC, 72);
+                Font font = new Font( "Lucida sans", Font.ITALIC, 72 );
                 PhetTextGraphic2 textGraphic = new PhetTextGraphic2( getPhysicalPanel(), font, "You have made an atomic bomb", Color.red );
                 getPhysicalPanel().addGraphic( textGraphic );
-                textGraphic.setLocation( -800, 0);
+                getApparatusPanel().getFontMetrics( font );
+                int width = getApparatusPanel().getFontMetrics( font ).stringWidth( textGraphic.getText() );
+                textGraphic.setLocation( -width / 2, 0 );
             }
         } );
     }
 
     private class ImageGraphicExpander implements ClockListener {
         private PhetImageGraphic pig;
+        private Dimension targetSize;
         private AffineTransform atx = AffineTransform.getScaleInstance( 1.1, 1.1 );
         private AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
 
-        public ImageGraphicExpander( PhetImageGraphic pig ) {
+        public ImageGraphicExpander( PhetImageGraphic pig, Dimension targetSize ) {
             this.pig = pig;
+            this.targetSize = targetSize;
         }
 
         public void clockTicked( ClockEvent clockEvent ) {
-            BufferedImage bi = pig.getImage();
-            bi = atxOp.filter( bi, null );
-            pig.setImage( bi );
-            pig.repaint();
-            pig.setLocation( -bi.getWidth() / 2, - bi.getHeight() / 2);
+            if( pig.getWidth() < targetSize.getWidth() || pig.getHeight() < targetSize.getHeight() ) {
+                BufferedImage bi = pig.getImage();
+                bi = atxOp.filter( bi, null );
+                pig.setImage( bi );
+                pig.repaint();
+                pig.setLocation( -bi.getWidth() / 2, -bi.getHeight() / 2 );
+            }
         }
 
         public void clockStarted( ClockEvent clockEvent ) {
@@ -251,6 +260,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
     /**
      * Finds a place to put a new nucleus. If it can't find one, returns null
+     *
      * @return the location where a nucleus can be put, or null if one can't be found
      */
     protected Point2D.Double findLocationForNewNucleus() {
