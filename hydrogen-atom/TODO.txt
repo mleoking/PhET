@@ -32,6 +32,7 @@ MEDIUM PRIORITY:
 - add squiggles to energy diagrams showing the gun's light wavelength (as in Lasers sim)
 
 LOW PRIORITY:
+- white light sometimes gets in a state where UV photons are fired only at -x values, ie to left of atom
 - Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
 - generate white light photons based on electron's state?
 - handle model-view transform differently?
