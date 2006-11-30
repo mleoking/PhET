@@ -244,7 +244,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     }
     
     /**
-     * Gets the set of wavelengths that can be absorbed.
+     * Gets the set of wavelengths that cause a state transition.
      * When firing white light, the gun preference to firing these wavelengths
      * so that the probability of seeing a photon absorbed is higher.
      * 
@@ -252,7 +252,7 @@ public class BohrModel extends AbstractHydrogenAtom {
      * @param maxWavelength
      * @return double[]
      */
-    public static double[] getAbsorptionSpectrum( double minWavelength, double maxWavelength ) {
+    public static double[] getTransitionWavelengths( double minWavelength, double maxWavelength ) {
         
         // Create the set of wavelengths, include only those between min and max.
         ArrayList wavelengths = new ArrayList();
@@ -268,12 +268,12 @@ public class BohrModel extends AbstractHydrogenAtom {
         }
         
         // Convert to double[]
-        double[] spectrum = new double[wavelengths.size()];
+        double[] array = new double[wavelengths.size()];
         for ( int i = 0; i < wavelengths.size(); i++ ) {
-            spectrum[i] = ( (Double) wavelengths.get( i ) ).doubleValue();
+            array[i] = ( (Double) wavelengths.get( i ) ).doubleValue();
 //            System.out.println( "spectrum[" + i + "]=" + spectrum[i] );//XXX
         }
-        return spectrum;
+        return array;
     }
     
     //----------------------------------------------------------------------------
