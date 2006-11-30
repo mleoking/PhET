@@ -6,13 +6,6 @@ In E vs. T graph, rescaling the y axis shouldn't center on the E=0 axis.
  
 For E vs T. graph (and maybe other graphs), should have moving man style zoom buttons.
         
-after record/playback/reset, there is a hidden track graphic or something...  I get a cursor hand when I mouse over it.
-
-energy vs. time chart not big enough to see all the data
-
-4.  I'm not sure how this copy is supposed to function but it has the same graph at the bottom half of the window and the top half 
-(ok 60%) is black but includes data that goes off scale on the original Energy vs. Position graph.  Is this the idea?
-
 I'm still leaning towards the world ending when he goes off one side or the
 other.  I can't see value in tracking his actions when we can't see him.  On
 top of that, we reset things when he is returned.  I think as soon as the
@@ -32,6 +25,17 @@ and need to start again.
 >>We had to assume the grass acts like the ramp and that was a conceptual issue. 
 The team has talked about changing the ground to look like the ramp to help. 
 Right now, the two sims treat grass differently and that should be resolved.
+
+after record/playback/reset, there is a hidden track graphic or something...  I get a cursor hand when I mouse over it.
+
+there is a region beneath the skater that creates a cursor-hand, but doesn't control the skater.
+
+energy vs. time chart not big enough to see all the data
+        Does this mean vertical or horizontal axis?
+
+4.  I'm not sure how this copy is supposed to function but it has the same graph at the bottom half of the window and the top half 
+(ok 60%) is black but includes data that goes off scale on the original Energy vs. Position graph.  Is this the idea?
+        I can't reproduce this.
 
 #################################################################
 Questions
