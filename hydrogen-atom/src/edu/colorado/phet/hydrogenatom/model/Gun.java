@@ -59,7 +59,7 @@ public class Gun extends FixedObject implements ModelElement {
     private static final double DEFAULT_ALPHA_PARTICLE_INTENSITY = 0;
     
     // probability that a "white light" photon's wavelength will one that causes a state transition
-    private static final double TRANSITION_WAVELENGTHS_WEIGHT = 0.35; // 1.0 = 100%
+    private static final double TRANSITION_WAVELENGTHS_WEIGHT = 0.40; // 1.0 = 100%
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -79,7 +79,9 @@ public class Gun extends FixedObject implements ModelElement {
     private double _dtSinceGunFired; // dt since the gun was last fired
     
     private double[] _transitionWavelengths; // wavelengths that cause a state transition
-    private Random _randomWavelength = new Random(); // random number generator for wavelength
+    private Random _randomWavelengthType; // for deciding whether to generate a transmission or visible wavelength
+    private Random _randomTransitionWavelength; // random number generator for transmission wavelengths
+    private Random _randomVisibleWavelength; // random number generator for visible wavelengths
     private Random _randomPosition; // random number generator for photon position
     
     private EventListenerList _listenerList;
@@ -113,7 +115,9 @@ public class Gun extends FixedObject implements ModelElement {
         _maxWavelength = maxWavelength;
         _alphaParticlesIntensity = DEFAULT_ALPHA_PARTICLE_INTENSITY;
       
-        _randomWavelength = new Random();
+        _randomWavelengthType = new Random();
+        _randomTransitionWavelength = new Random();
+        _randomVisibleWavelength = new Random();
         _randomPosition = new Random();
         
         _dtSinceGunFired = 0;
@@ -354,14 +358,14 @@ public class Gun extends FixedObject implements ModelElement {
         }
         else { 
             /* white light */
-            if ( _randomWavelength.nextDouble() < TRANSITION_WAVELENGTHS_WEIGHT ) {
+            if ( _randomWavelengthType.nextDouble() < TRANSITION_WAVELENGTHS_WEIGHT ) {
                 // choose a random transition wavelength
-                int i = (int) ( _randomWavelength.nextDouble() * _transitionWavelengths.length );
+                int i = (int) ( _randomTransitionWavelength.nextDouble() * _transitionWavelengths.length );
                 wavelength = _transitionWavelengths[i];
             }
             else {
                 // choose a random visible wavelength
-                wavelength = ( _randomWavelength.nextDouble() * ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) ) + VisibleColor.MIN_WAVELENGTH;
+                wavelength = ( _randomVisibleWavelength.nextDouble() * ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) ) + VisibleColor.MIN_WAVELENGTH;
             }
         }
         

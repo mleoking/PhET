@@ -54,8 +54,9 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+(11/30/06) - use a separate instance of Random for each task in Gun model
 (11/30/06) - rename SpectralLineTableDialog to TransitionsDialog, label "Transitions"
-(11/30/06) - change white light to be 2/3 random visible wavelengths, 1/3 state=1 transition wavelengths
+(11/30/06) - change white light to be 60% random visible wavelengths, 40% transition wavelengths for state=1
 ***** CVS tag hydrogenatom-0-00-13-2006-11-29
 (11/29/06) - add temp hack for deBroglie 3D bounds paint problem
 (11/29/06) - big reorg of DeBroglieHeight3DNode in order to optimize memory usage
