@@ -58,8 +58,8 @@ public class Gun extends FixedObject implements ModelElement {
     private static final double DEFAULT_LIGHT_INTENSITY = 0;
     private static final double DEFAULT_ALPHA_PARTICLE_INTENSITY = 0;
     
-    // probability that a "white light" photon's wavelength will be chose from the atom's absorption spectrum
-    private static final double ABSORPTION_SPECTRUM_WEIGHT = 0.75; // 1.0 = 100%
+    // probability that a "white light" photon's wavelength will one that causes a state transition
+    private static final double TRANSITION_WAVELENGTHS_WEIGHT = 0.35; // 1.0 = 100%
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -78,7 +78,7 @@ public class Gun extends FixedObject implements ModelElement {
     private double _dtPerGunFired; // dt between each firing of the gun
     private double _dtSinceGunFired; // dt since the gun was last fired
     
-    private double[] _absorptionSpectrum; // wavelengths that can be absorbed by an atom
+    private double[] _transitionWavelengths; // wavelengths that cause a state transition
     private Random _randomWavelength = new Random(); // random number generator for wavelength
     private Random _randomPosition; // random number generator for photon position
     
@@ -121,7 +121,8 @@ public class Gun extends FixedObject implements ModelElement {
         
         _listenerList = new EventListenerList();
         
-        _absorptionSpectrum = BohrModel.getAbsorptionSpectrum( _minWavelength, _maxWavelength );
+        // Get transition wavelengths for state 1, which are all UV.
+        _transitionWavelengths = BohrModel.getTransitionWavelengths( _minWavelength, VisibleColor.MIN_WAVELENGTH );
     }
     
     //----------------------------------------------------------------------------
@@ -336,9 +337,11 @@ public class Gun extends FixedObject implements ModelElement {
      * <p>
      * For white light, the wavelength is randomly chosen.
      * Instead of simply picking a wavelength from the gun's entire range,
-     * we give a higher weight to those wavelengths that are in the 
-     * atom's absorption spectrum. This increases the probability that
-     * the photon we fire will interact with the atom.
+     * we give a higher weight to those wavelengths that are would cause 
+     * a transition from state 1 to some other state.  We consider only
+     * the wavelengths relevant to state=1 because all of the other 
+     * transitions are very improbably in practice. This increases the
+     * probability that the photon we fire will interact with the atom.
      * 
      * @return double
      */
@@ -351,11 +354,13 @@ public class Gun extends FixedObject implements ModelElement {
         }
         else { 
             /* white light */
-            if ( _randomWavelength.nextDouble() < ABSORPTION_SPECTRUM_WEIGHT ) {
-                int i = (int) ( _randomWavelength.nextDouble() * _absorptionSpectrum.length );
-                wavelength = _absorptionSpectrum[i];
+            if ( _randomWavelength.nextDouble() < TRANSITION_WAVELENGTHS_WEIGHT ) {
+                // choose a random transition wavelength
+                int i = (int) ( _randomWavelength.nextDouble() * _transitionWavelengths.length );
+                wavelength = _transitionWavelengths[i];
             }
             else {
+                // choose a random visible wavelength
                 wavelength = ( _randomWavelength.nextDouble() * ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) ) + VisibleColor.MIN_WAVELENGTH;
             }
         }

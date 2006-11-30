@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- change white light to be 2/3 random visible wavelengths, 1/3 UV wavelengths that would transition out of atom's 1st state
 - make wavelength slider knob hilite when close to a transition wavelength, snap to closest transition wavelength if knob hilited
 - wireframe in 3D deBroglie looks like it's only using 2 colors to indicate z-depth, palette has 16 colors
 - remove HACKs in PNode3D that makes bounds appear correct
@@ -54,6 +53,7 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+(11/30/06) - change white light to be 2/3 random visible wavelengths, 1/3 state=1 transition wavelengths
 ***** CVS tag hydrogenatom-0-00-13-2006-11-29
 (11/29/06) - add temp hack for deBroglie 3D bounds paint problem
 (11/29/06) - big reorg of DeBroglieHeight3DNode in order to optimize memory usage
