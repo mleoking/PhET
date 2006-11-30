@@ -28,6 +28,8 @@ public class TimeSeriesPlaybackPanel extends JPanel {
     private JButton clear;
     private TimeSeriesModel timeSeriesModel;
     private JButton live;
+    private double PLAYBACK_SLOW = 0.4;
+    private double PLAYBACK_FULL = 1.0;
 
     private JButton createButton( String name, String iconName ) {
         JButton button = null;
@@ -94,7 +96,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         play = createButton( EnergySkateParkStrings.getString( "playback" ), "Forward" );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                timeSeriesModel.startPlaybackMode( 1.0 );
+                timeSeriesModel.startPlaybackMode( PLAYBACK_FULL );
             }
         } );
 
@@ -110,7 +112,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
 //        slowMotion = createButton( "<html>Slow<br>Motion</html>", "StepForward" );
         slowMotion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                timeSeriesModel.startPlaybackMode( .4 );
+                timeSeriesModel.startPlaybackMode( PLAYBACK_SLOW );
             }
         } );
 
@@ -132,43 +134,43 @@ public class TimeSeriesPlaybackPanel extends JPanel {
 
         TimeSeriesModelListener timeListener = new TimeSeriesModelListener() {
             public void liveModeStarted() {
-                setButtons( false, true, false, false, true, false, false );
+                updateButtons();
             }
 
             public void recordingStarted() {
-                setButtons( false, false, false, false, true, false, false );
+                updateButtons();
             }
 
             public void recordingPaused() {
-                setButtons( true, true, true, true, false, true, true );
+                updateButtons();
             }
 
             public void recordingFinished() {
-                setButtons( true, false, true, true, false, true, false );
+                updateButtons();
             }
 
             public void playbackFinished() {
-                setButtons( true, true, false, false, false, true, false );
+                updateButtons();
             }
 
             public void playbackStarted() {
-                setButtons( false, false, false, false, true, true, false );
+                updateButtons();
             }
 
             public void playbackPaused() {
-                setButtons( true, true, true, true, false, true, true );
+                updateButtons();
             }
 
             public void reset() {
-                setButtons( true, true, false, false, false, false, true );
+                updateButtons();
             }
 
             public void rewind() {
-                setButtons( true, true, true, true, false, false, true );
+                updateButtons();
             }
 
             public void liveModePaused() {
-                setButtons( true, true, false, false, false, false, true );
+                updateButtons();
             }
         };
         timeSeriesModel.addListener( timeListener );
@@ -183,20 +185,18 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         catch( IOException e ) {
             e.printStackTrace();
         }
-//        if (lowRes()){
-//            image= BufferedImageUtils.rescaleYMaintainAspectRatio( image, 14);
-//        }
         return image;
     }
 
-    private void setButtons( boolean liveBtn, boolean recordBtn, boolean playBtn, boolean slowBtn, boolean pauseBtn, boolean rewindBtn, boolean stepButton ) {
-        live.setEnabled( liveBtn );
-        record.setEnabled( recordBtn );
-        play.setEnabled( playBtn );
-        slowMotion.setEnabled( slowBtn );
-        pause.setEnabled( pauseBtn );
-        rewind.setEnabled( rewindBtn );
-        step.setEnabled( stepButton );
+    private void updateButtons() {
+        live.setEnabled( !timeSeriesModel.isLiveMode() );
+        record.setEnabled( !timeSeriesModel.isRecording() );
+        play.setEnabled( ( timeSeriesModel.isThereRecordedData() && !timeSeriesModel.isPlaybackMode( PLAYBACK_FULL ) ) || ( timeSeriesModel.isPlaybackMode() && timeSeriesModel.isPaused() ) );
+        slowMotion.setEnabled( ( timeSeriesModel.isThereRecordedData() && !timeSeriesModel.isPlaybackMode( PLAYBACK_SLOW ) ) || ( timeSeriesModel.isPlaybackMode() && timeSeriesModel.isPaused() ) );
+        pause.setEnabled( !timeSeriesModel.isPaused() );
+        rewind.setEnabled( timeSeriesModel.isThereRecordedData() && !timeSeriesModel.isFirstPlaybackPoint() );
+        step.setEnabled( timeSeriesModel.isPaused() );
     }
+
 
 }
