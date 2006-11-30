@@ -12,3 +12,7 @@ vibrate without the CM moving
 - kabooms need to be on a layer above the containment vessel
 - listeners and leaveSystem() implementations are spread around in odd places
 - is more than one kaboom being made per fission?
+
+
+
+11-30-06 - Added mushroom cloud
