@@ -13,6 +13,7 @@ HIGH PRIORITY:
 - emit photons along deBroglie 3D orbits
 
 MEDIUM PRIORITY:
+- Unicode chars (arrows) in "Options>deBroglie view" and "Transition Table" dialog aren't correct on Windows
 - improve performance of deBroglie "brightness" and "brightness magnitude" representations
 - improve performance of deBroglie 3D representation
 - make sure that all calls to OrbitFactory are passed radius values that have ModelViewTransform applied
@@ -53,6 +54,7 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+(11/30/06) - change label "Spectral Line Table" to "Transition Wavelengths"
 (11/30/06) - change white light to be 2/3 random visible wavelengths, 1/3 state=1 transition wavelengths
 ***** CVS tag hydrogenatom-0-00-13-2006-11-29
 (11/29/06) - add temp hack for deBroglie 3D bounds paint problem
