@@ -82,7 +82,6 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
             }
         };
 
-
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void preStep( double dt ) {
                 update();

@@ -2,12 +2,13 @@
 package edu.colorado.phet.ec3.plots;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.ec3.EnergySkateParkStrings;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import org.jfree.chart.JFreeChart;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -25,20 +26,27 @@ public class ZoomPanel extends VerticalLayoutPanel {
     public ZoomPanel( final JFreeChart chart, EnergyPositionPlotCanvas energyPositionPlotCanvas ) {
         this.chart = chart;
         this.energyPositionPlotCanvas = energyPositionPlotCanvas;
-        JButton comp = new JButton( EnergySkateParkStrings.getString( "zoom.out" ) );
-        comp.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                increase( +dy );
-            }
-        } );
-        add( comp );
-        JButton zoomIn = new JButton( EnergySkateParkStrings.getString( "zoom.in" ) );
-        zoomIn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                increase( -dy );
-            }
-        } );
-        add( zoomIn );
+//        JButton comp = new JButton( EnergySkateParkStrings.getString( "zoom.out" ) );
+        try {
+            JButton comp = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" ) ) );
+            comp.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    increase( +dy );
+                }
+            } );
+            add( comp );
+//        JButton zoomIn = new JButton( EnergySkateParkStrings.getString( "zoom.in" ) );
+            JButton zoomIn = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" ) ) );
+            zoomIn.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    increase( -dy );
+                }
+            } );
+            add( zoomIn );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     private void increase( double value ) {
