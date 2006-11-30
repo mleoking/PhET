@@ -141,15 +141,6 @@ public class MRModel extends PublishingModel {
         potentialEnergySources.remove( peSource );
     }
 
-    public double getPotentialEnergy() {
-        double pe = 0;
-        for( int i = 0; i < potentialEnergySources.size(); i++ ) {
-            PotentialEnergySource source = (PotentialEnergySource)potentialEnergySources.get( i );
-            pe += source.getPE();
-        }
-        return pe;
-    }
-
     public void setReaction( Reaction reaction ) {
         this.reaction = reaction;
     }
@@ -196,6 +187,9 @@ public class MRModel extends PublishingModel {
     //--------------------------------------------------------------------------------------------------
 
     protected void stepInTime( double dt ) {
+
+        // Initialize the accumulator for energy that is deliberately added to the system. It gets
+        // added to through calls to addEnergy().
         dEnergy = 0;
         double pe0 = getTotalPotentialEnergy();
         double ke0 = getTotalKineticEnergy();
