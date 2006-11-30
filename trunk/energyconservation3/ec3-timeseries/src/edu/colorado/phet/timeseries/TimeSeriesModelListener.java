@@ -27,4 +27,6 @@ public interface TimeSeriesModelListener {
     void rewind();
 
     void liveModePaused();
+
+    void seriesPointAdded();
 }

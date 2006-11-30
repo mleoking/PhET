@@ -2,6 +2,7 @@
 Bugfix: when entering playback mode, floor track duplicated.
 Bugfix: Record, pause, switch location, go should remain in the newly selected location.
         Now 'Go' doesn't initialize to the last-recorded-state before starting.
+Bugfix: Pausing 'go' then pressing 'playback' should have 'slow' enabled.
 
 1.02.21 (11-29-2006)
 Removed the floor from outer space.

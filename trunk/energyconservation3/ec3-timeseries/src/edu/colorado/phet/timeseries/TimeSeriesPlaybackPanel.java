@@ -172,7 +172,12 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             public void liveModePaused() {
                 updateButtons();
             }
+
+            public void seriesPointAdded() {
+                updateButtons();
+            }
         };
+
         timeSeriesModel.addListener( timeListener );
         timeListener.liveModeStarted();
     }
@@ -195,7 +200,9 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         slowMotion.setEnabled( ( timeSeriesModel.isThereRecordedData() && !timeSeriesModel.isPlaybackMode( PLAYBACK_SLOW ) ) || ( timeSeriesModel.isPlaybackMode() && timeSeriesModel.isPaused() ) );
         pause.setEnabled( !timeSeriesModel.isPaused() );
         rewind.setEnabled( timeSeriesModel.isThereRecordedData() && !timeSeriesModel.isFirstPlaybackPoint() );
+//        boolean disableStep = timeSeriesModel.isLastPlaybackPoint();
         step.setEnabled( timeSeriesModel.isPaused() );
+        clear.setEnabled( timeSeriesModel.isThereRecordedData() );
     }
 
 

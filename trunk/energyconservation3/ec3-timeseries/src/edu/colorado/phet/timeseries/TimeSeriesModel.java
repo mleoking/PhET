@@ -66,7 +66,6 @@ public abstract class TimeSeriesModel implements ClockListener {
         }
     }
 
-
     public PhetTimer getRecordTimer() {
         return recordMode.getTimer();
     }
@@ -296,6 +295,10 @@ public abstract class TimeSeriesModel implements ClockListener {
 
     public void addSeriesPoint( Object state, double recordTime ) {
         series.addPoint( state, recordTime );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener)listeners.get( i );
+            timeSeriesModelListener.seriesPointAdded();
+        }
     }
 
     public void startRecording() {
