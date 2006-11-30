@@ -1,4 +1,4 @@
-1.02.22
+1.02.22 (11-29-2006)
 Bugfix: when entering playback mode, floor track duplicated.
 Bugfix: Record, pause, switch location, go should remain in the newly selected location.
         Now 'Go' doesn't initialize to the last-recorded-state before starting.

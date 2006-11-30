@@ -53,29 +53,24 @@ public class BodyGraphic extends PNode {
         boundsDebugPPath = new PPath( new Rectangle2D.Double( 0, 0, body.getWidth(), body.getHeight() ) );
         boundsDebugPPath.setStroke( null );
         boundsDebugPPath.setPaint( new Color( 0, 0, 255, 128 ) );
-//        jetPackGraphic = new JetPackGraphic( this );
-//        addChild( jetPackGraphic );
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( "images/skater3.png" );
             pImage = new PImage( image );
             addChild( pImage );
-
-
-            feetDebugger = new PhetPPath( Color.green );
-            if( debugFeet ) {
-                addChild( feetDebugger );
-            }
-
-            centerDebugger = new PhetPPath( Color.red );
-            if( debugCenter ) {
-                addChild( centerDebugger );
-            }
-
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
 
+        feetDebugger = new PhetPPath( Color.green );
+        if( debugFeet ) {
+            addChild( feetDebugger );
+        }
+
+        centerDebugger = new PhetPPath( Color.red );
+        if( debugCenter ) {
+            addChild( centerDebugger );
+        }
 
         ec3Module.getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -249,14 +244,6 @@ public class BodyGraphic extends PNode {
     public double getBodyModelWidth() {
         return body.getWidth();
     }
-
-//    private void updateFlames() {
-//        jetPackGraphic.update();
-//    }
-//
-//    private void setFlamesVisible( boolean flamesVisible ) {
-//        jetPackGraphic.setVisible( flamesVisible );
-//    }
 
     public boolean isBoxVisible() {
         return getChildrenReference().contains( boundsDebugPPath );
