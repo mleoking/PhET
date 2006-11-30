@@ -167,7 +167,7 @@ public abstract class TimeSeriesModel implements ClockListener {
         }
     }
 
-    private boolean isLiveMode() {
+    public boolean isLiveMode() {
         return mode == liveMode;
     }
 
@@ -254,6 +254,15 @@ public abstract class TimeSeriesModel implements ClockListener {
         playbackMode.setPlaybackSpeed( playbackSpeed );
         setMode( playbackMode );
         setPaused( false );
+        firePlaybackStarted();
+    }
+
+    public boolean isPlaybackMode() {
+        return mode == playbackMode;
+    }
+
+    public boolean isPlaybackMode( double speed ) {
+        return isPlaybackMode() && playbackMode.getPlaybackSpeed() == speed;
     }
 
     public boolean isRecording() {
@@ -317,6 +326,14 @@ public abstract class TimeSeriesModel implements ClockListener {
 
     public void stepMode() {
         mode.step();
+    }
+
+    public boolean isThereRecordedData() {
+        return getSeries().size() > 0;
+    }
+
+    public boolean isFirstPlaybackPoint() {
+        return getSeries().size() > 0 && isPlaybackMode() && playbackMode.getPlaybackTime() == 0;
     }
 
     public interface PlaybackTimeListener {

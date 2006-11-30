@@ -51,6 +51,10 @@ public class PlaybackMode extends Mode {
         }
     }
 
+    public double getPlaybackTime() {
+        return timeSeriesModel.getPlaybackTimer().getTime();
+    }
+
     private void doStep( double dt ) {
         timeSeriesModel.getPlaybackTimer().stepInTime( dt * playbackSpeed, timeSeriesModel.getRecordTimer().getTime() );
         double playTime = timeSeriesModel.getPlaybackTimer().getTime();
