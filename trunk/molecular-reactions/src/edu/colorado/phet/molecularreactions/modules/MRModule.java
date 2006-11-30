@@ -45,7 +45,9 @@ public class MRModule extends Module {
         setModel( model );
 
         // create the control panel
-        setControlPanel( new ControlPanel() );
+        ControlPanel controlPanel = new ControlPanel();
+        controlPanel.getContentPanel().setFillNone();
+        setControlPanel( controlPanel );
 
         // Create the basic graphics
         PhetPCanvas canvas = new PhetPCanvas( canvasSize );
