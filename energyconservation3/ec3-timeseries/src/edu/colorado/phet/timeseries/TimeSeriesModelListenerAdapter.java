@@ -39,4 +39,7 @@ public class TimeSeriesModelListenerAdapter implements TimeSeriesModelListener {
 
     public void liveModePaused() {
     }
+
+    public void seriesPointAdded() {
+    }
 }

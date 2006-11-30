@@ -2,8 +2,6 @@
 Remaining Work
 #######################################
    
-Pausing 'go' then pressing 'playback' should have 'slow' enabled.
-
 In E vs. T graph, rescaling the y axis shouldn't center on the E=0 axis.
  
 For E vs T. graph (and maybe other graphs), should have moving man style zoom buttons.
