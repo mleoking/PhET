@@ -26,7 +26,7 @@ import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.hydrogenatom.dialog.SpectralLineTableDialog;
+import edu.colorado.phet.hydrogenatom.dialog.TransitionsDialog;
 import edu.colorado.phet.hydrogenatom.menu.DeveloperMenu;
 import edu.colorado.phet.hydrogenatom.menu.OptionsMenu;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
@@ -54,7 +54,7 @@ public class HAApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     
     private JDialog _legendDialog;
-    private JDialog _spectralLineTableDialog;
+    private JDialog _transitionsDialog;
     private HAModule _module;
     
     //----------------------------------------------------------------------------
@@ -122,14 +122,14 @@ public class HAApplication extends PiccoloPhetApplication {
             } );
             helpMenu.add( legendMenuItem );
             
-            JMenuItem spectralLineTableMenuItem = new JMenuItem( SimStrings.get( "menu.help.spectralLineTable" ) );
-            spectralLineTableMenuItem.setMnemonic( SimStrings.getChar( "menu.help.spectralLineTable.mnemonic") );
-            spectralLineTableMenuItem.addActionListener( new ActionListener() {
+            JMenuItem transitionsMenuItem = new JMenuItem( SimStrings.get( "menu.help.transitions" ) );
+            transitionsMenuItem.setMnemonic( SimStrings.getChar( "menu.help.transitions.mnemonic") );
+            transitionsMenuItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
-                    handleSpectralLineTableDialog();
+                    handleTransitionsDialog();
                 }
             } );
-            helpMenu.add( spectralLineTableMenuItem );
+            helpMenu.add( transitionsMenuItem );
         }
     }
     
@@ -166,22 +166,22 @@ public class HAApplication extends PiccoloPhetApplication {
      * Otherwise create a new one and show it.
      * When the dialog is closed, it removes itself.
      */
-    private void handleSpectralLineTableDialog() {
-        if ( _spectralLineTableDialog != null ) {
-            _spectralLineTableDialog.toFront();
+    private void handleTransitionsDialog() {
+        if ( _transitionsDialog != null ) {
+            _transitionsDialog.toFront();
         }
         else {
             PhetFrame frame = getPhetFrame();
-            _spectralLineTableDialog = new SpectralLineTableDialog( frame );
-            _spectralLineTableDialog.addWindowListener( new WindowAdapter() {
+            _transitionsDialog = new TransitionsDialog( frame );
+            _transitionsDialog.addWindowListener( new WindowAdapter() {
                 public void windowClosing( WindowEvent event ) {
-                    _spectralLineTableDialog = null;
+                    _transitionsDialog = null;
                 }
                 public void windowClosed( WindowEvent event ) {
-                    _spectralLineTableDialog = null;
+                    _transitionsDialog = null;
                 }
             } );
-            _spectralLineTableDialog.show();
+            _transitionsDialog.show();
         }
     }
     
