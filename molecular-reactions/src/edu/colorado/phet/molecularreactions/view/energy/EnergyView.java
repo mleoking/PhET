@@ -75,7 +75,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 //    private Dimension curvePaneSize = new Dimension( width, 310 );
     private Color moleculePaneBackgroundColor = MRConfig.MOLECULE_PANE_BACKGROUND;
     private Color energyPaneBackgroundColor = Color.black;
-    private Color curveColor = Color.cyan;
+    private Color curveColor = MRConfig.POTENTIAL_ENERGY_COLOR;
 
     private SimpleMolecule selectedMolecule;
     private SimpleMolecule nearestToSelectedMolecule;

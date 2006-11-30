@@ -32,7 +32,7 @@ import java.awt.geom.Line2D;
  * @version $Revision$
  */
 public class TotalEnergyLine extends PNode {
-    public static final Paint linePaint = Color.red;
+    public static final Paint linePaint = MRConfig.TOTAL_ENERGY_COLOR;
     public static final Stroke lineStroke = new BasicStroke( 2 );
 
     private Line2D line;
