@@ -1,7 +1,22 @@
 #################################################################
 Remaining Work
 #######################################
-   
+
+   Energy skate park:
+1. had to push 'record'.  At one instant 'go' was unavailable.
+2. Is the onscreen indicator 'press 'go' to start' still active?
+3. delete the 'world ending' ideas
+4. When energy vs position graph is copied, if the data is off-the-chart, it comes up bogus.
+5. Just relabel the "show pie chart" checkbox to "show pie chart"
+6. Add a legend item for black potential energy.
+7. 'there is a region beneath the skater... grabbable' is fixed.
+8. energy vs time chart has 'java application window' covering up the good parts.
+9. reset from space causes crash
+10. 'a' for add skater, 'd' for delete, 'r' for remove
+11. add zoom button (maybe pan buttons?) on control panel.
+12. move legend to top-right
+13. add camera controls to bottom right.
+
 In E vs. T graph, rescaling the y axis shouldn't center on the E=0 axis.
  
 For E vs T. graph (and maybe other graphs), should have moving man style zoom buttons.
