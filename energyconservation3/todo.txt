@@ -2,13 +2,12 @@
 Remaining Work
 #######################################
 
-There shouldn't be a negative potential energy entry in the energy-position graph.
-
 On a double-potential well where the skater slightly leaves the track, sometimes he attaches to the wrong side of the track.
 
 If you zoom out, then change locale, the background refits to the zoomed-out screen
 
 Out of memory error after running 10+minutes.
+        On one run.
 
 #################################################################
 Low Priority or Deprecated

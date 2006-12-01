@@ -3,7 +3,6 @@ package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.ec3.common.Legend;
 import edu.colorado.phet.ec3.common.MeasuringTape;
 import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 import edu.colorado.phet.ec3.model.Floor;
@@ -44,7 +43,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private OffscreenManIndicator offscreenManIndicator;
     private boolean ignoreThermal = false;
     private PauseIndicator pauseIndicator;
-    private Legend legend;
+    private EC3Legend legend;
     private BackgroundScreenNode screenBackground;
     private SplineToolbox splineToolbox;
     private FloorGraphic floorGraphic;
@@ -69,6 +68,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         measuringTape = new MeasuringTape( coordScale, new Point2D.Double( 100, 100 ), bodyGraphics );//any world node should do here, no?
         pauseIndicator = new PauseIndicator( module, simulationPanel, this );
         legend = new EC3Legend( module );
+        legend.addNegPEEntry();
         floorGraphic = new FloorGraphic( module, getModel(), floor );
         screenBackground = new BackgroundScreenNode( simulationPanel, null, floorGraphic );
         zeroPointPotentialGraphic = new ZeroPointPotentialGraphic( simulationPanel );
