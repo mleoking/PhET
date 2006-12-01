@@ -2,14 +2,11 @@
 Remaining Work
 #######################################
 
-   Energy skate park:
 1. had to push 'record'.  At one instant 'go' was unavailable.
 2. Is the onscreen indicator 'press 'go' to start' still active?
-3. delete the 'world ending' ideas
 4. When energy vs position graph is copied, if the data is off-the-chart, it comes up bogus.
 5. Just relabel the "show pie chart" checkbox to "show pie chart"
 6. Add a legend item for black potential energy.
-7. 'there is a region beneath the skater... grabbable' is fixed.
 8. energy vs time chart has 'java application window' covering up the good parts.
 9. reset from space causes crash
 10. 'a' for add skater, 'd' for delete, 'r' for remove
@@ -21,17 +18,6 @@ In E vs. T graph, rescaling the y axis shouldn't center on the E=0 axis.
  
 For E vs T. graph (and maybe other graphs), should have moving man style zoom buttons.
         
-I'm still leaning towards the world ending when he goes off one side or the
-other.  I can't see value in tracking his actions when we can't see him.  On
-top of that, we reset things when he is returned.  I think as soon as the
-return skater label appears, students realize they have fallen out of range
-and need to start again.
- >>Maybe we should pause the simulation when he moves off?
- >>Or maybe we should add walls?
- >>Or maybe we should have the camera follow him when he moves off?
-  >>I think it would be confusing to have different physics based on whether the camera can see the skater.
-  >>A popup that says "landed on grass"
-
 1. The skater sticks to the track when traveling in a loop at a speed that would never allow him to stay on the track.  He would crash on his head for sure.  I can create a loop where he falls off as he comes to the top, bounces off the track below and then sticks to the track above him again
         This picture shows him after he bounces on his head because he fell off the track as he was traveling to the left upside down.  He still has an upward velocity in this picture.  He will get to the track and stay on after this show.  He keeps repeating this path indefinitely.
 3. getNormalForce( double x, Body body )  in SplineMode is sometimes pulling the skater to the track.
@@ -139,3 +125,16 @@ One run caused the skater to behave as if he had 0.001 mass (in space).  Couldn'
 
 arrow keys in space made him vanish on one run...
         Couldn't Reproduce this.
+
+These ideas are scratched indefinitely:
+    I'm still leaning towards the world ending when he goes off one side or the
+    other.  I can't see value in tracking his actions when we can't see him.  On
+    top of that, we reset things when he is returned.  I think as soon as the
+    return skater label appears, students realize they have fallen out of range
+    and need to start again.
+     >>Maybe we should pause the simulation when he moves off?
+     >>Or maybe we should add walls?
+     >>Or maybe we should have the camera follow him when he moves off?
+      >>I think it would be confusing to have different physics based on whether the camera can see the skater.
+      >>A popup that says "landed on grass"
+      

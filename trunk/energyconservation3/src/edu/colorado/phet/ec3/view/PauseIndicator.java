@@ -65,6 +65,9 @@ public class PauseIndicator extends PNode {
                 showMe();
             }
 
+            public void liveModePaused() {
+                showMe();
+            }
         } );
 
         JButton record = new JButton( EnergySkateParkStrings.getString( "go" ) );

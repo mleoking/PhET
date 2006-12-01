@@ -194,7 +194,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
     }
 
     private void updateButtons() {
-        live.setEnabled( !timeSeriesModel.isLiveMode() );
+        live.setEnabled( !timeSeriesModel.isLiveMode() || timeSeriesModel.isPaused() );
         record.setEnabled( !timeSeriesModel.isRecording() );
         play.setEnabled( ( timeSeriesModel.isThereRecordedData() && !timeSeriesModel.isPlaybackMode( PLAYBACK_FULL ) ) || ( timeSeriesModel.isPlaybackMode() && timeSeriesModel.isPaused() ) );
         slowMotion.setEnabled( ( timeSeriesModel.isThereRecordedData() && !timeSeriesModel.isPlaybackMode( PLAYBACK_SLOW ) ) || ( timeSeriesModel.isPlaybackMode() && timeSeriesModel.isPaused() ) );
