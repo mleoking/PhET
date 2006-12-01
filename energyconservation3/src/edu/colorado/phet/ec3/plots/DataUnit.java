@@ -5,7 +5,7 @@ import java.awt.*;
 public class DataUnit {
     private ValueAccessor valueAccessor;
     private TimeSeries timeSeries;
-    private TimePlotSuitePNode plotDeviceSeries;
+    private EnergySkaterTimePlotNode plotDeviceSeries;
     private TimeSeriesPNode seriesGraphic;
 
     public DataUnit( TimeSeriesPNode series ) {

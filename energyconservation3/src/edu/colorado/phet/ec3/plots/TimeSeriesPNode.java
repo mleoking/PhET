@@ -22,7 +22,7 @@ import java.text.DecimalFormat;
  */
 
 public class TimeSeriesPNode {
-    private TimePlotSuitePNode plotSuite;
+    private EnergySkaterTimePlotNode plotSuite;
     private ValueAccessor valueAccessor;
     private Color color;
     private String justifyString;
@@ -38,7 +38,7 @@ public class TimeSeriesPNode {
     private double lastUpdateValue = Double.NaN;
     private Object model;
 
-    public TimeSeriesPNode( TimePlotSuitePNode plotSuite, ValueAccessor valueAccessor, String justifyString, Object model ) {
+    public TimeSeriesPNode( EnergySkaterTimePlotNode plotSuite, ValueAccessor valueAccessor, String justifyString, Object model ) {
         this.plotSuite = plotSuite;
         this.series = new TimeSeries();
         this.valueAccessor = valueAccessor;
@@ -104,7 +104,7 @@ public class TimeSeriesPNode {
         return series;
     }
 
-    public TimePlotSuitePNode getPlot() {
+    public EnergySkaterTimePlotNode getPlot() {
         return plotSuite;
     }
 

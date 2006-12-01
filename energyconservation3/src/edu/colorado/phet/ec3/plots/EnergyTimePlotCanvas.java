@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class EnergyTimePlotCanvas extends PhetPCanvas {
     private EnergySkateParkModule ec3Module;
     private ArrayList units = new ArrayList();
-    private TimePlotSuitePNode plot;
+    private EnergySkaterTimePlotNode plot;
     private TimeSeriesPNode keSeries;
     private TimeSeriesPNode peSeries;
     private TimeSeriesPNode heatSeries;
@@ -34,10 +34,10 @@ public class EnergyTimePlotCanvas extends PhetPCanvas {
 
     public EnergyTimePlotCanvas( final EnergySkateParkModule ec3Module ) {
         this.ec3Module = ec3Module;
-        plot = new TimePlotSuitePNode( this,
-                                       new Range2D( 0, -7000 / 10.0, 40, 7000 ), "Energy",
-                                       "Joules", ec3Module.getTimeSeriesModel(),
-                                       150, false );
+        plot = new EnergySkaterTimePlotNode( this,
+                                             new Range2D( 0, -7000 / 10.0, 40, 7000 ), "Energy",
+                                             "Joules", ec3Module.getTimeSeriesModel(),
+                                             150, false );
         addScreenChild( plot );
 
         heatSeries = new TimeSeriesPNode( plot, new ValueAccessor( "Thermal", "Thermal", "Joules", "J", ec3Module.getEnergyLookAndFeel().getThermalEnergyColor(), "Thermal Energy" ) {
