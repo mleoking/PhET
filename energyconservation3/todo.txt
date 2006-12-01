@@ -2,7 +2,6 @@
 Remaining Work
 #######################################
 
-11. add zoom button (maybe pan buttons?) on control panel.
 12. move legend to top-right
 13. add camera controls to bottom right.
 

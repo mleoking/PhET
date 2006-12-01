@@ -51,6 +51,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private ZeroPointPotentialGraphic zeroPointPotentialGraphic;
     public static final Color SKY_COLOR = new Color( 170, 200, 220 );
     private GridNode gridNode;
+    private PanZoomOnscreenControl panZoomControls;
 
     public EnergySkateParkRootNode( EnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
         this.module = module;
@@ -116,6 +117,8 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             }
         } );
 //        addClouds();
+        panZoomControls = new PanZoomOnscreenControl( simulationPanel );
+        addScreenChild( panZoomControls );
     }
 
     private void addClouds() {
@@ -219,6 +222,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         pieCharts.removeAllChildren();
         setZeroPointVisible( false );
         setMeasuringTapeVisible( false );
+        panZoomControls.reset();
 //        resetDefaults();//needs MVC update before this will work.
     }
 
@@ -418,10 +422,14 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         double insetX = 10;
         double insetY = 10;
 //        legend.setOffset( getEC3Panel().getWidth() - legend.getFullBounds().getWidth() - insetX, insetY );
-        legend.setOffset( getEC3Panel().getWidth() - legend.getFullBounds().getWidth() - insetX, getEC3Panel().getHeight() - legend.getFullBounds().getHeight() - insetY );
+//        legend.setOffset( getSimulationPanel().getWidth() - legend.getFullBounds().getWidth() - insetX, getSimulationPanel().getHeight() - legend.getFullBounds().getHeight() - insetY );
+        legend.setOffset( getSimulationPanel().getWidth() - legend.getFullBounds().getWidth() - insetX, insetY );
+        if( panZoomControls != null ) {
+            panZoomControls.setOffset( getSimulationPanel().getWidth() - panZoomControls.getFullBounds().getWidth() - insetX, getSimulationPanel().getHeight() - panZoomControls.getFullBounds().getHeight() - insetY );
+        }
     }
 
-    private EnergySkateParkSimulationPanel getEC3Panel() {
+    private EnergySkateParkSimulationPanel getSimulationPanel() {
         return simulationPanel;
     }
 
