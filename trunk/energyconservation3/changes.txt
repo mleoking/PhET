@@ -1,4 +1,4 @@
-1.02.23
+1.02.23 (12-1-2006)
 Bugfix: Sometimes when paused, 'go' is unavailable.
 Added pause message to play area for when 'go' is paused (instead of just when 'record' is paused.)
 Bugfix: When energy vs position graph is copied, if the data is off-the-chart, it comes up bogus.
