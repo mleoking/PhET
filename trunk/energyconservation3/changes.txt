@@ -9,6 +9,7 @@ Bugfix: Energy vs time chart has 'java application window' covering up the good 
 Bugfix: Reset from space causes crash.
 Added more key options: 'a' for add skater, 'd' for delete, 'r' for remove
 Added an onscreen zoom button.
+Moved pie chart legend to top-right.
 
 1.02.22 (11-29-2006)
 Bugfix: when entering playback mode, floor track duplicated.
