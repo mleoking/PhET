@@ -2,9 +2,6 @@
 Remaining Work
 #######################################
 
-12. move legend to top-right
-13. add camera controls to bottom right.
-
 In E vs. T graph, rescaling the y axis shouldn't center on the E=0 axis.
  
 For E vs T. graph (and maybe other graphs), should have moving man style zoom buttons.
