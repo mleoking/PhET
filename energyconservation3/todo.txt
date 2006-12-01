@@ -7,14 +7,7 @@ Remaining Work
 3. getNormalForce( double x, Body body )  in SplineMode is sometimes pulling the skater to the track.
 4. He should have at least 1/2mgr (where r is radius of curvature of track) worth of kinetic energy to be able to stick to it (when he is vertical). Right now his stickiness doesn't seem to be affected by the local r.
 
-there is a region beneath the skater that creates a cursor-hand, but doesn't control the skater.
-
-#################################################################
-Questions
-#######################################
->>Maybe pie chart should always show thermal...?
-
-Should the pie chart button be inside the control panel with the other charting options?
+The skater falls through the ground outside the range -10 to +10
 
 #################################################################
 Low Priority or Deprecated
