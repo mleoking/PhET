@@ -1,11 +1,7 @@
 #################################################################
 Remaining Work
 #######################################
-
-In E vs. T graph, rescaling the y axis shouldn't center on the E=0 axis.
- 
-For E vs T. graph (and maybe other graphs), should have moving man style zoom buttons.
-        
+       
 1. The skater sticks to the track when traveling in a loop at a speed that would never allow him to stay on the track.  He would crash on his head for sure.  I can create a loop where he falls off as he comes to the top, bounces off the track below and then sticks to the track above him again
         This picture shows him after he bounces on his head because he fell off the track as he was traveling to the left upside down.  He still has an upward velocity in this picture.  He will get to the track and stay on after this show.  He keeps repeating this path indefinitely.
 3. getNormalForce( double x, Body body )  in SplineMode is sometimes pulling the skater to the track.
@@ -15,16 +11,7 @@ For E vs T. graph (and maybe other graphs), should have moving man style zoom bu
 The team has talked about changing the ground to look like the ramp to help. 
 Right now, the two sims treat grass differently and that should be resolved.
 
-after record/playback/reset, there is a hidden track graphic or something...  I get a cursor hand when I mouse over it.
-
 there is a region beneath the skater that creates a cursor-hand, but doesn't control the skater.
-
-energy vs. time chart not big enough to see all the data
-        Does this mean vertical or horizontal axis?
-
-4.  I'm not sure how this copy is supposed to function but it has the same graph at the bottom half of the window and the top half 
-(ok 60%) is black but includes data that goes off scale on the original Energy vs. Position graph.  Is this the idea?
-        I can't reproduce this.
 
 #################################################################
 Questions
