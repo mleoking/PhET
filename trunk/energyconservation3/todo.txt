@@ -4,7 +4,10 @@ Remaining Work
 
 On a double-potential well where the skater slightly leaves the track, sometimes he attaches to the wrong side of the track.
 
-If you zoom out, then change locale, the background refits to the zoomed-out screen
+If you zoom out, then change locale, the background refits to the zoomed-out screen. (so that a subsequent zoom-in looks weird).
+        When I tried fixing this by always rescaling the background, it causes 2 problems:
+        1. The house on earth becomes huge.
+        2. Performance degrades on zoom in/out.
 
 Out of memory error after running 10+minutes.
 
