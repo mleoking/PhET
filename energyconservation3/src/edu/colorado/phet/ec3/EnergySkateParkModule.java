@@ -60,7 +60,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     private PhetFrame phetFrame;
 
     public static final int energyFrameWidth = 200;
-    public static final int chartFrameHeight = 200;
+    public static final int chartFrameHeight = 250;
 
     public EnergySkateParkModule( String name, IClock clock, PhetFrame phetFrame ) {
         super( name, clock );

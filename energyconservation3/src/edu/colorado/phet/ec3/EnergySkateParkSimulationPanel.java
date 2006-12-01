@@ -154,27 +154,35 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
     }
 
     private void updateThrust() {
-        Body body = ec3Model.bodyAt( 0 );
-        double xThrust = 0.0;
-        double yThrust = 0.0;
-        int thrustValue = 1000;
-        if( multiKeyHandler.isPressed( KeyEvent.VK_RIGHT ) ) {
-            xThrust = thrustValue;
+        if( ec3Model.numBodies() > 0 ) {
+            Body body = ec3Model.bodyAt( 0 );
+            double xThrust = 0.0;
+            double yThrust = 0.0;
+            int thrustValue = 1000;
+            if( multiKeyHandler.isPressed( KeyEvent.VK_RIGHT ) ) {
+                xThrust = thrustValue;
+            }
+            else if( multiKeyHandler.isPressed( KeyEvent.VK_LEFT ) ) {
+                xThrust = -thrustValue;
+            }
+            if( multiKeyHandler.isPressed( KeyEvent.VK_UP ) ) {
+                yThrust = thrustValue;
+            }
+            else if( multiKeyHandler.isPressed( KeyEvent.VK_DOWN ) ) {
+                yThrust = -thrustValue;
+            }
+            body.setThrust( xThrust, yThrust );
         }
-        else if( multiKeyHandler.isPressed( KeyEvent.VK_LEFT ) ) {
-            xThrust = -thrustValue;
-        }
-        if( multiKeyHandler.isPressed( KeyEvent.VK_UP ) ) {
-            yThrust = thrustValue;
-        }
-        else if( multiKeyHandler.isPressed( KeyEvent.VK_DOWN ) ) {
-            yThrust = -thrustValue;
-        }
-        body.setThrust( xThrust, yThrust );
     }
 
     public void addSplineGraphic( SplineGraphic splineGraphic ) {
         rootNode.addSplineGraphic( splineGraphic );
+    }
+
+    private void removeSkater() {
+        if( getEnergyConservationModel().numBodies() > 1 ) {
+            ec3Model.removeBody( 1 );
+        }
     }
 
     private void addSkater() {
@@ -182,6 +190,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
         ec3Module.resetSkater( body );
         ec3Model.addBody( body );
 
+        //todo is this code deprecated?
         BodyGraphic bodyGraphic = new BodyGraphic( ec3Module, body );
         addBodyGraphic( bodyGraphic );
     }
@@ -313,10 +322,15 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
         else if( e.getKeyCode() == KeyEvent.VK_J ) {
             addBuses();
         }
+        else if( e.getKeyCode() == KeyEvent.VK_R ) {
+            removeSkater();
+        }
         else if( e.getKeyCode() == KeyEvent.VK_D ) {
+            removeSkater();
             debugScreenSize();
         }
     }
+
 
     public void keyReleased( KeyEvent e ) {
         multiKeyHandler.keyReleased( e );

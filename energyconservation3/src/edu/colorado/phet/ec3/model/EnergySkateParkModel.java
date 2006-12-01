@@ -134,7 +134,7 @@ public class EnergySkateParkModel {
         }
     }
 
-    private void removeBody( int i ) {
+    public void removeBody( int i ) {
         bodies.remove( i );
     }
 
