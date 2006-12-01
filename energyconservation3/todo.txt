@@ -15,7 +15,8 @@ Running multiple tests (in sequence, not in parallel) has performance problems.
 
 The bar graph doesn't have a zoom, should there be one?
 
-If you change the window size while the program is running, the zoom is set back to 1.0 
+If you change the window size while the program is running, the zoom is set back to 1.0
+        This means the control for zoom isn't synchronized with the zoom anymore.  (e.g. the user could zoom in past 1.0) 
 
 #################################################################
 Low Priority or Deprecated
