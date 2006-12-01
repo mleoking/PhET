@@ -2,7 +2,6 @@
 Remaining Work
 #######################################
 
-6. Add a legend item for black potential energy.
 8. energy vs time chart has 'java application window' covering up the good parts.
 9. reset from space causes crash
 10. 'a' for add skater, 'd' for delete, 'r' for remove
