@@ -1,4 +1,4 @@
-1.02.24
+1.02.24 (12-1-2006)
 Bugfix: There shouldn't be a negative potential energy entry in the energy-position graph.
 
 1.02.23 (12-1-2006)
