@@ -324,7 +324,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             addJetPackGraphic( new JetPackGraphic( module, getModel().bodyAt( 0 ) ) );
         }
         while( numJetPackGraphics() > getModel().numBodies() ) {
-            removeJetPackGraphic( jetPackGraphicAt( numBodyGraphics() - 1 ) );
+            removeJetPackGraphic( jetPackGraphicAt( numJetPackGraphics() - 1 ) );
         }
         for( int i = 0; i < getModel().numBodies(); i++ ) {
             jetPackGraphicAt( i ).setBody( getModel().bodyAt( i ) );

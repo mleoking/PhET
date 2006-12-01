@@ -2,9 +2,6 @@
 Remaining Work
 #######################################
 
-8. energy vs time chart has 'java application window' covering up the good parts.
-9. reset from space causes crash
-10. 'a' for add skater, 'd' for delete, 'r' for remove
 11. add zoom button (maybe pan buttons?) on control panel.
 12. move legend to top-right
 13. add camera controls to bottom right.
