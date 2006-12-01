@@ -7,10 +7,6 @@ Remaining Work
 3. getNormalForce( double x, Body body )  in SplineMode is sometimes pulling the skater to the track.
 4. He should have at least 1/2mgr (where r is radius of curvature of track) worth of kinetic energy to be able to stick to it (when he is vertical). Right now his stickiness doesn't seem to be affected by the local r.
 
->>We had to assume the grass acts like the ramp and that was a conceptual issue. 
-The team has talked about changing the ground to look like the ramp to help. 
-Right now, the two sims treat grass differently and that should be resolved.
-
 there is a region beneath the skater that creates a cursor-hand, but doesn't control the skater.
 
 #################################################################

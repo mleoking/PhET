@@ -11,6 +11,7 @@ Added more key options: 'a' for add skater, 'd' for delete, 'r' for remove
 Added an onscreen zoom button.
 Moved pie chart legend to top-right.
 Bugfix: In E vs. T graph, rescaling the y axis shouldn't center on the E=0 axis.
+Bugfix: For E vs T. graph (and maybe other graphs), should have moving man style zoom buttons.
 
 1.02.22 (11-29-2006)
 Bugfix: when entering playback mode, floor track duplicated.
