@@ -11,6 +11,8 @@ If you zoom out, then change locale, the background refits to the zoomed-out scr
 
 Out of memory error after running 10+minutes.
 
+Running multiple tests (in sequence, not in parallel) has performance problems.
+
 #################################################################
 Low Priority or Deprecated
 #######################################
