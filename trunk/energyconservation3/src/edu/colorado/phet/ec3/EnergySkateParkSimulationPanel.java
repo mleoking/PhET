@@ -39,7 +39,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
     private MultiKeyHandler multiKeyHandler = new MultiKeyHandler();
     private EnergySkateParkRootNode rootNode;
     private double matchThresholdWorldCoordinates = 1.5;
-
+    private ArrayList listeners = new ArrayList();
     public static final int NUM_CUBIC_SPLINE_SEGMENTS = 25;
 
     public EnergySkateParkSimulationPanel( EnergySkateParkModule ec3Module ) {
@@ -410,5 +410,21 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
             }
         }
         return null;
+    }
+
+
+    public static interface Listener {
+        void zoomChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void fireZoomEvent() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.zoomChanged();
+        }
     }
 }
