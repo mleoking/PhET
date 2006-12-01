@@ -8,6 +8,7 @@ Bugfix: Energy vs time chart has 'java application window' covering up the good 
         This window has a bigger default height.
 Bugfix: Reset from space causes crash.
 Added more key options: 'a' for add skater, 'd' for delete, 'r' for remove
+Added an onscreen zoom button.
 
 1.02.22 (11-29-2006)
 Bugfix: when entering playback mode, floor track duplicated.
