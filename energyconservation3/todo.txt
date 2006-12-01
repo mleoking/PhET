@@ -2,12 +2,6 @@
 Remaining Work
 #######################################
 
-Error with normal force computation:
-    getNormalForce( double x, Body body )  in SplineMode is sometimes pulling the skater to the track.
-    1. The skater sticks to the track when traveling in a loop at a speed that would never allow him to stay on the track.  He would crash on his head for sure.  I can create a loop where he falls off as he comes to the top, bounces off the track below and then sticks to the track above him again
-            This picture shows him after he bounces on his head because he fell off the track as he was traveling to the left upside down.  He still has an upward velocity in this picture.  He will get to the track and stay on after this show.  He keeps repeating this path indefinitely.
-    4. He should have at least 1/2mgr (where r is radius of curvature of track) worth of kinetic energy to be able to stick to it (when he is vertical). Right now his stickiness doesn't seem to be affected by the local r.
-
 #################################################################
 Low Priority or Deprecated
 #######################################
@@ -100,4 +94,9 @@ These ideas are scratched indefinitely:
      >>Or maybe we should have the camera follow him when he moves off?
       >>I think it would be confusing to have different physics based on whether the camera can see the skater.
       >>A popup that says "landed on grass"
-      
+
+Error with normal force computation:
+    getNormalForce( double x, Body body )  in SplineMode is sometimes pulling the skater to the track.
+    1. The skater sticks to the track when traveling in a loop at a speed that would never allow him to stay on the track.  He would crash on his head for sure.  I can create a loop where he falls off as he comes to the top, bounces off the track below and then sticks to the track above him again
+            This picture shows him after he bounces on his head because he fell off the track as he was traveling to the left upside down.  He still has an upward velocity in this picture.  He will get to the track and stay on after this show.  He keeps repeating this path indefinitely.
+    4. He should have at least 1/2mgr (where r is radius of curvature of track) worth of kinetic energy to be able to stick to it (when he is vertical). Right now his stickiness doesn't seem to be affected by the local r.

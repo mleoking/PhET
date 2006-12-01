@@ -283,12 +283,31 @@ public class SplineMode implements UpdateMode {
         return sum;
     }
 
-    private AbstractVector2D getNormalForce( double x, Body body ) {
+    private AbstractVector2D getUnitNormal( double x, Body body ) {
         AbstractVector2D n = spline.getUnitNormalVector( x );
-        double length = body.getGravityForce().getAddedInstance( body.getThrust() ).dot( n );
         double angle = isSplineTop( spline, x, body ) ? n.getAngle() : n.getAngle() + Math.PI;
-        return Vector2D.Double.parseAngleAndMagnitude( length, -angle );
+        return Vector2D.Double.parseAngleAndMagnitude( 1.0, angle );
     }
+
+    private AbstractVector2D getNormalForce( double x, Body body ) {
+        AbstractVector2D unitNormal = getUnitNormal( x, body );
+        AbstractVector2D otherForces = body.getGravityForce().getAddedInstance( body.getThrust() );
+        double length = otherForces.dot( unitNormal );
+        AbstractVector2D normal = new Vector2D.Double( 0, 0 );
+        if( length < 0 ) {
+            double angle = unitNormal.getAngle();
+            normal = Vector2D.Double.parseAngleAndMagnitude( length, -angle );
+        }
+//        System.out.println( "normalForce = " + normal );
+        return normal;
+    }
+//    private AbstractVector2D getNormalForce( double x, Body body ) {
+//        AbstractVector2D n = spline.getUnitNormalVector( x );
+//        double length = body.getGravityForce().getAddedInstance( body.getThrust() ).dot( n );
+//        double angle = isSplineTop( spline, x, body ) ? n.getAngle() : n.getAngle() + Math.PI;
+//        return Vector2D.Double.parseAngleAndMagnitude( length, -angle );
+
+    //    }
 
     private AbstractVector2D getFrictionForce( double x, Body body ) {
         //todo kind of a funny workaround for getting friction on the ground.
