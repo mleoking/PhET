@@ -27,7 +27,7 @@ public class PieChartControlPanel extends VerticalLayoutPanel {
         this.module = module;
         this.EnergySkateParkControlPanel = EnergySkateParkControlPanel;
         setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "energy.pie.chart" ) ) );
-        final JCheckBox pieChart = new JCheckBox( EnergySkateParkStrings.getString( "show" ), module.isPieChartVisible() );
+        final JCheckBox pieChart = new JCheckBox( EnergySkateParkStrings.getString( "show.pie.chart" ), module.isPieChartVisible() );
         pieChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 //                ignoreThermal.setEnabled( pieChart.isSelected() );
