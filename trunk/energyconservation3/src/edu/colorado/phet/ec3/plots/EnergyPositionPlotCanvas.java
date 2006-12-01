@@ -11,6 +11,7 @@ import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
@@ -39,7 +40,7 @@ import java.util.ArrayList;
 
 public class EnergyPositionPlotCanvas extends PhetPCanvas {
     private JFreeChart chart;
-    private ArrayList peDots = new ArrayList();
+    private ArrayList fadeDots = new ArrayList();
     private XYSeriesCollection dataset;
     private EnergySkateParkModule module;
 
@@ -100,7 +101,6 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
             }
         } );
 
-
         JButton copy = new JButton( EnergySkateParkStrings.getString( "copy" ) );
         copy.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -153,14 +153,31 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
     }
 
     private void copyChart() {
-//        Image copy = super.getLayer().toImage( image.getImage().getWidth( null ), image.getImage().getHeight( null ), Color.white );
-        Image copy = super.getLayer().toImage();
+        getPhetRootNode().invalidateFullBounds();
+        BufferedImage copy = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
+        paintComponent( copy.createGraphics() );
         BufferedImage c2 = new BufferedImage( copy.getWidth( null ), copy.getHeight( null ) - southPanel.getHeight(), BufferedImage.TYPE_INT_RGB );//trim the south part.
         c2.createGraphics().drawImage( copy, new AffineTransform(), null );
         String energyVsPosition = EnergySkateParkStrings.getString( "energy.vs.position.save" );
         SavedGraph savedGraph = new SavedGraph( module.getPhetFrame(), energyVsPosition + saveCount + ")", c2 );
         savedGraph.setVisible( true );
         saveCount++;
+    }
+
+    private void removeOutOfBoundsPoints() {
+        for( int i = 0; i < fadeDots.size(); i++ ) {
+            FadeDot fadeDot = (FadeDot)fadeDots.get( i );
+            if( !inBounds( fadeDot ) ) {
+                removeFadeDot( fadeDot );
+                i--;
+            }
+        }
+    }
+
+    private boolean inBounds( FadeDot fadeDot ) {
+        PBounds dotBounds = fadeDot.getFullBounds();
+        Rectangle screenBounds = new Rectangle( getWidth(), getHeight() );
+        return screenBounds.contains( dotBounds );
     }
 
     private void updateGraphics() {
@@ -196,15 +213,16 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
     }
 
     public void reset() {
-        while( peDots.size() > 0 ) {
-            FadeDot fadeDot = (FadeDot)peDots.get( 0 );
+        while( fadeDots.size() > 0 ) {
+            FadeDot fadeDot = (FadeDot)fadeDots.get( 0 );
             removeFadeDot( fadeDot );
         }
     }
 
     private void removeFadeDot( FadeDot fadeDot ) {
-        peDots.remove( fadeDot );
-        getPhetRootNode().removeChild( fadeDot );
+        fadeDots.remove( fadeDot );
+//        getPhetRootNode().removeChild( fadeDot );
+        getPhetRootNode().removeScreenChild( fadeDot );
     }
 
     int count = 0;
@@ -232,11 +250,11 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
     }
 
     private void fadeDots() {
-        for( int i = 0; i < peDots.size(); i++ ) {
-            FadeDot fadeDot = (FadeDot)peDots.get( i );
+        for( int i = 0; i < fadeDots.size(); i++ ) {
+            FadeDot fadeDot = (FadeDot)fadeDots.get( i );
             fadeDot.fade();
             if( fadeDot.isFullyFaded() ) {
-                peDots.remove( i );
+                fadeDots.remove( i );
                 getPhetRootNode().removeChild( fadeDot );
                 i--;
             }
@@ -251,7 +269,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         if( energyType.isVisible() ) {
             FadeDot path = new FadeDot( energyType, toImageLocation( x, energyType.getValue() ) );
             addScreenChild( path );
-            peDots.add( path );
+            fadeDots.add( path );
         }
     }
 

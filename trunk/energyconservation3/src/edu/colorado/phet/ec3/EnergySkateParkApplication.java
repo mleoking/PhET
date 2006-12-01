@@ -73,6 +73,9 @@ new EnergySkateParkFrameSetup() );
     }
 
     public static void main( final String[] args ) {
+//        EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
+//        new EC3LookAndFeel().initLookAndFeel();
+//        new EnergySkateParkApplication( args ).start();
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
