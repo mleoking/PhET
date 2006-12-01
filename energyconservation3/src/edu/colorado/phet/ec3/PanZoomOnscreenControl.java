@@ -1,6 +1,5 @@
 package edu.colorado.phet.ec3;
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -14,7 +13,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class PanZoomOnscreenControl extends PhetPNode {
     private PanZoomControl panZoomControl;
 
-    public PanZoomOnscreenControl( PhetPCanvas phetPCanvas ) {
+    public PanZoomOnscreenControl( EnergySkateParkSimulationPanel phetPCanvas ) {
         panZoomControl = new PanZoomControl( phetPCanvas );
         addChild( new PSwing( phetPCanvas, panZoomControl ) );
     }

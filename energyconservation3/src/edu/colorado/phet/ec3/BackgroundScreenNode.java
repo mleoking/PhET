@@ -28,11 +28,17 @@ public class BackgroundScreenNode extends PhetPNode {
         this.ec3Canvas = simulationPanel;
         this.backgroundImage = backgroundImage;
         this.floorGraphic = floorGraphic;
+
         floorGraphic.addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 update();
             }
         } );
+//        simulationPanel.addListener( new EnergySkateParkSimulationPanel.Listener() {
+//            public void zoomChanged() {
+//                update();
+//            }
+//        } );
     }
 
     public void update() {
