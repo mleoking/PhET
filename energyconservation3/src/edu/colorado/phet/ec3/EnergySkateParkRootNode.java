@@ -228,7 +228,9 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     public void addBodyGraphic( BodyGraphic bodyGraphic ) {
         bodyGraphics.addChild( bodyGraphic );
-        offscreenManIndicator.setBodyGraphic( bodyGraphic );
+        if( bodyGraphics.getChildrenCount() == 1 ) {
+            offscreenManIndicator.setBodyGraphic( bodyGraphic );
+        }
     }
 
     public void toggleBox() {
