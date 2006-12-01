@@ -13,6 +13,8 @@ Out of memory error after running 10+minutes.
 
 Running multiple tests (in sequence, not in parallel) has performance problems.
 
+The bar graph doesn't have a zoom, should there be one?
+
 #################################################################
 Low Priority or Deprecated
 #######################################
