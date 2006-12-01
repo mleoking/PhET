@@ -2,7 +2,6 @@
 Remaining Work
 #######################################
 
-4. When energy vs position graph is copied, if the data is off-the-chart, it comes up bogus.
 5. Just relabel the "show pie chart" checkbox to "show pie chart"
 6. Add a legend item for black potential energy.
 8. energy vs time chart has 'java application window' covering up the good parts.
