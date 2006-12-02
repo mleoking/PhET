@@ -1,6 +1,15 @@
 #################################################################
 Remaining Work
 #######################################
+1.  The bar graph would have to have a zoom button to be useful
+
+2.  The record path data stays the same size relative to the man so is
+unreadable when zoomed out.  If you only are interested in data towards the
+bottom of the track, you can zoom in to read it, any other data is unusable.
+
+3.  Resizing he window should change the zoom setting.
+
+The performance degrades significantly after 10 minutes or so.
 
 On a double-potential well where the skater slightly leaves the track, sometimes he attaches to the wrong side of the track.
 
