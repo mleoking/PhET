@@ -24,6 +24,8 @@ import java.awt.event.ComponentEvent;
 public class BarGraphCanvas extends PSwingCanvas {
     private EnergySkateParkModule module;
     private PSwing clearHeatButton;
+    private BarGraphZoomPanel barGraphZoomPanel;
+    private PSwing barGraphPSwing;
 
     public BarGraphCanvas( final EnergySkateParkModule module ) {
         this.module = module;
@@ -42,15 +44,27 @@ public class BarGraphCanvas extends PSwingCanvas {
 
         setPanEventHandler( null );
         setZoomEventHandler( null );
-        updateLayout();
+
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 updateLayout();
             }
         } );
+
+        barGraphZoomPanel = new BarGraphZoomPanel( energyBarGraphSet );
+        barGraphPSwing = new PSwing( this, barGraphZoomPanel );
+        getLayer().addChild( barGraphPSwing );
+        updateLayout();
     }
 
     private void updateLayout() {
-        clearHeatButton.setOffset( getWidth() / 2 - clearHeatButton.getFullBounds().getWidth() / 2, getHeight() - clearHeatButton.getFullBounds().getHeight() - 5 );
+        int insetY = 2;
+        int insetX = 2;
+        clearHeatButton.setOffset( insetX, getHeight() - clearHeatButton.getFullBounds().getHeight() - insetY );
+        barGraphPSwing.setOffset( getWidth() - barGraphPSwing.getFullBounds().getWidth() - insetX, getHeight() - barGraphPSwing.getFullBounds().getHeight() - insetY );
+    }
+
+    public void reset() {
+        barGraphZoomPanel.reset();
     }
 }

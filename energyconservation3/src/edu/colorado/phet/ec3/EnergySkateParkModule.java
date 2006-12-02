@@ -61,6 +61,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public static final int energyFrameWidth = 200;
     public static final int chartFrameHeight = 250;
+    private BarGraphCanvas barGraphCanvas;
 
     public EnergySkateParkModule( String name, IClock clock, PhetFrame phetFrame ) {
         super( name, clock );
@@ -78,7 +79,8 @@ public class EnergySkateParkModule extends PiccoloModule {
         setControlPanel( EnergySkateParkControlPanel );
 
         barChartFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "bar.charts" ), false );
-        barChartFrame.setContentPane( new BarGraphCanvas( this ) );
+        barGraphCanvas = new BarGraphCanvas( this );
+        barChartFrame.setContentPane( barGraphCanvas );
 
         barChartFrame.setSize( energyFrameWidth, 600 );
         barChartFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - energyFrameWidth, 0 );
@@ -132,6 +134,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         init();
 //        energyModel.addFloorSpline();
         energyTimeSeriesModel.startLiveMode();
+        barGraphCanvas.reset();
     }
 
 
