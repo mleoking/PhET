@@ -458,4 +458,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         return measuringTape;
     }
 
+    public void updateScale() {
+        panZoomControls.updateScale();
+    }
 }

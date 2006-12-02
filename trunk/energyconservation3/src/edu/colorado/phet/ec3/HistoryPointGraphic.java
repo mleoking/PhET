@@ -52,7 +52,7 @@ public class HistoryPointGraphic extends PNode {
                 toggleVisible();
             }
         };
-        rootNode.addModelTransformListener( new PropertyChangeListener() {
+        rootNode.addWorldTransformListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 update();
             }
