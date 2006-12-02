@@ -17,6 +17,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 /**
@@ -68,7 +69,7 @@ public class PhetRootPNode extends PNode {
      * @param screenChild the node to be removed.
      */
     public void removeScreenChild( PNode screenChild ) {
-        int index = super.indexOfChild( new ScreenChild( screenChild ));
+        int index = super.indexOfChild( new ScreenChild( screenChild ) );
         if( index >= 0 ) {
             removeChild( index );
         }
@@ -80,7 +81,7 @@ public class PhetRootPNode extends PNode {
      * @param worldChild the node to be removed.
      */
     public void removeWorldChild( PNode worldChild ) {
-        int index = super.indexOfChild( new WorldChild( worldChild ));
+        int index = super.indexOfChild( new WorldChild( worldChild ) );
         if( index >= 0 ) {
             removeChild( index );
         }
@@ -215,10 +216,10 @@ public class PhetRootPNode extends PNode {
         worldNode.globalToLocal( dim );
     }
 
-    public double getWorldScale(){
+    public double getWorldScale() {
         return worldNode.getScale();
     }
-    
+
     public void setWorldScale( double scale ) {
         worldNode.setScale( scale );
         updateWorldNodes();
@@ -235,6 +236,10 @@ public class PhetRootPNode extends PNode {
         public boolean equals( Object obj ) {
             return obj instanceof WrapperNode && ( (WrapperNode)obj ).node == node;
         }
+    }
+
+    public void addModelTransformListener( PropertyChangeListener listener ) {
+        worldNode.addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, listener );
     }
 
     private static class ScreenChild extends WrapperNode {

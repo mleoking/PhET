@@ -1,3 +1,7 @@
+1.02.26
+Added zoom buttons to bar graph.
+Bugfix: The record path data stays the same size relative to the man so is unreadable when zoomed out.
+
 1.02.25 (12-1-2006)
 Bugfix: When you have more than one guy (after hitting A) the Return Skater pop-up feature isn't working well.
 
