@@ -52,10 +52,12 @@ public class BarGraphSet extends PNode {
     private PNode maximizeButton;
     private ArrayList barGraphics = new ArrayList();
     private boolean minimized = false;
+    private ValueAccessor[] valueAccessors;
 
-    public BarGraphSet( EnergySkateParkSimulationPanel rampPanel, EnergySkateParkModel rampPhysicalModel, String title, ModelViewTransform1D transform1D ) {
-        this.rampPanel = rampPanel;
-        this.rampPhysicalModel = rampPhysicalModel;
+    public BarGraphSet( EnergySkateParkSimulationPanel energySkateParkSimulationPanel, EnergySkateParkModel energySkateParkModel,
+                        String title, ModelViewTransform1D transform1D ) {
+        this.rampPanel = energySkateParkSimulationPanel;
+        this.rampPhysicalModel = energySkateParkModel;
         this.transform1D = transform1D;
         topY = 0;
         barChartHeight = 400;
@@ -73,9 +75,8 @@ public class BarGraphSet extends PNode {
                 setMinimized( false );
             }
         } );
-//        max.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
         max.setBackground( Color.green );
-        maximizeButton = new PSwing( rampPanel, max );
+        maximizeButton = new PSwing( energySkateParkSimulationPanel, max );
     }
 
     private Font getTitleFont() {
@@ -153,6 +154,14 @@ public class BarGraphSet extends PNode {
         return rampPanel.getEnergyConservationModule().getEnergyLookAndFeel();
     }
 
+    public ModelViewTransform1D getTransform1D() {
+        return new ModelViewTransform1D( transform1D );
+    }
+
+    public void setTransform1D( ModelViewTransform1D modelViewTransform1D ) {
+        transform1D.setTransform( modelViewTransform1D );
+    }
+
     private class XAxis extends PNode {
         private PPath path;
 
@@ -203,22 +212,18 @@ public class BarGraphSet extends PNode {
         }
     }
 
-//    protected RampLookAndFeel getLookAndFeel() {
-//        return rampPanel.getLookAndFeel();
-//    }
-
     public double getMaxDisplayableEnergy() {//TODO! trace dependencies on this (nondynamic ones)
         return Math.abs( transform1D.viewToModelDifferential( (int)( barChartHeight - topY ) ) );
     }
-
 
     private void addBarGraphic( BarGraphic2D barGraphic ) {
         addChild( barGraphic );
         barGraphics.add( barGraphic );
     }
 
-    protected void finishInit( ValueAccessor[] workAccess ) {
-        double w = workAccess.length * ( sep + dw ) - sep;
+    protected void finishInit( ValueAccessor[] valueAccessors ) {
+        this.valueAccessors = valueAccessors;
+        double w = valueAccessors.length * ( sep + dw ) - sep;
 //        System.out.println( "width = " + barWidth );
         background = new PPath( new Rectangle2D.Double( 0, topY, 2 + w, 1000 ) );
         background.setPaint( null );
@@ -230,22 +235,31 @@ public class BarGraphSet extends PNode {
 
         yAxis = new YAxis();
         addChild( yAxis );
-        for( int i = 0; i < workAccess.length; i++ ) {
-            final ValueAccessor accessor = workAccess[i];
+        for( int i = 0; i < valueAccessors.length; i++ ) {
+            final ValueAccessor accessor = valueAccessors[i];
             final BarGraphic2D barGraphic = new BarGraphic2D( accessor.getName(), transform1D,
                                                               accessor.getValue( rampPhysicalModel ), (int)( i * sep + dw ), (int)barWidth,
                                                               (int)barChartHeight, dx, dy, accessor.getColor(), new Font( "Lucida Sans", Font.BOLD, 14 ) );
-            addClockListener( new ClockAdapter() {
-                public void clockTicked( ClockEvent event ) {
-                    barGraphic.setValue( accessor.getValue( rampPhysicalModel ) );
-                }
-            } );
-
             addBarGraphic( barGraphic );
         }
-
+        addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent clockEvent ) {
+                update();
+            }
+        } );
         addChild( titleGraphic );
 //        addMinimizeButton();
+    }
+
+    public void update() {
+        addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
+                for( int i = 0; i < barGraphics.size(); i++ ) {
+                    BarGraphic2D barGraphic2D = (BarGraphic2D)barGraphics.get( i );
+                    barGraphic2D.setValue( valueAccessors[i].getValue( rampPhysicalModel ) );
+                }
+            }
+        } );
     }
 
     protected void addClockListener( ClockListener ClockListener ) {
