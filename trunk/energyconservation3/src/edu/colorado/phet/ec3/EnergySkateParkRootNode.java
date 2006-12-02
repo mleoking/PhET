@@ -83,8 +83,11 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addWorldChild( jetPackGraphics );
         addWorldChild( bodyGraphics );
 
-        addWorldChild( historyGraphics );
-        addWorldChild( historyReadouts );
+//        addWorldChild( historyGraphics );
+        addScreenChild( historyGraphics );
+//        addWorldChild( historyReadouts );
+        addScreenChild( historyReadouts );
+
         addScreenChild( measuringTape );
         addScreenChild( pieCharts );
         addScreenChild( pauseIndicator );
@@ -285,7 +288,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 //        System.out.println( "numHistoryGraphics() = " + numHistoryGraphics() );
 //        System.out.println( "getModel().numHistoryPoints() = " + getModel().numHistoryPoints() );
         while( numHistoryGraphics() < getModel().numHistoryPoints() ) {
-            addHistoryGraphic( new HistoryPointGraphic( getModel().historyPointAt( 0 ) ) );
+            addHistoryGraphic( new HistoryPointGraphic( getModel().historyPointAt( 0 ), this ) );
         }
         while( numHistoryGraphics() > getModel().numHistoryPoints() ) {
             removeHistoryPointGraphic( historyGraphicAt( numHistoryGraphics() - 1 ) );
@@ -454,4 +457,5 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     public PNode getMeasuringTapeNode() {
         return measuringTape;
     }
+
 }

@@ -9,8 +9,10 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 /**
@@ -22,14 +24,17 @@ import java.text.DecimalFormat;
 
 public class HistoryPointGraphic extends PNode {
     private HistoryPoint historyPoint;
+    private EnergySkateParkRootNode rootNode;
     private DecimalFormat formatter = new DecimalFormat( "0.00" );
     private ShadowHTMLGraphic htmlGraphic;
     private String html = "";
     private boolean readoutVisible = false;
 
-    public HistoryPointGraphic( final HistoryPoint historyPoint ) {
+    public HistoryPointGraphic( final HistoryPoint historyPoint, EnergySkateParkRootNode rootNode ) {
         this.historyPoint = historyPoint;
-        final double scale = 1.0 / 50.0;
+        this.rootNode = rootNode;
+//        final double scale = 1.0 / 50.0;
+        final double scale = 1.5;
         final PPath path = new PPath( new Ellipse2D.Double( -5 * scale, -5 * scale, 10 * scale, 10 * scale ) );
         addChild( path );
         path.setStroke( new BasicStroke( (float)( 1.0f * scale ) ) );
@@ -41,12 +46,18 @@ public class HistoryPointGraphic extends PNode {
         htmlGraphic.setColor( Color.black );
 
         htmlGraphic.scale( scale );
-        htmlGraphic.transformBy( AffineTransform.getScaleInstance( 1, -1 ) );
+//        htmlGraphic.transformBy( AffineTransform.getScaleInstance( 1, -1 ) );
         PBasicInputEventHandler eventHandler = new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 toggleVisible();
             }
         };
+        rootNode.addModelTransformListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                update();
+            }
+        } );
+//        rootNode.add
         addInputEventListener( eventHandler );
         htmlGraphic.addInputEventListener( eventHandler );
         update();
@@ -62,7 +73,12 @@ public class HistoryPointGraphic extends PNode {
     }
 
     private void update() {
-        setOffset( historyPoint.getX(), historyPoint.getY() );
+//        setOffset( historyPoint.getX(), historyPoint.getY() );
+
+        Point2D.Double pt = new Point2D.Double( historyPoint.getX(), historyPoint.getY() );
+        rootNode.worldToScreen( pt );
+        setOffset( pt );
+
         String heatString = historyPoint.getThermalEnergy() != 0 ? "Thermal Energy=" + format( historyPoint.getThermalEnergy() ) + " J<br>" : "";
         html = ( "<html>" +
                  "Kinetic Energy=" + format( historyPoint.getKE() ) + " J<br>" +
@@ -76,7 +92,7 @@ public class HistoryPointGraphic extends PNode {
         getReadoutGraphic().setVisible( readoutVisible );
         getReadoutGraphic().setPickable( readoutVisible );
         getReadoutGraphic().setChildrenPickable( readoutVisible );
-        getReadoutGraphic().setOffset( historyPoint.getX(), historyPoint.getY() );
+        getReadoutGraphic().setOffset( getOffset() );
 //        getReadoutGraphic().setTransform( getTransform() );
     }
 
