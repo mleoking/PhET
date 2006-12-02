@@ -21,4 +21,8 @@ public class PanZoomOnscreenControl extends PhetPNode {
     public void reset() {
         panZoomControl.reset();
     }
+
+    public void updateScale() {
+        panZoomControl.updateScale();
+    }
 }

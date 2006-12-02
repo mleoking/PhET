@@ -18,7 +18,7 @@ import java.io.IOException;
 public class PanZoomControl extends JPanel {
     private EnergySkateParkSimulationPanel simulationPanel;
     private double zoomScale = 1.1;
-    int zoomOutCount = 0;
+    private int zoomOutCount = 0;
     private JButton zoomIn;
     private JButton zoomOut;
 
@@ -46,7 +46,21 @@ public class PanZoomControl extends JPanel {
         }
         zoomIn.setEnabled( false );
         setOpaque( false );
+//        phetPCanvas.addComponentListener( new ComponentAdapter() {
+//            public void componentResized( ComponentEvent e ) {
+//                updateZoom();
+//            }
+//        } );
     }
+
+//    private void updateZoom() {
+//        Point2D point = simulationPanel.getCamera().getBounds().getCenter2D();
+//        simulationPanel.getCamera().localToGlobal( point );
+//        simulationPanel.getPhetRootNode().globalToWorld( point );
+//        simulationPanel.getPhetRootNode().scaleWorldAboutPoint( zoomScale, point );
+//        simulationPanel.fireZoomEvent();
+//        zoomIn.setEnabled( zoomOutCount > 0 );
+//    }
 
     private void zoomInOnce() {
         zoomOutCount--;
@@ -59,7 +73,6 @@ public class PanZoomControl extends JPanel {
     }
 
     private void zoom( double zoomScale ) {
-        //todo zooming is disabled
         Point2D point = simulationPanel.getCamera().getBounds().getCenter2D();
         simulationPanel.getCamera().localToGlobal( point );
         simulationPanel.getPhetRootNode().globalToWorld( point );
@@ -71,6 +84,12 @@ public class PanZoomControl extends JPanel {
     public void reset() {
         while( zoomOutCount > 0 ) {
             zoomInOnce();
+        }
+    }
+
+    public void updateScale() {
+        for( int i = 0; i < zoomOutCount; i++ ) {
+            zoom( 1.0 / zoomScale );
         }
     }
 }
