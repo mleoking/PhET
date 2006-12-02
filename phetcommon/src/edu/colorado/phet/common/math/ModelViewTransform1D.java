@@ -31,6 +31,11 @@ public class ModelViewTransform1D {
         this( m.getMinModel(), m.getMaxModel(), m.getMinView(), m.getMaxView() );
     }
 
+    public void setTransform( ModelViewTransform1D m ) {
+        modelToView.setInput( m.getMinModel(), m.getMaxModel() );
+        modelToView.setOutput( m.getMinView(), m.getMaxView() );
+    }
+
     public double getMinModel() {
         return modelToView.getMinInput();
     }
