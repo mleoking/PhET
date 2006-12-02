@@ -238,7 +238,7 @@ public class PhetRootPNode extends PNode {
         }
     }
 
-    public void addModelTransformListener( PropertyChangeListener listener ) {
+    public void addWorldTransformListener( PropertyChangeListener listener ) {
         worldNode.addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, listener );
     }
 
