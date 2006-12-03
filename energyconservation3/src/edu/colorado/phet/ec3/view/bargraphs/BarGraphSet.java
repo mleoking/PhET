@@ -23,6 +23,8 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -248,18 +250,21 @@ public class BarGraphSet extends PNode {
             }
         } );
         addChild( titleGraphic );
+        addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                update();
+            }
+        } );
 //        addMinimizeButton();
     }
 
     public void update() {
-        addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent event ) {
-                for( int i = 0; i < barGraphics.size(); i++ ) {
-                    BarGraphic2D barGraphic2D = (BarGraphic2D)barGraphics.get( i );
-                    barGraphic2D.setValue( valueAccessors[i].getValue( rampPhysicalModel ) );
-                }
+        if( getVisible() ) {
+            for( int i = 0; i < barGraphics.size(); i++ ) {
+                BarGraphic2D barGraphic2D = (BarGraphic2D)barGraphics.get( i );
+                barGraphic2D.setValue( valueAccessors[i].getValue( rampPhysicalModel ) );
             }
-        } );
+        }
     }
 
     protected void addClockListener( ClockListener ClockListener ) {
