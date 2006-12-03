@@ -60,7 +60,8 @@ public class BarGraphic2D extends PNode {
     }
 
     public void setValue( double value ) {
-        if( value != this.value && Math.abs( value ) != Math.abs( this.value ) ) {
+//        if( value != this.value && Math.abs( value ) != Math.abs( this.value ) ) {
+        if( value != this.value ) {
             this.value = value;
             if( value < 0 ) {
                 rectangle3DGraphic.setOffset( 0, -computeHeight() );//a big hack to make negative values work.

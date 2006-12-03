@@ -1,4 +1,4 @@
-1.02.26
+1.02.26 (12-2-2006)
 Added zoom buttons to bar graph.
 Bugfix: The record path data stays the same size relative to the man so is unreadable when zoomed out.
 Bugfix: Resizing the window shouldn't reset zoom.
