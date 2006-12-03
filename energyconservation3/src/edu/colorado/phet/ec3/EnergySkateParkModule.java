@@ -82,7 +82,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         barGraphCanvas = new BarGraphCanvas( this );
         barChartFrame.setContentPane( barGraphCanvas );
 
-        barChartFrame.setSize( energyFrameWidth, 600 );
+        barChartFrame.setSize( energyFrameWidth, 625 );
         barChartFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - energyFrameWidth, 0 );
 
         chartFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "energy.vs.time" ), false );
