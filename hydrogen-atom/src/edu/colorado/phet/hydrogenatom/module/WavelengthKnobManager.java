@@ -23,7 +23,15 @@ import edu.colorado.phet.hydrogenatom.model.*;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
-
+/**
+ * WavelengthKnobManager manages the knob on the gun's wavelength slider.
+ * The knob is hilited when it is dragged "sufficiently close" to a 
+ * value that would cause the atom to undergo a transition from state=1
+ * to some other state. When the knob is released, the hilite is cleared.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class WavelengthKnobManager {
 
     //----------------------------------------------------------------------------
