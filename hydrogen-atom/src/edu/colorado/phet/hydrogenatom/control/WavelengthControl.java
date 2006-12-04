@@ -66,6 +66,7 @@ public class WavelengthControl extends PhetPNode {
     
     private static final Dimension KNOB_SIZE = new Dimension( 20, 20 );
     private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
+    private static final Color KNOB_STROKE_COLOR = Color.WHITE;
     
     private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0" );
     private static final double VALUE_Y_OFFSET = 2;
@@ -78,10 +79,12 @@ public class WavelengthControl extends PhetPNode {
     
     private static final String UV_STRING = "UV";
     private static final String IR_STRING = "IR";
-    private static final Color DEFAULT_UV_TRACK_COLOR = Color.LIGHT_GRAY;
-    private static final Color DEFAULT_UV_LABEL_COLOR = Color.BLACK;
-    private static final Color DEFAULT_IR_TRACK_COLOR = DEFAULT_UV_TRACK_COLOR;
-    private static final Color DEFAULT_IR_LABEL_COLOR = DEFAULT_UV_LABEL_COLOR;
+    private static final Color UV_TRACK_COLOR = Color.LIGHT_GRAY;
+    private static final Color UV_LABEL_COLOR = Color.BLACK;
+    private static final Color IR_TRACK_COLOR = UV_TRACK_COLOR;
+    private static final Color IR_LABEL_COLOR = UV_LABEL_COLOR;
+    
+    private static final int TEXT_FIELD_COLUMNS = 3;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -119,8 +122,8 @@ public class WavelengthControl extends PhetPNode {
      */
     public WavelengthControl( PSwingCanvas canvas ) {
         this( canvas, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, 
-                DEFAULT_UV_TRACK_COLOR, DEFAULT_UV_LABEL_COLOR,
-                DEFAULT_IR_TRACK_COLOR, DEFAULT_IR_LABEL_COLOR );
+                UV_TRACK_COLOR, UV_LABEL_COLOR,
+                IR_TRACK_COLOR, IR_LABEL_COLOR );
     }
     
     /**
@@ -133,8 +136,8 @@ public class WavelengthControl extends PhetPNode {
      */
     public WavelengthControl( PSwingCanvas canvas, double minWavelength, double maxWavelength ) {
         this( canvas, minWavelength, maxWavelength, 
-                DEFAULT_UV_TRACK_COLOR, DEFAULT_UV_LABEL_COLOR,
-                DEFAULT_IR_TRACK_COLOR, DEFAULT_IR_LABEL_COLOR );
+                UV_TRACK_COLOR, UV_LABEL_COLOR,
+                IR_TRACK_COLOR, IR_LABEL_COLOR );
     }
     
     /**
@@ -360,6 +363,22 @@ public class WavelengthControl extends PhetPNode {
         _cursor.setStrokePaint( color );
     }
     
+    /**
+     * Sets the stroke used to outline the slider knob.
+     * @return
+     */
+    public void setKnobStroke( Stroke stroke ) {
+        _knob.setStroke( stroke );
+    }
+    
+    /**
+     * Sets the color used to stroke the slider knob.
+     * @return
+     */
+    public void setKnobStrokeColor( Color strokeColor ) {
+        _knob.setStrokePaint( strokeColor );
+    }
+    
     //----------------------------------------------------------------------------
     // Private methods
     //----------------------------------------------------------------------------
@@ -495,7 +514,7 @@ public class WavelengthControl extends PhetPNode {
             setPathTo( path );
             
             setStroke( KNOB_STROKE );
-            setPaint( Color.WHITE );
+            setPaint( KNOB_STROKE_COLOR );
         }
     }
     
@@ -613,7 +632,7 @@ public class WavelengthControl extends PhetPNode {
             
             /* editable text field */
             _formattedTextField = new JFormattedTextField();
-            _formattedTextField.setColumns( 3 );
+            _formattedTextField.setColumns( TEXT_FIELD_COLUMNS );
             _formattedTextField.setHorizontalAlignment( JTextField.RIGHT );
             
             _formattedTextField.addActionListener( new ActionListener() {
