@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- make wavelength slider knob hilite when close to a transition wavelength, snap to closest transition wavelength if knob hilited
+- add developer control for WavelengthKnobManager threshold
 - wireframe in 3D deBroglie looks like it's only using 2 colors to indicate z-depth, palette has 16 colors
 - remove HACKs in PNode3D that makes bounds appear correct
 - use ModelViewTransform when mapping deBroglie model to 3D wireframe view
