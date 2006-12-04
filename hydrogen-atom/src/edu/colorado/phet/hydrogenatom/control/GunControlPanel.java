@@ -195,6 +195,18 @@ public class GunControlPanel extends PhetPNode implements Observer {
     }
     
     //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets a reference to the wavelength control.
+     * @return WavelengthControl
+     */
+    public WavelengthControl getWavelengthControl() {
+        return _wavelengthControl;
+    }
+    
+    //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
     
