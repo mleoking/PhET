@@ -44,7 +44,7 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
     // color used when amplitude = +1
     public static Color PLUS_COLOR = Color.BLUE;
     // color used when amplitude = -1
-    public static Color MINUS_COLOR = Color.WHITE;
+    public static Color MINUS_COLOR = Color.BLACK;
     // color used when amplitude = 0
     public static Color ZERO_COLOR = ColorUtils.interpolateRBGA( MINUS_COLOR, PLUS_COLOR, 0.5 );
     
