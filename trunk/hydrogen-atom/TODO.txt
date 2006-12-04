@@ -56,7 +56,9 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
-(12/4/06) -add isDragging method to WavelengthControl and ConstrainedDragHandler, test
+(12/4/06) - make wavelength slider knob hilite when close to a transition wavelength, snap to closest transition wavelength
+(12/4/06) - remove isDragging method from WavelengthControl
+(12/4/06) - add isDragging method to WavelengthControl and ConstrainedDragHandler, test
 (12/4/06) - add ability to change knob stroke to WavelengthControl
 (12/4/06) - replace Color.WHITE with Color.BLACK in deBroglie brightness representations
 (11/30/06) - use a separate instance of Random for each task in Gun model

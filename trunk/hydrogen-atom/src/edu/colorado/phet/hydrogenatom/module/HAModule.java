@@ -116,6 +116,7 @@ public class HAModule extends PiccoloModule {
     private boolean _wiggleMeInitialized = false;
     
     private HAModelViewManager _modelViewManager;
+    private WavelengthKnobManager _wavelengthKnobManager;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -237,6 +238,7 @@ public class HAModule extends PiccoloModule {
 
         // Gun control panel
         _gunControlPanel = new GunControlPanel( _canvas, _model.getGun() );
+        _wavelengthKnobManager = new WavelengthKnobManager( _gunControlPanel.getWavelengthControl() );
 
         // Spectrometer
         {
@@ -577,6 +579,10 @@ public class HAModule extends PiccoloModule {
         
         assert ( _hydrogenAtomModel != null );
         _model.addModelElement( _hydrogenAtomModel );
+        
+        int groundState = _hydrogenAtomModel.getGroundState();
+        double[] transitionWavelengths = _hydrogenAtomModel.getTransitionWavelengths( groundState );
+        _wavelengthKnobManager.setTransitionWavelengths( transitionWavelengths );
     }
 
     public void updateEnergyDiagram() {
