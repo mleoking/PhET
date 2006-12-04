@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- replace Color.WHITE with Color.BLACK in deBroglie brightness representations
 - make wavelength slider knob hilite when close to a transition wavelength, snap to closest transition wavelength if knob hilited
 - wireframe in 3D deBroglie looks like it's only using 2 colors to indicate z-depth, palette has 16 colors
 - remove HACKs in PNode3D that makes bounds appear correct
@@ -56,6 +55,7 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 
 DONE:
+(12/4/06) - replace Color.WHITE with Color.BLACK in deBroglie brightness representations
 (11/30/06) - use a separate instance of Random for each task in Gun model
 (11/30/06) - rename SpectralLineTableDialog to TransitionsDialog, label "Transitions"
 (11/30/06) - change white light to be 60% random visible wavelengths, 40% transition wavelengths for state=1
