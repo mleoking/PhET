@@ -43,6 +43,18 @@ public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
         }
     }
 
+    protected static BufferedImage getNeutronImage() {
+        return neutronImage;
+    }
+
+    protected static AffineTransform getAtx() {
+        return atx;
+    }
+
+    protected static Stroke getOutlineStroke() {
+        return outlineStroke;
+    }
+
     public NeutronGraphic() {
         super( color );
     }
@@ -54,7 +66,8 @@ public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
 
     public void paint( Graphics2D g, double x, double y ) {
         atx.setToTranslation( x, y );
-        g.drawImage( neutronImage, atx, this );
+        g.drawImage( getNeutronImage(), atx, this );
+//        g.drawImage( neutronImage, atx, this );
         g.setColor( Color.black );
         g.setStroke( outlineStroke );
 //        AffineTransform orgTx = g.getTransform();
