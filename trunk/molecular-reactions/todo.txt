@@ -1,9 +1,3 @@
-- the "Design a reaction" check box needs to respond to when the "design your own" reaction
-    is selected
-
-
-
-- With strip chart up for a long time, the sim choked
 - Make most Reaction methods static
 - Use CollisionParams to replace individual computations of the same thing
 - Phet logo should be centered over the control panel
@@ -225,3 +219,9 @@ Done
 11-29-06 - Reset All resets the reaction
 11-29-06 - Changing Launcher Options also reloads the launcher
 11-29-06 - Made profile colors consistent with Energy Skate Park
+
+11-30-06 - Energy profile background should be white
+11-30-06 - Made panels in play area bigger to make better use of space
+11-30-06 - Tightened up Experiments control panel and added strut to both control panels so they
+    don't change size when modules change
+11-30-06 - Made total energy line olive.    
