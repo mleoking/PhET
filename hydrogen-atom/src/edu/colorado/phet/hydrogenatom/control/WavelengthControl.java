@@ -379,6 +379,14 @@ public class WavelengthControl extends PhetPNode {
         _knob.setStrokePaint( strokeColor );
     }
     
+    /**
+     * Determines dragging of the slider knob is in progress.
+     * @return true or false
+     */
+    public boolean isDragging() {
+        return _dragHandler.isDragging();
+    }
+    
     //----------------------------------------------------------------------------
     // Private methods
     //----------------------------------------------------------------------------
