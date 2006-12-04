@@ -43,6 +43,7 @@ import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -192,9 +193,9 @@ public class WavelengthControl extends PhetPNode {
         
         addChild( _track );
         addChild( trackBorder );
-        addChild( _knob );
         addChild( _valueDisplay );
         addChild( _cursor );
+        addChild( _knob );
         
         // Track position never changes and defines the origin.
         _track.setOffset( 0, 0 );
@@ -380,11 +381,11 @@ public class WavelengthControl extends PhetPNode {
     }
     
     /**
-     * Determines dragging of the slider knob is in progress.
-     * @return true or false
+     * Adds a listener to the knob, so we tell when we're dragging it.
+     * @param listener
      */
-    public boolean isDragging() {
-        return _dragHandler.isDragging();
+    public void addKnobListener( PInputEventListener listener ) {
+        _knob.addInputEventListener( listener );
     }
     
     //----------------------------------------------------------------------------

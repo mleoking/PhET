@@ -44,9 +44,6 @@ public class BohrModel extends AbstractHydrogenAtom {
     // Private class data
     //----------------------------------------------------------------------------
     
-    /* Ground state */
-    private static final int GROUND_STATE = 1;
-    
     /* Radius of each orbit supported by this model */
     private static final double[] ORBIT_RADII = { 15, 44, 81, 124, 174, 233 };
     
@@ -145,14 +142,6 @@ public class BohrModel extends AbstractHydrogenAtom {
     }
     
     /**
-     * Gets the ground state.
-     * @return
-     */
-    public static int getGroundState() {
-        return GROUND_STATE;
-    }
-    
-    /**
      * Gets the radius for a specified state.
      * @param state
      * @return
@@ -197,6 +186,27 @@ public class BohrModel extends AbstractHydrogenAtom {
      */
     public double getElectronOrbitRadius() {
         return getOrbitRadius( _electronState );
+    }
+    
+    //----------------------------------------------------------------------------
+    // AbstractHydrogenAtom overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the transition wavelengths for a specified state.
+     * @param state
+     * @return double[]
+     */
+    public double[] getTransitionWavelengths( int state ) {
+        double[] transitionWavelengths = null;
+        int maxState = getGroundState() + getNumberOfStates() - 1;
+        if ( state < maxState ) {
+            transitionWavelengths = new double[ maxState - state ];
+            for ( int i = 0; i < transitionWavelengths.length; i++ ) {
+                transitionWavelengths[i] = getWavelengthAbsorbed( state, state + i + 1 );
+            }
+        }
+        return transitionWavelengths;
     }
     
     //----------------------------------------------------------------------------

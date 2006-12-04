@@ -41,6 +41,13 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
     public static final String PROPERTY_ATOM_IONIZED = "atomIonized";
     
     //----------------------------------------------------------------------------
+    // Private class data
+    //----------------------------------------------------------------------------
+    
+    /* Ground state */
+    protected static final int GROUND_STATE = 1;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
@@ -59,6 +66,34 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
     public AbstractHydrogenAtom( Point2D position, double orientation ) {
         super( position, orientation );
         _listenerList = new EventListenerList();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the ground state.
+     * The notion of "ground state" does not apply to all
+     * hydrogen atom models, but it is convenient to have it here.
+     * 
+     * @return int
+     */
+    public static int getGroundState() {
+        return GROUND_STATE;
+    }
+    
+    /**
+     * Gets the transition wavelengths for a specified state.
+     * The default implementation returns null.
+     * The notion of "transition wavelength" does not apply to all
+     * hydrogen atom models, but it is convenient to have it here.
+     * 
+     * @param state
+     * @return double[]
+     */
+    public double[] getTransitionWavelengths( int state ) {
+        return null;
     }
     
     //----------------------------------------------------------------------------
