@@ -21,6 +21,7 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
@@ -530,7 +531,6 @@ public class ControlledFissionModule extends ChainReactionModule {
         } );
     }
 
-
     /**
      * Need to figure out how to make the image bigger without scaling the translation, too
      * @param neutron
@@ -538,25 +538,6 @@ public class ControlledFissionModule extends ChainReactionModule {
      */
     protected NeutronGraphic createNeutronGraphic( NuclearParticle neutron ) {
         return new BigNeutronGraphic( neutron );
-    }
-
-    private class BigNeutronGraphic extends NeutronGraphic {
-
-        public BigNeutronGraphic() {
-            super();
-        }
-
-        public BigNeutronGraphic( NuclearParticle particle ) {
-            super( particle );
-        }
-
-
-        public void paint( Graphics2D g, double x, double y ) {
-            AffineTransform orgAtx = g.getTransform();
-            g.transform( AffineTransform.getScaleInstance( 1, 1 ));
-            super.paint( g, x, y );
-            g.setTransform( orgAtx);
-        }
     }
 
     /**
