@@ -50,7 +50,7 @@ public class MRConfig {
     public static final Class DEFAULT_LAUNCHER_MOLECULE_CLASS = MoleculeA.class;
 
     // View Constants
-    public static int CONTROL_PANEL_WIDTH = 250;
+    public static int CONTROL_PANEL_WIDTH = 150;
     public static final Dimension SIMULATION_PANEL_SIZE = new Dimension( 850, 575 );
     public static final Dimension SPATIAL_VIEW_SIZE = new Dimension( 520, 530 );
 //    public static final Dimension SPATIAL_VIEW_SIZE = new Dimension( 850, 575 );

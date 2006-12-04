@@ -63,9 +63,9 @@ public class ComplexModule extends MRModule {
 
 //        controlPanel = new ComplexMRControlPanel( this );
 //        getControlPanel().addControlFullWidth( controlPanel );
-        Component strut = Box.createHorizontalStrut( MRConfig.CONTROL_PANEL_WIDTH );
-        getControlPanel().addControl( strut );
-        ComplexMRControlPanel.addControls( this );
+//        Component strut = Box.createHorizontalStrut( MRConfig.CONTROL_PANEL_WIDTH );
+//        getControlPanel().addControl( strut );
+        controlPanel = ComplexMRControlPanel.addControls( this );
 
         
 

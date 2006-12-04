@@ -44,17 +44,19 @@ public class ComplexMRControlPanel extends MRControlPanel {
 
     /**
      * This is an attempt to prevent the ControlPanel from adding space on the right when the
-     * controls extend slightly below the bottom of the play area. It didn't work, by the way
+     * controls extend slightly below the bottom of the play area. It's a real hack to do
+     * it this way.
      * 
      * @param module
      */
-    public static void addControls( ComplexModule module ) {
+    public static ComplexMRControlPanel addControls( ComplexModule module ) {
         ComplexMRControlPanel cp = new ComplexMRControlPanel( module );
         ControlPanel controlPanel = module.getControlPanel();
         controlPanel.addControlFullWidth( cp.moleculeInstanceControlPanel );
         controlPanel.addControlFullWidth( cp.optionsPanel );
         controlPanel.addControlFullWidth( cp.experimentSetupPanel );
         controlPanel.addControl( cp.resetBtn );
+        return cp;
     }
 
     public ComplexMRControlPanel( final ComplexModule module ) {
