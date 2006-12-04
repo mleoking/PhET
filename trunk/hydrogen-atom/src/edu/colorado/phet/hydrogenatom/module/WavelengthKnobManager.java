@@ -27,7 +27,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * WavelengthKnobManager manages the knob on the gun's wavelength slider.
  * The knob is hilited when it is dragged "sufficiently close" to a 
  * value that would cause the atom to undergo a transition from state=1
- * to some other state. When the knob is released, the hilite is cleared.
+ * to some other state. When the knob is released while it is hilited,
+ * it snaps to the closest transition wavelength, and the hilite is cleared.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -64,6 +65,11 @@ public class WavelengthKnobManager {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param wavelengthControl
+     */
     public WavelengthKnobManager( WavelengthControl wavelengthControl ) {
         
         _wavelengthControl = wavelengthControl;
@@ -85,11 +91,12 @@ public class WavelengthKnobManager {
             }
         } );
         
-        _transitionWavelengths = new double[] { 94, 95, 97, 103, 122 }; //XXX get from atom
+        _transitionWavelengths = null;
         _bestMatch = NO_MATCH;
         _dragging = false;
         
-        updateKnob();
+        _wavelengthControl.setKnobStroke( KNOB_NORMAL_STROKE );
+        _wavelengthControl.setKnobStrokeColor( KNOB_NORMAL_COLOR );
     }
     
     //----------------------------------------------------------------------------
