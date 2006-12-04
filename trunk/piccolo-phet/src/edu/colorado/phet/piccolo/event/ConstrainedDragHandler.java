@@ -56,6 +56,8 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
     private boolean _markAsHandled;
     /* should we constrain dragging using full bounds? */
     private boolean _useFullBounds;
+    /* are we in the middle of a drag? */
+    private boolean _isDragging;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -86,6 +88,7 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
         _treatAsPointEnabled = false;
         _markAsHandled = false;
         _useFullBounds = true;
+        _isDragging = false;
     }
     
     //----------------------------------------------------------------------------
@@ -258,15 +261,25 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
         _useFullBounds = useFullBounds;
     }
     
+    /**
+     * Determines whether we're in the middle of a drag.
+     * @return true or false
+     */
+    public boolean isDragging() {
+        return _isDragging;
+    }
+    
     //----------------------------------------------------------------------------
     // PBasicInputEventHandler overrides
     //----------------------------------------------------------------------------
     
     /*
-     * When the mouse is pressed, remember where we pressed
-     * relative to the node's upper left corner.
+     * When the mouse is pressed, we are starting a drag.
+     * Remember where we pressed relative to the node's upper left corner.
      */
     public void mousePressed( PInputEvent event ) {
+        
+        _isDragging = true;
         
         Point2D mousePosition = event.getPosition();
         PNode node = event.getPickedNode();
@@ -278,6 +291,13 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
         _pressedOffset.setLocation( x, y );
         
         event.setHandled( _markAsHandled );
+    }
+    
+    /*
+     * When the mouse is released, we've complete the drag.
+     */
+    public void mouseReleased( PInputEvent event ) {
+        _isDragging = false;
     }
     
     /*
