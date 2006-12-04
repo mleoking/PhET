@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.test;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -50,6 +51,21 @@ public class TestWavelengthControl extends JFrame {
         canvas.getLayer().addChild( c1 );
         c1.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
+        c1.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                // Hilite the slider knob for a range of values
+                WavelengthControl c = (WavelengthControl)e.getSource();
+                double wavelength = c.getWavelength();
+                if ( wavelength > 500 && wavelength < 600 ) {
+                    c.setKnobStroke( new BasicStroke(3f) );
+                    c.setKnobStrokeColor( Color.RED );
+                }
+                else {
+                    c.setKnobStroke( new BasicStroke(1f) );
+                    c.setKnobStrokeColor( Color.BLACK );
+                }
+            }
+        } );
         
         // Visible range (specified)
         WavelengthControl c2 = new WavelengthControl( canvas, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH  );
