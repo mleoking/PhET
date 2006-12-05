@@ -28,10 +28,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
-import edu.colorado.phet.hydrogenatom.control.GunControlPanel;
-import edu.colorado.phet.hydrogenatom.control.HAClockControlPanel;
-import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
+import edu.colorado.phet.hydrogenatom.control.*;
 import edu.colorado.phet.hydrogenatom.energydiagrams.BohrEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.DeBroglieEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
@@ -116,7 +113,6 @@ public class HAModule extends PiccoloModule {
     private boolean _wiggleMeInitialized = false;
     
     private HAModelViewManager _modelViewManager;
-    private WavelengthKnobManager _wavelengthKnobManager;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -238,7 +234,6 @@ public class HAModule extends PiccoloModule {
 
         // Gun control panel
         _gunControlPanel = new GunControlPanel( _canvas, _model.getGun() );
-        _wavelengthKnobManager = new WavelengthKnobManager( _gunControlPanel.getWavelengthControl() );
 
         // Spectrometer
         {
@@ -582,7 +577,7 @@ public class HAModule extends PiccoloModule {
         
         int groundState = _hydrogenAtomModel.getGroundState();
         double[] transitionWavelengths = _hydrogenAtomModel.getTransitionWavelengths( groundState );
-        _wavelengthKnobManager.setTransitionWavelengths( transitionWavelengths );
+        _gunControlPanel.setTransitionWavelengths( transitionWavelengths );
     }
 
     public void updateEnergyDiagram() {
