@@ -61,6 +61,9 @@ public class Gun extends FixedObject implements ModelElement {
     // probability that a "white light" photon's wavelength will one that causes a state transition
     private static final double TRANSITION_WAVELENGTHS_WEIGHT = 0.40; // 1.0 = 100%
     
+    // probability that the gun will fire from it's center
+    private static final double CENTER_FIRE_PROBABILITY = 0.10; // 1.0 = 100%
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -83,6 +86,7 @@ public class Gun extends FixedObject implements ModelElement {
     private Random _randomTransitionWavelength; // random number generator for transmission wavelengths
     private Random _randomVisibleWavelength; // random number generator for visible wavelengths
     private Random _randomPosition; // random number generator for photon position
+    private Random _randomCenterFire; // determines whether to fire from center of gun
     
     private EventListenerList _listenerList;
     
@@ -119,6 +123,7 @@ public class Gun extends FixedObject implements ModelElement {
         _randomTransitionWavelength = new Random();
         _randomVisibleWavelength = new Random();
         _randomPosition = new Random();
+        _randomCenterFire = new Random();
         
         _dtSinceGunFired = 0;
         setMaxParticles( 20 );
@@ -383,7 +388,10 @@ public class Gun extends FixedObject implements ModelElement {
         
         // Start with the gun's origin at zero, gun pointing to the right
         double x = 1;
-        double y = ( _randomPosition.nextDouble() * _nozzleWidth ) - ( _nozzleWidth / 2 );
+        double y = 0;
+        if ( _randomCenterFire.nextDouble() > CENTER_FIRE_PROBABILITY ) {
+            y = ( _randomPosition.nextDouble() * _nozzleWidth ) - ( _nozzleWidth / 2 );
+        }
 
         // Rotate by gun's orientation
         Point2D p1 = new Point2D.Double( x, y );
