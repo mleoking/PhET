@@ -67,7 +67,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
     private PhetPNode _lightControls;
     private LightTypeControl _lightTypeControl;
     private IntensityControl _lightIntensityControl;
-    private WavelengthControl _wavelengthControl;
+    private GunWavelengthControl _wavelengthControl;
     private PhetPNode _alphaParticleControls;
     private IntensityControl _alphaParticlesIntensityControl;
     
@@ -94,7 +94,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _lightControls = new PhetPNode();
         _lightTypeControl = new LightTypeControl( font );
         _lightIntensityControl = new IntensityControl( INTENSITY_CONTROL_SIZE, font );
-        _wavelengthControl = new WavelengthControl( canvas,
+        _wavelengthControl = new GunWavelengthControl( canvas,
                 _gun.getMinWavelength(), _gun.getMaxWavelength(),
                 HAConstants.UV_TRACK_COLOR, HAConstants.UV_LABEL_COLOR,
                 HAConstants.IR_TRACK_COLOR, HAConstants.IR_LABEL_COLOR );
@@ -199,11 +199,11 @@ public class GunControlPanel extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets a reference to the wavelength control.
-     * @return WavelengthControl
+     * Sets the transition wavelengths for the wavelength control.
+     * @param transitionWavelengths possibly null
      */
-    public WavelengthControl getWavelengthControl() {
-        return _wavelengthControl;
+    public void setTransitionWavelengths( double[] transitionWavelengths ) {
+        _wavelengthControl.setTransitionWavelengths( transitionWavelengths );
     }
     
     //----------------------------------------------------------------------------
