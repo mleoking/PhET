@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add developer control for WavelengthKnobManager threshold
 - wireframe in 3D deBroglie looks like it's only using 2 colors to indicate z-depth, palette has 16 colors
 - remove HACKs in PNode3D that makes bounds appear correct
 - use ModelViewTransform when mapping deBroglie model to 3D wireframe view
@@ -56,6 +55,8 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/5/06) - add developer control for GunWavelengthControl hilite threshold
+(12/5/06) - create SpinnerControl to clean up develop controls dialog
 (12/5/06) - use same shade of "electron blue" for all deBroglie representations
 (12/5/06) - move common static methods to AbstractHydrogenAtom
 (12/5/06) - make WavelengthKnobManager an extension of WavelengthControl (GunWavelengthControl)
