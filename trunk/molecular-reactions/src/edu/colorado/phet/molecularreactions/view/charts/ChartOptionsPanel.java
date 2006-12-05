@@ -11,7 +11,6 @@
 package edu.colorado.phet.molecularreactions.view.charts;
 
 import edu.colorado.phet.molecularreactions.util.Resetable;
-import edu.colorado.phet.molecularreactions.util.DialogCheckBox;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.model.*;
@@ -31,12 +30,10 @@ import java.awt.*;
 public class ChartOptionsPanel extends JPanel implements Resetable {
     private ComplexModule module;
     private JToggleButton showBondsBtn;
-    private DialogCheckBox showStripChartBtn;
+    private JToggleButton showStripChartBtn;
     private JToggleButton showPieChartBtn;
     private JToggleButton showBarChartBtn;
-    private JToggleButton trackMoleculeBtn;
     private JToggleButton showNoneBtn;
-    private JToggleButton designReactionBtn;
 
     /**
      *
@@ -54,13 +51,6 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
         showBondsBtn.setSelected( false );
         module.setGraphicTypeVisible( showBondsBtn.isSelected() );
 
-        showStripChartBtn = new DialogCheckBox( SimStrings.get( "Control.showStripChart" ) );
-        showStripChartBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setStripChartVisible( showStripChartBtn.isSelected(), showStripChartBtn );
-            }
-        } );
-
         //--------------------------------------------------------------------------------------------------
         // The buttons that put things on the top pane of the energy view
         //--------------------------------------------------------------------------------------------------
@@ -74,18 +64,11 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
             final ButtonGroup chartOptionsBG = new ButtonGroup();
-            trackMoleculeBtn = new JRadioButton( SimStrings.get( "Control.trackMolecule" ) );
-            trackMoleculeBtn.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    setEnergyViewChartOptions( module );
-                }
-            } );
-            chartOptionsBG.add( trackMoleculeBtn );
 
             showBarChartBtn = new JRadioButton( SimStrings.get( "Control.showBarChart" ) );
             showBarChartBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    setEnergyViewChartOptions( module );
+                    setEnergyViewChartOptions();
                 }
             } );
             chartOptionsBG.add( showBarChartBtn );
@@ -93,15 +76,23 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
             showPieChartBtn = new JRadioButton( SimStrings.get( "Control.showPieChart" ) );
             showPieChartBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    setEnergyViewChartOptions( module );
+                    setEnergyViewChartOptions();
                 }
             } );
             chartOptionsBG.add( showPieChartBtn );
 
+            showStripChartBtn = new JRadioButton( SimStrings.get( "Control.showStripChart" ) );
+            showStripChartBtn.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    setEnergyViewChartOptions();
+                }
+            } );
+            chartOptionsBG.add( showStripChartBtn );
+
             showNoneBtn = new JRadioButton( SimStrings.get( "Control.none" ) );
             showNoneBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    setEnergyViewChartOptions( module );
+                    setEnergyViewChartOptions();
                 }
             } );
             showNoneBtn.setSelected( true );
@@ -110,22 +101,13 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
             gbc.gridy = 0;
             chartOptionsPanel.add( showBarChartBtn, gbc );
             gbc.gridx = 1;
-            chartOptionsPanel.add( showNoneBtn, gbc );
+            chartOptionsPanel.add( showStripChartBtn, gbc );
             gbc.gridx = 0;
             gbc.gridy = 1;
             chartOptionsPanel.add( showPieChartBtn, gbc );
+            gbc.gridx = 1;
+            chartOptionsPanel.add( showNoneBtn, gbc );
         }
-
-        //--------------------------------------------------------------------------------------------------
-        // The check box that enables the manipulation of the energy profile with the mouse
-        //--------------------------------------------------------------------------------------------------
-
-        designReactionBtn = new JCheckBox( SimStrings.get( "Control.designReaction"));
-        designReactionBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.getEnergyView().setProfileManipulable( designReactionBtn.isSelected() );
-            }
-        } );
 
         //--------------------------------------------------------------------------------------------------
         // Lay out the panel
@@ -136,24 +118,22 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
         Insets insets = new Insets( 0, 0, 0, 0 );
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                          1, 1, 1, 1,
-                                                         GridBagConstraints.WEST,
+                                                         GridBagConstraints.CENTER,
                                                          GridBagConstraints.HORIZONTAL,
                                                          insets, 0, 0 );
         add( chartOptionsPanel, gbc );
-        gbc.insets = new Insets( 0, 10, 0, 5 );
-        add( showStripChartBtn, gbc );
+        gbc.fill = GridBagConstraints.NONE;
+//        gbc.insets = new Insets( 0, 10, 0, 5 );
         add( showBondsBtn, gbc );
     }
 
     /**
      * Shows/hides charts in the EnergyView based on the state of the radio buttons
-     *
-     * @param module
      */
-    private void setEnergyViewChartOptions( ComplexModule module ) {
+    private void setEnergyViewChartOptions() {
         module.setBarChartVisible( showBarChartBtn.isSelected() );
         module.setPieChartVisible( showPieChartBtn.isSelected() );
-        module.getEnergyView().hideSelectedMolecule( !trackMoleculeBtn.isSelected() );
+        module.setStripChartVisible( showStripChartBtn.isSelected() );
         if( showNoneBtn.isSelected() && module.getMRModel().getMoleculeBeingTracked() != null ) {
             module.getMRModel().getMoleculeBeingTracked().setSelectionStatus( Selectable.NOT_SELECTED );
         }
@@ -164,10 +144,7 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
         showNoneBtn.setSelected( true );
         showBondsBtn.setSelected( false );
 
-        module.setStripChartVisible( showStripChartBtn.isSelected(), showStripChartBtn );
-        module.setBarChartVisible( showBarChartBtn.isSelected() );
-        module.setPieChartVisible( showPieChartBtn.isSelected() );
-        module.setGraphicTypeVisible( showBondsBtn.isSelected() );
+        setEnergyViewChartOptions();
     }
 }
 
