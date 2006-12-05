@@ -1096,11 +1096,11 @@ public class Wireframe3D {
 
         // component deltas between front and back
 
-        float rdelta = ( fr - br ) / 16f;
+        float rdelta = ( fr - br ) / 15f;
 
-        float gdelta = ( fg - bg ) / 16f;
+        float gdelta = ( fg - bg ) / 15f;
 
-        float bdelta = ( fb - bb ) / 16f;
+        float bdelta = ( fb - bb ) / 15f;
 
         
 
