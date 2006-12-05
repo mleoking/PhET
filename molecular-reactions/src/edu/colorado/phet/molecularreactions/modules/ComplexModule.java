@@ -10,23 +10,18 @@
  */
 package edu.colorado.phet.molecularreactions.modules;
 
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.*;
 import edu.colorado.phet.molecularreactions.view.charts.*;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.Rectangle2D;
-import java.awt.*;
-import java.util.List;
 
 /**
  * ComplexModule
@@ -54,7 +49,7 @@ public class ComplexModule extends MRModule {
 
 
     protected ComplexModule( String title ) {
-        super( title );
+        super( title, MRConfig.CHART_PANE_SIZE );
 
         // Disable marking of the selected molecule and its nearest neighbor
         SimpleMoleculeGraphic.setMarkSelectedMolecule( true );
@@ -145,7 +140,11 @@ public class ComplexModule extends MRModule {
                 stripChartDlg = new StripChartDialog( this );
             }
             stripChartDlg.setVisible( true );
-//            stripChartDlg.reset();
+
+//            PhetPCanvas ppc = new PhetPCanvas( stripChartDlg.getContentPane().getPreferredSize() );
+//            ppc.addScreenChild( new PSwing( ppc, (JPanel)stripChartDlg.getContentPane() ));
+//            getEnergyView().addToUpperPane( ppc.getPhetRootNode() );
+            getEnergyView().addToUpperPane( new StripChartNode( this, MRConfig.CHART_PANE_SIZE ) );
         }
         else if( !visible && stripChartDlg != null ) {
             stripChartDlg.setVisible( false );

@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
+import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.awt.*;
 
@@ -26,7 +27,7 @@ public class TestModule extends MRModule {
     private Dimension size = new Dimension( 600, 500 );
 
     public TestModule() {
-        super( "Test" );
+        super( "Test", MRConfig.MOLECULE_SEPARATION_PANE_SIZE );
 
         // Test
 //        testM( (MRModel)getModel() );
