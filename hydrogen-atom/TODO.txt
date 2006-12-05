@@ -55,6 +55,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/5/06) - make gun fire at center of atom 10% of the time
 (12/5/06) - make sure that all atom views apply ModelViewTransform
 (12/5/06) - add developer control for GunWavelengthControl hilite threshold
 (12/5/06) - create SpinnerControl to clean up develop controls dialog
