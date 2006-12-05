@@ -196,9 +196,6 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
             }
 
             final int diff = ( (Integer)getValue() ).intValue() - cnt;
-            if( diff != 0 ) {
-                System.out.println( "diff = " + diff );
-            }
             for( int i = 0; i < Math.abs( diff ); i++ ) {
 
                 SwingUtilities.invokeLater( new Runnable() {
