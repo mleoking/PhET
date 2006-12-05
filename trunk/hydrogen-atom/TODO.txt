@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- Wireframe3D does not assign colors to lines correctly
+- Wireframe3D does not assign colors to lines correctly, computed colorIndex is often <0 or >15
 - Wireframe3DNode should use transformed bounds, needs to be notified when wireframe is transformed
 - remove HACKs in Wireframe3DNode that makes bounds appear correct
 - implement collision detection with deBroglie 3D orbits
