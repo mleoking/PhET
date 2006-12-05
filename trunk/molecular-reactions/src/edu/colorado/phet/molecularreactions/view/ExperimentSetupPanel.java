@@ -107,8 +107,16 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
                                                                   GridBagConstraints.NONE,
                                                                   new Insets( 2, 3, 3, 3 ),
                                                                   0, 0 );
+        labelGbc.gridx = 0;
+        labelGbc.gridwidth = 4;
+        labelGbc.anchor = GridBagConstraints.WEST;
+        add( new JLabel( SimStrings.get( "Control.selectReaction" ) ), labelGbc );
+        labelGbc.anchor = GridBagConstraints.CENTER;
+        add( new ReactionChooserComboBox( module ), labelGbc );
+
         // Header
         labelGbc.gridwidth = 4;
+        labelGbc.anchor = GridBagConstraints.WEST;
         add( topLineLbl, labelGbc );
 
         // Labels
@@ -132,12 +140,11 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         add( numBCTF, textFieldGbc );
         add( numCTF, textFieldGbc );
 
+        // Buttons
         labelGbc.gridx = 0;
         labelGbc.gridwidth = 4;
         labelGbc.anchor = GridBagConstraints.WEST;
-        add( new JLabel( SimStrings.get( "Control.selectReaction" ) ), labelGbc );
         labelGbc.anchor = GridBagConstraints.CENTER;
-        add( new ReactionChooserComboBox( module ), labelGbc );
         add( goStopBtn, labelGbc );
         add( resetBtn, labelGbc );
     }
@@ -213,9 +220,10 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         generateMolecules( MoleculeC.class, -moleculeCCounter.getCnt() );
 
         module.setStripChartVisible( false );
-
-        // This must come after the state of the goStopBtn has been set
+        module.setExperimentRunning( false );
         module.getClock().start();
+
+
     }
 
     //--------------------------------------------------------------------------------------------------
