@@ -158,6 +158,18 @@ public class Wireframe3D {
 
     //----------------------------------------------------------------------------
 
+    // Debug
+
+    //----------------------------------------------------------------------------
+
+    
+
+    private static final boolean PRINT_COLOR_PALETTE = false;
+
+    
+
+    //----------------------------------------------------------------------------
+
     // Class data
 
     //----------------------------------------------------------------------------
@@ -370,7 +382,11 @@ public class Wireframe3D {
 
         _palette = createColorPalette( front, back );
 
-        printColorPalette( _palette );//XXX
+        if ( PRINT_COLOR_PALETTE ) {
+
+            printColorPalette( _palette );
+
+        }
 
     }
 
