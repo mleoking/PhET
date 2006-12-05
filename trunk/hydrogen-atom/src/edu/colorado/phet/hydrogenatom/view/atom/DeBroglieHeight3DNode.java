@@ -132,8 +132,8 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         PNode parentNode = new PNode();
         {
             // 3D orbits
-            int groundState = DeBroglieModel.getGroundState();
-            int numberOfStates = DeBroglieModel.getNumberOfStates();
+            int groundState = getAtom().getGroundState();
+            int numberOfStates = getAtom().getNumberOfStates();
             for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
                 double radius = getAtom().getOrbitRadius( state );
                 Wireframe3DNode orbitNode = create3DOrbitNode( radius, _viewMatrix, _orbitVerticies );

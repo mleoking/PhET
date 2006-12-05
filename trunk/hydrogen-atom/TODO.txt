@@ -56,6 +56,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/5/06) - move common static methods to AbstractHydrogenAtom
 (12/5/06) - make WavelengthKnobManager an extension of WavelengthControl (GunWavelengthControl)
 (12/4/06) - make wavelength slider knob hilite when close to a transition wavelength, snap to closest transition wavelength
 (12/4/06) - remove isDragging method from WavelengthControl
