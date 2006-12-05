@@ -84,6 +84,15 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
     }
     
     /**
+     * Gets the number of electron states that the model supports.
+     * The default is zero, since some models have no notion of "state".
+     * @return int
+     */
+    public static int getNumberOfStates() {
+        return 0;
+    }
+    
+    /**
      * Gets the transition wavelengths for a specified state.
      * The default implementation returns null.
      * The notion of "transition wavelength" does not apply to all

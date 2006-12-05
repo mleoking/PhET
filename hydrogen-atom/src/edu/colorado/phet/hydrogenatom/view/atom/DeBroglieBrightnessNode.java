@@ -71,7 +71,7 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
         super( atom );
         _ringNode = new PNode();
         _polygons = new ArrayList();
-        _previousState = DeBroglieModel.getGroundState() - 1; // force initialization
+        _previousState = atom.getGroundState() - 1; // force initialization
         addChild( _ringNode );
         update();
     }

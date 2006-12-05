@@ -144,8 +144,8 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
         private void initStaticNodes() {
 
             // Orbits
-            int groundState = DeBroglieModel.getGroundState();
-            int numberOfStates = DeBroglieModel.getNumberOfStates();
+            int groundState = getAtom().getGroundState();
+            int numberOfStates = getAtom().getNumberOfStates();
             for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
                 double radius = getAtom().getOrbitRadius( state );
                 PNode orbitNode = OrbitNodeFactory.createOrbitNode( radius );

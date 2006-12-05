@@ -133,15 +133,6 @@ public class BohrModel extends AbstractHydrogenAtom {
     }
     
     /**
-     * Gets the number of electron states that the model supports.
-     * This is the same as the number of orbits.
-     * @return int
-     */
-    public static int getNumberOfStates() {
-        return ORBIT_RADII.length;
-    }
-    
-    /**
      * Gets the radius for a specified state.
      * @param state
      * @return
@@ -191,6 +182,15 @@ public class BohrModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     // AbstractHydrogenAtom overrides
     //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the number of electron states that the model supports.
+     * This is the same as the number of orbits.
+     * @return int
+     */
+    public static int getNumberOfStates() {
+        return ORBIT_RADII.length;
+    }
     
     /**
      * Gets the transition wavelengths for a specified state.
