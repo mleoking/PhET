@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
 import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode.AbstractDeBroglie2DViewStrategy;
+import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -42,7 +43,7 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
     public static final double RING_WIDTH = 5;
   
     // color used when amplitude = +1
-    public static Color PLUS_COLOR = Color.BLUE;
+    public static Color PLUS_COLOR = ElectronNode.getColor();
     // color used when amplitude = -1
     public static Color MINUS_COLOR = Color.BLACK;
     // color used when amplitude = 0
