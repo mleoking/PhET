@@ -5,8 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- wireframe in 3D deBroglie looks like it's only using 2 colors to indicate z-depth, palette has 16 colors
-- remove HACKs in PNode3D that makes bounds appear correct
+- Wireframe3D does not assign colors to lines correctly
+- Wireframe3DNode should use transformed bounds, needs to be notified when wireframe is transformed
+- remove HACKs in Wireframe3DNode that makes bounds appear correct
 - implement collision detection with deBroglie 3D orbits
 - emit photons along deBroglie 3D orbits
 
