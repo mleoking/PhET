@@ -28,6 +28,18 @@ import java.awt.*;
  * @version $Revision$
  */
 public class ChartOptionsPanel extends JPanel implements Resetable {
+
+    public static class Option {
+        private Option() {
+        }
+    }
+
+    public static final Option BAR_CHART_OPTION = new Option();
+    public static final Option PIE_CHART_OPTION = new Option();
+    public static final Option STRIP_CHART_OPTION = new Option();
+    public static final Option NO_CHART_OPTION = new Option();
+
+
     private ComplexModule module;
     private JToggleButton showBondsBtn;
     private JToggleButton showStripChartBtn;
@@ -36,7 +48,6 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
     private JToggleButton showNoneBtn;
 
     /**
-     *
      * @param module
      */
     public ChartOptionsPanel( final ComplexModule module ) {
@@ -146,5 +157,14 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
 
         setEnergyViewChartOptions();
     }
+
+    public void setDefaultSelection( Option stripChartOption ) {
+        showBarChartBtn.setSelected( stripChartOption == BAR_CHART_OPTION );
+        showPieChartBtn.setSelected( stripChartOption == PIE_CHART_OPTION );
+        showStripChartBtn.setSelected( stripChartOption == STRIP_CHART_OPTION );
+        showNoneBtn.setSelected( stripChartOption == NO_CHART_OPTION );
+        setEnergyViewChartOptions();
+    }
+
 }
 

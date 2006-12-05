@@ -136,10 +136,10 @@ public class ComplexModule extends MRModule {
     public void setStripChartVisible( boolean visible ) {
 
         if( visible ) {
-            if( stripChartDlg == null ) {
-                stripChartDlg = new StripChartDialog( this );
-            }
-            stripChartDlg.setVisible( true );
+//            if( stripChartDlg == null ) {
+//                stripChartDlg = new StripChartDialog( this );
+//            }
+//            stripChartDlg.setVisible( true );
 
 //            PhetPCanvas ppc = new PhetPCanvas( stripChartDlg.getContentPane().getPreferredSize() );
 //            ppc.addScreenChild( new PSwing( ppc, (JPanel)stripChartDlg.getContentPane() ));
@@ -147,7 +147,7 @@ public class ComplexModule extends MRModule {
             getEnergyView().addToUpperPane( new StripChartNode( this, MRConfig.CHART_PANE_SIZE ) );
         }
         else if( !visible && stripChartDlg != null ) {
-            stripChartDlg.setVisible( false );
+//            stripChartDlg.setVisible( false );
 //            stripChartDlg = null;
         }
     }

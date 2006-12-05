@@ -86,6 +86,7 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
 
     public void reset() {
         optionsPanel.reset();
+        optionsPanel.setDefaultSelection( ChartOptionsPanel.STRIP_CHART_OPTION );
         setExperimentRunning( false );
     }
 
