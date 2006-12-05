@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.molecularreactions.modules;
 
+import edu.colorado.phet.molecularreactions.MRConfig;
+
 //import org.jfree.ui.ApplicationFrame;
 
 /**
@@ -21,7 +23,7 @@ package edu.colorado.phet.molecularreactions.modules;
 public class StripChartTestModule extends MRModule {
 
     public StripChartTestModule() {
-        super( "Strip Chart Test");
+        super( "Strip Chart Test", MRConfig.MOLECULE_SEPARATION_PANE_SIZE );
 
 //        ApplicationFrame af = new ApplicationFrame( "Test");
     }

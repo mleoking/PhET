@@ -56,11 +56,11 @@ public class MRConfig {
 //    public static final Dimension SPATIAL_VIEW_SIZE = new Dimension( 850, 575 );
 //    public static final Dimension ENERGY_VIEW_SIZE = SPATIAL_VIEW_SIZE;
     public static final int ENERGY_PANE_WIDTH = 310;
-    public static final Dimension GRAPH_PANE_SIZE = new Dimension( ENERGY_PANE_WIDTH, 150 );
+    public static final Dimension MOLECULE_SEPARATION_PANE_SIZE = new Dimension( ENERGY_PANE_WIDTH, 150 );
+    public static final Dimension CHART_PANE_SIZE = new Dimension( ENERGY_PANE_WIDTH, 240 );
     public static final Dimension ENERGY_VIEW_SIZE = new Dimension( ENERGY_PANE_WIDTH,
-                                                                    SPATIAL_VIEW_SIZE.height - GRAPH_PANE_SIZE.height );
+                                                                    SPATIAL_VIEW_SIZE.height );
     public static final Dimension ENERGY_VIEW_REACTION_LEGEND_SIZE = new Dimension( ENERGY_PANE_WIDTH, 40 );
-    //    public static final Dimension ENERGY_VIEW_SIZE = new Dimension( 300, 480 );
     public static final int BAR_CHART_MAX_Y = 20;
     public static final int PIE_CHART_DIAM_FACTOR = 3;
     public static final double ENERGY_VIEW_PROFILE_VERTICAL_SCALE = 1;

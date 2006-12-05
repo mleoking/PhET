@@ -71,10 +71,8 @@ import java.awt.geom.GeneralPath;
 public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
     private int width = (int)MRConfig.ENERGY_VIEW_SIZE.getWidth();
-    private Dimension upperPaneSize = MRConfig.GRAPH_PANE_SIZE;
-//    private Dimension upperPaneSize = new Dimension( width, 150 );
-    private Dimension curvePaneSize = new Dimension( width, (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight()) - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height);
-    //    private Dimension curvePaneSize = new Dimension( width, 310 );
+    private Dimension upperPaneSize;
+    private Dimension curvePaneSize = new Dimension( width, (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() ) - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height );
     private Color moleculePaneBackgroundColor = MRConfig.MOLECULE_PANE_BACKGROUND;
     private Color energyPaneBackgroundColor = MRConfig.ENERGY_PANE_BACKGROUND;
     private Color curveColor = MRConfig.POTENTIAL_ENERGY_COLOR;
@@ -103,7 +101,11 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     /**
      *
      */
-    public EnergyView( MRModule module ) {
+    public EnergyView( MRModule module, Dimension upperPaneSize ) {
+        this.upperPaneSize = upperPaneSize;
+        curvePaneSize = new Dimension( width, (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() )
+                                              - upperPaneSize.height
+                                              - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height );
         this.module = module;
         MRModel model = module.getMRModel();
 
@@ -130,9 +132,9 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         // The graphic that shows the reaction mechanics
         PPath legendNode = new PPath( new Rectangle2D.Double( 0, 0,
                                                               MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.width,
-                                                              MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height ));
+                                                              MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height ) );
         legendNode.setPaint( MRConfig.ENERGY_PANE_BACKGROUND );
-        legendNode.setStrokePaint( new Color(0,0,0,0));
+        legendNode.setStrokePaint( new Color( 0, 0, 0, 0 ) );
         legendNode.setOffset( 0, upperPaneSize.getHeight() + curvePaneSize.getHeight() );
         ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(),
                                                                MRConfig.ENERGY_PANE_TEXT_COLOR,
@@ -146,9 +148,9 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         addChild( curvePane );
 
         // Put a border around the energy view
-        Rectangle2D bRect = new Rectangle2D.Double( 0,0,
+        Rectangle2D bRect = new Rectangle2D.Double( 0, 0,
                                                     curvePane.getFullBounds().getWidth(),
-                                                    curvePane.getFullBounds().getHeight() + legendNode.getFullBounds().getHeight());
+                                                    curvePane.getFullBounds().getHeight() + legendNode.getFullBounds().getHeight() );
         PPath border = new PPath( bRect );
         border.setOffset( curvePane.getOffset() );
         addChild( border );
@@ -194,6 +196,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
      * @param pNode
      */
     public void addToUpperPane( PNode pNode ) {
+        upperPane.removeAllChildren();
         upperPane.addChild( pNode );
         upperPane.setVisible( true );
     }
@@ -245,7 +248,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                                                              curvePaneSize.getHeight() ) );
         curvePane.setOffset( 0, moleculePane.getHeight() );
         curvePane.setPaint( energyPaneBackgroundColor );
-        curvePane.setStrokePaint( new Color(0,0,0,0));
+        curvePane.setStrokePaint( new Color( 0, 0, 0, 0 ) );
         curvePane.addChild( curveLayer );
         curvePane.addChild( cursorLayer );
 
@@ -297,7 +300,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         totalEnergyLine.setStrokePaint( TotalEnergyLine.linePaint );
         PText totalEnergyText = new PText( SimStrings.get( "EnergyView.Legend.totalEnergy" ) );
         totalEnergyText.setFont( labelFont );
-        totalEnergyText.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR);
+        totalEnergyText.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
         curvePaneLegend.addChild( totalEnergyLine );
         curvePaneLegend.addChild( totalEnergyText );
 
@@ -306,7 +309,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         potentialEnergyLine.setStrokePaint( curveColor );
         PText potentialEnergyText = new PText( SimStrings.get( "EnergyView.Legend.potentialEnergy" ) );
         potentialEnergyText.setFont( labelFont );
-        potentialEnergyText.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR);
+        potentialEnergyText.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
         curvePaneLegend.addChild( potentialEnergyLine );
         curvePaneLegend.addChild( potentialEnergyText );
 
@@ -475,7 +478,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             // Scale the actual inter-molecular distance to the scale of the energy profile
             double r = ( reaction.getEnergyProfile().getThresholdWidth() / 2 ) / separationAtFootOfHill;
             double separationAtReaction = A_BC_AB_C_Reaction.getReactionOffset( freeMolecule, boundMolecule );
-            double currentSeparation = freeMolecule.getPosition().distance( boundMolecule.getPosition());
+            double currentSeparation = freeMolecule.getPosition().distance( boundMolecule.getPosition() );
             double currentOverlap = separationAtFootOfHill - currentSeparation;
             double reactionOverlap = separationAtFootOfHill - separationAtReaction;
             double dr = currentOverlap / reactionOverlap * r;

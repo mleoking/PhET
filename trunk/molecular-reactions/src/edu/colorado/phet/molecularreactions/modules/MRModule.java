@@ -35,7 +35,12 @@ public class MRModule extends Module {
     private EnergyView energyView;
     private Dimension spatialViewSize = MRConfig.SPATIAL_VIEW_SIZE;
 
-    public MRModule( String name ) {
+    /**
+     *
+     * @param name          The title of the module
+     * @param chartPaneSize The size of the upper pane of the energy view
+     */
+    public MRModule( String name, Dimension chartPaneSize ) {
         super( name, new VariableConstantTickClock( new SwingClock( 1000 / MRConfig.CLOCK_FPS, 
                                                                     MRConfig.RUNNING_DT ),
                                                     MRConfig.RUNNING_DT ) );
@@ -62,7 +67,7 @@ public class MRModule extends Module {
         canvas.addWorldChild( spatialView );
 
         // Create energy view
-        energyView = new EnergyView( this );
+        energyView = new EnergyView( this, chartPaneSize );
         energyView.setOffset( insets.left + spatialView.getFullBounds().getWidth() + insets.left,
                               insets.top );
         canvas.addWorldChild( energyView );

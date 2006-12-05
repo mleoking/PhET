@@ -54,7 +54,7 @@ public class SimpleModule extends MRModule {
      *
      */
     public SimpleModule() {
-        super( SimStrings.get( "Module.simpleModuleTitle" ) );
+        super( SimStrings.get( "Module.simpleModuleTitle" ), MRConfig.MOLECULE_SEPARATION_PANE_SIZE );
 
         // Set up the model
         MRModel model = (MRModel)getModel();
