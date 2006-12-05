@@ -5,9 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- check the code that picks the emission state, seems to go back to state=1 way too often
 - wireframe in 3D deBroglie looks like it's only using 2 colors to indicate z-depth, palette has 16 colors
 - remove HACKs in PNode3D that makes bounds appear correct
-- use ModelViewTransform when mapping deBroglie model to 3D wireframe view
 - implement collision detection with deBroglie 3D orbits
 - emit photons along deBroglie 3D orbits
 
@@ -55,6 +55,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/5/06) - make sure that all atom views apply ModelViewTransform
 (12/5/06) - add developer control for GunWavelengthControl hilite threshold
 (12/5/06) - create SpinnerControl to clean up develop controls dialog
 (12/5/06) - use same shade of "electron blue" for all deBroglie representations

@@ -14,6 +14,7 @@ package edu.colorado.phet.hydrogenatom.view.atom;
 import java.awt.Color;
 
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
+import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode.AbstractDeBroglieViewStrategy;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
@@ -135,7 +136,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
             int groundState = getAtom().getGroundState();
             int numberOfStates = getAtom().getNumberOfStates();
             for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
-                double radius = getAtom().getOrbitRadius( state );
+                double radius = ModelViewTransform.transform( getAtom().getOrbitRadius( state ) );
                 Wireframe3DNode orbitNode = create3DOrbitNode( radius, _viewMatrix, _orbitVerticies );
                 parentNode.addChild( orbitNode );
             }
@@ -248,7 +249,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         
         int numberOfVerticies = verticies.length;
         double deltaAngle = ( 2 * Math.PI ) / numberOfVerticies;
-        double radius = atom.getElectronOrbitRadius();
+        double radius = ModelViewTransform.transform( atom.getElectronOrbitRadius() );;
         
         for ( int i = 0; i < numberOfVerticies; i++ ) {
             double angle = i * deltaAngle;

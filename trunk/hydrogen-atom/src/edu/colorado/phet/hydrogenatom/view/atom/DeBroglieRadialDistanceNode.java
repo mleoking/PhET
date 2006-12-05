@@ -19,6 +19,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
+import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode.AbstractDeBroglie2DViewStrategy;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -81,7 +82,7 @@ public class DeBroglieRadialDistanceNode extends AbstractDeBroglie2DViewStrategy
         _ringPath.reset();
         
         DeBroglieModel atom = getAtom();
-        double radius = atom.getElectronOrbitRadius();
+        double radius = ModelViewTransform.transform( getAtom().getElectronOrbitRadius() );
 
         for ( int i = 0; i < NUMBER_OF_SEGMENTS; i++ ) {
 
