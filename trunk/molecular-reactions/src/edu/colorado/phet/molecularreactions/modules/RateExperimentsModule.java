@@ -52,6 +52,7 @@ public class RateExperimentsModule extends ComplexModule {
     public void setExperimentRunning( boolean isRunning ) {
         if( controlPanel != null ) {
             controlPanel.setExperimentRunning( isRunning );
+            super.setStripChartVisible( isRunning );
         }
     }
 }

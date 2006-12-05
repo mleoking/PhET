@@ -11,13 +11,10 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.util.RangeLimitedIntegerTextField;
 import edu.colorado.phet.molecularreactions.util.Resetable;
-import edu.colorado.phet.molecularreactions.modules.MRModule;
-import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.modules.RateExperimentsModule;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.MRConfig;
@@ -47,10 +44,6 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     private MoleculeCounter moleculeBCCounter;
     private MoleculeCounter moleculeABCounter;
     private MoleculeCounter moleculeCCounter;
-
-    private boolean hasBeenReset = true;
-    private JButton resetBtn;
-    private GoStopBtn goStopBtn;
 
     /**
      * @param module
@@ -89,18 +82,17 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         numABTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
         numCTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
 
-        // Must create reset button before the stop/go button, because the
-        // stop/go button references the reset button
-        resetBtn = new JButton( SimStrings.get( "ExperimentSet.reset" ) );
+        JButton resetBtn = new JButton( SimStrings.get( "ExperimentSet.reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 reset();
             }
         } );
-        goStopBtn = new GoStopBtn( module, this );
+
+        JButton goStopBtn = new JButton( new StartExperimentAction( module, this ) );
 
         // Add a border
-        setBorder( ControlBorderFactory.createPrimaryBorder( "Experimental Controls" ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ExperimentSetup.title" ) ) );
 
         // Lay out the controls
         GridBagConstraints labelGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
@@ -143,7 +135,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         labelGbc.gridx = 0;
         labelGbc.gridwidth = 4;
         labelGbc.anchor = GridBagConstraints.WEST;
-        add( new JLabel( "Select a reaction:" ), labelGbc );
+        add( new JLabel( SimStrings.get( "Control.selectReaction" ) ), labelGbc );
         labelGbc.anchor = GridBagConstraints.CENTER;
         add( new ReactionChooserComboBox( module ), labelGbc );
         add( goStopBtn, labelGbc );
@@ -151,27 +143,10 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     }
 
     /**
-     * Adds molecules to the model as specified in the controls
+     *
+     * @param moleculeClass
+     * @param numMolecules
      */
-    private void startExperiment() {
-
-        if( hasBeenReset ) {
-            int dA = Integer.parseInt( numATF.getText() ) - moleculeACounter.getCnt();
-            int dBC = Integer.parseInt( numBCTF.getText() ) - moleculeBCCounter.getCnt();
-            int dAB = Integer.parseInt( numABTF.getText() ) - moleculeABCounter.getCnt();
-            int dC = Integer.parseInt( numCTF.getText() ) - moleculeCCounter.getCnt();
-
-            generateMolecules( MoleculeA.class, dA );
-            generateMolecules( MoleculeBC.class, dBC );
-            generateMolecules( MoleculeAB.class, dAB );
-            generateMolecules( MoleculeC.class, dC );
-
-            module.setStripChartVisible( true );
-            module.rescaleStripChart();
-            hasBeenReset = false;
-        }
-    }
-
     private void generateMolecules( Class moleculeClass, int numMolecules ) {
         MRModel model = module.getMRModel();
 
@@ -211,14 +186,9 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     }
 
     /**
-     * Enables/disables appropriate controls
      *
-     * @param isRunning
+     * @param editable
      */
-    private void setExperimentRunning( boolean isRunning ) {
-        module.setExperimentRunning( isRunning );
-    }
-
     private void setInitialConditionsEditable( boolean editable ) {
         numATF.setEditable( editable );
         numBCTF.setEditable( editable );
@@ -243,69 +213,38 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         generateMolecules( MoleculeC.class, -moleculeCCounter.getCnt() );
 
         module.setStripChartVisible( false );
-        goStopBtn.setState( GoStopBtn.stop );
+
         // This must come after the state of the goStopBtn has been set
         module.getClock().start();
-
-        hasBeenReset = true;
-//        setExperimentRunning( false );
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
 
     /**
-     * Three state button for controlling the experiment
+     * Action for starting an experiment
      */
-    private static class GoStopBtn extends JButton {
-        static Object go = new Object();
-        static Object stop = new Object();
-        static Object setup = new Object();
-        private Object state = setup;
-        private String goString = SimStrings.get( "ExperimentSetup.go" );
-        private String stopString = SimStrings.get( "ExperimentSetup.stop" );
-        private String setupString = SimStrings.get( "ExperimentSetup.setup" );
-        private Color goColor = Color.green;
-        private Color stopColor = Color.red;
-        private Color setupColor = Color.yellow;
-        private IClock clock;
+    private static class StartExperimentAction extends AbstractAction {
         private RateExperimentsModule module;
-        private ExperimentSetupPanel parent;
+        private ExperimentSetupPanel panel;
 
-        public GoStopBtn( RateExperimentsModule module, ExperimentSetupPanel parent ) {
-            this.parent = parent;
-            this.clock = module.getClock();
+
+        public StartExperimentAction( RateExperimentsModule module, ExperimentSetupPanel panel ) {
+            super( SimStrings.get( "ExperimentSetup.go" ) );
             this.module = module;
-            setState( stop );
-            addActionListener( new ActionHandler() );
+            this.panel = panel;
         }
 
-        void setState( Object state ) {
-            this.state = state;
-            if( state == go ) {
-                clock.start();
-                parent.startExperiment();
-                setText( stopString );
-                setBackground( stopColor );
-                module.setExperimentRunning( true );
-                parent.setInitialConditionsEditable( false );
-            }
-            if( state == stop ) {
-                clock.pause();
-                setText( goString );
-                setBackground( goColor );
-                parent.setExperimentRunning( false );
-            }
-        }
+        public void actionPerformed( ActionEvent e ) {
+            module.getMRModel().removeAllMolecules();
+            panel.generateMolecules( MoleculeA.class, Integer.parseInt( panel.numATF.getText() ) );
+            panel.generateMolecules( MoleculeBC.class, Integer.parseInt( panel.numBCTF.getText() ) );
+            panel.generateMolecules( MoleculeAB.class, Integer.parseInt( panel.numABTF.getText() ) );
+            panel.generateMolecules( MoleculeC.class, Integer.parseInt( panel.numCTF.getText() ) );
 
-
-        private class ActionHandler implements ActionListener {
-            public void actionPerformed( ActionEvent e ) {
-                if( state == go ) {
-                    setState( stop );
-                }
-                else if( state == stop ) {
-                    setState( go );
-                }
-            }
+            module.setExperimentRunning( true );
+            panel.setInitialConditionsEditable( false );
         }
     }
 }

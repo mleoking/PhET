@@ -58,7 +58,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
 
         // Reaction selection controls
         JPanel reactionSelectionPanel = new JPanel();
-        reactionSelectionPanel.setBorder( ControlBorderFactory.createSecondaryBorder( SimStrings.get( "Control.selectReaction" )));
+        reactionSelectionPanel.setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.selectReaction" )));
         reactionSelectionPanel.add( new ReactionChooserComboBox( module ) );
 
         // Controls for adding and removing molecules
