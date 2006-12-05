@@ -48,9 +48,6 @@ public class StripChartNode extends PNode implements Resetable {
 
         this.clock = module.getClock();
         final double xAxisRange = MRConfig.STRIP_CHART_VISIBLE_TIME_RANGE ;
-
-        Dimension chartSize = size;
-//        Dimension chartSize = new Dimension( 400, 200 );
         Insets scrollBarInsets = new Insets( 3, 50, 3, 10 );
 
 
@@ -63,6 +60,7 @@ public class StripChartNode extends PNode implements Resetable {
                                                         1,
                                                         numBufferedDataPoints );
         ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
+        chartPanel.setBackground( MRConfig.MOLECULE_PANE_BACKGROUND );
 
         // Create a scrollbar
         final JScrollBar scrollBar = new JScrollBar( JScrollBar.HORIZONTAL, 0, (int)stripChart.getViewableRangeX(), 0, (int)xAxisRange );
@@ -92,7 +90,6 @@ public class StripChartNode extends PNode implements Resetable {
         rescaleNode.setOffset( chartPanel.getPreferredSize().getWidth() - rescaleNode.getFullBounds().getWidth() - 10,
                                chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() - 10 );
         stripChartCanvas.addScreenChild( rescaleNode );
-        stripChartCanvas.setBackground( UIManager.getColor("Panel.background") );
         stripChartCanvas.setOpaque( true );
 
         stripChartCanvas.addScreenChild( scrollBarNode );

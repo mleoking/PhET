@@ -61,6 +61,7 @@ public class MoleculePopulationsStripChart extends StripChart {
                                           int buffSize ) {
         super( title, seriesNames, xAxisLabel, yAxisLabel, orienation, xAxisRange, minY, maxY, buffSize );
 
+        getChart().setBackgroundPaint( MRConfig.MOLECULE_PANE_BACKGROUND );
         this.updateInterval = updateInterval;
 
         // Create counters for each of the molecule types

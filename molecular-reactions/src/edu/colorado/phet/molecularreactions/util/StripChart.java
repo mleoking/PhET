@@ -123,7 +123,6 @@ public class StripChart implements Resetable {
                 true,
                 false
         );
-
         plot = (XYPlot)chart.getPlot();
         plot.getRangeAxis().setRange( minY, maxY );
 
