@@ -13,10 +13,7 @@ package edu.colorado.phet.molecularreactions;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.molecularreactions.modules.ComplexModule;
-import edu.colorado.phet.molecularreactions.modules.SimpleModule;
-import edu.colorado.phet.molecularreactions.modules.SpringTestModule;
-import edu.colorado.phet.molecularreactions.modules.SpringTestModule2;
+import edu.colorado.phet.molecularreactions.modules.*;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 import javax.swing.*;
@@ -37,23 +34,9 @@ public class MRApplication extends PiccoloPhetApplication {
                MRConfig.VERSION,
                new FrameSetup.CenteredWithSize( 1000, 700 ) );
 
-        SimpleModule simpleModule = new SimpleModule();
-        SpringTestModule springTestModule = new SpringTestModule();
-        SpringTestModule2 springTestModule2 = new SpringTestModule2();
-//        addModule( new SpringTestModule4() );
-//        addModule( new SpringTestModule3() );
-
-//        addModule(  new SpringTestModule6() );
-//        addModule(  new SpringTestModule5() );
-
         addModule( new SimpleModule() );
-//        addModule( springTestModule2 );
-//        addModule( springTestModule );
         addModule( new ComplexModule() );
-//        addModule( new TestModule() );
-//        addModule( new StripChartTestModule() );
-
-//        setActiveModule( springTestModule );
+        addModule( new RateExperimentsModule() );
     }
 
 

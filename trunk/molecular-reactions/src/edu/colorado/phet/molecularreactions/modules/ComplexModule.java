@@ -32,23 +32,29 @@ import java.util.List;
  * ComplexModule
  * <p/>
  * This module has controls for putting lots of molecules in the box and
- * charting their properties is different ways, and for running experiments
+ * charting their properties is different ways.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class ComplexModule extends MRModule {
     private StripChartDialog stripChartDlg;
-    private ComplexMRControlPanel controlPanel;
+    private MRControlPanel controlPanel;
     private PumpGraphic pumpGraphic;
     private PNode barChartNode;
     private MoleculePopulationsPieChartNode pieChart;
+
 
     /**
      *
      */
     public ComplexModule() {
-        super( SimStrings.get( "Module.complexModuleTitle" ) );
+        this( SimStrings.get( "Module.complexModuleTitle" ) );
+    }
+
+
+    protected ComplexModule( String title ) {
+        super( title );
 
         // Disable marking of the selected molecule and its nearest neighbor
         SimpleMoleculeGraphic.setMarkSelectedMolecule( true );
@@ -61,17 +67,19 @@ public class ComplexModule extends MRModule {
                                model.getBox().getMinY() + model.getBox().getHeight() + 15 - pumpGraphic.getPumpBaseLocation().getY() );
         getSpatialView().addChild( pumpGraphic );
 
-//        controlPanel = new ComplexMRControlPanel( this );
-//        getControlPanel().addControlFullWidth( controlPanel );
-//        Component strut = Box.createHorizontalStrut( MRConfig.CONTROL_PANEL_WIDTH );
-//        getControlPanel().addControl( strut );
-        controlPanel = ComplexMRControlPanel.addControls( this );
-
-        
+        setMRControlPanel( new ComplexMRControlPanel( this ) );
 
         // Don't show the total energy line on the energy view
         getEnergyView().setTotalEnergyLineVisible( false );
         getEnergyView().setProfileLegendVisible( false );
+    }
+
+    protected void setMRControlPanel( MRControlPanel controlPanel ) {
+        if( this.controlPanel != null ) {
+            getControlPanel().removeControl( this.controlPanel );
+        }
+        this.controlPanel = controlPanel;
+        getControlPanel().addControl( controlPanel );
     }
 
     public void activate() {
@@ -157,17 +165,17 @@ public class ComplexModule extends MRModule {
             stripChartDlg.addComponentListener( showStripChartBtn );
         }
     }
-
-    /**
-     * Tells the module if an experiment is running or not. This allows the module to enable
-     * or disable appropriate controls.
-     *
-     * @param isRunning
-     */
-    public void setExperimentRunning( boolean isRunning ) {
-        if( controlPanel != null ) {
-            controlPanel.setExperimentRunning( isRunning );
-        }
-    }
+//
+//    /**
+//     * Tells the module if an experiment is running or not. This allows the module to enable
+//     * or disable appropriate controls.
+//     *
+//     * @param isRunning
+//     */
+//    public void setExperimentRunning( boolean isRunning ) {
+//        if( controlPanel != null ) {
+//            controlPanel.setExperimentRunning( isRunning );
+//        }
+//    }
 }
 

@@ -18,6 +18,7 @@ import edu.colorado.phet.molecularreactions.util.RangeLimitedIntegerTextField;
 import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.modules.ComplexModule;
+import edu.colorado.phet.molecularreactions.modules.RateExperimentsModule;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.MRConfig;
 
@@ -41,7 +42,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     private JTextField numABTF;
     private JTextField numCTF;
     private MoleculeParamGenerator moleculeParamGenerator;
-    private ComplexModule module;
+    private RateExperimentsModule module;
     private MoleculeCounter moleculeACounter;
     private MoleculeCounter moleculeBCCounter;
     private MoleculeCounter moleculeABCounter;
@@ -54,7 +55,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     /**
      * @param module
      */
-    public ExperimentSetupPanel( ComplexModule module ) {
+    public ExperimentSetupPanel( RateExperimentsModule module ) {
         super( new GridBagLayout() );
         this.module = module;
 
@@ -266,10 +267,10 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         private Color stopColor = Color.red;
         private Color setupColor = Color.yellow;
         private IClock clock;
-        private ComplexModule module;
+        private RateExperimentsModule module;
         private ExperimentSetupPanel parent;
 
-        public GoStopBtn( ComplexModule module, ExperimentSetupPanel parent ) {
+        public GoStopBtn( RateExperimentsModule module, ExperimentSetupPanel parent ) {
             this.parent = parent;
             this.clock = module.getClock();
             this.module = module;
