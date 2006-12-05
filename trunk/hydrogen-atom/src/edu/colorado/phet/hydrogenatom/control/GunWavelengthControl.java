@@ -38,7 +38,7 @@ public class GunWavelengthControl extends WavelengthControl {
     // Public class data
     //----------------------------------------------------------------------------
 
-    public static double HILITE_THRESHOLD = 3; // nm
+    public static int HILITE_THRESHOLD = 3; // nm
 
     //----------------------------------------------------------------------------
     // Private class data
