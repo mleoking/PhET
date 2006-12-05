@@ -372,7 +372,10 @@ public class BohrModel extends AbstractHydrogenAtom {
             if ( _randomEmission.nextDouble() < PHOTON_EMISSION_PROBABILITY ) {
                 
                 // Randomly pick a new state, each state has equal probability.
-                final int newState = GROUND_STATE + (int)( _randomState.nextDouble() * ( _electronState - GROUND_STATE ) );
+                int newState = GROUND_STATE;
+                if ( _electronState > GROUND_STATE  + 1 ) {
+                    newState = GROUND_STATE + _randomState.nextInt( _electronState - GROUND_STATE );
+                }
                 
                 // New photon's properties
                 Point2D position = getElectronPosition();

@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- check the code that picks the emission state, seems to go back to state=1 way too often
 - wireframe in 3D deBroglie looks like it's only using 2 colors to indicate z-depth, palette has 16 colors
 - remove HACKs in PNode3D that makes bounds appear correct
 - implement collision detection with deBroglie 3D orbits
@@ -55,6 +54,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/5/06) - bugfix: photon emission favors going back to state=1, all transitions should have equal probability
 (12/5/06) - make gun fire at center of atom 10% of the time
 (12/5/06) - make sure that all atom views apply ModelViewTransform
 (12/5/06) - add developer control for GunWavelengthControl hilite threshold
