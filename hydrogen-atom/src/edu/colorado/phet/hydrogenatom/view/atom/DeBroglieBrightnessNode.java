@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
 import edu.colorado.phet.hydrogenatom.util.ColorUtils;
+import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode.AbstractDeBroglie2DViewStrategy;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.umd.cs.piccolo.PNode;
@@ -54,7 +55,7 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
     //----------------------------------------------------------------------------
     
     // distance along the ring's circumference that each polygon occupies
-    private static final double POLYGON_SIZE = 3;
+    private static final double POLYGON_SIZE = 3; // in view distance units
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -107,7 +108,7 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
      * This is a function of the ring's radius.
      */
     private int calculateNumberOfPolygons() {
-        double radius = getAtom().getElectronOrbitRadius();
+        double radius = ModelViewTransform.transform( getAtom().getElectronOrbitRadius() );
         double circumference = Math.PI * ( 2 * radius );
         int numberOfPolygons = (int) ( circumference / POLYGON_SIZE ) + 1;
         return numberOfPolygons;
@@ -122,7 +123,7 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
         _ringNode.removeAllChildren();
         _polygons.clear();
 
-        double radius = getAtom().getElectronOrbitRadius();
+        double radius = ModelViewTransform.transform( getAtom().getElectronOrbitRadius() );
         
         for ( int i = 0; i < numberOfPolygons; i++ ) {
 
