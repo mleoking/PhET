@@ -10,24 +10,23 @@
  */
 package edu.colorado.phet.molecularreactions.modules;
 
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
-import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
-import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
-import edu.colorado.phet.molecularreactions.util.Resetable;
-import edu.colorado.phet.molecularreactions.util.DialogCheckBox;
 import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
 import edu.colorado.phet.molecularreactions.view.ExperimentSetupPanel;
-import edu.colorado.phet.molecularreactions.view.ReactionChooserComboBox;
 import edu.colorado.phet.molecularreactions.view.charts.ChartOptionsPanel;
+import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
+import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
+import edu.colorado.phet.molecularreactions.util.Resetable;
+import edu.colorado.phet.molecularreactions.util.DialogCheckBox;
+import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
+import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.model.ModelElement;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * ComplexMRControlPanel
@@ -37,16 +36,14 @@ import java.awt.event.ActionListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ComplexMRControlPanel extends MRControlPanel {
+public class RateExperimentsMRControlPanel extends MRControlPanel {
     private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
     private ChartOptionsPanel optionsPanel;
     private JButton resetBtn;
+    private ExperimentSetupPanel experimentSetupPanel;
 
-    /**
-     *
-     * @param module
-     */
-    public ComplexMRControlPanel( final ComplexModule module ) {
+
+    public RateExperimentsMRControlPanel( final RateExperimentsModule module ) {
         super( new GridBagLayout() );
 
         final MRModel model = (MRModel)module.getModel();
@@ -56,10 +53,8 @@ public class ComplexMRControlPanel extends MRControlPanel {
                                                          GridBagConstraints.NONE,
                                                          new Insets( 5, 0, 0, 0 ), 0, 0 );
 
-        // Reaction selection controls
-        JPanel reactionSelectionPanel = new JPanel();
-        reactionSelectionPanel.setBorder( ControlBorderFactory.createSecondaryBorder( SimStrings.get( "Control.selectReaction" )));
-        reactionSelectionPanel.add( new ReactionChooserComboBox( module ) );
+        // Controls for setting up and running experiments
+        experimentSetupPanel = new ExperimentSetupPanel( module );
 
         // Controls for adding and removing molecules
         moleculeInstanceControlPanel = new MoleculeInstanceControlPanel( model );
@@ -77,9 +72,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
 
         // Lay out the controls
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.WEST;
-        add( reactionSelectionPanel, gbc );
-        gbc.anchor = GridBagConstraints.CENTER;
+        add( experimentSetupPanel, gbc );
         add( moleculeInstanceControlPanel, gbc );
         add( optionsPanel, gbc );
 
@@ -94,4 +87,11 @@ public class ComplexMRControlPanel extends MRControlPanel {
     public void reset() {
         optionsPanel.reset();
     }
+
+
+
+    public void setExperimentRunning( boolean running ) {
+        getMoleculeInstanceControlPanel().setCountersEditable( !running );
+    }
+
 }
