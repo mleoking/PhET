@@ -15,6 +15,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
 import edu.colorado.phet.hydrogenatom.util.ColorUtils;
+import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 
 /**
  * DeBroglieBrightnessMagnitudeNode represents the deBroglie model
@@ -36,7 +37,7 @@ public class DeBroglieBrightnessMagnitudeNode extends DeBroglieBrightnessNode {
     //----------------------------------------------------------------------------
     
     // color used when amplitude = 1
-    public static Color MAX_COLOR = Color.BLUE;
+    public static Color MAX_COLOR = ElectronNode.getColor();
     // color used when amplitude = 0
     public static Color MIN_COLOR = Color.BLACK;
     
