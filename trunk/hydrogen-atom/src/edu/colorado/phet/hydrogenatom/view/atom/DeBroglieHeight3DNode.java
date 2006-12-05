@@ -94,6 +94,8 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         }
         
         _waveWireframe = new Wireframe3D();
+        _waveWireframe.setColors( WAVE_FRONT_COLOR, WAVE_BACK_COLOR );
+        _waveWireframe.setStrokeWidth( WAVE_STROKE_WIDTH );
         
         _staticNode = new PNode();
         addChild( _staticNode );
@@ -170,8 +172,6 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         }
         _waveWireframe.addLine( _waveVerticies.length - 1, 0 ); // close the path
         _waveWireframe.done();
-        _waveWireframe.setColors( WAVE_FRONT_COLOR, WAVE_BACK_COLOR );
-        _waveWireframe.setStrokeWidth( WAVE_STROKE_WIDTH );
         
         // Transform the model
         Matrix3D matrix = _waveWireframe.getMatrix();
