@@ -39,8 +39,6 @@ import java.awt.event.ActionEvent;
 public class RateExperimentsMRControlPanel extends MRControlPanel {
     private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
     private ChartOptionsPanel optionsPanel;
-    private JButton resetBtn;
-    private ExperimentSetupPanel experimentSetupPanel;
 
 
     public RateExperimentsMRControlPanel( final RateExperimentsModule module ) {
@@ -54,7 +52,7 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
                                                          new Insets( 5, 0, 0, 0 ), 0, 0 );
 
         // Controls for setting up and running experiments
-        experimentSetupPanel = new ExperimentSetupPanel( module );
+        ExperimentSetupPanel experimentSetupPanel = new ExperimentSetupPanel( module );
 
         // Controls for adding and removing molecules
         moleculeInstanceControlPanel = new MoleculeInstanceControlPanel( model );
@@ -63,7 +61,7 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
         optionsPanel = new ChartOptionsPanel( module );
 
         // Reset button
-        resetBtn = new JButton( SimStrings.get( "Control.reset" ) );
+        JButton resetBtn = new JButton( SimStrings.get( "Control.reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
@@ -78,6 +76,8 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
 
         gbc.fill = GridBagConstraints.NONE;
         add( resetBtn, gbc );
+
+        reset();
     }
 
     public MoleculeInstanceControlPanel getMoleculeInstanceControlPanel() {
@@ -86,10 +86,11 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
 
     public void reset() {
         optionsPanel.reset();
+        setExperimentRunning( false );
     }
 
     public void setExperimentRunning( boolean running ) {
-        getMoleculeInstanceControlPanel().setCountersEditable( !running );
+        getMoleculeInstanceControlPanel().setCountersEditable( running );
     }
 
 }
