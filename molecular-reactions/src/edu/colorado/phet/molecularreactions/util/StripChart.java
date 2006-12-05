@@ -1,4 +1,5 @@
-package edu.colorado.phet.molecularreactions.util;/* Copyright 2003-2004, University of Colorado */
+package edu.colorado.phet.molecularreactions.util;
+/* Copyright 2003-2004, University of Colorado */
 
 /*
  * CVS Info -
@@ -40,7 +41,7 @@ import java.util.EventListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class StripChart {
+public class StripChart implements Resetable {
 
     private XYSeries[] series;
     private JFreeChart chart;
@@ -103,7 +104,7 @@ public class StripChart {
         buffTail = buffSize - 1;
 
 
-        series = new XYSeries[seriesNames.length ];
+        series = new XYSeries[seriesNames.length];
         buffer = new double[seriesNames.length + 1][buffSize];
         clockBufferIdx = seriesNames.length;
         XYSeriesCollection dataset = new XYSeriesCollection();
@@ -183,7 +184,6 @@ public class StripChart {
     public void setMinX( double x ) {
         XYPlot plot = (XYPlot)chart.getPlot();
         double minX = Math.min( x, getMaxTime() - xAxisRange );
-//        double minX = Math.max(  0, Math.min( x, getMaxTime() - xAxisRange )) ;
         double maxX = Math.min( x + xAxisRange, getMaxTime() );
         plot.getDomainAxis().setRange( minX, maxX );
     }
@@ -228,6 +228,14 @@ public class StripChart {
     public double getViewableRangeX() {
         Range range = getChart().getXYPlot().getDomainAxis().getRange();
         return range.getLength();
+    }
+
+    public void reset() {
+        buffHead = 0;
+        buffTail = buffSize - 1;
+        for( int seriesNum = 0; seriesNum < series.length; seriesNum++ ) {
+            series[seriesNum].clear();
+        }
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -16,6 +16,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.util.StripChart;
+import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.view.MoleculePaints;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import org.jfree.chart.plot.PlotOrientation;
@@ -34,8 +35,6 @@ public class MoleculePopulationsStripChart extends StripChart {
     static String xAxisLabel = SimStrings.get( "StripChart.time" );
     static String yAxisLabel = SimStrings.get( "StripChart.num" );
     static PlotOrientation orienation = PlotOrientation.VERTICAL;
-    static private final int fps = 25;
-    static private final int T = 0, A = 1, BC = 2, AB = 3, C = 4;
 
     private MoleculeCounter counterA;
     private MoleculeCounter counterAB;

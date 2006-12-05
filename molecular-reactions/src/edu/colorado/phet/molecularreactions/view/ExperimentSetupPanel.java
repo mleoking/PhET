@@ -252,6 +252,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
             panel.generateMolecules( MoleculeC.class, Integer.parseInt( panel.numCTF.getText() ) );
 
             module.setExperimentRunning( true );
+            module.resetStripChart();
             panel.setInitialConditionsEditable( false );
         }
     }

@@ -12,11 +12,13 @@ package edu.colorado.phet.molecularreactions.view.charts;
 
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.StripChart;
+import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -36,12 +38,14 @@ import java.awt.event.ActionListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class StripChartDialog extends JDialog {
+public class StripChartDialog extends JDialog implements Resetable {
     private MoleculePopulationsStripChart stripChart;
+    private IClock clock;
 
     public StripChartDialog( MRModule module ) {
         super(PhetUtilities.getPhetFrame(), false);
         this.setResizable( false );
+        this.clock = module.getClock();
 
         Dimension chartSize = new Dimension( 400, 200 );
         final double xAxisRange = MRConfig.STRIP_CHART_VISIBLE_TIME_RANGE ;
@@ -114,7 +118,7 @@ public class StripChartDialog extends JDialog {
         this.pack();
 
         // Start the strip chart recording
-        stripChart.startRecording( module.getClock().getSimulationTime() );
+        stripChart.startRecording( clock.getSimulationTime() );
     }
 
     /**
@@ -122,5 +126,11 @@ public class StripChartDialog extends JDialog {
      */
     public void rescaleChart() {
         stripChart.rescale();
+    }
+
+
+    public void reset() {
+        stripChart.reset();
+        stripChart.startRecording( clock.getSimulationTime() );
     }
 }

@@ -145,10 +145,11 @@ public class ComplexModule extends MRModule {
                 stripChartDlg = new StripChartDialog( this );
             }
             stripChartDlg.setVisible( true );
+//            stripChartDlg.reset();
         }
         else if( !visible && stripChartDlg != null ) {
             stripChartDlg.setVisible( false );
-            stripChartDlg = null;
+//            stripChartDlg = null;
         }
     }
 
@@ -165,17 +166,9 @@ public class ComplexModule extends MRModule {
             stripChartDlg.addComponentListener( showStripChartBtn );
         }
     }
-//
-//    /**
-//     * Tells the module if an experiment is running or not. This allows the module to enable
-//     * or disable appropriate controls.
-//     *
-//     * @param isRunning
-//     */
-//    public void setExperimentRunning( boolean isRunning ) {
-//        if( controlPanel != null ) {
-//            controlPanel.setExperimentRunning( isRunning );
-//        }
-//    }
+
+    public void resetStripChart() {
+        stripChartDlg.reset();        
+    }
 }
 
