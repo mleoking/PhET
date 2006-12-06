@@ -113,9 +113,6 @@ public class MRModel extends PublishingModel {
         // molecule
         selectedMoleculeTracker = new SelectedMoleculeTracker( this );
         addModelElement( selectedMoleculeTracker );
-
-        // Add an agent that will create provisional bonds when appropriate
-//        addModelElement( new ProvisionalBondDetector( this ) );
     }
 
     public void addModelElement( ModelElement modelElement ) {
@@ -201,8 +198,8 @@ public class MRModel extends PublishingModel {
         double ke0 = getTotalKineticEnergy();
 
         super.stepInTime( dt );
-//        clearForces();
 
+        // Adjust the energy in the system, so it is conserved
         double pe1 = getTotalPotentialEnergy();
         double ke1 = getTotalKineticEnergy();
 
@@ -218,12 +215,8 @@ public class MRModel extends PublishingModel {
                 body.setOmega( body.getOmega() * r );
             }
         }
-
 //        monitorEnergy();
     }
-
-
-    Vector2D lastM = new Vector2D.Double();
 
     public void monitorEnergy() {
         List modelElements = getModelElements();
