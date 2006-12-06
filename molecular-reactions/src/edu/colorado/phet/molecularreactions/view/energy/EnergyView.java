@@ -96,7 +96,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     private PPath upperPane;
     private PPath moleculePane;
     private EnergyProfileGraphic energyProfileGraphic;
-    private PNode curvePaneLegend;
+//    private PNode curvePaneLegend;
 
     /**
      *
@@ -219,7 +219,9 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
      * @param visible
      */
     public void setProfileLegendVisible( boolean visible ) {
-        curvePaneLegend.setVisible( visible );
+        totalEnergyLine.setLegendVisible( visible );
+        energyProfileGraphic.setLegendVisible( visible );
+//        curvePaneLegend.setVisible( visible );
     }
 
     /**
@@ -263,7 +265,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             }
         } );
 
-        // Create the line that shows total energy
+        // Create the line that shows total energy, and a legend for it
         this.totalEnergyLine = new TotalEnergyLine( curveAreaSize, model, module.getClock() );
         curveLayer.addChild( this.totalEnergyLine );
 
@@ -293,38 +295,38 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         curvePane.addChild( yAxis );
 
         // Add a curvePaneLegend
-        curvePaneLegend = new PNode();
-        Line2D.Double legendLine = new Line2D.Double( 0, 0, 15, 0 );
-        PPath totalEnergyLine = new PPath( legendLine );
-        totalEnergyLine.setStroke( TotalEnergyLine.lineStroke );
-        totalEnergyLine.setStrokePaint( TotalEnergyLine.linePaint );
-        PText totalEnergyText = new PText( SimStrings.get( "EnergyView.Legend.totalEnergy" ) );
-        totalEnergyText.setFont( labelFont );
-        totalEnergyText.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
-        curvePaneLegend.addChild( totalEnergyLine );
-        curvePaneLegend.addChild( totalEnergyText );
+//        curvePaneLegend = new PNode();
+//        Line2D.Double legendLine = new Line2D.Double( 0, 0, 15, 0 );
+//        PPath totalEnergyLine = new PPath( legendLine );
+//        totalEnergyLine.setStroke( TotalEnergyLine.lineStroke );
+//        totalEnergyLine.setStrokePaint( TotalEnergyLine.linePaint );
+//        PText totalEnergyText = new PText( SimStrings.get( "EnergyView.Legend.totalEnergy" ) );
+//        totalEnergyText.setFont( labelFont );
+//        totalEnergyText.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
+//        curvePaneLegend.addChild( totalEnergyLine );
+//        curvePaneLegend.addChild( totalEnergyText );
 
-        PPath potentialEnergyLine = new PPath( legendLine );
-        potentialEnergyLine.setStroke( TotalEnergyLine.lineStroke );
-        potentialEnergyLine.setStrokePaint( curveColor );
-        PText potentialEnergyText = new PText( SimStrings.get( "EnergyView.Legend.potentialEnergy" ) );
-        potentialEnergyText.setFont( labelFont );
-        potentialEnergyText.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
-        curvePaneLegend.addChild( potentialEnergyLine );
-        curvePaneLegend.addChild( potentialEnergyText );
+//        PPath potentialEnergyLine = new PPath( legendLine );
+//        potentialEnergyLine.setStroke( TotalEnergyLine.lineStroke );
+//        potentialEnergyLine.setStrokePaint( curveColor );
+//        PText potentialEnergyText = new PText( SimStrings.get( "EnergyView.Legend.potentialEnergy" ) );
+//        potentialEnergyText.setFont( labelFont );
+//        potentialEnergyText.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
+//        curvePaneLegend.addChild( potentialEnergyLine );
+//        curvePaneLegend.addChild( potentialEnergyText );
 
-        Insets insets = new Insets( 5, 30, 0, 30 );
-        potentialEnergyLine.setOffset( insets.left,
-                                       insets.top + potentialEnergyText.getFullBounds().getHeight() / 2 );
-        potentialEnergyText.setOffset( potentialEnergyLine.getOffset().getX() + potentialEnergyLine.getFullBounds().getWidth() + 10,
-                                       insets.top );
-
-        totalEnergyText.setOffset( curvePaneSize.getWidth() - insets.right - totalEnergyText.getFullBounds().getWidth(),
-                                   insets.top );
-        totalEnergyLine.setOffset( totalEnergyText.getOffset().getX() - 10 - totalEnergyLine.getFullBounds().getWidth(),
-                                   insets.top + totalEnergyText.getFullBounds().getHeight() / 2 );
-        curvePaneLegend.setOffset( 0, 0 );
-        curvePane.addChild( curvePaneLegend );
+//        Insets insets = new Insets( 5, 30, 0, 30 );
+//        potentialEnergyLine.setOffset( insets.left,
+//                                       insets.top + potentialEnergyText.getFullBounds().getHeight() / 2 );
+//        potentialEnergyText.setOffset( potentialEnergyLine.getOffset().getX() + potentialEnergyLine.getFullBounds().getWidth() + 10,
+//                                       insets.top );
+//
+//        totalEnergyText.setOffset( curvePaneSize.getWidth() - insets.right - totalEnergyText.getFullBounds().getWidth(),
+//                                   insets.top );
+//        totalEnergyLine.setOffset( totalEnergyText.getOffset().getX() - 10 - totalEnergyLine.getFullBounds().getWidth(),
+//                                   insets.top + totalEnergyText.getFullBounds().getHeight() / 2 );
+//        curvePaneLegend.setOffset( 0, 0 );
+//        curvePane.addChild( curvePaneLegend );
 
         return curvePane;
     }

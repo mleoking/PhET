@@ -35,7 +35,7 @@ public class CollisionAgent implements ModelElement {
         // todo: DEBUG. move elsewhere
         SpringCollision.Spring spring = new SpringCollision.Spring( 10, model.getReaction().getEnergyProfile().getThresholdWidth() / 2 );
         moleculeMoleculeCollisionAgent = new MoleculeMoleculeCollisionAgent_2( model );
-        moleculeBoxCollisionAgent = new MoleculeBoxCollisionAgent();
+        moleculeBoxCollisionAgent = new MoleculeBoxCollisionAgent( model );
     }
 
     public void stepInTime( double dt ) {

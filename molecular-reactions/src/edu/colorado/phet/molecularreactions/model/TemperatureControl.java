@@ -37,16 +37,9 @@ public class TemperatureControl extends DefaultBody {
             List modelElements = model.getModelElements();
             double scaleFactor = 1 + setting / ( 10000 );
 
-            int nSM = 0;
-            int nCM = 0;
-            int nME = 0;
             for( int i = 0; i < modelElements.size(); i++ ) {
-                nME++;
                 Object o = modelElements.get( i );
                 if( o instanceof SimpleMolecule && !((SimpleMolecule)o).isPartOfComposite() ) {
-
-                    nSM++;
-
                     SimpleMolecule molecule = (SimpleMolecule)o;
                     double ke0 = molecule.getKineticEnergy();
                     molecule.setVelocity( molecule.getVelocity().scale( scaleFactor) );
@@ -62,6 +55,7 @@ public class TemperatureControl extends DefaultBody {
                     de += ( ke1 - ke0 );
                 }
             }
+            // todo: this comes out with the new heat model
             model.addEnergy( de );
         }
     }

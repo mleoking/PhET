@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.molecularreactions.view;
+package edu.colorado.phet.molecularreactions.view.icons;
 
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.model.MoleculeA;
