@@ -240,6 +240,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
      * @return a PNode
      */
     private PPath createCurvePane( PPath moleculePane, final MRModel model ) {
+        final PNode totalEnergyLineLayer = new PNode();
+        totalEnergyLineLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
         final PNode curveLayer = new PNode();
         curveLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
         PNode cursorLayer = new PNode();
@@ -251,23 +253,26 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         curvePane.setOffset( 0, moleculePane.getHeight() );
         curvePane.setPaint( energyPaneBackgroundColor );
         curvePane.setStrokePaint( new Color( 0, 0, 0, 0 ) );
+        curvePane.addChild( totalEnergyLineLayer );
         curvePane.addChild( curveLayer );
         curvePane.addChild( cursorLayer );
 
-        // Create the curve, and add a listener to the model that will update the curve if the
-        // model's energy profile changes
+        // Determine the size of the area where the curve will appear
         curveAreaSize = new Dimension( (int)curvePaneSize.getWidth() - curveAreaInsets.left - curveAreaInsets.right,
                                        (int)curvePaneSize.getHeight() - curveAreaInsets.top - curveAreaInsets.bottom );
+
+        // Create the line that shows total energy, and a legend for it
+        this.totalEnergyLine = new TotalEnergyLine( curveAreaSize, model, module.getClock() );
+        totalEnergyLineLayer.addChild( this.totalEnergyLine );
+
+        // Create the curve, and add a listener to the model that will update the curve if the
+        // model's energy profile changes
         createCurve( model, curveLayer );
         model.addListener( new MRModel.ModelListener() {
             public void energyProfileChanged( EnergyProfile profile ) {
                 createCurve( model, curveLayer );
             }
         } );
-
-        // Create the line that shows total energy, and a legend for it
-        this.totalEnergyLine = new TotalEnergyLine( curveAreaSize, model, module.getClock() );
-        curveLayer.addChild( this.totalEnergyLine );
 
         // Create the cursor
         cursor = new EnergyCursor( curveAreaSize.getHeight(), 0, curveAreaSize.getWidth(), model );
@@ -341,10 +346,10 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         curveLayer.addChild( energyProfileGraphic );
 
         // This keeps the total energy line above the curve on the display
-        if( totalEnergyLine != null ) {
-            curveLayer.removeChild( totalEnergyLine );
-            curveLayer.addChild( totalEnergyLine );
-        }
+//        if( totalEnergyLine != null ) {
+//            curveLayer.removeChild( totalEnergyLine );
+//            curveLayer.addChild( totalEnergyLine );
+//        }
     }
 
     /**
