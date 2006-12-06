@@ -13,7 +13,6 @@ MEDIUM PRIORITY:
 - Unicode chars (arrows) in "Options>deBroglie view" and "Transition Table" dialog aren't correct on Windows
 - improve performance of deBroglie "brightness" and "brightness magnitude" representations
 - improve performance of deBroglie 3D representation
-- make sure that all calls to OrbitFactory are passed radius values that have ModelViewTransform applied
 - OrbitNodeFactory.createPerspectiveOrbitNode is not used?...
 - add "show traces" feature for alpha particles (need to interpolate curve between points)
 - implement Schrodinger visual representation
@@ -53,6 +52,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/6/06) - make sure that all calls to OrbitFactory are passed radius values that have ModelViewTransform applied
 (12/6/06) - fix bounds hack in Wireframe3DNode
 (12/6/06) - notify Wireframe3DNode of changes to Wireframe3D bounds
 (12/6/06) - major changes to Wireframe3D to improve interface and performance, remove need to call "done" method
