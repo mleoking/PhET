@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -33,8 +34,8 @@ import edu.colorado.phet.hydrogenatom.model.BohrModel;
  */
 public class TransitionsDialog extends JDialog {
 
+    private static final String TRANSITION_FORMAT = "<html>{0} &#8596; {1}</html>";
     private static final DecimalFormat WAVELENGTH_FORMATTER = new DecimalFormat( "0" );
-    private static final char LEFT_RIGHT_ARROW = '\u2194';
     
     public TransitionsDialog( Frame owner ) {
         super( owner, SimStrings.get( "dialog.transitions.title") );
@@ -77,11 +78,11 @@ public class TransitionsDialog extends JDialog {
         final int maxState = groundState + numberOfStates - 1;
         for ( int m = groundState; m < maxState; m++ ) {
             for ( int n = m + 1; n <= maxState; n++ ) {
-                double wavelength = BohrModel.getWavelengthAbsorbed( m, n );
-                String s = WAVELENGTH_FORMATTER.format( wavelength );
-                String transition = m + " " + LEFT_RIGHT_ARROW + " " + n;
+                Object[] args = { new Integer( m ), new Integer( n ) };
+                String transition = MessageFormat.format( TRANSITION_FORMAT, args );
+                String wavelength = WAVELENGTH_FORMATTER.format( BohrModel.getWavelengthAbsorbed( m, n ) );
                 layout.addAnchoredComponent( new JLabel( transition ), row, 0, GridBagConstraints.CENTER );
-                layout.addAnchoredComponent( new JLabel( s ), row, 2, GridBagConstraints.EAST );
+                layout.addAnchoredComponent( new JLabel( wavelength ), row, 2, GridBagConstraints.EAST );
                 row++;
             }
         }
