@@ -13,12 +13,15 @@ package edu.colorado.phet.molecularreactions.view.energy;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.util.PFixedWidthStroke;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 
@@ -40,6 +43,7 @@ public class TotalEnergyLine extends PNode {
     private Dimension bounds;
     private MRModel model;
     private double scale;
+    private PText totalEnergyLegend;
 
     /**
      * @param bounds The bounds within which this line is to be drawn
@@ -58,6 +62,13 @@ public class TotalEnergyLine extends PNode {
 
         addChild( lineNode );
 
+        Font defaultFont = UIManager.getFont( "Label.font" );
+        Font labelFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
+        totalEnergyLegend = new PText( SimStrings.get( "EnergyView.Legend.totalEnergy" ) );
+        totalEnergyLegend.setFont( labelFont );
+        totalEnergyLegend.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
+        addChild( totalEnergyLegend );
+
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
                 update();
@@ -73,5 +84,12 @@ public class TotalEnergyLine extends PNode {
         double y = Math.max( bounds.getHeight() - ( e * scale ), 0 );
         line.setLine( 0, y, bounds.getWidth(), y );
         lineNode.setPathTo( line );
+
+        totalEnergyLegend.setOffset( line.getX2() - totalEnergyLegend.getFullBounds().getWidth(),
+                                     y + 5 );
+    }
+
+    public void setLegendVisible( boolean visible ) {
+        this.totalEnergyLegend.setVisible( visible );
     }
 }

@@ -14,6 +14,8 @@ import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
+import edu.colorado.phet.molecularreactions.view.icons.MoleculeIcon;
+import edu.colorado.phet.molecularreactions.view.icons.ReactionArrowNode;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -49,25 +51,8 @@ public class ReactionGraphic extends RegisterablePNode implements MRModel.ModelL
         if( reaction instanceof A_BC_AB_C_Reaction ) {
             Insets insets = new Insets( 0, 3, 0, 3 );
             setMoleculeImages( model.getEnergyProfile() );
+            PNode arrowNode = new ReactionArrowNode( arrowColor );
 
-            Arrow arrowC = new Arrow( new Point2D.Double( 0, 0 ),
-                                     new Point2D.Double( 30, 0 ),
-                                     12, 8, 1 );
-            Arrow arrowA = new Arrow( new Point2D.Double( 30, 0 ),
-                                     new Point2D.Double( 0, 0 ),
-                                     12, 8, 1 );
-            PNode arrowNode = new PNode( );
-            PPath arrowANode = new PPath( arrowA.getShape() );
-            arrowANode.setPaint( arrowColor );
-            arrowANode.setStrokePaint( arrowColor);
-            arrowNode.addChild( arrowANode );
-            PPath arrowCNode = new PPath( arrowC.getShape() );
-            arrowCNode.setPaint( arrowColor );
-            arrowCNode.setStrokePaint( arrowColor);
-            arrowNode.addChild( arrowCNode );
-            arrowANode.setOffset( 0, arrowANode.getFullBounds().getHeight() / 2 );
-            arrowCNode.setOffset( arrowANode.getWidth(), arrowANode.getFullBounds().getHeight() / 2 );
-//            arrowCNode.setOffset( arrowANode.getWidth(), 0);
 
             Font font = new Font( "Lucida sans", Font.BOLD, 18);
             PText plusA = new PText( "+" );

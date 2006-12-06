@@ -8,9 +8,10 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.molecularreactions.view;
+package edu.colorado.phet.molecularreactions.view.icons;
 
 import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.view.SimpleMoleculeGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;

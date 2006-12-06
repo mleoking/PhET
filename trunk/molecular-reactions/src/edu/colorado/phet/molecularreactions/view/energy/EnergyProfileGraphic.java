@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.view.energy;
 
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
@@ -19,9 +20,11 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
@@ -54,6 +57,7 @@ class EnergyProfileGraphic extends PNode {
     private PNode leftFloorMouseIndicator;
     private PNode rightFloorMouseIndicator;
     private PNode centralMouseIndicator;
+    private PText potentialEnergyLegend;
 
     /**
      * @param size  size of the area in which the curve is to be drawn
@@ -92,6 +96,16 @@ class EnergyProfileGraphic extends PNode {
 
         // Double-headed arrows to indicate when the curve is manipulable
         createMouseIndicatorArrows();
+
+        // Legends
+        Font defaultFont = UIManager.getFont( "Label.font" );
+        Font labelFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
+
+        potentialEnergyLegend = new PText( SimStrings.get( "EnergyView.Legend.potentialEnergy" ) );
+        potentialEnergyLegend.setFont( labelFont );
+        potentialEnergyLegend.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
+        addChild( potentialEnergyLegend );
+
 
         update( energyProfile );
     }
@@ -137,6 +151,9 @@ class EnergyProfileGraphic extends PNode {
         rightFloorMouseIndicator.setOffset( x3 + x1 / 2,
                                             rightFloor.getOffset().getY() );
         centralMouseIndicator.setOffset( x2, peakLevel );
+
+        potentialEnergyLegend.setOffset( x3 + x1 - potentialEnergyLegend.getFullBounds().getWidth(),
+                                         rightFloor.getOffset().getY() + 5 );
         updateCentralCurve();
     }
 
@@ -164,6 +181,10 @@ class EnergyProfileGraphic extends PNode {
         leftFloorMouseIndicator.setVisible( manipulable );
         rightFloorMouseIndicator.setVisible( manipulable );
         centralMouseIndicator.setVisible( manipulable );
+    }
+
+    public void setLegendVisible( boolean visible ) {
+        this.potentialEnergyLegend.setVisible( visible );
     }
 
     /**
@@ -212,6 +233,19 @@ class EnergyProfileGraphic extends PNode {
                     energyProfile.setRightLevel( level );
                 }
             }
+        }
+    }
+
+    private class Legend extends PNode {
+
+
+        public Legend() {
+            Font defaultFont = UIManager.getFont( "Label.font" );
+            Font labelFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
+            PText totalEnergyText = new PText( SimStrings.get( "EnergyView.Legend.totalEnergy" ) );
+            totalEnergyText.setFont( labelFont );
+            totalEnergyText.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
+            addChild( totalEnergyText );
         }
     }
 

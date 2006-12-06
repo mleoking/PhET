@@ -55,7 +55,7 @@ import java.util.List;
  * @version $Revision$
  */
 public class MRModel extends PublishingModel {
-    private Box2D box;
+    private MRBox box;
     private Reaction reaction;
     private SelectedMoleculeTracker selectedMoleculeTracker;
     private double potentialEnergyStored;
@@ -88,7 +88,7 @@ public class MRModel extends PublishingModel {
         setEnergyProfile( MRConfig.DEFAULT_ENERGY_PROFILE );
 
         // Add a box
-        box = new Box2D( new Point2D.Double( 30, 30 ),
+        box = new MRBox( new Point2D.Double( 30, 30 ),
                          new Point2D.Double( 380, 330 ),
                          0 );
         addModelElement( box );
@@ -98,6 +98,12 @@ public class MRModel extends PublishingModel {
         tempCtrl.setPosition( ( getBox().getMaxX() + getBox().getMinX() ) / 2,
                               getBox().getMaxY() + 15 );
         addModelElement( tempCtrl );
+
+        // Add an agent that will control the temperature of the box when the
+        // temperature control changes
+        // todo: Make the TemperatureControl a heatSource and heatSink and make the
+        // box a listener to it, to remove this intermediary object
+        BoxHeater boxHeater = new BoxHeater( tempCtrl, box );
 
         // Create collisions agents that will detect and handle collisions between molecules,
         // and between molecules and the box

@@ -19,15 +19,16 @@ import edu.colorado.phet.mechanics.Body;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
+import java.util.List;
 
 /**
  * AbstractMolecule
- * <p>
+ * <p/>
  * The base class for all molecules, simple and composite.
- * <p>
+ * <p/>
  * If an AbstractMolecule is part of a composite, its stepInTime() method becomes a noop, and
  * its kinematics are determined entirely by the stepInTime() method of the composite.
- * <p>
+ * <p/>
  * A set of methods named getFull<xxx>() return properties of the AbstractMolecule if it is not
  * part of a composite, or the propertis of the composite if the AbstractMolecule is part one.
  *
@@ -128,7 +129,8 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
     /**
      * Returns the largest molecule of which this one is a component, or
      * this molecule, if it isn't
-     * @return an AbstractMolecule 
+     *
+     * @return an AbstractMolecule
      */
     public AbstractMolecule getFullMolecule() {
         if( this.isPartOfComposite() ) {
@@ -166,8 +168,23 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
         }
     }
 
+    /**
+     * Sets the temperature of the molecule
+     *
+     * @param temperature
+     */
+    public void setTemperature( double temperature ) {
+        double ke = getKineticEnergy();
+        double r = Math.sqrt( ke != 0 ? temperature / ke : 1 );
+        setVelocity( getVelocity().scale( r ) );
+        setOmega( getOmega() * r );
+    }
 
-
+    /**
+     *
+     * @param force
+     * @param ptOfApplication
+     */
     public void applyForce( Vector2D force, Point2D ptOfApplication ) {
 
         // Compute the torque

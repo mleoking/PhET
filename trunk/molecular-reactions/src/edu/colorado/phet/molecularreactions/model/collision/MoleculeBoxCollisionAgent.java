@@ -10,13 +10,10 @@
  */
 package edu.colorado.phet.molecularreactions.model.collision;
 
-import edu.colorado.phet.collision.Box2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mechanics.Vector3D;
-import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
-import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
-import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
+import edu.colorado.phet.molecularreactions.model.*;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -32,6 +29,12 @@ public class MoleculeBoxCollisionAgent {
     private Vector2D loa = new Vector2D.Double();
     private Point2D.Double collisionPt = new Point2D.Double();
     private Vector2D n = new Vector2D.Double();
+    private MRModel model;
+
+
+    public MoleculeBoxCollisionAgent( MRModel model ) {
+        this.model = model;
+    }
 
     /**
      * Note: This method is not thread-safe, because we use an instance attribute
@@ -43,10 +46,10 @@ public class MoleculeBoxCollisionAgent {
      */
     public boolean detectAndDoCollision( Body bodyA, Body bodyB ) {
 
-        Box2D box = null;
+        MRBox box = null;
         AbstractMolecule molecule;
-        if( bodyA instanceof Box2D ) {
-            box = (Box2D)bodyA;
+        if( bodyA instanceof MRBox ) {
+            box = (MRBox)bodyA;
             if( bodyB instanceof AbstractMolecule ) {
                 molecule = (AbstractMolecule)bodyB;
             }
@@ -54,8 +57,8 @@ public class MoleculeBoxCollisionAgent {
                 throw new RuntimeException( "bad args" );
             }
         }
-        else if( bodyB instanceof Box2D ) {
-            box = (Box2D)bodyB;
+        else if( bodyB instanceof MRBox ) {
+            box = (MRBox)bodyB;
             if( bodyA instanceof AbstractMolecule ) {
                 molecule = (AbstractMolecule)bodyA;
             }
@@ -67,12 +70,13 @@ public class MoleculeBoxCollisionAgent {
             throw new RuntimeException( "bad args" );
         }
 
-        // Get the total energy of the two objects, so we can conserve it
-        double totalEnergy0 = molecule.getKineticEnergy() + bodyB.getKineticEnergy();
-
         if( detectCollision( molecule, box ) ) {
-//        if( detectCollision( molecule, molecule.getVelocity(), box ) ) {
             doCollision( molecule, loa, collisionPt );
+            // Set the temperature of the molecule to be that of the box
+//            double kePre = molecule.getKineticEnergy();
+//            molecule.setTemperature( box.getTemperature() );
+//            double kePost = molecule.getKineticEnergy();
+//            model.addEnergy( kePost - kePre );
             return true;
         }
         else {
@@ -80,8 +84,7 @@ public class MoleculeBoxCollisionAgent {
         }
     }
 
-    private boolean detectCollision( AbstractMolecule molecule, Box2D box ) {
-//    private boolean detectCollision( AbstractMolecule molecule, Vector2D velocity, Box2D box ) {
+    private boolean detectCollision( AbstractMolecule molecule, MRBox box ) {
         boolean collisionDetected = false;
 
         Vector2D velocity = molecule.getVelocity();
@@ -92,7 +95,6 @@ public class MoleculeBoxCollisionAgent {
             for( int i = 0; i < components.length && !collisionDetected; i++ ) {
                 AbstractMolecule component = components[i];
                 collisionDetected = detectCollision( component, box );
-//                collisionDetected = detectCollision( component, velocity, box );
             }
         }
         else if( molecule instanceof SimpleMolecule ) {
@@ -193,15 +195,5 @@ public class MoleculeBoxCollisionAgent {
         // Compute the new linear and angular velocities, based on the impulse
         molecule.getVelocity().add( new Vector2D.Double( n ).scale( j / molecule.getMass() ) );
         molecule.setOmega( molecule.getOmega() + ( r1.getX() * n.getY() - r1.getY() * n.getX() ) * j / ( molecule.getMomentOfInertia() ) );
-
-        // tweak the energy to be constant
-//        double totalEnergy1 = molecule.getKineticEnergy() /*+ bodyB.getKineticEnergy()*/;
-//        double de = totalEnergy0 - totalEnergy1;
-//        double dv = Math.sqrt( 2 * Math.abs( de ) ) * MathUtil.getSign( de );
-//        double ratA = 1;
-//        double dvA = dv * ratA;
-//        double vMagA = molecule.getVelocity().getMagnitude();
-//        double fvA = ( vMagA - dvA ) / vMagA;
-//        molecule.getVelocity().multiply( (float)fvA );
     }
 }
