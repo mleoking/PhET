@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- remove need for Wireframe3DNode.boundsNode
+- emission still seems to favor going to state=1
 - implement collision detection with deBroglie 3D orbits
 - emit photons along deBroglie 3D orbits
 
@@ -53,6 +53,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/6/06) - fix bounds hack in Wireframe3DNode
 (12/6/06) - notify Wireframe3DNode of changes to Wireframe3D bounds
 (12/6/06) - major changes to Wireframe3D to improve interface and performance, remove need to call "done" method
 (12/6/06) - fix color assignment in Wireframe3D
