@@ -180,6 +180,10 @@ public class Wireframe3D {
 
     
 
+    private static final int COLOR_PALETTE_SIZE = 16;
+
+    
+
     //----------------------------------------------------------------------------
 
     // Instance data
@@ -212,7 +216,7 @@ public class Wireframe3D {
 
     private float _transformedVerticies[];
 
-    // bounds of the model
+    // coordinates that define the bounding box (untransformed) of the model
 
     private float _xmin, _xmax, _ymin, _ymax, _zmin, _zmax;
 
@@ -226,7 +230,7 @@ public class Wireframe3D {
 
     // Is antialiasing enabled?
 
-    private boolean _antialias;
+    private boolean _antialiased;
 
     // Width of Stroke used to draw the line segments
 
@@ -276,9 +280,9 @@ public class Wireframe3D {
 
         _transformed = false;
 
-        _palette = createGrayPalette();
+        _palette = createColorPalette( Color.BLACK, Color.GRAY );
 
-        _antialias = true; // enabled by default
+        _antialiased = true; // enabled by default
 
         _strokeWidth = DEFAULT_STROKE_WIDTH;
 
@@ -297,6 +301,10 @@ public class Wireframe3D {
      * but no lines connecting the vertices.
 
      * Call setLine to specify how the verticies are connected.
+
+     * 
+
+     * @param verticies
 
      */
 
@@ -317,6 +325,8 @@ public class Wireframe3D {
     /**
 
      * Creates a 3D wireframe model with a set of verticies and lines.
+
+     * 
 
      * @param verticies
 
@@ -362,21 +372,37 @@ public class Wireframe3D {
 
     
 
+    /**
+
+     * Gets the matrix used to transform this model.
+
+     * 
+
+     * @return Matrix3D
+
+     */
+
     public Matrix3D getMatrix() {
 
         return _matrix;
 
     }
 
-    
 
-    public void setTransformed( boolean transformed ) {
 
-        _transformed = transformed;
+    /**
 
-    }
+     * Sets the colors used to draw the lines segments in the wireframe.
 
-    
+     * Calling this method builds a color palette.
+
+     * 
+
+     * @param front
+
+     * @param back
+
+     */
 
     public void setColors( Color front, Color back ) {
 
@@ -392,6 +418,16 @@ public class Wireframe3D {
 
     
 
+    /**
+
+     * Sets the width of the stroke used to draw the lines in the wireframe.
+
+     * 
+
+     * @param strokeWidth
+
+     */
+
     public void setStrokeWidth( float strokeWidth ) {
 
         if ( strokeWidth != _strokeWidth ) {
@@ -402,15 +438,61 @@ public class Wireframe3D {
 
         }
 
-        updateBounds();
+        updateBoundingBox();
 
     }
 
     
 
-    public void setAntialias( boolean antialias ) {
+    /**
 
-        _antialias = antialias;
+     * Gets the width of the stroke used to draw the lines in the wireframe.
+
+     * 
+
+     * @return float
+
+     */
+
+    public float getStrokeWidth() {
+
+        return _strokeWidth;
+
+    }
+
+    
+
+    /**
+
+     * Enables or disables antialiasing.
+
+     * 
+
+     * @param antialias
+
+     */
+
+    public void setAntialiased( boolean antialiased ) {
+
+        _antialiased = antialiased;
+
+    }
+
+    
+
+    /**
+
+     * Is antialiasing enabled?
+
+     * 
+
+     * @return true or false
+
+     */
+
+    public boolean isAntialiased() {
+
+        return _antialiased;
 
     }
 
@@ -496,7 +578,11 @@ public class Wireframe3D {
 
         
 
-        transform();
+        if ( !_transformed ) {
+
+            transform();
+
+        }
 
 
 
@@ -510,7 +596,7 @@ public class Wireframe3D {
 
         
 
-        if ( _antialias ) {
+        if ( _antialiased ) {
 
             g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
@@ -536,7 +622,7 @@ public class Wireframe3D {
 
 
 
-            // choose a color from the palette based on depth
+            // choose a color from the palette based on z-depth
 
             int colorIndex = (int)( _transformedVerticies[p1 + 2] + _transformedVerticies[p2 + 2] );
 
@@ -600,6 +686,8 @@ public class Wireframe3D {
 
      * Adds multiple verticies.
 
+     * 
+
      * @param verticies
 
      * @return the total number of verticies
@@ -626,6 +714,8 @@ public class Wireframe3D {
 
      * Adds a vertex.
 
+     * 
+
      * @param v
 
      * @return the total number of verticies
@@ -644,6 +734,8 @@ public class Wireframe3D {
 
      * Adds a vertex.
 
+     * 
+
      * @param x
 
      * @param y
@@ -658,9 +750,11 @@ public class Wireframe3D {
 
         
 
-        // If we've run out of space, resize the verticies array.
+        // If we've run out of space, double the size of the verticies array.
 
-        if ( _numberOfVerticies >= _verticies.length / 3 ) {
+        int capacity = _verticies.length / 3;
+
+        if ( _numberOfVerticies >= capacity ) {
 
             float newVerticies[] = new float[_verticies.length * 2];
 
@@ -700,6 +794,8 @@ public class Wireframe3D {
 
      * Adds a line between 2 verticies.
 
+     * 
+
      * @param index1 index of first vertex
 
      * @param index2 index of second vertex
@@ -709,6 +805,8 @@ public class Wireframe3D {
      */
 
     public int addLine( int index1, int index2 ) {
+
+        
 
         // Validate indicies
 
@@ -726,7 +824,7 @@ public class Wireframe3D {
 
         
 
-        // If we've run out of space, resize the lines array.
+        // If we've run out of space, double the size of the lines array.
 
         if ( _numberOfLines >= _lines.length ) {
 
@@ -790,7 +888,7 @@ public class Wireframe3D {
 
     public void done() {
 
-        updateBounds();
+        updateBoundingBox();
 
     }
 
@@ -798,13 +896,23 @@ public class Wireframe3D {
 
     /**
 
-     * Call this if you suspect that your dataset might contain duplicate lines.
+     * Eliminates duplicate lines.
+
+     * Call this if you suspect that your model contains duplicate lines.
 
      */
 
     public void compress() {
 
-        sort( 0, _numberOfLines - 1 );
+        
+
+        // Sort the lines
+
+        quickSort( _lines, 0, _numberOfLines - 1 );
+
+        
+
+        // Remove duplicates
 
         int newNumberOfLines = 0;
 
@@ -827,6 +935,8 @@ public class Wireframe3D {
             prevIndex = index;
 
         }
+
+        
 
         _numberOfLines = newNumberOfLines;
 
@@ -874,77 +984,11 @@ public class Wireframe3D {
 
     /*
 
-     * ?
+     * Finds the bounding box of the model (untransformed).
 
      */
 
-    private void sort( final int lo0, final int hi0 ) {
-
-        int lo = lo0;
-
-        int hi = hi0;
-
-        int tmp = 0;
-
-        if ( lo >= hi ) {
-
-            return;
-
-        }
-
-        int mid = _lines[( lo + hi ) / 2];
-
-        while ( lo < hi ) {
-
-            while ( lo < hi && _lines[lo] < mid ) {
-
-                lo++;
-
-            }
-
-            while ( lo < hi && _lines[hi] >= mid ) {
-
-                hi--;
-
-            }
-
-            if ( lo < hi ) {
-
-                tmp = _lines[lo];
-
-                _lines[lo] = _lines[hi];
-
-                _lines[hi] = tmp;
-
-            }
-
-        }
-
-        if ( hi < lo ) {
-
-            tmp = hi;
-
-            hi = lo;
-
-            lo = tmp;
-
-        }
-
-        sort( lo0, lo );
-
-        sort( lo == lo0 ? lo + 1 : lo, hi0 );
-
-    }
-
-    
-
-    /*
-
-     * Finds the bounding box of this model.
-
-     */
-
-    private void updateBounds() {
+    private void updateBoundingBox() {
 
         if ( _numberOfVerticies <= 0 ) {
 
@@ -1024,7 +1068,159 @@ public class Wireframe3D {
 
     //----------------------------------------------------------------------------
 
-    // Static
+    // Sorting
+
+    //----------------------------------------------------------------------------
+
+    
+
+    /* 
+
+     * Quick Sort implementation.
+
+     * 
+
+     * @param a
+
+     * @param left
+
+     * @param right
+
+     */
+
+    private static void quickSort( int a[], int left, int right ) {
+
+        int leftIndex = left;
+
+        int rightIndex = right;
+
+        int partionElement;
+
+        if ( right > left ) {
+
+
+
+            /* Arbitrarily establishing partition element as the midpoint of
+
+             * the array.
+
+             */
+
+            partionElement = a[( left + right ) / 2];
+
+
+
+            // loop through the array until indices cross
+
+            while ( leftIndex <= rightIndex ) {
+
+                /* find the first element that is greater than or equal to
+
+                 * the partionElement starting from the leftIndex.
+
+                 */
+
+                while ( ( leftIndex < right ) && ( a[leftIndex] < partionElement ) ) {
+
+                    ++leftIndex;
+
+                }
+
+
+
+                /* find an element that is smaller than or equal to
+
+                 * the partionElement starting from the rightIndex.
+
+                 */
+
+                while ( ( rightIndex > left ) && ( a[rightIndex] > partionElement ) ) {
+
+                    --rightIndex;
+
+                }
+
+
+
+                // if the indexes have not crossed, swap
+
+                if ( leftIndex <= rightIndex ) {
+
+                    swap( a, leftIndex, rightIndex );
+
+                    ++leftIndex;
+
+                    --rightIndex;
+
+                }
+
+            }
+
+
+
+            /* If the right index has not reached the left side of array
+
+             * must now sort the left partition.
+
+             */
+
+            if ( left < rightIndex ) {
+
+                quickSort( a, left, rightIndex );
+
+            }
+
+
+
+            /* If the left index has not reached the right side of array
+
+             * must now sort the right partition.
+
+             */
+
+            if ( leftIndex < right ) {
+
+                quickSort( a, leftIndex, right );
+
+            }
+
+        }
+
+    }
+
+    
+
+    /*
+
+     * Swaps two positions in an array.
+
+     * 
+
+     * @param a
+
+     * @param i
+
+     * @param j
+
+     */
+
+    private static void swap( int a[], int i, int j ) {
+
+        int T;
+
+        T = a[i];
+
+        a[i] = a[j];
+
+        a[j] = T;
+
+    }
+
+    
+
+    //----------------------------------------------------------------------------
+
+    // Strokes
 
     //----------------------------------------------------------------------------
 
@@ -1033,6 +1229,10 @@ public class Wireframe3D {
     /*
 
      * Encapsulates all Stroke creation.
+
+     * 
+
+     * @param width
 
      */
 
@@ -1044,27 +1244,11 @@ public class Wireframe3D {
 
     
 
-    /*
+    //----------------------------------------------------------------------------
 
-     * Creates a grayscale palette.
+    // Color palette
 
-     */
-
-    private static Color[] createGrayPalette() {
-
-        Color[] palette = new Color[16];
-
-        for ( int i = 0; i < 16; i++ ) {
-
-            int grey = (int) ( 170 * ( 1 - Math.pow( i / 15.0, 2.3 ) ) );
-
-            palette[i] = new Color( grey, grey, grey );
-
-        }
-
-        return palette;
-
-    }
+    //----------------------------------------------------------------------------
 
     
 
@@ -1086,7 +1270,7 @@ public class Wireframe3D {
 
 
 
-        Color[] palette = new Color[16];
+        Color[] palette = new Color[ COLOR_PALETTE_SIZE ];
 
         
 
@@ -1112,11 +1296,13 @@ public class Wireframe3D {
 
         // component deltas between front and back
 
-        float rdelta = ( fr - br ) / 15f;
+        final float segments = (float) ( COLOR_PALETTE_SIZE - 1 );
 
-        float gdelta = ( fg - bg ) / 15f;
+        float rdelta = ( fr - br ) / segments;
 
-        float bdelta = ( fb - bb ) / 15f;
+        float gdelta = ( fg - bg ) / segments;
+
+        float bdelta = ( fb - bb ) / segments;
 
         
 
@@ -1145,6 +1331,10 @@ public class Wireframe3D {
     /*
 
      * Prints a color palette to System.out.
+
+     * 
+
+     * @param palette
 
      */
 

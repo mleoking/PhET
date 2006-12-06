@@ -55,6 +55,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/6/06) - replace some of the obstuse code in Wireframe3D with more recent code from Sun
 (12/5/06) - bugfix: photon emission favors going back to state=1, all transitions should have equal probability
 (12/5/06) - make gun fire at center of atom 10% of the time
 (12/5/06) - make sure that all atom views apply ModelViewTransform
