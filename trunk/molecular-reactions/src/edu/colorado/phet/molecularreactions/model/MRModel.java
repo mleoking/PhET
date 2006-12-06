@@ -90,7 +90,8 @@ public class MRModel extends PublishingModel {
         // Add a box
         box = new MRBox( new Point2D.Double( 30, 30 ),
                          new Point2D.Double( 380, 330 ),
-                         0 );
+                         0,
+                         this );
         addModelElement( box );
 
         // Add the temperature control to the model

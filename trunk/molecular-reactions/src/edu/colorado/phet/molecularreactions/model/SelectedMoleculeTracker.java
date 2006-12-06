@@ -30,9 +30,8 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SelectedMoleculeTracker implements ModelElement,
-                                                PublishingModel.ModelListener,
-                                                SimpleMolecule.ChangeListener {
+public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapter implements ModelElement,
+                                                                                             SimpleMolecule.ChangeListener {
     private MRModel model;
     private SimpleMolecule moleculeTracked;
     private SimpleMolecule closestMolecule;

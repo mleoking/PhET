@@ -32,7 +32,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ProvisionalBondDetector implements ModelElement, PublishingModel.ModelListener {
+public class ProvisionalBondDetector extends PublishingModel.ModelListenerAdapter implements ModelElement  {
     private MRModel model;
     private List bondedMolecules = new ArrayList();
 
