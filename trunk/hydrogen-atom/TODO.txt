@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - emit photons along deBroglie 3D orbits
 
 MEDIUM PRIORITY:
-- Unicode chars (arrows) in "Options>deBroglie view" and "Transition Table" dialog aren't correct on Windows
 - add "show traces" feature for alpha particles (need to interpolate curve between points)
 - implement Schrodinger visual representation
 - implement Schrodinger model
@@ -50,6 +49,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/6/06) - Unicode arrows don't display on Windows, replace with HTML entities
 (12/6/06) - make sure that all calls to OrbitFactory are passed radius values that have ModelViewTransform applied
 (12/6/06) - fix bounds hack in Wireframe3DNode
 (12/6/06) - notify Wireframe3DNode of changes to Wireframe3D bounds
