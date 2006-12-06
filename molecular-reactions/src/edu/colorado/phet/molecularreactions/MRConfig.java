@@ -37,7 +37,9 @@ public class MRConfig {
     public static double MAX_REACTION_THRESHOLD = 5E2;      // Max num of any one type of molecule
     public static final int MAX_MOLECULE_CNT = 200;
     public static double DEFAULT_REACTION_THRESHOLD = MAX_REACTION_THRESHOLD * .7;
-    public static final double MAX_SPEED = 3;
+    public static final double MAX_SPEED = 50;
+//    public static final double MAX_SPEED = 3;
+    public static final double DEFAULT_TEMPERATURE = MAX_SPEED;
     public static final double LAUNCHER_MIN_THETA = -Math.PI / 4;
     public static final double LAUNCHER_MAX_THETA = Math.PI / 4;
     public static final double LAUNCHER_MAX_EXTENSION = 70;

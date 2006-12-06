@@ -269,8 +269,16 @@ public class MRModel extends PublishingModel {
      * @return
      */
     public double getTemperature() {
-        int cnt = kineticEnergySources.size();
-        return cnt > 0 ? getTotalKineticEnergy() / cnt : 0;
+        int cnt = 0;
+        List modelElements = getModelElements();
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            Object o = modelElements.get( i );
+            if( o instanceof AbstractMolecule && !((AbstractMolecule)o).isPartOfComposite()){
+                cnt++;
+            }
+        }
+        return cnt > 0 ? getTotalKineticEnergy() / cnt : MRConfig.DEFAULT_TEMPERATURE;
+//        return cnt > 0 ? getTotalKineticEnergy() / cnt : 0;
     }
 
     public double getTotalPotentialEnergy() {
