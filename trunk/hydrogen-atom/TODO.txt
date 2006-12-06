@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- Wireframe3D does not assign colors to lines correctly, computed colorIndex is often <0 or >15
 - Wireframe3DNode should use transformed bounds, needs to be notified when wireframe is transformed
 - remove HACKs in Wireframe3DNode that makes bounds appear correct
 - implement collision detection with deBroglie 3D orbits
@@ -55,6 +54,8 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/6/06) - fix color assignment in Wireframe3D
+(12/6/06) - add computation of transformed bounding box to Wireframe3D
 (12/6/06) - replace some of the obstuse code in Wireframe3D with more recent code from Sun
 (12/5/06) - bugfix: photon emission favors going back to state=1, all transitions should have equal probability
 (12/5/06) - make gun fire at center of atom 10% of the time
