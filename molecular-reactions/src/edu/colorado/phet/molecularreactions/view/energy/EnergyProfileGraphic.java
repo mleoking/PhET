@@ -42,6 +42,10 @@ import java.awt.geom.GeneralPath;
  * @version $Revision$
  */
 class EnergyProfileGraphic extends PNode {
+
+    public static final BasicStroke LINE_STROKE = new BasicStroke( 3 );
+
+
     private double peakLevel;
     private double modelToViewScale;
     private PPath leftFloor;
@@ -78,20 +82,20 @@ class EnergyProfileGraphic extends PNode {
         leftFloor.setPathTo( new Line2D.Double( 0, 0, x1, 0 ) );
         addChild( leftFloor );
         leftFloor.setStrokePaint( color );
-        leftFloor.setStroke( new BasicStroke( 3 ) );
+        leftFloor.setStroke( LINE_STROKE );
         leftFloor.addInputEventListener( new FloorMouseHandler( leftFloor ) );
 
         rightFloor = new PPath();
         rightFloor.setPathTo( new Line2D.Double( x3, 0, width, 0 ) );
         addChild( rightFloor );
         rightFloor.setStrokePaint( color );
-        rightFloor.setStroke( new BasicStroke( 3 ) );
+        rightFloor.setStroke( LINE_STROKE );
         rightFloor.addInputEventListener( new FloorMouseHandler( rightFloor ) );
 
         centralCurve = new PPath();
         addChild( centralCurve );
         centralCurve.setStrokePaint( color );
-        centralCurve.setStroke( new BasicStroke( 3 ) );
+        centralCurve.setStroke( LINE_STROKE );
         centralCurve.addInputEventListener( new PeakMouseHandler( x2 - 5, x2 + 5 ) );
 
         // Double-headed arrows to indicate when the curve is manipulable

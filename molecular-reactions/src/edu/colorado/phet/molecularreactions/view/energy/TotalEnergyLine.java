@@ -36,7 +36,7 @@ import java.awt.geom.Line2D;
  */
 public class TotalEnergyLine extends PNode {
     public static final Paint linePaint = MRConfig.TOTAL_ENERGY_COLOR;
-    public static final Stroke lineStroke = new BasicStroke( 2 );
+    public static final Stroke lineStroke = new BasicStroke( EnergyProfileGraphic.LINE_STROKE.getLineWidth() + 1 );
 
     private Line2D line;
     private PPath lineNode;
