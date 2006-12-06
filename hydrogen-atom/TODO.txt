@@ -5,8 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- Wireframe3DNode should use transformed bounds, needs to be notified when wireframe is transformed
-- remove HACKs in Wireframe3DNode that makes bounds appear correct
+- remove need for Wireframe3DNode.boundsNode
 - implement collision detection with deBroglie 3D orbits
 - emit photons along deBroglie 3D orbits
 
