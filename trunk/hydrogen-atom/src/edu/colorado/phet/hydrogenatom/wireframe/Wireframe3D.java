@@ -696,7 +696,9 @@ public class Wireframe3D {
 
             float zAvg = _transformedVerticies[p1 + 2] + ( ( _transformedVerticies[p1 + 2] - _transformedVerticies[p2 + 2] ) / 2 );
 
-            int colorIndex = getColorIndex( zAvg );
+            int colorIndex = (int)( ( _palette.length - 1 ) * ( ( zAvg - _tzmin ) / ( _tzmax - _tzmin ) ) );
+
+            assert( colorIndex >= 0 && colorIndex < _palette.length );
 
             
 
@@ -1509,40 +1511,6 @@ public class Wireframe3D {
         
 
         return palette;
-
-    }
-
-    
-
-    /*
-
-     * Looks up a color in the palette, based on z depth.
-
-     * 
-
-     * @param palette
-
-     * @param z
-
-     */
-
-    private int getColorIndex( float z ) {
-
-        int colorIndex = (int) ( _palette.length * ( ( z - _tzmin ) / ( _tzmax - _tzmin ) ) ) - 1;
-
-        if ( colorIndex < 0 ) {
-
-            colorIndex = 0;
-
-        }
-
-        else if ( colorIndex >= _palette.length ) {
-
-            colorIndex = _palette.length - 1;
-
-        }
-
-        return colorIndex;
 
     }
 
