@@ -20,11 +20,11 @@ package edu.colorado.phet.hydrogenatom;
  */
 public class HAVersion {
   
-    public static final String NUMBER = "sandbox";
-    public static final String CVS_TAG = "hydrogenatom-sandbox";
+//    public static final String NUMBER = "sandbox";
+//    public static final String CVS_TAG = "hydrogenatom-sandbox";
     
-//    public static final String NUMBER = "0.00.13";
-//    public static final String CVS_TAG = "hydrogenatom-0-00-13-2006-11-29";
+    public static final String NUMBER = "0.00.14";
+    public static final String CVS_TAG = "hydrogenatom-0-00-14-2006-12-06";
     
     /* This class is not intended for instantiation. */
     private HAVersion() {}

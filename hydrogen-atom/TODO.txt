@@ -47,6 +47,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+***** CVS tag hydrogenatom-0-00-14-2006-12-06
 (12/6/06) - reduce probability of stimulated emission
 (12/6/06) - verified that emission is not favoring state=1 (looks like this because stimualted emission happens often!)
 (12/6/06) - add up/down arrow support in WavelengthControl textfield
