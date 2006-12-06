@@ -53,8 +53,11 @@ public class BohrModel extends AbstractHydrogenAtom {
     /* probability that photon will be emitted */
     private static final double PHOTON_EMISSION_PROBABILITY = 0.1; // 1.0 = 100%
     
-    /* probability of stimulated emission should be the same as absorption */
-    private static final double PHOTON_STIMULATED_EMISSION_PROBABILITY = PHOTON_ABSORPTION_PROBABILITY;
+    /* Probability of stimulated emission should be the same as absorption,
+     * but we test for it first so it seems to happen way more often.
+     * So we've lowered its probability.
+     */
+    private static final double PHOTON_STIMULATED_EMISSION_PROBABILITY = 0.25;
     
     /* change in orbit angle per dt for ground state orbit */
     private static final double ELECTRON_ANGLE_DELTA = Math.toRadians( 10 );
@@ -376,6 +379,7 @@ public class BohrModel extends AbstractHydrogenAtom {
                 if ( _electronState > GROUND_STATE  + 1 ) {
                     newState = GROUND_STATE + _randomState.nextInt( _electronState - GROUND_STATE );
                 }
+//                System.out.println( "BohrModel.emitPhoton " + _electronState + "->" + newState );//XXX
                 
                 // New photon's properties
                 Point2D position = getElectronPosition();
