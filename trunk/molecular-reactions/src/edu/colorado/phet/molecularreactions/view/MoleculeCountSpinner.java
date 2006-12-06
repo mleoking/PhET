@@ -15,6 +15,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.MRConfig;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -66,11 +67,17 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
                                                               r.getMinY() + 20,
                                                               r.getWidth() - 40,
                                                               r.getHeight() - 40 );
-        moleculeParamGenerator = new RandomMoleculeParamGenerator( generatorBounds,
-                                                                   5,
+        moleculeParamGenerator = new ConstantTemperatureMoleculeParamGenerator( generatorBounds,
+                                                                   model,
                                                                    .1,
                                                                    0,
-                                                                   Math.PI * 2 );
+                                                                   Math.PI * 2,
+                                                                   moleculeClass );
+//        moleculeParamGenerator = new RandomMoleculeParamGenerator( generatorBounds,
+//                                                                   MRConfig.MAX_SPEED,
+//                                                                   .1,
+//                                                                   0,
+//                                                                   Math.PI * 2 );
         setValue( new Integer( 0 ) );
 
         // Respond to changes in the spinner
