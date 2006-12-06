@@ -50,7 +50,7 @@ LOW PRIORITY:
  
 DONE:
 (12/6/06) - Unicode arrows don't display on Windows, replace with HTML entities
-(12/6/06) - make sure that all calls to OrbitFactory are passed radius values that have ModelViewTransform applied
+(12/6/06) - verify that all calls to OrbitFactory apply ModelViewTransform to radius
 (12/6/06) - fix bounds hack in Wireframe3DNode
 (12/6/06) - notify Wireframe3DNode of changes to Wireframe3D bounds
 (12/6/06) - major changes to Wireframe3D to improve interface and performance, remove need to call "done" method
