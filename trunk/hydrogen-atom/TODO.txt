@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- emission still seems to favor going to state=1 (try deBroglie in state=6)
 - implement collision detection with deBroglie 3D orbits
 - emit photons along deBroglie 3D orbits
 
@@ -48,6 +47,8 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/6/06) - reduce probability of stimulated emission
+(12/6/06) - verified that emission is not favoring state=1 (looks like this because stimualted emission happens often!)
 (12/6/06) - add up/down arrow support in WavelengthControl textfield
 (12/6/06) - Unicode arrows don't display on Windows, replace with HTML entities
 (12/6/06) - verify that all calls to OrbitFactory apply ModelViewTransform to radius
