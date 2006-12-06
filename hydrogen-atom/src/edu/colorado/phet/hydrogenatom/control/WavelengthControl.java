@@ -12,10 +12,7 @@
 package edu.colorado.phet.hydrogenatom.control;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -644,11 +641,14 @@ public class WavelengthControl extends PhetPNode {
             _formattedTextField.setColumns( TEXT_FIELD_COLUMNS );
             _formattedTextField.setHorizontalAlignment( JTextField.RIGHT );
             
+            // text entry
             _formattedTextField.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     handleTextEntry();
                 }
             } );
+            
+            // focus
             _formattedTextField.addFocusListener( new FocusListener() {
                 /* Selects the entire value text field when it gains focus. */
                 public void focusGained( FocusEvent e ) {
@@ -663,6 +663,18 @@ public class WavelengthControl extends PhetPNode {
                     catch ( ParseException pe ) {
                         warnUser();
                         setValue( _wavelength ); // revert
+                    }
+                }
+            } );
+            
+            // up/down arrow keys
+            _formattedTextField.addKeyListener( new KeyAdapter() { 
+                public void keyPressed( KeyEvent event ) {
+                    if ( event.getKeyCode() == KeyEvent.VK_UP ) {
+                        setWavelength( _wavelength + 1 );
+                    }
+                    else if ( event.getKeyCode() == KeyEvent.VK_DOWN ) {
+                        setWavelength( _wavelength - 1 );
                     }
                 }
             } );

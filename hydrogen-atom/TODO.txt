@@ -34,7 +34,6 @@ LOW PRIORITY:
 - reduce size of image files that are being scaled down (eg, plum pudding)
 - add WavelengthControl.setTrackSize(Dimension)
 - add WavelengthControl.setKnobSize(Dimension)
-- add up/down arrow support in WavelengthControl textfield
 - size "UV" and "IR" labels to fit WavelengthControl track height
 - make panel spacing and canvas spacing configurable via SimStrings file
 - generate spectrum instead of using an image file
@@ -49,6 +48,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/6/06) - add up/down arrow support in WavelengthControl textfield
 (12/6/06) - Unicode arrows don't display on Windows, replace with HTML entities
 (12/6/06) - verify that all calls to OrbitFactory apply ModelViewTransform to radius
 (12/6/06) - fix bounds hack in Wireframe3DNode
