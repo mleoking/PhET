@@ -216,9 +216,13 @@ public class Wireframe3D {
 
     private float _transformedVerticies[];
 
-    // coordinates that define the bounding box (untransformed) of the model
+    // coordinates that define the untransformed bounding box of the model
 
     private float _xmin, _xmax, _ymin, _ymax, _zmin, _zmax;
+
+    // coordinates that define the transformed bounding box of the model
+
+    private float _txmin, _txmax, _tymin, _tymax, _tzmin, _tzmax;
 
     // has the model been transformed?
 
@@ -277,6 +281,8 @@ public class Wireframe3D {
         _transformedVerticies = new float[_verticies.length];
 
         _xmin = _xmax = _ymin = _ymax = _zmin = _zmax = 0;
+
+        _txmin = _txmax = _tymin = _tymax = _tzmin = _tzmax = 0;
 
         _transformed = false;
 
@@ -498,6 +504,14 @@ public class Wireframe3D {
 
     
 
+    /*
+
+     * Coordinates of the untransformed bounding box.
+
+     */
+
+    
+
     public float getXMax() {
 
         return _xmax;
@@ -546,6 +560,62 @@ public class Wireframe3D {
 
     
 
+    /*
+
+     * Coordinates of the transformed bounding box.
+
+     */
+
+    
+
+    public float getTXMax() {
+
+        return _txmax;
+
+    }
+
+    
+
+    public float getTXMin() {
+
+        return _txmin;
+
+    }
+
+    
+
+    public float getTYMax() {
+
+        return _tymax;
+
+    }
+
+    
+
+    public float getTYMin() {
+
+        return _tymin;
+
+    }
+
+    
+
+    public float getTZMax() {
+
+        return _tzmax;
+
+    }
+
+    
+
+    public float getTZMin() {
+
+        return _tzmin;
+
+    }
+
+    
+
     //----------------------------------------------------------------------------
 
     // Rendering
@@ -556,9 +626,9 @@ public class Wireframe3D {
 
     /**
 
-     * Paints this model to a graphics context.  It uses the matrix associated
+     * Paints this model to a graphics context.
 
-     * with this model to map from model space to screen space.
+     * It uses the model's matrix to map from model space to screen space.
 
      * 
 
@@ -622,21 +692,11 @@ public class Wireframe3D {
 
 
 
-            // choose a color from the palette based on z-depth
+            // choose a color from the palette based on the line's average z-depth
 
-            int colorIndex = (int)( _transformedVerticies[p1 + 2] + _transformedVerticies[p2 + 2] );
+            float zAvg = _transformedVerticies[p1 + 2] + ( ( _transformedVerticies[p1 + 2] - _transformedVerticies[p2 + 2] ) / 2 );
 
-            if ( colorIndex < 0 ) {
-
-                colorIndex = 0;
-
-            }
-
-            else if ( colorIndex > 15 ) {
-
-                colorIndex = 15;
-
-            }
+            int colorIndex = getColorIndex( zAvg );
 
             
 
@@ -960,11 +1020,15 @@ public class Wireframe3D {
 
     private void transform() {
 
+        
+
         if ( _transformed || _numberOfVerticies <= 0 ) {
 
             return;
 
         }
+
+        
 
         // Resize the destination array if it's too small
 
@@ -974,9 +1038,19 @@ public class Wireframe3D {
 
         }
 
+        
+
+        // Transform the verticies
+
         _matrix.transform( _verticies, _transformedVerticies, _numberOfVerticies );
 
         _transformed = true;
+
+        
+
+        // Recompute the bounding box
+
+        updateTransformedBoundingBox();
 
     }
 
@@ -984,17 +1058,21 @@ public class Wireframe3D {
 
     /*
 
-     * Finds the bounding box of the model (untransformed).
+     * Computes the untransformed bounding box of the model.
 
      */
 
     private void updateBoundingBox() {
+
+        
 
         if ( _numberOfVerticies <= 0 ) {
 
             return;
 
         }
+
+        
 
         float v[] = _verticies;
 
@@ -1004,7 +1082,11 @@ public class Wireframe3D {
 
         float zmin = v[2], zmax = zmin;
 
+        
+
         for ( int i = _numberOfVerticies * 3; ( i -= 3 ) > 0; ) {
+
+            
 
             float x = v[i];
 
@@ -1014,11 +1096,13 @@ public class Wireframe3D {
 
             }
 
-            if ( x > xmax ) {
+            else if ( x > xmax ) {
 
                 xmax = x;
 
             }
+
+            
 
             float y = v[i + 1];
 
@@ -1028,11 +1112,13 @@ public class Wireframe3D {
 
             }
 
-            if ( y > ymax ) {
+            else if ( y > ymax ) {
 
                 ymax = y;
 
             }
+
+            
 
             float z = v[i + 2];
 
@@ -1042,7 +1128,7 @@ public class Wireframe3D {
 
             }
 
-            if ( z > zmax ) {
+            else if ( z > zmax ) {
 
                 zmax = z;
 
@@ -1050,17 +1136,113 @@ public class Wireframe3D {
 
         }
 
-        _xmax = xmax + _strokeWidth;
+        _xmax = xmax;
 
-        _xmin = xmin - _strokeWidth;
+        _xmin = xmin;
 
-        _ymax = ymax + _strokeWidth;
+        _ymax = ymax;
 
-        _ymin = ymin - _strokeWidth;
+        _ymin = ymin;
 
-        _zmax = zmax + _strokeWidth;
+        _zmax = zmax;
 
-        _zmin = zmin - _strokeWidth;
+        _zmin = zmin;
+
+    }
+
+    
+
+    /*
+
+     * Computes the transformed bounding box of the model.
+
+     */
+
+    private void updateTransformedBoundingBox() {
+
+        
+
+        if ( _numberOfVerticies <= 0 ) {
+
+            return;
+
+        }
+
+        
+
+        float v[] = _transformedVerticies;
+
+        float xmin = v[0], xmax = xmin;
+
+        float ymin = v[1], ymax = ymin;
+
+        float zmin = v[2], zmax = zmin;
+
+        
+
+        for ( int i = _numberOfVerticies * 3; ( i -= 3 ) > 0; ) {
+
+            
+
+            float x = v[i];
+
+            if ( x < xmin ) {
+
+                xmin = x;
+
+            }
+
+            else if ( x > xmax ) {
+
+                xmax = x;
+
+            }
+
+            
+
+            float y = v[i + 1];
+
+            if ( y < ymin ) {
+
+                ymin = y;
+
+            }
+
+            else if ( y > ymax ) {
+
+                ymax = y;
+
+            }
+
+            
+
+            float z = v[i + 2];
+
+            if ( z < zmin ) {
+
+                zmin = z;
+
+            }
+
+            else if ( z > zmax ) {
+
+                zmax = z;
+
+            }
+
+        }
+
+        _txmax = xmax;
+
+        _txmin = xmin;
+
+        _tymax = ymax;
+
+        _tymin = ymin;
+
+        _tzmax = zmax;
+
+        _tzmin = zmin;
 
     }
 
@@ -1090,11 +1272,15 @@ public class Wireframe3D {
 
     private static void quickSort( int a[], int left, int right ) {
 
+        
+
         int leftIndex = left;
 
         int rightIndex = right;
 
         int partionElement;
+
+        
 
         if ( right > left ) {
 
@@ -1323,6 +1509,40 @@ public class Wireframe3D {
         
 
         return palette;
+
+    }
+
+    
+
+    /*
+
+     * Looks up a color in the palette, based on z depth.
+
+     * 
+
+     * @param palette
+
+     * @param z
+
+     */
+
+    private int getColorIndex( float z ) {
+
+        int colorIndex = (int) ( _palette.length * ( ( z - _tzmin ) / ( _tzmax - _tzmin ) ) ) - 1;
+
+        if ( colorIndex < 0 ) {
+
+            colorIndex = 0;
+
+        }
+
+        else if ( colorIndex >= _palette.length ) {
+
+            colorIndex = _palette.length - 1;
+
+        }
+
+        return colorIndex;
 
     }
 
