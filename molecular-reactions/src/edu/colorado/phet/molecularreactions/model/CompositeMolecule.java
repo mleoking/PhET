@@ -382,7 +382,7 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
      * Adds the bonds of a CompositeMolecule to the model when the CompositeMolecule is added to
      * the model, and removes the bonds when the CompositeMolecule is removed from the model
      */
-    public static class DependentModelElementMonitor implements PublishingModel.ModelListener {
+    public static class DependentModelElementMonitor extends PublishingModel.ModelListenerAdapter {
         private PublishingModel model;
 
         public DependentModelElementMonitor( PublishingModel model ) {

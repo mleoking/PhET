@@ -16,14 +16,13 @@ import java.util.List;
 
 /**
  * MoleculeCounter
- * <p>
+ * <p/>
  * Monitors an MRModel to keep track of the number of molecules of a specified type
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MoleculeCounter implements PublishingModel.ModelListener,
-                                        AbstractMolecule.ClassListener {
+public class MoleculeCounter extends PublishingModel.ModelListenerAdapter implements AbstractMolecule.ClassListener {
     private Class moleculeClass;
     // Flag to mark that we are adding or removing molecules from the model,
     // so that we don't respond to add/remove messages from the model
@@ -31,7 +30,6 @@ public class MoleculeCounter implements PublishingModel.ModelListener,
     private MRModel model;
 
     /**
-     *
      * @param moleculeClass
      * @param model
      */
