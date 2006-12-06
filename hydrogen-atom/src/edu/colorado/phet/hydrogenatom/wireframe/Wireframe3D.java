@@ -432,6 +432,8 @@ public class Wireframe3D {
 
         _transformed = false;
 
+        transform();
+
     }
 
     
@@ -1120,8 +1122,6 @@ public class Wireframe3D {
 
         _matrix.transform( _verticies, _transformedVerticies, _numberOfVerticies );
 
-        _transformed = true;
-
         
 
         // Update the bounds
@@ -1129,6 +1129,10 @@ public class Wireframe3D {
         updateTransformedBounds();
 
         
+
+        _transformed = true;
+
+
 
         notifyBoundsChange();
 
@@ -1250,7 +1254,7 @@ public class Wireframe3D {
 
         
 
-        if ( !_untransformedBoundsDirty || _numberOfVerticies == 0 ) {
+        if ( _transformed || _numberOfVerticies == 0 ) {
 
             return;
 
@@ -1331,10 +1335,6 @@ public class Wireframe3D {
         _tzmax = zmax;
 
         _tzmin = zmin;
-
-        
-
-        _untransformedBoundsDirty = false;
 
     }
 
@@ -1692,7 +1692,7 @@ public class Wireframe3D {
 
         for( int i = 0; i < listeners.length; i += 2 ) {
 
-            if( listeners[i] == ChangeListener.class ) {
+            if( listeners[i] == PropertyChangeListener.class ) {
 
                 ( (PropertyChangeListener)listeners[i + 1] ).propertyChange( event );
 
