@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- emission still seems to favor going to state=1
+- emission still seems to favor going to state=1 (try deBroglie in state=6)
 - implement collision detection with deBroglie 3D orbits
 - emit photons along deBroglie 3D orbits
 
