@@ -54,6 +54,8 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/6/06) - notify Wireframe3DNode of changes to Wireframe3D bounds
+(12/6/06) - major changes to Wireframe3D to improve interface and performance, remove need to call "done" method
 (12/6/06) - fix color assignment in Wireframe3D
 (12/6/06) - add computation of transformed bounding box to Wireframe3D
 (12/6/06) - replace some of the obstuse code in Wireframe3D with more recent code from Sun
