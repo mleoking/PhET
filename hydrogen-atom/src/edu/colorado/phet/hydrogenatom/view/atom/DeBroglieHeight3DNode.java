@@ -48,12 +48,12 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     private static final int ORBIT_VERTICIES = 200;
     private static final float ORBIT_STROKE_WIDTH = 1f;
     private static final Color ORBIT_FRONT_COLOR = OrbitNodeFactory.getOrbitColor();
-    private static final Color ORBIT_BACK_COLOR = ORBIT_FRONT_COLOR.darker().darker();
+    private static final Color ORBIT_BACK_COLOR = ORBIT_FRONT_COLOR.darker().darker().darker();
     
     private static final int WAVE_VERTICIES = 200;
     private static final float WAVE_STROKE_WIDTH = 2f;
     private static final Color WAVE_FRONT_COLOR = ElectronNode.getColor();
-    private static final Color WAVE_BACK_COLOR = WAVE_FRONT_COLOR.darker().darker();
+    private static final Color WAVE_BACK_COLOR = WAVE_FRONT_COLOR.darker().darker().darker();
     
     //----------------------------------------------------------------------------
     // Instance data
