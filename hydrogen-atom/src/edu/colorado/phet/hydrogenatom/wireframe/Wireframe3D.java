@@ -138,6 +138,16 @@ import java.awt.*;
 
 import java.awt.geom.Line2D;
 
+import java.beans.PropertyChangeEvent;
+
+import java.beans.PropertyChangeListener;
+
+
+
+import javax.swing.event.ChangeListener;
+
+import javax.swing.event.EventListenerList;
+
 
 
 /**
@@ -170,7 +180,21 @@ public class Wireframe3D {
 
     //----------------------------------------------------------------------------
 
-    // Class data
+    // Public class data
+
+    //----------------------------------------------------------------------------
+
+    
+
+    public static final String PROPERTY_BOUNDS = "bounds";
+
+    public static final String PROPERTY_STROKE_WIDTH = "strokeWidth";
+
+    
+
+    //----------------------------------------------------------------------------
+
+    // Private class data
 
     //----------------------------------------------------------------------------
 
@@ -192,7 +216,7 @@ public class Wireframe3D {
 
     
 
-    // the model's transformation matrix
+    // matrix that was last used to transform the model
 
     private Matrix3D _matrix;
 
@@ -224,9 +248,13 @@ public class Wireframe3D {
 
     private float _txmin, _txmax, _tymin, _tymax, _tzmin, _tzmax;
 
-    // has the model been transformed?
+    // Has the model been transformed?
 
     private boolean _transformed;
+
+    // are the untransformed bounds dirty?
+
+    private boolean _untransformedBoundsDirty;
 
     // palette used to color the line segments
 
@@ -247,6 +275,10 @@ public class Wireframe3D {
     // reusable line, for rendering
 
     private Line2D _line;
+
+    // listeners for changes to the model
+
+    private EventListenerList _listenerList;
 
 
 
@@ -286,6 +318,8 @@ public class Wireframe3D {
 
         _transformed = false;
 
+        _untransformedBoundsDirty = true;
+
         _palette = createColorPalette( Color.BLACK, Color.GRAY );
 
         _antialiased = true; // enabled by default
@@ -295,6 +329,8 @@ public class Wireframe3D {
         _stroke = createStroke( _strokeWidth );
 
         _line = new Line2D.Float();
+
+        _listenerList = new EventListenerList();
 
     }
 
@@ -376,11 +412,33 @@ public class Wireframe3D {
 
     //----------------------------------------------------------------------------
 
+
+
+    /**
+
+     * Sets the matrix used to transform the model.
+
+     * 
+
+     * @param matrix
+
+     */
+
+    public void setMatrix( Matrix3D matrix ) {
+
+        // Don't check ==, Matrix3D is mutable!
+
+        _matrix = matrix;
+
+        _transformed = false;
+
+    }
+
     
 
     /**
 
-     * Gets the matrix used to transform this model.
+     * Gets the matrix used to transform the model.
 
      * 
 
@@ -394,7 +452,7 @@ public class Wireframe3D {
 
     }
 
-
+    
 
     /**
 
@@ -442,9 +500,9 @@ public class Wireframe3D {
 
             _stroke = createStroke( strokeWidth );
 
-        }
+            notifyStrokeWidthChange(); // stroke width affects the screen bounds
 
-        updateBoundingBox();
+        }
 
     }
 
@@ -514,6 +572,8 @@ public class Wireframe3D {
 
     public float getXMax() {
 
+        updateUntransformedBounds();
+
         return _xmax;
 
     }
@@ -521,6 +581,8 @@ public class Wireframe3D {
     
 
     public float getXMin() {
+
+        updateUntransformedBounds();
 
         return _xmin;
 
@@ -530,6 +592,8 @@ public class Wireframe3D {
 
     public float getYMax() {
 
+        updateUntransformedBounds();
+
         return _ymax;
 
     }
@@ -537,6 +601,8 @@ public class Wireframe3D {
     
 
     public float getYMin() {
+
+        updateUntransformedBounds();
 
         return _ymin;
 
@@ -546,6 +612,8 @@ public class Wireframe3D {
 
     public float getZMax() {
 
+        updateUntransformedBounds();
+
         return _zmax;
 
     }
@@ -553,6 +621,8 @@ public class Wireframe3D {
     
 
     public float getZMin() {
+
+        updateUntransformedBounds();
 
         return _zmin;
 
@@ -570,6 +640,8 @@ public class Wireframe3D {
 
     public float getTXMax() {
 
+        transform();
+
         return _txmax;
 
     }
@@ -577,6 +649,8 @@ public class Wireframe3D {
     
 
     public float getTXMin() {
+
+        transform();
 
         return _txmin;
 
@@ -586,6 +660,8 @@ public class Wireframe3D {
 
     public float getTYMax() {
 
+        transform();
+
         return _tymax;
 
     }
@@ -593,6 +669,8 @@ public class Wireframe3D {
     
 
     public float getTYMin() {
+
+        transform();
 
         return _tymin;
 
@@ -602,6 +680,8 @@ public class Wireframe3D {
 
     public float getTZMax() {
 
+        transform();
+
         return _tzmax;
 
     }
@@ -610,11 +690,13 @@ public class Wireframe3D {
 
     public float getTZMin() {
 
+        transform();
+
         return _tzmin;
 
     }
 
-    
+
 
     //----------------------------------------------------------------------------
 
@@ -654,7 +736,7 @@ public class Wireframe3D {
 
         }
 
-
+        
 
         // Save graphics state
 
@@ -842,7 +924,7 @@ public class Wireframe3D {
 
         
 
-        _transformed = false;
+        _untransformedBoundsDirty = true;
 
         
 
@@ -936,21 +1018,9 @@ public class Wireframe3D {
 
         _numberOfLines = 0;
 
+        _untransformedBoundsDirty = true;
+
         _transformed = false;
-
-    }
-
-    
-
-    /**
-
-     * Call this after you're done adding verticies and lines.
-
-     */
-
-    public void done() {
-
-        updateBoundingBox();
 
     }
 
@@ -1008,15 +1078,19 @@ public class Wireframe3D {
 
     //----------------------------------------------------------------------------
 
-    // Private
+    // Transform
 
     //----------------------------------------------------------------------------
 
     
 
-    /*
+    /**
 
-     * Transforms all the points in this model.
+     * Transforms all the verticies in this model.
+
+     * 
+
+     * @param matrix
 
      */
 
@@ -1024,7 +1098,7 @@ public class Wireframe3D {
 
         
 
-        if ( _transformed || _numberOfVerticies <= 0 ) {
+        if ( _transformed || _numberOfVerticies == 0 ) {
 
             return;
 
@@ -1034,9 +1108,9 @@ public class Wireframe3D {
 
         // Resize the destination array if it's too small
 
-        if ( _transformedVerticies.length < _numberOfVerticies * 3 ) {
+        if ( _transformedVerticies.length < _verticies.length ) {
 
-            _transformedVerticies = new float[_numberOfVerticies * 3];
+            _transformedVerticies = new float[_verticies.length];
 
         }
 
@@ -1050,25 +1124,37 @@ public class Wireframe3D {
 
         
 
-        // Recompute the bounding box
+        // Update the bounds
 
-        updateTransformedBoundingBox();
+        updateTransformedBounds();
+
+        
+
+        notifyBoundsChange();
 
     }
 
 
 
+    //----------------------------------------------------------------------------
+
+    // Bounds
+
+    //----------------------------------------------------------------------------
+
+    
+
     /*
 
-     * Computes the untransformed bounding box of the model.
+     * Computes the untransformed bounds of the model.
 
      */
 
-    private void updateBoundingBox() {
+    private void updateUntransformedBounds() {
 
         
 
-        if ( _numberOfVerticies <= 0 ) {
+        if ( !_untransformedBoundsDirty || _numberOfVerticies == 0 ) {
 
             return;
 
@@ -1156,15 +1242,15 @@ public class Wireframe3D {
 
     /*
 
-     * Computes the transformed bounding box of the model.
+     * Computes the transformed bounds of the model.
 
      */
 
-    private void updateTransformedBoundingBox() {
+    private void updateTransformedBounds() {
 
         
 
-        if ( _numberOfVerticies <= 0 ) {
+        if ( !_untransformedBoundsDirty || _numberOfVerticies == 0 ) {
 
             return;
 
@@ -1245,6 +1331,10 @@ public class Wireframe3D {
         _tzmax = zmax;
 
         _tzmin = zmin;
+
+        
+
+        _untransformedBoundsDirty = false;
 
     }
 
@@ -1537,6 +1627,110 @@ public class Wireframe3D {
             System.out.println( i + " [" + c.getRed() + "," + c.getGreen() + "," + c.getBlue() + "]" );
 
         }
+
+    }
+
+    
+
+    //----------------------------------------------------------------------------
+
+    // Event handling
+
+    //----------------------------------------------------------------------------
+
+
+
+    /**
+
+     * Adds a PropertyChangeListener.
+
+     *
+
+     * @param listener the listener
+
+     */
+
+    public void addPropertyChangeListener( PropertyChangeListener listener ) {
+
+        _listenerList.add( PropertyChangeListener.class, listener );
+
+    }
+
+
+
+    /**
+
+     * Removes a PropertyChangeListener.
+
+     *
+
+     * @param listener the listener
+
+     */
+
+    public void removePropertyChangeListener( PropertyChangeListener listener ) {
+
+        _listenerList.remove( PropertyChangeListener.class, listener );
+
+    }
+
+
+
+    /**
+
+     * Fires a PropertyChangeEvent.
+
+     *
+
+     * @param event the event
+
+     */
+
+    private void firePropertyChangeEvent( PropertyChangeEvent event ) {
+
+        Object[] listeners = _listenerList.getListenerList();
+
+        for( int i = 0; i < listeners.length; i += 2 ) {
+
+            if( listeners[i] == ChangeListener.class ) {
+
+                ( (PropertyChangeListener)listeners[i + 1] ).propertyChange( event );
+
+            }
+
+        }
+
+    }
+
+    
+
+    /*
+
+     * Fires an event indicating that the model's bounds have changed.
+
+     */
+
+    private void notifyBoundsChange() {
+
+        PropertyChangeEvent event = new PropertyChangeEvent( this, PROPERTY_BOUNDS, null, null );
+
+        firePropertyChangeEvent( event );
+
+    }
+
+    
+
+    /*
+
+     * Fires an event indicating that the model's stroke width has changed.
+
+     */
+
+    private void notifyStrokeWidthChange() {
+
+        PropertyChangeEvent event = new PropertyChangeEvent( this, PROPERTY_STROKE_WIDTH, null, null );
+
+        firePropertyChangeEvent( event );
 
     }
 

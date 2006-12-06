@@ -171,7 +171,6 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
             _waveWireframe.addLine( i, i + 1 );
         }
         _waveWireframe.addLine( _waveVerticies.length - 1, 0 ); // close the path
-        _waveWireframe.done();
         
         // Transform the model
         Matrix3D matrix = _waveWireframe.getMatrix();
@@ -181,9 +180,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         float zt = -( _waveWireframe.getZMin() + _waveWireframe.getZMax() ) / 2;
         matrix.translate( xt, yt, zt );
         matrix.mult( _viewMatrix );
-        
-        // Add the model to the node
-        _waveNode.setWireframe( _waveWireframe );
+        _waveWireframe.setMatrix( matrix );
     }
     
     /*
@@ -222,7 +219,6 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         for ( int i = 0; i < verticies.length - 1; i += 2 ) {
             wireframe.addLine( i, i + 1 );
         }
-        wireframe.done();
         wireframe.setColors( ORBIT_FRONT_COLOR, ORBIT_BACK_COLOR );
         wireframe.setStrokeWidth( ORBIT_STROKE_WIDTH );
         
@@ -234,6 +230,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         float zt = -( wireframe.getZMin() + wireframe.getZMax() ) / 2;
         matrix.translate( xt, yt, zt );
         matrix.mult( viewMatrix );
+        wireframe.setMatrix( matrix );
         
         return new Wireframe3DNode( wireframe );
     }
