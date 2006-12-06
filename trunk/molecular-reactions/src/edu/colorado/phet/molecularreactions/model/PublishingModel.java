@@ -35,11 +35,13 @@ public class PublishingModel extends BaseModel {
     public static interface ModelListener extends EventListener {
         void modelElementAdded( ModelElement element);
         void modelElementRemoved( ModelElement element);
+        void endOfTimeStep( PublishingModel model );
     }
 
     public static class ModelListenerAdapter implements ModelListener {
         public void modelElementAdded( ModelElement element ) {}
         public void modelElementRemoved( ModelElement element ) {}
+        public void endOfTimeStep( PublishingModel model ) {}
     }
 
     private EventChannel eventChannel = new EventChannel( ModelListener.class );
