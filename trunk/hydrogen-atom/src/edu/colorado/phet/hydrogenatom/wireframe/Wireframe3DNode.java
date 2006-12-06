@@ -11,13 +11,11 @@
 
 package edu.colorado.phet.hydrogenatom.wireframe;
 
-import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
@@ -34,10 +32,6 @@ public class Wireframe3DNode extends PNode {
     
     // wireframe model that this node draws
     private Wireframe3D _wireframe;
-    // child node that is sized to the wireframe model's bounds
-    private PPath _boundsNode;
-    // reusable rectangle for specifying bounds
-    private Rectangle2D _boundsRect;
     // listens for changes to the wireframe model
     private PropertyChangeListener _listener;
     
@@ -62,13 +56,6 @@ public class Wireframe3DNode extends PNode {
                 }
             }
         };
-
-        // this node will be sized to match the wireframe model's bounds
-        _boundsRect = new Rectangle2D.Double();
-        _boundsNode = new PPath();
-        _boundsNode.setStroke( null );
-        _boundsNode.setPaint( new Color( 0, 0, 0, 0 ) );
-        addChild( _boundsNode );
 
         setWireframe( wireframe );
     }
@@ -112,7 +99,8 @@ public class Wireframe3DNode extends PNode {
     //----------------------------------------------------------------------------
     
     /*
-     * Updates the bounds node so that it is the same size as the wireframe model.
+     * Updates the bounds to match the wireframe model.
+     * Include the width of the stroke used to draw the wireframe.
      */
     private void updateBounds() {
         float strokeWidth = _wireframe.getStrokeWidth();
@@ -120,7 +108,6 @@ public class Wireframe3DNode extends PNode {
         double y = _wireframe.getTYMin() - ( strokeWidth / 2 );
         double w = _wireframe.getTXMax() - _wireframe.getTXMin() + strokeWidth;
         double h = _wireframe.getTYMax() - _wireframe.getTYMin() + strokeWidth;
-        _boundsRect.setRect( x, y, w, h );
-        _boundsNode.setPathTo( _boundsRect );
+        setBounds( x, y, w, h );
     }
 }
