@@ -11,9 +11,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - Unicode chars (arrows) in "Options>deBroglie view" and "Transition Table" dialog aren't correct on Windows
-- improve performance of deBroglie "brightness" and "brightness magnitude" representations
-- improve performance of deBroglie 3D representation
-- OrbitNodeFactory.createPerspectiveOrbitNode is not used?...
 - add "show traces" feature for alpha particles (need to interpolate curve between points)
 - implement Schrodinger visual representation
 - implement Schrodinger model
@@ -26,15 +23,19 @@ MEDIUM PRIORITY:
 - update images on atom model selector buttons
 - is ModelViewTransform used everywhere is should be in view?
 - add squiggles to energy diagrams showing the gun's light wavelength (as in Lasers sim)
+- verify that behavior is correct when clock is paused
+- improve performance of deBroglie "brightness" and "brightness magnitude" representations
+- improve performance of deBroglie 3D representation
+- OrbitNodeFactory.createPerspectiveOrbitNode is not used?...
 
 LOW PRIORITY:
 - white light sometimes gets in a state where UV photons are fired only at -x values, ie to left of atom
 - Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
-- generate white light photons based on electron's state?
 - handle model-view transform differently?
 - reduce size of image files that are being scaled down (eg, plum pudding)
 - add WavelengthControl.setTrackSize(Dimension)
 - add WavelengthControl.setKnobSize(Dimension)
+- add up/down arrow support in WavelengthControl textfield
 - size "UV" and "IR" labels to fit WavelengthControl track height
 - make panel spacing and canvas spacing configurable via SimStrings file
 - generate spectrum instead of using an image file
@@ -42,9 +43,6 @@ LOW PRIORITY:
 - animate opening/closing of Atomic Model selection panel
 - bug: spectrometer buttons are fully transparent on Win98
 - generalize creating a "panel" node to fit under a collection of nodes
-- design code to accommodate zoom controls on animation region (possible feature)
-- verify that behavior is correct when clock is paused
-- does it make sense to have continuous intensity control if #photons in box ranges from 1-10 ?
 - handle Photon orientation in PhotonNode
 - fix problem with updating drag bounds of ConstrainedDragHandler, as used in WavelengthControl
 - create layout nodes for creating Piccolo-based control panels
@@ -416,6 +414,8 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(12/6/06) - design code to accommodate zoom controls on animation region (didn't do it, and will not have this feature)
+(11/30/06) - generate white light photons based on electron's state? (just use transition wavelengths for state=1)
 (11/16/06) - make electron a brighter blue (any light will be indistinguishable from neutron gray)
 (11/16/06) - add "H emission spectrum" option to "white" and "monochrome" options for gun (weighted white light instead)
 (11/7/06) - change global coordinate system so that atom is centered at the origin (not necessary, too destabilizing, code would not be general)
