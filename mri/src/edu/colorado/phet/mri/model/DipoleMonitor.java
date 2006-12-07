@@ -17,12 +17,14 @@ import java.util.List;
 
 /**
  * DipoleMonitor
+ * <p>
+ * An agent that keeps track of the dipoles in the model, including keeping track of which
+ * ones have spin up and which have spin down.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class DipoleMonitor extends MriModel.ChangeAdapter implements Dipole.ChangeListener, IDipoleMonitor {
-
 
     private List dipoles = new ArrayList();
     private List upDipoles = new ArrayList();
@@ -49,7 +51,6 @@ public class DipoleMonitor extends MriModel.ChangeAdapter implements Dipole.Chan
             getSpinList( dipole ).remove( dipole );
             dipole.removeChangeListener( this );
         }
-
     }
 
     public void spinChanged( Dipole.ChangeEvent event ) {
