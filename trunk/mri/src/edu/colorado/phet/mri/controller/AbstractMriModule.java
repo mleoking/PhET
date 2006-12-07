@@ -61,7 +61,7 @@ public abstract class AbstractMriModule extends DeferredInitializationModule {
         Dimension renderingSize = new Dimension( (int)( model.getBounds().getWidth() * MriConfig.scale ),
                                                  (int)( model.getBounds().getHeight() * MriConfig.scale ) );
         PhetPCanvas simPanel = new PhetPCanvas( renderingSize );
-        System.out.println( "renderingSize = " + renderingSize );
+//        System.out.println( "renderingSize = " + renderingSize );
         setSimulationPanel( simPanel );
         worldNode = new PNode();
         simPanel.addScreenChild( worldNode );

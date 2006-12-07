@@ -38,12 +38,9 @@ public class CollisionAgent implements ModelElement {
 
         List dipoles = model.getDipoles();
         List photons = model.getPhotons();
-        TreeMap map = model.getPhotonsByXLoc();
         for( int j = photons.size() - 1; j >= 0; j-- ) {
-//        for( int j = 0; j < photons.size(); j++ ) {
             for( int i = 0; i < dipoles.size(); i++ ) {
                 Dipole dipole = (Dipole)dipoles.get( i );
-
                 Photon photon = (Photon)photons.get( j );
                 photonDipoleCollisonCollisionAgent.detectAndDoCollision( dipole, photon );
             }

@@ -25,7 +25,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
-import java.util.TreeMap;
 
 /**
  * MriModel
@@ -38,18 +37,15 @@ import java.util.TreeMap;
  */
 public class MriModel extends BaseModel implements IDipoleMonitor {
 
-    private Detector detector;
     private Rectangle2D bounds;
     private SimpleMagnet upperMagnet;
     private SimpleMagnet lowerMagnet;
-    private GradientElectromagnet horizontalGradientMagnet, verticalGradientMagnet;
     private ArrayList magnets = new ArrayList();
     ArrayList photons = new ArrayList();
     private Sample sample;
     private DipoleOrientationAgent dipoleOrientationAgent;
     private SampleMaterial sampleMaterial;
     private RadiowaveSource radiowaveSource;
-    private TreeMap xLocToPhotons = new TreeMap();
     private DipoleMonitor dipoleMonitor;
 
 
@@ -82,7 +78,6 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
         addModelElement( upperMagnet );
         Point2D lowerMagnetLocation = new Point2D.Double( sampleChamberBounds.getX() + sampleChamberBounds.getWidth() / 2,
                                                           sampleChamberBounds.getY() + sampleChamberBounds.getHeight() + magnetHeight * 2 );
-//                                                          sampleChamberBounds.getY() + sampleChamberBounds.getHeight() + magnetHeight * 3 );
         lowerMagnet = new SimpleMagnet( lowerMagnetLocation,
                                         sampleChamberBounds.getWidth(),
                                         magnetHeight,
@@ -131,8 +126,6 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
     private void setInitialConditions() {
         upperMagnet.setFieldStrength( MriConfig.InitialConditions.FADING_MAGNET_FIELD );
         lowerMagnet.setFieldStrength( MriConfig.InitialConditions.FADING_MAGNET_FIELD );
-//        upperMagnet.setCurrent( MriConfig.InitialConditions.FADING_MAGNET_CURRENT );
-//        lowerMagnet.setCurrent( MriConfig.InitialConditions.FADING_MAGNET_CURRENT );
     }
 
     public void addModelElement( ModelElement modelElement ) {
@@ -140,7 +133,6 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
 
         if( modelElement instanceof Photon ) {
             photons.add( modelElement );
-            xLocToPhotons.put( new Double( ( (Photon)modelElement ).getPosition().getX() ), modelElement );
         }
         if( modelElement instanceof Electromagnet ) {
             Electromagnet magnet = (Electromagnet)modelElement;
@@ -165,10 +157,6 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
             magnet.removeChangeListener( new MagnetListener() );
         }
         listenerProxy.modelElementRemoved( modelElement );
-    }
-
-    public TreeMap getPhotonsByXLoc() {
-        return xLocToPhotons;
     }
 
     public List getModelElements() {
@@ -232,10 +220,6 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
 
     public RadiowaveSource getRadiowaveSource() {
         return radiowaveSource;
-    }
-
-    public Detector getDetector() {
-        return detector;
     }
 
     /**
