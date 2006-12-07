@@ -20,6 +20,7 @@ import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.util.List;
+import java.util.HashMap;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -39,6 +40,11 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     private JTextField numABTF;
     private JTextField numCTF;
     private MoleculeParamGenerator moleculeParamGenerator;
+    private MoleculeParamGenerator moleculeAParamGenerator;
+    private MoleculeParamGenerator moleculeBCParamGenerator;
+    private MoleculeParamGenerator moleculeABParamGenerator;
+    private MoleculeParamGenerator moleculeCParamGenerator;
+    private HashMap moleculeTypeToGenerator = new HashMap( );
     private RateExperimentsModule module;
     private MoleculeCounter moleculeACounter;
     private MoleculeCounter moleculeBCCounter;
@@ -63,11 +69,40 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
                                                               r.getMinY() + 20,
                                                               r.getWidth() - 40,
                                                               r.getHeight() - 40 );
-        moleculeParamGenerator = new RandomMoleculeParamGenerator( generatorBounds,
-                                                                   5,
+        moleculeAParamGenerator = new ConstantTemperatureMoleculeParamGenerator( generatorBounds,
+                                                                   module.getMRModel(),
                                                                    .1,
                                                                    0,
-                                                                   Math.PI * 2 );
+                                                                   Math.PI * 2,
+                                                                   MoleculeA.class );
+        moleculeBCParamGenerator = new ConstantTemperatureMoleculeParamGenerator( generatorBounds,
+                                                                   module.getMRModel(),
+                                                                   .1,
+                                                                   0,
+                                                                   Math.PI * 2,
+                                                                   MoleculeBC.class );
+        moleculeABParamGenerator = new ConstantTemperatureMoleculeParamGenerator( generatorBounds,
+                                                                   module.getMRModel(),
+                                                                   .1,
+                                                                   0,
+                                                                   Math.PI * 2,
+                                                                   MoleculeAB.class );
+        moleculeCParamGenerator = new ConstantTemperatureMoleculeParamGenerator( generatorBounds,
+                                                                   module.getMRModel(),
+                                                                   .1,
+                                                                   0,
+                                                                   Math.PI * 2,
+                                                                   MoleculeC.class );
+        moleculeTypeToGenerator.put( MoleculeA.class, moleculeAParamGenerator );
+        moleculeTypeToGenerator.put( MoleculeBC.class, moleculeBCParamGenerator );
+        moleculeTypeToGenerator.put( MoleculeAB.class, moleculeABParamGenerator );
+        moleculeTypeToGenerator.put( MoleculeC.class, moleculeCParamGenerator );
+
+//        moleculeParamGenerator = new RandomMoleculeParamGenerator( generatorBounds,
+//                                                                   5,
+//                                                                   .1,
+//                                                                   0,
+//                                                                   Math.PI * 2 );
 
         // Create the controls
         JLabel topLineLbl = new JLabel( SimStrings.get( "ExperimentSetup.topLine" ) );
@@ -76,19 +111,22 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         JLabel numABLbl = new JLabel( SimStrings.get( "ExperimentSetup.numAB" ) );
         JLabel numCLbl = new JLabel( SimStrings.get( "ExperimentSetup.numC" ) );
 
+        // Make the text fields for the number of molecules
         int maxMolecules = MRConfig.MAX_MOLECULE_CNT;
         numATF = new RangeLimitedIntegerTextField( 0, maxMolecules );
         numBCTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
         numABTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
         numCTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
 
-        JButton resetBtn = new JButton( SimStrings.get( "ExperimentSet.reset" ) );
+
+        JButton resetBtn = new JButton( SimStrings.get( "ExperimentSet.clear" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 reset();
             }
         } );
 
+        // The GO button
         JButton goStopBtn = new JButton( new StartExperimentAction( module, this ) );
 
         // Add a border
@@ -160,8 +198,9 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         // Adding molecules?
         if( numMolecules > 0 ) {
             for( int i = 0; i < numMolecules; i++ ) {
+                MoleculeParamGenerator generator = (MoleculeParamGenerator)moleculeTypeToGenerator.get( moleculeClass );
                 AbstractMolecule m = MoleculeFactory.createMolecule( moleculeClass,
-                                                                     moleculeParamGenerator );
+                                                                     generator );
                 if( m instanceof CompositeMolecule ) {
                     CompositeMolecule cm = (CompositeMolecule)m;
                     for( int j = 0; j < cm.getComponentMolecules().length; j++ ) {
@@ -219,11 +258,9 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         generateMolecules( MoleculeAB.class, -moleculeABCounter.getCnt() );
         generateMolecules( MoleculeC.class, -moleculeCCounter.getCnt() );
 
-        module.setStripChartVisible( false );
         module.setExperimentRunning( false );
+        module.resetStripChart();
         module.getClock().start();
-
-
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -251,8 +288,8 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
             panel.generateMolecules( MoleculeAB.class, Integer.parseInt( panel.numABTF.getText() ) );
             panel.generateMolecules( MoleculeC.class, Integer.parseInt( panel.numCTF.getText() ) );
 
-            module.setExperimentRunning( true );
             module.resetStripChart();
+            module.setExperimentRunning( true );
             panel.setInitialConditionsEditable( false );
         }
     }

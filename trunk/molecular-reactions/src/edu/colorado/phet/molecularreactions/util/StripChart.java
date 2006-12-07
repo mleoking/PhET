@@ -138,14 +138,6 @@ public class StripChart implements Resetable {
         plot.setRenderer( renderer );
     }
 
-    /**
-     * Causes the chart to start recording
-     */
-    public void startRecording( double t0 ) {
-        recording = true;
-        this.t0 = t0;
-    }
-
     public void setSeriesPaint( int seriesNum, Paint paint ) {
         renderer.setSeriesPaint( seriesNum, paint );
     }
@@ -229,7 +221,20 @@ public class StripChart implements Resetable {
         return range.getLength();
     }
 
+    /**
+     * Causes the chart to start recording
+     */
+    public void startRecording( double t0 ) {        
+        recording = true;
+        this.t0 = t0;
+    }
+
+    public void stopRecording() {
+        recording = false;
+    }
+
     public void reset() {
+        recording = false;
         buffHead = 0;
         buffTail = buffSize - 1;
         for( int seriesNum = 0; seriesNum < series.length; seriesNum++ ) {

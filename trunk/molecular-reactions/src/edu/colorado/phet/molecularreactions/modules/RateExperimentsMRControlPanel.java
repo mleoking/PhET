@@ -91,7 +91,7 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
     }
 
     public void setExperimentRunning( boolean running ) {
-        getMoleculeInstanceControlPanel().setCountersEditable( running );
+        getMoleculeInstanceControlPanel().setCountersEditable( running );        
     }
 
 }
