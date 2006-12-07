@@ -81,13 +81,15 @@ public class ThermalNoise implements ModelElement {
             double desiredFractionDown = model.determineDesiredFractionDown();
             double fractionDown = ( (double)model.getDownDipoles().size() ) / model.getDipoles().size();
             Dipole dipole = null;
-            if( fractionDown > desiredFractionDown ) {
+            if( fractionDown > desiredFractionDown && model.getDownDipoles().size() > 0 ) {
                 dipole = (Dipole)model.getDownDipoles().get( random.nextInt( model.getDownDipoles().size() ) );
             }
-            else {
+            else if( model.getUpDipoles().size() > 0 ) {
                 dipole = (Dipole)model.getUpDipoles().get( random.nextInt( model.getUpDipoles().size() ) );
             }
-            dipole.flip();
+            if( dipole != null ) {
+                dipole.flip();
+            }
         }
     }
 }
