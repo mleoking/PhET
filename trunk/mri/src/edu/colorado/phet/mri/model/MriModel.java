@@ -29,8 +29,17 @@ import java.util.List;
 /**
  * MriModel
  * <p>
- * The primary representation of radio waves is with photons. There is a radio wave source that generates
+ * The model has a sample and two SimpleMagnets, one above the sample and
+ * one below. It can also have additional magnets. In particular these are
+ * GradienElectromagnets.
+ * <p>
+ * The model also contains a RadiowaveSource. The primary representation of
+ * radio waves is with photons. There is a radio wave source that generates
  * photons.
+ * <p>
+ * A DipoleMonitor object keeps track of the dipoles in the model and their
+ * spin states, and a DipolOrientationAgent is used to determine the desired
+ * ratio of up to down spin dipoles.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -41,7 +50,7 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
     private SimpleMagnet upperMagnet;
     private SimpleMagnet lowerMagnet;
     private ArrayList magnets = new ArrayList();
-    ArrayList photons = new ArrayList();
+    private ArrayList photons = new ArrayList();
     private Sample sample;
     private DipoleOrientationAgent dipoleOrientationAgent;
     private SampleMaterial sampleMaterial;
@@ -185,7 +194,6 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
 
     public List getDipoles() {
         return dipoleMonitor.getDipoles();
-//        return this.dipoles;
     }
 
     public List getUpDipoles() {
@@ -247,6 +255,11 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
         return b;
     }
 
+    /**
+     * Determines what fraction of the dipoles should be spin down, based on the field strength.
+     *
+     * @return
+     */
     public double determineDesiredFractionDown() {
         double fieldStrength = getTotalFieldStrengthAt( new Point2D.Double() );
         double fractionDown = 1 - ( 0.5 + ( 0.5 * fieldStrength / MriConfig.MAX_FADING_COIL_FIELD ) );
