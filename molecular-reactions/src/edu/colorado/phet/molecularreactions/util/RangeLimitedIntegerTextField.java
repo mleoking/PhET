@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 /**
  * RangeLimitedIntegerTextField
@@ -24,42 +25,52 @@ import java.awt.event.FocusEvent;
  * @version $Revision$
  */
 public class RangeLimitedIntegerTextField extends JTextField {
-        private int maxValue;
-        private int minValue;
+    private int maxValue;
+    private int minValue;
 
-        public RangeLimitedIntegerTextField( int minValue, int maxValue ) {
-            this.minValue = minValue;
-            setHorizontalAlignment( JTextField.RIGHT );
-            this.maxValue = maxValue;
-            setText( "0" );
-            setPreferredSize( new Dimension( 30, (int)getPreferredSize().getHeight() ) );
+    public RangeLimitedIntegerTextField( int minValue, int maxValue ) {
+        this.minValue = minValue;
+        setHorizontalAlignment( JTextField.RIGHT );
+        this.maxValue = maxValue;
+        setText( "0" );
+        setPreferredSize( new Dimension( 30, (int)getPreferredSize().getHeight() ) );
 
-            addFocusListener( new FocusAdapter() {
-                public void focusLost( FocusEvent e ) {
+        addFocusListener( new InputValidator() );
+    }
 
-                    if( e.isTemporary() ) {
-                        return;
-                    }
+    /**
+     * Validates the input
+     */
+    private class InputValidator implements FocusListener {
 
-                    String s = getText();
-                    try {
-                        int i = Integer.parseInt( s );
-                        if( i < RangeLimitedIntegerTextField.this.minValue
-                            || i > RangeLimitedIntegerTextField.this.maxValue ) {
-                            resetValue();
-                        }
-                    }
-                    catch( NumberFormatException nfe ) {
-                        setText( "0" );
-                    }
+        public void focusGained( FocusEvent e ) {
+            selectAll();
+        }
+
+        public void focusLost( FocusEvent e ) {
+
+            if( e.isTemporary() ) {
+                return;
+            }
+
+            String s = getText();
+            try {
+                int i = Integer.parseInt( s );
+                if( i < RangeLimitedIntegerTextField.this.minValue
+                    || i > RangeLimitedIntegerTextField.this.maxValue ) {
+                    resetValue();
                 }
+            }
+            catch( NumberFormatException nfe ) {
+                setText( "0" );
+            }
+        }
 
-                private void resetValue() {
-                    setText( new Integer( RangeLimitedIntegerTextField.this.maxValue ).toString() );
-                    JOptionPane.showMessageDialog( RangeLimitedIntegerTextField.this,
-                                                   SimStrings.get( "Util.maxValueExceeded" ) );
-                    requestFocus();
-                }
-            } );
+        private void resetValue() {
+            setText( new Integer( RangeLimitedIntegerTextField.this.maxValue ).toString() );
+            JOptionPane.showMessageDialog( RangeLimitedIntegerTextField.this,
+                                           SimStrings.get( "Util.maxValueExceeded" ) );
+            requestFocus();
         }
     }
+}

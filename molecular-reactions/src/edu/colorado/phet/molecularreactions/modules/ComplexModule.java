@@ -38,6 +38,7 @@ public class ComplexModule extends MRModule {
     private PumpGraphic pumpGraphic;
     private PNode barChartNode;
     private MoleculePopulationsPieChartNode pieChart;
+    public StripChartNode stripChartNode;
 
 
     /**
@@ -62,6 +63,7 @@ public class ComplexModule extends MRModule {
                                model.getBox().getMinY() + model.getBox().getHeight() + 15 - pumpGraphic.getPumpBaseLocation().getY() );
         getSpatialView().addChild( pumpGraphic );
 
+        // Create the control panel
         setMRControlPanel( new ComplexMRControlPanel( this ) );
 
         // Don't show the total energy line on the energy view
@@ -144,7 +146,9 @@ public class ComplexModule extends MRModule {
 //            PhetPCanvas ppc = new PhetPCanvas( stripChartDlg.getContentPane().getPreferredSize() );
 //            ppc.addScreenChild( new PSwing( ppc, (JPanel)stripChartDlg.getContentPane() ));
 //            getEnergyView().addToUpperPane( ppc.getPhetRootNode() );
-            getEnergyView().addToUpperPane( new StripChartNode( this, MRConfig.CHART_PANE_SIZE ) );
+
+            stripChartNode = new StripChartNode( this, MRConfig.CHART_PANE_SIZE );
+            getEnergyView().addToUpperPane( stripChartNode );
         }
         else if( !visible && stripChartDlg != null ) {
 //            stripChartDlg.setVisible( false );
@@ -167,7 +171,11 @@ public class ComplexModule extends MRModule {
     }
 
     public void resetStripChart() {
-        stripChartDlg.reset();        
+        stripChartNode.reset();
+    }
+
+    public void setStripChartRecording( boolean recording ) {
+            stripChartNode.setRecording( recording);
     }
 }
 

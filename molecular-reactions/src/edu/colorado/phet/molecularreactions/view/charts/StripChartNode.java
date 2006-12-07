@@ -32,7 +32,7 @@ import org.jfree.chart.ChartPanel;
 
 /**
  * StripChartDialog
- * <p>
+ * <p/>
  * A dialog that holds a MolecularPopulationsStripChart and a
  * couple of controls to manage it.
  *
@@ -47,7 +47,7 @@ public class StripChartNode extends PNode implements Resetable {
         PhetPCanvas stripChartCanvas = new PhetPCanvas();
 
         this.clock = module.getClock();
-        final double xAxisRange = MRConfig.STRIP_CHART_VISIBLE_TIME_RANGE ;
+        final double xAxisRange = MRConfig.STRIP_CHART_VISIBLE_TIME_RANGE;
         Insets scrollBarInsets = new Insets( 3, 50, 3, 10 );
 
 
@@ -69,7 +69,7 @@ public class StripChartNode extends PNode implements Resetable {
         // Set sizes and locations of the chart and the scrollbar
         scrollBar.setPreferredSize( new Dimension( (int)( size.getWidth() - scrollBarInsets.left - scrollBarInsets.right ), 15 ) );
         PSwing scrollBarNode = new PSwing( stripChartCanvas, scrollBar );
-        scrollBarNode.setPaint( new Color(0,0,0,0));
+        scrollBarNode.setPaint( new Color( 0, 0, 0, 0 ) );
         scrollBarNode.setOffset( scrollBarInsets.left,
                                  size.getHeight() - scrollBarNode.getFullBounds().getHeight() - scrollBarInsets.bottom );
 
@@ -98,7 +98,7 @@ public class StripChartNode extends PNode implements Resetable {
                 scrollBar.setMaximum( (int)Math.max( stripChart.getMaxX(), xAxisRange ) );
                 scrollBar.setMinimum( (int)stripChart.getMinX() );
                 scrollBar.setVisibleAmount( (int)stripChart.getViewableRangeX() );
-                scrollBar.setValue( (int)stripChart.getMaxX());
+                scrollBar.setValue( (int)stripChart.getMaxX() );
             }
         } );
 
@@ -111,13 +111,13 @@ public class StripChartNode extends PNode implements Resetable {
             public void clockPaused( ClockEvent clockEvent ) {
                 scrollBar.setEnabled( true );
             }
-        });
+        } );
         scrollBar.setEnabled( !module.getClock().isRunning() );
 
         this.addChild( stripChartCanvas.getPhetRootNode() );
 
         // Start the strip chart recording
-        stripChart.startRecording( clock.getSimulationTime() );
+//        stripChart.startRecording( clock.getSimulationTime() );
     }
 
     /**
@@ -127,9 +127,21 @@ public class StripChartNode extends PNode implements Resetable {
         stripChart.rescale();
     }
 
+    /**
+     * Starts and stops recording
+     */
+    public void setRecording( boolean recording ) {
+        if( recording ) {
+            stripChart.startRecording( clock.getSimulationTime() );
+            stripChart.rescale();
+        }
+        else {
+            stripChart.stopRecording();
+        }
+    }
 
     public void reset() {
         stripChart.reset();
-        stripChart.startRecording( clock.getSimulationTime() );
+//        stripChart.startRecording( clock.getSimulationTime() );
     }
 }
