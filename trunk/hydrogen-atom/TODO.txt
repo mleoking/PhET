@@ -5,8 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- implement collision detection with deBroglie 3D orbits
-- emit photons along deBroglie 3D orbits
+
 
 MEDIUM PRIORITY:
 - add "show traces" feature for alpha particles (need to interpolate curve between points)
@@ -47,6 +46,8 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/7/06) - implement collision detection with deBroglie 3D orbits
+(12/7/06) - emit photons along deBroglie 3D orbits
 ***** CVS tag hydrogenatom-0-00-14-2006-12-06
 (12/6/06) - reduce probability of stimulated emission
 (12/6/06) - verified that emission is not favoring state=1 (looks like this because stimualted emission happens often!)

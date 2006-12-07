@@ -11,7 +11,9 @@
 
 package edu.colorado.phet.hydrogenatom.view.atom;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
@@ -24,6 +26,7 @@ import edu.colorado.phet.hydrogenatom.wireframe.Wireframe3D;
 import edu.colorado.phet.hydrogenatom.wireframe.Wireframe3DNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * DeBroglieHeight3DNode represents the deBroglie model as a 3-D standing wave,
@@ -35,14 +38,38 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     
     //----------------------------------------------------------------------------
-    // Class data
+    // Debug
+    //----------------------------------------------------------------------------
+    
+    // see debugOrbitProjections method
+    private static final boolean DEBUG_ORBIT_PROJECTIONS = true;
+    
+    //----------------------------------------------------------------------------
+    // Public class data
+    //----------------------------------------------------------------------------
+    
+    /* How much to scale the orbit in the y dimension,m in order to turn 
+     * create an ellipse that represents the projection of the 3D orbit into 3D.
+     * See debugOrbitProjections method.
+     * If you change this value, you must also change FINAL_VIEW_ANGLE !!
+     */
+    public static final double ORBIT_Y_SCALE = 0.35;
+    
+    //----------------------------------------------------------------------------
+    // Private class data
     //----------------------------------------------------------------------------
     
     // Setting this to true cause the wireframe to rotate into place
     private static final boolean ROTATE_INTO_PLACE = true;
     
     private static final double MAX_HEIGHT = 15; // screen coordinates
+    
+    /* The final view angle, after the model has rotated into place.
+     * If you change this value, you must also change ORBIT_Y_SCALE !!
+     */
     private static final double FINAL_VIEW_ANGLE = 70; // degrees, rotation about the x-axis
+    
+    // change is angle during view animation
     private static final double VIEW_ANGLE_DELTA = 5; // degrees
     
     private static final int ORBIT_VERTICIES = 200;
@@ -103,7 +130,59 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         _waveNode = new Wireframe3DNode( _waveWireframe );
         addChild( _waveNode );
         
+        if ( DEBUG_ORBIT_PROJECTIONS ) {
+            debugOrbitProjections();
+        }
+        
         update();
+    }
+
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Determines the y-axis scale that projects the orbit into 3D perspective.
+     * This value is based on the view angle, and was set through trial-and-error
+     * using the debugOrbitProjections method.
+     * 
+     * @return double
+     */
+    public double getOrbitYScale() {
+        return ORBIT_Y_SCALE;
+    }
+    
+    /*
+     * Adds a bunch of PPath nodes that draw ellipses that correspond to
+     * the 2D projections of the 3D orbits. Used to determine the value of
+     * ORBIT_Y_SCALE by trial-and-error. Doing this by trial and error was 
+     * much faster than writing 3D projection code.
+     * 
+     * ORBIT_Y_SCALE is the Y-axis scale required to create a 2D projection
+     * of the 3D orbits.  We need these 2D projects for collision detection
+     * (with photons) and for choosing points where emitted photons appear.
+     */
+    private void debugOrbitProjections() {
+        
+        PNode parentNode = new PNode();
+        {
+            // 3D orbits
+            int groundState = getAtom().getGroundState();
+            int numberOfStates = getAtom().getNumberOfStates();
+            for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
+                double radius = ModelViewTransform.transform( getAtom().getOrbitRadius( state ) );
+                double x = -radius;
+                double y = x * ORBIT_Y_SCALE;
+                double w = 2 * radius;
+                double h = w * ORBIT_Y_SCALE;
+                Ellipse2D shape = new Ellipse2D.Double( x, y, w, h );
+                PPath orbitNode = new PPath( shape );
+                orbitNode.setStroke( new BasicStroke( 1f ) );
+                orbitNode.setStrokePaint( Color.GREEN );
+                parentNode.addChild( orbitNode );
+            }
+        }
+        addChild( parentNode );
     }
     
     //----------------------------------------------------------------------------
