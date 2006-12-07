@@ -263,10 +263,7 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
     public double determineDesiredFractionDown() {
         double fieldStrength = getTotalFieldStrengthAt( new Point2D.Double() );
         double fractionDown = 0.5 + ( 0.5 * fieldStrength / MriConfig.MAX_FADING_COIL_FIELD );
-//        double fractionDown = 1 - ( 0.5 + ( 0.5 * fieldStrength / MriConfig.MAX_FADING_COIL_FIELD ) );
         fractionDown *= MriConfig.MAX_SPIN_DOWN_FRACTION;
-
-        System.out.println( "fractionDown = " + fractionDown );
         return fractionDown;
     }
 
