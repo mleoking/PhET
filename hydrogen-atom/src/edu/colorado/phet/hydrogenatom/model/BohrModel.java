@@ -216,11 +216,11 @@ public class BohrModel extends AbstractHydrogenAtom {
     // utilities
     //----------------------------------------------------------------------------
     
-    /*
+    /**
      * Gets the electron's position in world coordinates.
      * This is the electron's offset adjusted by the atom's position.
      */
-    private Point2D getElectronPosition() {
+    protected Point2D getElectronPosition() {
         double x = getX() + _electronOffset.getX();
         double y = getY() + _electronOffset.getY();
         return new Point2D.Double( x, y );
