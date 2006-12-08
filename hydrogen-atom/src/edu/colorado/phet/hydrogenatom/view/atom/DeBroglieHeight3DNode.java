@@ -13,7 +13,7 @@ package edu.colorado.phet.hydrogenatom.view.atom;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.geom.Ellipse2D;
+import java.awt.Stroke;
 
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
@@ -25,7 +25,6 @@ import edu.colorado.phet.hydrogenatom.wireframe.Vertex3D;
 import edu.colorado.phet.hydrogenatom.wireframe.Wireframe3D;
 import edu.colorado.phet.hydrogenatom.wireframe.Wireframe3DNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -61,7 +60,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     //----------------------------------------------------------------------------
     
     // see debugOrbitProjections method
-    private static final boolean DEBUG_ORBIT_PROJECTIONS = false;
+    private static final boolean DEBUG_ORBIT_PROJECTIONS = true;
     
     //----------------------------------------------------------------------------
     // Public class data
@@ -182,26 +181,24 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
      * (with photons) and for choosing points where emitted photons appear.
      */
     private void debugOrbitProjections() {
-        
-        PNode parentNode = new PNode();
-        {
-            // 3D orbits
-            int groundState = getAtom().getGroundState();
-            int numberOfStates = getAtom().getNumberOfStates();
-            for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
-                double radius = ModelViewTransform.transform( getAtom().getOrbitRadius( state ) );
-                double x = -radius;
-                double y = x * ORBIT_Y_SCALE;
-                double w = 2 * radius;
-                double h = w * ORBIT_Y_SCALE;
-                Ellipse2D shape = new Ellipse2D.Double( x, y, w, h );
-                PPath orbitNode = new PPath( shape );
-                orbitNode.setStroke( new BasicStroke( 1f ) );
-                orbitNode.setStrokePaint( Color.GREEN );
-                parentNode.addChild( orbitNode );
-            }
+
+        Stroke debugStroke = new BasicStroke( 1f );
+        Color debugColor = Color.GREEN;
+
+        int groundState = getAtom().getGroundState();
+        int numberOfStates = getAtom().getNumberOfStates();
+
+        for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
+
+            // Create the orbit
+            double radius = ModelViewTransform.transform( getAtom().getOrbitRadius( state ) );
+            PPath orbitNode = OrbitNodeFactory.createOrbitNodeProjection( radius, ORBIT_Y_SCALE );
+            addChild( orbitNode );
+
+            // Change colors and stroke for debugging
+            orbitNode.setStroke( debugStroke );
+            orbitNode.setStrokePaint( debugColor );
         }
-        addChild( parentNode );
     }
     
     //----------------------------------------------------------------------------

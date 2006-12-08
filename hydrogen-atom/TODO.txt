@@ -5,11 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add "show traces" feature for alpha particles (need to interpolate curve between points)
-- implement Schrodinger visual representation
 - implement Schrodinger model
+- implement Schrodinger visual representation
 
 MEDIUM PRIORITY:
+- add "show traces" feature for alpha particles (need to interpolate curve between points)
 - finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
 - implement spectrometer model
 - implement energy diagrams, reuse Ron's stuff
@@ -20,11 +20,10 @@ MEDIUM PRIORITY:
 - is ModelViewTransform used everywhere is should be in view?
 - add squiggles to energy diagrams showing the gun's light wavelength (as in Lasers sim)
 - verify that behavior is correct when clock is paused
-- improve performance of deBroglie "brightness" and "brightness magnitude" representations
-- improve performance of deBroglie 3D representation
-- OrbitNodeFactory.createPerspectiveOrbitNode is not used?...
 
 LOW PRIORITY:
+- improve performance of deBroglie "brightness" and "brightness magnitude" representations
+- improve performance of deBroglie 3D representation
 - white light sometimes gets in a state where UV photons are fired only at -x values, ie to left of atom
 - Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
 - handle model-view transform differently?
@@ -45,6 +44,8 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/8/06) - remove extra calls to ModelViewTransform inside OrbitNodeFactory, should be passed view radius
+(12/8/06) - use OrbitNodeFactory.createOrbitNodePerspective to create projections of 3D orbits for debugging
 (12/8/06) - model javadoc
 (12/8/06) - improve performance of deBroglie 3D view "rotate into place" animation, don't flatten orbits to image
 (12/7/06) - implement collision detection with deBroglie 3D orbits
