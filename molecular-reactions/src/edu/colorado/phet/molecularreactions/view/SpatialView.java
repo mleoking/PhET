@@ -81,11 +81,12 @@ public class SpatialView extends PNode {
 
         // Add the thermometer
         thermometerGraphic = new ThermometerGraphic( model,
-                                                                        module.getClock(),
-                                                                        10,
-                                                                        120 );
-        thermometerGraphic.setOffset( model.getBox().getMaxX() - 20,
+                                                     module.getClock(),
+                                                     10,
+                                                     MRConfig.DEFAULT_TEMPERATURE * 3 );
+        thermometerGraphic.setOffset( model.getBox().getMaxX() +8,
                                       model.getBox().getMinY() - 20 );
+
         megm.addGraphic( thermometerGraphic, topLayer );
     }
 
@@ -118,7 +119,7 @@ public class SpatialView extends PNode {
 
         public PNode createGraphic( ModelElement modelElement ) {
             BoxGraphic boxGraphic = new BoxGraphic( (Box2D)modelElement );
-            boxGraphic.setOffset( ((Box2D)modelElement).getPosition() );
+            boxGraphic.setOffset( ( (Box2D)modelElement ).getPosition() );
             return boxGraphic;
         }
     }

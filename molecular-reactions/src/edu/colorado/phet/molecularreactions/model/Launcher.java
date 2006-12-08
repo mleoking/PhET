@@ -69,7 +69,7 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
     }
 
     public void release() {
-        if( bodyToLaunch != null ) {
+        if( bodyToLaunch != null && extension > 2 ) {
             double s = Math.sqrt( 2 * getPE() / bodyToLaunch.getMass() );
             Vector2D v = new Vector2D.Double( 0, -s );
             v.rotate( getTheta() );
@@ -77,7 +77,6 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
             bodyToLaunch = null;
             enabled = false;
         }
-//        setTipLocation( restingTipLocation );
         setExtension( 0.0 );
     }
 

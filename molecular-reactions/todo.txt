@@ -1,3 +1,6 @@
+
+
+
 - Make most Reaction methods static
 - Use CollisionParams to replace individual computations of the same thing
 - Phet logo should be centered over the control panel
@@ -225,3 +228,9 @@ Done
 11-30-06 - Tightened up Experiments control panel and added strut to both control panels so they
     don't change size when modules change
 11-30-06 - Made total energy line olive.    
+
+12-07-06 - Launcher doesn't launch unless it's at least 3 pixels from the molecule
+12-07-06 - Strip chart rescales when it should
+12-07-06 - Strip chart starts and stops when it should
+12-07-06 - Text fields on experiment setup panel select all their contents when they get focus
+12-07-06 - Increased default temperature

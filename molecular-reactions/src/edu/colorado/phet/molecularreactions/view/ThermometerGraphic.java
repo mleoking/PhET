@@ -62,7 +62,7 @@ public class ThermometerGraphic extends PNode {
 
     private double bulbRadius = 8;
     private double columnWidth = 8;
-    private double overallHeight = 80;
+    private double overallHeight = 150;
     private MRModel model;
     private double maxModelValue;
     private Rectangle2D column;

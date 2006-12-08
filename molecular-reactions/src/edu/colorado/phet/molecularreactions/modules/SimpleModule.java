@@ -148,8 +148,8 @@ public class SimpleModule extends MRModule {
         tempCtrl.setPosition( model.getBox().getMaxX() - 50, tempCtrl.getPosition().getY() );
 
         // Embed the thermometer in the wall of the box
-        getSpatialView().setThermometerPosition( model.getBox().getMaxX() + 8,
-                                                 model.getBox().getMinY() - 20 );
+//        getSpatialView().setThermometerPosition( model.getBox().getMaxX() + 8,
+//                                                 model.getBox().getMinY() - 20 );
 
         // Add the launcher and its graphic
         if( launcher == null ) {
@@ -158,7 +158,12 @@ public class SimpleModule extends MRModule {
         launcher.setMovementType( Launcher.ONE_DIMENSIONAL );
         launcher.setExtension( 0.0 );
         model.addModelElement( launcher );
+        resetMolecules( model );
 
+
+    }
+
+    public void resetMolecules( MRModel model ) {
         // Create the appropriate molecule for the launcher
         SimpleMolecule launcherMolecule = null;
         if( launcherMoleculeClass == MoleculeC.class ) {

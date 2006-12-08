@@ -48,7 +48,10 @@ public class ComplexModule extends MRModule {
         this( SimStrings.get( "Module.complexModuleTitle" ) );
     }
 
-
+    /**
+     *
+     * @param title
+     */
     protected ComplexModule( String title ) {
         super( title, MRConfig.CHART_PANE_SIZE );
 
@@ -90,8 +93,6 @@ public class ComplexModule extends MRModule {
         setInitialConditions();
         controlPanel.reset();
         pumpGraphic.reset();
-//        setPieChartVisible( false );
-//        setBarChartVisible( false );
     }
 
     private void setInitialConditions() {
