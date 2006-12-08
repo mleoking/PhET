@@ -43,6 +43,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/8/06) - handle AlphaParticle orientation in RutherfordScattering and AlphaParticleNode, disable in node
 (12/8/06) - handle Photon orientation in PhotonNode
 (12/8/06) - remove extra calls to ModelViewTransform inside OrbitNodeFactory, should be passed view radius
 (12/8/06) - use OrbitNodeFactory.createOrbitNodePerspective to create projections of 3D orbits for debugging

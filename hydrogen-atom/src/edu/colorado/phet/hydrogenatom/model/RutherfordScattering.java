@@ -43,17 +43,19 @@ public class RutherfordScattering {
     /**
      * Moves an alpha particle under the influence of a hydrogen atom.
      * <p>
-     * NOTES: 
-     * (1) The algorithm assumes that the atom is located at (0,0).
+     * ASSUMPTIONS MADE IN THIS ALGORITHM: 
+     * (1) The atom is located at (0,0).
      * This is not the case in our model. So coordindates are adjusted 
      * as described in the comments.
-     * (2) The algorithm assumes that +y is up.  Our model has +y down.
-     * So we'll be adjusting the sign on y coordinates, as described
-     * in the comments.
-     * (3) The algoritm fails for negative values of x. This is not
+     * (2) +y is up.
+     * Our model has +y down. So we'll be adjusting the sign on y 
+     * coordinates, as described in the comments.
+     * (3) alpha particles are moving from bottom to top
+     * (4) x values are positive.
+     * The algoritm fails for negative values of x. This is not
      * mentioned in the specification document. So we have to convert
      * to positive values of x, then convert back.
-     * (4) Using "phi=arctan(-x,y)" as described in the spec causes
+     * (5) Using "phi=arctan(-x,y)" as described in the spec causes
      * particles to jump discontinuously when they go above the y axis.
      * This is fixed by using Math.atan2 instead.
      *
@@ -65,9 +67,6 @@ public class RutherfordScattering {
     public static void moveParticle( AbstractHydrogenAtom atom, AlphaParticle alphaParticle, final double dt ) {
 
         assert( dt > 0 );
-        
-        // This algorithm assumes that alpha particles are moving vertically from bottom to top.
-        assert( alphaParticle.getOrientation() == Math.toRadians( -90 ) );
 
         final double D = getD( atom, alphaParticle );
         
@@ -151,6 +150,7 @@ public class RutherfordScattering {
         
         alphaParticle.setPosition( xNew, yNew );
         alphaParticle.setSpeed( vNew );
+        alphaParticle.setOrientation( phiNew );
     }
 
     /*

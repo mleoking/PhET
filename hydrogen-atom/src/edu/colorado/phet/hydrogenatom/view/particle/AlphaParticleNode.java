@@ -45,6 +45,13 @@ public class AlphaParticleNode extends PhetPNode implements Observer {
     /* common image used for all alpha particles */
     private static Image IMAGE = null;
     
+    /* 
+     * Should we rotate the alpha particle to match its orientation? 
+     * We decided that we want the alpha particle to look the same in
+     * all orientations, so this value is false.
+     */
+    private static boolean ROTATE_TO_ORIENTATION = false;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -124,7 +131,9 @@ public class AlphaParticleNode extends PhetPNode implements Observer {
     }
     
     private void update() {
-        //TODO deal with orientation
+        if ( ROTATE_TO_ORIENTATION ) {
+        setRotation( _alphaParticle.getOrientation() );
+        }
         setOffset( ModelViewTransform.transform( _alphaParticle.getPosition() ) );
     }
 }
