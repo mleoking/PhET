@@ -20,6 +20,14 @@ import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieHeight3DNode;
 /**
  * DeBroglieModel is the deBroglie model of a hydrogen atom.
  * It is identical to the Bohr model, but has a different visual representation.
+ * <p>
+ * NOTE: The algorithms for collision detection and calculation
+ * of electron position differ greatly for 2D and 3D views. 
+ * Therefore this model needs to know something about the view in order
+ * to make things look right in 3D.  So this model cannot be shown in
+ * both 2D and 3D views simultaneously.  There are undubtedly ways to
+ * do this, but this simulation does not require multiple simultaneous
+ * views of the model.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

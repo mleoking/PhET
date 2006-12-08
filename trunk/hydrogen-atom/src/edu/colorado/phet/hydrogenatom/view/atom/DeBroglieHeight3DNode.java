@@ -29,8 +29,27 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * DeBroglieHeight3DNode represents the deBroglie model as a 3-D standing wave,
+ * DeBroglieHeight3DNode represents the deBroglie model as a 3D standing wave,
  * where height of the wave represents amplitude.
+ * <p>
+ * This view rotates into place until it reaches the desired viewing angle.
+ * Rendering is done using separate wireframe models of the wave and each orbit.
+ * The proton is 2D as it is in other views.
+ * <p>
+ * NOTES about view angle and 2D projections of 3D orbits...
+ * The model portion of this simulation does all calculations in 2D space.
+ * In the model, collision detection and emission of photons requires knowing 
+ * the shape of each orbit in 2D.  In the 2D views, orbits are circles.
+ * In the 3D view, the 2D projection of an orbit is an ellipse.
+ * Rather than write complicated, expensive code to project the 3D orbits
+ * into 2D ellipses, I chose to hard-wire a scaling factor (ORBIT_Y_SCALE) that
+ * was set via trial-and-error. We can simply scale the y-axis because the 
+ * view angle only involves rotation about the x-axis.
+ * If you need to change the view angle (FINAL_VIEW_ANGLE),
+ * then do the following:
+ * (1) set your new value for FINAL_VIEW_ANGLE
+ * (2) set DEBUG_ORBIT_PROJECTIONS=true to show you the 2D projections in green
+ * (3) change the value of ORBIT_Y_SCALE until the green orbits line up with the dashed orbits
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
