@@ -224,34 +224,27 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     //----------------------------------------------------------------------------
     
     /*
-     * Updates the static parts of the view and flattens them to a PImage node.
+     * Updates the static parts of the view.
+     * It's tempting to flatten this to a PImage node, but doing so
+     * adversely affects the performance of "rotate into place" animation.
      */
     private void updateStaticNode() {
 
         _staticNode.removeAllChildren();
-        
-        PNode parentNode = new PNode();
-        {
-            // 3D orbits
-            int groundState = getAtom().getGroundState();
-            int numberOfStates = getAtom().getNumberOfStates();
-            for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
-                double radius = ModelViewTransform.transform( getAtom().getOrbitRadius( state ) );
-                Wireframe3DNode orbitNode = create3DOrbitNode( radius, _viewMatrix, _orbitVerticies );
-                parentNode.addChild( orbitNode );
-            }
 
-            // Proton
-            ProtonNode protonNode = new ProtonNode();
-            protonNode.setOffset( 0, 0 );
-            parentNode.addChild( protonNode );
+        // 3D orbits
+        int groundState = getAtom().getGroundState();
+        int numberOfStates = getAtom().getNumberOfStates();
+        for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
+            double radius = ModelViewTransform.transform( getAtom().getOrbitRadius( state ) );
+            Wireframe3DNode orbitNode = create3DOrbitNode( radius, _viewMatrix, _orbitVerticies );
+            _staticNode.addChild( orbitNode );
         }
-        
-        // Convert all static nodes to a single image
-        PImage imageNode = new PImage( parentNode.toImage() );
-        imageNode.setOffset( -imageNode.getWidth() / 2, -imageNode.getHeight() / 2 );
-        
-        _staticNode.addChild( imageNode );
+
+        // Proton
+        ProtonNode protonNode = new ProtonNode();
+        protonNode.setOffset( 0, 0 );
+        _staticNode.addChild( protonNode );
     }
     
     /*
