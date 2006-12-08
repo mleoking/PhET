@@ -31,7 +31,6 @@ import java.awt.geom.AffineTransform;
  * @version $Revision$
  */
 public class LauncherGraphic extends PNode implements SimpleObserver {
-//public class LauncherGraphic extends RegisterablePNode implements SimpleObserver {
     private double minTheta = -Math.PI / 3;
     private double maxTheta = Math.PI / 3;
     private Launcher launcher;
@@ -39,10 +38,6 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
     private PNode plungerFrameNode;
     private PNode plunger2DFrameNode;
     private PNode plunger2DFrameStrutsNode;
-//    private RegisterablePNode plungerNode;
-//    private RegisterablePNode plungerFrameNode;
-//    private RegisterablePNode plunger2DFrameNode;
-//    private RegisterablePNode plunger2DFrameStrutsNode;
 
     private String baseImagePath = "images/";
     private String plungerImageFile = baseImagePath + "plunger.png";
@@ -57,24 +52,19 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
         this.launcher = launcher;
 
         plungerNode = PImageFactory.create( plungerImageFile );
-//        plungerNode = new RegisterablePNode( PImageFactory.create( plungerImageFile ) );
         scale = 100.0 / plungerNode.getFullBounds().getHeight();
         plungerNode.scale( scale );
 
         plungerFrameNode = PImageFactory.create( frameImageFile );
-//        plungerFrameNode = new RegisterablePNode( PImageFactory.create( frameImageFile ) );
-//        plungerFrameNode = new PPath( new Rectangle2D.Double( 0,0,50,50));
         plungerFrameNode.scale( scale );
         plungerFrameNode.setPickable( false );
         plungerFrameNode.setChildrenPickable( false );
 
         // Objects for the 2D plunger
         plunger2DFrameStrutsNode = PImageFactory.create( strutsImageFile );
-//        plunger2DFrameStrutsNode = new RegisterablePNode( PImageFactory.create( strutsImageFile ) );
         plunger2DFrameStrutsNode.scale( scale );
 
         plunger2DFrameNode = PImageFactory.create( frame2DImageFile );
-//        plunger2DFrameNode = new RegisterablePNode( PImageFactory.create( frame2DImageFile ) );
         plunger2DFrameNode.scale( scale );
 
         addChild( plunger2DFrameStrutsNode );
@@ -86,10 +76,6 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
 
         // The pivot point
         double centerX = getFullBounds().getWidth() / 2;
-//        plungerNode.setRegistrationPoint( plungerNode.getFullBounds().getWidth() / 2, 0 );
-//        plungerFrameNode.setRegistrationPoint( plungerFrameNode.getFullBounds().getWidth() / 2, 0 );
-//        plunger2DFrameNode.setRegistrationPoint( plunger2DFrameNode.getFullBounds().getWidth() / 2, 0 );
-//        plunger2DFrameStrutsNode.setRegistrationPoint( plunger2DFrameStrutsNode.getFullBounds().getWidth() / 2, 0 );
         plungerNode.setOffset( centerX - plungerNode.getFullBounds().getWidth() / 2, 0 );
         plungerFrameNode.setOffset( centerX - plungerFrameNode.getFullBounds().getWidth() / 2, 0 );
         plunger2DFrameNode.setOffset( centerX - plunger2DFrameNode.getFullBounds().getWidth() / 2, 0 );
@@ -98,9 +84,6 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
         // Determine the pivot point of the launcher
         pivotPt = new Point2D.Double( centerX, 0 );
 
-//        setRegistrationPoint( getFullBounds().getWidth() / 2, 0);
-//        setOffset( launcher.getRestingTipLocation().getX() - getFullBounds().getWidth() / 2,
-//                   launcher.getRestingTipLocation().getY() );
         setOffset( launcher.getRestingTipLocation().getX() - getFullBounds().getWidth() / 2,
                    launcher.getRestingTipLocation().getY() );
 
@@ -112,7 +95,6 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
     }
 
     public void update() {
-
         double d = launcher.getExtension() / scale;
         updateTransform( plungerNode, d, launcher.getTheta() );
         updateTransform( plungerFrameNode, 0, launcher.getTheta() );
@@ -128,14 +110,7 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
         node.rotateAboutPoint( theta, node.getFullBounds().getWidth() / 2 * scale, 0 );
         node.setScale( scale );
         node.translate( 0, d );
-//        plungerNode.setTransform( new AffineTransform( ) );
-//        plungerNode.translate( pivotPt.getX() - (plungerNode.getFullBounds().getWidth()/2 * scale), pivotPt.getY() );
-//        plungerNode.rotateAboutPoint( launcher.getTheta(), plungerNode.getFullBounds().getWidth()/2 * scale, 0 );
-//        plungerNode.setScale( scale );
-//        double d = launcher.getRestingTipLocation().distance( launcher.getTipLocation() ) / scale;
-//        plungerNode.translate( 0, d );
     }
-
 
     /**
      * Mouse handler
@@ -145,7 +120,6 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
         double originalAngle;
         double originalR;
         Point2D startPoint;
-
 
         public void mouseEntered( PInputEvent event ) {
             if( launcher.isEnabled() ) {
