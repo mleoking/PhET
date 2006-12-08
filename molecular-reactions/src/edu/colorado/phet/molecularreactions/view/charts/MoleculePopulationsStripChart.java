@@ -93,6 +93,9 @@ public class MoleculePopulationsStripChart extends StripChart {
         super.setYRange( 0, (int)( maxCnt * 1.5 ) );
     }
 
+    /**
+     * Updates the chart when the clock ticks
+     */
     private class Updater extends ClockAdapter {
 
         public void clockTicked( ClockEvent clockEvent ) {

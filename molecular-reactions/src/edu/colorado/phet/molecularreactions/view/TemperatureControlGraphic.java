@@ -129,7 +129,12 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
         stovePanel.setBackground( background );
         stoveSlider.setBackground( background );
 
+        // Fix horizontal size to make room for border title
+        stovePanel.setLayout( new BorderLayout( 2,1 ));
+        stovePanel.add( Box.createHorizontalStrut( 125 ), BorderLayout.NORTH);
         stovePanel.add( stoveSlider );
+
+
         PSwing sliderNode = new PSwing( canvas, stovePanel );
         sliderNode.setOffset( stoveGraphic.getWidth() + 5, 0 );
 

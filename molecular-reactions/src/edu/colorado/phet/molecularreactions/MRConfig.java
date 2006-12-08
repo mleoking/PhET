@@ -38,7 +38,7 @@ public class MRConfig {
     public static final int MAX_MOLECULE_CNT = 200;
     public static double DEFAULT_REACTION_THRESHOLD = MAX_REACTION_THRESHOLD * .7;
     public static final double MAX_SPEED = 100; // Loeblein approved!!
-//    public static final double MAX_SPEED = 3;
+    //    public static final double MAX_SPEED = 3;
     public static final double DEFAULT_TEMPERATURE = MAX_SPEED;
     public static final double LAUNCHER_MIN_THETA = -Math.PI / 4;
     public static final double LAUNCHER_MAX_THETA = Math.PI / 4;
@@ -56,7 +56,7 @@ public class MRConfig {
     public static final Dimension SIMULATION_PANEL_SIZE = new Dimension( 850, 575 );
     public static final Dimension SPATIAL_VIEW_SIZE = new Dimension( 520, 530 );
 //    public static final Dimension SPATIAL_VIEW_SIZE = new Dimension( 850, 575 );
-//    public static final Dimension ENERGY_VIEW_SIZE = SPATIAL_VIEW_SIZE;
+    //    public static final Dimension ENERGY_VIEW_SIZE = SPATIAL_VIEW_SIZE;
     public static final int ENERGY_PANE_WIDTH = 310;
     public static final Dimension MOLECULE_SEPARATION_PANE_SIZE = new Dimension( ENERGY_PANE_WIDTH, 150 );
     public static final Dimension CHART_PANE_SIZE = new Dimension( ENERGY_PANE_WIDTH, 240 );
@@ -88,5 +88,7 @@ public class MRConfig {
 
     // Fonts
     public static final Font CHART_TITLE_FONT = UIManager.getFont( "InternalFrame.titleFont" );
-
+    public static final Font CONTROL_FONT = new Font( UIManager.getFont( "Panel.font" ).getName(),
+                                                      Font.BOLD,
+                                                      UIManager.getFont( "Panel.font" ).getSize() );
 }

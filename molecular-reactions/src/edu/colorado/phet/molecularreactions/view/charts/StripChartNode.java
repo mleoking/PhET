@@ -87,8 +87,8 @@ public class StripChartNode extends PNode implements Resetable {
             }
         } );
         PSwing rescaleNode = new PSwing( stripChartCanvas, rescaleBtn );
-        rescaleNode.setOffset( chartPanel.getPreferredSize().getWidth() - rescaleNode.getFullBounds().getWidth() - 10,
-                               chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() - 10 );
+        rescaleNode.setOffset( 10,
+                               chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() );
         stripChartCanvas.addScreenChild( rescaleNode );
         stripChartCanvas.setOpaque( true );
 

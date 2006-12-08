@@ -86,6 +86,10 @@ public class LauncherLoadPanel extends JPanel {
         add( moleculeALabel, gbc );
         add( moleculeCLabel, gbc );
 
+        // Fix the horizontal size to make room for the border title
+        gbc.gridwidth = 2;
+        add( Box.createHorizontalStrut( 30 ), gbc );
+
         cRB.setSelected( true );
     }
 
