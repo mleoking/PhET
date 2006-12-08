@@ -145,8 +145,6 @@ public class PumpGraphic extends PNode implements Resetable {
             double x = model.getBox().getMaxX() - 20;
             double y = model.getBox().getMaxY() - 80;
             Rectangle2D creationBounds = new Rectangle2D.Double( x, y, 1, 1 );
-            double ke = model.getTemperature();
-            System.out.println( "ke = " + ke );
             MoleculeParamGenerator moleculeParamGenerator = new ConstantTemperatureMoleculeParamGenerator( creationBounds,
                                                                                                     model,
                                                                                                     .1,
