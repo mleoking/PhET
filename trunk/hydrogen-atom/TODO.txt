@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- reduce jerkiness of deBroglie 3D rotation by combining all orbits into 1 Wireframe3D, and reusing Point3D[]
 - add "show traces" feature for alpha particles (need to interpolate curve between points)
 - implement Schrodinger visual representation
 - implement Schrodinger model
@@ -46,6 +45,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/7/06) - improve performance of deBroglie 3D view "rotate into place" animation, don't flatten orbits to image
 (12/7/06) - implement collision detection with deBroglie 3D orbits
 (12/7/06) - emit photons along deBroglie 3D orbits
 ***** CVS tag hydrogenatom-0-00-14-2006-12-06
