@@ -26,6 +26,7 @@ import edu.colorado.phet.hydrogenatom.util.RoundGradientPaint;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.piccolo.nodes.ArrowNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -45,11 +46,14 @@ public class PhotonNode extends PhetPNode implements Observer {
     // Debug
     //----------------------------------------------------------------------------
     
-    /* draws an outline around the full bonds of the node */
-    private static final boolean DEBUG_SHOW_FULL_DIAMETER = false;
-    
     /* enabled debug output for the image cache */
     private static final boolean DEBUG_CACHE_ENABLED = false;
+    
+    /* draws an outline around the full bonds of the node */
+    private static final boolean DEBUG_BOUNDS = false;
+    
+    /* adds an arrow to the node showing the orientation */
+    private static final boolean DEBUG_ORIENTATION = false;
     
     //----------------------------------------------------------------------------
     // Public class data
@@ -109,16 +113,30 @@ public class PhotonNode extends PhetPNode implements Observer {
         // Move origin to center
         imageNode.setOffset( -imageNode.getFullBounds().getWidth()/2, -imageNode.getFullBounds().getHeight()/2 );
         
-        if ( DEBUG_SHOW_FULL_DIAMETER ) {
-            PPath diameterNode = new PPath( new Ellipse2D.Double( -DIAMETER/2, -DIAMETER/2, DIAMETER, DIAMETER ) );
+        if ( HAConstants.SHOW_ORIGIN_NODES ) {
+            // puts a dot at the origin
+            OriginNode originNode = new OriginNode( Color.BLACK );
+            addChild( originNode );
+        }
+        
+        if ( DEBUG_BOUNDS ) {
+            // puts a rectangle around the node's bounds
+            PPath diameterNode = new PPath( new Rectangle.Double( -DIAMETER/2, -DIAMETER/2, DIAMETER, DIAMETER ) );
             diameterNode.setStroke( new BasicStroke( 1f ) );
             diameterNode.setStrokePaint( Color.WHITE );
             addChild( diameterNode );
         }
-
-        if ( HAConstants.SHOW_ORIGIN_NODES ) {
-            OriginNode originNode = new OriginNode( Color.BLACK );
-            addChild( originNode );
+        
+        if ( DEBUG_ORIENTATION ) {
+            // puts an arrow on the node, showing orientation
+            Point2D pTail = new Point2D.Double( -DIAMETER/3, 0 );
+            Point2D pHead = new Point2D.Double( DIAMETER/3, 0 );
+            double headHeight = DIAMETER / 4;
+            double headWidth = DIAMETER / 2;
+            double tailWidth = DIAMETER / 8;
+            PPath arrowNode = new ArrowNode( pTail, pHead, headHeight, headWidth, tailWidth );
+            arrowNode.setPaint( photon.getColor() );
+            addChild( arrowNode );
         }
         
         _photon = photon;
@@ -314,7 +332,7 @@ public class PhotonNode extends PhetPNode implements Observer {
     }
     
     private void update() {
-        //TODO deal with orientation
+        setRotation( _photon.getOrientation() );
         setOffset( ModelViewTransform.transform( _photon.getPosition() ) );
     }
 }
