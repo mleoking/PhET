@@ -364,6 +364,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     
     /*
      * Emits a photon from the electron's location, at a random orientation.
+     * This is also known as "spontaneous emission".
      */
     private void emitPhoton() {
         
