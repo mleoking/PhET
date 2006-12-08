@@ -37,13 +37,13 @@ LOW PRIORITY:
 - animate opening/closing of Atomic Model selection panel
 - bug: spectrometer buttons are fully transparent on Win98
 - generalize creating a "panel" node to fit under a collection of nodes
-- handle Photon orientation in PhotonNode
 - fix problem with updating drag bounds of ConstrainedDragHandler, as used in WavelengthControl
 - create layout nodes for creating Piccolo-based control panels
 - rewrite AtomicModelSelector to use inner classes, or layout node
 - cache Colors
  
 DONE:
+(12/8/06) - handle Photon orientation in PhotonNode
 (12/8/06) - remove extra calls to ModelViewTransform inside OrbitNodeFactory, should be passed view radius
 (12/8/06) - use OrbitNodeFactory.createOrbitNodePerspective to create projections of 3D orbits for debugging
 (12/8/06) - model javadoc
