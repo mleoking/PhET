@@ -18,7 +18,33 @@ import java.util.Random;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
 
-
+/**
+ * BohrModel is the Bohr model of the hydrogen atom.
+ * <p>
+ * Physical representation:
+ * Electron orbiting a proton.
+ * Each orbit corresponds to a different electron state.
+ * See createOrbitRadii for details on how orbit radii are calculated.
+ * <p>
+ * Collision behavior:
+ * Alpha particles are repelled by the electron using a Rutherford Scattering algorithm.
+ * Photons may be absorbed (see below) if they collide with the electron.
+ * <p>
+ * Absorption behavior:
+ * Photons that match the transition wavelength of the electron's state are 
+ * absorbed with some probability. Other photons are not absorbed or affected.
+ * <p>
+ * Emission behavior:
+ * Spontaneous emission of a photon takes the electron to a lower state,
+ * and the photon emitted is has the transition wavelength that corresponds
+ * to the current and new state. Transition to each lower state is equally 
+ * likely. 
+ * Stimulated emission of a photon occurs when a photon that hits the 
+ * electron, and the photon's wavelength corresponds to a wavelength 
+ * the could have been absorbed in a lower state.  In this case, the 
+ * colliding photon is not aborbed, but a new photon is emitted with 
+ * the same wavelength, and the electron moves to the lower state.
+ */
 public class BohrModel extends AbstractHydrogenAtom {
 
     //----------------------------------------------------------------------------

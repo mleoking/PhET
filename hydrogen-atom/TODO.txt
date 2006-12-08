@@ -45,6 +45,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/8/06) - model javadoc
 (12/8/06) - improve performance of deBroglie 3D view "rotate into place" animation, don't flatten orbits to image
 (12/7/06) - implement collision detection with deBroglie 3D orbits
 (12/7/06) - emit photons along deBroglie 3D orbits
