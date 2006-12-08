@@ -317,7 +317,8 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      * center of the plum pudding atom, or they seem to stick slightly
      * and then accelerate off.  The value of "closeness" was set 
      * through trial and error, to eliminate these problems while still
-     * making the motion look continuous.
+     * making the motion look continuous. This workaround assumes that 
+     * alpha particles are moving vertically from bottom to top.
      * 
      * @param alphaParticle
      * @param dt
@@ -325,8 +326,6 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     public void moveAlphaParticle( AlphaParticle alphaParticle, double dt ) {
         final double closeness = 10;
         if ( Math.abs( alphaParticle.getX() - getX() ) < closeness ) {
-            // This workaround assumes that alpha particles are moving vertically from bottom to top.
-            assert( alphaParticle.getOrientation() == Math.toRadians( -90 ) );
             super.moveAlphaParticle( alphaParticle, dt );
         }
         else {
