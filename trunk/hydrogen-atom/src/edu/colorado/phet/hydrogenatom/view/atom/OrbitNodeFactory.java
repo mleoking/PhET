@@ -40,30 +40,25 @@ class OrbitNodeFactory {
     
     /**
      * Creates a node that shows the orbit in 2D.
-     * @param radius
+     * @param radius radius, in view coordinates
      * @return PPath
      */
     public static PPath createOrbitNode( double radius ) {
-        double nodeRadius = ModelViewTransform.transform( radius );
-        Shape shape = new Ellipse2D.Double( -nodeRadius, -nodeRadius, 2 * nodeRadius, 2 * nodeRadius );
-        PPath orbitNode = new PPath();
-        orbitNode.setPathTo( shape );
-        orbitNode.setStroke( ORBIT_STROKE );
-        orbitNode.setStrokePaint( ORBIT_COLOR );
-        orbitNode.setPickable( false );
-        orbitNode.setChildrenPickable( false );
-        return orbitNode;
+        return createOrbitNodeProjection( radius, 1 /* yScale */ );
     }
     
     /**
-     * Creates a node that shows the orbit in pseudo-3D perspective.
-     * @param radius
-     * @param yxRatio ratio of height (y) to width (x)
+     * Creates a 2D projection of a 3D orbit.
+     * An orbit is a circle, but it's 3D orbit is an ellipse.
+     * Because we're only use 3D viewing angles that are rotations about the x-axis,
+     * we can get away with simply scaling the y dimension to create the ellipse.
+     * 
+     * @param radius radius, in view coordinates
+     * @param yScale how much to scale the y dimension
      * @return PPath
      */
-    public static PPath createPerspectiveOrbitNode( double radius, double yxRatio ) {
-        double nodeRadius = ModelViewTransform.transform( radius );
-        Shape shape = new Ellipse2D.Double( -nodeRadius, -nodeRadius * yxRatio, 2 * nodeRadius, 2 * nodeRadius * yxRatio );
+    public static PPath createOrbitNodeProjection( double radius, double yScale ) {
+        Ellipse2D shape = new Ellipse2D.Double( -radius, -radius * yScale, 2 * radius, 2 * radius * yScale );
         PPath orbitNode = new PPath();
         orbitNode.setPathTo( shape );
         orbitNode.setStroke( ORBIT_STROKE );
