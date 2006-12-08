@@ -5,12 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-
-
-MEDIUM PRIORITY:
 - add "show traces" feature for alpha particles (need to interpolate curve between points)
 - implement Schrodinger visual representation
 - implement Schrodinger model
+
+MEDIUM PRIORITY:
 - finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
 - implement spectrometer model
 - implement energy diagrams, reuse Ron's stuff
