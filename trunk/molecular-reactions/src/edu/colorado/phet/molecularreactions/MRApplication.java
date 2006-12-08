@@ -47,16 +47,10 @@ public class MRApplication extends PiccoloPhetApplication {
                 // Standard initializations
                 SimStrings.init( args, MRConfig.LOCALIZATION_BUNDLE );
                 PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+                phetLookAndFeel.setFont( MRConfig.CONTROL_FONT );
+                phetLookAndFeel.setTitledBorderFont( MRConfig.CONTROL_FONT );
                 phetLookAndFeel.initLookAndFeel();
                 MRApplication application = new MRApplication( args );
-
-                // Set the iconized logo for the simulation
-//                try {
-//                    PhetUtilities.getPhetFrame().setIconImage( ImageLoader.loadBufferedImage( "images/logo-small.gif" ) );
-//                }
-//                catch( IOException e ) {
-//                    e.printStackTrace();
-//                }
 
                 // Let 'er rip
                 application.startApplication();

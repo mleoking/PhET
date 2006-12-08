@@ -10,22 +10,19 @@ package edu.colorado.phet.molecularreactions.util;
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.util.EventChannel;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.data.Range;
+import org.jfree.ui.HorizontalAlignment;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.EventListener;
 
@@ -103,7 +100,6 @@ public class StripChart implements Resetable {
         this.buffSize = buffSize;
         buffTail = buffSize - 1;
 
-
         series = new XYSeries[seriesNames.length];
         buffer = new double[seriesNames.length + 1][buffSize];
         clockBufferIdx = seriesNames.length;
@@ -123,6 +119,7 @@ public class StripChart implements Resetable {
                 true,
                 false
         );
+        chart.getLegend().setHorizontalAlignment( HorizontalAlignment.RIGHT );
         plot = (XYPlot)chart.getPlot();
         plot.getRangeAxis().setRange( minY, maxY );
 
