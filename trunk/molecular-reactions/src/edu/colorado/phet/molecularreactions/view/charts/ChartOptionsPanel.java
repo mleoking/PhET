@@ -134,7 +134,6 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
                                                          insets, 0, 0 );
         add( chartOptionsPanel, gbc );
         gbc.fill = GridBagConstraints.NONE;
-//        gbc.insets = new Insets( 0, 10, 0, 5 );
         add( showBondsBtn, gbc );
     }
 
@@ -157,15 +156,14 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
         showStripChartBtn.setSelected( false );
         showNoneBtn.setSelected( true );
         showBondsBtn.setSelected( false );
-
         setEnergyViewChartOptions();
     }
 
-    public void setDefaultSelection( Option stripChartOption ) {
-        showBarChartBtn.setSelected( stripChartOption == BAR_CHART_OPTION );
-        showPieChartBtn.setSelected( stripChartOption == PIE_CHART_OPTION );
-        showStripChartBtn.setSelected( stripChartOption == STRIP_CHART_OPTION );
-        showNoneBtn.setSelected( stripChartOption == NO_CHART_OPTION );
+    public void setDefaultSelection( Option defaultChartOption ) {
+        showBarChartBtn.setSelected( defaultChartOption == BAR_CHART_OPTION );
+        showPieChartBtn.setSelected( defaultChartOption == PIE_CHART_OPTION );
+        showStripChartBtn.setSelected( defaultChartOption == STRIP_CHART_OPTION );
+        showNoneBtn.setSelected( defaultChartOption == NO_CHART_OPTION );
         setEnergyViewChartOptions();
     }
 

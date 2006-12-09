@@ -96,13 +96,13 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     private PPath upperPane;
     private PPath moleculePane;
     private EnergyProfileGraphic energyProfileGraphic;
-//    private PNode curvePaneLegend;
 
     /**
      *
      */
-    public EnergyView( MRModule module, Dimension upperPaneSize ) {
+    public EnergyView( MRModule module, int width, Dimension upperPaneSize ) {
         this.upperPaneSize = upperPaneSize;
+        this.width = width;
         curvePaneSize = new Dimension( width, (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() )
                                               - upperPaneSize.height
                                               - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height );
@@ -129,7 +129,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         upperPane.setVisible( false );
         addChild( upperPane );
 
-        // The graphic that shows the reaction mechanics
+        // The graphic that shows the reaction mechanics. It appears below the profile pane.
         PPath legendNode = new PPath( new Rectangle2D.Double( 0, 0,
                                                               MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.width,
                                                               MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height ) );
@@ -159,6 +159,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         SelectedMoleculeListener selectedMoleculeListener = new SelectedMoleculeListener();
         model.addSelectedMoleculeTrackerListener( selectedMoleculeListener );
         model.addListener( selectedMoleculeListener );
+        
         update();
     }
 
@@ -221,7 +222,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     public void setProfileLegendVisible( boolean visible ) {
         totalEnergyLine.setLegendVisible( visible );
         energyProfileGraphic.setLegendVisible( visible );
-//        curvePaneLegend.setVisible( visible );
     }
 
     /**
@@ -246,9 +246,11 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         curveLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
         PNode cursorLayer = new PNode();
         cursorLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
+
+        // the -1 adjusts for a stroke width issue between this pane and the chart pane.
         PPath curvePane = new PPath( new Rectangle2D.Double( 0,
                                                              0,
-                                                             curvePaneSize.getWidth(),
+                                                             curvePaneSize.getWidth() - 1,
                                                              curvePaneSize.getHeight() ) );
         curvePane.setOffset( 0, moleculePane.getHeight() );
         curvePane.setPaint( energyPaneBackgroundColor );
@@ -299,43 +301,14 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         yAxis.setOffset( curveAreaInsets.left / 2, curvePane.getFullBounds().getHeight() / 2 );
         curvePane.addChild( yAxis );
 
-        // Add a curvePaneLegend
-//        curvePaneLegend = new PNode();
-//        Line2D.Double legendLine = new Line2D.Double( 0, 0, 15, 0 );
-//        PPath totalEnergyLine = new PPath( legendLine );
-//        totalEnergyLine.setStroke( TotalEnergyLine.lineStroke );
-//        totalEnergyLine.setStrokePaint( TotalEnergyLine.linePaint );
-//        PText totalEnergyText = new PText( SimStrings.get( "EnergyView.Legend.totalEnergy" ) );
-//        totalEnergyText.setFont( labelFont );
-//        totalEnergyText.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
-//        curvePaneLegend.addChild( totalEnergyLine );
-//        curvePaneLegend.addChild( totalEnergyText );
-
-//        PPath potentialEnergyLine = new PPath( legendLine );
-//        potentialEnergyLine.setStroke( TotalEnergyLine.lineStroke );
-//        potentialEnergyLine.setStrokePaint( curveColor );
-//        PText potentialEnergyText = new PText( SimStrings.get( "EnergyView.Legend.potentialEnergy" ) );
-//        potentialEnergyText.setFont( labelFont );
-//        potentialEnergyText.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
-//        curvePaneLegend.addChild( potentialEnergyLine );
-//        curvePaneLegend.addChild( potentialEnergyText );
-
-//        Insets insets = new Insets( 5, 30, 0, 30 );
-//        potentialEnergyLine.setOffset( insets.left,
-//                                       insets.top + potentialEnergyText.getFullBounds().getHeight() / 2 );
-//        potentialEnergyText.setOffset( potentialEnergyLine.getOffset().getX() + potentialEnergyLine.getFullBounds().getWidth() + 10,
-//                                       insets.top );
-//
-//        totalEnergyText.setOffset( curvePaneSize.getWidth() - insets.right - totalEnergyText.getFullBounds().getWidth(),
-//                                   insets.top );
-//        totalEnergyLine.setOffset( totalEnergyText.getOffset().getX() - 10 - totalEnergyLine.getFullBounds().getWidth(),
-//                                   insets.top + totalEnergyText.getFullBounds().getHeight() / 2 );
-//        curvePaneLegend.setOffset( 0, 0 );
-//        curvePane.addChild( curvePaneLegend );
-
         return curvePane;
     }
 
+    /**
+     * Creates the curve graphic for the profile
+     * @param model
+     * @param curveLayer
+     */
     private void createCurve( MRModel model, PNode curveLayer ) {
         if( energyProfileGraphic != null ) {
             curveLayer.removeChild( energyProfileGraphic );
@@ -344,16 +317,12 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                                                          curveAreaSize,
                                                          curveColor );
         curveLayer.addChild( energyProfileGraphic );
-
-        // This keeps the total energy line above the curve on the display
-//        if( totalEnergyLine != null ) {
-//            curveLayer.removeChild( totalEnergyLine );
-//            curveLayer.addChild( totalEnergyLine );
-//        }
     }
 
     /**
      * Creates the pane that shows the molecules being tracked
+     *
+     * todo: This pane should be a separate class, along with the update() method, below
      *
      * @return a PNode
      */
@@ -385,11 +354,9 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     }
 
     /**
-     * Updates the positions of the graphics
-     * <p/>
-     * We have a problem because the colliding molecules step their positions before we determine that
-     * a hard collision should take place. And so the cursor ends up showing the molecules as having
-     * gone over the threshold when they really couldn't have.
+     * Updates the positions of the molecule graphics in the upper pane. This was originaly supposed
+     * to be on all the modules. That's why it's embedded in this class. Since it is only in the
+     * SimpleMRModule now, it should be refactored into its own class
      */
     public void update() {
         if( selectedMolecule != null && selectedMoleculeGraphic != null && nearestToSelectedMoleculeGraphic != null ) {
@@ -461,23 +428,11 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
             // In the middle of the reaction, the collision distance is underfined
             if( Double.isNaN( edgeDist ) ) {
-//                edgeDist = model.getReaction().getDistanceToCollision( freeMolecule, boundMolecule.getParentComposite() );
                 edgeDist = 0;
             }
-//            double edgeDist = cmDist - selectedMolecule.getRadius() - nearestToSelectedMolecule.getRadius();
             double maxSeparation = 80;
             double yOffset = 35;
             double xOffset = 20;
-
-            // Determine what the max overlap would be based on the energy of the molecules
-//            double collisionEnergy = MRModelUtil.getCollisionEnergy( freeMolecule, boundMolecule.getParentComposite() );
-//            double floorEnergy = boundMolecule.getParentComposite() instanceof MoleculeAB ?
-//                                 reaction.getEnergyProfile().getRightLevel() :
-//                                 reaction.getEnergyProfile().getLeftLevel();
-//            double slope = ( reaction.getEnergyProfile().getPeakLevel() - floorEnergy ) / ( reaction.getEnergyProfile().getThresholdWidth() / 2 );
-//            double minDx = collisionEnergy / slope;
-//
-//            System.out.println( "minDx = " + minDx );
 
             // The distance between the molecule's CMs when they first come into contact
             double separationAtFootOfHill = Math.min( selectedMolecule.getRadius(), nearestToSelectedMolecule.getRadius() );
@@ -489,7 +444,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             double currentOverlap = separationAtFootOfHill - currentSeparation;
             double reactionOverlap = separationAtFootOfHill - separationAtReaction;
             double dr = currentOverlap / reactionOverlap * r;
-
 
             double dx = Math.max( ( edgeDist + separationAtFootOfHill ) * r, dr );
             double xOffsetFromCenter = Math.min( curveAreaSize.getWidth() / 2 - xOffset, dx );
@@ -600,13 +554,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
 
             newClosestMolecule.addObserver( EnergyView.this );
-//            if( bondGraphic != null ) {
-//                removeChild( bondGraphic );
-//            }
-//            if( nearestToSelectedMolecule.isPartOfComposite() ) {
-//                bondGraphic = new MyBondGraphic( nearestToSelectedMoleculeGraphic );
-//                addChild( bondGraphic );
-//            }
 
             update();
         }
