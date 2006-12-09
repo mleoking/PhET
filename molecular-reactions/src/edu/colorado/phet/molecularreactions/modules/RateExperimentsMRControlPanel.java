@@ -87,6 +87,7 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
     public void reset() {
         optionsPanel.reset();
         optionsPanel.setDefaultSelection( ChartOptionsPanel.STRIP_CHART_OPTION );
+        // This negates the call in setDefaultSelection that will start the strip chart
         setExperimentRunning( false );
     }
 

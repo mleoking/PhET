@@ -67,18 +67,15 @@ public class ComplexModule extends MRModule {
         getSpatialView().addChild( pumpGraphic );
 
         // Create the control panel
-        setMRControlPanel( new ComplexMRControlPanel( this ) );
+        createControlPanel();
 
         // Don't show the total energy line on the energy view
         getEnergyView().setTotalEnergyLineVisible( false );
         getEnergyView().setProfileLegendVisible( false );
     }
 
-    protected void setMRControlPanel( MRControlPanel controlPanel ) {
-        if( this.controlPanel != null ) {
-            getControlPanel().removeControl( this.controlPanel );
-        }
-        this.controlPanel = controlPanel;
+    protected void createControlPanel() {
+        this.controlPanel = new ComplexMRControlPanel( this );
         getControlPanel().addControl( controlPanel );
     }
 
@@ -137,7 +134,6 @@ public class ComplexModule extends MRModule {
      * @param visible
      */
     public void setStripChartVisible( boolean visible ) {
-
         if( visible ) {
 //            if( stripChartDlg == null ) {
 //                stripChartDlg = new StripChartDialog( this );
@@ -177,6 +173,14 @@ public class ComplexModule extends MRModule {
 
     public void setStripChartRecording( boolean recording ) {
             stripChartNode.setRecording( recording);
+    }
+
+    protected void updateCanvasLayout() {
+        super.updateCanvasLayout();
+
+        // Don't show the total energy line on the energy view
+        getEnergyView().setTotalEnergyLineVisible( false );
+        getEnergyView().setProfileLegendVisible( false );
     }
 }
 

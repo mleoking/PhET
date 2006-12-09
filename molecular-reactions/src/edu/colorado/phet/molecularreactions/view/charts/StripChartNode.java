@@ -115,9 +115,6 @@ public class StripChartNode extends PNode implements Resetable {
         scrollBar.setEnabled( !module.getClock().isRunning() );
 
         this.addChild( stripChartCanvas.getPhetRootNode() );
-
-        // Start the strip chart recording
-//        stripChart.startRecording( clock.getSimulationTime() );
     }
 
     /**

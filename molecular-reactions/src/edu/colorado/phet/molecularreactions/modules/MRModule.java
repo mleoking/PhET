@@ -19,8 +19,12 @@ import edu.colorado.phet.molecularreactions.view.energy.EnergyView;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
+import java.awt.geom.Dimension2D;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  * MRModule
@@ -34,6 +38,10 @@ public class MRModule extends Module {
     private SpatialView spatialView;
     private EnergyView energyView;
     private Dimension spatialViewSize = MRConfig.SPATIAL_VIEW_SIZE;
+    private PhetPCanvas canvas;
+    private Insets simulationPaneInsets;
+    private int chartPaneHeight;
+
 
     /**
      *
@@ -44,6 +52,7 @@ public class MRModule extends Module {
         super( name, new VariableConstantTickClock( new SwingClock( 1000 / MRConfig.CLOCK_FPS, 
                                                                     MRConfig.RUNNING_DT ),
                                                     MRConfig.RUNNING_DT ) );
+        chartPaneHeight = chartPaneSize.height;
 
         // Create the model
         MRModel model = new MRModel( getClock() );
@@ -55,22 +64,27 @@ public class MRModule extends Module {
         setControlPanel( controlPanel );
 
         // Create the basic graphics
-        PhetPCanvas canvas = new PhetPCanvas( canvasSize );
+        canvas = new PhetPCanvas( canvasSize );
         setSimulationPanel( canvas );
 
         // Set up the sizes and locations of the views
-        Insets insets = new Insets( 10, 10, 10, 10 );
+        simulationPaneInsets = new Insets( 10, 10, 10, 10 );
 
         // Create spatial view
         spatialView = new SpatialView( this, spatialViewSize );
-        spatialView.setOffset( insets.left, insets.top );
+        spatialView.setOffset( simulationPaneInsets.left, simulationPaneInsets.top );
         canvas.addWorldChild( spatialView );
 
         // Create energy view
-        energyView = new EnergyView( this, chartPaneSize );
-        energyView.setOffset( insets.left + spatialView.getFullBounds().getWidth() + insets.left,
-                              insets.top );
-        canvas.addWorldChild( energyView );
+        createEnergyView( chartPaneSize.width, chartPaneSize );
+
+        // Create a listener that will adjust the layout when the frame changes size
+        canvas.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                updateCanvasLayout();
+            }
+        } );
+        updateCanvasLayout();
 
         // Add an agent that will make the clock's time step smaller when it's
         // being single stepped.
@@ -84,7 +98,17 @@ public class MRModule extends Module {
             }
         });
     }
-    
+
+    private void createEnergyView( int width, Dimension chartPaneSize ) {
+        if( energyView != null ) {
+            canvas.removeWorldChild( energyView );
+        }
+        energyView = new EnergyView( this, width, chartPaneSize );
+        energyView.setOffset( simulationPaneInsets.left + spatialView.getFullBounds().getWidth() + simulationPaneInsets.left,
+                              simulationPaneInsets.top );
+        canvas.addWorldChild( energyView );
+    }
+
     public void reset() {
         getModel().removeAllModelElements();
         ( (MRModel)getModel() ).setInitialConditions();
@@ -116,4 +140,30 @@ public class MRModule extends Module {
     public void setGraphicTypeVisible( boolean visible ) {
         spatialView.setGraphicTypeVisible( visible );
     }
-}
+
+
+    /**
+     * Updates the canvas layout.
+     */
+    protected void updateCanvasLayout() {
+
+        Dimension worldSize = getWorldSize( canvas );
+        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
+            // canvas hasn't been sized, skip layout
+            return;
+        }
+
+        // Layout nodes on the canvas ...
+        double energyViewWidth = worldSize.getWidth() - spatialView.getFullBounds().getWidth() - simulationPaneInsets.right * 2 - simulationPaneInsets.left;
+        createEnergyView( (int)energyViewWidth, new Dimension( (int)energyViewWidth, chartPaneHeight ) );
+    }
+
+    /**
+     * Determines the visible bounds of the canvas in world coordinates.
+     */
+    public static Dimension getWorldSize( PhetPCanvas canvas ) {
+        Dimension2D dim = new PDimension( canvas.getWidth(), canvas.getHeight() );
+        canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
+        Dimension worldSize = new Dimension( (int) dim.getWidth(), (int) dim.getHeight() );
+        return worldSize;
+    }}
