@@ -138,10 +138,16 @@ public class ObjectTimeSeries {
         }
     }
 
+    public void remove( int i ) {
+        pts.remove( i );
+    }
+
     public static interface Observer {
         void dataAdded( ObjectTimeSeries timeSeries );
 
         void cleared( ObjectTimeSeries timeSeries );
+
+        void dataRemoved( ObjectTimeSeries timeSeries );
     }
 
 }
