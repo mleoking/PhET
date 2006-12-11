@@ -152,7 +152,7 @@ public class BohrModel extends AbstractHydrogenAtom {
      * Sets the electron's state.
      * @param state
      */
-    private void setElectronState( int state ) {
+    protected void setElectronState( int state ) {
         assert( state >= GROUND_STATE && state <= GROUND_STATE + getNumberOfStates() - 1 );
         if ( state != _electronState ) {
             _electronState = state;
@@ -166,7 +166,7 @@ public class BohrModel extends AbstractHydrogenAtom {
      * @param state
      * @return
      */
-    public double getOrbitRadius( int state ) {
+    public static double getOrbitRadius( int state ) {
         return ORBIT_RADII[ state - GROUND_STATE ];
     }
     
