@@ -143,8 +143,8 @@ public class BSControlPanel extends BSAbstractControlPanel {
             final double value = fieldConstantRange.getDefault();
             final double min = fieldConstantRange.getMin();
             final double max = fieldConstantRange.getMax();
-            final double tickSpacing = 1;
-            final int tickDecimalPlaces = 0;
+            final double tickSpacing = 0.5;
+            final int tickDecimalPlaces = 1;
             final int valueDecimalPlaces = fieldConstantRange.getSignificantDecimalPlaces();
             String label = SimStrings.get( "label.fieldConstant" );
             String units = SimStrings.get( "units.fieldConstant" );

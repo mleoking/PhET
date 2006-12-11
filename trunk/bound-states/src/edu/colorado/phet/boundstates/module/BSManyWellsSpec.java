@@ -51,7 +51,7 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
     private static final double MAGNIFICATION = 10;
     
     // Field constant
-    private static final DoubleRange FIELD_CONSTANT_RANGE = new DoubleRange( -2, 2, 0, 1 );
+    private static final DoubleRange FIELD_CONSTANT_RANGE = new DoubleRange( -1, 1, 0, 1 );
     
     //----------------------------------------------------------------------------
     // 1D Coulomb ranges
