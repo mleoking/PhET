@@ -1,4 +1,7 @@
-
+- When you reset the multiple collisions panel, the Show Bonds check box is cleared, but
+    bonds still appear.
+- Whenever a chart is first displayed, it should rescale.
+- Selecting a new profile should clear the experiment controls. 
 
 
 - Make most Reaction methods static

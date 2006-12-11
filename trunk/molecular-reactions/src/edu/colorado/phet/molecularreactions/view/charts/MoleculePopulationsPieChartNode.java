@@ -38,6 +38,14 @@ public class MoleculePopulationsPieChartNode extends PNode {
 
         setBounds( bounds );
 
+        // Legend
+        createLegend( bounds );
+
+//        Rectangle2D chartBounds = new Rectangle2D.Double( bounds.getX(),
+//                                                          bounds.getY(),
+//                                                          bounds.getWidth() - 80,
+//                                                          bounds.getHeight() );
+//        MoleculePopulationsPieChart pieChart = new MoleculePopulationsPieChart( module, chartBounds, 1 );
         MoleculePopulationsPieChart pieChart = new MoleculePopulationsPieChart( module, bounds, 1 );
         addChild( pieChart );
 
@@ -53,8 +61,6 @@ public class MoleculePopulationsPieChartNode extends PNode {
         double x = bounds.getWidth() - title.getFullBounds().getWidth() - 20;
         title.setOffset( x, title.getFullBounds().getHeight() / 2 );
 
-        // Legend
-        createLegend( bounds );
     }
 
     private void createLegend( Rectangle2D bounds ) {

@@ -41,7 +41,7 @@ public class MoleculePopulationsPieChart extends PieChartNode {
     private MoleculeCounter counterC;
     private Rectangle currentSize = new Rectangle();
     private Point2D pieCenter;
-    private Insets insets = new Insets( 5, 0, 5, 0 );
+    private Insets insets = new Insets( 25, 15, 25, 15 );
 
     public MoleculePopulationsPieChart( MRModule module, Rectangle2D bounds, double updateInterval ) {
         super( new Rectangle() );
@@ -50,7 +50,6 @@ public class MoleculePopulationsPieChart extends PieChartNode {
 
         // Add the title
         PText titleNode = new PText( SimStrings.get("StripChart.title") );
-//        titleNode.setOffset( bounds.getX() + bounds.getWidth() / 2, bounds.getY() + 5);
         addChild( titleNode );
 
         // If we don't position it here, the stripped paints get seams in them 
@@ -81,7 +80,9 @@ public class MoleculePopulationsPieChart extends PieChartNode {
         values[2].setValue( counterC.getCnt() );
         values[3].setValue( counterAB.getCnt() );
         int numMolecules = counterA.getCnt() + counterBC.getCnt() + counterAB.getCnt() + counterC.getCnt();
-        double diam = Math.max( 4, Math.min( getBounds().getHeight() - insets.top - insets.bottom,
+        double maxDiam = Math.min( getBounds().getHeight() - insets.top - insets.bottom,
+                                   getBounds().getWidth() - insets.left - insets.right );
+        double diam = Math.max( 4, Math.min( maxDiam,
                                              numMolecules * MRConfig.PIE_CHART_DIAM_FACTOR ) );
 
         currentSize.setFrameFromCenter( pieCenter.getX(),
