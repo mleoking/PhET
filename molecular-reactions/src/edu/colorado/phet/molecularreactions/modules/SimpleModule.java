@@ -239,7 +239,7 @@ public class SimpleModule extends MRModule {
     public void reload() {
         Launcher.MovementType movementType = launcher.getMovementType();
         launcherMoleculeClass = this.launcherMolecule.getClass();
-        reset();
+        resetMolecules( getMRModel() );
         launcherLoadPanel.setMolecule( launcherMolecule );
         launcher.setMovementType( movementType );
     }
