@@ -1,3 +1,9 @@
+1.02.27 (12-11-2006)
+Bugfix: The performance degrades significantly after 10 minutes or so.
+                Added a temporary workaround that keeps the recorded data under a manageable size without influencing the rest of the simulation.
+                The user can record about 45 seconds of data, the system automatically switches to live (non-record) mode when this is filled up, the user
+                then has to manually press "clear" before they can record a different dataset.
+
 1.02.26 (12-2-2006)
 Added zoom buttons to bar graph.
 Bugfix: The record path data stays the same size relative to the man so is unreadable when zoomed out.
