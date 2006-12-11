@@ -56,11 +56,12 @@ public class RecordMode extends Mode {
         timer.stepInTime( dt, maxTime );//this could go over the max.
         timeSeriesModel.updateModel( dt );
         timeSeriesModel.addSeriesPoint( timeSeriesModel.getModelState(), timeSeriesModel.getRecordTime() );
-        System.out.println( "timeSeriesModel.getSeries().size() = " + timeSeriesModel.getSeries().size() );
-        int NUM_TO_RECORD_ADDITIONAL = 20;
-        for( int i = 0; i < NUM_TO_RECORD_ADDITIONAL; i++ ) {
-            timeSeriesModel.addSeriesPoint( timeSeriesModel.getModelState(), timeSeriesModel.getRecordTime() );
-        }
+
+//        System.out.println( "timeSeriesModel.getSeries().size() = " + timeSeriesModel.getSeries().size() );
+//        int NUM_TO_RECORD_ADDITIONAL = 20;
+//        for( int i = 0; i < NUM_TO_RECORD_ADDITIONAL; i++ ) {
+//            timeSeriesModel.addSeriesPoint( timeSeriesModel.getModelState(), timeSeriesModel.getRecordTime() );
+//        }
 
 //        while( timeSeriesModel.getSeries().size() > MAX ) {
 ////            timeSeriesModel.getSeries().remove( 0 );
