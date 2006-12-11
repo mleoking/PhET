@@ -12,9 +12,9 @@ package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.molecularreactions.DebugFlags;
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 

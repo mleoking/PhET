@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.molecularreactions.model.collision;
 
-import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.mechanics.Body;
+import edu.colorado.phet.molecularreactions.model.MRModel;
 
 /**
  * MRCollisionExpert

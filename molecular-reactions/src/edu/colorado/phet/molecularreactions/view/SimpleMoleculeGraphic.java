@@ -11,8 +11,8 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
@@ -23,14 +23,13 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImageOp;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.AffineTransform;
-import java.util.HashMap;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * SimpleMoleculeGraphic

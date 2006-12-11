@@ -11,9 +11,9 @@
 package edu.colorado.phet.molecularreactions.view.factories;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
+import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.SpatialSimpleMoleculeGraphic;

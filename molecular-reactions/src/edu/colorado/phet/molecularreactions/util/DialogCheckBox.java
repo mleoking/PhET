@@ -11,7 +11,8 @@
 package edu.colorado.phet.molecularreactions.util;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 /**
  * DialogCheckBox

@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.molecularreactions.view.icons;
 
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.common.view.graphics.Arrow;
 
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * ReactionArrowNode

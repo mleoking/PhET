@@ -10,18 +10,18 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.molecularreactions.model.MRModel;
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.text.NumberFormat;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * ThermometerGraphic

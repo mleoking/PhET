@@ -10,21 +10,22 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.modules.RateExperimentsModule;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.util.RangeLimitedIntegerTextField;
 import edu.colorado.phet.molecularreactions.util.Resetable;
-import edu.colorado.phet.molecularreactions.modules.RateExperimentsModule;
-import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.MRConfig;
 
-import java.util.List;
-import java.util.HashMap;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
-import java.awt.event.*;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * ExperimentSetupPanel
@@ -127,7 +128,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         } );
 
         // The GO button
-        JButton goStopBtn = new JButton( new StartExperimentAction( module, this ) );
+        JButton goButton = new JButton( new StartExperimentAction( module, this ) );
 
         // Add a border
         setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ExperimentSetup.title" ) ) );
@@ -183,7 +184,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         labelGbc.gridwidth = 4;
         labelGbc.anchor = GridBagConstraints.WEST;
         labelGbc.anchor = GridBagConstraints.CENTER;
-        add( goStopBtn, labelGbc );
+        add( goButton, labelGbc );
         add( resetBtn, labelGbc );
     }
 

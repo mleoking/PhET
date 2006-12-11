@@ -11,16 +11,9 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
-import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
+import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
-import edu.colorado.phet.molecularreactions.util.Resetable;
-import edu.colorado.phet.molecularreactions.util.DialogCheckBox;
 import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
-import edu.colorado.phet.molecularreactions.view.ExperimentSetupPanel;
 import edu.colorado.phet.molecularreactions.view.ReactionChooserComboBox;
 import edu.colorado.phet.molecularreactions.view.charts.ChartOptionsPanel;
 

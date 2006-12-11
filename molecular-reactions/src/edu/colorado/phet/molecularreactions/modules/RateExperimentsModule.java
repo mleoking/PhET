@@ -12,8 +12,6 @@ package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 
-import javax.swing.*;
-
 /**
  * RateExperimentsModule
  * <p/>
@@ -52,5 +50,11 @@ public class RateExperimentsModule extends ComplexModule {
             controlPanel.setExperimentRunning( isRunning );
             setStripChartRecording( isRunning );
         }
+    }
+
+
+    public void reset() {
+        super.reset();
+        controlPanel.reset();
     }
 }

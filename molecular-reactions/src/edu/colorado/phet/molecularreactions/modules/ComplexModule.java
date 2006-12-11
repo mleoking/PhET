@@ -11,15 +11,16 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.view.*;
-import edu.colorado.phet.molecularreactions.view.charts.*;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.view.PumpGraphic;
+import edu.colorado.phet.molecularreactions.view.SimpleMoleculeGraphic;
+import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChartNode;
+import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChartNode;
+import edu.colorado.phet.molecularreactions.view.charts.StripChartDialog;
+import edu.colorado.phet.molecularreactions.view.charts.StripChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
-import javax.swing.*;
 import java.awt.event.ComponentListener;
 import java.awt.geom.Rectangle2D;
 
@@ -36,7 +37,7 @@ public class ComplexModule extends MRModule {
     private StripChartDialog stripChartDlg;
     private MRControlPanel controlPanel;
     private PumpGraphic pumpGraphic;
-    private PNode barChartNode;
+    private MoleculePopulationsBarChartNode barChartNode;
     private MoleculePopulationsPieChartNode pieChart;
     public StripChartNode stripChartNode;
 
@@ -113,6 +114,7 @@ public class ComplexModule extends MRModule {
             barChartNode = new MoleculePopulationsBarChartNode( this,
                                                                 getEnergyView().getUpperPaneSize(),
                                                                 (PhetPCanvas)getSimulationPanel() );
+            barChartNode.rescale();
             getEnergyView().addToUpperPane( barChartNode );
         }
         else if( barChartNode != null ) {

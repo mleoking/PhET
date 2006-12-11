@@ -17,17 +17,16 @@ import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.TemperatureControl;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
+import edu.colorado.phet.molecularreactions.view.factories.BondGraphicFactory;
 import edu.colorado.phet.molecularreactions.view.factories.CompositeMoleculeGraphicFactory;
 import edu.colorado.phet.molecularreactions.view.factories.ProvisionalBondGraphicFactory;
 import edu.colorado.phet.molecularreactions.view.factories.SimpleMoleculeGraphicFactory;
-import edu.colorado.phet.molecularreactions.view.factories.BondGraphicFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
 
 /**
  * SpatialView

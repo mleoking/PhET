@@ -10,7 +10,10 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.model.MoleculeA;
+import edu.colorado.phet.molecularreactions.model.MoleculeB;
+import edu.colorado.phet.molecularreactions.model.MoleculeC;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.umd.cs.piccolo.PCanvas;

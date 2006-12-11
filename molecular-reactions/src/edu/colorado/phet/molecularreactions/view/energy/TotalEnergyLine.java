@@ -19,7 +19,6 @@ import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.util.PFixedWidthStroke;
 
 import javax.swing.*;
 import java.awt.*;

@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.molecularreactions.controller;
 
-import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
+import edu.colorado.phet.molecularreactions.modules.MRModule;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

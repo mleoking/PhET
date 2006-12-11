@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.umd.cs.piccolo.PNode;
 

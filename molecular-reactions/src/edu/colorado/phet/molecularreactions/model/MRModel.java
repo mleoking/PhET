@@ -16,10 +16,10 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.Body;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
-import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
