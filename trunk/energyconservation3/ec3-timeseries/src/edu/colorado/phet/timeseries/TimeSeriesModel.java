@@ -328,7 +328,18 @@ public abstract class TimeSeriesModel implements ClockListener {
     public abstract void stepLive();
 
     public void stepMode() {
+        ifRecordTooMuchSwitchToLive();
         mode.step();
+    }
+
+    private void ifRecordTooMuchSwitchToLive() {
+        int MAX = 1500;
+        //todo magic number: this is the number of recorded points in the 40-second interval that shows up on the time series chart under a particular set of conditions.
+
+        if( isRecordMode() && recordMode.getTimeSeriesModel().getSeries().size() > MAX ) {
+            setLiveMode();
+            notifyLiveModeStarted();
+        }
     }
 
     public boolean isThereRecordedData() {
@@ -345,6 +356,7 @@ public abstract class TimeSeriesModel implements ClockListener {
 
     public void clockTicked( ClockEvent event ) {
         if( mode != null ) {
+            ifRecordTooMuchSwitchToLive();
             mode.clockTicked( event );
         }
     }

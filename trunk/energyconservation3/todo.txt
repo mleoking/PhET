@@ -3,6 +3,11 @@ Remaining Work
 #######################################
 
 The performance degrades significantly after 10 minutes or so.
+>>I'm adding a temporary workaround that keeps the recorded data under a manageable size without influencing the rest of the simulation.
+>>The user can record about 45 seconds of data, the system automatically switches to live (non-record) mode when this is filled up, the user
+>>then has to manually press "clear" before they can record a different dataset.
+
+>> Future versions should allow plotting time series data without recording the entire history, and should put the record & playback buttons on the time series panel only.
 
 On a double-potential well where the skater slightly leaves the track, sometimes he attaches to the wrong side of the track.
 
