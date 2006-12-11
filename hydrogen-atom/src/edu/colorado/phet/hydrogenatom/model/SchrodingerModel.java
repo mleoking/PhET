@@ -37,7 +37,7 @@ public class SchrodingerModel extends DeBroglieModel {
     
     // secondary state component, l = 0,...n-1 (n=electron state)
     private int _l;
-    // tertiary state component, m = -l,...,0,...+1
+    // tertiary state component, m = -l,...+l
     private int _m;
     // random number generator for selecting l
     private Random _lRandom;
@@ -90,7 +90,7 @@ public class SchrodingerModel extends DeBroglieModel {
         double theta = Math.cos( z / r );
         // calculate wave function
         int n = getElectronState();
-        double w = calcWaveFunction( n, _l, _m, r, theta );
+        double w = getWaveFunction( n, _l, _m, r, theta );
         // square the wave function
         return ( w * w );
     }
@@ -104,8 +104,8 @@ public class SchrodingerModel extends DeBroglieModel {
      * Randomly chooses the values for the secondary and tertiary states.
      */
     protected void setElectronState( int n ) {
-        _l = lChoose( n, _l );
-        _m = mChoose( _l, _m );
+        _l = getNewSecondaryState( n, _l );
+        _m = getNewTertiaryState( _l, _m );
         super.setElectronState( n );
         System.out.println( "SchrodingerModel.setElectronState " + stateToString( n, _l, _m ) );//XXX
     }
@@ -122,10 +122,10 @@ public class SchrodingerModel extends DeBroglieModel {
     //----------------------------------------------------------------------------
     
     /*
-     * Chooses a value of the secondary state (l) based on the primary state (n).
+     * Chooses a value for the secondary state (l) based on the primary state (n).
      * The new value l' must be in [0,...n-1], and l-l' must be in [-1,1].
      */
-    private int lChoose( int n, int l ) {
+    private int getNewSecondaryState( int n, int l ) {
 
         int lNew = _lRandom.nextInt( n );
         assert( lNew >= 0 && lNew <= n-1 );
@@ -137,10 +137,10 @@ public class SchrodingerModel extends DeBroglieModel {
     }
     
     /*
-     * Chooses a value of the tertiary state (m) based on the primary state (l).
+     * Chooses a value for the tertiary state (m) based on the primary state (l).
      * The new value m' must be in [-1,...,+l], and m-m' must be in [-1,0,1].
      */
-    private int mChoose( int l, int m ) {
+    private int getNewTertiaryState( int l, int m ) {
         
         int mNew = _mRandom.nextInt( ( 2 * l ) + 1 ) - l;
         assert( Math.abs( mNew ) <= l );
@@ -158,14 +158,14 @@ public class SchrodingerModel extends DeBroglieModel {
     /*
      * Calculates the wave function.
      */
-    private static double calcWaveFunction( int n, int l, int m, double r, double theta ) {
-        return calcLaguerrePolynomial( n, l, r ) * calcLegendrePolynomial( l, m, theta );
+    private static double getWaveFunction( int n, int l, int m, double r, double theta ) {
+        return getLaguerrePolynomial( n, l, r ) * getLegendrePolynomial( l, m, theta );
     }
     
     /*
      * Calculates the wave function's Laguerre Polynomial.
      */
-    private static double calcLaguerrePolynomial( int n, int l, double r ) {
+    private static double getLaguerrePolynomial( int n, int l, double r ) {
         final double a = BohrModel.getOrbitRadius( n ) / ( n * n );
         final double multiplier = Math.pow( r, l ) * Math.exp( -r / ( n * a ) );
         double b = 2 * Math.pow( ( n * a ), ( -1.5 ) ); // b0
@@ -181,21 +181,23 @@ public class SchrodingerModel extends DeBroglieModel {
     /*
      * Calculates the wave function's Legendre Polynomial.
      */
-    private static double calcLegendrePolynomial( int l, int m, double theta ) {
+    private static double getLegendrePolynomial( int l, int m, double theta ) {
         final double cosTheta = Math.cos( theta );
-        final double d = 1;//XXX what is d ?
-        final double t1 = Math.pow( -1, m ) / ( Math.pow( 2, l ) * factorial( l ) );
-        final double t2 = Math.pow( ( 1 - ( cosTheta * cosTheta ) ), ( 0.5 * m ) );
-        final double t3 = Math.pow( d, ( l + m ) ) / ( d * Math.pow( cosTheta, ( l + m ) ) );
-        final double t4 = Math.pow( ( ( cosTheta * cosTheta ) - 1 ), l );
-        return ( t1 * t2 * t3 * t4 );
+        final double t1 = 1 / ( getGammaFunction( -l ) * getGammaFunction( l + 1 ) );
+        final double t2 = Math.pow( ( ( 1 + cosTheta ) / ( 1 - cosTheta ) ), ( 0.5 * m ) );
+        double sum = 0;
+        for ( int n = 0; n <= LEGENDRE_POLYNOMIAL_LIMIT; n++ ) {
+            double t3 = ( getGammaFunction( n -l ) * getGammaFunction( n + l + 1 ) ) / ( getGammaFunction( n + 1 - m ) * factorial( n ) );
+            double t4 = Math.pow( ( 1 - cosTheta ) / 2, n );
+            sum += ( t3 * t4 );
+        }
+        return ( t1 * t2 * sum );
     }
     
     /*
      * Calculates the wave function's Gamma Function.
      */
-    private static double calcGammaFunction( double theta ) {
-        final double cosTheta = Math.cos( theta );
+    private static double getGammaFunction( double cosTheta ) {
         final double multiplier = ( Math.exp( -EULER_MASCHERONI_CONSTANT * cosTheta ) );
         double product = 1;
         for ( int n = 1; n <= GAMMA_FUNCTION_LIMIT; n++ ) {
