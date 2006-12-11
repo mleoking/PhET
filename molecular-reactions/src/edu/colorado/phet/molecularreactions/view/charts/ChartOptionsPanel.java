@@ -166,6 +166,5 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
         showNoneBtn.setSelected( defaultChartOption == NO_CHART_OPTION );
         setEnergyViewChartOptions();
     }
-
 }
 
