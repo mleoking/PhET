@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.model.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;

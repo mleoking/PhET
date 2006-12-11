@@ -13,7 +13,6 @@ package edu.colorado.phet.molecularreactions.util;
 import edu.colorado.phet.common.util.EventChannel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;

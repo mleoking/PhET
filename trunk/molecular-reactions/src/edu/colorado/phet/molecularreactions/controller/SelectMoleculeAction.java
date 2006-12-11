@@ -12,12 +12,14 @@ package edu.colorado.phet.molecularreactions.controller;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.model.Selectable;
+import edu.colorado.phet.molecularreactions.model.SelectedMoleculeTracker;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 
-import java.util.List;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  * SelectMoleculeAction

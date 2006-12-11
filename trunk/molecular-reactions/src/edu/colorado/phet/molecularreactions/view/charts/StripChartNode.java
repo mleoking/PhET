@@ -10,25 +10,23 @@
  */
 package edu.colorado.phet.molecularreactions.view.charts;
 
-import edu.colorado.phet.molecularreactions.util.Resetable;
-import edu.colorado.phet.molecularreactions.util.StripChart;
-import edu.colorado.phet.molecularreactions.modules.MRModule;
-import edu.colorado.phet.molecularreactions.MRConfig;
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.modules.MRModule;
+import edu.colorado.phet.molecularreactions.util.Resetable;
+import edu.colorado.phet.molecularreactions.util.StripChart;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
+import org.jfree.chart.ChartPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
-import org.jfree.chart.ChartPanel;
+import java.awt.event.ActionListener;
 
 /**
  * StripChartDialog
@@ -115,13 +113,6 @@ public class StripChartNode extends PNode implements Resetable {
         scrollBar.setEnabled( !module.getClock().isRunning() );
 
         this.addChild( stripChartCanvas.getPhetRootNode() );
-    }
-
-    /**
-     * Rescale the strip chart
-     */
-    public void rescaleChart() {
-        stripChart.rescale();
     }
 
     /**

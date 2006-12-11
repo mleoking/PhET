@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
@@ -19,7 +18,6 @@ import edu.colorado.phet.molecularreactions.view.icons.ReactionArrowNode;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;

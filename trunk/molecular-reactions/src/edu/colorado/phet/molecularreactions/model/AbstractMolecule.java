@@ -19,7 +19,6 @@ import edu.colorado.phet.mechanics.Body;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
-import java.util.List;
 
 /**
  * AbstractMolecule

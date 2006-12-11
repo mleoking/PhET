@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.Selectable;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
+import edu.colorado.phet.molecularreactions.model.Selectable;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 
 /**
  * SimpleMoleculeGraphic

@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.molecularreactions.modules;
 
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
-import edu.colorado.phet.molecularreactions.MRConfig;
 
 import java.awt.*;
 

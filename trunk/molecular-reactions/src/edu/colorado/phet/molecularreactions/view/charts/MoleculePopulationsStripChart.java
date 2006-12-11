@@ -14,11 +14,10 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.util.StripChart;
-import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.view.MoleculePaints;
-import edu.colorado.phet.molecularreactions.MRConfig;
 import org.jfree.chart.plot.PlotOrientation;
 
 import java.awt.*;
@@ -29,7 +28,7 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MoleculePopulationsStripChart extends StripChart {
+public class MoleculePopulationsStripChart extends StripChart implements Rescaleable {
     static String title = SimStrings.get( "StripChart.title" );
     static String[] seriesNames = new String[]{"A", "BC", "AB", "C"};
     static String xAxisLabel = SimStrings.get( "StripChart.time" );

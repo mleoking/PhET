@@ -11,20 +11,23 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.clock.*;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.model.clock.VariableConstantTickClock;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.view.SpatialView;
 import edu.colorado.phet.molecularreactions.view.energy.EnergyView;
-import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
-import java.awt.geom.Dimension2D;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Dimension2D;
 
 /**
  * MRModule

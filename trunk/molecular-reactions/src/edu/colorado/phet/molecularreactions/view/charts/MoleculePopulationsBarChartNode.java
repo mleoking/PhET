@@ -10,13 +10,12 @@
  */
 package edu.colorado.phet.molecularreactions.view.charts;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.ComplexModule;
-import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChart;
 import edu.colorado.phet.molecularreactions.view.icons.MoleculeIcon;
-import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -25,8 +24,8 @@ import org.jfree.chart.ChartPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * MoleculePopulationsBarChartNode
@@ -37,10 +36,11 @@ import java.awt.event.ActionEvent;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MoleculePopulationsBarChartNode extends PNode {
+public class MoleculePopulationsBarChartNode extends PNode implements Rescaleable {
+    private MoleculePopulationsBarChart barChart;
 
     public MoleculePopulationsBarChartNode( ComplexModule module, Dimension size, PhetPCanvas phetPCanvas ) {
-        final MoleculePopulationsBarChart barChart = new MoleculePopulationsBarChart( module.getMRModel(), module.getClock(), 0, MRConfig.BAR_CHART_MAX_Y, 1 );
+        barChart = new MoleculePopulationsBarChart( module.getMRModel(), module.getClock(), 0, MRConfig.BAR_CHART_MAX_Y, 1 );
         ChartPanel barChartPanel = new ChartPanel( barChart.getChart() );
         Insets barChartInsets = new Insets( 0, 10, 0,0);
         barChartPanel.setPreferredSize( new Dimension( (int)size.getWidth() - barChartInsets.left + barChartInsets.right,
@@ -87,5 +87,9 @@ public class MoleculePopulationsBarChartNode extends PNode {
                                getFullBounds().getHeight() - rescaleNode.getFullBounds().getHeight() - 10);
         addChild( rescaleNode );
 
+    }
+
+    public void rescale() {
+        barChart.rescale();
     }
 }

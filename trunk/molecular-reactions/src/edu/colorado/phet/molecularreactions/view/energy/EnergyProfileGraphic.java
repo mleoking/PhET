@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.molecularreactions.view.energy;
 
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -22,14 +22,13 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  * EnergyCurve

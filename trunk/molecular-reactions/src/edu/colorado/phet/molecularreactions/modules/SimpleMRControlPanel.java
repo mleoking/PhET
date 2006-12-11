@@ -14,7 +14,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.Launcher;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.util.Resetable;
-import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
 import edu.colorado.phet.molecularreactions.view.ReactionChooserPanel;
 
 import javax.swing.*;

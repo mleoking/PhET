@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.molecularreactions.model.reactions;
 
-import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 
 /**
  * Profiles

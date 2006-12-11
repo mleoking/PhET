@@ -10,19 +10,18 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.molecularreactions.model.Launcher;
 import edu.colorado.phet.piccolo.util.PImageFactory;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 
 /**
  * LauncherGraphic

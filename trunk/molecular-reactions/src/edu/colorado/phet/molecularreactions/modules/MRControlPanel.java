@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.molecularreactions.modules;
 
-import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.util.Resetable;
 
 import javax.swing.*;
 import java.awt.*;

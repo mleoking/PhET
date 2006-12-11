@@ -10,19 +10,18 @@
  */
 package edu.colorado.phet.molecularreactions.view.charts;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.model.MoleculeA;
+import edu.colorado.phet.molecularreactions.model.MoleculeAB;
+import edu.colorado.phet.molecularreactions.model.MoleculeBC;
+import edu.colorado.phet.molecularreactions.model.MoleculeC;
+import edu.colorado.phet.molecularreactions.modules.ComplexModule;
+import edu.colorado.phet.molecularreactions.view.MoleculePaints;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.colorado.phet.molecularreactions.modules.ComplexModule;
-import edu.colorado.phet.molecularreactions.view.MoleculePaints;
-import edu.colorado.phet.molecularreactions.model.MoleculeA;
-import edu.colorado.phet.molecularreactions.model.MoleculeBC;
-import edu.colorado.phet.molecularreactions.model.MoleculeC;
-import edu.colorado.phet.molecularreactions.model.MoleculeAB;
-import edu.colorado.phet.molecularreactions.MRConfig;
-import edu.colorado.phet.common.view.util.SimStrings;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
