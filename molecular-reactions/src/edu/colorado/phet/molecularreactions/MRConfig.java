@@ -27,7 +27,8 @@ public class MRConfig {
     // Misc
     //--------------------------------------------------------------------------------------------------
     // Version
-    public static final String VERSION = "0.00.14";
+    public static final String VERSION = "0.01";
+    public static final String SUB_VERSION = "0.01";
     // Prefix of the strings bundles
     public static final String LOCALIZATION_BUNDLE = "localization/MRStrings";
     // Debug flag
@@ -37,7 +38,7 @@ public class MRConfig {
     // Model constants
     //--------------------------------------------------------------------------------------------------
     public static int CLOCK_FPS = 25;
-    public static double MAX_REACTION_THRESHOLD = 5E2;      // Max num of any one type of molecule
+    public static double MAX_REACTION_THRESHOLD = 5E2;      
     public static final int MAX_MOLECULE_CNT = 200;
     public static double DEFAULT_REACTION_THRESHOLD = MAX_REACTION_THRESHOLD * .7;
     public static final double MAX_SPEED = 100; // Loeblein approved!!
