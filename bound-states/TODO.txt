@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- document the "Average Probability Density" feature and add to doc/ folder
 
 MEDIUM PRIORITY:
 - in some cases, magnifying glass is not powerful enough to show all eigenstates, add variable power
@@ -541,6 +540,7 @@ DONE:
 
 
 REJECTED:
+(12/11/06) - document the "Average Probability Density" feature and add to doc/ folder (didn't do it, developed amnesia)
 (8/1/06) - at fastest clock speed, wave appears to move slower for some configurations; eg, E1 for 1D Coulomb in "Two Wells" (ok as is)
 (8/1/06) - parameterize Schmidt-Lee to take variable value for MAX_TRIES (already responsive enough, not worth effort)
 (8/1/06) - provide user with feedback when they attempt to drag a handle past its min/max (not necessary)

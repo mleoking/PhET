@@ -5,7 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- implement Schrodinger model
+- what is 'd' in wave function's Legendre Polynomial ?
+- how to apply rule A to calculation of l ?
+- how to apply rule B to calculation of m ?
 - implement Schrodinger visual representation
 
 MEDIUM PRIORITY:
