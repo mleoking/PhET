@@ -13,25 +13,23 @@ MEDIUM PRIORITY:
 - finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
 - implement spectrometer model
 - implement energy diagrams, reuse Ron's stuff
+- add squiggles to energy diagrams showing the gun's light wavelength (as in Lasers sim)
 - "atom destroyed" message for Solar System model
 - "atom ionized" message and electron flying in/out for Plum Pudding, Bohr, deBroglie, Schrodinger models
 - clear spectrometer when atomic model is changed
 - update images on atom model selector buttons
 - is ModelViewTransform used everywhere is should be in view?
-- add squiggles to energy diagrams showing the gun's light wavelength (as in Lasers sim)
 - verify that behavior is correct when clock is paused
 
 LOW PRIORITY:
 - improve performance of deBroglie "brightness" and "brightness magnitude" representations
 - improve performance of deBroglie 3D representation
-- white light sometimes gets in a state where UV photons are fired only at -x values, ie to left of atom
 - Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
 - handle model-view transform differently?
 - reduce size of image files that are being scaled down (eg, plum pudding)
 - add WavelengthControl.setTrackSize(Dimension)
 - add WavelengthControl.setKnobSize(Dimension)
 - size "UV" and "IR" labels to fit WavelengthControl track height
-- make panel spacing and canvas spacing configurable via SimStrings file
 - generate spectrum instead of using an image file
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 - animate opening/closing of Atomic Model selection panel
@@ -43,6 +41,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/11/06) - first pass at Schrodinger model, essential information missing or incorrect in design doc
 (12/8/06) - handle AlphaParticle orientation in RutherfordScattering and AlphaParticleNode, disable in node
 (12/8/06) - handle Photon orientation in PhotonNode
 (12/8/06) - remove extra calls to ModelViewTransform inside OrbitNodeFactory, should be passed view radius
@@ -420,6 +419,8 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(12/8/06) - make panel spacing and canvas spacing configurable via SimStrings file (waste of time)
+(12/8/06) - white light sometimes gets in a state where UV photons are fired only at -x values (cannot reproduce)
 (12/6/06) - design code to accommodate zoom controls on animation region (didn't do it, and will not have this feature)
 (11/30/06) - generate white light photons based on electron's state? (just use transition wavelengths for state=1)
 (11/16/06) - make electron a brighter blue (any light will be indistinguishable from neutron gray)
