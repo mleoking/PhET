@@ -67,22 +67,21 @@ public class ComplexModule extends MRModule {
         getSpatialView().addChild( pumpGraphic );
 
         // Create the control panel
-        createControlPanel();
+        controlPanel = createControlPanel();
+        getControlPanel().addControl( controlPanel );
 
         // Don't show the total energy line on the energy view
         getEnergyView().setTotalEnergyLineVisible( false );
-        getEnergyView().setProfileLegendVisible( false );
     }
 
-    protected void createControlPanel() {
-        this.controlPanel = new ComplexMRControlPanel( this );
-        getControlPanel().addControl( controlPanel );
+    protected MRControlPanel createControlPanel() {
+        return new ComplexMRControlPanel( this );
     }
 
     public void activate() {
         super.activate();
         // True marking of the selected molecule and its nearest neighbor
-        SimpleMoleculeGraphic.setMarkSelectedMolecule( true );
+//        SimpleMoleculeGraphic.setMarkSelectedMolecule( true );
     }
 
     public void reset() {
@@ -135,21 +134,12 @@ public class ComplexModule extends MRModule {
      */
     public void setStripChartVisible( boolean visible ) {
         if( visible ) {
-//            if( stripChartDlg == null ) {
-//                stripChartDlg = new StripChartDialog( this );
-//            }
-//            stripChartDlg.setVisible( true );
-
-//            PhetPCanvas ppc = new PhetPCanvas( stripChartDlg.getContentPane().getPreferredSize() );
-//            ppc.addScreenChild( new PSwing( ppc, (JPanel)stripChartDlg.getContentPane() ));
-//            getEnergyView().addToUpperPane( ppc.getPhetRootNode() );
-
             stripChartNode = new StripChartNode( this, MRConfig.CHART_PANE_SIZE );
             getEnergyView().addToUpperPane( stripChartNode );
         }
-        else if( !visible && stripChartDlg != null ) {
-//            stripChartDlg.setVisible( false );
-//            stripChartDlg = null;
+        else if( stripChartNode != null ) {
+            getEnergyView().removeFromUpperPane( stripChartNode );
+            stripChartNode = null;
         }
     }
 

@@ -32,29 +32,13 @@ public class RateExperimentsModule extends ComplexModule {
         super( SimStrings.get( "Module.RateExperimentsModuleTitle" ) );
 
         // We want to make sure the strip chart is cleared and not running when we start up
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                setStripChartVisible( true );
-                resetStripChart();
-            }
-        } );
         setStripChartVisible( true );
         resetStripChart();
     }
 
-    protected void createControlPanel() {
+    protected MRControlPanel createControlPanel() {
         controlPanel = new RateExperimentsMRControlPanel( this );
-        getControlPanel().addControl( controlPanel );
-    }
-
-    public void setStripChartVisible( boolean visible ) {
-//        if( !visible ) {
-//            System.out.println( "RateExperimentsModule.setStripChartVisible: false " );
-//        }
-//        else {
-//            System.out.println( "RateExperimentsModule.setStripChartVisible: true " );
-//        }
-        super.setStripChartVisible( visible );
+        return controlPanel;
     }
 
     /**

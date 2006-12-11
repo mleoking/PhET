@@ -10,23 +10,16 @@
  */
 package edu.colorado.phet.molecularreactions.modules;
 
-import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
-import edu.colorado.phet.molecularreactions.view.ExperimentSetupPanel;
-import edu.colorado.phet.molecularreactions.view.charts.ChartOptionsPanel;
-import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
-import edu.colorado.phet.molecularreactions.controller.SelectMoleculeAction;
-import edu.colorado.phet.molecularreactions.util.Resetable;
-import edu.colorado.phet.molecularreactions.util.DialogCheckBox;
-import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.view.ExperimentSetupPanel;
+import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
+import edu.colorado.phet.molecularreactions.view.charts.ChartOptionsPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * ComplexMRControlPanel
@@ -86,13 +79,13 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
 
     public void reset() {
         optionsPanel.reset();
-        optionsPanel.setDefaultSelection( ChartOptionsPanel.STRIP_CHART_OPTION );
+//        optionsPanel.setDefaultSelection( ChartOptionsPanel.STRIP_CHART_OPTION );
         // This negates the call in setDefaultSelection that will start the strip chart
         setExperimentRunning( false );
     }
 
     public void setExperimentRunning( boolean running ) {
-        getMoleculeInstanceControlPanel().setCountersEditable( running );        
+        getMoleculeInstanceControlPanel().setCountersEditable( running );
     }
 
 }
