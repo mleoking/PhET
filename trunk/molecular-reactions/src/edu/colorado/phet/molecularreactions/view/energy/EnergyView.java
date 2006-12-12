@@ -25,14 +25,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-
-import sun.plugin.panel.ActivatorPanel;
 
 /**
  * EnergyView
