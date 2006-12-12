@@ -56,6 +56,9 @@ public class ComplexModule extends MRModule {
     protected ComplexModule( String title ) {
         super( title, MRConfig.CHART_PANE_SIZE );
 
+        // Create the strip chart
+        stripChartNode = new StripChartNode( this, MRConfig.CHART_PANE_SIZE );
+
         // Disable marking of the selected molecule and its nearest neighbor
         SimpleMoleculeGraphic.setMarkSelectedMolecule( true );
 
@@ -136,12 +139,11 @@ public class ComplexModule extends MRModule {
      */
     public void setStripChartVisible( boolean visible ) {
         if( visible ) {
-            stripChartNode = new StripChartNode( this, MRConfig.CHART_PANE_SIZE );
             getEnergyView().addToUpperPane( stripChartNode );
         }
         else if( stripChartNode != null ) {
             getEnergyView().removeFromUpperPane( stripChartNode );
-            stripChartNode = null;
+//            stripChartNode = null;
         }
     }
 

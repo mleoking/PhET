@@ -39,6 +39,7 @@ import java.awt.event.*;
 public class StripChartNode extends PNode implements Resetable {
     private MoleculePopulationsStripChart stripChart;
     private IClock clock;
+    private boolean recording;
 
     public StripChartNode( MRModule module, Dimension size ) {
         PhetPCanvas stripChartCanvas = new PhetPCanvas();
@@ -126,17 +127,22 @@ public class StripChartNode extends PNode implements Resetable {
      * Starts and stops recording
      */
     public void setRecording( boolean recording ) {
-        if( recording ) {
-            stripChart.startRecording( clock.getSimulationTime() );
-            stripChart.rescale();
-        }
-        else {
-            stripChart.stopRecording();
+
+        if( this.recording != recording ) {
+            if( recording ) {
+                stripChart.startRecording( clock.getSimulationTime() );
+                stripChart.rescale();
+            }
+            else {
+                stripChart.stopRecording();
+            }
+            this.recording = recording;
         }
     }
 
     public void reset() {
         stripChart.reset();
 //        stripChart.startRecording( clock.getSimulationTime() );
+        repaint();
     }
 }
