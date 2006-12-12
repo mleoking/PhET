@@ -92,6 +92,13 @@
                 <filter token="MAIN-CLASS" value="${main.class}"/>
             </filterset>
         </copy>
+        <copy todir="ant_output/jnlp" overwrite="yes">
+            <fileset file="cck-dc-pro.jnlp"/>
+            <filterset>
+                <filter token="VERSION" value="${dev-version}"/>
+                <filter token="MAIN-CLASS" value="${main.class}"/>
+            </filterset>
+        </copy>
     </target>
 
     <target name="Post">
@@ -104,6 +111,7 @@
             <sftp action="put" remotedir="${dev-dir}" verbose="true">
                 <fileset file="${ant.jars}/${app-jar-file}"/>
                 <fileset file="${ant.jnlp}/${jnlp-filename}"/>
+                <fileset file="${ant.jnlp}/cck-dc-pro.jnlp"/>
                 <!--<fileset file="${ant.jnlp}/waveinterference-smooth.jnlp"/>-->
                 <!--<fileset file="screenshot.gif"/>-->
                 <fileset file="README"/>
