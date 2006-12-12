@@ -1,5 +1,5 @@
 1.03 (12-12-2006)
-Posted on main site as 1.03
+Same as 1.02.27 but named 1.03
 
 1.02.27 (12-11-2006)
 Bugfix: The performance degrades significantly after 10 minutes or so.
