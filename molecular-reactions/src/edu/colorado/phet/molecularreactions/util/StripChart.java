@@ -239,6 +239,10 @@ public class StripChart implements Resetable {
         setMinX( 0 );
     }
 
+    public boolean isRecording() {
+        return recording;
+    }
+
     //--------------------------------------------------------------------------------------------------
     // Events and listeners
     //--------------------------------------------------------------------------------------------------

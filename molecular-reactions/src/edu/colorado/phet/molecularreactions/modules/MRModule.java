@@ -22,6 +22,7 @@ import edu.colorado.phet.molecularreactions.view.SpatialView;
 import edu.colorado.phet.molecularreactions.view.energy.EnergyView;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
@@ -47,12 +48,11 @@ public class MRModule extends Module {
 
 
     /**
-     *
      * @param name          The title of the module
      * @param chartPaneSize The size of the upper pane of the energy view
      */
     public MRModule( String name, Dimension chartPaneSize ) {
-        super( name, new VariableConstantTickClock( new SwingClock( 1000 / MRConfig.CLOCK_FPS, 
+        super( name, new VariableConstantTickClock( new SwingClock( 1000 / MRConfig.CLOCK_FPS,
                                                                     MRConfig.RUNNING_DT ),
                                                     MRConfig.RUNNING_DT ) );
         chartPaneHeight = chartPaneSize.height;
@@ -93,22 +93,27 @@ public class MRModule extends Module {
         // being single stepped.
         getClock().addClockListener( new ClockAdapter() {
             public void clockStarted( ClockEvent clockEvent ) {
-                ((VariableConstantTickClock)getClock()).setDt( MRConfig.RUNNING_DT );
+                ( (VariableConstantTickClock)getClock() ).setDt( MRConfig.RUNNING_DT );
             }
 
             public void clockPaused( ClockEvent clockEvent ) {
-                ((VariableConstantTickClock)getClock()).setDt( MRConfig.STEPPING_DT );
+                ( (VariableConstantTickClock)getClock() ).setDt( MRConfig.STEPPING_DT );
             }
-        });
+        } );
     }
 
     private void createEnergyView( int width, Dimension chartPaneSize ) {
+        PNode upperPaneContents = null;
         if( energyView != null ) {
+            upperPaneContents = energyView.getUpperPaneContents();
             canvas.removeWorldChild( energyView );
         }
         energyView = new EnergyView( this, width, chartPaneSize );
         energyView.setOffset( simulationPaneInsets.left + spatialView.getFullBounds().getWidth() + simulationPaneInsets.left,
                               simulationPaneInsets.top );
+        if( upperPaneContents != null ) {
+            energyView.addToUpperPane( upperPaneContents );
+        }
         canvas.addWorldChild( energyView );
     }
 
@@ -118,7 +123,7 @@ public class MRModule extends Module {
         energyView.reset();
         getClock().start();
     }
-    
+
     protected SpatialView getSpatialView() {
         return spatialView;
     }
@@ -150,8 +155,11 @@ public class MRModule extends Module {
      */
     protected void updateCanvasLayout() {
 
+        if( true ) {
+            return;
+        }
         Dimension worldSize = getWorldSize( canvas );
-        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
+        if( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, skip layout
             return;
         }
@@ -167,6 +175,7 @@ public class MRModule extends Module {
     public static Dimension getWorldSize( PhetPCanvas canvas ) {
         Dimension2D dim = new PDimension( canvas.getWidth(), canvas.getHeight() );
         canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
-        Dimension worldSize = new Dimension( (int) dim.getWidth(), (int) dim.getHeight() );
+        Dimension worldSize = new Dimension( (int)dim.getWidth(), (int)dim.getHeight() );
         return worldSize;
-    }}
+    }
+}

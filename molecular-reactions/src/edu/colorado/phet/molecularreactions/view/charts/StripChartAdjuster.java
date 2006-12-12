@@ -32,9 +32,7 @@ public class StripChartAdjuster implements AdjustmentListener {
     }
 
     public void adjustmentValueChanged( AdjustmentEvent e ) {
-        System.out.println( "StripChartAdjuster.adjustmentValueChanged" );
         int value = Math.max( e.getValue(), 0 );
         stripChart.setMinX( value );
-        System.out.println( "value = " + value );
     }
 }

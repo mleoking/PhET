@@ -30,16 +30,15 @@ import java.awt.event.*;
 /**
  * StripChartDialog
  * <p/>
- * A dialog that holds a MolecularPopulationsStripChart and a
+ * A PNode that holds a MolecularPopulationsStripChart and a
  * couple of controls to manage it.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class StripChartNode extends PNode implements Resetable {
+public class StripChartNode extends PNode implements Resetable, Rescaleable {
     private MoleculePopulationsStripChart stripChart;
     private IClock clock;
-    private boolean recording;
 
     public StripChartNode( MRModule module, Dimension size ) {
         PhetPCanvas stripChartCanvas = new PhetPCanvas();
@@ -47,7 +46,6 @@ public class StripChartNode extends PNode implements Resetable {
         this.clock = module.getClock();
         final double xAxisRange = MRConfig.STRIP_CHART_VISIBLE_TIME_RANGE;
         Insets scrollBarInsets = new Insets( 3, 50, 3, 10 );
-
 
         int numBufferedDataPoints = MRConfig.STRIP_CHART_BUFFER_SIZE;
         stripChart = new MoleculePopulationsStripChart( module.getMRModel(),
@@ -128,21 +126,23 @@ public class StripChartNode extends PNode implements Resetable {
      */
     public void setRecording( boolean recording ) {
 
-        if( this.recording != recording ) {
+        // Only do the following if the chart isn't already recording.
+        if( stripChart.isRecording() != recording ) {
             if( recording ) {
                 stripChart.startRecording( clock.getSimulationTime() );
-                stripChart.rescale();
             }
             else {
                 stripChart.stopRecording();
             }
-            this.recording = recording;
         }
     }
 
     public void reset() {
         stripChart.reset();
-//        stripChart.startRecording( clock.getSimulationTime() );
         repaint();
+    }
+
+    public void rescale() {
+        stripChart.rescale();
     }
 }

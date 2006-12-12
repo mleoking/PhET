@@ -93,7 +93,8 @@ public class MoleculePopulationsBarChart extends BarChart implements Rescaleable
         maxCnt = Math.max( maxCnt, counterC.getCnt() );
 
         // Make vertical scale 1.5x the max count
-        setYRange( 0, (int)(maxCnt * 1.5 ));
+        double min = MRConfig.STRIP_CHART_MIN_RANGE_Y * 1.5;
+        setYRange( 0, (int)Math.max(min, (maxCnt * 1.5 )));
     }
 
     /**

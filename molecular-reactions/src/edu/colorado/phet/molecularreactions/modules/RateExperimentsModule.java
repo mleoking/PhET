@@ -28,10 +28,6 @@ public class RateExperimentsModule extends ComplexModule {
      */
     public RateExperimentsModule() {
         super( SimStrings.get( "Module.RateExperimentsModuleTitle" ) );
-
-        // We want to make sure the strip chart is cleared and not running when we start up
-        setStripChartVisible( true );
-        resetStripChart();
     }
 
     protected MRControlPanel createControlPanel() {
@@ -52,6 +48,10 @@ public class RateExperimentsModule extends ComplexModule {
         }
     }
 
+    public void resetStripChart() {
+        super.resetStripChart();
+        setFirstTimeStripChartVisible( true );
+    }
 
     public void reset() {
         super.reset();
