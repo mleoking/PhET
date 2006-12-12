@@ -11,10 +11,12 @@
 
 package edu.colorado.phet.hydrogenatom.view.atom;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,7 +24,6 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.SchrodingerModel;
 import edu.colorado.phet.hydrogenatom.util.ColorUtils;
-import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.piccolo.nodes.ArrowNode;
 import edu.umd.cs.piccolo.PNode;
@@ -40,20 +41,27 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observer {
     
     //----------------------------------------------------------------------------
+    // Debug
+    //----------------------------------------------------------------------------
+    
+    // Strokes the bounds of each cell in the grid
+    private static final boolean DEBUG_CELL_BOUNDS = true;
+    
+    //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    // 3D grid size
-    private static final int NUMBER_OF_HORIZONTAL_CELLS = 10;
-    private static final int NUMBER_OF_VERTICAL_CELLS = 10;
-    private static final int NUMBER_OF_DEPTH_CELLS = 10;
+    // 3D grid resolution
+    private static final int NUMBER_OF_HORIZONTAL_CELLS = 20;
+    private static final int NUMBER_OF_VERTICAL_CELLS = NUMBER_OF_HORIZONTAL_CELLS;
+    private static final int NUMBER_OF_DEPTH_CELLS = NUMBER_OF_HORIZONTAL_CELLS;
     
     // 3D cell size
     private final static double CELL_WIDTH = HAConstants.ANIMATION_BOX_SIZE.getWidth() / NUMBER_OF_HORIZONTAL_CELLS;
     private final static double CELL_HEIGHT = HAConstants.ANIMATION_BOX_SIZE.getHeight() / NUMBER_OF_VERTICAL_CELLS;
     private final static double CELL_DEPTH = HAConstants.ANIMATION_BOX_SIZE.getHeight() / NUMBER_OF_DEPTH_CELLS;
     
-    // colors
+    // colors used to represent probability density
     private static final Color MAX_COLOR = ElectronNode.getColor();
     private static final Color MIN_COLOR = Color.BLACK;
         
@@ -64,10 +72,12 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     // Instance data
     //----------------------------------------------------------------------------
     
+    // the atom that this node is representing
     private SchrodingerModel _atom;
-    
+    // the tom is represented as a 2D grid of cells, [row][column]
     private PPath[][] _cellNodes;
-    private double[][] _waveFunctionSums;
+    // sum of the probability densities for each cell's y (depth) values, [row][column]
+    private double[][] _probabilityDensitySums;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -93,14 +103,14 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             axesNode.setOffset( xOffset, yOffset );
         }
         
-        // Create a 2D grid (in row major order) that covers the animation box
-        PNode gridParentNode = new PNode();
-        gridParentNode.setPickable( false );
-        gridParentNode.setChildrenPickable( false );
-        addChild( gridParentNode );
+        // Create a 2D grid of cells (in row-major order) that covers the animation box
+        PNode gridNode = new PNode();
+        gridNode.setPickable( false );
+        gridNode.setChildrenPickable( false );
+        addChild( gridNode );
         {
             _cellNodes = new PPath[NUMBER_OF_HORIZONTAL_CELLS][NUMBER_OF_VERTICAL_CELLS];
-            _waveFunctionSums = new double[ NUMBER_OF_VERTICAL_CELLS ][NUMBER_OF_HORIZONTAL_CELLS ];
+            _probabilityDensitySums = new double[ NUMBER_OF_VERTICAL_CELLS ][NUMBER_OF_HORIZONTAL_CELLS ];
             
             double cellX = 0;
             double cellY = 0;
@@ -108,17 +118,26 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
                 cellY = row * CELL_HEIGHT;
                 for ( int column = 0; column < NUMBER_OF_HORIZONTAL_CELLS; column++ ) {
                     cellX = column * CELL_WIDTH;
-                    PPath gridNode = new PPath();
-                    gridNode.setPickable( false );
-                    gridNode.setPathTo( new Rectangle2D.Double( cellX, cellY, CELL_WIDTH, CELL_HEIGHT ) );
-                    gridNode.setStroke( null );
-                    _cellNodes[row][column] = gridNode;
-                    gridParentNode.addChild( gridNode );
+                    PPath cellNode = new PPath();
+                    cellNode.setPickable( false );
+                    cellNode.setPathTo( new Rectangle2D.Double( cellX, cellY, CELL_WIDTH, CELL_HEIGHT ) );
+                    cellNode.setStroke( null );
+                    _cellNodes[row][column] = cellNode;
+                    gridNode.addChild( cellNode );
+                    
+                    if ( DEBUG_CELL_BOUNDS ) {
+                        cellNode.setStroke( new BasicStroke(1f) );
+                        cellNode.setStrokePaint( Color.RED );
+                    }
                 }
             }
         }
         
-        setOffset( ModelViewTransform.transform( _atom.getPosition() ) );
+        /* 
+         * This view ignores the atom's position
+         * and centers atom (and the grid) in the animation box.
+         */
+        setOffset( 0, 0 );
         
         update( _atom, AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE );
     }
@@ -127,9 +146,14 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     // Rendering
     //----------------------------------------------------------------------------
     
+    /*
+     * Handles a change in the state of the atom's electron.
+     * Computes the probability density of each cell in the grid,
+     * and maps the third dimension (y, depth) to color brightness.  
+     */
     public void handleStateChange() {
         
-        System.out.println( "SchrodingerNode.handleStateChange" );//XXX
+//        System.out.println( "SchrodingerNode.handleStateChange" );//XXX
         
         /* 
          * Compute the wave function for each cell in the 3D grid
@@ -143,16 +167,17 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
                 double sum = 0;
                 for ( int depth = 0; depth < NUMBER_OF_DEPTH_CELLS; depth++ ) {
                     double y = ( depth * CELL_DEPTH + ( CELL_DEPTH / 2 ) ) - ( CELL_HEIGHT * NUMBER_OF_DEPTH_CELLS / 2 ); // coordinate at center of cell
-                    double w = _atom.getProbabilityDensity( x, y, z );
-                    sum += w;
+                    double pd = _atom.getProbabilityDensity( x, y, z );
+//                    System.out.println( "w(" + x + "," + y + "," + z + ")=" + w );//XXX
+                    sum += pd;
                 }
-                _waveFunctionSums[ row ][ column ] = sum;
+                _probabilityDensitySums[ row ][ column ] = sum;
                 if ( sum > maxSum ) {
                     maxSum = sum;
                 }
             }
         }
-        System.out.println( "SchrodingerNode maxSum=" + maxSum );//XXX
+//        System.out.println( "SchrodingerNode.maxSum=" + maxSum );//XXX
         
         /*
          * Normalize the wave function sum for each cell, 
@@ -161,8 +186,11 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
          */ 
         for ( int row = 0; row < NUMBER_OF_VERTICAL_CELLS; row++ ) {
             for ( int column = 0; column < NUMBER_OF_HORIZONTAL_CELLS; column++ ) {
-                double brightness = _waveFunctionSums[ row ][ column ] / maxSum;
-                System.out.println( "row=" + row + " col=" + column + " sum=" + _waveFunctionSums[ row ][ column ] + " brightness=" + brightness );//XXX
+                double brightness = 0;
+                if ( maxSum > 0 ) { 
+                    brightness = _probabilityDensitySums[ row ][ column ] / maxSum;
+                }
+//                System.out.println( "row=" + row + " col=" + column + " pdSum=" + _probabilityDensitySums[ row ][ column ] + " brightness=" + brightness );//XXX
                 Color color = ColorUtils.interpolateRBGA( MIN_COLOR, MAX_COLOR, brightness );
                 _cellNodes[ row ][ column ].setPaint( color );
             }
@@ -193,6 +221,9 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     // Axes node
     //----------------------------------------------------------------------------
     
+    /**
+     * Axes2DNode draws a pair of 2D axes.
+     */
     private static class Axes2DNode extends PNode {
         
         private static final double AXIS_LENGTH = 100;
