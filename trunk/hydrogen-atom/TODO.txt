@@ -5,10 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- what is 'd' in wave function's Legendre Polynomial ?
+- calculate prob density for 1/8 of Schrodinger cube (positive x,y,z values)
 - how to apply rule A to calculation of l ?
 - how to apply rule B to calculation of m ?
-- implement Schrodinger visual representation
+- debug Schrodinger wavefunction code
+- debug Schrodinger visual representation
 
 MEDIUM PRIORITY:
 - add "show traces" feature for alpha particles (need to interpolate curve between points)
