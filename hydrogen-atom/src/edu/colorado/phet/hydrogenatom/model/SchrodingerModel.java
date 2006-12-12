@@ -159,7 +159,7 @@ public class SchrodingerModel extends DeBroglieModel {
      * Calculates the wave function.
      */
     private static double getWaveFunction( int n, int l, int m, double r, double cosTheta ) {
-        return getLaguerrePolynomial( n, l, r ) * getLegendrePolynomial( l, m, cosTheta );
+        return getLaguerrePolynomial( n, l, r ) * getAssociatedLegendrePolynomial( l, m, cosTheta );
     }
     
     /*
@@ -179,9 +179,9 @@ public class SchrodingerModel extends DeBroglieModel {
     }
     
     /*
-     * Calculates the Legendre Polynomial.
+     * Calculates the Associated Legendre Polynomial.
      */
-    private static double getLegendrePolynomial( int l, int m, double cosTheta ) {
+    private static double getAssociatedLegendrePolynomial( int l, int m, double cosTheta ) {
         final double t1 = 1.0 / ( gamma( -l ) * gamma( l + 1 ) );
         final double t2 = Math.pow( ( ( 1 + cosTheta ) / ( 1 - cosTheta ) ), ( 0.5 * m ) );
         double sum = 0;
