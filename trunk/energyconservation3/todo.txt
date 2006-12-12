@@ -18,6 +18,8 @@ If you zoom out, then change locale, the background refits to the zoomed-out scr
 
 Running multiple tests (in sequence, not in parallel) has performance problems.
 
+Zoom in/out buttons are backwards for the energy vs position plot.
+
 #################################################################
 Low Priority or Deprecated
 #######################################
