@@ -605,4 +605,24 @@ public class MathUtil {
         proj = proj.scale( v1.dot(proj));
         return proj;
     }
+    
+    /**
+     * Factorial
+     * 
+     * @param n
+     * @return n!
+     * @throws IllegalArgumentException if n < 0
+     */
+    public static int factorial( final int n ) {
+        if( n < 0 ) {
+            throw new IllegalArgumentException( "factorial is undefined for negative integers: " + n );
+        }
+        int nFactorial = 1; // 0!=1, 1!=1
+        if( n > 1 ) {
+            for( int i = n; i > 1; i-- ) {
+                nFactorial *= i;
+            }
+        }
+        return nFactorial;
+    }
 }
