@@ -25,8 +25,7 @@ import org.jfree.chart.ChartPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 /**
  * StripChartDialog
@@ -57,7 +56,7 @@ public class StripChartNode extends PNode implements Resetable {
                                                         MRConfig.STRIP_CHART_MIN_RANGE_Y,
                                                         1,
                                                         numBufferedDataPoints );
-        ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
+        final ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
         chartPanel.setBackground( MRConfig.MOLECULE_PANE_BACKGROUND );
 
         // Create a scrollbar
@@ -66,7 +65,7 @@ public class StripChartNode extends PNode implements Resetable {
 
         // Set sizes and locations of the chart and the scrollbar
         scrollBar.setPreferredSize( new Dimension( (int)( size.getWidth() - scrollBarInsets.left - scrollBarInsets.right ), 15 ) );
-        PSwing scrollBarNode = new PSwing( stripChartCanvas, scrollBar );
+        final PSwing scrollBarNode = new PSwing( stripChartCanvas, scrollBar );
         scrollBarNode.setPaint( new Color( 0, 0, 0, 0 ) );
         scrollBarNode.setOffset( scrollBarInsets.left,
                                  size.getHeight() - scrollBarNode.getFullBounds().getHeight() - scrollBarInsets.bottom );
@@ -74,8 +73,14 @@ public class StripChartNode extends PNode implements Resetable {
         chartPanel.setPreferredSize( new Dimension( size.width,
                                                     size.height - (int)scrollBarNode.getFullBounds().getHeight() - scrollBarInsets.bottom - scrollBarInsets.top ) );
 
-        PNode stripChartNode = new PSwing( stripChartCanvas, chartPanel );
+        final PNode stripChartNode = new PSwing( stripChartCanvas, chartPanel );
         stripChartCanvas.addScreenChild( stripChartNode );
+        scrollBar.addAdjustmentListener( new AdjustmentListener() {
+            public void adjustmentValueChanged( AdjustmentEvent e ) {
+                scrollBarNode.repaint();
+                stripChartNode.repaint();
+            }
+        } );
 
         // Add a rescale button
         JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale" ) );
@@ -104,10 +109,12 @@ public class StripChartNode extends PNode implements Resetable {
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockStarted( ClockEvent clockEvent ) {
                 scrollBar.setEnabled( false );
+                scrollBarNode.repaint();
             }
 
             public void clockPaused( ClockEvent clockEvent ) {
                 scrollBar.setEnabled( true );
+                scrollBarNode.repaint();
             }
         } );
         scrollBar.setEnabled( !module.getClock().isRunning() );
