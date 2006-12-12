@@ -20,6 +20,39 @@ Running multiple tests (in sequence, not in parallel) has performance problems.
 
 Zoom in/out buttons are backwards for the energy vs position plot.
 
+- when you zoom out grid does not cover entire area.
+
+- when you are recording and make changes to the PE definition line, 
+and then playback... playback does not capture those changes but the 
+graph shows those changes in PE.
+
+- when you do have negative PE b/c you change the PE def line ... the 
+zoom out does not scale itself to have this negative PE on scale.
+
+- When resetting after zooming out, and adding a grid: (see screen shot)
+             Grid still, pie chart still on, mountains not redrawn correctly. (Mountains redrawing incorrectly is NOT reproducible).
+What do we want reset to do? (Reset all?)
+
+- for energy vs position ... same comment as above for dealing with 
+changes in PE def line ... cannot get negative potentials to be on scale.
+
+- In space, when I set him down on the track he starts moving, but 
+when I let go of him and he's not on a track he stays put? Some how 
+he ends up with a little bit of velocity when i let go of the mouse 
+on the track. (he always wants to go to the left and interestingly he 
+will stop when he gets to the end of the track).
+
+- In space he sometimes forgets that the thruster is on... see 
+screenshot.  (Here he was hardly moving, no response to thruster even 
+though visible).
+
+- Recording path ... got in mode where BOGGED down even though 
+cleared all points and cleared graph. It wasn't actually clearing 
+something. Eventually froze.
+
+- Another thing I was wondering was if the dots had a fixed time 
+spacing, and if so what was it.
+
 #################################################################
 Low Priority or Deprecated
 #######################################
