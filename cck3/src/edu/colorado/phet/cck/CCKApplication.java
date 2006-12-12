@@ -39,6 +39,7 @@ public class CCKApplication extends PiccoloPhetApplication {
     public static final String localizedStringsPath = "localization/CCKStrings";
     private CCKPhetGraphicModuleAdapter phetGraphicsCCKModule;
     private CCKPiccoloModule cckPiccoloModule;
+    private static String AC_OPTION = "-dynamics";
 
     public CCKApplication( String[] args ) throws IOException {
         super( args, SimStrings.get( "CCKApplication.title" ) + getSubTitle( args ),
@@ -91,7 +92,7 @@ public class CCKApplication extends PiccoloPhetApplication {
     }
 
     public static String getSubTitle( String[] args ) {
-        return Arrays.asList( args ).contains( "-dynamics" ) ? ": DC + AC" : ": DC Only";
+        return ": " + ( Arrays.asList( args ).contains( AC_OPTION ) ? "DC & AC" : "DC Only" );
     }
 
     public void startApplication() {
