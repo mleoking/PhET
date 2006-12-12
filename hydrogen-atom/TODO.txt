@@ -43,6 +43,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/11/06) - first pass at Schrodinger view, throws exceptions
 (12/11/06) - first pass at Schrodinger model, essential information missing or incorrect in design doc
 (12/8/06) - handle AlphaParticle orientation in RutherfordScattering and AlphaParticleNode, disable in node
 (12/8/06) - handle Photon orientation in PhotonNode
