@@ -35,13 +35,19 @@ public class PublishingModel extends BaseModel {
     public static interface ModelListener extends EventListener {
         void modelElementAdded( ModelElement element);
         void modelElementRemoved( ModelElement element);
-        void endOfTimeStep( PublishingModel model );
+
+        /**
+         * Called at the end of every time step
+         * @param model
+         * @param event
+         */
+        void endOfTimeStep( PublishingModel model, ClockEvent event );
     }
 
     public static class ModelListenerAdapter implements ModelListener {
         public void modelElementAdded( ModelElement element ) {}
         public void modelElementRemoved( ModelElement element ) {}
-        public void endOfTimeStep( PublishingModel model ) {}
+        public void endOfTimeStep( PublishingModel model, ClockEvent event ) {}
     }
 
     private EventChannel eventChannel = new EventChannel( ModelListener.class );
@@ -67,6 +73,7 @@ public class PublishingModel extends BaseModel {
 
         public void clockTicked( ClockEvent clockEvent ) {
             model.stepInTime( clockEvent.getSimulationTimeChange() );
+            model.modelListenerProxy.endOfTimeStep( model, clockEvent );
         }
     }
 
