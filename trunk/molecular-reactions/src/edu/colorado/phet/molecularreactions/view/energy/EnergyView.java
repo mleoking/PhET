@@ -25,8 +25,14 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+
+import sun.plugin.panel.ActivatorPanel;
 
 /**
  * EnergyView
@@ -126,6 +132,18 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         upperPane.setStroke( null );
         upperPane.setVisible( false );
         addChild( upperPane );
+
+//        upperPane.addPropertyChangeListener( new PropertyChangeListener() {
+//
+//            public void propertyChange( PropertyChangeEvent evt ) {
+//                System.out.println( "upperPane = " + upperPane );
+//            }
+//        });
+//        module.getSimulationPanel().addComponentListener( new ComponentAdapter() {
+//            public void componentResized( ComponentEvent e ) {
+//                System.out.println( "upperPane = " + upperPane );
+//            }
+//        } );
 
         // The graphic that shows the reaction mechanics. It appears below the profile pane.
         PPath legendNode = new PPath( new Rectangle2D.Double( 0, 0,
@@ -503,6 +521,10 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
     public void setProfileManipulable( boolean manipulable ) {
         energyProfileGraphic.setManipulable( manipulable );
+    }
+
+    public PNode getUpperPaneContents() {
+        return upperPane.getChild( 0 );
     }
 
     //--------------------------------------------------------------------------------------------------

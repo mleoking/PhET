@@ -40,6 +40,7 @@ public class ComplexModule extends MRModule {
     private MoleculePopulationsBarChartNode barChartNode;
     private MoleculePopulationsPieChartNode pieChart;
     public StripChartNode stripChartNode;
+    private boolean firstTimeStripChartVisible = true;
 
 
     /**
@@ -58,6 +59,7 @@ public class ComplexModule extends MRModule {
 
         // Create the strip chart
         stripChartNode = new StripChartNode( this, MRConfig.CHART_PANE_SIZE );
+        setStripChartRecording( true );
 
         // Disable marking of the selected molecule and its nearest neighbor
         SimpleMoleculeGraphic.setMarkSelectedMolecule( true );
@@ -93,6 +95,8 @@ public class ComplexModule extends MRModule {
         setInitialConditions();
         controlPanel.reset();
         pumpGraphic.reset();
+        resetStripChart();
+        setStripChartRecording( true );
     }
 
     private void setInitialConditions() {
@@ -133,12 +137,26 @@ public class ComplexModule extends MRModule {
     }
 
     /**
+     * Sets the flag that determines whether the strip chart will be rescaled the next time
+     * it's made visible.
+     *
+     * @param firstTimeStripChartVisible
+     */
+    protected void setFirstTimeStripChartVisible( boolean firstTimeStripChartVisible ) {
+        this.firstTimeStripChartVisible = firstTimeStripChartVisible;
+    }
+
+    /**
      * Set visibility of the strip chart
      *
      * @param visible
      */
     public void setStripChartVisible( boolean visible ) {
         if( visible ) {
+            if( firstTimeStripChartVisible ) {
+                stripChartNode.rescale();
+                firstTimeStripChartVisible = false;
+            }
             getEnergyView().addToUpperPane( stripChartNode );
         }
         else if( stripChartNode != null ) {
