@@ -16,11 +16,7 @@ If you zoom out, then change locale, the background refits to the zoomed-out scr
         1. The house on earth becomes huge.
         2. Performance degrades on zoom in/out.
 
-Out of memory error after running 10+minutes.
-
 Running multiple tests (in sequence, not in parallel) has performance problems.
-
-The bar graph doesn't have a zoom, should there be one?
 
 #################################################################
 Low Priority or Deprecated
