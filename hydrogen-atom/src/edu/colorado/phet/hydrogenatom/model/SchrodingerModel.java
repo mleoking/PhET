@@ -24,13 +24,13 @@ public class SchrodingerModel extends DeBroglieModel {
     //----------------------------------------------------------------------------
     
     private static final double EULER_MASCHERONI_CONSTANT = 0.57721566490153286060;
-    
+
     // Limit for the Associated Legendre Polynomial, which contains a sum to infinity.
     private static final int LEGENDRE_POLYNOMIAL_LIMIT = 100;
     
     // Limit for the Gamma Function, which contains a product to infinity.
     private static final int GAMMA_FUNCTION_LIMIT = 100;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -87,10 +87,10 @@ public class SchrodingerModel extends DeBroglieModel {
     public double getProbabilityDensity( double x, double y, double z ) {
         // convert to Polar coordinates
         double r = Math.sqrt( ( x * x ) + ( y * y ) + ( z * z ) );
-        double theta = Math.cos( z / r );
+        double cosTheta = Math.abs( z ) / r;
         // calculate wave function
         int n = getElectronState();
-        double w = getWaveFunction( n, _l, _m, r, theta );
+        double w = getWaveFunction( n, _l, _m, r, cosTheta );
         // square the wave function
         return ( w * w );
     }
@@ -158,56 +158,66 @@ public class SchrodingerModel extends DeBroglieModel {
     /*
      * Calculates the wave function.
      */
-    private static double getWaveFunction( int n, int l, int m, double r, double theta ) {
-        return getLaguerrePolynomial( n, l, r ) * getLegendrePolynomial( l, m, theta );
+    private static double getWaveFunction( int n, int l, int m, double r, double cosTheta ) {
+        return getLaguerrePolynomial( n, l, r ) * getLegendrePolynomial( l, m, cosTheta );
     }
     
     /*
-     * Calculates the wave function's Laguerre Polynomial.
+     * Calculates the Laguerre Polynomial.
      */
     private static double getLaguerrePolynomial( int n, int l, double r ) {
         final double a = BohrModel.getOrbitRadius( n ) / ( n * n );
         final double multiplier = Math.pow( r, l ) * Math.exp( -r / ( n * a ) );
-        double b = 2 * Math.pow( ( n * a ), ( -1.5 ) ); // b0
+        double b = 2.0 * Math.pow( ( n * a ), ( -1.5 ) ); // b0
         double sum = 0;
         final int limit = n - l - 1;
-        for ( int j = 0; j <= limit; j++ ) {
-            b = ( 2 / ( n * a ) ) * ( ( j + l + n ) / ( j * ( j + ( 2 * l ) + 1 ) ) ) * b;
+        for ( int j = 1; j <= limit; j++ ) {
+            b = ( 2.0 / ( n * a ) ) * ( ( j + l + n ) / ( j * ( j + ( 2.0 * l ) + 1.0 ) ) ) * b;
             sum += ( b * Math.pow( r, j ) );
         }
         return ( multiplier * sum );
     }
     
     /*
-     * Calculates the wave function's Legendre Polynomial.
+     * Calculates the Legendre Polynomial.
      */
-    private static double getLegendrePolynomial( int l, int m, double theta ) {
-        final double cosTheta = Math.cos( theta );
-        final double t1 = 1 / ( getGammaFunction( -l ) * getGammaFunction( l + 1 ) );
+    private static double getLegendrePolynomial( int l, int m, double cosTheta ) {
+        final double t1 = 1.0 / ( gamma( -l ) * gamma( l + 1 ) );
         final double t2 = Math.pow( ( ( 1 + cosTheta ) / ( 1 - cosTheta ) ), ( 0.5 * m ) );
         double sum = 0;
         for ( int n = 0; n <= LEGENDRE_POLYNOMIAL_LIMIT; n++ ) {
-            double t3 = ( getGammaFunction( n -l ) * getGammaFunction( n + l + 1 ) ) / ( getGammaFunction( n + 1 - m ) * factorial( n ) );
-            double t4 = Math.pow( ( 1 - cosTheta ) / 2, n );
+            double t3 = ( gamma( n -l ) * gamma( n + l + 1 ) ) / (double)( gamma( n + 1 - m ) * factorial( n ) );
+            double t4 = Math.pow( ( 1.0 - cosTheta ) / 2.0, n );
             sum += ( t3 * t4 );
         }
         return ( t1 * t2 * sum );
     }
     
     /*
-     * Calculates the wave function's Gamma Function.
+     * Gamma function, works only if x is an integer.
      */
-    private static double getGammaFunction( double cosTheta ) {
-        final double multiplier = ( Math.exp( -EULER_MASCHERONI_CONSTANT * cosTheta ) );
+    private static int gamma( int x ) {
+        int gamma = 1;
+        if ( x > 0 ) {
+            gamma = factorial( x - 1 );
+        }
+        return gamma;
+    }
+    
+    /*
+     * Gamma function, works for non-integer values.
+     */
+    private static double gamma( double x ) {
+        final double multiplier = ( Math.exp( -EULER_MASCHERONI_CONSTANT * x ) );
         double product = 1;
         for ( int n = 1; n <= GAMMA_FUNCTION_LIMIT; n++ ) {
-            product *= Math.pow( 1 + ( cosTheta / n ), - 1 ) * Math.exp( cosTheta / n );
+            product *= Math.pow( 1 + ( x / n ), - 1 ) * Math.exp( x / n );
         }
         return ( multiplier * product );
     }
     
     /*
-     * Calculates n!
+     * Factorial method.
      */
     private static int factorial( int n ) {
         if ( n < 0 ) {
