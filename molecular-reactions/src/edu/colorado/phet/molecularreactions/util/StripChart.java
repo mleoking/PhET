@@ -170,8 +170,8 @@ public class StripChart implements Resetable {
 
     public void setMinX( double x ) {
         XYPlot plot = (XYPlot)chart.getPlot();
-        double minX = Math.min( x, getMaxTime() - xAxisRange );
-        double maxX = Math.min( x + xAxisRange, getMaxTime() );
+        double minX = Math.max( 0, Math.min( x, getMaxTime() - xAxisRange ));
+        double maxX = Math.max( xAxisRange, Math.min( x + xAxisRange, getMaxTime() ));
         plot.getDomainAxis().setRange( minX, maxX );
     }
 
@@ -236,6 +236,7 @@ public class StripChart implements Resetable {
         for( int seriesNum = 0; seriesNum < series.length; seriesNum++ ) {
             series[seriesNum].clear();
         }
+        setMinX( 0 );
     }
 
     //--------------------------------------------------------------------------------------------------

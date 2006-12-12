@@ -32,6 +32,7 @@ import java.awt.event.ActionListener;
 public class RateExperimentsMRControlPanel extends MRControlPanel {
     private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
     private ChartOptionsPanel optionsPanel;
+    public ExperimentSetupPanel experimentSetupPanel;
 
 
     public RateExperimentsMRControlPanel( final RateExperimentsModule module ) {
@@ -45,7 +46,7 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
                                                          new Insets( 5, 0, 0, 0 ), 0, 0 );
 
         // Controls for setting up and running experiments
-        ExperimentSetupPanel experimentSetupPanel = new ExperimentSetupPanel( module );
+        experimentSetupPanel = new ExperimentSetupPanel( module );
 
         // Controls for adding and removing molecules
         moleculeInstanceControlPanel = new MoleculeInstanceControlPanel( model );
@@ -78,6 +79,7 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
     }
 
     public void reset() {
+        experimentSetupPanel.reset();        
         optionsPanel.reset();
 //        optionsPanel.setDefaultSelection( ChartOptionsPanel.STRIP_CHART_OPTION );
         // This negates the call in setDefaultSelection that will start the strip chart
