@@ -284,6 +284,14 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     }
 
     //--------------------------------------------------------------------------------------------------
+    // Implementation of abstract methods
+    //--------------------------------------------------------------------------------------------------
+
+    protected String getPotentialEnergyLegend() {
+        return SimStrings.get( "PotentialProfilePanel.legend.AlphaParticlePotentialEnergy" );
+    }
+
+    //--------------------------------------------------------------------------------------------------
     // Implementation of PredecayListener
     //--------------------------------------------------------------------------------------------------
 

@@ -117,6 +117,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     private boolean init = false;
     private Rectangle orgBounds;
     private EnergyProfileGraphic.ProfileType profileType;
+    private String potentialEnergyLegend;
     private PhetShapeGraphic backgroundGraphic;
 
     private double width = 800;
@@ -131,9 +132,11 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
      *
      * @param component
      */
-    public EnergyProfilePanelGraphic( Component component, EnergyProfileGraphic.ProfileType profileType ) {
+    public EnergyProfilePanelGraphic( Component component, EnergyProfileGraphic.ProfileType profileType,
+                                      String potentialEnergyLegend) {
         super( component );
         this.profileType = profileType;
+        this.potentialEnergyLegend = potentialEnergyLegend;
         if( profileType == EnergyProfileGraphic.TOTAL_ENERGY ) {
             this.yAxisLabels = totalEnergyyAxisLabels;
         }
@@ -383,8 +386,8 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
             g2.drawLine( insets.left, insets.top, insets.left + 30, insets.top );
             g2.setColor( Color.black );
             g2.setFont( legendFont );
-            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy" ), g2 );
-            g2.drawString( SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy" ),
+            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( potentialEnergyLegend, g2 );
+            g2.drawString( potentialEnergyLegend,
                            insets.left + 30 + insets.left, insets.top + (int)stringBounds.getHeight() / 3 );
         }
 

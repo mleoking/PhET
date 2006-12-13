@@ -51,7 +51,7 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
                                                    GridBagConstraints.CENTER,
                                                    GridBagConstraints.BOTH,
                                                    new Insets( 0, 0, 0, 0 ), 0, 0 );
-        energyProfilePanel = new EnergyProfilePanelGraphic( getApparatusPanel(), profileType );
+        energyProfilePanel = new EnergyProfilePanelGraphic( getApparatusPanel(), profileType, getPotentialEnergyLegend() );
         energyProfilePanel.setVisible( true );
     }
 
@@ -94,4 +94,10 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
         getEnergyProfilePanel().clear();
         this.getModel().removeModelElement( nucleus );
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // Abstract methods
+    //--------------------------------------------------------------------------------------------------
+    abstract protected String getPotentialEnergyLegend();
+
 }

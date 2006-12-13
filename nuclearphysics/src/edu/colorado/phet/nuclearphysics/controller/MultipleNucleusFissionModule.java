@@ -46,6 +46,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     private ExplodingContainmentGraphic explodingContainmentGraphic;
     private List explodingGraphics;
     private FireButton fireButton;
+    public PhetImageGraphic mushroomCloudGraphic;
+    public PhetTextGraphic2 atomicBombTextGraphic;
 
     /**
      * Constructor
@@ -131,6 +133,17 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             ExplodingContainmentGraphic graphic = (ExplodingContainmentGraphic)explodingGraphics.get( i );
             graphic.clearGraphics();
         }
+        if( mushroomCloudGraphic != null ) {
+            getPhysicalPanel().removeGraphic( mushroomCloudGraphic );
+            getPhysicalPanel().repaint( );
+            mushroomCloudGraphic = null;
+        }
+        if( atomicBombTextGraphic != null ) {
+            getPhysicalPanel().removeGraphic( atomicBombTextGraphic );
+            getPhysicalPanel().repaint( );
+            atomicBombTextGraphic = null;
+        }
+
     }
 
     public void start() {
@@ -183,7 +196,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
                 setContainmentEnabled( false );
 
                 // Add a mushroom cloud
-                PhetImageGraphic mushroomCloudGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/mc-10.jpg" );
+                mushroomCloudGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/mc-10.jpg" );
                 getPhysicalPanel().addGraphic( mushroomCloudGraphic );
                 Dimension targetSize = new Dimension( (int)(getApparatusPanel().getSize( ).width / getPhysicalPanel().getScale()),
                                                       (int)(getApparatusPanel().getSize( ).height / getPhysicalPanel().getScale()));
@@ -192,11 +205,11 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
                 // Display a message
                 Font font = new Font( "Lucida sans", Font.ITALIC, 72 );
-                PhetTextGraphic2 textGraphic = new PhetTextGraphic2( getPhysicalPanel(), font, "You have made an atomic bomb", Color.red );
-                getPhysicalPanel().addGraphic( textGraphic );
+                atomicBombTextGraphic = new PhetTextGraphic2( getPhysicalPanel(), font, "You have made an atomic bomb", Color.red );
+                getPhysicalPanel().addGraphic( atomicBombTextGraphic );
                 getApparatusPanel().getFontMetrics( font );
-                int width = getApparatusPanel().getFontMetrics( font ).stringWidth( textGraphic.getText() );
-                textGraphic.setLocation( -width / 2, 0 );
+                int width = getApparatusPanel().getFontMetrics( font ).stringWidth( atomicBombTextGraphic.getText() );
+                atomicBombTextGraphic.setLocation( -width / 2, 0 );
             }
         } );
     }
