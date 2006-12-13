@@ -31,7 +31,7 @@ import java.text.DecimalFormat;
  * Copyright (c) Jun 9, 2004 by Sam Reid
  */
 public abstract class ComponentEditor extends JDialog {
-    private ICCKModule module;
+    protected ICCKModule module;
     protected CircuitComponent circuitComponent;
     private Component parent;
     private Circuit circuit;
@@ -43,7 +43,6 @@ public abstract class ComponentEditor extends JDialog {
                             double min, double max, double startvalue, Circuit circuit ) throws HeadlessException {
         super( getAncestor( parent ), windowTitle, false );
         if( startvalue > max ) {
-
             System.out.println( "StartValue exceeded max: " + startvalue + "/" + max );
             startvalue = max;
         }
@@ -59,8 +58,6 @@ public abstract class ComponentEditor extends JDialog {
         slider = new ModelSlider( name, units, min, max, startvalue, formatter );
         slider.setNumMajorTicks( 5 );
         contentPane = new VerticalLayoutPanel();
-//        contentPane.setLayout( new BorderLayout() );
-//        contentPane.add( slider, BorderLayout.CENTER );
         contentPane.add( slider );
         setContentPane( contentPane );
         slider.addChangeListener( new ChangeListener() {
@@ -73,22 +70,7 @@ public abstract class ComponentEditor extends JDialog {
             public void actionPerformed( ActionEvent e ) {
                 boolean ok = slider.testCommit();
                 if( ok ) {
-                    boolean bo = false;
-//                    InteractiveGraphic ccig = module.getCircuitGraphic().getGraphic( element );
-//                    if( ccig instanceof CircuitComponentInteractiveGraphic ) {
-//                        CircuitComponentInteractiveGraphic cx = (CircuitComponentInteractiveGraphic)ccig;
-//                        CCKMenu menu = cx.getMenu();
-//                        if( menu.isVisiblityRequested() ) {
-//                            bo = true;
-//                        }
-//                    }
-////                    CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)module.getCircuitGraphic().getGraphic( element );
-////                    System.out.println( "ccig.getClass() = " + ccig.getClass() );
-//                    boolean r = module.getCircuitGraphic().isReadoutGraphicsVisible() || bo;
                     setVisible( false );
-//                    if( r ) {
-//                        setReadoutVisible( true );
-//                    }
                 }
             }
         } );
@@ -169,18 +151,15 @@ public abstract class ComponentEditor extends JDialog {
                    SimStrings.get( "ComponentEditor.BatteryVoltageName" ),
                    SimStrings.get( "ComponentEditor.BatteryVoltageUnits" ), 0, 100, element.getVoltageDrop(), circuit );
             if( module.getParameters().hugeRangeOnBatteries() ) {
-
                 final JCheckBox hugeRange = new JCheckBox( SimStrings.get( "ComponentEditor.MoreVoltsCheckBox" ), false );
                 hugeRange.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-//                            System.out.println( "hugeRange.isSelected() = " + hugeRange.isSelected() );
                         setHugeRange( hugeRange.isSelected() );
                     }
                 } );
                 super.contentPane.add( hugeRange );
                 super.pack();
             }
-
         }
 
         private ModelSlider getSlider() {
@@ -206,8 +185,13 @@ public abstract class ComponentEditor extends JDialog {
 
         protected void doChange( double value ) {
             super.circuitComponent.setVoltageDrop( value );
+            super.updateDuringDrag();
         }
 
+    }
+
+    protected void updateDuringDrag() {
+        module.getCCKModel().stepInTime( 1.0 );//todo this is a hack to ensure things keep flowing during a drag operation.
     }
 
     public static class ResistorEditor extends ComponentEditor {
@@ -222,6 +206,7 @@ public abstract class ComponentEditor extends JDialog {
                 value = CCKModel.MIN_RESISTANCE;
             }
             super.circuitComponent.setResistance( value );
+            updateDuringDrag();
         }
 
     }
@@ -238,6 +223,7 @@ public abstract class ComponentEditor extends JDialog {
                 value = CCKModel.MIN_RESISTANCE;
             }
             super.circuitComponent.setResistance( value );
+            updateDuringDrag();
         }
 
     }
@@ -259,6 +245,7 @@ public abstract class ComponentEditor extends JDialog {
 //            super.element.setResistance( value );
 //            System.out.println( "set battery internal resistance= " + value );
             battery.setInternalResistance( value );
+            updateDuringDrag();
         }
     }
 
@@ -278,6 +265,7 @@ public abstract class ComponentEditor extends JDialog {
 
         protected void doChange( double value ) {
             branch.setAmplitude( value );
+            updateDuringDrag();
         }
     }
 }
