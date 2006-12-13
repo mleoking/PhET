@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
-    private ICCKModule module;
+    protected ICCKModule module;
     private Branch branch;
     private JCheckBoxMenuItem setVisibleItem;
 
@@ -205,8 +205,9 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
     }
 
     public static class BulbMenu extends ComponentMenu {
-        CircuitComponent bulb;
+        private Bulb bulb;
         private ComponentEditor.BulbResistanceEditor editor;
+        private JMenuItem flip;
 
         public BulbMenu( final Bulb bulb, final ICCKModule module ) {
             super( bulb, module );
@@ -219,7 +220,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
                 }
             } );
             add( edit );
-            final JMenuItem flip = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.FlipMenuItem" ) );
+            flip = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.FlipMenuItem" ) );
             flip.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     bulb.flip( module.getCircuit() );
@@ -233,23 +234,28 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
                 }
 
                 public void popupMenuWillBecomeVisible( PopupMenuEvent e ) {
-                    if( module.isLifelike() ) {
-                        flip.setEnabled( true );
-                    }
-                    else {
-                        flip.setEnabled( false );
-                    }
-                    if( bulb.isConnectAtRight() ) {
-                        flip.setText( SimStrings.get( "CircuitComponentInteractiveGraphic.LeftConnectMenuItem" ) );
-                    }
-                    else {
-                        flip.setText( SimStrings.get( "CircuitComponentInteractiveGraphic.RightConnectMenuItem" ) );
-                    }
+                    update();
                 }
             } );
             add( flip );
             addShowValueButton();
             addRemoveButton();
+            update();
+        }
+
+        private void update() {
+            if( super.module.isLifelike() ) {
+                flip.setEnabled( true );
+            }
+            else {
+                flip.setEnabled( false );
+            }
+            if( bulb.isConnectAtLeft() ) {
+                flip.setText( SimStrings.get( "CircuitComponentInteractiveGraphic.RightConnectMenuItem" ) );
+            }
+            else {
+                flip.setText( SimStrings.get( "CircuitComponentInteractiveGraphic.LeftConnectMenuItem" ) );
+            }
         }
 
         public void delete() {

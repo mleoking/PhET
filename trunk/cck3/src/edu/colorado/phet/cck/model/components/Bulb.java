@@ -21,7 +21,8 @@ public class Bulb extends CircuitComponent {
     private SimpleObserver so;
     private double width;
     private boolean isSchematic = false;
-    private boolean connectAtRight = true;
+    private boolean connectAtLeft = true;
+
     private static double filamentHeightScale = 1.0;
 
     public Bulb( Point2D start, AbstractVector2D dir,
@@ -164,20 +165,20 @@ public class Bulb extends CircuitComponent {
         return isSchematic;
     }
 
-    public boolean isConnectAtRight() {
-        return connectAtRight;
+    public boolean isConnectAtLeft() {
+        return connectAtLeft;
     }
 
-    public void setConnectAtRightXML( boolean connectAtRight ) {
-        this.connectAtRight = connectAtRight;
+    public void setConnectAtLeftXML( boolean connectAtRight ) {
+        this.connectAtLeft = connectAtRight;
         filament.setConnectAtRight( connectAtRight );
     }
 
     public void flip( Circuit circuit ) {
-        connectAtRight = !connectAtRight;
-        filament.setConnectAtRight( connectAtRight );
+        connectAtLeft = !connectAtLeft;
+        filament.setConnectAtRight( connectAtLeft );
         double sign = -1;
-        if( connectAtRight ) {
+        if( connectAtLeft ) {
             sign = 1;
         }
         double tilt = BulbComponentGraphic.determineTilt();

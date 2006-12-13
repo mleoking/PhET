@@ -20,6 +20,4 @@ public abstract class BranchNode extends PhetPNode {
     public Shape getClipShape( PNode parent ) {
         return null;
     }
-
-    ;
 }

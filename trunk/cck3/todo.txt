@@ -4,13 +4,13 @@
 
 Top taskbar is covered up on windows.
 >>Should I do anything about this?  Code is to maximize to visible screen area (discluding taskbars) for <=768 screen height, 
->>otherwise center at the top of the screen.
+>>otherwise center at the top of the screen, leaving 100 pixels at the bottom.
 
 Fixed: When dragging a junction in a connected circuit, there becomes a gap in the electron flow 2 components away.
 >>My fix has the effect of holding the electrons still while dragging a junction.
 >>I could make them continue to flow with constant density with a bit more work, but not sure it's worth it.
 
-Save might be broken in version 9.
+Webstart Save might be broken in version 9.
 
 Solution for "Fixed: When adjusting a voltage or resistance continuously with a slider, the circuit doesn't update until stopped dragging."
 includes a non-elegant hack; not sure of an elegant way to solve this problem.
