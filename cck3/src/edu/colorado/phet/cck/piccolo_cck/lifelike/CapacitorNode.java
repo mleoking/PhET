@@ -55,7 +55,7 @@ public class CapacitorNode extends ComponentNode {
         super( model, capacitor, component, module );
         this.model = model;
         this.module = module;
-        circuitInteractionModel = new CircuitInteractionModel( model.getCircuit() );
+        circuitInteractionModel = new CircuitInteractionModel( model );
         this.capacitor = capacitor;
         capacitor.addObserver( capacitorObserver );
         leftPlate = new PlateNode();

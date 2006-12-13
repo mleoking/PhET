@@ -38,7 +38,7 @@ public abstract class ComponentNode extends BranchNode {
         this.model = model;
         this.circuitComponent = circuitComponent;
         this.module = module;
-        this.circuitInteractionModel = new CircuitInteractionModel( model.getCircuit() );
+        this.circuitInteractionModel = new CircuitInteractionModel( model );
 
         highlightNode = new PPath();
         highlightNode.setStrokePaint( Color.yellow );

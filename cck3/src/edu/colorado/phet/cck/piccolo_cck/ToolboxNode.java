@@ -51,7 +51,7 @@ public class ToolboxNode extends PhetPNode {
         this.model = model;
         this.branchNodeFactory = branchNodeFactory;
         this.cckSimulationPanel = cckSimulationPanel;
-        this.circuitInteractionModel = new CircuitInteractionModel( model.getCircuit() );
+        this.circuitInteractionModel = new CircuitInteractionModel( model );
         this.toolboxBounds = new PPath( new Rectangle( 100, 100 ) );
         toolboxBounds.setStroke( new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ) );
         toolboxBounds.setPaint( CCKLookAndFeel.toolboxColor );

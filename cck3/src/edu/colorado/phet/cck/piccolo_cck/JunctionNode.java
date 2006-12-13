@@ -16,7 +16,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -41,7 +40,7 @@ public class JunctionNode extends PhetPNode {
         this.junction = junction;
         this.circuitNode = circuitNode;
         this.component = component;
-        this.circuitInteractionModel = new CircuitInteractionModel( getCircuit() );
+        this.circuitInteractionModel = new CircuitInteractionModel( cckModel );
         shapePNode = new PPath();
         shapePNode.setStroke( shapeStroke );
         shapePNode.setPaint( Color.blue );
@@ -61,14 +60,9 @@ public class JunctionNode extends PhetPNode {
             }
         } );
         shapePNode.setStrokePaint( Color.red );
-//        shapePNode.setPaint( new Color( 0, 0, 0, 0 ) );
-        shapePNode.setPaint( Color.blue );
         addInputEventListener( new PBasicInputEventHandler() {
-
             public void mouseDragged( PInputEvent event ) {
-                Point2D pt = event.getPositionRelativeTo( JunctionNode.this );
-                Point2D target = new Point2D.Double( pt.getX(), pt.getY() );
-                circuitInteractionModel.dragJunction( junction, target );
+                circuitInteractionModel.dragJunction( junction, event.getPositionRelativeTo( JunctionNode.this ) );
             }
 
             public void mousePressed( PInputEvent event ) {
