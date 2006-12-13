@@ -123,7 +123,7 @@ public class BulbComponentGraphic extends CCKPhetGraphic implements IComponentGr
 
     private void updateTransform() {
         double sign = 1;
-        if( !component.isConnectAtRight() ) {
+        if( !component.isConnectAtLeft() ) {
             sign = -1;
         }
         this.affineTransform = createTransform( transform, component, WIDTH, HEIGHT, sign * tilt );

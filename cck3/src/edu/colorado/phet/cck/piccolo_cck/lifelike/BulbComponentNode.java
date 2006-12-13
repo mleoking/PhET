@@ -59,13 +59,11 @@ public class BulbComponentNode extends ComponentNode {
     }
 
     private double getTilt() {
-        double w = bulbNode.getCoverShape().getBounds().getWidth() / 2;
-        double h = bulbNode.getCoverShape().getBounds().getHeight();
-        return -Math.atan2( w, h );
+        double angle = Math.atan2( bulbNode.getCoverShape().getBounds().getWidth() / 2, bulbNode.getCoverShape().getBounds().getHeight() );
+        return bulb.isConnectAtLeft() ? angle + Math.PI / 2 : -angle;
     }
 
     public static double getTiltValue( Bulb bulb ) {
-//        double w = new BulbNode( bulb ).getCoverShape().getBounds().getWidth() / 2;
         double w = new BulbNode( bulb ).getCoverShape().getBounds().getWidth();
         double h = new BulbNode( bulb ).getCoverShape().getBounds().getHeight();
         return -Math.atan2( w, h );
@@ -109,7 +107,7 @@ public class BulbComponentNode extends ComponentNode {
 
     private AffineTransform createTransform() {
         double sign = 1;
-        if( !bulb.isConnectAtRight() ) {
+        if( !bulb.isConnectAtLeft() ) {
             sign = -1;
         }
         double theta = sign * getTilt();

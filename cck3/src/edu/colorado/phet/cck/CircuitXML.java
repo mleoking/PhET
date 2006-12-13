@@ -79,12 +79,7 @@ public class CircuitXML {
             return capacitor;
         }
         else if( type.equals( Battery.class.getName() ) ) {
-//            String resVal = xml.getAttribute( "resistance", Double.NaN + "" );
-//            double resistance = Double.parseDouble( resVal );
-
             double internalResistance = Double.parseDouble( xml.getAttribute( "internalResistance", Double.NaN + "" ) );
-            //            String internalResistanceOnStr = xml.getAttribute( "connectAtRight", "false" );
-            //            boolean internalResistanceOn = internalResistanceOnStr != null && internalResistanceOnStr.equals( new Boolean( true ).toString() );
             Battery batt = new Battery( kl, startJunction, endJunction, length, height, CCKModel.MIN_RESISTANCE, module.isInternalResistanceOn() );
             batt.setInternalResistance( internalResistance );
             String voltVal = xml.getAttribute( "voltage", Double.NaN + "" );
@@ -95,7 +90,6 @@ public class CircuitXML {
         else if( type.equals( Switch.class.getName() ) ) {
             String closedVal = xml.getAttribute( "closed", "false" );
             boolean closed = closedVal != null && closedVal.equals( new Boolean( true ).toString() );
-            //            boolean closed = Boolean.getBoolean( closedVal );
             return new Switch( kl, startJunction, endJunction, closed, length, height );
         }
         else if( type.equals( Bulb.class.getName() ) ) {
@@ -106,9 +100,9 @@ public class CircuitXML {
             String resVal = xml.getAttribute( "resistance", Double.NaN + "" );
             double val = Double.parseDouble( resVal );
             bulb.setResistance( val );
-            String connectAtRightStr = xml.getAttribute( "connectAtRight", "true" );
-            boolean connectAtRight = connectAtRightStr != null && connectAtRightStr.equals( new Boolean( true ).toString() );
-            bulb.setConnectAtRightXML( connectAtRight );
+            String connectAtLeftStr = xml.getAttribute( "connectAtLeft", "true" );
+            boolean connectAtLeft = connectAtLeftStr != null && connectAtLeftStr.equals( new Boolean( true ).toString() );
+            bulb.setConnectAtLeftXML( connectAtLeft );
             return bulb;
         }
         else if( type.equals( SeriesAmmeter.class.getName() ) ) {
@@ -178,7 +172,7 @@ public class CircuitXML {
                 branchElement.setAttribute( "width", bulb.getWidth() + "" );
                 branchElement.setAttribute( "length", branch.getStartJunction().getDistance( branch.getEndJunction() ) + "" );
                 branchElement.setAttribute( "schematic", bulb.isSchematic() + "" );
-                branchElement.setAttribute( "connectAtRight", bulb.isConnectAtRight() + "" );
+                branchElement.setAttribute( "connectAtLeft", bulb.isConnectAtLeft() + "" );
             }
             else if( branch instanceof Switch ) {
                 Switch sw = (Switch)branch;

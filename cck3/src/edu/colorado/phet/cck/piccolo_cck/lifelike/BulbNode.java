@@ -157,7 +157,6 @@ public class BulbNode extends PhetPNode {
     }
 
     private void updateBulbShape() {
-//        System.out.println( "intensity = " + intensity );
         PPath bulbShape = new PhetPPath( this.bulbShape, new BasicStroke( 1.0f / 40.0f ), Color.black );
         if( intensity > 1E-2 ) {
             Color yellow = Color.yellow;
@@ -184,7 +183,6 @@ public class BulbNode extends PhetPNode {
         for( int i = 0; i < brighties.size(); i++ ) {
             PPath pPath = new PPath( (Shape)brighties.get( i ) );
             pPath.setStrokePaint( brightyColor );
-//            pPath.setStroke( new BasicStroke( 0.1f ) );
             pPath.setStroke( brightyStroke );
             addChild( pPath );
         }
@@ -206,9 +204,7 @@ public class BulbNode extends PhetPNode {
         this.intensity = intensity;
 
         Color yellow = Color.yellow;
-//        Color pointColor = new Color( 1, 1, 1.0f, (float)intensity );
         Color backgroundColor = new Color( yellow.getRed() / 255.0f, yellow.getGreen() / 255.0f, yellow.getBlue() / 255.0f, (float)intensity );
-//        Paint paint = new RoundGradientPaint( pin.getX(), pin.getY(), pointColor, rad, backgroundColor );
 
         int maxBrighties = 40;
         int numBrighties = (int)( intensity * maxBrighties );
@@ -255,12 +251,9 @@ public class BulbNode extends PhetPNode {
     }
 
     public Shape getCoverShapeOnFilamentSide() {
-        return new Rectangle2D.Double( conductor.getX(), conductor.getY(), conductor.getWidth() * 0.63, conductor.getHeight() );
+//        return new Rectangle2D.Double( conductor.getX(), conductor.getY(), conductor.getWidth() * 0.63, conductor.getHeight() );
+        return new Rectangle2D.Double( conductor.getX(), conductor.getY(), conductor.getWidth() * 0.85, conductor.getHeight() );
     }
-
-//    public void setHighlightVisible( boolean selected ) {
-//        highlightNode.setVisible( selected );
-//    }
 
     public void delete() {
         bulb.removeObserver( bulbObserver );

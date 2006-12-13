@@ -338,11 +338,11 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
                     else {
                         flip.setEnabled( false );
                     }
-                    if( bulb.isConnectAtRight() ) {
-                        flip.setText( SimStrings.get( "CircuitComponentInteractiveGraphic.LeftConnectMenuItem" ) );
+                    if( bulb.isConnectAtLeft() ) {
+                        flip.setText( SimStrings.get( "CircuitComponentInteractiveGraphic.RightConnectMenuItem" ) );
                     }
                     else {
-                        flip.setText( SimStrings.get( "CircuitComponentInteractiveGraphic.RightConnectMenuItem" ) );
+                        flip.setText( SimStrings.get( "CircuitComponentInteractiveGraphic.LeftConnectMenuItem" ) );
                     }
                 }
             } );
