@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
+import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.common.DynamicPopupMenuHandler;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Circuit;
@@ -43,6 +44,7 @@ public class JunctionNode extends PhetPNode {
         this.circuitInteractionModel = new CircuitInteractionModel( getCircuit() );
         shapePNode = new PPath();
         shapePNode.setStroke( shapeStroke );
+        shapePNode.setPaint( Color.blue );
         highlightPNode = new PPath();
         highlightPNode.setStroke( new BasicStroke( (float)( 3 / 80.0 ) ) );
         highlightPNode.setStrokePaint( Color.yellow );
@@ -59,7 +61,8 @@ public class JunctionNode extends PhetPNode {
             }
         } );
         shapePNode.setStrokePaint( Color.red );
-        shapePNode.setPaint( new Color( 0, 0, 0, 0 ) );
+//        shapePNode.setPaint( new Color( 0, 0, 0, 0 ) );
+        shapePNode.setPaint( Color.blue );
         addInputEventListener( new PBasicInputEventHandler() {
 
             public void mouseDragged( PInputEvent event ) {
@@ -117,6 +120,7 @@ public class JunctionNode extends PhetPNode {
         shapePNode.setPathTo( junction.getShape() );
         shapePNode.setStroke( createStroke( strokeWidthModelCoords * ( isConnected() ? 1.2 : 2 ) ) );
         shapePNode.setStrokePaint( isConnected() ? Color.black : Color.red );
+        shapePNode.setPaint( isConnected() ? CCKLookAndFeel.COPPER : new Color( 0, 0, 0, 0 ) );
 
         highlightPNode.setPathTo( junction.createCircle( CCKModel.JUNCTION_RADIUS * 1.6 ) );
         highlightPNode.setStroke( new BasicStroke( (float)( 3.0 / 80.0 ) ) );
