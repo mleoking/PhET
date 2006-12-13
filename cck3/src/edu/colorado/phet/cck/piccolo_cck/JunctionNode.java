@@ -7,6 +7,7 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
+import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
@@ -114,11 +115,24 @@ public class JunctionNode extends PhetPNode {
         shapePNode.setPathTo( junction.getShape() );
         shapePNode.setStroke( createStroke( strokeWidthModelCoords * ( isConnected() ? 1.2 : 2 ) ) );
         shapePNode.setStrokePaint( isConnected() ? Color.black : Color.red );
-        shapePNode.setPaint( isConnected() ? CCKLookAndFeel.COPPER : new Color( 0, 0, 0, 0 ) );
+        shapePNode.setPaint( isConnectedTo2Wires() ? CCKLookAndFeel.COPPER : new Color( 0, 0, 0, 0 ) );
 
         highlightPNode.setPathTo( junction.createCircle( CCKModel.JUNCTION_RADIUS * 1.6 ) );
         highlightPNode.setStroke( new BasicStroke( (float)( 3.0 / 80.0 ) ) );
         highlightPNode.setVisible( junction.isSelected() );
+    }
+
+    private boolean isConnectedTo2Wires() {
+        if( !isConnected() ) {
+            return false;
+        }
+        Branch[] n = getCircuit().getAdjacentBranches( junction );
+        for( int i = 0; i < n.length; i++ ) {
+            if( !( n[i] instanceof Wire ) ) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private boolean isConnected() {
