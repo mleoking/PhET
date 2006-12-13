@@ -77,6 +77,9 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     private static final String HORIZONTAL_AXIS_LABEL = "x";
     private static final String VERTICAL_AXIS_LABEL = "z";
     
+    // margin between the state display and animation box
+    private static final double STATE_MARGIN = 15;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -108,8 +111,6 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         
         // axes, positioned at lower left
         Axes2DNode axesNode = new Axes2DNode( HORIZONTAL_AXIS_LABEL, VERTICAL_AXIS_LABEL );
-        axesNode.setPickable( false );
-        axesNode.setChildrenPickable( false );
         double xOffset = AXES_MARGIN;
         double yOffset = BOX_HEIGHT - axesNode.getHeight() - AXES_MARGIN;
         axesNode.setOffset( xOffset, yOffset );
@@ -117,6 +118,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         // Electron state display
         if ( DEBUG_SHOW_STATE ) {
             _stateNode = new StateNode();
+            _stateNode.setOffset( STATE_MARGIN, STATE_MARGIN );
         }
 
         // The atom representation
@@ -249,6 +251,8 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         
         public Axes2DNode( String hLabel, String vLabel ) {
             super();
+            setPickable( false );
+            setChildrenPickable( false );
             
             Point2D origin = new Point2D.Double( 0, 0 );
             
@@ -288,7 +292,6 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         private static final Font STATE_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
         private static final Color STATE_COLOR = Color.WHITE;
         private static final String STATE_FORMAT = "(n,l,m)=({0},{1},{2})";
-        private static final double STATE_MARGIN = 15;
         
         /**
          * Constructor.
@@ -296,9 +299,11 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
          */
         public StateNode() {
             super();
+            setPickable( false );
+            setChildrenPickable( false );
+            
             setFont( STATE_FONT );
             setTextPaint( STATE_COLOR );
-            setOffset( STATE_MARGIN, STATE_MARGIN );
         }
         
         /**
@@ -334,6 +339,8 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
          */
         public GridNode( double width, double height ) {
             super();
+            setPickable( false );
+            setChildrenPickable( false );
             setBounds( 0, 0, width, height );
             _rectangle = new Rectangle2D.Double();
         }
@@ -418,7 +425,9 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
          */
         public AtomNode() {
             super();
-
+            setPickable( false );
+            setChildrenPickable( false );
+            
             _gridNode = new GridNode( BOX_WIDTH / 2, BOX_HEIGHT / 2 );
 
             _upperLeftNode = new PImage();
