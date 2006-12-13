@@ -5,12 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- why is there no horizontal variation in Schrodinger?
 - remove seams between quadrants of grid in SchrodingerNode
 - compare Schrodinger to falstad.com/qmatom
 - algorithm for Schrodinger (n,l,m) state transitions
-- debug Schrodinger wavefunction code
-- debug Schrodinger visual representation
+- replace Falstad function for Associated Legendre Polynomial
 - SchrodingerNode needs a ViewModelTransform, inverse of ModelViewTransform
 
 MEDIUM PRIORITY:
@@ -46,6 +44,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/13/06) - bugfix: bad loop index when calculating (x,y,z) coordinates for Schrodinger cube
 (12/13/06) - refactor StateNode in SchrodingerNode
 (12/13/06) - draw all 4 quadrants of Schrodinger using PImage so that they are properly aligned
 (12/12/06) - add state (n,l,m) display to SchrodingerNode
