@@ -286,4 +286,12 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 //            daughter.setPotential( potential );
         }
     }
+
+
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of abstract methods
+    //--------------------------------------------------------------------------------------------------
+    protected String getPotentialEnergyLegend() {
+        return SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy" );
+    }
 }
