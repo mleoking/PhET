@@ -145,6 +145,26 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     }
     
     //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+
+    /**
+     * Updates the view to match the model.
+     * @param o
+     * @param arg
+     */
+    public void update( Observable o, Object arg ) {
+        if ( o == _atom ) {
+            if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {
+                handleStateChange();
+            }
+            else if ( arg == AbstractHydrogenAtom.PROPERTY_ATOM_IONIZED ) {
+                //XXX
+            }
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // Rendering
     //----------------------------------------------------------------------------
     
@@ -207,26 +227,6 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         
         // Update the atom.
         _atomNode.setBrightness( _brightness );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
-
-    /**
-     * Updates the view to match the model.
-     * @param o
-     * @param arg
-     */
-    public void update( Observable o, Object arg ) {
-        if ( o == _atom ) {
-            if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {
-                handleStateChange();
-            }
-            else if ( arg == AbstractHydrogenAtom.PROPERTY_ATOM_IONIZED ) {
-                //XXX
-            }
-        }
     }
     
     //----------------------------------------------------------------------------
