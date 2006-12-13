@@ -12,7 +12,8 @@ Fixed: When dragging a junction in a connected circuit, there becomes a gap in t
 
 Save might be broken in version 9.
 
-Solution for 
+Solution for "Fixed: When adjusting a voltage or resistance continuously with a slider, the circuit doesn't update until stopped dragging."
+includes a non-elegant hack; not sure of an elegant way to solve this problem.
 
 "Advanced" controls should be show/hide, not enable/disable
     When Steve used CCK in class yesterday, some students interpreted the 
