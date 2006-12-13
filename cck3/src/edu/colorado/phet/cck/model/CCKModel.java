@@ -66,24 +66,16 @@ public class CCKModel {
     public static final double JUNCTION_GRAPHIC_STROKE_WIDTH = .015;
     public static final double JUNCTION_RADIUS = .162;
 
-
     public static final double MIN_RESISTANCE = 1E-8;
     public static final double SCH_BULB_DIST = 1;
-
 
     public CCKModel() {
         // Create the circuitSolver and the listener that will invoke it
 
         circuitChangeListener = new CircuitChangeListener() {
             public void circuitChanged() {
-                if( isRunning() ) {
-                    modelChanged = true;
-                }
-                else {
-                    circuitSolver.apply( getCircuit() );
-                }
+                modelChanged = true;//defers computation to stepInTime()
             }
-
         };
         this.circuit = createCircuit( circuitChangeListener );
         circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );

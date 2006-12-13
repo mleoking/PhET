@@ -3,6 +3,7 @@ Removed phetcommon tab, which was used for testing purposes.
 Clicking on the background de-selects the highlighted element (if any).
 Fixed: Connected wires look as if there is a gap between the copper part of the wires.
 Fixed: When dragging a junction in a connected circuit, there becomes a gap in the electron flow 2 components away.
+Fixed: When adjusting a voltage or resistance continuously with a slider, the circuit doesn't update until stopped dragging.
 
 3.04.10 (12-12-2006)
 Added a launch file for DC Only version.
