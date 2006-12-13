@@ -125,6 +125,7 @@ public class SimpleModule extends MRModule {
         launcher.setMovementType( Launcher.ONE_DIMENSIONAL );
         launcher.setExtension( 0.0 );
         model.addModelElement( launcher );
+        launcherMoleculeClass = MoleculeA.class;
         resetMolecules( model );
 
 

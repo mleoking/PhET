@@ -138,24 +138,29 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
         }
 
         public void mousePressed( PInputEvent event ) {
-            originalAngle = launcher.getTheta();
-            originalR = launcher.getExtension();
-            this.startPoint = event.getPositionRelativeTo( LauncherGraphic.this.getParent() );
+            if( launcher.isEnabled() ) {
+                originalAngle = launcher.getTheta();
+                originalR = launcher.getExtension();
+                this.startPoint = event.getPositionRelativeTo( LauncherGraphic.this.getParent() );
+            }
         }
 
         public void mouseDragged( PInputEvent event ) {
-            Point2D end = event.getPositionRelativeTo( LauncherGraphic.this.getParent() );
-            Vector2D.Double v1 = new Vector2D.Double( launcher.getRestingTipLocation(), startPoint );
-            Vector2D.Double v2 = new Vector2D.Double( launcher.getRestingTipLocation(), end );
+            if( launcher.isEnabled() ) {
+                Point2D end = event.getPositionRelativeTo( LauncherGraphic.this.getParent() );
+                Vector2D.Double v1 = new Vector2D.Double( launcher.getRestingTipLocation(), startPoint );
+                Vector2D.Double v2 = new Vector2D.Double( launcher.getRestingTipLocation(), end );
 
-            // If the launcher supports 2D motion, compute its angle
-            if( launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
-                double dTheta = v2.getAngle() - v1.getAngle();
-                launcher.setTheta( originalAngle + dTheta );
+                // If the launcher supports 2D motion, compute its angle
+                if( launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
+                    double dTheta = v2.getAngle() - v1.getAngle();
+                    launcher.setTheta( originalAngle + dTheta );
+                }
+
+                double dr = v2.getMagnitude() - v1.getMagnitude();
+                launcher.setExtension( originalR + dr );
             }
 
-            double dr = v2.getMagnitude() - v1.getMagnitude();
-            launcher.setExtension( originalR + dr );
         }
 
         public void mouseReleased( PInputEvent event ) {
@@ -164,39 +169,5 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
                 PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
             }
         }
-
-        /**
-         * Moves the pump handle graphic and adds molecules to the model
-         *
-         * @param event
-         */
-//        public void mouseDragged( PInputEvent event ) {
-//            if( launcher.isEnabled() ) {
-//                double dy = event.getDelta().getHeight();
-//                double yLoc = plungerNode.getOffset().getY() + dy;
-//
-//                // Constrain the motion of the handle to be within the bounds of the PNode containing
-//                // the PumpGraphic, and the initial location of the handle.
-//                if( yLoc >= 1
-//                    && yLoc <= launcher.getPivotPoint().getY() + plungerFrameNode.getHeight() - 20 ) {
-//                    launcher.translate( 0, dy );
-//                }
-//
-//                // Rotate the plunger if the  mouse move left or right
-//                double dx = event.getDelta().getWidth();
-//                if( dx != 0 && launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
-//                    Point2D eventLoc = event.getPositionRelativeTo( LauncherGraphic.this );
-//                    double r = eventLoc.distance( pivotPt );
-////                    double r = Math.sqrt( plungerNode.getFullBounds().getHeight() * plungerNode.getFullBounds().getHeight()
-////                                          + plungerNode.getFullBounds().getWidth() * plungerNode.getFullBounds().getWidth() );
-////                    double dTheta = Math.asin( -dx / r );
-////                    double theta = Math.min( maxTheta, Math.max( minTheta, launcher.getTheta() + dTheta ) );
-//                    double theta = Math.atan2( eventLoc.getY() - pivotPt.getY(), eventLoc.getX() - pivotPt.getX());
-//                    launcher.setTheta( theta - Math.PI /2);
-//                }
-//            }
-//        }
-
     }
-
 }
