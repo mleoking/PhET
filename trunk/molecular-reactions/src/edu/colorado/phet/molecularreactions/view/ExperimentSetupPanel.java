@@ -261,7 +261,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
 
         module.setExperimentRunning( false );
         module.resetStripChart();
-        module.setStripChartRecording( true );
+//        module.setStripChartRecording( true );
         module.getClock().start();
     }
 
