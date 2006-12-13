@@ -172,12 +172,13 @@ public class SchrodingerModel extends DeBroglieModel {
     private static double getLaguerrePolynomial( int n, int l, double r ) {
         final double a = BohrModel.getOrbitRadius( n ) / ( n * n );
         final double multiplier = Math.pow( r, l ) * Math.exp( -r / ( n * a ) );
-        double b = 2.0 * Math.pow( ( n * a ), ( -1.5 ) ); // b0
-        double sum = b; // j==0
+        final double b0 = 2.0 * Math.pow( ( n * a ), ( -1.5 ) ); // b0
         final int limit = n - l - 1;
+        double bj = b0;
+        double sum = b0; // j==0
         for ( int j = 1; j <= limit; j++ ) {
-            b = ( 2.0 / ( n * a ) ) * ( ( j + l - n ) / ( j * ( j + ( 2.0 * l ) + 1.0 ) ) ) * b;
-            sum += ( b * Math.pow( r, j ) );
+            bj = ( 2.0 / ( n * a ) ) * ( ( j + l - n ) / ( j * ( j + ( 2.0 * l ) + 1.0 ) ) ) * bj;
+            sum += ( bj * Math.pow( r, j ) );
         }
         return ( multiplier * sum );
     }
