@@ -109,20 +109,20 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         _atom = atom;
         _atom.addObserver( this );
         
-        // axes, positioned at lower left
+        // Atom representation
+        _atomNode = new AtomNode();
+        
+        // Axes, positioned at lower left
         Axes2DNode axesNode = new Axes2DNode( HORIZONTAL_AXIS_LABEL, VERTICAL_AXIS_LABEL );
         double xOffset = AXES_MARGIN;
         double yOffset = BOX_HEIGHT - axesNode.getHeight() - AXES_MARGIN;
         axesNode.setOffset( xOffset, yOffset );
 
-        // Electron state display
+        // Electron state display, positioned at upper right
         if ( DEBUG_SHOW_STATE ) {
             _stateNode = new StateNode();
             _stateNode.setOffset( STATE_MARGIN, STATE_MARGIN );
         }
-
-        // The atom representation
-        _atomNode = new AtomNode();
         
         // Layering
         addChild( _atomNode );
