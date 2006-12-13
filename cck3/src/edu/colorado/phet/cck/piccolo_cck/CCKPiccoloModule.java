@@ -34,7 +34,6 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     public CCKPiccoloModule( String[] args ) {
         super( "CCK-Piccolo", new SwingClock( 30, 1 ) );
 
-
         cckParameters = new CCKParameters( this, args );
         this.args = args;
         setModel( new BaseModel() );
@@ -56,8 +55,6 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     public void activate() {
         super.activate();
         getSimulationPanel().requestFocus();
-//        cckSimulationPanel.activate();
-//        Bulb.setHeightScale( 0.5 );
         Bulb.setHeightScale( 0.5 * 0.75 );
     }
 

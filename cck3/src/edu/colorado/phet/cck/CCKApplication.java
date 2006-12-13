@@ -37,7 +37,7 @@ import java.util.Arrays;
 public class CCKApplication extends PiccoloPhetApplication {
     //version is generated automatically (with ant)
     public static final String localizedStringsPath = "localization/CCKStrings";
-    private CCKPhetGraphicModuleAdapter phetGraphicsCCKModule;
+    //    private CCKPhetGraphicModuleAdapter phetGraphicsCCKModule;
     private CCKPiccoloModule cckPiccoloModule;
     private static String AC_OPTION = "-dynamics";
 
@@ -54,7 +54,7 @@ public class CCKApplication extends PiccoloPhetApplication {
             System.out.println( "debugMode = " + debugMode );
         }
 
-        phetGraphicsCCKModule = new CCKPhetGraphicModuleAdapter( args );
+//        phetGraphicsCCKModule = new CCKPhetGraphicModuleAdapter( args );
         cckPiccoloModule = new CCKPiccoloModule( args );
         cckPiccoloModule.getCckSimulationPanel().addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
@@ -71,9 +71,12 @@ public class CCKApplication extends PiccoloPhetApplication {
             public void keyTyped( KeyEvent e ) {
             }
         } );
-        Module[] modules = new Module[]{cckPiccoloModule, phetGraphicsCCKModule};
+//        Module[] modules = new Module[]{cckPiccoloModule, phetGraphicsCCKModule};
+        Module[] modules = new Module[]{cckPiccoloModule};
         setModules( modules );
-        getPhetFrame().getTabbedModulePane().setLogoVisible( false );
+        if( getPhetFrame().getTabbedModulePane() != null ) {
+            getPhetFrame().getTabbedModulePane().setLogoVisible( false );
+        }
         getPhetFrame().addMenu( new LookAndFeelMenu() );
         getPhetFrame().addMenu( new OptionsMenu( this, cckPiccoloModule ) );//todo options menu
     }

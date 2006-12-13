@@ -47,6 +47,8 @@ public class CCKSimulationPanel extends PhetPCanvas {
         super( new Dimension( 10, 10 ) );
         this.model = model;
         this.module = module;
+
+        addScreenChild( new CCKBackground( model, this ) );
         setBackground( ICCKModule.BACKGROUND_COLOR );
 
         branchNodeFactory = new BranchNodeFactory( model, this, module, true );
@@ -63,6 +65,9 @@ public class CCKSimulationPanel extends PhetPCanvas {
 
         chartSetNode = new ChartSetNode( this, model.getCircuit(), clock );
         addScreenChild( chartSetNode );
+
+        cckHelpSuite = new CCKHelpSuite( this, module );
+        addScreenChild( cckHelpSuite );
 
         addKeyListener( new SimpleKeyEvent( KeyEvent.VK_SPACE ) {
             public void invoke() {
@@ -82,8 +87,6 @@ public class CCKSimulationPanel extends PhetPCanvas {
         setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
 
-        cckHelpSuite = new CCKHelpSuite( this, module );
-        addScreenChild( cckHelpSuite );
         requestFocus();
         addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
@@ -103,6 +106,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
             }
         } );
         addTimeScaleListener();
+
         relayout();
     }
 
@@ -135,7 +139,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
         Rectangle2D rect = toolboxSuite.getGlobalFullBounds();
         getPhetRootNode().globalToScreen( rect );
         int bottomInsetY = 5;
-        double distBetweenGrabBagAndToolbarTop = getHeight() > 600? 50 : 10;
+        double distBetweenGrabBagAndToolbarTop = getHeight() > 600 ? 50 : 10;
         double availableHeightForToolbar = getHeight() - bottomInsetY - distBetweenGrabBagAndToolbarTop - getToolboxTopY();
         double sy = availableHeightForToolbar / rect.getHeight();
         toolboxSuite.scale( sy );
@@ -228,7 +232,6 @@ public class CCKSimulationPanel extends PhetPCanvas {
         int animateTime = 2000;
         circuitNode.animateToTransform( desiredTx, animateTime );
         measurementToolSetNode.animateToTransform( desiredTx, animateTime );
-//        chartSetNode.animateToTransform( desiredTx, animateTime );
     }
 
     public void addCurrentChart() {
@@ -243,7 +246,4 @@ public class CCKSimulationPanel extends PhetPCanvas {
         return circuitNode.isElectronsVisible();
     }
 
-//    public void activate() {
-//        relayout();
-//    }
 }
