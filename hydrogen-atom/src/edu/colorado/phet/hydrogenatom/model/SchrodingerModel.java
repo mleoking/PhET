@@ -108,7 +108,7 @@ public class SchrodingerModel extends DeBroglieModel {
         _l = getNewSecondaryState( n, _l );
         _m = getNewTertiaryState( _l, _m );
         super.setElectronState( n );
-        System.out.println( "SchrodingerModel.setElectronState " + stateToString( n, _l, _m ) );//XXX
+//        System.out.println( "SchrodingerModel.setElectronState " + stateToString( n, _l, _m ) );//XXX
     }
     
     /**
@@ -162,7 +162,6 @@ public class SchrodingerModel extends DeBroglieModel {
     private static double getWaveFunction( int n, int l, int m, double r, double cosTheta ) {
         final double t1 = getLaguerrePolynomial( n, l, r );
         final double t2 = plgndr( l, Math.abs( m ), cosTheta );
-//        System.out.println( "getWaveFunction(" + n + "," + l + "," + m + "," + r + "," + cosTheta + "): Leguerre=" + t1 + " Legendre=" + t2 );
         return ( t1 * t2 );
     }
     
