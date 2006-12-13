@@ -10,11 +10,9 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
 import edu.colorado.phet.nuclearphysics.view.LegendPanel;
@@ -26,6 +24,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImageOp;
+import java.awt.image.IndexColorModel;
 import java.awt.geom.*;
 import java.util.*;
 import java.util.List;
@@ -64,6 +63,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setPhysicalScale( 0.5 );
         super.addControlPanelElement( new MultipleNucleusFissionControlPanel( this ) );
+
+/*
 
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -109,8 +110,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
                 }
             }
         } );
-
-        // Add a listener that will detect when the containment vessel has blown up
+*/
 
         // Start it up
         start();
@@ -129,36 +129,82 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
     public void stop() {
         super.stop();
-        for( int i = 0; explodingGraphics != null && i < explodingGraphics.size(); i++ ) {
-            ExplodingContainmentGraphic graphic = (ExplodingContainmentGraphic)explodingGraphics.get( i );
-            graphic.clearGraphics();
-        }
-        if( mushroomCloudGraphic != null ) {
-            getPhysicalPanel().removeGraphic( mushroomCloudGraphic );
-            getPhysicalPanel().repaint( );
-            mushroomCloudGraphic = null;
-        }
-        if( atomicBombTextGraphic != null ) {
-            getPhysicalPanel().removeGraphic( atomicBombTextGraphic );
-            getPhysicalPanel().repaint( );
-            atomicBombTextGraphic = null;
-        }
-
+//        for( int i = 0; explodingGraphics != null && i < explodingGraphics.size(); i++ ) {
+//            ExplodingContainmentGraphic graphic = (ExplodingContainmentGraphic)explodingGraphics.get( i );
+//            graphic.clearGraphics();
+//        }
+//            getPhysicalPanel().removeGraphic( mushroomCloudGraphic );
+//            getPhysicalPanel().removeGraphic( atomicBombTextGraphic );
+//
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                getPhysicalPanel().repaint();
+            }
+        } );
     }
 
     public void start() {
+
+        getModel().addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                if( MultipleNucleusFissionModule.this.neutronToAdd != null ) {
+                    MultipleNucleusFissionModule.this.addNeutron( neutronToAdd );
+                    MultipleNucleusFissionModule.this.neutronToAdd = null;
+                }
+            }
+        } );
+
+        // Add a model element that watches for collisions between neutrons and
+        // nuclei
+        getModel().addModelElement( new FissionDetector() );
+
+        PhetGraphic[] aPg = getPhysicalPanel().getGraphic().getGraphics();
+        for( int i = 0; i < aPg.length; i++ ) {
+            PhetGraphic phetGraphic = aPg[i];
+            getPhysicalPanel().getGraphic().removeGraphic( phetGraphic );
+        }
+
+        // Ray gun
+        PhetImageGraphic gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8A.png" );
+        gunGraphic.setTransform( AffineTransform.getScaleInstance( 2, 2 ) );
+        gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
+        gunGraphic.setLocation( gunMuzzelLocation );
+        getPhysicalPanel().addGraphic( gunGraphic );
+
+        // Add a fire button to the play area, on top of the gun
+        fireButton = new FireButton( getPhysicalPanel() );
+        getPhysicalPanel().addGraphic( fireButton, 1E6 );
+        fireButton.setLocation( (int)( 40 ), 293 );
+        fireButton.addActionListener( new FireButton.ActionListener() {
+            public void actionPerformed( FireButton.ActionEvent event ) {
+                fireNeutron();
+            }
+        } );
+
+        // Add a button to enable/disable the containment vessel
+        ContainmentButton containmentButton = new ContainmentButton( getPhysicalPanel() );
+        getPhysicalPanel().addGraphic( containmentButton, 1E6 );
+        containmentButton.setLocation( 600, 100 );
+        containmentButton.addActionListener( new PhetGraphicsButton.ActionListener() {
+            public void actionPerformed( PhetGraphicsButton.ActionEvent event ) {
+                if( containment == null ) {
+                    addContainment();
+                }
+                else {
+                    removeContainment();
+                }
+            }
+        } );
+
         // Add a bunch of nuclei, including one in the middle that we can fire a neutron at
         Uranium235 centralNucleus = new Uranium235( new Point2D.Double(), (NuclearPhysicsModel)getModel() );
         getModel().addModelElement( centralNucleus );
         getU235Nuclei().add( centralNucleus );
         addNucleus( centralNucleus );
 
-        // If the containment is enabled, recreate it, so it will be fully
-        // displayed
-//        if( containment != null ) {
+        // If the containment is enabled, disable it
         setContainmentEnabled( false );
-//            setContainmentEnabled( true );
-//        }
+
         computeNeutronLaunchParams();
     }
 
@@ -198,8 +244,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
                 // Add a mushroom cloud
                 mushroomCloudGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/mc-10.jpg" );
                 getPhysicalPanel().addGraphic( mushroomCloudGraphic );
-                Dimension targetSize = new Dimension( (int)(getApparatusPanel().getSize( ).width / getPhysicalPanel().getScale()),
-                                                      (int)(getApparatusPanel().getSize( ).height / getPhysicalPanel().getScale()));
+                Dimension targetSize = new Dimension( (int)( getApparatusPanel().getSize().width / getPhysicalPanel().getScale() ),
+                                                      (int)( getApparatusPanel().getSize().height / getPhysicalPanel().getScale() ) );
                 ImageGraphicExpander ige = new ImageGraphicExpander( mushroomCloudGraphic, targetSize );
                 getClock().addClockListener( ige );
 
@@ -214,11 +260,12 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         } );
     }
 
-    private class ImageGraphicExpander implements ClockListener {
+    /**
+     * Expands an image graphic with each clock tick
+     */
+    private class ImageGraphicExpander extends ClockAdapter {
         private PhetImageGraphic pig;
         private Dimension targetSize;
-        private AffineTransform atx = AffineTransform.getScaleInstance( 1.1, 1.1 );
-        private AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
 
         public ImageGraphicExpander( PhetImageGraphic pig, Dimension targetSize ) {
             this.pig = pig;
@@ -227,28 +274,25 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
         public void clockTicked( ClockEvent clockEvent ) {
             if( pig.getWidth() < targetSize.getWidth() || pig.getHeight() < targetSize.getHeight() ) {
-                BufferedImage bi = pig.getImage();
-                bi = atxOp.filter( bi, null );
-                pig.setImage( bi );
-                pig.repaint();
-                pig.setLocation( -bi.getWidth() / 2, -bi.getHeight() / 2 );
+                pig.scale( 1.1 );
+                pig.setRegistrationPoint( pig.getImage().getWidth() / 2, pig.getImage().getHeight() / 2 );
             }
         }
+    }
 
-        public void clockStarted( ClockEvent clockEvent ) {
-
+    class MyBufferedImage extends BufferedImage {
+        public MyBufferedImage( BufferedImage bi ) {
+            this( bi.getWidth(), bi.getHeight(), bi.getType() );
         }
 
-        public void clockPaused( ClockEvent clockEvent ) {
-
+        public MyBufferedImage( int width, int height, int imageType ) {
+            super( width, height, imageType );
         }
 
-        public void simulationTimeChanged( ClockEvent clockEvent ) {
 
-        }
-
-        public void simulationTimeReset( ClockEvent clockEvent ) {
-
+        protected void finalize() throws Throwable {
+            super.finalize();
+            System.out.println( "MultipleNucleusFissionModule$MyBufferedImage.finalize" );
         }
     }
 
