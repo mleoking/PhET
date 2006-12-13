@@ -127,8 +127,6 @@ public class SimpleModule extends MRModule {
         model.addModelElement( launcher );
         launcherMoleculeClass = MoleculeA.class;
         resetMolecules( model );
-
-
     }
 
     public void resetMolecules( MRModel model ) {
