@@ -175,8 +175,6 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
      */
     public void handleStateChange() {
         
-//        System.out.println( "SchrodingerNode.handleStateChange" );//XXX
-        
         // Update the state display
         if ( _stateNode != null ) {
             _stateNode.update( _atom );
@@ -193,14 +191,13 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             double z = ( row * CELL_HEIGHT ) + ( CELL_HEIGHT / 2 );
             assert( z > 0 );
             for ( int column = 0; column < NUMBER_OF_HORIZONTAL_CELLS; column++ ) {
-                double x = ( row * CELL_WIDTH ) + ( CELL_WIDTH / 2 );
+                double x = ( column * CELL_WIDTH ) + ( CELL_WIDTH / 2 );
                 assert( x > 0 );
                 double sum = 0;
                 for ( int depth = 0; depth < NUMBER_OF_DEPTH_CELLS; depth++ ) {
                     double y = ( depth * CELL_DEPTH ) + ( CELL_DEPTH / 2 );
                     assert( y > 0 );
                     double pd = _atom.getProbabilityDensity( x, y, z );
-//                    System.out.println( "w(" + x + "," + y + "," + z + ")=" + w );//XXX
                     sum += pd;
                 }
                 _probabilityDensitySums[ row ][ column ] = sum;
@@ -209,7 +206,6 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
                 }
             }
         }
-//        System.out.println( "SchrodingerNode.maxSum=" + maxSum );//XXX
         
         /*
          * Normalize the probability density sum for each cell. 
@@ -328,9 +324,9 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         
         private static final double CELL_OVERLAP = 0.1; // 1.0 = 100%
         
-        private double[][] _brightness;
+        private double[][] _brightness; // brightness values, [row][column]
         private double _cellWidth, _cellHeight;
-        private Rectangle2D _rectangle; // reusable rectangle
+        private Rectangle2D _rectangle; // reusable rectangle for drawing cells
         
         /**
          * Constructor.
