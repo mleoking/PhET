@@ -199,14 +199,15 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
     }
 
     public boolean isReadoutVisible( Branch branch ) {
-        return true;
+        return getCircuitNode().isReadoutVisible( branch );
     }
 
     public void setReadoutVisible( Branch branch, boolean selected ) {
+        branch.setEditing( selected );//todo: not sure if this is flexible enough.
     }
 
     public boolean isReadoutGraphicsVisible() {
-        return true;
+        return getCircuitNode().isReadoutGraphicVisible();
     }
 
     public void applicationStarted() {

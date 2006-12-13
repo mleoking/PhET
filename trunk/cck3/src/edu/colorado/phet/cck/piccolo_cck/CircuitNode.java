@@ -69,7 +69,7 @@ public class CircuitNode extends PhetPNode {
         };
         electronLayer = new ElectronSetNode( this, cckModel );
         readoutLayer = new ReadoutSetNode( module, circuit );
-        readoutLayer.setVisible( false );
+//        readoutLayer.setVisible( false );
 
         editingReadoutLayer = new EditingReadoutSetNode( module, circuit );
 
@@ -255,4 +255,11 @@ public class CircuitNode extends PhetPNode {
         return postTx;
     }
 
+    public boolean isReadoutVisible( Branch branch ) {
+        return readoutLayer.isReadoutVisible( branch );
+    }
+
+    public boolean isReadoutGraphicVisible() {
+        return readoutLayer.getVisible();
+    }
 }

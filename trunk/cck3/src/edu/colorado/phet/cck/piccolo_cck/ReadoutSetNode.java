@@ -39,7 +39,9 @@ public class ReadoutSetNode extends PhetPNode {
     }
 
     protected ReadoutNode createReadoutNode( Branch branch ) {
-        return new ReadoutNode( module, branch, module.getSimulationPanel(), new DecimalFormat( "0.00" ) );
+        ReadoutNode readoutNode = new ReadoutNode( module, branch, module.getSimulationPanel(), new DecimalFormat( "0.00" ) );
+        readoutNode.setVisible( false );
+        return readoutNode;
     }
 
     private void removeBranchReadout( Branch branch ) {
@@ -50,5 +52,9 @@ public class ReadoutSetNode extends PhetPNode {
                 i--;
             }
         }
+    }
+
+    public boolean isReadoutVisible( Branch branch ) {
+        return branch.isEditing();
     }
 }
