@@ -11,10 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.view.atom;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -48,7 +45,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     //----------------------------------------------------------------------------
     
     // Strokes the bounds of the grid
-    private static final boolean DEBUG_GRID_BOUNDS = false;
+    private static final boolean DEBUG_GRID_BOUNDS = true;
     
     // Shows the (n,l,m) state in the upper left corner
     private static final boolean DEBUG_SHOW_STATE = true;
@@ -379,9 +376,12 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             Color saveColor = g2.getColor();
             
             if ( DEBUG_GRID_BOUNDS ) {
+                Stroke saveStroke = g2.getStroke();
+                g2.setStroke( new BasicStroke( 2f ) );
                 g2.setColor( Color.GREEN );
                 _rectangle.setRect( getX(), getY(), getWidth(), getHeight() );
                 g2.draw( _rectangle );
+                g2.setStroke( saveStroke );
             }
 
             Color color;
