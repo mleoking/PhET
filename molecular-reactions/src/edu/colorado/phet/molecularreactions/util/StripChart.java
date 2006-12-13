@@ -132,6 +132,9 @@ public class StripChart implements Resetable {
         renderer.setToolTipGenerator( new StandardXYToolTipGenerator() );
         renderer.setDefaultEntityRadius( 6 );
         plot.setRenderer( renderer );
+
+        // Set the minimum X value. This also sets the x range
+        setMinX( 0 );
     }
 
     public void setSeriesPaint( int seriesNum, Paint paint ) {

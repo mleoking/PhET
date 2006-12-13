@@ -11,8 +11,11 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.model.PublishingModel;
+import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 import edu.colorado.phet.molecularreactions.view.PumpGraphic;
 import edu.colorado.phet.molecularreactions.view.SimpleMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChartNode;
@@ -59,7 +62,7 @@ public class ComplexModule extends MRModule {
 
         // Create the strip chart
         stripChartNode = new StripChartNode( this, MRConfig.CHART_PANE_SIZE );
-        setStripChartRecording( true );
+//        setStripChartRecording( true );
 
         // Disable marking of the selected molecule and its nearest neighbor
         SimpleMoleculeGraphic.setMarkSelectedMolecule( true );
@@ -78,6 +81,16 @@ public class ComplexModule extends MRModule {
 
         // Don't show the total energy line on the energy view
         getEnergyView().setTotalEnergyLineVisible( false );
+
+        // Create an agent that will start the strip chart when the first molecule is added to the model
+        getMRModel().addListener( new PublishingModel.ModelListenerAdapter(){
+
+            public void modelElementAdded( ModelElement element ) {
+                if( element instanceof AbstractMolecule ) {
+                    setStripChartRecording( true );
+                }
+            }
+        });
     }
 
     protected MRControlPanel createControlPanel() {
@@ -96,7 +109,7 @@ public class ComplexModule extends MRModule {
         controlPanel.reset();
         pumpGraphic.reset();
         resetStripChart();
-        setStripChartRecording( true );
+//        setStripChartRecording( true );
     }
 
     private void setInitialConditions() {

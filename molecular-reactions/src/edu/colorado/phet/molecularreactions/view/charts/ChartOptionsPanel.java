@@ -145,7 +145,7 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
         module.setPieChartVisible( showPieChartBtn.isSelected() );
         module.setStripChartVisible( showStripChartBtn.isSelected() );
         if( showStripChartBtn.isSelected() ) {
-            module.setStripChartRecording( true );
+//            module.setStripChartRecording( true );
         }
         if( showNoneBtn.isSelected() && module.getMRModel().getMoleculeBeingTracked() != null ) {
             module.getMRModel().getMoleculeBeingTracked().setSelectionStatus( Selectable.NOT_SELECTED );
