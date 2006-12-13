@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- remove seams between quadrants of grid in SchrodingerNode
 - Schrodinger rules for choosing state (n,l,m)
 - debug Schrodinger wavefunction code
 - debug Schrodinger visual representation
