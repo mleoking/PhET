@@ -6,6 +6,10 @@ Top taskbar is covered up on windows.
 >>Should I do anything about this?  Code is to maximize to visible screen area (discluding taskbars) for <=768 screen height, 
 >>otherwise center at the top of the screen.
 
+Fixed: When dragging a junction in a connected circuit, there becomes a gap in the electron flow 2 components away.
+>>My fix has the effect of holding the electrons still while dragging a junction.
+>>I could make them continue to flow with constant density with a bit more work, but not sure it's worth it.
+
 "Advanced" controls should be show/hide, not enable/disable
     When Steve used CCK in class yesterday, some students interpreted the 
     "Disable" button in the advanced section as "disabling" or "turning off" 

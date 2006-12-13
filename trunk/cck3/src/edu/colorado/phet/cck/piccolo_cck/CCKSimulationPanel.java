@@ -49,7 +49,6 @@ public class CCKSimulationPanel extends PhetPCanvas {
         this.module = module;
 
         addScreenChild( new CCKBackground( model, this ) );
-        setBackground( ICCKModule.BACKGROUND_COLOR );
 
         branchNodeFactory = new BranchNodeFactory( model, this, module, true );
         toolboxSuite = new ToolboxNodeSuite( model, module, this, branchNodeFactory );

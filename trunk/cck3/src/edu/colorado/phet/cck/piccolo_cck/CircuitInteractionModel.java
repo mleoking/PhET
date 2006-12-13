@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.model.BranchSet;
+import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
@@ -22,13 +23,15 @@ import java.util.Arrays;
  */
 
 public class CircuitInteractionModel {
+    private CCKModel model;
     private Circuit circuit;
 
     private JunctionInteractionModel junctionInteractionModel;
     private BranchInteractionModel branchInteractionModel;
 
-    public CircuitInteractionModel( Circuit circuit ) {
-        this.circuit = circuit;
+    public CircuitInteractionModel( CCKModel model ) {
+        this.circuit = model.getCircuit();
+        this.model = model;
         junctionInteractionModel = new JunctionInteractionModel();
         branchInteractionModel = new BranchInteractionModel();
     }
@@ -263,6 +266,9 @@ public class CircuitInteractionModel {
             BranchSet bs = new BranchSet( circuit, sc );
             bs.addJunction( junction );
             bs.translate( dx );
+
+            Branch[] subgraph = circuit.getConnectedSubgraph( junction );
+            model.layoutElectrons( subgraph );
         }
 
         private void rotateComponent( Junction junction, Point2D target ) {

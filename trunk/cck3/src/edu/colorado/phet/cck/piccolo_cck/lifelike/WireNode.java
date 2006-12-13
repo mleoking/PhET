@@ -40,7 +40,7 @@ public class WireNode extends BranchNode {
     public WireNode( final CCKModel cckModel, final Wire wire, Component component ) {
         this.cckModel = cckModel;
         this.wire = wire;
-        this.circuitInteractionModel = new CircuitInteractionModel( cckModel.getCircuit() );
+        this.circuitInteractionModel = new CircuitInteractionModel( cckModel );
 
         wireHighlightPPath = new PPath();
         wireHighlightPPath.setPaint( CCKLookAndFeel.HIGHLIGHT_COLOR );
