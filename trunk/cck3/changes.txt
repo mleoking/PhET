@@ -1,3 +1,7 @@
+3.04.11
+Removed phetcommon tab, which was used for testing purposes.
+Clicking on the background de-selects the highlighted element (if any).
+
 3.04.10 (12-12-2006)
 Added a launch file for DC Only version.
 

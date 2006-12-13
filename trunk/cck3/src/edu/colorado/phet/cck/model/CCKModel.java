@@ -247,4 +247,8 @@ public class CCKModel {
     public void desolderSelectedJunctions() {
         circuit.desolderSelectedJunctions();
     }
+
+    public void clearSelection() {
+        circuit.clearSelection();
+    }
 }

@@ -2,6 +2,10 @@
 #To Do
 #######################
 
+Top taskbar is covered up on windows.
+>>Should I do anything about this?  Code is to maximize to visible screen area (discluding taskbars) for <=768 screen height, 
+>>otherwise center at the top of the screen.
+
 "Advanced" controls should be show/hide, not enable/disable
     When Steve used CCK in class yesterday, some students interpreted the 
     "Disable" button in the advanced section as "disabling" or "turning off" 
