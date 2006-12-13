@@ -45,7 +45,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     //----------------------------------------------------------------------------
     
     // Strokes the bounds of the grid
-    private static final boolean DEBUG_GRID_BOUNDS = true;
+    private static final boolean DEBUG_GRID_BOUNDS = false;
     
     // Shows the (n,l,m) state in the upper left corner
     private static final boolean DEBUG_SHOW_STATE = true;
@@ -90,12 +90,10 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     private double[][] _probabilityDensitySums;
     // normalized color brightness for each cell, [row][column]
     private double[][] _brightness;
-    // the quadrant where all (x,z) values are positive
-    private GridNode _lowerRightNode;
-    // the other 3 quadrants, where x and/or z is negative
-    private PImage _upperLeftNode, _upperRightNode, _lowerLeftNode;
     // electron state display
     private PText _stateNode;
+    // atom node
+    private AtomNode _atomNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -127,46 +125,11 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             _stateNode.setOffset( STATE_MARGIN, STATE_MARGIN );
         }
 
-        /* 
-         * Create the nodes that draw the atom.
-         * The lower left quadrant will be draw using Shapes,
-         * then converted to an image and copied to the other 3 quadrants.
-         * Since the wavefunction is symmetric about the orgin, each of
-         * the other 3 quadrants is a reflection about one or both axes.
-         */
-        PNode atomNode = new PNode();
-        {
-            // lower-right quadrant with +x +z values
-            _lowerRightNode = new GridNode( BOX_WIDTH / 2, BOX_HEIGHT / 2 );
-            _lowerRightNode.setOffset( BOX_WIDTH / 2, BOX_HEIGHT / 2 );
-            atomNode.addChild( _lowerRightNode );
-            
-            // the other 3 quadrants...
-            
-            _upperRightNode = new PImage();
-            AffineTransform upperRightTransform = new AffineTransform();
-            upperRightTransform.translate( ( BOX_WIDTH / 2 ), ( BOX_HEIGHT / 2 ) );
-            upperRightTransform.scale( 1, -1 ); // reflection about the horizontal axis
-            _upperRightNode.setTransform( upperRightTransform );
-            atomNode.addChild( _upperRightNode );
-            
-            _upperLeftNode = new PImage();
-            AffineTransform upperLeftTransform = new AffineTransform();
-            upperLeftTransform.translate( ( BOX_WIDTH / 2 ), ( BOX_HEIGHT / 2 ) );
-            upperLeftTransform.scale( -1, -1 ); // reflection about both axis
-            _upperLeftNode.setTransform( upperLeftTransform );
-            atomNode.addChild( _upperLeftNode );
-            
-            _lowerLeftNode = new PImage();
-            AffineTransform lowerLeftTransform = new AffineTransform();
-            lowerLeftTransform.translate( ( BOX_WIDTH / 2 ), ( BOX_HEIGHT / 2 ) );
-            lowerLeftTransform.scale( -1, 1 ); // reflection about the vertical axis
-            _lowerLeftNode.setTransform( lowerLeftTransform );
-            atomNode.addChild( _lowerLeftNode );
-        }
+        // The atom representation
+        _atomNode = new AtomNode();
         
         // Layering
-        addChild( atomNode );
+        addChild( _atomNode );
         addChild( axesNode );
         if ( _stateNode != null ) {
             addChild( _stateNode );
@@ -251,18 +214,8 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             }
         }
         
-        /*
-         * Update the nodes that draw the atom.
-         */
-        {
-            _lowerRightNode.setBrightness( _brightness );
-            
-            //XXX other 3 quadrants
-            Image image = _lowerRightNode.toImage();
-            _upperLeftNode.setImage( image );
-            _upperRightNode.setImage( image );
-            _lowerLeftNode.setImage( image );
-        }
+        // Update the atom.
+        _atomNode.setBrightness( _brightness );
     }
     
     //----------------------------------------------------------------------------
@@ -286,7 +239,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     }
     
     //----------------------------------------------------------------------------
-    // Axes node
+    // Inner classes
     //----------------------------------------------------------------------------
     
     /**
@@ -338,14 +291,12 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         }
     }
     
-    //----------------------------------------------------------------------------
-    // Grid node
-    //----------------------------------------------------------------------------
-    
     /*
      * GridNode draws the grid that covers one quadrant of the 2D animation box.
      */
     private static class GridNode extends PNode {
+        
+        private static final double CELL_OVERLAP = 0.1; // 1.0 = 100%
         
         private double[][] _brightness;
         private double _cellWidth, _cellHeight;
@@ -386,8 +337,8 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
 
             Color color;
             double x, z;
-            final double w = _cellWidth + ( 0.1 * _cellWidth );
-            final double h = _cellHeight + ( 0.1 * _cellHeight );
+            final double w = _cellWidth + ( CELL_OVERLAP * _cellWidth );
+            final double h = _cellHeight + ( CELL_OVERLAP * _cellHeight );
 
             for ( int row = 0; row < _brightness.length; row++ ) {
                 for ( int column = 0; column < _brightness[row].length; column++ ) {
@@ -402,6 +353,66 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             
             // Restore graphics state
             g2.setColor( saveColor );
+        }
+    }
+    
+    /* 
+     * AtomNode draws the representation of the atom.
+     * Since the wavefunction is symmetric about the orgin, each of
+     * the other 4 quadrants is drawn using an identical image,
+     * reflected about one or both axes.
+     * <p>
+     * Note: It is important to use a PImage for every quadrant,
+     * or the images will not line up properly.
+     */
+    private static class AtomNode extends PNode {
+        
+        // Node used to create the Image that is copies to each quadrant
+        private GridNode _gridNode;
+        // the 4 quadrants of the box
+        private PImage _upperLeftNode, _upperRightNode, _lowerLeftNode, _lowerRightNode;
+
+        public AtomNode() {
+            super();
+
+            _gridNode = new GridNode( BOX_WIDTH / 2, BOX_HEIGHT / 2 );
+
+            _upperLeftNode = new PImage();
+            AffineTransform upperLeftTransform = new AffineTransform();
+            upperLeftTransform.translate( ( BOX_WIDTH / 2 ), ( BOX_HEIGHT / 2 ) );
+            upperLeftTransform.scale( -1, -1 ); // reflection about both axis
+            _upperLeftNode.setTransform( upperLeftTransform );
+            addChild( _upperLeftNode );
+
+            _upperRightNode = new PImage();
+            AffineTransform upperRightTransform = new AffineTransform();
+            upperRightTransform.translate( ( BOX_WIDTH / 2 ), ( BOX_HEIGHT / 2 ) );
+            upperRightTransform.scale( 1, -1 ); // reflection about the horizontal axis
+            _upperRightNode.setTransform( upperRightTransform );
+            addChild( _upperRightNode );
+
+            _lowerRightNode = new PImage();
+            AffineTransform lowerRightTransform = new AffineTransform();
+            lowerRightTransform.translate( ( BOX_WIDTH / 2 ), ( BOX_HEIGHT / 2 ) );
+            lowerRightTransform.scale( 1, 1 ); // no reflection
+            _lowerRightNode.setTransform( lowerRightTransform );
+            addChild( _lowerRightNode );
+
+            _lowerLeftNode = new PImage();
+            AffineTransform lowerLeftTransform = new AffineTransform();
+            lowerLeftTransform.translate( ( BOX_WIDTH / 2 ), ( BOX_HEIGHT / 2 ) );
+            lowerLeftTransform.scale( -1, 1 ); // reflection about the vertical axis
+            _lowerLeftNode.setTransform( lowerLeftTransform );
+            addChild( _lowerLeftNode );
+        }
+        
+        public void setBrightness( double[][] brightness ) {
+            _gridNode.setBrightness( brightness );
+            Image image = _gridNode.toImage();
+            _upperLeftNode.setImage( image );
+            _upperRightNode.setImage( image );
+            _lowerLeftNode.setImage( image );
+            _lowerRightNode.setImage( image );
         }
     }
 }

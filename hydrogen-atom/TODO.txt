@@ -46,6 +46,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/13/06) - draw all 4 quadrants of Schrodinger using PImage so that they are properly aligned
 (12/12/06) - add state (n,l,m) display to SchrodingerNode
 (12/12/06) - rewrite how SchrodingerNode draws the atom
 (12/12/06) - calculate prob density for only 1/8 of Schrodinger cube (positive x,y,z values)
