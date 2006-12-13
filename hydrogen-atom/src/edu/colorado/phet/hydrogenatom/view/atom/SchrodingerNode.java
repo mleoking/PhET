@@ -74,11 +74,8 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         
     // margin between axes and animation box
     private static final double AXES_MARGIN = 20;
-    
-    private static final Font STATE_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
-    private static final Color STATE_COLOR = Color.WHITE;
-    private static final String STATE_FORMAT = "(n,l,m)=({0},{1},{2})";
-    private static final double STATE_MARGIN = 15;
+    private static final String HORIZONTAL_AXIS_LABEL = "x";
+    private static final String VERTICAL_AXIS_LABEL = "z";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -91,7 +88,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     // normalized color brightness for each cell, [row][column]
     private double[][] _brightness;
     // electron state display
-    private PText _stateNode;
+    private StateNode _stateNode;
     // atom node
     private AtomNode _atomNode;
     
@@ -110,7 +107,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         _atom.addObserver( this );
         
         // axes, positioned at lower left
-        Axes2DNode axesNode = new Axes2DNode( "x", "z" );
+        Axes2DNode axesNode = new Axes2DNode( HORIZONTAL_AXIS_LABEL, VERTICAL_AXIS_LABEL );
         axesNode.setPickable( false );
         axesNode.setChildrenPickable( false );
         double xOffset = AXES_MARGIN;
@@ -119,10 +116,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
 
         // Electron state display
         if ( DEBUG_SHOW_STATE ) {
-            _stateNode = new PText();
-            _stateNode.setFont( STATE_FONT );
-            _stateNode.setTextPaint( STATE_COLOR );
-            _stateNode.setOffset( STATE_MARGIN, STATE_MARGIN );
+            _stateNode = new StateNode();
         }
 
         // The atom representation
@@ -140,8 +134,8 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         _brightness = new double[ NUMBER_OF_VERTICAL_CELLS ][ NUMBER_OF_HORIZONTAL_CELLS ];
         
         /* 
-         * This view ignores the atom's position
-         * and centers atom (and the grid) in the animation box.
+         * This view ignores the atom's position, and centers 
+         * the atom (and the grid) in the animation box.
          */
         setOffset( 0, 0 );
         
@@ -163,12 +157,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         
         // Update the state display
         if ( _stateNode != null ) {
-            int n = _atom.getElectronState();
-            int l = _atom.getSecondaryElectronState();
-            int m = _atom.getTertiaryElectronState();
-            Object[] args = { new Integer( n ), new Integer( l ), new Integer( m ) };
-            String s = MessageFormat.format( STATE_FORMAT, args );
-            _stateNode.setText( s );
+            _stateNode.update( _atom );
         }
         
         /* 
@@ -242,7 +231,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     // Inner classes
     //----------------------------------------------------------------------------
     
-    /**
+    /*
      * Axes2DNode draws a pair of 2D axes.
      */
     private static class Axes2DNode extends PNode {
@@ -292,7 +281,43 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     }
     
     /*
+     * StateNode displays the (n,l,m) state of an atom.
+     */
+    private static class StateNode extends PText {
+        
+        private static final Font STATE_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
+        private static final Color STATE_COLOR = Color.WHITE;
+        private static final String STATE_FORMAT = "(n,l,m)=({0},{1},{2})";
+        private static final double STATE_MARGIN = 15;
+        
+        /**
+         * Constructor.
+         * @param atom
+         */
+        public StateNode() {
+            super();
+            setFont( STATE_FONT );
+            setTextPaint( STATE_COLOR );
+            setOffset( STATE_MARGIN, STATE_MARGIN );
+        }
+        
+        /**
+         * Updates the view to match the specified model.
+         * @param atom
+         */
+        public void update( SchrodingerModel atom ) {
+            int n = atom.getElectronState();
+            int l = atom.getSecondaryElectronState();
+            int m = atom.getTertiaryElectronState();
+            Object[] args = { new Integer( n ), new Integer( l ), new Integer( m ) };
+            String s = MessageFormat.format( STATE_FORMAT, args );
+            setText( s );
+        }
+    }
+    
+    /*
      * GridNode draws the grid that covers one quadrant of the 2D animation box.
+     * The grid is composed of rectangular cells, and each cell has its own color.
      */
     private static class GridNode extends PNode {
         
@@ -302,12 +327,23 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         private double _cellWidth, _cellHeight;
         private Rectangle2D _rectangle; // reusable rectangle
         
+        /**
+         * Constructor.
+         * @param width
+         * @param height
+         */
         public GridNode( double width, double height ) {
             super();
             setBounds( 0, 0, width, height );
             _rectangle = new Rectangle2D.Double();
         }
         
+        /**
+         * Sets the brightness values that are applied to the cells in the grid.
+         * The dimensions of the brightness array determine the number of cells.
+         * 
+         * @param brightness
+         */
         public void setBrightness( double[][] brightness ) {
             _brightness = brightness;
             _cellHeight = getHeight() / brightness.length;
@@ -315,6 +351,11 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             repaint();
         }
         
+        /*
+         * Draws the grid, which is composed of rectangular cells.
+         * Each cell is assigned a color based on its brightness value.
+         * Cells overlap a bit so that we don't see the seams between them.
+         */
         protected void paint( PPaintContext paintContext ) {
 
             if ( _brightness == null ) {
@@ -357,9 +398,9 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     }
     
     /* 
-     * AtomNode draws the representation of the atom.
+     * AtomNode draws the 2D representation of the atom.
      * Since the wavefunction is symmetric about the orgin, each of
-     * the other 4 quadrants is drawn using an identical image,
+     * the box's quadrants is drawn using an identical image,
      * reflected about one or both axes.
      * <p>
      * Note: It is important to use a PImage for every quadrant,
@@ -372,6 +413,9 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         // the 4 quadrants of the box
         private PImage _upperLeftNode, _upperRightNode, _lowerLeftNode, _lowerRightNode;
 
+        /**
+         * Constructor.
+         */
         public AtomNode() {
             super();
 
@@ -406,6 +450,12 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             addChild( _lowerLeftNode );
         }
         
+        /**
+         * Sets the brightness values that are applied to the cells in the grid.
+         * The dimensions of the brightness array determine the number of cells.
+         * 
+         * @param brightness
+         */
         public void setBrightness( double[][] brightness ) {
             _gridNode.setBrightness( brightness );
             Image image = _gridNode.toImage();
