@@ -8,7 +8,7 @@ HIGH PRIORITY:
 - why is there no horizontal variation in Schrodinger?
 - remove seams between quadrants of grid in SchrodingerNode
 - compare Schrodinger to falstad.com/qmatom
-- Schrodinger rules for choosing state (n,l,m)
+- algorithm for Schrodinger (n,l,m) state transitions
 - debug Schrodinger wavefunction code
 - debug Schrodinger visual representation
 - SchrodingerNode needs a ViewModelTransform, inverse of ModelViewTransform
