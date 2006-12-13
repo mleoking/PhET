@@ -42,7 +42,9 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
             }
 
             public void popupMenuWillBecomeVisible( PopupMenuEvent e ) {
-                showValue.setSelected( module.isReadoutVisible( branch ) );
+                boolean readoutVisibleForBranch = module.isReadoutVisible( branch );
+                System.out.println( "readoutVisibleForBranch (" + branch.hashCode() + ")= " + readoutVisibleForBranch );
+                showValue.setSelected( readoutVisibleForBranch );
             }
         } );
         showValue.addActionListener( new ActionListener() {
@@ -54,7 +56,6 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
             if( module.getParameters().allowShowReadouts() ) {
                 menu.add( showValue );
             }
-
         }
         return showValue;
     }
