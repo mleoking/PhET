@@ -11,6 +11,7 @@ HIGH PRIORITY:
 - SchrodingerNode needs a ViewModelTransform, inverse of ModelViewTransform
 
 MEDIUM PRIORITY:
+- get rid of HAController, merge into HAModule
 - add "show traces" feature for alpha particles (need to interpolate curve between points)
 - finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
 - implement spectrometer model
@@ -20,6 +21,7 @@ MEDIUM PRIORITY:
 - update images on atom model selector buttons
 - is ModelViewTransform used everywhere is should be in view?
 - verify that behavior is correct when clock is paused
+- decide on default values for all controls
 
 LOW PRIORITY:
 - improve performance of deBroglie "brightness" and "brightness magnitude" representations
@@ -41,6 +43,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/14/06) - increase default clock speed
 (12/14/06) - change gun's min wavelength to 92nm so that atom can't be ionized (ionization feature was dropped)
 ***** CVS tag hydrogenatom-0-00-15-2006-12-13
 (12/14/06) - turn off debug graphics on deBroglie 3D view (roll into 0.00.15)
