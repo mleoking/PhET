@@ -60,7 +60,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     //----------------------------------------------------------------------------
     
     // see debugOrbitProjections method
-    private static final boolean DEBUG_ORBIT_PROJECTIONS = true;
+    private static final boolean DEBUG_ORBIT_PROJECTIONS = false;
     
     //----------------------------------------------------------------------------
     // Public class data
