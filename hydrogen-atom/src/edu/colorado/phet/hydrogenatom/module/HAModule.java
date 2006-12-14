@@ -62,6 +62,28 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class HAModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // Selectors
+    private static final boolean DEFAULT_MODE_EXPERIMENT = false;
+    private static final AtomicModel DEFAULT_ATOMIC_MODEL = AtomicModel.BILLIARD_BALL;
+    
+    // Gun
+    private static final boolean DEFAULT_GUN_ENABLED = false;
+    private static final GunMode DEFAULT_GUN_MODE = GunMode.PHOTONS;
+    private static final LightType DEFAULT_LIGHT_TYPE = LightType.MONOCHROMATIC;
+    private static final double DEFAULT_WAVELENGTH = 95;
+    private static final double DEFAULT_LIGHT_INTENSITY = 1.0;
+    private static final double DEFAULT_ALPHA_PARTICLES_INTENSITY = DEFAULT_LIGHT_INTENSITY;
+
+    // Spectrometer
+    private static final boolean DEFAULT_SPECTROMETER_SELECTED = true;
+    
+    // Energy Diagrams
+    private static final boolean DEFAULT_ENERGY_DIAGRAM_SELECTED = false;
+
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
@@ -347,27 +369,39 @@ public class HAModule extends PiccoloModule {
     //
     //----------------------------------------------------------------------------
 
+    /*
+     * Resets the simulation to its default state.
+     */
     private void reset() {
         
-        _modeSwitch.setPredictionSelected();
-        _atomicModelSelector.setSelection( AtomicModel.BILLIARD_BALL );
+        if ( DEFAULT_MODE_EXPERIMENT ) {
+            _modeSwitch.setExperimentSelected();
+        }
+        else {
+            _modeSwitch.setPredictionSelected();
+        }
+        
+        _atomicModelSelector.setSelection( DEFAULT_ATOMIC_MODEL );
         
         Gun gun = _model.getGun();
-        gun.setEnabled( false );
-        gun.setMode( GunMode.PHOTONS );
-        gun.setLightType( LightType.MONOCHROMATIC );
-        gun.setWavelength( HAConstants.PHOTON_ICON_WAVELENGTH );
-        gun.setLightIntensity( .5 );
-        gun.setAlphaParticlesIntensity( .5 );
+        gun.setEnabled( DEFAULT_GUN_ENABLED );
+        gun.setMode( DEFAULT_GUN_MODE );
+        gun.setLightType( DEFAULT_LIGHT_TYPE );
+        gun.setWavelength( DEFAULT_WAVELENGTH );
+        gun.setLightIntensity( DEFAULT_LIGHT_INTENSITY );
+        gun.setAlphaParticlesIntensity( DEFAULT_ALPHA_PARTICLES_INTENSITY );
         
-        _spectrometerCheckBox.setSelected( true );
-        _energyDiagramCheckBox.setSelected( false );
+        _spectrometerCheckBox.setSelected( DEFAULT_SPECTROMETER_SELECTED );
+        _energyDiagramCheckBox.setSelected( DEFAULT_ENERGY_DIAGRAM_SELECTED );
     }
     
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
     
+    /*
+     * Updates the layout of stuff on the canvas.
+     */
     public void updateCanvasLayout() {
 
         Dimension worldSize = getWorldSize();
@@ -489,6 +523,9 @@ public class HAModule extends PiccoloModule {
         applyLayoutHacks();
     }
     
+    /*
+     * Initializes a wiggle me that points to the gun on/off button.
+     */
     private void initWiggleMe() {
         if ( !_wiggleMeInitialized ) {
             
