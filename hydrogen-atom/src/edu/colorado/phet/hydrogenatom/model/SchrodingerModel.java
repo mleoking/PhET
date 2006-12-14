@@ -21,18 +21,6 @@ import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
 public class SchrodingerModel extends DeBroglieModel {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-//    private static final double EULER_MASCHERONI_CONSTANT = 0.57721566490153286060;
-//
-//    // Limit for the Associated Legendre Polynomial, which contains a sum to infinity.
-//    private static final int LEGENDRE_POLYNOMIAL_LIMIT = 100;
-//    
-//    // Limit for the Gamma Function, which contains a product to infinity.
-//    private static final int GAMMA_FUNCTION_LIMIT = 100;
-
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -161,12 +149,13 @@ public class SchrodingerModel extends DeBroglieModel {
      */
     private static double getWaveFunction( int n, int l, int m, double r, double cosTheta ) {
         final double t1 = getLaguerrePolynomial( n, l, r );
-        final double t2 = plgndr( l, Math.abs( m ), cosTheta );
+        final double t2 = getAssociatedLegendrePolynomial( l, Math.abs( m ), cosTheta );
         return ( t1 * t2 );
     }
     
     /*
      * Laguerre Polynomial.
+     * Codified from design document.
      */
     private static double getLaguerrePolynomial( int n, int l, double r ) {
         final double a = BohrModel.getOrbitRadius( n ) / ( n * n );
@@ -183,78 +172,69 @@ public class SchrodingerModel extends DeBroglieModel {
     }
     
     /*
-     * Associated Legendre Polynomial, temporarily borrowed from Falstad.
+     * Associated Legendre Polynomial.
+     * This does not correspond to the design document.
+     * 
+     * This implementation was obtained from ARTS (Atmospheric Radiative Transfer Simulator)
+     * at http://www.sat.uni-bremen.de/arts.
+     * The original function was written in C, appeared in legendre.cc, 
+     * and was named legengre_poly. Here we have ported it to Java.
+     * The original code is GPL, and the original copyright appears below.
+     * 
+     * =================================================================
+     * Copyright (C) 2003 Oliver Lemke  <olemke@uni-bremen.de>
+     * This program is free software; you can redistribute it and/or modify it
+     * under the terms of the GNU General Public License as published by the
+     * Free Software Foundation; either version 2, or (at your option) any
+     * later version.
+     *
+     * This program is distributed in the hope that it will be useful,
+     * but WITHOUT ANY WARRANTY; without even the implied warranty of
+     * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     * GNU General Public License for more details.
+     *
+     * You should have received a copy of the GNU General Public License
+     * along with this program; if not, write to the Free Software
+     * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+     * =================================================================
      */
-    private static double plgndr( int l, int m, double x ) {
-        double fact, pll = 0, pmm, pmmp1, somx2;
-        int i, ll;
+    private static double getAssociatedLegendrePolynomial( int l, int m, double x ) {
 
         if ( m < 0 || m > l || Math.abs( x ) > 1.0 ) {
-            System.out.print( "bad arguments in plgndr\n" );
+            throw new IllegalArgumentException( "illegal argument" );
         }
-        pmm = 1.0;
+
+        double pmm = 1.0;
+        double result = 0;
+        
         if ( m > 0 ) {
-            somx2 = Math.sqrt( ( 1.0 - x ) * ( 1.0 + x ) );
-            fact = 1.0;
-            for ( i = 1; i <= m; i++ ) {
+            double fact = 1.0;
+            final double somx2 = Math.sqrt( ( 1.0 - x ) * ( 1.0 + x ) );
+            for ( int i = 1; i <= m; i++ ) {
                 pmm *= -fact * somx2;
                 fact += 2.0;
             }
         }
-        if ( l == m )
-            return pmm;
+
+        if ( l == m ) {
+            result = pmm;
+        }
         else {
-            pmmp1 = x * ( 2 * m + 1 ) * pmm;
-            if ( l == ( m + 1 ) )
+            double pmmp1 = x * ( 2 * m + 1 ) * pmm;
+            if ( l == ( m + 1 ) ) {
                 return pmmp1;
+            }
             else {
-                for ( ll = ( m + 2 ); ll <= l; ll++ ) {
-                    pll = ( x * ( 2 * ll - 1 ) * pmmp1 - ( ll + m - 1 ) * pmm ) / ( ll - m );
+                for ( int ll = ( m + 2 ); ll <= l; ll++ ) {
+                    result = ( x * ( 2 * ll - 1 ) * pmmp1 - ( ll + m - 1 ) * pmm ) / ( ll - m );
                     pmm = pmmp1;
-                    pmmp1 = pll;
+                    pmmp1 = result;
                 }
-                return pll;
             }
         }
+        
+        return result;
     }
-    
-//    /*
-//     * Associated Legendre Polynomial
-//     */
-//    private static double getAssociatedLegendrePolynomial( int l, int m, double x ) {
-//        final double t1 = 1.0 / ( gamma( -l ) * gamma( l + 1 ) );
-//        final double t2 = Math.pow( ( ( 1 + x ) / ( 1 - x ) ), ( 0.5 * m ) );
-//        double sum = 0;
-//        for ( int n = 0; n <= LEGENDRE_POLYNOMIAL_LIMIT; n++ ) {
-//            double t3 = ( gamma( n -l ) * gamma( n + l + 1 ) ) / (double)( gamma( n + 1 - m ) * MathUtil.factorial( n ) );
-//            double t4 = Math.pow( ( 1.0 - x ) / 2.0, n );
-//            sum += ( t3 * t4 );
-//        }
-//        return ( t1 * t2 * sum );
-//    }
-//    
-//    /*
-//     * Gamma function, works only if x is an integer.
-//     */
-//    private static int gamma( int x ) {
-//        int gamma = 1;
-//        if ( x > 0 ) {
-//            gamma = MathUtil.factorial( x - 1 );
-//        }
-//        return gamma;
-//    }
-//    
-//    /*
-//     * Gamma function, works for non-integer values.
-//     */
-//    private static double gamma( double x ) {
-//        final double multiplier = ( Math.exp( -EULER_MASCHERONI_CONSTANT * x ) );
-//        double product = 1;
-//        for ( int n = 1; n <= GAMMA_FUNCTION_LIMIT; n++ ) {
-//            product *= Math.pow( 1 + ( x / n ), - 1 ) * Math.exp( x / n );
-//        }
-//        return ( multiplier * product );
-//    }
     
     //----------------------------------------------------------------------------
     // Debug
