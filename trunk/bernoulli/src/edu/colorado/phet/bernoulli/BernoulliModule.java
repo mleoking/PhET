@@ -50,7 +50,7 @@ import java.util.ArrayList;
  * Copyright (c) Aug 19, 2003 by Sam Reid
  */
 public class BernoulliModule extends Module {
-
+    private static final String VERSION = "0.00.01";
     private int backgroundGraphicLevel = 0;
     int vesselGraphicLevel = 50;
     private int valveGraphicLevel = 60;
@@ -410,7 +410,7 @@ public class BernoulliModule extends Module {
         final BernoulliModule module = new BernoulliModule( defaultClock );
         final PipeModule pipeModule = new PipeModule( defaultClock );
         final FirefighterModule firefighterModule = new FirefighterModule( defaultClock );
-        String title = "Bernoulli's Fountain";
+        String title = "Bernoulli's Fountain (" + VERSION + ")";
         String desc = "The user tries to pump water in their computer.";
         String version = "0.00.01";
         final PhetApplication app = new PhetApplication( new ApplicationDescriptor( title, desc, version, new FrameSetup() {
@@ -420,8 +420,8 @@ public class BernoulliModule extends Module {
                 frame.setExtendedState( JFrame.MAXIMIZED_BOTH );
             }
         } ), new Module[]{module,
-                          pipeModule,
-                          firefighterModule},
+                pipeModule,
+                firefighterModule},
              fc );
 
         activeModule = pipeModule;
