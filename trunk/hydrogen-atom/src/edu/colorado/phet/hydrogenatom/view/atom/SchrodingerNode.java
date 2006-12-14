@@ -417,6 +417,9 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
      */
     private static class AtomNode extends PNode {
         
+        // overlap between quadrants (in pixels) to remove "seams" between PImage nodes
+        private static final double OVERLAP = 0.5; 
+        
         // Node used to create the Image that is copies to each quadrant
         private GridNode _gridNode;
         // the 4 quadrants of the box
@@ -434,28 +437,28 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
 
             _upperLeftNode = new PImage();
             AffineTransform upperLeftTransform = new AffineTransform();
-            upperLeftTransform.translate( ( BOX_WIDTH / 2 ), ( BOX_HEIGHT / 2 ) );
+            upperLeftTransform.translate( ( BOX_WIDTH / 2 ) + OVERLAP, ( BOX_HEIGHT / 2 ) + OVERLAP );
             upperLeftTransform.scale( -1, -1 ); // reflection about both axis
             _upperLeftNode.setTransform( upperLeftTransform );
             addChild( _upperLeftNode );
 
             _upperRightNode = new PImage();
             AffineTransform upperRightTransform = new AffineTransform();
-            upperRightTransform.translate( ( BOX_WIDTH / 2 ), ( BOX_HEIGHT / 2 ) );
+            upperRightTransform.translate( ( BOX_WIDTH / 2 ) - OVERLAP, ( BOX_HEIGHT / 2 ) + OVERLAP );
             upperRightTransform.scale( 1, -1 ); // reflection about the horizontal axis
             _upperRightNode.setTransform( upperRightTransform );
             addChild( _upperRightNode );
 
             _lowerRightNode = new PImage();
             AffineTransform lowerRightTransform = new AffineTransform();
-            lowerRightTransform.translate( ( BOX_WIDTH / 2 ), ( BOX_HEIGHT / 2 ) );
+            lowerRightTransform.translate( ( BOX_WIDTH / 2 ) - OVERLAP, ( BOX_HEIGHT / 2 ) - OVERLAP );
             lowerRightTransform.scale( 1, 1 ); // no reflection
             _lowerRightNode.setTransform( lowerRightTransform );
             addChild( _lowerRightNode );
 
             _lowerLeftNode = new PImage();
             AffineTransform lowerLeftTransform = new AffineTransform();
-            lowerLeftTransform.translate( ( BOX_WIDTH / 2 ), ( BOX_HEIGHT / 2 ) );
+            lowerLeftTransform.translate( ( BOX_WIDTH / 2 ) + OVERLAP, ( BOX_HEIGHT / 2 ) - OVERLAP);
             lowerLeftTransform.scale( -1, 1 ); // reflection about the vertical axis
             _lowerLeftNode.setTransform( lowerLeftTransform );
             addChild( _lowerLeftNode );
