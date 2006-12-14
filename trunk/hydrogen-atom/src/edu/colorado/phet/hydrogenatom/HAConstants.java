@@ -131,15 +131,6 @@ public class HAConstants {
     public static final double PHOTON_ICON_WAVELENGTH = 530; // nm (green)
     
     //----------------------------------------------------------------------------
-    // Borders
-    //----------------------------------------------------------------------------
-    
-    public static final Border CONTROL_PANEL_BORDER = 
-        BorderFactory.createCompoundBorder(
-          BorderFactory.createBevelBorder( BevelBorder.RAISED, Color.GRAY, Color.BLACK ),
-          BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
-    
-    //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------
 
