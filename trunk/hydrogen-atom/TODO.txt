@@ -14,8 +14,6 @@ MEDIUM PRIORITY:
 - implement spectrometer model
 - implement energy diagrams, reuse Ron's stuff
 - add squiggles to energy diagrams showing the gun's light wavelength (as in Lasers sim)
-- "atom destroyed" message for Solar System model
-- "atom ionized" message and electron flying in/out for Plum Pudding, Bohr, deBroglie, Schrodinger models
 - clear spectrometer when atomic model is changed
 - update images on atom model selector buttons
 - is ModelViewTransform used everywhere is should be in view?
@@ -41,6 +39,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/14/06) - change gun's min wavelength to 92nm so that atom can't be ionized (ionization feature was dropped)
 ***** CVS tag hydrogenatom-0-00-15-2006-12-13
 (12/14/06) - turn off debug graphics on deBroglie 3D view (roll into 0.00.15)
 (12/14/06) - remove seams between quadrants of grid in SchrodingerNode (roll into 0.00.15)
@@ -433,6 +432,8 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(12/14/06) - "atom destroyed" message with reset button for Solar System model (feature dropped)
+(12/14/06) - "atom ionized" feature for Plum Pudding, Bohr, deBroglie, Schrodinger models (feature dropped)
 (12/8/06) - make panel spacing and canvas spacing configurable via SimStrings file (waste of time)
 (12/8/06) - white light sometimes gets in a state where UV photons are fired only at -x values (cannot reproduce)
 (12/6/06) - design code to accommodate zoom controls on animation region (didn't do it, and will not have this feature)
