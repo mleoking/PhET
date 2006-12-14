@@ -6,8 +6,9 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - put proton behind field in Schrodinger, make 0 field values transparent
+- cells should be centered on Schrodinger axes
 - Schrodinger spontaneous emission should always emit photon from somewhere near 1sr Bohr orbit
-- algorithm for Schrodinger (n,l,m) state transitions
+- implement algorithm for Schrodinger (n,l,m) state transitions
 - SchrodingerNode needs a ViewModelTransform, inverse of ModelViewTransform
 
 MEDIUM PRIORITY:
