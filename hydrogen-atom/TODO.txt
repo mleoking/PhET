@@ -42,6 +42,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+***** CVS tag hydrogenatom-0-00-15-2006-12-13
 (12/13/06) - add proton to center of Schrodinger atom
 (12/13/06) - use ARTS function (GPL) for Associated Legendre Polynomial, add to credits
 (12/13/06) - compare Schrodinger to falstad.com/qmatom (looked at about a dozen, looks good)
