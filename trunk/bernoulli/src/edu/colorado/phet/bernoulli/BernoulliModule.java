@@ -468,7 +468,9 @@ public class BernoulliModule extends Module {
 
 //        module.activate( app );
         app.getApplicationView().getBasicPhetPanel().setAppControlPanel( null );
-        app.startApplication( firefighterModule );
+        module.activate( app );
+        app.startApplication( module );
+
         defaultClock.start();
     }
 }
