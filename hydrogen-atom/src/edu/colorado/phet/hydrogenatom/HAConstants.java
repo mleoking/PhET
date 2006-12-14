@@ -181,7 +181,7 @@ public class HAConstants {
     // Model
     //----------------------------------------------------------------------------
     
-    public static final double MIN_WAVELENGTH = 90;
+    public static final double MIN_WAVELENGTH = 92;
     public static final double MAX_WAVELENGTH = VisibleColor.MAX_WAVELENGTH;
     
     public static final double PHOTON_INITIAL_SPEED = 5; // distance moved per dt
