@@ -24,6 +24,7 @@ import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.SchrodingerModel;
 import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
+import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 import edu.colorado.phet.piccolo.nodes.ArrowNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -112,6 +113,10 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         // Atom representation
         _atomNode = new AtomNode();
         
+        // Proton
+        ProtonNode protonNode = new ProtonNode();
+        protonNode.setOffset( BOX_WIDTH / 2, BOX_HEIGHT / 2 );
+        
         // Axes, positioned at lower left
         Axes2DNode axesNode = new Axes2DNode( HORIZONTAL_AXIS_LABEL, VERTICAL_AXIS_LABEL );
         double xOffset = AXES_MARGIN;
@@ -126,6 +131,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         
         // Layering
         addChild( _atomNode );
+        addChild( protonNode );
         addChild( axesNode );
         if ( _stateNode != null ) {
             addChild( _stateNode );
