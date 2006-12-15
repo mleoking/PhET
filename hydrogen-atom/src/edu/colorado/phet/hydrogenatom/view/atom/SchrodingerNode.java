@@ -45,6 +45,11 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * for the depth dimension (y axis) are normalized to a brightness value that has
  * a range 0...1 inclusive.  Each cell in the NxN grid has a brightness value that
  * is used to generate the cell's color.
+ * <p>
+ * Computing the probability density for an NxNxN cube is fairly expensive,
+ * so the resulting NxN array of brightness values is cache for reuse.
+ * The cache can optionally be fully populated when it is created (quite 
+ * time consuming) or populated on demand.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -118,8 +123,6 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     private AtomNode _fieldNode;
     // proton node
     private ProtonNode _protonNode;
-    // reusable array of sums
-    private double[][] _sums;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -132,6 +135,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     public SchrodingerNode( SchrodingerModel atom ) {
         super();
         
+        // many assumptions herein that the smallest value of n is 1
         assert( SchrodingerModel.getGroundState() == 1 );
         
         if ( BRIGHTNESS_CACHE == null ) {
@@ -173,8 +177,6 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
          * the atom (and the grid) in the animation box.
          */
         setOffset( 0, 0 );
-        
-        _sums = new double[NUMBER_OF_VERTICAL_CELLS][NUMBER_OF_HORIZONTAL_CELLS];
         
         update( _atom, AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE );
     }
@@ -479,6 +481,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     
     /*
      * BrightnessCache is a cache containing brightness information for states.
+     * The cache is set up for a fixed number of states, and a fixed size grid.
      *
      * @author Chris Malley (cmalley@pixelzoom.com)
      * @version $Revision$
@@ -486,15 +489,13 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     private static final class BrightnessCache {
         
         private double[][][][][] _cache; // [n][l][m][z][x]
-        double[][] _sums;
+        double[][] _sums; // reusable array
         
         public BrightnessCache( boolean populate ) {
-            
-            int statesCount = 0;
-            int doubleCount = 0;
-            
+
             _sums = new double[NUMBER_OF_VERTICAL_CELLS][NUMBER_OF_HORIZONTAL_CELLS];
             
+            int statesCount = 0;
             int nSize = SchrodingerModel.getNumberOfStates();
             _cache = new double[nSize][][][][];
             for ( int n = 1; n <= nSize; n++ ) {
@@ -505,15 +506,13 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
                     _cache[n-1][l] = new double[mSize][][];
                     for ( int m = 0; m <= l; m++ ) {
                         statesCount++;
-                        doubleCount += ( NUMBER_OF_VERTICAL_CELLS * NUMBER_OF_HORIZONTAL_CELLS );
                         if ( populate ) {
                             getBrightness( n, l, m );
                         }
                     }
                 }
             }
-            
-            System.out.println( "SchrodingerNode brightness cache: states=" + statesCount + " entries=" + doubleCount );//XXX
+            System.out.println( "BrightnessCache has room for " + statesCount + " states" );//XXX
         }
         
         /**
@@ -528,6 +527,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         public double[][] getBrightness( int n, int l, int m ) {
             double[][] brightness = _cache[n-1][l][m];
             if ( brightness == null ) {
+                System.out.println( "BrightnessCache adding entry for " + SchrodingerModel.stateToString( n, l, m ) );//XXX
                 brightness = computeBrightness( n, l, m, _sums );
                 _cache[n-1][l][m] = brightness;
             }
