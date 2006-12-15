@@ -52,7 +52,15 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     private static final boolean DEBUG_SHOW_STATE = true;
     
     //----------------------------------------------------------------------------
-    // Class data
+    // Public class data
+    //----------------------------------------------------------------------------
+    
+    // If the brightness at the proton's location (0,0) is less then this value,
+    // make the proton visible. Otherwise hide it.
+    public static double PROTON_VISIBILITY_THRESHOLD = 0.8;
+    
+    //----------------------------------------------------------------------------
+    // Private class data
     //----------------------------------------------------------------------------
     
     // Animation box dimensions, for convenience
@@ -80,10 +88,6 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     
     // margin between the state display and animation box
     private static final double STATE_MARGIN = 15;
-    
-    // If the brightness at the proton's location (0,0) is less then this value,
-    // make the proton visible. Otherwise hide it.
-    private static final double PROTON_VISIBILITY_THRESHOLD = 0.8;
     
     //----------------------------------------------------------------------------
     // Instance data
