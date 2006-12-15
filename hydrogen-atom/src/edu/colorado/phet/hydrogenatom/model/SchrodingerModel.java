@@ -16,6 +16,8 @@ import java.util.Random;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
+import edu.colorado.phet.hydrogenatom.util.RandomUtils;
+import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 
 
 public class SchrodingerModel extends DeBroglieModel {
@@ -103,6 +105,20 @@ public class SchrodingerModel extends DeBroglieModel {
         _m = getNewTertiaryState( _l, _m );
         super.setElectronState( n );
 //        System.out.println( "SchrodingerModel.setElectronState " + stateToString( n, _l, _m ) );//XXX
+    }
+    
+    /*
+     * Our Schrodinger model emits photons from a random point on the first Bohr orbit.
+     * @return Point2D
+     */
+    protected Point2D getSpontaneousEmissionPosition() {
+        // random point on the orbit
+        double radius = BohrModel.getOrbitRadius( GROUND_STATE );
+        double angle = RandomUtils.nextAngle();
+        // convert to Cartesian coordinates, adjust for atom's position
+        double x = ( radius * Math.cos( angle ) ) + getX();
+        double y = ( radius * Math.sin( angle ) ) + getY();
+        return new Point2D.Double( x, y );
     }
     
     /**

@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - javadoc for SchrodingerModel
-- Schrodinger spontaneous emission should always emit photon from somewhere near 1sr Bohr orbit
 - implement algorithm for Schrodinger (n,l,m) state transitions
 - SchrodingerNode needs a ViewModelTransform, inverse of ModelViewTransform
 
@@ -43,6 +42,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/15/06) - change Schrodinger so that spontaneous emission always occurs on a point on 1st Bohr orbit
 (12/15/06) - javadoc SchrodingerNode
 (12/15/06) - add developer control for Schrodinger proton visibility threshold
 (12/15/06) - show Schrodinger proton if brightness at center is less than some threshold
