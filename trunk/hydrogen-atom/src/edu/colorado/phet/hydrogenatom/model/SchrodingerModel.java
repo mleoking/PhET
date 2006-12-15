@@ -77,7 +77,7 @@ public class SchrodingerModel extends DeBroglieModel {
      * @throws IllegalArgumentException if all args are 0
      */
     public double getProbabilityDensity( double x, double y, double z ) {
-        if (  ) {
+        if ( x == 0 && y == 0 && z == 0 ) {
             throw new IllegalArgumentException( "undefined for (x,y,z)=(0,0,0)" );
         }
         // convert to Polar coordinates
