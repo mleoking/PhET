@@ -30,7 +30,7 @@ public class MicrowaveApplication {
     public static double s_speedOfLight = 10;
 
     public static PhetApplication s_application;
-    
+
     // Localization
     public static final String localizedStringsPath = "localization/MicrowavesStrings";
 
@@ -74,13 +74,16 @@ public class MicrowaveApplication {
         Module[] modules = new Module[]{
 //            twoMoleculesModule,
 //            singleLineOfMoleculesModule,
-            oneMoleculesModule,
-            singleLineOfMoleculesModule2,
-            manyMoleculesModule,
-            coffeeModule
+                oneMoleculesModule,
+                singleLineOfMoleculesModule2,
+                manyMoleculesModule,
+                coffeeModule
         };
         ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
-                SimStrings.get( "MicrowavesApplication.title" ),
+                new String( SimStrings.get( "MicrowavesApplication.title")
+                                            + " ("
+                                            + SimStrings.get( "MicrowavesApplication.version" )
+                                            + ")" ),
                 MessageFormatter.format( SimStrings.get( "MicrowavesApplication.description" ) ),
                 SimStrings.get( "MicrowavesApplication.version" ), 1024, 768 );
         s_application = new PhetApplication( appDescriptor, modules,
