@@ -409,7 +409,7 @@ public class BohrModel extends AbstractHydrogenAtom {
 //                System.out.println( "BohrModel.emitPhoton " + _electronState + "->" + newState );//XXX
                 
                 // New photon's properties
-                Point2D position = getElectronPosition();
+                Point2D position = getSpontaneousEmissionPosition();
                 double orientation = RandomUtils.nextAngle();
                 double speed = HAConstants.PHOTON_INITIAL_SPEED;
                 double wavelength = getWavelengthEmitted( _electronState, newState );
@@ -427,6 +427,16 @@ public class BohrModel extends AbstractHydrogenAtom {
                 setElectronState( newState );
             }
         }
+    }
+    
+    /*
+     * Gets the position of a photon created via spontaneous emission.
+     * The default behavior is to create the photon at the electron's position.
+     * 
+     * @return Point2D
+     */
+    protected Point2D getSpontaneousEmissionPosition() {
+        return getElectronPosition();
     }
     
     /*
