@@ -68,12 +68,18 @@ public class SchrodingerModel extends DeBroglieModel {
     
     /**
      * Gets the probability density at a point in 3D space.
+     * This algorithm is undefined for (x,y,z) = (0,0,0).
      * 
      * @param x coordinate on horizontal axis
      * @param y coordinate on axis the is perpendicular to the screen
      * @param z coordinate on vertical axis
+     * @return double
+     * @throws IllegalArgumentException if all args are 0
      */
     public double getProbabilityDensity( double x, double y, double z ) {
+        if (  ) {
+            throw new IllegalArgumentException( "undefined for (x,y,z)=(0,0,0)" );
+        }
         // convert to Polar coordinates
         double r = Math.sqrt( ( x * x ) + ( y * y ) + ( z * z ) );
         double cosTheta = Math.abs( z ) / r;
