@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- javadoc for Schrodinger model and view
+- why does SchrodingerModel.getProbabilityDensity sometimes return NaN ?
 - Schrodinger spontaneous emission should always emit photon from somewhere near 1sr Bohr orbit
 - implement algorithm for Schrodinger (n,l,m) state transitions
 - SchrodingerNode needs a ViewModelTransform, inverse of ModelViewTransform
