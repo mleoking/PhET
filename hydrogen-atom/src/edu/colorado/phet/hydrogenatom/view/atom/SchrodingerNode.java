@@ -81,6 +81,10 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     // margin between the state display and animation box
     private static final double STATE_MARGIN = 15;
     
+    // If the brightness at the proton's location (0,0) is less then this value,
+    // make the proton visible. Otherwise hide it.
+    private static final double PROTON_VISIBILITY_THRESHOLD = 0.8;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -93,8 +97,10 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     private double[][] _brightness;
     // electron state display
     private StateNode _stateNode;
-    // atom node
-    private AtomNode _atomNode;
+    // field node
+    private AtomNode _fieldNode;
+    // proton node
+    private ProtonNode _protonNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -111,11 +117,11 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         _atom.addObserver( this );
         
         // Atom representation
-        _atomNode = new AtomNode();
+        _fieldNode = new AtomNode();
         
         // Proton
-        ProtonNode protonNode = new ProtonNode();
-        protonNode.setOffset( BOX_WIDTH / 2, BOX_HEIGHT / 2 );
+        _protonNode = new ProtonNode();
+        _protonNode.setOffset( BOX_WIDTH / 2, BOX_HEIGHT / 2 );
         
         // Axes, positioned at lower left
         Axes2DNode axesNode = new Axes2DNode( HORIZONTAL_AXIS_LABEL, VERTICAL_AXIS_LABEL );
@@ -130,8 +136,8 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         }
         
         // Layering
-        addChild( _atomNode );
-        addChild( protonNode );
+        addChild( _fieldNode );
+        addChild( _protonNode );
         addChild( axesNode );
         if ( _stateNode != null ) {
             addChild( _stateNode );
@@ -228,7 +234,10 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         }
         
         // Update the atom.
-        _atomNode.setBrightness( _brightness );
+        _fieldNode.setBrightness( _brightness );
+        
+        // Is the proton visible?
+        _protonNode.setVisible( _brightness[0][0] < PROTON_VISIBILITY_THRESHOLD );
     }
     
     //----------------------------------------------------------------------------
