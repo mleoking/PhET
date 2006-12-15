@@ -37,6 +37,7 @@ import edu.colorado.phet.hydrogenatom.module.HAModule;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieBrightnessMagnitudeNode;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieBrightnessNode;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieRadialDistanceNode;
+import edu.colorado.phet.hydrogenatom.view.atom.SchrodingerNode;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.
@@ -103,6 +104,8 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     private ColorChip _deBroglieBrightnessZeroChip;
     private SpinnerControl _deBroglieRadialAmplitudeSpinner;
     
+    private SpinnerControl _schrodingerProtonThresholdSpinner;
+    
     private JDialog _colorChooserDialog;
     private ColorChip _editColorChip;
     
@@ -135,9 +138,10 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             int min = MIN_PARTICLES_IN_BOX;
             int max = MAX_PARTICLES_IN_BOX;
             int stepSize = 1;
+            int columns = 3;
             String label = "Max particles in box:";
             String units = "";
-            _maxParticlesSpinner = new SpinnerControl( value, min, max, stepSize,  label, units );
+            _maxParticlesSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
             _maxParticlesSpinner.setEditable( false );
         }
         
@@ -147,9 +151,10 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             int min = value;
             int max = value * 4;
             int stepSize = 1;
+            int columns = 3;
             String label = "Photon absorbed when this close:";
             String units = "";
-            _absorptionClosenessSpinner = new SpinnerControl( value, min, max, stepSize,  label, units );
+            _absorptionClosenessSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
             _absorptionClosenessSpinner.setEditable( false );
         }
         
@@ -162,9 +167,10 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             int min = 1;
             int max = 20;
             int stepSize = 1;
+            int columns = 3;
             String label = "<html>Wavelength slider hilites when knob is<br>this close to a transition wavelength:</html>";
             String units = "ns";
-            _wavelengthHiliteThreshold = new SpinnerControl( value, min, max, stepSize,  label, units );
+            _wavelengthHiliteThreshold = new SpinnerControl( value, min, max, stepSize, columns, label, units );
             _wavelengthHiliteThreshold.setEditable( false );
         }
         
@@ -179,9 +185,10 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             int min = 1;
             int max = 300;
             int stepSize = 1;
+            int columns = 4;
             String label = "<html>Min time that electron must spend<br>in a state before it can emit a photon:</html>";
             String units = "dt";
-            _bohrMinStateTimeSpinner = new SpinnerControl( value, min, max, stepSize,  label, units );
+            _bohrMinStateTimeSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
             _bohrMinStateTimeSpinner.setEditable( false );
         }
         
@@ -237,10 +244,24 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             int min = 5;
             int max = 50;
             int stepSize = 1;
+            int columns = 3;
             String label = "Max radial amplitude:";
             String units = "% of orbit radius";
-            _deBroglieRadialAmplitudeSpinner = new SpinnerControl( value, min, max, stepSize, label, units );
+            _deBroglieRadialAmplitudeSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
             _deBroglieRadialAmplitudeSpinner.setEditable( false );
+        }
+        
+        // brightness threshold for showing Schrodinger proton
+        {
+            double value = SchrodingerNode.PROTON_VISIBILITY_THRESHOLD;
+            double min = 0;
+            double max = 1;
+            double stepSize = 0.05;
+            int columns = 3;
+            String label = "<html>Proton is visible when<br>brightness at (0,0) is less than:</html>";
+            String units = "";
+            _schrodingerProtonThresholdSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
+            _schrodingerProtonThresholdSpinner.setEditable( false );
         }
         
         // Event handling
@@ -259,6 +280,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
         _deBroglieBrightnessZeroChip.addMouseListener( listener );
         _deBroglieBrightnessMinusChip.addMouseListener( listener );
         _deBroglieRadialAmplitudeSpinner.getSpinner().addChangeListener( listener );
+        _schrodingerProtonThresholdSpinner.getSpinner().addChangeListener( listener );
         
         // Layout
         JPanel panel = new JPanel();
@@ -287,6 +309,9 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             layout.addComponent( deBroglieBrightnessColorsPanel, row++, 0 );
             layout.addComponent( deBroglieRadialAmplitudePanel, row++, 0 );
             layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
+            
+            layout.addComponent( new TitleLabel( "Schr\u00f6dinger:" ), row++, 0 );
+            layout.addComponent( _schrodingerProtonThresholdSpinner, row++, 0 );
         }
         
         return panel;
@@ -351,6 +376,9 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             else if ( source == _deBroglieRadialAmplitudeSpinner.getSpinner() ) {
                 handleDeBroglieRadialAmplitudeSpinner();
             }
+            else if ( source == _schrodingerProtonThresholdSpinner.getSpinner() ) {
+                handleSchrodingerThresholdSpinner();
+            }
             else {
                 throw new UnsupportedOperationException( "unsupported ChangeEvent source: " + source );
             }
@@ -398,6 +426,14 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     private void handleDeBroglieRadialAmplitudeSpinner() {
         DeBroglieRadialDistanceNode.RADIAL_OFFSET_FACTOR = _deBroglieRadialAmplitudeSpinner.getIntValue() / 100.0;
     }
+    
+    private void handleSchrodingerThresholdSpinner() {
+        SchrodingerNode.PROTON_VISIBILITY_THRESHOLD = _schrodingerProtonThresholdSpinner.getDoubleValue();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Color editing
+    //----------------------------------------------------------------------------
     
     private void editColor( ColorChip colorChip ) {
         
