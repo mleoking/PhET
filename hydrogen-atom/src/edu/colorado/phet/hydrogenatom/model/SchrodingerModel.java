@@ -76,20 +76,10 @@ public class SchrodingerModel extends DeBroglieModel {
      * @param y coordinate on axis the is perpendicular to the screen
      * @param z coordinate on vertical axis
      * @return double
-     * @throws IllegalArgumentException if all args are 0
      */
     public double getProbabilityDensity( double x, double y, double z ) {
-        if ( x == 0 && y == 0 && z == 0 ) {
-            throw new IllegalArgumentException( "undefined for (x,y,z)=(0,0,0)" );
-        }
-        // convert to Polar coordinates
-        double r = Math.sqrt( ( x * x ) + ( y * y ) + ( z * z ) );
-        double cosTheta = Math.abs( z ) / r;
-        // calculate wave function
         int n = getElectronState();
-        double w = getWaveFunction( n, _l, _m, r, cosTheta );
-        // square the wave function
-        return ( w * w );
+        return getProbabilityDensity( n, _l, _m, x, y, z );
     }
     
     //----------------------------------------------------------------------------
@@ -166,8 +156,42 @@ public class SchrodingerModel extends DeBroglieModel {
     // Wave function
     //----------------------------------------------------------------------------
     
+    /**
+     * Probability Density.
+     * This algorithm is undefined for (x,y,z) = (0,0,0).
+     * 
+     * @param n primary state
+     * @param l secondary state
+     * @param m tertiary state
+     * @param x coordinate on horizontal axis
+     * @param y coordinate on axis the is perpendicular to the screen
+     * @param z coordinate on vertical axis
+     * @return double
+     */
+    public static double getProbabilityDensity( int n, int l, int m, double x, double y, double z ) {
+        if ( n < 1 ) {
+            throw new IllegalArgumentException( "violated 1 <= n" );
+        }
+        if ( l < 0 || l >= n ) {
+            throw new IllegalArgumentException( "violated 0 <= l <= n-1" );
+        }
+        if ( m < -l || m > l ) {
+            throw new IllegalArgumentException( "violated -l <= m <= +l" );
+        }
+        if ( x == 0 && y == 0 && z == 0 ) {
+            throw new IllegalArgumentException( "undefined for (x,y,z)=(0,0,0)" );
+        }
+        // convert to Polar coordinates
+        double r = Math.sqrt( ( x * x ) + ( y * y ) + ( z * z ) );
+        double cosTheta = Math.abs( z ) / r;
+        // calculate wave function
+        double w = getWaveFunction( n, l, m, r, cosTheta );
+        // square the wave function
+        return ( w * w );
+    }
+    
     /*
-     * Wave function.
+     * Wavefunction.
      */
     private static double getWaveFunction( int n, int l, int m, double r, double cosTheta ) {
         final double t1 = getLaguerrePolynomial( n, l, r );
