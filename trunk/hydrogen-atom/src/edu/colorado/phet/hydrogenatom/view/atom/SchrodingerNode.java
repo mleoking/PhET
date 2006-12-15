@@ -99,22 +99,27 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     // margin between the state display and animation box
     private static final double STATE_MARGIN = 15;
     
+    // Cache of brightness values for all possible states
+    private static BrightnessCache BRIGHTNESS_CACHE;
+    
+    // Should the brightness cache be fully populated the first time we visit Schrodinger?
+    // DANGER! Fully populating the cache can take ~15 seconds!
+    private static final boolean POPULATE_CACHE = false;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     // the atom that this node is representing
     private SchrodingerModel _atom;
-    // sum of the probability densities for each cell, [row,column]
-    private double[][] _probabilityDensitySums;
-    // normalized color brightness for each cell, [row][column]
-    private double[][] _brightness;
     // electron state display
     private StateNode _stateNode;
     // field node
     private AtomNode _fieldNode;
     // proton node
     private ProtonNode _protonNode;
+    // reusable array of sums
+    private double[][] _sums;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -126,6 +131,12 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
      */
     public SchrodingerNode( SchrodingerModel atom ) {
         super();
+        
+        assert( SchrodingerModel.getGroundState() == 1 );
+        
+        if ( BRIGHTNESS_CACHE == null ) {
+            BRIGHTNESS_CACHE = new BrightnessCache( POPULATE_CACHE );
+        }
         
         _atom = atom;
         _atom.addObserver( this );
@@ -157,15 +168,13 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             addChild( _stateNode );
         }
         
-        // Storage allocation
-        _probabilityDensitySums = new double[ NUMBER_OF_VERTICAL_CELLS ][ NUMBER_OF_HORIZONTAL_CELLS ];
-        _brightness = new double[ NUMBER_OF_VERTICAL_CELLS ][ NUMBER_OF_HORIZONTAL_CELLS ];
-        
         /* 
          * This view ignores the atom's position, and centers 
          * the atom (and the grid) in the animation box.
          */
         setOffset( 0, 0 );
+        
+        _sums = new double[NUMBER_OF_VERTICAL_CELLS][NUMBER_OF_HORIZONTAL_CELLS];
         
         update( _atom, AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE );
     }
@@ -206,52 +215,17 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             _stateNode.update( _atom );
         }
         
-        /* 
-         * The wave function is symmetric about the origin.
-         * So compute the probability density for 1/8 of the grid (positive values of x,y,z).
-         * Use the 3D position that is at the center of each cell.
-         * Sum the wave function values over y (depth).
-         */
-        double maxSum = 0;
-        for ( int row = 0; row < NUMBER_OF_VERTICAL_CELLS; row++ ) {
-            double z = ( row * CELL_HEIGHT ) + ( CELL_HEIGHT / 2 );
-            assert( z > 0 );
-            for ( int column = 0; column < NUMBER_OF_HORIZONTAL_CELLS; column++ ) {
-                double x = ( column * CELL_WIDTH ) + ( CELL_WIDTH / 2 );
-                assert( x > 0 );
-                double sum = 0;
-                for ( int depth = 0; depth < NUMBER_OF_DEPTH_CELLS; depth++ ) {
-                    double y = ( depth * CELL_DEPTH ) + ( CELL_DEPTH / 2 );
-                    assert( y > 0 );
-                    double pd = _atom.getProbabilityDensity( x, y, z );
-                    sum += pd;
-                }
-                _probabilityDensitySums[ row ][ column ] = sum;
-                if ( sum > maxSum ) {
-                    maxSum = sum;
-                }
-            }
-        }
-        
-        /*
-         * Normalize the probability density sum for each cell. 
-         * Map the normalized value to a color brightness.
-         */ 
-        for ( int row = 0; row < NUMBER_OF_VERTICAL_CELLS; row++ ) {
-            for ( int column = 0; column < NUMBER_OF_HORIZONTAL_CELLS; column++ ) {
-                double brightness = 0;
-                if ( maxSum > 0 ) {
-                    brightness = _probabilityDensitySums[ row ][ column ] / maxSum;
-                }
-                _brightness[ row ][column] = brightness;
-            }
-        }
+        // Look up the set of brightness values for the atom's state
+        int n = _atom.getElectronState();
+        int l = _atom.getSecondaryElectronState();
+        int m = Math.abs( _atom.getTertiaryElectronState() );
+        double[][] brightness = BRIGHTNESS_CACHE.getBrightness( n, l, m );
         
         // Update the atom.
-        _fieldNode.setBrightness( _brightness );
+        _fieldNode.setBrightness( brightness );
         
         // Is the proton visible?
-        _protonNode.setVisible( _brightness[0][0] < PROTON_VISIBILITY_THRESHOLD );
+        _protonNode.setVisible( brightness[0][0] < PROTON_VISIBILITY_THRESHOLD );
     }
     
     //----------------------------------------------------------------------------
@@ -500,6 +474,111 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             _upperRightNode.setImage( image );
             _lowerLeftNode.setImage( image );
             _lowerRightNode.setImage( image );
+        }
+    }
+    
+    /*
+     * BrightnessCache is a cache containing brightness information for states.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    private static final class BrightnessCache {
+        
+        private double[][][][][] _cache; // [n][l][m][z][x]
+        double[][] _sums;
+        
+        public BrightnessCache( boolean populate ) {
+            
+            int statesCount = 0;
+            int doubleCount = 0;
+            
+            _sums = new double[NUMBER_OF_VERTICAL_CELLS][NUMBER_OF_HORIZONTAL_CELLS];
+            
+            int nSize = SchrodingerModel.getNumberOfStates();
+            _cache = new double[nSize][][][][];
+            for ( int n = 1; n <= nSize; n++ ) {
+                int lSize = n;
+                _cache[n-1] = new double[lSize][][][];
+                for ( int l = 0; l < lSize; l++ ) {
+                    int mSize = lSize;
+                    _cache[n-1][l] = new double[mSize][][];
+                    for ( int m = 0; m <= l; m++ ) {
+                        statesCount++;
+                        doubleCount += ( NUMBER_OF_VERTICAL_CELLS * NUMBER_OF_HORIZONTAL_CELLS );
+                        if ( populate ) {
+                            getBrightness( n, l, m );
+                        }
+                    }
+                }
+            }
+            
+            System.out.println( "SchrodingerNode brightness cache: states=" + statesCount + " entries=" + doubleCount );//XXX
+        }
+        
+        /**
+         * Gets a cache entry. 
+         * If there is no entry, the entry is created.
+         * 
+         * @param n
+         * @param l
+         * @param m
+         * @return
+         */
+        public double[][] getBrightness( int n, int l, int m ) {
+            double[][] brightness = _cache[n-1][l][m];
+            if ( brightness == null ) {
+                brightness = computeBrightness( n, l, m, _sums );
+                _cache[n-1][l][m] = brightness;
+            }
+            return brightness;
+        }
+        
+        /*
+         * Computes the brightness values for a specific state.
+         * @param n
+         * @param l
+         * @param m
+         * @param sums resuable array of probability density sums
+         * @return
+         */
+        private static final double[][] computeBrightness( int n, int l, int m, double[][] sums ) {
+            
+            double[][] brightness = new double[NUMBER_OF_VERTICAL_CELLS][NUMBER_OF_HORIZONTAL_CELLS];
+            
+            double maxSum = 0;
+            
+            for ( int row = 0; row < NUMBER_OF_VERTICAL_CELLS; row++ ) {
+                double z = ( row * CELL_HEIGHT ) + ( CELL_HEIGHT / 2 );
+                assert ( z > 0 );
+                for ( int column = 0; column < NUMBER_OF_HORIZONTAL_CELLS; column++ ) {
+                    double x = ( column * CELL_WIDTH ) + ( CELL_WIDTH / 2 );
+                    assert ( x > 0 );
+                    double sum = 0;
+                    for ( int depth = 0; depth < NUMBER_OF_DEPTH_CELLS; depth++ ) {
+                        double y = ( depth * CELL_DEPTH ) + ( CELL_DEPTH / 2 );
+                        assert ( y > 0 );
+                        double pd = SchrodingerModel.getProbabilityDensity( n, l, m, x, y, z );
+                        sum += pd;
+                    }
+                    sums[row][column] = sum;
+                    if ( sum > maxSum ) {
+                        maxSum = sum;
+                    }
+                }
+            }
+
+            for ( int row = 0; row < NUMBER_OF_VERTICAL_CELLS; row++ ) {
+                for ( int column = 0; column < NUMBER_OF_HORIZONTAL_CELLS; column++ ) {
+                    double b = 0;
+                    if ( maxSum > 0 ) {
+                        b = sums[row][column] / maxSum;
+                    }
+                    brightness[row][column] = b;
+                }
+            }
+            
+            return brightness;
         }
     }
 }

@@ -5,12 +5,12 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- improve performance of Schrodinger
 - javadoc for SchrodingerModel
 - implement algorithm for Schrodinger (n,l,m) state transitions
 - SchrodingerNode needs a ViewModelTransform, inverse of ModelViewTransform
 
 MEDIUM PRIORITY:
-- get rid of HAController, merge into HAModule
 - add "show traces" feature for alpha particles (need to interpolate curve between points)
 - finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
 - implement spectrometer model
@@ -23,6 +23,7 @@ MEDIUM PRIORITY:
 - decide on default values for all controls
 
 LOW PRIORITY:
+- get rid of HAController, merge into HAModule
 - improve performance of deBroglie "brightness" and "brightness magnitude" representations
 - improve performance of deBroglie 3D representation
 - Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
@@ -42,6 +43,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/15/05) - implement a brightness cache in Schrodinger, either populated on init or on demand
 (12/15/06) - change Schrodinger proton visibility threshold to 0.25
 (12/15/06) - change Schrodinger so that spontaneous emission always occurs on a point on 1st Bohr orbit
 (12/15/06) - javadoc SchrodingerNode
