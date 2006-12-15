@@ -42,6 +42,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/15/06) - change Schrodinger proton visibility threshold to 0.25
 (12/15/06) - change Schrodinger so that spontaneous emission always occurs on a point on 1st Bohr orbit
 (12/15/06) - javadoc SchrodingerNode
 (12/15/06) - add developer control for Schrodinger proton visibility threshold
