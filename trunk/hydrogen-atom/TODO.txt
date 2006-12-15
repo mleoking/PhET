@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- cells should be centered on Schrodinger axes
 - Schrodinger spontaneous emission should always emit photon from somewhere near 1sr Bohr orbit
 - implement algorithm for Schrodinger (n,l,m) state transitions
 - SchrodingerNode needs a ViewModelTransform, inverse of ModelViewTransform
@@ -43,7 +42,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
-(12/14/06) - show Schrodinger proton if brightness at center is less than some threshold
+(12/15/06) - show Schrodinger proton if brightness at center is less than some threshold
 (12/14/06) - increase default clock speed
 (12/14/06) - change gun's min wavelength to 92nm so that atom can't be ionized (ionization feature was dropped)
 ***** CVS tag hydrogenatom-0-00-15-2006-12-13
@@ -438,6 +437,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(12/15/06) - cells should be centered on Schrodinger axes (no can do, wavefunction solution undefined for (x,y,z)=(0,0,0) )
 (12/14/06) - "atom destroyed" message with reset button for Solar System model (feature dropped)
 (12/14/06) - "atom ionized" feature for Plum Pudding, Bohr, deBroglie, Schrodinger models (feature dropped)
 (12/8/06) - make panel spacing and canvas spacing configurable via SimStrings file (waste of time)
