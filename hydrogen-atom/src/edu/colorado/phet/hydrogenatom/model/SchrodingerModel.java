@@ -286,7 +286,7 @@ public class SchrodingerModel extends DeBroglieModel {
     // Debug
     //----------------------------------------------------------------------------
     
-    private static String stateToString( int n, int l, int m ) {
+    public static String stateToString( int n, int l, int m ) {
         return "(n,l,m)=(" + n + "," + l + "," + m + ")";
     }
 }
