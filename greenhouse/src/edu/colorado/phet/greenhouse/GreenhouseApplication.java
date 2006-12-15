@@ -26,7 +26,7 @@ import java.awt.*;
  * General comments, issues:
  * I wrote this using real model coordinates and units. The origin is at the center of the earth, and the positive
  * y direction is up. Unfortunately, this has turned out to cause a host of issues.
- *
+ * <p/>
  * The snow in the ice age reflects photons, but is not really in the model. Instead I do a rough estimate of where
  * it is in the background image (in the view) and use that.
  */
@@ -87,7 +87,10 @@ public class GreenhouseApplication extends PhetApplication {
                         greenhouseModule2
                 };
                 ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
-                        SimStrings.get( "GreenHouseApplication.title" ),
+                        new String( SimStrings.get( "GreenHouseApplication.title" )
+                                    + " ("
+                                    + SimStrings.get( "GreenHouseApplication.version" )
+                                    + ")" ),
                         MessageFormatter.format( SimStrings.get( "GreenHouseApplication.description" ) ),
                         SimStrings.get( "GreenHouseApplication.version" ),
                         1024, 768 );
