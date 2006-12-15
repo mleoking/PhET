@@ -49,10 +49,11 @@ public class SpinnerControl extends HorizontalLayoutPanel {
      * @param min
      * @param max
      * @param stepSize
+     * @param columns
      * @param labelString
      * @param unitsString
      */
-    public SpinnerControl( double value, double min, double max, double stepSize, String labelString, String unitsString ) {
+    public SpinnerControl( double value, double min, double max, double stepSize, int columns, String labelString, String unitsString ) {
         super();
         
         JLabel label = new JLabel( labelString );
@@ -60,6 +61,8 @@ public class SpinnerControl extends HorizontalLayoutPanel {
         
         SpinnerModel model = new SpinnerNumberModel( value, min, max, stepSize );
         _spinner = new JSpinner( model );
+        
+        ( (JSpinner.DefaultEditor) _spinner.getEditor() ).getTextField().setColumns( columns );
         
         setInsets( DEFAULT_INSETS );
         add( label );
