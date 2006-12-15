@@ -34,7 +34,17 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 /**
  * SchrodingerNode is the visual representation of the Schrodinger model of the hydrogen atom.
  * <p>
- * Axes orientation: x horizontal, z vertical, y depth
+ * The axes are orientated with x horizontal, z vertical, y depth.
+ * <p>
+ * Probability density is computed in 3D. The atom's 3D space is treated as
+ * a cube containing NxNxN discrete cells. The probability density is computed
+ * at the center of each cell.
+ * <p>
+ * The NxNxN 3D cube is projected onto an NxN 2D grid that covers the animation box.
+ * Depth information is mapped to color brightness. The sum of probability densities
+ * for the depth dimension (y axis) are normalized to a brightness value that has
+ * a range 0...1 inclusive.  Each cell in the NxN grid has a brightness value that
+ * is used to generate the cell's color.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -181,7 +191,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     }
     
     //----------------------------------------------------------------------------
-    // Rendering
+    // Property change handlers
     //----------------------------------------------------------------------------
     
     /*
