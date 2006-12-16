@@ -23,7 +23,6 @@ public class ReadoutSetNode extends PhetPNode {
         this.module = module;
         this.circuit = circuit;
         circuit.addCircuitListener( new CircuitListenerAdapter() {
-
             public void branchRemoved( Branch branch ) {
                 removeBranchReadout( branch );
             }
@@ -44,7 +43,7 @@ public class ReadoutSetNode extends PhetPNode {
         return readoutNode;
     }
 
-    private void removeBranchReadout( Branch branch ) {
+    protected void removeBranchReadout( Branch branch ) {
         for( int i = 0; i < getChildrenCount(); i++ ) {
             ReadoutNode child = (ReadoutNode)getChild( i );
             if( child.getBranch() == branch ) {
@@ -56,5 +55,9 @@ public class ReadoutSetNode extends PhetPNode {
 
     public boolean isReadoutVisible( Branch branch ) {
         return branch.isEditing();
+    }
+
+    public void setAllReadoutsVisible( boolean visible ) {
+        circuit.setAllComponentsEditing( visible );
     }
 }

@@ -5,10 +5,6 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 /**
  * User: Sam Reid
  * Date: Oct 8, 2006
@@ -21,6 +17,10 @@ public class EditingReadoutSetNode extends ReadoutSetNode {
         super( module, circuit );
     }
 
+    protected void removeBranchReadout( Branch branch ) {
+        //todo remove the observer?
+    }
+
     protected ReadoutNode createReadoutNode( final Branch branch ) {
         final ReadoutNode node = super.createReadoutNode( branch );
         //todo do we need to delete this observer manually?
@@ -30,12 +30,12 @@ public class EditingReadoutSetNode extends ReadoutSetNode {
             }
         } );
         updateNode( node, branch );
-        Timer timer = new Timer( 30, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                System.out.println( "branch.geth=" + branch.hashCode() + ", vis=" + node.getVisible() );
-            }
-        } );
-        timer.start();
+//        Timer timer = new Timer( 30, new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                System.out.println( "branch.geth=" + branch.hashCode() + ", vis=" + node.getVisible() );
+//            }
+//        } );
+//        timer.start();
         return node;
     }
 

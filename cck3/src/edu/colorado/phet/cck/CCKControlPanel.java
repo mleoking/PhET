@@ -8,6 +8,8 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.ResistivityManager;
 import edu.colorado.phet.cck.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.util.services.InputStreamFileContents;
+import edu.colorado.phet.common.util.services.PhetServiceManager;
 import edu.colorado.phet.common.view.HelpPanel;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
@@ -16,8 +18,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
 import net.n3.nanoxml.*;
-import edu.colorado.phet.common.util.services.PhetServiceManager;
-import edu.colorado.phet.common.util.services.InputStreamFileContents;
 
 import javax.jnlp.BasicService;
 import javax.jnlp.FileContents;
@@ -297,14 +297,15 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     }
 
     private JPanel makeVisualPanel() {
-        final JCheckBox showReadouts = new JCheckBox( SimStrings.get( "CCK3ControlPanel.ShowValuesCheckBox" ) );
-        showReadouts.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                boolean r = showReadouts.isSelected();
-                module.setAllReadoutsVisible( r );
-                module.getSimulationPanel().repaint();
-            }
-        } );
+
+//        final JCheckBox showReadouts = new JCheckBox( SimStrings.get( "CCK3ControlPanel.ShowValuesCheckBox" ) );
+//        showReadouts.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                boolean r = showReadouts.isSelected();
+//                module.setAllReadoutsVisible( r );
+//                module.getSimulationPanel().repaint();
+//            }
+//        } );
         JRadioButton lifelike = new JRadioButton( SimStrings.get( "CCK3ControlPanel.LIfelikeRadioButton" ), true );
         JRadioButton schematic = new JRadioButton( SimStrings.get( "CCK3ControlPanel.SchematicRadioButton" ), false );
 
@@ -328,7 +329,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
             visualizationPanel.add( schematic );
         }
         if( module.getParameters().allowShowReadouts() ) {
-            visualizationPanel.add( showReadouts );
+            visualizationPanel.add( new ShowReadoutPanel( module ) );
         }
         return addBorder( SimStrings.get( "CCK3ControlPanel.VisualPanelBorder" ), visualizationPanel );
     }
