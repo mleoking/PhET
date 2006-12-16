@@ -65,7 +65,6 @@ public class CircuitNode extends PhetPNode {
                     return null;
                 }
             }
-
         };
         electronLayer = new ElectronSetNode( this, cckModel );
         readoutLayer = new ReadoutSetNode( module, circuit );
@@ -242,13 +241,15 @@ public class CircuitNode extends PhetPNode {
         return (Branch[])list.toArray( new Branch[0] );
     }
 
-    public java.awt.geom.AffineTransform getTransformForZoom( double zoom ) {
+    public java.awt.geom.AffineTransform getTransformForZoom( double zoom, CCKSimulationPanel panel ) {
         double scale = 1.0 / zoom;
         AffineTransform preTx = getTransform();
 
-        //setup the desired final state, after zoom. 
-        setScale( scale );
-        translate( 5 / scale - getFullBounds().getX() / scale - getFullBounds().getWidth() / 2 / scale, 5 / scale - getFullBounds().getY() / scale - getFullBounds().getHeight() / 2 / scale );
+        //setup the desired final state, after zoom.
+        setScale( 1.0 );
+        setOffset( 0, 0 );
+        scaleAboutPoint( scale, 5, 5 );
+
         AffineTransform postTx = getTransform();
         //now go from start to finish
         setTransform( preTx );

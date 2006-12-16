@@ -227,7 +227,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     }
 
     public void setZoom( double zoom ) {
-        AffineTransform desiredTx = circuitNode.getTransformForZoom( zoom );
+        AffineTransform desiredTx = circuitNode.getTransformForZoom( zoom, this );
         int animateTime = 2000;
         circuitNode.animateToTransform( desiredTx, animateTime );
         measurementToolSetNode.animateToTransform( desiredTx, animateTime );
