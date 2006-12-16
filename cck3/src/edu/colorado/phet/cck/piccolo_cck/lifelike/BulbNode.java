@@ -184,6 +184,8 @@ public class BulbNode extends PhetPNode {
             PPath pPath = new PPath( (Shape)brighties.get( i ) );
             pPath.setStrokePaint( brightyColor );
             pPath.setStroke( brightyStroke );
+            pPath.setPickable( false );
+            pPath.setChildrenPickable( false );
             addChild( pPath );
         }
     }
