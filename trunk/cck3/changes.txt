@@ -7,7 +7,9 @@ Fixed: When adjusting a voltage or resistance continuously with a slider, the ci
 Fixed: "Show Connection at Right" for bulb turns the bulb upside-down.
 Fixed: Bulb left/right directions are backwards.
 Converted "show values" checkbox to a pair of buttons (on control panel).
-Fixed: Sometimes readout is still displayed after its component is deleted. 
+Fixed: Sometimes readout is still displayed after its component is deleted.
+Fixed: Bulb rays are grabbable.
+Bugs fixed in 3.04.09 bug report [1-8]
 
 3.04.10 (12-12-2006)
 Added a launch file for DC Only version.
