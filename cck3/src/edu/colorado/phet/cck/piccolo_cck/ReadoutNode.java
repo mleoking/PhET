@@ -188,4 +188,8 @@ public class ReadoutNode extends PhetPNode {
 //            return (String[])text.toArray( new String[0] );
 //        }
 //    }
+
+    public void update() {
+        setVisible( branch.isEditing() );
+    }
 }
