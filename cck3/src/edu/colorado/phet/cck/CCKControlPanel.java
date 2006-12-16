@@ -252,19 +252,9 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
         }
         toolPanel.setBorder( new CCKTitledBorder( SimStrings.get( "CCK3ControlPanel.ToolsPanelBorder" ) ) );
         return toolPanel;
-//        return addBorder( SimStrings.get( "CCK3ControlPanel.ToolsPanelBorder" ), toolPanel );
     }
 
     private JPanel makeVisualPanel() {
-
-//        final JCheckBox showReadouts = new JCheckBox( SimStrings.get( "CCK3ControlPanel.ShowValuesCheckBox" ) );
-//        showReadouts.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                boolean r = showReadouts.isSelected();
-//                module.setAllReadoutsVisible( r );
-//                module.getSimulationPanel().repaint();
-//            }
-//        } );
         JRadioButton lifelike = new JRadioButton( SimStrings.get( "CCK3ControlPanel.LIfelikeRadioButton" ), true );
         JRadioButton schematic = new JRadioButton( SimStrings.get( "CCK3ControlPanel.SchematicRadioButton" ), false );
 
@@ -292,7 +282,6 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
         }
         visualizationPanel.setBorder( new CCKTitledBorder( SimStrings.get( "CCK3ControlPanel.VisualPanelBorder" ) ) );
         return visualizationPanel;
-//        return addBorder( SimStrings.get( "CCK3ControlPanel.VisualPanelBorder" ), visualizationPanel );
     }
 
     private void load() throws IOException, XMLException {
@@ -472,22 +461,6 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
             super.paintBorder( c, g, x, y, width, height );
         }
     }
-
-    public static JPanel addBorder( String title, JPanel contents ) {
-        contents.setBorder( new CCKTitledBorder( title ) );
-//        contents.setBorder( new TitledBorder( BorderFactory.createRaisedBevelBorder(), title ) {
-//            public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
-//                Graphics2D g2 = (Graphics2D)g;
-//                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-//                super.paintBorder( c, g, x, y, width, height );
-//            }
-//        } );
-        return contents;
-    }
-
-//    private JPanel makeAdvancedPanel() {
-//        return new AdvancedControlPanel( module );
-//    }
 
     public boolean isSeriesAmmeterSelected() {
         return seriesAmmeter.isSelected();
