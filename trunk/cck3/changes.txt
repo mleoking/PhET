@@ -12,7 +12,8 @@ Fixed: Bulb rays are grabbable.
 Fixed: Zoom in/out incorrectly translates the play area.
 Fixed: Zoom in/out makes it possible to lose the voltmeter.
 Fixed: Number of significant digits in slider is different from on-component readout.
-Bugs fixed in 3.04.09 bug report [1-12]
+Fixed: Virtual Ammeter doesn't update unless dragged.
+Bugs fixed in 3.04.09 bug report [1-12, 14-15]
 
 3.04.10 (12-12-2006)
 Added a launch file for DC Only version.
