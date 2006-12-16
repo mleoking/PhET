@@ -9,7 +9,7 @@ Fixed: Bulb left/right directions are backwards.
 Converted "show values" checkbox to a pair of buttons (on control panel).
 Fixed: Sometimes readout is still displayed after its component is deleted.
 Fixed: Bulb rays are grabbable.
-Bugs fixed in 3.04.09 bug report [1-8]
+Bugs fixed in 3.04.09 bug report [1-10]
 
 3.04.10 (12-12-2006)
 Added a launch file for DC Only version.
