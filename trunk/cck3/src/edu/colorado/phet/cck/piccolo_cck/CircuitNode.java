@@ -69,9 +69,8 @@ public class CircuitNode extends PhetPNode {
         };
         electronLayer = new ElectronSetNode( this, cckModel );
         readoutLayer = new ReadoutSetNode( module, circuit );
-//        readoutLayer.setVisible( false );
 
-        editingReadoutLayer = new EditingReadoutSetNode( module, circuit );
+        editingReadoutLayer = new ReadoutSetNode( module, circuit );
 
         addChild( solderLayer );
         addChild( branchLayer );
