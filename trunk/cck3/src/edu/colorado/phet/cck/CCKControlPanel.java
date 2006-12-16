@@ -65,7 +65,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
         this.module = module;
         JPanel filePanel = makeFilePanel();
         if( useAdvanced() ) {
-            advancedPanel = makeAdvancedPanel();
+            advancedPanel = new AdvancedControlPanel( module );
         }
 
         JPanel visualPanel = makeVisualPanel();
@@ -76,7 +76,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
         catch( IOException e ) {
             e.printStackTrace();
         }
-        JPanel sizePanel = makeSizePanel();
+        JPanel sizePanel = new SizeControlPanel( module );
 
         JButton jb = new JButton( SimStrings.get( "CCK3ControlPanel.LocalHelpButton" ) );
         jb.addActionListener( new ActionListener() {
@@ -157,48 +157,6 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
 
     private void addGrabBag() {
         module.addGrabBag();
-    }
-
-    private JPanel makeSizePanel() {
-        final JSpinner zoom = new JSpinner( new SpinnerNumberModel( 1, .1, 10, .1 ) );
-        zoom.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                Number value = (Number)zoom.getValue();
-                double v = value.doubleValue();
-                zoom( v );
-            }
-        } );
-        zoom.setSize( 50, zoom.getPreferredSize().height );
-        zoom.setPreferredSize( new Dimension( 50, zoom.getPreferredSize().height ) );
-
-        JPanel zoomPanel = new VerticalLayoutPanel();
-        ButtonGroup zoomGroup = new ButtonGroup();
-        JRadioButton small = new JRadioButton( SimStrings.get( "CCK3ControlPanel.SmallRadioButton" ) );
-        small.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                zoom( 2 );
-            }
-        } );
-        JRadioButton medium = new JRadioButton( SimStrings.get( "CCK3ControlPanel.MediumRadioButton" ) );
-        medium.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                zoom( 1 );
-            }
-        } );
-        JRadioButton large = new JRadioButton( SimStrings.get( "CCK3ControlPanel.LargeRadioButton" ) );
-        large.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                zoom( .5 );
-            }
-        } );
-        medium.setSelected( true );
-        zoomGroup.add( large );
-        zoomGroup.add( medium );
-        zoomGroup.add( small );
-        zoomPanel.add( large );
-        zoomPanel.add( medium );
-        zoomPanel.add( small );
-        return addBorder( SimStrings.get( "CCK3ControlPanel.SizePanelBorder" ), zoomPanel );
     }
 
     private JPanel makeToolPanel() throws IOException {
@@ -292,8 +250,9 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
             } );
             toolPanel.add( voltageChartButton, rhs );
         }
-
-        return addBorder( SimStrings.get( "CCK3ControlPanel.ToolsPanelBorder" ), toolPanel );
+        toolPanel.setBorder( new CCKTitledBorder( SimStrings.get( "CCK3ControlPanel.ToolsPanelBorder" ) ) );
+        return toolPanel;
+//        return addBorder( SimStrings.get( "CCK3ControlPanel.ToolsPanelBorder" ), toolPanel );
     }
 
     private JPanel makeVisualPanel() {
@@ -331,7 +290,9 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
         if( module.getParameters().allowShowReadouts() ) {
             visualizationPanel.add( new ShowReadoutPanel( module ) );
         }
-        return addBorder( SimStrings.get( "CCK3ControlPanel.VisualPanelBorder" ), visualizationPanel );
+        visualizationPanel.setBorder( new CCKTitledBorder( SimStrings.get( "CCK3ControlPanel.VisualPanelBorder" ) ) );
+        return visualizationPanel;
+//        return addBorder( SimStrings.get( "CCK3ControlPanel.VisualPanelBorder" ), visualizationPanel );
     }
 
     private void load() throws IOException, XMLException {
@@ -411,10 +372,6 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
             JOptionPane.showMessageDialog( module.getSimulationPanel(), sw.getBuffer().toString(),
                                            SimStrings.get( "CCK3ControlPanel.ErrorLoadingHelpDialog" ), JOptionPane.ERROR_MESSAGE );
         }
-    }
-
-    private void zoom( double scale ) {
-        module.setZoom( scale );
     }
 
     private static void printEm( ICCKModule module ) {
@@ -500,24 +457,37 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
         filePanelContents.add( clear );
         filePanelContents.add( save );
         filePanelContents.add( load );
-        return addBorder( SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ), filePanelContents );
+        filePanelContents.setBorder( new CCKTitledBorder( SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ) ) );
+        return filePanelContents;
     }
 
-    private static JPanel addBorder( String title, JPanel contents ) {
-        contents.setBorder( new TitledBorder( BorderFactory.createRaisedBevelBorder(), title ) {
-            public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
-                Graphics2D g2 = (Graphics2D)g;
-                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-                super.paintBorder( c, g, x, y, width, height );
-            }
-        } );
+    public static class CCKTitledBorder extends TitledBorder {
+        public CCKTitledBorder( String title ) {
+            super( BorderFactory.createRaisedBevelBorder(), title );
+        }
+
+        public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
+            Graphics2D g2 = (Graphics2D)g;
+            g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            super.paintBorder( c, g, x, y, width, height );
+        }
+    }
+
+    public static JPanel addBorder( String title, JPanel contents ) {
+        contents.setBorder( new CCKTitledBorder( title ) );
+//        contents.setBorder( new TitledBorder( BorderFactory.createRaisedBevelBorder(), title ) {
+//            public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
+//                Graphics2D g2 = (Graphics2D)g;
+//                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//                super.paintBorder( c, g, x, y, width, height );
+//            }
+//        } );
         return contents;
     }
 
-    private JPanel makeAdvancedPanel() {
-        AdvancedControlPanel advancedControlPanel = new AdvancedControlPanel( module );
-        return addBorder( SimStrings.get( "CCK3ControlPanel.AdvancedPanelBorder" ), advancedControlPanel );
-    }
+//    private JPanel makeAdvancedPanel() {
+//        return new AdvancedControlPanel( module );
+//    }
 
     public boolean isSeriesAmmeterSelected() {
         return seriesAmmeter.isSelected();
@@ -584,6 +554,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
                     dialog.setVisible( false );
                 }
             } );
+            setBorder( new CCKTitledBorder( SimStrings.get( "CCK3ControlPanel.AdvancedPanelBorder" ) ) );
         }
 
         /* Shows the advanced controls in a dialog. */
