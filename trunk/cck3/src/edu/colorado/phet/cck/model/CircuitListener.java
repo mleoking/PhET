@@ -26,4 +26,6 @@ public interface CircuitListener {
     void branchAdded( Branch branch );
 
     void selectionChanged();
+
+    void editingChanged();
 }

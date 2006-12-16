@@ -35,4 +35,16 @@ public class Wire extends Branch {
     public Line2D.Double getLine() {
         return new Line2D.Double( getStartPoint(), getEndPoint() );
     }
+
+    public boolean isEditing() {
+        return false;
+    }
+
+    public void setEditing( boolean editing ) {
+        //no-op for wire
+    }
+
+    public boolean isEditable() {
+        return false;
+    }
 }

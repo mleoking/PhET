@@ -7,6 +7,7 @@ import edu.colorado.phet.cck.phetgraphics_cck.circuit.VoltageCalculation;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common_cck.util.SimpleObserver;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -151,14 +152,6 @@ public class Circuit {
         }
     }
 
-//    public boolean areNeighbors( Junction a, Junction b ) {
-//        if( a == b ) {
-//            return false;
-//        }
-//        Junction[] na = getNeighbors( a );
-//        return Arrays.asList( na ).contains( b );
-//    }
-
     public void addBranch( Branch component ) {
         if( component == null ) {
             throw new RuntimeException( "Null component." );
@@ -169,8 +162,34 @@ public class Circuit {
 
         addJunction( component.getStartJunction() );
         addJunction( component.getEndJunction() );
+        component.addObserver( editingObserver );
     }
 
+    EditingObserver editingObserver = new EditingObserver();
+
+    public int numEditable() {
+        int count = 0;
+        for( int i = 0; i < branches.size(); i++ ) {
+            Branch branch = (Branch)branches.get( i );
+            if( branch.isEditable() ) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    class EditingObserver implements SimpleObserver {
+        public void update() {
+            notifyEditingChanged();
+        }
+    }
+
+    private void notifyEditingChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            CircuitListener circuitListener = (CircuitListener)listeners.get( i );
+            circuitListener.editingChanged();
+        }
+    }
 //    public void notifyNeighbors( Branch b ) {
 //        ArrayList alreadyNotified = new ArrayList();
 //        Branch[] br1 = getAdjacentBranches( b.getStartJunction() );
@@ -314,6 +333,7 @@ public class Circuit {
     }
 
     public void removeBranch( Branch branch ) {
+        branch.removeObserver( editingObserver );
         branches.remove( branch );
         removeNeighborJunctions( branch );
         branch.delete();
@@ -641,6 +661,24 @@ public class Circuit {
                 i = -1;
             }
         }
+    }
+
+    public void setAllComponentsEditing( boolean editing ) {
+        for( int i = 0; i < branches.size(); i++ ) {
+            Branch branch = (Branch)branches.get( i );
+            branch.setEditing( editing );
+        }
+    }
+
+    public int getNumEditing() {
+        int count = 0;
+        for( int i = 0; i < branches.size(); i++ ) {
+            Branch branch = (Branch)branches.get( i );
+            if( branch.isEditing() ) {
+                count++;
+            }
+        }
+        return count;
     }
 
     public static class DragMatch {

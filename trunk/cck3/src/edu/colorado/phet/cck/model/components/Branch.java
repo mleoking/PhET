@@ -355,4 +355,8 @@ public abstract class Branch extends SimpleObservableDebug {
             notifyObservers();
         }
     }
+
+    public boolean isEditable() {
+        return true;
+    }
 }

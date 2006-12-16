@@ -36,4 +36,7 @@ public class CircuitListenerAdapter implements CircuitListener {
 
     public void selectionChanged() {
     }
+
+    public void editingChanged() {
+    }
 }

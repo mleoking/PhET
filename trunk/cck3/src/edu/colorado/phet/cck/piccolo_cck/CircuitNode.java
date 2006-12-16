@@ -175,6 +175,7 @@ public class CircuitNode extends PhetPNode {
 
     public void setAllReadoutsVisible( boolean visible ) {
         readoutLayer.setVisible( visible );
+        readoutLayer.setAllReadoutsVisible( visible );
     }
 
     public ClipFactory getClipFactory() {
