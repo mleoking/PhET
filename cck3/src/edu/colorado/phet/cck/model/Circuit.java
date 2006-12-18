@@ -28,6 +28,7 @@ public class Circuit {
     private ArrayList listeners = new ArrayList();
     private CircuitChangeListener circuitChangeListener;
     private boolean fireKirkhoffChanges = true;
+    private boolean allowUserEdits = true;
 
     public Circuit() {
         this( new CompositeCircuitChangeListener() );
@@ -162,7 +163,9 @@ public class Circuit {
 
         addJunction( component.getStartJunction() );
         addJunction( component.getEndJunction() );
-        component.addObserver( editingObserver );
+        if( allowUserEdits ) {
+            component.addObserver( editingObserver );
+        }
     }
 
     EditingObserver editingObserver = new EditingObserver();
@@ -176,6 +179,10 @@ public class Circuit {
             }
         }
         return count;
+    }
+
+    public void setAllowUserEdits( boolean allowUserEdits ) {
+        this.allowUserEdits = allowUserEdits;
     }
 
     class EditingObserver implements SimpleObserver {

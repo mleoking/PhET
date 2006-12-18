@@ -38,6 +38,7 @@ public class CircuitAnalysisCCKAdapter extends CircuitSolver {
 
     private Circuit createSubCircuit( Branch[] branchs ) {
         Circuit subCircuit = new Circuit();
+        subCircuit.setAllowUserEdits(false);
         for( int j = 0; j < branchs.length; j++ ) {
             Branch branch = branchs[j];
             subCircuit.addBranch( branch );
