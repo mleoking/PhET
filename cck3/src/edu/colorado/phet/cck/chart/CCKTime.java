@@ -9,9 +9,10 @@ package edu.colorado.phet.cck.chart;
  */
 
 public class CCKTime {
-    public static final double scale = 5 / 100.0;
+    public static final double modelTimeScale = 5;
+    public static final double viewTimeScale = modelTimeScale / 100.0;
 
-    public double getDisplayTime( double simulationTime ) {
-        return simulationTime * scale;
+    public static double getDisplayTime( double simulationTime ) {
+        return simulationTime * viewTimeScale;
     }
 }

@@ -96,7 +96,8 @@ public class CCKModel {
 
 
     public void stepInTime( double dt ) {
-        dt = 1.0;//todo we can no longer have DT dynamic because it destroys smoothness of the plots
+//        dt = 1.0;
+        //todo we can no longer have DT dynamic because it destroys smoothness of the plots
         if( getCircuit().isDynamic() || modelChanged ) {
             getCircuit().stepInTime( dt );
             circuitSolver.apply( getCircuit() );
@@ -108,10 +109,10 @@ public class CCKModel {
     public Circuit getCircuit() {
         return circuit;
     }
-
-    private boolean isRunning() {
-        return true;
-    }
+//
+//    private boolean isRunning() {
+//        return true;
+//    }
 
     public double getScale() {
         return SCALE;

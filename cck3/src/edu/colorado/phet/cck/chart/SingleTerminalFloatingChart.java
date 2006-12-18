@@ -47,8 +47,7 @@ public abstract class SingleTerminalFloatingChart extends AbstractFloatingChart 
         if( crosshairNode != null && valueReader != null ) {
             Point2D location = getLocation();
             double value = valueReader.getValue( location.getX(), location.getY() );
-            CCKTime cckTime = new CCKTime();
-            double t = cckTime.getDisplayTime( super.getClock().getSimulationTime() );
+            double t = CCKTime.getDisplayTime( super.getClock().getSimulationTime() );
             getStripChartJFCNode().addValue( t, value );
         }
     }
