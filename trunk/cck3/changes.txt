@@ -16,7 +16,9 @@ Fixed: Virtual Ammeter doesn't update unless dragged.
 Fixed: AC Voltage source is off by a factor of 5.
 Fixed: AC Edit dialogs are initialized incorrectly.
 Renamed "Frequency" to "Change Frequency" in AC Voltage Source menu.
-Bugs fixed in 3.04.09 bug report [1-12, 14-15, 18,21,22]
+Renamed "Edit Capacitance" to "Change Capacitance" in capacitor menu.
+Renamed "Edit Inductance" to "Change Inductance" in inductor menu.
+Bugs fixed in 3.04.09 bug report [1-12, 14-15, 18,21,22,23]
 Bugs recommended but skipped[16,  
 
 3.04.10 (12-12-2006)
