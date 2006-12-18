@@ -26,7 +26,7 @@ public class SoundConfig {
     }
 
     // Version
-    public static final String VERSION = "2.05.03";
+    public static final String VERSION = "2.06";
 
     // Localization
     public static final String localizedStringsPath = "localization/SoundStrings";
