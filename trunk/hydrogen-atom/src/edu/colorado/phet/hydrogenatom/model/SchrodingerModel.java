@@ -194,16 +194,16 @@ public class SchrodingerModel extends DeBroglieModel {
      * Wavefunction.
      */
     private static double getWaveFunction( int n, int l, int m, double r, double cosTheta ) {
-        final double t1 = getLaguerrePolynomial( n, l, r );
+        final double t1 = getGeneralizedLaguerrePolynomial( n, l, r );
         final double t2 = getAssociatedLegendrePolynomial( l, Math.abs( m ), cosTheta );
         return ( t1 * t2 );
     }
     
     /*
-     * Laguerre Polynomial.
+     * Generalized Laguerre Polynomial.
      * Codified from design document.
      */
-    private static double getLaguerrePolynomial( int n, int l, double r ) {
+    private static double getGeneralizedLaguerrePolynomial( int n, int l, double r ) {
         final double a = BohrModel.getOrbitRadius( n ) / ( n * n );
         final double multiplier = Math.pow( r, l ) * Math.exp( -r / ( n * a ) );
         final double b0 = 2.0 * Math.pow( ( n * a ), ( -1.5 ) ); // b0
