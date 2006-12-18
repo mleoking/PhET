@@ -26,7 +26,7 @@ ignorepath      (those elements of the ant classpath that should not be
 <project name="General Ant Build Script" default="Generate Jar" basedir=".">
 
     <!-- Project specific properties   -->
-    <property file="build.properties"/>
+    <property file="photoelectric-build.properties"/>
 
     <!--  Set ant output directories. They get made if they don't exist -->
     <property name="project_home" value=".."/>
