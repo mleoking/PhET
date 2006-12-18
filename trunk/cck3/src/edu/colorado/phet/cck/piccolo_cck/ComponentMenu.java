@@ -398,7 +398,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
 
         protected void addOptionalItemsAfterEditor() {
             super.addOptionalItemsAfterEditor();
-            JMenuItem edit = new JMenuItem( "Frequency" );
+            JMenuItem edit = new JMenuItem( "Change Frequency" );
             final ComponentEditor editor = createFrequencyEditor( (ACVoltageSource)getBattery() );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
