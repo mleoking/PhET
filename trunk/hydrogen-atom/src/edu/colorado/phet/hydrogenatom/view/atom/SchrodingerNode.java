@@ -15,6 +15,11 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.text.MessageFormat;
 import java.util.Observable;
 import java.util.Observer;
@@ -66,6 +71,9 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     // Shows the (n,l,m) state in the upper left corner
     private static final boolean DEBUG_SHOW_STATE = true;
     
+    // Prints debugging output related to the brightness cache
+    private static final boolean DEBUG_CACHE = true;
+    
     //----------------------------------------------------------------------------
     // Public class data
     //----------------------------------------------------------------------------
@@ -92,7 +100,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     private final static double CELL_HEIGHT = ( HAConstants.ANIMATION_BOX_SIZE.getHeight() / NUMBER_OF_VERTICAL_CELLS ) / 2.0;
     private final static double CELL_DEPTH = ( HAConstants.ANIMATION_BOX_SIZE.getHeight() / NUMBER_OF_DEPTH_CELLS ) / 2.0;
     
-    // colors used to represent probability density
+    // colors used to represent probability density -- MUST BE OPAQUE!
     private static final Color MAX_COLOR = ElectronNode.getColor();
     private static final Color MIN_COLOR = Color.BLACK;
         
@@ -123,7 +131,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     private AtomNode _fieldNode;
     // proton node
     private ProtonNode _protonNode;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -221,7 +229,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         int n = _atom.getElectronState();
         int l = _atom.getSecondaryElectronState();
         int m = Math.abs( _atom.getTertiaryElectronState() );
-        double[][] brightness = BRIGHTNESS_CACHE.getBrightness( n, l, m );
+        float[][] brightness = BRIGHTNESS_CACHE.getBrightness( n, l, m );
         
         // Update the atom.
         _fieldNode.setBrightness( brightness );
@@ -329,7 +337,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         
         private static final double CELL_OVERLAP = 0.1; // 1.0 = 100%
         
-        private double[][] _brightness; // brightness values, [row][column]
+        private float[][] _brightness; // brightness values, [row][column]
         private double _cellWidth, _cellHeight;
         private Rectangle2D _rectangle; // reusable rectangle for drawing cells
         
@@ -352,7 +360,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
          * 
          * @param brightness
          */
-        public void setBrightness( double[][] brightness ) {
+        public void setBrightness( float[][] brightness ) {
             _brightness = brightness;
             _cellHeight = getHeight() / brightness.length;
             _cellWidth = getWidth() / brightness[0].length;
@@ -423,6 +431,8 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         private GridNode _gridNode;
         // the 4 quadrants of the box
         private PImage _upperLeftNode, _upperRightNode, _lowerLeftNode, _lowerRightNode;
+        // reusable buffered image
+        private BufferedImage _bufferedImage;
 
         /**
          * Constructor.
@@ -433,6 +443,8 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             setChildrenPickable( false );
             
             _gridNode = new GridNode( BOX_WIDTH / 2, BOX_HEIGHT / 2 );
+            
+            _bufferedImage = new BufferedImage( (int)_gridNode.getWidth(), (int)_gridNode.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
 
             _upperLeftNode = new PImage();
             AffineTransform upperLeftTransform = new AffineTransform();
@@ -469,9 +481,9 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
          * 
          * @param brightness
          */
-        public void setBrightness( double[][] brightness ) {
+        public void setBrightness( float[][] brightness ) {
             _gridNode.setBrightness( brightness );
-            Image image = _gridNode.toImage();
+            Image image = _gridNode.toImage( _bufferedImage, null );
             _upperLeftNode.setImage( image );
             _upperRightNode.setImage( image );
             _lowerLeftNode.setImage( image );
@@ -488,22 +500,22 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
      */
     private static final class BrightnessCache {
         
-        private double[][][][][] _cache; // [n][l][m][z][x]
-        double[][] _sums; // reusable array
+        private float[][][][][] _cache; // [n][l][m][z][x]
+        float[][] _sums; // reusable array
         
         public BrightnessCache( boolean populate ) {
 
-            _sums = new double[NUMBER_OF_VERTICAL_CELLS][NUMBER_OF_HORIZONTAL_CELLS];
+            _sums = new float[NUMBER_OF_VERTICAL_CELLS][NUMBER_OF_HORIZONTAL_CELLS];
             
             int statesCount = 0;
             int nSize = SchrodingerModel.getNumberOfStates();
-            _cache = new double[nSize][][][][];
+            _cache = new float[nSize][][][][];
             for ( int n = 1; n <= nSize; n++ ) {
                 int lSize = n;
-                _cache[n-1] = new double[lSize][][][];
+                _cache[n-1] = new float[lSize][][][];
                 for ( int l = 0; l < lSize; l++ ) {
                     int mSize = lSize;
-                    _cache[n-1][l] = new double[mSize][][];
+                    _cache[n-1][l] = new float[mSize][][];
                     for ( int m = 0; m <= l; m++ ) {
                         statesCount++;
                         if ( populate ) {
@@ -512,7 +524,9 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
                     }
                 }
             }
-            System.out.println( "BrightnessCache has room for " + statesCount + " states" );//XXX
+            if ( DEBUG_CACHE ) {
+                System.out.println( "BrightnessCache has room for " + statesCount + " states" );//XXX
+            }
         }
         
         /**
@@ -524,10 +538,12 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
          * @param m
          * @return
          */
-        public double[][] getBrightness( int n, int l, int m ) {
-            double[][] brightness = _cache[n-1][l][m];
+        public float[][] getBrightness( int n, int l, int m ) {
+            float[][] brightness = _cache[n-1][l][m];
             if ( brightness == null ) {
-                System.out.println( "BrightnessCache adding entry for " + SchrodingerModel.stateToString( n, l, m ) );//XXX
+                if ( DEBUG_CACHE ) {
+                    System.out.println( "BrightnessCache adding entry for " + SchrodingerModel.stateToString( n, l, m ) );//XXX
+                }
                 brightness = computeBrightness( n, l, m, _sums );
                 _cache[n-1][l][m] = brightness;
             }
@@ -542,11 +558,11 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
          * @param sums resuable array of probability density sums
          * @return
          */
-        private static final double[][] computeBrightness( int n, int l, int m, double[][] sums ) {
+        private static final float[][] computeBrightness( int n, int l, int m, float[][] sums ) {
             
-            double[][] brightness = new double[NUMBER_OF_VERTICAL_CELLS][NUMBER_OF_HORIZONTAL_CELLS];
+            float[][] brightness = new float[NUMBER_OF_VERTICAL_CELLS][NUMBER_OF_HORIZONTAL_CELLS];
             
-            double maxSum = 0;
+            float maxSum = 0;
             
             for ( int row = 0; row < NUMBER_OF_VERTICAL_CELLS; row++ ) {
                 double z = ( row * CELL_HEIGHT ) + ( CELL_HEIGHT / 2 );
@@ -554,7 +570,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
                 for ( int column = 0; column < NUMBER_OF_HORIZONTAL_CELLS; column++ ) {
                     double x = ( column * CELL_WIDTH ) + ( CELL_WIDTH / 2 );
                     assert ( x > 0 );
-                    double sum = 0;
+                    float sum = 0;
                     for ( int depth = 0; depth < NUMBER_OF_DEPTH_CELLS; depth++ ) {
                         double y = ( depth * CELL_DEPTH ) + ( CELL_DEPTH / 2 );
                         assert ( y > 0 );
@@ -570,7 +586,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
 
             for ( int row = 0; row < NUMBER_OF_VERTICAL_CELLS; row++ ) {
                 for ( int column = 0; column < NUMBER_OF_HORIZONTAL_CELLS; column++ ) {
-                    double b = 0;
+                    float b = 0;
                     if ( maxSum > 0 ) {
                         b = sums[row][column] / maxSum;
                     }
