@@ -18,7 +18,8 @@ Fixed: AC Edit dialogs are initialized incorrectly.
 Renamed "Frequency" to "Change Frequency" in AC Voltage Source menu.
 Renamed "Edit Capacitance" to "Change Capacitance" in capacitor menu.
 Renamed "Edit Inductance" to "Change Inductance" in inductor menu.
-Bugs fixed in 3.04.09 bug report [1-12, 14-15, 18,21,22,23]
+Removed Zoom handler.
+Bugs fixed in 3.04.09 bug report [1-12, 14-15, 18,21,22,23,24]
 Bugs recommended but skipped[16,  
 
 3.04.10 (12-12-2006)
