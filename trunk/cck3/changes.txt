@@ -23,6 +23,7 @@ Voltage Strip chart probes now work correctly at different zoom levels.
 Fixed: Capacitor reads ohms instead of Farads.
 Fixed: Battery voltage editor has incorrect behavior when switching to larger range & back.
 Fixed: Capacitor editor initialized to wrong value.
+Fixed: Inductor reads ohms instead of Henries.
 Bugs fixed in 3.04.09 bug report [1-12, 14-15, 18,21,22,23,24,27]
 Bugs recommended but skipped[16,  
 
