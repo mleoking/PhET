@@ -16,7 +16,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.util.PhysicsUtil;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -46,8 +45,8 @@ public class Photon extends Particle implements Collidable {
     static public double GRAY = 5000;
     static private Random random = new Random();
 
-    static private EventChannel photonEmittedEventChannel = new EventChannel( PhotonEmittedListener.class );
-    static private PhotonEmittedListener photonEmittedListenerProxy = (PhotonEmittedListener)photonEmittedEventChannel.getListenerProxy();
+    static private EventChannel photonEmittedEventChannel = new EventChannel( PhotonEmissionListener.class );
+    static private PhotonEmissionListener photonEmissionListenerProxy = (PhotonEmissionListener)photonEmittedEventChannel.getListenerProxy();
 
     // Free pool of photons. We do this so we don't have to use the heap
     // at run-time
@@ -58,7 +57,7 @@ public class Photon extends Particle implements Collidable {
         Photon newPhoton = new Photon();
         newPhoton.setPosition( location );
         newPhoton.setVelocity( velocity );
-        photonEmittedListenerProxy.photonEmitted( new PhotonEmittedEvent( Photon.class, newPhoton ) );
+        photonEmissionListenerProxy.photonEmitted( new PhotonEmittedEvent( Photon.class, newPhoton ) );
         return newPhoton;
     }
 
@@ -72,7 +71,7 @@ public class Photon extends Particle implements Collidable {
         return newPhoton;
     }
 
-    static public void addClassListener( PhotonEmittedListener listener ) {
+    static public void addClassListener( PhotonEmissionListener listener ) {
         photonEmittedEventChannel.addListener( listener );
     }
 

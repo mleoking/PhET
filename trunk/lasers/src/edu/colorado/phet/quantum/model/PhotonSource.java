@@ -34,7 +34,7 @@ public interface PhotonSource {
 
     void addWavelengthChangeListener( WavelengthChangeListener wavelengthChangeListener );
 
-    void addPhotonEmittedListener( PhotonEmittedListener photonEmittedListener );
+    void addPhotonEmittedListener( PhotonEmissionListener photonEmissionListener );
 
     void removeListener( EventListener listener );
 

@@ -12,6 +12,6 @@ package edu.colorado.phet.quantum.model;
 
 import java.util.EventListener;
 
-public interface PhotonEmittedListener extends EventListener {
+public interface PhotonEmissionListener extends EventListener {
     public void photonEmitted( PhotonEmittedEvent event );
 }

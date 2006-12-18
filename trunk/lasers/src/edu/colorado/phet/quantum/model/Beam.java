@@ -219,7 +219,7 @@ public class Beam extends Particle implements PhotonSource {
                     final Photon newPhoton = Photon.create( this.getWavelength(),
                                                             photonLoc,
                                                             photonVelocity );
-                    photonEmittedListenerProxy.photonEmitted( new PhotonEmittedEvent( this, newPhoton ) );
+                    photonEmissionListenerProxy.photonEmitted( new PhotonEmittedEvent( this, newPhoton ) );
                 }
                 nextTimeToProducePhoton = getNextTimeToProducePhoton();
                 timeSinceLastPhotonProduced = 0;
@@ -243,8 +243,8 @@ public class Beam extends Particle implements PhotonSource {
     private EventChannel wavelengthChangeEventChannel = new EventChannel( WavelengthChangeListener.class );
     private WavelengthChangeListener wavelengthChangeListenerProxy = (WavelengthChangeListener)wavelengthChangeEventChannel.getListenerProxy();
 
-    private EventChannel photonEmittedEventChannel = new EventChannel( PhotonEmittedListener.class );
-    private PhotonEmittedListener photonEmittedListenerProxy = (PhotonEmittedListener)photonEmittedEventChannel.getListenerProxy();
+    private EventChannel photonEmittedEventChannel = new EventChannel( PhotonEmissionListener.class );
+    private PhotonEmissionListener photonEmissionListenerProxy = (PhotonEmissionListener)photonEmittedEventChannel.getListenerProxy();
 
     public void addRateChangeListener( RateChangeListener rateChangeListener ) {
         rateChangeEventChannel.addListener( rateChangeListener );
@@ -254,8 +254,8 @@ public class Beam extends Particle implements PhotonSource {
         wavelengthChangeEventChannel.addListener( wavelengthChangeListener );
     }
 
-    public void addPhotonEmittedListener( PhotonEmittedListener photonEmittedListener ) {
-        photonEmittedEventChannel.addListener( photonEmittedListener );
+    public void addPhotonEmittedListener( PhotonEmissionListener photonEmissionListener ) {
+        photonEmittedEventChannel.addListener( photonEmissionListener );
     }
 
     public void removeListener( EventListener listener ) {

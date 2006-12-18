@@ -11,7 +11,6 @@
 package edu.colorado.phet.quantum.model;
 
 import edu.colorado.phet.collision.SolidSphere;
-import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.EventChannel;
 
 import java.awt.geom.Point2D;
@@ -219,7 +218,7 @@ public class Atom extends SolidSphere {
      *
      */
     void emitPhoton( final Photon emittedPhoton ) {
-        photonEmittedListenerProxy.photonEmitted( new PhotonEmittedEvent( this, emittedPhoton ) );
+        photonEmissionListenerProxy.photonEmitted( new PhotonEmittedEvent( this, emittedPhoton ) );
     }
 
     /**
@@ -358,14 +357,14 @@ public class Atom extends SolidSphere {
         listenerChannel.removeListener( leftSystemListener );
     }
 
-    private EventChannel photonEventChannel = new EventChannel( PhotonEmittedListener.class );
-    PhotonEmittedListener photonEmittedListenerProxy = (PhotonEmittedListener)photonEventChannel.getListenerProxy();
+    private EventChannel photonEventChannel = new EventChannel( PhotonEmissionListener.class );
+    PhotonEmissionListener photonEmissionListenerProxy = (PhotonEmissionListener)photonEventChannel.getListenerProxy();
 
-    public void addPhotonEmittedListener( PhotonEmittedListener listener ) {
+    public void addPhotonEmittedListener( PhotonEmissionListener listener ) {
         photonEventChannel.addListener( listener );
     }
 
-    public void removePhotonEmittedListener( PhotonEmittedListener listener ) {
+    public void removePhotonEmittedListener( PhotonEmissionListener listener ) {
         photonEventChannel.removeListener( listener );
     }
 }
