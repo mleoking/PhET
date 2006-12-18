@@ -13,7 +13,8 @@ Fixed: Zoom in/out incorrectly translates the play area.
 Fixed: Zoom in/out makes it possible to lose the voltmeter.
 Fixed: Number of significant digits in slider is different from on-component readout.
 Fixed: Virtual Ammeter doesn't update unless dragged.
-Fixed: AC Voltage source is off by a factor of 5. 
+Fixed: AC Voltage source is off by a factor of 5.
+Fixed: AC Edit dialogs are initialized incorrectly.
 Bugs fixed in 3.04.09 bug report [1-12, 14-15, 18]
 Bugs recommended but skipped[16,  
 
