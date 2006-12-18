@@ -445,6 +445,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(12/17/06) - cache Schrodinger brightness in the JAR file (too big, 382K uncompressed, 325K compressed)
 (12/15/06) - cells should be centered on Schrodinger axes (no can do, wavefunction solution undefined for (x,y,z)=(0,0,0) )
 (12/14/06) - "atom destroyed" message with reset button for Solar System model (feature dropped)
 (12/14/06) - "atom ionized" feature for Plum Pudding, Bohr, deBroglie, Schrodinger models (feature dropped)
