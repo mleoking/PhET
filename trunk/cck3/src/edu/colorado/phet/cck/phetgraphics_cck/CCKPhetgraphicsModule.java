@@ -107,7 +107,7 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
     }
 
     private void setupStopwatch() {
-        stopwatch = new MyPhetPNode( cckApparatusPanel, new PSwing( getApparatusPanel(), new StopwatchDecorator( stripChartClock, 1.0 * CCKTime.scale, "s" ) ) );
+        stopwatch = new MyPhetPNode( cckApparatusPanel, new PSwing( getApparatusPanel(), new StopwatchDecorator( stripChartClock, 1.0 * CCKTime.viewTimeScale, "s" ) ) );
         stopwatch.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         stopwatch.addInputEventListener( new PDragEventHandler() );
         getApparatusPanel().addScreenChild( stopwatch );

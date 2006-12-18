@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.cck.model.components;
 
+import edu.colorado.phet.cck.chart.CCKTime;
 import edu.colorado.phet.cck.model.CircuitChangeListener;
 import edu.colorado.phet.cck.model.DynamicBranch;
 import edu.colorado.phet.cck.model.Junction;
@@ -29,12 +30,13 @@ public class ACVoltageSource extends Battery implements DynamicBranch {
     }
 
     public double getVoltageDrop() {
+//        double scale = Math.sin( time * frequency * Math.PI * 2 );
         double scale = Math.sin( time * frequency * Math.PI * 2 );
         return amplitude * scale;
     }
 
     public void stepInTime( double dt ) {
-        this.time += dt;
+        this.time += dt * CCKTime.modelTimeScale;
     }
 
     public void resetDynamics() {

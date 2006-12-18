@@ -35,7 +35,8 @@ public class MeasurementToolSetNode extends PhetPNode {
 
         SwingClock clock = new SwingClock( 30, 1 );
         clock.start();
-        stopwatchNode = new PhetPNode( new PSwing( pSwingCanvas, new StopwatchDecorator( clock, 1.0 * CCKTime.scale, "s" ) ) );
+        stopwatchNode = new PhetPNode( new PSwing( pSwingCanvas, new StopwatchDecorator( clock, 1.0 * CCKTime.viewTimeScale, "s" ) ) );
+//        stopwatchNode = new PhetPNode( new PSwing( pSwingCanvas, new StopwatchDecorator( clock, 1.0 , "s" ) ) );
         stopwatchNode.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         stopwatchNode.addInputEventListener( new PDragEventHandler() );
         stopwatchNode.setVisible( false );
