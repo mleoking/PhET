@@ -1,4 +1,4 @@
-3.04.11
+3.04.11 (12-18-2006)
 Removed phetcommon tab, which was used for testing purposes.
 Clicking on the background de-selects the highlighted element (if any).
 Fixed: Connected wires look as if there is a gap between the copper part of the wires.
@@ -25,7 +25,7 @@ Fixed: Battery voltage editor has incorrect behavior when switching to larger ra
 Fixed: Capacitor editor initialized to wrong value.
 Fixed: Inductor reads ohms instead of Henries.
 Bugs fixed in 3.04.09 bug report [1-12, 14-15, 18, 21-24, 27, 30, 36]
-Bugs recommended but skipped[16, 26, 32, 33]  
+Bugs recommended but skipped [16, 26, 32, 33]  
 
 3.04.10 (12-12-2006)
 Added a launch file for DC Only version.
