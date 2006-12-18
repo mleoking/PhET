@@ -21,13 +21,11 @@ ignorepath      (those elements of the ant classpath that should not be
 
 -->
 
-<project name="General Ant Build Script" default="Release With Lib" basedir=".">
+<project name="General Ant Build Script" default="Generate Jar" basedir=".">
 
     <!-- Project specific properties   -->
     <property file="build.properties"/>
 <!--    <echo message="addl-classpath: ${addl-classpath}"/>-->
-    <!-- Created automatically for this project. Never modify this file-->
-    <property file="build.number"/>
 
     <!--  Set ant output directories. They get made if they don't exist -->
     <property name="project_home" value=".."/>
@@ -107,7 +105,7 @@ ignorepath      (those elements of the ant classpath that should not be
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>
-                <attribute name="build" value="${build.number}"/>
+                <attribute name="cvs-tag" value="${cvs-tag}"/>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
         </jar>

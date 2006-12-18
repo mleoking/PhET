@@ -40,14 +40,6 @@ public class EmfApplication {
         // it doesn't already exist
         Logger logger = Logger.getLogger( "edu.colorado.phet.PhetLogger" );
 
-        // Web Start doesn't seem to let you specify a logging level. It
-        // just logs everything.
-//        ConsoleHandler logHandler = new ConsoleHandler();
-//        logHandler.setLevel( Level.INFO );
-//        logger.setLevel( Level.INFO );
-//        logger.addHandler( logHandler );
-        
-
         // Initialize simulation strings using resource bundle for the locale.
         SimStrings.init( args, EmfConfig.localizedStringsPath );
 
@@ -66,9 +58,12 @@ public class EmfApplication {
         final EmfModule antennaModule = new EmfModule( clock );
         FrameSetup fs = new FrameSetup.CenteredWithSize( 1024, 768 );
         ApplicationModel appDescriptor = new ApplicationModel(
-                SimStrings.get( "EmfApplication.title" ),
+                new String( SimStrings.get( "EmfApplication.title" )
+                        + " ("
+                        + EmfConfig.VERSION
+                        + ")" ),
                 SimStrings.get( "EmfApplication.description" ),
-                SimStrings.get( "EmfApplication.version" ), fs );                   
+                EmfConfig.VERSION, fs );
         appDescriptor.setModule( antennaModule );
         appDescriptor.setInitialModule( antennaModule );
         appDescriptor.setClock( clock );
