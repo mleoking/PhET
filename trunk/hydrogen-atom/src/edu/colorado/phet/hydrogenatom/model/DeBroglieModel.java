@@ -195,7 +195,7 @@ public class DeBroglieModel extends BohrModel {
     /**
      * Calculates the new electron angle for some time step.
      * For deBroglie, the change in angle (and thus the oscillation frequency)
-     * is the same of all states of the electron.
+     * is the same for all states of the electron.
      * 
      * @param dt
      * @return double
