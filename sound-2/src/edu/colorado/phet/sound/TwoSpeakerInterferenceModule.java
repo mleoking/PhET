@@ -71,6 +71,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         wgA.initLayout( audioSourceA,
                         SoundConfig.s_wavefrontHeight,
                         SoundConfig.s_wavefrontRadius );
+//        wgA.setOpacity( 0.5f );
         wgA.setOpacity( 1.0f );
         SpeakerGraphic speakerGraphicA = new SpeakerGraphic( getApparatusPanel(), wm );
         speakerGraphicA.setLocation( SoundConfig.s_speakerBaseX, (int)audioSourceA.getY() );
@@ -92,6 +93,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         wgB.initLayout( audioSourceB,
                         SoundConfig.s_wavefrontHeight,
                         SoundConfig.s_wavefrontRadius );
+//        wgB.setOpacity( 1f );
         wgB.setOpacity( 0.5f );
         SpeakerGraphic speakerGraphicB = new SpeakerGraphic( getApparatusPanel(), wm );
         getApparatusPanel().addGraphic( speakerGraphicB, 8 );
