@@ -2,10 +2,7 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.ICCKModule;
-import edu.colorado.phet.cck.model.components.Battery;
-import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.cck.model.components.Capacitor;
-import edu.colorado.phet.cck.model.components.Switch;
+import edu.colorado.phet.cck.model.components.*;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -122,6 +119,9 @@ public class ReadoutNode extends PhetPNode {
         else if( branch instanceof Capacitor ) {
             return getCapacitorText( (Capacitor)branch );
         }
+        else if( branch instanceof Inductor ) {
+            return getInductorText( (Inductor)branch );
+        }
         double r = branch.getResistance();
         if( branch instanceof Switch ) {
             Switch swit = (Switch)branch;
@@ -140,13 +140,12 @@ public class ReadoutNode extends PhetPNode {
         return new String[]{text};
     }
 
+    private String[] getInductorText( Inductor inductor ) {
+        return new String[]{formatter.format( inductor.getInductance() ) + " " + SimStrings.get( "ReadoutGraphic.Henries" )};
+    }
+
     private String[] getCapacitorText( Capacitor capacitor ) {
-        double cap = Math.abs( capacitor.getCapacitance() );
-        String vol = formatter.format( cap );
-        String str = "" + vol + " " + SimStrings.get( "ReadoutGraphic.Farads" );
-        ArrayList text = new ArrayList();
-        text.add( str );
-        return (String[])text.toArray( new String[0] );
+        return new String[]{formatter.format( capacitor.getCapacitance() ) + " " + SimStrings.get( "ReadoutGraphic.Farads" )};
     }
 
     private String[] getBatteryText() {
