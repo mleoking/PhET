@@ -150,6 +150,7 @@ public abstract class ComponentEditor extends JDialog {
             super( module, SimStrings.get( "ComponentEditor.BatteryVoltageTitle" ), element, parent,
                    SimStrings.get( "ComponentEditor.BatteryVoltageName" ),
                    SimStrings.get( "ComponentEditor.BatteryVoltageUnits" ), 0, 100, element.getVoltageDrop(), circuit );
+//                   SimStrings.get( "ComponentEditor.BatteryVoltageUnits" ), 0, element.getVoltageDrop() > 100 ? 100000 : 100, element.getVoltageDrop(), circuit );
             if( module.getParameters().hugeRangeOnBatteries() ) {
                 final JCheckBox hugeRange = new JCheckBox( SimStrings.get( "ComponentEditor.MoreVoltsCheckBox" ), false );
                 hugeRange.addActionListener( new ActionListener() {
@@ -158,6 +159,10 @@ public abstract class ComponentEditor extends JDialog {
                     }
                 } );
                 super.contentPane.add( hugeRange );
+                boolean highVal = element.getVoltageDrop() > 100;
+                setHugeRange( highVal );
+                hugeRange.setSelected( highVal );
+
                 super.pack();
             }
         }
@@ -168,18 +173,20 @@ public abstract class ComponentEditor extends JDialog {
 
         private void setHugeRange( boolean hugeRange ) {
             ModelSlider slider = getSlider();
-            double origValue = slider.getValue();
+//            double origValue = slider.getValue();
             if( hugeRange ) {
                 int max = 100000;
                 slider.setRange( 0, max );
                 slider.setPaintLabels( false );
-                slider.setValue( MathUtil.clamp( 0, origValue, max ) );
+                slider.setValue( MathUtil.clamp( 0, circuitComponent.getVoltageDrop(), max ) );
+                super.pack();
             }
             else {
                 int max = 100;
                 slider.setRange( 0, max );
                 slider.setPaintLabels( true );
-                slider.setValue( MathUtil.clamp( 0, origValue, max ) );
+                slider.setValue( MathUtil.clamp( 0, circuitComponent.getVoltageDrop(), max ) );
+                super.pack();
             }
         }
 

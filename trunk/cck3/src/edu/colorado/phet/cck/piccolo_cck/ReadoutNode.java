@@ -4,6 +4,7 @@ package edu.colorado.phet.cck.piccolo_cck;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.components.Battery;
 import edu.colorado.phet.cck.model.components.Branch;
+import edu.colorado.phet.cck.model.components.Capacitor;
 import edu.colorado.phet.cck.model.components.Switch;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
@@ -30,10 +31,10 @@ public class ReadoutNode extends PhetPNode {
     protected ICCKModule module;
     protected Branch branch;
     private JComponent panel;
-    static Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
-
     protected DecimalFormat formatter;
     private PPath linePNode;
+
+    static Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
 
     public ReadoutNode( ICCKModule module, Branch branch, JComponent panel, DecimalFormat formatter ) {
         this.module = module;
@@ -118,6 +119,9 @@ public class ReadoutNode extends PhetPNode {
         if( branch instanceof Battery ) {
             return getBatteryText();
         }
+        else if( branch instanceof Capacitor ) {
+            return getCapacitorText( (Capacitor)branch );
+        }
         double r = branch.getResistance();
         if( branch instanceof Switch ) {
             Switch swit = (Switch)branch;
@@ -134,6 +138,15 @@ public class ReadoutNode extends PhetPNode {
 
         String text = res + " " + SimStrings.get( "ReadoutGraphic.Ohms" );  //, " + cur + " " + SimStrings.get( "ReadoutGraphic.Amps" );
         return new String[]{text};
+    }
+
+    private String[] getCapacitorText( Capacitor capacitor ) {
+        double cap = Math.abs( capacitor.getCapacitance() );
+        String vol = formatter.format( cap );
+        String str = "" + vol + " " + SimStrings.get( "ReadoutGraphic.Farads" );
+        ArrayList text = new ArrayList();
+        text.add( str );
+        return (String[])text.toArray( new String[0] );
     }
 
     private String[] getBatteryText() {
