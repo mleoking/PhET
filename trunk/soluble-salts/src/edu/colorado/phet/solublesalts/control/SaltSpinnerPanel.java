@@ -45,24 +45,24 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
     static private HashMap ionClassToName = new HashMap();
 
     static {
-        ionClassToName.put( ConfigurableCation.class, "Cation" );
-        ionClassToName.put( Sodium.class, "Sodium" );
-        ionClassToName.put( Lead.class, "Lead" );
-        ionClassToName.put( Chromium.class, "Chromium" );
-        ionClassToName.put( Copper.class, "Copper(I)" );
-        ionClassToName.put( Silver.class, "Silver" );
-        ionClassToName.put( Thallium.class, "Thallium(I)" );
-        ionClassToName.put( Strontium.class, "Strontium" );
-        ionClassToName.put( Mercury.class, "Mercury" );
+        ionClassToName.put( ConfigurableCation.class, SimStrings.get("Ion.cation" ));
+        ionClassToName.put( Sodium.class, SimStrings.get("Ion.sodium" ));
+        ionClassToName.put( Lead.class, SimStrings.get("Ion.lead" ));
+        ionClassToName.put( Chromium.class, SimStrings.get("Ion.chromium" ));
+        ionClassToName.put( Copper.class, SimStrings.get("Ion.copper" ));
+        ionClassToName.put( Silver.class, SimStrings.get("Ion.silver" ));
+        ionClassToName.put( Thallium.class, SimStrings.get("Ion.thallium" ));
+        ionClassToName.put( Strontium.class, SimStrings.get("Ion.strontium" ));
+        ionClassToName.put( Mercury.class, SimStrings.get("Ion.mercury" ));
 
-        ionClassToName.put( ConfigurableAnion.class, "Anion" );
-        ionClassToName.put( Phosphate.class, "Phosphate" );
-        ionClassToName.put( Bromine.class, "Bromide" );
-        ionClassToName.put( Arsenate.class, "Arsenate" );
-        ionClassToName.put( Sulfur.class, "Sulfide" );
-        ionClassToName.put( Chlorine.class, "Chloride" );
-        ionClassToName.put( Iodide.class, "Iodide" );
-        ionClassToName.put( Hydroxide.class, "Hydroxide" );
+        ionClassToName.put( ConfigurableAnion.class, SimStrings.get("Ion.anion" ));
+        ionClassToName.put( Phosphate.class, SimStrings.get("Ion.phosphate" ));
+        ionClassToName.put( Bromine.class, SimStrings.get("Ion.bromide" ));
+        ionClassToName.put( Arsenate.class, SimStrings.get("Ion.aresenate" ));
+        ionClassToName.put( Sulfur.class, SimStrings.get("Ion.sulfide" ));
+        ionClassToName.put( Chlorine.class, SimStrings.get("Ion.chloride" ));
+        ionClassToName.put( Iodide.class, SimStrings.get("Ion.iodide" ));
+        ionClassToName.put( Hydroxide.class, SimStrings.get("Ion.hydroxide" ));
     }
 
     //----------------------------------------------------------------

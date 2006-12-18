@@ -18,6 +18,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 import edu.colorado.phet.solublesalts.control.OptionsMenu;
 import edu.colorado.phet.solublesalts.module.ConfigurableSaltModule;
 import edu.colorado.phet.solublesalts.module.RealSaltsModule;
@@ -33,7 +34,7 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SolubleSaltsApplication extends PhetApplication {
+public class SolubleSaltsApplication extends PiccoloPhetApplication {
 
     /**
      *
@@ -113,7 +114,6 @@ public class SolubleSaltsApplication extends PhetApplication {
         UIManager.put( "TabbedPane.selected", blueBackground );
 
         PhetApplication app = new SolubleSaltsApplication( args );
-
 
         app.startApplication();
 

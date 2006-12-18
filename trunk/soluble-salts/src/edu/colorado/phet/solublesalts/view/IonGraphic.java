@@ -73,6 +73,7 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
     }
 
     private void init( Ion ion ) {
+        this.setPickable( false );
         this.ion = ion;
         ion.addObserver( this );
         this.addChild( pImage );

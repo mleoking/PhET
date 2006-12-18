@@ -15,6 +15,7 @@ import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.salt.*;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,17 +35,12 @@ public class RealSaltsControlPanel extends SolubleSaltsControlPanel {
 
     static {
         saltMap = new HashMap();
-        saltMap.put( "Silver Bromide", new SilverBromide() );
-//        saltMap.put( "Sodium Chloride", new SodiumChloride() );
-//        saltMap.put( "Lead Chloride", new LeadChloride() );
-        saltMap.put( "Copper(I) Iodide", new CuprousIodide() );
-//        saltMap.put( "Silver Iodide", new SilverIodide() );
-        saltMap.put( "Thallium(I) Sulfide", new ThallousSulfide() );
-//        saltMap.put( "Copper Hydroxide", new CopperHydroxide() );
-        saltMap.put( "Silver Arsenate", new SilverArsenate() );
-//        saltMap.put( "Chromium Hydroxide", new ChromiumHydroxide() );
-        saltMap.put( "Strontium Phosphate", new StrontiumPhosphate() );
-        saltMap.put( "Mercury(II) Bromide", new MercuryBromide() );
+        saltMap.put( SimStrings.get("Salt.silverBromide"), new SilverBromide() );
+        saltMap.put( SimStrings.get("Salt.copperIodide"), new CuprousIodide() );
+        saltMap.put( SimStrings.get("Salt.thalliumSulfide"), new ThallousSulfide() );
+        saltMap.put( SimStrings.get("Salt.silverArsenate"), new SilverArsenate() );
+        saltMap.put( SimStrings.get( "Salt.strontiumPhosphate"), new StrontiumPhosphate() );
+        saltMap.put( SimStrings.get("Salt.mercuryBromide"), new MercuryBromide() );
     }
 
 

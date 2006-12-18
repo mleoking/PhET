@@ -111,6 +111,7 @@ ignorepath      (those elements of the ant classpath that should not be
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
             <fileset dir="${project_home}/piccolo-phet-module/phetcommon-module/data"/>
+            <fileset dir="${project_home}/piccolo-phet-module/data"/>
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>

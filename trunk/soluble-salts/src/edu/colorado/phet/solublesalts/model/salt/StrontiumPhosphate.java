@@ -26,9 +26,8 @@ import java.util.ArrayList;
 public class StrontiumPhosphate extends Salt {
 
     static private Lattice lattice = new ThreeToTwoLattice( Phosphate.class,
-//    static private Lattice lattice = new ThreeToTwoLattice( Phosphate.class,
-                                                                    Strontium.class,
-                                                                    Strontium.RADIUS + Phosphate.RADIUS );
+                                                            Strontium.class,
+                                                            Strontium.RADIUS + Phosphate.RADIUS );
     static private ArrayList components = new ArrayList();
 
     static {
