@@ -1,9 +1,9 @@
 package edu.colorado.phet.cck.chart;
 
 import edu.colorado.phet.cck.model.Circuit;
+import edu.colorado.phet.cck.piccolo_cck.CCKSimulationPanel;
 import edu.colorado.phet.cck.piccolo_cck.PiccoloVoltageCalculation;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.piccolo.PhetPCanvas;
 
 import java.awt.*;
 
@@ -16,7 +16,7 @@ import java.awt.*;
 
 public class VoltageStripChart extends DoubleTerminalFloatingChart.Piccolo {
 
-    public VoltageStripChart( PhetPCanvas pSwingCanvas, String title, IClock clock, Circuit circuit ) {
+    public VoltageStripChart( CCKSimulationPanel pSwingCanvas, String title, IClock clock, Circuit circuit ) {
         super( pSwingCanvas, title, new TwoTerminalValueReader() {
             public double getValue( Shape a, Shape b ) {
                 return 0;

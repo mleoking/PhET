@@ -1,5 +1,6 @@
 package edu.colorado.phet.cck.chart;
 
+import edu.colorado.phet.cck.piccolo_cck.CCKSimulationPanel;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -106,8 +107,11 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
     }
 
     public static class Piccolo extends DoubleTerminalFloatingChart {
-        public Piccolo( PhetPCanvas pSwingCanvas, String title, TwoTerminalValueReader valueReader, IClock clock ) {
-            super( pSwingCanvas, title, valueReader, clock );
+        private CCKSimulationPanel cckSimulationPanel;
+
+        public Piccolo( CCKSimulationPanel cckSimulationPanel, String title, TwoTerminalValueReader valueReader, IClock clock ) {
+            super( cckSimulationPanel, title, valueReader, clock );
+            this.cckSimulationPanel = cckSimulationPanel;
         }
 
         protected Shape getRightShape() {
@@ -115,14 +119,23 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
         }
 
         private Shape getShape( PNode node ) {
+//            Point2D location = node.getGlobalTranslation();
+//            super.getPhetPCanvas().getPhetRootNode().globalToWorld( location );
+//            return new Rectangle2D.Double( location.getX(), location.getY(), 0.01, 0.01 );
             Point2D location = node.getGlobalTranslation();
-            super.getPhetPCanvas().getPhetRootNode().globalToWorld( location );
+            cckSimulationPanel.getCircuitNode().globalToLocal( location );
             return new Rectangle2D.Double( location.getX(), location.getY(), 0.01, 0.01 );
         }
 
         protected Shape getLeftShape() {
             return getShape( getLeftCrosshairGraphic() );
         }
+//                protected Point2D getLocation() {
+//            Point2D location = getCrosshairGraphic().getGlobalTranslation();
+//            cckSimulationPanel.getCircuitNode().globalToLocal( location );
+////            super.getPhetPCanvas().getPhetRootNode().globalToWorld( location );
+//            return location;
+//        }
     }
 
     protected PhetPCanvas getPhetPCanvas() {
