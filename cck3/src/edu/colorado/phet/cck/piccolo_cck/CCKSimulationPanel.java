@@ -9,7 +9,6 @@ import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -81,7 +80,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
             }
         } );
 
-        setZoomEventHandler( new PZoomEventHandler() );
+//        setZoomEventHandler( new PZoomEventHandler() );
         setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
