@@ -83,6 +83,9 @@ public class CCKModel {
         layout = new ConstantDensityLayout( getCircuit(), particleSet );
         getCircuit().addCircuitListener( layout );
 
+//        CurrentDirectionManager directionManager = new CurrentDirectionManager( circuit );
+//        getCircuit().addCircuitListener( directionManager );
+
         this.resistivityManager = new ResistivityManager( getCircuit() );
         getCircuit().addCircuitListener( resistivityManager );
     }

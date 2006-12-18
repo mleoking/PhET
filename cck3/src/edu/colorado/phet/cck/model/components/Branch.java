@@ -33,6 +33,7 @@ public abstract class Branch extends SimpleObservableDebug {
     private boolean isOnFire = false;
     private boolean editing = false;
     private String name;/*For purposes of debugging.*/
+//    private boolean currentDirectionForward = true;
 
     private static int indexCounter = 0;
 
@@ -359,4 +360,23 @@ public abstract class Branch extends SimpleObservableDebug {
     public boolean isEditable() {
         return true;
     }
+
+//    /**
+//     * Sets whether the arbitrary "direction of current" is forward or backwards.
+//     *
+//     * @param currentDirectionForward
+//     */
+//    public void setCurrentDirectionForward( boolean currentDirectionForward ) {
+//        this.currentDirectionForward = currentDirectionForward;
+//    }
+//
+//    /**
+//     * Gets the current in the arbitrarily chosen "direction of current"
+//     *
+//     * @return
+//     */
+//    public double getForwardCurrent() {
+//        return getCurrent() * ( currentDirectionForward ? 1.0 : -1.0 );
+//    }
+
 }
