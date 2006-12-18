@@ -24,10 +24,7 @@ ignorepath      (those elements of the ant classpath that should not be
 <project name="General Ant Build Script" default="Release With Lib" basedir=".">
 
     <!-- Project specific properties   -->
-    <property file="build.properties"/>
-    <!-- Created automatically for this project. Never modify this file-->
-    <property file="build.number"/>
-
+    <property file="lasers-build.properties"/>
 
     <!--  Set ant output directories. They get made if they don't exist -->
     <property name="project_home" value=".."/>
@@ -105,9 +102,6 @@ ignorepath      (those elements of the ant classpath that should not be
             <src path="${mechanics}/src"/>
             <src path="${controls}/src"/>
             <src path="${collision}/src"/>
-<!--            <src path="${project_home}/mechanics/src"/>-->
-<!--            <src path="${project_home}/collision/src"/>-->
-<!--            <src path="${project_home}/controls/src"/>-->
         </javac>
     </target>
 
@@ -123,13 +117,12 @@ ignorepath      (those elements of the ant classpath that should not be
             <fileset dir="${data}"/>
             <fileset dir="${phetcommon}/data"/>
             <fileset dir="${controls}/data"/>
-<!--            <fileset dir="${project_home}/phetcommon/data"/>-->
-<!--            <fileset dir="${project_home}/controls/data"/>-->
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>
                 <attribute name="build" value="${build.number}"/>
                 <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="cvs-tag" value="${cvs-tag}"/>
             </manifest>
         </jar>
     </target>
