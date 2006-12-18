@@ -489,14 +489,15 @@ public class ModelSlider extends JPanel {
     }
 
     public void setValue( double value ) {
-        if( value == this.value ) {
+        //bugfix: test for change of state was incomplete: comparing the new 'value' against the old 'value' missed valid changes in the transform.
+        if( slider.getValue() == modelViewTransform.modelToView( value ) && this.value == value ) {
             return;
         }
         if( value >= min && value <= max ) {
             String string = textFieldFormat.format( value );
             string = string.replace( ',', '.' );
             double newValue = Double.parseDouble( string );
-            if( this.value == newValue ) {
+            if( slider.getValue() == modelViewTransform.modelToView( value ) && this.value == newValue ) {
                 return;
             }
 
