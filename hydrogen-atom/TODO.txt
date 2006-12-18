@@ -43,7 +43,9 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
-(12/15/05) - implement a brightness cache in Schrodinger, either populated on init or on demand
+(12/18/06) - use float inside of double for Schrodinger brightness cache
+(12/18/06) - test feasibility of writing Schrodinger brightness cache to a file
+(12/15/06) - implement a brightness cache in Schrodinger, either populated on init or on demand
 (12/15/06) - change Schrodinger proton visibility threshold to 0.25
 (12/15/06) - change Schrodinger so that spontaneous emission always occurs on a point on 1st Bohr orbit
 (12/15/06) - javadoc SchrodingerNode
