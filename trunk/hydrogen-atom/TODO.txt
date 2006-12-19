@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- javadoc for SchrodingerModel
 - SchrodingerNode needs a ViewModelTransform, inverse of ModelViewTransform
 
 MEDIUM PRIORITY:
@@ -42,6 +41,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/19/06) - javadoc for SchrodingerModel
 (12/19/06) - bugfix: HTML arrows don't work on Windows, replace with "->" and "<->"
 (12/19/06) - implement special cases for Schrodinger (2,0,0) state
 (12/19/06) - implement rules for Schrodinger (n,l,m) state transitions
