@@ -11,7 +11,8 @@ import java.awt.*;
 
 public class Config {
 
-    public static String version = "2.00";
+    // Version
+    public static String version = "2.01";
 
     // Calibration factor for alpha decay time
     public static final double ALPHA_DECAY_SIM_TIME_STEP = 5 * 0.516 / 0.471 * 0.615 / 0.372;
