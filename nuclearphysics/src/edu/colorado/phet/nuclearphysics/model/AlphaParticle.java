@@ -9,6 +9,7 @@ package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.nuclearphysics.Config;
 
 import java.awt.geom.Point2D;
 import java.util.Random;
@@ -28,7 +29,8 @@ public class AlphaParticle extends Nucleus {
     private static Random random = new Random();
     public static final double RADIUS = NuclearParticle.RADIUS * 2;
     // Controls how fast the alpha particle accelerates down the profile
-    private static double forceScale = 0.015;
+    private static double forceScale = Config.ALPHA_PARTICLE_FORCE_SCALE;
+//    private static double forceScale = 0.015;
 //    private static double forceScale = 0.01;
     private int stepCnt;
     private int stepsBetweenRandomPlacements = 4;

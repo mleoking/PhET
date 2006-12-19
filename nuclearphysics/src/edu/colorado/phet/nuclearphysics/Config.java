@@ -16,6 +16,9 @@ public class Config {
 
     // Calibration factor for alpha decay time
     public static final double ALPHA_DECAY_SIM_TIME_STEP = 5 * 0.516 / 0.471 * 0.615 / 0.372;
+    // Factor that controls the acceleration of alpha particles when they escape the nucleus
+    // in alpha decay
+    public static final double ALPHA_PARTICLE_FORCE_SCALE = 0.002;
 
     public static final int VESSEL_TEMPERATURE_UPDATE_PERIOD = 400;
 
