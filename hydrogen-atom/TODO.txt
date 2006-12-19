@@ -5,15 +5,15 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
+- implement spectrometer model
+- clear spectrometer when atomic model is changed
 
 MEDIUM PRIORITY:
 - it's easy (and physically correct) to get stuck in Schrodinger state (2,0,0)
 - add "show traces" feature for alpha particles (need to interpolate curve between points)
-- finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
-- implement spectrometer model
 - implement energy diagrams, reuse Ron's stuff
 - add squiggles to energy diagrams showing the gun's light wavelength (as in Lasers sim)
-- clear spectrometer when atomic model is changed
 - update images on atom model selector buttons
 - is ModelViewTransform used everywhere is should be in view?
 - verify that behavior is correct when clock is paused
