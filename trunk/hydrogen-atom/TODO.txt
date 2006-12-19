@@ -8,6 +8,7 @@ HIGH PRIORITY:
 - SchrodingerNode needs a ViewModelTransform, inverse of ModelViewTransform
 
 MEDIUM PRIORITY:
+- it's easy (and physically correct) to get stuck in Schrodinger state (2,0,0)
 - add "show traces" feature for alpha particles (need to interpolate curve between points)
 - finish spectrometer interface (ticks/labels, compressed UV/IR ranges, layout fixes, setSize method, Java2D to draw interior)
 - implement spectrometer model
