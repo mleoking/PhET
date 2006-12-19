@@ -14,14 +14,27 @@ package edu.colorado.phet.hydrogenatom.model;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.math.ProbabilisticChooser;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
-import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 
 
 public class SchrodingerModel extends DeBroglieModel {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // example: TRANSITION_STRENGTH[5][0] is the transition strength from n=6 to n=1
+    private static final double[][] TRANSITION_STRENGTH = {
+        { 0, 0, 0, 0, 0 },
+        { 12.53, 0, 0, 0 },
+        { 3.34, 0.87, 0, 0, 0 },
+        { 1.36, 0.24, 0.07, 0, 0 },
+        { 0.69, 0.11, 0, 0.04, 0 },
+        { 0.39, 0.06, 0.02, 0, 0 }
+    };
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -30,6 +43,7 @@ public class SchrodingerModel extends DeBroglieModel {
     private int _l;
     // tertiary state component, m = -l,...+l
     private int _m;
+    
     // random number generator for selecting l
     private Random _lRandom;
     // random number generator for selecting m
@@ -41,7 +55,11 @@ public class SchrodingerModel extends DeBroglieModel {
     
     public SchrodingerModel( Point2D position ) {
         super( position );
-        super.setView( DeBroglieView.BRIGHTNESS_MAGNITUDE ); // use deBroglie collision detection
+        super.setView( DeBroglieView.BRIGHTNESS_MAGNITUDE ); // use deBroglie "rings" for collision detection
+        
+        // many assumptions herein that the smallest value of n is 1
+        assert( getGroundState() == 1 );
+        
         _l = 0;
         _m = 0;
         _lRandom = new Random();
@@ -87,13 +105,75 @@ public class SchrodingerModel extends DeBroglieModel {
     //----------------------------------------------------------------------------
     
     /*
+     * Determines if a proposed state transition is legal.
+     * 
+     * @param nOld
+     * @param nNew
+     */
+    protected boolean isaLegalTransition( final int nOld, final int nNew ) {
+        boolean legal = true;
+        if ( nNew == nOld ) {
+            legal = false;
+        }
+        else if ( nOld == 2 && _l == 0 ) {
+            // transition from n=2,l=0 to n=1,l=0 would break the abs(l-l')=0 rule
+            legal = false;
+        }
+        return legal;
+    }
+    
+    /*
+     * Chooses a new primary state (n) for the electron.
+     * The new state is a lower state, and this is called during spontaneous emission.
+     * The possible values of n are limited by the current value of l, since abs(l-l') must be 1.
+     * The probability of each possible n transition is determined by its transition strength.
+     * 
+     * @return int positive state number, -1 if there is no state could be chosen
+     */
+    protected int chooseLowerElectronState() {
+        
+        final int n = getElectronState();
+        int nNew = 1;
+        if ( n == 2 && _l == 0 ) {
+            // transition from n=2,l=0 to n=1,l=0 would break the abs(l-l')=0 rule
+            return -1;
+        }
+        else if ( n > 2 ) {
+            final int nMax = n - 1;
+            final int nMin = Math.max( _l - 1, 1 );
+            ProbabilisticChooser.Entry[] entries = new ProbabilisticChooser.Entry[nMax - nMin + 1];
+            for ( int i = 0; i < entries.length; i++ ) {
+                int state = nMin + i;
+                entries[i] = new ProbabilisticChooser.Entry( new Integer( state ), TRANSITION_STRENGTH[n][state] );
+            }
+            ProbabilisticChooser chooser = new ProbabilisticChooser( entries );
+            nNew = ( (Integer) chooser.get() ).intValue();
+        }
+        
+        assert( nNew >= 1 );
+        assert( nNew <= getNumberOfStates() );
+        return nNew;
+    }
+    
+    /*
      * Sets the electron's primary state.
      * Randomly chooses the values for the secondary and tertiary states.
      */
-    protected void setElectronState( int n ) {
-        _l = getNewSecondaryState( n, _l );
-        _m = getNewTertiaryState( _l, _m );
-        super.setElectronState( n );
+    protected void setElectronState( final int nNew ) {
+        
+        int lNew = getNewSecondaryState( nNew, _l );
+        int mNew = getNewTertiaryState( lNew, _m );
+        
+        // Verify that no transition rules have been broken
+        assert( nNew >= 1 && nNew <= 6 );
+        assert( lNew >= 0 && lNew <= nNew - 1 );
+        assert( Math.abs( _l - lNew ) == 1 );
+        assert( mNew >= -lNew && mNew <= +lNew );
+        assert( Math.abs( _m - mNew ) <= 1 );
+        
+        _l = lNew;
+        _m = mNew;
+        super.setElectronState( nNew );
 //        System.out.println( "SchrodingerModel.setElectronState " + stateToString( n, _l, _m ) );//XXX
     }
     
@@ -125,30 +205,96 @@ public class SchrodingerModel extends DeBroglieModel {
     /*
      * Chooses a value for the secondary state (l) based on the primary state (n).
      * The new value l' must be in [0,...n-1], and l-l' must be in [-1,1].
+     * 
+     * @param nNew the new primary state
+     * @param lOld the existing secondary state
+     * @return the new secondary state
      */
-    private int getNewSecondaryState( int n, int l ) {
+    private int getNewSecondaryState( final int nNew, final int lOld ) {
 
-        int lNew = _lRandom.nextInt( n );
-        assert( lNew >= 0 && lNew <= n-1 );
+        int lNew = 0;
         
-        //XXX how to apply transition rule A ?
-//        assert( Math.abs( l - lNew ) == 1 );
+        if ( lOld == 0 ) {
+            lNew = 1;
+        }
+        else if ( lOld > nNew - 1 ) {
+            lNew = nNew - 1;
+        }
+        else if ( lOld == nNew - 1 ) {
+            lNew = nNew - 2;
+        }
+        else {
+            if ( _lRandom.nextBoolean() ) {
+                lNew = lOld + 1;
+            }
+            else {
+                lNew = lOld - 1;
+            }
+        }
         
+        System.out.println( "getSecondaryState n=" + nNew + " l=" + lOld + " lNew=" + lNew );//XXX
+        assert( lNew >= 0 );
+        assert( lNew <= nNew - 1 );
+        assert( Math.abs( lOld - lNew ) == 1 );
         return lNew;
     }
     
     /*
      * Chooses a value for the tertiary state (m) based on the primary state (l).
-     * The new value m' must be in [-1,...,+l], and m-m' must be in [-1,0,1].
+     * The new value m' must be in [-l,...,+l], and m-m' must be in [-1,0,1].
+     * 
+     * @param lNew the new secondary state
+     * @param mOld the existing tertiary state
+     * @param the new tertiary state
      */
-    private int getNewTertiaryState( int l, int m ) {
+    private int getNewTertiaryState( final int lNew, final int mOld ) {
         
-        int mNew = _mRandom.nextInt( ( 2 * l ) + 1 ) - l;
-        assert( Math.abs( mNew ) <= l );
+        int mNew = 0;
         
-        //XXX how to apply transition rule B ?
-//        assert( Math.abs( mNew - m ) <= 1 );
+        if ( lNew == 0 ) {
+            mNew = 0;
+        }
+        else if ( mOld > lNew ) {
+            mNew = lNew;
+        }
+        else if ( mOld < -lNew ) {
+            mNew = -lNew;
+        }
+        else if ( mOld == lNew ) {
+            int a = _mRandom.nextInt( 2 );
+            if ( a == 0 ) {
+                mNew = mOld;
+            }
+            else {
+                mNew = mOld - 1;
+            }
+        }
+        else if ( mOld == -lNew ) {
+            int a = _mRandom.nextInt( 2 );
+            if ( a == 0 ) {
+                mNew = mOld;
+            }
+            else {
+                mNew = mOld + 1;
+            }
+        }
+        else {
+            int a = _mRandom.nextInt( 3 );
+            if ( a == 0 ) {
+                mNew = mOld + 1;
+            }
+            else if ( a == 1 ) {
+                mNew = mOld - 1;
+            }
+            else {
+                mNew = mOld;
+            }
+        }
         
+        System.out.println( "getTeritiaryState l=" + lNew + " m=" + mOld + " mNew=" + mNew );//XXX
+        assert( mNew >= -lNew );
+        assert( mNew <= +lNew );
+        assert( Math.abs( mOld - mNew ) <= 1 );
         return mNew;
     }
     
