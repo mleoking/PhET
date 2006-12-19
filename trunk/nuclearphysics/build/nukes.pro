@@ -1,18 +1,16 @@
--injars ..\ant_output\jars\nuclearphysics.jar
--injars ..\piccolo-dir\lib\swt.jar
--outjars ..\ant_output\jars\nukes-pro.jar
+-injars 'C:\PhET\nukes\ant_output\jars\nuclearphysics.jar'
+-injars 'C:\PhET\nukes\piccolo-dir\lib\swt.jar'
+-outjars 'C:\PhET\nukes\ant_output\jars\nukes-pro.jar'
 
-##Fix this to match your distribution
--libraryjars 'C:\j2sdk1.4.2_07\jre\lib\rt.jar'
+-libraryjars 'C:\j2sdk1.4.2_09\jre\lib\rt.jar'
 
-#-dontskipnonpubliclibraryclasses
-#-dontskipnonpubliclibraryclassmembers
 -dontoptimize
-#-dontobfuscate
+-dontobfuscate
 -verbose
 
+
 # Keep - Applications. Keep all application classes that have a main method.
--keepclasseswithmembers public class edu.colorado.phet.nuclearphysics.NuclearPhysicsApplication{
+-keepclasseswithmembers public class edu.colorado.phet.nuclearphysics.NuclearPhysicsApplication {
     public static void main(java.lang.String[]);
 }
 
