@@ -8,12 +8,18 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
@@ -155,7 +161,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
                     GraphicsUtil.setAntiAliasingOn( g );
                     GraphicsUtil.setAlpha( g, 0.4 );
                     g.setColor( EnergyProfileGraphic.potentialProfileColor );
-//                    g.setColor( Color.blue );
                     g.setStroke( ringStroke );
                     g.draw( alphaRing );
                     GraphicsUtil.setAlpha( g, 1 );
@@ -186,12 +191,11 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
                 }
             }
 
-            /// Note: possible performance problem
+            // Note: possible performance problem
             protected Rectangle determineBounds() {
                 return leaderLine1.getBounds().union( leaderLine2.getBounds() );
             }
         };
-//        this.getPhysicalPanel().addOriginCenteredGraphic( leaderLines, leaderLineLevel );
         this.getEnergyProfilePanel().addOriginCenteredGraphic( leaderLines );
     }
 
@@ -281,14 +285,48 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         // Make a bang!
         Kaboom kaboom = new Kaboom( new Point2D.Double(), 25, 300, getPhysicalPanel(), getModel() );
         getPhysicalPanel().addGraphic( kaboom );
+
+        // Set a timer that will pause the simulation after the decay has finished
+        getClock().addClockListener( new DecayAnnunciator( getModel(), getClock() ));
     }
+
+    private class DecayAnnunciator extends ClockAdapter {
+        private long startTime;
+        private long delay = 2000;
+        private BaseModel model;
+        private IClock clock;
+
+        public DecayAnnunciator( BaseModel model, IClock clock ) {
+            this.model = model;
+            this.clock = clock;
+            startTime = System.currentTimeMillis();
+        }
+
+        public void clockTicked( ClockEvent clockEvent ) {
+            if( System.currentTimeMillis() - startTime >= delay ) {
+                clock.pause();
+                JOptionPane.showMessageDialog( PhetUtilities.getPhetFrame(),
+                                               SimStrings.get( "AlphaDecayControlPanel.DecayMessage" ));
+                clock.start();
+                clock.removeClockListener( this );
+            }
+        }
+    }
+
 
     //--------------------------------------------------------------------------------------------------
     // Implementation of abstract methods
     //--------------------------------------------------------------------------------------------------
+    protected String getEnergyLegendHeader() {
+        return SimStrings.get( "PotentialProfilePanel.YAxisLabel1");
+    }
 
     protected String getPotentialEnergyLegend() {
-        return SimStrings.get( "PotentialProfilePanel.legend.AlphaParticlePotentialEnergy" );
+        return SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy" );
+    }
+
+    protected String getTotalEnergyLegend() {
+        return SimStrings.get( "PotentialProfilePanel.legend.TotalEnergy" );
     }
 
     //--------------------------------------------------------------------------------------------------

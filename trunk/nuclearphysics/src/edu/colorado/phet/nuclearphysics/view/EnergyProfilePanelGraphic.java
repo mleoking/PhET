@@ -117,7 +117,9 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     private boolean init = false;
     private Rectangle orgBounds;
     private EnergyProfileGraphic.ProfileType profileType;
+    private String legendHeader;
     private String potentialEnergyLegend;
+    private String totalEnergyLegend;
     private PhetShapeGraphic backgroundGraphic;
 
     private double width = 800;
@@ -132,11 +134,16 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
      *
      * @param component
      */
-    public EnergyProfilePanelGraphic( Component component, EnergyProfileGraphic.ProfileType profileType,
-                                      String potentialEnergyLegend) {
+    public EnergyProfilePanelGraphic( Component component,
+                                      EnergyProfileGraphic.ProfileType profileType,
+                                      String legendHeader,
+                                      String potentialEnergyLegend,
+                                      String totalEnergyLegend ) {
         super( component );
         this.profileType = profileType;
+        this.legendHeader = legendHeader;
         this.potentialEnergyLegend = potentialEnergyLegend;
+        this.totalEnergyLegend = totalEnergyLegend;
         if( profileType == EnergyProfileGraphic.TOTAL_ENERGY ) {
             this.yAxisLabels = totalEnergyyAxisLabels;
         }
@@ -368,9 +375,10 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     private void drawLegend( Graphics2D g2 ) {
         GraphicsState gs = new GraphicsState( g2 );
 
-        int legendWidth = 250;
+        Insets insets = new Insets( 20, 20, 0, 0 );
+        int legendWidth = 180;
 //        int legendWidth = 180;
-        int legendHeight = 60;
+        int legendHeight = 60 + ( legendHeader != null && !legendHeader.equals( "" )? insets.top : 0 );
         Insets insetsFromPanel = new Insets( 0, 0, 100, 28 );
         Stroke borderStroke = new BasicStroke( 3 );
         Point legendLoc = new Point( getWidth() - legendWidth - insetsFromPanel.right, getHeight() - legendHeight - insetsFromPanel.bottom );
@@ -379,25 +387,36 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         g2.drawRoundRect( legendLoc.x, legendLoc.y, legendWidth, legendHeight, 15, 15 );
 
         g2.translate( legendLoc.x, legendLoc.y );
-        Insets insets = new Insets( 20, 20, 0, 0 );
+        int yLoc = insets.top;
+        if( legendHeader != null && !legendHeader.equals( "" )) {
+            g2.setColor( Color.black );
+            g2.setFont( legendFont );
+            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( legendHeader, g2 );
+            g2.drawString( legendHeader,
+                           insets.left + 30 + insets.left, yLoc + (int)stringBounds.getHeight() / 3 );
+            yLoc += insets.top;
+        }
         {
             g2.setColor( EnergyProfileGraphic.potentialProfileColor );
             g2.setStroke( EnergyProfileGraphic.potentialProfileStroke );
-            g2.drawLine( insets.left, insets.top, insets.left + 30, insets.top );
+            g2.drawLine( insets.left, yLoc, insets.left + 30, yLoc );
             g2.setColor( Color.black );
             g2.setFont( legendFont );
             Rectangle2D stringBounds = GraphicsUtil.getStringBounds( potentialEnergyLegend, g2 );
             g2.drawString( potentialEnergyLegend,
-                           insets.left + 30 + insets.left, insets.top + (int)stringBounds.getHeight() / 3 );
+                           insets.left + 30 + insets.left, yLoc + (int)stringBounds.getHeight() / 3 );
         }
 
+        yLoc += insets.top;
         {
             g2.setColor( EnergyProfileGraphic.totalEnergyColor );
             g2.setStroke( EnergyProfileGraphic.totalEnergyStroke );
-            g2.drawLine( insets.left, insets.top * 2, insets.left + 30, insets.top * 2 );
+            g2.drawLine( insets.left, yLoc, insets.left + 30, yLoc );
             g2.setColor( Color.black );
-            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( SimStrings.get( "PotentialProfilePanel.legend.TotalEnergy" ), g2 );
-            g2.drawString( SimStrings.get( "PotentialProfilePanel.legend.TotalEnergy" ), insets.left + 30 + insets.left, insets.top * 2 + (int)stringBounds.getHeight() / 3 );
+            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( totalEnergyLegend, g2 );
+            g2.drawString( totalEnergyLegend, insets.left + 30 + insets.left, yLoc + (int)stringBounds.getHeight() / 3 );
+//            Rectangle2D stringBounds = GraphicsUtil.getStringBounds( SimStrings.get( "PotentialProfilePanel.legend.TotalEnergy" ), g2 );
+//            g2.drawString( SimStrings.get( "PotentialProfilePanel.legend.TotalEnergy" ), insets.left + 30 + insets.left, insets.top * 2 + (int)stringBounds.getHeight() / 3 );
         }
 
         gs.restoreGraphics();

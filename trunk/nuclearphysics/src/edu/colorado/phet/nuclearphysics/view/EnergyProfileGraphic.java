@@ -45,8 +45,8 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
     private static float dashPhase = 0f;
 //    public static Stroke totalEnergyStroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT,
 //                                                              BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
-    public static Stroke totalEnergyStroke = new BasicStroke( 1f );
-    public static Color totalEnergyColor = new Color( 0, 210, 0 );
+    public static Stroke totalEnergyStroke = new BasicStroke( 2f );
+    public static Color totalEnergyColor = new Color( 0, 180, 0 );
 //    public static Color totalEnergyColor = Color.green;
 
     //--------------------------------------------------------------------------------------------------

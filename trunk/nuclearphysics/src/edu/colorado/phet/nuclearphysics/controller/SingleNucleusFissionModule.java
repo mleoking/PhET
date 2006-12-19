@@ -291,7 +291,19 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     //--------------------------------------------------------------------------------------------------
     // Implementation of abstract methods
     //--------------------------------------------------------------------------------------------------
+
+    //--------------------------------------------------------------------------------------------------
+    // Abstract methods
+    //--------------------------------------------------------------------------------------------------
+    protected String getEnergyLegendHeader() {
+        return null;
+    }
+
     protected String getPotentialEnergyLegend() {
         return SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy" );
+    }
+
+    protected String getTotalEnergyLegend() {
+        return SimStrings.get( "PotentialProfilePanel.legend.TotalEnergy" );
     }
 }
