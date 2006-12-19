@@ -18,14 +18,70 @@ import edu.colorado.phet.common.math.ProbabilisticChooser;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
 
-
+/**
+ * SchrodingerModel is the Schrodinger model of the hydrogen atom.
+ * <p>
+ * Physical representation:
+ * Electron is a probability density field.
+ * Proton is at the center, visible only when the probability density 
+ * field strength is below a threshold value.
+ * The atom's state has 3 components (n,l,m). See transition rules below.
+ * <p>
+ * Wavefunction:
+ * This implementation solves the 3D Schrodinger wavefunction,
+ * used to compute probability density values in 3D space.
+ * <p>
+ * Collision behavior:
+ * Identical to the "brightness" views of deBroglie, which is why this
+ * class is an extension of DeBroglieModel.
+ * <p>
+ * Absorption behavior:
+ * Identical to Borh and deBroglie.
+ * <p>
+ * Emission behavior:
+ * Both spontaneous and stimulated emission are similar to Bohr and 
+ * deBroglie, but the rules for transitions (see below) are more 
+ * complicated.
+ * <p>
+ * Transition rules:
+ * All of the following rules must be obeyed when choosing a transition.
+ * <ol>
+ * <li>n = [1...6] as in Bohr and deBroglie
+ * <li>l = [0...n-1]
+ * <li>m = [-l...+l]
+ * <li>abs(l-l') = 1
+ * <li>abs(m-m') < 1
+ * <li>n transitions have varying transition strengths
+ * <li>valid l and m transitions have equal probability
+ * </ol>
+ * Note that transitions from state nlm=(2,0,0) are a special case.
+ * The lower state (1,0,0) is not possible since it violates the abs(l-l')=1 rule.
+ * The only way to get out of this state (2,0,0) is by going to a higher state.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class SchrodingerModel extends DeBroglieModel {
 
+    //----------------------------------------------------------------------------
+    // Debug
+    //----------------------------------------------------------------------------
+    
+    private static final boolean DEBUG_STATE_TRANSITIONS = false;
+    
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    // example: TRANSITION_STRENGTH[5][0] is the transition strength from n=6 to n=1
+    /*
+     * This table defines the transition strengths for the primary state component (n).
+     * Some of the entries in this table are non-sensical, but their strengths are 
+     * zero and it helps to have a symmetrical table.  This table was taken from
+     * the simulation design document.
+     * 
+     * Here's an example that shows how the table is indexed:
+     * TRANSITION_STRENGTH[5][0] is the transition strength from n=6 to n=1
+     */
     private static final double[][] TRANSITION_STRENGTH = {
         { 0, 0, 0, 0, 0 },
         { 12.53, 0, 0, 0 },
@@ -38,6 +94,8 @@ public class SchrodingerModel extends DeBroglieModel {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
+    
+    /* primary state component (n) is part of superclass */
     
     // secondary state component, l = 0,...n-1 (n=electron state)
     private int _l;
@@ -53,6 +111,10 @@ public class SchrodingerModel extends DeBroglieModel {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * @param position the atom's position in 2D space
+     */
     public SchrodingerModel( Point2D position ) {
         super( position );
         super.setView( DeBroglieView.BRIGHTNESS_MAGNITUDE ); // use deBroglie "rings" for collision detection
@@ -152,6 +214,7 @@ public class SchrodingerModel extends DeBroglieModel {
         
         assert( nNew >= 1 );
         assert( nNew <= getNumberOfStates() );
+        
         return nNew;
     }
     
@@ -164,7 +227,12 @@ public class SchrodingerModel extends DeBroglieModel {
         int lNew = getNewSecondaryState( nNew, _l );
         int mNew = getNewTertiaryState( lNew, _m );
         
-        // Verify that no transition rules have been broken
+        if ( DEBUG_STATE_TRANSITIONS ) {
+            System.out.println( "SchrodingerModel.setElectronState " + 
+                    stateToString( getElectronState(), _l, _m ) + "->" + stateToString( nNew, lNew, mNew ) );
+        }
+        
+        // Verify that no transition rules have been broken.
         assert( nNew >= 1 && nNew <= 6 );
         assert( lNew >= 0 && lNew <= nNew - 1 );
         assert( Math.abs( _l - lNew ) == 1 );
@@ -174,7 +242,6 @@ public class SchrodingerModel extends DeBroglieModel {
         _l = lNew;
         _m = mNew;
         super.setElectronState( nNew );
-//        System.out.println( "SchrodingerModel.setElectronState " + stateToString( n, _l, _m ) );//XXX
     }
     
     /*
@@ -232,10 +299,6 @@ public class SchrodingerModel extends DeBroglieModel {
             }
         }
         
-//        System.out.println( "SchrodingerModel.getSecondaryState n=" + nNew + " l=" + lOld + " lNew=" + lNew );//XXX
-        assert( lNew >= 0 );
-        assert( lNew <= nNew - 1 );
-        assert( Math.abs( lOld - lNew ) == 1 );
         return lNew;
     }
     
@@ -291,10 +354,6 @@ public class SchrodingerModel extends DeBroglieModel {
             }
         }
         
-//        System.out.println( "SchrodingerModel.getTeritiaryState l=" + lNew + " m=" + mOld + " mNew=" + mNew );//XXX
-        assert( mNew >= -lNew );
-        assert( mNew <= +lNew );
-        assert( Math.abs( mOld - mNew ) <= 1 );
         return mNew;
     }
     
