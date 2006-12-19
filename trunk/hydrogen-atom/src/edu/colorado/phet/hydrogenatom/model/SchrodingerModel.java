@@ -116,7 +116,7 @@ public class SchrodingerModel extends DeBroglieModel {
             legal = false;
         }
         else if ( nOld == 2 && _l == 0 ) {
-            // transition from n=2,l=0 to n=1,l=0 would break the abs(l-l')=0 rule
+            // transition from nlm=(2,0,0) to (1,0,0) would break the abs(l-l')=0 rule
             legal = false;
         }
         return legal;
@@ -135,7 +135,7 @@ public class SchrodingerModel extends DeBroglieModel {
         final int n = getElectronState();
         int nNew = 1;
         if ( n == 2 && _l == 0 ) {
-            // transition from n=2,l=0 to n=1,l=0 would break the abs(l-l')=0 rule
+            // transition from nlm=(2,0,0) to (1,0,0) would break the abs(l-l')=0 rule
             return -1;
         }
         else if ( n > 2 ) {
@@ -232,7 +232,7 @@ public class SchrodingerModel extends DeBroglieModel {
             }
         }
         
-        System.out.println( "getSecondaryState n=" + nNew + " l=" + lOld + " lNew=" + lNew );//XXX
+//        System.out.println( "SchrodingerModel.getSecondaryState n=" + nNew + " l=" + lOld + " lNew=" + lNew );//XXX
         assert( lNew >= 0 );
         assert( lNew <= nNew - 1 );
         assert( Math.abs( lOld - lNew ) == 1 );
@@ -291,7 +291,7 @@ public class SchrodingerModel extends DeBroglieModel {
             }
         }
         
-        System.out.println( "getTeritiaryState l=" + lNew + " m=" + mOld + " mNew=" + mNew );//XXX
+//        System.out.println( "SchrodingerModel.getTeritiaryState l=" + lNew + " m=" + mOld + " mNew=" + mNew );//XXX
         assert( mNew >= -lNew );
         assert( mNew <= +lNew );
         assert( Math.abs( mOld - mNew ) <= 1 );
