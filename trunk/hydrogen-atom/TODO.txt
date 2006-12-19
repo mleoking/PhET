@@ -5,8 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- assertion violation (m>0) on line 532 of BohrModel when running SchrodingerModel
-- verify algorithm for Schrodinger (n,l,m) state transitions
+- HTML arrows don't work on Windows
 - javadoc for SchrodingerModel
 - SchrodingerNode needs a ViewModelTransform, inverse of ModelViewTransform
 
@@ -44,6 +43,9 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/19/06) - implement special cases for Schrodinger (2,0,0) state
+(12/19/06) - implement rules for Schrodinger (n,l,m) state transitions
+(12/19/06) - add hooks to BohrModel for subclasses to redefine how state transitions are chosen
 (12/18/06) - use float inside of double for Schrodinger brightness cache
 (12/18/06) - test feasibility of writing Schrodinger brightness cache to a file
 (12/15/06) - implement a brightness cache in Schrodinger, either populated on init or on demand
