@@ -72,7 +72,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     private static final boolean DEBUG_SHOW_STATE = true;
     
     // Prints debugging output related to the brightness cache
-    private static final boolean DEBUG_CACHE = true;
+    private static final boolean DEBUG_CACHE = false;
     
     //----------------------------------------------------------------------------
     // Public class data
