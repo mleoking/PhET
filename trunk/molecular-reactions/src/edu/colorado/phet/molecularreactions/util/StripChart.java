@@ -118,8 +118,8 @@ public class StripChart implements Resetable {
                 true,
                 false
         );
-//        chart.getXYPlot().setDomainGridlinesVisible( false );
-//        chart.getXYPlot().setRangeGridlinesVisible( false );
+        chart.getXYPlot().setDomainGridlinesVisible( false );
+        chart.getXYPlot().setRangeGridlinesVisible( false );
         chart.getLegend().setHorizontalAlignment( HorizontalAlignment.RIGHT );
         plot = (XYPlot)chart.getPlot();
         plot.getRangeAxis().setRange( minY, maxY );
