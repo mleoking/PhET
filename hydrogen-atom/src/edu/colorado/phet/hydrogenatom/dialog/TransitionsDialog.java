@@ -34,7 +34,7 @@ import edu.colorado.phet.hydrogenatom.model.BohrModel;
  */
 public class TransitionsDialog extends JDialog {
 
-    private static final String TRANSITION_FORMAT = "<html>{0} &#8596; {1}</html>";
+    private static final String TRANSITION_FORMAT = "{0} <-> {1}";
     private static final DecimalFormat WAVELENGTH_FORMATTER = new DecimalFormat( "0" );
     
     public TransitionsDialog( Frame owner ) {
