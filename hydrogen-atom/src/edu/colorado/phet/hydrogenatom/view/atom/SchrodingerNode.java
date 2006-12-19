@@ -55,6 +55,10 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * so the resulting NxN array of brightness values is cache for reuse.
  * The cache can optionally be fully populated when it is created (quite 
  * time consuming) or populated on demand.
+ * <p>
+ * NOTE: This implementation assumes a 1:1 transform between model and view 
+ * coordinates. If this were to change in the future, this class would need
+ * to map from view to model coordinates before computing probability density.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
