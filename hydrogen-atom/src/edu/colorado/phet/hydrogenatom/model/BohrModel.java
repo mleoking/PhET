@@ -399,14 +399,14 @@ public class BohrModel extends AbstractHydrogenAtom {
         }
         
         if ( _timeInState >= MIN_TIME_IN_STATE && _electronState > GROUND_STATE ) {
+            
             if ( _randomEmission.nextDouble() < PHOTON_EMISSION_PROBABILITY ) {
                 
-                // Randomly pick a new state, each state has equal probability.
-                int newState = GROUND_STATE;
-                if ( _electronState > GROUND_STATE  + 1 ) {
-                    newState = GROUND_STATE + _randomState.nextInt( _electronState - GROUND_STATE );
+                int newState = chooseLowerElectronState();
+                if ( newState == -1 ) {
+                    // For some subclasses, there may be no valid transition.
+                    return;
                 }
-//                System.out.println( "BohrModel.emitPhoton " + _electronState + "->" + newState );//XXX
                 
                 // New photon's properties
                 Point2D position = getSpontaneousEmissionPosition();
@@ -424,9 +424,26 @@ public class BohrModel extends AbstractHydrogenAtom {
                 }
                 
                 // move electron to new state
+//              System.out.println( "BohrModel.emitPhoton " + _electronState + "->" + newState );//XXX
                 setElectronState( newState );
             }
         }
+    }
+    
+    /*
+     * Chooses a new state for the electron.
+     * The state chosen is a lower state.
+     * This is used when moving to a lower state, during spontaneous emission.
+     * Each lower state has the same probability of being chosen.
+     * 
+     * @return int positive state number, -1 if there is no state could be chosen
+     */
+    protected int chooseLowerElectronState() {
+        int newState = GROUND_STATE;
+        if ( _electronState > GROUND_STATE  + 1 ) {
+            newState = GROUND_STATE + _randomState.nextInt( _electronState - GROUND_STATE );
+        }
+        return newState;
     }
     
     /*
@@ -476,6 +493,10 @@ public class BohrModel extends AbstractHydrogenAtom {
                     }
                 }
                 
+                if ( ! isaLegalTransition( _electronState, newState ) ) {
+                    return;
+                }
+                
                 // Emit a photon with some probability...
                 if ( stimulatesEmission && _randomStimulatedEmission.nextDouble() < PHOTON_STIMULATED_EMISSION_PROBABILITY ) {
                     // This algorithm assumes that photons are moving vertically from bottom to top.
@@ -504,6 +525,17 @@ public class BohrModel extends AbstractHydrogenAtom {
                 
             }
         }
+    }
+    
+    /*
+     * Determines if a proposed state transition is legal.
+     * This is true by default if the 2 states are different.
+     * 
+     * @param nOld
+     * @param nNew
+     */
+    protected boolean isaLegalTransition( final int nOld, final int nNew ) {
+        return ( nOld != nNew );
     }
     
     /**
