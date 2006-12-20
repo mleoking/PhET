@@ -21,6 +21,12 @@
     public static void main(java.lang.String[]);
 }
 
+##-keep class edu.colorado.phet.common.util.services.InputStreamFileContents
+
+-keep public class edu.colorado.phet.common.util.services.* {
+    public protected *;
+}
+
 #JFreeChartResources: For loading property files.
 -keep class org.jfree.chart.resources.JFreeChartResources
 
