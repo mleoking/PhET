@@ -131,6 +131,7 @@ public class ModelSlider extends JPanel {
 
         titleLabel = new JLabel( title ) {
             protected void paintComponent( Graphics g ) {
+                //added antialias for the ModelSlider title
                 ( (Graphics2D)g ).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                 super.paintComponent( g );
             }
