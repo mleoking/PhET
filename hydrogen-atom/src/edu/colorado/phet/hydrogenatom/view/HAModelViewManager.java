@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PLayer;
 
 /**
  * HAModelViewManager is an extension of ModelViewManager that
- * constains node factories specific to this simulation.
+ * contains node factories specific to this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
