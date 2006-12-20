@@ -2,6 +2,11 @@
 #To Do
 #######################
 
+High priority issues that weren't yet addressed:
+1. Capacitor physics issues.
+2. Current chart shows inconsistent sign of current.
+3. Performance issues on some machines.
+
 Top taskbar is covered up on windows.
 >>Should I do anything about this?  Code is to maximize to visible screen area (discluding taskbars) for <=768 screen height, 
 >>otherwise center at the top of the screen, leaving 100 pixels at the bottom.
