@@ -186,12 +186,19 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         getModel().removeModelElement( products.getInstigatingNeutron() );
         getModel().removeModelElement( products.getParent() );
 
+        // Add some pizzazz
+        Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),
+                                    25, 300, getPhysicalPanel(),
+                                    getModel() );
+        getPhysicalPanel().addGraphic( kaboom );
+        
         // Add fission products
         final Neutron[] neutronProducts = products.getNeutronProducts();
         for( int i = 0; i < neutronProducts.length; i++ ) {
             final NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
             getModel().addModelElement( neutronProducts[i] );
             transientModelElements.add( neutronProducts[i] );
+            System.out.println( "SingleNucleusFissionModule.fission" );
             getPhysicalPanel().addGraphic( npg );
             final int i1 = i;
             neutronProducts[i].addListener( new NuclearModelElement.Listener() {
@@ -215,12 +222,6 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         super.addNucleus( dn2, null );
         getEnergyProfilePanel().addNucleusGraphic( dn1 );
         getEnergyProfilePanel().addNucleusGraphic( dn2 );
-
-        // Add some pizzazz
-        Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),
-                                    25, 300, getPhysicalPanel(),
-                                    getModel() );
-        getPhysicalPanel().addGraphic( kaboom );
     }
 
     /**

@@ -189,6 +189,12 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         // We know this must be a U235 nucleus
         u235Nuclei.remove( products.getParent() );
 
+        // Add some pizzazz
+        Kaboom kaboom = new Kaboom( products.getParent().getPosition(),
+                                    25, 300, getPhysicalPanel(),
+                                    getModel() );
+        getPhysicalPanel().addGraphic( kaboom );
+
         // Add fission products
         addNucleus( products.getDaughter1() );
         addNucleus( products.getDaughter2() );
@@ -203,12 +209,6 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
             neutrons.add( neutronProducts[i] );
             neutronProducts[i].addListener( new NeutronRemover( npg ) );
         }
-
-        // Add some pizzazz
-        Kaboom kaboom = new Kaboom( products.getParent().getPosition(),
-                                    25, 300, getPhysicalPanel(),
-                                    getModel() );
-        getPhysicalPanel().addGraphic( kaboom );
     }
 
     protected NeutronGraphic createNeutronGraphic( NuclearParticle neutron ) {
