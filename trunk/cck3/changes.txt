@@ -1,3 +1,6 @@
+3.06 (12-20-2006)
+Added interationalization for toolbox strings.
+
 3.05 (12-20-2006)
 Posted on main site as 3.05
 
