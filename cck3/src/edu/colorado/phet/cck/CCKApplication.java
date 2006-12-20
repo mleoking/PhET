@@ -37,7 +37,6 @@ import java.util.Arrays;
 public class CCKApplication extends PiccoloPhetApplication {
     //version is generated automatically (with ant)
     public static final String localizedStringsPath = "localization/CCKStrings";
-    //    private CCKPhetGraphicModuleAdapter phetGraphicsCCKModule;
     private CCKPiccoloModule cckPiccoloModule;
     private static String AC_OPTION = "-dynamics";
 
@@ -68,7 +67,6 @@ public class CCKApplication extends PiccoloPhetApplication {
             public void keyTyped( KeyEvent e ) {
             }
         } );
-//        Module[] modules = new Module[]{cckPiccoloModule, phetGraphicsCCKModule};
         Module[] modules = new Module[]{cckPiccoloModule};
         setModules( modules );
         if( getPhetFrame().getTabbedModulePane() != null ) {
