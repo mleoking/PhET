@@ -198,17 +198,10 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         Neutron[] neutronProducts = products.getNeutronProducts();
         for( int i = 0; i < neutronProducts.length; i++ ) {
             final NeutronGraphic npg = createNeutronGraphic( neutronProducts[i] );
-//            final NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
             getModel().addModelElement( neutronProducts[i] );
             getPhysicalPanel().addGraphic( npg );
             neutrons.add( neutronProducts[i] );
             neutronProducts[i].addListener( new NeutronRemover( npg ) );
-//            neutronProducts[i].addListener( new NuclearModelElement.Listener() {
-//                public void leavingSystem( NuclearModelElement nme ) {
-//                    getPhysicalPanel().removeGraphic( npg );
-//                }
-//            } );
-//            neutronProducts[i].addListener( new NeutronRemover( npg ) );
         }
 
         // Add some pizzazz

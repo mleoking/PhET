@@ -17,12 +17,15 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
+import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
+import edu.colorado.phet.piccolo.help.WiggleMe;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +36,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.*;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class AlphaDecayModule extends ProfiledNucleusModule implements DecayListener, PreDecayListener {
 
@@ -52,6 +56,9 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     private final Stroke leaderLineStroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT,
                                                              BasicStroke.JOIN_MITER, miterLimit,
                                                              dashPattern, dashPhase );
+    private AlphaDecayModule.DecayAnnunciator decayAnnunciator;
+    public AlphaDecayModule.MyClockControlPanel myClockControlPanel;
+
 
     /**
      * Constructor
@@ -68,7 +75,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     protected void init() {
         super.init();
 
-        setClockControlPanel( new MyClockControlPanel() );
+        myClockControlPanel = new MyClockControlPanel();
+        setClockControlPanel( myClockControlPanel );
 
         physicalPanel = new AlphaDecayPhysicalPanel( getClock(), (NuclearPhysicsModel)getModel() );
         super.setPhysicalPanel( physicalPanel );
@@ -109,6 +117,10 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     }
 
     public void start() {
+
+//        if( wiggleMe != null ) {
+//            getPhysicalPanel().removeGraphic( wiggleMe );
+//        }
 
         // todo: combine these calls
         Polonium211 nucleus = new Polonium211( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );
@@ -234,7 +246,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
             try {
                 Image image = ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_REWIND );
                 Icon icon = new ImageIcon( image );
-                rewindToDecayBtn = new JButton( SimStrings.get("AlphaDecayControlPanel.Rewind"), icon );
+                rewindToDecayBtn = new JButton( SimStrings.get( "AlphaDecayControlPanel.Rewind" ), icon );
             }
             catch( IOException e ) {
                 e.printStackTrace();
@@ -253,6 +265,9 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
             add( rewindToDecayBtn );
         }
 
+        void addRewindButtonListener( ActionListener listener ) {
+            rewindToDecayBtn.addActionListener( listener );
+        }
     }
     //--------------------------------------------------------------------------------------------------
     // Implementation of DecayListener
@@ -287,7 +302,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getPhysicalPanel().addGraphic( kaboom );
 
         // Set a timer that will pause the simulation after the decay has finished
-        getClock().addClockListener( new DecayAnnunciator( getModel(), getClock() ));
+        decayAnnunciator = new DecayAnnunciator( getModel(), getClock() );
+        getClock().addClockListener( decayAnnunciator );
     }
 
     private class DecayAnnunciator extends ClockAdapter {
@@ -295,30 +311,54 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         private long delay = 2000;
         private BaseModel model;
         private IClock clock;
+        private boolean displayed = false;
+        private PhetGraphic wiggleMe = null;
 
         public DecayAnnunciator( BaseModel model, IClock clock ) {
             this.model = model;
             this.clock = clock;
             startTime = System.currentTimeMillis();
+
+            myClockControlPanel.addRewindButtonListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if( wiggleMe != null ) {
+                        removeWiggleMe();
+                    }
+                }
+            } );
         }
 
         public void clockTicked( ClockEvent clockEvent ) {
             if( System.currentTimeMillis() - startTime >= delay ) {
-                clock.pause();
-                JOptionPane.showMessageDialog( PhetUtilities.getPhetFrame(),
-                                               SimStrings.get( "AlphaDecayControlPanel.DecayMessage" ));
-                clock.start();
-                clock.removeClockListener( this );
+                if( !displayed ) {
+                    Font font = new Font( "Lucida Sans", Font.BOLD, 24 );
+                    wiggleMe = new PhetTextGraphic2( getPhysicalPanel(),
+                                                                 font,
+                                                                 SimStrings.get( "AlphaDecayControlPanel.DecayMessage" ),
+                                                                 Color.red, 30, 100 );
+                    getPhysicalPanel().addGraphic( wiggleMe, 1E6 );
+                    wiggleMe.repaint();
+                    clock.pause();
+                    displayed = true;
+                }
+                else {
+                    removeWiggleMe();
+                    clock.removeClockListener( this );
+                }
             }
         }
-    }
 
+        private void removeWiggleMe() {
+            getPhysicalPanel().removeGraphic( wiggleMe );
+            wiggleMe = null;
+        }
+    }
 
     //--------------------------------------------------------------------------------------------------
     // Implementation of abstract methods
     //--------------------------------------------------------------------------------------------------
     protected String getEnergyLegendHeader() {
-        return SimStrings.get( "PotentialProfilePanel.YAxisLabel1");
+        return SimStrings.get( "PotentialProfilePanel.YAxisLabel1" );
     }
 
     protected String getPotentialEnergyLegend() {
