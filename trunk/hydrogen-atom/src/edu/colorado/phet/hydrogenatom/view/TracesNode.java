@@ -58,7 +58,7 @@ public class TracesNode extends PNode implements ModelListener, Observer {
      */
     private static final boolean TRACES_PERSIST = false;
     
-    private static final Color TRACE_COLOR = Color.WHITE;
+    private static final Color TRACE_COLOR = Color.LIGHT_GRAY;
     private static final Stroke TRACE_STROKE = new BasicStroke( 1f );
     
     //----------------------------------------------------------------------------
