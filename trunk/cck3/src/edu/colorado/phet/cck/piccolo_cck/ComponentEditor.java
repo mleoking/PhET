@@ -56,6 +56,7 @@ public abstract class ComponentEditor extends JDialog {
         this.circuit = circuit;
         DecimalFormat formatter = new DecimalFormat( "0.0#" );
         slider = new ModelSlider( name, units, min, max, startvalue, formatter );
+        slider.setTitleFont( slider.getTitleLabel().getFont().deriveFont( 24.0f ) );
         slider.setNumMajorTicks( 5 );
         contentPane = new VerticalLayoutPanel();
         contentPane.add( slider );
