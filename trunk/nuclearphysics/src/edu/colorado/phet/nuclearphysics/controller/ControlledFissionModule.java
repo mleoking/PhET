@@ -144,20 +144,6 @@ public class ControlledFissionModule extends ChainReactionModule {
         init( getClock() );
     }
 
-    /**
-     * Sets the values of various parameters so that a sustained reaction will proceed when the
-     * control rods are 1/2 in, and things will run away when the rods are all the way out.
-     */
-    private void setParameterDefaults() {
-        setNumNeutronsFired( DEFAULT_NUM_NEUTRONS_FIRED );
-        setNumControlRods( DEFAULT_NUM_CONTROLS_RODS );
-        setU235AbsorptionProbability( DEAFULT_U235_ABSORPTION_PROB );
-        setU238AbsorptionProbability( DEAFULT_U238_ABSORPTION_PROB );
-        setRodAbsorptionProbability( DEAFULT_ROD_ABSORPTION_PROB );
-        setInterNucleusSpacing( DEFAULT_INTER_NUCLEAR_SPACING );
-        createNuclei();
-    }
-
     protected void init( final IClock clock ) {
 
         // Set congtrol parameters

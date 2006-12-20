@@ -108,13 +108,9 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         } );
 
         // Ray gun
-//        RayGunGraphic gunGraphic = new RayGunGraphic( getPhysicalPanel(), this );
-//        gunGraphic.setLocation( gunMuzzelLocation );
-//        getPhysicalPanel().addGraphic( gunGraphic );
         PhetImageGraphic gunGraphic;
         gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8A.png");
         gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
-//        gunGraphic.setTransform( AffineTransform.getScaleInstance( 0.8, 0.8 ) );
         gunGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ALPHA_INTERPOLATION,
                                                           RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY) );
         gunGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING,
@@ -128,8 +124,6 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         getPhysicalPanel().addGraphic( fireButton, 1E6 );
         fireButton.setLocation(  (int)gunMuzzelLocation.getX() + 285,
                                  (int)gunMuzzelLocation.getY() + 145 );
-//        fireButton.setLocation(  (int)( 37), 152 );
-//        fireButton.setTransform( AffineTransform.getScaleInstance( 0.85, 0.85));
         fireButton.addActionListener( new FireButton.ActionListener() {
             public void actionPerformed( FireButton.ActionEvent event ) {
                 fireNeutron();
@@ -184,12 +178,9 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         Nucleus daughter1 = products.getDaughter1();
         double v1 = daughter1.getVelocity().getMagnitude();
         daughter1.setVelocity( (float)( v1 * Math.cos( theta ) ), (float)( v1 * Math.sin( theta ) ) );
-//        double a = 10;
-//        daughter1.setAcceleration( a * Math.cos( theta ), a * Math.sin( theta ));
         Nucleus daughter2 = products.getDaughter2();
         double v2 = daughter2.getVelocity().getMagnitude();
         daughter2.setVelocity( (float)( v2 * Math.cos( theta + Math.PI ) ), (float)( v2 * Math.sin( theta + Math.PI ) ) );
-//        daughter2.setAcceleration( a * Math.cos( theta + Math.PI ), a * Math.sin( theta + Math.PI ));
 
         // Remove the neutron and old nucleus
         getModel().removeModelElement( products.getInstigatingNeutron() );

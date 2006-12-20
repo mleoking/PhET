@@ -34,7 +34,8 @@ public class Config {
     public static final double modelToViewDist = 30 / 7.12E-15;
     public static final double modelToViewMeV = 50 / 33.1;
 
-    public static final double neutronSpeed = 6;
+    public static final double neutronSpeed = 4;
+//    public static final double neutronSpeed = 6;
     public static final double fissionDisplacementVelocity = 2;
     public static final double defaultProfileWidth = 500;
 
