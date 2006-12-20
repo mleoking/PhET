@@ -2,6 +2,8 @@
 #To Do
 #######################
 
+Sometimes after disconnecting a wire then "split junctions" there is a floating junction.
+
 High priority issues that weren't yet addressed:
 1. Capacitor physics issues.
 2. Current chart shows inconsistent sign of current.
