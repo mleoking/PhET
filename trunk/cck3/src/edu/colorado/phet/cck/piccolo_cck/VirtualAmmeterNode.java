@@ -38,7 +38,7 @@ public class VirtualAmmeterNode extends PhetPNode {
         this.panel = panel;
         this.module = module;
         this.circuit = circuit;
-        targetReadoutToolNode.scale( 1.0 / 60.0 );
+        targetReadoutToolNode.scale( 1.0 / 60.0 * 0.75 );
         targetReadoutToolNode.setOffset( 1, 1 );
         addChild( targetReadoutTool );
 
