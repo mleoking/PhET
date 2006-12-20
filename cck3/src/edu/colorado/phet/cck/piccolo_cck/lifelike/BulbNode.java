@@ -33,7 +33,6 @@ public class BulbNode extends PhetPNode {
     private Ellipse2D.Double bulbShape;
     private Point2D pin;
     private Point2D.Double rad;
-    private Paint paint;
     private Rectangle2D.Double conductor;
     private Ellipse2D.Double insulator;
     private Rectangle2D.Double tip;
@@ -89,7 +88,7 @@ public class BulbNode extends PhetPNode {
 
         pin = getPin( bulbShape );
         rad = new Point2D.Double( bounds.getWidth() / 2, bounds.getHeight() / 2 );
-        paint = new RoundGradientPaint( pin.getX(), pin.getY(), Color.white, rad, Color.yellow );
+//        paint = new RoundGradientPaint( pin.getX(), pin.getY(), Color.white, rad, Color.yellow );
         conductor = new Rectangle2D.Double( conductorX, conductorY, conductorWidth, conductorHeight );
 
         insulator = new Ellipse2D.Double( insulatorX, insulatorY, insulatorWidth, insulatorHeight );
@@ -124,8 +123,8 @@ public class BulbNode extends PhetPNode {
         }
         else {
             updateRays();
-            updateTip();
-            updateBulbShape();
+            addChild( createTipNode() );
+            addChild( createBulbShape() );
             updateInsulator();
             updateConductor();
             updateSpiralLines();
@@ -156,27 +155,30 @@ public class BulbNode extends PhetPNode {
         addChild( insulatorPath );
     }
 
-    private void updateBulbShape() {
+    private PPath createBulbShape() {
         PPath bulbShape = new PhetPPath( this.bulbShape, new BasicStroke( 1.0f / 40.0f ), Color.black );
+        bulbShape.setPaint( createPaint() );
+        return bulbShape;
+    }
+
+    private Paint createPaint() {
         if( intensity > 1E-2 ) {
             Color yellow = Color.yellow;
             Color backgroundColor = new Color( yellow.getRed() / 255.0f, yellow.getGreen() / 255.0f, yellow.getBlue() / 255.0f, (float)intensity );
             Color pointColor = new Color( 1, 1, 1.0f, (float)intensity );
-            paint = new RoundGradientPaint( pin.getX(), pin.getY(), pointColor, rad, backgroundColor );
-            bulbShape.setPaint( paint );
+            return new RoundGradientPaint( pin.getX(), pin.getY(), pointColor, rad, backgroundColor );
         }
         else {
-            bulbShape.setPaint( new Color( 0, 0, 0, 0 ) );
+            return new Color( 0, 0, 0, 0 );
         }
-        addChild( bulbShape );
     }
 
-    private void updateTip() {
+    private PPath createTipNode() {
         PPath tipNode = new PPath();
         tipNode.setPaint( Color.black );
         tipNode.setStroke( tipStroke );
         tipNode.setPathTo( tip );
-        addChild( tipNode );
+        return tipNode;
     }
 
     private void updateRays() {
