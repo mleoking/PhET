@@ -30,9 +30,10 @@ public class AnimationBoxNode extends PClip {
     public static final Stroke STROKE = new BasicStroke( 2f );
     public static final Color STROKE_COLOR = Color.WHITE;
     
-    private PLayer _bottomLayer;
-    private PLayer _middleLayer;
-    private PLayer _topLayer;
+    private PLayer _atomLayer; // layer containing atoms
+    private PLayer _traceLayer; // layer containing traces of particle motion
+    private PLayer _particleLayer; // layer containing particles
+    private PLayer _topLayer; // layer containing things that must be in front of everything else
     
     public AnimationBoxNode( Dimension size ) {
         super();
@@ -43,20 +44,26 @@ public class AnimationBoxNode extends PClip {
         setStroke( STROKE );
         setStrokePaint( HAConstants.ANIMATION_BOX_STROKE_COLOR );
         
-        _bottomLayer = new PLayer();
-        addChild( _bottomLayer );
-        _middleLayer = new PLayer();
-        addChild( _middleLayer );
+        _atomLayer = new PLayer();
+        addChild( _atomLayer );
+        _traceLayer = new PLayer();
+        addChild( _traceLayer );
+        _particleLayer = new PLayer();
+        addChild( _particleLayer );
         _topLayer = new PLayer();
         addChild( _topLayer);
     }
     
-    public PLayer getBottomLayer() {
-        return _bottomLayer;
+    public PLayer getAtomLayer() {
+        return _atomLayer;
     }
     
-    public PLayer getMiddleLayer() {
-        return _middleLayer;
+    public PLayer getTraceLayer() {
+        return _traceLayer;
+    }
+    
+    public PLayer getParticleLayer() {
+        return _particleLayer;
     }
     
     public PLayer getTopLayer() {

@@ -28,7 +28,10 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.control.*;
+import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
+import edu.colorado.phet.hydrogenatom.control.GunControlPanel;
+import edu.colorado.phet.hydrogenatom.control.HAClockControlPanel;
+import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
 import edu.colorado.phet.hydrogenatom.energydiagrams.BohrEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.DeBroglieEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
@@ -42,7 +45,6 @@ import edu.colorado.phet.hydrogenatom.model.*;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode;
 import edu.colorado.phet.hydrogenatom.view.*;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendNode;
-import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.PiccoloModule;
@@ -107,6 +109,9 @@ public class HAModule extends PiccoloModule {
     private AnimationBoxNode _animationBoxNode;
     private ZoomIndicatorNode _zoomIndicatorNode;
 
+    // Alpha Particle traces
+    private TracesNode _tracesNode;
+    
     // Spectrometer
     private JCheckBox _spectrometerCheckBox;
     private PSwing _spectrometerCheckBoxNode;
@@ -253,9 +258,17 @@ public class HAModule extends PiccoloModule {
             // zoom indicator
             _zoomIndicatorNode = new ZoomIndicatorNode();
         }
+        
+        // Alpha Particles tracer
+        {
+            _tracesNode = new TracesNode( _model );
+            _tracesNode.setBounds( 0, 0, _animationBoxNode.getWidth(), _animationBoxNode.getHeight() );
+            _animationBoxNode.getTraceLayer().addChild( _tracesNode );
+            _tracesNode.setEnabled( false );
+        }
 
         // Gun control panel
-        _gunControlPanel = new GunControlPanel( _canvas, _model.getGun() );
+        _gunControlPanel = new GunControlPanel( _canvas, _model.getGun(), _tracesNode );
 
         // Spectrometer
         {
@@ -577,6 +590,8 @@ public class HAModule extends PiccoloModule {
 
     public void updateAtomicModel() {
 
+        _tracesNode.clear();
+        
         if ( _hydrogenAtomModel != null ) {
             _model.removeModelElement( _hydrogenAtomModel );
             _hydrogenAtomModel = null;
