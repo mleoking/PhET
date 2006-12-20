@@ -23,6 +23,3 @@ does not get drawn correctly ... nothing appears in the window.
 - Is there a way to have the computer detect when the sim is 
 completely obscured by another window, and then make it stop running 
 at that point ... right now to get it to stop you have to minimize.
-
-I’m having some problem saving sim files, though. No dialogue box 
-appears to save, or re-save files with. Could this be a bug in the upgrade?
