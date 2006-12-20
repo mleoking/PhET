@@ -16,6 +16,7 @@ MEDIUM PRIORITY:
 - is ModelViewTransform used everywhere is should be in view?
 - verify that behavior is correct when clock is paused
 - decide on default values for all controls
+- add "description" to SimStrings file
 
 LOW PRIORITY:
 - get rid of HAController, merge into HAModule
