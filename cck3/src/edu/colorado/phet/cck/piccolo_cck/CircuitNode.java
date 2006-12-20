@@ -6,6 +6,7 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
+import edu.colorado.phet.cck.model.components.Switch;
 import edu.colorado.phet.cck.model.components.Wire;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -110,28 +111,52 @@ public class CircuitNode extends PhetPNode {
             }
 
             public void selectionChanged() {
-                for( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
-                    BranchNode pNode = (BranchNode)branchLayer.getChild( i );
-                    if( pNode.getBranch().isSelected() ) {
-                        pNode.moveToFront();
-                    }
-                }
+                updateBranchOrder();
             }
 
             public void branchRemoved( Branch branch ) {
-                for( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
-                    BranchNode branchNode = (BranchNode)branchLayer.getChild( i );
-                    if( branchNode.getBranch() == branch ) {
-                        removeBranchGraphic( branchNode );
-                        i--;
-                    }
-                }
+                removeBranchNode( branch );
             }
         } );
     }
 
+    private void removeBranchNode( Branch branch ) {
+        for( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
+            BranchNode branchNode = (BranchNode)branchLayer.getChild( i );
+            if( branchNode.getBranch() == branch ) {
+                removeBranchGraphic( branchNode );
+                i--;
+            }
+        }
+        updateBranchOrder();
+    }
+
+    private void updateBranchOrder() {
+        moveSwitchesToFront();
+        moveSelectedBranchesToFront();
+    }
+
+    private void moveSwitchesToFront() {
+        for( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
+            BranchNode pNode = (BranchNode)branchLayer.getChild( i );
+            if( pNode.getBranch() instanceof Switch ) {
+                pNode.moveToFront();
+            }
+        }
+    }
+
+    private void moveSelectedBranchesToFront() {
+        for( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
+            BranchNode pNode = (BranchNode)branchLayer.getChild( i );
+            if( pNode.getBranch().isSelected() ) {
+                pNode.moveToFront();
+            }
+        }
+    }
+
     private void addBranchNode( Branch branch ) {
         branchLayer.addChild( createNode( branch ) );
+        updateBranchOrder();
     }
 
     private BranchNode createNode( Branch branch ) {
