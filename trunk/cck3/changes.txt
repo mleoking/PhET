@@ -2,10 +2,10 @@
 Fixed a bug that prevented saving circuits from webstart.
 
 3.04.14
-Added -keep classname for proguard for save/load.
+Trial version to test save/load.
 
 3.04.13
-Added -keep * option for proguard for save/load.
+Trial version to test save/load.
 
 3.04.12 (12-20-2006)
 Reduced ammeter size.
