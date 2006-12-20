@@ -1,5 +1,6 @@
 3.04.12 (12-20-2006)
 Reduced ammeter size.
+Moved switches to be in front of other components (Except for selected components.)
 
 3.04.11 (12-18-2006)
 Removed phetcommon tab, which was used for testing purposes.

@@ -43,10 +43,6 @@ public class SwitchNode extends SwitchBodyImageNode {
         switchLeverNode.delete();
     }
 
-//    protected JPopupMenu createPopupMenu() {
-//        return new ComponentMenu.SwitchMenu( s, module );
-//    }
-
     class SwitchLeverNode extends PhetPNode {
         private PNode imagePNode;
         private BufferedImage knifeHandleImage;
