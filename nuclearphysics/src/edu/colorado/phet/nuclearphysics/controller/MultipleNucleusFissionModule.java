@@ -47,6 +47,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     private FireButton fireButton;
     public PhetImageGraphic mushroomCloudGraphic;
     public PhetTextGraphic2 atomicBombTextGraphic;
+    public ContainmentButton containmentButton;
 
     /**
      * Constructor
@@ -63,54 +64,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setPhysicalScale( 0.5 );
         super.addControlPanelElement( new MultipleNucleusFissionControlPanel( this ) );
-
-/*
-
-        getModel().addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                if( MultipleNucleusFissionModule.this.neutronToAdd != null ) {
-                    MultipleNucleusFissionModule.this.addNeutron( neutronToAdd );
-                    MultipleNucleusFissionModule.this.neutronToAdd = null;
-                }
-            }
-        } );
-
-        // Add a model element that watches for collisions between neutrons and
-        // nuclei
-        getModel().addModelElement( new FissionDetector() );
-
-        // Ray gun
-        PhetImageGraphic gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/gun-8A.png" );
-        gunGraphic.setTransform( AffineTransform.getScaleInstance( 2, 2 ) );
-        gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
-        gunGraphic.setLocation( gunMuzzelLocation );
-        getPhysicalPanel().addGraphic( gunGraphic );
-
-        // Add a fire button to the play area, on top of the gun
-        fireButton = new FireButton( getPhysicalPanel() );
-        getPhysicalPanel().addGraphic( fireButton, 1E6 );
-        fireButton.setLocation( (int)( 40 ), 293 );
-        fireButton.addActionListener( new FireButton.ActionListener() {
-            public void actionPerformed( FireButton.ActionEvent event ) {
-                fireNeutron();
-            }
-        } );
-
-        // Add a button to enable/disable the containment vessel
-        ContainmentButton containmentButton = new ContainmentButton( getPhysicalPanel() );
-        getPhysicalPanel().addGraphic( containmentButton, 1E6 );
-        containmentButton.setLocation( 600, 100 );
-        containmentButton.addActionListener( new PhetGraphicsButton.ActionListener() {
-            public void actionPerformed( PhetGraphicsButton.ActionEvent event ) {
-                if( containment == null ) {
-                    addContainment();
-                }
-                else {
-                    removeContainment();
-                }
-            }
-        } );
-*/
 
         // Start it up
         start();
@@ -129,13 +82,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
     public void stop() {
         super.stop();
-//        for( int i = 0; explodingGraphics != null && i < explodingGraphics.size(); i++ ) {
-//            ExplodingContainmentGraphic graphic = (ExplodingContainmentGraphic)explodingGraphics.get( i );
-//            graphic.clearGraphics();
-//        }
-//            getPhysicalPanel().removeGraphic( mushroomCloudGraphic );
-//            getPhysicalPanel().removeGraphic( atomicBombTextGraphic );
-//
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 getPhysicalPanel().repaint();
@@ -182,7 +128,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         } );
 
         // Add a button to enable/disable the containment vessel
-        ContainmentButton containmentButton = new ContainmentButton( getPhysicalPanel() );
+        containmentButton = new ContainmentButton( getPhysicalPanel() );
         getPhysicalPanel().addGraphic( containmentButton, 1E6 );
         containmentButton.setLocation( 600, 100 );
         containmentButton.addActionListener( new PhetGraphicsButton.ActionListener() {
@@ -241,6 +187,10 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
                 getPhysicalPanel().removeGraphic( containmentGraphic );
                 setContainmentEnabled( false );
 
+                // Hide the buttons
+                containmentButton.setVisible( false );
+                fireButton.setVisible( false );
+
                 // Add a mushroom cloud
                 mushroomCloudGraphic = new PhetImageGraphic( getPhysicalPanel(), "images/mc-10.jpg" );
                 getPhysicalPanel().addGraphic( mushroomCloudGraphic );
@@ -287,12 +237,6 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
         public MyBufferedImage( int width, int height, int imageType ) {
             super( width, height, imageType );
-        }
-
-
-        protected void finalize() throws Throwable {
-            super.finalize();
-            System.out.println( "MultipleNucleusFissionModule$MyBufferedImage.finalize" );
         }
     }
 
