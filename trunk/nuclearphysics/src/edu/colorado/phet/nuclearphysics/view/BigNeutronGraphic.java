@@ -11,6 +11,7 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
+import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.image.BufferedImage;
@@ -30,7 +31,7 @@ import java.awt.*;
 public class BigNeutronGraphic extends NeutronGraphic {
     private static BufferedImage myBufferedImage;
     static {
-        AffineTransform atx = AffineTransform.getScaleInstance( 4, 4);
+        AffineTransform atx = AffineTransform.getScaleInstance( Config.BIG_NEUTRON_SCALE, Config.BIG_NEUTRON_SCALE);
         AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
         myBufferedImage = atxOp.filter( NeutronGraphic.getNeutronImage(), null );
     }
