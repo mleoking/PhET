@@ -2,6 +2,7 @@ package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.ICCKModule;
+import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.*;
@@ -201,7 +202,7 @@ public class ToolboxNode extends PhetPNode {
 
     class WireMaker extends BranchMaker {
         public WireMaker() {
-            super( "Wire", 40 );
+            super( CCKStrings.getString( "BranchSource.Wire" ), 40 );
         }
 
         protected Branch createBranch() {
@@ -213,7 +214,7 @@ public class ToolboxNode extends PhetPNode {
 
     class ResistorMaker extends BranchMaker {
         public ResistorMaker() {
-            super( "Resistor", 60 );
+            super( CCKStrings.getString( "BranchSource.Resistor" ), 60 );
         }
 
         protected Branch createBranch() {
@@ -230,7 +231,7 @@ public class ToolboxNode extends PhetPNode {
     class BatteryMaker extends BranchMaker {
 
         public BatteryMaker() {
-            super( "Battery", 45 / batteryScale );
+            super( CCKStrings.getString( "BranchSource.Battery" ), 45 / batteryScale );
         }
 
         protected Branch createBranch() {
@@ -247,7 +248,7 @@ public class ToolboxNode extends PhetPNode {
 
     class BulbMaker extends BranchMaker {
         public BulbMaker() {
-            super( "Light Bulb", 1 );
+            super( CCKStrings.getString( "BranchSource.LightBulb" ), 1 );
             PNode child = new BulbNode( createBulb() );
 //            PNode child = branchNodeFactory.createNode( createBulb() );
             child.transformBy( AffineTransform.getScaleInstance( 50, 75 ) );//todo choose scale based on insets?
@@ -272,7 +273,7 @@ public class ToolboxNode extends PhetPNode {
 
     class SwitchMaker extends BranchMaker {
         public SwitchMaker() {
-            super( "Switch", 60 );
+            super( CCKStrings.getString( "BranchSource.Switch" ), 60 );
         }
 
         protected Branch createBranch() {
@@ -286,7 +287,7 @@ public class ToolboxNode extends PhetPNode {
 
     class ACVoltageMaker extends BranchMaker {
         public ACVoltageMaker() {
-            super( "AC Voltage", 60 );
+            super( CCKStrings.getString( "BranchSource.AC" ), 60 );
         }
 
         protected Branch createBranch() {
@@ -300,7 +301,7 @@ public class ToolboxNode extends PhetPNode {
 
     class CapacitorMaker extends BranchMaker {
         public CapacitorMaker() {
-            super( "Capacitor", 60 );
+            super( CCKStrings.getString( "BranchSource.Capacitor" ), 60 );
         }
 
         protected Branch createBranch() {
@@ -314,7 +315,7 @@ public class ToolboxNode extends PhetPNode {
 
     class InductorMaker extends BranchMaker {
         public InductorMaker() {
-            super( "Inductor", 42 );
+            super( CCKStrings.getString( "BranchSource.Inductor" ), 42 );
         }
 
         protected Branch createBranch() {
@@ -329,7 +330,7 @@ public class ToolboxNode extends PhetPNode {
 
     class AmmeterMaker extends BranchMaker {
         public AmmeterMaker() {
-            super( "Ammeter", 30 );
+            super( CCKStrings.getString( "BranchSource.Ammeter" ), 30 );
         }
 
         protected Branch createBranch() {
