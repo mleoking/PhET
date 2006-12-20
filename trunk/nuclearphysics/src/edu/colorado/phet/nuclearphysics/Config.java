@@ -12,7 +12,7 @@ import java.awt.*;
 public class Config {
 
     // Version
-    public static String version = "2.01";
+    public static String version = "2.01.01";
 
     //--------------------------------------------------------------------------------------------------
     // Model related things

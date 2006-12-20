@@ -75,7 +75,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
                 LegendPanel.PROTON,
                 LegendPanel.U235,
                 LegendPanel.U238,
-                LegendPanel.U239
+                LegendPanel.U239,
+                LegendPanel.DAUGHTER_NUCLEI
         };
         return Arrays.asList( legendClasses );
     }
