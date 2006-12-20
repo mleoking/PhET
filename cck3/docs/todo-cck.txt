@@ -13,10 +13,6 @@ this problem but is worse than current problem
 -Bug 26: Good compromise.
 -Bug 33: Also a problem on current version online
 
-Kathy's New bugs/fixes:
-- the non-contact ammeter is ~50% larger than the old CCK version. 
-Please match the old size.
-
 - I like the look (font, slider) of the voltage adjustment window and 
 right-click drop down menu on the old CCK version better than the new 
 version ... was that change associated with going to picolo?

@@ -129,7 +129,12 @@ public class ModelSlider extends JPanel {
 
         createSlider();
 
-        titleLabel = new JLabel( title );
+        titleLabel = new JLabel( title ) {
+            protected void paintComponent( Graphics g ) {
+                ( (Graphics2D)g ).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                super.paintComponent( g );
+            }
+        };
         titleLabel.setFont( titleFont );
 
         unitsReadout = new JTextField( " " + this.units );
