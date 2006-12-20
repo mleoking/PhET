@@ -27,8 +27,8 @@ public class HAModelViewManager extends ModelViewManager {
     public HAModelViewManager( Model model, AnimationBoxNode animationBoxNode ) {
         super( model );
         
-        PLayer bottomLayer = animationBoxNode.getBottomLayer();
-        PLayer middleLayer = animationBoxNode.getMiddleLayer();
+        PLayer bottomLayer = animationBoxNode.getAtomLayer();
+        PLayer middleLayer = animationBoxNode.getParticleLayer();
         PLayer topLayer = animationBoxNode.getTopLayer();
         
         // Particles are in the middle layer

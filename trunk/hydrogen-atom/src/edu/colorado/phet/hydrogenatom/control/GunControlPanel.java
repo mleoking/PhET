@@ -26,6 +26,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.enums.GunMode;
 import edu.colorado.phet.hydrogenatom.enums.LightType;
 import edu.colorado.phet.hydrogenatom.model.Gun;
+import edu.colorado.phet.hydrogenatom.view.TracesNode;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -62,6 +63,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     
     private Gun _gun;
+    private TracesNode _tracesNode;
     
     private GunTypeControl _gunTypeControl;
     private PhetPNode _lightControls;
@@ -70,6 +72,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
     private GunWavelengthControl _wavelengthControl;
     private PhetPNode _alphaParticleControls;
     private IntensityControl _alphaParticlesIntensityControl;
+    private TracesControl _alphaParticlesTracesControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -78,10 +81,11 @@ public class GunControlPanel extends PhetPNode implements Observer {
     /**
      * Constructor.
      */
-    public GunControlPanel( PSwingCanvas canvas, Gun gun ) {
+    public GunControlPanel( PSwingCanvas canvas, Gun gun, TracesNode tracesNode ) {
         super();
         
         _gun = gun;
+        _tracesNode = tracesNode;
         
         // Font
         int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
@@ -102,11 +106,14 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _alphaParticleControls = new PhetPNode();
         _alphaParticlesIntensityControl = new IntensityControl( INTENSITY_CONTROL_SIZE, font );
         _alphaParticlesIntensityControl.setColor( HAConstants.ALPHA_PARTICLES_COLOR );
+        
+        _alphaParticlesTracesControl = new TracesControl( font );
 
         // Wrappers for Swing components
         PSwing lightTypeControlWrapper = new PSwing( canvas, _lightTypeControl );
         PSwing lightIntensityControlWrapper = new PSwing( canvas, _lightIntensityControl );
         PSwing alphaParticlesIntensityControlWrapper = new PSwing( canvas, _alphaParticlesIntensityControl );
+        PSwing alphaParticlesTracesControlWrapper = new PSwing( canvas, _alphaParticlesTracesControl );
         
         // Layering, back to front
         {
@@ -115,6 +122,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
             _lightControls.addChild( _wavelengthControl );
 
             _alphaParticleControls.addChild( alphaParticlesIntensityControlWrapper );
+            _alphaParticleControls.addChild( alphaParticlesTracesControlWrapper );
 
             addChild( panel );
             addChild( _gunTypeControl );
@@ -137,6 +145,8 @@ public class GunControlPanel extends PhetPNode implements Observer {
            
            _alphaParticleControls.setOffset( gtb.getX(), gtb.getY() + gtb.getHeight() + Y_SPACING );
            alphaParticlesIntensityControlWrapper.setOffset( 0, 0 );
+           PBounds aib = alphaParticlesIntensityControlWrapper.getFullBounds();
+           alphaParticlesTracesControlWrapper.setOffset( 0, aib.getHeight() + Y_SPACING );
         }
         
         // Scale the panel background image
@@ -168,6 +178,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _lightIntensityControl.setUnitsForeground( LABEL_COLOR );
         _wavelengthControl.setUnitsForeground( LABEL_COLOR );
         _alphaParticlesIntensityControl.setUnitsForeground( LABEL_COLOR );
+        _alphaParticlesTracesControl.setForeground( LABEL_COLOR );
         
         // Event handling
         {
@@ -179,6 +190,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
             _lightIntensityControl.addChangeListener( listener );
             _wavelengthControl.addChangeListener( listener );
             _alphaParticlesIntensityControl.addChangeListener( listener );
+            _alphaParticlesTracesControl.addChangeListener( listener );
         }
         
         // Sync with model
@@ -232,6 +244,9 @@ public class GunControlPanel extends PhetPNode implements Observer {
             else if ( source == _alphaParticlesIntensityControl ) {
                 handleAlphaParticlesIntensityChange();
             }
+            else if ( source == _alphaParticlesTracesControl ) {
+                handleAlphaParticlesTraceChange();
+            }
         }   
     }
     
@@ -239,6 +254,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
      * Handles selection gun type (photons or alpha particles).
      */
     private void handleGunTypeChange() {
+        _tracesNode.setEnabled( _gun.isAlphaParticlesMode() && _alphaParticlesTracesControl.isSelected() );
         _lightControls.setVisible( _gun.isPhotonsMode() );
         _alphaParticleControls.setVisible( _gun.isAlphaParticlesMode() );
         GunMode mode = ( _gunTypeControl.isPhotonsSelected() ? GunMode.PHOTONS : GunMode.ALPHA_PARTICLES );
@@ -287,6 +303,13 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _gun.setAlphaParticlesIntensity( intensity );
     }
     
+    /*
+     * Handles change to the "show traces" control for alpha particles.
+     */
+    private void handleAlphaParticlesTraceChange() {
+        _tracesNode.setEnabled( _alphaParticlesTracesControl.isSelected() );
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
@@ -330,5 +353,6 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _wavelengthControl.setWavelength( _gun.getWavelength() );
         _lightIntensityControl.setValue( (int)( 100 * _gun.getLightIntensity() ) );
         _alphaParticlesIntensityControl.setValue( (int)( 100 * _gun.getAlphaParticlesIntensity() ) );
+        _alphaParticlesTracesControl.setSelected( _tracesNode.isEnabled() );
     }
 }

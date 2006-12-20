@@ -11,7 +11,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - it's easy (and physically correct) to get stuck in Schrodinger state (2,0,0)
-- add "show traces" feature for alpha particles (need to interpolate curve between points)
 - implement energy diagrams, reuse Ron's stuff
 - add squiggles to energy diagrams showing the gun's light wavelength (as in Lasers sim)
 - is ModelViewTransform used everywhere is should be in view?
@@ -39,6 +38,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/20/06) - add "show traces" feature for alpha particles
 (12/20/06) - modify ModelViewManager to support multiple views of a ModelElement
 (12/20/06) - update images on atomic model selector buttons using screen snapshots
 ***** CVS tag hydrogenatom-0-00-16-2006-12-19
