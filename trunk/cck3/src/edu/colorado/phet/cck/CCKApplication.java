@@ -46,15 +46,12 @@ public class CCKApplication extends PiccoloPhetApplication {
                SimStrings.get( "CCKApplication.description" ),
                readVersion(), createFrameSetup() );
 
-        //new FrameSetup.CenteredWithSize( 1024,768)
-
         boolean debugMode = false;
         if( Arrays.asList( args ).contains( "debug" ) ) {
             debugMode = true;
             System.out.println( "debugMode = " + debugMode );
         }
 
-//        phetGraphicsCCKModule = new CCKPhetGraphicModuleAdapter( args );
         cckPiccoloModule = new CCKPiccoloModule( args );
         cckPiccoloModule.getCckSimulationPanel().addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
