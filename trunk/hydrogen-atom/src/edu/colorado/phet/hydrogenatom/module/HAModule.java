@@ -13,6 +13,8 @@ package edu.colorado.phet.hydrogenatom.module;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Dimension2D;
@@ -43,6 +45,7 @@ import edu.colorado.phet.hydrogenatom.enums.LightType;
 import edu.colorado.phet.hydrogenatom.help.HAWiggleMe;
 import edu.colorado.phet.hydrogenatom.model.*;
 import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode;
+import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerNode.SpectrometerSnapshotNode;
 import edu.colorado.phet.hydrogenatom.view.*;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -91,7 +94,6 @@ public class HAModule extends PiccoloModule {
 
     private PhetPCanvas _canvas;
     private PNode _rootNode;
-    private HAController _controller;
 
     // Control panels
     private HAClockControlPanel _clockControlPanel;
@@ -116,8 +118,8 @@ public class HAModule extends PiccoloModule {
     private JCheckBox _spectrometerCheckBox;
     private PSwing _spectrometerCheckBoxNode;
     private SpectrometerNode _spectrometerNode;
-    private ArrayList _spectrometerSnapshots; // list of Spectrometer
-    private int _spectrumSnapshotCounter; // incremented each time a spectrometer snapshot is taken
+    private ArrayList _spectrometerSnapshotNodes; // list of SpectrometerSnapshotNode
+    private int _spectrometerSnapshotsCounter; // incremented each time a spectrometer snapshot is taken
 
     // Energy Diagrams
     private JCheckBox _energyDiagramCheckBox;
@@ -134,7 +136,7 @@ public class HAModule extends PiccoloModule {
     private Font _spectrometerFont;
 
     private HAModel _model;
-    private AbstractHydrogenAtom _hydrogenAtomModel;
+    private AbstractHydrogenAtom _atomModel;
     
     private HAWiggleMe _wiggleMe;
     private boolean _wiggleMeInitialized = false;
@@ -206,8 +208,7 @@ public class HAModule extends PiccoloModule {
         _modeSwitch = new ModeSwitch();
         _modeSwitch.addChangeListener( new ChangeListener() {
            public void stateChanged( ChangeEvent event ) {
-               _model.removeAllAlphaParticles();
-               _model.removeAllPhotons();
+               handleModeChange();
            }
         });
 
@@ -215,8 +216,7 @@ public class HAModule extends PiccoloModule {
         _atomicModelSelector = new AtomicModelSelector();
         _atomicModelSelector.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                _model.removeAllAlphaParticles();
-                _model.removeAllPhotons();
+                handleAtomicModelChange();
             }
          });
         
@@ -278,14 +278,29 @@ public class HAModule extends PiccoloModule {
             _spectrometerCheckBox.setBackground( HAConstants.CANVAS_BACKGROUND );
             _spectrometerCheckBox.setForeground( HAConstants.CANVAS_LABELS_COLOR );
             _spectrometerCheckBox.setFont( jComponentFont );
+            _spectrometerCheckBox.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent event ) {
+                    handleSpectrometerCheckBox();
+                }
+            } );
             _spectrometerCheckBoxNode = new PSwing( _canvas, _spectrometerCheckBox );
 
             // Spectrometer
             String title = SimStrings.get( "label.photonsEmitted" );
-            _spectrometerNode = new SpectrometerNode( _canvas, title, _spectrometerFont, false /* isaSnapshot */);
+            _spectrometerNode = new SpectrometerNode( _canvas, HAConstants.SPECTROMETER_SIZE, title, _spectrometerFont );
+            _spectrometerNode.addCloseListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    _spectrometerCheckBox.setSelected( false );
+                }
+            } );
+            _spectrometerNode.addSnapshotListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    handleSpectrometerSnapshot();
+                }
+            } );
 
             // List of snapshots
-            _spectrometerSnapshots = new ArrayList();
+            _spectrometerSnapshotNodes = new ArrayList();
         }
 
         // Energy diagrams
@@ -296,6 +311,11 @@ public class HAModule extends PiccoloModule {
             _energyDiagramCheckBox.setBackground( HAConstants.CANVAS_BACKGROUND );
             _energyDiagramCheckBox.setForeground( HAConstants.CANVAS_LABELS_COLOR );
             _energyDiagramCheckBox.setFont( jComponentFont );
+            _energyDiagramCheckBox.addChangeListener( new ChangeListener() { 
+                public void stateChanged( ChangeEvent event ) {
+                    updateEnergyDiagram();
+                }
+            } );
             _energyDiagramCheckBoxNode = new PSwing( _canvas, _energyDiagramCheckBox );
 
             // diagrams
@@ -348,9 +368,6 @@ public class HAModule extends PiccoloModule {
         _clockControlPanel = new HAClockControlPanel( (HAClock) getClock() );
         setClockControlPanel( _clockControlPanel );
 
-        _controller = new HAController( this, _modeSwitch, _atomicModelSelector, 
-                _energyDiagramCheckBox, _spectrometerNode, _spectrometerCheckBox );
-
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
@@ -379,7 +396,7 @@ public class HAModule extends PiccoloModule {
     }
     
     //----------------------------------------------------------------------------
-    //
+    // Reset
     //----------------------------------------------------------------------------
 
     /*
@@ -409,8 +426,18 @@ public class HAModule extends PiccoloModule {
     }
     
     //----------------------------------------------------------------------------
-    // Updaters
+    // Canvas layout
     //----------------------------------------------------------------------------
+    
+    /**
+     * Determines the visible bounds of the canvas in world coordinates.
+     */ 
+    public Dimension getWorldSize() {
+        Dimension2D dim = new PDimension( _canvas.getWidth(), _canvas.getHeight() );
+        _canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
+        Dimension worldSize = new Dimension( (int) dim.getWidth(), (int) dim.getHeight() );
+        return worldSize;
+    }
     
     /*
      * Updates the layout of stuff on the canvas.
@@ -537,6 +564,25 @@ public class HAModule extends PiccoloModule {
     }
     
     /*
+     * Various hacks that should be addressed in better ways.
+     */
+    private void applyLayoutHacks() {
+        /*
+         * For the drag bounds of the WavelengthControl to be updated.
+         * WavelengthControl uses a ConstrainedDragHandler which works in screen coordinates.
+         * When the screen position of the WavelengthControl is changed, it has no way of telling.
+         * So its ConstrainedDragHandler doesn't get its drag bounds updated.
+         * This should be addressed by making ConstrainedDragHandler work in the local 
+         * coordinates of the node that its constraining. (I think...)
+         */
+        _gunControlPanel.updateWavelengthControlDragBounds();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Wiggle Me
+    //----------------------------------------------------------------------------
+    
+    /*
      * Initializes a wiggle me that points to the gun on/off button.
      */
     private void initWiggleMe() {
@@ -569,69 +615,132 @@ public class HAModule extends PiccoloModule {
         }
     }
 
-    /*
-     * Various hacks that should be addressed in better ways.
-     */
-    private void applyLayoutHacks() {
-        /*
-         * For the drag bounds of the WavelengthControl to be updated.
-         * WavelengthControl uses a ConstrainedDragHandler which works in screen coordinates.
-         * When the screen position of the WavelengthControl is changed, it has no way of telling.
-         * So its ConstrainedDragHandler doesn't get its drag bounds updated.
-         * This should be addressed by making ConstrainedDragHandler work in the local 
-         * coordinates of the node that its constraining. (I think...)
-         */
-        _gunControlPanel.updateWavelengthControlDragBounds();
-    }
+    //----------------------------------------------------------------------------
+    // Atomic Models
+    //----------------------------------------------------------------------------
 
-    public void updateAtomicModelSelector() {
+    private void handleModeChange() {
         _atomicModelSelector.setVisible( _modeSwitch.isPredictionSelected() );
+        updateAtomicModel();
+        updateEnergyDiagram();
+        _model.removeAllAlphaParticles();
+        _model.removeAllPhotons();
+    }
+    
+    private void handleAtomicModelChange() {
+        updateAtomicModel();
+        updateEnergyDiagram();
+        _model.removeAllAlphaParticles();
+        _model.removeAllPhotons();
     }
 
     public void updateAtomicModel() {
 
         _tracesNode.clear();
         
-        if ( _hydrogenAtomModel != null ) {
-            _model.removeModelElement( _hydrogenAtomModel );
-            _hydrogenAtomModel = null;
+        if ( _atomModel != null ) {
+            _model.removeModelElement( _atomModel );
+            _atomModel = null;
         }
         
         Point2D position = _model.getSpace().getCenter();
         
         if ( _modeSwitch.isExperimentSelected() ) {
-            _hydrogenAtomModel = new ExperimentModel( position );
+            _atomModel = new ExperimentModel( position );
         }
         else {
             AtomicModel atomicModel = _atomicModelSelector.getSelection();
             if ( atomicModel == AtomicModel.BILLIARD_BALL ) {
-                _hydrogenAtomModel = new BilliardBallModel( position );
+                _atomModel = new BilliardBallModel( position );
             }
             else if ( atomicModel == AtomicModel.BOHR ) {
-                _hydrogenAtomModel = new BohrModel( position );
+                _atomModel = new BohrModel( position );
             }
             else if ( atomicModel == AtomicModel.DEBROGLIE ) {
-                _hydrogenAtomModel = new DeBroglieModel( position );
+                _atomModel = new DeBroglieModel( position );
             }
             else if ( atomicModel == AtomicModel.PLUM_PUDDING ) {
-                _hydrogenAtomModel = new PlumPuddingModel( position );
+                _atomModel = new PlumPuddingModel( position );
             }
             else if ( atomicModel == AtomicModel.SCHRODINGER ) {
-                _hydrogenAtomModel = new SchrodingerModel( position );
+                _atomModel = new SchrodingerModel( position );
             }
             else if ( atomicModel == AtomicModel.SOLAR_SYSTEM ) {
-                _hydrogenAtomModel = new SolarSystemModel( position );
+                _atomModel = new SolarSystemModel( position );
             }
         }
         
-        assert ( _hydrogenAtomModel != null );
-        _model.addModelElement( _hydrogenAtomModel );
+        assert ( _atomModel != null );
+        _model.addModelElement( _atomModel );
         
-        int groundState = _hydrogenAtomModel.getGroundState();
-        double[] transitionWavelengths = _hydrogenAtomModel.getTransitionWavelengths( groundState );
+        int groundState = _atomModel.getGroundState();
+        double[] transitionWavelengths = _atomModel.getTransitionWavelengths( groundState );
         _gunControlPanel.setTransitionWavelengths( transitionWavelengths );
     }
 
+    /**
+     * Sets the type of view for deBroglie atoms.
+     * If the current atom is a deBroglie atom, then reset the model
+     * so that the view will update.
+     * 
+     * @param view
+     */
+    public void setDeBroglieView( DeBroglieView view ) {
+        DeBroglieModel.DEFAULT_VIEW = view;
+        AbstractHydrogenAtom atom = _model.getAtom();
+        if ( atom instanceof DeBroglieModel ) {
+            ( (DeBroglieModel) atom ).setView( view );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Spectrometer
+    //----------------------------------------------------------------------------
+    
+    public void handleSpectrometerCheckBox() {
+        final boolean visible = _spectrometerCheckBox.isSelected();
+        _spectrometerNode.setVisible( visible );
+        Iterator i = _spectrometerSnapshotNodes.iterator();
+        while ( i.hasNext() ) {
+            SpectrometerSnapshotNode snapshotNode = (SpectrometerSnapshotNode) i.next();
+            snapshotNode.setVisible( visible );
+        }
+    }
+    
+    private void handleSpectrometerSnapshot() {
+        
+        _spectrometerSnapshotsCounter++;
+
+        String title = SimStrings.get( "label.snapshot" ) + " " + _spectrometerSnapshotsCounter + ": ";
+        if ( _modeSwitch.isPredictionSelected() ) {
+            //XXX replace this call, the title may contain HTML markup
+            title += _atomicModelSelector.getSelectionName();
+        }
+        else {
+            title += SimStrings.get( "title.spectrometer.experiment" );
+        }
+
+        final SpectrometerSnapshotNode snapshotNode = _spectrometerNode.getSnapshot( title );
+        snapshotNode.addCloseListener( new ActionListener() { 
+            public void actionPerformed( ActionEvent event ) {
+                _rootNode.removeChild( snapshotNode );
+                _spectrometerSnapshotNodes.remove( snapshotNode );
+            }
+        } );
+        
+        _rootNode.addChild( snapshotNode );
+        _spectrometerSnapshotNodes.add( snapshotNode );
+
+        PBounds sb = _spectrometerNode.getFullBounds();
+        double x = sb.getX();
+        double y = sb.getY() - snapshotNode.getFullBounds().getHeight() - ( 10 * _spectrometerSnapshotNodes.size() );
+        snapshotNode.setOffset( x, y );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Energy Diagrams
+    //----------------------------------------------------------------------------
+    
     public void updateEnergyDiagram() {
 
         AtomicModel atomicModel = _atomicModelSelector.getSelection();
@@ -659,76 +768,6 @@ public class HAModule extends PiccoloModule {
                 _energyDiagramCheckBoxNode.setVisible( true );
                 _solarSystemEnergyDiagram.setVisible( _energyDiagramCheckBox.isSelected() );
             }
-        }
-    }
-
-    public void updateSpectrometer() {
-        final boolean visible = _spectrometerCheckBox.isSelected();
-        _spectrometerNode.setVisible( visible );
-        Iterator i = _spectrometerSnapshots.iterator();
-        while ( i.hasNext() ) {
-            SpectrometerNode spectrometer = (SpectrometerNode) i.next();
-            spectrometer.setVisible( visible );
-        }
-    }
-
-    public void createSpectrometerSnapshot() {
-
-        _spectrumSnapshotCounter++;
-
-        String title = SimStrings.get( "label.snapshot" ) + " " + _spectrumSnapshotCounter + ": ";
-        if ( _modeSwitch.isPredictionSelected() ) {
-            //XXX replace this call, the title may contain HTML markup
-            title += _atomicModelSelector.getSelectionName();
-        }
-        else {
-            title += SimStrings.get( "title.spectrometer.experiment" );
-        }
-
-        final SpectrometerNode spectrometer = new SpectrometerNode( _canvas, title, _spectrometerFont, true /* isaSnapshot */);
-        
-        _rootNode.addChild( spectrometer );
-        _controller.addSpectrometerListener( spectrometer );
-        _spectrometerSnapshots.add( spectrometer );
-
-        PBounds sb = _spectrometerNode.getFullBounds();
-        double x = sb.getX();
-        double y = sb.getY() - spectrometer.getFullBounds().getHeight() - ( 10 * _spectrometerSnapshots.size() );
-        spectrometer.setOffset( x, y );
-    }
-
-    public void deleteSpectrometerSnapshot( SpectrometerNode spectrometer ) {
-        if ( spectrometer == _spectrometerNode ) {
-            _spectrometerCheckBox.setSelected( false );
-        }
-        else {
-            _rootNode.removeChild( spectrometer );
-            _spectrometerSnapshots.remove( spectrometer );
-        }
-    }
-    
-    /**
-     * Determines the visible bounds of the canvas in world coordinates.
-     */ 
-    public Dimension getWorldSize() {
-        Dimension2D dim = new PDimension( _canvas.getWidth(), _canvas.getHeight() );
-        _canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
-        Dimension worldSize = new Dimension( (int) dim.getWidth(), (int) dim.getHeight() );
-        return worldSize;
-    }
-    
-    /**
-     * Sets the type of view for deBroglie atoms.
-     * If the current atom is a deBroglie atom, then reset the model
-     * so that the view will update.
-     * 
-     * @param view
-     */
-    public void setDeBroglieView( DeBroglieView view ) {
-        DeBroglieModel.DEFAULT_VIEW = view;
-        AbstractHydrogenAtom atom = _model.getAtom();
-        if ( atom instanceof DeBroglieModel ) {
-            ( (DeBroglieModel) atom ).setView( view );
         }
     }
 }

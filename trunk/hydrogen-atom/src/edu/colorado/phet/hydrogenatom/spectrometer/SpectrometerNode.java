@@ -11,12 +11,11 @@
 
 package edu.colorado.phet.hydrogenatom.spectrometer;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -24,19 +23,19 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.spectrometer.SpectrometerListener.SpectrometerEvent;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -53,212 +52,293 @@ public class SpectrometerNode extends PhetPNode {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
+    private static final double DISPLAY_X_MARGIN = 10;
+    private static final double DISPLAY_Y_MARGIN = 5;
+    private static final double DISPLAY_CORNER_RADIUS = 10;
+
+    private static final double TITLE_X_MARGIN = 15;
+    private static final double TITLE_Y_MARGIN = 7;
     private static final Color TITLE_COLOR = Color.WHITE;
     private static final Color SNAPSHOT_TITLE_COLOR = Color.WHITE;
+
+    private static final double CLOSE_BUTTON_X_MARGIN = 15;
+    private static final double CLOSE_BUTTON_Y_MARGIN = 6;
     
+    private static final double BUTTON_PANEL_X_MARGIN = 15;
+    private static final double BUTTON_PANEL_Y_MARGIN = 5;
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
-    private JButton _closeButton;
-    private JButton _startStopButton;
-    private JButton _resetButton;
-    private JButton _snapshotButton;
-    
+
+    private PSwingCanvas _canvas;
+    private Dimension _size;
+    private Font _font;
+
     private boolean _isRunning;
-    private EventListenerList _listenerList;
-    
+
+    private PPath _displayNode;
+    private JButton _closeButton;
+    private PSwing _closeButtonWrapper;
+    private JButton _startStopButton;
+    private JButton _snapshotButton;
+    private PSwing _buttonPanelWrapper;
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
-    public SpectrometerNode( PSwingCanvas canvas, String title, Font font, boolean isaSnapshot ) {
-        
+
+    public SpectrometerNode( PSwingCanvas canvas, Dimension size, String title, Font font ) {
+
+        _canvas = canvas;
+        _size = new Dimension( size.width, size.height );
+        _font = font;
+
         _isRunning = false;
-        _listenerList = new EventListenerList();
-        
-        // Images
-        Icon cameraIcon = null;
-        Icon closeIcon = null;
+
+        // Background panel
+        PImage panelNode = PImageFactory.create( HAConstants.IMAGE_SPECTROMETER_PANEL );
+        double scaleX = size.width / panelNode.getWidth();
+        double scaleY = size.height / panelNode.getHeight();
+        AffineTransform panelTransform = new AffineTransform();
+        panelTransform.scale( scaleX, scaleY );
+        panelNode.setTransform( panelTransform );
+        panelNode.setOffset( 0, 0 );
+        PBounds pfb = panelNode.getFullBounds();
+
+        // Title
+        PText titleNode = new PText( title );
+        titleNode.setFont( font );
+        titleNode.setTextPaint( TITLE_COLOR );
+        titleNode.setOffset( pfb.getX() + TITLE_X_MARGIN, pfb.getY() + TITLE_Y_MARGIN );
+
+        // Close button
         try {
-            BufferedImage cameraImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_CAMERA );
-            cameraIcon = new ImageIcon( cameraImage );
             BufferedImage closeImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_CLOSE_BUTTON );
-            closeIcon = new ImageIcon( closeImage );
+            Icon closeIcon = new ImageIcon( closeImage );
+            _closeButton = new JButton( closeIcon );
         }
         catch ( IOException e ) {
             e.printStackTrace();
+            _closeButton = new JButton( "X" );
         }
-        
-        PImage spectrometerImage = null;
-        if ( isaSnapshot ) {
-            spectrometerImage = PImageFactory.create( HAConstants.IMAGE_SPECTROMETER_SNAPSHOT );
-        }
-        else {
-            spectrometerImage = PImageFactory.create( HAConstants.IMAGE_SPECTROMETER );
-        }
-        
-        PText titleNode = new PText( title );
-        titleNode.setFont( font );
-        titleNode.setTextPaint( isaSnapshot ? SNAPSHOT_TITLE_COLOR : TITLE_COLOR );
-        
-        _closeButton = new JButton( closeIcon );
+        _closeButton.setOpaque( false );
         _closeButton.setMargin( new Insets( 0, 0, 0, 0 ) );
+        _closeButtonWrapper = new PSwing( canvas, _closeButton );
+        PBounds cb = _closeButtonWrapper.getFullBounds();
+        _closeButtonWrapper.setOffset( pfb.getX() + pfb.getWidth() - cb.getWidth() - CLOSE_BUTTON_X_MARGIN, pfb.getY() + CLOSE_BUTTON_Y_MARGIN );
+
+        // Start/Stop button
         _startStopButton = new JButton( SimStrings.get( "button.spectrometer.start" ) );
         _startStopButton.setFont( font );
-        _resetButton = new JButton( SimStrings.get( "button.spectrometer.reset" ) );
-        _resetButton.setFont( font );
-        _snapshotButton = new JButton( cameraIcon );
+        _startStopButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                _isRunning = !_isRunning;
+                if ( _isRunning ) {
+                    start();
+                }
+                else {
+                    stop();
+                }
+            }
+        } );
+
+        // Reset button
+        JButton resetButton = new JButton( SimStrings.get( "button.spectrometer.reset" ) );
+        resetButton.setFont( font );
+        resetButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                reset();
+            }
+        } );
+
+        // Snapshot button
+        try {
+            BufferedImage snapshotImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_CAMERA );
+            Icon snapshotIcon = new ImageIcon( snapshotImage );
+            _snapshotButton = new JButton( snapshotIcon );
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+            _snapshotButton = new JButton( "Snapshot" );
+        }
         _snapshotButton.setMargin( new Insets( 0, 0, 0, 0 ) );
-        
-        JPanel panel = new JPanel();
-        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
-        panel.setLayout( layout );
+
+        // Put buttons in a panel
+        JPanel buttonPanel = new JPanel();
+        EasyGridBagLayout layout = new EasyGridBagLayout( buttonPanel );
+        buttonPanel.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         int row = 0;
         int col = 0;
         layout.addComponent( _startStopButton, row, col++ );
-        layout.addComponent( _resetButton, row, col++ );
+        layout.addComponent( resetButton, row, col++ );
         layout.addComponent( _snapshotButton, row, col );
-        
-        // Piccolo wrappers
-        PSwing closeButtonNode = new PSwing( canvas, _closeButton );
-        PSwing buttonPanelNode = new PSwing( canvas, panel );
+        _buttonPanelWrapper = new PSwing( canvas, buttonPanel );
+        _buttonPanelWrapper.addInputEventListener( new CursorHandler() );
+        PBounds fb = _buttonPanelWrapper.getFullBounds();
+        _buttonPanelWrapper.setOffset( pfb.getX() + pfb.getWidth() - fb.getWidth() - BUTTON_PANEL_X_MARGIN, 
+                pfb.getY() + pfb.getHeight() - fb.getHeight() - BUTTON_PANEL_Y_MARGIN );
+
+        // Display area
+        _displayNode = new PPath();
+        double w = pfb.getWidth() - ( 2 * DISPLAY_X_MARGIN );
+        if ( w < 1 ) { w = 1; }
+        double h = pfb.getHeight() - TITLE_Y_MARGIN - titleNode.getFullBounds().getHeight() - 
+            BUTTON_PANEL_Y_MARGIN - _buttonPanelWrapper.getFullBounds().getHeight() - ( 2 * DISPLAY_Y_MARGIN );
+        if ( h < 1 ) { h = 1; }
+        Shape shape = new RoundRectangle2D.Double( 0, 0, w, h, DISPLAY_CORNER_RADIUS, DISPLAY_CORNER_RADIUS );
+        _displayNode.setPathTo( shape );
+        _displayNode.setPaint( Color.BLACK );
+        _displayNode.setStroke( null );
+        double x = DISPLAY_X_MARGIN;
+        double y = TITLE_Y_MARGIN + titleNode.getFullBounds().getHeight() + DISPLAY_Y_MARGIN;
+        _displayNode.setOffset( x, y );
         
         // Opacity
-        panel.setOpaque( false );
-        _closeButton.setOpaque( false );
+        buttonPanel.setOpaque( false );
         _startStopButton.setOpaque( false );
-        _resetButton.setOpaque( false );
+        resetButton.setOpaque( false );
         _snapshotButton.setOpaque( false );
-        
-        addChild( spectrometerImage );
+
+        // Layering of nodes
+        addChild( panelNode );
+        addChild( _displayNode );
         addChild( titleNode );
-        addChild( closeButtonNode );
-        if ( !isaSnapshot ) {
-            addChild( buttonPanelNode );
-        }
+        addChild( _closeButtonWrapper );
+        addChild( _buttonPanelWrapper );
+    }
+
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public SpectrometerSnapshotNode getSnapshot( String title ) {
+        return new SpectrometerSnapshotNode( this, title );
+    }
+    
+    public void addCloseListener( ActionListener listener ) {
+        _closeButton.addActionListener( listener );
+    }
+    
+    public void addSnapshotListener( ActionListener listener ) {
+        _snapshotButton.addActionListener( listener );
+    }
+    
+    protected Dimension getSize() {
+        return _size;
+    }
+
+    protected Font getFont() {
+        return _font;
+    }
+
+    protected Image getDisplayImage() {
+        return _displayNode.toImage();
+    }
+
+    //----------------------------------------------------------------------------
+    // Button handlers
+    //----------------------------------------------------------------------------
+    
+    private void start() {
+        _startStopButton.setText( SimStrings.get( "button.spectrometer.stop" ) );
+        //XXX
+    }
+    
+    private void stop() {
+        _startStopButton.setText( SimStrings.get( "button.spectrometer.start" ) );
+        //XXX
+    }
+    
+    private void reset() {
+        //XXX
+    }
+    
+    //----------------------------------------------------------------------------
+    // Snapshot
+    //----------------------------------------------------------------------------
+
+    public static class SpectrometerSnapshotNode extends PhetPNode {
+
+        private JButton _closeButton;
         
-        PBounds b = spectrometerImage.getFullBounds();
-        PBounds cb = closeButtonNode.getFullBounds();
-        closeButtonNode.setOffset( b.getX() + b.getWidth() - cb.getWidth() - 15, b.getY() + 6 );
-        titleNode.setOffset( b.getX() + 15, b.getY() + 7 );
-        if ( !isaSnapshot ) {
-            buttonPanelNode.setOffset( b.getX() + b.getWidth() - buttonPanelNode.getFullBounds().getWidth() - 15, b.getY() + b.getHeight() - buttonPanelNode.getFullBounds().getHeight() - 5 );
-        }        
-        
-        _startStopButton.addActionListener( new ActionListener() {
-           public void actionPerformed( ActionEvent event ) {
-               _isRunning = !_isRunning;
-               if ( _isRunning ) {
-                   fireStart();
-                   _startStopButton.setText( SimStrings.get( "button.spectrometer.stop" ) );
-               }
-               else {
-                   fireStop();
-                   _startStopButton.setText( SimStrings.get( "button.spectrometer.start" ) );
-               }
-           }
-        });
-        _resetButton.addActionListener( new ActionListener() { 
-            public void actionPerformed( ActionEvent event ) {
-                fireReset();
+        protected SpectrometerSnapshotNode( SpectrometerNode spectrometerNode, String title ) {
+            super();
+
+            // Background panel
+            PImage panelNode = PImageFactory.create( HAConstants.IMAGE_SPECTROMETER_SNAPSHOT_PANEL );
+            Dimension size = spectrometerNode.getSize();
+            double scaleX = size.width / panelNode.getWidth();
+            double scaleY = size.height / panelNode.getHeight();
+            AffineTransform panelTransform = new AffineTransform();
+            panelTransform.scale( scaleX, scaleY );
+            panelNode.setTransform( panelTransform );
+            panelNode.setOffset( 0, 0 );
+            PBounds pfb = panelNode.getFullBounds();
+            
+            // Title
+            PText titleNode = new PText( title );
+            Font font = spectrometerNode.getFont();
+            titleNode.setFont( font );
+            titleNode.setTextPaint( SNAPSHOT_TITLE_COLOR );
+            titleNode.setOffset( pfb.getX() + TITLE_X_MARGIN, pfb.getY() + TITLE_Y_MARGIN );
+            titleNode.setText( title );
+            titleNode.setTextPaint( SNAPSHOT_TITLE_COLOR );
+
+            // Display snapshot
+            Image displayImage = spectrometerNode.getDisplayImage();
+            PImage displayNode = new PImage( displayImage );
+            double x = DISPLAY_X_MARGIN;
+            double y = TITLE_Y_MARGIN + titleNode.getFullBounds().getHeight() + DISPLAY_Y_MARGIN;
+            displayNode.setOffset( x, y );
+            
+            // Collapse all of the above nodes to one static image
+            PNode parentNode = new PNode();
+            parentNode.addChild( panelNode );
+            parentNode.addChild( displayNode );
+            parentNode.addChild( titleNode );
+            PImage staticNode = new PImage( parentNode.toImage() );
+
+            // Close button
+            try {
+                BufferedImage closeImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_CLOSE_BUTTON );
+                Icon closeIcon = new ImageIcon( closeImage );
+                _closeButton = new JButton( closeIcon );
             }
-        } );
-        _closeButton.addActionListener( new ActionListener() { 
-            public void actionPerformed( ActionEvent event ) {
-                fireClose();
+            catch ( IOException e ) {
+                e.printStackTrace();
+                _closeButton = new JButton( "X" );
             }
-        } );
-        _snapshotButton.addActionListener( new ActionListener() { 
-            public void actionPerformed( ActionEvent event ) {
-                fireSnapshot();
-            }
-        } );
-        
-        if ( isaSnapshot ) {
+            _closeButton.setOpaque( false );
+            _closeButton.setMargin( new Insets( 0, 0, 0, 0 ) );
+            PSwing closeButtonWrapper = new PSwing( spectrometerNode._canvas, _closeButton );
+            PBounds cb = closeButtonWrapper.getFullBounds();
+            closeButtonWrapper.setOffset( pfb.getX() + pfb.getWidth() - cb.getWidth() - CLOSE_BUTTON_X_MARGIN, pfb.getY() + CLOSE_BUTTON_Y_MARGIN );
+
+            // Node layering order
+            addChild( staticNode );
+            addChild( closeButtonWrapper );
+            
+            // Snapshots are moveable
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
+
                 public void mouseDragged( PInputEvent event ) {
                     final double dx = event.getCanvasDelta().width;
                     final double dy = event.getCanvasDelta().height;
                     translate( dx, dy );
                 }
+
                 public void mousePressed( PInputEvent event ) {
                     moveToFront();
                 }
             } );
         }
-        else {
-            buttonPanelNode.addInputEventListener( new CursorHandler() );
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Event handling
-    //----------------------------------------------------------------------------
-
-    /**
-     * Adds a SpectrometerListener.
-     *
-     * @param listener the listener
-     */
-    public void addSpectrometerListener( SpectrometerListener listener ) {
-        _listenerList.add( SpectrometerListener.class, listener );
-    }
-
-    /**
-     * Removes a SpectrometerListener.
-     *
-     * @param listener the listener
-     */
-    public void removeSpectrometerListener( SpectrometerListener listener ) {
-        _listenerList.remove( SpectrometerListener.class, listener );
-    }
-
-    private void fireStart() {
-        Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == SpectrometerListener.class ) {
-                ( (SpectrometerListener)listeners[i + 1] ).start( new SpectrometerEvent( this ) );
-            }
-        }
-    }
-    
-    private void fireStop() {
-        Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == SpectrometerListener.class ) {
-                ( (SpectrometerListener)listeners[i + 1] ).stop( new SpectrometerEvent( this ) );
-            }
-        }
-    }
-
-    private void fireReset() {
-        Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == SpectrometerListener.class ) {
-                ( (SpectrometerListener)listeners[i + 1] ).reset( new SpectrometerEvent( this ) );
-            }
-        }
-    }
-
-    private void fireClose() {
-        Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == SpectrometerListener.class ) {
-                ( (SpectrometerListener)listeners[i + 1] ).close( new SpectrometerEvent( this ) );
-            }
-        }
-    }
-    
-    private void fireSnapshot() {
-        Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == SpectrometerListener.class ) {
-                ( (SpectrometerListener)listeners[i + 1] ).snapshot( new SpectrometerEvent( this ) );
-            }
+        
+        public void addCloseListener( ActionListener listener ) {
+            _closeButton.addActionListener( listener );
         }
     }
 }

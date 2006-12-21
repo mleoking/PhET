@@ -60,6 +60,9 @@ public class HAConstants {
     
     public static final Dimension BEAM_SIZE = new Dimension( (int) ( .75 * BOX_OF_HYDROGEN_SIZE.width ), 75 );
     
+    // Spectrometer
+    public static final Dimension SPECTROMETER_SIZE = new Dimension( 480, 210 );
+    
     //----------------------------------------------------------------------------
     // Localization
     //----------------------------------------------------------------------------
@@ -156,8 +159,8 @@ public class HAConstants {
     public static final String IMAGE_PLUM_PUDDING_BUTTON = IMAGES_DIRECTORY + "plumPuddingButton.png";
     public static final String IMAGE_SCHRODINGER_BUTTON = IMAGES_DIRECTORY + "schrodingerButton.png";
     public static final String IMAGE_SOLAR_SYSTEM_BUTTON = IMAGES_DIRECTORY + "solarSystemButton.png";
-    public static final String IMAGE_SPECTROMETER = IMAGES_DIRECTORY + "spectrometer.png";
-    public static final String IMAGE_SPECTROMETER_SNAPSHOT = IMAGES_DIRECTORY + "spectrometerSnapshot.png";
+    public static final String IMAGE_SPECTROMETER_PANEL = IMAGES_DIRECTORY + "spectrometerPanel.png";
+    public static final String IMAGE_SPECTROMETER_SNAPSHOT_PANEL = IMAGES_DIRECTORY + "spectrometerSnapshotPanel.png";
     public static final String IMAGE_SPECTRUM = IMAGES_DIRECTORY + "spectrum.png";
     
     //----------------------------------------------------------------------------
