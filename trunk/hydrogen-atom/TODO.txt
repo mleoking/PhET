@@ -5,12 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- animation started flickering after 0.00.17
 - spectrometer has UV/IR/visible regions in similar proportions to Discharge lamps
 - spectrometer shows each UV/IR transition wavelength at a distinct horizontal position
 - spectrometer has labeled ticks at 90, 380, 500, 600, 780, 7500
 - spectrometer has unlabeled ticks at 20 nm increments in visible spectrum
-- implement spectrometer model as a PhotonEmittedListener
-- clear spectrometer when atomic model is changed
 
 MEDIUM PRIORITY:
 - it's easy (and physically correct) to get stuck in Schrodinger state (2,0,0)
@@ -42,6 +41,8 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/21/06) - reset spectrometer when atomic model is changed
+(12/21/06) - make SpectrometerNode a PhotonEmittedListener, wire up to atomic model
 (12/21/06) - delete HAController, merge into HAModule
 (12/21/06) - major surgery to SpectrometerNode and HAModule
 (12/21/06) - delete SpectrometerListener, replace with ActionListeners on buttons
