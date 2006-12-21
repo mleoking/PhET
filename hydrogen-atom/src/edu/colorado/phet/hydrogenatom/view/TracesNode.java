@@ -24,8 +24,7 @@ import edu.colorado.phet.hydrogenatom.model.AlphaParticle;
 import edu.colorado.phet.hydrogenatom.model.Model;
 import edu.colorado.phet.hydrogenatom.model.Model.ModelEvent;
 import edu.colorado.phet.hydrogenatom.model.Model.ModelListener;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
@@ -46,7 +45,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TracesNode extends PNode implements ModelListener, Observer {
+public class TracesNode extends PhetPNode implements ModelListener, Observer {
 
     //----------------------------------------------------------------------------
     // Class data
