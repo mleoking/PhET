@@ -18,6 +18,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -28,6 +29,9 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.model.Photon;
+import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedEvent;
+import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedListener;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -47,8 +51,15 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SpectrometerNode extends PhetPNode {
-
+public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener {
+    
+    //----------------------------------------------------------------------------
+    // Debug
+    //----------------------------------------------------------------------------
+    
+    // prints debugging output
+    private static final boolean DEBUG_OUTPUT = true;
+    
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
@@ -77,14 +88,15 @@ public class SpectrometerNode extends PhetPNode {
     private Font _font;
 
     private boolean _isRunning;
-
+    private ArrayList _values; // array of Double, wavelengths of photons emitted
+    
     private PPath _displayNode;
     private JButton _closeButton;
     private PSwing _closeButtonWrapper;
     private JButton _startStopButton;
     private JButton _snapshotButton;
     private PSwing _buttonPanelWrapper;
-
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -96,6 +108,7 @@ public class SpectrometerNode extends PhetPNode {
         _font = font;
 
         _isRunning = false;
+        _values = new ArrayList();
 
         // Background panel
         PImage panelNode = PImageFactory.create( HAConstants.IMAGE_SPECTROMETER_PANEL );
@@ -130,16 +143,16 @@ public class SpectrometerNode extends PhetPNode {
         _closeButtonWrapper.setOffset( pfb.getX() + pfb.getWidth() - cb.getWidth() - CLOSE_BUTTON_X_MARGIN, pfb.getY() + CLOSE_BUTTON_Y_MARGIN );
 
         // Start/Stop button
-        _startStopButton = new JButton( SimStrings.get( "button.spectrometer.start" ) );
+        String s = _isRunning ? SimStrings.get( "button.spectrometer.stop" ) : SimStrings.get( "button.spectrometer.start" );
+        _startStopButton = new JButton( s );
         _startStopButton.setFont( font );
         _startStopButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                _isRunning = !_isRunning;
                 if ( _isRunning ) {
-                    start();
+                    stop();
                 }
                 else {
-                    stop();
+                    start();
                 }
             }
         } );
@@ -243,17 +256,47 @@ public class SpectrometerNode extends PhetPNode {
     //----------------------------------------------------------------------------
     
     private void start() {
+        _isRunning = true;
         _startStopButton.setText( SimStrings.get( "button.spectrometer.stop" ) );
         //XXX
     }
     
     private void stop() {
+        _isRunning = false;
         _startStopButton.setText( SimStrings.get( "button.spectrometer.start" ) );
         //XXX
     }
     
-    private void reset() {
+    public void reset() {
+        if ( DEBUG_OUTPUT ) {
+            System.out.println( "SpectrometerNode.reset" );
+        }
+        _values.clear();
+        updateDisplay();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Display area
+    //----------------------------------------------------------------------------
+    
+    private void updateDisplay() {
         //XXX
+    }
+    
+    //----------------------------------------------------------------------------
+    // PhotonEmittedListener implementation
+    //----------------------------------------------------------------------------
+    
+    public void photonEmitted( PhotonEmittedEvent event ) {
+        if ( _isRunning ) {
+            Photon photon = event.getPhoton();
+            double wavelength = photon.getWavelength();
+            if ( DEBUG_OUTPUT ) {
+                System.out.println( "SpectrometerNode.photonEmitted " + wavelength );
+            }
+            _values.add( new Double( wavelength ) );
+            updateDisplay();
+        }
     }
     
     //----------------------------------------------------------------------------

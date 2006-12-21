@@ -625,6 +625,7 @@ public class HAModule extends PiccoloModule {
         updateEnergyDiagram();
         _model.removeAllAlphaParticles();
         _model.removeAllPhotons();
+        _spectrometerNode.reset();
     }
     
     private void handleAtomicModelChange() {
@@ -632,6 +633,7 @@ public class HAModule extends PiccoloModule {
         updateEnergyDiagram();
         _model.removeAllAlphaParticles();
         _model.removeAllPhotons();
+        _spectrometerNode.reset();
     }
 
     public void updateAtomicModel() {
@@ -640,6 +642,7 @@ public class HAModule extends PiccoloModule {
         
         if ( _atomModel != null ) {
             _model.removeModelElement( _atomModel );
+            _atomModel.removePhotonEmittedListener( _spectrometerNode );
             _atomModel = null;
         }
         
@@ -672,6 +675,7 @@ public class HAModule extends PiccoloModule {
         
         assert ( _atomModel != null );
         _model.addModelElement( _atomModel );
+        _atomModel.addPhotonEmittedListener( _spectrometerNode );
         
         int groundState = _atomModel.getGroundState();
         double[] transitionWavelengths = _atomModel.getTransitionWavelengths( groundState );
@@ -713,7 +717,6 @@ public class HAModule extends PiccoloModule {
 
         String title = SimStrings.get( "label.snapshot" ) + " " + _spectrometerSnapshotsCounter + ": ";
         if ( _modeSwitch.isPredictionSelected() ) {
-            //XXX replace this call, the title may contain HTML markup
             title += _atomicModelSelector.getSelectionName();
         }
         else {
