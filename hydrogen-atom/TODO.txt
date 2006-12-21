@@ -43,6 +43,11 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/21/06) - delete HAController, merge into HAModule
+(12/21/06) - major surgery to SpectrometerNode and HAModule
+(12/21/06) - delete SpectrometerListener, replace with ActionListeners on buttons
+(12/21/06) - make size of SpectrometerNode variable
+(12/21/06) - change Spectrometer image files, draw display area using Java2D
 (12/21/06) - change Schrodinger button to show ground state
 ***** CVS tag hydrogenatom-0-00-17-2006-12-20
 (12/20/06) - add "show traces" feature for alpha particles
