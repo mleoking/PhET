@@ -287,7 +287,8 @@ public class HAModule extends PiccoloModule {
 
             // Spectrometer
             String title = SimStrings.get( "label.photonsEmitted" );
-            _spectrometerNode = new SpectrometerNode( _canvas, HAConstants.SPECTROMETER_SIZE, title, _spectrometerFont );
+            _spectrometerNode = new SpectrometerNode( _canvas, HAConstants.SPECTROMETER_SIZE, title, _spectrometerFont,
+                    HAConstants.SPECTROMETER_MIN_WAVELENGTH, HAConstants.SPECTROMETER_MAX_WAVELENGTH );
             _spectrometerNode.addCloseListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     _spectrometerCheckBox.setSelected( false );
