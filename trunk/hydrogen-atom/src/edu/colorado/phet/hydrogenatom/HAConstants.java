@@ -181,4 +181,11 @@ public class HAConstants {
     public static final double PHOTON_INITIAL_SPEED = 5; // distance moved per dt
     public static final double ALPHA_PARTICLE_INITIAL_SPEED = 5; // distance moved per dt
     
+    //----------------------------------------------------------------------------
+    // Ranges
+    //----------------------------------------------------------------------------
+    
+    public static final double SPECTROMETER_MIN_WAVELENGTH = MIN_WAVELENGTH;
+    public static final double SPECTROMETER_MAX_WAVELENGTH = 7500; // nm
+    
 }
