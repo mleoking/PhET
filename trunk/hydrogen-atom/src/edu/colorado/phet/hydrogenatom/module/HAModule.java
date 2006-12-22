@@ -422,6 +422,7 @@ public class HAModule extends PiccoloModule {
         gun.setAlphaParticlesIntensity( DEFAULT_ALPHA_PARTICLES_INTENSITY );
         
         _spectrometerCheckBox.setSelected( DEFAULT_SPECTROMETER_SELECTED );
+        _spectrometerNode.start();
         _energyDiagramCheckBox.setSelected( DEFAULT_ENERGY_DIAGRAM_SELECTED );
     }
     
