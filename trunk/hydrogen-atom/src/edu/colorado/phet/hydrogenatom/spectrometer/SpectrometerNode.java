@@ -144,10 +144,9 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             _panelNode.setTransform( panelTransform );
             _panelNode.setOffset( 0, 0 );
         }
-        PBounds pfb = _panelNode.getFullBounds();
 
         // Inner width of the display area
-        final double innerWidth = Math.max( 1, pfb.getWidth() - ( 2 * DISPLAY_X_MARGIN ) - ( 2 * DISPLAY_INNER_X_MARGIN ) );
+        final double innerWidth = Math.max( 1, size.getWidth() - ( 2 * DISPLAY_X_MARGIN ) - ( 2 * DISPLAY_INNER_X_MARGIN ) );
         final double uvWidth = innerWidth * DISPLAY_UV_PERCENT;
         final double irWidth = innerWidth * DISPLAY_IR_PERCENT;
         final double visibleWidth = innerWidth * ( 1 - DISPLAY_UV_PERCENT - DISPLAY_IR_PERCENT );
@@ -166,7 +165,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             _titleNode = new PText( title );
             _titleNode.setFont( font );
             _titleNode.setTextPaint( TITLE_COLOR );
-            _titleNode.setOffset( pfb.getX() + TITLE_X_MARGIN, pfb.getY() + TITLE_Y_MARGIN );
+            _titleNode.setOffset( TITLE_X_MARGIN, TITLE_Y_MARGIN );
         }
 
         // Close button
@@ -184,12 +183,12 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             _closeButton.setMargin( new Insets( 0, 0, 0, 0 ) );
             _closeButtonWrapper = new PSwing( canvas, _closeButton );
             PBounds cb = _closeButtonWrapper.getFullBounds();
-            _closeButtonWrapper.setOffset( pfb.getX() + pfb.getWidth() - cb.getWidth() - CLOSE_BUTTON_X_MARGIN, 
-                    pfb.getY() + CLOSE_BUTTON_Y_MARGIN );
+            _closeButtonWrapper.setOffset( size.getWidth() - cb.getWidth() - CLOSE_BUTTON_X_MARGIN, CLOSE_BUTTON_Y_MARGIN );
         }
 
-        // Start/Stop button
+        // Button panel, centered below the black rectangle.
         {
+            // Start/Stop button
             String s = _isRunning ? SimStrings.get( "button.spectrometer.stop" ) : SimStrings.get( "button.spectrometer.start" );
             _startStopButton = new JButton( s );
             _startStopButton.setFont( font );
@@ -203,10 +202,8 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                     }
                 }
             } );
-        }
 
-        // Reset button
-        {
+            // Reset button
             _resetButton = new JButton( SimStrings.get( "button.spectrometer.reset" ) );
             _resetButton.setFont( font );
             _resetButton.addActionListener( new ActionListener() {
@@ -214,10 +211,8 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                     reset();
                 }
             } );
-        }
 
-        // Snapshot button
-        {
+            // Snapshot button
             try {
                 BufferedImage snapshotImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_CAMERA );
                 Icon snapshotIcon = new ImageIcon( snapshotImage );
@@ -228,11 +223,9 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                 _snapshotButton = new JButton( "Snapshot" );
             }
             _snapshotButton.setMargin( new Insets( 0, 0, 0, 0 ) );
-        }
 
-        // Put buttons in a panel
-        JPanel buttonPanel = new JPanel();
-        {
+            // Put buttons in a panel
+            JPanel buttonPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( buttonPanel );
             buttonPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
@@ -244,11 +237,21 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             _buttonPanelWrapper = new PSwing( canvas, buttonPanel );
             _buttonPanelWrapper.addInputEventListener( new CursorHandler() );
             PBounds fb = _buttonPanelWrapper.getFullBounds();
-            _buttonPanelWrapper.setOffset( pfb.getWidth() / 2 - fb.getWidth() / 2, 
-                    pfb.getY() + pfb.getHeight() - fb.getHeight() - BUTTON_PANEL_Y_MARGIN );
+            _buttonPanelWrapper.setOffset( size.getWidth() / 2 - fb.getWidth() / 2, size.getHeight() - fb.getHeight() - BUTTON_PANEL_Y_MARGIN );
+            
+            // Opacity
+            buttonPanel.setOpaque( false );
+            _startStopButton.setOpaque( false );
+            _resetButton.setOpaque( false );
+            _snapshotButton.setOpaque( false );
         }
 
-        // Display area
+        /* 
+         * Display area -
+         * This includes the black rectangle that the "cell" appear in, 
+         * the color key along the bottom of the black rectangle,
+         * and the ticks marks and labels that appear below the black rectangle.
+         */
         {
             PNode displayNode = new PNode();
             
@@ -257,11 +260,11 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             // The black background in the display area
             PPath displayBackgroundNode = new PPath();
             {
-                double w = pfb.getWidth() - ( 2 * DISPLAY_X_MARGIN );
+                double w = size.getWidth() - ( 2 * DISPLAY_X_MARGIN );
                 if ( w < 1 ) {
                     w = 1;
                 }
-                double h = pfb.getHeight() - TITLE_Y_MARGIN - _titleNode.getFullBounds().getHeight() - 
+                double h = size.getHeight() - TITLE_Y_MARGIN - _titleNode.getFullBounds().getHeight() - 
                     DISPLAY_Y_MARGIN - MAJOR_TICK_LENGTH - TICK_LABEL_SPACING - tickLabel.getHeight() -
                     DISPLAY_Y_MARGIN - _buttonPanelWrapper.getFullBounds().getHeight() - BUTTON_PANEL_Y_MARGIN;
                 if ( h < 1 ) {
@@ -377,12 +380,6 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             double yOffset = TITLE_Y_MARGIN + _titleNode.getFullBounds().getHeight() + DISPLAY_Y_MARGIN;
             _staticDisplayNode.setOffset( xOffset, yOffset );
         }
-        
-        // Opacity
-        buttonPanel.setOpaque( false );
-        _startStopButton.setOpaque( false );
-        _resetButton.setOpaque( false );
-        _snapshotButton.setOpaque( false );
 
         // Layering of nodes
         addChild( _panelNode );
