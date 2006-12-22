@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - simplify layout code in SpectrometerNode
-- capture meter cells in spectrometer snapshot
 - spectrometer shows each UV/IR transition wavelength at a distinct horizontal position
 - encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode
 - animation started flickering after 0.00.17 (after major changes to SpectrometerNode, HAModule, HAController)
@@ -41,6 +40,8 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/21/06) - capture meter cells in spectrometer snapshot
+(12/21/06) - don't update the spectrometer when it's not visible
 (12/21/06) - update spectrometer display for each photon emitted
 (12/21/06) - move spectrometer button panel down below tick marks area
 (12/21/06) - flatten static stuff in spectrometer to an image
