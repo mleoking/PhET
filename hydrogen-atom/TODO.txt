@@ -39,6 +39,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+***** CVS tag hydrogenatom-0-00-18-2006-12-21
 (12/21/06) - capture meter cells in spectrometer snapshot
 (12/21/06) - don't update the spectrometer when it's not visible
 (12/21/06) - update spectrometer display for each photon emitted
