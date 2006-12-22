@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.Photon;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedEvent;
@@ -71,7 +72,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private static final double DISPLAY_CORNER_RADIUS = 10;
     private static final double DISPLAY_UV_PERCENT = 0.15;
     private static final double DISPLAY_IR_PERCENT = 0.15;
-    private static final double DISPLAY_INNER_X_MARGIN = 5;
+    private static final double DISPLAY_INNER_X_MARGIN = 10;
 
     private static final double TITLE_X_MARGIN = 15;
     private static final double TITLE_Y_MARGIN = 7;
@@ -83,12 +84,14 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private static final double BUTTON_PANEL_X_MARGIN = 15;
     private static final double BUTTON_PANEL_Y_MARGIN = 5;
     
-    private static final double TICK_LENGTH = 10;
+    private static final double MAJOR_TICK_LENGTH = 4;
+    private static final double MINOR_TICK_LENGTH = 2;
     private static final Color TICK_COLOR = Color.WHITE;
     private static final Stroke TICK_STROKE = new BasicStroke( 1f );
     private static final Font TICK_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN, 12 );
+    private static final double TICK_LABEL_SPACING = 2;
 
-    private static final Font UV_IR_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN, 10 );
+    private static final Font UV_IR_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN, 14 );
     
     private static final double COLOR_KEY_HEIGHT = 2;
     private static  final double COLOR_KEY_Y_MARGIN = 4;
@@ -240,39 +243,29 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             _buttonPanelWrapper = new PSwing( canvas, buttonPanel );
             _buttonPanelWrapper.addInputEventListener( new CursorHandler() );
             PBounds fb = _buttonPanelWrapper.getFullBounds();
-            _buttonPanelWrapper.setOffset( pfb.getX() + pfb.getWidth() - fb.getWidth() - BUTTON_PANEL_X_MARGIN, 
+            _buttonPanelWrapper.setOffset( pfb.getWidth() / 2 - fb.getWidth() / 2, 
                     pfb.getY() + pfb.getHeight() - fb.getHeight() - BUTTON_PANEL_Y_MARGIN );
         }
-        
-//        // UV label
-//        PText uvLabel = new PText( "UV" );
-//        uvLabel.setTextPaint( Color.BLACK );
-//        uvLabel.setFont( UV_IR_FONT );
-//        
-//        // IR label
-//        PText irLabel = new PText( "IR" );
-//        irLabel.setTextPaint( Color.BLACK );
-//        irLabel.setFont( UV_IR_FONT );
 
         // Display area
         {
             _displayNode = new PNode();
             double xOffset = DISPLAY_X_MARGIN;
             double yOffset = TITLE_Y_MARGIN + _titleNode.getFullBounds().getHeight() + DISPLAY_Y_MARGIN;
-            double w = pfb.getWidth() - ( 2 * DISPLAY_X_MARGIN );
-            if ( w < 1 ) {
-                w = 1;
-            }
-            double h = pfb.getHeight() - TITLE_Y_MARGIN - _titleNode.getFullBounds().getHeight() - 
-                DISPLAY_Y_MARGIN - DISPLAY_Y_MARGIN - _buttonPanelWrapper.getFullBounds().getHeight() - BUTTON_PANEL_Y_MARGIN;
-            if ( h < 1 ) {
-                h = 1;
-            }
             _displayNode.setOffset( xOffset, yOffset );
             
             // The black background in the display area
             PPath displayBackgroundNode = new PPath();
             {
+                double w = pfb.getWidth() - ( 2 * DISPLAY_X_MARGIN );
+                if ( w < 1 ) {
+                    w = 1;
+                }
+                double h = pfb.getHeight() - TITLE_Y_MARGIN - _titleNode.getFullBounds().getHeight() - 
+                    DISPLAY_Y_MARGIN - DISPLAY_Y_MARGIN - _buttonPanelWrapper.getFullBounds().getHeight() - BUTTON_PANEL_Y_MARGIN;
+                if ( h < 1 ) {
+                    h = 1;
+                }
                 Shape shape = new RoundRectangle2D.Double( 0, 0, w, h, DISPLAY_CORNER_RADIUS, DISPLAY_CORNER_RADIUS );
                 displayBackgroundNode.setPathTo( shape );
                 displayBackgroundNode.setPaint( Color.BLACK );
@@ -313,8 +306,69 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                 colorKeyNode.setOffset( xo, yo );
             }
             
+            PNode ticksNode = new PNode();
+            {
+                ticksNode.setOffset( 0, displayBackgroundNode.getHeight() );
+                
+                // min UV
+                PNode tick1 = createMajorTickMark();
+                tick1.setOffset( minUVPosition, 0 );
+                PNode label1 = createTickLabel( (int)_minWavelength );
+                label1.setOffset( minUVPosition - label1.getWidth() / 2, tick1.getHeight() + TICK_LABEL_SPACING );
+                ticksNode.addChild( tick1 );
+                ticksNode.addChild( label1 );
+                
+                // max IR
+                PNode tick4 = createMajorTickMark();
+                tick4.setOffset( maxIRPosition, 0 );
+                PNode label4 = createTickLabel( (int)_maxWavelength );
+                label4.setOffset( maxIRPosition - label4.getWidth() / 2, tick4.getHeight() + TICK_LABEL_SPACING );
+                ticksNode.addChild( tick4 );
+                ticksNode.addChild( label4 );
+                
+                // major ticks in the visible spectrum
+                int[] majorTicks = { (int)VisibleColor.MIN_WAVELENGTH, 500, 600, 700, (int)VisibleColor.MAX_WAVELENGTH };
+                for ( int i = 0; i < majorTicks.length; i++ ) {
+                    PNode tick = createMajorTickMark();
+                    double m = ( majorTicks[i] - VisibleColor.MIN_WAVELENGTH ) / ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH );
+                    double x = minVisiblePosition + ( m *  ( maxVisiblePosition - minVisiblePosition ) );
+                    tick.setOffset( x, 0 );
+                    PNode label = createTickLabel( majorTicks[i] );
+                    label.setOffset( x - label.getWidth() / 2, tick.getHeight() + TICK_LABEL_SPACING );
+                    ticksNode.addChild( tick );
+                    ticksNode.addChild( label );
+                }
+                
+                // minor ticks in the visible spectrum
+                int[] minorTicks = { 400, 450, 550, 650, 750 };
+                for ( int i = 0; i < minorTicks.length; i++ ) {
+                    PNode tick = createMinorTickMark();
+                    double m = ( minorTicks[i] - VisibleColor.MIN_WAVELENGTH ) / ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH );
+                    double x = minVisiblePosition + ( m *  ( maxVisiblePosition - minVisiblePosition ) );
+                    tick.setOffset( x, 0 );
+                    ticksNode.addChild( tick );
+                }
+
+                // UV label
+                PText uvLabel = new PText( "UV" );
+                uvLabel.setTextPaint( TICK_COLOR );
+                uvLabel.setFont( UV_IR_FONT );
+                uvLabel.setOffset( ( ( minUVPosition + ( maxUVPosition - minUVPosition ) / 2 ) ) - ( uvLabel.getWidth() / 2 ), 
+                        MAJOR_TICK_LENGTH + TICK_LABEL_SPACING + 4 );
+                ticksNode.addChild( uvLabel );
+
+                // IR label
+                PText irLabel = new PText( "IR" );
+                irLabel.setTextPaint( TICK_COLOR );
+                irLabel.setFont( UV_IR_FONT );
+                irLabel.setOffset( ( ( minIRPosition + ( maxIRPosition - minIRPosition ) / 2 ) ) - ( irLabel.getWidth() / 2 ),
+                        MAJOR_TICK_LENGTH + TICK_LABEL_SPACING + 4 );
+                ticksNode.addChild( irLabel );
+            }
+            
             _displayNode.addChild( displayBackgroundNode );
             _displayNode.addChild( colorKeyNode );
+            _displayNode.addChild( ticksNode );
         }
         
         // Opacity
@@ -331,16 +385,28 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
         addChild( _buttonPanelWrapper );
     }
 
-    public PNode createTickMark() {
+    //----------------------------------------------------------------------------
+    // Tick marks and labels
+    //----------------------------------------------------------------------------
+    
+    private PNode createMajorTickMark() {
+        return createTickMark( MAJOR_TICK_LENGTH );
+    }
+    
+    private PNode createMinorTickMark() {
+        return createTickMark( MINOR_TICK_LENGTH );
+    }
+    
+    private PNode createTickMark( double length ) {
         PPath tickNode = new PPath();
-        Shape shape = new Line2D.Double( 0, 0, 0, TICK_LENGTH );
+        Shape shape = new Line2D.Double( 0, 0, 0, length );
         tickNode.setPathTo( shape );
         tickNode.setStroke( TICK_STROKE );
         tickNode.setStrokePaint( TICK_COLOR );
         return tickNode;
     }
     
-    public PNode createTickLabel( int wavelength ) {
+    private PNode createTickLabel( int wavelength ) {
         PText textNode = new PText( String.valueOf( wavelength ) );
         textNode.setFont( TICK_FONT );
         textNode.setTextPaint( TICK_COLOR );

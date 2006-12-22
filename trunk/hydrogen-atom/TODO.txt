@@ -7,10 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - animation started flickering after 0.00.17 (after major changes to SpectrometerNode, HAModule, HAController)
 - flatten all static stuff in spectrometer to an image
-- spectrometer has UV/IR/visible regions in similar proportions to Discharge lamps
 - spectrometer shows each UV/IR transition wavelength at a distinct horizontal position
-- spectrometer has labeled ticks at 90, 380, 500, 600, 780, 7500
-- spectrometer has unlabeled ticks at 20 nm increments in visible spectrum
 - encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode
 
 MEDIUM PRIORITY:
@@ -43,6 +40,10 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/21/06) - spectrometer has labeled ticks at 90, 380, 500, 600, 780, 7500
+(12/21/06) - spectrometer has unlabeled ticks at 50 nm increments in visible spectrum
+(12/21/06) - add ticks and labels to spectrometer
+(12/21/06) - set UV and IR portions of spectrometer similar to Discharge Lamps (~15% each)
 (12/21/06) - add color key strip along bottom of spectrometer display area
 (12/21/06) - add min/max wavelength range to spectrometer
 (12/21/06) - reset spectrometer when atomic model is changed
