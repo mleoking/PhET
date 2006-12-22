@@ -102,6 +102,10 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     // Data structures
     //----------------------------------------------------------------------------
     
+    /*
+     * MeterRecord lets how many "cells" on the spectrometer 
+     * should be lit for a specific wavelength.
+     */
     private static class MeterRecord {
         public double wavelength;
         public int count;
@@ -124,7 +128,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private ArrayList _meterRecords; // array of MeterRecords
     
     private PImage _panelNode;
-    private PImage _staticDisplayNode;
+    private PNode _displayNode;
     private PText _titleNode;
     private JButton _closeButton;
     private PSwing _closeButtonWrapper;
@@ -274,12 +278,9 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
          * This includes the black rectangle that the "cell" appear in, 
          * the color key along the bottom of the black rectangle,
          * and the ticks marks and labels that appear below the black rectangle.
+         * It also includes any "cells" that are lit.
          */
-        double cellsNodeXOffset = 0;
-        double cellsNodeYOffset = 0;
         {
-            PNode displayNode = new PNode();
-            
             PNode tickLabel = createTickLabel( 0 );
             
             // The black background in the display area
@@ -395,29 +396,32 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                 ticksNode.addChild( irLabel );
             }
             
-            displayNode.addChild( displayBackgroundNode );
-            displayNode.addChild( colorKeyNode );
-            displayNode.addChild( ticksNode );
+            PNode parentNode = new PNode();
+            parentNode.addChild( displayBackgroundNode );
+            parentNode.addChild( colorKeyNode );
+            parentNode.addChild( ticksNode );
             
             // Convert display area to an image
-            _staticDisplayNode = new PImage( displayNode.toImage() );
+            PImage staticDisplayNode = new PImage( parentNode.toImage() );
+            staticDisplayNode.setOffset( 0, 0 );
+            
+            // Node that holds meter cells
+            _cellsNode = new PNode();
+            _cellsNode.setOffset( 0, displayBackgroundNode.getHeight() - colorKeyNode.getHeight() - COLOR_KEY_Y_MARGIN - 2 );
+            
+            _displayNode = new PNode();
             double xOffset = DISPLAY_X_MARGIN;
             double yOffset = TITLE_Y_MARGIN + _titleNode.getFullBounds().getHeight() + DISPLAY_Y_MARGIN;
-            _staticDisplayNode.setOffset( xOffset, yOffset );
+            _displayNode.setOffset( xOffset, yOffset );
+            _displayNode.addChild( staticDisplayNode );
+            _displayNode.addChild( _cellsNode );
             
-            cellsNodeXOffset = xOffset;
-            cellsNodeYOffset = yOffset + displayBackgroundNode.getHeight() - colorKeyNode.getHeight() - COLOR_KEY_Y_MARGIN - 2;
             _maxCells = (int) ( ( displayBackgroundNode.getHeight() - colorKeyNode.getHeight() - COLOR_KEY_Y_MARGIN - 2 ) / CELL_HEIGHT );
         }
-        
-        // Meter cells
-        _cellsNode = new PNode();
-        _cellsNode.setOffset( cellsNodeXOffset, cellsNodeYOffset );
 
         // Layering of nodes
         addChild( _panelNode );
-        addChild( _staticDisplayNode );
-        addChild( _cellsNode );
+        addChild( _displayNode );
         addChild( _titleNode );
         addChild( _closeButtonWrapper );
         addChild( _buttonPanelWrapper );
@@ -476,7 +480,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     }
 
     protected Image getDisplayImage() {
-        return _staticDisplayNode.toImage();
+        return _displayNode.toImage();
     }
     
     protected Image getCellsImage() {
@@ -512,7 +516,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     //----------------------------------------------------------------------------
     
     public void photonEmitted( PhotonEmittedEvent event ) {
-        if ( _isRunning ) {
+        if ( _isRunning && isVisible() ) {
             Photon photon = event.getPhoton();
             double wavelength = photon.getWavelength();
             if ( DEBUG_OUTPUT ) {
