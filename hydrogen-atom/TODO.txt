@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- update spectrometer display for each photon emitted
 - spectrometer shows each UV/IR transition wavelength at a distinct horizontal position
 - encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode
 - animation started flickering after 0.00.17 (after major changes to SpectrometerNode, HAModule, HAController)
@@ -40,6 +39,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/21/06) - update spectrometer display for each photon emitted
 (12/21/06) - move spectrometer button panel down below tick marks area
 (12/21/06) - flatten static stuff in spectrometer to an image
 (12/21/06) - spectrometer has labeled ticks at 90, 380, 500, 600, 780, 7500
