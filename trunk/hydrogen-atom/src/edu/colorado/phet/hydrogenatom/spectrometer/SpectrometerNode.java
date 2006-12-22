@@ -18,6 +18,7 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -95,7 +96,20 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private static  final double COLOR_KEY_Y_MARGIN = 4;
     
     private static final double CELL_WIDTH = 5;
-    private static final double CELL_HEIGHT = 3;
+    private static final double CELL_HEIGHT = 5;
+    
+    //----------------------------------------------------------------------------
+    // Data structures
+    //----------------------------------------------------------------------------
+    
+    private static class MeterRecord {
+        public double wavelength;
+        public int count;
+        public MeterRecord( double wavelength ) {
+            this.wavelength = wavelength;
+            count = 0;
+        }
+    }
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -107,7 +121,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private double _minWavelength, _maxWavelength;
 
     private boolean _isRunning;
-    private ArrayList _values; // array of Double, wavelengths of photons emitted
+    private ArrayList _meterRecords; // array of MeterRecords
     
     private PImage _panelNode;
     private PImage _staticDisplayNode;
@@ -118,6 +132,15 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private JButton _resetButton;
     private JButton _snapshotButton;
     private PSwing _buttonPanelWrapper;
+    private PNode _cellsNode;
+    
+    private double _minUVPosition;
+    private double _maxUVPosition;
+    private double _minVisiblePosition;
+    private double _maxVisiblePosition;
+    private double _minIRPosition;
+    private double _maxIRPosition;
+    private int _maxCells;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -132,7 +155,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
         _maxWavelength = maxWavelength;
 
         _isRunning = false;
-        _values = new ArrayList();
+        _meterRecords = new ArrayList();
 
         // Background panel
         {
@@ -150,15 +173,15 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
         final double uvWidth = innerWidth * DISPLAY_UV_PERCENT;
         final double irWidth = innerWidth * DISPLAY_IR_PERCENT;
         final double visibleWidth = innerWidth * ( 1 - DISPLAY_UV_PERCENT - DISPLAY_IR_PERCENT );
-        assert( visibleWidth > 0 );
-        
+        assert ( visibleWidth > 0 );
+
         // Positions relative to the display area
-        double minUVPosition = DISPLAY_INNER_X_MARGIN;
-        double maxUVPosition = minUVPosition + uvWidth;
-        double minVisiblePosition = maxUVPosition;
-        double maxVisiblePosition = minVisiblePosition + visibleWidth;
-        double minIRPosition = maxVisiblePosition;
-        double maxIRPosition = minIRPosition + irWidth;
+        _minUVPosition = DISPLAY_INNER_X_MARGIN;
+        _maxUVPosition = _minUVPosition + uvWidth;
+        _minVisiblePosition = _maxUVPosition;
+        _maxVisiblePosition = _minVisiblePosition + visibleWidth;
+        _minIRPosition = _maxVisiblePosition;
+        _maxIRPosition = _minIRPosition + irWidth;
         
         // Title
         {
@@ -252,6 +275,8 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
          * the color key along the bottom of the black rectangle,
          * and the ticks marks and labels that appear below the black rectangle.
          */
+        double cellsNodeXOffset = 0;
+        double cellsNodeYOffset = 0;
         {
             PNode displayNode = new PNode();
             
@@ -301,9 +326,9 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                 colorKeyNode.addChild( irNode );
                 colorKeyNode.addChild( spectrumNode );
 
-                uvNode.setOffset( minUVPosition, 0 );
-                spectrumNode.setOffset( minVisiblePosition, 0 );
-                irNode.setOffset( minIRPosition, 0 );
+                uvNode.setOffset( _minUVPosition, 0 );
+                spectrumNode.setOffset( _minVisiblePosition, 0 );
+                irNode.setOffset( _minIRPosition, 0 );
                 
                 double xo = 0;
                 double yo = displayBackgroundNode.getHeight() - colorKeyNode.getHeight() - COLOR_KEY_Y_MARGIN;
@@ -316,17 +341,17 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                 
                 // min UV
                 PNode tick1 = createMajorTickMark();
-                tick1.setOffset( minUVPosition, 0 );
+                tick1.setOffset( _minUVPosition, 0 );
                 PNode label1 = createTickLabel( (int)_minWavelength );
-                label1.setOffset( minUVPosition - label1.getWidth() / 2, tick1.getHeight() + TICK_LABEL_SPACING );
+                label1.setOffset( _minUVPosition - label1.getWidth() / 2, tick1.getHeight() + TICK_LABEL_SPACING );
                 ticksNode.addChild( tick1 );
                 ticksNode.addChild( label1 );
                 
                 // max IR
                 PNode tick4 = createMajorTickMark();
-                tick4.setOffset( maxIRPosition, 0 );
+                tick4.setOffset( _maxIRPosition, 0 );
                 PNode label4 = createTickLabel( (int)_maxWavelength );
-                label4.setOffset( maxIRPosition - label4.getWidth() / 2, tick4.getHeight() + TICK_LABEL_SPACING );
+                label4.setOffset( _maxIRPosition - label4.getWidth() / 2, tick4.getHeight() + TICK_LABEL_SPACING );
                 ticksNode.addChild( tick4 );
                 ticksNode.addChild( label4 );
                 
@@ -335,7 +360,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                 for ( int i = 0; i < majorTicks.length; i++ ) {
                     PNode tick = createMajorTickMark();
                     double m = ( majorTicks[i] - VisibleColor.MIN_WAVELENGTH ) / ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH );
-                    double x = minVisiblePosition + ( m *  ( maxVisiblePosition - minVisiblePosition ) );
+                    double x = _minVisiblePosition + ( m *  ( _maxVisiblePosition - _minVisiblePosition ) );
                     tick.setOffset( x, 0 );
                     PNode label = createTickLabel( majorTicks[i] );
                     label.setOffset( x - label.getWidth() / 2, tick.getHeight() + TICK_LABEL_SPACING );
@@ -348,7 +373,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                 for ( int i = 0; i < minorTicks.length; i++ ) {
                     PNode tick = createMinorTickMark();
                     double m = ( minorTicks[i] - VisibleColor.MIN_WAVELENGTH ) / ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH );
-                    double x = minVisiblePosition + ( m *  ( maxVisiblePosition - minVisiblePosition ) );
+                    double x = _minVisiblePosition + ( m *  ( _maxVisiblePosition - _minVisiblePosition ) );
                     tick.setOffset( x, 0 );
                     ticksNode.addChild( tick );
                 }
@@ -357,7 +382,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                 PText uvLabel = new PText( "UV" );
                 uvLabel.setTextPaint( TICK_COLOR );
                 uvLabel.setFont( UV_IR_FONT );
-                uvLabel.setOffset( ( ( minUVPosition + ( maxUVPosition - minUVPosition ) / 2 ) ) - ( uvLabel.getWidth() / 2 ), 
+                uvLabel.setOffset( ( ( _minUVPosition + ( _maxUVPosition - _minUVPosition ) / 2 ) ) - ( uvLabel.getWidth() / 2 ), 
                         MAJOR_TICK_LENGTH + TICK_LABEL_SPACING + 4 );
                 ticksNode.addChild( uvLabel );
 
@@ -365,7 +390,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                 PText irLabel = new PText( "IR" );
                 irLabel.setTextPaint( TICK_COLOR );
                 irLabel.setFont( UV_IR_FONT );
-                irLabel.setOffset( ( ( minIRPosition + ( maxIRPosition - minIRPosition ) / 2 ) ) - ( irLabel.getWidth() / 2 ),
+                irLabel.setOffset( ( ( _minIRPosition + ( _maxIRPosition - _minIRPosition ) / 2 ) ) - ( irLabel.getWidth() / 2 ),
                         MAJOR_TICK_LENGTH + TICK_LABEL_SPACING + 4 );
                 ticksNode.addChild( irLabel );
             }
@@ -379,11 +404,20 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             double xOffset = DISPLAY_X_MARGIN;
             double yOffset = TITLE_Y_MARGIN + _titleNode.getFullBounds().getHeight() + DISPLAY_Y_MARGIN;
             _staticDisplayNode.setOffset( xOffset, yOffset );
+            
+            cellsNodeXOffset = xOffset;
+            cellsNodeYOffset = yOffset + displayBackgroundNode.getHeight() - colorKeyNode.getHeight() - COLOR_KEY_Y_MARGIN - 2;
+            _maxCells = (int) ( ( displayBackgroundNode.getHeight() - colorKeyNode.getHeight() - COLOR_KEY_Y_MARGIN - 2 ) / CELL_HEIGHT );
         }
+        
+        // Meter cells
+        _cellsNode = new PNode();
+        _cellsNode.setOffset( cellsNodeXOffset, cellsNodeYOffset );
 
         // Layering of nodes
         addChild( _panelNode );
         addChild( _staticDisplayNode );
+        addChild( _cellsNode );
         addChild( _titleNode );
         addChild( _closeButtonWrapper );
         addChild( _buttonPanelWrapper );
@@ -418,18 +452,6 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     }
     
     //----------------------------------------------------------------------------
-    // Cells
-    //----------------------------------------------------------------------------
-    
-    private PNode createCell( double wavelength ) {
-        PPath cellNode = new PPath( new Ellipse2D.Double( 0, 0, CELL_WIDTH, CELL_HEIGHT ) );
-        Color color = ColorUtils.wavelengthToColor( wavelength );
-        cellNode.setPaint( color );
-        cellNode.setStroke( null );
-        return cellNode;
-    }
-    
-    //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
@@ -456,6 +478,10 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     protected Image getDisplayImage() {
         return _staticDisplayNode.toImage();
     }
+    
+    protected Image getCellsImage() {
+        return _cellsNode.toImage();
+    }
 
     //----------------------------------------------------------------------------
     // Button handlers
@@ -477,16 +503,8 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
         if ( DEBUG_OUTPUT ) {
             System.out.println( "SpectrometerNode.reset" );
         }
-        _values.clear();
-        updateDisplay();
-    }
-    
-    //----------------------------------------------------------------------------
-    // Display area
-    //----------------------------------------------------------------------------
-    
-    private void updateDisplay() {
-        //XXX
+        _meterRecords.clear();
+        _cellsNode.removeAllChildren();
     }
     
     //----------------------------------------------------------------------------
@@ -500,9 +518,68 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             if ( DEBUG_OUTPUT ) {
                 System.out.println( "SpectrometerNode.photonEmitted " + wavelength );
             }
-            _values.add( new Double( wavelength ) );
-            updateDisplay();
+            MeterRecord meterRecord = getMeterRecord( wavelength );
+            if ( meterRecord == null ) {
+                meterRecord = new MeterRecord( wavelength );
+                meterRecord.count = 1;
+                _meterRecords.add( meterRecord );
+            }
+            else {
+                meterRecord.count++;
+            }
+            addCell( meterRecord );
         }
+    }
+    
+    public MeterRecord getMeterRecord( double wavelength ) {
+        Iterator i = _meterRecords.iterator();
+        while ( i.hasNext() ) {
+            MeterRecord record = (MeterRecord) i.next();
+            if ( record.wavelength == wavelength ) {
+                return record;
+            }
+        }
+        return null;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Cells
+    //----------------------------------------------------------------------------
+    
+    private void addCell( MeterRecord meterRecord ) {
+        double wavelength = meterRecord.wavelength;
+        int count = meterRecord.count;
+        if ( count <= _maxCells ) {
+            PNode cellNode = createCell( wavelength );
+            _cellsNode.addChild( cellNode );
+            double x = 0;
+            double y = -( count * CELL_HEIGHT );
+            if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
+                // UV wavelength
+                double m = ( wavelength - _minWavelength ) / ( VisibleColor.MIN_WAVELENGTH  - _minWavelength );
+                x = _minUVPosition + ( m * ( _maxUVPosition - _minUVPosition ) ) - ( cellNode.getWidth() / 2 );
+            }
+            else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
+                // IR wavelength
+                double m = ( _maxWavelength - wavelength ) / ( _maxWavelength - VisibleColor.MAX_WAVELENGTH );
+                x = _minIRPosition + ( m * ( _maxIRPosition - _minIRPosition ) ) - ( cellNode.getWidth() / 2 );
+            }
+            else {
+                // Visible wavelength
+                double m = ( wavelength - VisibleColor.MIN_WAVELENGTH ) / ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH );
+                x = _minVisiblePosition + ( m * ( _maxVisiblePosition - _minVisiblePosition ) ) - ( cellNode.getWidth() / 2 );
+
+            }
+            cellNode.setOffset( x, y );
+        }
+    }
+    
+    private PNode createCell( double wavelength ) {
+        PPath cellNode = new PPath( new Ellipse2D.Double( 0, 0, CELL_WIDTH, CELL_HEIGHT ) );
+        Color color = ColorUtils.wavelengthToColor( wavelength );
+        cellNode.setPaint( color );
+        cellNode.setStroke( null );
+        return cellNode;
     }
     
     //----------------------------------------------------------------------------
