@@ -5,9 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- animation started flickering after 0.00.17 (after major changes to SpectrometerNode, HAModule, HAController)
+- move spectrometer button panel down below tick marks area
+- update spectrometer display for each photon emitted
 - spectrometer shows each UV/IR transition wavelength at a distinct horizontal position
 - encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode
+- animation started flickering after 0.00.17 (after major changes to SpectrometerNode, HAModule, HAController)
 
 MEDIUM PRIORITY:
 - it's easy (and physically correct) to get stuck in Schrodinger state (2,0,0)
