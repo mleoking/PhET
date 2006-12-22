@@ -60,7 +60,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     //----------------------------------------------------------------------------
     
     // prints debugging output
-    private static final boolean DEBUG_OUTPUT = true;
+    private static final boolean DEBUG_OUTPUT = false;
     
     //----------------------------------------------------------------------------
     // Class data
