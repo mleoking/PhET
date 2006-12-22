@@ -84,7 +84,7 @@ public class SchrodingerModel extends DeBroglieModel {
      */
     private static final double[][] TRANSITION_STRENGTH = {
         { 0, 0, 0, 0, 0 },
-        { 12.53, 0, 0, 0 },
+        { 12.53, 0, 0, 0, 0 },
         { 3.34, 0.87, 0, 0, 0 },
         { 1.36, 0.24, 0.07, 0, 0 },
         { 0.69, 0.11, 0, 0.04, 0 },
@@ -201,15 +201,31 @@ public class SchrodingerModel extends DeBroglieModel {
             return -1;
         }
         else if ( n > 2 ) {
+            
             final int nMax = n - 1;
-            final int nMin = Math.max( _l - 1, 1 );
+            int nMin = Math.max( _l - 1, 1 );
+            if ( _l == 0 ) {
+                // transition from nlm=(n,0,0) to (1,0,0) would break the abs(l-l')=0 rule
+                nMin = 2;
+            }
+            
             ProbabilisticChooser.Entry[] entries = new ProbabilisticChooser.Entry[nMax - nMin + 1];
+            double strengthSum = 0;
             for ( int i = 0; i < entries.length; i++ ) {
                 int state = nMin + i;
-                entries[i] = new ProbabilisticChooser.Entry( new Integer( state ), TRANSITION_STRENGTH[n][state] );
+                double transitionStrength = TRANSITION_STRENGTH[n-1][state-1];
+                entries[i] = new ProbabilisticChooser.Entry( new Integer( state ), transitionStrength );
+                strengthSum += transitionStrength;
             }
-            ProbabilisticChooser chooser = new ProbabilisticChooser( entries );
-            nNew = ( (Integer) chooser.get() ).intValue();
+            
+            if ( strengthSum > 0 ) {
+                ProbabilisticChooser chooser = new ProbabilisticChooser( entries );
+                nNew = ( (Integer) chooser.get() ).intValue();
+            }
+            else {
+                // all transitions had zero strength, none are possible
+                return -1;
+            }
         }
         
         assert( nNew >= 1 );
