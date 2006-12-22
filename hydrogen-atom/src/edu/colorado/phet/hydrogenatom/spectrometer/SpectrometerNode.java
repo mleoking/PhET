@@ -14,10 +14,7 @@ package edu.colorado.phet.hydrogenatom.spectrometer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,6 +32,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.Photon;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedEvent;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedListener;
+import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -95,6 +93,9 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     
     private static final double COLOR_KEY_HEIGHT = 2;
     private static  final double COLOR_KEY_Y_MARGIN = 4;
+    
+    private static final double CELL_WIDTH = 5;
+    private static final double CELL_HEIGHT = 3;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -251,6 +252,8 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
         {
             PNode displayNode = new PNode();
             
+            PNode tickLabel = createTickLabel( 0 );
+            
             // The black background in the display area
             PPath displayBackgroundNode = new PPath();
             {
@@ -259,7 +262,8 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                     w = 1;
                 }
                 double h = pfb.getHeight() - TITLE_Y_MARGIN - _titleNode.getFullBounds().getHeight() - 
-                    DISPLAY_Y_MARGIN - DISPLAY_Y_MARGIN - _buttonPanelWrapper.getFullBounds().getHeight() - BUTTON_PANEL_Y_MARGIN;
+                    DISPLAY_Y_MARGIN - MAJOR_TICK_LENGTH - TICK_LABEL_SPACING - tickLabel.getHeight() -
+                    DISPLAY_Y_MARGIN - _buttonPanelWrapper.getFullBounds().getHeight() - BUTTON_PANEL_Y_MARGIN;
                 if ( h < 1 ) {
                     h = 1;
                 }
@@ -414,6 +418,18 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
         textNode.setFont( TICK_FONT );
         textNode.setTextPaint( TICK_COLOR );
         return textNode;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Cells
+    //----------------------------------------------------------------------------
+    
+    private PNode createCell( double wavelength ) {
+        PPath cellNode = new PPath( new Ellipse2D.Double( 0, 0, CELL_WIDTH, CELL_HEIGHT ) );
+        Color color = ColorUtils.wavelengthToColor( wavelength );
+        cellNode.setPaint( color );
+        cellNode.setStroke( null );
+        return cellNode;
     }
     
     //----------------------------------------------------------------------------
