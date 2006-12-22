@@ -91,7 +91,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private static final Font TICK_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN, 12 );
     private static final double TICK_LABEL_SPACING = 2;
 
-    private static final Font UV_IR_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN, 14 );
+    private static final Font UV_IR_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
     
     private static final double COLOR_KEY_HEIGHT = 2;
     private static  final double COLOR_KEY_Y_MARGIN = 4;
@@ -109,7 +109,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private ArrayList _values; // array of Double, wavelengths of photons emitted
     
     private PImage _panelNode;
-    private PNode _displayNode;
+    private PImage _staticDisplayNode;
     private PText _titleNode;
     private JButton _closeButton;
     private PSwing _closeButtonWrapper;
@@ -249,10 +249,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
 
         // Display area
         {
-            _displayNode = new PNode();
-            double xOffset = DISPLAY_X_MARGIN;
-            double yOffset = TITLE_Y_MARGIN + _titleNode.getFullBounds().getHeight() + DISPLAY_Y_MARGIN;
-            _displayNode.setOffset( xOffset, yOffset );
+            PNode displayNode = new PNode();
             
             // The black background in the display area
             PPath displayBackgroundNode = new PPath();
@@ -366,9 +363,15 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                 ticksNode.addChild( irLabel );
             }
             
-            _displayNode.addChild( displayBackgroundNode );
-            _displayNode.addChild( colorKeyNode );
-            _displayNode.addChild( ticksNode );
+            displayNode.addChild( displayBackgroundNode );
+            displayNode.addChild( colorKeyNode );
+            displayNode.addChild( ticksNode );
+            
+            // Convert display area to an image
+            _staticDisplayNode = new PImage( displayNode.toImage() );
+            double xOffset = DISPLAY_X_MARGIN;
+            double yOffset = TITLE_Y_MARGIN + _titleNode.getFullBounds().getHeight() + DISPLAY_Y_MARGIN;
+            _staticDisplayNode.setOffset( xOffset, yOffset );
         }
         
         // Opacity
@@ -379,7 +382,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
 
         // Layering of nodes
         addChild( _panelNode );
-        addChild( _displayNode );
+        addChild( _staticDisplayNode );
         addChild( _titleNode );
         addChild( _closeButtonWrapper );
         addChild( _buttonPanelWrapper );
@@ -438,7 +441,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     }
 
     protected Image getDisplayImage() {
-        return _displayNode.toImage();
+        return _staticDisplayNode.toImage();
     }
 
     //----------------------------------------------------------------------------
