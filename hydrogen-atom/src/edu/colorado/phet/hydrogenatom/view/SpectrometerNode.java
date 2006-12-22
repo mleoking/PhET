@@ -494,16 +494,14 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     // Button handlers
     //----------------------------------------------------------------------------
     
-    private void start() {
+    public void start() {
         _isRunning = true;
         _startStopButton.setText( SimStrings.get( "button.spectrometer.stop" ) );
-        //XXX
     }
     
-    private void stop() {
+    public void stop() {
         _isRunning = false;
         _startStopButton.setText( SimStrings.get( "button.spectrometer.start" ) );
-        //XXX
     }
     
     public void reset() {
