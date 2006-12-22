@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- run Schrodinger awhile with wavelength=94, ArrayOutOfBoundsException (6) at line 209 of SchrodingerModel 1.21
-- memory leak that started in 0.00.16, everything slows down (try Schrodinger with 1->6 transitions)
 - simplify layout code in SpectrometerNode
 - make spectrometer shows each UV/IR transition wavelength at a distinct horizontal position
 - encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode
@@ -42,6 +40,8 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/21/06) - bugfix: ArrayOutOfBoundsException in SchrodingerModel.chooseLowerElectronState, introduced in 0.00.16
+(12/21/06) - in SchrodingerModel.chooseLowerElectronState, (n,0,0)->(1,0,0) is forbidden for all value of n
 (12/21/06) - make spectrometer "running" by default
 (12/21/06) - move SpectrometerNode to view package
 ***** CVS tag hydrogenatom-0-00-18-2006-12-21
