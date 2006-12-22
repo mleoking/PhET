@@ -152,6 +152,9 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
 
     public SpectrometerNode( PSwingCanvas canvas, Dimension size, String title, Font font, double minWavelength, double maxWavelength ) {
 
+        assert( minWavelength < VisibleColor.MIN_WAVELENGTH );
+        assert( maxWavelength > VisibleColor.MAX_WAVELENGTH );
+        
         _canvas = canvas;
         _size = new Dimension( size.width, size.height );
         _font = font;
