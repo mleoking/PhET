@@ -5,21 +5,26 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- make tick labels on spectrometer larger and bold font
 - simplify layout code in SpectrometerNode
-- make spectrometer shows each UV/IR transition wavelength at a distinct horizontal position
+
 - encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode
 - run stuff for a very long time (especially Schrodinger) to see what breaks
 
 MEDIUM PRIORITY:
-- it's easy (and physically correct) to get stuck in Schrodinger state (2,0,0)
+- with white light, when Schrodinger is stuck in (2,0,0) for 15 seconds, 
+    shoot a photon at its center that will be absorbed and take it to a higher state 
+- design a monochromatic solution for Schrodinger state (2,0,0)
 - implement energy diagrams, reuse Ron's stuff
 - add squiggles to energy diagrams showing the gun's light wavelength (as in Lasers sim)
 - is ModelViewTransform used everywhere is should be in view?
 - verify that behavior is correct when clock is paused
 - decide on default values for all controls
 - add "description" to SimStrings file
+- default gun to white light
 
 LOW PRIORITY:
+- make spectrometer show each UV/IR transition wavelength at a distinct horizontal position (wait for interviews)
 - get rid of HAController, merge into HAModule
 - improve performance of Schrodinger
 - improve performance of deBroglie "brightness" and "brightness magnitude" representations
