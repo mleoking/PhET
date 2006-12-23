@@ -9,6 +9,7 @@ HIGH PRIORITY:
 - simplify layout code in SpectrometerNode
 - encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode
 - run stuff for a very long time (especially Schrodinger) to see what breaks
+- catch ArrayOutOfBoundsExceptions in Schrodinger, adjust to valid value and print warning to console
 
 MEDIUM PRIORITY:
 - with white light, when Schrodinger is stuck in (2,0,0) for 15 seconds, 
