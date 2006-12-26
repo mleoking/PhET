@@ -5,39 +5,37 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- implement energy diagrams, reuse Ron's stuff
-- add squiggles to energy diagrams showing the gun's light wavelength (as in Lasers sim)
+- with white light, when Schrodinger is stuck in (2,0,0) for 15 seconds, shoot absorbable photon at atom's center
+- implement Solar System energy diagram
+- implement Bohr/deBroglie energy diagram
+- implement Schrodinger energy diagram
 
 MEDIUM PRIORITY:
-- with white light, when Schrodinger is stuck in (2,0,0) for 15 seconds, 
-    shoot a photon at its center that will be absorbed and take it to a higher state 
 - design a monochromatic solution for Schrodinger state (2,0,0)
-- is ModelViewTransform used everywhere is should be in view?
+- verify that ModelViewTransform is used everywhere that it should be
 - verify that behavior is correct when clock is paused
-- decide on default values for all controls
 - add "description" to SimStrings file
-- default gun to white light
 - run stuff for a very long time (especially Schrodinger) to see what breaks
+- get specification for all default settings
+- default gun to white light
 
 LOW PRIORITY:
-- get rid of HAController, merge into HAModule
 - improve performance of Schrodinger
 - improve performance of deBroglie "brightness" and "brightness magnitude" representations
 - improve performance of deBroglie 3D representation
-- Bohr gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
+- animation gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
 - reduce size of image files
 - add WavelengthControl.setTrackSize(Dimension)
 - add WavelengthControl.setKnobSize(Dimension)
 - size "UV" and "IR" labels to fit WavelengthControl track height
 - generate spectrum instead of using an image file
-- ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 - animate opening/closing of Atomic Model selection panel (use PNode.toImage)
-- bug: spectrometer buttons are fully transparent on Win98
 - generalize creating a "panel" node to fit under a collection of nodes
-- fix problem with updating drag bounds of ConstrainedDragHandler, as used in WavelengthControl
 - create layout nodes for creating Piccolo-based control panels
 - rewrite AtomicModelSelector to use inner classes, or layout node
-- cache Colors
+- bug: ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
+- bug: spectrometer buttons are fully transparent on Win98
+- bug: problem with updating drag bounds of ConstrainedDragHandler, as used in WavelengthControl
 
 DEFER UNTIL AFTER INTERVIEWS:
 - make spectrometer show each UV/IR transition wavelength at a distinct horizontal position
@@ -487,6 +485,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(12/26/06) - cache Colors (not necessary, little or no payoff)
 (12/26/06) - encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode (there is a very small amout of it, would complicate code)
 (12/20/06) - handle model-view transform differently? (current approach works, changing it would be destabilizing)
 (12/19/06) - SchrodingerNode needs a ViewModelTransform, inverse of ModelViewTransform (document and assume 1:1)
