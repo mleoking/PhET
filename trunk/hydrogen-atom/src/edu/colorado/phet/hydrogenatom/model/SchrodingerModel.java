@@ -228,15 +228,13 @@ public class SchrodingerModel extends DeBroglieModel {
             }
         }
         
-        assert( nNew >= 1 );
-        assert( nNew <= getNumberOfStates() );
-        
         return nNew;
     }
     
     /*
      * Sets the electron's primary state.
-     * Randomly chooses the values for the secondary and tertiary states.
+     * Randomly chooses the values for the secondary and tertiary states,
+     * according to state transition rules.
      */
     protected void setElectronState( final int nNew ) {
         
@@ -249,11 +247,7 @@ public class SchrodingerModel extends DeBroglieModel {
         }
         
         // Verify that no transition rules have been broken.
-        assert( nNew >= 1 && nNew <= 6 );
-        assert( lNew >= 0 && lNew <= nNew - 1 );
-        assert( Math.abs( _l - lNew ) == 1 );
-        assert( mNew >= -lNew && mNew <= +lNew );
-        assert( Math.abs( _m - mNew ) <= 1 );
+        checkTransitionRules( getElectronState(), _l, _m, nNew, lNew, mNew );
         
         _l = lNew;
         _m = mNew;
@@ -371,6 +365,38 @@ public class SchrodingerModel extends DeBroglieModel {
         }
         
         return mNew;
+    }
+    
+    /*
+     * Checks state transition rules. 
+     * Prints a message to System.err if any rule is broken.
+     * The transition rules are difficult to debug because of their probabilistic nature,
+     * so this is preferrable to throwing an exception or stopping the program.
+     */
+    private static void checkTransitionRules( int nOld, int lOld, int mOld, int nNew, int lNew, int mNew ) {
+        
+        String prefix = "SchrodingerModel.checkTransitionRules: violated rule ";
+
+        if ( !( nNew >= 1 && nNew <= getNumberOfStates() ) ) {
+            System.err.print( prefix + "( nNew >= 1 && nNew <= " + getNumberOfStates() + " )" );
+            System.err.println( " for " + stateToString( nOld, lOld, mOld ) + "->" + stateToString( nNew, lNew, mNew ) );
+        }
+        if ( !( lNew >= 0 && lNew <= nNew - 1 ) ) {
+            System.err.print( prefix + "( lNew >= 0 && lNew <= nNew - 1 )" );
+            System.err.println( " for " + stateToString( nOld, lOld, mOld ) + "->" + stateToString( nNew, lNew, mNew ) );
+        }
+        if ( !( Math.abs( lOld - lNew ) == 1 ) ) {
+            System.err.print( prefix + "( abs( lOld - lNew ) == 1 )" );
+            System.err.println( " for " + stateToString( nOld, lOld, mOld ) + "->" + stateToString( nNew, lNew, mNew ) );
+        }
+        if ( !( mNew >= -lNew && mNew <= +lNew ) ) {
+            System.err.print( prefix + "( mNew >= -lNew && mNew <= +lNew )" );
+            System.err.println( " for " + stateToString( nOld, lOld, mOld ) + "->" + stateToString( nNew, lNew, mNew ) );
+        }
+        if ( !( Math.abs( mOld - mNew ) <= 1 ) ) {
+            System.err.print( prefix + "( abs( mOld - mNew ) <= 1 )" );
+            System.err.println( " for " + stateToString( nOld, lOld, mOld ) + "->" + stateToString( nNew, lNew, mNew ) );
+        }
     }
     
     //----------------------------------------------------------------------------
