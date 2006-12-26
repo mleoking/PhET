@@ -518,9 +518,9 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
                 int lSize = n;
                 _cache[n-1] = new float[lSize][][][];
                 for ( int l = 0; l < lSize; l++ ) {
-                    int mSize = lSize;
+                    int mSize = l + 1;
                     _cache[n-1][l] = new float[mSize][][];
-                    for ( int m = 0; m <= l; m++ ) {
+                    for ( int m = 0; m < mSize; m++ ) {
                         statesCount++;
                         if ( populate ) {
                             getBrightness( n, l, m );
@@ -600,5 +600,30 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             
             return brightness;
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Unit test harness
+    //----------------------------------------------------------------------------
+    
+    public static final void main( String args[] ) {
+        
+        System.out.println( "SchrodingerNode unit test begins..." );
+        
+        // Populate a brightness cache for all possible (n,l,m) states
+        BrightnessCache cache = new BrightnessCache( false );
+        int statesCount = 0;
+        for ( int n = 1; n <= SchrodingerModel.getNumberOfStates(); n++ ) {
+            for ( int l = 0; l <= n - 1; l++ ) {
+                for ( int m = 0; m <= l; m++ ) {
+                    statesCount++;
+                    cache.getBrightness( n, l, m );
+                    System.out.println( "populated brightness cache for " + SchrodingerModel.stateToString( n, l, m ) );
+                }
+            }
+        }
+        System.out.println( "There are "+ statesCount + " (n,l,m) states" );
+        
+        System.out.println( "SchrodingerNode unit test ends." );
     }
 }

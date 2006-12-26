@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- ArrayOutOfBoundsException (1) in Schrodinger.BrightnessCache.getBrightness, with white light
 - catch ArrayOutOfBoundsExceptions in Schrodinger, adjust to valid value and print warning to console
 - simplify layout code in SpectrometerNode
 - encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode
@@ -45,6 +44,8 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/26/06) - add unit test program for SchrodingerNode, populates cache for all possible states
+(12/26/06) - bugfix: bad array initialization in SchrodingerNode.BrightnessCache constructor
 (12/26/06) - make tick labels on spectrometer larger and bold font
 ***** CVS tag hydrogenatom-0-00-18-2006-12-21
 (12/21/06) - bugfix: ArrayOutOfBoundsException in SchrodingerModel.chooseLowerElectronState, introduced in 0.00.16
