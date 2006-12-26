@@ -361,7 +361,7 @@ public class BohrModel extends AbstractHydrogenAtom {
                 final double photonWavelength = photon.getWavelength();
                 for ( int n = _electronState + 1; n <= maxState && !canAbsorb; n++ ) {
                     final double transitionWavelength = getWavelengthAbsorbed( _electronState, n );
-                    if ( close( photonWavelength, transitionWavelength ) ) {
+                    if ( closeEnough( photonWavelength, transitionWavelength ) ) {
                         canAbsorb = true;
                         newState = n;
                     }
@@ -487,7 +487,7 @@ public class BohrModel extends AbstractHydrogenAtom {
                 int newState = 0;
                 for ( int m = GROUND_STATE; m < _electronState && !stimulatesEmission; m++ ) {
                     final double transitionWavelength = getWavelengthAbsorbed( m, _electronState );
-                    if ( close( photonWavelength, transitionWavelength ) ) {
+                    if ( closeEnough( photonWavelength, transitionWavelength ) ) {
                         stimulatesEmission = true;
                         newState = m;
                     }
@@ -539,40 +539,42 @@ public class BohrModel extends AbstractHydrogenAtom {
     }
     
     /**
-     * Gets the wavelength that must be absorbed for the 
-     * electron to transition from state m to state n, where m < n.
+     * Gets the wavelength that must be absorbed for the electron to transition
+     * from state nOld to state nNew, where nOld < nNew.
      * This algorithm assumes that the ground state is 1.
      * 
-     * @param m
-     * @param n
+     * @param nOld
+     * @param nNew
      */
-    public static double getWavelengthAbsorbed( int m, int n ) {
+    public static double getWavelengthAbsorbed( int nOld, int nNew ) {
         assert ( GROUND_STATE == 1 );
-        assert ( m < n );
-        assert ( m > 0 );
-        assert ( n <= GROUND_STATE + getNumberOfStates() - 1 );
-        return 1240.0 / ( 13.6 * ( ( 1.0 / ( m * m ) ) - ( 1.0 / ( n * n ) ) ) );
+        assert ( nOld < nNew );
+        assert ( nOld > 0 );
+        assert ( nNew <= GROUND_STATE + getNumberOfStates() - 1 );
+        return 1240.0 / ( 13.6 * ( ( 1.0 / ( nOld * nOld ) ) - ( 1.0 / ( nNew * nNew ) ) ) );
     }
    
     /*
-     * Gets the wavelength that is emitted when the 
-     * electron transitions from state n to state m, where m < n.
+     * Gets the wavelength that is emitted when the electron transitions
+     * from state nOld to state nNew, where newNew < nOld.
      * 
-     * @param n
-     * @param m
+     * @param nOld
+     * @param nNew
      * @return
      */
-    private static double getWavelengthEmitted( int n, int m ) {
-        return getWavelengthAbsorbed( m, n );
+    private static double getWavelengthEmitted( int nOld, int nNew ) {
+        return getWavelengthAbsorbed( nNew, nOld );
     }
     
-    /**
-     * Determines if two wavelengths are "close" for the purposes of absorption and emission.
+    /*
+     * Determines if two wavelengths are "close enough" 
+     * for the purposes of absorption and emission.
+     * 
      * @param w1
      * @param w2
      * @return true or false
      */
-    private boolean close( double w1, double w2 ) {
+    private boolean closeEnough( double w1, double w2 ) {
         return( Math.abs( w1 - w2 ) < WAVELENGTH_CLOSENESS_THRESHOLD );
     }
     
