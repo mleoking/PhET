@@ -31,7 +31,7 @@ LOW PRIORITY:
 - size "UV" and "IR" labels to fit WavelengthControl track height
 - generate spectrum instead of using an image file
 - ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
-- animate opening/closing of Atomic Model selection panel
+- animate opening/closing of Atomic Model selection panel (use PNode.toImage)
 - bug: spectrometer buttons are fully transparent on Win98
 - generalize creating a "panel" node to fit under a collection of nodes
 - fix problem with updating drag bounds of ConstrainedDragHandler, as used in WavelengthControl
