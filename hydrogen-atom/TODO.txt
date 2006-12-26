@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- simplify layout code in SpectrometerNode
-- encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode
 - run stuff for a very long time (especially Schrodinger) to see what breaks
 
 MEDIUM PRIORITY:
@@ -22,7 +20,6 @@ MEDIUM PRIORITY:
 - default gun to white light
 
 LOW PRIORITY:
-- make spectrometer show each UV/IR transition wavelength at a distinct horizontal position (wait for interviews)
 - get rid of HAController, merge into HAModule
 - improve performance of Schrodinger
 - improve performance of deBroglie "brightness" and "brightness magnitude" representations
@@ -41,8 +38,13 @@ LOW PRIORITY:
 - create layout nodes for creating Piccolo-based control panels
 - rewrite AtomicModelSelector to use inner classes, or layout node
 - cache Colors
+
+DEFER UNTIL AFTER INTERVIEWS:
+- make spectrometer show each UV/IR transition wavelength at a distinct horizontal position
+ 
  
 DONE:
+(12/26/06) - javadoc and cleanup SpectrometerNode
 (12/26/06) - check SchrodingerModel transition rules in a way that doesn't stop the program if a violation occurs
 (12/26/06) - add unit test program for SchrodingerNode, populates cache for all possible states
 (12/26/06) - bugfix: bad array initialization in SchrodingerNode.BrightnessCache constructor
@@ -483,6 +485,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(12/26/06) - encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode (there is a very small amout of it, would complicate code)
 (12/20/06) - handle model-view transform differently? (current approach works, changing it would be destabilizing)
 (12/19/06) - SchrodingerNode needs a ViewModelTransform, inverse of ModelViewTransform (document and assume 1:1)
 (12/17/06) - cache Schrodinger brightness in the JAR file (too big, 382K uncompressed, 325K compressed)
