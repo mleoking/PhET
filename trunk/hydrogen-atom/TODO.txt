@@ -5,13 +5,13 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- implement energy diagrams, reuse Ron's stuff
+- add squiggles to energy diagrams showing the gun's light wavelength (as in Lasers sim)
 
 MEDIUM PRIORITY:
 - with white light, when Schrodinger is stuck in (2,0,0) for 15 seconds, 
     shoot a photon at its center that will be absorbed and take it to a higher state 
 - design a monochromatic solution for Schrodinger state (2,0,0)
-- implement energy diagrams, reuse Ron's stuff
-- add squiggles to energy diagrams showing the gun's light wavelength (as in Lasers sim)
 - is ModelViewTransform used everywhere is should be in view?
 - verify that behavior is correct when clock is paused
 - decide on default values for all controls
