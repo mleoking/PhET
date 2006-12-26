@@ -44,6 +44,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(12/26/06) - replace m,n state arguments with nOld,nNew in BohrModel methods
 (12/26/06) - scale down plumPudding.png image
 (12/26/06) - javadoc and cleanup SpectrometerNode
 (12/26/06) - check SchrodingerModel transition rules in a way that doesn't stop the program if a violation occurs
