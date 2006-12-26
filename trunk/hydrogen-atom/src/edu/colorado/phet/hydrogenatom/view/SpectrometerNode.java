@@ -48,7 +48,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
- * SpectrometerNode
+ * SpectrometerNode is the visual representation of a spectrometer.
+ * The spectrometer's display is divided into a discrete grid, with
+ * the horizontal axis being wavelength, and the vertical wavelength 
+ * being number of photos emitted. Each time a photon is emitted,
+ * a "cell" in the grid is lit.  The grid has a fixed number of cells,
+ * so it is only capable of showing some maximum number of photons 
+ * for each wavelength. Once this maximum is reached, additional 
+ * emitted photons are not displayed for that wavelength.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -66,6 +73,8 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     // Class data
     //----------------------------------------------------------------------------
 
+    /* The display is the area where emitted photons are recorded. */
+    private static final Color DISPLAY_BACKGROUND = Color.BLACK;
     private static final double DISPLAY_X_MARGIN = 10;
     private static final double DISPLAY_Y_MARGIN = 5;
     private static final double DISPLAY_CORNER_RADIUS = 10;
@@ -73,28 +82,33 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private static final double DISPLAY_IR_PERCENT = 0.15;
     private static final double DISPLAY_INNER_X_MARGIN = 10;
 
+    /* Title appear in the upper left */
     private static final double TITLE_X_MARGIN = 15;
     private static final double TITLE_Y_MARGIN = 7;
     private static final Color TITLE_COLOR = Color.WHITE;
 
+    /* Close butto appears in the upper right */
     private static final double CLOSE_BUTTON_X_MARGIN = 15;
     private static final double CLOSE_BUTTON_Y_MARGIN = 6;
     
+    /* Button panel appear in bottom center */
     private static final double BUTTON_PANEL_X_MARGIN = 15;
     private static final double BUTTON_PANEL_Y_MARGIN = 5;
     
+    /* Ticks and labels appear at the bottom of the display area */
     private static final double MAJOR_TICK_LENGTH = 4;
     private static final double MINOR_TICK_LENGTH = 2;
     private static final Color TICK_COLOR = Color.WHITE;
     private static final Stroke TICK_STROKE = new BasicStroke( 1f );
     private static final Font TICK_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
     private static final double TICK_LABEL_SPACING = 2;
-
     private static final Font UV_IR_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 18 );
     
+    /* Color key is a think horizontal strip at the bottom of the display area, above tick marks */
     private static final double COLOR_KEY_HEIGHT = 2;
     private static  final double COLOR_KEY_Y_MARGIN = 4;
     
+    /* Cells are the small dots that appear in the display area to represent photons emitted */
     private static final double CELL_WIDTH = 5;
     private static final double CELL_HEIGHT = 5;
     
@@ -103,7 +117,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     //----------------------------------------------------------------------------
     
     /*
-     * MeterRecord lets how many "cells" on the spectrometer 
+     * MeterRecord tells how many "cells" on the spectrometer 
      * should be lit for a specific wavelength.
      */
     private static class MeterRecord {
@@ -128,7 +142,8 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private ArrayList _meterRecords; // array of MeterRecords
     
     private PImage _panelNode;
-    private PNode _displayNode;
+    private PNode _displayAreaNode;
+    private PNode _cellsNode; // contains all of the "cells" in the display area
     private PText _titleNode;
     private JButton _closeButton;
     private PSwing _closeButtonWrapper;
@@ -136,7 +151,6 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private JButton _resetButton;
     private JButton _snapshotButton;
     private PSwing _buttonPanelWrapper;
-    private PNode _cellsNode;
     
     private double _minUVPosition;
     private double _maxUVPosition;
@@ -144,16 +158,26 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private double _maxVisiblePosition;
     private double _minIRPosition;
     private double _maxIRPosition;
-    private int _maxCells;
+    private int _maxCells; // number of vertical cells that the display area can show
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
+    /**
+     * Constructor.
+     * 
+     * @param canvas
+     * @param size 
+     * @param font
+     * @param minWavelength
+     * @param maxWavelength
+     */
     public SpectrometerNode( PSwingCanvas canvas, Dimension size, String title, Font font, double minWavelength, double maxWavelength ) {
 
-        assert( minWavelength < VisibleColor.MIN_WAVELENGTH );
-        assert( maxWavelength > VisibleColor.MAX_WAVELENGTH );
+        if ( minWavelength >= VisibleColor.MIN_WAVELENGTH || maxWavelength <= VisibleColor.MAX_WAVELENGTH ) {
+            throw new IllegalArgumentException( "requries a spectrum the contains UV, IR and visible wavelengths" );
+        }
         
         _canvas = canvas;
         _size = new Dimension( size.width, size.height );
@@ -278,7 +302,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
 
         /* 
          * Display area -
-         * This includes the black rectangle that the "cell" appear in, 
+         * This includes the black rectangle that the "cells" appear in, 
          * the color key along the bottom of the black rectangle,
          * and the ticks marks and labels that appear below the black rectangle.
          * It also includes any "cells" that are lit.
@@ -301,7 +325,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                 }
                 Shape shape = new RoundRectangle2D.Double( 0, 0, w, h, DISPLAY_CORNER_RADIUS, DISPLAY_CORNER_RADIUS );
                 displayBackgroundNode.setPathTo( shape );
-                displayBackgroundNode.setPaint( Color.BLACK );
+                displayBackgroundNode.setPaint( DISPLAY_BACKGROUND );
                 displayBackgroundNode.setStroke( null );
                 displayBackgroundNode.setOffset( 0, 0 );
             }
@@ -412,98 +436,114 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             _cellsNode = new PNode();
             _cellsNode.setOffset( 0, displayBackgroundNode.getHeight() - colorKeyNode.getHeight() - COLOR_KEY_Y_MARGIN - 2 );
             
-            _displayNode = new PNode();
+            _displayAreaNode = new PNode();
             double xOffset = DISPLAY_X_MARGIN;
             double yOffset = TITLE_Y_MARGIN + _titleNode.getFullBounds().getHeight() + DISPLAY_Y_MARGIN;
-            _displayNode.setOffset( xOffset, yOffset );
-            _displayNode.addChild( staticDisplayNode );
-            _displayNode.addChild( _cellsNode );
+            _displayAreaNode.setOffset( xOffset, yOffset );
+            _displayAreaNode.addChild( staticDisplayNode );
+            _displayAreaNode.addChild( _cellsNode );
             
             _maxCells = (int) ( ( displayBackgroundNode.getHeight() - colorKeyNode.getHeight() - COLOR_KEY_Y_MARGIN - 2 ) / CELL_HEIGHT );
         }
 
         // Layering of nodes
         addChild( _panelNode );
-        addChild( _displayNode );
+        addChild( _displayAreaNode );
         addChild( _titleNode );
         addChild( _closeButtonWrapper );
         addChild( _buttonPanelWrapper );
-    }
-
-    //----------------------------------------------------------------------------
-    // Tick marks and labels
-    //----------------------------------------------------------------------------
-    
-    private PNode createMajorTickMark() {
-        return createTickMark( MAJOR_TICK_LENGTH );
-    }
-    
-    private PNode createMinorTickMark() {
-        return createTickMark( MINOR_TICK_LENGTH );
-    }
-    
-    private PNode createTickMark( double length ) {
-        PPath tickNode = new PPath();
-        Shape shape = new Line2D.Double( 0, 0, 0, length );
-        tickNode.setPathTo( shape );
-        tickNode.setStroke( TICK_STROKE );
-        tickNode.setStrokePaint( TICK_COLOR );
-        return tickNode;
-    }
-    
-    private PNode createTickLabel( int wavelength ) {
-        PText textNode = new PText( String.valueOf( wavelength ) );
-        textNode.setFont( TICK_FONT );
-        textNode.setTextPaint( TICK_COLOR );
-        return textNode;
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Creates a snapshot of the spectrometer in its current state.
+     * 
+     * @param title
+     */
     public SpectrometerSnapshotNode getSnapshot( String title ) {
         return new SpectrometerSnapshotNode( this, title );
     }
     
+    /**
+     * Adds a listener for the "Close" button.
+     * 
+     * @param listener
+     */
     public void addCloseListener( ActionListener listener ) {
         _closeButton.addActionListener( listener );
     }
     
+    /**
+     * Adds a listener for the "Snapshot" button.
+     * 
+     * @param listener
+     */
     public void addSnapshotListener( ActionListener listener ) {
         _snapshotButton.addActionListener( listener );
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors used to create snapshot
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Gets the size of the spectrometer.
+     * 
+     * @return Dimension
+     */
     protected Dimension getSize() {
         return _size;
     }
 
+    /* 
+     * Gets the Font used by the spectrometer.
+     * 
+     * @return Font
+     */
     protected Font getFont() {
         return _font;
     }
 
-    protected Image getDisplayImage() {
-        return _displayNode.toImage();
-    }
-    
-    protected Image getCellsImage() {
-        return _cellsNode.toImage();
+    /*
+     * Gets an Image that is identical to the "display area" portion
+     * of the spectrometer.  This includes the black background, cells,
+     * the color key, tick marks, and tick labels.
+     * 
+     * @return Image
+     */
+    protected Image getDisplayAreaImage() {
+        return _displayAreaNode.toImage();
     }
 
     //----------------------------------------------------------------------------
     // Button handlers
     //----------------------------------------------------------------------------
     
+    /**
+     * Starts the spectrometer.
+     * While running, the spectrometer records emitted photons.
+     */
     public void start() {
         _isRunning = true;
         _startStopButton.setText( SimStrings.get( "button.spectrometer.stop" ) );
     }
     
+    /**
+     * Stops the spectrometer.
+     * While stopped, the spectrometer ignores emitted photons.
+     */
     public void stop() {
         _isRunning = false;
         _startStopButton.setText( SimStrings.get( "button.spectrometer.start" ) );
     }
     
+    /**
+     * Resets the spectrometer.
+     * This clears any cells that are displayed.
+     */
     public void reset() {
         if ( DEBUG_OUTPUT ) {
             System.out.println( "SpectrometerNode.reset" );
@@ -516,6 +556,14 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     // PhotonEmittedListener implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Called when a photon is emitted.
+     * Increments the MeterRecord for the photon's wavelength,
+     * or creates a MeterRecord if no record exists.
+     * Adds a cell to the display.
+     * 
+     * @param event
+     */
     public void photonEmitted( PhotonEmittedEvent event ) {
         if ( _isRunning && isVisible() ) {
             Photon photon = event.getPhoton();
@@ -536,7 +584,14 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
         }
     }
     
-    public MeterRecord getMeterRecord( double wavelength ) {
+    /*
+     * Gets the MeterRecord for a specified wavelength.
+     * If no record exists, returns null
+     * 
+     * @param wavelength
+     * @return MeterRecord, possibly null
+     */
+    private MeterRecord getMeterRecord( double wavelength ) {
         Iterator i = _meterRecords.iterator();
         while ( i.hasNext() ) {
             MeterRecord record = (MeterRecord) i.next();
@@ -546,11 +601,68 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
         }
         return null;
     }
+
+    //----------------------------------------------------------------------------
+    // Tick marks and labels
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Creates a major tick mark.
+     * 
+     * @return PNode
+     */
+    private PNode createMajorTickMark() {
+        return createTickMark( MAJOR_TICK_LENGTH );
+    }
+    
+    /*
+     * Creates a minor tick mark.
+     * 
+     * @return PNode
+     */
+    private PNode createMinorTickMark() {
+        return createTickMark( MINOR_TICK_LENGTH );
+    }
+    
+    /*
+     * Creates a tick mark of a specific length.
+     * 
+     * @param length
+     * @return PNode
+     */
+    private PNode createTickMark( double length ) {
+        PPath tickNode = new PPath();
+        Shape shape = new Line2D.Double( 0, 0, 0, length );
+        tickNode.setPathTo( shape );
+        tickNode.setStroke( TICK_STROKE );
+        tickNode.setStrokePaint( TICK_COLOR );
+        return tickNode;
+    }
+    
+    /*
+     * Creates a tick mark label.
+     * 
+     * @param wavelength
+     * @return PNode
+     */
+    private PNode createTickLabel( int wavelength ) {
+        PText textNode = new PText( String.valueOf( wavelength ) );
+        textNode.setFont( TICK_FONT );
+        textNode.setTextPaint( TICK_COLOR );
+        return textNode;
+    }
     
     //----------------------------------------------------------------------------
     // Cells
     //----------------------------------------------------------------------------
     
+    /*
+     * Adds a cell to the display.
+     * The cell's MeterRecord tells use where to position cell, based on
+     * the number of cells with the same wavelength that are already lit.
+     * 
+     * @param MeterRecord
+     */
     private void addCell( MeterRecord meterRecord ) {
         double wavelength = meterRecord.wavelength;
         int count = meterRecord.count;
@@ -579,6 +691,12 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
         }
     }
     
+    /*
+     * Creates a cell node.
+     * 
+     * @param wavelength
+     * @return PNode
+     */
     private PNode createCell( double wavelength ) {
         PPath cellNode = new PPath( new Ellipse2D.Double( 0, 0, CELL_WIDTH, CELL_HEIGHT ) );
         Color color = ColorUtils.wavelengthToColor( wavelength );
@@ -591,10 +709,19 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     // Snapshot
     //----------------------------------------------------------------------------
 
+    /**
+     * SpectrometerSnapshotNode is a snapshot of a SpectrometerNode.
+     */
     public static class SpectrometerSnapshotNode extends PhetPNode {
 
         private JButton _closeButton;
         
+        /*
+         * Constructor.
+         * 
+         * @param spectrometerNode
+         * @param title
+         */
         protected SpectrometerSnapshotNode( SpectrometerNode spectrometerNode, String title ) {
             super();
 
@@ -616,17 +743,17 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             titleNode.setTextPaint( TITLE_COLOR );
             titleNode.setOffset( pfb.getX() + TITLE_X_MARGIN, pfb.getY() + TITLE_Y_MARGIN );
 
-            // Display snapshot
-            Image displayImage = spectrometerNode.getDisplayImage();
-            PImage displayNode = new PImage( displayImage );
+            // Display Area snapshot
+            Image displayAreaImage = spectrometerNode.getDisplayAreaImage();
+            PImage displayAreaNode = new PImage( displayAreaImage );
             double x = DISPLAY_X_MARGIN;
             double y = TITLE_Y_MARGIN + titleNode.getFullBounds().getHeight() + DISPLAY_Y_MARGIN;
-            displayNode.setOffset( x, y );
+            displayAreaNode.setOffset( x, y );
             
             // Collapse all of the above nodes to one static image
             PNode parentNode = new PNode();
             parentNode.addChild( panelNode );
-            parentNode.addChild( displayNode );
+            parentNode.addChild( displayAreaNode );
             parentNode.addChild( titleNode );
             PImage staticNode = new PImage( parentNode.toImage() );
 
@@ -666,6 +793,10 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             } );
         }
         
+        /**
+         * Adds a listener to the "Close" button.
+         * @param listener
+         */
         public void addCloseListener( ActionListener listener ) {
             _closeButton.addActionListener( listener );
         }
