@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- run stuff for a very long time (especially Schrodinger) to see what breaks
 
 MEDIUM PRIORITY:
 - with white light, when Schrodinger is stuck in (2,0,0) for 15 seconds, 
@@ -18,6 +17,7 @@ MEDIUM PRIORITY:
 - decide on default values for all controls
 - add "description" to SimStrings file
 - default gun to white light
+- run stuff for a very long time (especially Schrodinger) to see what breaks
 
 LOW PRIORITY:
 - get rid of HAController, merge into HAModule
@@ -44,6 +44,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(12/26/06) - scale down plumPudding.png image
 (12/26/06) - javadoc and cleanup SpectrometerNode
 (12/26/06) - check SchrodingerModel transition rules in a way that doesn't stop the program if a violation occurs
 (12/26/06) - add unit test program for SchrodingerNode, populates cache for all possible states
