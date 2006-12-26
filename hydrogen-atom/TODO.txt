@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- catch ArrayOutOfBoundsExceptions in Schrodinger, adjust to valid value and print warning to console
 - simplify layout code in SpectrometerNode
 - encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode
 - run stuff for a very long time (especially Schrodinger) to see what breaks
@@ -44,6 +43,7 @@ LOW PRIORITY:
 - cache Colors
  
 DONE:
+(12/26/06) - check SchrodingerModel transition rules in a way that doesn't stop the program if a violation occurs
 (12/26/06) - add unit test program for SchrodingerNode, populates cache for all possible states
 (12/26/06) - bugfix: bad array initialization in SchrodingerNode.BrightnessCache constructor
 (12/26/06) - make tick labels on spectrometer larger and bold font
