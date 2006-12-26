@@ -87,10 +87,10 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private static final double MINOR_TICK_LENGTH = 2;
     private static final Color TICK_COLOR = Color.WHITE;
     private static final Stroke TICK_STROKE = new BasicStroke( 1f );
-    private static final Font TICK_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN, 12 );
+    private static final Font TICK_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
     private static final double TICK_LABEL_SPACING = 2;
 
-    private static final Font UV_IR_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
+    private static final Font UV_IR_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 18 );
     
     private static final double COLOR_KEY_HEIGHT = 2;
     private static  final double COLOR_KEY_Y_MARGIN = 4;
@@ -387,7 +387,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                 uvLabel.setTextPaint( TICK_COLOR );
                 uvLabel.setFont( UV_IR_FONT );
                 uvLabel.setOffset( ( ( _minUVPosition + ( _maxUVPosition - _minUVPosition ) / 2 ) ) - ( uvLabel.getWidth() / 2 ), 
-                        MAJOR_TICK_LENGTH + TICK_LABEL_SPACING + 4 );
+                        MAJOR_TICK_LENGTH + TICK_LABEL_SPACING );
                 ticksNode.addChild( uvLabel );
 
                 // IR label
@@ -395,7 +395,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                 irLabel.setTextPaint( TICK_COLOR );
                 irLabel.setFont( UV_IR_FONT );
                 irLabel.setOffset( ( ( _minIRPosition + ( _maxIRPosition - _minIRPosition ) / 2 ) ) - ( irLabel.getWidth() / 2 ),
-                        MAJOR_TICK_LENGTH + TICK_LABEL_SPACING + 4 );
+                        MAJOR_TICK_LENGTH + TICK_LABEL_SPACING );
                 ticksNode.addChild( irLabel );
             }
             
