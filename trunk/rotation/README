@@ -7,10 +7,11 @@
 </head>
 <body>
 <br>
-<a href="cck-dc-pro.jnlp">Launch CCK (DC Only)</a><br><br>
-<a href="cck-pro.jnlp">Launch CCK (AC & DC)</a><br><br>
-<p><a href="cck-pro.jnlp"><img alt="Screenshot" src="screenshot.gif" style="border: 2px solid ;"></a>
-</p>
+<a href="rotation-pro.jnlp">Launch Rotational Motion Simulation<br>
+<br>
+</a>
+<p><a href="rotation-pro.jnlp"><img alt="Screenshot"
+ src="screenshot.gif" style="border: 2px solid ;"></a></p>
 <br>
 <a href="changes.txt">List of Changes</a><br>
 <a href="todo.txt">Remaining Work</a><br>

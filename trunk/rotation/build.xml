@@ -111,9 +111,6 @@
             <sftp action="put" remotedir="${dev-dir}" verbose="true">
                 <fileset file="${ant.jars}/${app-jar-file}"/>
                 <fileset file="${ant.jnlp}/${jnlp-filename}"/>
-                <fileset file="${ant.jnlp}/cck-dc-pro.jnlp"/>
-                <!--<fileset file="${ant.jnlp}/waveinterference-smooth.jnlp"/>-->
-                <!--<fileset file="screenshot.gif"/>-->
                 <fileset file="README"/>
                 <fileset file="todo.txt"/>
                 <fileset file="changes.txt"/>
