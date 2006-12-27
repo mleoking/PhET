@@ -1,15 +1,10 @@
--injars ant_output\jars\cck.jar
--injars lib\grabbag.jar
--injars lib\Jama-1.0.1.jar
--injars phetcommon-dir\lib\jnlp.jar
--injars lib\nanoxml-2.2.1.jar
--injars lib\smoothmetal.jar
--injars lib\junit.jar
+-injars ant_output\jars\rotation.jar
 -injars jfreechart-dir\lib\gnujaxp.jar 
+-injars jfreechart-dir\lib\junit.jar 
 -injars jfreechart-dir\lib\jcommon-1.0.0.jar 
 -injars jfreechart-dir\lib\jfreechart-1.0.0.jar
 -injars jfreechart-dir\lib\servlet.jar
--outjars ant_output\jars\cck-pro.jar
+-outjars ant_output\jars\rotation-pro.jar
 
 -libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'
 
