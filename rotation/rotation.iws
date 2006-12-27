@@ -142,10 +142,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name=".cvsignore" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name=".cvsignore" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.cvsignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="0" selection-start="67" selection-end="67" vertical-scroll-proportion="0.13980263">
+            <state line="1" column="18" selection-start="27" selection-end="27" vertical-scroll-proportion="0.027960526">
               <folding />
             </state>
           </provider>
@@ -205,7 +205,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="local.properties" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="local.properties" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/local.properties">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -536,7 +536,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1608" height="1118" extended-state="1" />
+    <frame x="-4" y="-4" width="1608" height="1118" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
@@ -675,13 +675,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.cvsignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="67" selection-end="67" vertical-scroll-proportion="0.13980263">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/changes.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="25" selection-start="33" selection-end="33" vertical-scroll-proportion="0.027960526">
@@ -734,6 +727,13 @@
     <entry file="file://$PROJECT_DIR$/local.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.cvsignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="18" selection-start="27" selection-end="27" vertical-scroll-proportion="0.027960526">
           <folding />
         </state>
       </provider>
