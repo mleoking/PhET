@@ -17,20 +17,20 @@ information.
 <jnlp
         spec="1.0+"
         codebase="http://www.colorado.edu/physics/phet/dev/"
-        href="cck/@VERSION@/cck-dc-pro.jnlp">
+        href="rotation/@VERSION@/rotation-pro.jnlp">
     <information>
-        <title>The Circuit Construction Kit</title>
+        <title>Rotational Motion</title>
         <vendor>PhET(tm)</vendor>
         <homepage href="http://www.colorado.edu/physics/phet/"/>
-        <description>The Circuit Construction Kit</description>
-        <description kind="short">The Circuit Construction Kit</description>
+        <description>Rotational Motion</description>
+        <description kind="short">Rotational Motion</description>
         <icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
         <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
         <offline-allowed/>
     </information>
     <resources>
         <j2se version="1.4+"/>
-        <jar href="cck/@VERSION@/cck-pro.jar"/>
+        <jar href="rotation/@VERSION@/rotation-pro.jar"/>
     </resources>
     <application-desc main-class="@MAIN-CLASS@">
     </application-desc>
