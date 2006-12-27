@@ -17,7 +17,7 @@
 -dontobfuscate
 -verbose
 
--keepclasseswithmembers public class edu.colorado.phet.cck.CCKApplication {
+-keepclasseswithmembers public class edu.colorado.phet.rotation.RotationSimulation {
     public static void main(java.lang.String[]);
 }
 

@@ -1,4 +1,4 @@
-<project name="General Ant Build Script" default="Publish Executables" basedir=".">
+<project name="General Ant Build Script" basedir=".">
 
     <!--  Set ant output directories.  -->
     <property name="ant.output" value="ant_output"/>
