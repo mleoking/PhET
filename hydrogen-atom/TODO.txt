@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- generate 1 image for entire spectrum in WavelengthControl
+
 
 HIGH PRIORITY:
 - implement Solar System energy diagram
@@ -39,6 +39,7 @@ DEFER UNTIL AFTER INTERVIEWS:
 - design a monochromatic solution for Schrodinger state (2,0,0)
  
 DONE:
+(12/28/06) - use 1 image for entire spectrum in WavelengthControl, using SpectrumImageFactory
 (12/28/06) - add track size to WavelengthControl constructor
 (12/28/06) - scale "UV" and "IR" labels to fit WavelengthControl track height
 (12/28/06) - add WavelengthControl.setKnobSize(int width, int height)

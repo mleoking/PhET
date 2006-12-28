@@ -566,96 +566,54 @@ public class WavelengthControl extends PhetPNode {
             super();
             
             final double totalBandwidth = maxWavelength - minWavelength;
-            final double visibleBandwidth = VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH;
             final double uvBandwidth = VisibleColor.MIN_WAVELENGTH - minWavelength;
             final double irBandwith = maxWavelength - VisibleColor.MAX_WAVELENGTH;
-            final double visibleTrackWidth = ( visibleBandwidth / totalBandwidth ) * trackWidth;
             final double uvTrackWidth = ( uvBandwidth / totalBandwidth ) * trackWidth;
             final double irTrackWidth = ( irBandwith / totalBandwidth ) * trackWidth;
             
-            final boolean hasUV = ( uvTrackWidth > 0 );
-            final boolean hasIR = ( irTrackWidth > 0 );
+            // Track image for the entire spectrum
+            Image trackImage = SpectrumImageFactory.createHorizontalSpectrum( trackWidth, trackHeight, minWavelength, maxWavelength, uvTrackColor, irTrackColor );
+            PImage trackNode = new PImage( trackImage );
+            trackNode.setOffset( 0, 0 );
+            addChild( trackNode );
             
-            /* Portion of the track that represents visible wavelengths */
-            Image spectrumImage = SpectrumImageFactory.createHorizontalSpectrum( (int)visibleTrackWidth, trackHeight );
-            PImage visibleTrack = new PImage( spectrumImage );
-            
-            /* Portion of the track that represents ultra-violet (UV) wavelengths */
-            PPath uvTrack = null;
-            PText uvLabel = null;
-            if ( hasUV ) {
+            // Label the UV portion of the track
+            if ( uvTrackWidth > 0 ) {
                 
-                uvTrack = new PPath();
-                uvTrack.setPathTo( new Rectangle.Double( 0, 0, uvTrackWidth, trackHeight ) );
-                uvTrack.setPaint( uvTrackColor );
-                uvTrack.setStroke( null );
-                
-                uvLabel = new PText( UV_STRING );
+                PText uvLabel = new PText( UV_STRING );
                 uvLabel.setTextPaint( uvLabelColor );
                 
-                // Scale label to fit track height
-                double hTrack = uvTrack.getFullBounds().getHeight();
-                double hLabel = uvLabel.getFullBounds().getHeight();
-                uvLabel.scale( ( hTrack * LABEL_TRACK_RATIO ) / hLabel );
+                // Scale to fit the track height
+                uvLabel.scale( ( trackHeight * LABEL_TRACK_RATIO ) / uvLabel.getFullBounds().getHeight() );
+                
+                // Add the UV label if the UV portion of the track is wide enough
+                if ( uvTrackWidth > uvLabel.getFullBounds().getWidth() ) {
+                    
+                    addChild( uvLabel );
+
+                    // center in the UV portion of the track
+                    uvLabel.setOffset( ( uvTrackWidth - uvLabel.getFullBounds().getWidth() ) / 2, 
+                            ( trackHeight - uvLabel.getFullBounds().getHeight() ) / 2 );
+                }
             }
             
-            /* Portion of the track that represents infra-red (IR) wavelengths */
-            PPath irTrack = null;
-            PText irLabel = null;
-            if ( hasIR ) {
-                irTrack = new PPath();
-                irTrack.setPathTo( new Rectangle.Double( 0, 0, irTrackWidth, trackHeight ) );
-                irTrack.setPaint( irTrackColor );
-                irTrack.setStroke( null );
-
-                irLabel = new PText( IR_STRING );
+            // Label the IR portion of the track
+            if ( irTrackWidth > 0 ) {
+                
+                PText irLabel = new PText( IR_STRING );
                 irLabel.setTextPaint( irLabelColor );
                 
-                // Scale label to fit track height
-                double hTrack = irTrack.getFullBounds().getHeight();
-                double hLabel = irLabel.getFullBounds().getHeight();
-                irLabel.scale( ( hTrack * LABEL_TRACK_RATIO ) / hLabel );
-            }
-            
-            // Layering
-            if ( hasUV ) {
-                addChild( uvTrack );
-                addChild( uvLabel );
-            }
-            if ( hasIR ) {
-                addChild( irTrack );
-                addChild( irLabel );
-            }
-            addChild( visibleTrack );
-
-            // Positioning
-            if ( !hasUV ) {
-                // If there is no UV, the visible track is at the far left.
-                visibleTrack.setOffset( 0, 0 );
-            }
-            else {
-                // UV track is at the far left
-                uvTrack.setOffset( 0, 0 );
-                // UV label is centered in the UV track
-                uvLabel.setOffset( uvTrack.getFullBounds().getX() + ( ( uvTrack.getFullBounds().getWidth() -  uvLabel.getFullBounds().getWidth() ) / 2 ), 
-                        ( uvTrack.getFullBounds().getHeight() - uvLabel.getFullBounds().getHeight() ) / 2 );
-                // Remove the UV label if the UV track isn't wide enough to contain it
-                if ( uvTrack.getFullBounds().getWidth() < uvLabel.getFullBounds().getWidth() ) {
-                    removeChild( uvLabel );
-                }
-                // Spectrum track is to the right of the UV track
-                visibleTrack.setOffset( uvTrack.getFullBounds().getX() + uvTrack.getFullBounds().getWidth(), 0 );
-            }
-
-            if ( hasIR ) {
-                // IR track is to the right of the visible track
-                irTrack.setOffset( visibleTrack.getFullBounds().getX() + visibleTrack.getFullBounds().getWidth(), 0 );
-                // IR label is centered in the UV track
-                irLabel.setOffset( irTrack.getFullBounds().getX() + ( ( irTrack.getFullBounds().getWidth() -  irLabel.getFullBounds().getWidth() ) / 2 ), 
-                        ( irTrack.getFullBounds().getHeight() - irLabel.getFullBounds().getHeight() ) / 2 );
-                // Remove the IR label if the IR track isn't wide enough to contain it
-                if ( irTrack.getFullBounds().getWidth() < irLabel.getFullBounds().getWidth() ) {
-                    removeChild( irLabel );
+                // Scale label to fit the track height
+                irLabel.scale( ( trackHeight * LABEL_TRACK_RATIO ) / irLabel.getFullBounds().getHeight() );
+                
+                // Add the IR label if the IR portion of the track is wide enough
+                if ( irTrackWidth > irLabel.getFullBounds().getWidth() ) {
+                    
+                    addChild( irLabel );
+                    
+                    // center in the IR portion of the track
+                    irLabel.setOffset( trackWidth - irTrackWidth + ( ( irTrackWidth - irLabel.getFullBounds().getWidth() ) / 2 ), 
+                            ( trackHeight - irLabel.getFullBounds().getHeight() ) / 2 );
                 }
             }
         }
