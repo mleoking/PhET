@@ -42,6 +42,7 @@ import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
 import edu.colorado.phet.hydrogenatom.enums.GunMode;
 import edu.colorado.phet.hydrogenatom.enums.LightType;
+import edu.colorado.phet.hydrogenatom.hacks.SchrodingerUnstucker;
 import edu.colorado.phet.hydrogenatom.help.HAWiggleMe;
 import edu.colorado.phet.hydrogenatom.model.*;
 import edu.colorado.phet.hydrogenatom.view.*;
@@ -141,6 +142,8 @@ public class HAModule extends PiccoloModule {
     private boolean _wiggleMeInitialized = false;
     
     private HAModelViewManager _modelViewManager;
+    
+    private SchrodingerUnstucker _schrodingerUnstucker;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -641,6 +644,11 @@ public class HAModule extends PiccoloModule {
 
         _tracesNode.clear();
         
+        if ( _schrodingerUnstucker != null ) {
+            _schrodingerUnstucker.cleanup();
+            _schrodingerUnstucker = null;
+        }
+        
         if ( _atomModel != null ) {
             _model.removeModelElement( _atomModel );
             _atomModel.removePhotonEmittedListener( _spectrometerNode );
@@ -668,6 +676,7 @@ public class HAModule extends PiccoloModule {
             }
             else if ( atomicModel == AtomicModel.SCHRODINGER ) {
                 _atomModel = new SchrodingerModel( position );
+                _schrodingerUnstucker = new SchrodingerUnstucker( getClock(), _model.getGun(), (SchrodingerModel)_atomModel );
             }
             else if ( atomicModel == AtomicModel.SOLAR_SYSTEM ) {
                 _atomModel = new SolarSystemModel( position );
