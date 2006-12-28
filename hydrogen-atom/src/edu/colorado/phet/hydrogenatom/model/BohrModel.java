@@ -77,7 +77,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     private static final double PHOTON_ABSORPTION_PROBABILITY = 0.5; // 1.0 = 100%
     
     /* probability that photon will be emitted */
-    private static final double PHOTON_EMISSION_PROBABILITY = 0.1; // 1.0 = 100%
+    private static final double PHOTON_SPONTANEOU_EMISSION_PROBABILITY = 0.1; // 1.0 = 100%
     
     /* Probability of stimulated emission should be the same as absorption,
      * but we test for it first so it seems to happen way more often.
@@ -110,7 +110,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     // random number generator for absorption probability
     private Random _randomAbsorption;
     // random number generator for emission probability
-    private Random _randomEmission;
+    private Random _randomSpontaneousEmission;
     // random number generator for stimulated emission probability
     private Random _randomStimulatedEmission;
     // random number generator for electron state selection
@@ -129,7 +129,7 @@ public class BohrModel extends AbstractHydrogenAtom {
         _electronOffset = new Point2D.Double();
         
         _randomAbsorption = new Random();
-        _randomEmission = new Random();
+        _randomSpontaneousEmission = new Random();
         _randomStimulatedEmission = new Random();
         _randomState = new Random();
         
@@ -368,7 +368,7 @@ public class BohrModel extends AbstractHydrogenAtom {
                 }
 
                 // Absorb the photon with some probability...
-                if ( canAbsorb && _randomAbsorption.nextDouble() < PHOTON_ABSORPTION_PROBABILITY ) {
+                if ( canAbsorb && willAbsorbPhoton() ) {
 
                     // absorb photon
                     absorbed = true;
@@ -389,6 +389,15 @@ public class BohrModel extends AbstractHydrogenAtom {
     }
     
     /*
+     * Probabilistically determines whether to absorb a photon.
+     * 
+     * @return true or false
+     */
+    protected boolean willAbsorbPhoton() {
+        return _randomAbsorption.nextDouble() < PHOTON_ABSORPTION_PROBABILITY;
+    }
+    
+    /*
      * Emits a photon from the electron's location, at a random orientation.
      * This is also known as "spontaneous emission".
      */
@@ -400,7 +409,7 @@ public class BohrModel extends AbstractHydrogenAtom {
         
         if ( _timeInState >= MIN_TIME_IN_STATE && _electronState > GROUND_STATE ) {
             
-            if ( _randomEmission.nextDouble() < PHOTON_EMISSION_PROBABILITY ) {
+            if ( willSpontaneousEmitPhoton() ) {
                 
                 int newState = chooseLowerElectronState();
                 if ( newState == -1 ) {
@@ -428,6 +437,15 @@ public class BohrModel extends AbstractHydrogenAtom {
                 setElectronState( newState );
             }
         }
+    }
+    
+    /*
+     * Probabilistically determines whether not the atom will spontaneously emit a photon.
+     * 
+     * @return true or false
+     */
+    protected boolean willSpontaneousEmitPhoton() {
+        return _randomSpontaneousEmission.nextDouble() < PHOTON_SPONTANEOU_EMISSION_PROBABILITY;
     }
     
     /*
@@ -482,13 +500,13 @@ public class BohrModel extends AbstractHydrogenAtom {
             if ( collide ) {
                 
                 // Can this photon stimulate emission?
-                boolean stimulatesEmission = false;
+                boolean canStimulateEmission = false;
                 final double photonWavelength = photon.getWavelength();
                 int newState = 0;
-                for ( int m = GROUND_STATE; m < _electronState && !stimulatesEmission; m++ ) {
+                for ( int m = GROUND_STATE; m < _electronState && !canStimulateEmission; m++ ) {
                     final double transitionWavelength = getWavelengthAbsorbed( m, _electronState );
                     if ( closeEnough( photonWavelength, transitionWavelength ) ) {
-                        stimulatesEmission = true;
+                        canStimulateEmission = true;
                         newState = m;
                     }
                 }
@@ -498,7 +516,7 @@ public class BohrModel extends AbstractHydrogenAtom {
                 }
                 
                 // Emit a photon with some probability...
-                if ( stimulatesEmission && _randomStimulatedEmission.nextDouble() < PHOTON_STIMULATED_EMISSION_PROBABILITY ) {
+                if ( canStimulateEmission && willStimulatedEmitPhoton() ) {
                     // This algorithm assumes that photons are moving vertically from bottom to top.
                     assert( photon.getOrientation() == Math.toRadians( -90 ) );
                     
@@ -525,6 +543,15 @@ public class BohrModel extends AbstractHydrogenAtom {
                 
             }
         }
+    }
+    
+    /*
+     * Probabilistically determines whether the atom will emit a photon via stimulated emission.
+     * 
+     * @return true or false
+     */
+    protected boolean willStimulatedEmitPhoton() {
+        return _randomStimulatedEmission.nextDouble() < PHOTON_STIMULATED_EMISSION_PROBABILITY;
     }
     
     /*
