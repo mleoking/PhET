@@ -1,22 +1,18 @@
 package edu.colorado.phet.rotation.tests;
-/**
- * User: Sam Reid
- * Date: Dec 28, 2006
- * Time: 8:42:32 AM
- * Copyright (c) Dec 28, 2006 by Sam Reid
- */
 
-
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.controls.GraphSelectionControl;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
+import edu.colorado.phet.rotation.graphs.GraphSetPanel;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 
 import javax.swing.*;
 
-public class TestGraphSelectionControl {
+public class TestGraphSelectionView {
     private JFrame frame;
+    private JFrame f2;
 
-    public TestGraphSelectionControl() {
+    public TestGraphSelectionView() {
         frame = new JFrame();
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -25,14 +21,24 @@ public class TestGraphSelectionControl {
         GraphSetModel graphSetPanel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetPanel );
         frame.getContentPane().add( graphSelectionControl );
+
+        f2 = new JFrame();
+        PhetPCanvas pane = new PhetPCanvas();
+        pane.addScreenChild( new GraphSetPanel( graphSetPanel ) );
+        f2.setContentPane( pane );
+        f2.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+
+        f2.setSize( 400, 400 );
+        f2.setLocation( frame.getX(), frame.getY() + frame.getHeight() );
     }
 
     public static void main( String[] args ) {
-        new TestGraphSelectionControl().start();
+        new TestGraphSelectionView().start();
     }
 
     private void start() {
         frame.setVisible( true );
+        f2.setVisible( true );
+
     }
 }
-

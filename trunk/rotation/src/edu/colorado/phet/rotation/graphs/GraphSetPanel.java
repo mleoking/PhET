@@ -1,5 +1,7 @@
 package edu.colorado.phet.rotation.graphs;
 
+import edu.umd.cs.piccolo.PNode;
+
 import java.util.ArrayList;
 
 /**
@@ -9,36 +11,53 @@ import java.util.ArrayList;
  * Copyright (c) Dec 28, 2006 by Sam Reid
  */
 
-public class GraphSetPanel {
-    private GraphSuite graphSuite;
-    private ArrayList listeners = new ArrayList();
+public class GraphSetPanel extends PNode {
+    private GraphSetModel graphSetModel;
+    private ArrayList graphComponents = new ArrayList();
 
-    public GraphSetPanel( GraphSuite graphSuite ) {
-        this.graphSuite = graphSuite;
+    public GraphSetPanel( GraphSetModel graphSetModel ) {
+        this.graphSetModel = graphSetModel;
+        graphSetModel.addListener( new GraphSetModel.Listener() {
+            public void graphSuiteChanged() {
+                updateGraphSuite();
+            }
+        } );
+        updateGraphSuite();
     }
 
-    public void setRotationGraphSuite( GraphSuite graphSuite ) {
-        //todo can't check for same state because of radio button listeners.
-        this.graphSuite = graphSuite;
-        notifyListeners();
+    private void updateGraphSuite() {
+        while( graphComponents.size() > 0 ) {
+            removeGraphComponent( 0 );
+        }
+        GraphSuite graphSuite = graphSetModel.getRotationGraphSuite();
+        for( int i = 0; i < graphSuite.getGraphComponentCount(); i++ ) {
+            addGraphComponent( graphSuite.getGraphComponent( i ) );
+        }
+        relayout();
     }
 
-    public GraphSuite getRotationGraphSuite() {
-        return graphSuite;
+    private void addGraphComponent( GraphComponent graphComponent ) {
+        graphComponents.add( graphComponent );
+        addChild( graphComponent );
     }
 
-    public static interface Listener {
-        void graphSuiteChanged();
-    }
-
-    public void addListener( Listener listener ) {
-        listeners.add( listener );
-    }
-
-    public void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.graphSuiteChanged();
+    private void relayout() {
+        double xOffset = 5;
+        double yOffset = 5;
+        for( int i = 0; i < graphComponents.size(); i++ ) {
+            GraphComponent graphComponent = getGraphComponent( i );
+            graphComponent.setOffset( xOffset, yOffset );
+            yOffset += graphComponent.getFullBounds().getHeight();
         }
     }
+
+    private void removeGraphComponent( int i ) {
+        GraphComponent graphComponent = (GraphComponent)graphComponents.remove( i );
+        removeChild( graphComponent );
+    }
+
+    private GraphComponent getGraphComponent( int i ) {
+        return (GraphComponent)graphComponents.get( i );
+    }
+
 }
