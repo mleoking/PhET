@@ -60,10 +60,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     static String s_highEnergyImageName = QuantumConfig.HIGH_ENERGY_PHOTON_IMAGE_FILE;
     static String s_midEnergyImageName = QuantumConfig.MID_HIGH_ENERGY_PHOTON_IMAGE_FILE;
     static String s_lowEnergyImageName = QuantumConfig.LOW_ENERGY_PHOTON_IMAGE_FILE;
-//    static String s_imageName = LaserConfig.PHOTON_IMAGE_FILE;
-//    static String s_highEnergyImageName = LaserConfig.HIGH_ENERGY_PHOTON_IMAGE_FILE;
-//    static String s_midEnergyImageName = LaserConfig.MID_HIGH_ENERGY_PHOTON_IMAGE_FILE;
-//    static String s_lowEnergyImageName = LaserConfig.LOW_ENERGY_PHOTON_IMAGE_FILE;
 
     static BufferedImage s_particleImage;
     static BufferedImage s_highEnergyImage;

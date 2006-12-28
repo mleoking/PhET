@@ -36,7 +36,6 @@ public class PhotonGraphicManager implements PhotonEmissionListener {
     }
 
     public void photonEmitted( PhotonEmittedEvent event ) {
-//    public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
         if( module.getPhotonViewEnabled() ) {
             Photon photon = event.getPhoton();
             final PhotonGraphic pg = PhotonGraphic.getInstance( module.getApparatusPanel(), photon );
