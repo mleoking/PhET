@@ -5,12 +5,12 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- with white light, when Schrodinger is stuck in (2,0,0) for 15 seconds, shoot absorbable photon at atom's center
 - implement Solar System energy diagram
 - implement Bohr/deBroglie energy diagram
 - implement Schrodinger energy diagram
 
 MEDIUM PRIORITY:
+- rename SchrodingerUnstucker
 - design a monochromatic solution for Schrodinger state (2,0,0)
 - verify that ModelViewTransform is used everywhere that it should be
 - verify that behavior is correct when clock is paused
