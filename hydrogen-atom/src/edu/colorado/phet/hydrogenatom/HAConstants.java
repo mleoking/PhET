@@ -161,7 +161,6 @@ public class HAConstants {
     public static final String IMAGE_SOLAR_SYSTEM_BUTTON = IMAGES_DIRECTORY + "solarSystemButton.png";
     public static final String IMAGE_SPECTROMETER_PANEL = IMAGES_DIRECTORY + "spectrometerPanel.png";
     public static final String IMAGE_SPECTROMETER_SNAPSHOT_PANEL = IMAGES_DIRECTORY + "spectrometerSnapshotPanel.png";
-    public static final String IMAGE_SPECTRUM = IMAGES_DIRECTORY + "spectrum.png";
     
     //----------------------------------------------------------------------------
     // Cursors
