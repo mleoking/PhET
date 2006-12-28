@@ -1,6 +1,6 @@
 package edu.colorado.phet.rotation.controls;
 
-import edu.colorado.phet.rotation.graphs.GraphSetPanel;
+import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.GraphSuite;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.util.GraphicsUtil;
@@ -19,31 +19,31 @@ import java.awt.event.ActionListener;
 
 public class GraphSelectionControl extends JPanel {
 
-    public GraphSelectionControl( RotationGraphSet rotationGraphSet, final GraphSetPanel graphSetPanel ) {
+    public GraphSelectionControl( RotationGraphSet rotationGraphSet, final GraphSetModel graphSetModel ) {
         JLabel label = new JLabel( "Show graphs for:" );
         add( label );
         for( int i = 0; i < rotationGraphSet.getGraphSuites().length; i++ ) {
-            add( new GraphSuiteRadioButton( graphSetPanel, rotationGraphSet.getGraphSuites()[i] ) );
+            add( new GraphSuiteRadioButton( graphSetModel, rotationGraphSet.getGraphSuites()[i] ) );
         }
     }
 
     static class GraphSuiteRadioButton extends JRadioButton {
-        GraphSetPanel graphSetPanel;
+        GraphSetModel graphSetPanel;
         GraphSuite graphSuite;
 
-        public GraphSuiteRadioButton( final GraphSetPanel graphSetPanel, final GraphSuite graphSuite ) {
-            super( graphSuite.getLabel(), graphSetPanel.getRotationGraphSuite() == graphSuite );
-            this.graphSetPanel = graphSetPanel;
+        public GraphSuiteRadioButton( final GraphSetModel graphSetModel, final GraphSuite graphSuite ) {
+            super( graphSuite.getLabel(), graphSetModel.getRotationGraphSuite() == graphSuite );
+            this.graphSetPanel = graphSetModel;
             this.graphSuite = graphSuite;
             setFont( new Font( "Lucida Sans", Font.PLAIN, 20 ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    graphSetPanel.setRotationGraphSuite( graphSuite );
+                    graphSetModel.setRotationGraphSuite( graphSuite );
                 }
             } );
-            graphSetPanel.addListener( new GraphSetPanel.Listener() {
+            graphSetModel.addListener( new GraphSetModel.Listener() {
                 public void graphSuiteChanged() {
-                    setSelected( graphSetPanel.getRotationGraphSuite() == graphSuite );
+                    setSelected( graphSetModel.getRotationGraphSuite() == graphSuite );
                 }
             } );
         }
