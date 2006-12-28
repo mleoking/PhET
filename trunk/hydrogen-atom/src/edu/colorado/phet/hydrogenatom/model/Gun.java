@@ -90,6 +90,8 @@ public class Gun extends FixedObject implements ModelElement {
     
     private EventListenerList _listenerList;
     
+    private AffineTransform _transform; // reusable transform
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -129,6 +131,8 @@ public class Gun extends FixedObject implements ModelElement {
         setMaxParticles( 20 );
         
         _listenerList = new EventListenerList();
+        
+        _transform = new AffineTransform();
         
         // Get transition wavelengths for state 1, which are all UV.
         _transitionWavelengths = BohrModel.getTransitionWavelengths( _minWavelength, VisibleColor.MIN_WAVELENGTH );
@@ -394,18 +398,15 @@ public class Gun extends FixedObject implements ModelElement {
         }
 
         // Rotate by gun's orientation
-        Point2D p1 = new Point2D.Double( x, y );
-        AffineTransform t = new AffineTransform();
-        t.rotate( getOrientation() );
-        Point2D p2 = t.transform( p1, null );
-        x = p2.getX();
-        y = p2.getY();
+        Point2D p = new Point2D.Double( x, y );
+        _transform.setToIdentity();
+        _transform.rotate( getOrientation() );
+        _transform.transform( p, p );
 
         // Translate by the gun's position
-        x += getX();
-        y += getY();
+        p.setLocation( p.getX() + getX(), p.getY() + getY() );
         
-        return new Point2D.Double( x, y );
+        return p;
     }
     
     //----------------------------------------------------------------------------
@@ -419,10 +420,10 @@ public class Gun extends FixedObject implements ModelElement {
     public void stepInTime( double dt ) {
         if ( _enabled ) {
             if ( _mode == GunMode.PHOTONS && _lightIntensity > 0 ) {
-                firePhotons( dt );
+                firePhoton( dt );
             }
             else if ( _mode == GunMode.ALPHA_PARTICLES && _alphaParticlesIntensity > 0 ) {
-                fireAlphaParticles( dt );
+                fireAlphaParticle( dt );
             }
         }
     }
@@ -431,12 +432,41 @@ public class Gun extends FixedObject implements ModelElement {
     // Fire photons and alpha particles
     //----------------------------------------------------------------------------
     
+    /**
+     * Fires one photon from the center of the gun.
+     * 
+     * @param wavelength
+     */
+    public void fireOnePhotonFromCenter( final double wavelength ) {
+        
+        // Fire from the center of the gun's nozzle
+        Point2D position = new Point2D.Double( 1, 0 );
+        
+        // Rotate by the gun's orientation
+        _transform.setToIdentity();
+        _transform.rotate( getOrientation() );
+        _transform.transform( position, position );
+        
+        // Translate by the gun's position
+        position.setLocation( position.getX() + getX(), position.getY() + getY() );
+        
+        // Other photon properties
+        double orientation = getOrientation();
+        double speed = HAConstants.PHOTON_INITIAL_SPEED;
+
+        // Create the photon
+        Photon photon = new Photon( wavelength, position, orientation, speed );
+
+        // Fire the photon
+        GunFiredEvent event = new GunFiredEvent( this, photon );
+        firePhotonFiredEvent( event );
+    }
+    
     /*
-     * Fires photons.
-     * The number of photons fired is based on clock ticks and intensity.
+     * Fires a photon when it's time to do so.
      * Each photon is fired from a random location along the gun's nozzle.
      */
-    private void firePhotons( double dt ) {
+    private void firePhoton( double dt ) {
 
         _dtSinceGunFired += ( _lightIntensity * dt );
         
@@ -461,11 +491,10 @@ public class Gun extends FixedObject implements ModelElement {
     }
     
     /*
-     * Fires alpha particles.
-     * The number of alpha particles fired is based on clock ticks and intensity.
+     * Fires an alpha particle when it's time to do so.
      * Each alpha particle is fired from a random location along the gun's nozzle.
      */
-    private void fireAlphaParticles( double dt ) {
+    private void fireAlphaParticle( double dt ) {
 
         _dtSinceGunFired += ( _alphaParticlesIntensity * dt );
 
