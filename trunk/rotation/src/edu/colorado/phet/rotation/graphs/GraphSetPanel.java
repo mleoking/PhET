@@ -14,9 +14,15 @@ import java.util.ArrayList;
 public class GraphSetPanel extends PNode {
     private GraphSetModel graphSetModel;
     private ArrayList graphComponents = new ArrayList();
+    private GraphComponent.Listener graphComponentListener;
 
     public GraphSetPanel( GraphSetModel graphSetModel ) {
         this.graphSetModel = graphSetModel;
+        graphComponentListener = new GraphComponent.Listener() {
+            public void minimizeStateChanged() {
+                relayout();
+            }
+        };
         graphSetModel.addListener( new GraphSetModel.Listener() {
             public void graphSuiteChanged() {
                 updateGraphSuite();
@@ -39,6 +45,7 @@ public class GraphSetPanel extends PNode {
     private void addGraphComponent( GraphComponent graphComponent ) {
         graphComponents.add( graphComponent );
         addChild( graphComponent );
+        graphComponent.addListener( graphComponentListener );
     }
 
     private void relayout() {
@@ -54,6 +61,7 @@ public class GraphSetPanel extends PNode {
 
     private void removeGraphComponent( int i ) {
         GraphComponent graphComponent = (GraphComponent)graphComponents.remove( i );
+        graphComponent.removeListener( graphComponentListener );
         removeChild( graphComponent );
     }
 

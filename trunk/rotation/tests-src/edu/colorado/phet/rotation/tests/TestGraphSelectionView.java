@@ -17,13 +17,14 @@ public class TestGraphSelectionView {
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        RotationGraphSet rotationGraphSet = new RotationGraphSet();
+        PhetPCanvas pane = new PhetPCanvas();
+        RotationGraphSet rotationGraphSet = new RotationGraphSet( pane );
         GraphSetModel graphSetPanel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetPanel );
         frame.getContentPane().add( graphSelectionControl );
 
         f2 = new JFrame();
-        PhetPCanvas pane = new PhetPCanvas();
+
         pane.addScreenChild( new GraphSetPanel( graphSetPanel ) );
         f2.setContentPane( pane );
         f2.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

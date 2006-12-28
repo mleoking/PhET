@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -26,6 +27,9 @@ public class GraphComponent extends PNode {
     private boolean minimized = false;
     private PNode graphChild;
     private PNode stubChild;
+
+    private ArrayList listeners = new ArrayList();
+
 
     public GraphComponent( PSwingCanvas pSwingCanvas, String label ) {
         this.label = label;
@@ -90,10 +94,31 @@ public class GraphComponent extends PNode {
                 removeChild( stubChild );
                 addChild( graphChild );
             }
+            notifyListeners();
         }
     }
 
     public String getLabel() {
         return label;
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
+
+    public static interface Listener {
+        void minimizeStateChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyListeners() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.minimizeStateChanged();
+        }
     }
 }
