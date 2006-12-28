@@ -18,10 +18,9 @@ public class GraphSetPanel {
     }
 
     public void setRotationGraphSuite( GraphSuite graphSuite ) {
-        if( this.graphSuite != graphSuite ) {
-            this.graphSuite = graphSuite;
-            notifyListeners();
-        }
+        //todo can't check for same state because of radio button listeners.
+        this.graphSuite = graphSuite;
+        notifyListeners();
     }
 
     public GraphSuite getRotationGraphSuite() {
