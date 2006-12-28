@@ -34,7 +34,7 @@ import edu.colorado.phet.hydrogenatom.model.Photon;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedEvent;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedListener;
 import edu.colorado.phet.hydrogenatom.util.ColorUtils;
-import edu.colorado.phet.hydrogenatom.util.ImageFactory;
+import edu.colorado.phet.hydrogenatom.util.SpectrumImageFactory;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -345,7 +345,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                 irNode.setStroke( null );
 
                 // Visible portion
-                Image spectrumImage = ImageFactory.createSpectrum( (int)visibleWidth, (int)COLOR_KEY_HEIGHT, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
+                Image spectrumImage = SpectrumImageFactory.createHorizontalSpectrum( (int)visibleWidth, (int)COLOR_KEY_HEIGHT );
                 PNode spectrumNode = new PImage( spectrumImage );
                 
                 colorKeyNode.addChild( uvNode );
