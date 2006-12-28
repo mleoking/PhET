@@ -33,6 +33,7 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.util.ImageFactory;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
@@ -539,7 +540,7 @@ public class WavelengthControl extends PhetPNode {
             super();
             
             /* Portion of the track that represents visible wavelengths */
-            Image spectrumImage = SpectrumImageFactory.createImage( SPECTRUM_WIDTH, SPECTRUM_HEIGHT, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
+            Image spectrumImage = ImageFactory.createSpectrum( SPECTRUM_WIDTH, SPECTRUM_HEIGHT, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
             PImage spectrumTrack = new PImage( spectrumImage );
             final double spectrumTrackWidth = spectrumTrack.getFullBounds().getWidth();
             final double spectrumTrackHeight = spectrumTrack.getFullBounds().getHeight();
