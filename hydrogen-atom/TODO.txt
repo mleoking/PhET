@@ -4,7 +4,6 @@
 
 IN PROGRESS:
 - add track size to WavelengthControl constructor
-- generate 1 image for entire Spectrometer colorKey
 - generate 1 image for entire spectrum in WavelengthControl
 
 HIGH PRIORITY:
@@ -493,6 +492,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(12/28/06) - generate 1 image for entire Spectrometer colorKey (UV and IR range must be compressed)
 (12/26/06) - cache Colors (not necessary, little or no payoff)
 (12/26/06) - encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode (there is a very small amout of it, would complicate code)
 (12/20/06) - handle model-view transform differently? (current approach works, changing it would be destabilizing)
