@@ -1,5 +1,7 @@
 package edu.colorado.phet.rotation.graphs;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Dec 28, 2006
@@ -8,13 +10,36 @@ package edu.colorado.phet.rotation.graphs;
  */
 
 public class GraphSetPanel {
-    private RotationGraphSuite rotationGraphSuite;
+    private GraphSuite graphSuite;
+    private ArrayList listeners = new ArrayList();
 
-    public void setRotationGraphSuite( RotationGraphSuite rotationGraphSuite ) {
-        this.rotationGraphSuite = rotationGraphSuite;
+    public GraphSetPanel( GraphSuite graphSuite ) {
+        this.graphSuite = graphSuite;
     }
 
-    public RotationGraphSuite getRotationGraphSuite() {
-        return rotationGraphSuite;
+    public void setRotationGraphSuite( GraphSuite graphSuite ) {
+        if( this.graphSuite != graphSuite ) {
+            this.graphSuite = graphSuite;
+            notifyListeners();
+        }
+    }
+
+    public GraphSuite getRotationGraphSuite() {
+        return graphSuite;
+    }
+
+    public static interface Listener {
+        void graphSuiteChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyListeners() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.graphSuiteChanged();
+        }
     }
 }

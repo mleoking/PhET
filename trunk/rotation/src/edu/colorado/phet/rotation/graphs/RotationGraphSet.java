@@ -16,7 +16,7 @@ public class RotationGraphSet {
     private GraphComponent positionGraph;
     private GraphComponent velocityGraph;
     private GraphComponent accelerationGraph;
-    private RotationGraphSuite[] suites;
+    private GraphSuite[] suites;
 
     public RotationGraphSet() {
         angleGraph = new GraphComponent( UnicodeUtil.THETA );
@@ -26,11 +26,11 @@ public class RotationGraphSet {
         velocityGraph = new GraphComponent( "vx,vy" );
         accelerationGraph = new GraphComponent( "a" );
 
-        suites = new RotationGraphSuite[]{
-                new RotationGraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),
-                new RotationGraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getAngularAccelerationGraph()} ),
-                new RotationGraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getVelocityGraph()} ),
-                new RotationGraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getAccelerationGraph()} ),
+        suites = new GraphSuite[]{
+                new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),
+                new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getAngularAccelerationGraph()} ),
+                new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getVelocityGraph()} ),
+                new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getAccelerationGraph()} ),
         };
     }
 
@@ -58,7 +58,11 @@ public class RotationGraphSet {
         return accelerationGraph;
     }
 
-    public RotationGraphSuite[] getRotationGraphSuites() {
+    public GraphSuite[] getGraphSuites() {
         return suites;
+    }
+
+    public GraphSuite getGraphSuite( int i ) {
+        return suites[i];
     }
 }

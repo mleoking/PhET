@@ -20,7 +20,7 @@ public class TestGraphSelectionControl {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         RotationGraphSet rotationGraphSet = new RotationGraphSet();
-        GraphSetPanel graphSetPanel = new GraphSetPanel();
+        GraphSetPanel graphSetPanel = new GraphSetPanel( rotationGraphSet.getGraphSuite( 0 ) );
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetPanel );
         frame.getContentPane().add( graphSelectionControl );
     }
