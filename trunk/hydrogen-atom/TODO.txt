@@ -43,6 +43,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(12/28/06) - make SpectrumImageFactory more general, and move it to phetcommon
 (12/28/06) - generate spectrum image programmatically instead of using an image file
 (12/27/06) - when Schrodinger is in state (2,0,0) and gun is firing white light, fire an absorbable photon at the atom's center evry 15 sec 
 (12/27/06) - add Gun method for firing one photon of a specific wavelength from the center of the gun's nozzle
