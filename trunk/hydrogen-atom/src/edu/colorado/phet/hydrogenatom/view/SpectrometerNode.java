@@ -30,6 +30,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.control.SpectrumImageFactory;
 import edu.colorado.phet.hydrogenatom.model.Photon;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedEvent;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedListener;
@@ -343,12 +344,9 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
                 irNode.setPaint( HAConstants.IR_COLOR );
                 irNode.setStroke( null );
 
-                PNode spectrumNode = PImageFactory.create( HAConstants.IMAGE_SPECTRUM );
-                double sx = visibleWidth / spectrumNode.getWidth();
-                double sy = COLOR_KEY_HEIGHT / spectrumNode.getHeight();
-                AffineTransform tx = new AffineTransform();
-                tx.scale( sx, sy );
-                spectrumNode.setTransform( tx );
+                // Visible portion
+                Image spectrumImage = SpectrumImageFactory.createImage( (int)visibleWidth, (int)COLOR_KEY_HEIGHT, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
+                PNode spectrumNode = new PImage( spectrumImage );
                 
                 colorKeyNode.addChild( uvNode );
                 colorKeyNode.addChild( irNode );

@@ -4,6 +4,7 @@
 
 IN PROGRESS:
 
+
 HIGH PRIORITY:
 - implement Solar System energy diagram
 - implement Bohr/deBroglie energy diagram
@@ -29,7 +30,6 @@ LOW PRIORITY:
 - add WavelengthControl.setTrackSize(Dimension)
 - add WavelengthControl.setKnobSize(Dimension)
 - size "UV" and "IR" labels to fit WavelengthControl track height
-- generate spectrum instead of using an image file
 - animate opening/closing of Atomic Model selection panel (use PNode.toImage)
 - generalize creating a "panel" node to fit under a collection of nodes
 - create layout nodes for creating Piccolo-based control panels
@@ -43,6 +43,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(12/28/06) - generate spectrum image programmatically instead of using an image file
 (12/27/06) - when Schrodinger is in state (2,0,0) and gun is firing white light, fire an absorbable photon at the atom's center evry 15 sec 
 (12/27/06) - add Gun method for firing one photon of a specific wavelength from the center of the gun's nozzle
 (12/27/06) - absorb photons with 100% probability when Schrodinger is in state (2,0,0)

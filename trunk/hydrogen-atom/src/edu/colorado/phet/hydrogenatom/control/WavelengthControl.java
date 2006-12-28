@@ -62,6 +62,9 @@ public class WavelengthControl extends PhetPNode {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final int SPECTRUM_WIDTH = 200;
+    private static final int SPECTRUM_HEIGHT = 25;
+    
     private static final Dimension KNOB_SIZE = new Dimension( 20, 20 );
     private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
     private static final Color KNOB_STROKE_COLOR = Color.WHITE;
@@ -536,7 +539,8 @@ public class WavelengthControl extends PhetPNode {
             super();
             
             /* Portion of the track that represents visible wavelengths */
-            PImage spectrumTrack = PImageFactory.create( HAConstants.IMAGE_SPECTRUM );
+            Image spectrumImage = SpectrumImageFactory.createImage( SPECTRUM_WIDTH, SPECTRUM_HEIGHT, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
+            PImage spectrumTrack = new PImage( spectrumImage );
             final double spectrumTrackWidth = spectrumTrack.getFullBounds().getWidth();
             final double spectrumTrackHeight = spectrumTrack.getFullBounds().getHeight();
             
