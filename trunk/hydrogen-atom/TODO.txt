@@ -32,7 +32,7 @@ LOW PRIORITY:
 - rewrite AtomicModelSelector to use inner classes, or layout node
 - bug: ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 - bug: spectrometer buttons are fully transparent on Win98
-- bug: problem with updating drag bounds of ConstrainedDragHandler, as used in WavelengthControl
+- bug: problem with updating drag bounds of ConstrainedDragHandler (see HACK comment in WavelengthControl)
 
 DEFER UNTIL AFTER INTERVIEWS:
 - make spectrometer show each UV/IR transition wavelength at a distinct horizontal position
