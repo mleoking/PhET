@@ -77,7 +77,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     private static final double PHOTON_ABSORPTION_PROBABILITY = 0.5; // 1.0 = 100%
     
     /* probability that photon will be emitted */
-    private static final double PHOTON_SPONTANEOU_EMISSION_PROBABILITY = 0.1; // 1.0 = 100%
+    private static final double PHOTON_SPONTANEOUS_EMISSION_PROBABILITY = 0.1; // 1.0 = 100%
     
     /* Probability of stimulated emission should be the same as absorption,
      * but we test for it first so it seems to happen way more often.
@@ -445,7 +445,7 @@ public class BohrModel extends AbstractHydrogenAtom {
      * @return true or false
      */
     protected boolean willSpontaneousEmitPhoton() {
-        return _randomSpontaneousEmission.nextDouble() < PHOTON_SPONTANEOU_EMISSION_PROBABILITY;
+        return _randomSpontaneousEmission.nextDouble() < PHOTON_SPONTANEOUS_EMISSION_PROBABILITY;
     }
     
     /*
