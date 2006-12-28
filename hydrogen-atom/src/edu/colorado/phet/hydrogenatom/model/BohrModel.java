@@ -52,8 +52,8 @@ public class BohrModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     
     /* used to turn off aspects of this model from the Developer Controls dialog */
-    public static boolean DEBUG_ASBORPTION_ENABLED = true;
-    public static boolean DEBUG_EMISSION_ENABLED = true;
+    public static boolean DEBUG_ABSORPTION_ENABLED = true;
+    public static boolean DEBUG_SPONTANEOUS_EMISSION_ENABLED = true;
     public static boolean DEBUG_STIMULATED_EMISSION_ENABLED = true; 
     
     /* enabled debugging output */
@@ -343,7 +343,7 @@ public class BohrModel extends AbstractHydrogenAtom {
 
         boolean absorbed = false;
         
-        if ( !DEBUG_ASBORPTION_ENABLED ) {
+        if ( !DEBUG_ABSORPTION_ENABLED ) {
             return absorbed;
         }
         
@@ -403,7 +403,7 @@ public class BohrModel extends AbstractHydrogenAtom {
      */
     private void emitPhoton() {
         
-        if ( !DEBUG_EMISSION_ENABLED ) {
+        if ( !DEBUG_SPONTANEOUS_EMISSION_ENABLED ) {
             return;
         }
         

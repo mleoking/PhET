@@ -92,10 +92,10 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     private JCheckBox _rutherfordScatteringOutputCheckBox;
     private SpinnerControl _wavelengthHiliteThreshold;
 
-    private JCheckBox _bohrAbsorptionCheckBox;
-    private JCheckBox _bohrEmissionCheckBox;
-    private JCheckBox _bohrStimulatedEmissionCheckBox;
-    private SpinnerControl _bohrMinStateTimeSpinner;
+    private JCheckBox _absorptionCheckBox;
+    private JCheckBox _spontanuousEmissionCheckBox;
+    private JCheckBox _stimulatedEmissionCheckBox;
+    private SpinnerControl _minStateTimeSpinner;
 
     private ColorChip _deBroglieBrightnessMagnitudePlusChip;
     private ColorChip _deBroglieBrightnessMagnitudeZeroChip;
@@ -174,12 +174,12 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             _wavelengthHiliteThreshold.setEditable( false );
         }
         
-        // Bohr absorption/emission enables
-        _bohrAbsorptionCheckBox = new JCheckBox( "absorption enabled", BohrModel.DEBUG_ASBORPTION_ENABLED );
-        _bohrEmissionCheckBox = new JCheckBox( "emission enabled", BohrModel.DEBUG_EMISSION_ENABLED );
-        _bohrStimulatedEmissionCheckBox = new JCheckBox( "stimulated emission enabled", BohrModel.DEBUG_STIMULATED_EMISSION_ENABLED );
+        // Enable absorption/emission
+        _absorptionCheckBox = new JCheckBox( "absorption enabled", BohrModel.DEBUG_ABSORPTION_ENABLED );
+        _spontanuousEmissionCheckBox = new JCheckBox( "spontaneous emission enabled", BohrModel.DEBUG_SPONTANEOUS_EMISSION_ENABLED );
+        _stimulatedEmissionCheckBox = new JCheckBox( "stimulated emission enabled", BohrModel.DEBUG_STIMULATED_EMISSION_ENABLED );
         
-        // Bohr min time that electron stays in a state
+        // Min time that electron stays in a state
         {
             int value = (int) BohrModel.MIN_TIME_IN_STATE;
             int min = 1;
@@ -188,8 +188,8 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             int columns = 4;
             String label = "<html>Min time that electron must spend<br>in a state before it can emit a photon:</html>";
             String units = "dt";
-            _bohrMinStateTimeSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
-            _bohrMinStateTimeSpinner.setEditable( false );
+            _minStateTimeSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
+            _minStateTimeSpinner.setEditable( false );
         }
         
         // deBroglie "brightness magnitude" colors
@@ -270,10 +270,10 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
         _absorptionClosenessSpinner.getSpinner().addChangeListener( listener );
         _rutherfordScatteringOutputCheckBox.addChangeListener( listener );
         _wavelengthHiliteThreshold.getSpinner().addChangeListener( listener );
-        _bohrAbsorptionCheckBox.addChangeListener( listener );
-        _bohrEmissionCheckBox.addChangeListener( listener );
-        _bohrStimulatedEmissionCheckBox.addChangeListener( listener );
-        _bohrMinStateTimeSpinner.getSpinner().addChangeListener( listener );
+        _absorptionCheckBox.addChangeListener( listener );
+        _spontanuousEmissionCheckBox.addChangeListener( listener );
+        _stimulatedEmissionCheckBox.addChangeListener( listener );
+        _minStateTimeSpinner.getSpinner().addChangeListener( listener );
         _deBroglieBrightnessMagnitudePlusChip.addMouseListener( listener );
         _deBroglieBrightnessMagnitudeZeroChip.addMouseListener( listener );
         _deBroglieBrightnessPlusChip.addMouseListener( listener );
@@ -298,10 +298,10 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
             
             layout.addComponent( new TitleLabel( "Bohr/deBroglie/Schr\u00f6dinger:" ), row++, 0 );
-            layout.addComponent( _bohrAbsorptionCheckBox, row++, 0 );
-            layout.addComponent( _bohrEmissionCheckBox, row++, 0 );
-            layout.addComponent( _bohrStimulatedEmissionCheckBox, row++, 0 );
-            layout.addComponent( _bohrMinStateTimeSpinner, row++, 0 );
+            layout.addComponent( _absorptionCheckBox, row++, 0 );
+            layout.addComponent( _spontanuousEmissionCheckBox, row++, 0 );
+            layout.addComponent( _stimulatedEmissionCheckBox, row++, 0 );
+            layout.addComponent( _minStateTimeSpinner, row++, 0 );
             layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
             
             layout.addComponent( new TitleLabel( "deBroglie:" ), row++, 0 );
@@ -361,16 +361,16 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             else if ( source == _wavelengthHiliteThreshold.getSpinner() ) {
                 handleWavelengthHiliteThresholdSpinner();
             }
-            else if ( source == _bohrAbsorptionCheckBox ) {
-                handleBohrAbsorptionEmission();
+            else if ( source == _absorptionCheckBox ) {
+                handleAbsorptionEmissionCheckBoxes();
             }
-            else if ( source == _bohrEmissionCheckBox ) {
-                handleBohrAbsorptionEmission();
+            else if ( source == _spontanuousEmissionCheckBox ) {
+                handleAbsorptionEmissionCheckBoxes();
             }
-            else if ( source == _bohrStimulatedEmissionCheckBox ) {
-                handleBohrAbsorptionEmission();
+            else if ( source == _stimulatedEmissionCheckBox ) {
+                handleAbsorptionEmissionCheckBoxes();
             }
-            else if ( source == _bohrMinStateTimeSpinner.getSpinner() ) {
+            else if ( source == _minStateTimeSpinner.getSpinner() ) {
                 handleMinStateTime();
             }
             else if ( source == _deBroglieRadialAmplitudeSpinner.getSpinner() ) {
@@ -413,14 +413,14 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
         GunWavelengthControl.HILITE_THRESHOLD = _wavelengthHiliteThreshold.getIntValue();
     }
     
-    private void handleBohrAbsorptionEmission() {
-        BohrModel.DEBUG_ASBORPTION_ENABLED = _bohrAbsorptionCheckBox.isSelected();
-        BohrModel.DEBUG_EMISSION_ENABLED = _bohrEmissionCheckBox.isSelected();
-        BohrModel.DEBUG_STIMULATED_EMISSION_ENABLED = _bohrStimulatedEmissionCheckBox.isSelected();
+    private void handleAbsorptionEmissionCheckBoxes() {
+        BohrModel.DEBUG_ABSORPTION_ENABLED = _absorptionCheckBox.isSelected();
+        BohrModel.DEBUG_SPONTANEOUS_EMISSION_ENABLED = _spontanuousEmissionCheckBox.isSelected();
+        BohrModel.DEBUG_STIMULATED_EMISSION_ENABLED = _stimulatedEmissionCheckBox.isSelected();
     }
     
     private void handleMinStateTime() {
-        BohrModel.MIN_TIME_IN_STATE = _bohrMinStateTimeSpinner.getIntValue();
+        BohrModel.MIN_TIME_IN_STATE = _minStateTimeSpinner.getIntValue();
     }
     
     private void handleDeBroglieRadialAmplitudeSpinner() {
