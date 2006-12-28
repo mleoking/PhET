@@ -85,6 +85,8 @@ public class WavelengthControl extends PhetPNode {
     private static final Color UV_LABEL_COLOR = Color.BLACK;
     private static final Color IR_TRACK_COLOR = UV_TRACK_COLOR;
     private static final Color IR_LABEL_COLOR = UV_LABEL_COLOR;
+    // how tall the UV/IR labels should be relative to the track height
+    private static final double LABEL_RATIO = 0.70;
     
     private static final int TEXT_FIELD_COLUMNS = 3;
     
@@ -583,6 +585,11 @@ public class WavelengthControl extends PhetPNode {
                 
                 uvLabel = new PText( UV_STRING );
                 uvLabel.setTextPaint( uvLabelColor );
+                
+                // Scale label to fit track height
+                double hTrack = uvTrack.getFullBounds().getHeight();
+                double hLabel = uvLabel.getFullBounds().getHeight();
+                uvLabel.scale( ( hTrack * LABEL_RATIO ) / hLabel );
             }
             
             /* Portion of the track that represents infra-red (IR) wavelengths */
@@ -596,6 +603,11 @@ public class WavelengthControl extends PhetPNode {
 
                 irLabel = new PText( IR_STRING );
                 irLabel.setTextPaint( irLabelColor );
+                
+                // Scale label to fit track height
+                double hTrack = irTrack.getFullBounds().getHeight();
+                double hLabel = irLabel.getFullBounds().getHeight();
+                irLabel.scale( ( hTrack * LABEL_RATIO ) / hLabel );
             }
             
             // Layering
