@@ -366,6 +366,15 @@ public class WavelengthControl extends PhetPNode {
     }
     
     /**
+     * Sets the size of the slider knob.
+     * @param width
+     * @param height
+     */
+    public void setKnobSize( int width, int height ) {
+        _knob.setSize( width, height );
+    }
+    
+    /**
      * Sets the stroke used to outline the slider knob.
      * @return
      */
@@ -513,7 +522,18 @@ public class WavelengthControl extends PhetPNode {
         /* Constructor */
         public Knob( float width, float height ) {
             super();
-            
+            setStroke( KNOB_STROKE );
+            setPaint( KNOB_STROKE_COLOR );
+            setSize( width, height );
+        }
+        
+        /**
+         * Sets the size of the knob by rebuilding the knob's path.
+         * 
+         * @param width
+         * @param height
+         */
+        public void setSize( float width, float height ) {
             GeneralPath path = new GeneralPath();
             path.moveTo( 0.5f * width, 0f ); // tip of the knob
             path.lineTo( width, 0.3f * height );
@@ -522,9 +542,6 @@ public class WavelengthControl extends PhetPNode {
             path.lineTo( 0f, 0.3f * height );
             path.closePath();
             setPathTo( path );
-            
-            setStroke( KNOB_STROKE );
-            setPaint( KNOB_STROKE_COLOR );
         }
     }
     
