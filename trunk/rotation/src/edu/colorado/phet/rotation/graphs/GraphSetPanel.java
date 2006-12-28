@@ -44,10 +44,11 @@ public class GraphSetPanel extends PNode {
     private void relayout() {
         double xOffset = 5;
         double yOffset = 5;
+        double yPad = 5;
         for( int i = 0; i < graphComponents.size(); i++ ) {
             GraphComponent graphComponent = getGraphComponent( i );
             graphComponent.setOffset( xOffset, yOffset );
-            yOffset += graphComponent.getFullBounds().getHeight();
+            yOffset += graphComponent.getFullBounds().getHeight() + yPad;
         }
     }
 
