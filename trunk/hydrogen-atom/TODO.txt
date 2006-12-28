@@ -5,6 +5,7 @@
 IN PROGRESS:
 - add WavelengthControl.setTrackSize(Dimension)
 - size "UV" and "IR" labels to fit WavelengthControl track height
+- generate 1 image for entire spectrum for Spectrometer colorKey and WavelengthControl
 
 HIGH PRIORITY:
 - implement Solar System energy diagram
