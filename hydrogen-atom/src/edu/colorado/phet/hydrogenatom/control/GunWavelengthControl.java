@@ -45,6 +45,9 @@ public class GunWavelengthControl extends WavelengthControl {
     //----------------------------------------------------------------------------
 
     private static final double NO_MATCH = -1;
+    
+    private static final int TRACK_WIDTH = 300;
+    private static final int TRACK_HEIGHT = 25;
 
     private static final Stroke KNOB_NORMAL_STROKE = new BasicStroke( 1f );
     private static final Stroke KNOB_HILITE_STROKE = new BasicStroke( 3f );
@@ -69,7 +72,7 @@ public class GunWavelengthControl extends WavelengthControl {
      * @param wavelengthControl
      */
     public GunWavelengthControl( PSwingCanvas canvas, double minWavelength, double maxWavelength, Color uvTrackColor, Color uvLabelColor, Color irTrackColor, Color irLabelColor ) {
-        super( canvas, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
+        super( canvas, TRACK_WIDTH, TRACK_HEIGHT, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
 
         addKnobListener( new PBasicInputEventHandler() {
 

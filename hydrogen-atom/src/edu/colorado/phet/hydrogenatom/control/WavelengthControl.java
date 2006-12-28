@@ -51,7 +51,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
- * WavelengthControl is a control used for setting wavelength.
+ * WavelengthControl is a slider-like control used for setting wavelength.
  * It handles visible wavelengths, plus optional UV and IR wavelengths.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -62,9 +62,6 @@ public class WavelengthControl extends PhetPNode {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    private static final int SPECTRUM_WIDTH = 200;
-    private static final int SPECTRUM_HEIGHT = 25;
     
     private static final Dimension KNOB_SIZE = new Dimension( 20, 20 );
     private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
@@ -86,7 +83,7 @@ public class WavelengthControl extends PhetPNode {
     private static final Color IR_TRACK_COLOR = UV_TRACK_COLOR;
     private static final Color IR_LABEL_COLOR = UV_LABEL_COLOR;
     // how tall the UV/IR labels should be relative to the track height
-    private static final double LABEL_RATIO = 0.70;
+    private static final double LABEL_TRACK_RATIO = 0.70;
     
     private static final int TEXT_FIELD_COLUMNS = 3;
     
@@ -123,9 +120,12 @@ public class WavelengthControl extends PhetPNode {
      * Creates a wavelength control for the visible spectrum.
      * 
      * @param canvas used by PSwing to wrap Swing components
+     * @param trackWidth
+     * @param trackHeight
      */
-    public WavelengthControl( PSwingCanvas canvas ) {
-        this( canvas, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, 
+    public WavelengthControl( PSwingCanvas canvas, int trackWidth, int trackHeight ) {
+        this( canvas, trackWidth, trackHeight,
+                VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, 
                 UV_TRACK_COLOR, UV_LABEL_COLOR,
                 IR_TRACK_COLOR, IR_LABEL_COLOR );
     }
@@ -135,11 +135,15 @@ public class WavelengthControl extends PhetPNode {
      * Default colors are used for UV and IR ranges.
      * 
      * @param canvas used by PSwing to wrap Swing components
+     * @param trackWidth
+     * @param trackHeight
      * @param minWavelength minimum wavelength, in nanometers
      * @param maxWavelength maximum wavelength, in nanometers
      */
-    public WavelengthControl( PSwingCanvas canvas, double minWavelength, double maxWavelength ) {
-        this( canvas, minWavelength, maxWavelength, 
+    public WavelengthControl( PSwingCanvas canvas, int trackWidth, int trackHeight,
+            double minWavelength, double maxWavelength ) {
+        this( canvas, trackWidth, trackHeight,
+                minWavelength, maxWavelength, 
                 UV_TRACK_COLOR, UV_LABEL_COLOR,
                 IR_TRACK_COLOR, IR_LABEL_COLOR );
     }
@@ -149,6 +153,8 @@ public class WavelengthControl extends PhetPNode {
      * Specified colors are used for UV and IR ranges.
      * 
      * @param canvas used by PSwing to wrap Swing components
+     * @param trackWidth
+     * @param trackHeight
      * @param minWavelength minimum wavelength, in nanometers
      * @param maxWavelength maximum wavelength, in nanometers
      * @param uvTrackColor color used for UV label
@@ -158,7 +164,7 @@ public class WavelengthControl extends PhetPNode {
      * @throws IllegalArgumentException if minWavelength >= maxWavelength
      * @throws UnsupportedOperationException if the entire visible spectrum is not included in wavelength range
      */
-    public WavelengthControl( PSwingCanvas canvas, 
+    public WavelengthControl( PSwingCanvas canvas, int trackWidth, int trackHeight,
             double minWavelength, double maxWavelength, 
             Color uvTrackColor, Color uvLabelColor, 
             Color irTrackColor, Color irLabelColor ) {
@@ -180,7 +186,7 @@ public class WavelengthControl extends PhetPNode {
         _listenerList = new EventListenerList();
         
         _knob = new Knob( KNOB_SIZE.width, KNOB_SIZE.height );
-        _track = new Track( minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
+        _track = new Track( trackWidth, trackHeight, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
         _valueDisplay = new ValueDisplay( _canvas );
         _cursor = new Cursor( CURSOR_WIDTH, _track.getFullBounds().getHeight() );
         
@@ -553,25 +559,26 @@ public class WavelengthControl extends PhetPNode {
     private static class Track extends PComposite {
         
         /* Constructor */
-        public Track( double minWavelength, double maxWavelength,  
+        public Track( int trackWidth, int trackHeight,
+                double minWavelength, double maxWavelength,  
                 Color uvTrackColor, Color uvLabelColor, 
                 Color irTrackColor, Color irLabelColor ) {
             super();
             
-            /* Portion of the track that represents visible wavelengths */
-            Image spectrumImage = SpectrumImageFactory.createHorizontalSpectrum( SPECTRUM_WIDTH, SPECTRUM_HEIGHT );
-            PImage spectrumTrack = new PImage( spectrumImage );
-            final double spectrumTrackWidth = spectrumTrack.getFullBounds().getWidth();
-            final double spectrumTrackHeight = spectrumTrack.getFullBounds().getHeight();
-            
+            final double totalBandwidth = maxWavelength - minWavelength;
             final double visibleBandwidth = VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH;
             final double uvBandwidth = VisibleColor.MIN_WAVELENGTH - minWavelength;
             final double irBandwith = maxWavelength - VisibleColor.MAX_WAVELENGTH;
-            final double uvTrackWidth = ( uvBandwidth / visibleBandwidth ) * spectrumTrackWidth;
-            final double irTrackWidth = ( irBandwith / visibleBandwidth ) * spectrumTrackWidth;
+            final double visibleTrackWidth = ( visibleBandwidth / totalBandwidth ) * trackWidth;
+            final double uvTrackWidth = ( uvBandwidth / totalBandwidth ) * trackWidth;
+            final double irTrackWidth = ( irBandwith / totalBandwidth ) * trackWidth;
             
             final boolean hasUV = ( uvTrackWidth > 0 );
             final boolean hasIR = ( irTrackWidth > 0 );
+            
+            /* Portion of the track that represents visible wavelengths */
+            Image spectrumImage = SpectrumImageFactory.createHorizontalSpectrum( (int)visibleTrackWidth, trackHeight );
+            PImage spectrumTrack = new PImage( spectrumImage );
             
             /* Portion of the track that represents ultra-violet (UV) wavelengths */
             PPath uvTrack = null;
@@ -579,7 +586,7 @@ public class WavelengthControl extends PhetPNode {
             if ( hasUV ) {
                 
                 uvTrack = new PPath();
-                uvTrack.setPathTo( new Rectangle.Double( 0, 0, uvTrackWidth, spectrumTrackHeight ) );
+                uvTrack.setPathTo( new Rectangle.Double( 0, 0, uvTrackWidth, trackHeight ) );
                 uvTrack.setPaint( uvTrackColor );
                 uvTrack.setStroke( null );
                 
@@ -589,7 +596,7 @@ public class WavelengthControl extends PhetPNode {
                 // Scale label to fit track height
                 double hTrack = uvTrack.getFullBounds().getHeight();
                 double hLabel = uvLabel.getFullBounds().getHeight();
-                uvLabel.scale( ( hTrack * LABEL_RATIO ) / hLabel );
+                uvLabel.scale( ( hTrack * LABEL_TRACK_RATIO ) / hLabel );
             }
             
             /* Portion of the track that represents infra-red (IR) wavelengths */
@@ -597,7 +604,7 @@ public class WavelengthControl extends PhetPNode {
             PText irLabel = null;
             if ( hasIR ) {
                 irTrack = new PPath();
-                irTrack.setPathTo( new Rectangle.Double( 0, 0, irTrackWidth, spectrumTrackHeight ) );
+                irTrack.setPathTo( new Rectangle.Double( 0, 0, irTrackWidth, trackHeight ) );
                 irTrack.setPaint( irTrackColor );
                 irTrack.setStroke( null );
 
@@ -607,7 +614,7 @@ public class WavelengthControl extends PhetPNode {
                 // Scale label to fit track height
                 double hTrack = irTrack.getFullBounds().getHeight();
                 double hLabel = irLabel.getFullBounds().getHeight();
-                irLabel.scale( ( hTrack * LABEL_RATIO ) / hLabel );
+                irLabel.scale( ( hTrack * LABEL_TRACK_RATIO ) / hLabel );
             }
             
             // Layering
