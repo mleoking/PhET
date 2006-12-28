@@ -42,6 +42,10 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(12/27/06) - when Schrodinger is in state (2,0,0) and gun is firing white light, fire an absorbable photon at the atom's center evry 15 sec 
+(12/27/06) - add Gun method for firing one photon of a specific wavelength from the center of the gun's nozzle
+(12/27/06) - absorb photons with 100% probability when Schrodinger is in state (2,0,0)
+(12/27/06) - allow subclasses of BohrModel to override methods for determining probability of absorption and emission
 (12/26/06) - replace m,n state arguments with nOld,nNew in BohrModel methods
 (12/26/06) - scale down plumPudding.png image
 (12/26/06) - javadoc and cleanup SpectrometerNode
