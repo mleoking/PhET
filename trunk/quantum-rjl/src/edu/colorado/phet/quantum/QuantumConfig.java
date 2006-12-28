@@ -32,4 +32,7 @@ public class QuantumConfig {
     // Images
     public static final String IMAGE_DIRECTORY = "images/";
     public static final String PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "photon-comet.png";    
+    public static final String MID_HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-deep-red-xsml.gif";
+    public static final String HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-xsml.gif";
+    public static final String LOW_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-xsml.gif";
 }

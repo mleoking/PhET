@@ -33,7 +33,7 @@ import edu.colorado.phet.lasers.view.monitors.PowerMeterGraphic;
 import edu.colorado.phet.quantum.QuantumConfig;
 import edu.colorado.phet.quantum.model.*;
 import edu.colorado.phet.quantum.view.AnnotatedAtomGraphic;
-import edu.colorado.phet.quantum.view.PhotonGraphic;
+import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;

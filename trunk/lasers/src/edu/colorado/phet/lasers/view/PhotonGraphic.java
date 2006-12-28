@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.quantum.view;
+package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -18,7 +18,7 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+//import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.quantum.QuantumConfig;
 import edu.colorado.phet.quantum.model.Photon;
 
@@ -34,7 +34,7 @@ import java.util.HashMap;
 
 /**
  * Class: AtomGraphic
- * Package: edu.colorado.phet.lasers.view
+ * Package: edu.colorado.phet.quantum.view
  * Author: Another Guy
  * Date: Mar 21, 2003
  */
@@ -56,10 +56,15 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     // Cache of photon images of different colors
     static private HashMap s_colorToImage = new HashMap();
 
-    static String s_imageName = LaserConfig.PHOTON_IMAGE_FILE;
-    static String s_highEnergyImageName = LaserConfig.HIGH_ENERGY_PHOTON_IMAGE_FILE;
-    static String s_midEnergyImageName = LaserConfig.MID_HIGH_ENERGY_PHOTON_IMAGE_FILE;
-    static String s_lowEnergyImageName = LaserConfig.LOW_ENERGY_PHOTON_IMAGE_FILE;
+    static String s_imageName = QuantumConfig.PHOTON_IMAGE_FILE;
+    static String s_highEnergyImageName = QuantumConfig.HIGH_ENERGY_PHOTON_IMAGE_FILE;
+    static String s_midEnergyImageName = QuantumConfig.MID_HIGH_ENERGY_PHOTON_IMAGE_FILE;
+    static String s_lowEnergyImageName = QuantumConfig.LOW_ENERGY_PHOTON_IMAGE_FILE;
+//    static String s_imageName = LaserConfig.PHOTON_IMAGE_FILE;
+//    static String s_highEnergyImageName = LaserConfig.HIGH_ENERGY_PHOTON_IMAGE_FILE;
+//    static String s_midEnergyImageName = LaserConfig.MID_HIGH_ENERGY_PHOTON_IMAGE_FILE;
+//    static String s_lowEnergyImageName = LaserConfig.LOW_ENERGY_PHOTON_IMAGE_FILE;
+
     static BufferedImage s_particleImage;
     static BufferedImage s_highEnergyImage;
     static BufferedImage s_midEnergyImage;

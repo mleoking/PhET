@@ -15,7 +15,7 @@ import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 import edu.colorado.phet.quantum.model.Photon;
 import edu.colorado.phet.quantum.model.PhotonEmissionListener;
 import edu.colorado.phet.quantum.model.PhotonEmittedEvent;
-import edu.colorado.phet.quantum.view.PhotonGraphic;
+import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 /**
  * PhotonGraphicManager
