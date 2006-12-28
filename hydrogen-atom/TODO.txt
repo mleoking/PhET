@@ -4,7 +4,8 @@
 
 IN PROGRESS:
 - add track size to WavelengthControl constructor
-- generate 1 image for entire spectrum for Spectrometer colorKey and WavelengthControl
+- generate 1 image for entire Spectrometer colorKey
+- generate 1 image for entire spectrum in WavelengthControl
 
 HIGH PRIORITY:
 - implement Solar System energy diagram
