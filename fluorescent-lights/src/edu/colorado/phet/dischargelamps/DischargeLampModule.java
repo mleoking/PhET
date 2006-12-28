@@ -28,9 +28,9 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.TubeGraphic;
+import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.quantum.model.*;
 import edu.colorado.phet.quantum.view.AnnotatedAtomGraphic;
-import edu.colorado.phet.quantum.view.PhotonGraphic;
 import edu.colorado.phet.quantum.view.PlateGraphic;
 
 import javax.swing.*;

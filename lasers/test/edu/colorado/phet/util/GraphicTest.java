@@ -2,7 +2,7 @@ package edu.colorado.phet.util;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.quantum.QuantumConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,7 +50,7 @@ public class GraphicTest {
         //        ap.addGraphic( pg4 );
 
         for( double a = 0; a <= 360; a += 45 ) {
-            TestGraphic pg5 = new TestGraphic( ap, LaserConfig.PHOTON_IMAGE_FILE, Math.toRadians( a ), "D" );
+            TestGraphic pg5 = new TestGraphic( ap, QuantumConfig.PHOTON_IMAGE_FILE, Math.toRadians( a ), "D" );
             pg5.setLocation( (int)( a * 2 ), (int)( a * 2 ) );
             ap.addGraphic( pg5 );
         }
