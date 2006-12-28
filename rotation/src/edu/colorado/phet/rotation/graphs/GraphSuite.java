@@ -7,10 +7,10 @@ package edu.colorado.phet.rotation.graphs;
  * Copyright (c) Dec 28, 2006 by Sam Reid
  */
 
-public class RotationGraphSuite {
+public class GraphSuite {
     private GraphComponent[] graphComponent;
 
-    public RotationGraphSuite( GraphComponent[] graphComponent ) {
+    public GraphSuite( GraphComponent[] graphComponent ) {
         this.graphComponent = graphComponent;
     }
 
