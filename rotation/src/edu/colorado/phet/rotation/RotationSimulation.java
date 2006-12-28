@@ -1,7 +1,6 @@
 package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
 import javax.swing.*;
@@ -51,7 +50,7 @@ public class RotationSimulation extends PhetApplication {
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                new PhetLookAndFeel().initLookAndFeel();
+                new RotationLookAndFeel().initLookAndFeel();
                 new RotationSimulation( args ).startApplication();
             }
         } );
