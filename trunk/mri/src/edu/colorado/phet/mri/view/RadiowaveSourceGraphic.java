@@ -166,13 +166,14 @@ public class RadiowaveSourceGraphic extends PNode {
 
         // Update the sliders if the radiowave source changes its state through some mechanism other than our
         // sliders
-        radiowaveSource.addChangeListener( new PhotonSource.ChangeListener() {
-            public void rateChangeOccurred( PhotonSource.ChangeEvent event ) {
-                powerCtrl.setValue( ( (RadiowaveSource)event.getPhotonSource() ).getPower() );
+        radiowaveSource.addRateChangeListener( new PhotonSource.RateChangeListener() {
+            public void rateChangeOccurred( PhotonSource.RateChangeEvent event ) {
+                powerCtrl.setValue( ( (RadiowaveSource)event.getSource() ).getPower() );
             }
-
-            public void wavelengthChanged( PhotonSource.ChangeEvent event ) {
-                freqCtrl.setValue( PhysicsUtil.wavelengthToFrequency( event.getPhotonSource().getWavelength() ) );
+        } );
+        radiowaveSource.addWavelengthChangeListener( new PhotonSource.WavelengthChangeListener() {
+            public void wavelengthChanged( PhotonSource.WavelengthChangeEvent event ) {
+                freqCtrl.setValue( PhysicsUtil.wavelengthToFrequency( ((RadiowaveSource)event.getSource()).getWavelength() ) );
             }
         } );
     }
@@ -190,14 +191,15 @@ public class RadiowaveSourceGraphic extends PNode {
         addChild( squiggleNode );
         final EnergySquiggleUpdater energySquiggleUpdater = new EnergySquiggleUpdater( energySquiggle,
                                                                                        model );
-        radiowaveSource.addChangeListener( new PhotonSource.ChangeListener() {
-            public void rateChangeOccurred( PhotonSource.ChangeEvent event ) {
+        radiowaveSource.addRateChangeListener( new PhotonSource.RateChangeListener() {
+            public void rateChangeOccurred( PhotonSource.RateChangeEvent event ) {
                 double xOffset = ( squiggleBox.getBounds().getWidth() - energySquiggle.getFullBounds().getWidth() ) / 2;
                 double yOffset = squiggleBox.getBounds().getHeight();
                 energySquiggleUpdater.updateSquiggle( xOffset, yOffset, SQUIGGLE_LENGTH_CALIBRATION_FACTOR );
             }
-
-            public void wavelengthChanged( PhotonSource.ChangeEvent event ) {
+        } );
+        radiowaveSource.addWavelengthChangeListener( new PhotonSource.WavelengthChangeListener() {
+            public void wavelengthChanged( PhotonSource.WavelengthChangeEvent event ) {
                 double xOffset = ( squiggleBox.getBounds().getWidth() - energySquiggle.getFullBounds().getWidth() ) / 2;
                 double yOffset = squiggleBox.getBounds().getHeight();
                 energySquiggleUpdater.updateSquiggle( xOffset, yOffset, SQUIGGLE_LENGTH_CALIBRATION_FACTOR );

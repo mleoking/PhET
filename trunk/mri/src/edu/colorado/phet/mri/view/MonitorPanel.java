@@ -105,7 +105,9 @@ public class MonitorPanel extends PhetPCanvas {
         model.addListener( new ModelChangeListener( model ) );
         model.addModelElement( new DipoleRepUpdater( model ) );
         model.getLowerMagnet().addChangeListener( new EnergyLevelSeparationUpdater( model ) );
-        model.getRadiowaveSource().addChangeListener( new SquiggleUpdater( model ) );
+        SquiggleUpdater radiowaveSourceListener = new SquiggleUpdater( model );
+        model.getRadiowaveSource().addWavelengthChangeListener( radiowaveSourceListener );
+        model.getRadiowaveSource().addRateChangeListener( radiowaveSourceListener );
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 updatePanel( model );
@@ -360,18 +362,19 @@ public class MonitorPanel extends PhetPCanvas {
     //--------------------------------------------------------------------------------------------------
     // Implementation of RadiowaveSource.ChangeListener
     //--------------------------------------------------------------------------------------------------
-    private class SquiggleUpdater implements RadiowaveSource.ChangeListener {
+    private class SquiggleUpdater implements RadiowaveSource.WavelengthChangeListener,
+                                             RadiowaveSource.RateChangeListener {
         private MriModel model;
 
         public SquiggleUpdater( MriModel model ) {
             this.model = model;
         }
 
-        public void rateChangeOccurred( PhotonSource.ChangeEvent event ) {
+        public void rateChangeOccurred( PhotonSource.RateChangeEvent event ) {
             adjustSquiggle( model );
         }
 
-        public void wavelengthChanged( PhotonSource.ChangeEvent event ) {
+        public void wavelengthChanged( PhotonSource.WavelengthChangeEvent event ) {
             adjustSquiggle( model );
         }
     }

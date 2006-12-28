@@ -77,12 +77,12 @@ public class RadiowaveSource extends Beam implements IScalar {
 
     public Orientation getOrientation() {
         Orientation orientation = null;
-        if( getDirection().getX() == 0 && getDirection().getY() != 0 ) {
-            orientation = HORIZONTAL;
-        }
-        if( getDirection().getX() != 0 && getDirection().getY() == 0 ) {
-            orientation = VERTICAL;
-        }
+//        if( getDirection().getX() == 0 && getDirection().getY() != 0 ) {
+//            orientation = HORIZONTAL;
+//        }
+//        if( getDirection().getX() != 0 && getDirection().getY() == 0 ) {
+//            orientation = VERTICAL;
+//        }
         return orientation;
     }
 

@@ -16,9 +16,9 @@ import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.mri.view.BFieldIndicatorB;
 import edu.colorado.phet.mri.view.ModelElementGraphicManager;
 import edu.colorado.phet.mri.view.PlaneWaveGraphic;
+import edu.colorado.phet.mri.view.PhotonGraphic;
 import edu.colorado.phet.piccolo.DeferredInitializationModule;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.quantum.view.PhotonGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;

@@ -258,8 +258,25 @@ public class Beam extends Particle implements PhotonSource {
         photonEmittedEventChannel.addListener( photonEmittedListener );
     }
 
+    /**
+     * Allows concrete classes that implement more than one interface to be removed with
+     * a single call. This is a screwy settup that I threw in when I had to refactor things
+     * to work with several simulations.
+     * @todo refactor this whole listener mechanism to have a single ChangeListener interface
+     * that handles both rate and wavelength changes, and a separate interface for photon emission
+     * events.
+     * @param listener
+     */
     public void removeListener( EventListener listener ) {
-        rateChangeEventChannel.removeListener( listener );
+        if( listener instanceof RateChangeListener ) {
+            rateChangeEventChannel.removeListener( listener );
+        }
+        if( listener instanceof WavelengthChangeListener ) {
+            wavelengthChangeEventChannel.removeListener( listener );
+        }
+        if( listener instanceof PhotonEmissionListener ) {
+            photonEmittedEventChannel.removeListener( listener );
+        }
     }
 }
 
