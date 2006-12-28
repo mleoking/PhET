@@ -15,7 +15,6 @@ import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.quantum.model.Photon;
-import edu.colorado.phet.quantum.view.PhotonGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;

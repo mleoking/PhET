@@ -105,20 +105,23 @@ public class NmrModule extends AbstractMriModule {
         wiggleMe.animateTo( ( (MriModel)getModel() ).getRadiowaveSource().getPosition().getX() - 120,
                             ( (MriModel)getModel() ).getRadiowaveSource().getPosition().getY() - 20 );
 
-        ( (MriModel)getModel() ).getRadiowaveSource().addChangeListener( new PhotonSource.ChangeListener() {
-            public void rateChangeOccurred( PhotonSource.ChangeEvent event ) {
-                removeWiggleMe( event );
-            }
-
-            public void wavelengthChanged( PhotonSource.ChangeEvent event ) {
-                removeWiggleMe( event );
-            }
-
-            private void removeWiggleMe( PhotonSource.ChangeEvent event ) {
-                ( (RadiowaveSource)event.getPhotonSource() ).removeChangeListener( this );
-                getPhetPCanvas().removeScreenChild( wiggleMe );
-            }
-        } );
+        PhotonSourceListener photonSourceListener = new PhotonSourceListener( wiggleMe );
+        ( (MriModel)getModel() ).getRadiowaveSource().addRateChangeListener( photonSourceListener );
+        ( (MriModel)getModel() ).getRadiowaveSource().addWavelengthChangeListener( photonSourceListener );
+//        ( (MriModel)getModel() ).getRadiowaveSource().addChangeListener( new PhotonSource.ChangeListener() {
+//            public void rateChangeOccurred( PhotonSource.ChangeEvent event ) {
+//                removeWiggleMe( event );
+//            }
+//
+//            public void wavelengthChanged( PhotonSource.ChangeEvent event ) {
+//                removeWiggleMe( event );
+//            }
+//
+//            private void removeWiggleMe( PhotonSource.ChangeEvent event ) {
+//                ( (RadiowaveSource)event.getPhotonSource() ).removeChangeListener( this );
+//                getPhetPCanvas().removeScreenChild( wiggleMe );
+//            }
+//        } );
     }
 
 //    class MagnifierPanel extends JPanel {
@@ -150,4 +153,22 @@ public class NmrModule extends AbstractMriModule {
 //        }
 //    }
 
+    private class PhotonSourceListener implements PhotonSource.RateChangeListener,
+                                                  PhotonSource.WavelengthChangeListener {
+        private final MotionHelpBalloon wiggleMe;
+
+        public PhotonSourceListener( MotionHelpBalloon wiggleMe ) {
+            this.wiggleMe = wiggleMe;
+        }
+
+        public void rateChangeOccurred( PhotonSource.RateChangeEvent event ) {
+            ( (RadiowaveSource)event.getSource() ).removeListener( this );
+            getPhetPCanvas().removeScreenChild( wiggleMe );
+        }
+
+        public void wavelengthChanged( PhotonSource.WavelengthChangeEvent event ) {
+            ( (RadiowaveSource)event.getSource() ).removeListener( this );
+            getPhetPCanvas().removeScreenChild( wiggleMe );
+        }
+    }
 }

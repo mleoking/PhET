@@ -102,7 +102,7 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
                                                new Vector2D.Double( 0, -1 ) );
         addModelElement( radiowaveSource );
         radiowaveSource.setEnabled( true );
-        radiowaveSource.addPhotonEmissionListener( new PhotonEmissionListener() {
+        radiowaveSource.addPhotonEmittedListener( new PhotonEmissionListener() {
             public void photonEmitted( PhotonEmittedEvent event ) {
                 addModelElement( event.getPhoton() );
             }
