@@ -113,6 +113,7 @@ public class TestWavelengthControl extends JFrame {
         c7.setTextFieldFont( new Font( "Lucida Sans", Font.PLAIN, 20 ) );
         c7.setUnitsFont( new Font( "Lucida Sans", Font.ITALIC, 14 ) );
         c7.setTextFieldColumns( 5 );
+        c7.setKnobSize( 15, 15 );
         canvas.getLayer().addChild( c7 );
         c7.setOffset( xOffset, yOffset );
         yOffset += ySpacing;

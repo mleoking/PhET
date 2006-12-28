@@ -3,7 +3,8 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- add WavelengthControl.setTrackSize(Dimension)
+- size "UV" and "IR" labels to fit WavelengthControl track height
 
 HIGH PRIORITY:
 - implement Solar System energy diagram
@@ -27,9 +28,6 @@ LOW PRIORITY:
 - improve performance of deBroglie 3D representation
 - animation gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
 - reduce size of image files
-- add WavelengthControl.setTrackSize(Dimension)
-- add WavelengthControl.setKnobSize(Dimension)
-- size "UV" and "IR" labels to fit WavelengthControl track height
 - animate opening/closing of Atomic Model selection panel (use PNode.toImage)
 - generalize creating a "panel" node to fit under a collection of nodes
 - create layout nodes for creating Piccolo-based control panels
@@ -43,6 +41,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(12/28/06) - add WavelengthControl.setKnobSize(int width, int height)
 (12/28/06) - make SpectrumImageFactory more general, and move it to phetcommon
 (12/28/06) - generate spectrum image programmatically instead of using an image file
 (12/27/06) - when Schrodinger is in state (2,0,0) and gun is firing white light, fire an absorbable photon at the atom's center evry 15 sec 
