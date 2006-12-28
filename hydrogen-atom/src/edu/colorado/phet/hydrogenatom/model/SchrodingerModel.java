@@ -162,9 +162,37 @@ public class SchrodingerModel extends DeBroglieModel {
         return getProbabilityDensity( n, _l, _m, x, y, z );
     }
     
+    /**
+     * Is the atom in a state where emission is possible?
+     * Emission can occur in all states except (1,0,0) and (2,0,0).
+     * The only way to get out of these states is via absorption.
+     * 
+     * @return true or false
+     */
+    public boolean canEmitPhoton() {
+        int n = getElectronState();
+        return !( n == 1 || ( n == 2 && _l == 0 ) );
+    }
+    
     //----------------------------------------------------------------------------
     // Superclass overrides
     //----------------------------------------------------------------------------
+    
+    /*
+     * Probabilistically determines whether to absorb a photon.
+     * Typcially we defer to the superclass implementation.
+     * But if we're in state (2,0,0), the probability is 100%. 
+     * This is not physically correct, but we want to make it easier
+     * to get out of state (2,0,0).
+     * 
+     * @return true or false
+     */
+    protected boolean willAbsorbPhoton() {
+        if ( getElectronState() == 2 && _l == 0 ) {
+            return true;
+        }
+        return super.willAbsorbPhoton();
+    }
     
     /*
      * Determines if a proposed state transition is legal.
