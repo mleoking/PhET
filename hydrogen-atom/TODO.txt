@@ -11,6 +11,7 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - rename SchrodingerUnstucker
+- ask SM about SR's idea of spontaneously emitting 2 photons to get out of state (2,0,0)
 - design a monochromatic solution for Schrodinger state (2,0,0)
 - verify that ModelViewTransform is used everywhere that it should be
 - verify that behavior is correct when clock is paused
