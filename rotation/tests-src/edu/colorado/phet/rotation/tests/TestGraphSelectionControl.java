@@ -1,9 +1,11 @@
+package edu.colorado.phet.rotation.tests;
 /**
  * User: Sam Reid
  * Date: Dec 28, 2006
  * Time: 8:42:32 AM
  * Copyright (c) Dec 28, 2006 by Sam Reid
  */
+
 
 import edu.colorado.phet.rotation.controls.GraphSelectionControl;
 import edu.colorado.phet.rotation.graphs.GraphSetPanel;
