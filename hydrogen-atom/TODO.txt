@@ -14,7 +14,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - rename SchrodingerUnstucker
 - ask SM about SR's idea of spontaneously emitting 2 photons to get out of state (2,0,0)
-- design a monochromatic solution for Schrodinger state (2,0,0)
 - verify that ModelViewTransform is used everywhere that it should be
 - verify that behavior is correct when clock is paused
 - add "description" to SimStrings file
@@ -23,7 +22,7 @@ MEDIUM PRIORITY:
 - default gun to white light
 
 LOW PRIORITY:
-- improve performance of Schrodinger
+- improve performance of Schrodinger (faster Leguerre Polynomial algorithm?)
 - improve performance of deBroglie "brightness" and "brightness magnitude" representations
 - improve performance of deBroglie 3D representation
 - animation gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
@@ -38,7 +37,7 @@ LOW PRIORITY:
 
 DEFER UNTIL AFTER INTERVIEWS:
 - make spectrometer show each UV/IR transition wavelength at a distinct horizontal position
- 
+- design a monochromatic solution for Schrodinger state (2,0,0)
  
 DONE:
 (12/28/06) - scale "UV" and "IR" labels to fit WavelengthControl track height
