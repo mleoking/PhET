@@ -31,9 +31,9 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.view.util.SpectrumImageFactory;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.util.SpectrumImageFactory;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;

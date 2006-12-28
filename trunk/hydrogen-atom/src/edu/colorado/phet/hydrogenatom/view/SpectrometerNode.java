@@ -25,16 +25,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.view.util.*;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.Photon;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedEvent;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedListener;
 import edu.colorado.phet.hydrogenatom.util.ColorUtils;
-import edu.colorado.phet.hydrogenatom.util.SpectrumImageFactory;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
