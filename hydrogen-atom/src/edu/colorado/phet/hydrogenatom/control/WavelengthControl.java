@@ -578,7 +578,7 @@ public class WavelengthControl extends PhetPNode {
             
             /* Portion of the track that represents visible wavelengths */
             Image spectrumImage = SpectrumImageFactory.createHorizontalSpectrum( (int)visibleTrackWidth, trackHeight );
-            PImage spectrumTrack = new PImage( spectrumImage );
+            PImage visibleTrack = new PImage( spectrumImage );
             
             /* Portion of the track that represents ultra-violet (UV) wavelengths */
             PPath uvTrack = null;
@@ -626,12 +626,12 @@ public class WavelengthControl extends PhetPNode {
                 addChild( irTrack );
                 addChild( irLabel );
             }
-            addChild( spectrumTrack );
+            addChild( visibleTrack );
 
             // Positioning
             if ( !hasUV ) {
-                // If there is no UV, the spectrum is at the far left.
-                spectrumTrack.setOffset( 0, 0 );
+                // If there is no UV, the visible track is at the far left.
+                visibleTrack.setOffset( 0, 0 );
             }
             else {
                 // UV track is at the far left
@@ -644,12 +644,12 @@ public class WavelengthControl extends PhetPNode {
                     removeChild( uvLabel );
                 }
                 // Spectrum track is to the right of the UV track
-                spectrumTrack.setOffset( uvTrack.getFullBounds().getX() + uvTrack.getFullBounds().getWidth(), 0 );
+                visibleTrack.setOffset( uvTrack.getFullBounds().getX() + uvTrack.getFullBounds().getWidth(), 0 );
             }
 
             if ( hasIR ) {
-                // IR track is to the right of the spectrum track
-                irTrack.setOffset( spectrumTrack.getFullBounds().getX() + spectrumTrack.getFullBounds().getWidth(), 0 );
+                // IR track is to the right of the visible track
+                irTrack.setOffset( visibleTrack.getFullBounds().getX() + visibleTrack.getFullBounds().getWidth(), 0 );
                 // IR label is centered in the UV track
                 irLabel.setOffset( irTrack.getFullBounds().getX() + ( ( irTrack.getFullBounds().getWidth() -  irLabel.getFullBounds().getWidth() ) / 2 ), 
                         ( irTrack.getFullBounds().getHeight() - irLabel.getFullBounds().getHeight() ) / 2 );
