@@ -140,8 +140,9 @@ public class GunControlPanel extends PhetPNode implements Observer {
            PBounds ltb = lightTypeControlWrapper.getFullBounds();
            lightIntensityControlWrapper.setOffset( ltb.getX(), ltb.getY() + ltb.getHeight() + Y_SPACING );
            PBounds lib = lightIntensityControlWrapper.getFullBounds();
+           double xFudge = 10; // fudge factor for text field above wavelength slider
            double yFudge = 25; // fudge factor for text field above wavelength slider
-           _wavelengthControl.setOffset( lib.getX(), lib.getY() + lib.getHeight() + Y_SPACING + yFudge );
+           _wavelengthControl.setOffset( lib.getX() + xFudge, lib.getY() + lib.getHeight() + Y_SPACING + yFudge );
            
            _alphaParticleControls.setOffset( gtb.getX(), gtb.getY() + gtb.getHeight() + Y_SPACING );
            alphaParticlesIntensityControlWrapper.setOffset( 0, 0 );
