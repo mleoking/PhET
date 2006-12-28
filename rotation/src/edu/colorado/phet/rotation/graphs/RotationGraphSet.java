@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.rotation.util.UnicodeUtil;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * User: Sam Reid
@@ -18,13 +19,13 @@ public class RotationGraphSet {
     private GraphComponent accelerationGraph;
     private GraphSuite[] suites;
 
-    public RotationGraphSet() {
-        angleGraph = new GraphComponent( UnicodeUtil.THETA );
-        angularVelocityGraph = new GraphComponent( UnicodeUtil.OMEGA );
-        angularAccelerationGraph = new GraphComponent( UnicodeUtil.ALPHA );
-        positionGraph = new GraphComponent( "x,y" );
-        velocityGraph = new GraphComponent( "vx,vy" );
-        accelerationGraph = new GraphComponent( "a" );
+    public RotationGraphSet( PSwingCanvas pSwingCanvas ) {
+        angleGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.THETA );
+        angularVelocityGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.OMEGA );
+        angularAccelerationGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.ALPHA );
+        positionGraph = new GraphComponent( pSwingCanvas, "x,y" );
+        velocityGraph = new GraphComponent( pSwingCanvas, "vx,vy" );
+        accelerationGraph = new GraphComponent( pSwingCanvas, "a" );
 
         suites = new GraphSuite[]{
                 new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),
