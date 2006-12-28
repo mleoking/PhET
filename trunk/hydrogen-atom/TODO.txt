@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- add WavelengthControl.setTrackSize(Dimension)
+- add track size to WavelengthControl constructor
 - generate 1 image for entire spectrum for Spectrometer colorKey and WavelengthControl
 
 HIGH PRIORITY:
