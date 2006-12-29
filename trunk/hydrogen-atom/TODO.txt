@@ -38,6 +38,7 @@ DEFER UNTIL AFTER INTERVIEWS:
 - make spectrometer show each UV/IR transition wavelength at a distinct horizontal position
 - design a monochromatic solution for Schrodinger state (2,0,0)
  
+ 
 DONE:
 (12/29/06) - add CursorHandler to checkboxes that are on the canvas
 (12/29/06) - add CursorHandler to textfield in WavelengthControl
