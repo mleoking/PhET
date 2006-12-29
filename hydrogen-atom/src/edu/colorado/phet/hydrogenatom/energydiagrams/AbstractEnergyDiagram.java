@@ -48,7 +48,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     private static final String FONT_SIZE_RESOURCE = "energyDiagram.font.size";
     
     private static final Dimension DIAGRAM_SIZE = new Dimension( 250, 420 );
-    private static final double X_MARGIN = 5;
+    private static final double X_MARGIN = 10;
     private static final double Y_MARGIN = 10;
     private static final Dimension ARROW_SIZE = new Dimension( 13, 13 );
     private static final float AXIS_STROKE_WIDTH = 2;
