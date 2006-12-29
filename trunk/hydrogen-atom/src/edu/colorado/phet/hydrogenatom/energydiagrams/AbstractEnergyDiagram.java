@@ -25,10 +25,10 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.piccolo.PhetPNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
  * AbstractEnergyDiagram is the base class for all energy diagrams.
@@ -48,7 +48,8 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     private static final String FONT_SIZE_RESOURCE = "energyDiagram.font.size";
     
     private static final Dimension DIAGRAM_SIZE = new Dimension( 250, 420 );
-    private static final double MARGIN = 10;
+    private static final double X_MARGIN = 5;
+    private static final double Y_MARGIN = 10;
     private static final Dimension ARROW_SIZE = new Dimension( 13, 13 );
     private static final float AXIS_STROKE_WIDTH = 2;
     
@@ -64,6 +65,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     
     private AbstractHydrogenAtom _atom;
     private ElectronNode _electronNode;
+    private Rectangle2D _drawingArea; // area that we can draw in
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -80,14 +82,16 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
         
         // Background
-        PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, DIAGRAM_SIZE.width, DIAGRAM_SIZE.height ) );
+        PClip backgroundNode = new PClip();
+        backgroundNode.setPathTo( new Rectangle2D.Double( 0, 0, DIAGRAM_SIZE.width, DIAGRAM_SIZE.height ) );
         backgroundNode.setPaint( BACKGROUND_COLOR );
         backgroundNode.setStroke( new BasicStroke( 2f ) );
         backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
+        addChild( backgroundNode );
         
         // Y-axis
         PPath axisNode = new PPath();
-        axisNode.setPathTo( new Line2D.Double( 0, ARROW_SIZE.height - 1, 0, DIAGRAM_SIZE.height - ( 2 * MARGIN ) ) );
+        axisNode.setPathTo( new Line2D.Double( 0, ARROW_SIZE.height - 1, 0, DIAGRAM_SIZE.height - ( 2 * Y_MARGIN ) ) );
         axisNode.setStroke( new BasicStroke( AXIS_STROKE_WIDTH ) );
         axisNode.setStrokePaint( AXIS_STROKE_COLOR );
 
@@ -112,11 +116,10 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         _electronNode = new ElectronNode();
 
         // Layering
-        addChild( backgroundNode );
-        addChild( axisNode );
-        addChild( arrowNode );
-        addChild( axisLabelNode );
-        addChild( _electronNode );
+        backgroundNode.addChild( axisNode );
+        backgroundNode.addChild( arrowNode );
+        backgroundNode.addChild( axisLabelNode );
+        backgroundNode.addChild( _electronNode );
         
         // Positions
         backgroundNode.setOffset( 0, 0 );
@@ -124,9 +127,15 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         PBounds alb = axisLabelNode.getFullBounds();
         axisLabelNode.setOffset( 5, bb.getY() + bb.getHeight() - 10 );
         alb = axisLabelNode.getFullBounds();
-        axisNode.setOffset( alb.getX() + alb.getWidth() + 5, MARGIN );
-        arrowNode.setOffset( axisNode.getFullBounds().getX() + ( AXIS_STROKE_WIDTH / 2.0 ), MARGIN );
-        _electronNode.setOffset( bb.getX() + 60, bb.getY() + 20 );
+        axisNode.setOffset( alb.getX() + alb.getWidth() + 5, Y_MARGIN );
+        arrowNode.setOffset( axisNode.getFullBounds().getX() + ( AXIS_STROKE_WIDTH / 2.0 ), Y_MARGIN );
+        
+        // Determine the "safe" drawing area
+        double x = arrowNode.getOffset().getX() + arrowNode.getWidth() + X_MARGIN;
+        double y = 0;
+        double w = backgroundNode.getWidth() - X_MARGIN - x;
+        double h = backgroundNode.getHeight();
+        _drawingArea = new Rectangle2D.Double( x, y, w, h );
     }
     
     //----------------------------------------------------------------------------
@@ -152,6 +161,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         clearAtom();
         if ( atom != null ) {
             _atom = atom;
+            initElectronPosition();
             if ( isVisible() ) {
                 _atom.addObserver( this );
             }
@@ -175,6 +185,25 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
      */
     protected ElectronNode getElectronNode() {
         return _electronNode;
+    }
+    
+    /**
+     * Get the bounds of the area that subclasses can draw stuff in.
+     * 
+     * @return Rectangle2D
+     */
+    protected Rectangle2D getDrawingArea() {
+        return _drawingArea;
+    }
+    
+    /**
+     * Initializes the position of the electron.
+     * This is called each time the diagram's atom is set.
+     * The default implementation puts the electron near the upper-left 
+     * corner of the "safe" drawing area.
+     */
+    protected void initElectronPosition() {
+        _electronNode.setOffset( _drawingArea.getX(), _drawingArea.getY() + Y_MARGIN );
     }
     
     //----------------------------------------------------------------------------
