@@ -25,7 +25,7 @@ public class GraphControlNode extends PNode {
     private PSwing goStopButton;
     private PSwing clearButton;
 
-    public GraphControlNode( PSwingCanvas pSwingCanvas, SimulationVariable simulationVariable ) {
+    public GraphControlNode( PSwingCanvas pSwingCanvas, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries ) {
         shadowPText = new ShadowPText( "Title" );
         shadowPText.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
         shadowPText.setTextPaint( Color.blue );
@@ -35,10 +35,10 @@ public class GraphControlNode extends PNode {
         textBox = new PSwing( pSwingCanvas, new TextBox( simulationVariable ) );
         addChild( textBox );
 
-        goStopButton = new PSwing( pSwingCanvas, new GoStopButton() );
+        goStopButton = new PSwing( pSwingCanvas, new GoStopButton( graphTimeSeries ) );
         addChild( goStopButton );
 
-        clearButton = new PSwing( pSwingCanvas, new ClearButton() );
+        clearButton = new PSwing( pSwingCanvas, new ClearButton( graphTimeSeries ) );
         addChild( clearButton );
 
         relayout();
@@ -54,14 +54,84 @@ public class GraphControlNode extends PNode {
     }
 
     static class ClearButton extends JButton {
-        public ClearButton() {
+        private GraphTimeSeries graphTimeSeries;
+
+        public ClearButton( final GraphTimeSeries graphTimeSeries ) {
             super( "Clear" );
+            this.graphTimeSeries = graphTimeSeries;
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    graphTimeSeries.clear();
+                }
+            } );
+            graphTimeSeries.addListener( new GraphTimeSeries.Listener() {
+                public void started() {
+                }
+
+                public void stopped() {
+                }
+
+                public void cleared() {
+                }
+
+                public void emptyStateChanged() {
+                    updateEnabledState();
+                }
+            } );
+            updateEnabledState();
+        }
+
+        private void updateEnabledState() {
+            setEnabled( !graphTimeSeries.isEmpty() );
         }
     }
 
     static class GoStopButton extends JButton {
-        public GoStopButton() {
+        private boolean goButton = true;
+        private GraphTimeSeries graphTimeSeries;
+
+        public GoStopButton( final GraphTimeSeries graphTimeSeries ) {
             super( "Go" );
+            this.graphTimeSeries = graphTimeSeries;
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if( isGoButton() ) {
+                        graphTimeSeries.go();
+                    }
+                    else {
+                        graphTimeSeries.stop();
+                    }
+                }
+            } );
+            graphTimeSeries.addListener( new GraphTimeSeries.Listener() {
+                public void started() {
+                    updateGoState();
+                }
+
+                public void stopped() {
+                    updateGoState();
+                }
+
+                public void cleared() {
+                }
+
+                public void emptyStateChanged() {
+                }
+            } );
+            updateGoState();
+        }
+
+        private void updateGoState() {
+            setGoButton( !graphTimeSeries.isRunning() );
+        }
+
+        private void setGoButton( boolean b ) {
+            this.goButton = b;
+            setText( goButton ? "Go!" : "Stop" );
+        }
+
+        private boolean isGoButton() {
+            return goButton;
         }
     }
 

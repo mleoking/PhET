@@ -38,7 +38,7 @@ public class ControlGraph extends PNode {
         jFreeChartNode.setBounds( 0, 0, 500, 400 );
         verticalChartControl = new VerticalChartControl( jFreeChartNode, new PText( "THUMB" ) );
 
-        graphControlNode = new GraphControlNode( pSwingCanvas, simulationVariable );
+        graphControlNode = new GraphControlNode( pSwingCanvas, simulationVariable, new DefaultGraphTimeSeries() );
 
         addChild( graphControlNode );
         addChild( verticalChartControl );
