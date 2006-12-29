@@ -11,12 +11,22 @@
 
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
-import edu.colorado.phet.hydrogenatom.HAConstants;
+import java.util.Observable;
+import java.util.Observer;
+
+import edu.colorado.phet.hydrogenatom.model.SchrodingerModel;
 
 
-public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram {
+public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements Observer {
 
     public SchrodingerEnergyDiagram() {
         super();
+    }
+    
+    public void update( Observable o, Object arg ) {
+        if ( o instanceof SchrodingerModel ) {
+            SchrodingerModel atom = (SchrodingerModel) o;
+            //XXX
+        }
     }
 }

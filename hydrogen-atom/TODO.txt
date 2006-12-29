@@ -40,6 +40,8 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(12/29/06) - set up infrastructure for energy diagrams to observe atom
+(12/29/06) - made DeBroglieEnergyDiagram extend BohrEnergyDiagram
 (12/29/06) - add CursorHandler to checkboxes that are on the canvas
 (12/29/06) - add CursorHandler to textfield in WavelengthControl
 (12/29/06) - add CursorHandler to all interactive controls in GunControlPanel

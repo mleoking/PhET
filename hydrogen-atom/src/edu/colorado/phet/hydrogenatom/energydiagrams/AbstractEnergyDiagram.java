@@ -18,17 +18,25 @@ import java.awt.Font;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Observer;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
-
-public abstract class AbstractEnergyDiagram extends PhetPNode {
+/**
+ * AbstractEnergyDiagram is the base class for all energy diagrams.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
+public abstract class AbstractEnergyDiagram extends PhetPNode implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -49,6 +57,13 @@ public abstract class AbstractEnergyDiagram extends PhetPNode {
     private static final Color AXIS_STROKE_COLOR = Color.BLACK;
     private static final Color ARROW_COLOR = Color.BLACK;
     private static final Color AXIS_LABEL_COLOR = Color.BLACK;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private AbstractHydrogenAtom _atom;
+    private ElectronNode _electronNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -94,14 +109,14 @@ public abstract class AbstractEnergyDiagram extends PhetPNode {
         axisLabelNode.rotate( Math.toRadians( -90 ) );
         
         // Electron
-        ElectronNode electronNode = new ElectronNode();
+        _electronNode = new ElectronNode();
 
         // Layering
         addChild( backgroundNode );
         addChild( axisNode );
         addChild( arrowNode );
         addChild( axisLabelNode );
-        addChild( electronNode );
+        addChild( _electronNode );
         
         // Positions
         backgroundNode.setOffset( 0, 0 );
@@ -111,6 +126,76 @@ public abstract class AbstractEnergyDiagram extends PhetPNode {
         alb = axisLabelNode.getFullBounds();
         axisNode.setOffset( alb.getX() + alb.getWidth() + 5, MARGIN );
         arrowNode.setOffset( axisNode.getFullBounds().getX() + ( AXIS_STROKE_WIDTH / 2.0 ), MARGIN );
-        electronNode.setOffset( bb.getX() + 60, bb.getY() + 20 );
+        _electronNode.setOffset( bb.getX() + 60, bb.getY() + 20 );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Mutators and accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the atom that is associated with this diagram.
+     * 
+     * @return AbstractHydrogenAtom
+     */
+    protected AbstractHydrogenAtom getAtom() {
+        return _atom;
+    }
+    
+    /**
+     * Sets the atom that is associated with this diagram.
+     * If the diagram is visible, start observing the atom.
+     * 
+     * @param atom
+     */
+    public void setAtom( AbstractHydrogenAtom atom ) {
+        clearAtom();
+        if ( atom != null ) {
+            _atom = atom;
+            if ( isVisible() ) {
+                _atom.addObserver( this );
+            }
+        }
+    }
+    
+    /**
+     * Removes the association between this diagram and any atom.
+     */
+    public void clearAtom() {
+        if ( _atom != null ) {
+            _atom.deleteObserver( this );
+            _atom = null;
+        }
+    }
+    
+    /**
+     * Gets the Piccolo node that represents the electron.
+     * 
+     * @return ElectronNode
+     */
+    protected ElectronNode getElectronNode() {
+        return _electronNode;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Superclass overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the visibility of this diagram.
+     * While the diagram is invisible, it does not observer the atom.
+     * 
+     * @param visible
+     */
+    public void setVisible( boolean visible ) {
+        if ( _atom != null ) {
+            if ( visible ) {
+                _atom.addObserver( this );
+            }
+            else {
+                _atom.deleteObserver( this );
+            }
+        }
+        super.setVisible( visible );
     }
 }
