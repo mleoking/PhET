@@ -30,7 +30,6 @@ public class GraphComponent extends PNode {
 
     private ArrayList listeners = new ArrayList();
 
-
     public GraphComponent( PSwingCanvas pSwingCanvas, String label ) {
         this.label = label;
 
