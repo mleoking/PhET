@@ -30,6 +30,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HADefaults;
 import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
 import edu.colorado.phet.hydrogenatom.control.GunControlPanel;
 import edu.colorado.phet.hydrogenatom.control.HAClockControlPanel;
@@ -40,8 +41,6 @@ import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
-import edu.colorado.phet.hydrogenatom.enums.GunMode;
-import edu.colorado.phet.hydrogenatom.enums.LightType;
 import edu.colorado.phet.hydrogenatom.hacks.SchrodingerUnstucker;
 import edu.colorado.phet.hydrogenatom.help.HAWiggleMe;
 import edu.colorado.phet.hydrogenatom.model.*;
@@ -65,28 +64,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @version $Revision$
  */
 public class HAModule extends PiccoloModule {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    // Selectors
-    private static final boolean DEFAULT_MODE_EXPERIMENT = false;
-    private static final AtomicModel DEFAULT_ATOMIC_MODEL = AtomicModel.BILLIARD_BALL;
-    
-    // Gun
-    private static final boolean DEFAULT_GUN_ENABLED = false;
-    private static final GunMode DEFAULT_GUN_MODE = GunMode.PHOTONS;
-    private static final LightType DEFAULT_LIGHT_TYPE = LightType.MONOCHROMATIC;
-    private static final double DEFAULT_WAVELENGTH = 95;
-    private static final double DEFAULT_LIGHT_INTENSITY = 1.0;
-    private static final double DEFAULT_ALPHA_PARTICLES_INTENSITY = DEFAULT_LIGHT_INTENSITY;
-
-    // Spectrometer
-    private static final boolean DEFAULT_SPECTROMETER_SELECTED = true;
-    
-    // Energy Diagrams
-    private static final boolean DEFAULT_ENERGY_DIAGRAM_SELECTED = false;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -403,30 +380,30 @@ public class HAModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     /*
-     * Resets the simulation to its default state.
+     * Resets the module to its default state.
      */
     private void reset() {
         
-        if ( DEFAULT_MODE_EXPERIMENT ) {
+        if ( HADefaults.MODE_EXPERIMENT ) {
             _modeSwitch.setExperimentSelected();
         }
         else {
             _modeSwitch.setPredictionSelected();
         }
         
-        _atomicModelSelector.setSelection( DEFAULT_ATOMIC_MODEL );
+        _atomicModelSelector.setSelection( HADefaults.ATOMIC_MODEL );
         
         Gun gun = _model.getGun();
-        gun.setEnabled( DEFAULT_GUN_ENABLED );
-        gun.setMode( DEFAULT_GUN_MODE );
-        gun.setLightType( DEFAULT_LIGHT_TYPE );
-        gun.setWavelength( DEFAULT_WAVELENGTH );
-        gun.setLightIntensity( DEFAULT_LIGHT_INTENSITY );
-        gun.setAlphaParticlesIntensity( DEFAULT_ALPHA_PARTICLES_INTENSITY );
+        gun.setEnabled( HADefaults.GUN_ENABLED );
+        gun.setMode( HADefaults.GUN_MODE );
+        gun.setLightType( HADefaults.LIGHT_TYPE );
+        gun.setWavelength( HADefaults.WAVELENGTH );
+        gun.setLightIntensity( HADefaults.LIGHT_INTENSITY );
+        gun.setAlphaParticlesIntensity( HADefaults.ALPHA_PARTICLES_INTENSITY );
         
-        _spectrometerCheckBox.setSelected( DEFAULT_SPECTROMETER_SELECTED );
+        _spectrometerCheckBox.setSelected( HADefaults.SPECTROMETER_SELECTED );
         _spectrometerNode.start();
-        _energyDiagramCheckBox.setSelected( DEFAULT_ENERGY_DIAGRAM_SELECTED );
+        _energyDiagramCheckBox.setSelected( HADefaults.ENERGY_DIAGRAM_SELECTED );
     }
     
     //----------------------------------------------------------------------------
