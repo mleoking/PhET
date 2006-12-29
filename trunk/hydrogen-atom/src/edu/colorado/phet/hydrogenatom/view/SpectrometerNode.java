@@ -235,6 +235,8 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             _closeButtonWrapper = new PSwing( canvas, _closeButton );
             PBounds cb = _closeButtonWrapper.getFullBounds();
             _closeButtonWrapper.setOffset( size.getWidth() - cb.getWidth() - CLOSE_BUTTON_X_MARGIN, CLOSE_BUTTON_Y_MARGIN );
+            
+            _closeButtonWrapper.addInputEventListener( new CursorHandler() );
         }
 
         // Button panel, centered below the black rectangle.
@@ -765,7 +767,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             _closeButton.setMargin( new Insets( 0, 0, 0, 0 ) );
             PSwing closeButtonWrapper = new PSwing( spectrometerNode._canvas, _closeButton );
             PBounds cb = closeButtonWrapper.getFullBounds();
-            closeButtonWrapper.setOffset( pfb.getX() + pfb.getWidth() - cb.getWidth() - CLOSE_BUTTON_X_MARGIN, pfb.getY() + CLOSE_BUTTON_Y_MARGIN );
+            closeButtonWrapper.setOffset( pfb.getMaxX() - cb.getWidth() - CLOSE_BUTTON_X_MARGIN, pfb.getY() + CLOSE_BUTTON_Y_MARGIN );
 
             // Node layering order
             addChild( staticNode );
