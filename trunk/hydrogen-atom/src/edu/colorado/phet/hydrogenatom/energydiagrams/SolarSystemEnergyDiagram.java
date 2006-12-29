@@ -74,6 +74,10 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
     // Observer implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * When the electron moves, update its offset.
+     * When the atom is destroyed, clear the atom.
+     */
     public void update( Observable o, Object arg ) {
         if ( o instanceof SolarSystemModel ) {
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET ) {
