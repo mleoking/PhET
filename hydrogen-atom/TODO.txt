@@ -39,6 +39,7 @@ DEFER UNTIL AFTER INTERVIEWS:
 - design a monochromatic solution for Schrodinger state (2,0,0)
  
 DONE:
+(12/29/06) - add hand cursor to Spectrometer close button
 (12/29/06) - move default control settings to HADefaults
 (12/28/06) - use 1 image for entire spectrum in WavelengthControl, using SpectrumImageFactory
 (12/28/06) - add track size to WavelengthControl constructor
