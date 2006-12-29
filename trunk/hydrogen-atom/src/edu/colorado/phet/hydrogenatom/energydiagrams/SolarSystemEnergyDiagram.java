@@ -32,6 +32,10 @@ import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
  */
 public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     // Distance between the electron's initial position and top of the diagram.
     private static final double Y_MARGIN = 10;
     
@@ -44,9 +48,17 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
      */
     private static final double ACCELERATION = 1.23;
     
+    //----------------------------------------------------------------------------
+    // Constructor
+    //----------------------------------------------------------------------------
+    
     public SolarSystemEnergyDiagram() {
         super();
     }
+    
+    //----------------------------------------------------------------------------
+    // Superclass overrides
+    //----------------------------------------------------------------------------
 
     /**
      * Initialized the position of the electron.
@@ -57,6 +69,10 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
         Rectangle2D drawingArea = getDrawingArea();
         electronNode.setOffset( drawingArea.getX(), drawingArea.getY() + Y_MARGIN );
     }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
         if ( o instanceof SolarSystemModel ) {
