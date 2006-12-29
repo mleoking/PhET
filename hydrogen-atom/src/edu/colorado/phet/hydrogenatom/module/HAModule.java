@@ -50,6 +50,7 @@ import edu.colorado.phet.hydrogenatom.view.SpectrometerNode.SpectrometerSnapshot
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -263,6 +264,7 @@ public class HAModule extends PiccoloModule {
                 }
             } );
             _spectrometerCheckBoxNode = new PSwing( _canvas, _spectrometerCheckBox );
+            _spectrometerCheckBoxNode.addInputEventListener( new CursorHandler() );
 
             // Spectrometer
             String title = SimStrings.get( "label.photonsEmitted" );
@@ -297,6 +299,7 @@ public class HAModule extends PiccoloModule {
                 }
             } );
             _energyDiagramCheckBoxNode = new PSwing( _canvas, _energyDiagramCheckBox );
+            _energyDiagramCheckBoxNode.addInputEventListener( new CursorHandler() );
 
             // diagrams
             _bohrEnergyDiagram = new BohrEnergyDiagram();
