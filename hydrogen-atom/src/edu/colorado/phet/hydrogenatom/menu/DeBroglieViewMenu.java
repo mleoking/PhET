@@ -19,6 +19,7 @@ import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.hydrogenatom.HADefaults;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
 
@@ -71,7 +72,18 @@ public class DeBroglieViewMenu extends JMenu {
         _height3DMenuItem.addActionListener( listener );
 
         // Default state
-        _brightnessMagnitudeMenuItem.setSelected( true );
+        if ( HADefaults.DEBROGLIE_VIEW == DeBroglieView.BRIGHTNESS_MAGNITUDE ) { 
+            _brightnessMagnitudeMenuItem.setSelected( true );
+        }
+        else if ( HADefaults.DEBROGLIE_VIEW == DeBroglieView.BRIGHTNESS ) {
+            _brightnessMenuItem.setSelected( true );
+        }
+        else if ( HADefaults.DEBROGLIE_VIEW == DeBroglieView.RADIAL_DISTANCE ) {
+            _radialDistanceMenuItem.setSelected( true );
+        }
+        else if ( HADefaults.DEBROGLIE_VIEW == DeBroglieView.HEIGHT_3D ) {
+            _height3DMenuItem.setSelected( true );
+        }
     }
 
     private void handledeBroglieViewChange( Object source ) {
