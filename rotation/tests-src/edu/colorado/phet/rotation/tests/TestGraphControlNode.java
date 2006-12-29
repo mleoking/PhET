@@ -8,6 +8,7 @@ package edu.colorado.phet.rotation.tests;
  */
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.rotation.graphs.DefaultGraphTimeSeries;
 import edu.colorado.phet.rotation.graphs.GraphControlNode;
 import edu.colorado.phet.rotation.model.SimulationVariable;
 
@@ -22,7 +23,7 @@ public class TestGraphControlNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PhetPCanvas phetPCanvas = new PhetPCanvas();
-        phetPCanvas.addScreenChild( new GraphControlNode( phetPCanvas, new SimulationVariable() ) );
+        phetPCanvas.addScreenChild( new GraphControlNode( phetPCanvas, new SimulationVariable(), new DefaultGraphTimeSeries() ) );
         frame.setContentPane( phetPCanvas );
     }
 
