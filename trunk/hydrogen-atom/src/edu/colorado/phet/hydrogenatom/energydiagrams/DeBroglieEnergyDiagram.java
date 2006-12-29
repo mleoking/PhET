@@ -11,10 +11,9 @@
 
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
-import edu.colorado.phet.hydrogenatom.HAConstants;
 
 
-public class DeBroglieEnergyDiagram extends AbstractEnergyDiagram {
+public class DeBroglieEnergyDiagram extends BohrEnergyDiagram {
 
     public DeBroglieEnergyDiagram() {
         super();

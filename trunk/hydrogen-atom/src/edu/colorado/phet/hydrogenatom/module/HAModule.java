@@ -624,6 +624,11 @@ public class HAModule extends PiccoloModule {
 
         _tracesNode.clear();
         
+        _solarSystemEnergyDiagram.clearAtom();
+        _bohrEnergyDiagram.clearAtom();
+        _deBroglieEnergyDiagram.clearAtom();
+        _schrodingerEnergyDiagram.clearAtom();
+        
         if ( _schrodingerUnstucker != null ) {
             _schrodingerUnstucker.cleanup();
             _schrodingerUnstucker = null;
@@ -647,19 +652,23 @@ public class HAModule extends PiccoloModule {
             }
             else if ( atomicModel == AtomicModel.BOHR ) {
                 _atomModel = new BohrModel( position );
+                _bohrEnergyDiagram.setAtom( _atomModel );
             }
             else if ( atomicModel == AtomicModel.DEBROGLIE ) {
                 _atomModel = new DeBroglieModel( position );
+                _deBroglieEnergyDiagram.setAtom( _atomModel );
             }
             else if ( atomicModel == AtomicModel.PLUM_PUDDING ) {
                 _atomModel = new PlumPuddingModel( position );
             }
             else if ( atomicModel == AtomicModel.SCHRODINGER ) {
                 _atomModel = new SchrodingerModel( position );
+                _schrodingerEnergyDiagram.setAtom( _atomModel );
                 _schrodingerUnstucker = new SchrodingerUnstucker( getClock(), _model.getGun(), (SchrodingerModel)_atomModel );
             }
             else if ( atomicModel == AtomicModel.SOLAR_SYSTEM ) {
                 _atomModel = new SolarSystemModel( position );
+                _solarSystemEnergyDiagram.setAtom( _atomModel );
             }
         }
         

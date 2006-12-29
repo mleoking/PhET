@@ -11,12 +11,22 @@
 
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
-import edu.colorado.phet.hydrogenatom.HAConstants;
+import java.util.Observable;
+import java.util.Observer;
+
+import edu.colorado.phet.hydrogenatom.model.BohrModel;
 
 
-public class BohrEnergyDiagram extends AbstractEnergyDiagram {
+public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer {
 
     public BohrEnergyDiagram() {
         super();
+    }    
+    
+    public void update( Observable o, Object arg ) {
+        if ( o instanceof BohrModel ) {
+            BohrModel atom = (BohrModel) o;
+            //XXX
+        }
     }
 }
