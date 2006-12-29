@@ -27,6 +27,7 @@ public class TestPlatformNode {
         PhetPCanvas phetPCanvas = new PhetPCanvas();
         phetPCanvas.setSize( frame.getSize() );
         final PlatformNode platformNode = new PlatformNode();
+        platformNode.setOffset( 100, 100 );
         phetPCanvas.addScreenChild( platformNode );
 
         final ModelSlider modelSlider = new ModelSlider( "angle", "radians", 0, Math.PI * 2 * 2, Math.PI * 2 );
