@@ -28,6 +28,7 @@ import edu.colorado.phet.hydrogenatom.enums.LightType;
 import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.hydrogenatom.view.TracesNode;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -192,6 +193,12 @@ public class GunControlPanel extends PhetPNode implements Observer {
             _wavelengthControl.addChangeListener( listener );
             _alphaParticlesIntensityControl.addChangeListener( listener );
             _alphaParticlesTracesControl.addChangeListener( listener );
+            
+            _gunTypeControl.addInputEventListener( new CursorHandler() );
+            lightTypeControlWrapper.addInputEventListener( new CursorHandler() );
+            lightIntensityControlWrapper.addInputEventListener( new CursorHandler() );
+            alphaParticlesIntensityControlWrapper.addInputEventListener( new CursorHandler() );
+            alphaParticlesTracesControlWrapper.addInputEventListener( new CursorHandler() );
         }
         
         // Sync with model

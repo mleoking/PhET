@@ -244,6 +244,11 @@ public class WavelengthControl extends PhetPNode {
             } );
         }
         
+        // Value Display interactivity
+        {
+            _valueDisplay.addInputEventListener( new CursorHandler() );
+        }
+        
         // Default state
         setWavelength( _minWavelength );
     }

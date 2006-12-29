@@ -39,6 +39,9 @@ DEFER UNTIL AFTER INTERVIEWS:
 - design a monochromatic solution for Schrodinger state (2,0,0)
  
 DONE:
+(12/29/06) - add CursorHandler to checkboxes that are on the canvas
+(12/29/06) - add CursorHandler to textfield in WavelengthControl
+(12/29/06) - add CursorHandler to all interactive controls in GunControlPanel
 (12/29/06) - add hand cursor to Spectrometer close button
 (12/29/06) - move default control settings to HADefaults
 (12/28/06) - use 1 image for entire spectrum in WavelengthControl, using SpectrumImageFactory
