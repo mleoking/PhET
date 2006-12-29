@@ -2,33 +2,32 @@ package edu.colorado.phet.rotation.tests;
 
 /**
  * User: Sam Reid
- * Date: Dec 29, 2006
- * Time: 9:05:50 AM
- * Copyright (c) Dec 29, 2006 by Sam Reid
+ * Date: Dec 28, 2006
+ * Time: 10:38:40 PM
+ * Copyright (c) Dec 28, 2006 by Sam Reid
  */
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.rotation.graphs.ControlGraph;
+import edu.colorado.phet.rotation.graphs.GraphControlNode;
 import edu.colorado.phet.rotation.model.SimulationVariable;
 
 import javax.swing.*;
 
-public class TestControlGraph {
+public class TestGraphControlNode {
     private JFrame frame;
 
-    public TestControlGraph() {
+    public TestGraphControlNode() {
         frame = new JFrame();
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PhetPCanvas phetPCanvas = new PhetPCanvas();
-        phetPCanvas.addScreenChild( new ControlGraph( phetPCanvas, new SimulationVariable() ) );
-
+        phetPCanvas.addScreenChild( new GraphControlNode( phetPCanvas, new SimulationVariable() ) );
         frame.setContentPane( phetPCanvas );
     }
 
     public static void main( String[] args ) {
-        new TestControlGraph().start();
+        new TestGraphControlNode().start();
     }
 
     private void start() {
