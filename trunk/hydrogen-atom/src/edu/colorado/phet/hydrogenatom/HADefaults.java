@@ -17,7 +17,7 @@ import edu.colorado.phet.hydrogenatom.enums.GunMode;
 import edu.colorado.phet.hydrogenatom.enums.LightType;
 
 /**
- * HADefaults contains default control setting that are used to initialize the simualtion.
+ * HADefaults contains default settings for the simulation's controls.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
