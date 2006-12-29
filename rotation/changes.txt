@@ -1,3 +1,6 @@
+0.00.03 (12-29-2006)
+Added tests for some components (see Test menu).
+
 0.00.02 (12-28-2006)
 Added version info.
 
