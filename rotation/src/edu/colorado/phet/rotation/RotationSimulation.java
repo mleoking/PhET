@@ -2,9 +2,13 @@ package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.jfreechart.tests.TestVerticalChartControl;
+import edu.colorado.phet.rotation.tests.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,10 +24,59 @@ import java.net.URL;
 public class RotationSimulation extends PhetApplication {
     public static final String TITLE = "Rotational Motion";
     public static final String DESCRIPTION = "Rotational Motion Simulation";
+    private JMenu testMenu;
 
     public RotationSimulation( String[] args ) {
         super( args, TITLE, DESCRIPTION, readVersion(), createFrameSetup() );
         addModule( new RotationModule() );
+
+        addTests();
+    }
+
+    private void addTests() {
+        testMenu = new JMenu( "Tests" );
+        testMenu.setMnemonic( 't' );
+        getPhetFrame().addMenu( testMenu );
+        addTest( "Platform Graphics", new Runnable() {
+            public void run() {
+                TestPlatformNode.main( new String[0] );
+            }
+        } );
+        addTest( "Graph Slider", new Runnable() {
+            public void run() {
+                TestVerticalChartControl.main( new String[0] );
+            }
+        } );
+        addTest( "Graph Selection", new Runnable() {
+            public void run() {
+                TestGraphSelectionControl.main( new String[0] );
+            }
+        } );
+        addTest( "Graph View", new Runnable() {
+            public void run() {
+                TestGraphSelectionView.main( new String[0] );
+            }
+        } );
+        addTest( "Vector Control", new Runnable() {
+            public void run() {
+                TestShowVectorsControl.main( new String[0] );
+            }
+        } );
+        addTest( "Symbol Key", new Runnable() {
+            public void run() {
+                TestSymbolKey.main( new String[0] );
+            }
+        } );
+    }
+
+    private void addTest( String name, final Runnable runnable ) {
+        JMenuItem item = new JMenuItem( name );
+        item.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                runnable.run();
+            }
+        } );
+        testMenu.add( item );
     }
 
     private static String readVersion() {
