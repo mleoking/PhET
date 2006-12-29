@@ -39,7 +39,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode {
     private static final int DEFAULT_FONT_SIZE = HAConstants.DEFAULT_FONT_SIZE;
     private static final String FONT_SIZE_RESOURCE = "energyDiagram.font.size";
     
-    private static final Dimension DIAGRAM_SIZE = new Dimension( 250, 380 );
+    private static final Dimension DIAGRAM_SIZE = new Dimension( 250, 420 );
     private static final double MARGIN = 10;
     private static final Dimension ARROW_SIZE = new Dimension( 13, 13 );
     private static final float AXIS_STROKE_WIDTH = 2;
@@ -96,12 +96,14 @@ public abstract class AbstractEnergyDiagram extends PhetPNode {
         // Electron
         ElectronNode electronNode = new ElectronNode();
 
+        // Layering
         addChild( backgroundNode );
         addChild( axisNode );
         addChild( arrowNode );
         addChild( axisLabelNode );
         addChild( electronNode );
         
+        // Positions
         backgroundNode.setOffset( 0, 0 );
         PBounds bb = backgroundNode.getFullBounds();
         PBounds alb = axisLabelNode.getFullBounds();
@@ -109,6 +111,6 @@ public abstract class AbstractEnergyDiagram extends PhetPNode {
         alb = axisLabelNode.getFullBounds();
         axisNode.setOffset( alb.getX() + alb.getWidth() + 5, MARGIN );
         arrowNode.setOffset( axisNode.getFullBounds().getX() + ( AXIS_STROKE_WIDTH / 2.0 ), MARGIN );
-        electronNode.setOffset( bb.getX() + 50, bb.getMaxY() - 20 );
+        electronNode.setOffset( bb.getX() + 60, bb.getY() + 20 );
     }
 }
