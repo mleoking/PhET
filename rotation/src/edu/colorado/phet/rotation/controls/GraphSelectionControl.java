@@ -20,10 +20,13 @@ import java.awt.event.ActionListener;
 public class GraphSelectionControl extends JPanel {
 
     public GraphSelectionControl( RotationGraphSet rotationGraphSet, final GraphSetModel graphSetModel ) {
+        setLayout( new GridBagLayout() );
+        GridBagConstraints gridBagConstraints = GraphicsUtil.createVerticalGridBagConstraints();
         JLabel label = new JLabel( "Show graphs for:" );
-        add( label );
+        label.setFont( label.getFont().deriveFont( 28.0f ) );
+        add( label, gridBagConstraints );
         for( int i = 0; i < rotationGraphSet.getGraphSuites().length; i++ ) {
-            add( new GraphSuiteRadioButton( graphSetModel, rotationGraphSet.getGraphSuites()[i] ) );
+            add( new GraphSuiteRadioButton( graphSetModel, rotationGraphSet.getGraphSuites()[i] ), gridBagConstraints );
         }
     }
 
