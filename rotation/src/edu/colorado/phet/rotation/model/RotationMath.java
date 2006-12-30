@@ -22,6 +22,10 @@ public class RotationMath {
         data[0] = x;
         data[1] = y;
         AbstractDoubleVector out = LinearMath.linearRegression( data );
+        if( Double.isNaN( out.getComponent( 1 ) ) || Double.isInfinite( out.getComponent( 1 ) ) ) {
+            //todo handle this error elsewhere
+            return 0.0;
+        }
         return out.getComponent( 1 );
     }
 }

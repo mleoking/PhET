@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class RotationModel {
     ArrayList rotationModelStates = new ArrayList();
-    UpdateStrategy updateStrategy = new PositionDriven();
+    UpdateStrategy updateStrategy = new PositionDriven( 0.0 );
 
     public RotationModel() {
         rotationModelStates.add( new RotationModelState() );
@@ -66,11 +66,24 @@ public class RotationModel {
         return td;
     }
 
+    public TimeData[] getPositionTimeSeries( int numPts ) {
+        TimeData[] td = new TimeData[numPts];
+        for( int i = 0; i < td.length; i++ ) {
+            RotationModelState state = getState( getStateCount() - numPts + i );
+            td[i] = new TimeData( state.getAngle(), state.getTime() );
+        }
+        return td;
+    }
+
     private int getStateCount() {
         return rotationModelStates.size();
     }
 
     public TimeData[] getAvailableVelocityTimeSeries( int numPts ) {
         return getVelocityTimeSeries( Math.min( numPts, getStateCount() ) );
+    }
+
+    public TimeData[] getAvailablePositionTimeSeries( int numPts ) {
+        return getPositionTimeSeries( Math.min( numPts, getStateCount() ) );
     }
 }

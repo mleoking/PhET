@@ -4,6 +4,8 @@ import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.jfreechart.piccolo.VerticalChartControl;
 import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.ChartFactory;
@@ -12,6 +14,8 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -23,17 +27,19 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class ControlGraph extends PNode {
     private GraphControlNode graphControlNode;
     private VerticalChartControl verticalChartControl;
+    private ArrayList listeners = new ArrayList();
+    private XYSeries xySeries;
 
-    public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable ) {
+    public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String title ) {
         int xIndex = 0;
-        final XYSeries series = new XYSeries( "series_1" );
-        for( xIndex = 0; xIndex < 100; xIndex++ ) {
-            series.add( xIndex, Math.sin( xIndex / 100.0 * Math.PI * 2 ) );
-        }
-        XYDataset dataset = new XYSeriesCollection( series );
-        JFreeChart jFreeChart = ChartFactory.createXYLineChart( "title", "x", "y", dataset, PlotOrientation.VERTICAL, false, false, false );
-        jFreeChart.getXYPlot().getRangeAxis().setAutoRange( false );
-        jFreeChart.getXYPlot().getRangeAxis().setRange( -2, 2 );
+        xySeries = new XYSeries( "series_1" );
+//        for( xIndex = 0; xIndex < 100; xIndex++ ) {
+//            series.add( xIndex, Math.sin( xIndex / 100.0 * Math.PI * 2 ) );
+//        }
+        XYDataset dataset = new XYSeriesCollection( xySeries );
+        JFreeChart jFreeChart = ChartFactory.createXYLineChart( title, "time (s)", "value", dataset, PlotOrientation.VERTICAL, false, false, false );
+        jFreeChart.getXYPlot().getRangeAxis().setAutoRange( true );
+//        jFreeChart.getXYPlot().getRangeAxis().setRange( -10, 10 );
         JFreeChartNode jFreeChartNode = new JFreeChartNode( jFreeChart );
         jFreeChartNode.setBounds( 0, 0, 500, 400 );
         verticalChartControl = new VerticalChartControl( jFreeChartNode, new PText( "THUMB" ) );
@@ -53,6 +59,11 @@ public class ControlGraph extends PNode {
                 simulationVariable.setValue( verticalChartControl.getValue() );
             }
         } );
+        addInputEventListener( new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent event ) {
+                notifyListeners();
+            }
+        } );
         relayout();
     }
 
@@ -60,5 +71,26 @@ public class ControlGraph extends PNode {
         double dx = 5;
         graphControlNode.setOffset( 0, 0 );
         verticalChartControl.setOffset( graphControlNode.getFullBounds().getMaxX() + dx, 0 );
+    }
+
+    public void addValue( double time, double value ) {
+        xySeries.add( time, value );
+    }
+
+    public static interface Listener {
+        void mousePressed();
+
+        void valueChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyListeners() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.mousePressed();
+        }
     }
 }
