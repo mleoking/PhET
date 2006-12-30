@@ -57,7 +57,20 @@ public class RotationModel {
         return td;
     }
 
+    public TimeData[] getVelocityTimeSeries( int numPts ) {
+        TimeData[] td = new TimeData[numPts];
+        for( int i = 0; i < td.length; i++ ) {
+            RotationModelState state = getState( getStateCount() - numPts + i );
+            td[i] = new TimeData( state.getAngularVelocity(), state.getTime() );
+        }
+        return td;
+    }
+
     private int getStateCount() {
         return rotationModelStates.size();
+    }
+
+    public TimeData[] getAvailableVelocityTimeSeries( int numPts ) {
+        return getVelocityTimeSeries( Math.min( numPts, getStateCount() ) );
     }
 }
