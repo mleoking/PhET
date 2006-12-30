@@ -26,7 +26,7 @@ public class VelocityDriven implements UpdateStrategy {
         //assume a constant acceleration model with the given acceleration.
         RotationModelState origState = rotationModel.getLastState();
         double newAngle = origState.getAngle() + velocity * dt;
-        double angularAcceleration = RotationMath.estimateDerivative( rotationModel.getAvailableAccelerationTimeSeries( 10 ) );
+        double angularAcceleration = RotationMath.estimateDerivative( rotationModel.getAvailableVelocityTimeSeries( 10 ) );
         return new RotationModelState( origState.copyBodies(), newAngle, velocity, angularAcceleration, origState.getTime() + dt );
     }
 }
