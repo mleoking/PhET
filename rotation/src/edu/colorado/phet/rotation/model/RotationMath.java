@@ -1,5 +1,8 @@
 package edu.colorado.phet.rotation.model;
 
+import JSci.maths.LinearMath;
+import JSci.maths.vectors.AbstractDoubleVector;
+
 /**
  * User: Sam Reid
  * Date: Dec 30, 2006
@@ -9,6 +12,16 @@ package edu.colorado.phet.rotation.model;
 
 public class RotationMath {
     public static double estimateDerivative( TimeData[] timeSeries ) {
-        return 0;
+        double[] x = new double[timeSeries.length];
+        double[] y = new double[timeSeries.length];
+        for( int i = 0; i < y.length; i++ ) {
+            x[i] = timeSeries[i].getTime();
+            y[i] = timeSeries[i].getValue();
+        }
+        double[][] data = new double[2][timeSeries.length];
+        data[0] = x;
+        data[1] = y;
+        AbstractDoubleVector out = LinearMath.linearRegression( data );
+        return out.getComponent( 1 );
     }
 }
