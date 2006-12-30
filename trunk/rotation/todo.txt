@@ -1,1 +1,3 @@
 Color coding for variables.
+
+Try 2nd order derivative directly from position data

@@ -22,7 +22,7 @@ public class TestControlGraph {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PhetPCanvas phetPCanvas = new PhetPCanvas();
-        phetPCanvas.addScreenChild( new ControlGraph( phetPCanvas, new SimulationVariable() ) );
+        phetPCanvas.addScreenChild( new ControlGraph( phetPCanvas, new SimulationVariable(), "title" ) );
 
         frame.setContentPane( phetPCanvas );
     }
