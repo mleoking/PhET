@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.tests;
+package edu.colorado.phet.jfreechart.tests;
 
 /**
  * See also: http://www.java2s.com/Code/Java/Chart/JFreeChartCombinedXYPlotDemo1.htm
@@ -6,6 +6,7 @@ package edu.colorado.phet.rotation.tests;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.axis.AxisLocation;
@@ -32,8 +33,15 @@ public class TestCombinedChartNode {
 
         JFreeChartNode jFreeChartNode = new JFreeChartNode( createCombinedChart() );
         jFreeChartNode.setBounds( 0, 0, 700, 500 );
+
+        jFreeChartNode.updateChartRenderingInfo();
+
         PhetPCanvas phetPCanvas = new PhetPCanvas();
         phetPCanvas.addScreenChild( jFreeChartNode );
+
+        phetPCanvas.addScreenChild( new PhetPPath( jFreeChartNode.getDataArea( 0 ), new BasicStroke( 5 ), Color.blue ) );
+        phetPCanvas.addScreenChild( new PhetPPath( jFreeChartNode.getDataArea( 1 ), new BasicStroke( 5 ), Color.red ) );
+
         frame.setContentPane( phetPCanvas );
     }
 
