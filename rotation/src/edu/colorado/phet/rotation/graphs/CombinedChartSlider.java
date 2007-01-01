@@ -7,6 +7,9 @@ import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.XYPlot;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -45,6 +48,13 @@ public class CombinedChartSlider extends AbstractChartSlider {
         } );
 
         updateLayout();
+
+        Timer timer = new Timer( 20, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                updateLayout();
+            }
+        } );
+        timer.start();
     }
 
     protected double getMinRangeValue() {

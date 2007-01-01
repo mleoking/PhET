@@ -1,8 +1,16 @@
 package edu.colorado.phet.rotation.tests;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.rotation.graphs.ControlGraph;
+import edu.colorado.phet.rotation.graphs.AbstractChartSlider;
+import edu.colorado.phet.rotation.graphs.CombinedChartSlider;
+import edu.colorado.phet.rotation.graphs.CombinedGraph;
+import edu.colorado.phet.rotation.graphs.XYPlotFactory;
 import edu.colorado.phet.rotation.model.*;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PText;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,15 +20,22 @@ public class CombinedModelPlotTest {
     private JFrame frame;
     private Timer timer;
     private RotationModel rotationModel;
-    private ControlGraph xGraph;
+
     private SimulationVariable xVariable;
     private SimulationVariable vVariable;
     private SimulationVariable aVariable;
-    private ControlGraph vGraph;
-    private ControlGraph aGraph;
+
     private PositionDriven positionDriven;
     private VelocityDriven velocityDriven;
     private AccelerationDriven accelDriven;
+    private CombinedChartSlider xChartSlider;
+    private CombinedGraph combinedGraph;
+    private PhetPCanvas phetPCanvas;
+    private XYPlot xGraph;
+    private XYPlot vGraph;
+    private XYPlot aGraph;
+    private CombinedChartSlider vChartSlider;
+    private CombinedChartSlider aChartSlider;
 
     public CombinedModelPlotTest() {
         frame = new JFrame();
@@ -28,51 +43,83 @@ public class CombinedModelPlotTest {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         rotationModel = new RotationModel();
-        PhetPCanvas phetPCanvas = new PhetPCanvas();
+        phetPCanvas = new PhetPCanvas();
         xVariable = new SimulationVariable( rotationModel.getLastState().getAngle() );
         vVariable = new SimulationVariable( rotationModel.getLastState().getAngularVelocity() );
         aVariable = new SimulationVariable( rotationModel.getLastState().getAngularAcceleration() );
-        xGraph = new ControlGraph( phetPCanvas, xVariable, "Angle" );
+
         positionDriven = new PositionDriven( xVariable.getValue() );
         velocityDriven = new VelocityDriven( vVariable.getValue() );
         accelDriven = new AccelerationDriven( aVariable.getValue() );
-        xGraph.addListener( new ControlGraph.Listener() {
-            public void mousePressed() {
-                System.out.println( "ModelPlotTest.mousePressed: XGraph" );
+
+        XYPlotFactory factory = new XYPlotFactory();
+        xGraph = factory.createXYPlot( "position", "meters" );
+        vGraph = factory.createXYPlot( "vel", "meters/sec" );
+        aGraph = factory.createXYPlot( "acc", "meters/sec/sec" );
+        combinedGraph = new CombinedGraph( new XYPlot[]{
+                xGraph,
+                vGraph,
+                aGraph,
+        } );
+        combinedGraph.getChartNode().updateChartRenderingInfo();
+        xChartSlider = new CombinedChartSlider( combinedGraph.getChartNode(), new PText( "HELLO" ), 0 );
+        xChartSlider.addListener( new AbstractChartSlider.Listener() {
+            public void valueChanged() {
+                xVariable.setValue( xChartSlider.getValue() );
+            }
+        } );
+        xChartSlider.addInputEventListener( new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent event ) {
                 rotationModel.setUpdateStrategy( positionDriven );
             }
-
+        } );
+        xVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
+                xChartSlider.setValue( xVariable.getValue() );
             }
         } );
-        vGraph = new ControlGraph( phetPCanvas, vVariable, "Angular Velocity" );
-        vGraph.addListener( new ControlGraph.Listener() {
-            public void mousePressed() {
-                System.out.println( "ModelPlotTest.mousePressed: VGraph" );
+        combinedGraph.addControl( xChartSlider );
 
+        vChartSlider = new CombinedChartSlider( combinedGraph.getChartNode(), new PText( "Velocity" ), 1 );
+        vChartSlider.addListener( new AbstractChartSlider.Listener() {
+            public void valueChanged() {
+                vVariable.setValue( vChartSlider.getValue() );
+            }
+        } );
+        vChartSlider.addInputEventListener( new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent event ) {
                 rotationModel.setUpdateStrategy( velocityDriven );
             }
-
+        } );
+        vVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
+                vChartSlider.setValue( vVariable.getValue() );
             }
         } );
-        aGraph = new ControlGraph( phetPCanvas, aVariable, "Angular Acceleration" );
-        aGraph.addListener( new ControlGraph.Listener() {
-            public void mousePressed() {
-                System.out.println( "ModelPlotTest.mousePressed: AGraph" );
+        combinedGraph.addControl( vChartSlider );
 
+        aChartSlider = new CombinedChartSlider( combinedGraph.getChartNode(), new PText( "Acceleration" ), 2 );
+        aChartSlider.addListener( new AbstractChartSlider.Listener() {
+            public void valueChanged() {
+                aVariable.setValue( aChartSlider.getValue() );
+            }
+        } );
+        aChartSlider.addInputEventListener( new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent event ) {
                 rotationModel.setUpdateStrategy( accelDriven );
             }
-
+        } );
+        aVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
+                aChartSlider.setValue( aVariable.getValue() );
             }
         } );
-        vGraph.setOffset( 0, xGraph.getFullBounds().getMaxY() );
-        aGraph.setOffset( 0, vGraph.getFullBounds().getMaxY() );
+        combinedGraph.addControl( aChartSlider );
 
-        phetPCanvas.addScreenChild( xGraph );
-        phetPCanvas.addScreenChild( vGraph );
-        phetPCanvas.addScreenChild( aGraph );
+        combinedGraph.setBounds( 0, 0, 700, 500 );
+
+        phetPCanvas.addScreenChild( combinedGraph );
+        combinedGraph.setOffset( 100, 0 );
 
         frame.setContentPane( phetPCanvas );
         timer = new Timer( 30, new ActionListener() {
@@ -92,10 +139,9 @@ public class CombinedModelPlotTest {
         vVariable.setValue( rotationModel.getLastState().getAngularVelocity() );
         aVariable.setValue( rotationModel.getLastState().getAngularAcceleration() );
 
-        xGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngle() );
-        vGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngularVelocity() );
-        aGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngularAcceleration() );
-//        aVariable.setValue( rotationModel.getLastState().getAngularAcceleration() );
+        ( (XYSeriesCollection)xGraph.getDataset() ).getSeries( 0 ).add( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngle() );
+        ( (XYSeriesCollection)vGraph.getDataset() ).getSeries( 0 ).add( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngularVelocity() );
+        ( (XYSeriesCollection)aGraph.getDataset() ).getSeries( 0 ).add( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngularAcceleration() );
     }
 
     public static void main( String[] args ) {
