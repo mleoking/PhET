@@ -26,6 +26,8 @@ import java.awt.*;
 
 public class TestCombinedVerticalSliderChart {
     private JFrame frame;
+    private CombinedChartSlider plot0Slider;
+    private CombinedChartSlider plot1Slider;
 
     public TestCombinedVerticalSliderChart() {
         frame = new JFrame();
@@ -40,10 +42,13 @@ public class TestCombinedVerticalSliderChart {
         PhetPCanvas phetPCanvas = new PhetPCanvas();
         phetPCanvas.addScreenChild( jFreeChartNode );
 
-        CombinedChartSlider plot0Slider = new CombinedChartSlider( jFreeChartNode, new PText( "Plot0Slider" ), 0 );
+        plot0Slider = new CombinedChartSlider( jFreeChartNode, new PText( "Plot0Slider" ), 0 );
         phetPCanvas.addScreenChild( plot0Slider );
-        CombinedChartSlider plot1Slider = new CombinedChartSlider( jFreeChartNode, new PText( "Plot1Slider" ), 1 );
+        plot1Slider = new CombinedChartSlider( jFreeChartNode, new PText( "Plot1Slider" ), 1 );
         phetPCanvas.addScreenChild( plot1Slider );
+
+        plot0Slider.setValue( 10000 );
+        plot1Slider.setValue( 16000 );
 
         jFreeChartNode.setOffset( 100, 0 );
         plot0Slider.setOffset( 50, 0 );

@@ -62,7 +62,6 @@ public abstract class AbstractChartSlider extends PNode {
         updateLayout();
     }
 
-    protected abstract Point2D nodeToPlot( Point2D.Double pt );
 
     private double clamp( double v ) {
         if( v > getMaxRangeValue() ) {
@@ -107,6 +106,8 @@ public abstract class AbstractChartSlider extends PNode {
         sliderThumb.setOffset( trackPPath.getFullBounds().getCenterX() - sliderThumb.getFullBounds().getWidth() / 2.0,
                                nodeLocation.getY() - sliderThumb.getFullBounds().getHeight() / 2.0 );
     }
+
+    protected abstract Point2D nodeToPlot( Point2D.Double pt );
 
     protected abstract double getMaxRangeValue();
 
