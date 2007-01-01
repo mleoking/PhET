@@ -6,7 +6,7 @@ package edu.colorado.phet.jfreechart.tests;
  */
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
-import edu.colorado.phet.jfreechart.piccolo.VerticalChartControl;
+import edu.colorado.phet.jfreechart.piccolo.VerticalChartSlider;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -22,11 +22,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TestVerticalChartControl {
+public class TestVerticalChartSlider {
     private JFrame frame;
     int xIndex = 0;
 
-    public TestVerticalChartControl() {
+    public TestVerticalChartSlider() {
         frame = new JFrame();
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -41,22 +41,22 @@ public class TestVerticalChartControl {
         jFreeChart.getXYPlot().getRangeAxis().setRange( -2, 2 );
         JFreeChartNode jFreeChartNode = new JFreeChartNode( jFreeChart );
         jFreeChartNode.setBounds( 0, 0, 500, 400 );
-        final VerticalChartControl verticalChartControl = new VerticalChartControl( jFreeChartNode, new PText( "THUMB" ) );
+        final VerticalChartSlider verticalChartSlider = new VerticalChartSlider( jFreeChartNode, new PText( "THUMB" ) );
         PhetPCanvas phetPCanvas = new PhetPCanvas();
-        phetPCanvas.addScreenChild( verticalChartControl );
+        phetPCanvas.addScreenChild( verticalChartSlider );
 
-        verticalChartControl.setOffset( 50, 50 );
-        verticalChartControl.addListener( new VerticalChartControl.Listener() {
+        verticalChartSlider.setOffset( 50, 50 );
+        verticalChartSlider.addListener( new VerticalChartSlider.Listener() {
             public void valueChanged() {
-                System.out.println( "verticalChartControl.getValue() = " + verticalChartControl.getValue() );
+                System.out.println( "verticalChartControl.getValue() = " + verticalChartSlider.getValue() );
             }
         } );
-        phetPCanvas.addScreenChild( new PhetPPath( verticalChartControl.getFullBounds(), new BasicStroke( 1 ), Color.blue ) );
+        phetPCanvas.addScreenChild( new PhetPPath( verticalChartSlider.getFullBounds(), new BasicStroke( 1 ), Color.blue ) );
         frame.setContentPane( phetPCanvas );
 
         Timer timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                series.add( xIndex, verticalChartControl.getValue() );
+                series.add( xIndex, verticalChartSlider.getValue() );
                 xIndex++;
             }
         } );
@@ -64,7 +64,7 @@ public class TestVerticalChartControl {
     }
 
     public static void main( String[] args ) {
-        new TestVerticalChartControl().start();
+        new TestVerticalChartSlider().start();
     }
 
     private void start() {

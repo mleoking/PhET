@@ -20,7 +20,7 @@ import java.util.ArrayList;
  *
  * @author Sam Reid
  */
-public class VerticalChartControl extends PNode {
+public class VerticalChartSlider extends PNode {
     private PhetPPath trackPPath;
     private PNode sliderThumb;
     private JFreeChartNode jFreeChartNode;
@@ -33,7 +33,7 @@ public class VerticalChartControl extends PNode {
      * @param jFreeChartNode the chart to control.
      * @param sliderThumb    the PNode that displays the thumb of the slider.
      */
-    public VerticalChartControl( final JFreeChartNode jFreeChartNode, final PNode sliderThumb ) {
+    public VerticalChartSlider( final JFreeChartNode jFreeChartNode, final PNode sliderThumb ) {
         this.jFreeChartNode = jFreeChartNode;
         this.sliderThumb = sliderThumb;
         jFreeChartNode.addPropertyChangeListener( new PropertyChangeListener() {

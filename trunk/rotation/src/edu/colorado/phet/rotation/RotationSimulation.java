@@ -2,7 +2,7 @@ package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.jfreechart.tests.TestVerticalChartControl;
+import edu.colorado.phet.jfreechart.tests.TestVerticalChartSlider;
 import edu.colorado.phet.rotation.tests.*;
 
 import javax.swing.*;
@@ -49,7 +49,7 @@ public class RotationSimulation extends PhetApplication {
         } );
         addTest( "Graph Slider", new Runnable() {
             public void run() {
-                TestVerticalChartControl.main( new String[0] );
+                TestVerticalChartSlider.main( new String[0] );
             }
         } );
         addTest( "Graph Selection", new Runnable() {
