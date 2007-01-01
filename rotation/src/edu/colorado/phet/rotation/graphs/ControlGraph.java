@@ -31,15 +31,10 @@ public class ControlGraph extends PNode {
     private XYSeries xySeries;
 
     public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String title ) {
-        int xIndex = 0;
         xySeries = new XYSeries( "series_1" );
-//        for( xIndex = 0; xIndex < 100; xIndex++ ) {
-//            series.add( xIndex, Math.sin( xIndex / 100.0 * Math.PI * 2 ) );
-//        }
         XYDataset dataset = new XYSeriesCollection( xySeries );
         JFreeChart jFreeChart = ChartFactory.createXYLineChart( title, "time (s)", "value", dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.getXYPlot().getRangeAxis().setAutoRange( true );
-//        jFreeChart.getXYPlot().getRangeAxis().setRange( -10, 10 );
         JFreeChartNode jFreeChartNode = new JFreeChartNode( jFreeChart );
         jFreeChartNode.setBounds( 0, 0, 500, 400 );
         verticalChartSlider = new VerticalChartSlider( jFreeChartNode, new PText( "THUMB" ) );
