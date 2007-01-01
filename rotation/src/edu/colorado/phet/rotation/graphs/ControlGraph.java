@@ -1,7 +1,7 @@
 package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
-import edu.colorado.phet.jfreechart.piccolo.VerticalChartControl;
+import edu.colorado.phet.jfreechart.piccolo.VerticalChartSlider;
 import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class ControlGraph extends PNode {
     private GraphControlNode graphControlNode;
-    private VerticalChartControl verticalChartControl;
+    private VerticalChartSlider verticalChartSlider;
     private ArrayList listeners = new ArrayList();
     private XYSeries xySeries;
 
@@ -42,21 +42,21 @@ public class ControlGraph extends PNode {
 //        jFreeChart.getXYPlot().getRangeAxis().setRange( -10, 10 );
         JFreeChartNode jFreeChartNode = new JFreeChartNode( jFreeChart );
         jFreeChartNode.setBounds( 0, 0, 500, 400 );
-        verticalChartControl = new VerticalChartControl( jFreeChartNode, new PText( "THUMB" ) );
+        verticalChartSlider = new VerticalChartSlider( jFreeChartNode, new PText( "THUMB" ) );
 
         graphControlNode = new GraphControlNode( pSwingCanvas, simulationVariable, new DefaultGraphTimeSeries() );
 
         addChild( graphControlNode );
-        addChild( verticalChartControl );
+        addChild( verticalChartSlider );
 
         simulationVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
-                verticalChartControl.setValue( simulationVariable.getValue() );
+                verticalChartSlider.setValue( simulationVariable.getValue() );
             }
         } );
-        verticalChartControl.addListener( new VerticalChartControl.Listener() {
+        verticalChartSlider.addListener( new VerticalChartSlider.Listener() {
             public void valueChanged() {
-                simulationVariable.setValue( verticalChartControl.getValue() );
+                simulationVariable.setValue( verticalChartSlider.getValue() );
             }
         } );
         addInputEventListener( new PBasicInputEventHandler() {
@@ -70,7 +70,7 @@ public class ControlGraph extends PNode {
     private void relayout() {
         double dx = 5;
         graphControlNode.setOffset( 0, 0 );
-        verticalChartControl.setOffset( graphControlNode.getFullBounds().getMaxX() + dx, 0 );
+        verticalChartSlider.setOffset( graphControlNode.getFullBounds().getMaxX() + dx, 0 );
     }
 
     public void addValue( double time, double value ) {
