@@ -9,7 +9,8 @@ package edu.colorado.phet.rotation.tests;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.CombinedGraph;
-import edu.colorado.phet.rotation.graphs.CombinedGraphComponent;
+import edu.colorado.phet.rotation.graphs.XYPlotFactory;
+import org.jfree.chart.plot.XYPlot;
 
 import javax.swing.*;
 
@@ -22,32 +23,15 @@ public class TestCombinedGraph {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PhetPCanvas phetPCanvas = new PhetPCanvas();
-        CombinedGraph combinedGraph = new CombinedGraph( new CombinedGraphComponent[]{
-                new CombinedGraphComponent() {
-                    public String getName() {
-                        return "graph A";
-                    }
-
-                    public String getRangeAxisTitle() {
-                        return "range for graph A";
-                    }
-                },
-                new CombinedGraphComponent() {
-                    public String getName() {
-                        return "graph B";
-                    }
-
-                    public String getRangeAxisTitle() {
-                        return "range for graph B";
-                    }
-                }
-
-        } );
+        XYPlotFactory factory = new XYPlotFactory();
+        CombinedGraph combinedGraph = new CombinedGraph(
+                new XYPlot[]{
+                        factory.createXYPlot( "graph a", "range a" ),
+                        factory.createXYPlot( "graph b", "range b" )
+                } );
         phetPCanvas.addScreenChild( combinedGraph );
         combinedGraph.setBounds( 0, 0, 700, 500 );
         frame.setContentPane( phetPCanvas );
-
-
     }
 
     public static void main( String[] args ) {
