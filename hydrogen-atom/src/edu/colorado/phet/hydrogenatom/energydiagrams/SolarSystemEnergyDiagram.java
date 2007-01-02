@@ -53,7 +53,7 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
     //----------------------------------------------------------------------------
     
     public SolarSystemEnergyDiagram() {
-        super();
+        super( 0 /* numberOfStates */ );
     }
     
     //----------------------------------------------------------------------------
