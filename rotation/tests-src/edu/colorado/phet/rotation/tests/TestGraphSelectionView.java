@@ -52,7 +52,6 @@ public class TestGraphSelectionView {
 
     private void relayout() {
         graphSetPanel.setBounds( 0, 0, phetPCanvas.getWidth(), phetPCanvas.getHeight() );
-
     }
 
     public static void main( String[] args ) {

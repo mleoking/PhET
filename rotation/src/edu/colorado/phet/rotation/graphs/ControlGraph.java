@@ -39,22 +39,22 @@ public class ControlGraph extends PNode {
     private JFreeChartNode jFreeChartNode;
     private PNode titleNode;
 
-    public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String title, double range ) {
-        this( pSwingCanvas, simulationVariable, title, range, Color.black );
+    public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double range ) {
+        this( pSwingCanvas, simulationVariable, abbr, title, range, Color.black );
     }
 
-    public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String title, double range, Color color ) {
+    public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double range, Color color ) {
         xySeries = new XYSeries( "series_1" );
 
         XYDataset dataset = new XYSeriesCollection( xySeries );
-        JFreeChart jFreeChart = ChartFactory.createXYLineChart( title, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
+        JFreeChart jFreeChart = ChartFactory.createXYLineChart( title + ", " + abbr, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.setTitle( (String)null );
         jFreeChart.getXYPlot().getRangeAxis().setAutoRange( false );
         jFreeChart.getXYPlot().getRangeAxis().setRange( -range, range );
         jFreeChart.setBackgroundPaint( null );
         jFreeChartNode = new JFreeChartNode( jFreeChart );
         jFreeChartNode.setBounds( 0, 0, 300, 400 );
-        graphControlNode = new GraphControlNode( pSwingCanvas, title, simulationVariable, new DefaultGraphTimeSeries(), color );
+        graphControlNode = new GraphControlNode( pSwingCanvas, abbr, simulationVariable, new DefaultGraphTimeSeries(), color );
         chartSlider = new ChartSlider( jFreeChartNode, new PText( "THUMB" ) );
         zoomControl = new ZoomSuiteNode();
 

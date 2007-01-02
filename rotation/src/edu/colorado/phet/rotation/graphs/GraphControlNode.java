@@ -36,7 +36,7 @@ public class GraphControlNode extends PNode {
         shadowPText.setShadowColor( Color.black );
         addChild( shadowPText );
 
-        textBox = new PSwing( pSwingCanvas, new TextBox( simulationVariable ) );
+        textBox = new PSwing( pSwingCanvas, new TextBox( title, simulationVariable ) );
         addChild( textBox );
 
         goStopButton = new PSwing( pSwingCanvas, new GoStopButton( graphTimeSeries ) );
@@ -141,8 +141,8 @@ public class GraphControlNode extends PNode {
 
     static class TextBox extends JPanel {
 
-        public TextBox( final SimulationVariable simulationVariable ) {
-            add( new JLabel( "x=" ) );
+        public TextBox( String valueAbbreviation, final SimulationVariable simulationVariable ) {
+            add( new JLabel( valueAbbreviation + " =" ) );
             final JTextField field = new JTextField( "0.0", 6 );
             field.setHorizontalAlignment( JTextField.RIGHT );
             add( field );

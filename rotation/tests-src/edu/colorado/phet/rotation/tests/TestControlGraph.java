@@ -27,7 +27,7 @@ public class TestControlGraph {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         phetPCanvas = new BufferedPhetPCanvas();
-        controlGraph = new ControlGraph( phetPCanvas, new SimulationVariable(), "title", 10 );
+        controlGraph = new ControlGraph( phetPCanvas, new SimulationVariable(), "abbrev", "title", 10 );
         phetPCanvas.addScreenChild( controlGraph );
         phetPCanvas.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
