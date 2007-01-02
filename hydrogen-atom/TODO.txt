@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - implement Schrodinger energy diagram
 
 MEDIUM PRIORITY:
-- rename SchrodingerUnstucker
 - ask SM about SR's idea of spontaneously emitting 2 photons to get out of state (2,0,0)
 - verify that ModelViewTransform is used everywhere that it should be
 - verify that behavior is correct when clock is paused
@@ -39,6 +38,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/2/06) - rename SchrodingerUnstucker to MetastableHandler
 (12/29/06) - implement Solar System energy diagram
 (12/29/06) - set up infrastructure for energy diagrams to observe atom
 (12/29/06) - made DeBroglieEnergyDiagram extend BohrEnergyDiagram

@@ -41,7 +41,7 @@ import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
-import edu.colorado.phet.hydrogenatom.hacks.SchrodingerUnstucker;
+import edu.colorado.phet.hydrogenatom.hacks.MetastableHandler;
 import edu.colorado.phet.hydrogenatom.help.HAWiggleMe;
 import edu.colorado.phet.hydrogenatom.model.*;
 import edu.colorado.phet.hydrogenatom.view.*;
@@ -121,7 +121,7 @@ public class HAModule extends PiccoloModule {
     
     private HAModelViewManager _modelViewManager;
     
-    private SchrodingerUnstucker _schrodingerUnstucker;
+    private MetastableHandler _metastableHandler;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -629,9 +629,9 @@ public class HAModule extends PiccoloModule {
         _deBroglieEnergyDiagram.clearAtom();
         _schrodingerEnergyDiagram.clearAtom();
         
-        if ( _schrodingerUnstucker != null ) {
-            _schrodingerUnstucker.cleanup();
-            _schrodingerUnstucker = null;
+        if ( _metastableHandler != null ) {
+            _metastableHandler.cleanup();
+            _metastableHandler = null;
         }
         
         if ( _atomModel != null ) {
@@ -664,7 +664,7 @@ public class HAModule extends PiccoloModule {
             else if ( atomicModel == AtomicModel.SCHRODINGER ) {
                 _atomModel = new SchrodingerModel( position );
                 _schrodingerEnergyDiagram.setAtom( _atomModel );
-                _schrodingerUnstucker = new SchrodingerUnstucker( getClock(), _model.getGun(), (SchrodingerModel)_atomModel );
+                _metastableHandler = new MetastableHandler( getClock(), _model.getGun(), (SchrodingerModel)_atomModel );
             }
             else if ( atomicModel == AtomicModel.SOLAR_SYSTEM ) {
                 _atomModel = new SolarSystemModel( position );

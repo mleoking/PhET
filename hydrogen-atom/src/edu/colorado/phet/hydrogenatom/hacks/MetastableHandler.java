@@ -23,9 +23,10 @@ import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.hydrogenatom.model.SchrodingerModel;
 
 /**
- * SchrodingerUnstucker handles a case where the Schrodinger model
- * can get stuck in state (n,l,m) = (2,0,0). The only way to get out
- * of this state is to absorb a photon that takes the atom to a higher state.
+ * MetastableHandler handles a case where the Schrodinger model
+ * can get stuck in state (n,l,m) = (2,0,0). This state is known as a 
+ * metastable state. The only way to get out of this state is to absorb
+ * a photon that takes the atom to a higher state.
  * <p>
  * While the gun is shooting white light and the atom is in state (2,0,0),
  * we fire an absorbable photon at the atom's center every MAX_STUCK_TIME milliseconds.
@@ -36,7 +37,7 @@ import edu.colorado.phet.hydrogenatom.model.SchrodingerModel;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SchrodingerUnstucker extends ClockAdapter implements Observer {
+public class MetastableHandler extends ClockAdapter implements Observer {
     
     //----------------------------------------------------------------------------
     // Debug
@@ -79,7 +80,7 @@ public class SchrodingerUnstucker extends ClockAdapter implements Observer {
      * @param gun
      * @param atom
      */
-    public SchrodingerUnstucker( IClock clock, Gun gun, SchrodingerModel atom ) {
+    public MetastableHandler( IClock clock, Gun gun, SchrodingerModel atom ) {
         super();
         
         // This implementation works for n = [1...6]
