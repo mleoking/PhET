@@ -15,6 +15,8 @@ public class GraphSetPanel extends PNode {
     private GraphSetModel graphSetModel;
     private ArrayList graphComponents = new ArrayList();
     private GraphComponent.Listener graphComponentListener;
+    private double width;
+    private double height;
 
     public GraphSetPanel( GraphSetModel graphSetModel ) {
         this.graphSetModel = graphSetModel;
@@ -29,6 +31,14 @@ public class GraphSetPanel extends PNode {
             }
         } );
         updateGraphSuite();
+    }
+
+    public boolean setBounds( double x, double y, double width, double height ) {
+        this.width = width;
+        this.height = height;
+        relayout();
+        setOffset( x, y );
+        return super.setBounds( x, y, width, height );
     }
 
     private void updateGraphSuite() {
@@ -55,6 +65,7 @@ public class GraphSetPanel extends PNode {
         for( int i = 0; i < graphComponents.size(); i++ ) {
             GraphComponent graphComponent = getGraphComponent( i );
             graphComponent.setOffset( xOffset, yOffset );
+            graphComponent.setAvailableBounds( width, height / graphComponents.size() );
             yOffset += graphComponent.getFullBounds().getHeight() + yPad;
         }
     }
