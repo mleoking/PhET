@@ -32,6 +32,6 @@ public class ZoomSuiteNode extends PNode {
     }
 
     private void relayout() {
-        horizontalZoomControlNode.setOffset( 0, verticalZoomControlNode.getFullBounds().getMaxY() + 10 );
+        horizontalZoomControlNode.setOffset( 0, verticalZoomControlNode.getFullBounds().getMaxY() + 0 );
     }
 }
