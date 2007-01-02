@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 public class GraphComponent extends PNode {
     private String label;
+    private String title;
     private boolean minimized = false;
     private PNode graphChild;
     private PNode stubChild;
@@ -35,8 +36,9 @@ public class GraphComponent extends PNode {
     private ControlGraph controlGraph;
     private PSwing closeButton;
 
-    public GraphComponent( PSwingCanvas pSwingCanvas, String label, double range ) {
+    public GraphComponent( PSwingCanvas pSwingCanvas, String label, String title, double range, Color color ) {
         this.label = label;
+        this.title = title;
 
         graphChild = new PNode();
         stubChild = new PNode();
@@ -49,7 +51,7 @@ public class GraphComponent extends PNode {
             graphChild.addChild( text );
         }
         else {
-            controlGraph = new ControlGraph( pSwingCanvas, new SimulationVariable(), label, range );
+            controlGraph = new ControlGraph( pSwingCanvas, new SimulationVariable(), label, title, range, color );
             graphChild.addChild( controlGraph );
         }
 

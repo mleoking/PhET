@@ -3,6 +3,8 @@ package edu.colorado.phet.rotation.graphs;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
+import java.awt.*;
+
 /**
  * User: Sam Reid
  * Date: Dec 28, 2006
@@ -20,12 +22,12 @@ public class RotationGraphSet {
     private GraphSuite[] suites;
 
     public RotationGraphSet( PSwingCanvas pSwingCanvas ) {
-        angleGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.THETA, Math.PI );
-        angularVelocityGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.OMEGA, 2 );
-        angularAccelerationGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.ALPHA, 1 );
-        positionGraph = new GraphComponent( pSwingCanvas, "x,y", 10 );
-        velocityGraph = new GraphComponent( pSwingCanvas, "vx,vy", 5 );
-        accelerationGraph = new GraphComponent( pSwingCanvas, "a", 2 );
+        angleGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.THETA, "Angular Position", Math.PI, Color.blue );
+        angularVelocityGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.OMEGA, "Angular Velocity", 2, Color.red );
+        angularAccelerationGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.ALPHA, "Angular Acceleration", 1, Color.green );
+        positionGraph = new GraphComponent( pSwingCanvas, "x,y", "Position", 10, Color.blue );
+        velocityGraph = new GraphComponent( pSwingCanvas, "vx,vy", "Linear Velocity", 5, Color.red );
+        accelerationGraph = new GraphComponent( pSwingCanvas, "a", "Centripetal Acceleration", 2, Color.green );
 
         suites = new GraphSuite[]{
                 new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),

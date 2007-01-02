@@ -23,9 +23,9 @@ import java.awt.event.ComponentEvent;
 public class TestModelPlot {
     private JFrame frame;
     private Timer timer;
-    private RotationModel rotationModel;
-
     private PhetPCanvas phetPCanvas;
+
+    private RotationModel rotationModel;
 
     private SimulationVariable xVariable;
     private SimulationVariable vVariable;
@@ -51,10 +51,12 @@ public class TestModelPlot {
         xVariable = new SimulationVariable( rotationModel.getLastState().getAngle() );
         vVariable = new SimulationVariable( rotationModel.getLastState().getAngularVelocity() );
         aVariable = new SimulationVariable( rotationModel.getLastState().getAngularAcceleration() );
-        xGraph = new ControlGraph( phetPCanvas, xVariable, "Angle", 10, Color.blue );
+
         positionDriven = new PositionDriven( xVariable.getValue() );
         velocityDriven = new VelocityDriven( vVariable.getValue() );
         accelDriven = new AccelerationDriven( aVariable.getValue() );
+
+        xGraph = new ControlGraph( phetPCanvas, xVariable, "theta", "Angle", 10, Color.blue );
         xGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
                 System.out.println( "ModelPlotTest.mousePressed: XGraph" );
@@ -64,7 +66,8 @@ public class TestModelPlot {
             public void valueChanged() {
             }
         } );
-        vGraph = new ControlGraph( phetPCanvas, vVariable, "Angular Velocity", 5, Color.red );
+
+        vGraph = new ControlGraph( phetPCanvas, vVariable, "omega", "Angular Velocity", 5, Color.red );
         vGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
                 System.out.println( "ModelPlotTest.mousePressed: VGraph" );
@@ -74,7 +77,8 @@ public class TestModelPlot {
             public void valueChanged() {
             }
         } );
-        aGraph = new ControlGraph( phetPCanvas, aVariable, "Angular Acceleration", 1, Color.green );
+
+        aGraph = new ControlGraph( phetPCanvas, aVariable, "alpha", "Angular Acceleration", 1, Color.green );
         aGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
                 System.out.println( "ModelPlotTest.mousePressed: AGraph" );
@@ -84,6 +88,7 @@ public class TestModelPlot {
             public void valueChanged() {
             }
         } );
+
         vGraph.setOffset( 0, xGraph.getFullBounds().getMaxY() );
         aGraph.setOffset( 0, vGraph.getFullBounds().getMaxY() );
 
