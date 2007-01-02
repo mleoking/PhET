@@ -1,7 +1,10 @@
 package edu.colorado.phet.rotation.tests;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.rotation.graphs.*;
+import edu.colorado.phet.rotation.graphs.AbstractChartSlider;
+import edu.colorado.phet.rotation.graphs.CombinedChartSlider;
+import edu.colorado.phet.rotation.graphs.CombinedControlGraph;
+import edu.colorado.phet.rotation.graphs.XYPlotFactory;
 import edu.colorado.phet.rotation.model.*;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -53,12 +56,7 @@ public class TestCombinedModelPlot {
         xGraph = factory.createXYPlot( "position", "meters" );
         vGraph = factory.createXYPlot( "vel", "meters/sec" );
         aGraph = factory.createXYPlot( "acc", "meters/sec/sec" );
-        combinedControlGraph = new CombinedControlGraph( phetPCanvas, new XYPlot[]{
-                xGraph,
-                vGraph,
-                aGraph,
-        } );
-        combinedControlGraph.addDefaultControlSet( 0, "t1", "t1 units", "abbr", xVariable, new DefaultGraphTimeSeries() );
+        combinedControlGraph = new CombinedControlGraph( phetPCanvas, new XYPlot[]{xGraph, vGraph, aGraph,} );
         xChartSlider = new CombinedChartSlider( combinedControlGraph.getChartNode(), new PText( "HELLO" ), 0 );
         xChartSlider.addListener( new AbstractChartSlider.Listener() {
             public void valueChanged() {

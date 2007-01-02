@@ -49,7 +49,7 @@ public class CombinedChartSlider extends AbstractChartSlider {
 
         updateLayout();
 
-        Timer timer = new Timer( 20, new ActionListener() {
+        Timer timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 updateLayout();
             }

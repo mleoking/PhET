@@ -1,9 +1,7 @@
 package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
-import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -77,14 +75,11 @@ public class CombinedControlGraph extends PNode {
         return super.setBounds( x, y, width, height );
     }
 
-    public void addDefaultControlSet( int subplotIndex, String title, String units, String abbreviation, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries ) {
-        PNode sliderThumb = new PText( title );
-        CombinedChartSlider combinedChartSlider = new CombinedChartSlider( chartNode, sliderThumb, subplotIndex );
-        GraphControlNode graphControlNode = new GraphControlNode( pSwingCanvas, simulationVariable, graphTimeSeries );
-        ZoomSuiteNode zoomSuiteNode = new ZoomSuiteNode();
 
-        addControlSet( new ControlSet( subplotIndex, graphControlNode, zoomSuiteNode ) );
-        addChartSlider( combinedChartSlider );
+    public void addControlSet( ControlSet controlSet, CombinedChartSlider slider ) {
+        addControlSet( controlSet );
+        addChartSlider( slider );
+
         relayout();
     }
 
@@ -98,7 +93,7 @@ public class CombinedControlGraph extends PNode {
         addControl( controlSet );
     }
 
-    static class ControlSet extends PNode {
+    public static class ControlSet extends PNode {
         private int subplotIndex;
         private PNode leftControl;
         private PNode rightControl;
