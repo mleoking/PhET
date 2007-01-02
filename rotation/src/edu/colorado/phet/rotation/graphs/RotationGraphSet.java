@@ -1,7 +1,6 @@
 package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.rotation.model.RotationModel;
-import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -28,9 +27,9 @@ public class RotationGraphSet {
         angularVelocityGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.OMEGA, "Angular Velocity", 2, Color.red, rotationModel.getVVariable() );
         angularAccelerationGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.ALPHA, "Angular Acceleration", 0.01, Color.green, rotationModel.getAVariable() );
 
-        positionGraph = new GraphComponent( pSwingCanvas, "x,y", "Position", 10, Color.blue, new SimulationVariable() );
-        velocityGraph = new GraphComponent( pSwingCanvas, "vx,vy", "Linear Velocity", 5, Color.red, new SimulationVariable() );
-        accelerationGraph = new GraphComponent( pSwingCanvas, "a", "Centripetal Acceleration", 2, Color.green, new SimulationVariable() );
+        positionGraph = new GraphComponent( pSwingCanvas, "x,y", "Position", 1, Color.blue, rotationModel.getXPositionVariable() );
+        velocityGraph = new GraphComponent( pSwingCanvas, "vx,vy", "Linear Velocity", 5, Color.red, rotationModel.getLinearVelocity() );
+        accelerationGraph = new GraphComponent( pSwingCanvas, "a", "Centripetal Acceleration", 2, Color.green, rotationModel.getCentripetalAcceleration() );
 
         suites = new GraphSuite[]{
                 new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),
@@ -45,7 +44,9 @@ public class RotationGraphSet {
                 angularVelocityGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngularVelocity() );
                 angularAccelerationGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngularAcceleration() );
 
-//                positionGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getBodyX() );
+                positionGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getBody( 0 ).getX( rotationModel.getLastState() ) );
+                velocityGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getBody( 0 ).getVelocity( rotationModel.getLastState() ).getMagnitude() );
+                accelerationGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getBody( 0 ).getAcceleration( rotationModel.getLastState() ).getMagnitude() );
             }
         } );
         angleGraph.addControlGraphListener( new ControlGraph.Listener() {

@@ -7,13 +7,14 @@ import java.util.Arrays;
  */
 
 public class RotationModelState {
-    private Body[] bodies = new Body[0];
-    private double angle = 0.0;
-    private double angularVelocity = 0.0;
-    private double angularAcceleration = 0.0;
-    private double time = 0;
+    private Body[] bodies;
+    private double angle;
+    private double angularVelocity;
+    private double angularAcceleration;
+    private double time;
 
     public RotationModelState() {
+        this( new Body[]{new Body( 1.0 )}, 0, 0, 0, 0 );
     }
 
     public RotationModelState( Body[] bodies, double angle, double angularVelocity, double angularAcceleration, double time ) {
@@ -83,7 +84,4 @@ public class RotationModelState {
         return time;
     }
 
-    public double getBodyX() {
-        return bodies[0].getX();
-    }
 }

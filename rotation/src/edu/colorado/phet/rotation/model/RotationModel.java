@@ -21,6 +21,11 @@ public class RotationModel {
     private SimulationVariable vVariable;
     private SimulationVariable aVariable;
 
+    private SimulationVariable xPositionVariable;
+    private SimulationVariable yPositionVariable;
+    private SimulationVariable linearVelocity;
+    private SimulationVariable centripetalAcceleration;
+
     private ArrayList listeners = new ArrayList();
 
     public RotationModel() {
@@ -29,6 +34,11 @@ public class RotationModel {
         xVariable = new SimulationVariable( getLastState().getAngle() );
         vVariable = new SimulationVariable( getLastState().getAngularVelocity() );
         aVariable = new SimulationVariable( getLastState().getAngularAcceleration() );
+
+        xPositionVariable = new SimulationVariable( getLastState().getBody( 0 ).getX( getLastState() ) );
+        yPositionVariable = new SimulationVariable( getLastState().getBody( 0 ).getY( getLastState() ) );
+        linearVelocity = new SimulationVariable( getLastState().getBody( 0 ).getVelocity( getLastState() ).getMagnitude() );
+        centripetalAcceleration = new SimulationVariable( getLastState().getBody( 0 ).getAcceleration( getLastState() ).getMagnitude() );
 
         xVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
@@ -74,6 +84,11 @@ public class RotationModel {
         xVariable.setValue( getLastState().getAngle() );
         vVariable.setValue( getLastState().getAngularVelocity() );
         aVariable.setValue( getLastState().getAngularAcceleration() );
+
+        xPositionVariable.setValue( getLastState().getBody( 0 ).getX( getLastState() ) );
+        yPositionVariable.setValue( getLastState().getBody( 0 ).getY( getLastState() ) );
+        linearVelocity.setValue( getLastState().getBody( 0 ).getVelocity( getLastState() ).getMagnitude() );
+        centripetalAcceleration.setValue( getLastState().getBody( 0 ).getAcceleration( getLastState() ).getMagnitude() );
 
         notifySteppedInTime();
     }
@@ -145,6 +160,22 @@ public class RotationModel {
 
     public SimulationVariable getAVariable() {
         return aVariable;
+    }
+
+    public SimulationVariable getXPositionVariable() {
+        return xPositionVariable;
+    }
+
+    public SimulationVariable getYPositionVariable() {
+        return yPositionVariable;
+    }
+
+    public SimulationVariable getLinearVelocity() {
+        return linearVelocity;
+    }
+
+    public SimulationVariable getCentripetalAcceleration() {
+        return centripetalAcceleration;
     }
 
     public static interface Listener {
