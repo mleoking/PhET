@@ -7,6 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - add squiggles to energy diagrams
 - clean up layout and positioning of things in energy diagrams
+- clean up class hierarchy of energy diagrams
 - javadoc energy diagrams
 - fix overlap problems in energy diagrams (diagrams taller or distort energy levels)
 
