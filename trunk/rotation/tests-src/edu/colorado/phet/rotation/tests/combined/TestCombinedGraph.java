@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.tests;
+package edu.colorado.phet.rotation.tests.combined;
 
 /**
  * User: Sam Reid

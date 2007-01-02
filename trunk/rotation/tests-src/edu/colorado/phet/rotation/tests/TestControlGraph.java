@@ -10,21 +10,36 @@ package edu.colorado.phet.rotation.tests;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.ControlGraph;
 import edu.colorado.phet.rotation.model.SimulationVariable;
+import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
 
 import javax.swing.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class TestControlGraph {
     private JFrame frame;
+    private ControlGraph controlGraph;
+    private PhetPCanvas phetPCanvas;
 
     public TestControlGraph() {
         frame = new JFrame();
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        PhetPCanvas phetPCanvas = new PhetPCanvas();
-        phetPCanvas.addScreenChild( new ControlGraph( phetPCanvas, new SimulationVariable(), "title" ) );
-
+        phetPCanvas = new BufferedPhetPCanvas();
+        controlGraph = new ControlGraph( phetPCanvas, new SimulationVariable(), "title" );
+        phetPCanvas.addScreenChild( controlGraph );
+        phetPCanvas.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                relayout();
+            }
+        } );
         frame.setContentPane( phetPCanvas );
+        relayout();
+    }
+
+    private void relayout() {
+        controlGraph.setBounds( 0, 0, phetPCanvas.getWidth(), phetPCanvas.getHeight() );
     }
 
     public static void main( String[] args ) {

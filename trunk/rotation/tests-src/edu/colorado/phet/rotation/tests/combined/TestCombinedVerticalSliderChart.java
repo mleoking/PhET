@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.tests;
+package edu.colorado.phet.rotation.tests.combined;
 
 /**
  * See also: http://www.java2s.com/Code/Java/Chart/JFreeChartCombinedXYPlotDemo1.htm

@@ -4,6 +4,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.jfreechart.tests.TestVerticalChartSlider;
 import edu.colorado.phet.rotation.tests.*;
+import edu.colorado.phet.rotation.tests.combined.TestCombinedModelPlot2;
 
 import javax.swing.*;
 import java.awt.*;
