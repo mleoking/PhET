@@ -9,6 +9,7 @@ import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -25,6 +26,7 @@ public class TestGraphSelectionView {
         suiteSelectionFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         phetPCanvas = new BufferedPhetPCanvas();
+        phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
         RotationGraphSet rotationGraphSet = new RotationGraphSet( phetPCanvas );
         GraphSetModel graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
 

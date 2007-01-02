@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -30,7 +31,7 @@ public class ChartSlider extends PNode {
 
     public ChartSlider( JFreeChartNode jFreeChartNode, final PNode sliderThumb ) {
         this.sliderThumb = sliderThumb;
-
+        this.sliderThumb.addInputEventListener( new CursorHandler() );
         trackPPath = new PhetPPath( new BasicStroke( 1 ), Color.black );
         addChild( trackPPath );
         addChild( sliderThumb );
