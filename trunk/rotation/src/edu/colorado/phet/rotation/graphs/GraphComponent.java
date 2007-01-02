@@ -2,6 +2,7 @@ package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
+import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -29,6 +30,9 @@ public class GraphComponent extends PNode {
     private PNode stubChild;
 
     private ArrayList listeners = new ArrayList();
+    private boolean dummy = false;
+    private ControlGraph controlGraph;
+//    private boolean dummy = true;
 
     public GraphComponent( PSwingCanvas pSwingCanvas, String label ) {
         this.label = label;
@@ -36,11 +40,17 @@ public class GraphComponent extends PNode {
         graphChild = new PNode();
         stubChild = new PNode();
 
-        PPath pPath = new PhetPPath( new Rectangle( 0, 0, 100, 50 ), Color.white, new BasicStroke( 1 ), Color.blue );
-        graphChild.addChild( pPath );
+        if( dummy ) {
+            PPath pPath = new PhetPPath( new Rectangle( 0, 0, 100, 50 ), Color.white, new BasicStroke( 1 ), Color.blue );
+            graphChild.addChild( pPath );
 
-        PText text = new PText( label );
-        graphChild.addChild( text );
+            PText text = new PText( label );
+            graphChild.addChild( text );
+        }
+        else {
+            controlGraph = new ControlGraph( pSwingCanvas, new SimulationVariable(), label );
+            graphChild.addChild( controlGraph );
+        }
 
         JButton minimizeButton = new JButton();
         try {
@@ -105,6 +115,9 @@ public class GraphComponent extends PNode {
         listeners.remove( listener );
     }
 
+    public void setAvailableBounds( double width, double height ) {
+        controlGraph.setBounds( 0, 0, width, height );
+    }
 
     public static interface Listener {
         void minimizeStateChanged();
