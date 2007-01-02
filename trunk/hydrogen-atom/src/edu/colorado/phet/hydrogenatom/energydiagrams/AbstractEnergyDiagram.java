@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
+import java.awt.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,13 +19,16 @@ import java.awt.Font;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.text.MessageFormat;
 import java.util.Observer;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
+import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -39,9 +43,17 @@ import edu.umd.cs.piccolox.nodes.PClip;
 public abstract class AbstractEnergyDiagram extends PhetPNode implements Observer {
 
     //----------------------------------------------------------------------------
-    // Class data
+    // Protected class data
+    //----------------------------------------------------------------------------
+    
+    protected static final double E1 = -13.6; // eV
+    
+    //----------------------------------------------------------------------------
+    // Private class data
     //----------------------------------------------------------------------------
 
+    private static final boolean DISTORT_ENERGY_LEVELS = true;
+    
     private static final String FONT_NAME = HAConstants.DEFAULT_FONT_NAME;
     private static final int FONT_STYLE = HAConstants.DEFAULT_FONT_STYLE;
     private static final int DEFAULT_FONT_SIZE = HAConstants.DEFAULT_FONT_SIZE;
@@ -59,6 +71,14 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     private static final Color ARROW_COLOR = Color.BLACK;
     private static final Color AXIS_LABEL_COLOR = Color.BLACK;
     
+    private static final double LINE_LENGTH = 6;
+    private static final Stroke LINE_STROKE = new BasicStroke( 2f );
+    private static final Color LINE_COLOR = Color.BLACK;
+    
+    private static final String LABEL_FORMAT = "n={0}";
+    private static final Font LABEL_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
+    private static final Color LABEL_COLOR = Color.BLACK;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -66,12 +86,13 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     private AbstractHydrogenAtom _atom;
     private ElectronNode _electronNode;
     private Rectangle2D _drawingArea; // area that we can draw in
+    private double[] _energies;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AbstractEnergyDiagram() {
+    public AbstractEnergyDiagram( int numberOfStates ) {
         super();
         
         setPickable( false );
@@ -136,6 +157,13 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         double w = backgroundNode.getWidth() - X_MARGIN - x;
         double h = backgroundNode.getHeight();
         _drawingArea = new Rectangle2D.Double( x, y, w, h );
+        
+        if ( DISTORT_ENERGY_LEVELS ) {
+            _energies = calculateEnergiesDistorted( numberOfStates );
+        }
+        else {
+            _energies = calculateEnergies( numberOfStates );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -158,11 +186,13 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
      * @param atom
      */
     public void setAtom( AbstractHydrogenAtom atom ) {
+        assert( atom.getGroundState() == 1 ); // n=1 must be the ground state
         clearAtom();
         if ( atom != null ) {
             _atom = atom;
             initElectronPosition();
             _atom.addObserver( this );
+            update( _atom, AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE );
         }
     }
     
@@ -202,5 +232,53 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
      */
     protected void initElectronPosition() {
         _electronNode.setOffset( _drawingArea.getX(), _drawingArea.getY() + Y_MARGIN );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Energies
+    //----------------------------------------------------------------------------
+    
+    protected double getEnergy( int state ) {
+        return _energies[ state - 1 ];
+    }
+    
+    private double[] calculateEnergies( int numberOfStates ) {
+        double E[] = new double[ numberOfStates ];
+        for ( int i = 0; i < E.length; i++ ) {
+            int n = i + 1;
+            E[i] = E1 / ( n * n );
+        }
+        return E;
+    }
+    
+    private double[] calculateEnergiesDistorted( int numberOfStates ) {
+        if ( numberOfStates > 6 ) {
+            throw new UnsupportedOperationException( "AbstractEnergyDiagram.calculateEnergiesDistorted: numberOfStates must be <= 6" );
+        }
+        return new double[] { E1, -5.2, -2.8, -1.51, -0.85, -0.38 };
+    }
+    
+    //----------------------------------------------------------------------------
+    // Node creation
+    //----------------------------------------------------------------------------
+    
+    protected static PNode createLineNode() {
+        PPath lineNode = new PPath( new Line2D.Double( 0, 0, LINE_LENGTH, 0 ) );
+        lineNode.setStroke( LINE_STROKE );
+        lineNode.setStrokePaint( LINE_COLOR );
+        return lineNode;
+    }
+    
+    protected static PNode createLabelNode( int state ) {
+        Object[] args = new Object[] { new Integer( state ) };
+        String label = MessageFormat.format( LABEL_FORMAT, args );
+        PText labelNode = new PText( label );
+        labelNode.setFont( LABEL_FONT );
+        labelNode.setTextPaint( LABEL_COLOR );
+        return labelNode;
+    }
+    
+    protected static double getLineLength() {
+        return LINE_LENGTH;
     }
 }

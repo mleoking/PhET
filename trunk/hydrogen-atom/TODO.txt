@@ -37,6 +37,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/2/06) - move common code for node creation and energy value calculation to AbstractEnergyDiagram
 (1/2/06) - implement Bohr/deBroglie energy diagram with no squiggles
 (1/2/06) - Solar System energy diagram must update electron offset even when the diagram is invisible
 (1/2/06) - rename SchrodingerUnstucker to MetastableHandler
