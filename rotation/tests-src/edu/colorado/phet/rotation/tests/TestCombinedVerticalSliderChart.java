@@ -6,7 +6,7 @@ package edu.colorado.phet.rotation.tests;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.rotation.graphs.CombinedChartSlider;
+import edu.colorado.phet.rotation.graphs.combined.CombinedChartSlider;
 import edu.umd.cs.piccolo.nodes.PText;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYTextAnnotation;

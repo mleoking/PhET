@@ -2,9 +2,9 @@ package edu.colorado.phet.rotation.tests;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.AbstractChartSlider;
-import edu.colorado.phet.rotation.graphs.CombinedChartSlider;
-import edu.colorado.phet.rotation.graphs.CombinedControlGraph;
 import edu.colorado.phet.rotation.graphs.XYPlotFactory;
+import edu.colorado.phet.rotation.graphs.combined.CombinedChartSlider;
+import edu.colorado.phet.rotation.graphs.combined.CombinedControlGraph;
 import edu.colorado.phet.rotation.model.*;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

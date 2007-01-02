@@ -1,6 +1,7 @@
-package edu.colorado.phet.rotation.graphs;
+package edu.colorado.phet.rotation.graphs.combined;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.rotation.graphs.AbstractChartSlider;
 import edu.umd.cs.piccolo.PNode;
 import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;

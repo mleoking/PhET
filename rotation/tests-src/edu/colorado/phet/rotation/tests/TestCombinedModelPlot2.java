@@ -3,6 +3,8 @@ package edu.colorado.phet.rotation.tests;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.*;
+import edu.colorado.phet.rotation.graphs.combined.CombinedChartSlider;
+import edu.colorado.phet.rotation.graphs.combined.CombinedControlGraph;
 import edu.colorado.phet.rotation.model.*;
 import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
