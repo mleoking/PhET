@@ -137,7 +137,7 @@ public class ChartSlider extends PNode {
     }
 
     private void updateThumbLocation() {
-        Point2D nodeLocation = plotToNode( new Point2D.Double( 0, value ) );
+        Point2D nodeLocation = plotToNode( new Point2D.Double( 0, clamp( value ) ) );
         sliderThumb.setOffset( trackPPath.getFullBounds().getCenterX() - sliderThumb.getFullBounds().getWidth() / 2.0,
                                nodeLocation.getY() - sliderThumb.getFullBounds().getHeight() / 2.0 );
     }
