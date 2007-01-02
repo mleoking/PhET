@@ -69,7 +69,14 @@ public class CombinedControlGraph extends PNode {
     }
 
     public boolean setBounds( double x, double y, double width, double height ) {
-        chartNode.setBounds( x, y, width, height );
+        double preX = 0;
+        double postX = 0;
+        for( int i = 0; i < controlSets.size(); i++ ) {
+            ControlSet controlSet = (ControlSet)controlSets.get( i );
+            preX = Math.max( controlSet.getGraphControlNode().getFullBounds().getWidth(), preX );
+            postX = Math.max( controlSet.getZoomSuiteNode().getFullBounds().getWidth(), postX );
+        }
+        chartNode.setBounds( x + preX, y, width - preX - postX, height );
         return super.setBounds( x, y, width, height );
     }
 
@@ -127,7 +134,7 @@ public class CombinedControlGraph extends PNode {
             ControlSet controlSet = (ControlSet)controlSets.get( i );
             Rectangle2D dataArea = getChartNode().getDataArea( controlSet.getSubplotIndex() );
             controlSet.getGraphControlNode().setOffset( chartNode.getFullBounds().getX() - controlSet.getGraphControlNode().getFullBounds().getWidth() - 20, dataArea.getY() );
-//            controlSet.getZoomSuiteNode().setOffset( dataArea.getMaxX(), dataArea.getCenterY() - controlSet.getZoomSuiteNode().getFullBounds().getHeight() / 2 );
+            controlSet.getCombinedChartSlider().setOffset( 0, 0 );
             controlSet.getZoomSuiteNode().setOffset( chartNode.getFullBounds().getMaxX(), dataArea.getCenterY() - controlSet.getZoomSuiteNode().getFullBounds().getHeight() / 2 );
         }
     }
