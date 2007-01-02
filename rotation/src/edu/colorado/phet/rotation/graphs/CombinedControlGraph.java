@@ -1,7 +1,10 @@
 package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
@@ -19,8 +22,10 @@ public class CombinedControlGraph extends PNode {
     private JFreeChart jFreeChart;
     private JFreeChartNode chartNode;
     private PNode controlNode;
+    private PSwingCanvas pSwingCanvas;
 
-    public CombinedControlGraph( XYPlot[] subplot ) {
+    public CombinedControlGraph( PSwingCanvas pSwingCanvas, XYPlot[] subplot ) {
+        this.pSwingCanvas = pSwingCanvas;
         final CombinedDomainXYPlot plot = new CombinedDomainXYPlot( new NumberAxis( "Domain" ) );
         plot.setOrientation( PlotOrientation.VERTICAL );
         plot.setGap( 10.0 );
@@ -54,9 +59,19 @@ public class CombinedControlGraph extends PNode {
         return super.setBounds( x, y, width, height );
     }
 
+    public void addDefaultControlSet( int subplotIndex, String title, String units, String abbreviation, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries ) {
+        PNode sliderThumb = new PText( title );
+        CombinedChartSlider combinedChartSlider = new CombinedChartSlider( chartNode, sliderThumb, subplotIndex );
+        addControl( combinedChartSlider );
+
+        GraphControlNode graphControlNode = new GraphControlNode( pSwingCanvas, simulationVariable, graphTimeSeries );
+        addControl( graphControlNode );
+
+
+    }
+
     public void addControl( PNode control ) {
         controlNode.addChild( control );
     }
-
 
 }
