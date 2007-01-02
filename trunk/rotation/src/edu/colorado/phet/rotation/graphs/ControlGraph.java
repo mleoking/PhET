@@ -70,6 +70,10 @@ public class ControlGraph extends PNode {
         relayout();
     }
 
+    public JFreeChartNode getJFreeChartNode() {
+        return jFreeChartNode;
+    }
+
     public boolean setBounds( double x, double y, double width, double height ) {
         relayout();
         jFreeChartNode.setBounds( 0, 0, width - xPad, height );

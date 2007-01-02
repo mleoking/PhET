@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
@@ -33,7 +34,6 @@ public class GraphComponent extends PNode {
     private boolean dummy = false;
     private ControlGraph controlGraph;
     private PSwing closeButton;
-//    private boolean dummy = true;
 
     public GraphComponent( PSwingCanvas pSwingCanvas, String label, double range ) {
         this.label = label;
@@ -68,6 +68,7 @@ public class GraphComponent extends PNode {
             }
         } );
         closeButton = new PSwing( pSwingCanvas, minimizeButton );
+        closeButton.addInputEventListener( new CursorHandler() );
 
         graphChild.addChild( closeButton );
 
@@ -86,7 +87,9 @@ public class GraphComponent extends PNode {
             e.printStackTrace();
         }
         PSwing maxButton = new PSwing( pSwingCanvas, maximizeButton );
+        maxButton.addInputEventListener( new CursorHandler() );
         stubChild.addChild( maxButton );
+
         relayout();
     }
 
@@ -94,7 +97,8 @@ public class GraphComponent extends PNode {
         int buttonInsetX = 3;
         int buttonInsetY = 3;
 
-        closeButton.setOffset( controlGraph.getFullBounds().getMaxX() - closeButton.getFullBounds().getWidth() - buttonInsetX, buttonInsetY );
+//        closeButton.setOffset( controlGraph.getFullBounds().getMaxX() - closeButton.getFullBounds().getWidth() - buttonInsetX, buttonInsetY );
+        closeButton.setOffset( controlGraph.getJFreeChartNode().getDataArea().getMaxX() - closeButton.getFullBounds().getWidth() - buttonInsetX + controlGraph.getJFreeChartNode().getOffset().getX(), controlGraph.getJFreeChartNode().getDataArea().getY() );
     }
 
     private void setMinimized( boolean b ) {
@@ -128,6 +132,15 @@ public class GraphComponent extends PNode {
     private void relayout() {
         updateCloseButton();
         stubChild.setOffset( controlGraph.getFullBounds().getMaxX() - stubChild.getFullBounds().getWidth(), 0 );
+//        stubChild.setOffset( controlGraph.getJFreeChartNode().getDataArea().getMaxX() - stubChild.getFullBounds().getWidth(), controlGraph.getJFreeChartNode().getDataArea( ).getY() );
+    }
+
+    public double getFixedHeight() {
+        return minimized ? stubChild.getFullBounds().getHeight() : 0.0;
+    }
+
+    public boolean isMinimized() {
+        return minimized;
     }
 
     public static interface Listener {

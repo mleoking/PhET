@@ -59,14 +59,32 @@ public class GraphSetPanel extends PNode {
     }
 
     private void relayout() {
-        double yOffset = 0;
         double yPad = 5;
+        double availableY = height;
+        for( int i = 0; i < graphComponents.size(); i++ ) {
+            GraphComponent graphComponent = (GraphComponent)graphComponents.get( i );
+            availableY -= graphComponent.getFixedHeight();
+            availableY -= yPad;
+        }
+
+        double yOffset = 0;
         for( int i = 0; i < graphComponents.size(); i++ ) {
             GraphComponent graphComponent = getGraphComponent( i );
             graphComponent.setOffset( 0, yOffset );
-            graphComponent.setAvailableBounds( width, height / graphComponents.size() );
+            if( numMaximized() > 0 ) {
+                graphComponent.setAvailableBounds( width, availableY / numMaximized() );
+            }
             yOffset += graphComponent.getFullBounds().getHeight() + yPad;
         }
+    }
+
+    private int numMaximized() {
+        int count = 0;
+        for( int i = 0; i < graphComponents.size(); i++ ) {
+            GraphComponent graphComponent = (GraphComponent)graphComponents.get( i );
+            count += graphComponent.isMinimized() ? 0 : 1;
+        }
+        return count;
     }
 
     private void removeGraphComponent( int i ) {
