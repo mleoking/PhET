@@ -46,13 +46,15 @@ public class ControlGraph extends PNode {
     public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double range, Color color ) {
         xySeries = new XYSeries( "series_1" );
 
-        XYDataset dataset = new XYSeriesCollection( xySeries );
+        XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
         JFreeChart jFreeChart = ChartFactory.createXYLineChart( title + ", " + abbr, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.setTitle( (String)null );
-        jFreeChart.getXYPlot().getRangeAxis().setAutoRange( false );
         jFreeChart.getXYPlot().getRangeAxis().setRange( -range, range );
+        jFreeChart.getXYPlot().getDomainAxis().setRange( 0, 100 );
         jFreeChart.setBackgroundPaint( null );
+
         jFreeChartNode = new JFreeChartNode( jFreeChart );
+        jFreeChartNode.setBuffered( true );
         jFreeChartNode.setBounds( 0, 0, 300, 400 );
         graphControlNode = new GraphControlNode( pSwingCanvas, abbr, simulationVariable, new DefaultGraphTimeSeries(), color );
         chartSlider = new ChartSlider( jFreeChartNode, new PText( "THUMB" ) );
@@ -124,6 +126,11 @@ public class ControlGraph extends PNode {
 
     public void addValue( double time, double value ) {
         xySeries.add( time, value );
+        updateSeriesGraphic();
+    }
+
+    private void updateSeriesGraphic() {
+
     }
 
     public static interface Listener {
