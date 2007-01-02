@@ -25,10 +25,14 @@ public class GraphControlNode extends PNode {
     private PSwing goStopButton;
     private PSwing clearButton;
 
-    public GraphControlNode( PSwingCanvas pSwingCanvas, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries ) {
-        shadowPText = new ShadowPText( "Title" );
+    public GraphControlNode( PSwingCanvas pSwingCanvas, String title, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries ) {
+        this( pSwingCanvas, title, simulationVariable, graphTimeSeries, Color.black );
+    }
+
+    public GraphControlNode( PSwingCanvas pSwingCanvas, String title, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries, Color color ) {
+        shadowPText = new ShadowPText( title );
         shadowPText.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
-        shadowPText.setTextPaint( Color.blue );
+        shadowPText.setTextPaint( color );
         shadowPText.setShadowColor( Color.black );
         addChild( shadowPText );
 

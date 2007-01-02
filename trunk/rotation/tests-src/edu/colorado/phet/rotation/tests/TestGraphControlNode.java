@@ -23,7 +23,7 @@ public class TestGraphControlNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PhetPCanvas phetPCanvas = new PhetPCanvas();
-        phetPCanvas.addScreenChild( new GraphControlNode( phetPCanvas, new SimulationVariable(), new DefaultGraphTimeSeries() ) );
+        phetPCanvas.addScreenChild( new GraphControlNode( phetPCanvas, "title", new SimulationVariable(), new DefaultGraphTimeSeries() ) );
         frame.setContentPane( phetPCanvas );
     }
 
