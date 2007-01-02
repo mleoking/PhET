@@ -126,8 +126,9 @@ public class CombinedControlGraph extends PNode {
         for( int i = 0; i < controlSets.size(); i++ ) {
             ControlSet controlSet = (ControlSet)controlSets.get( i );
             Rectangle2D dataArea = getChartNode().getDataArea( controlSet.getSubplotIndex() );
-            controlSet.getGraphControlNode().setOffset( -controlSet.getGraphControlNode().getFullBounds().getWidth(), dataArea.getY() );
-            controlSet.getZoomSuiteNode().setOffset( dataArea.getMaxX(), dataArea.getCenterY() - controlSet.getZoomSuiteNode().getFullBounds().getHeight() / 2 );
+            controlSet.getGraphControlNode().setOffset( chartNode.getFullBounds().getX() - controlSet.getGraphControlNode().getFullBounds().getWidth() - 20, dataArea.getY() );
+//            controlSet.getZoomSuiteNode().setOffset( dataArea.getMaxX(), dataArea.getCenterY() - controlSet.getZoomSuiteNode().getFullBounds().getHeight() / 2 );
+            controlSet.getZoomSuiteNode().setOffset( chartNode.getFullBounds().getMaxX(), dataArea.getCenterY() - controlSet.getZoomSuiteNode().getFullBounds().getHeight() / 2 );
         }
     }
 
