@@ -1,42 +1,45 @@
 package edu.colorado.phet.rotation.tests;
 
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.controls.GraphSelectionControl;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.GraphSetPanel;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
+import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
 
 import javax.swing.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 public class TestGraphSelectionView {
-    private JFrame frame;
-    private JFrame f2;
+    private JFrame suiteSelectionFrame;
+    private JFrame plotFrame;
     private GraphSetPanel graphSetPanel;
     private PhetPCanvas phetPCanvas;
 
     public TestGraphSelectionView() {
-        frame = new JFrame();
-        frame.setSize( 600, 600 );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        new PhetLookAndFeel().initLookAndFeel();
+        suiteSelectionFrame = new JFrame();
+        suiteSelectionFrame.setSize( 600, 600 );
+        suiteSelectionFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        phetPCanvas = new PhetPCanvas();
+        phetPCanvas = new BufferedPhetPCanvas();
         RotationGraphSet rotationGraphSet = new RotationGraphSet( phetPCanvas );
         GraphSetModel graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
+
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
-        frame.getContentPane().add( graphSelectionControl );
+        suiteSelectionFrame.getContentPane().add( graphSelectionControl );
 
-        f2 = new JFrame();
-
+        plotFrame = new JFrame();
         graphSetPanel = new GraphSetPanel( graphSetModel );
 
         phetPCanvas.addScreenChild( graphSetPanel );
-        f2.setContentPane( phetPCanvas );
-        f2.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        plotFrame.setContentPane( phetPCanvas );
+        plotFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        f2.setSize( 400, 400 );
-        f2.setLocation( frame.getX(), frame.getY() + frame.getHeight() );
+        plotFrame.setSize( 400, 400 );
+        plotFrame.setLocation( suiteSelectionFrame.getX(), suiteSelectionFrame.getY() + suiteSelectionFrame.getHeight() );
         phetPCanvas.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 relayout();
@@ -55,8 +58,8 @@ public class TestGraphSelectionView {
     }
 
     private void start() {
-        frame.setVisible( true );
-        f2.setVisible( true );
+        suiteSelectionFrame.setVisible( true );
+        plotFrame.setVisible( true );
 
     }
 }

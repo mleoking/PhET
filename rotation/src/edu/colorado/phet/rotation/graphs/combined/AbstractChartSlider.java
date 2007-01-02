@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.graphs;
+package edu.colorado.phet.rotation.graphs.combined;
 
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;

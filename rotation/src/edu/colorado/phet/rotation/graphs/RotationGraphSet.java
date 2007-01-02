@@ -20,12 +20,12 @@ public class RotationGraphSet {
     private GraphSuite[] suites;
 
     public RotationGraphSet( PSwingCanvas pSwingCanvas ) {
-        angleGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.THETA );
-        angularVelocityGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.OMEGA );
-        angularAccelerationGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.ALPHA );
-        positionGraph = new GraphComponent( pSwingCanvas, "x,y" );
-        velocityGraph = new GraphComponent( pSwingCanvas, "vx,vy" );
-        accelerationGraph = new GraphComponent( pSwingCanvas, "a" );
+        angleGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.THETA, Math.PI );
+        angularVelocityGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.OMEGA, 2 );
+        angularAccelerationGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.ALPHA, 1 );
+        positionGraph = new GraphComponent( pSwingCanvas, "x,y", 10 );
+        velocityGraph = new GraphComponent( pSwingCanvas, "vx,vy", 5 );
+        accelerationGraph = new GraphComponent( pSwingCanvas, "a", 2 );
 
         suites = new GraphSuite[]{
                 new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),
