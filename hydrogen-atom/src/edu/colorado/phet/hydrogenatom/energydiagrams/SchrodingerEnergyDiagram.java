@@ -49,7 +49,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
 
         PNode lNode = createLNode();
         lNode.setOffset( getDrawingArea().getX() + X_MARGIN, Y_MARGIN );
-        addChild( lNode );
+        getStateLayer().addChild( lNode );
         _lHeight = lNode.getFullBounds().getHeight();
         
         for ( int n = 1; n <= SchrodingerModel.getNumberOfStates(); n++ ) { 
@@ -57,7 +57,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
             double x = getXOffset( 0 );
             double y = getYOffset( n );
             levelNode.setOffset( x, y );
-            addChild( levelNode );
+            getStateLayer().addChild( levelNode );
         }
     }
     

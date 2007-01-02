@@ -12,10 +12,6 @@
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
 import java.awt.*;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
@@ -25,14 +21,15 @@ import java.util.Observer;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
-import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PClip;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * AbstractEnergyDiagram is the base class for all energy diagrams.
@@ -60,7 +57,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     // Private class data
     //----------------------------------------------------------------------------
 
-    private static final boolean DISTORT_ENERGY_LEVELS = true;
+    private static final boolean DISTORT_ENERGY_LEVELS = false;
     
     private static final String FONT_NAME = HAConstants.DEFAULT_FONT_NAME;
     private static final int FONT_STYLE = HAConstants.DEFAULT_FONT_STYLE;
@@ -87,6 +84,8 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     private ElectronNode _electronNode;
     private Rectangle2D _drawingArea; // area that we can draw in
     private double[] _energies;
+    private PLayer _stateLayer;
+    private PLayer _squiggleLayer;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -108,7 +107,6 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         backgroundNode.setPaint( BACKGROUND_COLOR );
         backgroundNode.setStroke( new BasicStroke( 2f ) );
         backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
-        addChild( backgroundNode );
         
         // Y-axis
         PPath axisNode = new PPath();
@@ -133,6 +131,12 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         axisLabelNode.setTextPaint( AXIS_LABEL_COLOR );
         axisLabelNode.rotate( Math.toRadians( -90 ) );
         
+        // Layer for all state indicators
+        _stateLayer = new PLayer();
+        
+        // Layer for all squiggles
+        _squiggleLayer = new PLayer();
+        
         // Electron
         _electronNode = new ElectronNode();
 
@@ -140,7 +144,10 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         backgroundNode.addChild( axisNode );
         backgroundNode.addChild( arrowNode );
         backgroundNode.addChild( axisLabelNode );
-        backgroundNode.addChild( _electronNode );
+        addChild( backgroundNode );
+        addChild( _stateLayer );
+        addChild( _squiggleLayer );
+        addChild( _electronNode );
         
         // Positions
         backgroundNode.setOffset( 0, 0 );
@@ -232,6 +239,24 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
      */
     protected void initElectronPosition() {
         _electronNode.setOffset( _drawingArea.getX(), _drawingArea.getY() + Y_MARGIN );
+    }
+    
+    /**
+     * Gets the layer that contains all state indicators.
+     * 
+     * @param node
+     */
+    protected PLayer getStateLayer() {
+        return _stateLayer;
+    }
+    
+    /**
+     * Gets the layer that contains all squiggles.
+     * 
+     * @param node
+     */
+    protected PLayer getSquiggleLayer() {
+        return _squiggleLayer;
     }
     
     //----------------------------------------------------------------------------

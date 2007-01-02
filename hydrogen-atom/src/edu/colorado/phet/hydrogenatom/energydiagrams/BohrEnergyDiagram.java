@@ -48,7 +48,7 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
             double x = getXOffset( n );
             double y = getYOffset( n );
             levelNode.setOffset( x, y );
-            addChild( levelNode );
+            getStateLayer().addChild( levelNode );
         }
     }
     

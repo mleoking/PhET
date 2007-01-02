@@ -3,10 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
-- implement Schrodinger energy diagram
 
 HIGH PRIORITY:
-- squiggles on energy diagrams
+- add squiggles to energy diagrams
+- clean up layout and positioning of things in energy diagrams
 
 MEDIUM PRIORITY:
 - ask SM about SR's idea of spontaneously emitting 2 photons to get out of state (2,0,0)
@@ -37,6 +37,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/2/06) - add separate layers for state indicators and squiggles in energy diagrams
 (1/2/06) - implement Schrodinger energy diagram with no squiggles, no m=
 (1/2/06) - move common code for node creation and energy value calculation to AbstractEnergyDiagram
 (1/2/06) - implement Bohr/deBroglie energy diagram with no squiggles
