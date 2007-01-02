@@ -100,65 +100,55 @@ public class ZoomControlNode extends PNode {
         addChild( _outButtonPressed );
 
         // Interactivity
-        {
-            background.setPickable( false );
-            background.setChildrenPickable( false );
 
-            _inButton.addInputEventListener( new CursorHandler() );
-            _inButtonPressed.addInputEventListener( new CursorHandler() );
-            _outButton.addInputEventListener( new CursorHandler() );
-            _outButtonPressed.addInputEventListener( new CursorHandler() );
+        background.setPickable( false );
+        background.setChildrenPickable( false );
 
-            PBasicInputEventHandler inListener = new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    if( !_inButtonPressed.getVisible() ) {
-                        _inButtonPressed.setVisible( true );
-                        _inPressed = true;
-                    }
+        _inButton.addInputEventListener( new CursorHandler() );
+        _inButtonPressed.addInputEventListener( new CursorHandler() );
+        _outButton.addInputEventListener( new CursorHandler() );
+        _outButtonPressed.addInputEventListener( new CursorHandler() );
+
+        PBasicInputEventHandler inListener = new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent event ) {
+                if( !_inButtonPressed.getVisible() ) {
+                    _inButtonPressed.setVisible( true );
+                    _inPressed = true;
                 }
+            }
 
-                public void mouseReleased( PInputEvent event ) {
-                    if( _inPressed ) {
-                        _inButtonPressed.setVisible( false );
-                        _inPressed = false;
-                        // Set the wait cursor
-                        setCursor( WAIT_CURSOR );
-                        // Handle the event
-                        fireZoomIn();
-                        // Restore the cursor
-                        setCursor( DEFAULT_CURSOR );
-                    }
+            public void mouseReleased( PInputEvent event ) {
+                if( _inPressed ) {
+                    _inButtonPressed.setVisible( false );
+                    _inPressed = false;
+                    // Handle the event
+                    fireZoomIn();
                 }
-            };
-            _inButton.addInputEventListener( inListener );
-            _inButtonPressed.addInputEventListener( inListener );
+            }
+        };
+        _inButton.addInputEventListener( inListener );
+        _inButtonPressed.addInputEventListener( inListener );
 
-            PBasicInputEventHandler outListener = new PBasicInputEventHandler() {
+        PBasicInputEventHandler outListener = new PBasicInputEventHandler() {
 
-                public void mousePressed( PInputEvent event ) {
-                    if( !_outButtonPressed.getVisible() ) {
-                        _outButtonPressed.setVisible( true );
-                        _outPressed = true;
-                    }
+            public void mousePressed( PInputEvent event ) {
+                if( !_outButtonPressed.getVisible() ) {
+                    _outButtonPressed.setVisible( true );
+                    _outPressed = true;
                 }
+            }
 
-                public void mouseReleased( PInputEvent event ) {
-                    if( _outPressed ) {
-                        _outButtonPressed.setVisible( false );
-                        _outPressed = false;
-                        // Set the wait cursor
-                        setCursor( WAIT_CURSOR );
-                        // Handle the event
-                        fireZoomOut();
-                        // Restore the cursor
-                        setCursor( DEFAULT_CURSOR );
-                    }
+            public void mouseReleased( PInputEvent event ) {
+                if( _outPressed ) {
+                    _outButtonPressed.setVisible( false );
+                    _outPressed = false;
+                    // Handle the event
+                    fireZoomOut();
                 }
-            };
-            _outButton.addInputEventListener( outListener );
-
-            _outButtonPressed.addInputEventListener( outListener );
-        }
+            }
+        };
+        _outButton.addInputEventListener( outListener );
+        _outButtonPressed.addInputEventListener( outListener );
 
         // Initial visibility
         _inButtonPressed.setVisible( false );
@@ -184,10 +174,14 @@ public class ZoomControlNode extends PNode {
 
     public void setZoomInEnabled( boolean enabled ) {
         _inButton.setVisible( enabled );
+        _inButton.setPickable( enabled );
+        _inButton.setChildrenPickable( enabled );
     }
 
     public void setZoomOutEnabled( boolean enabled ) {
         _outButton.setVisible( enabled );
+        _outButton.setPickable( enabled );
+        _outButton.setChildrenPickable( enabled );
     }
 
     public void addZoomListener( ZoomListener listener ) {
@@ -223,10 +217,6 @@ public class ZoomControlNode extends PNode {
                 ( (ZoomListener)listeners[i + 1] ).zoomedOut();
             }
         }
-    }
-
-    private void setCursor( Cursor cursor ) {
-        //todo enable this behavior
     }
 
     //----------------------------------------------------------------------------
@@ -265,7 +255,7 @@ public class ZoomControlNode extends PNode {
         frame.setContentPane( phetPCanvas );
         frame.setSize( 800, 600 );
         frame.setVisible( true );
-
+        zc.setZoomInEnabled( false );
         zc.addZoomListener( new ZoomListener() {
             public void zoomedOut() {
                 System.out.println( "horizontal zoom out" );
