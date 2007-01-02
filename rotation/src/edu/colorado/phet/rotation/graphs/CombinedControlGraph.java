@@ -130,12 +130,18 @@ public class CombinedControlGraph extends PNode {
     }
 
     public void relayout() {
+
+    }
+
+    public void relayout() {
+        double plotX = 0;
         for( int i = 0; i < controlSets.size(); i++ ) {
             ControlSet controlSet = (ControlSet)controlSets.get( i );
             Rectangle2D dataArea = getChartNode().getDataArea( controlSet.getSubplotIndex() );
-            controlSet.getGraphControlNode().setOffset( chartNode.getFullBounds().getX() - controlSet.getGraphControlNode().getFullBounds().getWidth() - 20, dataArea.getY() );
+            controlSet.getGraphControlNode().setOffset( 0, dataArea.getY() );
             controlSet.getCombinedChartSlider().setOffset( 0, 0 );
             controlSet.getZoomSuiteNode().setOffset( chartNode.getFullBounds().getMaxX(), dataArea.getCenterY() - controlSet.getZoomSuiteNode().getFullBounds().getHeight() / 2 );
+            plotX = Math.max( controlSet.getGraphControlNode().getFullBounds().getMaxX() );
         }
     }
 
