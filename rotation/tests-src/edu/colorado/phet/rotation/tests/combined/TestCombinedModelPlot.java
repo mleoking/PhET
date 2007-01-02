@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.tests;
+package edu.colorado.phet.rotation.tests.combined;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.AbstractChartSlider;
