@@ -1,10 +1,7 @@
 package edu.colorado.phet.rotation.tests;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.rotation.graphs.AbstractChartSlider;
-import edu.colorado.phet.rotation.graphs.CombinedChartSlider;
-import edu.colorado.phet.rotation.graphs.CombinedControlGraph;
-import edu.colorado.phet.rotation.graphs.XYPlotFactory;
+import edu.colorado.phet.rotation.graphs.*;
 import edu.colorado.phet.rotation.model.*;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -16,7 +13,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CombinedModelPlotTest {
+public class TestCombinedModelPlot {
     private JFrame frame;
     private Timer timer;
     private RotationModel rotationModel;
@@ -37,7 +34,7 @@ public class CombinedModelPlotTest {
     private CombinedChartSlider vChartSlider;
     private CombinedChartSlider aChartSlider;
 
-    public CombinedModelPlotTest() {
+    public TestCombinedModelPlot() {
         frame = new JFrame();
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -61,7 +58,7 @@ public class CombinedModelPlotTest {
                 vGraph,
                 aGraph,
         } );
-        combinedControlGraph.getChartNode().updateChartRenderingInfo();
+        combinedControlGraph.addDefaultControlSet( 0, "t1", "t1 units", "abbr", xVariable, new DefaultGraphTimeSeries() );
         xChartSlider = new CombinedChartSlider( combinedControlGraph.getChartNode(), new PText( "HELLO" ), 0 );
         xChartSlider.addListener( new AbstractChartSlider.Listener() {
             public void valueChanged() {
@@ -145,7 +142,7 @@ public class CombinedModelPlotTest {
     }
 
     public static void main( String[] args ) {
-        new CombinedModelPlotTest().start();
+        new TestCombinedModelPlot().start();
     }
 
     private void start() {
