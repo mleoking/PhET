@@ -59,9 +59,9 @@ public class TestCombinedModelPlot2 {
         accelDriven = new AccelerationDriven( aVariable.getValue() );
 
         XYPlotFactory factory = new XYPlotFactory();
-        xGraph = factory.createXYPlot( "position", "meters" );
-        vGraph = factory.createXYPlot( "vel", "meters/sec" );
-        aGraph = factory.createXYPlot( "acc", "meters/sec/sec" );
+        xGraph = factory.createXYPlot( "position", "meters", 10 );
+        vGraph = factory.createXYPlot( "vel", "meters/sec", 2 );
+        aGraph = factory.createXYPlot( "acc", "meters/sec/sec", 0.25 );
         combinedControlGraph = new CombinedControlGraph( phetPCanvas, new XYPlot[]{xGraph, vGraph, aGraph,} );
         rotationModel.setUpdateStrategy( positionDriven );
         DefaultGraphTimeSeries graphTimeSeries = new DefaultGraphTimeSeries();
