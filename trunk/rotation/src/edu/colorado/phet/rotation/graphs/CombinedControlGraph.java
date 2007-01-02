@@ -30,6 +30,7 @@ public class CombinedControlGraph extends PNode {
     private PNode controlNode;
     private PSwingCanvas pSwingCanvas;
     private ArrayList controlSets = new ArrayList();
+    private double padX;
 
     public CombinedControlGraph( PSwingCanvas pSwingCanvas, XYPlot[] subplot ) {
         this.pSwingCanvas = pSwingCanvas;
@@ -69,14 +70,9 @@ public class CombinedControlGraph extends PNode {
     }
 
     public boolean setBounds( double x, double y, double width, double height ) {
-        double preX = 0;
-        double postX = 0;
-        for( int i = 0; i < controlSets.size(); i++ ) {
-            ControlSet controlSet = (ControlSet)controlSets.get( i );
-            preX = Math.max( controlSet.getGraphControlNode().getFullBounds().getWidth(), preX );
-            postX = Math.max( controlSet.getZoomSuiteNode().getFullBounds().getWidth(), postX );
-        }
-        chartNode.setBounds( x + preX, y, width - preX - postX, height );
+        setOffset( x, y );
+        chartNode.setBounds( 0, 0, width - getInsetPadX(), height );
+        relayout();
         return super.setBounds( x, y, width, height );
     }
 
@@ -86,7 +82,7 @@ public class CombinedControlGraph extends PNode {
         GraphControlNode graphControlNode = new GraphControlNode( pSwingCanvas, simulationVariable, graphTimeSeries );
         ZoomSuiteNode zoomSuiteNode = new ZoomSuiteNode();
 
-        addControlSet( new ControlSet( subplotIndex, graphControlNode, combinedChartSlider, zoomSuiteNode ) );
+        addControlSet( new ControlSet( subplotIndex, graphControlNode, zoomSuiteNode ) );
         relayout();
     }
 
@@ -97,52 +93,54 @@ public class CombinedControlGraph extends PNode {
 
     static class ControlSet extends PNode {
         private int subplotIndex;
-        private GraphControlNode graphControlNode;
-        private CombinedChartSlider combinedChartSlider;
-        private ZoomSuiteNode zoomSuiteNode;
+        private PNode leftControl;
+        private PNode rightControl;
 
-        public ControlSet( int subplotIndex, GraphControlNode graphControlNode, CombinedChartSlider combinedChartSlider, ZoomSuiteNode zoomSuiteNode ) {
+        public ControlSet( int subplotIndex, PNode leftControl, PNode rightControl ) {
             this.subplotIndex = subplotIndex;
-            this.graphControlNode = graphControlNode;
-            this.combinedChartSlider = combinedChartSlider;
-            this.zoomSuiteNode = zoomSuiteNode;
-
-            addChild( graphControlNode );
-            addChild( combinedChartSlider );
-            addChild( zoomSuiteNode );
-        }
-
-        public GraphControlNode getGraphControlNode() {
-            return graphControlNode;
-        }
-
-        public CombinedChartSlider getCombinedChartSlider() {
-            return combinedChartSlider;
-        }
-
-        public ZoomSuiteNode getZoomSuiteNode() {
-            return zoomSuiteNode;
+            this.leftControl = leftControl;
+            this.rightControl = rightControl;
+            addChild( leftControl );
+            addChild( rightControl );
         }
 
         public int getSubplotIndex() {
             return subplotIndex;
         }
+
+        public PNode getLeftControl() {
+            return leftControl;
+        }
+
+        public PNode getRightControl() {
+            return rightControl;
+        }
+    }
+
+    private double getInsetPadX() {
+        relayout();
+        return padX;
     }
 
     public void relayout() {
-
-    }
-
-    public void relayout() {
-        double plotX = 0;
+        double chartX = 0;
+        double insetLeftChartX = 50;
         for( int i = 0; i < controlSets.size(); i++ ) {
             ControlSet controlSet = (ControlSet)controlSets.get( i );
             Rectangle2D dataArea = getChartNode().getDataArea( controlSet.getSubplotIndex() );
-            controlSet.getGraphControlNode().setOffset( 0, dataArea.getY() );
-            controlSet.getCombinedChartSlider().setOffset( 0, 0 );
-            controlSet.getZoomSuiteNode().setOffset( chartNode.getFullBounds().getMaxX(), dataArea.getCenterY() - controlSet.getZoomSuiteNode().getFullBounds().getHeight() / 2 );
-            plotX = Math.max( controlSet.getGraphControlNode().getFullBounds().getMaxX() );
+            controlSet.getLeftControl().setOffset( 0, dataArea.getY() );
+            chartX = Math.max( chartX, controlSet.getLeftControl().getFullBounds().getMaxX() );
         }
+        chartNode.setOffset( chartX + insetLeftChartX, 0 );
+
+        double maxRight = 0;
+        for( int i = 0; i < controlSets.size(); i++ ) {
+            ControlSet controlSet = (ControlSet)controlSets.get( i );
+            Rectangle2D dataArea = getChartNode().getDataArea( controlSet.getSubplotIndex() );
+            controlSet.getRightControl().setOffset( chartNode.getFullBounds().getMaxX(), dataArea.getCenterY() - controlSet.getRightControl().getFullBounds().getHeight() / 2 );
+            maxRight = Math.max( maxRight, controlSet.getRightControl().getFullBounds().getWidth() );
+        }
+        this.padX = chartX + insetLeftChartX + maxRight;
     }
 
     public void addControl( PNode control ) {

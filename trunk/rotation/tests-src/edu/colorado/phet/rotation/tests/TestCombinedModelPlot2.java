@@ -12,6 +12,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class TestCombinedModelPlot2 {
     private JFrame frame;
@@ -113,10 +115,8 @@ public class TestCombinedModelPlot2 {
                 aChartSlider.setValue( aVariable.getValue() );
             }
         } );
-//        combinedControlGraph.addControl( aChartSlider );
 
         combinedControlGraph.setBounds( 0, 0, 400, 500 );
-
         phetPCanvas.addScreenChild( combinedControlGraph );
         combinedControlGraph.setOffset( 200, 0 );
 
@@ -126,6 +126,15 @@ public class TestCombinedModelPlot2 {
                 step();
             }
         } );
+        phetPCanvas.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                relayout();
+            }
+        } );
+    }
+
+    private void relayout() {
+        combinedControlGraph.setBounds( 0, 0, phetPCanvas.getWidth(), phetPCanvas.getHeight() );
     }
 
     private void step() {
