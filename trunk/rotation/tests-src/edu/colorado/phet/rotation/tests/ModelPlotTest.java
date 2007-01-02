@@ -7,13 +7,18 @@ package edu.colorado.phet.rotation.tests;
  * Copyright (c) Dec 30, 2006 by Sam Reid
  */
 
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.ControlGraph;
 import edu.colorado.phet.rotation.model.*;
+import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class ModelPlotTest {
     private JFrame frame;
@@ -28,14 +33,17 @@ public class ModelPlotTest {
     private PositionDriven positionDriven;
     private VelocityDriven velocityDriven;
     private AccelerationDriven accelDriven;
+    private PhetPCanvas phetPCanvas;
 
     public ModelPlotTest() {
+        new PhetLookAndFeel().initLookAndFeel();
         frame = new JFrame();
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         rotationModel = new RotationModel();
-        PhetPCanvas phetPCanvas = new PhetPCanvas();
+        phetPCanvas = new BufferedPhetPCanvas();
+        phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
         xVariable = new SimulationVariable( rotationModel.getLastState().getAngle() );
         vVariable = new SimulationVariable( rotationModel.getLastState().getAngularVelocity() );
         aVariable = new SimulationVariable( rotationModel.getLastState().getAngularAcceleration() );
@@ -56,7 +64,6 @@ public class ModelPlotTest {
         vGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
                 System.out.println( "ModelPlotTest.mousePressed: VGraph" );
-
                 rotationModel.setUpdateStrategy( velocityDriven );
             }
 
@@ -67,7 +74,6 @@ public class ModelPlotTest {
         aGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
                 System.out.println( "ModelPlotTest.mousePressed: AGraph" );
-
                 rotationModel.setUpdateStrategy( accelDriven );
             }
 
@@ -87,6 +93,18 @@ public class ModelPlotTest {
                 step();
             }
         } );
+        phetPCanvas.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                relayout();
+            }
+        } );
+        relayout();
+    }
+
+    private void relayout() {
+        xGraph.setBounds( 0, 0.0 * phetPCanvas.getHeight() / 3.0, phetPCanvas.getWidth(), phetPCanvas.getHeight() / 3.0 );
+        vGraph.setBounds( 0, 1.0 * phetPCanvas.getHeight() / 3.0, phetPCanvas.getWidth(), phetPCanvas.getHeight() / 3.0 );
+        aGraph.setBounds( 0, 2.0 * phetPCanvas.getHeight() / 3.0, phetPCanvas.getWidth(), phetPCanvas.getHeight() / 3.0 );
     }
 
     private void step() {
@@ -102,7 +120,6 @@ public class ModelPlotTest {
         xGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngle() );
         vGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngularVelocity() );
         aGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngularAcceleration() );
-//        aVariable.setValue( rotationModel.getLastState().getAngularAcceleration() );
     }
 
     public static void main( String[] args ) {

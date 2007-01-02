@@ -1,7 +1,6 @@
 package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
-import edu.colorado.phet.jfreechart.piccolo.VerticalChartSlider;
 import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -26,32 +25,39 @@ import java.util.ArrayList;
 
 public class ControlGraph extends PNode {
     private GraphControlNode graphControlNode;
-    private VerticalChartSlider verticalChartSlider;
+    private BasicChartSlider basicChartSlider;
+    private ZoomSuiteNode zoomControl;
+
     private ArrayList listeners = new ArrayList();
     private XYSeries xySeries;
+    private double xPad = 0;
+    private JFreeChartNode jFreeChartNode;
 
     public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String title ) {
         xySeries = new XYSeries( "series_1" );
+
         XYDataset dataset = new XYSeriesCollection( xySeries );
         JFreeChart jFreeChart = ChartFactory.createXYLineChart( title, "time (s)", "value", dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.getXYPlot().getRangeAxis().setAutoRange( true );
-        JFreeChartNode jFreeChartNode = new JFreeChartNode( jFreeChart );
-        jFreeChartNode.setBounds( 0, 0, 500, 400 );
-        verticalChartSlider = new VerticalChartSlider( jFreeChartNode, new PText( "THUMB" ) );
-
+        jFreeChart.setBackgroundPaint( null );
+        jFreeChartNode = new JFreeChartNode( jFreeChart );
+        jFreeChartNode.setBounds( 0, 0, 300, 400 );
         graphControlNode = new GraphControlNode( pSwingCanvas, simulationVariable, new DefaultGraphTimeSeries() );
-
+        basicChartSlider = new BasicChartSlider( jFreeChartNode, new PText( "THUMB" ) );
+        zoomControl = new ZoomSuiteNode();
         addChild( graphControlNode );
-        addChild( verticalChartSlider );
+        addChild( basicChartSlider );
+        addChild( jFreeChartNode );
+        addChild( zoomControl );
 
         simulationVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
-                verticalChartSlider.setValue( simulationVariable.getValue() );
+                basicChartSlider.setValue( simulationVariable.getValue() );
             }
         } );
-        verticalChartSlider.addListener( new VerticalChartSlider.Listener() {
+        basicChartSlider.addListener( new AbstractChartSlider.Listener() {
             public void valueChanged() {
-                simulationVariable.setValue( verticalChartSlider.getValue() );
+                simulationVariable.setValue( basicChartSlider.getValue() );
             }
         } );
         addInputEventListener( new PBasicInputEventHandler() {
@@ -62,10 +68,22 @@ public class ControlGraph extends PNode {
         relayout();
     }
 
+    public boolean setBounds( double x, double y, double width, double height ) {
+        relayout();
+        jFreeChartNode.setBounds( 0, 0, width - xPad, height );
+        relayout();
+        setOffset( x, y );
+        return super.setBounds( x, y, width, height );
+    }
+
     private void relayout() {
         double dx = 5;
         graphControlNode.setOffset( 0, 0 );
-        verticalChartSlider.setOffset( graphControlNode.getFullBounds().getMaxX() + dx, 0 );
+        basicChartSlider.setOffset( graphControlNode.getFullBounds().getMaxX() + dx, 0 );
+        jFreeChartNode.setOffset( basicChartSlider.getFullBounds().getMaxX(), 0 );
+        zoomControl.setOffset( jFreeChartNode.getFullBounds().getMaxX(), jFreeChartNode.getFullBounds().getCenterY() - zoomControl.getFullBounds().getHeight() / 2 );
+
+        this.xPad = jFreeChartNode.getFullBounds().getX() + zoomControl.getFullBounds().getWidth();
     }
 
     public void addValue( double time, double value ) {

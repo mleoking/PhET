@@ -8,8 +8,8 @@ package edu.colorado.phet.rotation.tests;
  */
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.rotation.graphs.CombinedControlGraph;
 import edu.colorado.phet.rotation.graphs.XYPlotFactory;
+import edu.colorado.phet.rotation.graphs.combined.CombinedControlGraph;
 import org.jfree.chart.plot.XYPlot;
 
 import javax.swing.*;
