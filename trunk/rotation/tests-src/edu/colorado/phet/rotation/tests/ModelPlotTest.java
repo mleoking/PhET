@@ -47,7 +47,7 @@ public class ModelPlotTest {
         xVariable = new SimulationVariable( rotationModel.getLastState().getAngle() );
         vVariable = new SimulationVariable( rotationModel.getLastState().getAngularVelocity() );
         aVariable = new SimulationVariable( rotationModel.getLastState().getAngularAcceleration() );
-        xGraph = new ControlGraph( phetPCanvas, xVariable, "Angle" );
+        xGraph = new ControlGraph( phetPCanvas, xVariable, "Angle", 10 );
         positionDriven = new PositionDriven( xVariable.getValue() );
         velocityDriven = new VelocityDriven( vVariable.getValue() );
         accelDriven = new AccelerationDriven( aVariable.getValue() );
@@ -60,7 +60,7 @@ public class ModelPlotTest {
             public void valueChanged() {
             }
         } );
-        vGraph = new ControlGraph( phetPCanvas, vVariable, "Angular Velocity" );
+        vGraph = new ControlGraph( phetPCanvas, vVariable, "Angular Velocity", 5 );
         vGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
                 System.out.println( "ModelPlotTest.mousePressed: VGraph" );
@@ -70,7 +70,7 @@ public class ModelPlotTest {
             public void valueChanged() {
             }
         } );
-        aGraph = new ControlGraph( phetPCanvas, aVariable, "Angular Acceleration" );
+        aGraph = new ControlGraph( phetPCanvas, aVariable, "Angular Acceleration", 1 );
         aGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
                 System.out.println( "ModelPlotTest.mousePressed: AGraph" );
