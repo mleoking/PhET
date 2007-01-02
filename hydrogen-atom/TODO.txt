@@ -39,6 +39,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+***** CVS tag hydrogenatom-0-00-19-2007-01-02
 (1/2/06) - add separate layers for state indicators and squiggles in energy diagrams
 (1/2/06) - implement Schrodinger energy diagram with no squiggles, no m=
 (1/2/06) - move common code for node creation and energy value calculation to AbstractEnergyDiagram
