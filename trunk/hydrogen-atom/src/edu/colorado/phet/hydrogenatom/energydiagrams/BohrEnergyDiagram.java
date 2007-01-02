@@ -36,18 +36,17 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
     private static final double X_MARGIN = 10;
     private static final double Y_MARGIN = 20;
     
-    private static final double LINE_LABEL_SPACING = 6;
+    private static final double LINE_LABEL_SPACING = 10;
     
     public BohrEnergyDiagram() {
         super( BohrModel.getNumberOfStates() );
         
         assert( BohrModel.getGroundState() == 1 ); // n=1 must be ground state
 
-        for ( int i = 0; i < BohrModel.getNumberOfStates(); i++ ) { 
-            int n = i + 1;
+        for ( int n = 1; n <= BohrModel.getNumberOfStates(); n++ ) { 
             PNode levelNode = createLevelNode( n );
-            double x = getXOffset( n ) + X_MARGIN;
-            double y = getYOffset( n ) + Y_MARGIN;
+            double x = getXOffset( n );
+            double y = getYOffset( n );
             levelNode.setOffset( x, y );
             addChild( levelNode );
         }
@@ -59,8 +58,8 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {
                 ElectronNode electronNode = getElectronNode();
                 final int n = atom.getElectronState();
-                final double x = getXOffset( n ) + ( getLineLength() / 2 ) + X_MARGIN;
-                final double y = getYOffset( n ) - ( electronNode.getFullBounds().getHeight() / 2 ) + Y_MARGIN;
+                final double x = getXOffset( n ) + ( LINE_LENGTH / 2 );
+                final double y = getYOffset( n ) - ( electronNode.getFullBounds().getHeight() / 2 );
                 electronNode.setOffset( x, y );
             }
         }
@@ -76,7 +75,7 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
         final double rangeE = maxE - minE;
         Rectangle2D drawingArea = getDrawingArea();
         final double height = drawingArea.getHeight() - ( 2 * Y_MARGIN );
-        double y = drawingArea.getY() + ( height * ( maxE - getEnergy( state ) ) / rangeE );
+        double y = drawingArea.getY() + Y_MARGIN + ( height * ( maxE - getEnergy( state ) ) / rangeE );
         return y;
     }
     
