@@ -48,6 +48,14 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     
     protected static final double E1 = -13.6; // eV
     
+    protected static final double LINE_LENGTH = 8;
+    protected static final Stroke LINE_STROKE = new BasicStroke( 2f );
+    protected static final Color LINE_COLOR = Color.BLACK;
+    
+    protected static final String LABEL_FORMAT = "n={0}";
+    protected static final Font LABEL_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
+    protected static final Color LABEL_COLOR = Color.BLACK;
+    
     //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
@@ -70,14 +78,6 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     private static final Color AXIS_STROKE_COLOR = Color.BLACK;
     private static final Color ARROW_COLOR = Color.BLACK;
     private static final Color AXIS_LABEL_COLOR = Color.BLACK;
-    
-    private static final double LINE_LENGTH = 6;
-    private static final Stroke LINE_STROKE = new BasicStroke( 2f );
-    private static final Color LINE_COLOR = Color.BLACK;
-    
-    private static final String LABEL_FORMAT = "n={0}";
-    private static final Font LABEL_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
-    private static final Color LABEL_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -276,9 +276,5 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         labelNode.setFont( LABEL_FONT );
         labelNode.setTextPaint( LABEL_COLOR );
         return labelNode;
-    }
-    
-    protected static double getLineLength() {
-        return LINE_LENGTH;
     }
 }
