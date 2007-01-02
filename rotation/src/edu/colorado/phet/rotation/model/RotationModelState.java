@@ -82,4 +82,8 @@ public class RotationModelState {
     public double getTime() {
         return time;
     }
+
+    public double getBodyX() {
+        return bodies[0].getX();
+    }
 }

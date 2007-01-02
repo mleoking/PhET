@@ -44,6 +44,8 @@ public class RotationGraphSet {
                 angleGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngle() );
                 angularVelocityGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngularVelocity() );
                 angularAccelerationGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngularAcceleration() );
+
+//                positionGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getBodyX() );
             }
         } );
         angleGraph.addControlGraphListener( new ControlGraph.Listener() {
