@@ -32,6 +32,7 @@ public class GraphComponent extends PNode {
     private ArrayList listeners = new ArrayList();
     private boolean dummy = false;
     private ControlGraph controlGraph;
+    private PSwing closeButton;
 //    private boolean dummy = true;
 
     public GraphComponent( PSwingCanvas pSwingCanvas, String label ) {
@@ -66,12 +67,8 @@ public class GraphComponent extends PNode {
                 setMinimized( true );
             }
         } );
-        PSwing closeButton = new PSwing( pSwingCanvas, minimizeButton );
-        int buttonInsetX = 3;
-        int buttonInsetY = 3;
+        closeButton = new PSwing( pSwingCanvas, minimizeButton );
 
-        closeButton.setOffset( graphChild.getFullBounds().getMaxX() - closeButton.getFullBounds().getWidth() - buttonInsetX,
-                               buttonInsetY );
         graphChild.addChild( closeButton );
 
         addChild( graphChild );
@@ -90,6 +87,14 @@ public class GraphComponent extends PNode {
         }
         PSwing maxButton = new PSwing( pSwingCanvas, maximizeButton );
         stubChild.addChild( maxButton );
+        relayout();
+    }
+
+    private void updateCloseButton() {
+        int buttonInsetX = 3;
+        int buttonInsetY = 3;
+
+        closeButton.setOffset( graphChild.getFullBounds().getMaxX() - closeButton.getFullBounds().getWidth() - buttonInsetX, buttonInsetY );
     }
 
     private void setMinimized( boolean b ) {
@@ -117,6 +122,11 @@ public class GraphComponent extends PNode {
 
     public void setAvailableBounds( double width, double height ) {
         controlGraph.setBounds( 0, 0, width, height );
+        relayout();
+    }
+
+    private void relayout() {
+        updateCloseButton();
     }
 
     public static interface Listener {
