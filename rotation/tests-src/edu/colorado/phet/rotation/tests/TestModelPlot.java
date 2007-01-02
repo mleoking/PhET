@@ -20,22 +20,26 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-public class ModelPlotTest {
+public class TestModelPlot {
     private JFrame frame;
     private Timer timer;
     private RotationModel rotationModel;
-    private ControlGraph xGraph;
+
+    private PhetPCanvas phetPCanvas;
+
     private SimulationVariable xVariable;
     private SimulationVariable vVariable;
     private SimulationVariable aVariable;
+
+    private ControlGraph xGraph;
     private ControlGraph vGraph;
     private ControlGraph aGraph;
+
     private PositionDriven positionDriven;
     private VelocityDriven velocityDriven;
     private AccelerationDriven accelDriven;
-    private PhetPCanvas phetPCanvas;
 
-    public ModelPlotTest() {
+    public TestModelPlot() {
         new PhetLookAndFeel().initLookAndFeel();
         frame = new JFrame();
         frame.setSize( 600, 600 );
@@ -123,7 +127,7 @@ public class ModelPlotTest {
     }
 
     public static void main( String[] args ) {
-        new ModelPlotTest().start();
+        new TestModelPlot().start();
     }
 
     private void start() {
