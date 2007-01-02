@@ -16,7 +16,20 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 public class XYPlotFactory {
     public XYPlot createXYPlot( String title, String rangeAxis ) {
+        return createXYPlot( title, rangeAxis, Double.NaN );
+    }
+
+    public XYPlot createXYPlot( String title, String rangeAxis, double range ) {
         final XYPlot subplot1 = new XYPlot( new XYSeriesCollection( new XYSeries( title ) ), null, new NumberAxis( rangeAxis ), new StandardXYItemRenderer() );
+
+        if( Double.isNaN( range ) ) {
+        }
+        else {
+            NumberAxis axis = new NumberAxis();
+            axis.setRange( -range, range );
+            subplot1.setRangeAxis( axis );
+        }
+
         subplot1.setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
         return subplot1;
     }

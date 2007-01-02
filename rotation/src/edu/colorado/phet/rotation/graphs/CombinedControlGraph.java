@@ -2,6 +2,7 @@ package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -31,8 +32,9 @@ public class CombinedControlGraph extends PNode {
     private ArrayList controlSets = new ArrayList();
     private double padX;
     private ArrayList chartSliders = new ArrayList();
+    private ArrayList closeButtons = new ArrayList();
 
-    public CombinedControlGraph( PSwingCanvas pSwingCanvas, XYPlot[] subplot ) {
+    public CombinedControlGraph( PSwingCanvas pSwingCanvas, final XYPlot[] subplot ) {
         this.pSwingCanvas = pSwingCanvas;
         final CombinedDomainXYPlot plot = new CombinedDomainXYPlot( new NumberAxis( "Domain" ) );
         plot.setOrientation( PlotOrientation.VERTICAL );
@@ -60,6 +62,23 @@ public class CombinedControlGraph extends PNode {
             }
         } );
         timer.start();
+
+        for( int i = 0; i < subplot.length; i++ ) {
+            JButton closeButton = new JButton( "Close Plot[" + i + "]" );
+            final int i1 = i;
+            closeButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    plot.remove( subplot[i1] );
+                }
+            } );
+            PSwing pSwing = new PSwing( pSwingCanvas, closeButton );
+            addCloseButton( pSwing );
+        }
+    }
+
+    private void addCloseButton( PSwing pSwing ) {
+        closeButtons.add( pSwing );
+        addChild( pSwing );
     }
 
     public JFreeChart getJFreeChart() {
@@ -151,6 +170,12 @@ public class CombinedControlGraph extends PNode {
             maxRight = Math.max( maxRight, controlSet.getRightControl().getFullBounds().getWidth() );
         }
         this.padX = chartX + insetControlSliderX + insetSliderGraphX + maxRight;
+
+        for( int i = 0; i < closeButtons.size(); i++ ) {
+            PSwing closeButton = (PSwing)closeButtons.get( i );
+            Rectangle2D dataArea = getChartNode().getDataArea( i );
+            closeButton.setOffset( chartNode.getFullBounds().getMaxX() - closeButton.getFullBounds().getWidth(), dataArea.getY() );
+        }
     }
 
     public void addControl( PNode control ) {

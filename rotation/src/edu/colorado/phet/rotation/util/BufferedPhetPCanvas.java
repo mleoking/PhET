@@ -18,7 +18,7 @@ public class BufferedPhetPCanvas extends PhetPCanvas {
 
     public void paintComponent( Graphics g ) {
         if( bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight() ) {
-            bufferedImage = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
+            bufferedImage = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
         }
 
         Graphics2D bufferedGraphics = bufferedImage.createGraphics();
