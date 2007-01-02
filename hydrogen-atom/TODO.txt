@@ -3,10 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
-- implement Bohr/deBroglie energy diagram
+- implement Schrodinger energy diagram
 
 HIGH PRIORITY:
-- implement Schrodinger energy diagram
+- squiggles on energy diagrams
 
 MEDIUM PRIORITY:
 - ask SM about SR's idea of spontaneously emitting 2 photons to get out of state (2,0,0)
