@@ -120,7 +120,7 @@ public class TestCombinedModelPlot2 {
     public void addDefaultControlSet( int subplotIndex, String title, String units, String abbreviation, final SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries, PSwingCanvas pSwingCanvas, CombinedControlGraph combinedControlGraph, final UpdateStrategy updateStrategy ) {
         PNode sliderThumb = new PText( title );
 
-        GraphControlNode graphControlNode = new GraphControlNode( pSwingCanvas, simulationVariable, graphTimeSeries );
+        GraphControlNode graphControlNode = new GraphControlNode( pSwingCanvas, title, simulationVariable, graphTimeSeries );
         ZoomSuiteNode zoomSuiteNode = new ZoomSuiteNode();
         final CombinedChartSlider combinedChartSlider = new CombinedChartSlider( combinedControlGraph.getChartNode(), sliderThumb, subplotIndex );
         combinedChartSlider.addListener( new CombinedChartSlider.Listener() {

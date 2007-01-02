@@ -1,6 +1,9 @@
 package edu.colorado.phet.rotation.graphs;
 
+import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.piccolo.nodes.PhetPPath;
+import edu.colorado.phet.piccolo.nodes.ShadowPText;
 import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -14,6 +17,8 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -32,24 +37,39 @@ public class ControlGraph extends PNode {
     private XYSeries xySeries;
     private double xPad = 0;
     private JFreeChartNode jFreeChartNode;
+    private PNode titleNode;
 
     public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String title, double range ) {
+        this( pSwingCanvas, simulationVariable, title, range, Color.black );
+    }
+
+    public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String title, double range, Color color ) {
         xySeries = new XYSeries( "series_1" );
 
         XYDataset dataset = new XYSeriesCollection( xySeries );
-        JFreeChart jFreeChart = ChartFactory.createXYLineChart( title, "time (s)", "value", dataset, PlotOrientation.VERTICAL, false, false, false );
+        JFreeChart jFreeChart = ChartFactory.createXYLineChart( title, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
+        jFreeChart.setTitle( (String)null );
         jFreeChart.getXYPlot().getRangeAxis().setAutoRange( false );
         jFreeChart.getXYPlot().getRangeAxis().setRange( -range, range );
         jFreeChart.setBackgroundPaint( null );
         jFreeChartNode = new JFreeChartNode( jFreeChart );
         jFreeChartNode.setBounds( 0, 0, 300, 400 );
-        graphControlNode = new GraphControlNode( pSwingCanvas, simulationVariable, new DefaultGraphTimeSeries() );
+        graphControlNode = new GraphControlNode( pSwingCanvas, title, simulationVariable, new DefaultGraphTimeSeries(), color );
         chartSlider = new ChartSlider( jFreeChartNode, new PText( "THUMB" ) );
         zoomControl = new ZoomSuiteNode();
+
+        titleNode = new PNode();
+        ShadowPText titlePText = new ShadowPText( title );
+        titlePText.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        titlePText.setTextPaint( color );
+        titleNode.addChild( new PhetPPath( RectangleUtils.expand( titlePText.getFullBounds(), 2, 2 ), Color.white, new BasicStroke(), Color.black ) );
+        titleNode.addChild( titlePText );
+
         addChild( graphControlNode );
         addChild( chartSlider );
         addChild( jFreeChartNode );
         addChild( zoomControl );
+        addChild( titleNode );
 
         simulationVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
@@ -88,6 +108,16 @@ public class ControlGraph extends PNode {
         chartSlider.setOffset( graphControlNode.getFullBounds().getMaxX() + dx, 0 );
         jFreeChartNode.setOffset( chartSlider.getFullBounds().getMaxX(), 0 );
         zoomControl.setOffset( jFreeChartNode.getFullBounds().getMaxX(), jFreeChartNode.getFullBounds().getCenterY() - zoomControl.getFullBounds().getHeight() / 2 );
+//        titleNode.setOffset( jFreeChartNode.getFullBounds().getX(), jFreeChartNode.getFullBounds().getY() );
+        double xMin = jFreeChartNode.getChart().getXYPlot().getDomainAxis().getLowerBound();
+        double xMax = jFreeChartNode.getChart().getXYPlot().getDomainAxis().getUpperBound();
+        double yMin = jFreeChartNode.getChart().getXYPlot().getRangeAxis().getLowerBound();
+        double yMax = jFreeChartNode.getChart().getXYPlot().getRangeAxis().getUpperBound();
+        Rectangle2D.Double r = new Rectangle2D.Double();
+        r.setFrameFromDiagonal( xMin, yMin, xMax, yMax );
+        Rectangle2D d = jFreeChartNode.plotToNode( r );
+        System.out.println( "d = " + d );
+        titleNode.setOffset( d.getX() + jFreeChartNode.getOffset().getX(), d.getY() + jFreeChartNode.getOffset().getY() );
 
         this.xPad = jFreeChartNode.getFullBounds().getX() + zoomControl.getFullBounds().getWidth();
     }
