@@ -21,6 +21,9 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
 
     public BohrEnergyDiagram() {
         super();
+        
+        int groundState = BohrModel.getGroundState();
+        int maxState = groundState + BohrModel.getNumberOfStates() - 1;
     }    
     
     public void update( Observable o, Object arg ) {

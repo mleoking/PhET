@@ -162,9 +162,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         if ( atom != null ) {
             _atom = atom;
             initElectronPosition();
-            if ( isVisible() ) {
-                _atom.addObserver( this );
-            }
+            _atom.addObserver( this );
         }
     }
     
@@ -204,27 +202,5 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
      */
     protected void initElectronPosition() {
         _electronNode.setOffset( _drawingArea.getX(), _drawingArea.getY() + Y_MARGIN );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Superclass overrides
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Sets the visibility of this diagram.
-     * While the diagram is invisible, it does not observer the atom.
-     * 
-     * @param visible
-     */
-    public void setVisible( boolean visible ) {
-        if ( _atom != null ) {
-            if ( visible ) {
-                _atom.addObserver( this );
-            }
-            else {
-                _atom.deleteObserver( this );
-            }
-        }
-        super.setVisible( visible );
     }
 }
