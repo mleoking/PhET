@@ -102,11 +102,12 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
         
         // Background
-        PClip backgroundNode = new PClip();
-        backgroundNode.setPathTo( new Rectangle2D.Double( 0, 0, DIAGRAM_SIZE.width, DIAGRAM_SIZE.height ) );
-        backgroundNode.setPaint( BACKGROUND_COLOR );
-        backgroundNode.setStroke( new BasicStroke( 2f ) );
-        backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
+        PClip clipNode = new PClip();
+        clipNode.setPathTo( new Rectangle2D.Double( 0, 0, DIAGRAM_SIZE.width, DIAGRAM_SIZE.height ) );
+        clipNode.setPaint( BACKGROUND_COLOR );
+        clipNode.setStroke( new BasicStroke( 2f ) );
+        clipNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
+        addChild( clipNode );
         
         // Y-axis
         PPath axisNode = new PPath();
@@ -141,19 +142,18 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         _electronNode = new ElectronNode();
 
         // Layering
-        backgroundNode.addChild( axisNode );
-        backgroundNode.addChild( arrowNode );
-        backgroundNode.addChild( axisLabelNode );
-        addChild( backgroundNode );
-        addChild( _stateLayer );
-        addChild( _squiggleLayer );
-        addChild( _electronNode );
+        clipNode.addChild( axisNode );
+        clipNode.addChild( arrowNode );
+        clipNode.addChild( axisLabelNode );
+        clipNode.addChild( _stateLayer );
+        clipNode.addChild( _squiggleLayer );
+        clipNode.addChild( _electronNode ); // on top!
         
         // Positions
-        backgroundNode.setOffset( 0, 0 );
-        PBounds bb = backgroundNode.getFullBounds();
+        clipNode.setOffset( 0, 0 );
+        PBounds cb = clipNode.getFullBounds();
         PBounds alb = axisLabelNode.getFullBounds();
-        axisLabelNode.setOffset( 5, bb.getY() + bb.getHeight() - 10 );
+        axisLabelNode.setOffset( 5, cb.getY() + cb.getHeight() - 10 );
         alb = axisLabelNode.getFullBounds();
         axisNode.setOffset( alb.getX() + alb.getWidth() + 5, Y_MARGIN );
         arrowNode.setOffset( axisNode.getFullBounds().getX() + ( AXIS_STROKE_WIDTH / 2.0 ), Y_MARGIN );
@@ -161,8 +161,8 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         // Determine the "safe" drawing area
         double x = arrowNode.getOffset().getX() + arrowNode.getWidth() + X_MARGIN;
         double y = 0;
-        double w = backgroundNode.getWidth() - X_MARGIN - x;
-        double h = backgroundNode.getHeight();
+        double w = clipNode.getWidth() - X_MARGIN - x;
+        double h = clipNode.getHeight();
         _drawingArea = new Rectangle2D.Double( x, y, w, h );
         
         if ( DISTORT_ENERGY_LEVELS ) {
