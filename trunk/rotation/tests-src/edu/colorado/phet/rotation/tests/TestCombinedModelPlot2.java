@@ -1,8 +1,10 @@
 package edu.colorado.phet.rotation.tests;
 
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.*;
 import edu.colorado.phet.rotation.model.*;
+import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -12,6 +14,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -37,12 +40,16 @@ public class TestCombinedModelPlot2 {
     private XYPlot aGraph;
 
     public TestCombinedModelPlot2() {
+
+        new PhetLookAndFeel().initLookAndFeel();
+
         frame = new JFrame();
         frame.setSize( 800, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         rotationModel = new RotationModel();
-        phetPCanvas = new PhetPCanvas();
+        phetPCanvas = new BufferedPhetPCanvas();
+        phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
         xVariable = new SimulationVariable( rotationModel.getLastState().getAngle() );
         vVariable = new SimulationVariable( rotationModel.getLastState().getAngularVelocity() );
         aVariable = new SimulationVariable( rotationModel.getLastState().getAngularAcceleration() );

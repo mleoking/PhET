@@ -10,6 +10,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
@@ -46,6 +47,7 @@ public class CombinedControlGraph extends PNode {
 
         // return a new chart containing the overlaid plot...
         this.jFreeChart = new JFreeChart( "Combined Chart", JFreeChart.DEFAULT_TITLE_FONT, plot, true );
+        jFreeChart.setBackgroundPaint( new Color( 0, 0, 0, 0 ) );
 
         chartNode = new JFreeChartNode( jFreeChart );
         addChild( chartNode );
