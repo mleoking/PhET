@@ -3,7 +3,7 @@ package edu.colorado.phet.rotation.tests;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.AbstractChartSlider;
 import edu.colorado.phet.rotation.graphs.CombinedChartSlider;
-import edu.colorado.phet.rotation.graphs.CombinedGraph;
+import edu.colorado.phet.rotation.graphs.CombinedControlGraph;
 import edu.colorado.phet.rotation.graphs.XYPlotFactory;
 import edu.colorado.phet.rotation.model.*;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -29,7 +29,7 @@ public class CombinedModelPlotTest {
     private VelocityDriven velocityDriven;
     private AccelerationDriven accelDriven;
     private CombinedChartSlider xChartSlider;
-    private CombinedGraph combinedGraph;
+    private CombinedControlGraph combinedControlGraph;
     private PhetPCanvas phetPCanvas;
     private XYPlot xGraph;
     private XYPlot vGraph;
@@ -56,13 +56,13 @@ public class CombinedModelPlotTest {
         xGraph = factory.createXYPlot( "position", "meters" );
         vGraph = factory.createXYPlot( "vel", "meters/sec" );
         aGraph = factory.createXYPlot( "acc", "meters/sec/sec" );
-        combinedGraph = new CombinedGraph( new XYPlot[]{
+        combinedControlGraph = new CombinedControlGraph( new XYPlot[]{
                 xGraph,
                 vGraph,
                 aGraph,
         } );
-        combinedGraph.getChartNode().updateChartRenderingInfo();
-        xChartSlider = new CombinedChartSlider( combinedGraph.getChartNode(), new PText( "HELLO" ), 0 );
+        combinedControlGraph.getChartNode().updateChartRenderingInfo();
+        xChartSlider = new CombinedChartSlider( combinedControlGraph.getChartNode(), new PText( "HELLO" ), 0 );
         xChartSlider.addListener( new AbstractChartSlider.Listener() {
             public void valueChanged() {
                 xVariable.setValue( xChartSlider.getValue() );
@@ -78,9 +78,9 @@ public class CombinedModelPlotTest {
                 xChartSlider.setValue( xVariable.getValue() );
             }
         } );
-        combinedGraph.addControl( xChartSlider );
+        combinedControlGraph.addControl( xChartSlider );
 
-        vChartSlider = new CombinedChartSlider( combinedGraph.getChartNode(), new PText( "Velocity" ), 1 );
+        vChartSlider = new CombinedChartSlider( combinedControlGraph.getChartNode(), new PText( "Velocity" ), 1 );
         vChartSlider.addListener( new AbstractChartSlider.Listener() {
             public void valueChanged() {
                 vVariable.setValue( vChartSlider.getValue() );
@@ -96,9 +96,9 @@ public class CombinedModelPlotTest {
                 vChartSlider.setValue( vVariable.getValue() );
             }
         } );
-        combinedGraph.addControl( vChartSlider );
+        combinedControlGraph.addControl( vChartSlider );
 
-        aChartSlider = new CombinedChartSlider( combinedGraph.getChartNode(), new PText( "Acceleration" ), 2 );
+        aChartSlider = new CombinedChartSlider( combinedControlGraph.getChartNode(), new PText( "Acceleration" ), 2 );
         aChartSlider.addListener( new AbstractChartSlider.Listener() {
             public void valueChanged() {
                 aVariable.setValue( aChartSlider.getValue() );
@@ -114,12 +114,12 @@ public class CombinedModelPlotTest {
                 aChartSlider.setValue( aVariable.getValue() );
             }
         } );
-        combinedGraph.addControl( aChartSlider );
+        combinedControlGraph.addControl( aChartSlider );
 
-        combinedGraph.setBounds( 0, 0, 700, 500 );
+        combinedControlGraph.setBounds( 0, 0, 700, 500 );
 
-        phetPCanvas.addScreenChild( combinedGraph );
-        combinedGraph.setOffset( 100, 0 );
+        phetPCanvas.addScreenChild( combinedControlGraph );
+        combinedControlGraph.setOffset( 100, 0 );
 
         frame.setContentPane( phetPCanvas );
         timer = new Timer( 30, new ActionListener() {

@@ -8,7 +8,7 @@ package edu.colorado.phet.rotation.tests;
  */
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.rotation.graphs.CombinedGraph;
+import edu.colorado.phet.rotation.graphs.CombinedControlGraph;
 import edu.colorado.phet.rotation.graphs.XYPlotFactory;
 import org.jfree.chart.plot.XYPlot;
 
@@ -24,13 +24,13 @@ public class TestCombinedGraph {
 
         PhetPCanvas phetPCanvas = new PhetPCanvas();
         XYPlotFactory factory = new XYPlotFactory();
-        CombinedGraph combinedGraph = new CombinedGraph(
+        CombinedControlGraph combinedControlGraph = new CombinedControlGraph(
                 new XYPlot[]{
                         factory.createXYPlot( "graph a", "range a" ),
                         factory.createXYPlot( "graph b", "range b" )
                 } );
-        phetPCanvas.addScreenChild( combinedGraph );
-        combinedGraph.setBounds( 0, 0, 700, 500 );
+        phetPCanvas.addScreenChild( combinedControlGraph );
+        combinedControlGraph.setBounds( 0, 0, 700, 500 );
         frame.setContentPane( phetPCanvas );
     }
 
