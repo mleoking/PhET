@@ -56,7 +56,7 @@ public class CombinedModelPlotTest {
         xGraph = factory.createXYPlot( "position", "meters" );
         vGraph = factory.createXYPlot( "vel", "meters/sec" );
         aGraph = factory.createXYPlot( "acc", "meters/sec/sec" );
-        combinedControlGraph = new CombinedControlGraph( new XYPlot[]{
+        combinedControlGraph = new CombinedControlGraph( phetPCanvas, new XYPlot[]{
                 xGraph,
                 vGraph,
                 aGraph,

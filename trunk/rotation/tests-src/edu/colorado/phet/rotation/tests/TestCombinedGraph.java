@@ -24,11 +24,11 @@ public class TestCombinedGraph {
 
         PhetPCanvas phetPCanvas = new PhetPCanvas();
         XYPlotFactory factory = new XYPlotFactory();
-        CombinedControlGraph combinedControlGraph = new CombinedControlGraph(
-                new XYPlot[]{
-                        factory.createXYPlot( "graph a", "range a" ),
-                        factory.createXYPlot( "graph b", "range b" )
-                } );
+        CombinedControlGraph combinedControlGraph = new CombinedControlGraph( phetPCanvas,
+                                                                              new XYPlot[]{
+                                                                                      factory.createXYPlot( "graph a", "range a" ),
+                                                                                      factory.createXYPlot( "graph b", "range b" )
+                                                                              } );
         phetPCanvas.addScreenChild( combinedControlGraph );
         combinedControlGraph.setBounds( 0, 0, 700, 500 );
         frame.setContentPane( phetPCanvas );
