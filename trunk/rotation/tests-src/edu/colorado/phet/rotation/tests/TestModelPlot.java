@@ -10,7 +10,7 @@ package edu.colorado.phet.rotation.tests;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.ControlGraph;
-import edu.colorado.phet.rotation.model.*;
+import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
 
 import javax.swing.*;
@@ -27,17 +27,9 @@ public class TestModelPlot {
 
     private RotationModel rotationModel;
 
-    private SimulationVariable xVariable;
-    private SimulationVariable vVariable;
-    private SimulationVariable aVariable;
-
     private ControlGraph xGraph;
     private ControlGraph vGraph;
     private ControlGraph aGraph;
-
-    private PositionDriven positionDriven;
-    private VelocityDriven velocityDriven;
-    private AccelerationDriven accelDriven;
 
     public TestModelPlot() {
         new PhetLookAndFeel().initLookAndFeel();
@@ -48,41 +40,31 @@ public class TestModelPlot {
         rotationModel = new RotationModel();
         phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
-        xVariable = new SimulationVariable( rotationModel.getLastState().getAngle() );
-        vVariable = new SimulationVariable( rotationModel.getLastState().getAngularVelocity() );
-        aVariable = new SimulationVariable( rotationModel.getLastState().getAngularAcceleration() );
 
-        positionDriven = new PositionDriven( xVariable.getValue() );
-        velocityDriven = new VelocityDriven( vVariable.getValue() );
-        accelDriven = new AccelerationDriven( aVariable.getValue() );
-
-        xGraph = new ControlGraph( phetPCanvas, xVariable, "theta", "Angle", 10, Color.blue );
+        xGraph = new ControlGraph( phetPCanvas, rotationModel.getXVariable(), "theta", "Angle", 10, Color.blue );
         xGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
-                System.out.println( "ModelPlotTest.mousePressed: XGraph" );
-                rotationModel.setUpdateStrategy( positionDriven );
+                rotationModel.setPositionDriven();
             }
 
             public void valueChanged() {
             }
         } );
 
-        vGraph = new ControlGraph( phetPCanvas, vVariable, "omega", "Angular Velocity", 5, Color.red );
+        vGraph = new ControlGraph( phetPCanvas, rotationModel.getVVariable(), "omega", "Angular Velocity", 5, Color.red );
         vGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
-                System.out.println( "ModelPlotTest.mousePressed: VGraph" );
-                rotationModel.setUpdateStrategy( velocityDriven );
+                rotationModel.setVelocityDriven();
             }
 
             public void valueChanged() {
             }
         } );
 
-        aGraph = new ControlGraph( phetPCanvas, aVariable, "alpha", "Angular Acceleration", 1, Color.green );
+        aGraph = new ControlGraph( phetPCanvas, rotationModel.getAVariable(), "alpha", "Angular Acceleration", 1, Color.green );
         aGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
-                System.out.println( "ModelPlotTest.mousePressed: AGraph" );
-                rotationModel.setUpdateStrategy( accelDriven );
+                rotationModel.setAccelerationDriven();
             }
 
             public void valueChanged() {
@@ -117,14 +99,7 @@ public class TestModelPlot {
     }
 
     private void step() {
-        positionDriven.setPosition( xVariable.getValue() );
-        velocityDriven.setVelocity( vVariable.getValue() );
-        accelDriven.setAcceleration( aVariable.getValue() );
-
         rotationModel.stepInTime( 1.0 );
-        xVariable.setValue( rotationModel.getLastState().getAngle() );
-        vVariable.setValue( rotationModel.getLastState().getAngularVelocity() );
-        aVariable.setValue( rotationModel.getLastState().getAngularAcceleration() );
 
         xGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngle() );
         vGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAngularVelocity() );

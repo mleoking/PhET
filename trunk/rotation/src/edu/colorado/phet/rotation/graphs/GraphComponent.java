@@ -36,7 +36,7 @@ public class GraphComponent extends PNode {
     private ControlGraph controlGraph;
     private PSwing closeButton;
 
-    public GraphComponent( PSwingCanvas pSwingCanvas, String label, String title, double range, Color color ) {
+    public GraphComponent( PSwingCanvas pSwingCanvas, String label, String title, double range, Color color, SimulationVariable simulationVariable ) {
         this.label = label;
         this.title = title;
 
@@ -51,7 +51,7 @@ public class GraphComponent extends PNode {
             graphChild.addChild( text );
         }
         else {
-            controlGraph = new ControlGraph( pSwingCanvas, new SimulationVariable(), label, title, range, color );
+            controlGraph = new ControlGraph( pSwingCanvas, simulationVariable, label, title, range, color );
             graphChild.addChild( controlGraph );
         }
 
@@ -143,6 +143,14 @@ public class GraphComponent extends PNode {
 
     public boolean isMinimized() {
         return minimized;
+    }
+
+    public void addValue( double time, double value ) {
+        controlGraph.addValue( time, value );
+    }
+
+    public void addControlGraphListener( ControlGraph.Listener listener ) {
+        controlGraph.addListener( listener );
     }
 
     public static interface Listener {
