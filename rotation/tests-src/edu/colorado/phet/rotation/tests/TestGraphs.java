@@ -11,16 +11,21 @@ import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-public class TestGraphSelectionView {
+public class TestGraphs {
     private JFrame suiteSelectionFrame;
     private JFrame plotFrame;
     private GraphSetPanel graphSetPanel;
     private PhetPCanvas phetPCanvas;
 
-    public TestGraphSelectionView() {
+    private RotationModel rotationModel;
+    private Timer timer;
+
+    public TestGraphs() {
         new PhetLookAndFeel().initLookAndFeel();
         suiteSelectionFrame = new JFrame();
         suiteSelectionFrame.setSize( 600, 600 );
@@ -28,7 +33,10 @@ public class TestGraphSelectionView {
 
         phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
-        RotationGraphSet rotationGraphSet = new RotationGraphSet( phetPCanvas, new RotationModel() );
+
+        rotationModel = new RotationModel();
+
+        RotationGraphSet rotationGraphSet = new RotationGraphSet( phetPCanvas, rotationModel );
         GraphSetModel graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
 
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
@@ -41,14 +49,25 @@ public class TestGraphSelectionView {
         plotFrame.setContentPane( phetPCanvas );
         plotFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        plotFrame.setSize( 400, 400 );
-        plotFrame.setLocation( suiteSelectionFrame.getX(), suiteSelectionFrame.getY() + suiteSelectionFrame.getHeight() );
+        plotFrame.setSize( 800, 600 );
+        plotFrame.setLocation( suiteSelectionFrame.getX() + suiteSelectionFrame.getWidth(), suiteSelectionFrame.getY() );
+
         phetPCanvas.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 relayout();
             }
         } );
         relayout();
+
+        timer = new Timer( 30, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                step();
+            }
+        } );
+    }
+
+    private void step() {
+        rotationModel.stepInTime( 1.0 );
     }
 
     private void relayout() {
@@ -56,12 +75,12 @@ public class TestGraphSelectionView {
     }
 
     public static void main( String[] args ) {
-        new TestGraphSelectionView().start();
+        new TestGraphs().start();
     }
 
     private void start() {
         suiteSelectionFrame.setVisible( true );
         plotFrame.setVisible( true );
-
+        timer.start();
     }
 }

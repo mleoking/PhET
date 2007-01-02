@@ -10,11 +10,53 @@ import java.util.ArrayList;
  */
 
 public class RotationModel {
-    ArrayList rotationModelStates = new ArrayList();
-    UpdateStrategy updateStrategy = new PositionDriven( 0.0 );
+    private ArrayList rotationModelStates = new ArrayList();
+    private UpdateStrategy updateStrategy = new PositionDriven( 0.0 );
+
+    private PositionDriven positionDriven = new PositionDriven( 0.0 );
+    private VelocityDriven velocityDriven = new VelocityDriven( 0.0 );
+    private AccelerationDriven accelDriven = new AccelerationDriven( 0.0 );
+
+    private SimulationVariable xVariable;
+    private SimulationVariable vVariable;
+    private SimulationVariable aVariable;
+
+    private ArrayList listeners = new ArrayList();
 
     public RotationModel() {
         rotationModelStates.add( new RotationModelState() );
+
+        xVariable = new SimulationVariable( getLastState().getAngle() );
+        vVariable = new SimulationVariable( getLastState().getAngularVelocity() );
+        aVariable = new SimulationVariable( getLastState().getAngularAcceleration() );
+
+        xVariable.addListener( new SimulationVariable.Listener() {
+            public void valueChanged() {
+                positionDriven.setPosition( xVariable.getValue() );
+            }
+        } );
+        vVariable.addListener( new SimulationVariable.Listener() {
+            public void valueChanged() {
+                velocityDriven.setVelocity( vVariable.getValue() );
+            }
+        } );
+        aVariable.addListener( new SimulationVariable.Listener() {
+            public void valueChanged() {
+                accelDriven.setAcceleration( aVariable.getValue() );
+            }
+        } );
+    }
+
+    public void setPositionDriven() {
+        setUpdateStrategy( positionDriven );
+    }
+
+    public void setVelocityDriven() {
+        setUpdateStrategy( velocityDriven );
+    }
+
+    public void setAccelerationDriven() {
+        setUpdateStrategy( accelDriven );
     }
 
     public void setUpdateStrategy( UpdateStrategy updateStrategy ) {
@@ -28,6 +70,12 @@ public class RotationModel {
     public void stepInTime( double dt ) {
         RotationModelState state = updateStrategy.update( this, dt );
         rotationModelStates.add( state );
+
+        xVariable.setValue( getLastState().getAngle() );
+        vVariable.setValue( getLastState().getAngularVelocity() );
+        aVariable.setValue( getLastState().getAngularAcceleration() );
+
+        notifySteppedInTime();
     }
 
     public RotationModelState getStateFromEnd( int i ) {
@@ -85,5 +133,32 @@ public class RotationModel {
 
     public TimeData[] getAvailablePositionTimeSeries( int numPts ) {
         return getPositionTimeSeries( Math.min( numPts, getStateCount() ) );
+    }
+
+    public SimulationVariable getXVariable() {
+        return xVariable;
+    }
+
+    public SimulationVariable getVVariable() {
+        return vVariable;
+    }
+
+    public SimulationVariable getAVariable() {
+        return aVariable;
+    }
+
+    public static interface Listener {
+        void steppedInTime();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifySteppedInTime() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.steppedInTime();
+        }
     }
 }

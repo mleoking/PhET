@@ -43,6 +43,11 @@ public class RotationSimulation extends PhetApplication {
                 TestPlatformNode.main( new String[0] );
             }
         } );
+        addTest( "Graphs", new Runnable() {
+            public void run() {
+                TestGraphs.main( new String[0] );
+            }
+        } );
         addTest( "Combined Model Plot", new Runnable() {
             public void run() {
                 TestCombinedModelPlot2.main( new String[0] );
