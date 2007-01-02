@@ -158,6 +158,10 @@ public class ZoomControlNode extends PNode {
     }
 
 
+    public int getOrientation() {
+        return _orientation;
+    }
+
     private BufferedImage loadBufferedImage( String image ) {
         try {
             return ImageLoader.loadBufferedImage( image );
@@ -176,6 +180,7 @@ public class ZoomControlNode extends PNode {
         _inButton.setVisible( enabled );
         _inButton.setPickable( enabled );
         _inButton.setChildrenPickable( enabled );
+
     }
 
     public void setZoomOutEnabled( boolean enabled ) {
