@@ -31,6 +31,7 @@ public class CombinedControlGraph extends PNode {
     private PSwingCanvas pSwingCanvas;
     private ArrayList controlSets = new ArrayList();
     private double padX;
+    private ArrayList chartSliders = new ArrayList();
 
     public CombinedControlGraph( PSwingCanvas pSwingCanvas, XYPlot[] subplot ) {
         this.pSwingCanvas = pSwingCanvas;
@@ -83,7 +84,13 @@ public class CombinedControlGraph extends PNode {
         ZoomSuiteNode zoomSuiteNode = new ZoomSuiteNode();
 
         addControlSet( new ControlSet( subplotIndex, graphControlNode, zoomSuiteNode ) );
+        addChartSlider( combinedChartSlider );
         relayout();
+    }
+
+    private void addChartSlider( CombinedChartSlider combinedChartSlider ) {
+        chartSliders.add( combinedChartSlider );
+        addControl( combinedChartSlider );
     }
 
     private void addControlSet( ControlSet controlSet ) {
@@ -124,14 +131,20 @@ public class CombinedControlGraph extends PNode {
 
     public void relayout() {
         double chartX = 0;
-        double insetLeftChartX = 50;
+        double insetControlSliderX = 30;
+        double insetSliderGraphX = 20;
         for( int i = 0; i < controlSets.size(); i++ ) {
             ControlSet controlSet = (ControlSet)controlSets.get( i );
             Rectangle2D dataArea = getChartNode().getDataArea( controlSet.getSubplotIndex() );
             controlSet.getLeftControl().setOffset( 0, dataArea.getY() );
             chartX = Math.max( chartX, controlSet.getLeftControl().getFullBounds().getMaxX() );
         }
-        chartNode.setOffset( chartX + insetLeftChartX, 0 );
+
+        for( int i = 0; i < chartSliders.size(); i++ ) {
+            CombinedChartSlider combinedChartSlider = (CombinedChartSlider)chartSliders.get( i );
+            combinedChartSlider.setOffset( chartX + insetSliderGraphX, 0 );
+        }
+        chartNode.setOffset( chartX + insetControlSliderX + insetSliderGraphX, 0 );
 
         double maxRight = 0;
         for( int i = 0; i < controlSets.size(); i++ ) {
@@ -140,7 +153,7 @@ public class CombinedControlGraph extends PNode {
             controlSet.getRightControl().setOffset( chartNode.getFullBounds().getMaxX(), dataArea.getCenterY() - controlSet.getRightControl().getFullBounds().getHeight() / 2 );
             maxRight = Math.max( maxRight, controlSet.getRightControl().getFullBounds().getWidth() );
         }
-        this.padX = chartX + insetLeftChartX + maxRight;
+        this.padX = chartX + insetControlSliderX + insetSliderGraphX + maxRight;
     }
 
     public void addControl( PNode control ) {
