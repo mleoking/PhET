@@ -31,7 +31,7 @@ public class HADefaults {
     public static final boolean MODE_EXPERIMENT = false;
     
     // Atomic Model
-    public static final AtomicModel ATOMIC_MODEL = AtomicModel.BOHR;
+    public static final AtomicModel ATOMIC_MODEL = AtomicModel.SCHRODINGER;
     
     // DeBroglie View
     public static final DeBroglieView DEBROGLIE_VIEW = DeBroglieView.BRIGHTNESS_MAGNITUDE;
