@@ -36,7 +36,7 @@ public class TestCombinedModelPlot2 {
 
     public TestCombinedModelPlot2() {
         frame = new JFrame();
-        frame.setSize( 600, 600 );
+        frame.setSize( 800, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         rotationModel = new RotationModel();
@@ -58,9 +58,9 @@ public class TestCombinedModelPlot2 {
                 vGraph,
                 aGraph,
         } );
-        combinedControlGraph.addDefaultControlSet( 0, "a", "a units", "A_abbr", xVariable, new DefaultGraphTimeSeries() );
-        combinedControlGraph.addDefaultControlSet( 1, "b", "b units", "b_abbr", vVariable, new DefaultGraphTimeSeries() );
-        combinedControlGraph.addDefaultControlSet( 2, "c", "c units", "c_abbr", aVariable, new DefaultGraphTimeSeries() );
+        combinedControlGraph.addDefaultControlSet( 0, "position", "a units", "A_abbr", xVariable, new DefaultGraphTimeSeries() );
+        combinedControlGraph.addDefaultControlSet( 1, "velocity", "b units", "b_abbr", vVariable, new DefaultGraphTimeSeries() );
+        combinedControlGraph.addDefaultControlSet( 2, "acceleration", "c units", "c_abbr", aVariable, new DefaultGraphTimeSeries() );
         xChartSlider = new CombinedChartSlider( combinedControlGraph.getChartNode(), new PText( "HELLO" ), 0 );
         xChartSlider.addListener( new AbstractChartSlider.Listener() {
             public void valueChanged() {
@@ -115,10 +115,10 @@ public class TestCombinedModelPlot2 {
         } );
 //        combinedControlGraph.addControl( aChartSlider );
 
-        combinedControlGraph.setBounds( 0, 0, 700, 500 );
+        combinedControlGraph.setBounds( 0, 0, 400, 500 );
 
         phetPCanvas.addScreenChild( combinedControlGraph );
-        combinedControlGraph.setOffset( 100, 0 );
+        combinedControlGraph.setOffset( 200, 0 );
 
         frame.setContentPane( phetPCanvas );
         timer = new Timer( 30, new ActionListener() {
