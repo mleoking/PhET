@@ -47,6 +47,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/3/06) - make spectrometer slightly wider
 (1/3/06) - add title and close button to energy diagram
 (1/3/06) - increase height of energy diagram 
 (1/3/06) - make energy diagram cover its "show" checkbox
