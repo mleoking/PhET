@@ -9,6 +9,7 @@ package edu.colorado.phet.rotation.tests;
 
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.rotation.graphs.ControlGraph;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
@@ -41,7 +42,7 @@ public class TestModelPlot {
         phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
 
-        xGraph = new ControlGraph( phetPCanvas, rotationModel.getXVariable(), "theta", "Angle", 10, Color.blue );
+        xGraph = new ControlGraph( phetPCanvas, rotationModel.getXVariable(), "theta", "Angle", 10, Color.blue, PImageFactory.create( "images/blue-arrow.png" ) );
         xGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
                 rotationModel.setPositionDriven();
@@ -51,7 +52,7 @@ public class TestModelPlot {
             }
         } );
 
-        vGraph = new ControlGraph( phetPCanvas, rotationModel.getVVariable(), "omega", "Angular Velocity", 5, Color.red );
+        vGraph = new ControlGraph( phetPCanvas, rotationModel.getVVariable(), "omega", "Angular Velocity", 5, Color.red, PImageFactory.create( "images/red-arrow.png" ) );
         vGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
                 rotationModel.setVelocityDriven();
@@ -61,7 +62,7 @@ public class TestModelPlot {
             }
         } );
 
-        aGraph = new ControlGraph( phetPCanvas, rotationModel.getAVariable(), "alpha", "Angular Acceleration", 1, Color.green );
+        aGraph = new ControlGraph( phetPCanvas, rotationModel.getAVariable(), "alpha", "Angular Acceleration", 1, Color.green, PImageFactory.create( "images/green-arrow.png" ) );
         aGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
                 rotationModel.setAccelerationDriven();

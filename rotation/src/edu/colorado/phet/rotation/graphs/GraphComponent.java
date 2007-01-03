@@ -36,7 +36,7 @@ public class GraphComponent extends PNode {
     private ControlGraph controlGraph;
     private PSwing closeButton;
 
-    public GraphComponent( PSwingCanvas pSwingCanvas, String label, String title, double range, Color color, SimulationVariable simulationVariable ) {
+    public GraphComponent( PSwingCanvas pSwingCanvas, String label, String title, double range, Color color, SimulationVariable simulationVariable, PNode thumb ) {
         this.label = label;
         this.title = title;
 
@@ -51,7 +51,7 @@ public class GraphComponent extends PNode {
             graphChild.addChild( text );
         }
         else {
-            controlGraph = new ControlGraph( pSwingCanvas, simulationVariable, label, title, range, color );
+            controlGraph = new ControlGraph( pSwingCanvas, simulationVariable, label, title, range, color, thumb );
             graphChild.addChild( controlGraph );
         }
 
