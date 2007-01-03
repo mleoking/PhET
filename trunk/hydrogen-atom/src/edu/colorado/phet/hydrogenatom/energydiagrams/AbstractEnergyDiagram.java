@@ -64,7 +64,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     private static final int DEFAULT_FONT_SIZE = HAConstants.DEFAULT_FONT_SIZE;
     private static final String FONT_SIZE_RESOURCE = "energyDiagram.font.size";
     
-    private static final Dimension DIAGRAM_SIZE = new Dimension( 250, 420 );
+    private static final Dimension DIAGRAM_SIZE = new Dimension( 250, 505 );
     private static final double X_MARGIN = 10;
     private static final double Y_MARGIN = 10;
     private static final Dimension ARROW_SIZE = new Dimension( 13, 13 );
