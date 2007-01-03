@@ -10,6 +10,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.nodes.PClip;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -41,6 +42,7 @@ public class ControlGraph extends PNode {
     private double xPad = 0;
     private JFreeChartNode jFreeChartNode;
     private PNode titleNode;
+    private PClip pathClip;
     private PPath pathNode;
 
     public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double range ) {
@@ -77,7 +79,9 @@ public class ControlGraph extends PNode {
         addChild( zoomControl );
         addChild( titleNode );
         pathNode = new PhetPPath( new BasicStroke( 2 ), color );
-        addChild( pathNode );
+        pathClip = new PClip();
+        addChild( pathClip );
+        pathClip.addChild( pathNode );
 
         simulationVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
@@ -116,7 +120,7 @@ public class ControlGraph extends PNode {
         chartSlider.setOffset( graphControlNode.getFullBounds().getMaxX() + dx, 0 );
         jFreeChartNode.setOffset( chartSlider.getFullBounds().getMaxX(), 0 );
 
-        pathNode.setOffset( jFreeChartNode.getOffset() );
+//        pathNode.setOffset( jFreeChartNode.getOffset() );
 
         zoomControl.setOffset( jFreeChartNode.getFullBounds().getMaxX(), jFreeChartNode.getFullBounds().getCenterY() - zoomControl.getFullBounds().getHeight() / 2 );
         Rectangle2D.Double r = getDataArea();
@@ -124,6 +128,17 @@ public class ControlGraph extends PNode {
         titleNode.setOffset( d.getX() + jFreeChartNode.getOffset().getX(), d.getY() + jFreeChartNode.getOffset().getY() );
 
         this.xPad = jFreeChartNode.getFullBounds().getX() + zoomControl.getFullBounds().getWidth();
+
+//        pathClip.setPathTo( new Rectangle2D.Double( 0, 0, jFreeChartNode.getFullBounds().getWidth(), jFreeChartNode.getFullBounds().getHeight() ) );
+//        pathClip.setOffset( jFreeChartNode.getOffset() );
+
+        jFreeChartNode.updateChartRenderingInfo();
+        Rectangle2D dataArea = jFreeChartNode.getDataArea();
+        jFreeChartNode.localToGlobal( dataArea );
+        globalToLocal( dataArea );
+
+        pathClip.setPathTo( dataArea );
+        pathNode.setOffset( jFreeChartNode.getOffset() );
     }
 
     private Rectangle2D.Double getDataArea() {
