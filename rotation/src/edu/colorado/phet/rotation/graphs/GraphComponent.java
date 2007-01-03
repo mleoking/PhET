@@ -137,6 +137,14 @@ public class GraphComponent extends PNode {
         controlGraph.addListener( listener );
     }
 
+    public void addValue( int series, double time, double value ) {
+        controlGraph.addValue( series, time, value );
+    }
+
+    public void addSeries( String title, Color color ) {
+
+    }
+
     public static interface Listener {
         void minimizeStateChanged();
     }

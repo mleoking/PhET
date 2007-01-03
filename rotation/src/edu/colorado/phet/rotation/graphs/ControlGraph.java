@@ -8,7 +8,6 @@ import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PClip;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -38,19 +37,19 @@ public class ControlGraph extends PNode {
     private ZoomSuiteNode zoomControl;
 
     private ArrayList listeners = new ArrayList();
-    private XYSeries xySeries;
+    private ArrayList seriesNodes = new ArrayList();
     private double xPad = 0;
     private JFreeChartNode jFreeChartNode;
     private PNode titleNode;
-    private PClip pathClip;
-    private PPath pathNode;
+    private PNode seriesLayer;
 
     public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double range ) {
         this( pSwingCanvas, simulationVariable, abbr, title, range, Color.black, new PText( "THUMB" ) );
     }
 
     public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double range, Color color, PNode thumb ) {
-        xySeries = new XYSeries( "series_1" );
+        seriesLayer = new PNode();
+        addSeries( "default_series", color );
 
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
         JFreeChart jFreeChart = ChartFactory.createXYLineChart( title + ", " + abbr, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
@@ -78,11 +77,7 @@ public class ControlGraph extends PNode {
         addChild( jFreeChartNode );
         addChild( zoomControl );
         addChild( titleNode );
-        pathNode = new PhetPPath( new BasicStroke( 2 ), color );
-        pathClip = new PClip();
-        pathClip.setStrokePaint( null );
-        addChild( pathClip );
-        pathClip.addChild( pathNode );
+        addChild( seriesLayer );
 
         simulationVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
@@ -101,6 +96,58 @@ public class ControlGraph extends PNode {
         } );
         jFreeChartNode.updateChartRenderingInfo();
         relayout();
+    }
+
+    public void addSeries( String title, Color color ) {
+        SeriesNode o = new SeriesNode( title + " " + "series_" + seriesNodes.size(), color, this );
+        seriesNodes.add( o );
+        seriesLayer.addChild( o );
+    }
+
+    private static class SeriesNode extends PNode {
+        XYSeries xySeries;
+        PhetPPath pathNode;
+        private ControlGraph controlGraph;
+        private PClip pathClip;
+
+        public SeriesNode( String title, Color color, ControlGraph controlGraph ) {
+            this.controlGraph = controlGraph;
+            xySeries = new XYSeries( title );
+            pathNode = new PhetPPath( new BasicStroke( 2 ), color );
+            pathClip = new PClip();
+            pathClip.setStrokePaint( null );
+            addChild( pathClip );
+            pathClip.addChild( pathNode );
+        }
+
+        public void addValue( double time, double value ) {
+            xySeries.add( time, value );
+            updateSeriesGraphic();
+        }
+
+        private void updateSeriesGraphic() {
+            GeneralPath path = new GeneralPath();
+            Point2D d = getNodePoint( 0 );
+            path.moveTo( (float)d.getX(), (float)d.getY() );
+            for( int i = 1; i < xySeries.getItemCount(); i++ ) {
+                Point2D nodePoint = getNodePoint( i );
+                path.lineTo( (float)nodePoint.getX(), (float)nodePoint.getY() );
+            }
+            pathNode.setPathTo( path );
+        }
+
+        public Point2D.Double getPoint( int i ) {
+            return new Point2D.Double( xySeries.getX( i ).doubleValue(), xySeries.getY( i ).doubleValue() );
+        }
+
+        public Point2D getNodePoint( int i ) {
+            return controlGraph.jFreeChartNode.plotToNode( getPoint( i ) );
+        }
+
+        public void relayout() {
+            pathClip.setPathTo( controlGraph.jFreeChartNode.getDataArea() );
+            pathNode.setOffset( controlGraph.jFreeChartNode.getOffset() );
+        }
     }
 
     public JFreeChartNode getJFreeChartNode() {
@@ -133,8 +180,10 @@ public class ControlGraph extends PNode {
         jFreeChartNode.localToGlobal( dataArea );
         globalToLocal( dataArea );
 
-        pathClip.setPathTo( dataArea );
-        pathNode.setOffset( jFreeChartNode.getOffset() );
+        for( int i = 0; i < seriesNodes.size(); i++ ) {
+            SeriesNode seriesNode = (SeriesNode)seriesNodes.get( i );
+            seriesNode.relayout();
+        }
     }
 
     private Rectangle2D.Double getDataArea() {
@@ -148,42 +197,15 @@ public class ControlGraph extends PNode {
     }
 
     public void addValue( double time, double value ) {
-        xySeries.add( time, value );
-        updateSeriesGraphic();
+        addValue( 0, time, value );
     }
 
-    public Point2D.Double getPoint( int i ) {
-        return new Point2D.Double( xySeries.getX( i ).doubleValue(), xySeries.getY( i ).doubleValue() );
+    public void addValue( int series, double time, double value ) {
+        getSeriesNode( series ).addValue( time, value );
     }
 
-    public Point2D getNodePoint( int i ) {
-        return jFreeChartNode.plotToNode( getPoint( i ) );
-    }
-
-    private void updateSeriesGraphic() {
-        GeneralPath path = new GeneralPath();
-        Point2D d = getNodePoint( 0 );
-        path.moveTo( (float)d.getX(), (float)d.getY() );
-        for( int i = 1; i < xySeries.getItemCount(); i++ ) {
-            Point2D nodePoint = getNodePoint( i );
-            path.lineTo( (float)nodePoint.getX(), (float)nodePoint.getY() );
-        }
-//        Area area = new Area( new BasicStroke( 2 ).createStrokedShape( path ) );
-//        area.intersect( new Area( jFreeChartNode.getFullBounds() ) );
-
-        pathNode.setPathTo( path );
-    }
-
-    private double clampY( double y ) {
-        if( y > jFreeChartNode.getChart().getXYPlot().getRangeAxis().getUpperBound() ) {
-            return jFreeChartNode.getChart().getXYPlot().getRangeAxis().getUpperBound();
-        }
-        else if( y < jFreeChartNode.getChart().getXYPlot().getRangeAxis().getLowerBound() ) {
-            return jFreeChartNode.getChart().getXYPlot().getRangeAxis().getLowerBound();
-        }
-        else {
-            return y;
-        }
+    private SeriesNode getSeriesNode( int series ) {
+        return (SeriesNode)seriesNodes.get( series );
     }
 
     public void setEditable( boolean editable ) {
