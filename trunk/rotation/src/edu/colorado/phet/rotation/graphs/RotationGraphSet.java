@@ -2,7 +2,9 @@ package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
@@ -23,14 +25,21 @@ public class RotationGraphSet {
     private GraphComponent accelerationGraph;
     private GraphSuite[] suites;
 
-    public RotationGraphSet( PSwingCanvas pSwingCanvas, final RotationModel rotationModel ) {
-        angleGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.THETA, "Angular Position", Math.PI, Color.blue, rotationModel.getXVariable(), PImageFactory.create( "images/blue-arrow.png" ) );
-        angularVelocityGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.OMEGA, "Angular Velocity", 2, Color.red, rotationModel.getVVariable(), PImageFactory.create( "images/red-arrow.png" ) );
-        angularAccelerationGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.ALPHA, "Angular Acceleration", 0.01, Color.green, rotationModel.getAVariable(), PImageFactory.create( "images/green-arrow.png" ) );
+    static ControlGraph toControlGraph( PSwingCanvas pSwingCanvas, String label, String title, double range, Color color, SimulationVariable simulationVariable, PNode thumb, boolean editable ) {
+        ControlGraph controlGraph = new ControlGraph( pSwingCanvas, simulationVariable, label, title, range, color, thumb );
+        controlGraph.setEditable( editable );
+        return controlGraph;
+    }
 
-        positionGraph = new GraphComponent( pSwingCanvas, "x,y", "Position", 1, Color.blue, rotationModel.getXPositionVariable(), PImageFactory.create( "images/blue-arrow.png" ) );
-        velocityGraph = new GraphComponent( pSwingCanvas, "vx,vy", "Linear Velocity", 5, Color.red, rotationModel.getLinearVelocity(), PImageFactory.create( "images/red-arrow.png" ) );
-        accelerationGraph = new GraphComponent( pSwingCanvas, "a", "Centripetal Acceleration", 2, Color.green, rotationModel.getCentripetalAcceleration(), PImageFactory.create( "images/green-arrow.png" ) );
+    public RotationGraphSet( PSwingCanvas pSwingCanvas, final RotationModel rotationModel ) {
+
+        angleGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.THETA, toControlGraph( pSwingCanvas, UnicodeUtil.THETA, "Angular Position", Math.PI, Color.blue, rotationModel.getXVariable(), PImageFactory.create( "images/blue-arrow.png" ), true ) );
+        angularVelocityGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.OMEGA, toControlGraph( pSwingCanvas, UnicodeUtil.OMEGA, "Angular Velocity", 2, Color.red, rotationModel.getVVariable(), PImageFactory.create( "images/red-arrow.png" ), true ) );
+        angularAccelerationGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.ALPHA, toControlGraph( pSwingCanvas, UnicodeUtil.ALPHA, "Angular Acceleration", 0.01, Color.green, rotationModel.getAVariable(), PImageFactory.create( "images/green-arrow.png" ), true ) );
+
+        positionGraph = new GraphComponent( pSwingCanvas, "x,y", toControlGraph( pSwingCanvas, "x,y", "Position", 1, Color.blue, rotationModel.getXPositionVariable(), PImageFactory.create( "images/blue-arrow.png" ), false ) );
+        velocityGraph = new GraphComponent( pSwingCanvas, "vx,vy", toControlGraph( pSwingCanvas, "vx,vy", "Linear Velocity", 5, Color.red, rotationModel.getLinearVelocity(), PImageFactory.create( "images/red-arrow.png" ), false ) );
+        accelerationGraph = new GraphComponent( pSwingCanvas, "a", toControlGraph( pSwingCanvas, "a", "Centripetal Acceleration", 2, Color.green, rotationModel.getCentripetalAcceleration(), PImageFactory.create( "images/green-arrow.png" ), false ) );
 
         suites = new GraphSuite[]{
                 new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),
