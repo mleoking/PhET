@@ -8,6 +8,8 @@ HIGH PRIORITY:
 - fix layout of y-axis label in energy diagram, falls off bottom
 - remove gap between title and diagram in energy diagram
 - energy diagram checkbox is clickable through the energy diagram (not a problem with spectrometer, why?)
+- remove code to distort energies in energy diagrams
+- align bottom of n=6 label and it's associated line in energy diagrams
 - add absorption squiggle to energy diagrams
 - add emission squiggle to energy diagrams
 - get requirements for gun color squiggle in energy digrams
