@@ -177,7 +177,6 @@ public class GraphControlNode extends PNode {
 
         public void setEditable( boolean editable ) {
             textField.setEditable( editable );
-//            textField.set
         }
     }
 }
