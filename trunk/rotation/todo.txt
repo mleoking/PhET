@@ -2,4 +2,4 @@ Color coding for variables.
 
 Try 2nd order derivative directly from position data
 
-Charts should share a horizontal axis.
+Time derivatives need a time-offset to match other series.  

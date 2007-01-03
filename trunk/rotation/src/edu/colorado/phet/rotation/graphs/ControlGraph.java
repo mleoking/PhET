@@ -19,7 +19,6 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import java.awt.*;
-import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -45,10 +44,10 @@ public class ControlGraph extends PNode {
     private PPath pathNode;
 
     public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double range ) {
-        this( pSwingCanvas, simulationVariable, abbr, title, range, Color.black );
+        this( pSwingCanvas, simulationVariable, abbr, title, range, Color.black, new PText( "THUMB" ) );
     }
 
-    public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double range, Color color ) {
+    public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double range, Color color, PNode thumb ) {
         xySeries = new XYSeries( "series_1" );
 
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
@@ -62,11 +61,11 @@ public class ControlGraph extends PNode {
         jFreeChartNode.setBuffered( true );
         jFreeChartNode.setBounds( 0, 0, 300, 400 );
         graphControlNode = new GraphControlNode( pSwingCanvas, abbr, simulationVariable, new DefaultGraphTimeSeries(), color );
-        chartSlider = new ChartSlider( jFreeChartNode, new PText( "THUMB" ) );
+        chartSlider = new ChartSlider( jFreeChartNode, thumb );
         zoomControl = new ZoomSuiteNode();
 
         titleNode = new PNode();
-        ShadowPText titlePText = new ShadowPText( title );
+        ShadowPText titlePText = new ShadowPText( title + ", " + abbr );
         titlePText.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         titlePText.setTextPaint( color );
         titleNode.addChild( new PhetPPath( RectangleUtils.expand( titlePText.getFullBounds(), 2, 2 ), Color.white, new BasicStroke(), Color.black ) );
@@ -77,7 +76,7 @@ public class ControlGraph extends PNode {
         addChild( jFreeChartNode );
         addChild( zoomControl );
         addChild( titleNode );
-        pathNode = new PhetPPath( color );
+        pathNode = new PhetPPath( new BasicStroke( 2 ), color );
         addChild( pathNode );
 
         simulationVariable.addListener( new SimulationVariable.Listener() {
@@ -158,10 +157,10 @@ public class ControlGraph extends PNode {
             Point2D nodePoint = getNodePoint( i );
             path.lineTo( (float)nodePoint.getX(), (float)nodePoint.getY() );
         }
-        Area area = new Area( new BasicStroke( 2 ).createStrokedShape( path ) );
-        area.intersect( new Area( jFreeChartNode.getFullBounds() ) );
+//        Area area = new Area( new BasicStroke( 2 ).createStrokedShape( path ) );
+//        area.intersect( new Area( jFreeChartNode.getFullBounds() ) );
 
-        pathNode.setPathTo( area );
+        pathNode.setPathTo( path );
     }
 
     private double clampY( double y ) {
