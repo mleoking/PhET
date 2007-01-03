@@ -23,7 +23,7 @@ ignorepath      (those elements of the ant classpath that should not be
 
         <!--   Build for Discharge Lamps   -->
 
-<project name="General Ant Build Script" default="Generate Jar" basedir=".">
+<project name="General Ant Build Script" default="Generate-Jar" basedir=".">
 
     <!-- Project specific properties   -->
     <property file="discharge-lamps-build.properties"/>
@@ -55,29 +55,6 @@ ignorepath      (those elements of the ant classpath that should not be
         <tstamp/>
     </target>
 
-    <!--    Backup source-->
-    <target name="Backup Source" depends="init">
-        <mkdir dir="${backup}"/>
-        <tstamp>
-            <format property="backup.time" pattern="d-MMMM-yyyy h-maa" locale="en"></format>
-        </tstamp>
-        <mkdir dir="${backup}/src_${backup.time}"/>
-        <copy todir="${backup}/src_${backup.time}">
-            <fileset dir="${src}"/>
-        </copy>
-    </target>
-
-    <!--    Backup everything in the development directory. -->
-    <target name="Backup Development" depends="init">
-        <mkdir dir="${backup}"/>
-        <tstamp>
-            <format property="backup.time" pattern="d-MMMM-yyyy h-maa" locale="en"></format>
-        </tstamp>
-        <mkdir dir="${backup}/dev_${backup.time}"/>
-        <copy todir="${backup}/dev_${backup.time}">
-            <fileset dir="${development}"/>
-        </copy>
-    </target>
 
     <target name="Clean"
             description="clean up">
@@ -97,13 +74,12 @@ ignorepath      (those elements of the ant classpath that should not be
             <src path="${project_home}/lasers/phetgraphics-module/src"/>
             <src path="${project_home}/lasers/phetgraphics-module/phetcommon-module/src"/>
             <src path="${project_home}/lasers/collision-dir/src"/>
-            <!--<src path="${project_home}/lasers/controls-module/src"/>-->
             <src path="${project_home}/lasers/mechanics-module/src"/>
-            <!--            classpath="${addl-classpath}">-->
+            <src path="${project_home}/lasers/quantum-rjl/src"/>
         </javac>
     </target>
 
-    <target name="Generate Jar" depends="Compile"
+    <target name="Generate-Jar" depends="Compile"
             description="generate the distribution">
         <!-- Create the distribution directory -->
         <delete dir="${jars}"/>
@@ -135,7 +111,4 @@ ignorepath      (those elements of the ant classpath that should not be
         </javadoc>
     </target>
 
-    <target name="Output Classpath to File">
-        <echo file="classpath.output.txt" message="${java.class.path}"></echo>
-    </target>
 </project>
