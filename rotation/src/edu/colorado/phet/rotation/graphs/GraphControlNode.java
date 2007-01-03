@@ -26,6 +26,7 @@ public class GraphControlNode extends PNode {
     private PSwing textBox;
     private PSwing goStopButton;
     private PSwing clearButton;
+    private TextBox box;
 
     public GraphControlNode( PSwingCanvas pSwingCanvas, String title, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries ) {
         this( pSwingCanvas, title, simulationVariable, graphTimeSeries, Color.black );
@@ -38,7 +39,8 @@ public class GraphControlNode extends PNode {
         shadowPText.setShadowColor( Color.black );
         addChild( shadowPText );
 
-        textBox = new PSwing( pSwingCanvas, new TextBox( title, simulationVariable ) );
+        box = new TextBox( title, simulationVariable );
+        textBox = new PSwing( pSwingCanvas, box );
         addChild( textBox );
 
         goStopButton = new PSwing( pSwingCanvas, new GoStopButton( graphTimeSeries ) );
@@ -57,6 +59,10 @@ public class GraphControlNode extends PNode {
         textBox.setOffset( x, shadowPText.getFullBounds().getMaxY() + dy );
         goStopButton.setOffset( x, textBox.getFullBounds().getMaxY() + dy );
         clearButton.setOffset( x, goStopButton.getFullBounds().getMaxY() + dy );
+    }
+
+    public void setEditable( boolean editable ) {
+        box.setEditable( editable );
     }
 
     static class ClearButton extends JButton {
@@ -148,24 +154,30 @@ public class GraphControlNode extends PNode {
     }
 
     static class TextBox extends JPanel {
+        private JTextField textField;
 
         public TextBox( String valueAbbreviation, final SimulationVariable simulationVariable ) {
             add( new JLabel( valueAbbreviation + " =" ) );
-            final JTextField field = new JTextField( "0.0", 6 );
-            field.setHorizontalAlignment( JTextField.RIGHT );
-            add( field );
+            textField = new JTextField( "0.0", 6 );
+            textField.setHorizontalAlignment( JTextField.RIGHT );
+            add( textField );
             setBorder( BorderFactory.createLineBorder( Color.black ) );
             final DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
             simulationVariable.addListener( new SimulationVariable.Listener() {
                 public void valueChanged() {
-                    field.setText( decimalFormat.format( simulationVariable.getValue() ) );
+                    textField.setText( decimalFormat.format( simulationVariable.getValue() ) );
                 }
             } );
-            field.addActionListener( new ActionListener() {
+            textField.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    simulationVariable.setValue( Double.parseDouble( field.getText() ) );
+                    simulationVariable.setValue( Double.parseDouble( textField.getText() ) );
                 }
             } );
+        }
+
+        public void setEditable( boolean editable ) {
+            textField.setEditable( editable );
+//            textField.set
         }
     }
 }

@@ -2,11 +2,7 @@ package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.piccolo.nodes.PhetPPath;
-import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -26,34 +22,22 @@ import java.util.ArrayList;
 
 public class GraphComponent extends PNode {
     private String label;
-    private String title;
     private boolean minimized = false;
     private PNode graphChild;
     private PNode stubChild;
 
     private ArrayList listeners = new ArrayList();
-    private boolean dummy = false;
     private ControlGraph controlGraph;
     private PSwing closeButton;
 
-    public GraphComponent( PSwingCanvas pSwingCanvas, String label, String title, double range, Color color, SimulationVariable simulationVariable, PNode thumb ) {
+    public GraphComponent( PSwingCanvas pSwingCanvas, String label, ControlGraph controlGraph ) {
         this.label = label;
-        this.title = title;
 
         graphChild = new PNode();
         stubChild = new PNode();
 
-        if( dummy ) {
-            PPath pPath = new PhetPPath( new Rectangle( 0, 0, 100, 50 ), Color.white, new BasicStroke( 1 ), Color.blue );
-            graphChild.addChild( pPath );
-
-            PText text = new PText( label );
-            graphChild.addChild( text );
-        }
-        else {
-            controlGraph = new ControlGraph( pSwingCanvas, simulationVariable, label, title, range, color, thumb );
-            graphChild.addChild( controlGraph );
-        }
+        this.controlGraph = controlGraph;
+        graphChild.addChild( controlGraph );
 
         JButton minimizeButton = new JButton();
         try {

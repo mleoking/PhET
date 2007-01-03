@@ -80,6 +80,7 @@ public class ControlGraph extends PNode {
         addChild( titleNode );
         pathNode = new PhetPPath( new BasicStroke( 2 ), color );
         pathClip = new PClip();
+        pathClip.setStrokePaint( null );
         addChild( pathClip );
         pathClip.addChild( pathNode );
 
@@ -120,17 +121,12 @@ public class ControlGraph extends PNode {
         chartSlider.setOffset( graphControlNode.getFullBounds().getMaxX() + dx, 0 );
         jFreeChartNode.setOffset( chartSlider.getFullBounds().getMaxX(), 0 );
 
-//        pathNode.setOffset( jFreeChartNode.getOffset() );
-
         zoomControl.setOffset( jFreeChartNode.getFullBounds().getMaxX(), jFreeChartNode.getFullBounds().getCenterY() - zoomControl.getFullBounds().getHeight() / 2 );
         Rectangle2D.Double r = getDataArea();
         Rectangle2D d = jFreeChartNode.plotToNode( r );
         titleNode.setOffset( d.getX() + jFreeChartNode.getOffset().getX(), d.getY() + jFreeChartNode.getOffset().getY() );
 
         this.xPad = jFreeChartNode.getFullBounds().getX() + zoomControl.getFullBounds().getWidth();
-
-//        pathClip.setPathTo( new Rectangle2D.Double( 0, 0, jFreeChartNode.getFullBounds().getWidth(), jFreeChartNode.getFullBounds().getHeight() ) );
-//        pathClip.setOffset( jFreeChartNode.getOffset() );
 
         jFreeChartNode.updateChartRenderingInfo();
         Rectangle2D dataArea = jFreeChartNode.getDataArea();
@@ -188,6 +184,14 @@ public class ControlGraph extends PNode {
         else {
             return y;
         }
+    }
+
+    public void setEditable( boolean editable ) {
+        chartSlider.setVisible( editable );
+        chartSlider.setPickable( editable );
+        chartSlider.setChildrenPickable( editable );
+
+        graphControlNode.setEditable( editable );
     }
 
     public static interface Listener {
