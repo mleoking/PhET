@@ -11,24 +11,16 @@
 
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.text.MessageFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 
 public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer {
@@ -38,8 +30,8 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
     
     private static final double LINE_LABEL_SPACING = 10;
     
-    public BohrEnergyDiagram() {
-        super( BohrModel.getNumberOfStates() );
+    public BohrEnergyDiagram( PSwingCanvas canvas ) {
+        super( BohrModel.getNumberOfStates(), canvas );
         
         assert( BohrModel.getGroundState() == 1 ); // n=1 must be ground state
 

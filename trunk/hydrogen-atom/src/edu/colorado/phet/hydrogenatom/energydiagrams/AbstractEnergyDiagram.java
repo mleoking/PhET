@@ -12,6 +12,7 @@
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
@@ -20,6 +21,7 @@ import java.util.Observer;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.control.CloseButtonNode;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -29,7 +31,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PClip;
-import edu.umd.cs.piccolox.nodes.PComposite;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * AbstractEnergyDiagram is the base class for all energy diagrams.
@@ -59,12 +61,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
 
     private static final boolean DISTORT_ENERGY_LEVELS = false;
     
-    private static final String FONT_NAME = HAConstants.DEFAULT_FONT_NAME;
-    private static final int FONT_STYLE = HAConstants.DEFAULT_FONT_STYLE;
-    private static final int DEFAULT_FONT_SIZE = HAConstants.DEFAULT_FONT_SIZE;
-    private static final String FONT_SIZE_RESOURCE = "energyDiagram.font.size";
-    
-    private static final Dimension DIAGRAM_SIZE = new Dimension( 250, 505 );
+    private static final Dimension WINDOW_SIZE = new Dimension( 250, 505 );
     private static final double X_MARGIN = 10;
     private static final double Y_MARGIN = 10;
     private static final Dimension ARROW_SIZE = new Dimension( 13, 13 );
@@ -76,6 +73,17 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     private static final Color ARROW_COLOR = Color.BLACK;
     private static final Color AXIS_LABEL_COLOR = Color.BLACK;
     
+    private static final Color TITLE_BAR_COLOR = Color.GRAY;
+    private static final Color TITLE_COLOR = Color.WHITE;
+    private static final double TITLE_BAR_X_MARGIN = 6;
+    private static final double TITLE_BAR_Y_MARGIN = 3;
+    private static final String TITLE_SIZE_RESOURCE = "energyDiagram.title.font.size";
+    
+    private static final String FONT_NAME = HAConstants.DEFAULT_FONT_NAME;
+    private static final int FONT_STYLE = HAConstants.DEFAULT_FONT_STYLE;
+    private static final int DEFAULT_FONT_SIZE = HAConstants.DEFAULT_FONT_SIZE;
+    private static final String FONT_SIZE_RESOURCE = "energyDiagram.font.size";
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -86,32 +94,54 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     private double[] _energies;
     private PLayer _stateLayer;
     private PLayer _squiggleLayer;
+    private CloseButtonNode _closeButton;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AbstractEnergyDiagram( int numberOfStates ) {
+    public AbstractEnergyDiagram( int numberOfStates, PSwingCanvas canvas ) {
         super();
         
         setPickable( false );
-        setChildrenPickable( false );
         
         // Fonts
         int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
         
-        // Background
+        int titleFontSize = SimStrings.getInt( TITLE_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
+        Font titleFont = new Font( FONT_NAME, FONT_STYLE, titleFontSize );
+        
+        // Title bar, with close button
+        PText titleNode = new PText( SimStrings.get( "title.energyDiagram" ) );
+        _closeButton = new CloseButtonNode( canvas );
+        PPath titleBarNode = new PPath();
+        titleBarNode.addChild( titleNode );
+        titleBarNode.addChild( _closeButton );
+        double hMax = Math.max( titleNode.getHeight(), _closeButton.getFullBounds().getHeight() ) + ( 2 * TITLE_BAR_Y_MARGIN );
+        titleBarNode.setPathTo( new Rectangle2D.Double( 0, 0, WINDOW_SIZE.width, hMax ) );
+        titleBarNode.setPaint( TITLE_BAR_COLOR );
+        titleNode.setOffset( TITLE_BAR_X_MARGIN, TITLE_BAR_Y_MARGIN );
+        titleNode.setFont( titleFont );
+        titleNode.setTextPaint( TITLE_COLOR );
+        _closeButton.setOffset( WINDOW_SIZE.width - _closeButton.getFullBounds().getWidth() - TITLE_BAR_X_MARGIN, TITLE_BAR_Y_MARGIN );
+        addChild( titleBarNode );
+        
+        // Everything else, clipped to the bounds of the diagram
+        final double diagramHeight = WINDOW_SIZE.height - titleBarNode.getFullBounds().getHeight();
         PClip clipNode = new PClip();
-        clipNode.setPathTo( new Rectangle2D.Double( 0, 0, DIAGRAM_SIZE.width, DIAGRAM_SIZE.height ) );
+        clipNode.setPickable( false );
+        clipNode.setChildrenPickable( false );
+        clipNode.setPathTo( new Rectangle2D.Double( 0, 0, WINDOW_SIZE.width, diagramHeight ) );
         clipNode.setPaint( BACKGROUND_COLOR );
         clipNode.setStroke( new BasicStroke( 2f ) );
         clipNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
+        clipNode.setOffset( 0, titleBarNode.getFullBounds().getHeight() );
         addChild( clipNode );
         
         // Y-axis
         PPath axisNode = new PPath();
-        axisNode.setPathTo( new Line2D.Double( 0, ARROW_SIZE.height - 1, 0, DIAGRAM_SIZE.height - ( 2 * Y_MARGIN ) ) );
+        axisNode.setPathTo( new Line2D.Double( 0, ARROW_SIZE.height - 1, 0, diagramHeight - ( 2 * Y_MARGIN ) ) );
         axisNode.setStroke( new BasicStroke( AXIS_STROKE_WIDTH ) );
         axisNode.setStrokePaint( AXIS_STROKE_COLOR );
 
@@ -150,7 +180,6 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         clipNode.addChild( _electronNode ); // on top!
         
         // Positions
-        clipNode.setOffset( 0, 0 );
         PBounds cb = clipNode.getFullBounds();
         PBounds alb = axisLabelNode.getFullBounds();
         axisLabelNode.setOffset( 5, cb.getY() + cb.getHeight() - 10 );
@@ -211,6 +240,24 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
             _atom.deleteObserver( this );
             _atom = null;
         }
+    }
+    
+    /**
+     * Adds a listener to the close button.
+     * 
+     * @param listener
+     */
+    public void addCloseListener( ActionListener listener ) {
+        _closeButton.addActionListener( listener );
+    }
+    
+    /**
+     * Removes a listener from the close button.
+     * 
+     * @param listener
+     */
+    public void removeCloseListener( ActionListener listener ) {
+        _closeButton.removeActionListener( listener );
     }
     
     /**

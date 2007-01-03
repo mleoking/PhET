@@ -268,8 +268,7 @@ public class HAModule extends PiccoloModule {
 
             // Spectrometer
             String title = SimStrings.get( "label.photonsEmitted" );
-            _spectrometerNode = new SpectrometerNode( _canvas, HAConstants.SPECTROMETER_SIZE, title, _spectrometerFont,
-                    HAConstants.SPECTROMETER_MIN_WAVELENGTH, HAConstants.SPECTROMETER_MAX_WAVELENGTH );
+            _spectrometerNode = new SpectrometerNode( _canvas, HAConstants.SPECTROMETER_SIZE, title, _spectrometerFont, HAConstants.SPECTROMETER_MIN_WAVELENGTH, HAConstants.SPECTROMETER_MAX_WAVELENGTH );
             _spectrometerNode.addCloseListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     _spectrometerCheckBox.setSelected( false );
@@ -302,10 +301,20 @@ public class HAModule extends PiccoloModule {
             _energyDiagramCheckBoxNode.addInputEventListener( new CursorHandler() );
 
             // diagrams
-            _bohrEnergyDiagram = new BohrEnergyDiagram();
-            _deBroglieEnergyDiagram = new DeBroglieEnergyDiagram();
-            _schrodingerEnergyDiagram = new SchrodingerEnergyDiagram();
-            _solarSystemEnergyDiagram = new SolarSystemEnergyDiagram();
+            _bohrEnergyDiagram = new BohrEnergyDiagram( _canvas );
+            _deBroglieEnergyDiagram = new DeBroglieEnergyDiagram( _canvas );
+            _schrodingerEnergyDiagram = new SchrodingerEnergyDiagram( _canvas );
+            _solarSystemEnergyDiagram = new SolarSystemEnergyDiagram( _canvas );
+            
+            ActionListener closeListener = new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    _energyDiagramCheckBox.setSelected( false );
+                }
+            };
+            _bohrEnergyDiagram.addCloseListener( closeListener );
+            _deBroglieEnergyDiagram.addCloseListener( closeListener );
+            _schrodingerEnergyDiagram.addCloseListener( closeListener );
+            _solarSystemEnergyDiagram.addCloseListener( closeListener );
             
             // parent node for all diagrams
             _energyDiagramParent = new PhetPNode();
