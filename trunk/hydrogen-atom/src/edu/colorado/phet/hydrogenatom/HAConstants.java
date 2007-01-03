@@ -61,7 +61,7 @@ public class HAConstants {
     public static final Dimension BEAM_SIZE = new Dimension( (int) ( .75 * BOX_OF_HYDROGEN_SIZE.width ), 75 );
     
     // Spectrometer
-    public static final Dimension SPECTROMETER_SIZE = new Dimension( 480, 210 );
+    public static final Dimension SPECTROMETER_SIZE = new Dimension( 500, 210 );
     
     //----------------------------------------------------------------------------
     // Localization
