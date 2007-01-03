@@ -36,12 +36,13 @@ public class ControlGraph extends PNode {
     private ChartSlider chartSlider;
     private ZoomSuiteNode zoomControl;
 
-    private ArrayList listeners = new ArrayList();
     private ArrayList seriesNodes = new ArrayList();
     private double xPad = 0;
     private JFreeChartNode jFreeChartNode;
     private PNode titleNode;
     private PNode seriesLayer;
+
+    private ArrayList listeners = new ArrayList();
 
     public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double range ) {
         this( pSwingCanvas, simulationVariable, abbr, title, range, Color.black, new PText( "THUMB" ) );
@@ -113,9 +114,9 @@ public class ControlGraph extends PNode {
         public SeriesNode( String title, Color color, ControlGraph controlGraph ) {
             this.controlGraph = controlGraph;
             xySeries = new XYSeries( title );
-            pathNode = new PhetPPath( new BasicStroke( 2 ), color );
+            pathNode = new PhetPPath( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f ), color );
             pathClip = new PClip();
-            pathClip.setStrokePaint( null );
+            pathClip.setStrokePaint( Color.blue );
             addChild( pathClip );
             pathClip.addChild( pathNode );
         }
@@ -146,7 +147,7 @@ public class ControlGraph extends PNode {
 
         public void relayout() {
             pathClip.setPathTo( controlGraph.jFreeChartNode.getDataArea() );
-            pathNode.setOffset( controlGraph.jFreeChartNode.getOffset() );
+            pathClip.setOffset( controlGraph.jFreeChartNode.getOffset() );
         }
     }
 
