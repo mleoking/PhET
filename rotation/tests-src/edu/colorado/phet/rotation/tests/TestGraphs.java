@@ -82,5 +82,6 @@ public class TestGraphs {
         suiteSelectionFrame.setVisible( true );
         plotFrame.setVisible( true );
         timer.start();
+        relayout();
     }
 }
