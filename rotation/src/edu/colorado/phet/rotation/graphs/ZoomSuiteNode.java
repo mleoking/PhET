@@ -34,4 +34,20 @@ public class ZoomSuiteNode extends PNode {
     private void relayout() {
         horizontalZoomControlNode.setOffset( 0, verticalZoomControlNode.getFullBounds().getMaxY() + 0 );
     }
+
+    public void setVerticalZoomInEnabled( boolean enabled ) {
+        verticalZoomControlNode.setZoomInEnabled( enabled );
+    }
+
+    public void setVerticalZoomOutEnabled( boolean enabled ) {
+        verticalZoomControlNode.setZoomOutEnabled( enabled );
+    }
+
+    public void setHorizontalZoomInEnabled( boolean enabled ) {
+        horizontalZoomControlNode.setZoomInEnabled( enabled );
+    }
+
+    public void setHorizontalZoomOutEnabled( boolean enabled ) {
+        horizontalZoomControlNode.setZoomOutEnabled( enabled );
+    }
 }

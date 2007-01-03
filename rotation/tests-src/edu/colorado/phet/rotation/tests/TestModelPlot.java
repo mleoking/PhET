@@ -42,7 +42,7 @@ public class TestModelPlot {
         phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
 
-        xGraph = new ControlGraph( phetPCanvas, rotationModel.getXVariable(), "theta", "Angle", 10, Color.blue, PImageFactory.create( "images/blue-arrow.png" ) );
+        xGraph = new ControlGraph( phetPCanvas, rotationModel.getXVariable(), "theta", "Angle", -10, 10, Color.blue, PImageFactory.create( "images/blue-arrow.png" ) );
         xGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
                 rotationModel.setPositionDriven();
@@ -52,7 +52,7 @@ public class TestModelPlot {
             }
         } );
 
-        vGraph = new ControlGraph( phetPCanvas, rotationModel.getVVariable(), "omega", "Angular Velocity", 5, Color.red, PImageFactory.create( "images/red-arrow.png" ) );
+        vGraph = new ControlGraph( phetPCanvas, rotationModel.getVVariable(), "omega", "Angular Velocity", -5, 5, Color.red, PImageFactory.create( "images/red-arrow.png" ) );
         vGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
                 rotationModel.setVelocityDriven();
@@ -62,7 +62,7 @@ public class TestModelPlot {
             }
         } );
 
-        aGraph = new ControlGraph( phetPCanvas, rotationModel.getAVariable(), "alpha", "Angular Acceleration", 1, Color.green, PImageFactory.create( "images/green-arrow.png" ) );
+        aGraph = new ControlGraph( phetPCanvas, rotationModel.getAVariable(), "alpha", "Angular Acceleration", -1, 1, Color.green, PImageFactory.create( "images/green-arrow.png" ) );
         aGraph.addListener( new ControlGraph.Listener() {
             public void mousePressed() {
                 rotationModel.setAccelerationDriven();

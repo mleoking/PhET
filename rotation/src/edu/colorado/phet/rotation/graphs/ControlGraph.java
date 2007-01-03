@@ -43,20 +43,22 @@ public class ControlGraph extends PNode {
     private PNode seriesLayer;
 
     private ArrayList listeners = new ArrayList();
+    private JFreeChart jFreeChart;
+    private int minDomainValue = 1000;
 
-    public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double range ) {
-        this( pSwingCanvas, simulationVariable, abbr, title, range, Color.black, new PText( "THUMB" ) );
+    public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double min, double max ) {
+        this( pSwingCanvas, simulationVariable, abbr, title, min, max, Color.black, new PText( "THUMB" ) );
     }
 
-    public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double range, Color color, PNode thumb ) {
+    public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double min, final double max, Color color, PNode thumb ) {
         seriesLayer = new PNode();
         addSeries( "default_series", color );
 
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
-        JFreeChart jFreeChart = ChartFactory.createXYLineChart( title + ", " + abbr, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
+        jFreeChart = ChartFactory.createXYLineChart( title + ", " + abbr, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.setTitle( (String)null );
-        jFreeChart.getXYPlot().getRangeAxis().setRange( -range, range );
-        jFreeChart.getXYPlot().getDomainAxis().setRange( 0, 1000 );
+        jFreeChart.getXYPlot().getRangeAxis().setRange( min, max );
+        jFreeChart.getXYPlot().getDomainAxis().setRange( 0, minDomainValue );
         jFreeChart.setBackgroundPaint( null );
 
         jFreeChartNode = new JFreeChartNode( jFreeChart );
@@ -65,6 +67,24 @@ public class ControlGraph extends PNode {
         graphControlNode = new GraphControlNode( pSwingCanvas, abbr, simulationVariable, new DefaultGraphTimeSeries(), color );
         chartSlider = new ChartSlider( jFreeChartNode, thumb );
         zoomControl = new ZoomSuiteNode();
+        zoomControl.addVerticalZoomListener( new ZoomControlNode.ZoomListener() {
+            public void zoomedOut() {
+                zoomVertical( 1.1 );
+            }
+
+            public void zoomedIn() {
+                zoomVertical( 1.0 / 1.1 );
+            }
+        } );
+        zoomControl.addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
+            public void zoomedOut() {
+                zoomHorizontal( 1.1 );
+            }
+
+            public void zoomedIn() {
+                zoomHorizontal( 1.0 / 1.1 );
+            }
+        } );
 
         titleNode = new PNode();
         ShadowPText titlePText = new ShadowPText( title + ", " + abbr );
@@ -97,6 +117,29 @@ public class ControlGraph extends PNode {
         } );
         jFreeChartNode.updateChartRenderingInfo();
         relayout();
+        updateZoomEnabled();
+    }
+
+    private void zoomHorizontal( double v ) {
+        double currentValue = jFreeChart.getXYPlot().getDomainAxis().getUpperBound();
+        double newValue = currentValue * v;
+        if( newValue > minDomainValue ) {
+            newValue = minDomainValue;
+        }
+        jFreeChart.getXYPlot().getDomainAxis().setUpperBound( newValue );
+        updateZoomEnabled();
+    }
+
+    private void zoomVertical( double v ) {
+        double currentRange = jFreeChart.getXYPlot().getRangeAxis().getUpperBound() - jFreeChart.getXYPlot().getRangeAxis().getLowerBound();
+        double newRange = currentRange * v;
+        double diff = newRange - currentRange;
+        jFreeChart.getXYPlot().getRangeAxis().setRange( jFreeChart.getXYPlot().getRangeAxis().getLowerBound() - diff / 2, jFreeChart.getXYPlot().getRangeAxis().getUpperBound() + diff / 2 );
+        updateZoomEnabled();
+    }
+
+    private void updateZoomEnabled() {
+        zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != minDomainValue );
     }
 
     public void addSeries( String title, Color color ) {
@@ -116,7 +159,7 @@ public class ControlGraph extends PNode {
             xySeries = new XYSeries( title );
             pathNode = new PhetPPath( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f ), color );
             pathClip = new PClip();
-            pathClip.setStrokePaint( Color.blue );
+            pathClip.setStrokePaint( null );//set to non-null for debugging clip area
             addChild( pathClip );
             pathClip.addChild( pathNode );
         }

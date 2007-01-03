@@ -21,7 +21,9 @@ public class TestZoomSuite {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PhetPCanvas phetPCanvas = new PhetPCanvas();
-        phetPCanvas.addScreenChild( new ZoomSuiteNode() );
+        ZoomSuiteNode suiteNode = new ZoomSuiteNode();
+        suiteNode.setHorizontalZoomOutEnabled( false );
+        phetPCanvas.addScreenChild( suiteNode );
         frame.setContentPane( phetPCanvas );
     }
 
