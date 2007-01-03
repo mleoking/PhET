@@ -113,6 +113,8 @@ public class ZoomControlNode extends PNode {
             public void mousePressed( PInputEvent event ) {
                 if( !_inButtonPressed.getVisible() ) {
                     _inButtonPressed.setVisible( true );
+                    _inButtonPressed.setPickable( true );
+                    _inButtonPressed.setChildrenPickable( true );
                     _inPressed = true;
                 }
             }
@@ -120,6 +122,8 @@ public class ZoomControlNode extends PNode {
             public void mouseReleased( PInputEvent event ) {
                 if( _inPressed ) {
                     _inButtonPressed.setVisible( false );
+                    _inButtonPressed.setPickable( false );
+                    _inButtonPressed.setChildrenPickable( false );
                     _inPressed = false;
                     // Handle the event
                     fireZoomIn();
@@ -134,6 +138,8 @@ public class ZoomControlNode extends PNode {
             public void mousePressed( PInputEvent event ) {
                 if( !_outButtonPressed.getVisible() ) {
                     _outButtonPressed.setVisible( true );
+                    _outButtonPressed.setPickable( true );
+                    _outButtonPressed.setChildrenPickable( true );
                     _outPressed = true;
                 }
             }
@@ -141,6 +147,8 @@ public class ZoomControlNode extends PNode {
             public void mouseReleased( PInputEvent event ) {
                 if( _outPressed ) {
                     _outButtonPressed.setVisible( false );
+                    _outButtonPressed.setPickable( false );
+                    _outButtonPressed.setChildrenPickable( false );
                     _outPressed = false;
                     // Handle the event
                     fireZoomOut();
@@ -152,7 +160,12 @@ public class ZoomControlNode extends PNode {
 
         // Initial visibility
         _inButtonPressed.setVisible( false );
+        _inButtonPressed.setPickable( false );
+        _inButtonPressed.setChildrenPickable( false );
+
         _outButtonPressed.setVisible( false );
+        _outButtonPressed.setPickable( false );
+        _outButtonPressed.setChildrenPickable( false );
 
         _listenerList = new EventListenerList();
     }
@@ -180,7 +193,6 @@ public class ZoomControlNode extends PNode {
         _inButton.setVisible( enabled );
         _inButton.setPickable( enabled );
         _inButton.setChildrenPickable( enabled );
-
     }
 
     public void setZoomOutEnabled( boolean enabled ) {
