@@ -511,15 +511,13 @@ public class HAModule extends PiccoloModule {
 
         // Energy Diagram
         {
-            // checkbox to the right of the black box, at top of canvas
+            // diagram to the right of the black box, at top of canvas
             x = _animationBoxNode.getFullBounds().getMaxX() + xSpacing;
             y = yMargin;
-            _energyDiagramCheckBoxNode.setOffset( x, y );
-
-            // diagram below checkbox, left aligned.
-            x = _energyDiagramCheckBoxNode.getFullBounds().getX();
-            y = _energyDiagramCheckBoxNode.getFullBounds().getMaxY() + ySpacing;
             _energyDiagramParent.setOffset( x, y );
+            
+            // checkbox under upper-left corner of diagram
+            _energyDiagramCheckBoxNode.setOffset( x, y );
         }
         
         // Legend
@@ -536,9 +534,7 @@ public class HAModule extends PiccoloModule {
             y = _animationBoxNode.getFullBounds().getMaxY() + ySpacing;
             _spectrometerNode.setOffset( x, y );
 
-            // checkbox at lower right of animation box
-            x = _animationBoxNode.getFullBounds().getMaxX() + xSpacing;
-            y = _animationBoxNode.getFullBounds().getMaxY() - _spectrometerCheckBoxNode.getFullBounds().getHeight();
+            // checkbox under upper-left corner of spectrometer
             _spectrometerCheckBoxNode.setOffset( x, y );
         }
         
