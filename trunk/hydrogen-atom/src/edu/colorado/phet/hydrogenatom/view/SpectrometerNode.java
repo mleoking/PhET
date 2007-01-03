@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.view.util.*;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.control.CloseButtonNode;
 import edu.colorado.phet.hydrogenatom.model.Photon;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedEvent;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedListener;
@@ -141,8 +142,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private PNode _displayAreaNode;
     private PNode _cellsNode; // contains all of the "cells" in the display area
     private PText _titleNode;
-    private JButton _closeButton;
-    private PSwing _closeButtonWrapper;
+    private CloseButtonNode _closeButton;
     private JButton _startStopButton;
     private JButton _resetButton;
     private JButton _snapshotButton;
@@ -219,25 +219,9 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
         }
 
         // Close button
-        {
-            try {
-                BufferedImage closeImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_CLOSE_BUTTON );
-                Icon closeIcon = new ImageIcon( closeImage );
-                _closeButton = new JButton( closeIcon );
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-                _closeButton = new JButton( "X" );
-            }
-            _closeButton.setOpaque( false );
-            _closeButton.setMargin( new Insets( 0, 0, 0, 0 ) );
-            _closeButtonWrapper = new PSwing( canvas, _closeButton );
-            PBounds cb = _closeButtonWrapper.getFullBounds();
-            _closeButtonWrapper.setOffset( size.getWidth() - cb.getWidth() - CLOSE_BUTTON_X_MARGIN, CLOSE_BUTTON_Y_MARGIN );
-            
-            _closeButtonWrapper.addInputEventListener( new CursorHandler() );
-        }
-
+        _closeButton = new CloseButtonNode( canvas );
+        _closeButton.setOffset( size.getWidth() - _closeButton.getFullBounds().getWidth() - CLOSE_BUTTON_X_MARGIN, CLOSE_BUTTON_Y_MARGIN );
+        
         // Button panel, centered below the black rectangle.
         {
             // Start/Stop button
@@ -445,7 +429,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
         addChild( _panelNode );
         addChild( _displayAreaNode );
         addChild( _titleNode );
-        addChild( _closeButtonWrapper );
+        addChild( _closeButton );
         addChild( _buttonPanelWrapper );
     }
     
@@ -459,7 +443,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
      * @param title
      */
     public SpectrometerSnapshotNode getSnapshot( String title ) {
-        return new SpectrometerSnapshotNode( this, title );
+        return new SpectrometerSnapshotNode( this, title, _canvas );
     }
     
     /**
@@ -709,15 +693,16 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
      */
     public static class SpectrometerSnapshotNode extends PhetPNode {
 
-        private JButton _closeButton;
+        private CloseButtonNode _closeButton;
         
         /*
          * Constructor.
          * 
          * @param spectrometerNode
          * @param title
+         * @param canvas
          */
-        protected SpectrometerSnapshotNode( SpectrometerNode spectrometerNode, String title ) {
+        protected SpectrometerSnapshotNode( SpectrometerNode spectrometerNode, String title, PSwingCanvas canvas ) {
             super();
 
             // Background panel
@@ -753,24 +738,12 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             PImage staticNode = new PImage( parentNode.toImage() );
 
             // Close button
-            try {
-                BufferedImage closeImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_CLOSE_BUTTON );
-                Icon closeIcon = new ImageIcon( closeImage );
-                _closeButton = new JButton( closeIcon );
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-                _closeButton = new JButton( "X" );
-            }
-            _closeButton.setOpaque( false );
-            _closeButton.setMargin( new Insets( 0, 0, 0, 0 ) );
-            PSwing closeButtonWrapper = new PSwing( spectrometerNode._canvas, _closeButton );
-            PBounds cb = closeButtonWrapper.getFullBounds();
-            closeButtonWrapper.setOffset( pfb.getMaxX() - cb.getWidth() - CLOSE_BUTTON_X_MARGIN, pfb.getY() + CLOSE_BUTTON_Y_MARGIN );
+            _closeButton = new CloseButtonNode( canvas );
+            _closeButton.setOffset( pfb.getMaxX() - _closeButton.getFullBounds().getWidth() - CLOSE_BUTTON_X_MARGIN, pfb.getY() + CLOSE_BUTTON_Y_MARGIN );
 
             // Node layering order
             addChild( staticNode );
-            addChild( closeButtonWrapper );
+            addChild( _closeButton );
             
             // Snapshots are moveable
             addInputEventListener( new CursorHandler() );
