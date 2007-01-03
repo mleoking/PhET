@@ -5,7 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add squiggles to energy diagrams
+- add title and close button to energy diagram
+- add absorption squiggle to energy diagrams
+- add emission squiggle to energy diagrams
+- get requirements for gun color squiggle in energy digrams
 - clean up layout and positioning of things in energy diagrams
 - clean up class hierarchy of energy diagrams
 - javadoc energy diagrams
@@ -40,6 +43,11 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/3/06) - increase height of energy diagram 
+(1/3/06) - make energy diagram cover its "show" checkbox
+(1/3/06) - make spectrometer cover its "show" checkbox
+(1/3/06) - use CloseButtonNode in spectrometer and its snapshots
+(1/3/06) - refactor close button code into CloseButtonNode
 ***** CVS tag hydrogenatom-0-00-19-2007-01-02
 (1/2/06) - add separate layers for state indicators and squiggles in energy diagrams
 (1/2/06) - implement Schrodinger energy diagram with no squiggles, no m=
