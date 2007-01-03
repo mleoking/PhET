@@ -1,5 +1,6 @@
 package edu.colorado.phet.rotation.graphs;
 
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.nodes.ShadowPText;
 import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
@@ -10,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 /**
@@ -132,6 +134,12 @@ public class GraphControlNode extends PNode {
         private void setGoButton( boolean b ) {
             this.goButton = b;
             setText( goButton ? "Go!" : "Stop" );
+            try {
+                setIcon( new ImageIcon( ImageLoader.loadBufferedImage( goButton ? "images/go.png" : "images/stop.png" ) ) );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
         }
 
         private boolean isGoButton() {
