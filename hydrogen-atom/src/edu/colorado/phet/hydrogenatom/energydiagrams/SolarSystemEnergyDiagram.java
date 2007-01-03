@@ -19,6 +19,7 @@ import java.util.Observer;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * SolarSystemEnergyDiagram is the energy diagram for the Solar System model.
@@ -52,8 +53,8 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
     // Constructor
     //----------------------------------------------------------------------------
     
-    public SolarSystemEnergyDiagram() {
-        super( 0 /* numberOfStates */ );
+    public SolarSystemEnergyDiagram( PSwingCanvas canvas ) {
+        super( 0 /* numberOfStates */, canvas );
     }
     
     //----------------------------------------------------------------------------

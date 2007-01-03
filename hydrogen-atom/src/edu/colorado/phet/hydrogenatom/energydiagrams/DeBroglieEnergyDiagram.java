@@ -11,11 +11,13 @@
 
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+
 
 
 public class DeBroglieEnergyDiagram extends BohrEnergyDiagram {
 
-    public DeBroglieEnergyDiagram() {
-        super();
+    public DeBroglieEnergyDiagram( PSwingCanvas canvas ) {
+        super( canvas );
     }
 }
