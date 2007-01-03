@@ -16,6 +16,8 @@ import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
+import edu.colorado.phet.photoelectric.controller.BeamControlModeAction;
+import edu.colorado.phet.photoelectric.controller.BeamControl;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -34,7 +36,7 @@ public class PhotoelectricApplication extends PhetApplication {
     //----------------------------------------------------------------
 
     static private String resourceBundleName = "localization/PhotoelectricStrings";
-    static private String description = SimStrings.get("PhotoelectricApplication.description");
+    static private String description = SimStrings.get( "PhotoelectricApplication.description" );
     static private String version = "1.02";
     static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 680 );
 
@@ -50,8 +52,8 @@ public class PhotoelectricApplication extends PhetApplication {
 
     public PhotoelectricApplication( String[] args ) {
         super( args,
-               SimStrings.get("PhotoelectricApplication.title"),
-               SimStrings.get("PhotoelectricApplication.description"),
+               SimStrings.get( "PhotoelectricApplication.title" ),
+               SimStrings.get( "PhotoelectricApplication.description" ),
                PhotoelectricConfig.VERSION,
                frameSetup );
 
@@ -72,6 +74,19 @@ public class PhotoelectricApplication extends PhetApplication {
             }
         } );
         optionsMenu.add( photonMI );
+
+        {
+            ButtonGroup bg = new ButtonGroup();
+            JRadioButtonMenuItem beamRateRB = new JRadioButtonMenuItem( new BeamControlModeAction( photoelectricModule.getBeamControl(), BeamControl.RATE, SimStrings.get( "Options.photonsPerSecond" ) ) );
+            JRadioButtonMenuItem intensityRB = new JRadioButtonMenuItem( new BeamControlModeAction( photoelectricModule.getBeamControl(), BeamControl.INTENSITY, SimStrings.get( "Options.intensity" ) ));
+            bg.add( beamRateRB );
+            bg.add( intensityRB );
+            intensityRB.setSelected( true );
+            optionsMenu.add( new JSeparator( ));
+            optionsMenu.add( beamRateRB );
+            optionsMenu.add( intensityRB );
+        }
+
         getPhetFrame().addMenu( optionsMenu );
     }
 

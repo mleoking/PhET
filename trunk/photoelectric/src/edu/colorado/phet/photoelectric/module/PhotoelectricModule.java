@@ -98,6 +98,7 @@ public class PhotoelectricModule extends BaseLaserModule {
     private PhetImageGraphic circuitGraphic;
     private BufferedImage circuitImageA;
     private BufferedImage circuitImageB;
+    private BeamControl beamControl;
 
 
     /**
@@ -109,8 +110,8 @@ public class PhotoelectricModule extends BaseLaserModule {
         super( SimStrings.get( "ModuleTitle.PhotoelectricEfect" ),
 //               new ModelClock( 1000 / PhotoelectricApplication.FPS,
 //                               PhotoelectricApplication.DT ) );
-               new SwingClock( 1000 / PhotoelectricApplication.FPS,
-                               PhotoelectricApplication.DT ) );
+new SwingClock( 1000 / PhotoelectricApplication.FPS,
+                PhotoelectricApplication.DT ) );
 
         // Set up the basic stuff
         IClock clock = getClock();
@@ -183,10 +184,10 @@ public class PhotoelectricModule extends BaseLaserModule {
 
         // Add a slider for the battery
         addGraphicBatteryControls();
-        BeamControl beamControl = new BeamControl( getApparatusPanel(),
-                                                   DischargeLampsConfig.BEAM_CONTROL_LOCATION,
-                                                   model.getBeam(),
-                                                   model.getBeam().getMaxPhotonsPerSecond() );
+        beamControl = new BeamControl( getApparatusPanel(),
+                                       DischargeLampsConfig.BEAM_CONTROL_LOCATION,
+                                       model.getBeam(),
+                                       model.getBeam().getMaxPhotonsPerSecond() );
         getApparatusPanel().addGraphic( beamControl, PhotoelectricConfig.BEAM_LAYER + 1 );
 
         // Slap an ammeter on the circuit, near the anode
@@ -512,6 +513,10 @@ public class PhotoelectricModule extends BaseLaserModule {
 
     public boolean getPhotonViewEnabled() {
         return viewType == PHOTON_VIEW;
+    }
+
+    public BeamControl getBeamControl() {
+        return beamControl;
     }
 
     //----------------------------------------------------------------

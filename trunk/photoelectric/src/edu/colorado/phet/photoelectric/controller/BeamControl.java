@@ -13,6 +13,7 @@ package edu.colorado.phet.photoelectric.controller;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.util.SwingThreadModelListener;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -47,6 +48,26 @@ import java.awt.*;
  */
 public class BeamControl extends GraphicLayerSet implements SwingThreadModelListener,
                                                             Beam.RateChangeListener {
+    private BeamControl.IntesitySliderChangeListener intesitySliderChangeListener;
+
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
+    public static class Mode {
+        private Mode() {
+        }
+
+        ;
+    }
+
+    public static final Mode INTENSITY = new Mode();
+    public static final Mode RATE = new Mode();
+
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private ApparatusPanel apparatusPanel;
     private IntensitySlider intensitySlider;
 
@@ -59,7 +80,12 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
     private Dimension spectrumSize = new Dimension( 145, 19 );
     private SpectrumSliderWithReadout wavelengthSlider;
     private Beam beam;
+    private double maximumRate;
     private boolean selfUpdating;
+    private Mode mode;
+
+    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 
 
     /**
@@ -72,6 +98,7 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
                         Beam beam, double maximumRate ) {
         this.apparatusPanel = apparatusPanel;
         this.beam = beam;
+        this.maximumRate = maximumRate;
 
         // The background panel
         PhetImageGraphic panelGraphic = new PhetImageGraphic( apparatusPanel,
@@ -90,6 +117,8 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
         addIntensitySlider( beam, maximumRate );
         addWavelengthSlider( beam );
         beam.addRateChangeListener( this );
+
+        setMode( INTENSITY );
     }
 
     private void addWavelengthSlider( final Beam beam ) {
@@ -116,6 +145,9 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
                                                               wavelengthSlider.getValue(),
                                                               PhotoelectricConfig.MAX_WAVELENGTH );
                         beam.setWavelength( (int)( wavelength ) );
+
+                        // If we're in INTENSITY mode, we need to change the beam rate
+                        intesitySliderChangeListener.stateChanged( new ChangeEvent( beam ) );
                     }
                 } );
             }
@@ -136,10 +168,12 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
         IntensityReadout intensityReadout = new IntensityReadout( apparatusPanel, beam );
         intensityReadout.setLocation( (int)( intensitySliderLoc.getX() + intensitySlider.getWidth() ) + 4,
                                       (int)( intensitySliderLoc.getY() + intensitySlider.getHeight() / 2 - intensityReadout.getHeight() / 2 ) - 1 );
+        addChangeListener( intensityReadout );
         apparatusPanel.addGraphic( intensityReadout, 1E14 );
 
         intensitySlider.setValue( 0 );
-        intensitySlider.addChangeListener( new IntesitySliderChangeListener( beam ) );
+        intesitySliderChangeListener = new IntesitySliderChangeListener( beam );
+        intensitySlider.addChangeListener( intesitySliderChangeListener );
         beam.setPhotonsPerSecond( intensitySlider.getValue() );
         beam.addWavelengthChangeListener( new PhotonSource.WavelengthChangeListener() {
             public void wavelengthChanged( PhotonSource.WavelengthChangeEvent event ) {
@@ -152,6 +186,24 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         intensitySlider.setVisible( visible );
+    }
+
+    public void setMode( Mode mode ) {
+        this.mode = mode;
+        intesitySliderChangeListener.stateChanged( new ChangeEvent( beam ) );
+        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
+    }
+
+    public Mode getMode() {
+        return mode;
+    }
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
     }
 
     //----------------------------------------------------------------
@@ -175,7 +227,14 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
             PhetUtilities.invokeLater( new Runnable() {
                 public void run() {
                     selfUpdating = true;
-                    beam.setPhotonsPerSecond( intensitySlider.getValue() );
+                    int value = intensitySlider.getValue();
+
+                    // If we're in intensity mode, then the photons/sec is proportional to
+                    // the energy of each photon
+                    if( mode == INTENSITY ) {
+                        value *= beam.getWavelength() / PhotoelectricConfig.MAX_WAVELENGTH;
+                    }
+                    beam.setPhotonsPerSecond( value );
                     selfUpdating = false;
                 }
             } );

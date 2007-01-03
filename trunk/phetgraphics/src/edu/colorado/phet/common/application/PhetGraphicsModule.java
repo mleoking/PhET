@@ -158,7 +158,7 @@ public class PhetGraphicsModule extends Module {
 //        // Set up the restored model
 //        BaseModel newModel = sd.getModel();
 //        clock.addClockTickListener( newModel );
-//        setModel( newModel );
+//        setMode( newModel );
 //
 //        // Set up the restored graphics
 //        // Hook all the graphics up to the current apparatus panel

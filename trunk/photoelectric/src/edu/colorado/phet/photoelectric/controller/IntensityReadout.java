@@ -16,8 +16,11 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantum.model.Beam;
+import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,7 +34,7 @@ import java.text.DecimalFormat;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class IntensityReadout extends GraphicLayerSet implements Beam.RateChangeListener {
+public class IntensityReadout extends GraphicLayerSet implements Beam.RateChangeListener, ChangeListener {
 
     private Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
     private DecimalFormat format = new DecimalFormat( "#0%" );
@@ -39,6 +42,7 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
     private JTextField readout;
     private PhetGraphic readoutGraphic;
     private Beam beam;
+    private BeamControl.Mode mode;
 
     public IntensityReadout( final Component component, final Beam beam ) {
         super( component );
@@ -86,7 +90,14 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
     }
 
     private void update( double photonsPerSecond ) {
-        readout.setText( format.format( photonsPerSecond / beam.getMaxPhotonsPerSecond() ));
+        double value = beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond();
+
+        // If the beam control is in INTENSITY mode, we need to make the readout value
+        // reflect that
+        if( mode == BeamControl.INTENSITY ) {
+            value *= PhotoelectricConfig.MAX_WAVELENGTH / beam.getWavelength() ;
+        }
+        readout.setText( format.format( value ));
     }
 
     void setValue( double wavelength ) {
@@ -95,5 +106,11 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
 
     public void rateChangeOccurred( Beam.RateChangeEvent event ) {
             update( event.getRate() );
+    }
+
+    public void stateChanged( ChangeEvent e ) {
+        if( e.getSource() instanceof BeamControl ) {
+            mode = ((BeamControl)e.getSource()).getMode();
+        }
     }
 }
