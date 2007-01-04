@@ -44,8 +44,6 @@ public class EnergyVsFrequencyGraph extends PhotoelectricGraph {
     // Instance data
     //-----------------------------------------------------------------
 
-    private DataSet dotDataSet = new DataSet();
-    private DataSet lineDataSet = new DataSet();
     private double kneeFrequency;
     private double lastFrequencyRecorded;
     private boolean beamOn;
@@ -69,17 +67,17 @@ public class EnergyVsFrequencyGraph extends PhotoelectricGraph {
 
         Color color = Color.blue;
         Color lineColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), 80 );
-        LinePlot lines = new LinePlot( getComponent(), this, lineDataSet, new BasicStroke( 3f ), lineColor );
+        LinePlot lines = new LinePlot( getComponent(), this, getLineDataSet(), new BasicStroke( 3f ), lineColor );
         lines.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         this.addDataSetGraphic( lines, PLOT_LAYER );
 
-        ScatterPlot points = new ScatterPlot( getComponent(), this, dotDataSet, color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
+        ScatterPlot points = new ScatterPlot( getComponent(), this, getDotDataSet(), color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
         this.addDataSetGraphic( points, PLOT_LAYER + 1 );
 
         model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
             public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {
                 kneeFrequency = determineKneeFrequency( model ) * freqMultiplier;
-                lineDataSet.clear();
+                clearLinePlot();
                 updateGraph( model );
             }
 
@@ -95,7 +93,7 @@ public class EnergyVsFrequencyGraph extends PhotoelectricGraph {
             public void beamIntensityChanged( PhotoelectricModel.ChangeEvent event ) {
                 if( event.getPhotoelectricModel().getBeam().getPhotonsPerSecond() == 0 ) {
                     beamOn = false;
-                    dotDataSet.clear();
+                    getDotDataSet().clear();
                     updateGraph( model );
                 }
                 else {
@@ -128,29 +126,16 @@ public class EnergyVsFrequencyGraph extends PhotoelectricGraph {
     private void addDataPoint( double frequency, double energy ) {
 
         frequency *= freqMultiplier;
-
-        dotDataSet.clear();
-        dotDataSet.addPoint( frequency, energy );
+        setDotDataPoint( frequency, energy );
 
         if( lastFrequencyRecorded < kneeFrequency && frequency > kneeFrequency ) {
-            lineDataSet.addPoint( kneeFrequency, 0 );
+            getLineDataSet().addPoint( kneeFrequency, 0 );
         }
         else if( lastFrequencyRecorded > kneeFrequency && frequency < kneeFrequency ) {
-            lineDataSet.addPoint( kneeFrequency, 0 );
+            getLineDataSet().addPoint( kneeFrequency, 0 );
         }
 
-        lineDataSet.addPoint( frequency, energy );
+        getLineDataSet().addPoint( frequency, energy );
         lastFrequencyRecorded = frequency;
-    }
-
-    /**
-     * Removes line plot from the graph
-     */
-    public void clearLinePlot() {
-        lineDataSet.clear();
-    }
-
-    public void clearData() {
-        clearLinePlot();
     }
 }
