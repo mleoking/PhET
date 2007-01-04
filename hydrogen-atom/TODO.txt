@@ -5,7 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- clean up layout and positioning of things in energy diagrams
+- clean up layout of Bohr energy diagram
+- clean up layout of Schrodinger energy diagram
 - add absorption squiggle to energy diagrams
 - add emission squiggle to energy diagrams
 - get requirements for gun color squiggle in energy digrams
