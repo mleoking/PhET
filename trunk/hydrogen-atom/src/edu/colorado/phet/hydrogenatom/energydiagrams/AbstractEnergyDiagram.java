@@ -65,6 +65,9 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     protected static final Font LABEL_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
     protected static final Color LABEL_COLOR = Color.BLACK;
     
+    // Squiggle properties
+    protected static final Stroke SQUIGGLE_STROKE = new BasicStroke( 2f );
+    
     //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
