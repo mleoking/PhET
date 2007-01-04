@@ -6,11 +6,10 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - fix layout of y-axis label in energy diagram, falls off bottom
-- align bottom of n=6 label and it's associated line in energy diagrams
+- clean up layout and positioning of things in energy diagrams
 - add absorption squiggle to energy diagrams
 - add emission squiggle to energy diagrams
 - get requirements for gun color squiggle in energy digrams
-- clean up layout and positioning of things in energy diagrams
 - clean up class hierarchy of energy diagrams
 - javadoc energy diagrams
 - fix overlap problems in energy diagrams (diagrams taller or distort energy levels)
@@ -44,7 +43,8 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
-(1/3/06) - remove code to distort energies in energy diagrams
+(1/3/06) - move n=6 label up slightly in energy diagrams to prevent collision with n=5 label
+(1/3/06) - refine distortion of energy levels in energies diagrams
 (1/3/06) - make energy diagram look like a window, with a border and titlebar
 (1/3/06) - remove gap between title and diagram in energy diagram (stroke around clipNode)
 (1/3/06) - bugfix: energy diagram checkbox is clickable through the energy diagram

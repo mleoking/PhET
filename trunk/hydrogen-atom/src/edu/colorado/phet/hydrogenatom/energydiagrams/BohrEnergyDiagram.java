@@ -34,6 +34,7 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
         super( BohrModel.getNumberOfStates(), canvas );
         
         assert( BohrModel.getGroundState() == 1 ); // n=1 must be ground state
+        assert( BohrModel.getNumberOfStates() == 6 ); // 6 states
 
         for ( int n = 1; n <= BohrModel.getNumberOfStates(); n++ ) { 
             PNode levelNode = createLevelNode( n );
@@ -80,8 +81,17 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
         parentNode.addChild( lineNode );
         parentNode.addChild( labelNode );
         
+        // vertically align centers of label and line
         lineNode.setOffset( 0, 0 );
-        labelNode.setOffset( lineNode.getWidth() + LINE_LABEL_SPACING, -( ( lineNode.getHeight() / 2 ) + ( labelNode.getHeight() / 2 ) ) );
+        double x = lineNode.getWidth() + LINE_LABEL_SPACING;
+        double y = -( ( lineNode.getHeight() / 2 ) + ( labelNode.getHeight() / 2 ) );
+        if ( state == 6 ) {
+            // HACK: for n=6, move label up a bit to prevent overlap with n=5
+            labelNode.setOffset( x, y - 3.5 );
+        }
+        else {
+            labelNode.setOffset( x, y );
+        }
         
         return parentNode;
     }
