@@ -36,7 +36,6 @@ public class GraphWindow extends JDialog {
     private CurrentVsIntensityGraph currentVsIntensityGraph;
     private EnergyVsFrequencyGraph energyVsFrequencyGraph;
     private IClock clock;
-//    private AbstractClock clock;
     private PhotoelectricModel model;
     private JPanel currentVsVoltagePanel;
     private JPanel currentVsIntensityPanel;
@@ -47,7 +46,6 @@ public class GraphWindow extends JDialog {
     //----------------------------------------------------------------
 
     public GraphWindow( Frame frame, IClock clock, PhotoelectricModel model ) {
-//    public GraphWindow( Frame frame, AbstractClock clock, PhotoelectricModel model ) {
         super( frame, false );
 
         // Set up the defaultFont we want
