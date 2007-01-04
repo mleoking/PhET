@@ -45,17 +45,25 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
         }
     }
     
+    protected void initElectronPosition() {
+        updateElectronPosition();
+    }
+    
     public void update( Observable o, Object arg ) {
         if ( o instanceof BohrModel ) {
-            BohrModel atom = (BohrModel) o;
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {
-                ElectronNode electronNode = getElectronNode();
-                final int n = atom.getElectronState();
-                final double x = getXOffset( n ) + ( LINE_LENGTH / 2 );
-                final double y = getYOffset( n ) - ( electronNode.getFullBounds().getHeight() / 2 );
-                electronNode.setOffset( x, y );
+                updateElectronPosition();
             }
         }
+    }
+    
+    private void updateElectronPosition() {
+        BohrModel atom = (BohrModel) getAtom();
+        ElectronNode electronNode = getElectronNode();
+        final int n = atom.getElectronState();
+        final double x = getXOffset( n ) + ( LINE_LENGTH / 2 );
+        final double y = getYOffset( n ) - ( electronNode.getFullBounds().getHeight() / 2 );
+        electronNode.setOffset( x, y );
     }
     
     protected double getXOffset( int state ) {
