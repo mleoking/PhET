@@ -53,6 +53,12 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
     private static final double ACCELERATION = 1.23;
     
     //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private SolarSystemModel _atom;
+    
+    //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
     
@@ -61,26 +67,47 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
     }
     
     //----------------------------------------------------------------------------
-    // Superclass overrides
+    // Mutators and accessors
     //----------------------------------------------------------------------------
 
     /**
      * Sets the atom associated with the diagram.
-     * Initializes the position of the electron.
-     * For the Solar System model, the electron starts at the top of the diagram.
+     * Initializes the position of the electron to the top of the diagram.
      * 
-     * @param atom
+     * @param atom the associated atom, possibly null
      */
-    public void setAtom( AbstractHydrogenAtom atom ) {
-        super.setAtom( atom );
+    public void setAtom( SolarSystemModel atom ) {
+        
+        if ( _atom != null ) {
+            // remove association with existing atom
+            _atom.deleteObserver( this );
+            _atom = null;
+        }
+        
+        // Electron is invisible if there is no associated atom
+        ElectronNode electronNode = getElectronNode();
+        electronNode.setVisible( atom != null );
+        
         if ( atom != null ) {
-            ElectronNode electronNode = getElectronNode();
+            
+            // observe the atom
+            _atom = atom;
+            _atom.addObserver( this );
+
+            // Set electron's initial position
             Rectangle2D drawingArea = getDrawingArea();
             PBounds electronBounds = electronNode.getFullBounds();
             double x = drawingArea.getX() + ( electronBounds.getWidth() / 2 ) + X_MARGIN;
             double y = drawingArea.getY() + ( electronBounds.getHeight() / 2 ) + Y_MARGIN;
             electronNode.setOffset( x, y );
         }
+    }
+    
+    /**
+     * Removes the association between this diagram and any atom.
+     */
+    public void clearAtom() {
+        setAtom( null );
     }
     
     //----------------------------------------------------------------------------

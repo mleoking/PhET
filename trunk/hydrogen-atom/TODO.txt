@@ -41,6 +41,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/4/05) - move setAtom and clearAtom out of energy diagram base class to eliminate need for casting
 (1/4/05) - simplify initialization of electron position in energy diagrams
 (1/3/06) - grab edu.colorado.phet.dischargelamps.view.EnergySquiggle
 (1/3/06) - javadoc AbstractEnergyDiagram base class
