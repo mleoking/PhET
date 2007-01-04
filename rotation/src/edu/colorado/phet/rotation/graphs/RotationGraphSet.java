@@ -8,6 +8,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -23,12 +25,29 @@ public class RotationGraphSet {
     private GraphComponent positionGraph;
     private GraphComponent velocityGraph;
     private GraphComponent accelerationGraph;
+    private ArrayList graphComponents = new ArrayList();
     private GraphSuite[] suites;
 
-    static ControlGraph toControlGraph( PSwingCanvas pSwingCanvas, String label, String title, double min, double max, Color color, SimulationVariable simulationVariable, PNode thumb, boolean editable ) {
-        ControlGraph controlGraph = new ControlGraph( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb );
+    ControlGraph toControlGraph( PSwingCanvas pSwingCanvas, String label, String title, double min, double max, Color color, SimulationVariable simulationVariable, PNode thumb, boolean editable ) {
+        final ControlGraph controlGraph = new ControlGraph( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb );
+        controlGraph.addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
+            public void zoomedOut() {
+                horizontalZoomChanged( controlGraph.getMaxDataX() );
+            }
+
+            public void zoomedIn() {
+                horizontalZoomChanged( controlGraph.getMaxDataX() );
+            }
+        } );
         controlGraph.setEditable( editable );
         return controlGraph;
+    }
+
+    private void horizontalZoomChanged( double maxDataX ) {
+        for( int i = 0; i < graphComponents.size(); i++ ) {
+            GraphComponent graphComponent = (GraphComponent)graphComponents.get( i );
+            graphComponent.getControlGraph().setDomainUpperBound( maxDataX );
+        }
     }
 
     public RotationGraphSet( PSwingCanvas pSwingCanvas, final RotationModel rotationModel ) {
@@ -41,7 +60,7 @@ public class RotationGraphSet {
         positionGraph = new GraphComponent( pSwingCanvas, "x,y", positionControlGraph );
         velocityGraph = new GraphComponent( pSwingCanvas, "vx,vy", toControlGraph( pSwingCanvas, "vx,vy", "Linear Velocity", 0, 0.1, Color.red, rotationModel.getLinearVelocity(), PImageFactory.create( "images/red-arrow.png" ), false ) );
         accelerationGraph = new GraphComponent( pSwingCanvas, "a", toControlGraph( pSwingCanvas, "a", "Centripetal Acceleration", 0, 0.001, Color.green, rotationModel.getCentripetalAcceleration(), PImageFactory.create( "images/green-arrow.png" ), false ) );
-
+        graphComponents.addAll( Arrays.asList( new GraphComponent[]{angleGraph, angularVelocityGraph, angularAccelerationGraph, positionGraph, velocityGraph, accelerationGraph} ) );
         suites = new GraphSuite[]{
                 new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),
                 new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getAngularAccelerationGraph()} ),

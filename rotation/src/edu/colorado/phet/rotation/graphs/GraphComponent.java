@@ -79,6 +79,10 @@ public class GraphComponent extends PNode {
         relayout();
     }
 
+    public ControlGraph getControlGraph() {
+        return controlGraph;
+    }
+
     private void updateCloseButton() {
         int buttonInsetX = 3;
         int buttonInsetY = 3;
