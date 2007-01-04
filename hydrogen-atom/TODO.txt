@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add arrow and sinusoidal shape to squiggles
 - flatten static parts of energy diagram to an image
 - get requirements for gun color squiggle in energy digrams
 - clean up class hierarchy of energy diagrams
