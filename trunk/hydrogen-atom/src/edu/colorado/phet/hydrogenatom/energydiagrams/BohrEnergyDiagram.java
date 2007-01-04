@@ -86,7 +86,7 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
         double x = lineNode.getWidth() + LINE_LABEL_SPACING;
         double y = -( ( lineNode.getHeight() / 2 ) + ( labelNode.getHeight() / 2 ) );
         if ( state == 6 ) {
-            // HACK: for n=6, move label up a bit to prevent overlap with n=5
+            // HACK requested by Sam McKagan: for n=6, move label up a bit to prevent overlap with n=5
             labelNode.setOffset( x, y - 3.5 );
         }
         else {

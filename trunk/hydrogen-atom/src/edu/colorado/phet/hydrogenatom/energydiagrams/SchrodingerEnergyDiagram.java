@@ -128,7 +128,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         double x = ( numberOfStates * LINE_LENGTH ) + ( ( numberOfStates - 1 ) * LINE_LINE_SPACING ) + LINE_LABEL_SPACING;
         double y = -( ( linesParentNode.getHeight() / 2 ) + ( labelNode.getHeight() / 2 ) );
         if ( state == 6 ) {
-            // HACK: for n=6, move label up a bit to prevent overlap with n=5
+            // HACK requested by Sam McKagan: for n=6, move label up a bit to prevent overlap with n=5
             labelNode.setOffset( x, y - 3.5 );
         }
         else {
