@@ -22,14 +22,34 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
-
+/**
+ * BohrEnergyDiagram is the energy level diagram that corresponds
+ * to a hydrogen atom based on the Bohr model.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer {
     
-    private static final double X_MARGIN = 10;
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // Margins inside the drawing area
+    private static final double X_MARGIN = 20;
     private static final double Y_MARGIN = 20;
     
+    // Horizontal space between a state's line and its label
     private static final double LINE_LABEL_SPACING = 10;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * @param canvas
+     */
     public BohrEnergyDiagram( PSwingCanvas canvas ) {
         super( BohrModel.getNumberOfStates(), canvas );
         
@@ -37,7 +57,7 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
         assert( BohrModel.getNumberOfStates() == 6 ); // 6 states
 
         for ( int n = 1; n <= BohrModel.getNumberOfStates(); n++ ) { 
-            PNode levelNode = createLevelNode( n );
+            PNode levelNode = createStateNode( n );
             double x = getXOffset( n );
             double y = getYOffset( n );
             levelNode.setOffset( x, y );
@@ -45,10 +65,27 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
         }
     }
     
+    //----------------------------------------------------------------------------
+    // AbstractEnergyDiagram implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Initializes the electron's position, based on it's current state.
+     */
     protected void initElectronPosition() {
         updateElectronPosition();
     }
     
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the view to match the model.
+     * 
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
         if ( o instanceof BohrModel ) {
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {
@@ -57,6 +94,14 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
         }
     }
     
+    //----------------------------------------------------------------------------
+    // private
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the position of the electron in the diagram
+     * to match the electron's state.
+     */
     private void updateElectronPosition() {
         BohrModel atom = (BohrModel) getAtom();
         ElectronNode electronNode = getElectronNode();
@@ -66,10 +111,24 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
         electronNode.setOffset( x, y );
     }
     
+    /**
+     * Gets the x-offset that corresponds to a specified state.
+     * This is used for positioning both the state lines and the electron.
+     * 
+     * @param state
+     * @return double
+     */
     protected double getXOffset( int state ) {
         return getDrawingArea().getX() + X_MARGIN;
     }
     
+    /**
+     * Gets the y-offset that corresponds to a specific state.
+     * This is used for positioning both the state lines and the electron.
+     * 
+     * @param state
+     * @return double
+     */
     protected double getYOffset( int state ) {
         final double minE = getEnergy( 1 );
         final double maxE = getEnergy( BohrModel.getNumberOfStates() );
@@ -80,10 +139,18 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
         return y;
     }
     
-    private static PNode createLevelNode( int state ) {
+    /**
+     * Creates a node that represents a state (or level) of the electron.
+     * This node consists of a horizontal line with an "n=" label to the 
+     * right of the line.
+     * 
+     * @param state
+     * @return
+     */
+    private static PNode createStateNode( int state ) {
         
-        PNode lineNode = createLineNode();
-        PNode labelNode = createLabelNode( state );
+        PNode lineNode = createStateLineNode();
+        PNode labelNode = createStateLabelNode( state );
         
         PComposite parentNode = new PComposite();
         parentNode.addChild( lineNode );
