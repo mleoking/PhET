@@ -155,6 +155,9 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
     // private
     //----------------------------------------------------------------------------
     
+    /*
+     * Updates the squiggle to show a state change.
+     */
     private void updateSquiggle() {
 
         // remove any existing squiggle
