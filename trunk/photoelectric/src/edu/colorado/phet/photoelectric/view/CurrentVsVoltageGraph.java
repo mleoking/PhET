@@ -27,7 +27,6 @@ import java.awt.*;
  * @version $Revision$
  */
 public class CurrentVsVoltageGraph extends PhotoelectricGraph {
-//public class CurrentVsVoltageGraph extends Chart {
 
     //-----------------------------------------------------------------
     // Class data
@@ -43,8 +42,6 @@ public class CurrentVsVoltageGraph extends PhotoelectricGraph {
     // Instance data
     //-----------------------------------------------------------------
 
-    private DataSet dotDataSet = new DataSet();
-    private DataSet lineDataSet = new DataSet();
     private double lastVoltageRecorded;
 
     //-----------------------------------------------------------------
@@ -68,46 +65,35 @@ public class CurrentVsVoltageGraph extends PhotoelectricGraph {
 
         Color color = Color.red;
         Color lineColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), 80 );
-        LinePlot lines = new LinePlot( getComponent(), this, lineDataSet, new BasicStroke( 3f ), lineColor );
+        LinePlot lines = new LinePlot( getComponent(), this, getLineDataSet(), new BasicStroke( 3f ), lineColor );
         lines.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         this.addDataSetGraphic( lines, PLOT_LAYER );
-        ScatterPlot points = new ScatterPlot( getComponent(), this, dotDataSet, color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
+        ScatterPlot points = new ScatterPlot( getComponent(), this, getDotDataSet(), color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
         this.addDataSetGraphic( points, PLOT_LAYER );
 
         model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
             public void currentChanged( PhotoelectricModel.ChangeEvent event ) {
-                addDotDataPoint( model.getVoltage(), model.getCurrent() );
+                setDotDataPoint( model.getVoltage(), model.getCurrent() );
             }
 
             public void voltageChanged( PhotoelectricModel.ChangeEvent event ) {
-                addDotDataPoint( model.getVoltage(), model.getCurrent() );
+                setDotDataPoint( model.getVoltage(), model.getCurrent() );
                 addLineDataPoint( model.getVoltage(), model.getCurrent(), model );
             }
 
             public void wavelengthChanged( PhotoelectricModel.ChangeEvent event ) {
-                lineDataSet.clear();
-                addDotDataPoint( model.getVoltage(), model.getCurrent() );
+                clearLinePlot();
+                setDotDataPoint( model.getVoltage(), model.getCurrent() );
             }
 
             public void beamIntensityChanged( PhotoelectricModel.ChangeEvent event ) {
-                lineDataSet.clear();
+                clearLinePlot();
             }
 
             public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {
-                lineDataSet.clear();
+                clearLinePlot();
             }
         } );
-    }
-
-    /**
-     * Adds a data point for a specified wavelength
-     *
-     * @param voltage
-     * @param current
-     */
-    public void addDotDataPoint( double voltage, double current ) {
-        dotDataSet.clear();
-        dotDataSet.addPoint( voltage, current );
     }
 
     /**
@@ -120,20 +106,9 @@ public class CurrentVsVoltageGraph extends PhotoelectricGraph {
         // Do some shenanigans to handle moving too quickly through the stopping voltage
         double dv = 0.1 * MathUtil.getSign( voltage - lastVoltageRecorded );
         for( double v = lastVoltageRecorded + dv; Math.abs( v - voltage ) > Math.abs( dv ); v += dv ) {
-            lineDataSet.addPoint( v, model.getCurrentForVoltage( v ) );
+            getLineDataSet().addPoint( v, model.getCurrentForVoltage( v ) );
         }
-        lineDataSet.addPoint( voltage, current );
+        getLineDataSet().addPoint( voltage, current );
         lastVoltageRecorded = voltage;
-    }
-
-    /**
-     * Removes the line plot from the graph
-     */
-    public void clearLinePlot() {
-        lineDataSet.clear();
-    }
-
-    public void clearData() {
-        lineDataSet.clear();
     }
 }
