@@ -169,7 +169,7 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
             double y1 = getYOffset( _nPrevious );
             double x2 = getXOffset( n );
             double y2 = getYOffset( n );
-            _squiggle = new EnergySquiggle( color, SQUIGGLE_STROKE, x1, y1, x2, y2 );
+            _squiggle = new EnergySquiggle( x1, y1, x2, y2, color, SQUIGGLE_STROKE );
             getSquiggleLayer().addChild( _squiggle );
             
             // Remember electron's state
