@@ -31,6 +31,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PClip;
+import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
@@ -41,6 +42,12 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  */
 public abstract class AbstractEnergyDiagram extends PhetPNode implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Debug
+    //----------------------------------------------------------------------------
+    
+    private static final boolean DEBUG_DRAWING_AREA_BOUNDS = true;
+    
     //----------------------------------------------------------------------------
     // Protected class data
     //----------------------------------------------------------------------------
@@ -71,6 +78,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     
     private static final double AXIS_X_MARGIN = 10;
     private static final double AXIS_Y_MARGIN = 10;
+    private static final double AXIS_LABEL_SPACING = 3;
     private static final Color AXIS_COLOR = Color.BLACK;
     private static final Color AXIS_LABEL_COLOR = Color.BLACK;
     private static final float AXIS_STROKE_WIDTH = 2;
@@ -140,28 +148,8 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         clipNode.setOffset( WINDOW_BORDER_WIDTH, titleBarHeight );
         addChild( clipNode );
         
-        // Y-axis
-        PPath axisNode = new PPath();
-        axisNode.setPathTo( new Line2D.Double( 0, AXIS_ARROW_SIZE.height - 1, 0, diagramHeight - ( 2 * AXIS_Y_MARGIN ) ) );
-        axisNode.setStroke( new BasicStroke( AXIS_STROKE_WIDTH ) );
-        axisNode.setStrokePaint( AXIS_COLOR );
-
-        // Arrow head on y-axis
-        PPath arrowNode = new PPath();
-        GeneralPath arrowPath = new GeneralPath();
-        arrowPath.moveTo( 0, 0 );
-        arrowPath.lineTo( (float)( AXIS_ARROW_SIZE.width / 2 ), (float)AXIS_ARROW_SIZE.height );
-        arrowPath.lineTo( (float)( -AXIS_ARROW_SIZE.width / 2 ), (float)AXIS_ARROW_SIZE.height );
-        arrowPath.closePath();
-        arrowNode.setPathTo( arrowPath );
-        arrowNode.setPaint( AXIS_COLOR );
-        arrowNode.setStroke( null );
-        
-        // Y-axis label
-        PText axisLabelNode = new PText( SimStrings.get( "label.energyDiagram.yAxis" ) );
-        axisLabelNode.setFont( axisFont );
-        axisLabelNode.setTextPaint( AXIS_LABEL_COLOR );
-        axisLabelNode.rotate( Math.toRadians( -90 ) );
+        // Energy axis (vertical)
+        PNode axisNode = createAxisNode( diagramHeight - ( 2 * AXIS_Y_MARGIN ), axisFont );
         
         // Layer for all state indicators
         _stateLayer = new PLayer();
@@ -174,26 +162,26 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
 
         // Layering
         clipNode.addChild( axisNode );
-        clipNode.addChild( arrowNode );
-        clipNode.addChild( axisLabelNode );
         clipNode.addChild( _stateLayer );
         clipNode.addChild( _squiggleLayer );
         clipNode.addChild( _electronNode ); // on top!
         
         // Positions
-        PBounds cb = clipNode.getFullBounds();
-        PBounds alb = axisLabelNode.getFullBounds();
-        axisLabelNode.setOffset( 5, cb.getY() + cb.getHeight() - 10 );
-        alb = axisLabelNode.getFullBounds();
-        axisNode.setOffset( alb.getX() + alb.getWidth() + 5, AXIS_Y_MARGIN );
-        arrowNode.setOffset( axisNode.getFullBounds().getX() + ( AXIS_STROKE_WIDTH / 2.0 ), AXIS_Y_MARGIN );
+        axisNode.setOffset( AXIS_X_MARGIN, AXIS_Y_MARGIN );
         
-        // Determine the "safe" drawing area
-        double x = arrowNode.getOffset().getX() + arrowNode.getWidth() + AXIS_X_MARGIN;
+        // Determine the bounds of the "safe" drawing area,
+        // everything to the left of the vertical energy axis.
+        double x = AXIS_X_MARGIN + axisNode.getFullBounds().getWidth();
         double y = 0;
-        double w = clipNode.getWidth() - AXIS_X_MARGIN - x;
+        double w = clipNode.getWidth() - x;
         double h = clipNode.getHeight();
         _drawingArea = new Rectangle2D.Double( x, y, w, h );
+        if ( DEBUG_DRAWING_AREA_BOUNDS ) {
+            PPath p = new PPath( _drawingArea );
+            p.setStroke( new BasicStroke( 1f ) );
+            p.setStrokePaint( Color.RED );
+            clipNode.addChild( p );
+        }
         
         _energies = calculateEnergies( numberOfStates );
     }
@@ -277,12 +265,8 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     /**
      * Initializes the position of the electron.
      * This is called each time the diagram's atom is set.
-     * The default implementation puts the electron near the upper-left 
-     * corner of the "safe" drawing area.
      */
-    protected void initElectronPosition() {
-        _electronNode.setOffset( _drawingArea.getX(), _drawingArea.getY() + AXIS_Y_MARGIN );
-    }
+    protected abstract void initElectronPosition();
     
     /**
      * Gets the layer that contains all state indicators.
@@ -345,5 +329,47 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         labelNode.setFont( LABEL_FONT );
         labelNode.setTextPaint( LABEL_COLOR );
         return labelNode;
+    }
+    
+    private static PNode createAxisNode( double height, Font font ) {
+        
+        // Vertical line -- origin at upper left
+        PPath lineNode = new PPath();
+        lineNode.setPathTo( new Line2D.Double( 0, AXIS_ARROW_SIZE.height - 1, 0, height ) );
+        lineNode.setStroke( new BasicStroke( AXIS_STROKE_WIDTH ) );
+        lineNode.setStrokePaint( AXIS_COLOR );
+
+        // Arrow head -- origin at tip
+        GeneralPath arrowPath = new GeneralPath();
+        arrowPath.moveTo( 0, 0 );
+        arrowPath.lineTo( (float)( AXIS_ARROW_SIZE.width / 2 ), (float)AXIS_ARROW_SIZE.height );
+        arrowPath.lineTo( (float)( -AXIS_ARROW_SIZE.width / 2 ), (float)AXIS_ARROW_SIZE.height );
+        arrowPath.closePath();
+        PPath arrowNode = new PPath( arrowPath );
+        arrowNode.setPaint( AXIS_COLOR );
+        arrowNode.setStroke( null );
+        
+        // Label -- origin at lower-left after rotating
+        PText labelNode = new PText( SimStrings.get( "label.energyDiagram.yAxis" ) );
+        labelNode.setFont( font );
+        labelNode.setTextPaint( AXIS_LABEL_COLOR );
+        labelNode.rotate( Math.toRadians( -90 ) ); 
+        
+        // Layering
+        PComposite parentNode = new PComposite();
+        parentNode.addChild( lineNode );
+        parentNode.addChild( arrowNode );
+        parentNode.addChild( labelNode );
+        
+        // Positions
+        double x = 0;
+        double y = height;
+        labelNode.setOffset( x, y );
+        x = labelNode.getFullBounds().getWidth() + AXIS_LABEL_SPACING;
+        y = 0;
+        lineNode.setOffset( x, y );
+        arrowNode.setOffset( x, y );
+        
+        return parentNode;
     }
 }
