@@ -151,6 +151,11 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
             getSquiggleLayer().removeChild( _squiggle );
             _squiggle = null;
         }
+        
+        // if the diagram isn't visible, don't draw the new squiggle
+        if ( !isVisible() ) {
+            return;
+        }
 
         // create the new squiggle for photon absorption/emission
         final int n = _atom.getElectronState();

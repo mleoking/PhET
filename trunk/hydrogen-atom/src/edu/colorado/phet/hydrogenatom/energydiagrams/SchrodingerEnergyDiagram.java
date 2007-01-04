@@ -146,7 +146,6 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         if ( o instanceof BohrModel ) {
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {
                 updateElectronPosition();
-                updateSquiggle();
             }
         }
     }
@@ -166,6 +165,11 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
             _squiggle = null;
         }
 
+        // if the diagram isn't visible, don't draw the new squiggle
+        if ( !isVisible() ) {
+            return;
+        }
+        
         // create the new squiggle for photon absorption/emission
         final int n = _atom.getElectronState();
         if ( n != _nPrevious ) {
