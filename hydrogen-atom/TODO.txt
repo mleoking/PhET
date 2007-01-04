@@ -41,6 +41,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/3/06) - javadoc AbstractEnergyDiagram base class
 (1/3/06) - javadoc Schrodinger energy diagram
 (1/3/06) - clean up layout of Schrodinger energy diagram
 (1/3/06) - javadoc Bohr energy diagram
