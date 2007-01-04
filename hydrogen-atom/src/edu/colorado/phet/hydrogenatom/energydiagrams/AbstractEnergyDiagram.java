@@ -315,14 +315,14 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     // Node creation
     //----------------------------------------------------------------------------
     
-    protected static PNode createLineNode() {
+    protected static PNode createStateLineNode() {
         PPath lineNode = new PPath( new Line2D.Double( 0, 0, LINE_LENGTH, 0 ) );
         lineNode.setStroke( LINE_STROKE );
         lineNode.setStrokePaint( LINE_COLOR );
         return lineNode;
     }
     
-    protected static PNode createLabelNode( int state ) {
+    protected static PNode createStateLabelNode( int state ) {
         Object[] args = new Object[] { new Integer( state ) };
         String label = MessageFormat.format( LABEL_FORMAT, args );
         PText labelNode = new PText( label );

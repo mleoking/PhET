@@ -121,12 +121,12 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
 
         PComposite linesParentNode = new PComposite();
         for ( int i = 0; i < state; i++ ) {
-            PNode lineNode = createLineNode();
+            PNode lineNode = createStateLineNode();
             lineNode.setOffset( i * ( LINE_LENGTH + LINE_LINE_SPACING ), 0 );
             linesParentNode.addChild( lineNode );
         }
 
-        PNode labelNode = createLabelNode( state );
+        PNode labelNode = createStateLabelNode( state );
         
         PComposite parentNode = new PComposite();
         parentNode.addChild( linesParentNode );
