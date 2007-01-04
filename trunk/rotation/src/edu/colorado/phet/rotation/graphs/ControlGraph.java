@@ -60,7 +60,6 @@ public class ControlGraph extends PNode {
         jFreeChart.setTitle( (String)null );
         jFreeChart.getXYPlot().getRangeAxis().setRange( min, max );
         jFreeChart.getXYPlot().getDomainAxis().setRange( 0, minDomainValue );
-//        jFreeChart.getXYPlot().getRangeAxis().setTickLabelsVisible( false );
         jFreeChart.setBackgroundPaint( null );
 
         jFreeChartNode = new JFreeChartNode( jFreeChart );
