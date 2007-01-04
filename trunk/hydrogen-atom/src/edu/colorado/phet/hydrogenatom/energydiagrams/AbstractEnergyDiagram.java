@@ -46,7 +46,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     // Debug
     //----------------------------------------------------------------------------
     
-    private static final boolean DEBUG_DRAWING_AREA_BOUNDS = true;
+    private static final boolean DEBUG_DRAWING_AREA_BOUNDS = false;
     
     //----------------------------------------------------------------------------
     // Protected class data
@@ -54,7 +54,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     
     protected static final double E1 = -13.6; // eV
     
-    protected static final double LINE_LENGTH = 8;
+    protected static final double LINE_LENGTH = 10;
     protected static final Stroke LINE_STROKE = new BasicStroke( 2f );
     protected static final Color LINE_COLOR = Color.BLACK;
     
