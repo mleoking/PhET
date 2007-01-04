@@ -13,19 +13,24 @@ package edu.colorado.phet.photoelectric.view;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.view.util.RotatedTextLabel;
+import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.io.IOException;
 
 /**
  * CompositeGraphPanel
- * <p>
+ * <p/>
  * A JPanel that holds all the individual GraphPanels
  *
  * @author Ron LeMaster
@@ -37,10 +42,23 @@ public class CompositeGraphPanel extends JPanel {
     private int rowIdx;
     private ArrayList checkBoxes = new ArrayList();
     private Module module;
+    private BufferedImage snapshotBtnImage;
+    private BufferedImage zoomOutImage;
+    private BufferedImage zoomInImage;
 
 
     public CompositeGraphPanel( Module module ) {
         super( new GridBagLayout() );
+
+        try {
+            snapshotBtnImage = ImageLoader.loadBufferedImage( PhotoelectricConfig.SNAPSHOT_BUTTON_IMAGE );
+            zoomInImage =ImageLoader.loadBufferedImage( PhotoelectricConfig.ZOOM_IN_BUTTON_IMAGE );
+            zoomOutImage =ImageLoader.loadBufferedImage( PhotoelectricConfig.ZOOM_OUT_BUTTON_IMAGE );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
         PhotoelectricModel model = (PhotoelectricModel)module.getModel();
         controlPanel = module.getControlPanel();
         this.module = module;
@@ -51,7 +69,7 @@ public class CompositeGraphPanel extends JPanel {
         addGraph( SimStrings.get( "GraphTitle.CurrentVsVoltage" ),
                   currentVsVoltagePanel,
                   SimStrings.get( "Voltage" ),
-                  SimStrings.get( "Current" ));
+                  SimStrings.get( "Current" ) );
 
         GraphPanel currentVsIntensityPanel = new GraphPanel( module.getClock() );
         currentVsIntensityPanel.setGraph( new CurrentVsIntensityGraph( currentVsIntensityPanel, model ), graphInsets );
@@ -64,8 +82,8 @@ public class CompositeGraphPanel extends JPanel {
         energyVsFreqPanel.setGraph( new EnergyVsFrequencyGraph( currentVsIntensityPanel, model ), graphInsets );
         addGraph( SimStrings.get( "GraphTitle.EnergyVsFrequency" ),
                   energyVsFreqPanel,
-                  SimStrings.get( "GraphLabel.Frequency"),
-                  SimStrings.get( "GraphLabel.Energy" ));
+                  SimStrings.get( "GraphLabel.Frequency" ),
+                  SimStrings.get( "GraphLabel.Energy" ) );
 
         setBorder( new TitledBorder( "Graphs" ) );
     }
@@ -88,8 +106,9 @@ public class CompositeGraphPanel extends JPanel {
         checkBoxes.add( cb );
         final RotatedTextLabel yAxisLabel = new RotatedTextLabel( yLabel );
         final JLabel xAxisLabel = new JLabel( xLabel );
-        final JButton zoomInBtn = new JButton( new ZoomInAction( graphPanel.getGraph() ) );
-        final JButton zoomOutBtn = new JButton( new ZoomOutAction( graphPanel.getGraph() ) );
+        final JButton zoomInBtn = new JButton( new ZoomInAction( new ImageIcon( zoomInImage), graphPanel.getGraph() ) );
+        final JButton zoomOutBtn = new JButton( new ZoomOutAction( new ImageIcon( zoomOutImage), graphPanel.getGraph() ) );
+        final JButton snapshotBtn = new JButton( new SnapshotAction( new ImageIcon( snapshotBtnImage ), graphPanel ) );
         cb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 graphPanel.setVisible( cb.isSelected() );
@@ -98,6 +117,7 @@ public class CompositeGraphPanel extends JPanel {
                 xAxisLabel.setVisible( cb.isSelected() );
                 zoomInBtn.setVisible( cb.isSelected() );
                 zoomOutBtn.setVisible( cb.isSelected() );
+                snapshotBtn.setVisible( cb.isSelected() );
                 setLogoVisibility( controlPanel );
             }
         } );
@@ -106,7 +126,7 @@ public class CompositeGraphPanel extends JPanel {
         xAxisLabel.setVisible( cb.isSelected() );
         zoomInBtn.setVisible( cb.isSelected() );
         zoomOutBtn.setVisible( cb.isSelected() );
-
+        snapshotBtn.setVisible( cb.isSelected() );
 
         // Lay out the panel
         GridBagConstraints checkBoxGbc = new GridBagConstraints( 0, 0,
@@ -115,7 +135,7 @@ public class CompositeGraphPanel extends JPanel {
                                                                  GridBagConstraints.NONE,
                                                                  new Insets( 0, 0, 0, 25 ), 0, 0 );
         GridBagConstraints graphGbc = new GridBagConstraints( 1, 0,
-                                                              1, 2, 0, 0,
+                                                              1, 3, 0, 0,
                                                               GridBagConstraints.NORTHWEST,
                                                               GridBagConstraints.NONE,
                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
@@ -125,15 +145,15 @@ public class CompositeGraphPanel extends JPanel {
                                                                GridBagConstraints.NONE,
                                                                new Insets( 0, 0, 0, 0 ), 0, 0 );
         GridBagConstraints yLabelGbc = new GridBagConstraints( 0, 0,
-                                                               1, 2, 0, 0,
+                                                               1, 3, 0, 0,
                                                                GridBagConstraints.WEST,
                                                                GridBagConstraints.NONE,
                                                                new Insets( 0, 0, 0, 0 ), 0, 0 );
         GridBagConstraints zoomBtnGbc = new GridBagConstraints( 2, 0,
-                                                               1, 1, 0, 0,
-                                                               GridBagConstraints.NORTH,
-                                                               GridBagConstraints.NONE,
-                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                                1, 1, 0, 0,
+                                                                GridBagConstraints.NORTH,
+                                                                GridBagConstraints.NONE,
+                                                                new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         checkBoxGbc.gridy = rowIdx;
         add( cb, checkBoxGbc );
@@ -145,10 +165,13 @@ public class CompositeGraphPanel extends JPanel {
         add( graphPanel, graphGbc );
 
         zoomBtnGbc.gridy = rowIdx;
-        add( zoomInBtn,  zoomBtnGbc );
+        add( zoomInBtn, zoomBtnGbc );
         rowIdx++;
         zoomBtnGbc.gridy = rowIdx;
-        add( zoomOutBtn,  zoomBtnGbc );
+        add( zoomOutBtn, zoomBtnGbc );
+        rowIdx++;
+        zoomBtnGbc.gridy = rowIdx;
+        add( snapshotBtn, zoomBtnGbc );
 
         rowIdx++;
         xLabelGbc.gridy = rowIdx;
@@ -161,8 +184,8 @@ public class CompositeGraphPanel extends JPanel {
     private static class ZoomInAction extends AbstractAction {
         private PhotoelectricGraph graph;
 
-        public ZoomInAction( PhotoelectricGraph graph ) {
-            super( "+" );
+        public ZoomInAction( Icon icon, PhotoelectricGraph graph ) {
+            super( "", icon );
             this.graph = graph;
         }
 
@@ -174,13 +197,49 @@ public class CompositeGraphPanel extends JPanel {
     private static class ZoomOutAction extends AbstractAction {
         private PhotoelectricGraph graph;
 
-        public ZoomOutAction( PhotoelectricGraph graph ) {
-            super( "-" );
+        public ZoomOutAction( Icon icon, PhotoelectricGraph graph ) {
+            super( "", icon );
             this.graph = graph;
         }
 
         public void actionPerformed( ActionEvent e ) {
             graph.zoomOut();
+        }
+    }
+
+    private class SnapshotAction extends AbstractAction {
+        private GraphPanel graphPanel;
+
+        public SnapshotAction( Icon icon, GraphPanel graphPanel ) {
+            super( "", icon );
+            this.graphPanel = graphPanel;
+        }
+
+        public void actionPerformed( ActionEvent e ) {
+            Component component = CompositeGraphPanel.this;
+            JDialog snapshotDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
+            snapshotDlg.setResizable( false );
+            Snapshot snapshot = new Snapshot( component );
+            snapshotDlg.setContentPane( snapshot );
+            snapshotDlg.pack();
+            snapshotDlg.setVisible( true );
+        }
+    }
+
+    private static class Snapshot extends JPanel {
+        BufferedImage bi;
+
+        public Snapshot( Component component ) {
+            bi = (BufferedImage)component.createImage( component.getWidth(), component.getHeight() );
+            Graphics g = bi.getGraphics();
+            component.paint( g );
+            setSize( bi.getWidth(), bi.getHeight() );
+            setPreferredSize( getSize() );
+        }
+
+        protected void paintComponent( Graphics g ) {
+            super.paintComponent( g );
+            g.drawImage( bi, 0, 0, getWidth(), getHeight(), null );
         }
     }
 }

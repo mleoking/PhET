@@ -28,6 +28,9 @@ public class PhotoelectricConfig {
     public static final String LAMP_IMAGE_FILE = IMAGE_DIRECTORY + "flashlight.png";
     public static final String SLIDER_KNOB_IMAGE = IMAGE_DIRECTORY + "sliderKnob.png";
     public static final String BEAM_CONTROL_PANEL_IMAGE = IMAGE_DIRECTORY + "photoelectric-beam-control.png";
+    public static final String SNAPSHOT_BUTTON_IMAGE = IMAGE_DIRECTORY + "camera.png";
+    public static final String ZOOM_IN_BUTTON_IMAGE = IMAGE_DIRECTORY + "zoomIn.gif";
+    public static final String ZOOM_OUT_BUTTON_IMAGE = IMAGE_DIRECTORY + "zoomOut.gif";
 
     // View parameters
     public static final int GRAPH_DOT_RADIUS = 5;
