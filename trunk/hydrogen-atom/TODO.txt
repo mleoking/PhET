@@ -37,9 +37,11 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 - make spectrometer show each UV/IR transition wavelength at a distinct horizontal position
 - design a monochromatic solution for Schrodinger state (2,0,0)
+- decide if help items are necessary
  
  
 DONE:
+(1/4/05) - add some missing stuff to HADefaults, document values for public release
 (1/4/05) - get absorption and emission squiggles working as solid straight lines that persist
 (1/4/05) - move setAtom and clearAtom out of energy diagram base class to eliminate need for casting
 (1/4/05) - simplify initialization of electron position in energy diagrams

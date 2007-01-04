@@ -90,7 +90,7 @@ public class HAModule extends PiccoloModule {
     private ZoomIndicatorNode _zoomIndicatorNode;
 
     // Alpha Particle traces
-    private TracesNode _tracesNode;
+    private TracesNode _alphaParticleTracesNode;
     
     // Spectrometer
     private JCheckBox _spectrometerCheckBox;
@@ -128,7 +128,7 @@ public class HAModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public HAModule() {
-        super( SimStrings.get( "HAModule.title" ), new HAClock() );
+        super( SimStrings.get( "HAModule.title" ), new HAClock(), !HADefaults.CLOCK_RUNNING /* startsPaused */ );
 
         // hide the PhET logo
         setLogoPanel( null );
@@ -241,14 +241,14 @@ public class HAModule extends PiccoloModule {
         
         // Alpha Particles tracer
         {
-            _tracesNode = new TracesNode( _model );
-            _tracesNode.setBounds( 0, 0, _animationBoxNode.getWidth(), _animationBoxNode.getHeight() );
-            _animationBoxNode.getTraceLayer().addChild( _tracesNode );
-            _tracesNode.setEnabled( false );
+            _alphaParticleTracesNode = new TracesNode( _model );
+            _alphaParticleTracesNode.setBounds( 0, 0, _animationBoxNode.getWidth(), _animationBoxNode.getHeight() );
+            _animationBoxNode.getTraceLayer().addChild( _alphaParticleTracesNode );
+            _alphaParticleTracesNode.setEnabled( false );
         }
 
         // Gun control panel
-        _gunControlPanel = new GunControlPanel( _canvas, _model.getGun(), _tracesNode );
+        _gunControlPanel = new GunControlPanel( _canvas, _model.getGun(), _alphaParticleTracesNode );
 
         // Spectrometer
         {
@@ -393,6 +393,7 @@ public class HAModule extends PiccoloModule {
 
     /*
      * Resets the module to its default state.
+     * All default values are defined in HADefaults.
      */
     private void reset() {
         
@@ -412,9 +413,16 @@ public class HAModule extends PiccoloModule {
         gun.setWavelength( HADefaults.WAVELENGTH );
         gun.setLightIntensity( HADefaults.LIGHT_INTENSITY );
         gun.setAlphaParticlesIntensity( HADefaults.ALPHA_PARTICLES_INTENSITY );
+        _alphaParticleTracesNode.setEnabled( HADefaults.SHOW_ALPHA_PARTICLE_TRACES );
         
         _spectrometerCheckBox.setSelected( HADefaults.SPECTROMETER_SELECTED );
-        _spectrometerNode.start();
+        if ( HADefaults.SPECTROMETER_RUNNING ) {
+            _spectrometerNode.start();
+        }
+        else {
+            _spectrometerNode.stop();
+        }
+        
         _energyDiagramCheckBox.setSelected( HADefaults.ENERGY_DIAGRAM_SELECTED );
     }
     
@@ -627,7 +635,7 @@ public class HAModule extends PiccoloModule {
 
     public void updateAtomicModel() {
 
-        _tracesNode.clear();
+        _alphaParticleTracesNode.clear();
         
         _solarSystemEnergyDiagram.clearAtom();
         _bohrEnergyDiagram.clearAtom();

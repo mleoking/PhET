@@ -82,8 +82,7 @@ public class HAConstants {
     };
        
     // Defaults
-    public static final int DEFAULT_CLOCK_INDEX = 2;
-    public static final double DEFAULT_CLOCK_STEP = CLOCK_STEPS[ DEFAULT_CLOCK_INDEX ];
+    public static final double DEFAULT_CLOCK_STEP = CLOCK_STEPS[ HADefaults.CLOCK_INDEX ];
     
     //----------------------------------------------------------------------------
     // Fonts
