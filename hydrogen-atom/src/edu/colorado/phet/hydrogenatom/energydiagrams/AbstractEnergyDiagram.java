@@ -59,6 +59,9 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     // Private class data
     //----------------------------------------------------------------------------
 
+    private static final boolean DISTORT_ENERGY_LEVELS = true;
+    private static final double DISTORTION_FACTOR = 1.2;
+    
     private static final Dimension WINDOW_SIZE = new Dimension( 250, 505 );
     private static final double WINDOW_BORDER_WIDTH = 3;
     
@@ -308,11 +311,19 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     }
     
     private double[] calculateEnergies( int numberOfStates ) {
+        
         double E[] = new double[ numberOfStates ];
         for ( int i = 0; i < E.length; i++ ) {
             int n = i + 1;
             E[i] = E1 / ( n * n );
         }
+        
+        if ( DISTORT_ENERGY_LEVELS ) {
+            for ( int i = 1; i < E.length - 1; i++ ) {
+                E[i] = E[i] * DISTORTION_FACTOR;
+            }
+        }
+        
         return E;
     }
     

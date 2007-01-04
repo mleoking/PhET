@@ -39,6 +39,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         super( SchrodingerModel.getNumberOfStates(), canvas );
         
         assert( SchrodingerModel.getGroundState() == 1 ); // n=1 must be ground state
+        assert( SchrodingerModel.getNumberOfStates() == 6 ); // 6 states
 
         PNode lNode = createLNode();
         lNode.setOffset( getDrawingArea().getX() + X_MARGIN, Y_MARGIN );
@@ -126,7 +127,13 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         linesParentNode.setOffset( 0, 0 );
         double x = ( numberOfStates * LINE_LENGTH ) + ( ( numberOfStates - 1 ) * LINE_LINE_SPACING ) + LINE_LABEL_SPACING;
         double y = -( ( linesParentNode.getHeight() / 2 ) + ( labelNode.getHeight() / 2 ) );
-        labelNode.setOffset( x, y );
+        if ( state == 6 ) {
+            // HACK: for n=6, move label up a bit to prevent overlap with n=5
+            labelNode.setOffset( x, y - 3.5 );
+        }
+        else {
+            labelNode.setOffset( x, y );
+        }
         
         return parentNode;
     }
