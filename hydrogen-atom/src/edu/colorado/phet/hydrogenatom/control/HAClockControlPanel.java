@@ -29,6 +29,7 @@ import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HADefaults;
 import edu.colorado.phet.hydrogenatom.model.HAClock;
 
 
@@ -97,7 +98,7 @@ public class HAClockControlPanel extends JPanel {
             _clockIndexSlider.setPaintTicks( true );
             _clockIndexSlider.setPaintLabels( true );
             _clockIndexSlider.setSnapToTicks( true );
-            _clockIndexSlider.setValue( HAConstants.DEFAULT_CLOCK_INDEX );
+            _clockIndexSlider.setValue( HADefaults.CLOCK_INDEX );
             
             // Label the min "normal", the max "fast".
             String normalString = SimStrings.get( "label.clockSpeed.slow" );
