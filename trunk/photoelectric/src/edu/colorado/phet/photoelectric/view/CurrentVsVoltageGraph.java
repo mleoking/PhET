@@ -37,7 +37,6 @@ public class CurrentVsVoltageGraph extends PhotoelectricGraph {
                                                 PhotoelectricModel.MAX_VOLTAGE,
                                                 PhotoelectricModel.MAX_CURRENT );
     static private Dimension chartSize = PhotoelectricConfig.CHART_SIZE;
-//    static private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 14 );
     private static final double PLOT_LAYER = 1E15;
 
     //-----------------------------------------------------------------
@@ -55,9 +54,6 @@ public class CurrentVsVoltageGraph extends PhotoelectricGraph {
     public CurrentVsVoltageGraph( Component component, final PhotoelectricModel model ) {
         super( component, range, chartSize, 2, 2, PhotoelectricModel.MAX_CURRENT / 6,
                 PhotoelectricModel.MAX_CURRENT / 6 );
-
-//        PhetTextGraphic yLabel = new PhetTextGraphic( component, titleFont, "Current", Color.black );
-//        setYAxisTitle( yLabel );
 
         GridLineSet horizontalGls = this.getHorizonalGridlines();
         horizontalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ) );

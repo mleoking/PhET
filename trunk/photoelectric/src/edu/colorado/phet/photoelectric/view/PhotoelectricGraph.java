@@ -22,5 +22,11 @@ public abstract class PhotoelectricGraph extends Chart {
         super( component, range, chartSize, horizMinorSpacing, horizMajorSpacing, vertMinorSpacing, vertMajorSpacing );
     }
 
+    
+
+    //--------------------------------------------------------------------------------------------------
+    // Abstract methods
+    //--------------------------------------------------------------------------------------------------
+
     abstract public void clearData();
 }

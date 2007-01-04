@@ -21,9 +21,6 @@ import java.awt.*;
  * <p/>
  * A Chart that shows plots of current against voltage, parameterized by wavelength.
  * A separated data set is maintained for each wavelength
- * <p/>
- * The graph operates in two modes. In the EMPIRICAL_LINE mode, the graph displays line plots
- * In the ANALYTICAL_SPOT mode, the graph displays a single spot a a specified point.
  *
  * @author Ron LeMaster
  * @version $Revision$
