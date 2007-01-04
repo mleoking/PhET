@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
@@ -18,6 +19,7 @@ import java.util.Observer;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.model.SchrodingerModel;
+import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -45,7 +47,9 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
     //----------------------------------------------------------------------------
     
     private SchrodingerModel _atom;
-    private double _lWidth, _lHeight;
+    private EnergySquiggle _squiggle;
+    private int _nPrevious, _lPrevious;
+    private double _lLabelWidth, _lLabelHeight;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -68,11 +72,11 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         lLabelNode.setTextPaint( LABEL_COLOR );
         lLabelNode.setOffset( drawingArea.getX() + X_MARGIN, drawingArea.getY() + Y_MARGIN );
         getStateLayer().addChild( lLabelNode );
-        _lWidth = lLabelNode.getWidth();
-        _lHeight = lLabelNode.getHeight();
+        _lLabelWidth = lLabelNode.getWidth();
+        _lLabelHeight = lLabelNode.getHeight();
 
         PNode lNode = createLValuesNode();
-        lNode.setOffset( drawingArea.getX() + X_MARGIN + _lWidth + L_LABEL_VALUE_SPACING, drawingArea.getY() + Y_MARGIN );
+        lNode.setOffset( drawingArea.getX() + X_MARGIN + _lLabelWidth + L_LABEL_VALUE_SPACING, drawingArea.getY() + Y_MARGIN );
         getStateLayer().addChild( lNode );
         
         for ( int n = 1; n <= SchrodingerModel.getNumberOfStates(); n++ ) { 
@@ -114,6 +118,10 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
 
             // Set electron's initial position
             updateElectronPosition();
+            
+            // Remember electron's initial state
+            _nPrevious = atom.getElectronState();
+            _lPrevious = atom.getSecondaryElectronState();
         }
     }
     
@@ -138,6 +146,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         if ( o instanceof BohrModel ) {
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {
                 updateElectronPosition();
+                updateSquiggle();
             }
         }
     }
@@ -145,6 +154,41 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
     //----------------------------------------------------------------------------
     // private
     //----------------------------------------------------------------------------
+    
+    private void updateSquiggle() {
+
+        // remove any existing squiggle
+        if ( _squiggle != null ) {
+            getSquiggleLayer().removeChild( _squiggle );
+            _squiggle = null;
+        }
+
+        // create the new squiggle for photon absorption/emission
+        final int n = _atom.getElectronState();
+        if ( n != _nPrevious ) {
+            double wavelength = 0;
+            if ( n > _nPrevious ) {
+                // a photon has been absorbed
+                wavelength = BohrModel.getWavelengthAbsorbed( _nPrevious, n );
+            }
+            else {
+                // a photon has been emitted
+                wavelength = BohrModel.getWavelengthAbsorbed( n, _nPrevious );
+            }
+            Color color = ColorUtils.wavelengthToColor( wavelength );
+            final int l = _atom.getSecondaryElectronState();
+            double x1 = getXOffset( _lPrevious );
+            double y1 = getYOffset( _nPrevious );
+            double x2 = getXOffset( l );
+            double y2 = getYOffset( n );
+            _squiggle = new EnergySquiggle( color, SQUIGGLE_STROKE, x1, y1, x2, y2 );
+            getSquiggleLayer().addChild( _squiggle );
+            
+            // Remember electron's state
+            _nPrevious = n;
+            _lPrevious = l;
+        }
+    }
     
     /*
      * Updates the position of the electron in the diagram
@@ -168,7 +212,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
      * @return double
      */
     protected double getXOffset( int l ) {
-        return getDrawingArea().getX() + X_MARGIN + _lWidth + L_LABEL_VALUE_SPACING + ( l * LINE_LENGTH ) + ( l * LINE_LINE_SPACING );
+        return getDrawingArea().getX() + X_MARGIN + _lLabelWidth + L_LABEL_VALUE_SPACING + ( l * LINE_LENGTH ) + ( l * LINE_LINE_SPACING );
     }
     
     /*
@@ -185,8 +229,8 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         final double rangeE = maxE - minE;
         Rectangle2D drawingArea = getDrawingArea();
         final double electronHeight = getElectronNode().getFullBounds().getHeight();
-        final double height = drawingArea.getHeight() - ( 2 * Y_MARGIN ) - _lHeight - electronHeight;
-        double y = drawingArea.getY() + Y_MARGIN + _lHeight + electronHeight + ( height * ( maxE - getEnergy( n ) ) / rangeE );
+        final double height = drawingArea.getHeight() - ( 2 * Y_MARGIN ) - _lLabelHeight - electronHeight;
+        double y = drawingArea.getY() + Y_MARGIN + _lLabelHeight + electronHeight + ( height * ( maxE - getEnergy( n ) ) / rangeE );
         return y;
     }
     

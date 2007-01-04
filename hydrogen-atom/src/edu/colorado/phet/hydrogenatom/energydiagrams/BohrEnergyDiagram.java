@@ -11,12 +11,14 @@
 
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.BohrModel;
+import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -48,7 +50,7 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
     
     private BohrModel _atom;
     private EnergySquiggle _squiggle;
-    private int _previousState;
+    private int _nPrevious;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -102,8 +104,10 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
             _atom.addObserver( this );
 
             // Set electron's initial position
-            _previousState = ((BohrModel)atom).getElectronState();
             updateElectronPosition();
+            
+            // Remember electron's initial state
+            _nPrevious = atom.getElectronState();
         }
     }
     
@@ -128,6 +132,7 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
         if ( o instanceof BohrModel ) {
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {
                 updateElectronPosition();
+                updateSquiggle();
             }
         }
     }
@@ -135,6 +140,39 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
     //----------------------------------------------------------------------------
     // private
     //----------------------------------------------------------------------------
+    
+    private void updateSquiggle() {
+
+        // remove any existing squiggle
+        if ( _squiggle != null ) {
+            getSquiggleLayer().removeChild( _squiggle );
+            _squiggle = null;
+        }
+
+        // create the new squiggle for photon absorption/emission
+        final int n = _atom.getElectronState();
+        if ( n != _nPrevious ) {
+            double wavelength = 0;
+            if ( n > _nPrevious ) {
+                // a photon has been absorbed
+                wavelength = BohrModel.getWavelengthAbsorbed( _nPrevious, n );
+            }
+            else {
+                // a photon has been emitted
+                wavelength = BohrModel.getWavelengthAbsorbed( n, _nPrevious );
+            }
+            Color color = ColorUtils.wavelengthToColor( wavelength );
+            double x1 = getXOffset( _nPrevious );
+            double y1 = getYOffset( _nPrevious );
+            double x2 = getXOffset( n );
+            double y2 = getYOffset( n );
+            _squiggle = new EnergySquiggle( color, SQUIGGLE_STROKE, x1, y1, x2, y2 );
+            getSquiggleLayer().addChild( _squiggle );
+            
+            // Remember electron's state
+            _nPrevious = n;
+        }
+    }
     
     /*
      * Updates the position of the electron in the diagram
