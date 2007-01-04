@@ -2,6 +2,22 @@
 #To Do
 #######################
 
+Sam,
+    Alex was playing with CCK yesterday and figured out how to make current
+flow in an incomplete circuit.  It's reproducable but requires a specific
+combination of times.  The attached screen shot shows a circuit that had
+electrons flowing up towards the top and you can see the bulb was lit.  When
+reproducing this I found that the current would not flow until the switch at
+the top was partially closed.  If closed all of the way, current stops
+flowing.  Once the switch had been partially closed, to begin the current flow,
+then it could be opened all the way as shown here and the current would
+continue to flow.  If I remove the to wire at the end, current did not flow.
+If I removed the resistor at the top, current did not flow.  Not sure how
+important this is to fix. It's very bad but requires an exact setup to create
+the problem.
+
+Wendy
+
 Sometimes after disconnecting a wire then "split junctions" there is a floating junction.
 
 High priority issues that weren't yet addressed:
