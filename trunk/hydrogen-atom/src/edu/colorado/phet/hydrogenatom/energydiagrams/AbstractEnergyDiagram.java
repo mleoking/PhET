@@ -59,30 +59,26 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     // Private class data
     //----------------------------------------------------------------------------
 
-    private static final boolean DISTORT_ENERGY_LEVELS = false;
-    
     private static final Dimension WINDOW_SIZE = new Dimension( 250, 505 );
-    private static final double X_MARGIN = 10;
-    private static final double Y_MARGIN = 10;
-    private static final Dimension ARROW_SIZE = new Dimension( 13, 13 );
-    private static final float AXIS_STROKE_WIDTH = 2;
+    private static final double WINDOW_BORDER_WIDTH = 3;
     
     private static final Color BACKGROUND_COLOR = new Color( 240, 240, 240 );
+    private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
-    private static final Color AXIS_STROKE_COLOR = Color.BLACK;
-    private static final Color ARROW_COLOR = Color.BLACK;
+    
+    private static final double AXIS_X_MARGIN = 10;
+    private static final double AXIS_Y_MARGIN = 10;
+    private static final Color AXIS_COLOR = Color.BLACK;
     private static final Color AXIS_LABEL_COLOR = Color.BLACK;
+    private static final float AXIS_STROKE_WIDTH = 2;
+    private static final Dimension AXIS_ARROW_SIZE = new Dimension( 13, 13 );
+    private static final String AXIS_FONT_SIZE_RESOURCE = "energyDiagram.font.size";
     
     private static final Color TITLE_BAR_COLOR = Color.GRAY;
     private static final Color TITLE_COLOR = Color.WHITE;
     private static final double TITLE_BAR_X_MARGIN = 6;
     private static final double TITLE_BAR_Y_MARGIN = 3;
-    private static final String TITLE_SIZE_RESOURCE = "energyDiagram.title.font.size";
-    
-    private static final String FONT_NAME = HAConstants.DEFAULT_FONT_NAME;
-    private static final int FONT_STYLE = HAConstants.DEFAULT_FONT_STYLE;
-    private static final int DEFAULT_FONT_SIZE = HAConstants.DEFAULT_FONT_SIZE;
-    private static final String FONT_SIZE_RESOURCE = "energyDiagram.font.size";
+    private static final String TITLE_FONT_SIZE_RESOURCE = "energyDiagram.title.font.size";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -90,7 +86,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     
     private AbstractHydrogenAtom _atom;
     private ElectronNode _electronNode;
-    private Rectangle2D _drawingArea; // area that we can draw in
+    private Rectangle2D _drawingArea; // area that subclasses can draw in
     private double[] _energies;
     private PLayer _stateLayer;
     private PLayer _squiggleLayer;
@@ -106,21 +102,22 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         setPickable( false );
         
         // Fonts
-        int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
-        Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
+        int axisFontSize = SimStrings.getInt( AXIS_FONT_SIZE_RESOURCE, HAConstants.DEFAULT_FONT_SIZE );
+        Font axisFont = new Font( HAConstants.DEFAULT_FONT_NAME, HAConstants.DEFAULT_FONT_STYLE, axisFontSize );
         
-        int titleFontSize = SimStrings.getInt( TITLE_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
-        Font titleFont = new Font( FONT_NAME, FONT_STYLE, titleFontSize );
+        int titleFontSize = SimStrings.getInt( TITLE_FONT_SIZE_RESOURCE, HAConstants.DEFAULT_FONT_SIZE );
+        Font titleFont = new Font( HAConstants.DEFAULT_FONT_NAME, HAConstants.DEFAULT_FONT_STYLE, titleFontSize );
         
-        // Title bar, with close button
+        // Title bar, with title & close button
         PText titleNode = new PText( SimStrings.get( "title.energyDiagram" ) );
         _closeButton = new CloseButtonNode( canvas );
         PPath titleBarNode = new PPath();
         titleBarNode.addChild( titleNode );
         titleBarNode.addChild( _closeButton );
-        double hMax = Math.max( titleNode.getHeight(), _closeButton.getFullBounds().getHeight() ) + ( 2 * TITLE_BAR_Y_MARGIN );
-        titleBarNode.setPathTo( new Rectangle2D.Double( 0, 0, WINDOW_SIZE.width, hMax ) );
+        double titleBarHeight = Math.max( titleNode.getHeight(), _closeButton.getFullBounds().getHeight() ) + ( 2 * TITLE_BAR_Y_MARGIN );
+        titleBarNode.setPathTo( new Rectangle2D.Double( 0, 0, WINDOW_SIZE.width, WINDOW_SIZE.height ) );
         titleBarNode.setPaint( TITLE_BAR_COLOR );
+        titleBarNode.setStroke( null );
         titleNode.setOffset( TITLE_BAR_X_MARGIN, TITLE_BAR_Y_MARGIN );
         titleNode.setFont( titleFont );
         titleNode.setTextPaint( TITLE_COLOR );
@@ -128,37 +125,38 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         addChild( titleBarNode );
         
         // Everything else, clipped to the bounds of the diagram
-        final double diagramHeight = WINDOW_SIZE.height - titleBarNode.getFullBounds().getHeight();
+        final double diagramWidth = WINDOW_SIZE.getWidth() - ( 2 * WINDOW_BORDER_WIDTH );
+        final double diagramHeight = WINDOW_SIZE.getHeight() - titleBarHeight - WINDOW_BORDER_WIDTH;
         PClip clipNode = new PClip();
-        clipNode.setPickable( false );
+        // don't call clipNode.setPickable(false), we want to swallow mouse events
         clipNode.setChildrenPickable( false );
-        clipNode.setPathTo( new Rectangle2D.Double( 0, 0, WINDOW_SIZE.width, diagramHeight ) );
+        clipNode.setPathTo( new Rectangle2D.Double( 0, 0, diagramWidth, diagramHeight ) );
         clipNode.setPaint( BACKGROUND_COLOR );
-        clipNode.setStroke( new BasicStroke( 2f ) );
+        clipNode.setStroke( BACKGROUND_STROKE );
         clipNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
-        clipNode.setOffset( 0, titleBarNode.getFullBounds().getHeight() );
+        clipNode.setOffset( WINDOW_BORDER_WIDTH, titleBarHeight );
         addChild( clipNode );
         
         // Y-axis
         PPath axisNode = new PPath();
-        axisNode.setPathTo( new Line2D.Double( 0, ARROW_SIZE.height - 1, 0, diagramHeight - ( 2 * Y_MARGIN ) ) );
+        axisNode.setPathTo( new Line2D.Double( 0, AXIS_ARROW_SIZE.height - 1, 0, diagramHeight - ( 2 * AXIS_Y_MARGIN ) ) );
         axisNode.setStroke( new BasicStroke( AXIS_STROKE_WIDTH ) );
-        axisNode.setStrokePaint( AXIS_STROKE_COLOR );
+        axisNode.setStrokePaint( AXIS_COLOR );
 
         // Arrow head on y-axis
         PPath arrowNode = new PPath();
         GeneralPath arrowPath = new GeneralPath();
         arrowPath.moveTo( 0, 0 );
-        arrowPath.lineTo( (float)( ARROW_SIZE.width / 2 ), (float)ARROW_SIZE.height );
-        arrowPath.lineTo( (float)( -ARROW_SIZE.width / 2 ), (float)ARROW_SIZE.height );
+        arrowPath.lineTo( (float)( AXIS_ARROW_SIZE.width / 2 ), (float)AXIS_ARROW_SIZE.height );
+        arrowPath.lineTo( (float)( -AXIS_ARROW_SIZE.width / 2 ), (float)AXIS_ARROW_SIZE.height );
         arrowPath.closePath();
         arrowNode.setPathTo( arrowPath );
-        arrowNode.setPaint( ARROW_COLOR );
+        arrowNode.setPaint( AXIS_COLOR );
         arrowNode.setStroke( null );
         
         // Y-axis label
         PText axisLabelNode = new PText( SimStrings.get( "label.energyDiagram.yAxis" ) );
-        axisLabelNode.setFont( font );
+        axisLabelNode.setFont( axisFont );
         axisLabelNode.setTextPaint( AXIS_LABEL_COLOR );
         axisLabelNode.rotate( Math.toRadians( -90 ) );
         
@@ -184,22 +182,17 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         PBounds alb = axisLabelNode.getFullBounds();
         axisLabelNode.setOffset( 5, cb.getY() + cb.getHeight() - 10 );
         alb = axisLabelNode.getFullBounds();
-        axisNode.setOffset( alb.getX() + alb.getWidth() + 5, Y_MARGIN );
-        arrowNode.setOffset( axisNode.getFullBounds().getX() + ( AXIS_STROKE_WIDTH / 2.0 ), Y_MARGIN );
+        axisNode.setOffset( alb.getX() + alb.getWidth() + 5, AXIS_Y_MARGIN );
+        arrowNode.setOffset( axisNode.getFullBounds().getX() + ( AXIS_STROKE_WIDTH / 2.0 ), AXIS_Y_MARGIN );
         
         // Determine the "safe" drawing area
-        double x = arrowNode.getOffset().getX() + arrowNode.getWidth() + X_MARGIN;
+        double x = arrowNode.getOffset().getX() + arrowNode.getWidth() + AXIS_X_MARGIN;
         double y = 0;
-        double w = clipNode.getWidth() - X_MARGIN - x;
+        double w = clipNode.getWidth() - AXIS_X_MARGIN - x;
         double h = clipNode.getHeight();
         _drawingArea = new Rectangle2D.Double( x, y, w, h );
         
-        if ( DISTORT_ENERGY_LEVELS ) {
-            _energies = calculateEnergiesDistorted( numberOfStates );
-        }
-        else {
-            _energies = calculateEnergies( numberOfStates );
-        }
+        _energies = calculateEnergies( numberOfStates );
     }
     
     //----------------------------------------------------------------------------
@@ -285,7 +278,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
      * corner of the "safe" drawing area.
      */
     protected void initElectronPosition() {
-        _electronNode.setOffset( _drawingArea.getX(), _drawingArea.getY() + Y_MARGIN );
+        _electronNode.setOffset( _drawingArea.getX(), _drawingArea.getY() + AXIS_Y_MARGIN );
     }
     
     /**
@@ -321,13 +314,6 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
             E[i] = E1 / ( n * n );
         }
         return E;
-    }
-    
-    private double[] calculateEnergiesDistorted( int numberOfStates ) {
-        if ( numberOfStates > 6 ) {
-            throw new UnsupportedOperationException( "AbstractEnergyDiagram.calculateEnergiesDistorted: numberOfStates must be <= 6" );
-        }
-        return new double[] { E1, -5.2, -2.8, -1.51, -0.85, -0.38 };
     }
     
     //----------------------------------------------------------------------------
