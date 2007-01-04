@@ -52,12 +52,15 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     // Protected class data
     //----------------------------------------------------------------------------
     
+    // Energy of the ground state
     protected static final double E1 = -13.6; // eV
     
+    // State line properties
     protected static final double LINE_LENGTH = 10;
     protected static final Stroke LINE_STROKE = new BasicStroke( 2f );
     protected static final Color LINE_COLOR = Color.BLACK;
     
+    // State label properties
     protected static final String LABEL_FORMAT = "n={0}";
     protected static final Font LABEL_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
     protected static final Color LABEL_COLOR = Color.BLACK;
@@ -66,16 +69,20 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     // Private class data
     //----------------------------------------------------------------------------
 
-    private static final boolean DISTORT_ENERGY_LEVELS = true;
-    private static final double DISTORTION_FACTOR = 1.2;
+    // How much to distory the energy level values. For no distortion, set this to zero.
+    private static final double DISTORTION_FACTOR = 0.2; // 1.0 = 100% increase in spacing
     
+    // Size of the "window" for the energy diagram
     private static final Dimension WINDOW_SIZE = new Dimension( 250, 505 );
+    // Width of the window's border
     private static final double WINDOW_BORDER_WIDTH = 3;
     
+    // Diagram background properties (content area of the window)
     private static final Color BACKGROUND_COLOR = new Color( 240, 240, 240 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     
+    // Vertical axis properties
     private static final double AXIS_X_MARGIN = 10;
     private static final double AXIS_Y_MARGIN = 10;
     private static final double AXIS_LABEL_SPACING = 3;
@@ -85,6 +92,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     private static final Dimension AXIS_ARROW_SIZE = new Dimension( 13, 13 );
     private static final String AXIS_FONT_SIZE_RESOURCE = "energyDiagram.font.size";
     
+    // Title bar properties
     private static final Color TITLE_BAR_COLOR = Color.GRAY;
     private static final Color TITLE_COLOR = Color.WHITE;
     private static final double TITLE_BAR_X_MARGIN = 6;
@@ -95,18 +103,26 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractHydrogenAtom _atom;
-    private ElectronNode _electronNode;
-    private Rectangle2D _drawingArea; // area that subclasses can draw in
-    private double[] _energies;
-    private PLayer _stateLayer;
-    private PLayer _squiggleLayer;
+    private AbstractHydrogenAtom _atom; // the atom this diagram is observing
+    private double[] _energies; // energy values for each of the electron's states
+    
+    private ElectronNode _electronNode; // move this node to indicate state
+    private PLayer _stateLayer; // add state indicators to this layer
+    private PLayer _squiggleLayer; // add squiggles to this layer
     private CloseButtonNode _closeButton;
+    
+    // area that subclasses can draw in without overlapping the vertical axis
+    private Rectangle2D _drawingArea;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * @param numberOfStates
+     * @param canvas
+     */
     public AbstractEnergyDiagram( int numberOfStates, PSwingCanvas canvas ) {
         super();
         
@@ -183,8 +199,19 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
             clipNode.addChild( p );
         }
         
+        // Calculate the energy values for all states
         _energies = calculateEnergies( numberOfStates );
     }
+    
+    //----------------------------------------------------------------------------
+    // Abstract
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Initializes the position of the electron.
+     * This is called each time the diagram's atom is set.
+     */
+    protected abstract void initElectronPosition();
     
     //----------------------------------------------------------------------------
     // Mutators and accessors
@@ -263,12 +290,6 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     }
     
     /**
-     * Initializes the position of the electron.
-     * This is called each time the diagram's atom is set.
-     */
-    protected abstract void initElectronPosition();
-    
-    /**
      * Gets the layer that contains all state indicators.
      * 
      * @param node
@@ -290,24 +311,39 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     // Energies
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the energy value for a specified state.
+     * @param state
+     * @return double
+     */
     protected double getEnergy( int state ) {
         return _energies[ state - 1 ];
     }
     
-    private double[] calculateEnergies( int numberOfStates ) {
+    /*
+     * Calculates the energy values for a specified number of states.
+     * Optional distortion is applied to increase the space between
+     * energy values so that they don't overlap when displayed.
+     * 
+     * @param numberOfStates
+     * @param distortionFactor
+     */
+    private static double[] calculateEnergies( int numberOfStates ) {
         
-        double E[] = new double[ numberOfStates ];
+        // Calculate energies
+        double E[] = new double[numberOfStates];
         for ( int i = 0; i < E.length; i++ ) {
             int n = i + 1;
             E[i] = E1 / ( n * n );
         }
-        
-        if ( DISTORT_ENERGY_LEVELS ) {
+
+        // Apply distortion
+        if ( DISTORTION_FACTOR > 0 ) {
             for ( int i = 1; i < E.length - 1; i++ ) {
-                E[i] = E[i] * DISTORTION_FACTOR;
+                E[i] = E[i] * ( 1 + DISTORTION_FACTOR );
             }
         }
-        
+
         return E;
     }
     
@@ -315,6 +351,9 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     // Node creation
     //----------------------------------------------------------------------------
     
+    /*
+     * Creates a vertical line that represents a state.
+     */
     protected static PNode createStateLineNode() {
         PPath lineNode = new PPath( new Line2D.Double( 0, 0, LINE_LENGTH, 0 ) );
         lineNode.setStroke( LINE_STROKE );
@@ -322,6 +361,9 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         return lineNode;
     }
     
+    /*
+     * Creates a label for a specified primary state (n).
+     */
     protected static PNode createStateLabelNode( int state ) {
         Object[] args = new Object[] { new Integer( state ) };
         String label = MessageFormat.format( LABEL_FORMAT, args );
@@ -331,6 +373,9 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         return labelNode;
     }
     
+    /*
+     * Creates the vertical energy axis.
+     */
     private static PNode createAxisNode( double height, Font font ) {
         
         // Vertical line -- origin at upper left
