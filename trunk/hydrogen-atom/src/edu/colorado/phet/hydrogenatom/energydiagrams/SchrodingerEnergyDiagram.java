@@ -183,7 +183,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
             double y1 = getYOffset( _nPrevious );
             double x2 = getXOffset( l ) + ( LINE_LENGTH / 2 );
             double y2 = getYOffset( n );
-            _squiggle = new EnergySquiggle( x1, y1, x2, y2, wavelength, SQUIGGLE_STROKE );
+            _squiggle = new EnergySquiggle( x1, y1, x2, y2, wavelength );
             getSquiggleLayer().addChild( _squiggle );
             
             // Remember electron's state
