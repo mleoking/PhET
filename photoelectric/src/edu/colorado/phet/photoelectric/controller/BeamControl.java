@@ -11,16 +11,19 @@
 package edu.colorado.phet.photoelectric.controller;
 
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.util.SwingThreadModelListener;
-import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.control.IntensitySlider;
 import edu.colorado.phet.control.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
 import edu.colorado.phet.quantum.model.Beam;
@@ -29,6 +32,8 @@ import edu.colorado.phet.quantum.model.PhotonSource;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * BeamControl
@@ -58,12 +63,16 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
     public static class Mode {
         private Mode() {
         }
-
-        ;
     }
 
     public static final Mode INTENSITY = new Mode();
     public static final Mode RATE = new Mode();
+    private static Map MODE_TO_SLIDER_TITLE = new HashMap();
+
+    static {
+        MODE_TO_SLIDER_TITLE.put( INTENSITY, SimStrings.get( "BeamControl.intensity" ) );
+        MODE_TO_SLIDER_TITLE.put( RATE, SimStrings.get( "BeamControl.photonRate" ) );
+    }
 
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
@@ -71,6 +80,7 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
 
     private ApparatusPanel apparatusPanel;
     private IntensitySlider intensitySlider;
+    private PhetTextGraphic2 sliderTitle;
 
     private Point intensitySliderRelLoc = new Point( 68, 28 );
     private Dimension intensitySliderSize = new Dimension( 142, 16 );
@@ -81,7 +91,6 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
     private Dimension spectrumSize = new Dimension( 145, 19 );
     private SpectrumSliderWithReadout wavelengthSlider;
     private Beam beam;
-    private double maximumRate;
     private boolean selfUpdating;
     private Mode mode;
 
@@ -99,7 +108,6 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
                         Beam beam, double maximumRate ) {
         this.apparatusPanel = apparatusPanel;
         this.beam = beam;
-        this.maximumRate = maximumRate;
 
         // The background panel
         PhetImageGraphic panelGraphic = new PhetImageGraphic( apparatusPanel,
@@ -191,6 +199,8 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
         this.mode = mode;
         intesitySliderChangeListener.stateChanged( new ChangeEvent( beam ) );
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
+
+        setSliderTitle( mode );
     }
 
     public Mode getMode() {
@@ -203,6 +213,29 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
 
     public void removeChangeListener( ChangeListener listener ) {
         changeEventChannel.removeListener( listener );
+    }
+
+    /**
+     * Sets the text above the slider to a string approriate for the beam control's mode
+     *
+     * @param mode
+     */
+    private void setSliderTitle( Mode mode ) {
+        if( sliderTitle != null ) {
+            removeGraphic( sliderTitle );
+        }
+        Font font = new Font( LaserConfig.DEFAULT_CONTROL_FONT.getName(),
+                              LaserConfig.DEFAULT_CONTROL_FONT.getStyle(),
+                              LaserConfig.DEFAULT_CONTROL_FONT.getSize() + 4 );
+        String text = (String)MODE_TO_SLIDER_TITLE.get( mode );
+        sliderTitle = new PhetTextGraphic2( apparatusPanel, font, text, Color.white );
+
+        // Center the title over the slider. Note the "10" needed to jimmy this into place
+        FontMetrics fm = apparatusPanel.getFontMetrics( font );
+        int width = fm.stringWidth( text );
+        sliderTitle.setLocation( (int)( intensitySliderRelLoc.getX() + intensitySliderSize.width / 2 - width / 2 + 10),
+                                 (int)( intensitySliderRelLoc.getY() - sliderTitle.getHeight() - 20 ) );
+        addGraphic( sliderTitle );
     }
 
     //----------------------------------------------------------------

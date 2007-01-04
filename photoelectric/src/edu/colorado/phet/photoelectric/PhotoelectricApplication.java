@@ -75,17 +75,18 @@ public class PhotoelectricApplication extends PhetApplication {
         } );
         optionsMenu.add( photonMI );
 
-        {
-            ButtonGroup bg = new ButtonGroup();
-            JRadioButtonMenuItem beamRateRB = new JRadioButtonMenuItem( new BeamControlModeAction( photoelectricModule.getBeamControl(), BeamControl.RATE, SimStrings.get( "Options.photonsPerSecond" ) ) );
-            JRadioButtonMenuItem intensityRB = new JRadioButtonMenuItem( new BeamControlModeAction( photoelectricModule.getBeamControl(), BeamControl.INTENSITY, SimStrings.get( "Options.intensity" ) ));
-            bg.add( beamRateRB );
-            bg.add( intensityRB );
-            intensityRB.setSelected( true );
-            optionsMenu.add( new JSeparator( ));
-            optionsMenu.add( beamRateRB );
-            optionsMenu.add( intensityRB );
-        }
+        final JCheckBoxMenuItem beamRateMI = new JCheckBoxMenuItem( SimStrings.get( "Options.photonsPerSecond" ) );
+        beamRateMI.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( beamRateMI.isSelected() ) {
+                    photoelectricModule.getBeamControl().setMode( BeamControl.RATE );
+                }
+                else {
+                    photoelectricModule.getBeamControl().setMode( BeamControl.INTENSITY );
+                }
+            }
+        } );
+        optionsMenu.add( beamRateMI );
 
         getPhetFrame().addMenu( optionsMenu );
     }
