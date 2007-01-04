@@ -141,6 +141,9 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
     // private
     //----------------------------------------------------------------------------
     
+    /*
+     * Updates the squiggle to show a state change.
+     */
     private void updateSquiggle() {
 
         // remove any existing squiggle
