@@ -17,6 +17,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantum.model.Beam;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
+import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
@@ -95,7 +96,7 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
         // If the beam control is in INTENSITY mode, we need to make the readout value
         // reflect that
         if( mode == BeamControl.INTENSITY ) {
-            value *= PhotoelectricConfig.MAX_WAVELENGTH / beam.getWavelength() ;
+            value = PhotoelectricModelUtil.photonRateToIntensity( value, beam.getWavelength() );
         }
         readout.setText( format.format( value ));
     }

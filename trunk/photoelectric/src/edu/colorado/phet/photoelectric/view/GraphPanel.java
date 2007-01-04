@@ -16,9 +16,9 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import java.awt.*;
 
 /**
- * CurrentVsVoltageGraphPanel
+ * GraphPanel
  * <p/>
- * An ApparatusPanel2 that contains a CurrentVsVoltageGraph, for putting in Swing
+ * An ApparatusPanel2 that contains a PhotoelectricGraph instance, for putting in Swing
  * Containters
  *
  * @author Ron LeMaster
@@ -28,7 +28,6 @@ public class GraphPanel extends ApparatusPanel2 {
     private PhotoelectricGraph graph;
 
     public GraphPanel( IClock clock ) {
-//    public GraphPanel( AbstractClock clock ) {
         super( clock );
         setUseOffscreenBuffer( true );
         setDisplayBorder( false );
@@ -44,5 +43,9 @@ public class GraphPanel extends ApparatusPanel2 {
 
     public void clearGraph() {
         graph.clearData();
+    }
+
+    public PhotoelectricGraph getGraph() {
+        return graph;
     }
 }

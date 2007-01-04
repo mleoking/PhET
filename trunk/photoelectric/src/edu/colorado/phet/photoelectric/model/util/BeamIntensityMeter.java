@@ -11,7 +11,6 @@
 package edu.colorado.phet.photoelectric.model.util;
 
 import edu.colorado.phet.common.model.clock.IClock;
-//import edu.colorado.phet.common.model.clock.AbstractClock;
 
 /**
  * BeamIntensityMeter
@@ -25,7 +24,6 @@ public class BeamIntensityMeter extends ScalarDataRecorder {
     private int simulationTimeWindow = 1000;
 
     public BeamIntensityMeter( IClock clock ) {
-//    public BeamIntensityMeter( AbstractClock clock ) {
         super( clock );
         super.setTimeWindow( simulationTimeWindow );
         super.setClientUpdateInterval( clientUpdateInterval );

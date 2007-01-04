@@ -19,7 +19,7 @@ import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
 import edu.colorado.phet.photoelectric.model.SimpleEnergyAbsorptionStrategy;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
-import edu.colorado.phet.photoelectric.view.GraphPanel2;
+import edu.colorado.phet.photoelectric.view.CompositeGraphPanel;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -111,7 +111,7 @@ public class PhotoelectricControlPanel {
         //----------------------------------------------------------------
         // Graph options
         //----------------------------------------------------------------
-        controlPanel.addControlFullWidth( new GraphPanel2( module ) );
+        controlPanel.addControlFullWidth( new CompositeGraphPanel( module ) );
     }
 
     /**

@@ -22,6 +22,7 @@ import edu.colorado.phet.control.IntensitySlider;
 import edu.colorado.phet.control.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
+import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
 import edu.colorado.phet.quantum.model.Beam;
 import edu.colorado.phet.quantum.model.PhotonSource;
 
@@ -145,8 +146,6 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
                                                               wavelengthSlider.getValue(),
                                                               PhotoelectricConfig.MAX_WAVELENGTH );
                         beam.setWavelength( (int)( wavelength ) );
-
-                        // If we're in INTENSITY mode, we need to change the beam rate
                         intesitySliderChangeListener.stateChanged( new ChangeEvent( beam ) );
                     }
                 } );
@@ -232,7 +231,7 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
                     // If we're in intensity mode, then the photons/sec is proportional to
                     // the energy of each photon
                     if( mode == INTENSITY ) {
-                        value *= beam.getWavelength() / PhotoelectricConfig.MAX_WAVELENGTH;
+                        value = (int)PhotoelectricModelUtil.intensityToPhotonRate( value, beam.getWavelength() );
                     }
                     beam.setPhotonsPerSecond( value );
                     selfUpdating = false;
