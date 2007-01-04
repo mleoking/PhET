@@ -45,6 +45,7 @@ public class ControlGraph extends PNode {
     private ArrayList listeners = new ArrayList();
     private JFreeChart jFreeChart;
     private int minDomainValue = 1000;
+    private double ZOOM_FRACTION = 1.1;
 
     public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double min, double max ) {
         this( pSwingCanvas, simulationVariable, abbr, title, min, max, Color.black, new PText( "THUMB" ) );
@@ -59,6 +60,7 @@ public class ControlGraph extends PNode {
         jFreeChart.setTitle( (String)null );
         jFreeChart.getXYPlot().getRangeAxis().setRange( min, max );
         jFreeChart.getXYPlot().getDomainAxis().setRange( 0, minDomainValue );
+//        jFreeChart.getXYPlot().getRangeAxis().setTickLabelsVisible( false );
         jFreeChart.setBackgroundPaint( null );
 
         jFreeChartNode = new JFreeChartNode( jFreeChart );
@@ -69,20 +71,20 @@ public class ControlGraph extends PNode {
         zoomControl = new ZoomSuiteNode();
         zoomControl.addVerticalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
-                zoomVertical( 1.1 );
+                zoomVertical( ZOOM_FRACTION );
             }
 
             public void zoomedIn() {
-                zoomVertical( 1.0 / 1.1 );
+                zoomVertical( 1.0 / ZOOM_FRACTION );
             }
         } );
         zoomControl.addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
-                zoomHorizontal( 1.1 );
+                zoomHorizontal( ZOOM_FRACTION );
             }
 
             public void zoomedIn() {
-                zoomHorizontal( 1.0 / 1.1 );
+                zoomHorizontal( 1.0 / ZOOM_FRACTION );
             }
         } );
 
@@ -120,6 +122,10 @@ public class ControlGraph extends PNode {
         updateZoomEnabled();
     }
 
+    public void addHorizontalZoomListener( ZoomControlNode.ZoomListener zoomListener ) {
+        zoomControl.addHorizontalZoomListener( zoomListener );
+    }
+
     private void zoomHorizontal( double v ) {
         double currentValue = jFreeChart.getXYPlot().getDomainAxis().getUpperBound();
         double newValue = currentValue * v;
@@ -146,6 +152,15 @@ public class ControlGraph extends PNode {
         SeriesNode o = new SeriesNode( title + " " + "series_" + seriesNodes.size(), color, this );
         seriesNodes.add( o );
         seriesLayer.addChild( o );
+    }
+
+    public double getMaxDataX() {
+        return jFreeChart.getXYPlot().getDomainAxis().getUpperBound();
+    }
+
+    public void setDomainUpperBound( double maxDataX ) {
+        jFreeChart.getXYPlot().getDomainAxis().setUpperBound( maxDataX );
+        updateZoomEnabled();
     }
 
     private static class SeriesNode extends PNode {
