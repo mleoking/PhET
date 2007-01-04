@@ -66,14 +66,20 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
     }
     
     //----------------------------------------------------------------------------
-    // AbstractEnergyDiagram implementation
+    // Superclass overrides
     //----------------------------------------------------------------------------
     
     /**
+     * Sets the atom associated with the diagram.
      * Initializes the electron's position, based on it's current state.
+     * 
+     * @param atom
      */
-    protected void initElectronPosition() {
-        updateElectronPosition();
+    public void setAtom( AbstractHydrogenAtom atom ) {
+        super.setAtom( atom );
+        if ( atom != null ) {
+            updateElectronPosition();
+        }
     }
     
     //----------------------------------------------------------------------------

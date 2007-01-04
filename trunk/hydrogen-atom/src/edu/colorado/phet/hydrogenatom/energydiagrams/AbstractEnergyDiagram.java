@@ -175,6 +175,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         
         // Electron
         _electronNode = new ElectronNode();
+        _electronNode.setVisible( false );
 
         // Layering
         clipNode.addChild( axisNode );
@@ -204,16 +205,6 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     }
     
     //----------------------------------------------------------------------------
-    // Abstract
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Initializes the position of the electron.
-     * This is called each time the diagram's atom is set.
-     */
-    protected abstract void initElectronPosition();
-    
-    //----------------------------------------------------------------------------
     // Mutators and accessors
     //----------------------------------------------------------------------------
     
@@ -230,14 +221,13 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
      * Sets the atom that is associated with this diagram.
      * If the diagram is visible, start observing the atom.
      * 
-     * @param atom
+     * @param atom the atom associate with the diagram, possibly null
      */
     public void setAtom( AbstractHydrogenAtom atom ) {
-        assert( atom.getGroundState() == 1 ); // n=1 must be the ground state
         clearAtom();
+        _electronNode.setVisible( atom != null );
         if ( atom != null ) {
             _atom = atom;
-            initElectronPosition();
             _atom.addObserver( this );
             update( _atom, AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE );
         }
@@ -251,6 +241,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
             _atom.deleteObserver( this );
             _atom = null;
         }
+        _electronNode.setVisible( false );
     }
     
     /**

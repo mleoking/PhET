@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
@@ -66,16 +65,22 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
     //----------------------------------------------------------------------------
 
     /**
-     * Initialized the position of the electron.
+     * Sets the atom associated with the diagram.
+     * Initializes the position of the electron.
      * For the Solar System model, the electron starts at the top of the diagram.
+     * 
+     * @param atom
      */
-    protected void initElectronPosition() {
-        ElectronNode electronNode = getElectronNode();
-        Rectangle2D drawingArea = getDrawingArea();
-        PBounds electronBounds = electronNode.getFullBounds();
-        double x = drawingArea.getX() + ( electronBounds.getWidth() / 2 ) + X_MARGIN;
-        double y = drawingArea.getY() + ( electronBounds.getHeight() / 2 ) + Y_MARGIN;
-        electronNode.setOffset( x, y );
+    public void setAtom( AbstractHydrogenAtom atom ) {
+        super.setAtom( atom );
+        if ( atom != null ) {
+            ElectronNode electronNode = getElectronNode();
+            Rectangle2D drawingArea = getDrawingArea();
+            PBounds electronBounds = electronNode.getFullBounds();
+            double x = drawingArea.getX() + ( electronBounds.getWidth() / 2 ) + X_MARGIN;
+            double y = drawingArea.getY() + ( electronBounds.getHeight() / 2 ) + Y_MARGIN;
+            electronNode.setOffset( x, y );
+        }
     }
     
     //----------------------------------------------------------------------------
