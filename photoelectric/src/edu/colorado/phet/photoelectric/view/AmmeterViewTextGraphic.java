@@ -32,11 +32,6 @@ public class AmmeterViewTextGraphic extends PhetTextGraphic {
 
     public AmmeterViewTextGraphic( Component component, final Ammeter ammeter ) {
         super( component, font, "Current", Color.black );
-//        currentLabel = new PhetTextGraphic( component, font, "Current", Color.black );
-//        currentTF = new PhetTextGraphic( component, font, "0.0000", Color.black );
-//        currentTF.setLocation( 50, 0 );
-//        this.addGraphic( currentLabel );
-//        this.addGraphic( currentTF );
 
         ammeter.addUpdateListener( new ScalarDataRecorder.UpdateListener() {
             public void update( ScalarDataRecorder.UpdateEvent event ) {
