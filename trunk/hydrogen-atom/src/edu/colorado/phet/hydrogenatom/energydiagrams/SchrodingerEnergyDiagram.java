@@ -27,24 +27,52 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements Observer {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // Margins inside the drawing area
     private static final double X_MARGIN = 10;
     private static final double Y_MARGIN = 10;
     
     private static final double LINE_LINE_SPACING = 10;
     private static final double LINE_LABEL_SPACING = 10;
-
-    private double _lHeight;
     
+    private static final double L_LABEL_VALUE_SPACING = 2;
+
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private double _lWidth, _lHeight;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * @param canvas
+     */
     public SchrodingerEnergyDiagram( PSwingCanvas canvas ) {
         super( SchrodingerModel.getNumberOfStates(), canvas );
         
         assert( SchrodingerModel.getGroundState() == 1 ); // n=1 must be ground state
         assert( SchrodingerModel.getNumberOfStates() == 6 ); // 6 states
+        
+        Rectangle2D drawingArea = getDrawingArea();
+        
+        PText lLabelNode = new PText( "l=" );
+        lLabelNode.setFont( LABEL_FONT );
+        lLabelNode.setTextPaint( LABEL_COLOR );
+        lLabelNode.setOffset( drawingArea.getX() + X_MARGIN, drawingArea.getY() + Y_MARGIN );
+        getStateLayer().addChild( lLabelNode );
+        _lWidth = lLabelNode.getWidth();
+        _lHeight = lLabelNode.getHeight();
 
-        PNode lNode = createLNode();
-        lNode.setOffset( getDrawingArea().getX() + X_MARGIN, Y_MARGIN );
+        PNode lNode = createLValuesNode();
+        lNode.setOffset( drawingArea.getX() + X_MARGIN + _lWidth + L_LABEL_VALUE_SPACING, drawingArea.getY() + Y_MARGIN );
         getStateLayer().addChild( lNode );
-        _lHeight = lNode.getFullBounds().getHeight();
         
         for ( int n = 1; n <= SchrodingerModel.getNumberOfStates(); n++ ) { 
             PNode levelNode = createNNode( n );
@@ -55,10 +83,27 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         }
     }
     
+    //----------------------------------------------------------------------------
+    // AbstractEnergyDiagram implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Initializes the electron's position, based on it's current state.
+     */
     protected void initElectronPosition() {
         updateElectronPosition();
     }
     
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the view to match the model.
+     * 
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
         if ( o instanceof BohrModel ) {
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {
@@ -67,6 +112,14 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         }
     }
     
+    //----------------------------------------------------------------------------
+    // private
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the position of the electron in the diagram
+     * to match the electron's (n,l) state.
+     */
     private void updateElectronPosition() {
         SchrodingerModel atom = (SchrodingerModel) getAtom();
         ElectronNode electronNode = getElectronNode();
@@ -77,10 +130,26 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         electronNode.setOffset( x, y );
     }
     
+    /*
+     * Gets the x-offset that corresponds to a specified state.
+     * Horizontal position is based on the electron's secondary state (l).
+     * This is used for positioning both the state lines and the electron.
+     * 
+     * @param state
+     * @return double
+     */
     protected double getXOffset( int l ) {
-        return getDrawingArea().getX() + X_MARGIN + ( l * LINE_LENGTH ) + ( l * LINE_LINE_SPACING );
+        return getDrawingArea().getX() + X_MARGIN + _lWidth + L_LABEL_VALUE_SPACING + ( l * LINE_LENGTH ) + ( l * LINE_LINE_SPACING );
     }
     
+    /*
+     * Gets the y-offset that corresponds to a specific state.
+     * Vertical position is based on the electron's primary state (n).
+     * This is used for positioning both the state lines and the electron.
+     * 
+     * @param state
+     * @return double
+     */
     protected double getYOffset( int n ) {
         final double minE = getEnergy( 1 );
         final double maxE = getEnergy( BohrModel.getNumberOfStates() );
@@ -92,17 +161,19 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         return y;
     }
     
-    private static PNode createLNode() {
+    /*
+     * Creates a node that displays the various value of the secondary state (l).
+     * The values are spaced out horizontally so that they are centered above
+     * the lines that represent states.
+     * 
+     * @param state
+     * @return PNode
+     */
+    private static PNode createLValuesNode() {
         
         final int numberOfStates = SchrodingerModel.getNumberOfStates();
         
         PComposite parentNode = new PComposite();
-        
-        PText labelNode = new PText( "l=");
-        labelNode.setFont( LABEL_FONT );
-        labelNode.setTextPaint( LABEL_COLOR );
-        parentNode.addChild( labelNode );
-        labelNode.setOffset( -labelNode.getWidth(), 0 );
         
         for ( int l = 0; l < numberOfStates; l++ ) {
             PText valueNode = new PText( String.valueOf( l ) );
@@ -115,6 +186,16 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         return parentNode;
     }
     
+    /*
+     * Creates a node that represents the possible electron states for 
+     * some value of the electron's primary state (n).  State n has n 
+     * possible secondary states.  Each of these possible states is 
+     * represented as a horizontal line, and the lines are arranged 
+     * horizontally.
+     * 
+     * @param state
+     * @return PNode
+     */
     private static PNode createNNode( int state ) {
         
         final int numberOfStates = SchrodingerModel.getNumberOfStates();
