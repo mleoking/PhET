@@ -655,25 +655,32 @@ public class HAModule extends PiccoloModule {
             if ( atomicModel == AtomicModel.BILLIARD_BALL ) {
                 _atomModel = new BilliardBallModel( position );
             }
-            else if ( atomicModel == AtomicModel.BOHR ) {
-                _atomModel = new BohrModel( position );
-                _bohrEnergyDiagram.setAtom( _atomModel );
-            }
-            else if ( atomicModel == AtomicModel.DEBROGLIE ) {
-                _atomModel = new DeBroglieModel( position );
-                _deBroglieEnergyDiagram.setAtom( _atomModel );
-            }
             else if ( atomicModel == AtomicModel.PLUM_PUDDING ) {
                 _atomModel = new PlumPuddingModel( position );
             }
-            else if ( atomicModel == AtomicModel.SCHRODINGER ) {
-                _atomModel = new SchrodingerModel( position );
-                _schrodingerEnergyDiagram.setAtom( _atomModel );
-                _metastableHandler = new MetastableHandler( getClock(), _model.getGun(), (SchrodingerModel)_atomModel );
-            }
             else if ( atomicModel == AtomicModel.SOLAR_SYSTEM ) {
-                _atomModel = new SolarSystemModel( position );
-                _solarSystemEnergyDiagram.setAtom( _atomModel );
+                SolarSystemModel solarSystemModel = new SolarSystemModel( position );
+                _atomModel = solarSystemModel;
+                _solarSystemEnergyDiagram.setAtom( solarSystemModel );
+            }
+            else if ( atomicModel == AtomicModel.BOHR ) {
+                BohrModel bohrModel = new BohrModel( position );
+                _atomModel = bohrModel;
+                _bohrEnergyDiagram.setAtom( bohrModel );
+            }
+            else if ( atomicModel == AtomicModel.DEBROGLIE ) {
+                DeBroglieModel deBroglieModel = new DeBroglieModel( position );
+                _atomModel = deBroglieModel;
+                _deBroglieEnergyDiagram.setAtom( deBroglieModel );
+            }
+            else if ( atomicModel == AtomicModel.SCHRODINGER ) {
+                SchrodingerModel schrodingerModel = new SchrodingerModel( position );
+                _atomModel = schrodingerModel;
+                _schrodingerEnergyDiagram.setAtom( schrodingerModel );
+                _metastableHandler = new MetastableHandler( getClock(), _model.getGun(), schrodingerModel );
+            }
+            else { 
+                throw new UnsupportedOperationException( "unsupported atom model: " + atomicModel );
             }
         }
         
