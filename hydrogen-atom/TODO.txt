@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add arrow and sinusoidal shape to squiggles
+- make squiggles go away after N seconds
 - flatten static parts of energy diagram to an image
 - get requirements for gun color squiggle in energy digrams
 - clean up class hierarchy of energy diagrams
@@ -40,6 +40,8 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/4/06) - add arrow and sinusoidal shape to squiggles
+(1/4/06) - align squiggle with center of state line
 (1/4/05) - add some missing stuff to HADefaults, document values for public release
 (1/4/05) - get absorption and emission squiggles working as solid straight lines that persist
 (1/4/05) - move setAtom and clearAtom out of energy diagram base class to eliminate need for casting

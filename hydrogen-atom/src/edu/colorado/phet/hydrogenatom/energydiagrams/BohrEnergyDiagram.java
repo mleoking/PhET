@@ -164,12 +164,11 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
                 // a photon has been emitted
                 wavelength = BohrModel.getWavelengthAbsorbed( n, _nPrevious );
             }
-            Color color = ColorUtils.wavelengthToColor( wavelength );
-            double x1 = getXOffset( _nPrevious );
+            double x1 = getXOffset( _nPrevious ) + ( LINE_LENGTH / 2 );
             double y1 = getYOffset( _nPrevious );
-            double x2 = getXOffset( n );
+            double x2 = getXOffset( n ) + ( LINE_LENGTH / 2 );
             double y2 = getYOffset( n );
-            _squiggle = new EnergySquiggle( x1, y1, x2, y2, color, SQUIGGLE_STROKE );
+            _squiggle = new EnergySquiggle( x1, y1, x2, y2, wavelength, SQUIGGLE_STROKE );
             getSquiggleLayer().addChild( _squiggle );
             
             // Remember electron's state
