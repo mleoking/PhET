@@ -43,6 +43,14 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
     private static final double LINE_LABEL_SPACING = 10;
     
     //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private BohrModel _atom;
+    private EnergySquiggle _squiggle;
+    private int _previousState;
+    
+    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
@@ -66,7 +74,7 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
     }
     
     //----------------------------------------------------------------------------
-    // Superclass overrides
+    // Mutators and accessors
     //----------------------------------------------------------------------------
     
     /**
@@ -75,11 +83,35 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
      * 
      * @param atom
      */
-    public void setAtom( AbstractHydrogenAtom atom ) {
-        super.setAtom( atom );
+    public void setAtom( BohrModel atom ) {
+
+        if ( _atom != null ) {
+            // remove association with existing atom
+            _atom.deleteObserver( this );
+            _atom = null;
+        }
+        
+        // Electron is invisible if there is no associated atom
+        ElectronNode electronNode = getElectronNode();
+        electronNode.setVisible( atom != null );
+        
         if ( atom != null ) {
+            
+            // observe the atom
+            _atom = atom;
+            _atom.addObserver( this );
+
+            // Set electron's initial position
+            _previousState = ((BohrModel)atom).getElectronState();
             updateElectronPosition();
         }
+    }
+    
+    /**
+     * Removes the association between this diagram and any atom.
+     */
+    public void clearAtom() {
+        setAtom( null );
     }
     
     //----------------------------------------------------------------------------
@@ -109,9 +141,8 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
      * to match the electron's state.
      */
     private void updateElectronPosition() {
-        BohrModel atom = (BohrModel) getAtom();
         ElectronNode electronNode = getElectronNode();
-        final int n = atom.getElectronState();
+        final int n = _atom.getElectronState();
         final double x = getXOffset( n ) + ( LINE_LENGTH / 2 );
         final double y = getYOffset( n ) - ( electronNode.getFullBounds().getHeight() / 2 );
         electronNode.setOffset( x, y );

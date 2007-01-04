@@ -103,7 +103,6 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractHydrogenAtom _atom; // the atom this diagram is observing
     private double[] _energies; // energy values for each of the electron's states
     
     private ElectronNode _electronNode; // move this node to indicate state
@@ -205,44 +204,8 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     }
     
     //----------------------------------------------------------------------------
-    // Mutators and accessors
+    // Public mutators and accessors
     //----------------------------------------------------------------------------
-    
-    /**
-     * Gets the atom that is associated with this diagram.
-     * 
-     * @return AbstractHydrogenAtom
-     */
-    protected AbstractHydrogenAtom getAtom() {
-        return _atom;
-    }
-    
-    /**
-     * Sets the atom that is associated with this diagram.
-     * If the diagram is visible, start observing the atom.
-     * 
-     * @param atom the atom associate with the diagram, possibly null
-     */
-    public void setAtom( AbstractHydrogenAtom atom ) {
-        clearAtom();
-        _electronNode.setVisible( atom != null );
-        if ( atom != null ) {
-            _atom = atom;
-            _atom.addObserver( this );
-            update( _atom, AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE );
-        }
-    }
-    
-    /**
-     * Removes the association between this diagram and any atom.
-     */
-    public void clearAtom() {
-        if ( _atom != null ) {
-            _atom.deleteObserver( this );
-            _atom = null;
-        }
-        _electronNode.setVisible( false );
-    }
     
     /**
      * Adds a listener to the close button.
@@ -261,6 +224,10 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     public void removeCloseListener( ActionListener listener ) {
         _closeButton.removeActionListener( listener );
     }
+    
+    //----------------------------------------------------------------------------
+    // Protected mutators and accessors
+    //----------------------------------------------------------------------------
     
     /**
      * Gets the Piccolo node that represents the electron.

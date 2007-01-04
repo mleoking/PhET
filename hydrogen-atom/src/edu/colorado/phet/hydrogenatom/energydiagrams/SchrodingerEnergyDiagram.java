@@ -44,6 +44,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
     // Instance data
     //----------------------------------------------------------------------------
     
+    private SchrodingerModel _atom;
     private double _lWidth, _lHeight;
     
     //----------------------------------------------------------------------------
@@ -84,7 +85,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
     }
     
     //----------------------------------------------------------------------------
-    // AbstractEnergyDiagram implementation
+    // Mutators and accessors
     //----------------------------------------------------------------------------
     
     /**
@@ -93,11 +94,34 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
      * 
      * @param atom
      */
-    public void setAtom( AbstractHydrogenAtom atom ) {
-        super.setAtom( atom );
+    public void setAtom( SchrodingerModel atom ) {
+        
+        if ( _atom != null ) {
+            // remove association with existing atom
+            _atom.deleteObserver( this );
+            _atom = null;
+        }
+        
+        // Electron is invisible if there is no associated atom
+        ElectronNode electronNode = getElectronNode();
+        electronNode.setVisible( atom != null );
+        
         if ( atom != null ) {
+            
+            // observe the atom
+            _atom = atom;
+            _atom.addObserver( this );
+
+            // Set electron's initial position
             updateElectronPosition();
         }
+    }
+    
+    /**
+     * Removes the association between this diagram and any atom.
+     */
+    public void clearAtom() {
+        setAtom( null );
     }
     
     //----------------------------------------------------------------------------
@@ -127,10 +151,9 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
      * to match the electron's (n,l) state.
      */
     private void updateElectronPosition() {
-        SchrodingerModel atom = (SchrodingerModel) getAtom();
         ElectronNode electronNode = getElectronNode();
-        final int n = atom.getElectronState();
-        final int l = atom.getSecondaryElectronState();
+        final int n = _atom.getElectronState();
+        final int l = _atom.getSecondaryElectronState();
         final double x = getXOffset( l ) + ( LINE_LENGTH / 2 );
         final double y = getYOffset( n ) - ( electronNode.getFullBounds().getHeight() / 2 );
         electronNode.setOffset( x, y );
