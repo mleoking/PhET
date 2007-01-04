@@ -98,7 +98,7 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
     // private
     //----------------------------------------------------------------------------
     
-    /**
+    /*
      * Updates the position of the electron in the diagram
      * to match the electron's state.
      */
@@ -111,25 +111,25 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
         electronNode.setOffset( x, y );
     }
     
-    /**
+    /*
      * Gets the x-offset that corresponds to a specified state.
      * This is used for positioning both the state lines and the electron.
      * 
      * @param state
      * @return double
      */
-    protected double getXOffset( int state ) {
+    private double getXOffset( int state ) {
         return getDrawingArea().getX() + X_MARGIN;
     }
     
-    /**
+    /*
      * Gets the y-offset that corresponds to a specific state.
      * This is used for positioning both the state lines and the electron.
      * 
      * @param state
      * @return double
      */
-    protected double getYOffset( int state ) {
+    private double getYOffset( int state ) {
         final double minE = getEnergy( 1 );
         final double maxE = getEnergy( BohrModel.getNumberOfStates() );
         final double rangeE = maxE - minE;
@@ -139,13 +139,13 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
         return y;
     }
     
-    /**
+    /*
      * Creates a node that represents a state (or level) of the electron.
      * This node consists of a horizontal line with an "n=" label to the 
      * right of the line.
      * 
      * @param state
-     * @return
+     * @return PNode
      */
     private static PNode createStateNode( int state ) {
         
