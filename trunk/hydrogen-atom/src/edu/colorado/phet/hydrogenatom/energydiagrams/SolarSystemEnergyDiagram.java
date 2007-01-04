@@ -19,6 +19,7 @@ import java.util.Observer;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
@@ -36,6 +37,9 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
+    
+    // Distance between the electron and the vertical energy axis.
+    private static final double X_MARGIN = 15;
     
     // Distance between the electron's initial position and top of the diagram.
     private static final double Y_MARGIN = 10;
@@ -68,7 +72,8 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
     protected void initElectronPosition() {
         ElectronNode electronNode = getElectronNode();
         Rectangle2D drawingArea = getDrawingArea();
-        electronNode.setOffset( drawingArea.getX(), drawingArea.getY() + Y_MARGIN );
+        PBounds eb = electronNode.getFullBounds();
+        electronNode.setOffset( drawingArea.getX() + ( eb.getWidth() / 2 ) + X_MARGIN, drawingArea.getY() + ( eb.getHeight() / 2 ) + Y_MARGIN );
     }
     
     //----------------------------------------------------------------------------
