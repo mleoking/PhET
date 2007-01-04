@@ -21,11 +21,11 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 public class EnergySquiggle extends PPath {
 
-    public EnergySquiggle( Color color, Stroke stroke, Point2D p1, Point2D p2 ) {
-        this( color, stroke, p1.getX(), p1.getY(), p2.getX(), p2.getY() );
+    public EnergySquiggle( Point2D p1, Point2D p2, Color color, Stroke stroke ) {
+        this( p1.getX(), p1.getY(), p2.getX(), p2.getY(), color, stroke );
     }
     
-    public EnergySquiggle( Color color, Stroke stroke, double x1, double y1, double x2, double y2 ) {
+    public EnergySquiggle( double x1, double y1, double x2, double y2, Color color, Stroke stroke ) {
         super();
         setPathTo( new Line2D.Double( x1, y1, x2, y2 ) );
         setStroke( stroke );
