@@ -67,13 +67,15 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
 
     /**
      * Initialized the position of the electron.
-     * For the Solar System model, the electron to starts at the top of the diagram.
+     * For the Solar System model, the electron starts at the top of the diagram.
      */
     protected void initElectronPosition() {
         ElectronNode electronNode = getElectronNode();
         Rectangle2D drawingArea = getDrawingArea();
-        PBounds eb = electronNode.getFullBounds();
-        electronNode.setOffset( drawingArea.getX() + ( eb.getWidth() / 2 ) + X_MARGIN, drawingArea.getY() + ( eb.getHeight() / 2 ) + Y_MARGIN );
+        PBounds electronBounds = electronNode.getFullBounds();
+        double x = drawingArea.getX() + ( electronBounds.getWidth() / 2 ) + X_MARGIN;
+        double y = drawingArea.getY() + ( electronBounds.getHeight() / 2 ) + Y_MARGIN;
+        electronNode.setOffset( x, y );
     }
     
     //----------------------------------------------------------------------------
