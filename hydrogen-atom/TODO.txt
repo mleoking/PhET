@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - get requirements for gun color squiggle in energy digrams
 - clean up class hierarchy of energy diagrams
 - javadoc energy diagrams
-- fix overlap problems in energy diagrams (diagrams taller or distort energy levels)
 
 MEDIUM PRIORITY:
 - ask SM about SR's idea of spontaneously emitting 2 photons to get out of state (2,0,0)
