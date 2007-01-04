@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-
-- clean up layout of Schrodinger energy diagram
 - add absorption squiggle to energy diagrams
 - add emission squiggle to energy diagrams
 - get requirements for gun color squiggle in energy digrams
@@ -43,6 +41,8 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/3/06) - javadoc Schrodinger energy diagram
+(1/3/06) - clean up layout of Schrodinger energy diagram
 (1/3/06) - javadoc Bohr energy diagram
 (1/3/06) - clean up layout of Bohr energy diagram
 (1/3/06) - fix layout of y-axis label in energy diagram, falls off bottom
