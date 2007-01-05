@@ -107,6 +107,7 @@ public class LightTypeControl extends JPanel {
     
     public void setWhiteSelected( boolean selected ) {
         _whiteButton.setSelected( selected );
+        _monochromaticButton.setSelected( !selected );
     }
     
     public boolean isWhiteSelected() {
@@ -115,6 +116,7 @@ public class LightTypeControl extends JPanel {
     
     public void setMonochromaticSelected( boolean selected ) {
         _monochromaticButton.setSelected( selected );
+        _whiteButton.setSelected( !selected );
     }
     
     public boolean isMonochromaticSelected() {
