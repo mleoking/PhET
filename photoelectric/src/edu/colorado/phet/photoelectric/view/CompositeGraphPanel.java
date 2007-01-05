@@ -108,7 +108,8 @@ public class CompositeGraphPanel extends JPanel {
         final JLabel xAxisLabel = new JLabel( xLabel );
         final JButton zoomInBtn = new JButton( new ZoomInAction( new ImageIcon( zoomInImage), graphPanel.getGraph() ) );
         final JButton zoomOutBtn = new JButton( new ZoomOutAction( new ImageIcon( zoomOutImage), graphPanel.getGraph() ) );
-        final JButton snapshotBtn = new JButton( new SnapshotAction( new ImageIcon( snapshotBtnImage ), graphPanel ) );
+        final JButton snapshotBtn = new JButton( new SnapshotAction( new ImageIcon( snapshotBtnImage ), this ) );
+//        final JButton snapshotBtn = new JButton( new SnapshotAction( new ImageIcon( snapshotBtnImage ), graphPanel ) );
         cb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 graphPanel.setVisible( cb.isSelected() );
@@ -207,22 +208,26 @@ public class CompositeGraphPanel extends JPanel {
         }
     }
 
-    private class SnapshotAction extends AbstractAction {
-        private GraphPanel graphPanel;
+    private static class SnapshotAction extends AbstractAction {
+        private Component component;
+        Point nextLocation = new Point();
+        int subsequentSnapshotOffset = 30;
 
-        public SnapshotAction( Icon icon, GraphPanel graphPanel ) {
+        public SnapshotAction( Icon icon, Component component ) {
             super( "", icon );
-            this.graphPanel = graphPanel;
+            this.component = component;
         }
 
         public void actionPerformed( ActionEvent e ) {
-            Component component = CompositeGraphPanel.this;
             JDialog snapshotDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
             snapshotDlg.setResizable( false );
             Snapshot snapshot = new Snapshot( component );
             snapshotDlg.setContentPane( snapshot );
             snapshotDlg.pack();
             snapshotDlg.setVisible( true );
+            snapshotDlg.setLocation( nextLocation );
+            nextLocation.setLocation( nextLocation.getX() + subsequentSnapshotOffset,
+                                      nextLocation.getY() + subsequentSnapshotOffset );
         }
     }
 
