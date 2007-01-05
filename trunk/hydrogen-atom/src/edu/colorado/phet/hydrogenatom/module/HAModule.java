@@ -735,8 +735,10 @@ public class HAModule extends PiccoloModule {
     
     private void handleSpectrometerSnapshot() {
         
+        // increment the counter used to title the snapshots
         _spectrometerSnapshotsCounter++;
 
+        // create the snapshot title
         String title = SimStrings.get( "label.snapshot" ) + " " + _spectrometerSnapshotsCounter + ": ";
         if ( _modeSwitch.isPredictionSelected() ) {
             title += _atomicModelSelector.getSelectionName();
@@ -745,6 +747,7 @@ public class HAModule extends PiccoloModule {
             title += SimStrings.get( "title.spectrometer.experiment" );
         }
 
+        // create the snapshot's Piccolo node
         final SpectrometerSnapshotNode snapshotNode = _spectrometerNode.getSnapshot( title );
         snapshotNode.addCloseListener( new ActionListener() { 
             public void actionPerformed( ActionEvent event ) {
@@ -752,14 +755,27 @@ public class HAModule extends PiccoloModule {
                 _spectrometerSnapshotNodes.remove( snapshotNode );
             }
         } );
-        
         _rootNode.addChild( snapshotNode );
-        _spectrometerSnapshotNodes.add( snapshotNode );
 
+        // set the snapshot's position
         PBounds sb = _spectrometerNode.getFullBounds();
-        double x = sb.getX() - ( 10 * ( _spectrometerSnapshotNodes.size() - 1 ) );
-        double y = sb.getY() - snapshotNode.getFullBounds().getHeight() - 5 - ( 10 * ( _spectrometerSnapshotNodes.size() - 1 ) );
+        double x = 0;
+        double y = 0;
+        if ( _spectrometerSnapshotNodes.size() == 0 ) {
+            // first snapshot goes directly above spectrometer
+            x = sb.getX();
+            y = sb.getY() - snapshotNode.getFullBounds().getHeight() - 5;
+        }
+        else {
+            // overlap the most-recently created snapshot, slightly above and to the left 
+            PBounds fb = ((PNode)_spectrometerSnapshotNodes.get( _spectrometerSnapshotNodes.size() - 1 )).getFullBounds();
+            x = fb.getX() - 30; // far enough to the left that you can see the other snapshot's close button
+            y = fb.getY() - 20;
+        }
         snapshotNode.setOffset( x, y );
+        
+        // add to snapshot list *after* setting bounds
+        _spectrometerSnapshotNodes.add( snapshotNode );
     }
     
     //----------------------------------------------------------------------------
