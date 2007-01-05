@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - flatten static parts of energy diagram to an image
 - get requirements for gun color squiggle in energy digrams
-- clean up class hierarchy of energy diagrams
 
 MEDIUM PRIORITY:
 - ask SM about SR's idea of spontaneously emitting 2 photons to get out of state (2,0,0)
@@ -38,6 +37,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/5/06) - add developer control for time that squiggle is visible
 (1/5/06) - put m= in upper-right corner of Schrodinger energy diagram
 (1/5/06) - javadoc energy diagrams
 (1/5/06) - make squiggles go away after 1.5 seconds
