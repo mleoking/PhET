@@ -26,6 +26,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * EnergySquiggle is the squiggle line shown in the energy diagrams.
+ * A squiggle can be draw between any 2 points.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
