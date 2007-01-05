@@ -51,7 +51,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     //----------------------------------------------------------------------------
     
     // Squiggle
-    public static final double SQUIGGLE_LIFETIME = 1500; // milliseconds
+    public static double SQUIGGLE_LIFETIME = 1500; // milliseconds
     
     //----------------------------------------------------------------------------
     // Protected class data

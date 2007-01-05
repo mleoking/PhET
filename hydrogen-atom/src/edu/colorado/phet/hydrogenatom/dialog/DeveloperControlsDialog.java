@@ -29,6 +29,7 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.control.GunWavelengthControl;
 import edu.colorado.phet.hydrogenatom.control.SpinnerControl;
+import edu.colorado.phet.hydrogenatom.energydiagrams.AbstractEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.model.Gun;
@@ -79,7 +80,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     private static final Color COLOR_CHIP_BORDER_COLOR = Color.BLACK;
     
     private static final Color TITLE_COLOR = Color.RED;
-    private static final Font TITLE_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
+    private static final Font TITLE_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -105,6 +106,8 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     private SpinnerControl _deBroglieRadialAmplitudeSpinner;
     
     private SpinnerControl _schrodingerProtonThresholdSpinner;
+    
+    private SpinnerControl _squiggleLifetimeSpinner;
     
     private JDialog _colorChooserDialog;
     private ColorChip _editColorChip;
@@ -264,6 +267,19 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             _schrodingerProtonThresholdSpinner.setEditable( false );
         }
         
+        // Time that squiggles are visible in energy diagrams
+        {
+            double value = AbstractEnergyDiagram.SQUIGGLE_LIFETIME / 1000;
+            double min = 0.1;
+            double max = 5;
+            double stepSize = 0.1;
+            int columns = 3;
+            String label = "Squiggles disappear after";
+            String units = "sec";
+            _squiggleLifetimeSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
+            _squiggleLifetimeSpinner.setEditable( false );
+        }
+        
         // Event handling
         EventListener listener = new EventListener();
         _maxParticlesSpinner.getSpinner().addChangeListener( listener );
@@ -281,6 +297,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
         _deBroglieBrightnessMinusChip.addMouseListener( listener );
         _deBroglieRadialAmplitudeSpinner.getSpinner().addChangeListener( listener );
         _schrodingerProtonThresholdSpinner.getSpinner().addChangeListener( listener );
+        _squiggleLifetimeSpinner.getSpinner().addChangeListener( listener );
         
         // Layout
         JPanel panel = new JPanel();
@@ -312,6 +329,10 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             
             layout.addComponent( new TitleLabel( "Schr\u00f6dinger:" ), row++, 0 );
             layout.addComponent( _schrodingerProtonThresholdSpinner, row++, 0 );
+            layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
+            
+            layout.addComponent( new TitleLabel( "Energy diagrams:" ), row++, 0 );
+            layout.addComponent( _squiggleLifetimeSpinner, row++, 0 );
         }
         
         return panel;
@@ -379,6 +400,9 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             else if ( source == _schrodingerProtonThresholdSpinner.getSpinner() ) {
                 handleSchrodingerThresholdSpinner();
             }
+            else if ( source == _squiggleLifetimeSpinner.getSpinner() ) {
+                handleSquiggleLifetimeSpinner();
+            }
             else {
                 throw new UnsupportedOperationException( "unsupported ChangeEvent source: " + source );
             }
@@ -429,6 +453,10 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     
     private void handleSchrodingerThresholdSpinner() {
         SchrodingerNode.PROTON_VISIBILITY_THRESHOLD = _schrodingerProtonThresholdSpinner.getDoubleValue();
+    }
+    
+    private void handleSquiggleLifetimeSpinner() {
+        AbstractEnergyDiagram.SQUIGGLE_LIFETIME = _squiggleLifetimeSpinner.getDoubleValue() * 1000;
     }
     
     //----------------------------------------------------------------------------
