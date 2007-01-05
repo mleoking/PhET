@@ -14,7 +14,6 @@ MEDIUM PRIORITY:
 - verify that ModelViewTransform is used everywhere that it should be
 - verify that behavior is correct when clock is paused
 - run stuff for a very long time (especially Schrodinger) to see what breaks
-- spectrometer snapshots can sometimes be create directly on top of an existing snapshot
 
 LOW PRIORITY:
 - improve performance of Schrodinger (faster Leguerre Polynomial algorithm?)
@@ -39,6 +38,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
 ***** CVS tag hydrogenatom-0-00-20-2007-01-05
+(1/5/06) - position spectrometer snapshot based on position of most-recently created snapshot
 (1/5/06) - bugfix: gun defaults to white light but shows monochromatic controls
 (1/5/06) - diagonally stagger location of snapshots
 (1/5/06) - bugfix: hide spectrometer if default value is deselected
