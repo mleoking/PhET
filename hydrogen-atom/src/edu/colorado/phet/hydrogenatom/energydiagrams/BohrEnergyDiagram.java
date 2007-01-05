@@ -27,8 +27,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
- * BohrEnergyDiagram is the energy level diagram that corresponds
- * to a hydrogen atom based on the Bohr model.
+ * BohrEnergyDiagram is the energy diagram for the Bohr model.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -53,10 +52,10 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
     private IClock _clock;
     private ClockListener _clockListener;
     
-    private BohrModel _atom;
-    private int _nPrevious;
-    private EnergySquiggle _squiggle;
-    private double _squiggleLifetime;
+    private BohrModel _atom; // atom we're observing
+    private int _nPrevious; // previous value of n (electron state)
+    private EnergySquiggle _squiggle; // the state change squiggle
+    private double _squiggleLifetime; // how long the squiggle has been visible
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -64,7 +63,9 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
     
     /**
      * Constructor.
+     * 
      * @param canvas
+     * @param clock
      */
     public BohrEnergyDiagram( PSwingCanvas canvas, IClock clock ) {
         super( BohrModel.getNumberOfStates(), canvas );

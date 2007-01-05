@@ -15,9 +15,8 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
- * DeBroglieEnergyDiagram is the energy level diagram that corresponds
- * to a hydrogen atom based on the deBroglie model. it is identical 
- * to the diagram for the Bohr model.
+ * DeBroglieEnergyDiagram is the energy diagram for the deBroglie model.
+ * It is identical to the diagram for the Bohr model.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

@@ -28,7 +28,12 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
-
+/**
+ * SchrodingerEnergyDiagram is the energy diagram for the Schrodinger model.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements Observer {
     
     //----------------------------------------------------------------------------
@@ -39,9 +44,11 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
     private static final double X_MARGIN = 10;
     private static final double Y_MARGIN = 10;
     
+    // horizontal spacing between state lines
     private static final double LINE_LINE_SPACING = 10;
+    // horizontal spacing between state line and label
     private static final double LINE_LABEL_SPACING = 10;
-    
+    // horizontal spacing between "l=" and values
     private static final double L_LABEL_VALUE_SPACING = 2;
 
     //----------------------------------------------------------------------------
@@ -51,12 +58,14 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
     private IClock _clock;
     private ClockListener _clockListener;
     
-    private SchrodingerModel _atom;
-    private int _nPrevious, _lPrevious;
-    private EnergySquiggle _squiggle;
-    private double _squiggleLifetime;
+    private SchrodingerModel _atom; // atom we're observing
+    private int _nPrevious; // previous value of n (primary electron state)
+    private int _lPrevious; // previous value of l (secondary electron state)
+    private EnergySquiggle _squiggle; // the state change squiggle
+    private double _squiggleLifetime; // how long the squiggle has been visible
     
-    private double _lLabelWidth, _lLabelHeight;
+    private double _mNode; // displays the value of m (tertiary electron state)
+    private double _lLabelWidth, _lLabelHeight; // size of "l=" label
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -64,7 +73,9 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
     
     /**
      * Constructor.
+     * 
      * @param canvas
+     * @param clock
      */
     public SchrodingerEnergyDiagram( PSwingCanvas canvas, IClock clock ) {
         super( SchrodingerModel.getNumberOfStates(), canvas );
