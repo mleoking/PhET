@@ -37,6 +37,8 @@ DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
 ***** CVS tag hydrogenatom-0-00-20-2007-01-05
+(1/5/06) - diagonally stagger location of snapshots
+(1/5/06) - bugfix: hide spectrometer if default value is deselected
 (1/5/06) - add a flag for switching between test and production values in HADefaults
 (1/5/06) - add developer control for time that squiggle is visible
 (1/5/06) - put m= in upper-right corner of Schrodinger energy diagram

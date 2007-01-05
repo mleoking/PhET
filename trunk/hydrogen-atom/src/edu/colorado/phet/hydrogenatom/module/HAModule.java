@@ -417,6 +417,7 @@ public class HAModule extends PiccoloModule {
         _alphaParticleTracesNode.setEnabled( HADefaults.SHOW_ALPHA_PARTICLE_TRACES );
         
         _spectrometerCheckBox.setSelected( HADefaults.SPECTROMETER_SELECTED );
+        _spectrometerNode.setVisible( HADefaults.SPECTROMETER_SELECTED );
         if ( HADefaults.SPECTROMETER_RUNNING ) {
             _spectrometerNode.start();
         }
@@ -425,6 +426,7 @@ public class HAModule extends PiccoloModule {
         }
         
         _energyDiagramCheckBox.setSelected( HADefaults.ENERGY_DIAGRAM_SELECTED );
+        updateEnergyDiagram();
     }
     
     //----------------------------------------------------------------------------
@@ -755,8 +757,8 @@ public class HAModule extends PiccoloModule {
         _spectrometerSnapshotNodes.add( snapshotNode );
 
         PBounds sb = _spectrometerNode.getFullBounds();
-        double x = sb.getX();
-        double y = sb.getY() - snapshotNode.getFullBounds().getHeight() - ( 10 * _spectrometerSnapshotNodes.size() );
+        double x = sb.getX() - ( 10 * ( _spectrometerSnapshotNodes.size() - 1 ) );
+        double y = sb.getY() - snapshotNode.getFullBounds().getHeight() - 5 - ( 10 * ( _spectrometerSnapshotNodes.size() - 1 ) );
         snapshotNode.setOffset( x, y );
     }
     
