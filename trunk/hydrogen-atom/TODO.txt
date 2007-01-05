@@ -13,14 +13,13 @@ MEDIUM PRIORITY:
 - verify that behavior is correct when clock is paused
 - add "description" to SimStrings file
 - run stuff for a very long time (especially Schrodinger) to see what breaks
-- restore production values in HADefaults
 
 LOW PRIORITY:
 - improve performance of Schrodinger (faster Leguerre Polynomial algorithm?)
 - improve performance of deBroglie "brightness" and "brightness magnitude" representations
 - improve performance of deBroglie 3D representation
 - animation gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
-- reduce size of image files
+- reduce size of panel image files
 - animate opening/closing of Atomic Model selection panel (use PNode.toImage)
 - generalize creating a "panel" node to fit under a collection of nodes
 - create layout nodes for creating Piccolo-based control panels
@@ -37,6 +36,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/5/06) - add a flag for switching between test and production values in HADefaults
 (1/5/06) - add developer control for time that squiggle is visible
 (1/5/06) - put m= in upper-right corner of Schrodinger energy diagram
 (1/5/06) - javadoc energy diagrams
