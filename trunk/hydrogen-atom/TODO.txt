@@ -9,6 +9,7 @@ HIGH PRIORITY:
 - add "description" to SimStrings file
 
 MEDIUM PRIORITY:
+- find a more obvious place to put the deBroglie view options
 - ask SM about SR's idea of spontaneously emitting 2 photons to get out of state (2,0,0)
 - verify that ModelViewTransform is used everywhere that it should be
 - verify that behavior is correct when clock is paused
@@ -38,6 +39,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
 ***** CVS tag hydrogenatom-0-00-20-2007-01-05
+(1/5/06) - bugfix: gun defaults to white light but shows monochromatic controls
 (1/5/06) - diagonally stagger location of snapshots
 (1/5/06) - bugfix: hide spectrometer if default value is deselected
 (1/5/06) - add a flag for switching between test and production values in HADefaults
