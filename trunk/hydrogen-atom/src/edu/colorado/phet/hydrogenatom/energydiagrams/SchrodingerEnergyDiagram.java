@@ -44,6 +44,10 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
     private static final double X_MARGIN = 10;
     private static final double Y_MARGIN = 10;
     
+    // Margins for "m="
+    private static final double M_X_MARGIN = 2;
+    private static final double M_Y_MARGIN = 2;
+    
     // horizontal spacing between state lines
     private static final double LINE_LINE_SPACING = 10;
     // horizontal spacing between state line and label
@@ -64,7 +68,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
     private EnergySquiggle _squiggle; // the state change squiggle
     private double _squiggleLifetime; // how long the squiggle has been visible
     
-    private double _mNode; // displays the value of m (tertiary electron state)
+    private PText _mNode; // displays the value of m (tertiary electron state)
     private double _lLabelWidth, _lLabelHeight; // size of "l=" label
     
     //----------------------------------------------------------------------------
@@ -84,6 +88,12 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         assert( SchrodingerModel.getNumberOfStates() == 6 ); // 6 states
         
         Rectangle2D drawingArea = getDrawingArea();
+        
+        _mNode = new PText( "m=-1" ); // widest value
+        _mNode.setFont( LABEL_FONT );
+        _mNode.setTextPaint( LABEL_COLOR );
+        _mNode.setOffset( drawingArea.getX() + drawingArea.getWidth() - _mNode.getWidth() - M_X_MARGIN, M_Y_MARGIN );
+        getStateLayer().addChild( _mNode );
         
         PText lLabelNode = new PText( "l=" );
         lLabelNode.setFont( LABEL_FONT );
@@ -155,6 +165,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
 
             // Set electron's initial position
             updateElectronPosition();
+            updateM();
             
             // Remember electron's initial state
             _nPrevious = atom.getElectronState();
@@ -183,6 +194,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         if ( o instanceof BohrModel ) {
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {
                 updateElectronPosition();
+                updateM();
                 updateSquiggle();
             }
         }
@@ -268,6 +280,14 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         final double x = getXOffset( l ) + ( LINE_LENGTH / 2 );
         final double y = getYOffset( n ) - ( electronNode.getFullBounds().getHeight() / 2 );
         electronNode.setOffset( x, y );
+    }
+    
+    /*
+     * Updates the "m=" label.
+     */
+    private void updateM() {
+        final int m = _atom.getTertiaryElectronState();
+        _mNode.setText( "m=" + String.valueOf( m ) );
     }
     
     /*

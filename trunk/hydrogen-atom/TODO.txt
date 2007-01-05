@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- put m= in upper-right corner of Schrodinger energy diagram
 - flatten static parts of energy diagram to an image
 - get requirements for gun color squiggle in energy digrams
 - clean up class hierarchy of energy diagrams
@@ -39,6 +38,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/5/06) - put m= in upper-right corner of Schrodinger energy diagram
 (1/5/06) - javadoc energy diagrams
 (1/5/06) - make squiggles go away after 1.5 seconds
 (1/5/06) - javadoc EnergySquiggle
