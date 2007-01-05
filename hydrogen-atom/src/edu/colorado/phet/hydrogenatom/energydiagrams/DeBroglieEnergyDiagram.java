@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
@@ -23,7 +24,12 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  */
 public class DeBroglieEnergyDiagram extends BohrEnergyDiagram {
 
-    public DeBroglieEnergyDiagram( PSwingCanvas canvas ) {
-        super( canvas );
+    /**
+     * Constructor.
+     * @param canvas
+     * @param clock
+     */
+    public DeBroglieEnergyDiagram( PSwingCanvas canvas, IClock clock ) {
+        super( canvas, clock );
     }
 }

@@ -103,10 +103,11 @@ public class HAModule extends PiccoloModule {
     private JCheckBox _energyDiagramCheckBox;
     private PSwing _energyDiagramCheckBoxNode;
     private PhetPNode _energyDiagramParent;
+    private SolarSystemEnergyDiagram _solarSystemEnergyDiagram;
     private BohrEnergyDiagram _bohrEnergyDiagram;
     private DeBroglieEnergyDiagram _deBroglieEnergyDiagram;
     private SchrodingerEnergyDiagram _schrodingerEnergyDiagram;
-    private SolarSystemEnergyDiagram _solarSystemEnergyDiagram;
+
 
     private NotToScaleNode _notToScaleLabel;
     private LegendNode _legendNode;
@@ -301,27 +302,27 @@ public class HAModule extends PiccoloModule {
             _energyDiagramCheckBoxNode.addInputEventListener( new CursorHandler() );
 
             // diagrams
-            _bohrEnergyDiagram = new BohrEnergyDiagram( _canvas );
-            _deBroglieEnergyDiagram = new DeBroglieEnergyDiagram( _canvas );
-            _schrodingerEnergyDiagram = new SchrodingerEnergyDiagram( _canvas );
             _solarSystemEnergyDiagram = new SolarSystemEnergyDiagram( _canvas );
+            _bohrEnergyDiagram = new BohrEnergyDiagram( _canvas, getClock() );
+            _deBroglieEnergyDiagram = new DeBroglieEnergyDiagram( _canvas, getClock() );
+            _schrodingerEnergyDiagram = new SchrodingerEnergyDiagram( _canvas, getClock() );
             
             ActionListener closeListener = new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     _energyDiagramCheckBox.setSelected( false );
                 }
             };
+            _solarSystemEnergyDiagram.addCloseListener( closeListener );
             _bohrEnergyDiagram.addCloseListener( closeListener );
             _deBroglieEnergyDiagram.addCloseListener( closeListener );
             _schrodingerEnergyDiagram.addCloseListener( closeListener );
-            _solarSystemEnergyDiagram.addCloseListener( closeListener );
-            
+
             // parent node for all diagrams
             _energyDiagramParent = new PhetPNode();
+            _energyDiagramParent.addChild( _solarSystemEnergyDiagram );
             _energyDiagramParent.addChild( _bohrEnergyDiagram );
             _energyDiagramParent.addChild( _deBroglieEnergyDiagram );
             _energyDiagramParent.addChild( _schrodingerEnergyDiagram );
-            _energyDiagramParent.addChild( _solarSystemEnergyDiagram );
         }
 
         // "Not to scale" label

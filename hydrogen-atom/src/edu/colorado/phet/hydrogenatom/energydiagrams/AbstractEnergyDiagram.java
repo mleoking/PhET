@@ -22,14 +22,12 @@ import java.util.Observer;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.control.CloseButtonNode;
-import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PClip;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -49,11 +47,15 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     private static final boolean DEBUG_DRAWING_AREA_BOUNDS = false;
     
     //----------------------------------------------------------------------------
-    // Protected class data
+    // Public class data
     //----------------------------------------------------------------------------
     
-    // Energy of the ground state
-    protected static final double E1 = -13.6; // eV
+    // Squiggle
+    public static final double SQUIGGLE_LIFETIME = 1500; // milliseconds
+    
+    //----------------------------------------------------------------------------
+    // Protected class data
+    //----------------------------------------------------------------------------
     
     // State line properties
     protected static final double LINE_LENGTH = 10;
@@ -68,7 +70,10 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
-
+    
+    // Energy of the ground state
+    private static final double E1 = -13.6; // eV
+    
     // How much to distory the energy level values. For no distortion, set this to zero.
     private static final double DISTORTION_FACTOR = 0.2; // 1.0 = 100% increase in spacing
     
