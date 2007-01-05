@@ -62,8 +62,20 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
     // Constructor
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param canvas
+     */
     public SolarSystemEnergyDiagram( PSwingCanvas canvas ) {
         super( 0 /* numberOfStates */, canvas );
+    }
+    
+    /**
+     * Call this method before releasing all references to this object.
+     */
+    public void cleanup() {
+        clearAtom();
     }
     
     //----------------------------------------------------------------------------

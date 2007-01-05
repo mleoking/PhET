@@ -11,15 +11,17 @@
 
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
-import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.model.SchrodingerModel;
-import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -46,9 +48,14 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
     // Instance data
     //----------------------------------------------------------------------------
     
+    private IClock _clock;
+    private ClockListener _clockListener;
+    
     private SchrodingerModel _atom;
-    private EnergySquiggle _squiggle;
     private int _nPrevious, _lPrevious;
+    private EnergySquiggle _squiggle;
+    private double _squiggleLifetime;
+    
     private double _lLabelWidth, _lLabelHeight;
     
     //----------------------------------------------------------------------------
@@ -59,7 +66,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
      * Constructor.
      * @param canvas
      */
-    public SchrodingerEnergyDiagram( PSwingCanvas canvas ) {
+    public SchrodingerEnergyDiagram( PSwingCanvas canvas, IClock clock ) {
         super( SchrodingerModel.getNumberOfStates(), canvas );
         
         assert( SchrodingerModel.getGroundState() == 1 ); // n=1 must be ground state
@@ -86,6 +93,22 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
             levelNode.setOffset( x, y );
             getStateLayer().addChild( levelNode );
         }
+        
+        _clockListener = new ClockAdapter() {
+            public void clockTicked( ClockEvent clockEvent ) {
+                checkSquiggleLifetime( clockEvent.getWallTimeChange() );
+            }
+        };
+        _clock = clock;
+        _clock.addClockListener( _clockListener );
+    }
+    
+    /**
+     * Call this method before releasing all references to this object.
+     */
+    public void cleanup() {
+        clearAtom();
+        _clock.removeClockListener( _clockListener );
     }
     
     //----------------------------------------------------------------------------
@@ -100,8 +123,11 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
      */
     public void setAtom( SchrodingerModel atom ) {
         
+        // remove any existing squiggle
+        removeSquiggle();
+        
+        // remove association with existing atom
         if ( _atom != null ) {
-            // remove association with existing atom
             _atom.deleteObserver( this );
             _atom = null;
         }
@@ -146,6 +172,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         if ( o instanceof BohrModel ) {
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {
                 updateElectronPosition();
+                updateSquiggle();
             }
         }
     }
@@ -160,10 +187,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
     private void updateSquiggle() {
 
         // remove any existing squiggle
-        if ( _squiggle != null ) {
-            getSquiggleLayer().removeChild( _squiggle );
-            _squiggle = null;
-        }
+        removeSquiggle();
 
         // if the diagram isn't visible, don't draw the new squiggle
         if ( !isVisible() ) {
@@ -193,6 +217,32 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
             // Remember electron's state
             _nPrevious = n;
             _lPrevious = l;
+        }
+    }
+    
+    /*
+     * Removes the squiggle, if there is one.
+     */
+    private void removeSquiggle() {
+        if ( _squiggle != null ) {
+            getSquiggleLayer().removeChild( _squiggle );
+            _squiggleLifetime = 0;
+            _squiggle = null;
+        }
+    }
+    
+    /*
+     * Checks to see how long the squiggle has been visible.
+     * When the time exceeds some maximum, remove the squiggle.
+     *  
+     * @param wallTimeChange
+     */
+    private void checkSquiggleLifetime( double wallTimeChange ) {
+        if ( _squiggle != null ) {
+            _squiggleLifetime += wallTimeChange;
+            if ( _squiggleLifetime > SQUIGGLE_LIFETIME ) {
+                removeSquiggle();
+            }
         }
     }
     
