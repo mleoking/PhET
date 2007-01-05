@@ -16,8 +16,11 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
+import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
 import edu.colorado.phet.photoelectric.view.util.RotatedTextLabel;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
+import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
+import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -52,8 +55,8 @@ public class CompositeGraphPanel extends JPanel {
 
         try {
             snapshotBtnImage = ImageLoader.loadBufferedImage( PhotoelectricConfig.SNAPSHOT_BUTTON_IMAGE );
-            zoomInImage =ImageLoader.loadBufferedImage( PhotoelectricConfig.ZOOM_IN_BUTTON_IMAGE );
-            zoomOutImage =ImageLoader.loadBufferedImage( PhotoelectricConfig.ZOOM_OUT_BUTTON_IMAGE );
+            zoomInImage = ImageLoader.loadBufferedImage( PhotoelectricConfig.ZOOM_IN_BUTTON_IMAGE );
+            zoomOutImage = ImageLoader.loadBufferedImage( PhotoelectricConfig.ZOOM_OUT_BUTTON_IMAGE );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -106,8 +109,8 @@ public class CompositeGraphPanel extends JPanel {
         checkBoxes.add( cb );
         final RotatedTextLabel yAxisLabel = new RotatedTextLabel( yLabel );
         final JLabel xAxisLabel = new JLabel( xLabel );
-        final JButton zoomInBtn = new JButton( new ZoomInAction( new ImageIcon( zoomInImage), graphPanel.getGraph() ) );
-        final JButton zoomOutBtn = new JButton( new ZoomOutAction( new ImageIcon( zoomOutImage), graphPanel.getGraph() ) );
+        final JButton zoomInBtn = new JButton( new ZoomInAction( new ImageIcon( zoomInImage ), graphPanel.getGraph() ) );
+        final JButton zoomOutBtn = new JButton( new ZoomOutAction( new ImageIcon( zoomOutImage ), graphPanel.getGraph() ) );
         final JButton snapshotBtn = new JButton( new SnapshotAction( new ImageIcon( snapshotBtnImage ), this ) );
 //        final JButton snapshotBtn = new JButton( new SnapshotAction( new ImageIcon( snapshotBtnImage ), graphPanel ) );
         cb.addActionListener( new ActionListener() {
@@ -130,56 +133,62 @@ public class CompositeGraphPanel extends JPanel {
         snapshotBtn.setVisible( cb.isSelected() );
 
         // Lay out the panel
-        GridBagConstraints checkBoxGbc = new GridBagConstraints( 0, 0,
+        GridBagConstraints checkBoxGbc = new GridBagConstraints( 0, rowIdx,
                                                                  2, 1, 0, 0,
                                                                  GridBagConstraints.NORTHWEST,
                                                                  GridBagConstraints.NONE,
                                                                  new Insets( 0, 0, 0, 25 ), 0, 0 );
-        GridBagConstraints graphGbc = new GridBagConstraints( 1, 0,
-                                                              1, 3, 0, 0,
+        GridBagConstraints graphGbc = new GridBagConstraints( 1, rowIdx + 1,
+                                                              1, 1, 0, 0,
                                                               GridBagConstraints.NORTHWEST,
                                                               GridBagConstraints.NONE,
                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
-        GridBagConstraints xLabelGbc = new GridBagConstraints( 1, 0,
+        GridBagConstraints xLabelGbc = new GridBagConstraints( 1, rowIdx + 2,
                                                                1, 1, 0, 0,
                                                                GridBagConstraints.NORTH,
                                                                GridBagConstraints.NONE,
                                                                new Insets( 0, 0, 0, 0 ), 0, 0 );
-        GridBagConstraints yLabelGbc = new GridBagConstraints( 0, 0,
-                                                               1, 3, 0, 0,
+        GridBagConstraints yLabelGbc = new GridBagConstraints( 0, rowIdx + 1,
+                                                               1, 1, 0, 0,
                                                                GridBagConstraints.WEST,
                                                                GridBagConstraints.NONE,
                                                                new Insets( 0, 0, 0, 0 ), 0, 0 );
-        GridBagConstraints zoomBtnGbc = new GridBagConstraints( 2, 0,
+        GridBagConstraints zoomBtnGbc = new GridBagConstraints( 2, rowIdx + 1,
                                                                 1, 1, 0, 0,
                                                                 GridBagConstraints.NORTH,
                                                                 GridBagConstraints.NONE,
                                                                 new Insets( 0, 0, 0, 0 ), 0, 0 );
 
-        checkBoxGbc.gridy = rowIdx;
+        // The checkbox
         add( cb, checkBoxGbc );
 
-        rowIdx++;
-        graphGbc.gridy = rowIdx;
-        yLabelGbc.gridy = rowIdx;
+        // The y axis label
         add( yAxisLabel, yLabelGbc );
+
+        // The graph itself
         add( graphPanel, graphGbc );
 
-        zoomBtnGbc.gridy = rowIdx;
-        add( zoomInBtn, zoomBtnGbc );
-        rowIdx++;
-        zoomBtnGbc.gridy = rowIdx;
-        add( zoomOutBtn, zoomBtnGbc );
-        rowIdx++;
-        zoomBtnGbc.gridy = rowIdx;
-        add( snapshotBtn, zoomBtnGbc );
+        // The snapshot and zoom buttons
+        {
+            JPanel btnPnl = new JPanel( new GridBagLayout( ));
+            GridBagConstraints gbc = new GridBagConstraints( 0,GridBagConstraints.RELATIVE,
+                                                             1,1,1,1,
+                                                             GridBagConstraints.NORTH,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0,0,0,0), 0,0 );
+            btnPnl.add(snapshotBtn,  gbc );
+            gbc.anchor = GridBagConstraints.SOUTH;
+            btnPnl.add(zoomInBtn,  gbc );
+            btnPnl.add(zoomOutBtn,  gbc );
+            add( btnPnl, zoomBtnGbc );
 
-        rowIdx++;
-        xLabelGbc.gridy = rowIdx;
+        }
+
+        // The x axis label
         add( xAxisLabel, xLabelGbc );
 
-
-        rowIdx++;
+        // Bump the row index for the next time this is called
+        rowIdx += 3;
     }
 
     private static class ZoomInAction extends AbstractAction {
@@ -208,7 +217,7 @@ public class CompositeGraphPanel extends JPanel {
         }
     }
 
-    private static class SnapshotAction extends AbstractAction {
+    private /*static */class SnapshotAction extends AbstractAction {
         private Component component;
         Point nextLocation = new Point();
         int subsequentSnapshotOffset = 30;
@@ -219,22 +228,52 @@ public class CompositeGraphPanel extends JPanel {
         }
 
         public void actionPerformed( ActionEvent e ) {
-            JDialog snapshotDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
-            snapshotDlg.setResizable( false );
-            Snapshot snapshot = new Snapshot( component );
-            snapshotDlg.setContentPane( snapshot );
-            snapshotDlg.pack();
-            snapshotDlg.setVisible( true );
+            JDialog snapshotDlg = createSnapshotDialog();
             snapshotDlg.setLocation( nextLocation );
             nextLocation.setLocation( nextLocation.getX() + subsequentSnapshotOffset,
                                       nextLocation.getY() + subsequentSnapshotOffset );
+        }
+
+        private JDialog createSnapshotDialog() {
+            JDialog snapshotDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
+            snapshotDlg.setResizable( false );
+            Snapshot snapshot = new Snapshot( component, module );
+
+            // Construct the header information
+            PhotoelectricModel model = (PhotoelectricModel)module.getModel();
+            String material = model.getTarget().getMaterial().toString();
+            String voltage = Double.toString( model.getVoltage() );
+            String wavelength = Double.toString( model.getBeam().getWavelength() );
+            String intensity = Double.toString( PhotoelectricModelUtil.photonRateToIntensity( model.getBeam().getPhotonsPerSecond(),
+                                                                                              model.getBeam().getWavelength() ) );
+            String header = "<html><table>"
+                            + "<tr><td>" + "Material" + "</td><td>" + material + "</td>"
+                            + "<td>         </td>"
+                            + "<td>" + "Wavelength" + "</td><td>" + wavelength + " nm" + "</td></tr>"
+                            + "<tr><td>" + "Voltage" + "</td><td>" + voltage + "v" + "</td>"
+                            + "<td>      </td>"
+                            + "<td>" + "Intensity" + "</td><td>" + intensity + "%" + "</td></tr>"
+                            + "</table></html>";
+            JPanel headerPnl = new JPanel();
+            headerPnl.setBorder( new TitledBorder( "Experimental Parameters" ) );
+            headerPnl.add( new JLabel( header ) );
+            JPanel jp = new JPanel( new BorderLayout() );
+            jp.add( headerPnl, BorderLayout.NORTH );
+            jp.add( snapshot, BorderLayout.CENTER );
+            snapshotDlg.setContentPane( jp );
+
+            snapshotDlg.pack();
+            snapshotDlg.setVisible( true );
+            return snapshotDlg;
         }
     }
 
     private static class Snapshot extends JPanel {
         BufferedImage bi;
 
-        public Snapshot( Component component ) {
+        public Snapshot( Component component, Module module ) {
+
+            // Make the snapshot image
             bi = (BufferedImage)component.createImage( component.getWidth(), component.getHeight() );
             Graphics g = bi.getGraphics();
             component.paint( g );
