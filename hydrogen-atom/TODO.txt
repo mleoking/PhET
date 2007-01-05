@@ -40,6 +40,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/5/06) - javadoc EnergySquiggle
 (1/4/06) - add arrow and sinusoidal shape to squiggles
 (1/4/06) - align squiggle with center of state line
 (1/4/05) - add some missing stuff to HADefaults, document values for public release
