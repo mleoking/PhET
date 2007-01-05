@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- flatten static parts of energy diagram to an image
 - get requirements for gun color squiggle in energy digrams
 
 MEDIUM PRIORITY:
@@ -29,6 +28,7 @@ LOW PRIORITY:
 - bug: ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 - bug: spectrometer buttons are fully transparent on Win98
 - bug: problem with updating drag bounds of ConstrainedDragHandler (see HACK comment in WavelengthControl)
+- flatten static parts of energy diagram to an image
 
 DEFER UNTIL AFTER INTERVIEWS:
 - make spectrometer show each UV/IR transition wavelength at a distinct horizontal position
