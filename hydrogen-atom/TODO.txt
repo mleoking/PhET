@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - get requirements for gun color squiggle in energy digrams
-- add "description" to SimStrings file
+- add abstract to SimStrings file
 
 MEDIUM PRIORITY:
 - remove (n,l,m)= display from Schrodinger view ?
