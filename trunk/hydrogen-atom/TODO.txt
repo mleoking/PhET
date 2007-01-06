@@ -9,6 +9,7 @@ HIGH PRIORITY:
 - add "description" to SimStrings file
 
 MEDIUM PRIORITY:
+- remove (n,l,m)= display from Schrodinger view ?
 - show min time that electron is in a state be in wall time? (currently in sim time)
 - find a more obvious place to put the deBroglie view options
 - ask SM about SR's idea of spontaneously emitting 2 photons to get out of state (2,0,0)
