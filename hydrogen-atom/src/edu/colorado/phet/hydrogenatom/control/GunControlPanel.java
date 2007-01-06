@@ -299,7 +299,9 @@ public class GunControlPanel extends PhetPNode implements Observer {
      * Handles changes to light wavelength control.
      */
     private void handleWavelengthChange() {
-        _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
+        if ( _gun.isMonochromaticLightType() ) {
+            _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
+        }
         _gun.setWavelength( _wavelengthControl.getWavelength() );
     }
     
@@ -357,7 +359,16 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _gunTypeControl.setPhotonsSelected( _gun.isPhotonsMode() );
         _lightControls.setVisible( _gun.isPhotonsMode() );
         _alphaParticleControls.setVisible( _gun.isAlphaParticlesMode() );
-        _lightTypeControl.setMonochromaticSelected( _gun.isMonochromaticLightType() );
+        if ( _gun.isMonochromaticLightType() ) {
+            _lightTypeControl.setMonochromaticSelected( true );
+            _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
+            _wavelengthControl.setVisible( true );
+        }
+        else {
+            _lightTypeControl.setWhiteSelected( true );
+            _lightIntensityControl.setColor( Color.WHITE );
+            _wavelengthControl.setVisible( false );
+        }
         _wavelengthControl.setWavelength( _gun.getWavelength() );
         _lightIntensityControl.setValue( (int)( 100 * _gun.getLightIntensity() ) );
         _alphaParticlesIntensityControl.setValue( (int)( 100 * _gun.getAlphaParticlesIntensity() ) );
