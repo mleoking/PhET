@@ -41,6 +41,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
 ***** CVS tag hydrogenatom-0-00-20-2007-01-05
+(1/6/06) - bugfix: gun is initialized to white light, but intensity slider shows a color
 (1/5/06) - position spectrometer snapshot based on position of most-recently created snapshot
 (1/5/06) - bugfix: gun defaults to white light but shows monochromatic controls
 (1/5/06) - diagonally stagger location of snapshots
