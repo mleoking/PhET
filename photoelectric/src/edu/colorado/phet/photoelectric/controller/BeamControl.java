@@ -32,6 +32,10 @@ import edu.colorado.phet.quantum.model.PhotonSource;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,6 +59,9 @@ import java.util.Map;
 public class BeamControl extends GraphicLayerSet implements SwingThreadModelListener,
                                                             Beam.RateChangeListener {
     private BeamControl.IntesitySliderChangeListener intesitySliderChangeListener;
+    private Point orgIntensitySliderLoc;
+    private Point orgBeamControlLocation;
+    private Dimension orgIntensitySliderSize;
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -97,6 +104,9 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
     private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 
+    private Dimension orgAppPanelSize;
+    private AffineTransform intensitySliderAtx = new AffineTransform();
+
 
     /**
      * @param apparatusPanel
@@ -104,7 +114,7 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
      * @param beam
      * @param maximumRate
      */
-    public BeamControl( ApparatusPanel apparatusPanel, Point location,
+    public BeamControl( final ApparatusPanel apparatusPanel, final Point location,
                         Beam beam, double maximumRate ) {
         this.apparatusPanel = apparatusPanel;
         this.beam = beam;
@@ -126,6 +136,34 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
         addIntensitySlider( beam, maximumRate );
         addWavelengthSlider( beam );
         beam.addRateChangeListener( this );
+
+        // Add a listener to the apparatus panel that will track changes in its size, so the intensity
+        // control can be resized with it
+        this.apparatusPanel.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                if( orgAppPanelSize == null ) {
+                    orgBeamControlLocation = BeamControl.this.getLocation();
+                    orgAppPanelSize = BeamControl.this.apparatusPanel.getSize();
+                    orgIntensitySliderLoc = intensitySlider.getLocation();
+                    orgIntensitySliderSize = intensitySlider.getPreferredSize();
+                }
+                else {
+                    Dimension newPanelSize = BeamControl.this.apparatusPanel.getSize();
+                    double r = newPanelSize.getWidth() / orgAppPanelSize.getWidth();
+                    intensitySliderAtx = AffineTransform.getScaleInstance( r, r );
+                    double x = orgIntensitySliderLoc.getX() * r;
+                    double y = orgIntensitySliderLoc.getY() * r;
+                    intensitySlider.setLocation( (int)x, (int)y );
+//                    intensitySlider.setLocation( location.x + (int)(intensitySliderRelLoc.x * r),
+//                                        location.y + (int)( intensitySliderRelLoc.y * r ));
+//                    intensitySlider.setPreferredSize( new Dimension(  50, 10 ));
+//                    intensitySlider.setSize( new Dimension(  (int)( orgIntensitySliderSize.getWidth() * r ),
+//                                             (int)( orgIntensitySliderSize.getHeight() * r ) ));
+                    setBoundsDirty();
+                    repaint();
+                }
+            }
+        } );
 
         setMode( INTENSITY );
     }
@@ -166,8 +204,10 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
 
     private void addIntensitySlider( final Beam beam, double maximumRate ) {
         // Make a spectrum intensitySlider
-        intensitySlider = new IntensitySlider( VisibleColor.wavelengthToColor( beam.getWavelength() ),
+        intensitySlider = new MyIntensitySlider( VisibleColor.wavelengthToColor( beam.getWavelength() ),
                                                IntensitySlider.HORIZONTAL, intensitySliderSize );
+//        intensitySlider = new IntensitySlider( VisibleColor.wavelengthToColor( beam.getWavelength() ),
+//                                               IntensitySlider.HORIZONTAL, intensitySliderSize );
         intensitySlider.setMaximum( (int)maximumRate );
         intensitySlider.setLocation( intensitySliderLoc ); // default is (0,0)
         apparatusPanel.add( intensitySlider );
@@ -233,7 +273,7 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
         // Center the title over the slider. Note the "10" needed to jimmy this into place
         FontMetrics fm = apparatusPanel.getFontMetrics( font );
         int width = fm.stringWidth( text );
-        sliderTitle.setLocation( (int)( intensitySliderRelLoc.getX() + intensitySliderSize.width / 2 - width / 2 + 10),
+        sliderTitle.setLocation( (int)( intensitySliderRelLoc.getX() + intensitySliderSize.width / 2 - width / 2 + 10 ),
                                  (int)( intensitySliderRelLoc.getY() - sliderTitle.getHeight() - 20 ) );
         addGraphic( sliderTitle );
     }
@@ -271,5 +311,21 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
                 }
             } );
         }
+    }
+
+
+
+    private class MyIntensitySlider extends IntensitySlider {
+        public MyIntensitySlider( Color color, int orientation, Dimension size ) {
+            super( color, orientation, size );
+        }
+
+        public void paintComponent( Graphics g ) {
+            Graphics2D g2 = (Graphics2D)g;
+            AffineTransform orgAtx = g2.getTransform();
+            g2.transform( intensitySliderAtx );
+            super.paintComponent( g );
+            g2.setTransform( orgAtx );
+        } // paint
     }
 }
