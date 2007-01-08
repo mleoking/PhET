@@ -108,10 +108,8 @@ public class PhotoelectricModule extends BaseLaserModule {
      */
     public PhotoelectricModule( PhotoelectricApplication application ) {
         super( SimStrings.get( "ModuleTitle.PhotoelectricEfect" ),
-//               new ModelClock( 1000 / PhotoelectricApplication.FPS,
-//                               PhotoelectricApplication.DT ) );
-new SwingClock( 1000 / PhotoelectricApplication.FPS,
-                PhotoelectricApplication.DT ) );
+               new SwingClock( 1000 / PhotoelectricApplication.FPS,
+                               PhotoelectricApplication.DT ) );
 
         // Set up the basic stuff
         IClock clock = getClock();
@@ -135,12 +133,12 @@ new SwingClock( 1000 / PhotoelectricApplication.FPS,
         //----------------------------------------------------------------
         // View
         //----------------------------------------------------------------
-        Beam beam = model.getBeam();
 
         // Add a graphic for the tube
         addTubeGraphic( model, getApparatusPanel() );
 
         // Add a graphic for the beam
+        Beam beam = model.getBeam();
         addBeamGraphic( beam );
 
         // Add a listener that will place photons right next to the plate when we are in beam view mode
