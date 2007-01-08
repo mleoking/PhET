@@ -12,7 +12,6 @@ MEDIUM PRIORITY:
 - remove (n,l,m)= display from Schrodinger view ?
 - show min time that electron is in a state be in wall time? (currently in sim time)
 - find a more obvious place to put the deBroglie view options
-- ask SM about SR's idea of spontaneously emitting 2 photons to get out of state (2,0,0)
 - verify that ModelViewTransform is used everywhere that it should be
 - verify that behavior is correct when clock is paused
 - run stuff for a very long time (especially Schrodinger) to see what breaks
@@ -25,7 +24,6 @@ LOW PRIORITY:
 - animation gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
 - reduce size of panel image files
 - animate opening/closing of Atomic Model selection panel (use PNode.toImage)
-- generalize creating a "panel" node to fit under a collection of nodes
 - create layout nodes for creating Piccolo-based control panels
 - rewrite AtomicModelSelector to use inner classes, or layout node
 - bug: ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
@@ -40,6 +38,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/8/06) - write animation code for sliding atomic model selector panel up/down
 ***** CVS tag hydrogenatom-0-00-20-2007-01-05
 (1/6/06) - bugfix: gun is initialized to white light, but intensity slider shows a color
 (1/5/06) - position spectrometer snapshot based on position of most-recently created snapshot
@@ -545,6 +544,8 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(1/8/06) - generalize creating a "panel" node to fit under a collection of nodes (PImageFactory.create(String,Dimension) does this)
+(1/8/06) - spontaneously emit 2 photons to get Schrodinger out of state (2,0,0) (dubious, too confusing)
 (12/28/06) - generate 1 image for entire Spectrometer colorKey (UV and IR range must be compressed)
 (12/26/06) - cache Colors (not necessary, little or no payoff)
 (12/26/06) - encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode (there is a very small amout of it, would complicate code)
