@@ -60,7 +60,6 @@ public class MercuryProperties extends DischargeLampElementProperties {
         super( SimStrings.get( "Element.mercury" ),
                MercuryProperties.energyLevels,
                energyEmissionStrategy ,
-//               new HydrogenEnergyEmissionStrategy(),
                new FiftyPercentAbsorptionStrategy(),
                DischargeLampAtom.DEFAULT_STATE_LIFETIME );
         energyEmissionStrategy.setStates( getStates() );
