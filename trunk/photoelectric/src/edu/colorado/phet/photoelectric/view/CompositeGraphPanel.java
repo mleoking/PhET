@@ -11,25 +11,23 @@
 package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
 import edu.colorado.phet.photoelectric.view.util.RotatedTextLabel;
-import edu.colorado.phet.photoelectric.PhotoelectricConfig;
-import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
-import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * CompositeGraphPanel
@@ -48,6 +46,8 @@ public class CompositeGraphPanel extends JPanel {
     private BufferedImage snapshotBtnImage;
     private BufferedImage zoomOutImage;
     private BufferedImage zoomInImage;
+    private ArrayList graphPanels = new ArrayList();
+    private JButton snapshotBtn;
 
 
     public CompositeGraphPanel( Module module ) {
@@ -67,6 +67,16 @@ public class CompositeGraphPanel extends JPanel {
         this.module = module;
         Insets graphInsets = new Insets( 5, 20, 17, 15 );
 
+        // The button that takes a snapshop of the graphs
+        snapshotBtn = new JButton( new SnapshotAction( new ImageIcon( snapshotBtnImage ), this ) );
+        GridBagConstraints gbc = new GridBagConstraints( 2, 0,
+                                                         1, 1, 0, 0,
+                                                         GridBagConstraints.NORTHWEST,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        add( snapshotBtn, gbc );
+
+        // Add the graph panels themselves
         GraphPanel currentVsVoltagePanel = new GraphPanel( module.getClock() );
         currentVsVoltagePanel.setGraph( new CurrentVsVoltageGraph( currentVsVoltagePanel, model ), graphInsets );
         addGraph( SimStrings.get( "GraphTitle.CurrentVsVoltage" ),
@@ -111,8 +121,6 @@ public class CompositeGraphPanel extends JPanel {
         final JLabel xAxisLabel = new JLabel( xLabel );
         final JButton zoomInBtn = new JButton( new ZoomInAction( new ImageIcon( zoomInImage ), graphPanel.getGraph() ) );
         final JButton zoomOutBtn = new JButton( new ZoomOutAction( new ImageIcon( zoomOutImage ), graphPanel.getGraph() ) );
-        final JButton snapshotBtn = new JButton( new SnapshotAction( new ImageIcon( snapshotBtnImage ), this ) );
-//        final JButton snapshotBtn = new JButton( new SnapshotAction( new ImageIcon( snapshotBtnImage ), graphPanel ) );
         cb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 graphPanel.setVisible( cb.isSelected() );
@@ -121,8 +129,8 @@ public class CompositeGraphPanel extends JPanel {
                 xAxisLabel.setVisible( cb.isSelected() );
                 zoomInBtn.setVisible( cb.isSelected() );
                 zoomOutBtn.setVisible( cb.isSelected() );
-                snapshotBtn.setVisible( cb.isSelected() );
                 setLogoVisibility( controlPanel );
+                setSnapshotButtonVisibility( checkBoxes );
             }
         } );
         graphPanel.setVisible( cb.isSelected() );
@@ -130,7 +138,8 @@ public class CompositeGraphPanel extends JPanel {
         xAxisLabel.setVisible( cb.isSelected() );
         zoomInBtn.setVisible( cb.isSelected() );
         zoomOutBtn.setVisible( cb.isSelected() );
-        snapshotBtn.setVisible( cb.isSelected() );
+        setLogoVisibility( controlPanel );
+        setSnapshotButtonVisibility( checkBoxes );
 
         // Lay out the panel
         GridBagConstraints checkBoxGbc = new GridBagConstraints( 0, rowIdx,
@@ -156,7 +165,7 @@ public class CompositeGraphPanel extends JPanel {
         GridBagConstraints zoomBtnGbc = new GridBagConstraints( 2, rowIdx + 1,
                                                                 1, 1, 0, 0,
                                                                 GridBagConstraints.NORTH,
-                                                                GridBagConstraints.NONE,
+                                                                GridBagConstraints.VERTICAL,
                                                                 new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         // The checkbox
@@ -168,20 +177,18 @@ public class CompositeGraphPanel extends JPanel {
         // The graph itself
         add( graphPanel, graphGbc );
 
-        // The snapshot and zoom buttons
+        // The zoom buttons
         {
             JPanel btnPnl = new JPanel( new GridBagLayout( ));
             GridBagConstraints gbc = new GridBagConstraints( 0,GridBagConstraints.RELATIVE,
                                                              1,1,1,1,
-                                                             GridBagConstraints.NORTH,
+                                                             GridBagConstraints.SOUTH,
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0,0,0,0), 0,0 );
-            btnPnl.add(snapshotBtn,  gbc );
-            gbc.anchor = GridBagConstraints.SOUTH;
             btnPnl.add(zoomInBtn,  gbc );
+            gbc.anchor = GridBagConstraints.NORTH;
             btnPnl.add(zoomOutBtn,  gbc );
             add( btnPnl, zoomBtnGbc );
-
         }
 
         // The x axis label
@@ -190,6 +197,24 @@ public class CompositeGraphPanel extends JPanel {
         // Bump the row index for the next time this is called
         rowIdx += 3;
     }
+
+    /**
+     * Sets the visibility of the snapshot button depending on the visibility of the
+     * graphs.
+     * @param checkBoxes
+     */
+    private void setSnapshotButtonVisibility( ArrayList checkBoxes ) {
+        boolean isSnapShotButtonVisible = false;
+        for( int i = 0; i < checkBoxes.size(); i++ ) {
+            JCheckBox jCheckBox = (JCheckBox)checkBoxes.get( i );
+            isSnapShotButtonVisible |= jCheckBox.isSelected();
+        }
+        snapshotBtn.setVisible( isSnapShotButtonVisible );
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // The zooom in and zoom out actions
+    //--------------------------------------------------------------------------------------------------
 
     private static class ZoomInAction extends AbstractAction {
         private PhotoelectricGraph graph;
