@@ -1,0 +1,1 @@
+This project represents the scenegraph graphics implementation by PhET.
