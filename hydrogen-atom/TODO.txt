@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+- wire SwitchAnimationNode into HAModule
 
 HIGH PRIORITY:
 - get requirements for gun color squiggle in energy digrams
