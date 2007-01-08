@@ -179,15 +179,15 @@ public class CompositeGraphPanel extends JPanel {
 
         // The zoom buttons
         {
-            JPanel btnPnl = new JPanel( new GridBagLayout( ));
-            GridBagConstraints gbc = new GridBagConstraints( 0,GridBagConstraints.RELATIVE,
-                                                             1,1,1,1,
+            JPanel btnPnl = new JPanel( new GridBagLayout() );
+            GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                             1, 1, 1, 1,
                                                              GridBagConstraints.SOUTH,
                                                              GridBagConstraints.NONE,
-                                                             new Insets( 0,0,0,0), 0,0 );
-            btnPnl.add(zoomInBtn,  gbc );
+                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
+            btnPnl.add( zoomInBtn, gbc );
             gbc.anchor = GridBagConstraints.NORTH;
-            btnPnl.add(zoomOutBtn,  gbc );
+            btnPnl.add( zoomOutBtn, gbc );
             add( btnPnl, zoomBtnGbc );
         }
 
@@ -201,6 +201,7 @@ public class CompositeGraphPanel extends JPanel {
     /**
      * Sets the visibility of the snapshot button depending on the visibility of the
      * graphs.
+     *
      * @param checkBoxes
      */
     private void setSnapshotButtonVisibility( ArrayList checkBoxes ) {
@@ -271,14 +272,19 @@ public class CompositeGraphPanel extends JPanel {
             String wavelength = Double.toString( model.getBeam().getWavelength() );
             String intensity = Double.toString( PhotoelectricModelUtil.photonRateToIntensity( model.getBeam().getPhotonsPerSecond(),
                                                                                               model.getBeam().getWavelength() ) );
-            String header = "<html><table>"
-                            + "<tr><td>" + "Material" + "</td><td>" + material + "</td>"
-                            + "<td>         </td>"
-                            + "<td>" + "Wavelength" + "</td><td>" + wavelength + " nm" + "</td></tr>"
-                            + "<tr><td>" + "Voltage" + "</td><td>" + voltage + "v" + "</td>"
-                            + "<td>      </td>"
-                            + "<td>" + "Intensity" + "</td><td>" + intensity + "%" + "</td></tr>"
-                            + "</table></html>";
+            String header = "<html><table border=\"1\" >" +
+                            "<tr><td align=\"right\">" + "Material" + "</td>" +
+                            "<td align=\"right\">" + "Wavelength" + "</td>" +
+                            "<td align=\"right\">" + "Intensity" + "</td>" +
+                            "<td align=\"right\">" + "Voltage" + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<td>" + material + "</td>" +
+                            "<td>" + wavelength + " nm" + "</td>" +
+                            "<td>" + intensity + "%" + "</td>" +
+                            "<td>" + voltage + " v" + "</td>" +
+                            "</tr>" +
+                            "</table></html>";
             JPanel headerPnl = new JPanel();
             headerPnl.setBorder( new TitledBorder( "Experimental Parameters" ) );
             headerPnl.add( new JLabel( header ) );
