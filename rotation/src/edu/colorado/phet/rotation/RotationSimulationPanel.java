@@ -1,10 +1,10 @@
 package edu.colorado.phet.rotation;
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.GraphSuite;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.graphs.TimeSeriesModel;
+import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import java.awt.event.ComponentEvent;
@@ -17,7 +17,7 @@ import java.awt.event.ComponentListener;
  * Copyright (c) Dec 27, 2006 by Sam Reid
  */
 
-public class RotationSimulationPanel extends PhetPCanvas {
+public class RotationSimulationPanel extends BufferedPhetPCanvas {
     /*MVC Model components*/
     private RotationModule rotationModule;
 
