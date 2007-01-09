@@ -22,9 +22,10 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * BoxOfHydrogenNode is the small "box of hydrogen" into which
@@ -35,7 +36,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BoxOfHydrogenNode extends PhetPNode {
+public class BoxOfHydrogenNode extends PImage {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -115,14 +116,13 @@ public class BoxOfHydrogenNode extends PhetPNode {
         Font labelFont = new Font( FONT_NAME, FONT_STYLE, fontSize );
         labelNode.setFont( labelFont );
         
+        // Parent node for everything
+        PComposite parentNode = new PComposite();
+        
         // Layering
-        addChild( boxNode );
-        addChild( _tinyBoxNode );
-        addChild( labelNode );
-        OriginNode originNode = new OriginNode( Color.RED );
-        if ( HAConstants.SHOW_ORIGIN_NODES ) {
-            addChild( originNode );
-        }
+        parentNode.addChild( boxNode );
+        parentNode.addChild( _tinyBoxNode );
+        parentNode.addChild( labelNode );
         
         // Label centered above box, orgin in upper-left corner of bounds
         final double labelWidth = labelNode.getFullBounds().getWidth();
@@ -140,6 +140,9 @@ public class BoxOfHydrogenNode extends PhetPNode {
         double x = boxNode.getFullBounds().getX() + ( 0.6 * boxNode.getFullBounds().getWidth() );
         double y = boxNode.getFullBounds().getY() + ( 0.3 * boxNode.getFullBounds().getHeight() );
         _tinyBoxNode.setOffset( x, y );
+        
+        // Flatten everything to an image
+        setImage( parentNode.toImage() );
     }
     
     //----------------------------------------------------------------------------
