@@ -4,7 +4,7 @@ import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.controls.GraphSelectionControl;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
-import edu.colorado.phet.rotation.graphs.GraphSetPanel;
+import edu.colorado.phet.rotation.graphs.GraphSetNode;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
@@ -19,7 +19,7 @@ import java.awt.event.ComponentEvent;
 public class TestGraphs {
     private JFrame suiteSelectionFrame;
     private JFrame plotFrame;
-    private GraphSetPanel graphSetPanel;
+    private GraphSetNode graphSetNode;
     private PhetPCanvas phetPCanvas;
 
     private RotationModel rotationModel;
@@ -43,9 +43,9 @@ public class TestGraphs {
         suiteSelectionFrame.getContentPane().add( graphSelectionControl );
 
         plotFrame = new JFrame();
-        graphSetPanel = new GraphSetPanel( graphSetModel );
+        graphSetNode = new GraphSetNode( graphSetModel );
 
-        phetPCanvas.addScreenChild( graphSetPanel );
+        phetPCanvas.addScreenChild( graphSetNode );
         plotFrame.setContentPane( phetPCanvas );
         plotFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
@@ -71,7 +71,7 @@ public class TestGraphs {
     }
 
     private void relayout() {
-        graphSetPanel.setBounds( 0, 0, phetPCanvas.getWidth(), phetPCanvas.getHeight() );
+        graphSetNode.setBounds( 0, 0, phetPCanvas.getWidth(), phetPCanvas.getHeight() );
     }
 
     public static void main( String[] args ) {

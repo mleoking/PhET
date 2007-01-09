@@ -86,6 +86,7 @@ public class TimeSeriesControlPanel extends JPanel {
             }
         } );
         updateButtons();
+        setBorder( BorderFactory.createLineBorder( Color.lightGray ) );
     }
 
     private void updateButtons() {
