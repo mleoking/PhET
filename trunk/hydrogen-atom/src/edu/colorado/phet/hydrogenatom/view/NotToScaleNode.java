@@ -25,7 +25,7 @@ import edu.colorado.phet.piccolo.nodes.HTMLNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class NotToScaleNode extends PhetPNode {
+public class NotToScaleNode extends HTMLNode {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -42,18 +42,15 @@ public class NotToScaleNode extends PhetPNode {
     
     public NotToScaleNode() {
         super();
+        
         setPickable( false );
         setChildrenPickable( false );
         
         int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
         
-        HTMLNode htmlNode = new HTMLNode( SimStrings.get( "label.notToScale" ) );
-        htmlNode.setHTMLColor( HAConstants.CANVAS_LABELS_COLOR );
-        htmlNode.setFont( font );
-        htmlNode.setPickable( false );
-        htmlNode.setChildrenPickable( false );
-        
-        addChild( htmlNode );
+        setHTML( SimStrings.get( "label.notToScale" ) );
+        setHTMLColor( HAConstants.CANVAS_LABELS_COLOR );
+        setFont( font );
     }
 }

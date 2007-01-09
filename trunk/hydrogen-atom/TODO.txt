@@ -35,6 +35,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/8/06) - make NotToScaleNode extend HTMLNode
 (1/8/06) - make the legend invisible (don't draw it) when the energy diagram is visible
 (1/8/06) - flatten BoxOfHydrogenNode to a single PImage
 (1/8/06) - use getPositionRef instead of getPosition throughout to minimize Point2D creation
