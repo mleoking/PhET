@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- wire SwitchAnimationNode into HAModule
 
 HIGH PRIORITY:
 - get requirements for gun color squiggle in energy digrams
@@ -39,7 +38,9 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
-(1/8/06) - write animation code for sliding atomic model selector panel up/down
+(1/8/06) - remove SwitchAnimatorNode, it introduced new problems and looked odd
+(1/8/06) - wire SwitchAnimatorNode into HAModule
+(1/8/06) - write SwitchAnimatorNode for sliding atomic model selector panel up/down
 ***** CVS tag hydrogenatom-0-00-20-2007-01-05
 (1/6/06) - bugfix: gun is initialized to white light, but intensity slider shows a color
 (1/5/06) - position spectrometer snapshot based on position of most-recently created snapshot
