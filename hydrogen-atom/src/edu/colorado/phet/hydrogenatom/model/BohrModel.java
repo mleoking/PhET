@@ -556,13 +556,13 @@ public class BohrModel extends AbstractHydrogenAtom {
     
     /*
      * Determines if a proposed state transition is legal.
-     * This is true by default if the 2 states are different.
+     * This is true by default if the 2 states are different and n >= ground state.
      * 
      * @param nOld
      * @param nNew
      */
     protected boolean isaLegalTransition( final int nOld, final int nNew ) {
-        return ( nOld != nNew );
+        return ( ( nOld != nNew ) && ( nNew >= GROUND_STATE ) );
     }
     
     /**
