@@ -39,6 +39,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/8/06) - examine all calls to "new" to identify possible memory optimizations
 (1/8/06) - make NotToScaleNode extend HTMLNode
 (1/8/06) - make the legend invisible (don't draw it) when the energy diagram is visible
 (1/8/06) - flatten BoxOfHydrogenNode to a single PImage
