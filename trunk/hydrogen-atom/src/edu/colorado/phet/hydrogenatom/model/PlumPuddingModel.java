@@ -11,15 +11,14 @@
 
 package edu.colorado.phet.hydrogenatom.model;
 
-import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.event.PhotonAbsorbedEvent;
+import edu.colorado.phet.hydrogenatom.event.PhotonEmittedEvent;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
-import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 
 /**
  * PlumPuddingModel models the hydrogen atom as plum pudding.

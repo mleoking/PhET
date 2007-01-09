@@ -13,18 +13,11 @@ package edu.colorado.phet.hydrogenatom.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Observable;
-import java.util.Observer;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonAbsorbedEvent;
-import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonAbsorbedListener;
-import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedEvent;
-import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.PhotonEmittedListener;
-import edu.colorado.phet.hydrogenatom.model.Gun.GunFiredEvent;
-import edu.colorado.phet.hydrogenatom.model.Gun.GunFiredListener;
+import edu.colorado.phet.hydrogenatom.event.*;
 
 /**
  * HAModel is the model for this simulation.

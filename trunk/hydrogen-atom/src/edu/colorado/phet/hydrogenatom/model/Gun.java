@@ -14,9 +14,6 @@ package edu.colorado.phet.hydrogenatom.model;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.EventObject;
 import java.util.Random;
 
 import javax.swing.event.EventListenerList;
@@ -26,6 +23,8 @@ import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.enums.GunMode;
 import edu.colorado.phet.hydrogenatom.enums.LightType;
+import edu.colorado.phet.hydrogenatom.event.GunFiredEvent;
+import edu.colorado.phet.hydrogenatom.event.GunFiredListener;
 import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 
 /**
@@ -522,54 +521,6 @@ public class Gun extends FixedObject implements ModelElement {
     //----------------------------------------------------------------------------
     // GunFiredListener
     //----------------------------------------------------------------------------
-    
-    /**
-     * GunFiredListener is the interface implemented by all listeners
-     * who wish to be informed when the gun is fired.
-     */
-    public interface GunFiredListener extends EventListener {
-        public void photonFired( GunFiredEvent event );
-        public void alphaParticleFired( GunFiredEvent event );
-    }
-    
-    /**
-     * GunFiredAdapter is a default implementation of GunFiredListener.
-     */
-    public class GunFiredAdapter {
-        public void photonFired( GunFiredEvent event ) {}
-        public void alphaParticleFired( GunFiredEvent event ) {}
-    }
-
-    /**
-     * GunFiredEvent indicates that the gun has been fired.
-     */
-    public class GunFiredEvent extends EventObject {
-
-        private Photon _photon;
-        private AlphaParticle _alphaParticle;
-
-        public GunFiredEvent( Object source, Photon photon ) {
-            super( source );
-            assert( photon != null );
-            _photon = photon;
-            _alphaParticle = null;
-        }
-
-        public GunFiredEvent( Object source, AlphaParticle alphaParticle ) {
-            super( source );
-            assert( alphaParticle != null );
-            _photon = null;
-            _alphaParticle = alphaParticle;
-        }
-        
-        public Photon getPhoton() {
-            return _photon;
-        }
-        
-        public AlphaParticle getAlphaParticle() {
-            return _alphaParticle;
-        }
-    }
     
     /**
      * Adds a GunFiredListener.

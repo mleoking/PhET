@@ -12,12 +12,14 @@
 package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.geom.Point2D;
-import java.util.EventListener;
-import java.util.EventObject;
 
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.hydrogenatom.event.PhotonAbsorbedEvent;
+import edu.colorado.phet.hydrogenatom.event.PhotonAbsorbedListener;
+import edu.colorado.phet.hydrogenatom.event.PhotonEmittedEvent;
+import edu.colorado.phet.hydrogenatom.event.PhotonEmittedListener;
 import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 
 /**
@@ -174,33 +176,6 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
     //----------------------------------------------------------------------------
 
     /**
-     * PhotonAbsorbedListener is the interface implemented by all listeners
-     * who wish to be informed when a photon is absorbed.
-     */
-    public interface PhotonAbsorbedListener extends EventListener {
-
-        public void photonAbsorbed( PhotonAbsorbedEvent event );
-    }
-
-    /**
-     * PhotonAbsorbedEvent indicates that a photon has been absorbed.
-     */
-    public class PhotonAbsorbedEvent extends EventObject {
-
-        private Photon _photon;
-
-        public PhotonAbsorbedEvent( Object source, Photon photon ) {
-            super( source );
-            assert ( photon != null );
-            _photon = photon;
-        }
-
-        public Photon getPhoton() {
-            return _photon;
-        }
-    }
-
-    /**
      * Adds an PhotonAbsorbedListener.
      *
      * @param listener the listener
@@ -238,34 +213,7 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
     //----------------------------------------------------------------------------
 
     /**
-     * PhotonEmittedListener is the interface implemented by all listeners
-     * who wish to be informed when a photon is emitted.
-     */
-    public interface PhotonEmittedListener extends EventListener {
-
-        public void photonEmitted( PhotonEmittedEvent event );
-    }
-
-    /**
-     * PhotonEmittedEvent indicates that a photon has been emitted.
-     */
-    public class PhotonEmittedEvent extends EventObject {
-
-        private Photon _photon;
-
-        public PhotonEmittedEvent( Object source, Photon photon ) {
-            super( source );
-            assert ( photon != null );
-            _photon = photon;
-        }
-
-        public Photon getPhoton() {
-            return _photon;
-        }
-    }
-
-    /**
-     * Adds an EmissionListener.
+     * Adds a PhotonEmittedListener.
      *
      * @param listener the listener
      */
@@ -274,7 +222,7 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
     }
 
     /**
-     * Removes an EmissionListener.
+     * Removes a PhotonEmittedListener.
      *
      * @param listener the listener
      */
