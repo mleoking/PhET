@@ -12,7 +12,6 @@ MEDIUM PRIORITY:
 - remove (n,l,m)= display from Schrodinger view ?
 - show min time that electron is in a state be in wall time? (currently in sim time)
 - find a more obvious place to put the deBroglie view options
-- verify that ModelViewTransform is used everywhere that it should be
 - verify that behavior is correct when clock is paused
 - run stuff for a very long time (especially Schrodinger) to see what breaks
 - test Spanish translations
@@ -544,6 +543,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(1/8/06) - verify that ModelViewTransform is used everywhere that it should be (testing reveals it isn't, but the transform will never be anything but 1:1, not worth the effort to debug)
 (1/8/06) - flatten static parts of energy diagram to an image (unlikely to result in perceptible performance improvement)
 (1/8/06) - make AtomicModelSelector panel slide up/down (gratuitous animation, tried it and it caused new problems)
 (1/8/06) - generalize creating a "panel" node to fit under a collection of nodes (PImageFactory.create(String,Dimension) does this)
