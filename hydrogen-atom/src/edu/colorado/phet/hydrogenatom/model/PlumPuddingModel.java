@@ -253,7 +253,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
         boolean absorbed = false;
         if ( canAbsorb( photon ) ) {
             Point2D electronPosition = getElectronPosition();
-            Point2D photonPosition = photon.getPosition();
+            Point2D photonPosition = photon.getPositionRef();
             if ( pointsCollide( electronPosition, photonPosition, COLLISION_CLOSENESS ) ) {
                 if ( _randomAbsorption.nextDouble() < PHOTON_ABSORPTION_PROBABILITY ) {
                     _numberOfPhotonsAbsorbed++;

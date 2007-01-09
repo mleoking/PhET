@@ -141,7 +141,7 @@ public class MetastableHandler extends ClockAdapter implements Observer {
      */
     private void fireOneAbsorbablePhoton() {
         // assumes that the centers of the gun and atom are vertically aligned
-        if ( _gun.getPosition().getX() != _atom.getPosition().getX() ) {
+        if ( _gun.getPositionRef().getX() != _atom.getPositionRef().getX() ) {
             System.err.println( "WARNING! SchrodingerUnstucker.fireOneAbsorbablePhoton: centers of gun and atom are not vertically aligned" );
         }
         // Select a state higher than n=2, choose from n=[3,4,5,6]

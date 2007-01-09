@@ -94,7 +94,7 @@ public class BilliardBallModel extends AbstractHydrogenAtom {
      * @param dt
      */
     public void movePhoton( Photon photon, double dt ) {
-        Point2D position = photon.getPosition();
+        Point2D position = photon.getPositionRef();
         if ( !photon.isCollided() ) {
             if ( _shape.contains( position ) ) {
                 final int sign = ( position.getX() > getX() ) ? 1 : -1;
@@ -115,7 +115,7 @@ public class BilliardBallModel extends AbstractHydrogenAtom {
      * @param dt
      */
     public void moveAlphaParticle( AlphaParticle alphaParticle, double dt ) {
-        Point2D position = alphaParticle.getPosition();
+        Point2D position = alphaParticle.getPositionRef();
         if ( _shape.contains( position ) ) {
             final int sign = ( position.getX() > getX() ) ? 1 : -1;
             final double deflection = sign * RandomUtils.nextDouble( MIN_DEFLECTION_ANGLE, MAX_DEFLECTION_ANGLE );
