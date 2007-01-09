@@ -114,8 +114,9 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         }
         // Must correct the distance between the plate and the atom by the radii of the atom and an electron. Note
         // the sign of the electron radius correction. This seems to work(???)
-        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getBaseRadius() - Electron.ELECTRON_RADIUS;
+//        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getBaseRadius() - Electron.ELECTRON_RADIUS;
 
+        // Get a line traced by the bottom of the electron as it moves from the left plate to the right plate
         Point2D p1Upper = new Point2D.Double( model.getLeftHandPlate().getPosition().getX(),
                                          model.getLeftHandPlate().getPosition().getY() +
                                          Electron.ELECTRON_RADIUS +
@@ -127,12 +128,16 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
                                          ( model.getRightHandPlate().getEndpoints()[1].getY()
                                            - model.getRightHandPlate().getEndpoints()[0].getY() ) / 2 );
         Line2D lUpper = new Line2D.Double( p1Upper, p2Upper );
-        Ellipse2D e = new Ellipse2D.Double( atom.getCM().getX() - atom.getRadius(),
-                                            atom.getCM().getY() - atom.getRadius(),
-                                            atom.getRadius() * 2,
-                                            atom.getRadius() * 2 );
-        Point2D[] paUpper = MathUtil.getLineCircleIntersection( e, lUpper );
+        double r = atom.getBaseRadius();
+        Ellipse2D atomShape = new Ellipse2D.Double( atom.getCM().getX() - r,
+                                            atom.getCM().getY() - r,
+                                            r * 2,
+                                            r * 2 );
+        // Find the points where the bottom of the electron touches the atom when and if it hits it. Note that
+        // a line can intersect a circle at two points. We figure out which is the correct one later.
+        Point2D[] paUpper = MathUtil.getLineCircleIntersection( atomShape, lUpper );
 
+        // Get a line traced by the top of the electron as it moves from the left plate to the right plate
         Point2D p1Lower = new Point2D.Double( model.getLeftHandPlate().getPosition().getX(),
                                          model.getLeftHandPlate().getPosition().getY() -
                                          Electron.ELECTRON_RADIUS +
@@ -144,7 +149,10 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
                                          ( model.getRightHandPlate().getEndpoints()[1].getY()
                                            - model.getRightHandPlate().getEndpoints()[0].getY() ) / 2 );
         Line2D lLower = new Line2D.Double( p1Lower, p2Lower );
-        Point2D[] paLower = MathUtil.getLineCircleIntersection( e, lLower );
+
+        // Find the points where the top of the electron touches the atom when and if it hits it. Note that
+        // a line can intersect a circle at two points. We figure out which is the correct one later.
+        Point2D[] paLower = MathUtil.getLineCircleIntersection( atomShape, lLower );
 
         this.setVisible( false );
         double dUpper = Double.POSITIVE_INFINITY;
@@ -163,15 +171,14 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         }
         plateToAtomDist = Math.min( dUpper, dLower );
 
-
         // The energy an electron has when it hits the atom
         double electronEnergy = Math.abs( voltage ) * ( plateToAtomDist / plateToPlateDist );
 
         // Determine the y location of the line. Don't let it go off the top of the panel
         int y = energyYTx.modelToView( ( electronEnergy * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR )
                                        + model.getAtomicStates()[0].getEnergyLevel() );
-
         y = Math.max( y, 10 );
+
         setLocation( 0, y );
         setBoundsDirty();
         repaint();
