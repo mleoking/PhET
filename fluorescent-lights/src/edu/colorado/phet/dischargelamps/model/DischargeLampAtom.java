@@ -14,6 +14,10 @@ package edu.colorado.phet.dischargelamps.model;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.quantum.model.*;
+import edu.colorado.phet.common.util.EventChannel;
+
+import java.util.EventObject;
+import java.util.EventListener;
 
 /**
  * Extends Atom class from the Laser simulation in that it knows how to collide with
@@ -25,11 +29,11 @@ public class DischargeLampAtom extends Atom {
     // the ground state)
     public static final double DEFAULT_STATE_LIFETIME = ( DischargeLampsConfig.DT / DischargeLampsConfig.FPS ) * 100;
 
-////    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new HighestStateAbsorptionStrategy();
+//    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new HighestStateAbsorptionStrategy();
     private EnergyEmissionStrategy energyEmissionStrategy = new HydrogenEnergyEmissionStrategy();
-////    private EnergyEmissionStrategy energyEmissionStrategy = new NextLowestEnergyEmissionStrategy();
+//    private EnergyEmissionStrategy energyEmissionStrategy = new NextLowestEnergyEmissionStrategy();
     private EnergyAbsorptionStrategy energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
-////    private EnergyEmissionStrategy energyEmissionStrategy = new FiftyPercentEnergyEmissionStrategy();
+//    private EnergyEmissionStrategy energyEmissionStrategy = new FiftyPercentEnergyEmissionStrategy();
 
     private double baseRadius = Double.NEGATIVE_INFINITY;
 
@@ -95,6 +99,7 @@ public class DischargeLampAtom extends Atom {
      */
     public void collideWithElectron( Electron electron ) {
         energyAbsorptionStrategy.collideWithElectron( this, electron );
+        collisionListenerProxy.collisionOccurred( new ElectronCollisionEvent( this, electron ) );
     }
 
     /**
@@ -113,4 +118,40 @@ public class DischargeLampAtom extends Atom {
 
         super.setStates( elementProperties.getStates() );
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // Events and listeners
+    //--------------------------------------------------------------------------------------------------
+    private EventChannel collisionEventChannel = new EventChannel( ElectronCollisionListener.class );
+    private ElectronCollisionListener collisionListenerProxy = (ElectronCollisionListener)collisionEventChannel.getListenerProxy();
+
+    public void addElectronCollisionListener( ElectronCollisionListener listener ) {
+        collisionEventChannel.addListener( listener );
+    }
+
+    public void removeElectronCollisionListener( ElectronCollisionListener listener ) {
+        collisionEventChannel.removeListener( listener );
+    }
+
+    public static class ElectronCollisionEvent extends EventObject {
+        private Electron electron;
+
+        public ElectronCollisionEvent( DischargeLampAtom source, Electron electron ) {
+            super( source );
+            this.electron = electron;
+        }
+
+        public DischargeLampAtom getAtom() {
+            return (DischargeLampAtom)getSource();
+        }
+
+        public Electron getElectron() {
+            return electron;
+        }
+    }
+
+    public static interface ElectronCollisionListener extends EventListener {
+        void collisionOccurred( ElectronCollisionEvent event );
+    }
+
 }
