@@ -1,5 +1,6 @@
 package edu.colorado.phet.rotation;
 
+import edu.colorado.phet.rotation.view.PlatformNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -10,4 +11,12 @@ import edu.umd.cs.piccolo.PNode;
  */
 
 public class RotationPlayArea extends PNode {
+    private PlatformNode platformNode;
+
+    public RotationPlayArea() {
+        platformNode = new PlatformNode();
+        platformNode.setOffset( 5, 5 );
+
+        addChild( platformNode );
+    }
 }

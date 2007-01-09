@@ -11,14 +11,14 @@ import java.util.ArrayList;
  * Copyright (c) Dec 28, 2006 by Sam Reid
  */
 
-public class GraphSetPanel extends PNode {
+public class GraphSetNode extends PNode {
     private GraphSetModel graphSetModel;
     private ArrayList graphComponents = new ArrayList();
     private GraphComponent.Listener graphComponentListener;
     private double width;
     private double height;
 
-    public GraphSetPanel( GraphSetModel graphSetModel ) {
+    public GraphSetNode( GraphSetModel graphSetModel ) {
         this.graphSetModel = graphSetModel;
         graphComponentListener = new GraphComponent.Listener() {
             public void minimizeStateChanged() {
