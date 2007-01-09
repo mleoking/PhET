@@ -25,5 +25,11 @@ public class RotationPlayArea extends PNode {
                 platformNode.setAngle( rotationModule.getRotationModel().getLastState().getAngle() );
             }
         } );
+        platformNode.addListener( new PlatformNode.Listener() {
+            public void angleChanged() {
+                rotationModule.setAngleUpdateStrategy();
+                rotationModule.setAngle( platformNode.getAngle() );
+            }
+        } );
     }
 }
