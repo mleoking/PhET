@@ -60,7 +60,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
      * @param groundStateEnergy
      * @param xLoc
      * @param width
-     * @param isAdjustable  Determines if the graphic can be moved up and down with the mouse
+     * @param isAdjustable      Determines if the graphic can be moved up and down with the mouse
      */
     public EnergyLevelGraphic( Component component, AtomicState atomicState, double groundStateEnergy, double xLoc, double width,
                                boolean isAdjustable, double iconLocX ) {
@@ -104,6 +104,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
 
     public void setLevelIcon( LevelIcon levelIcon ) {
         this.levelIcon = levelIcon;
+        levelIcon.setCursorHand();
         energyLevelRep.setLevelIcon( levelIcon );
     }
 
@@ -170,6 +171,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         private Arrow arrow2;
         private Rectangle boundingRect;
         private LevelIcon levelIcon;
+        private Shape mouseableArea;
 
         protected EnergyLevelRep( Component component ) {
             super( component );
@@ -233,7 +235,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         }
 
         public boolean contains( int x, int y ) {
-            return boundingRect.contains( x, y );
+            return boundingRect.contains( x, y ) || levelIcon.contains( x, y );
         }
 
         //----------------------------------------------------------------

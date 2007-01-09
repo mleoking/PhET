@@ -26,6 +26,7 @@ import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
+import edu.colorado.phet.dischargelamps.model.ConfigurableElementProperties;
 import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
 import edu.colorado.phet.lasers.view.MonitorPanel;
 import edu.colorado.phet.quantum.model.Atom;
@@ -116,6 +117,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     // Constructors and initialization
     //----------------------------------------------------------------
 
+
     /**
      * @param model
      * @param atomicStates
@@ -140,16 +142,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         this.levelLineLength = panelWidth - levelLineOriginX - 20;
         electronXLoc = (int)origin.getX();
 
-        // The size of the panel changes with the range of energy levels for the atom. The
-        // scale is set according to the requested panelWidth and panelHeight applied to
-        // hydrogen properties (Request of Sam M., 10/24/06)
-//        this.panelHeight = panelHeight;
-//        this.minPanelWidth = panelWidth;
-//        HydrogenProperties hProps = new HydrogenProperties();
-//        double hPropsEnergyRange = hProps.getEnergyLevels()[hProps.getEnergyLevels().length-1] - hProps.getEnergyLevels()[0];
-//        double atomicStatesEnergyRange = atomicStates[atomicStates.length - 1].getEnergyLevel() - atomicStates[0].getEnergyLevel();
-//        double scaleY = atomicStatesEnergyRange * (panelHeight - headingOffsetY - footerOffsetY) / hPropsEnergyRange;
-//        setPreferredSize( new Dimension( (int)panelWidth, (int)(panelHeight * scaleY )) );
         setPanelSize( panelWidth, panelHeight, atomicStates );
 
         this.setBackground( Color.white );
@@ -166,8 +158,9 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     }
 
     /**
-     * Computes the height of the panel normalized t0 a specified height for the range of energies
-     * needed to represent hydrogen.
+     * Computes the height of the panel normalized to a specified height for the range of energies
+     * needed to represent hydrogen. If the current element properties are configurable, then
+     * set the size as if the element were hydrogen
      *
      * @param panelWidth
      * @param panelHeight
@@ -179,7 +172,13 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         HydrogenProperties hProps = new HydrogenProperties();
         double hPropsEnergyRange = hProps.getEnergyLevels()[hProps.getEnergyLevels().length - 1] - hProps.getEnergyLevels()[0];
         double atomicStatesEnergyRange = atomicStates[atomicStates.length - 1].getEnergyLevel() - atomicStates[0].getEnergyLevel();
-        double scaleY = atomicStatesEnergyRange / hPropsEnergyRange;
+        double scaleY = 0;
+        if( model.getElementProperties() instanceof ConfigurableElementProperties ) {
+            scaleY = 1;
+        }
+        else {
+            scaleY = atomicStatesEnergyRange / hPropsEnergyRange;
+        }
         setPreferredSize( new Dimension( (int)panelWidth, (int)( panelHeight * scaleY ) ) );
     }
 
@@ -242,12 +241,9 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     public void setEnergyLevels( AtomicState[] atomicStates ) {
 
         // Find the minimum and maximum energy levels
-//        maxEnergy = -Double.MAX_VALUE;
-        groundStateEnergy = Double.MAX_VALUE;
         for( int i = 0; i < atomicStates.length; i++ ) {
             AtomicState atomicState = atomicStates[i];
             double energy = atomicState.getEnergyLevel();
-//            maxEnergy = energy > maxEnergy ? energy : maxEnergy;
             groundStateEnergy = energy < groundStateEnergy ? energy : groundStateEnergy;
         }
 
@@ -300,16 +296,10 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
                 }
             } );
 
-//            // If this is the ground state, set the position of the ground state label
-//            if( i == 0 && groundStateTextGraphic != null ) {
-//                groundStateTextGraphic.setLocation( (int)groundStateTextGraphic.getLocation().getX(),
-//                                                    (int)levelGraphics[i].getLocation().getY() );
-//            }
         }
 
         // Set the width of the panel so it can show all the atoms. 35 gives us a margin for the level icon
         int width = Math.max( this.minPanelWidth, levelLineLength + levelLineOriginX + 35 );
-//        setPreferredSize( new Dimension( width, (int)panelHeight ) );
         setPanelSize( width, panelHeight, atomicStates );
 
         // Needed to set the energyYTx
@@ -584,11 +574,11 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
     private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 
-    public void addChangeListener( ChangeListener listener) {
+    public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
     }
 
-    public void removeChangeListener( ChangeListener listener) {
+    public void removeChangeListener( ChangeListener listener ) {
         changeEventChannel.removeListener( listener );
     }
 }
