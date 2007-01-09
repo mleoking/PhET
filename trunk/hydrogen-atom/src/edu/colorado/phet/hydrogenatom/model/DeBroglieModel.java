@@ -157,7 +157,7 @@ public class DeBroglieModel extends BohrModel {
         double orbitY = ORBIT_Y_SCALE * orbitRadius * Math.sin( angle );
         
         // distance from electron to closest point on orbit
-        double distance = new Point2D.Double( x, y ).distance( orbitX, orbitY );
+        double distance = Point2D.distance( x, y, orbitX, orbitY );
         
         // how close the photon's center must be to a point on the electron's orbit
         double closeness = COLLISION_CLOSENESS + ( DeBroglieBrightnessNode.RING_WIDTH / 2 );
