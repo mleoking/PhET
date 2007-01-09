@@ -220,15 +220,7 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
         // create the new squiggle for photon absorption/emission
         final int n = _atom.getElectronState();
         if ( n != _nPrevious ) {
-            double wavelength = 0;
-            if ( n > _nPrevious ) {
-                // a photon has been absorbed
-                wavelength = BohrModel.getWavelengthAbsorbed( _nPrevious, n );
-            }
-            else {
-                // a photon has been emitted
-                wavelength = BohrModel.getWavelengthAbsorbed( n, _nPrevious );
-            }
+            double wavelength = BohrModel.getTransitionWavelength( _nPrevious, n );
             final int l = _atom.getSecondaryElectronState();
             double x1 = getXOffset( _lPrevious ) + ( LINE_LENGTH / 2 );
             double y1 = getYOffset( _nPrevious );
