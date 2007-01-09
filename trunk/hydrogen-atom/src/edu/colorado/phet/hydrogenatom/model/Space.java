@@ -13,15 +13,8 @@ package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Observable;
-import java.util.Observer;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.hydrogenatom.model.Gun.GunFiredEvent;
-import edu.colorado.phet.hydrogenatom.model.Gun.GunFiredListener;
 
 /**
  * Space models the space that photons and alpha particles travel through,
