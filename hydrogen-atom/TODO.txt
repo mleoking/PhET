@@ -546,6 +546,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(1/8/06) - make AtomicModelSelector panel slide up/down (gratuitous animation, tried it and it caused new problems)
 (1/8/06) - generalize creating a "panel" node to fit under a collection of nodes (PImageFactory.create(String,Dimension) does this)
 (1/8/06) - spontaneously emit 2 photons to get Schrodinger out of state (2,0,0) (dubious, too confusing)
 (12/28/06) - generate 1 image for entire Spectrometer colorKey (UV and IR range must be compressed)
