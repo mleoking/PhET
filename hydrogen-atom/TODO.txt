@@ -5,6 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- optimization: getElectronPosition created a Point2D (BohrModel, DeBroglieModel, PlumPuddingModel)
+- optimization: HAModel and Model create ArrayList copies on every clock tick
+- optimization: SchodingerModel.chooseLowerElectronState creates ProbabilisticChooser & Entry's
+- optimization: DeBroglieBrightnessNode creates and draws lots of GeneralPaths and PNodes, flatten?
 - get requirements for gun color squiggle in energy digrams
 - add abstract to SimStrings file
 
