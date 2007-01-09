@@ -28,27 +28,6 @@ public class RotationGraphSet {
     private ArrayList graphComponents = new ArrayList();
     private GraphSuite[] suites;
 
-    ControlGraph toControlGraph( PSwingCanvas pSwingCanvas, String label, String title, double min, double max, Color color, SimulationVariable simulationVariable, PNode thumb, boolean editable ) {
-        final ControlGraph controlGraph = new ControlGraph( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb );
-        controlGraph.addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
-            public void zoomedOut() {
-                horizontalZoomChanged( controlGraph.getMaxDataX() );
-            }
-
-            public void zoomedIn() {
-                horizontalZoomChanged( controlGraph.getMaxDataX() );
-            }
-        } );
-        controlGraph.setEditable( editable );
-        return controlGraph;
-    }
-
-    private void horizontalZoomChanged( double maxDataX ) {
-        for( int i = 0; i < graphComponents.size(); i++ ) {
-            GraphComponent graphComponent = (GraphComponent)graphComponents.get( i );
-            graphComponent.getControlGraph().setDomainUpperBound( maxDataX );
-        }
-    }
 
     public RotationGraphSet( PSwingCanvas pSwingCanvas, final RotationModel rotationModel ) {
         angleGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.THETA, toControlGraph( pSwingCanvas, UnicodeUtil.THETA, "Angular Position", -Math.PI * 3, Math.PI * 3, Color.blue, rotationModel.getXVariable(), PImageFactory.create( "images/blue-arrow.png" ), true ) );
@@ -105,6 +84,28 @@ public class RotationGraphSet {
             public void valueChanged() {
             }
         } );
+    }
+
+    ControlGraph toControlGraph( PSwingCanvas pSwingCanvas, String label, String title, double min, double max, Color color, SimulationVariable simulationVariable, PNode thumb, boolean editable ) {
+        final ControlGraph controlGraph = new ControlGraph( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb );
+        controlGraph.addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
+            public void zoomedOut() {
+                horizontalZoomChanged( controlGraph.getMaxDataX() );
+            }
+
+            public void zoomedIn() {
+                horizontalZoomChanged( controlGraph.getMaxDataX() );
+            }
+        } );
+        controlGraph.setEditable( editable );
+        return controlGraph;
+    }
+
+    private void horizontalZoomChanged( double maxDataX ) {
+        for( int i = 0; i < graphComponents.size(); i++ ) {
+            GraphComponent graphComponent = (GraphComponent)graphComponents.get( i );
+            graphComponent.getControlGraph().setDomainUpperBound( maxDataX );
+        }
     }
 
     public GraphComponent getAngleGraph() {

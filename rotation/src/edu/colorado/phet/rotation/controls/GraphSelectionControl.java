@@ -1,5 +1,6 @@
 package edu.colorado.phet.rotation.controls;
 
+import edu.colorado.phet.rotation.RotationLookAndFeel;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.GraphSuite;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
@@ -23,7 +24,7 @@ public class GraphSelectionControl extends JPanel {
         setLayout( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = GraphicsUtil.createVerticalGridBagConstraints();
         JLabel label = new JLabel( "Show graphs for:" );
-        label.setFont( label.getFont().deriveFont( 28.0f ) );
+        label.setFont( RotationLookAndFeel.getControlPanelTitleFont() );
         add( label, gridBagConstraints );
         for( int i = 0; i < rotationGraphSet.getGraphSuites().length; i++ ) {
             add( new GraphSuiteRadioButton( graphSetModel, rotationGraphSet.getGraphSuites()[i] ), gridBagConstraints );
@@ -38,7 +39,7 @@ public class GraphSelectionControl extends JPanel {
             super( graphSuite.getLabel(), graphSetModel.getRotationGraphSuite() == graphSuite );
             this.graphSetPanel = graphSetModel;
             this.graphSuite = graphSuite;
-            setFont( new Font( "Lucida Sans", Font.PLAIN, 20 ) );
+            setFont( RotationLookAndFeel.getGraphSelectionItemFont() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     graphSetModel.setRotationGraphSuite( graphSuite );

@@ -1,5 +1,6 @@
 package edu.colorado.phet.rotation.controls;
 
+import edu.colorado.phet.rotation.RotationLookAndFeel;
 import edu.colorado.phet.rotation.util.GraphicsUtil;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
 
@@ -20,7 +21,7 @@ public class SymbolKey extends JPanel {
         setLayout( new GridBagLayout() );
         gridBagConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         JLabel label = new JLabel( "Symbol Key:" );
-        label.setFont( label.getFont().deriveFont( 24.0f ) );
+        label.setFont( RotationLookAndFeel.getControlPanelTitleFont() );
         add( label, gridBagConstraints );
 
         addItem( UnicodeUtil.THETA, "Angle" );
@@ -29,7 +30,7 @@ public class SymbolKey extends JPanel {
         addItem( "x, y", "Position" );
         addItem( "v", "Velocity" );
         addItem( "a", "Acceleration" );
-        setBorder( BorderFactory.createLineBorder( Color.black ) );
+        setBorder( BorderFactory.createLineBorder( Color.lightGray ) );
     }
 
     private void addItem( String theta, String s ) {
@@ -40,7 +41,7 @@ public class SymbolKey extends JPanel {
                 GraphicsUtil.antialias( g, aa );
             }
         };
-        label.setFont( label.getFont().deriveFont( 22.0f ) );
+        label.setFont( RotationLookAndFeel.getLegendItemFont() );
         add( label, gridBagConstraints );
     }
 }
