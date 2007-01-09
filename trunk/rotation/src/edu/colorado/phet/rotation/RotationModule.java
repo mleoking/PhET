@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.piccolo.PiccoloModule;
@@ -36,6 +37,11 @@ public class RotationModule extends PiccoloModule {
 
         setLogoPanel( null );
         setClockControlPanel( null );
+        addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                rotationModel.stepInTime( dt );
+            }
+        } );
     }
 
     private static IClock createClock() {
