@@ -1,12 +1,18 @@
 package edu.colorado.phet.rotation.view;
 
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -45,6 +51,32 @@ public class PlatformNode extends PNode {
         addChild( contentNode );
 
         contentNode.scale( 100 );
+        addInputEventListener( new PBasicInputEventHandler() {
+            double initAngle;
+            public Point2D initLoc;
+
+            public void mousePressed( PInputEvent event ) {
+                initAngle = angle;
+                initLoc = event.getPositionRelativeTo( PlatformNode.this );
+            }
+
+            public void mouseReleased( PInputEvent event ) {
+            }
+
+            public void mouseDragged( PInputEvent event ) {
+                Point2D loc = event.getPositionRelativeTo( PlatformNode.this );
+                Point2D.Double center = new Point2D.Double( ringRadius / scale, ringRadius / scale );
+                Vector2D.Double a = new Vector2D.Double( center, initLoc );
+                Vector2D.Double b = new Vector2D.Double( center, loc );
+                double angleDiff = b.getAngle() - a.getAngle();
+//                System.out.println( "a=" + a + ", b=" + b + ", center=" + center + ", angleDiff = " + angleDiff );
+                System.out.println( "angleDiff=" + angleDiff );
+
+                setAngle( initAngle + angleDiff );
+                notifyListeners();
+            }
+        } );
+        addInputEventListener( new CursorHandler() );
     }
 
     private void addRingNode( double radius, Color color ) {
@@ -58,6 +90,27 @@ public class PlatformNode extends PNode {
             contentNode.setRotation( 0 );
             contentNode.setOffset( 0, 0 );
             contentNode.rotateAboutPoint( angle, ringRadius, ringRadius );
+        }
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public static interface Listener {
+        void angleChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyListeners() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.angleChanged();
         }
     }
 
