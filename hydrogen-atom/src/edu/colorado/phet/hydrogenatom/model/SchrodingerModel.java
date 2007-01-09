@@ -180,27 +180,27 @@ public class SchrodingerModel extends DeBroglieModel {
     
     /*
      * Probabilistically determines whether to absorb a photon.
-     * Typcially we defer to the superclass implementation.
+     * Typically we defer to the superclass implementation.
      * But if we're in state (2,0,0), the probability is 100%. 
      * This is not physically correct, but we want to make it easier
      * to get out of state (2,0,0).
      * 
      * @return true or false
      */
-    protected boolean willAbsorbPhoton() {
+    protected boolean absorptionIsCertain() {
         if ( getElectronState() == 2 && _l == 0 ) {
             return true;
         }
-        return super.willAbsorbPhoton();
+        return super.absorptionIsCertain();
     }
     
     /*
-     * Determines if a proposed state transition is legal.
+     * Determines if a proposed state transition caused by stimulated emission is allowed.
      * 
      * @param nOld
      * @param nNew
      */
-    protected boolean isaLegalTransition( final int nOld, final int nNew ) {
+    protected boolean stimulatedEmissionIsAllowed( final int nOld, final int nNew ) {
         boolean legal = true;
         if ( nNew == nOld ) {
             legal = false;
