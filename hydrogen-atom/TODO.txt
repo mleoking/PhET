@@ -5,10 +5,13 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- bug: Schrodinger needs different hooks for setting (n,l,m) state for aborption, stimulated emission, and spontaneous emission
+- bug: Schrodinger allows illegal transitions, eg (3,0,0)->(1,1-1), (3,2,-2)->(1,0,0), (3,2,1)->(1,0,0), (3,2,-1)->(1,0,0), (4,2,-1)->(1,0,0) 
 - optimization: getElectronPosition created a Point2D (BohrModel, DeBroglieModel, PlumPuddingModel)
 - optimization: HAModel and Model create ArrayList copies on every clock tick
 - optimization: SchodingerModel.chooseLowerElectronState creates ProbabilisticChooser & Entry's
 - optimization: DeBroglieBrightnessNode creates and draws lots of GeneralPaths and PNodes, flatten?
+- optimization: make EnergySquiggle mutable
 - get requirements for gun color squiggle in energy digrams
 - add abstract to SimStrings file
 
@@ -39,6 +42,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/9/06) - move inner class events and listeners to new "event" package
 (1/8/06) - examine all calls to "new" to identify possible memory optimizations
 (1/8/06) - make NotToScaleNode extend HTMLNode
 (1/8/06) - make the legend invisible (don't draw it) when the energy diagram is visible
