@@ -29,6 +29,8 @@ public class RotationPlayArea extends PNode {
             public void angleChanged() {
                 rotationModule.setAngleUpdateStrategy();
                 rotationModule.setAngle( platformNode.getAngle() );
+                //todo: this is a hack, to ensure time goes forward during a drag. When the simulation is based on time series, this should be deprecated.
+                rotationModule.getRotationModel().stepInTime( 1.0 );
             }
         } );
     }
