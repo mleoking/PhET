@@ -81,7 +81,7 @@ public class BohrNode extends AbstractHydrogenAtomNode implements Observer {
             addChild( originNode );
         }
         
-        Point2D atomPosition = _atom.getPosition();
+        Point2D atomPosition = _atom.getPositionRef();
         Point2D nodePosition = ModelViewTransform.transform( atomPosition );
         setOffset( nodePosition );
         

@@ -64,7 +64,7 @@ public class BilliardBallNode extends AbstractHydrogenAtomNode implements Observ
         PNode billiardBallNode = new SphericalNode( diameter, roundGradient, true /* convertToImage */ );
         addChild( billiardBallNode );
 
-        setOffset( ModelViewTransform.transform( _atom.getPosition() ) );
+        setOffset( ModelViewTransform.transform( _atom.getPositionRef() ) );
     }
     
     //----------------------------------------------------------------------------

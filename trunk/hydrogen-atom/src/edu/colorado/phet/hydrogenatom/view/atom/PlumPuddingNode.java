@@ -94,7 +94,7 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
         PBounds pb = puddingNode.getFullBounds();
         puddingNode.setOffset( -pb.getWidth()/2, -pb.getHeight()/2 );
         
-        Point2D atomPosition = _atom.getPosition();
+        Point2D atomPosition = _atom.getPositionRef();
         Point2D nodePosition = ModelViewTransform.transform( atomPosition );
         setOffset( nodePosition );
         

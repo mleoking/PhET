@@ -35,6 +35,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/8/06) - use getPositionRef instead of getPosition throughout to minimize Point2D creation
 (1/8/06) - remove unnecessary Point2D creation from DeBroglieModel.collides3D
 (1/8/06) - remove SwitchAnimatorNode, it introduced new problems and looked odd
 (1/8/06) - wire SwitchAnimatorNode into HAModule

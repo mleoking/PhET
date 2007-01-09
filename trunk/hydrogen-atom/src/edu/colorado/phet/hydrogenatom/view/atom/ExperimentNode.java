@@ -64,7 +64,7 @@ public class ExperimentNode extends PhetPNode implements Observer {
         addChild( boxNode );
         addChild( textNode );
         
-        setOffset( ModelViewTransform.transform( _atom.getPosition() ) );
+        setOffset( ModelViewTransform.transform( _atom.getPositionRef() ) );
     }
     
     /**

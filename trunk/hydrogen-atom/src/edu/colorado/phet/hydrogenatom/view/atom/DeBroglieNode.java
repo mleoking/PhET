@@ -60,7 +60,7 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
         _viewStrategy = createViewStrategy( _atom );
         addChild( _viewStrategy );
         
-        Point2D atomPosition = atom.getPosition();
+        Point2D atomPosition = atom.getPositionRef();
         Point2D nodePosition = ModelViewTransform.transform( atomPosition );
         setOffset( nodePosition );
     }
