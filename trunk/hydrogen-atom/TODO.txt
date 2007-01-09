@@ -42,6 +42,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/9/06) - major reorganization and cleanup of BohrModel to improve readability
 (1/9/06) - move inner class events and listeners to new "event" package
 (1/8/06) - examine all calls to "new" to identify possible memory optimizations
 (1/8/06) - make NotToScaleNode extend HTMLNode
