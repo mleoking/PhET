@@ -13,6 +13,11 @@ import java.awt.*;
  */
 
 public class RotationLookAndFeel extends PhetLookAndFeel {
+
+    public RotationLookAndFeel() {
+        super.setBackgroundColor( new Color( 200, 240, 200 ) );
+    }
+
     public static Font getControlPanelTitleFont() {
         return new LucidaSansFont( 20, true );
     }
@@ -28,4 +33,5 @@ public class RotationLookAndFeel extends PhetLookAndFeel {
     public static Font getGraphSelectionItemFont() {
         return new LucidaSansFont( 18, false );
     }
+
 }

@@ -28,7 +28,6 @@ public class RotationGraphSet {
     private ArrayList graphComponents = new ArrayList();
     private GraphSuite[] suites;
 
-
     public RotationGraphSet( PSwingCanvas pSwingCanvas, final RotationModel rotationModel ) {
         angleGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.THETA, toControlGraph( pSwingCanvas, UnicodeUtil.THETA, "Angular Position", -Math.PI * 3, Math.PI * 3, Color.blue, rotationModel.getXVariable(), PImageFactory.create( "images/blue-arrow.png" ), true ) );
         angularVelocityGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.OMEGA, toControlGraph( pSwingCanvas, UnicodeUtil.OMEGA, "Angular Velocity", -0.1, 0.1, Color.red, rotationModel.getVVariable(), PImageFactory.create( "images/red-arrow.png" ), true ) );
