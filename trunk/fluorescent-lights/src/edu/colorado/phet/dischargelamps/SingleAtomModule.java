@@ -63,7 +63,8 @@ public class SingleAtomModule extends DischargeLampModule {
         getDischargeLampModel().setElectronProductionMode( ElectronSource.SINGLE_SHOT_MODE );
         getDischargeLampModel().setMaxCurrent( maxCurrent / currentDisplayFactor );
 
-        // Make the area from which the cathode emits electrons very small
+        // Make the area from which the cathode emits electrons very small, so they will always
+        // come out of the middle of the plate
         getDischargeLampModel().getLeftHandPlate().setEmittingLength( 1 );
         getDischargeLampModel().getRightHandPlate().setEmittingLength( 1 );
 
@@ -80,9 +81,18 @@ public class SingleAtomModule extends DischargeLampModule {
     private void addControls() {
         final DischargeLampEnergyMonitorPanel2 elmp = super.getEneregyLevelsMonitorPanel();
 
-        // Add the indicator for what energy an electron will have when it hits the atom
+        // Add the indicator for what energy an electron will have when it hits the atom. At first, it
+        // isn't enabled. We add a listener that will enable the collision energy indicator when the first
+        // collision occurs
         collisionEnergyIndicatorGraphic = new CollisionEnergyIndicator( elmp.getElmp(), this );
         elmp.getElmp().addGraphic( collisionEnergyIndicatorGraphic, -1 );
+        collisionEnergyIndicatorGraphic.setEnabled( false );
+        atom.addElectronCollisionListener( new DischargeLampAtom.ElectronCollisionListener() {
+            public void collisionOccurred( DischargeLampAtom.ElectronCollisionEvent event ) {
+                collisionEnergyIndicatorGraphic.setEnabled( true );
+                event.getAtom().removeElectronCollisionListener( this );
+            }
+        } );
 
         // Add text that labels the ground state
         PhetTextGraphic2 groundStateTextGraphic = new PhetTextGraphic2( elmp.getElmp(),
@@ -158,9 +168,6 @@ public class SingleAtomModule extends DischargeLampModule {
 
         // Set the size of the panel
         elmp.getElmp().setPreferredSize( new Dimension( 200, 300 ) );
-
-//        getControlPanel().remove( getOptionsPanel() );
-//        ( (ControlPanel)getControlPanel() ).addFullWidth( getOptionsPanel() );
     }
 
     /**
