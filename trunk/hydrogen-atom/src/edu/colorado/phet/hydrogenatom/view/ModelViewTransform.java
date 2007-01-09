@@ -26,7 +26,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
  */
 public class ModelViewTransform {
 
-    private static AffineTransform transform;
+    private static AffineTransform _transform;
     
     /* Not intended for instantiation */
     private ModelViewTransform() {}
@@ -37,10 +37,10 @@ public class ModelViewTransform {
      * @return point in view coordinates
      */
     public static final Point2D transform( Point2D p ) {
-        if ( transform == null ) {
+        if ( _transform == null ) {
             initTransform();
         }
-        return transform.transform( p, null );
+        return _transform.transform( p, null );
     }
     
     /**
@@ -49,7 +49,7 @@ public class ModelViewTransform {
      * @return distance in view coordinates
      */
     public static final double transform( double distance ) {
-        if ( transform == null ) {
+        if ( _transform == null ) {
             initTransform();
         }
         Point2D p = new Point2D.Double( 0, distance );
@@ -61,8 +61,8 @@ public class ModelViewTransform {
      * Initializes the transform.
      */
     private static void initTransform() {
-        transform = new AffineTransform();
-        transform.scale( 1, 1 );
-        transform.translate( HAConstants.ANIMATION_BOX_SIZE.width / 2, HAConstants.ANIMATION_BOX_SIZE.height );
+        _transform = new AffineTransform();
+        _transform.scale( 1, 1 );
+        _transform.translate( HAConstants.ANIMATION_BOX_SIZE.width / 2, HAConstants.ANIMATION_BOX_SIZE.height );
     }
 }
