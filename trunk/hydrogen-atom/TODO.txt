@@ -23,13 +23,11 @@ LOW PRIORITY:
 - improve performance of deBroglie 3D representation
 - animation gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
 - reduce size of panel image files
-- animate opening/closing of Atomic Model selection panel (use PNode.toImage)
 - create layout nodes for creating Piccolo-based control panels
 - rewrite AtomicModelSelector to use inner classes, or layout node
 - bug: ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 - bug: spectrometer buttons are fully transparent on Win98
 - bug: problem with updating drag bounds of ConstrainedDragHandler (see HACK comment in WavelengthControl)
-- flatten static parts of energy diagram to an image
 
 DEFER UNTIL AFTER INTERVIEWS:
 - make spectrometer show each UV/IR transition wavelength at a distinct horizontal position
@@ -546,6 +544,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(1/8/06) - flatten static parts of energy diagram to an image (unlikely to result in perceptible performance improvement)
 (1/8/06) - make AtomicModelSelector panel slide up/down (gratuitous animation, tried it and it caused new problems)
 (1/8/06) - generalize creating a "panel" node to fit under a collection of nodes (PImageFactory.create(String,Dimension) does this)
 (1/8/06) - spontaneously emit 2 photons to get Schrodinger out of state (2,0,0) (dubious, too confusing)
