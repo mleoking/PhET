@@ -38,7 +38,7 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
         rotationGraphSet = new RotationGraphSet( this, rotationModule.getRotationModel() );
         graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
 
-        rotationPlayArea = new RotationPlayArea();
+        rotationPlayArea = new RotationPlayArea( rotationModule );
         timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( this, graphSetModel, new TimeSeriesModel() );
 
         rotationControlPanel = new RotationControlPanel( rotationGraphSet, graphSetModel, rotationModule.getVectorViewModel() );
