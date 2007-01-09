@@ -296,6 +296,8 @@ public class HAModule extends PiccoloModule {
             _energyDiagramCheckBox.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
                     updateEnergyDiagram();
+                    // don't draw the legend if the energy diagram is covering it up
+                    _legendNode.setVisible( !_energyDiagramCheckBox.isSelected() );
                 }
             } );
             _energyDiagramCheckBoxNode = new PSwing( _canvas, _energyDiagramCheckBox );
