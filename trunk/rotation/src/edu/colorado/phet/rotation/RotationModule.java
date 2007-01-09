@@ -1,9 +1,12 @@
 package edu.colorado.phet.rotation;
 
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.rotation.controls.VectorViewModel;
+import edu.colorado.phet.rotation.graphs.GraphSetModel;
+import edu.colorado.phet.rotation.model.RotationModel;
 
 /**
  * User: Sam Reid
@@ -12,15 +15,42 @@ import edu.colorado.phet.common.model.clock.SwingClock;
  * Copyright (c) Dec 27, 2006 by Sam Reid
  */
 
-public class RotationModule extends Module {
+public class RotationModule extends PiccoloModule {
+    private RotationSimulationPanel rotationSimulationPanel;
+
+    /*The Physical Model*/
+    private RotationModel rotationModel;
+
+    /*Other MVC model data structures*/
+
+    private VectorViewModel vectorViewModel;
 
     public RotationModule() {
         super( "Rotation", createClock() );
         setModel( new BaseModel() );
-        setSimulationPanel( new RotationSimulationPanel() );
+        rotationModel = new RotationModel();
+        vectorViewModel = new VectorViewModel();
+
+        rotationSimulationPanel = new RotationSimulationPanel( this );
+        setSimulationPanel( rotationSimulationPanel );
+
+        setLogoPanel( null );
+        setClockControlPanel( null );
     }
 
     private static IClock createClock() {
         return new SwingClock( 30, 1.0 );
+    }
+
+    public GraphSetModel getGraphSetModel() {
+        return rotationSimulationPanel.getGraphSetModel();
+    }
+
+    public VectorViewModel getVectorViewModel() {
+        return vectorViewModel;
+    }
+
+    public RotationModel getRotationModel() {
+        return rotationModel;
     }
 }

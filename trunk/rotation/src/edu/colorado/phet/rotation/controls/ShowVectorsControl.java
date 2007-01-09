@@ -1,5 +1,7 @@
 package edu.colorado.phet.rotation.controls;
 
+import edu.colorado.phet.rotation.RotationLookAndFeel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,6 +20,7 @@ public class ShowVectorsControl extends JPanel {
     public ShowVectorsControl( final VectorViewModel vectorViewModel ) {
         this.vectorViewModel = vectorViewModel;
         setLayout( new GridBagLayout() );
+
         GridBagConstraints gridBagConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         final JCheckBox velocityCheckBox = new JCheckBox( "velocity", vectorViewModel.isVelocityVisible() );
         velocityCheckBox.addActionListener( new ActionListener() {
@@ -40,7 +43,12 @@ public class ShowVectorsControl extends JPanel {
             }
         } );
 
-        add( new JLabel( "Show Vectors:" ), gridBagConstraints );
+        JLabel showVectorLabel = new JLabel( "Show Vectors:" );
+        showVectorLabel.setFont( RotationLookAndFeel.getControlPanelTitleFont() );
+        velocityCheckBox.setFont( RotationLookAndFeel.getCheckBoxFont() );
+        accelerationCheckBox.setFont( RotationLookAndFeel.getCheckBoxFont() );
+
+        add( showVectorLabel, gridBagConstraints );
         add( velocityCheckBox, gridBagConstraints );
         add( accelerationCheckBox, gridBagConstraints );
     }
