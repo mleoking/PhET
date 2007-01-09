@@ -268,10 +268,11 @@ public class PhotonNode extends PhetPNode implements Observer {
     
     /*
      * Cache that maps wavelengths to images.
+     * The mapping is done with integer precision.
      */
     private static class ImageCache {
 
-        private HashMap _map;
+        private HashMap _map; // key=Integer, value=Image
 
         public ImageCache() {
             _map = new HashMap();
