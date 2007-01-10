@@ -15,11 +15,9 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - remove (n,l,m)= display from Schrodinger view ?
-- show min time that electron is in a state be in wall time? (currently in sim time)
 - find a more obvious place to put the deBroglie view options
 - verify that behavior is correct when clock is paused
-- run stuff for a very long time (especially Schrodinger) to see what breaks
-- test Spanish translations
+- make a new thumbnail
 
 LOW PRIORITY:
 - improve performance of Schrodinger (faster Leguerre Polynomial algorithm?)
@@ -40,7 +38,9 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/9/06) - test Spanish translations
 ***** CVS tag hydrogenatom-0-00-21-2007-01-09
+(1/9/06) - run Schrodinger for 3.5 hours with white light, no problems
 (1/9/06) - bugfix: fix state transition implementation in SchrodingerModel, it was performing invalid transitions
 (1/9/06) - write test harness for phetcommon ProbabilisticChooser, used in SchrodingerModel
 (1/9/06) - major reorganization and cleanup of BohrModel to improve readability
@@ -559,6 +559,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(1/9/06) - show min time that electron is in a state be in wall time? (no, it should be [and is] in sim time) 
 (1/8/06) - verify that ModelViewTransform is used everywhere that it should be (testing reveals it isn't, but the transform will never be anything but 1:1, not worth the effort to debug)
 (1/8/06) - flatten static parts of energy diagram to an image (unlikely to result in perceptible performance improvement)
 (1/8/06) - make AtomicModelSelector panel slide up/down (gratuitous animation, tried it and it caused new problems)
