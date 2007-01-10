@@ -69,6 +69,8 @@ public class SchrodingerModel extends DeBroglieModel {
     
     private static final boolean DEBUG_STATE_TRANSITIONS = false;
     
+    private static final boolean DEBUG_REJECTED_TRANSITIONS = false;
+    
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
@@ -119,7 +121,7 @@ public class SchrodingerModel extends DeBroglieModel {
         super( position );
         super.setView( DeBroglieView.BRIGHTNESS_MAGNITUDE ); // use deBroglie "rings" for collision detection
         
-        // many assumptions herein that the smallest value of n is 1
+        // many assumptions herein that n=1 is the ground state
         assert( getGroundState() == 1 );
         
         _l = 0;
@@ -147,33 +149,7 @@ public class SchrodingerModel extends DeBroglieModel {
     public int getTertiaryElectronState() {
         return _m;
     }
-    
-    /**
-     * Gets the probability density at a point in 3D space.
-     * This algorithm is undefined for (x,y,z) = (0,0,0).
-     * 
-     * @param x coordinate on horizontal axis
-     * @param y coordinate on axis the is perpendicular to the screen
-     * @param z coordinate on vertical axis
-     * @return double
-     */
-    public double getProbabilityDensity( double x, double y, double z ) {
-        int n = getElectronState();
-        return getProbabilityDensity( n, _l, _m, x, y, z );
-    }
-    
-    /**
-     * Is the atom in a state where emission is possible?
-     * Emission can occur in all states except (1,0,0) and (2,0,0).
-     * The only way to get out of these states is via absorption.
-     * 
-     * @return true or false
-     */
-    public boolean canEmitPhoton() {
-        int n = getElectronState();
-        return !( n == 1 || ( n == 2 && _l == 0 ) );
-    }
-    
+
     //----------------------------------------------------------------------------
     // Superclass overrides
     //----------------------------------------------------------------------------
@@ -205,64 +181,38 @@ public class SchrodingerModel extends DeBroglieModel {
         if ( nNew == nOld ) {
             legal = false;
         }
-        else if ( nOld == 2 && _l == 0 ) {
-            // transition from nlm=(2,0,0) to (1,0,0) would break the abs(l-l')=0 rule
+        else if ( nNew == 1 && _l == 0 ) {
+            // transition from (n,0,0) to (1,?,?) cannot satisfy the abs(l-l')=1 rule
             legal = false;
         }
+        else if ( nNew == 1 && _l != 1 ) {
+            // the only way to get to (1,0,0) is from (n,1,?)
+            legal = false;
+        }
+        
+        if ( DEBUG_REJECTED_TRANSITIONS && !legal ) {
+            System.out.println( "Schrodinger.stimulatedEmissionIsAllowed: rejecting " + stateToString( nOld, _l, _m ) + " -> (" + nNew + ",?,?)" );
+        }
+        
         return legal;
     }
     
     /*
      * Chooses a new primary state (n) for the electron.
-     * The new state is a lower state, and this is called during spontaneous emission.
-     * The possible values of n are limited by the current value of l, since abs(l-l') must be 1.
-     * The probability of each possible n transition is determined by its transition strength.
      * 
-     * @return int positive state number, -1 if there is no state could be chosen
+     * @return new primary state, -1 if there is no valid transition
      */
     protected int chooseLowerElectronState() {
-        
-        final int n = getElectronState();
-        int nNew = 1;
-        if ( n == 2 && _l == 0 ) {
-            // transition from nlm=(2,0,0) to (1,0,0) would break the abs(l-l')=0 rule
-            return -1;
-        }
-        else if ( n > 2 ) {
-            
-            final int nMax = n - 1;
-            int nMin = Math.max( _l - 1, 1 );
-            if ( _l == 0 ) {
-                // transition from nlm=(n,0,0) to (1,0,0) would break the abs(l-l')=0 rule
-                nMin = 2;
-            }
-            
-            ProbabilisticChooser.Entry[] entries = new ProbabilisticChooser.Entry[nMax - nMin + 1];
-            double strengthSum = 0;
-            for ( int i = 0; i < entries.length; i++ ) {
-                int state = nMin + i;
-                double transitionStrength = TRANSITION_STRENGTH[n-1][state-1];
-                entries[i] = new ProbabilisticChooser.Entry( new Integer( state ), transitionStrength );
-                strengthSum += transitionStrength;
-            }
-            
-            if ( strengthSum > 0 ) {
-                ProbabilisticChooser chooser = new ProbabilisticChooser( entries );
-                nNew = ( (Integer) chooser.get() ).intValue();
-            }
-            else {
-                // all transitions had zero strength, none are possible
-                return -1;
-            }
-        }
-        
-        return nNew;
+        int nOld = getElectronState();
+        return getLowerPrimaryState( nOld );
     }
     
     /*
      * Sets the electron's primary state.
      * Randomly chooses the values for the secondary and tertiary states,
      * according to state transition rules.
+     * 
+     * @param nNew
      */
     protected void setElectronState( final int nNew ) {
         
@@ -275,11 +225,20 @@ public class SchrodingerModel extends DeBroglieModel {
         }
         
         // Verify that no transition rules have been broken.
-        checkTransitionRules( getElectronState(), _l, _m, nNew, lNew, mNew );
-        
-        _l = lNew;
-        _m = mNew;
-        super.setElectronState( nNew );
+        boolean valid = isaValidTransition( getElectronState(), _l, _m, nNew, lNew, mNew );
+        if ( valid ) {
+            _l = lNew;
+            _m = mNew;
+            super.setElectronState( nNew );
+        }
+        else {
+            // There's a bug in the implementation of the transition rules.
+            // Print a warning and (as a last resort) transition to (1,0,0).
+            warnBadTransition( getElectronState(), _l, _m, nNew, lNew, mNew );
+            _l = 0;
+            _m = 0;
+            super.setElectronState( 1 );
+        }
     }
     
     /*
@@ -308,6 +267,68 @@ public class SchrodingerModel extends DeBroglieModel {
     //----------------------------------------------------------------------------
     
     /*
+     * Chooses a new lower value for the primary state (n).
+     * The possible values of n are limited by the current value of l, since abs(l-l') must be 1.
+     * The probability of each possible n transition is determined by its transition strength.
+     * 
+     * @param nOld the existing primary state
+     * @return the new primary state, -1 there is no valid transition
+     */
+    private int getLowerPrimaryState( final int nOld ) {
+        
+        int nNew = -1;
+
+        if ( nOld < 2 ) {
+            // no state is lower than (1,0,0)
+            return -1;
+        }
+        else if ( nOld == 2 ) {
+            if ( _l == 0 ) {
+                // transition from (2,0,?) to (1,0,?) cannot satisfy the abs(l-l')=1 rule
+                return -1;
+            }
+            else {
+                // the only transition from (2,1,?) is (1,0,0)
+                nNew = 1;
+            }
+        }
+        else if ( nOld > 2 ) {
+            
+            // determine the possible range of n
+            final int nMax = nOld - 1;
+            int nMin = Math.max( _l, 1 );
+            if ( _l == 0 ) {
+                // transition from (n,0,0) to (1,?,?) cannot satisfy the abs(l-l')=1 rule
+                nMin = 2;
+            }
+            
+            // get the strengths for each possible transition
+            ProbabilisticChooser.Entry[] entries = new ProbabilisticChooser.Entry[nMax - nMin + 1];
+            double strengthSum = 0;
+            for ( int i = 0; i < entries.length; i++ ) {
+                int state = nMin + i;
+                double transitionStrength = TRANSITION_STRENGTH[nOld-1][state-1];
+                entries[i] = new ProbabilisticChooser.Entry( new Integer( state ), transitionStrength );
+                strengthSum += transitionStrength;
+            }
+            if ( strengthSum == 0 ) {
+                // all transitions had zero strength, none are possible
+                return -1;
+            }
+            
+            // choose a transition
+            ProbabilisticChooser chooser = new ProbabilisticChooser( entries );
+            Integer value = (Integer) chooser.get();
+            if ( value == null ) {
+                return -1;
+            }
+            nNew = value.intValue();
+        }
+        
+        return nNew;
+    }
+    
+    /*
      * Chooses a value for the secondary state (l) based on the primary state (n).
      * The new value l' must be in [0,...n-1], and l-l' must be in [-1,1].
      * 
@@ -322,11 +343,11 @@ public class SchrodingerModel extends DeBroglieModel {
         if ( lOld == 0 ) {
             lNew = 1;
         }
-        else if ( lOld > nNew - 1 ) {
-            lNew = nNew - 1;
+        else if ( lOld == nNew ) {
+            lNew = lOld - 1;
         }
         else if ( lOld == nNew - 1 ) {
-            lNew = nNew - 2;
+            lNew = lOld - 1;
         }
         else {
             if ( _lRandom.nextBoolean() ) {
@@ -396,35 +417,40 @@ public class SchrodingerModel extends DeBroglieModel {
     }
     
     /*
-     * Checks state transition rules. 
-     * Prints a message to System.err if any rule is broken.
-     * The transition rules are difficult to debug because of their probabilistic nature,
-     * so this is preferrable to throwing an exception or stopping the program.
+     * Checks state transition rules to see if a proposed transition is valid. 
+     * 
+     * @param nOld
+     * @param lOld
+     * @param mOld
+     * @param nNew 
+     * @param lNew
+     * @param mNew
+     * @return true or false
      */
-    private static void checkTransitionRules( int nOld, int lOld, int mOld, int nNew, int lNew, int mNew ) {
+    private static boolean isaValidTransition( int nOld, int lOld, int mOld, int nNew, int lNew, int mNew ) {
         
-        String prefix = "SchrodingerModel.checkTransitionRules: violated rule ";
+        boolean valid = true;
 
-        if ( !( nNew >= 1 && nNew <= getNumberOfStates() ) ) {
-            System.err.print( prefix + "( nNew >= 1 && nNew <= " + getNumberOfStates() + " )" );
-            System.err.println( " for " + stateToString( nOld, lOld, mOld ) + "->" + stateToString( nNew, lNew, mNew ) );
+        if ( nOld == nNew ) {
+            valid = false;
         }
-        if ( !( lNew >= 0 && lNew <= nNew - 1 ) ) {
-            System.err.print( prefix + "( lNew >= 0 && lNew <= nNew - 1 )" );
-            System.err.println( " for " + stateToString( nOld, lOld, mOld ) + "->" + stateToString( nNew, lNew, mNew ) );
+        else if ( !( nNew >= 1 && nNew <= getNumberOfStates() ) ) {
+            valid = false;
         }
-        if ( !( Math.abs( lOld - lNew ) == 1 ) ) {
-            System.err.print( prefix + "( abs( lOld - lNew ) == 1 )" );
-            System.err.println( " for " + stateToString( nOld, lOld, mOld ) + "->" + stateToString( nNew, lNew, mNew ) );
+        else if ( !( lNew >= 0 && lNew <= nNew - 1 ) ) {
+            valid = false;
         }
-        if ( !( mNew >= -lNew && mNew <= +lNew ) ) {
-            System.err.print( prefix + "( mNew >= -lNew && mNew <= +lNew )" );
-            System.err.println( " for " + stateToString( nOld, lOld, mOld ) + "->" + stateToString( nNew, lNew, mNew ) );
+        else if ( !( Math.abs( lOld - lNew ) == 1 ) ) {
+            valid = false;
         }
-        if ( !( Math.abs( mOld - mNew ) <= 1 ) ) {
-            System.err.print( prefix + "( abs( mOld - mNew ) <= 1 )" );
-            System.err.println( " for " + stateToString( nOld, lOld, mOld ) + "->" + stateToString( nNew, lNew, mNew ) );
+        else if ( !( mNew >= -lNew && mNew <= +lNew ) ) {
+            valid = false;
         }
+        else if ( !( Math.abs( mOld - mNew ) <= 1 ) ) {
+            valid = false;
+        }
+        
+        return valid;
     }
     
     //----------------------------------------------------------------------------
@@ -560,6 +586,10 @@ public class SchrodingerModel extends DeBroglieModel {
     //----------------------------------------------------------------------------
     // Debug
     //----------------------------------------------------------------------------
+    
+    public static void warnBadTransition( int nOld, int lOld, int mOld, int nNew, int lNew, int mNew ) {
+        System.err.println( "WARNING! SchrodingerModel: bad transition " + stateToString( nOld, lOld, mOld ) + " -> " + stateToString( nNew, lNew, mNew ) );
+    }
     
     public static String stateToString( int n, int l, int m ) {
         return "(" + n + "," + l + "," + m + ")";

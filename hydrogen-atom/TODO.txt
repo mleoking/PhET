@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- bug: Schrodinger needs different hooks for setting (n,l,m) state for aborption, stimulated emission, and spontaneous emission
-- bug: Schrodinger allows illegal transitions, eg (3,0,0)->(1,1-1), (3,2,-2)->(1,0,0), (3,2,1)->(1,0,0), (3,2,-1)->(1,0,0), (4,2,-1)->(1,0,0) 
 - optimization: getElectronPosition created a Point2D (BohrModel, DeBroglieModel, PlumPuddingModel)
 - optimization: HAModel and Model create ArrayList copies on every clock tick
 - optimization: SchodingerModel.chooseLowerElectronState creates ProbabilisticChooser & Entry's
@@ -42,6 +40,8 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/9/06) - bugfix: fix state transition implementation in SchrodingerModel, it was performing invalid transitions
+(1/9/06) - write test harness for phetcommon ProbabilisticChooser, used in SchrodingerModel
 (1/9/06) - major reorganization and cleanup of BohrModel to improve readability
 (1/9/06) - move inner class events and listeners to new "event" package
 (1/8/06) - examine all calls to "new" to identify possible memory optimizations
