@@ -2,6 +2,10 @@
 Remaining Work
 #######################################
 
+There was one bug that I thought was fixed but we still saw at the workshop that I wanted to know the status off... 
+
+It was the one where if you put the man in space on a track he drifts along the track and then stops when he gets to the end. 
+
 The performance degrades significantly after 10 minutes or so.
 >>I'm adding a temporary workaround that keeps the recorded data under a manageable size without influencing the rest of the simulation.
 >>The user can record about 45 seconds of data, the system automatically switches to live (non-record) mode when this is filled up, the user
