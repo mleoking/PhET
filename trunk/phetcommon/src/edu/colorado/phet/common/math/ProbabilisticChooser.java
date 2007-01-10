@@ -131,6 +131,17 @@ public class ProbabilisticChooser {
     }
 
     /**
+     * Gets the internal entries, which are normalized version of 
+     * the entries that were provided in the constructor.
+     * This method is useful primarily for testing and debugging.
+     * 
+     * @return Entry[]
+     */ 
+    public Entry[] getEntries() {
+        return _entries;
+    }
+    
+    /**
      * An entry for a ProbabilisticChooser
      */
     public static class Entry {
