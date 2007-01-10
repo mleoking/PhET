@@ -23,9 +23,12 @@ import edu.colorado.phet.photoelectric.view.util.RotatedTextLabel;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImageOp;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -43,20 +46,41 @@ public class CompositeGraphPanel extends JPanel {
     private int rowIdx;
     private ArrayList checkBoxes = new ArrayList();
     private Module module;
-    private BufferedImage snapshotBtnImage;
-    private BufferedImage zoomOutImage;
-    private BufferedImage zoomInImage;
-    private ArrayList graphPanels = new ArrayList();
+//    private BufferedImage snapshotBtnImage;
+//    private BufferedImage zoomOutImage;
+//    private BufferedImage zoomInImage;
+//    private ArrayList graphPanels = new ArrayList();
     private JButton snapshotBtn;
+    private ImageIcon snapshotIcon;
+    private ImageIcon zoomInIcon;
+    private ImageIcon zoomOutIcon;
+    private Dimension btnSize;
 
 
     public CompositeGraphPanel( Module module ) {
         super( new GridBagLayout() );
 
+        add( Box.createHorizontalStrut( 260 ), new GridBagConstraints( 0, 0, 3, 1, 1, 1,
+                                                                       GridBagConstraints.NORTH,
+                                                                       GridBagConstraints.NONE,
+                                                                       new Insets( 0, 0, 0, 0 ), 0, 0 ) );
+
         try {
-            snapshotBtnImage = ImageLoader.loadBufferedImage( PhotoelectricConfig.SNAPSHOT_BUTTON_IMAGE );
-            zoomInImage = ImageLoader.loadBufferedImage( PhotoelectricConfig.ZOOM_IN_BUTTON_IMAGE );
-            zoomOutImage = ImageLoader.loadBufferedImage( PhotoelectricConfig.ZOOM_OUT_BUTTON_IMAGE );
+            BufferedImageOp snapshotBtnRescaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( 0.7, 0.7 ),
+                                                                          AffineTransformOp.TYPE_BILINEAR );
+            BufferedImage snapshotBtnImage = ImageLoader.loadBufferedImage( PhotoelectricConfig.SNAPSHOT_BUTTON_IMAGE );
+            snapshotBtnImage = snapshotBtnRescaleOp.filter( snapshotBtnImage, null );
+            BufferedImageOp zoomBtnRescaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( 0.9, 0.9 ),
+                                                                      AffineTransformOp.TYPE_BILINEAR );
+            snapshotIcon = new ImageIcon( snapshotBtnImage );
+            BufferedImage zoomInImage = ImageLoader.loadBufferedImage( PhotoelectricConfig.ZOOM_IN_BUTTON_IMAGE );
+            zoomInImage = zoomBtnRescaleOp.filter( zoomInImage, null );
+            zoomInIcon = new ImageIcon( zoomInImage );
+            BufferedImage zoomOutImage = ImageLoader.loadBufferedImage( PhotoelectricConfig.ZOOM_OUT_BUTTON_IMAGE );
+            zoomOutImage = zoomBtnRescaleOp.filter( zoomOutImage, null );
+            zoomOutIcon = new ImageIcon( zoomOutImage );
+
+            btnSize = new Dimension( snapshotIcon.getIconWidth() + 8, snapshotIcon.getIconHeight() + 8 );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -68,10 +92,11 @@ public class CompositeGraphPanel extends JPanel {
         Insets graphInsets = new Insets( 5, 20, 17, 15 );
 
         // The button that takes a snapshop of the graphs
-        snapshotBtn = new JButton( new SnapshotAction( new ImageIcon( snapshotBtnImage ), this ) );
+        snapshotBtn = new JButton( new SnapshotAction( snapshotIcon, this ) );
+        snapshotBtn.setPreferredSize( btnSize );
         GridBagConstraints gbc = new GridBagConstraints( 2, 0,
                                                          1, 1, 0, 0,
-                                                         GridBagConstraints.NORTHWEST,
+                                                         GridBagConstraints.NORTH,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         add( snapshotBtn, gbc );
@@ -119,8 +144,10 @@ public class CompositeGraphPanel extends JPanel {
         checkBoxes.add( cb );
         final RotatedTextLabel yAxisLabel = new RotatedTextLabel( yLabel );
         final JLabel xAxisLabel = new JLabel( xLabel );
-        final JButton zoomInBtn = new JButton( new ZoomInAction( new ImageIcon( zoomInImage ), graphPanel.getGraph() ) );
-        final JButton zoomOutBtn = new JButton( new ZoomOutAction( new ImageIcon( zoomOutImage ), graphPanel.getGraph() ) );
+        final JButton zoomInBtn = new JButton( new ZoomInAction( zoomInIcon, graphPanel.getGraph() ) );
+        zoomInBtn.setPreferredSize( btnSize );
+        final JButton zoomOutBtn = new JButton( new ZoomOutAction( zoomOutIcon, graphPanel.getGraph() ) );
+        zoomOutBtn.setPreferredSize( btnSize );
         cb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 graphPanel.setVisible( cb.isSelected() );
@@ -142,31 +169,32 @@ public class CompositeGraphPanel extends JPanel {
         setSnapshotButtonVisibility( checkBoxes );
 
         // Lay out the panel
+        Insets insets = new Insets( 0, 0, 0, 0 );
         GridBagConstraints checkBoxGbc = new GridBagConstraints( 0, rowIdx,
                                                                  2, 1, 0, 0,
                                                                  GridBagConstraints.NORTHWEST,
                                                                  GridBagConstraints.NONE,
-                                                                 new Insets( 0, 0, 0, 25 ), 0, 0 );
+                                                                 insets, 0, 0 );
         GridBagConstraints graphGbc = new GridBagConstraints( 1, rowIdx + 1,
                                                               1, 1, 0, 0,
                                                               GridBagConstraints.NORTHWEST,
                                                               GridBagConstraints.NONE,
-                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                              insets, 0, 0 );
         GridBagConstraints xLabelGbc = new GridBagConstraints( 1, rowIdx + 2,
                                                                1, 1, 0, 0,
                                                                GridBagConstraints.NORTH,
                                                                GridBagConstraints.NONE,
-                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                               insets, 0, 0 );
         GridBagConstraints yLabelGbc = new GridBagConstraints( 0, rowIdx + 1,
                                                                1, 1, 0, 0,
                                                                GridBagConstraints.WEST,
                                                                GridBagConstraints.NONE,
-                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                               insets, 0, 0 );
         GridBagConstraints zoomBtnGbc = new GridBagConstraints( 2, rowIdx + 1,
                                                                 1, 1, 0, 0,
                                                                 GridBagConstraints.NORTH,
                                                                 GridBagConstraints.VERTICAL,
-                                                                new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                                insets, 0, 0 );
 
         // The checkbox
         add( cb, checkBoxGbc );
@@ -243,7 +271,7 @@ public class CompositeGraphPanel extends JPanel {
         }
     }
 
-    private /*static */class SnapshotAction extends AbstractAction {
+    private class SnapshotAction extends AbstractAction {
         private Component component;
         Point nextLocation = new Point();
         int subsequentSnapshotOffset = 30;
