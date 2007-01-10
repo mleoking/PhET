@@ -17,7 +17,6 @@ MEDIUM PRIORITY:
 - remove (n,l,m)= display from Schrodinger view ?
 - find a more obvious place to put the deBroglie view options
 - verify that behavior is correct when clock is paused
-- make a new thumbnail
 
 LOW PRIORITY:
 - improve performance of Schrodinger (faster Leguerre Polynomial algorithm?)
@@ -38,6 +37,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/9/06) - make a new thumbnail image
 ***** CVS tag hydrogenatom-0-00-21-2007-01-09
 (1/9/06) - set probability of absorption and stimulated emission to 100% in Bohr/deBroglie/Schrodinger
 (1/9/06) - test Spanish translations
