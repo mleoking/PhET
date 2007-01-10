@@ -76,7 +76,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     private static final double[] ORBIT_RADII = { 15, 44, 81, 124, 174, 233 };
     
     /* probability that photon will be absorbed */
-    private static final double PHOTON_ABSORPTION_PROBABILITY = 0.5; // 1.0 = 100%
+    private static final double PHOTON_ABSORPTION_PROBABILITY = 1.0; // 1.0 = 100%
     
     /* probability that photon will cause stimulated emission */
     private static final double PHOTON_STIMULATED_EMISSION_PROBABILITY = PHOTON_ABSORPTION_PROBABILITY;
