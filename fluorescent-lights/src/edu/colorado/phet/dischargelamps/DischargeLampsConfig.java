@@ -36,7 +36,7 @@ public class DischargeLampsConfig {
     // Object locations and dimensions. Everything is keyed off the location of the cathode
     public static final int ELECTRODE_Y_LOCATION = 300;
     public static final int ELECTRODE_LENGTH = 200;
-    public static final int CATHODE_X_LOCATION = 140;
+    public static final int CATHODE_X_LOCATION = 130;
     public static final Point CATHODE_LOCATION = new Point( CATHODE_X_LOCATION, ELECTRODE_Y_LOCATION );
     public static final double CATHODE_LENGTH = ELECTRODE_LENGTH;
     public static final Line2D CATHODE_LINE = new Line2D.Double( CATHODE_LOCATION.getX(),
