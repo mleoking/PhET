@@ -17,6 +17,7 @@ MEDIUM PRIORITY:
 - remove (n,l,m)= display from Schrodinger view ?
 - find a more obvious place to put the deBroglie view options
 - verify that behavior is correct when clock is paused
+- what do you want the thumbnail image to show?
 
 LOW PRIORITY:
 - improve performance of Schrodinger (faster Leguerre Polynomial algorithm?)
