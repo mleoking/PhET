@@ -23,7 +23,6 @@ public class RotationModule extends PiccoloModule {
     private RotationModel rotationModel;
 
     /*Other MVC model data structures*/
-
     private VectorViewModel vectorViewModel;
 
     public RotationModule() {

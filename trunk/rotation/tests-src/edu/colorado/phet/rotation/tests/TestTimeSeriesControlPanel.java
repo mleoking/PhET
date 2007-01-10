@@ -7,8 +7,8 @@ package edu.colorado.phet.rotation.tests;
  * Copyright (c) Jan 9, 2007 by Sam Reid
  */
 
-import edu.colorado.phet.rotation.graphs.TimeSeriesControlPanel;
-import edu.colorado.phet.rotation.graphs.TimeSeriesModel;
+import edu.colorado.phet.rotation.timeseries.TimeSeriesControlPanel;
+import edu.colorado.phet.rotation.timeseries.TimeSeriesModel;
 
 import javax.swing.*;
 

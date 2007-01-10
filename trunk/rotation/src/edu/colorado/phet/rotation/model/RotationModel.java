@@ -178,6 +178,14 @@ public class RotationModel {
         return centripetalAcceleration;
     }
 
+    public void clear() {
+        RotationModelState state = getLastState().copy();
+        state.setTime( 0.0 );
+        rotationModelStates.clear();
+        rotationModelStates.add( state );
+        notifySteppedInTime();
+    }
+
     public static interface Listener {
         void steppedInTime();
     }

@@ -138,4 +138,15 @@ public class RotationGraphSet {
     public GraphSuite getGraphSuite( int i ) {
         return suites[i];
     }
+
+    public void clear() {
+        angleGraph.clear();
+        angularVelocityGraph.clear();
+        angularAccelerationGraph.clear();
+
+        positionGraph.clear();
+        positionGraph.clear();
+        velocityGraph.clear();
+        accelerationGraph.clear();
+    }
 }

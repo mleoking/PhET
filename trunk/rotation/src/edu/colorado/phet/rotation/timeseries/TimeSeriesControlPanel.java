@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.graphs;
+package edu.colorado.phet.rotation.timeseries;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 
@@ -83,6 +83,9 @@ public class TimeSeriesControlPanel extends JPanel {
         timeSeriesModel.addListener( new TimeSeriesModel.Listener() {
             public void stateChanged() {
                 updateButtons();
+            }
+
+            public void clear() {
             }
         } );
         updateButtons();

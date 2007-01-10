@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.graphs;
+package edu.colorado.phet.rotation.timeseries;
 
 import java.util.ArrayList;
 
@@ -67,10 +67,16 @@ public class TimeSeriesModel {
     }
 
     public void clear() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.clear();
+        }
     }
 
     public static interface Listener {
         void stateChanged();
+
+        void clear();
     }
 
     public void addListener( Listener listener ) {

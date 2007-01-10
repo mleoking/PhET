@@ -10,8 +10,8 @@ package edu.colorado.phet.rotation.tests;
 import edu.colorado.phet.rotation.TimeSeriesGraphSetNode;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
-import edu.colorado.phet.rotation.graphs.TimeSeriesModel;
 import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.timeseries.TimeSeriesModel;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
