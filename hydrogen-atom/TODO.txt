@@ -40,6 +40,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+***** CVS tag hydrogenatom-0-00-21-2007-01-09
 (1/9/06) - bugfix: fix state transition implementation in SchrodingerModel, it was performing invalid transitions
 (1/9/06) - write test harness for phetcommon ProbabilisticChooser, used in SchrodingerModel
 (1/9/06) - major reorganization and cleanup of BohrModel to improve readability
