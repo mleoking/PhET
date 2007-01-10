@@ -88,7 +88,7 @@ public class ProbabilisticChooser {
         // Get the normalization factor for the probabilities
         double pTotal = 0;
         for( int i = 0; i < entries.length; i++ ) {
-            pTotal += entries[i].getP();
+            pTotal += entries[i].getWeight();
         }
         double fNorm = 1 / pTotal;
 
@@ -98,8 +98,8 @@ public class ProbabilisticChooser {
         // it in the list. This makes the choosing process work properly in get( double p );
         double p = 0;
         for( int i = 0; i < entries.length; i++ ) {
-            p += entries[i].getP() * fNorm;
-            _entries[i] = new Entry( entries[i].getObj(), p );
+            p += entries[i].getWeight() * fNorm;
+            _entries[i] = new Entry( entries[i].getObject(), p );
         }
     }
 
@@ -123,8 +123,8 @@ public class ProbabilisticChooser {
         Object result = null;
         for( int i = 0; i < _entries.length && result == null; i++ ) {
             Entry entry = _entries[i];
-            if( p <= entry.getP() ) {
-                result = entry.getObj();
+            if( p <= entry.getWeight() ) {
+                result = entry.getObject();
             }
         }
         return result;
@@ -134,25 +134,25 @@ public class ProbabilisticChooser {
      * An entry for a ProbabilisticChooser
      */
     public static class Entry {
-        private Object obj;
-        private double p;
+        private Object object;
+        private double weight;
 
         /**
-         * @param obj An object to be put in the chooser
-         * @param p   The likelihood that the object should be chosen, or count of the object
+         * @param object An object to be put in the chooser
+         * @param weight The likelihood that the object should be chosen, or count of the object
          *            instances in the total population
          */
-        public Entry( Object obj, double p ) {
-            this.obj = obj;
-            this.p = p;
+        public Entry( Object object, double weight ) {
+            this.object = object;
+            this.weight = weight;
         }
 
-        Object getObj() {
-            return obj;
+        public Object getObject() {
+            return object;
         }
 
-        double getP() {
-            return p;
+        public double getWeight() {
+            return weight;
         }
     }
 }
