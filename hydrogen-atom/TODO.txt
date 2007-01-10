@@ -40,6 +40,7 @@ DEFER UNTIL AFTER INTERVIEWS:
 DONE:
 (1/9/06) - test Spanish translations
 ***** CVS tag hydrogenatom-0-00-21-2007-01-09
+(1/9/06) - set probability of absorption and stimulated emission to 100% in Bohr/deBroglie/Schrodinger
 (1/9/06) - run Schrodinger for 3.5 hours with white light, no problems
 (1/9/06) - bugfix: fix state transition implementation in SchrodingerModel, it was performing invalid transitions
 (1/9/06) - write test harness for phetcommon ProbabilisticChooser, used in SchrodingerModel
