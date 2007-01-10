@@ -31,16 +31,20 @@ public class DefaultDecimalFormat extends DecimalFormat {
         this.decimalFormat = decimalFormat;
     }
 
-    public StringBuffer format( double number, StringBuffer result,
-                                FieldPosition fieldPosition ) {
-        StringBuffer a = decimalFormat.format( number, new StringBuffer(), fieldPosition );
-        if( Double.parseDouble( a.toString() ) == 0 && a.indexOf( "-" ) == 0 ) {
-            String x = a.toString();
-            x = x.substring( 1 );
-            result.append( x );
+    public StringBuffer format( double number, StringBuffer result, FieldPosition fieldPosition ) {
+        StringBuffer formattedText = decimalFormat.format( number, new StringBuffer(), fieldPosition );
+        double parsed = 0;
+        try {
+            parsed = Double.parseDouble( formattedText.toString().replace( ',', '.' ) );//to handle european 
+        }
+        catch( NumberFormatException numberFormatException ) {
+            return decimalFormat.format( number, result, fieldPosition );
+        }
+        if( parsed == 0 && formattedText.indexOf( "-" ) == 0 ) {
+            result.append( formattedText.substring( 1 ) );
         }
         else {
-            result.append( a );
+            result.append( formattedText );
         }
         return result;
     }

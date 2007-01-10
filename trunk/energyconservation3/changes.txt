@@ -1,3 +1,6 @@
+1.04 (1-10-2007)
+Bugfix: Launch fails on European language format ("0,00" parse error")
+
 1.03 (12-12-2006)
 Posted on the main site as 1.03
 
