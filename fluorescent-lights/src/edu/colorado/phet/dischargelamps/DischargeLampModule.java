@@ -296,6 +296,13 @@ public class DischargeLampModule extends PhetGraphicsModule {
     private void addControls() {
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
 
+        // Set the minimum width
+        controlPanel.addControlFullWidth( Box.createHorizontalStrut( 300)); /*, new GridBagConstraints( 0,0,1,1,1,1,
+                                                                     GridBagConstraints.NORTH,
+                                                                     GridBagConstraints.NONE,
+                                                                     new Insets( 0,0,0,0),0,0 ) );*/
+
+
         // A combo box for atom types
         {
             JComponent atomTypeComboBox = new AtomTypeChooser( model, elementProperties );
