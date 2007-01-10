@@ -2,4 +2,6 @@ Color coding for variables.
 
 Try 2nd order derivative directly from position data
 
-Time derivatives need a time-offset to match other series.  
+Time derivatives need a time-offset to match other series.
+  
+Should TimeSeriesModel be extended or listened to for Rotation-specific behaivor?

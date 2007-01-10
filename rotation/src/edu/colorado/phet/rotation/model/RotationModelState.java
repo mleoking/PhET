@@ -6,7 +6,7 @@ import java.util.Arrays;
  * Immutable state object for Rotation simulation.
  */
 
-public class RotationModelState {
+public class RotationModelState implements Cloneable {
     private Body[] bodies;
     private double angle;
     private double angularVelocity;
@@ -84,4 +84,7 @@ public class RotationModelState {
         return time;
     }
 
+    public void setTime( double time ) {
+        this.time = time;
+    }
 }

@@ -185,11 +185,13 @@ public class ControlGraph extends PNode {
 
         private void updateSeriesGraphic() {
             GeneralPath path = new GeneralPath();
-            Point2D d = getNodePoint( 0 );
-            path.moveTo( (float)d.getX(), (float)d.getY() );
-            for( int i = 1; i < xySeries.getItemCount(); i++ ) {
-                Point2D nodePoint = getNodePoint( i );
-                path.lineTo( (float)nodePoint.getX(), (float)nodePoint.getY() );
+            if( xySeries.getItemCount() > 0 ) {
+                Point2D d = getNodePoint( 0 );
+                path.moveTo( (float)d.getX(), (float)d.getY() );
+                for( int i = 1; i < xySeries.getItemCount(); i++ ) {
+                    Point2D nodePoint = getNodePoint( i );
+                    path.lineTo( (float)nodePoint.getX(), (float)nodePoint.getY() );
+                }
             }
             pathNode.setPathTo( path );
         }
@@ -205,6 +207,11 @@ public class ControlGraph extends PNode {
         public void relayout() {
             pathClip.setPathTo( controlGraph.jFreeChartNode.getDataArea() );
             pathClip.setOffset( controlGraph.jFreeChartNode.getOffset() );
+        }
+
+        public void clear() {
+            xySeries.clear();
+            updateSeriesGraphic();
         }
     }
 
@@ -252,6 +259,13 @@ public class ControlGraph extends PNode {
         Rectangle2D.Double r = new Rectangle2D.Double();
         r.setFrameFromDiagonal( xMin, yMin, xMax, yMax );
         return r;
+    }
+
+    public void clear() {
+        for( int i = 0; i < seriesNodes.size(); i++ ) {
+            SeriesNode seriesNode = (SeriesNode)seriesNodes.get( i );
+            seriesNode.clear();
+        }
     }
 
     public void addValue( double time, double value ) {

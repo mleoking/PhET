@@ -145,8 +145,8 @@ public class GraphComponent extends PNode {
         controlGraph.addValue( series, time, value );
     }
 
-    public void addSeries( String title, Color color ) {
-
+    public void clear() {
+        controlGraph.clear();
     }
 
     public static interface Listener {

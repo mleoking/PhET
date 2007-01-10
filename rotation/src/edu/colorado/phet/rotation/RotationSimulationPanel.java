@@ -3,7 +3,7 @@ package edu.colorado.phet.rotation;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.GraphSuite;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
-import edu.colorado.phet.rotation.graphs.TimeSeriesModel;
+import edu.colorado.phet.rotation.timeseries.TimeSeriesModel;
 import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -32,14 +32,24 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
 
     private GraphSetModel graphSetModel;
 
-    public RotationSimulationPanel( RotationModule rotationModule ) {
+    public RotationSimulationPanel( final RotationModule rotationModule ) {
         this.rotationModule = rotationModule;
         setBackground( new RotationLookAndFeel().getBackgroundColor() );
         rotationGraphSet = new RotationGraphSet( this, rotationModule.getRotationModel() );
         graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
 
         rotationPlayArea = new RotationPlayArea( rotationModule );
-        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( this, graphSetModel, new TimeSeriesModel() );
+        TimeSeriesModel timeSeriesModel = new TimeSeriesModel();
+        timeSeriesModel.addListener( new TimeSeriesModel.Listener() {
+            public void stateChanged() {
+            }
+
+            public void clear() {
+                rotationModule.getRotationModel().clear();
+                rotationGraphSet.clear();
+            }
+        } );
+        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( this, graphSetModel, timeSeriesModel );
 
         rotationControlPanel = new RotationControlPanel( rotationGraphSet, graphSetModel, rotationModule.getVectorViewModel() );
         rotationControlPanelNode = new PSwing( this, rotationControlPanel );
