@@ -699,7 +699,7 @@ public class BohrModel extends AbstractHydrogenAtom {
                 firePhotonEmittedEvent( event );
                 
                 if ( DEBUG_OUTPUT_ENABLED ) {
-                    System.out.println( "BohrModel: spontaneously emitted photon, wavelength=" + wavelength );
+                    System.out.println( "BohrModel: spontaneous emission of photon, wavelength=" + wavelength );
                 }
                 
                 // move electron to new state
