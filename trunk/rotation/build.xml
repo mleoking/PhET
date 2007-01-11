@@ -14,7 +14,6 @@
 
     <property file="build.properties"/>
     <property file="local.properties"/>
-    <property file="build.time.stamp" location="data"/>
 
     <property name="build.number.txt" value="data/${distname}.build.number"/>
     <property name="timestamp.name" value="data/${distname}.build.time.stamp"/>
@@ -55,7 +54,7 @@
             <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"/>
         </tstamp>
         <echo file="${timestamp.name}" message="${jar.creation.time}"></echo>
-        <echo file="data/cck.version" message="${dev-version}"></echo>
+        <echo file="data/sim.version" message="${dev-version}"></echo>
     </target>
 
     <target name="Generate_Jar" depends="Compile"

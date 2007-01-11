@@ -4,6 +4,7 @@
 -injars jfreechart-dir\lib\jcommon-1.0.0.jar 
 -injars jfreechart-dir\lib\jfreechart-1.0.0.jar
 -injars jfreechart-dir\lib\servlet.jar
+-injars JSci\classes\jsci-core.jar
 -outjars ant_output\jars\rotation-pro.jar
 
 -libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'
@@ -24,6 +25,10 @@
 
 #JFreeChartResources: For loading property files.
 -keep class org.jfree.chart.resources.JFreeChartResources
+
+-keep class edu.colorado.phet.rotation.model.RotationMath
+
+#-keep class JSci.maths.LinearMath
 
 #JCommonResources: property file loader for jcommon
 -keep class org.jfree.resources.JCommonResources
