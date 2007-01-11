@@ -12,6 +12,7 @@ package edu.colorado.phet.dischargelamps;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.text.DecimalFormat;
 
 /**
  * FluorescentLightsConfig
@@ -88,4 +89,7 @@ public class DischargeLampsConfig {
 //    public static final double VOLTAGE_CALIBRATION_FACTOR = 5.55;
     // Factor that makes the electron acceleration come out right for the potential between the plates
     public static final double ELECTRON_ACCELERATION_CALIBRATION_FACTOR = 1 / 5.55;
+
+    // Misc
+    public static final DecimalFormat VOLTAGE_FORMAT = new DecimalFormat( "#0.00 V" );
 }

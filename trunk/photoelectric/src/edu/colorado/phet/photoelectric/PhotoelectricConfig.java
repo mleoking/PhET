@@ -22,7 +22,7 @@ import java.text.DecimalFormat;
 public class PhotoelectricConfig {
 
     // Version
-    public static final String VERSION = "1.02.04";
+    public static final String VERSION = "1.03";
 
     // Images
     public static final String IMAGE_DIRECTORY = "images/";
@@ -44,7 +44,6 @@ public class PhotoelectricConfig {
 
     public static final DecimalFormat BEAM_PERCENTAGE_FORMAT =new DecimalFormat( "#%" );
     public static final DecimalFormat BEAM_WAVELENGTH_FORMAT =new DecimalFormat( "### nm" );
-    public static final DecimalFormat VOLTAGE_FORMAT = new DecimalFormat( "#0.00" );
 
     // Model related fields
     public static final double MIN_WAVELENGTH = 100;

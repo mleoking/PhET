@@ -13,9 +13,8 @@ package edu.colorado.phet.dischargelamps.view;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.model.Battery;
-import edu.colorado.phet.photoelectric.PhotoelectricConfig;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +23,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.text.DecimalFormat;
-import java.text.MessageFormat;
 
 /**
  * BatteryReadout
@@ -69,14 +67,14 @@ public class BatteryReadout extends GraphicLayerSet {
         double voltage = 0;
         try {
             String text = readout.getText().toLowerCase();
-            int vLoc = text.indexOf( 'v' );
+            int vLoc = text.indexOf( 'V' );
             text = vLoc >= 0 ? readout.getText().substring( 0, vLoc ) : text;
             voltage = Double.parseDouble( text );
             battery.setVoltage( voltage );
         }
         catch( NumberFormatException e1 ) {
             JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
-                                           "Voltage must be numeric, or a number followed by \"v\"" );
+                                           "Voltage must be numeric, or a number followed by \"V\"" );
             updateText( battery.getVoltage() );
         }
     }
@@ -89,9 +87,10 @@ public class BatteryReadout extends GraphicLayerSet {
     }
 
     private void updateText( double voltage ) {
-        DecimalFormat voltageFormat = PhotoelectricConfig.VOLTAGE_FORMAT;
+        DecimalFormat voltageFormat = DischargeLampsConfig.VOLTAGE_FORMAT;
         Object[] args = {voltageFormat.format( voltage )};
-        String text = MessageFormat.format( SimStrings.get( "BatteryGraphic.voltage" ), args );
+        String text = voltageFormat.format( voltage );
+//        String text = MessageFormat.format( SimStrings.get( "BatteryGraphic.voltage" ), args );
         readout.setText( text );
     }
 }
