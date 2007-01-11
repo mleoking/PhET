@@ -90,7 +90,7 @@ public class RotationSimulation extends PhetApplication {
     }
 
     private static String readVersion() {
-        URL url = Thread.currentThread().getContextClassLoader().getResource( "cck.version" );
+        URL url = Thread.currentThread().getContextClassLoader().getResource( "sim.version" );
         try {
             BufferedReader br = new BufferedReader( new InputStreamReader( url.openStream() ) );
             return br.readLine();
