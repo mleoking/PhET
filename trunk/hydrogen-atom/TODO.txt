@@ -5,19 +5,18 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- verify that behavior is correct when clock is paused
 - get requirements for gun color squiggle in energy digrams
+- find a more obvious place to put the deBroglie view options
 
 MEDIUM PRIORITY:
 - remove (n,l,m)= display from Schrodinger view ?
-- find a more obvious place to put the deBroglie view options
-- what do you want the thumbnail image to show?
+- what do you want the thumbnail image to show ?
 - add abstract to SimStrings file
 
 LOW PRIORITY:
-- improve performance of Schrodinger (faster Leguerre Polynomial algorithm?)
-- improve performance of deBroglie "brightness" and "brightness magnitude" representations
-- animation gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
+- improve performance of Schrodinger (faster Leguerre Polynomial algorithm ?)
+- improve performance of deBroglie "brightness" and "brightness magnitude" representations for higher states
+- if clock is paused and deBroglie 3D view is chosen, skip animating into place and just jump to final perspective
 - reduce size of panel image files
 - bug: ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 - bug: spectrometer buttons are fully transparent on Win98
@@ -30,6 +29,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/10/06) - verify that behavior is correct when clock is paused
 (1/10/06) - make DeBroglieBrightnessNode preallocate and reuse the objects that it uses to make the ring
 (1/10/06) - rename BohrModel.updateElectronPositon -> updateElectronOffset
 (1/10/06) - rename getElectronOffset to getElectronOffsetRef to indicate that it returns a reference
@@ -560,6 +560,8 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(1/10/06) - animation gets a little jerky when you touch wavelength control (Mac only, barely noticeable)
+(1/10/06) - make deBroglie 3D view rotate into place when clock is paused (too hard)
 (1/10/06) - SchodingerModel.chooseLowerElectronState creates ProbabilisticChooser & Entries (not a problem, lightweight)
 (1/10/06) - make EnergySquiggle mutable (no performance benefit, unduly complicates code)
 (1/10/06) - improve performance of deBroglie 3D representation (already fast enough, optimized awhile ago)
