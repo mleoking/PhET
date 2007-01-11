@@ -140,7 +140,7 @@ public class BohrModel extends AbstractHydrogenAtom {
         _randomStimulatedEmission = new Random();
         _randomState = new Random();
         
-        updateElectronPosition();
+        updateElectronOffset();
     }
     
     //----------------------------------------------------------------------------
@@ -222,7 +222,7 @@ public class BohrModel extends AbstractHydrogenAtom {
         
         // Advance the electron along its orbit
         _electronAngle = calculateNewElectronAngle( dt );
-        updateElectronPosition();
+        updateElectronOffset();
 
         // Attempt to emit a photon
         attemptSpontaneousEmission();
@@ -273,10 +273,10 @@ public class BohrModel extends AbstractHydrogenAtom {
     }
     
     /*
-     * Updates the electron's position (and offset) to match its current orbit and angle.
+     * Updates the electron's offset (and position) to match its current orbit and angle.
      * This is essentially a conversion from Cartesian to Polar coordinates.
      */
-    private void updateElectronPosition() {
+    private void updateElectronOffset() {
         double radius = getOrbitRadius( _electronState );
         double xOffset = radius * Math.sin( _electronAngle );
         double yOffset = radius * Math.cos( _electronAngle );
