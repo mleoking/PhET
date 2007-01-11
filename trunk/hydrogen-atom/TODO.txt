@@ -13,7 +13,7 @@ MEDIUM PRIORITY:
 - remove (n,l,m)= display from Schrodinger view ?
 - what do you want the thumbnail image to show ?
 - add abstract to SimStrings file
-- improve performance of deBroglie "brightness" and "brightness magnitude" representations for higher states
+- improve performance of deBroglie brightness views for higher states
 
 LOW PRIORITY:
 - if clock is paused and deBroglie 3D view is chosen, skip animating into place and just jump to final perspective
