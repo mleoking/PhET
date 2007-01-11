@@ -21,6 +21,7 @@ import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
 import edu.colorado.phet.photoelectric.view.util.RotatedTextLabel;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -324,7 +325,7 @@ public class CompositeGraphPanel extends JPanel {
                             "<td align=\"center\">" + material + "</td>" +
                             "<td align=\"center\">" + PhotoelectricConfig.BEAM_WAVELENGTH_FORMAT.format( wavelength ) + "</td>" +
                             "<td align=\"center\">" + PhotoelectricConfig.BEAM_PERCENTAGE_FORMAT.format( value ) + "</td>" +
-                            "<td align=\"center\">" + PhotoelectricConfig.VOLTAGE_FORMAT.format( voltage ) + "</td>" +
+                            "<td align=\"center\">" + DischargeLampsConfig.VOLTAGE_FORMAT.format( voltage ) + "</td>" +
                             "</tr>" +
                             "</table></html>";
             JPanel headerPnl = new JPanel();
