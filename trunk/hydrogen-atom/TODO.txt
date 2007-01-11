@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- optimization: DeBroglieBrightnessNode creates and draws lots of GeneralPaths and PNodes, flatten?
 - verify that behavior is correct when clock is paused
 - get requirements for gun color squiggle in energy digrams
 
@@ -31,6 +30,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/10/06) - make DeBroglieBrightnessNode preallocate and reuse the objects that it uses to make the ring
 (1/10/06) - rename BohrModel.updateElectronPositon -> updateElectronOffset
 (1/10/06) - rename getElectronOffset to getElectronOffsetRef to indicate that it returns a reference
 (1/10/06) - add getElectronPositionRef to significantly reduce Point2D allocation
