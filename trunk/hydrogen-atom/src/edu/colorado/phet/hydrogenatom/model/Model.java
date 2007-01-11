@@ -66,12 +66,12 @@ public class Model extends ClockAdapter {
     public void clockTicked( ClockEvent event ) {
         double dt = event.getSimulationTimeChange();
        
-        // Iterator through a copy of the list, in case the list changes.
-        ArrayList modelElements = new ArrayList( _modelElements );
-        Iterator i = modelElements.iterator();
-        while ( i.hasNext() ) {
-            ModelElement modelElement = (ModelElement)i.next();
-            modelElement.stepInTime( dt );
+        if ( _modelElements.size() > 0 ) {
+            Object[] modelElements = _modelElements.toArray(); // copy, this operation may change the list
+            for ( int i = 0; i < modelElements.length; i++ ) {
+                ModelElement modelElement = (ModelElement) modelElements[i];
+                modelElement.stepInTime( dt );
+            }
         }
     }
     
