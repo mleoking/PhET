@@ -16,7 +16,7 @@ MEDIUM PRIORITY:
 - improve performance of deBroglie brightness views for higher states
 
 LOW PRIORITY:
-- if clock is paused and deBroglie 3D view is chosen, skip animating into place and just jump to final perspective
+- if clock is paused and deBroglie 3D view is chosen, skip animating into place and just jump to final 3D perspective
 - reduce size of panel image files
 - bug: ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 - bug: spectrometer buttons are fully transparent on Win98
