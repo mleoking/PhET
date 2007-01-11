@@ -83,6 +83,8 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private double _radius;
     // offset of the electron relative to atom's center
     private Point2D _electronOffset;
+    // electron's position in world coordinates
+    private Point2D _electronPosition;
     // line on which the electron oscillates, relative to atom's center
     private Line2D _electronLine;
     // the electron's direction of motion, relative to the X (horizontal) axis
@@ -125,7 +127,8 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
         
         _numberOfPhotonsAbsorbed = 0;
         _radius = radius;
-        _electronOffset = new Point2D.Double( 0, 0 );
+        _electronOffset = new Point2D.Double();
+        _electronPosition = new Point2D.Double();
         _electronLine = new Line2D.Double();
         
         _electronIsMoving = false;
@@ -156,13 +159,15 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     }
     
     /*
-     * Gets the electron's position in world coordinates.
-     * This is the electron's offset adjusted by the atom's position.
+     * Sets the electron's offset (and position).
+     * 
+     * @param xOffset
+     * @param yOffset
      */
-    private Point2D getElectronPosition() {
-        double x = getX() + _electronOffset.getX();
-        double y = getY() + _electronOffset.getY();
-        return new Point2D.Double( x, y );
+    private void setElectronOffset( double xOffset, double yOffset ) {
+        _electronOffset.setLocation( xOffset, yOffset );
+        _electronPosition.setLocation( getX() + xOffset, getY() + yOffset );
+        notifyObservers( PROPERTY_ELECTRON_OFFSET );
     }
     
     //----------------------------------------------------------------------------
@@ -185,8 +190,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
         _electronDirectionPositive = RandomUtils.nextBoolean();
         
         // move electron back to center
-        _electronOffset.setLocation( 0, 0 );
-        notifyObservers( PROPERTY_ELECTRON_OFFSET );
+        setElectronOffset( 0, 0 );
     }
     
     /*
@@ -251,9 +255,8 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     private boolean absorbPhoton( Photon photon ) {
         boolean absorbed = false;
         if ( canAbsorb( photon ) ) {
-            Point2D electronPosition = getElectronPosition();
             Point2D photonPosition = photon.getPositionRef();
-            if ( pointsCollide( electronPosition, photonPosition, COLLISION_CLOSENESS ) ) {
+            if ( pointsCollide( _electronPosition, photonPosition, COLLISION_CLOSENESS ) ) {
                 if ( _randomAbsorption.nextDouble() < PHOTON_ABSORPTION_PROBABILITY ) {
                     _numberOfPhotonsAbsorbed++;
                     assert( _numberOfPhotonsAbsorbed <= MAX_PHOTONS_ABSORBED );
@@ -275,7 +278,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
             _numberOfPhotonsAbsorbed--;
             
             // Use the electron's position
-            Point2D position = getElectronPosition();
+            Point2D position = _electronPosition;
             
             // Pick a random orientation
             double orientation = RandomUtils.nextAngle();
@@ -374,8 +377,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
                 _numberOfZeroCrossings = 0;
                 _previousAmplitude = 0;
                 updateElectronLine();
-                _electronOffset.setLocation( 0, 0 );
-                notifyObservers( PROPERTY_ELECTRON_OFFSET );
+                setElectronOffset( 0, 0 );
             }
         }
     }
@@ -429,7 +431,6 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
             _numberOfZeroCrossings++;
         }
 
-        _electronOffset.setLocation( x, y );
-        notifyObservers( PROPERTY_ELECTRON_OFFSET );
+        setElectronOffset( x, y );
     }
 }
