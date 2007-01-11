@@ -56,6 +56,7 @@ public class DeBroglieModel extends BohrModel {
     //----------------------------------------------------------------------------
     
     private DeBroglieView _view; // see setView javadoc
+    private Point2D _electronPosition3D; // the electron's position in 3D view
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -64,6 +65,7 @@ public class DeBroglieModel extends BohrModel {
     public DeBroglieModel( Point2D position ) {
         super( position );
         _view = DEFAULT_VIEW;
+        _electronPosition3D = new Point2D.Double();
     }
     
     //----------------------------------------------------------------------------
@@ -206,17 +208,20 @@ public class DeBroglieModel extends BohrModel {
     }
     
     /**
-     * Gets the electron's position in world coordinates.
+     * Gets a reference to the electron's position in world coordinates.
      * This is the electron's offset adjusted by the atom's position.
      * If we're using a 3D view, adjust the y coordinate to account 
      * for the 3D perspective.
+     * <p>
+     * This method does not allocate a Point2D -- take care not to change the value returned!
      */
-    protected Point2D getElectronPosition() {
-        Point2D p = super.getElectronPosition();
+    protected Point2D getElectronPositionRef() {
+        Point2D p = super.getElectronPositionRef();
         if ( _view == DeBroglieView.HEIGHT_3D ) {
             double x = p.getX();
             double y = getY() + ( ( p.getY() - getY() ) * ORBIT_Y_SCALE ); // adjust distance from atom's center
-            p.setLocation( x, y );
+            _electronPosition3D.setLocation( x, y );
+            p = _electronPosition3D;
         }
         return p;
     }
