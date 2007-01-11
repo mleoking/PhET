@@ -560,6 +560,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(1/10/06) - draw DeBroglieBrightNode's ring using one custom PNode, rather than a lot of PPaths (implemented this and it ran much slower)
 (1/10/06) - animation gets a little jerky when you touch wavelength control (Mac only, barely noticeable)
 (1/10/06) - make deBroglie 3D view rotate into place when clock is paused (too hard)
 (1/10/06) - SchodingerModel.chooseLowerElectronState creates ProbabilisticChooser & Entries (not a problem, lightweight)
