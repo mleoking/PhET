@@ -5,9 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- optimization: getElectronPosition created a Point2D (BohrModel, DeBroglieModel, PlumPuddingModel)
+- optimization: getElectronPosition creates a Point2D (BohrModel, DeBroglieModel, PlumPuddingModel)
 - optimization: HAModel and Model create ArrayList copies on every clock tick
-- optimization: SchodingerModel.chooseLowerElectronState creates ProbabilisticChooser & Entry's
 - optimization: DeBroglieBrightnessNode creates and draws lots of GeneralPaths and PNodes, flatten?
 - get requirements for gun color squiggle in energy digrams
 - add abstract to SimStrings file
@@ -558,6 +557,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(1/10/06) - SchodingerModel.chooseLowerElectronState creates ProbabilisticChooser & Entries (not a problem, lightweight)
 (1/10/06) - make EnergySquiggle mutable (no performance benefit, unduly complicates code)
 (1/10/06) - improve performance of deBroglie 3D representation (already fast enough, optimized awhile ago)
 (1/10/06) - rewrite AtomicModelSelector to use inner classes, or layout node (works as is, no need to change)
