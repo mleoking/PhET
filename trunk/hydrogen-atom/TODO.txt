@@ -9,7 +9,6 @@ HIGH PRIORITY:
 - optimization: HAModel and Model create ArrayList copies on every clock tick
 - optimization: SchodingerModel.chooseLowerElectronState creates ProbabilisticChooser & Entry's
 - optimization: DeBroglieBrightnessNode creates and draws lots of GeneralPaths and PNodes, flatten?
-- optimization: make EnergySquiggle mutable
 - get requirements for gun color squiggle in energy digrams
 - add abstract to SimStrings file
 
@@ -22,11 +21,8 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - improve performance of Schrodinger (faster Leguerre Polynomial algorithm?)
 - improve performance of deBroglie "brightness" and "brightness magnitude" representations
-- improve performance of deBroglie 3D representation
 - animation gets jerky when you change wavelength (or just click in wavelength textfield) - Mac only?
 - reduce size of panel image files
-- create layout nodes for creating Piccolo-based control panels
-- rewrite AtomicModelSelector to use inner classes, or layout node
 - bug: ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 - bug: spectrometer buttons are fully transparent on Win98
 - bug: problem with updating drag bounds of ConstrainedDragHandler (see HACK comment in WavelengthControl)
@@ -38,6 +34,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/10/06) - reuse transform in EnergySquiggle
 (1/9/06) - make a new thumbnail image
 ***** CVS tag hydrogenatom-0-00-21-2007-01-09
 (1/9/06) - set probability of absorption and stimulated emission to 100% in Bohr/deBroglie/Schrodinger
@@ -561,6 +558,10 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(1/10/06) - make EnergySquiggle mutable (no performance benefit, unduly complicates code)
+(1/10/06) - improve performance of deBroglie 3D representation (already fast enough, optimized awhile ago)
+(1/10/06) - rewrite AtomicModelSelector to use inner classes, or layout node (works as is, no need to change)
+(1/10/06) - create layout nodes for creating Piccolo-based control panels (future addition to piccolo-phet project)
 (1/9/06) - show min time that electron is in a state be in wall time? (no, it should be [and is] in sim time) 
 (1/8/06) - verify that ModelViewTransform is used everywhere that it should be (testing reveals it isn't, but the transform will never be anything but 1:1, not worth the effort to debug)
 (1/8/06) - flatten static parts of energy diagram to an image (unlikely to result in perceptible performance improvement)

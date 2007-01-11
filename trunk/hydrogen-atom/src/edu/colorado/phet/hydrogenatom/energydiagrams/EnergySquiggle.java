@@ -139,7 +139,11 @@ public class EnergySquiggle extends PComposite {
          * a rotation and a translation.
          */
         double phi = Math.atan2( y2 - y1, x2 - x1 ); // conversion to Polar coordinates
-        AffineTransform xform = new AffineTransform();
+        AffineTransform xform = getTransform();
+        if ( xform == null ) {
+            xform = new AffineTransform();
+        }
+        xform.setToIdentity();
         xform.translate( x1, y1 );
         xform.rotate( phi );
         setTransform( xform );
