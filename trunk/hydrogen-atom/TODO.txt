@@ -10,7 +10,7 @@ HIGH PRIORITY:
 - improve performance of Schrodinger (faster Leguerre Polynomial algorithm ?)
 
 MEDIUM PRIORITY:
-- remove (n,l,m)= display from Schrodinger view ?
+- remove (n,l,m) display from Schrodinger view ?
 - what do you want the thumbnail image to show ?
 - add abstract to SimStrings file
 - improve performance of deBroglie brightness views for higher states
