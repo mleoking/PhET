@@ -152,9 +152,11 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
     
     /**
      * Gets the electron's offset, relative to the atom's center.
+     * This method does NOT allocate a Point2D -- do not modify the value returned!
+     * 
      * @return Point2D
      */
-    public Point2D getElectronOffset() {
+    public Point2D getElectronOffsetRef() {
         return _electronOffset;
     }
     

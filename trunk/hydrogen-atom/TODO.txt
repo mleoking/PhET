@@ -31,6 +31,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/10/06) - rename getElectronOffset to getElectronOffsetRef to indicate that it returns a reference
 (1/10/06) - add getElectronPositionRef to significantly reduce Point2D allocation
 (1/10/06) - add _electronPosition member to PlumPuddingModel to reduce Point2D allocation
 (1/10/06) - change HAModel and Model to use to use toArray for iterating over non-empty collections that may change
