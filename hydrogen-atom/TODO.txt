@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - optimization: getElectronPosition creates a Point2D (BohrModel, DeBroglieModel, PlumPuddingModel)
-- optimization: HAModel and Model create ArrayList copies on every clock tick
 - optimization: DeBroglieBrightnessNode creates and draws lots of GeneralPaths and PNodes, flatten?
 - get requirements for gun color squiggle in energy digrams
 - add abstract to SimStrings file
@@ -33,6 +32,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/10/06) - change HAModel and Model to use to use toArray for iterating over non-empty collections that may change
 (1/10/06) - reuse transform in EnergySquiggle
 (1/9/06) - make a new thumbnail image
 ***** CVS tag hydrogenatom-0-00-21-2007-01-09

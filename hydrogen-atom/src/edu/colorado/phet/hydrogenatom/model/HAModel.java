@@ -148,10 +148,11 @@ public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedLi
      * Removes all photons from the model.
      */
     public void removeAllPhotons() {
-        ArrayList photonsCopy = new ArrayList( _photons ); // copy
-        Iterator i = photonsCopy.iterator();
-        while ( i.hasNext() ) {
-            removeModelElement( (Photon) i.next() );
+        if ( _photons.size() > 0 ) {
+            Object[] photons = _photons.toArray(); // copy, this operation deletes from list
+            for ( int i = 0; i < photons.length; i++ ) {
+                removeModelElement( (Photon) photons[i] );
+            }
         }
     }
     
@@ -159,10 +160,11 @@ public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedLi
      * Removes all alpha particles from the model.
      */
     public void removeAllAlphaParticles() {
-        ArrayList alphaParticlesCopy = new ArrayList( _alphaParticles ); // copy
-        Iterator i = alphaParticlesCopy.iterator();
-        while ( i.hasNext() ) {
-            removeModelElement( (AlphaParticle) i.next() );
+        if ( _alphaParticles.size() > 0 ) {
+            Object[] alphaParticles = _alphaParticles.toArray(); // copy, this operation deletes from list
+            for ( int i = 0; i < alphaParticles.length; i++ ) {
+                removeModelElement( (AlphaParticle) alphaParticles[i] );
+            }
         }
     }
     
@@ -192,19 +194,21 @@ public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedLi
         if ( _atom != null ) {
             
             // Photon collisions
-            ArrayList photonsCopy = new ArrayList( _photons ); // copy
-            Iterator p = photonsCopy.iterator();
-            while ( p.hasNext() ) {
-                Photon photon = (Photon) p.next();
-                _atom.movePhoton( photon, dt );
+            if ( _photons.size() > 0 ) {
+                Object[] photons = _photons.toArray(); // copy, this operation may delete from list
+                for ( int i = 0; i < photons.length; i++ ) {
+                    Photon photon = (Photon) photons[i];
+                    _atom.movePhoton( photon, dt );
+                }
             }
 
             // Alpha Particle collisions
-            ArrayList alphaParticlesCopy = new ArrayList( _alphaParticles ); // copy
-            Iterator a = alphaParticlesCopy.iterator();
-            while ( a.hasNext() ) {
-                AlphaParticle alphaParticle = (AlphaParticle) a.next();
-                _atom.moveAlphaParticle( alphaParticle, dt );
+            if ( _alphaParticles.size() > 0 ) {
+                Object[] alphaParticles = _alphaParticles.toArray(); // copy, this operation may delete from list
+                for ( int i = 0; i < alphaParticles.length; i++ ) {
+                    AlphaParticle alphaParticle = (AlphaParticle) alphaParticles[i];
+                    _atom.moveAlphaParticle( alphaParticle, dt );
+                }
             }
         }
     }
@@ -214,21 +218,23 @@ public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedLi
      */
     private void cullParticles() {
         
-        ArrayList photonsCopy = new ArrayList( _photons ); // copy
-        Iterator p = photonsCopy.iterator();
-        while ( p.hasNext() ) {
-            Photon photon = (Photon)p.next();
-            if ( !_space.contains( photon ) ) {
-                removeModelElement( photon );
+        if ( _photons.size() > 0 ) {
+            Object[] photons = _photons.toArray(); // copy, this operation may delete from list
+            for ( int i = 0; i < photons.length; i++ ) {
+                Photon photon = (Photon) photons[i];
+                if ( !_space.contains( photon ) ) {
+                    removeModelElement( photon );
+                }
             }
         }
         
-        ArrayList alphaParticlesCopy = new ArrayList( _alphaParticles ); // copy
-        Iterator a = alphaParticlesCopy.iterator();
-        while ( a.hasNext() ) {
-            AlphaParticle alphaParticle = (AlphaParticle)a.next();
-            if ( !_space.contains( alphaParticle ) ) {
-                removeModelElement( alphaParticle );
+        if ( _alphaParticles.size() > 0 ) {
+            Object[] alphaParticles = _alphaParticles.toArray(); // copy, this operation may delete from list
+            for ( int i = 0; i < alphaParticles.length; i++ ) {
+                AlphaParticle alphaParticle = (AlphaParticle) alphaParticles[i];
+                if ( !_space.contains( alphaParticle ) ) {
+                    removeModelElement( alphaParticle );
+                }
             }
         }
     } 
