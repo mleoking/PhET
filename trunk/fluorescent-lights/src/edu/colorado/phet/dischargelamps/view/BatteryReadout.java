@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.model.Battery;
+import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -88,7 +89,7 @@ public class BatteryReadout extends GraphicLayerSet {
     }
 
     private void updateText( double voltage ) {
-        DecimalFormat voltageFormat = new DecimalFormat( "#0.00" );
+        DecimalFormat voltageFormat = PhotoelectricConfig.VOLTAGE_FORMAT;
         Object[] args = {voltageFormat.format( voltage )};
         String text = MessageFormat.format( SimStrings.get( "BatteryGraphic.voltage" ), args );
         readout.setText( text );
