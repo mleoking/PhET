@@ -16,6 +16,8 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
+import edu.colorado.phet.photoelectric.controller.BeamControl;
+import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
 import edu.colorado.phet.photoelectric.view.util.RotatedTextLabel;
@@ -296,21 +298,33 @@ public class CompositeGraphPanel extends JPanel {
             // Construct the header information
             PhotoelectricModel model = (PhotoelectricModel)module.getModel();
             String material = model.getTarget().getMaterial().toString();
-            String voltage = Double.toString( model.getVoltage() );
-            String wavelength = Double.toString( model.getBeam().getWavelength() );
-            String intensity = Double.toString( PhotoelectricModelUtil.photonRateToIntensity( model.getBeam().getPhotonsPerSecond(),
-                                                                                              model.getBeam().getWavelength() ) );
+            double voltage = model.getVoltage();
+            double wavelength = model.getBeam().getWavelength();
+            double value = 0;
+            String title;
+            if( ( (PhotoelectricModule)module ).getBeamControl().getMode() == BeamControl.INTENSITY ) {
+                title = "Intensity";
+                value = PhotoelectricModelUtil.photonRateToIntensity( model.getBeam().getPhotonsPerSecond() / PhotoelectricModel.MAX_PHOTONS_PER_SECOND,
+                                                                      model.getBeam().getWavelength() );
+            }
+            else {
+                title = "Photon Rate";
+                value =  model.getBeam().getPhotonsPerSecond() / PhotoelectricModel.MAX_PHOTONS_PER_SECOND;
+            }
+//            String intensity = Double.toString( model.getBeam().getPhotonsPerSecond());
+//            String intensity = Double.toString( PhotoelectricModelUtil.photonRateToIntensity( model.getBeam().getPhotonsPerSecond(),
+//                                                                                              model.getBeam().getWavelength() ) );
             String header = "<html><table border=\"1\" >" +
-                            "<tr><td align=\"right\">" + "Material" + "</td>" +
-                            "<td align=\"right\">" + "Wavelength" + "</td>" +
-                            "<td align=\"right\">" + "Intensity" + "</td>" +
-                            "<td align=\"right\">" + "Voltage" + "</td>" +
+                            "<tr><td align=\"center\">" + "Material" + "</td>" +
+                            "<td align=\"center\">" + "Wavelength" + "</td>" +
+                            "<td align=\"center\">" + title + "</td>" +
+                            "<td align=\"center\">" + "Voltage" + "</td>" +
                             "</tr>" +
                             "<tr>" +
-                            "<td>" + material + "</td>" +
-                            "<td>" + wavelength + " nm" + "</td>" +
-                            "<td>" + intensity + "%" + "</td>" +
-                            "<td>" + voltage + " v" + "</td>" +
+                            "<td align=\"center\">" + material + "</td>" +
+                            "<td align=\"center\">" + PhotoelectricConfig.BEAM_WAVELENGTH_FORMAT.format( wavelength ) + "</td>" +
+                            "<td align=\"center\">" + PhotoelectricConfig.BEAM_PERCENTAGE_FORMAT.format( value ) + "</td>" +
+                            "<td align=\"center\">" + PhotoelectricConfig.VOLTAGE_FORMAT.format( voltage ) + "</td>" +
                             "</tr>" +
                             "</table></html>";
             JPanel headerPnl = new JPanel();

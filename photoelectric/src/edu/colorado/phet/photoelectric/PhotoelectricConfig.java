@@ -11,6 +11,7 @@
 package edu.colorado.phet.photoelectric;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 
 /**
  * PhotoelectricConfig
@@ -40,6 +41,10 @@ public class PhotoelectricConfig {
     public static final double BEAM_LAYER = 900;
     public static final double ELECTRON_LAYER = 900;
     public static final Dimension CHART_SIZE = new Dimension( 170, 94 );
+
+    public static final DecimalFormat BEAM_PERCENTAGE_FORMAT =new DecimalFormat( "#%" );
+    public static final DecimalFormat BEAM_WAVELENGTH_FORMAT =new DecimalFormat( "### nm" );
+    public static final DecimalFormat VOLTAGE_FORMAT = new DecimalFormat( "#0.00" );
 
     // Model related fields
     public static final double MIN_WAVELENGTH = 100;
