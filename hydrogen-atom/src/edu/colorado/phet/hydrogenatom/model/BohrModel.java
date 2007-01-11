@@ -105,6 +105,8 @@ public class BohrModel extends AbstractHydrogenAtom {
     private double _electronAngle;
     // offset of the electron relative to atom's center
     private Point2D _electronOffset;
+    // electron's position in 2D space
+    private Point2D _electronPosition;
     
     // random number generator for absorption probability
     private Random _randomAbsorption;
@@ -131,13 +133,14 @@ public class BohrModel extends AbstractHydrogenAtom {
         _timeInState = 0;
         _electronAngle = RandomUtils.nextAngle();
         _electronOffset = new Point2D.Double();
+        _electronPosition = new Point2D.Double();
         
         _randomAbsorption = new Random();
         _randomSpontaneousEmission = new Random();
         _randomStimulatedEmission = new Random();
         _randomState = new Random();
         
-        updateElectronOffset();
+        updateElectronPosition();
     }
     
     //----------------------------------------------------------------------------
@@ -219,7 +222,7 @@ public class BohrModel extends AbstractHydrogenAtom {
         
         // Advance the electron along its orbit
         _electronAngle = calculateNewElectronAngle( dt );
-        updateElectronOffset();
+        updateElectronPosition();
 
         // Attempt to emit a photon
         attemptSpontaneousEmission();
@@ -261,22 +264,22 @@ public class BohrModel extends AbstractHydrogenAtom {
     /*
      * Gets the electron's position in world coordinates.
      * This is the electron's offset adjusted by the atom's position.
+     * This method does NOT allocate a Point2D -- do not modify the value returned!
      */
-    protected Point2D getElectronPosition() {
-        double x = getX() + _electronOffset.getX();
-        double y = getY() + _electronOffset.getY();
-        return new Point2D.Double( x, y );
+    protected Point2D getElectronPositionRef() {
+        return _electronPosition;
     }
     
     /*
-     * Updates the electron's offset to match its current orbit and angle.
+     * Updates the electron's position (and offset) to match its current orbit and angle.
      * This is essentially a conversion from Cartesian to Polar coordinates.
      */
-    private void updateElectronOffset() {
+    private void updateElectronPosition() {
         double radius = getOrbitRadius( _electronState );
-        double x = radius * Math.sin( _electronAngle );
-        double y = radius * Math.cos( _electronAngle );
-        _electronOffset.setLocation( x, y );
+        double xOffset = radius * Math.sin( _electronAngle );
+        double yOffset = radius * Math.cos( _electronAngle );
+        _electronOffset.setLocation( xOffset, yOffset );
+        _electronPosition.setLocation( getX() + xOffset, getY() + yOffset ); // adjust for atom position
         notifyObservers( PROPERTY_ELECTRON_OFFSET );
     }
     
@@ -462,9 +465,8 @@ public class BohrModel extends AbstractHydrogenAtom {
      * @return true or false
      */
     protected boolean collides( Photon photon ) {
-        Point2D electronPosition = getElectronPosition();
         Point2D photonPosition = photon.getPositionRef();
-        return pointsCollide( electronPosition, photonPosition, COLLISION_CLOSENESS );
+        return pointsCollide( _electronPosition, photonPosition, COLLISION_CLOSENESS );
     }
     
     //----------------------------------------------------------------------------
@@ -687,7 +689,7 @@ public class BohrModel extends AbstractHydrogenAtom {
                 }
                 
                 // New photon's properties
-                Point2D position = getSpontaneousEmissionPosition();
+                Point2D position = getSpontaneousEmissionPositionRef();
                 double orientation = RandomUtils.nextAngle();
                 double speed = HAConstants.PHOTON_INITIAL_SPEED;
                 double wavelength = getWavelengthEmitted( _electronState, newState );
@@ -738,10 +740,12 @@ public class BohrModel extends AbstractHydrogenAtom {
     /*
      * Gets the position of a photon created via spontaneous emission.
      * The default behavior is to create the photon at the electron's position.
+     * This returns a reference to a Point2D -- be careful not to modify 
+     * the value returned!
      * 
      * @return Point2D
      */
-    protected Point2D getSpontaneousEmissionPosition() {
-        return getElectronPosition();
+    protected Point2D getSpontaneousEmissionPositionRef() {
+        return _electronPosition;
     }
 }

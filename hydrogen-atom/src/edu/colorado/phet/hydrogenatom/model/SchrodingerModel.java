@@ -109,6 +109,8 @@ public class SchrodingerModel extends DeBroglieModel {
     // random number generator for selecting m
     private Random _mRandom;
     
+    private Point2D _spontaneousEmissionPoint;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -128,6 +130,7 @@ public class SchrodingerModel extends DeBroglieModel {
         _m = 0;
         _lRandom = new Random();
         _mRandom = new Random();
+        _spontaneousEmissionPoint = new Point2D.Double();
     }
     
     //----------------------------------------------------------------------------
@@ -243,16 +246,18 @@ public class SchrodingerModel extends DeBroglieModel {
     
     /*
      * Our Schrodinger model emits photons from a random point on the first Bohr orbit.
+     * This returns a reference to a Point2D -- be careful not to modify the value returned!
      * @return Point2D
      */
-    protected Point2D getSpontaneousEmissionPosition() {
+    protected Point2D getSpontaneousEmissionPositionRef() {
         // random point on the orbit
         double radius = BohrModel.getOrbitRadius( GROUND_STATE );
         double angle = RandomUtils.nextAngle();
         // convert to Cartesian coordinates, adjust for atom's position
         double x = ( radius * Math.cos( angle ) ) + getX();
         double y = ( radius * Math.sin( angle ) ) + getY();
-        return new Point2D.Double( x, y );
+        _spontaneousEmissionPoint.setLocation( x, y );
+        return _spontaneousEmissionPoint;
     }
     
     /**

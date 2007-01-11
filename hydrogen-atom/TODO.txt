@@ -5,16 +5,15 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- optimization: getElectronPosition creates a Point2D (BohrModel, DeBroglieModel, PlumPuddingModel)
 - optimization: DeBroglieBrightnessNode creates and draws lots of GeneralPaths and PNodes, flatten?
+- verify that behavior is correct when clock is paused
 - get requirements for gun color squiggle in energy digrams
-- add abstract to SimStrings file
 
 MEDIUM PRIORITY:
 - remove (n,l,m)= display from Schrodinger view ?
 - find a more obvious place to put the deBroglie view options
-- verify that behavior is correct when clock is paused
 - what do you want the thumbnail image to show?
+- add abstract to SimStrings file
 
 LOW PRIORITY:
 - improve performance of Schrodinger (faster Leguerre Polynomial algorithm?)
@@ -32,6 +31,8 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/10/06) - add getElectronPositionRef to significantly reduce Point2D allocation
+(1/10/06) - add _electronPosition member to PlumPuddingModel to reduce Point2D allocation
 (1/10/06) - change HAModel and Model to use to use toArray for iterating over non-empty collections that may change
 (1/10/06) - reuse transform in EnergySquiggle
 (1/9/06) - make a new thumbnail image
