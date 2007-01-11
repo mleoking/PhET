@@ -64,6 +64,8 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
     private PNode _ringNode; // parent node for all geometry that approximates the ring
     private ArrayList _polygons; // array of PPath, polygons used to approximate the ring
     private int _previousState; // previous state of the atom's electron
+    private GeneralPath[] _pathShapes; // reusable shapes used to construct the ring
+    private PPath[] _pathNodes; // reusable nodes used to construct the ring
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -71,11 +73,32 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
     
     public DeBroglieBrightnessNode( DeBroglieModel atom ) {
         super( atom );
+        
         _ringNode = new PNode();
         _polygons = new ArrayList();
-        _previousState = atom.getGroundState() - 1; // force initialization
+        _previousState = DeBroglieModel.getGroundState() - 1; // force initialization
         addChild( _ringNode );
+        
+        // Create the maximum number of objects we'll need to draw the larges orbit
+        int maxState = DeBroglieModel.getGroundState() + DeBroglieModel.getNumberOfStates() - 1;
+        double maxRadius = ModelViewTransform.transform( DeBroglieModel.getOrbitRadius( maxState ) );
+        int maxPolygons = calculateNumberOfPolygons( maxRadius );
+        createReusablePolygons( maxPolygons );
+        
         update();
+    }
+    
+    /*
+     * Creates reusable objects that are used to construct the ring.
+     */
+    private void createReusablePolygons( int numberOfPolygons ) {
+        _pathShapes = new GeneralPath[ numberOfPolygons ];
+        _pathNodes = new PPath[ numberOfPolygons ];
+        for ( int i = 0; i < numberOfPolygons; i++ ) {
+            _pathShapes[i] = new GeneralPath();
+            _pathNodes[i] = new PPath();
+            _pathNodes[i].setStroke( null );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -95,7 +118,8 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
         // Update the ring's geometry when the electron's state changes.
         if ( state != _previousState ) {
             _previousState = state;
-            int numberOfPolygons = calculateNumberOfPolygons();
+            double radius = ModelViewTransform.transform( getAtom().getElectronOrbitRadius() );
+            int numberOfPolygons = calculateNumberOfPolygons( radius );
             updateRingGeometry( numberOfPolygons );
         }
 
@@ -107,8 +131,7 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
      * Calculates the number of polygons required to approximate the ring.
      * This is a function of the ring's radius.
      */
-    private int calculateNumberOfPolygons() {
-        double radius = ModelViewTransform.transform( getAtom().getElectronOrbitRadius() );
+    private static int calculateNumberOfPolygons( double radius ) {
         double circumference = Math.PI * ( 2 * radius );
         int numberOfPolygons = (int) ( circumference / POLYGON_SIZE ) + 1;
         return numberOfPolygons;
@@ -124,6 +147,11 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
         _polygons.clear();
 
         double radius = ModelViewTransform.transform( getAtom().getElectronOrbitRadius() );
+        
+        if ( numberOfPolygons > _pathNodes.length ) {
+            System.err.println( "WARNING: DebroglieBrightnessNode.updateRingGeometry needed to allocate more objects to create ring geometry" );
+            createReusablePolygons( numberOfPolygons );
+        }
         
         for ( int i = 0; i < numberOfPolygons; i++ ) {
 
@@ -147,7 +175,8 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
             double y4 = r1 * sin2;
             
             // Shape for the polygon
-            GeneralPath path = new GeneralPath();
+            GeneralPath path = _pathShapes[i];
+            path.reset();
             path.moveTo( (float) x1, (float) y1 );
             path.lineTo( (float) x2, (float) y2 );
             path.lineTo( (float) x3, (float) y3 );
@@ -155,8 +184,8 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
             path.closePath();
 
             // Draw the polygon using a node
-            PPath pathNode = new PPath( path );
-            pathNode.setStroke( null );
+            PPath pathNode = _pathNodes[i];
+            pathNode.setPathTo( path );
             pathNode.setPaint( Color.RED ); // so we can see if any polgons don't get paint set properly
             
             _ringNode.addChild( pathNode );
