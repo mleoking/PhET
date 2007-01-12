@@ -87,7 +87,7 @@ public class SplineMode implements UpdateMode {
 //                System.out.println( "Fixed with velocity 1" );
 //            }
         }
-        if( !fixed && Math.abs( spline.getUnitNormalVector( x2 ).getY() ) < 0.9 ) {
+        if( !fixed && Math.abs( spline.getUnitNormalVector( x2 ).getY() ) < 0.9 && body.getGravity() > 0 ) {
             double epsilon = 0.001;//1E-8     
             fixed = fixed || fixEnergyOnSpline( origState, x2, body, epsilon );
             if( fixed ) {
