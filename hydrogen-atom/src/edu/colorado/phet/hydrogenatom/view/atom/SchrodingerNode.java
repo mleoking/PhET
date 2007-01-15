@@ -16,11 +16,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.text.MessageFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -127,7 +122,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     // the atom that this node is representing
     private SchrodingerModel _atom;
     // electron state display
-    private StateNode _stateNode;
+    private StateDisplayNode _stateDisplayNode;
     // field node
     private AtomNode _fieldNode;
     // proton node
@@ -169,18 +164,19 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
 
         // Electron state display, positioned at lower right
         if ( HAConstants.SHOW_STATE_DISPLAY ) {
-            _stateNode = new StateNode();
-            xOffset = BOX_WIDTH - _stateNode.getFullBounds().getWidth() - STATE_MARGIN;
-            yOffset = BOX_HEIGHT - _stateNode.getFullBounds().getHeight() - STATE_MARGIN;
-            _stateNode.setOffset( xOffset, yOffset );
+            _stateDisplayNode = new StateDisplayNode();
+            _stateDisplayNode.setState( 6, 5, -5 ); // widest value
+            xOffset = BOX_WIDTH - _stateDisplayNode.getFullBounds().getWidth() - STATE_MARGIN;
+            yOffset = BOX_HEIGHT - _stateDisplayNode.getFullBounds().getHeight() - STATE_MARGIN;
+            _stateDisplayNode.setOffset( xOffset, yOffset );
         }
         
         // Layering
         addChild( _fieldNode );
         addChild( _protonNode );
         addChild( axesNode );
-        if ( _stateNode != null ) {
-            addChild( _stateNode );
+        if ( _stateDisplayNode != null ) {
+            addChild( _stateDisplayNode );
         }
         
         /* 
@@ -223,15 +219,16 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
      */
     public void handleStateChange() {
         
-        // Update the state display
-        if ( _stateNode != null ) {
-            _stateNode.update( _atom );
-        }
-        
-        // Look up the set of brightness values for the atom's state
         int n = _atom.getElectronState();
         int l = _atom.getSecondaryElectronState();
         int m = Math.abs( _atom.getTertiaryElectronState() );
+        
+        // Update the state display
+        if ( _stateDisplayNode != null ) {
+            _stateDisplayNode.setState( n, l, m );
+        }
+        
+        // Look up the set of brightness values for the atom's state
         float[][] brightness = BRIGHTNESS_CACHE.getBrightness( n, l, m );
         
         // Update the atom.
@@ -293,53 +290,6 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             addChild( vAxis );
             addChild( hText );
             addChild( vText );
-        }
-    }
-    
-    /*
-     * StateNode displays the (n,l,m) state of an atom.
-     */
-    private static class StateNode extends PText {
-        
-        private static final Font STATE_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
-        private static final Color STATE_COLOR = Color.WHITE;
-        private static final String STATE_FORMAT = "(n,l,m)=({0},{1},{2})";
-        
-        /**
-         * Constructor.
-         * @param atom
-         */
-        public StateNode() {
-            super();
-            setPickable( false );
-            setChildrenPickable( false );
-            
-            setFont( STATE_FONT );
-            setTextPaint( STATE_COLOR );
-            
-            // Default to widest value
-            String s = electronStateToString( 6, 5, -5 );
-            setText( s );
-        }
-        
-        /**
-         * Updates the view to match the specified model.
-         * @param atom
-         */
-        public void update( SchrodingerModel atom ) {
-            int n = atom.getElectronState();
-            int l = atom.getSecondaryElectronState();
-            int m = atom.getTertiaryElectronState();
-            String s = electronStateToString( n, l, m );
-            setText( s );
-        }
-        
-        /*
-         * Formats an electron state as a string.
-         */
-        private static String electronStateToString( int n, int l, int m ) {
-            Object[] args = { new Integer( n ), new Integer( l ), new Integer( m ) };
-            return MessageFormat.format( STATE_FORMAT, args );
         }
     }
     
@@ -539,7 +489,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
                 }
             }
             if ( DEBUG_CACHE ) {
-                System.out.println( "BrightnessCache has room for " + statesCount + " states" );//XXX
+                System.out.println( "BrightnessCache has room for " + statesCount + " states" );
             }
         }
         
@@ -556,7 +506,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             float[][] brightness = _cache[n-1][l][m];
             if ( brightness == null ) {
                 if ( DEBUG_CACHE ) {
-                    System.out.println( "BrightnessCache adding entry for " + SchrodingerModel.stateToString( n, l, m ) );//XXX
+                    System.out.println( "BrightnessCache adding entry for " + SchrodingerModel.stateToString( n, l, m ) );
                 }
                 brightness = computeBrightness( n, l, m, _sums );
                 _cache[n-1][l][m] = brightness;

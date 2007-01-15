@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add n= to lower right for Bohr and deBroglie
 - reduce time to fire absorbable photon to 5 sec for Schrodinger (2,0,0)
 - move deBroglie views to combobox at inside-left-top of "box"
 - make energy squiggle period a function of wavelength
@@ -28,6 +27,8 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/15/06) - add n= state display to lower right for Bohr and deBroglie
+(1/15/06) - create StateDisplayNode for displaying electron state variabled, use throughout
 (1/15/06) - move state display flag to HAConstants
 (1/15/06) - move nlm display to lower right in Schrodginer
 (1/10/06) - verify that behavior is correct when clock is paused
