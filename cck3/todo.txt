@@ -20,6 +20,29 @@ Wendy
 
 Sometimes after disconnecting a wire then "split junctions" there is a floating junction.
 
+From: Marina Milner-Bolotin <milnerm@phas.ubc.ca>
+To: Sarah.Mckagan@colorado.edu
+References: <45ABD31B.1070808@colorado.edu>
+
+Hi Sam,
+
+I actually had the same problems. I didn't notice a new simulation till
+Carl showed it to me. Probably when we are used to something, we do not
+notice the changes. I also noticed a few things about the AC simulation,
+which I found a little uncomfortable or which I wish could be improved.
+
+a) The graphs in my view are not very convenient to show the phase shift
+between current and voltage. They are not connected and since the time
+is "running" I cannot see the entire graph and I cannot figure out how
+to Auto scale it. When I choose too large of a value for the voltage of
+the battery, I couldn't adjust the graph scale. I couldn't figure out
+how to scale the graph - change axis value (for the vertical axis).
+
+b)  I could not also figure out how to make the graphs bigger so if I
+use them during the lecture everybody can see what I am trying to show.
+
+Thanks, M.
+
 High priority issues that weren't yet addressed:
 1. Capacitor physics issues.
 2. Current chart shows inconsistent sign of current.
