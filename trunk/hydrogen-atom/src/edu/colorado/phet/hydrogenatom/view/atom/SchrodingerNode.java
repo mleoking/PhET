@@ -87,9 +87,6 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     // Private class data
     //----------------------------------------------------------------------------
     
-    // Shows the (n,l,m) state in the lower right corner
-    private static final boolean DISPLAY_STATE = true;
-    
     // Animation box dimensions, for convenience
     private static final double BOX_WIDTH = HAConstants.ANIMATION_BOX_SIZE.getWidth();
     private static final double BOX_HEIGHT = HAConstants.ANIMATION_BOX_SIZE.getHeight();
@@ -171,7 +168,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         axesNode.setOffset( xOffset, yOffset );
 
         // Electron state display, positioned at upper right
-        if ( DISPLAY_STATE ) {
+        if ( HAConstants.SHOW_STATE_DISPLAY ) {
             _stateNode = new StateNode();
             xOffset = BOX_WIDTH - _stateNode.getFullBounds().getWidth() - STATE_MARGIN;
             yOffset = BOX_HEIGHT - _stateNode.getFullBounds().getHeight() - STATE_MARGIN;

@@ -28,6 +28,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/15/06) - move state display flag to HAConstants
 (1/15/06) - move nlm display to lower right in Schrodginer
 (1/10/06) - verify that behavior is correct when clock is paused
 (1/10/06) - make DeBroglieBrightnessNode preallocate and reuse the objects that it uses to make the ring
