@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- move deBroglie views to combobox at inside-left-top of "box" (keep code for Options menu)
+- move deBroglie views to combobox at inside-left-top of "box" (keep code for Options menu, but hide it)
 - make period of energy squiggle a function of wavelength
 
 MEDIUM PRIORITY:
