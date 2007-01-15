@@ -167,7 +167,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         double yOffset = BOX_HEIGHT - axesNode.getHeight() - AXES_MARGIN;
         axesNode.setOffset( xOffset, yOffset );
 
-        // Electron state display, positioned at upper right
+        // Electron state display, positioned at lower right
         if ( HAConstants.SHOW_STATE_DISPLAY ) {
             _stateNode = new StateNode();
             xOffset = BOX_WIDTH - _stateNode.getFullBounds().getWidth() - STATE_MARGIN;
