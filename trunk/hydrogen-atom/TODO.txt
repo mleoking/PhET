@@ -5,18 +5,16 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- get requirements for gun color squiggle in energy digrams
-- find a more obvious place to put the deBroglie view options
-- improve performance of Schrodinger (faster Leguerre Polynomial algorithm ?)
+- add n= to lower right for Bohr and deBroglie
+- reduce time to fire absorbable photon to 5 sec for Schrodinger (2,0,0)
+- move deBroglie views to combobox at inside-left-top of "box"
+- make energy squiggle period a function of wavelength
 
 MEDIUM PRIORITY:
-- remove (n,l,m) display from Schrodinger view ?
 - what do you want the thumbnail image to show ?
 - add abstract to SimStrings file
-- improve performance of deBroglie brightness views for higher states
 
 LOW PRIORITY:
-- if clock is paused and deBroglie 3D view is chosen, skip animating into place and just jump to final 3D perspective
 - reduce size of panel image files
 - bug: ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
 - bug: spectrometer buttons are fully transparent on Win98
@@ -26,9 +24,11 @@ DEFER UNTIL AFTER INTERVIEWS:
 - make spectrometer show each UV/IR transition wavelength at a distinct horizontal position
 - design a monochromatic solution for Schrodinger state (2,0,0)
 - decide if help items are necessary
+- add a "gun wavelength" squiggle to energy diagrams (similiar to Lasers, but need requirements)
  
  
 DONE:
+(1/15/06) - move nlm display to lower right in Schrodginer
 (1/10/06) - verify that behavior is correct when clock is paused
 (1/10/06) - make DeBroglieBrightnessNode preallocate and reuse the objects that it uses to make the ring
 (1/10/06) - rename BohrModel.updateElectronPositon -> updateElectronOffset
@@ -560,6 +560,9 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(1/12/06) - if clock is paused, deBroglie 3D view doesn't immediately animate into place (OK as is)
+(1/12/06) - improve performance of Schrodinger, faster Leguerre Polynomial algorithm? (current performance is acceptable)
+(1/12/06) - improve performance of deBroglie brightness views for higher states (current performance is acceptable)
 (1/10/06) - draw DeBroglieBrightNode's ring using one custom PNode, rather than a lot of PPaths (implemented this and it ran much slower)
 (1/10/06) - animation gets a little jerky when you touch wavelength control (Mac only, barely noticeable)
 (1/10/06) - make deBroglie 3D view rotate into place when clock is paused (too hard)

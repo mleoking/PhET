@@ -72,9 +72,6 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     // Strokes the bounds of the grid
     private static final boolean DEBUG_GRID_BOUNDS = false;
     
-    // Shows the (n,l,m) state in the upper left corner
-    private static final boolean DEBUG_SHOW_STATE = true;
-    
     // Prints debugging output related to the brightness cache
     private static final boolean DEBUG_CACHE = false;
     
@@ -89,6 +86,9 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
+    
+    // Shows the (n,l,m) state in the upper left corner
+    private static final boolean DISPLAY_STATE = true;
     
     // Animation box dimensions, for convenience
     private static final double BOX_WIDTH = HAConstants.ANIMATION_BOX_SIZE.getWidth();
@@ -171,9 +171,11 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         axesNode.setOffset( xOffset, yOffset );
 
         // Electron state display, positioned at upper right
-        if ( DEBUG_SHOW_STATE ) {
+        if ( DISPLAY_STATE ) {
             _stateNode = new StateNode();
-            _stateNode.setOffset( STATE_MARGIN, STATE_MARGIN );
+            xOffset = BOX_WIDTH - _stateNode.getFullBounds().getWidth() - STATE_MARGIN;
+            yOffset = BOX_HEIGHT - _stateNode.getFullBounds().getHeight() - STATE_MARGIN;
+            _stateNode.setOffset( xOffset, yOffset );
         }
         
         // Layering
@@ -317,6 +319,9 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             
             setFont( STATE_FONT );
             setTextPaint( STATE_COLOR );
+            
+            // Default to widest value
+            setDisplay( 6, 5, -5 );
         }
         
         /**
@@ -327,6 +332,10 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             int n = atom.getElectronState();
             int l = atom.getSecondaryElectronState();
             int m = atom.getTertiaryElectronState();
+            setDisplay( n, l, m );
+        }
+        
+        private void setDisplay( int n, int l, int m ) {
             Object[] args = { new Integer( n ), new Integer( l ), new Integer( m ) };
             String s = MessageFormat.format( STATE_FORMAT, args );
             setText( s );
