@@ -87,7 +87,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     // Private class data
     //----------------------------------------------------------------------------
     
-    // Shows the (n,l,m) state in the upper left corner
+    // Shows the (n,l,m) state in the lower right corner
     private static final boolean DISPLAY_STATE = true;
     
     // Animation box dimensions, for convenience
