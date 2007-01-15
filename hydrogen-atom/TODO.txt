@@ -6,10 +6,10 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - move deBroglie views to combobox at inside-left-top of "box"
-- make energy squiggle period a function of wavelength
+- make period of energy squiggle a function of wavelength
 
 MEDIUM PRIORITY:
-- what do you want the thumbnail image to show ?
+- create final thumbnail image
 - add abstract to SimStrings file
 
 LOW PRIORITY:
@@ -19,10 +19,10 @@ LOW PRIORITY:
 - bug: problem with updating drag bounds of ConstrainedDragHandler (see HACK comment in WavelengthControl)
 
 DEFER UNTIL AFTER INTERVIEWS:
-- make spectrometer show each UV/IR transition wavelength at a distinct horizontal position
-- design a monochromatic solution for Schrodinger state (2,0,0)
-- decide if help items are necessary
-- add a "gun wavelength" squiggle to energy diagrams (similiar to Lasers, but need requirements)
+- should the spectrometer show each UV/IR transition wavelength at a distinct horizontal position?
+- does the user need help getting out of Schrodinger state (2,0,0) with monochromatic light?
+- are help items needed?
+- does the energy diagram need a "gun wavelength" squiggle?
  
  
 DONE:
