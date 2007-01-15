@@ -37,11 +37,19 @@ import edu.umd.cs.piccolo.PNode;
 public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer {
         
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------    
+    
+    // margin between the state display and animation box
+    private static final double STATE_MARGIN = 15;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private DeBroglieModel _atom; // model element
     private AbstractDeBroglieViewStrategy _viewStrategy;
+    private StateDisplayNode _stateNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -59,6 +67,17 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
         
         _viewStrategy = createViewStrategy( _atom );
         addChild( _viewStrategy );
+        
+        if ( HAConstants.SHOW_STATE_DISPLAY ) {
+            _stateNode = new StateDisplayNode();
+            _stateNode.setState( atom.getElectronState() );
+            addChild( _stateNode );
+            
+            // lower-right corner, (0,0) is at center of box
+            double xOffset = ( HAConstants.ANIMATION_BOX_SIZE.getWidth() / 2 ) - _stateNode.getFullBounds().getWidth() - STATE_MARGIN;
+            double yOffset = ( HAConstants.ANIMATION_BOX_SIZE.getHeight() / 2 ) - _stateNode.getFullBounds().getHeight() - STATE_MARGIN;
+            _stateNode.setOffset( xOffset, yOffset );
+        }
         
         Point2D atomPosition = atom.getPositionRef();
         Point2D nodePosition = ModelViewTransform.transform( atomPosition );
@@ -78,6 +97,10 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
         if ( o == _atom ) {
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {
                 _viewStrategy.update();
+                // update the state display
+                if ( _stateNode != null ) {
+                    _stateNode.setState( _atom.getElectronState() );
+                }
             }
             else if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET ) {
                 _viewStrategy.update();
