@@ -186,4 +186,11 @@ public class HAConstants {
     public static final double SPECTROMETER_MIN_WAVELENGTH = MIN_WAVELENGTH;
     public static final double SPECTROMETER_MAX_WAVELENGTH = 7500; // nm
     
+    //----------------------------------------------------------------------------
+    // Features
+    //----------------------------------------------------------------------------
+    
+    // Shows the atom's state variables in the lower right corner of the animation box
+    public static final boolean SHOW_STATE_DISPLAY = true;
+    
 }
