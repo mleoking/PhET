@@ -318,7 +318,8 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             setTextPaint( STATE_COLOR );
             
             // Default to widest value
-            setDisplay( 6, 5, -5 );
+            String s = electronStateToString( 6, 5, -5 );
+            setText( s );
         }
         
         /**
@@ -329,13 +330,16 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
             int n = atom.getElectronState();
             int l = atom.getSecondaryElectronState();
             int m = atom.getTertiaryElectronState();
-            setDisplay( n, l, m );
+            String s = electronStateToString( n, l, m );
+            setText( s );
         }
         
-        private void setDisplay( int n, int l, int m ) {
+        /*
+         * Formats an electron state as a string.
+         */
+        private static String electronStateToString( int n, int l, int m ) {
             Object[] args = { new Integer( n ), new Integer( l ), new Integer( m ) };
-            String s = MessageFormat.format( STATE_FORMAT, args );
-            setText( s );
+            return MessageFormat.format( STATE_FORMAT, args );
         }
     }
     
