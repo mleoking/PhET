@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- publish 1.0 to PhET website
 
 MEDIUM PRIORITY:
 
