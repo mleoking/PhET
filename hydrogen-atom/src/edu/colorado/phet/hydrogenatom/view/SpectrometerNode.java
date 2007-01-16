@@ -25,6 +25,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.util.*;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.control.CloseButtonNode;
@@ -277,8 +278,10 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             
             // Opacity
             buttonPanel.setOpaque( false );
-            _startStopButton.setOpaque( false );
-            _resetButton.setOpaque( false );
+            if ( PhetUtilities.isMacintosh() ) {
+                _startStopButton.setOpaque( false );
+                _resetButton.setOpaque( false );
+            }
             _snapshotButton.setOpaque( false );
         }
 
