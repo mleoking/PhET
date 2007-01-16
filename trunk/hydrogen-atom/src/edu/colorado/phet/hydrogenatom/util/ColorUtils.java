@@ -81,4 +81,31 @@ public class ColorUtils {
         assert ( distance >= 0 && distance <= 1 );
         return value1 + ( distance * ( value2 - value1 ) );
     }
+    
+    /**
+     * Is this a visible wavelength?
+     * @param wavelength
+     * @return true or false
+     */
+    public static final boolean isVisible( double wavelength ) {
+        return ( wavelength >= VisibleColor.MIN_WAVELENGTH && wavelength <= VisibleColor.MAX_WAVELENGTH );
+    }
+    
+    /**
+     * Is this a UV (ultraviolet) wavelength?
+     * @param wavelength
+     * @return true or false
+     */
+    public static final boolean isUV( double wavelength ) {
+        return ( wavelength < VisibleColor.MIN_WAVELENGTH );
+    }
+    
+    /**
+     * Is this an IR (infrared) wavelength?
+     * @param wavelength
+     * @return true or false
+     */
+    public static final boolean isIR( double wavelength ) {
+        return ( wavelength > VisibleColor.MAX_WAVELENGTH );
+    }
 }
