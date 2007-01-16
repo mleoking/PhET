@@ -26,6 +26,10 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/16/06) - remove test code from HADefaults, difficult to read, no longer needed
+(1/16/06) - add HAConstants.DEBROGLIE_VIEW_IN_MENUBAR for selecting which control (menu or combobox) to use
+(1/16/06) - hide "Options>deBroglie view" menu
+(1/16/06) - add deBroglie views combobox at inside-top-left of "box"
 (1/15/06) - reduce time to fire absorbable photon to 5 sec in MetastableHandler
 (1/15/06) - add n= state display to lower right for Bohr and deBroglie
 (1/15/06) - create StateDisplayNode for displaying electron state variabled, use throughout

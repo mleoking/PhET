@@ -31,10 +31,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HADefaults;
-import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
-import edu.colorado.phet.hydrogenatom.control.GunControlPanel;
-import edu.colorado.phet.hydrogenatom.control.HAClockControlPanel;
-import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
+import edu.colorado.phet.hydrogenatom.control.*;
 import edu.colorado.phet.hydrogenatom.energydiagrams.BohrEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.DeBroglieEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
@@ -78,6 +75,7 @@ public class HAModule extends PiccoloModule {
     private ModeSwitch _modeSwitch;
     private AtomicModelSelector _atomicModelSelector;
     private GunControlPanel _gunControlPanel;
+    private PSwing _deBroglieViewControlWrapper;
 
     // Box/beam/gun
     private PNode _boxBeamGunParent;
@@ -251,6 +249,23 @@ public class HAModule extends PiccoloModule {
         // Gun control panel
         _gunControlPanel = new GunControlPanel( _canvas, _model.getGun(), _alphaParticleTracesNode );
 
+        // deBroglie view control
+        {
+            final DeBroglieViewControl deBroglieViewControl = new DeBroglieViewControl();
+            deBroglieViewControl.setFont( jComponentFont );
+            deBroglieViewControl.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    DeBroglieView view = deBroglieViewControl.getSelectedView();
+                    setDeBroglieView( view );
+                }
+            } );
+            deBroglieViewControl.setSelectedView( HADefaults.DEBROGLIE_VIEW );
+            
+            // PSwing wrapper
+            _deBroglieViewControlWrapper = new PSwing( _canvas, deBroglieViewControl );
+            deBroglieViewControl.setEnvironment( _deBroglieViewControlWrapper, _canvas );
+        }
+        
         // Spectrometer
         {
             // Checkbox
@@ -347,6 +362,9 @@ public class HAModule extends PiccoloModule {
             _rootNode.addChild( _energyDiagramCheckBoxNode );
             _rootNode.addChild( _energyDiagramParent );
             _rootNode.addChild( _notToScaleLabel );
+            if ( !HAConstants.DEBROGLIE_VIEW_IN_MENUBAR ) {
+                _rootNode.addChild( _deBroglieViewControlWrapper );
+            }
         }
         
         //----------------------------------------------------------------------------
@@ -498,6 +516,13 @@ public class HAModule extends PiccoloModule {
             _animationBoxNode.setOffset( x, y );
         }
         
+        // deBroglie view control, inside top-left of animation box
+        {
+            x = _animationBoxNode.getFullBounds().getX();
+            y = _animationBoxNode.getFullBounds().getY();
+            _deBroglieViewControlWrapper.setOffset( x, y );
+        }
+        
         // "Drawings are not to scale" note
         {
             // centered above animation box
@@ -640,6 +665,8 @@ public class HAModule extends PiccoloModule {
 
     public void updateAtomicModel() {
 
+        _deBroglieViewControlWrapper.setVisible( false );
+        
         _alphaParticleTracesNode.clear();
         
         _solarSystemEnergyDiagram.clearAtom();
@@ -685,6 +712,7 @@ public class HAModule extends PiccoloModule {
                 DeBroglieModel deBroglieModel = new DeBroglieModel( position );
                 _atomModel = deBroglieModel;
                 _deBroglieEnergyDiagram.setAtom( deBroglieModel );
+                _deBroglieViewControlWrapper.setVisible( true );
             }
             else if ( atomicModel == AtomicModel.SCHRODINGER ) {
                 SchrodingerModel schrodingerModel = new SchrodingerModel( position );

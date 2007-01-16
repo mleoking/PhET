@@ -193,4 +193,7 @@ public class HAConstants {
     // Shows the atom's state variables in the lower right corner of the animation box
     public static final boolean SHOW_STATE_DISPLAY = true;
     
+    // deBroglie view control can be in either menu bar or play area
+    public static final boolean DEBROGLIE_VIEW_IN_MENUBAR = false;
+    
 }
