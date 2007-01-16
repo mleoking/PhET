@@ -9,7 +9,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 
 LOW PRIORITY:
-- reduce size of panel image files
 
 DEFER UNTIL AFTER INTERVIEWS:
 - should the spectrometer show each UV/IR transition wavelength at a distinct horizontal position?
@@ -568,6 +567,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(1/16/06) - reduce size of panel image files  (tried, no significant reduction without affecting image quality)
 (1/16/06) - bug: problem with updating drag bounds of ConstrainedDragHandler (piccolo-phet program, documented the problem, worked around it in WavelengthControl)
 (1/16/06) - bug: ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside (happens rarely, nonfatal, problem in piccolo-phet)
 (1/12/06) - if clock is paused, deBroglie 3D view doesn't immediately animate into place (OK as is)
