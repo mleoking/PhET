@@ -20,6 +20,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -38,10 +39,14 @@ public class EnergySquiggle extends PComposite {
     //----------------------------------------------------------------------------
     
     private static final double MIN_SQUIGGLE_LENGTH = 5; // pixels
-    private static final double SQUIGGLE_PERIOD = 10; // pixels
-    private static final double SQUIGGLE_AMPLITUDE = 4; // pixels
-    protected static final Stroke SQUIGGLE_STROKE = new BasicStroke( 2f );
+    private static final double SQUIGGLE_AMPLITUDE = 6; // pixels
+    protected static final Stroke SQUIGGLE_STROKE = new BasicStroke( 1f );
     private static final Dimension ARROW_HEAD_SIZE = new Dimension( 20, 10 );
+    
+    private static final double UV_SQUIGGLE_PERIOD = 8; // pixels
+    private static final double MIN_VISIBLE_SQUIGGLE_PERIOD = 10; // pixels
+    private static final double MAX_VISIBLE_SQUIGGLE_PERIOD = 20; // pixels
+    private static final double IR_SQUIGGLE_PERIOD = 22; // pixels
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -63,7 +68,7 @@ public class EnergySquiggle extends PComposite {
     /**
      * Creates a squiggle between two points, (x1,y1) and (x2,y2).
      * The squiggle has an arrow head at the (x2,y2) end.
-     * The color of the squiggle is determined by the specified wavelength.
+     * The color and period of the squiggle is determined by the specified wavelength.
      * 
      * @param x1
      * @param y1
@@ -107,8 +112,11 @@ public class EnergySquiggle extends PComposite {
             addChild( arrowHeadNode );
         }
         
+        
+        final double period = wavelengthToPeriod( wavelength );
+        
         /*
-         * The squiggle is a sinusoidal line, with fixed period and amplitude.
+         * The squiggle is a sinusoidal line, with period and amplitude.
          * If the 2 points are too close together, the sinusoidal nature of 
          * the line won't be intelligible, so we simply draw a straight line.
          */
@@ -121,7 +129,7 @@ public class EnergySquiggle extends PComposite {
             path.moveTo( 0, 0 );
             double maxX = ( hasArrow ) ? ( distance - ARROW_HEAD_SIZE.getHeight() ) : distance;
             for ( int x = 0; x < maxX; x++ ) {
-                double angle =( x % SQUIGGLE_PERIOD ) * ( 2* Math.PI / SQUIGGLE_PERIOD );
+                double angle =( x % period ) * ( 2* Math.PI / period );
                 double y = SQUIGGLE_AMPLITUDE * Math.sin( angle );
                 path.lineTo( x, (float)y );
             }
@@ -147,5 +155,28 @@ public class EnergySquiggle extends PComposite {
         xform.translate( x1, y1 );
         xform.rotate( phi );
         setTransform( xform );
+    }
+    
+    /*
+     * Convert wavelength to squiggle period.
+     * All UV has the same period.
+     * All IR has the same period.
+     * Visible wavelengths have a calculated period.
+     */
+    private static double wavelengthToPeriod( double wavelength ) {
+        double period = 0;
+        if ( ColorUtils.isUV( wavelength ) ) {
+            period = UV_SQUIGGLE_PERIOD;
+        }
+        else if ( ColorUtils.isIR( wavelength ) ) {
+            period = IR_SQUIGGLE_PERIOD;
+        }
+        else {
+            double wavelengthRange = VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH;
+            double periodRange = MAX_VISIBLE_SQUIGGLE_PERIOD - MIN_VISIBLE_SQUIGGLE_PERIOD;
+            double factor = ( wavelength - VisibleColor.MIN_WAVELENGTH ) / wavelengthRange;
+            period = MIN_VISIBLE_SQUIGGLE_PERIOD + ( factor * periodRange );
+        }
+        return period;
     }
 }
