@@ -17,7 +17,7 @@ information.
 <!-- Spanish (es) JNLP File for PhET "The Hydrogen Atom" simulation --> 
 <jnlp 
   spec="1.0+" 
-  codebase="http://www.colorado.edu/physics/phet/simulations/"
+  codebase="http://phet-web.colorado.edu/simulations"
   href="hydrogen-atom/hydrogen-atom_es.jnlp"> 
   <information> 
     <title>El Atomo Del Hidrogeno</title>
