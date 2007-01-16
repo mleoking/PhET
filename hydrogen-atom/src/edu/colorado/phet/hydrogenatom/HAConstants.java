@@ -113,7 +113,7 @@ public class HAConstants {
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
     
     // Colors used for wavelengths outside the visible spectrum
-    public static final Color UV_COLOR = Color.LIGHT_GRAY;
+    public static final Color UV_COLOR = new Color( 160, 160, 160 ); // gray
     public static final Color IR_COLOR = UV_COLOR;
     
     // Colors used for the wavelength control
