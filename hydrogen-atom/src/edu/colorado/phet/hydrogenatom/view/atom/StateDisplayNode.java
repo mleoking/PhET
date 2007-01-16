@@ -30,8 +30,8 @@ class StateDisplayNode extends PText {
     private static final Font FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
     private static final Color COLOR = Color.WHITE;
     
-    private static final String N_FORMAT = "n={0}";
-    private static final String NLM_FORMAT = "(n,l,m)=({0},{1},{2})";
+    private static final String N_FORMAT = "n = {0}";
+    private static final String NLM_FORMAT = "(n,l,m) = ({0},{1},{2})";
 
     /**
      * Constructor.

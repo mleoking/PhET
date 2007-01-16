@@ -25,6 +25,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/16/06) - add spacing StateDisplayNode formats to improve readability on Windows
 (1/16/06) - remove test code from HADefaults, difficult to read, no longer needed
 (1/16/06) - add HAConstants.DEBROGLIE_VIEW_IN_MENUBAR for selecting which control (menu or combobox) to use
 (1/16/06) - hide "Options>deBroglie view" menu
