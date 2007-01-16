@@ -28,6 +28,12 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * request that behavior via setMarkAsHandledEnabled.
  * <p>
  * NOTE: This handler does not work for nodes that have been rotated!
+ * <p>
+ * TODO: This implementation uses global coordinates, which requires
+ * setDragBounds to be called whenever a constrained node's global bounds
+ * are changed.  This becomes problematic when some ancestor of the 
+ * constrained node is moved.  This should be fixed as some point,
+ * and existing sims that use this class will require regression testing.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
