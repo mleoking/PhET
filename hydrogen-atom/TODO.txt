@@ -7,8 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- create final thumbnail image
-- add abstract to SimStrings file
 
 LOW PRIORITY:
 - reduce size of panel image files
@@ -23,6 +21,8 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/16/06) - create final thumbnail image, based on snapshot from Sam McKagan
+(1/16/06) - add description (abstract) to SimStrings file, translate to Spanish
 (1/16/06) - make period of energy squiggle a function of wavelength
 (1/16/06) - change energy squiggle stroke width from 2 to 1 in order to draw higher frequency squiggles
 (1/16/06) - add methods to ColorUtils for determining if a wavelength is UV, IR or visible
