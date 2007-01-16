@@ -101,7 +101,9 @@ public class HAApplication extends PiccoloPhetApplication {
         
         // Options menu
         OptionsMenu optionsMenu = new OptionsMenu( _module );
-        frame.addMenu( optionsMenu );
+        if ( optionsMenu.getMenuComponentCount() > 0 ) {
+            frame.addMenu( optionsMenu );
+        }
 
         // Developer menu
         if ( ArgUtils.contains( args, DEVELOPER_ARG ) ) {
