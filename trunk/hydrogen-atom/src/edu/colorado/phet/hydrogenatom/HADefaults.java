@@ -23,39 +23,36 @@ import edu.colorado.phet.hydrogenatom.enums.LightType;
  * @version $Revision$
  */
 public class HADefaults {
-    
-    // Use this flag to quickly switch between test values and production values.
-    private static final boolean TEST = false;
 
     /* Not intended for instantiation */
     private HADefaults() {}
     
     // Clock
-    public static final boolean CLOCK_RUNNING = ( TEST ? true : true );
-    public static final int CLOCK_INDEX = ( TEST ? 2 : 2 );
+    public static final boolean CLOCK_RUNNING = true ;
+    public static final int CLOCK_INDEX = 2;
     
     // Mode (Experiment/Prediction)
-    public static final boolean MODE_EXPERIMENT = ( TEST ? false : true );
+    public static final boolean MODE_EXPERIMENT = true;
     
     // Atomic Model
-    public static final AtomicModel ATOMIC_MODEL = ( TEST ? AtomicModel.SCHRODINGER : AtomicModel.BILLIARD_BALL );
+    public static final AtomicModel ATOMIC_MODEL = AtomicModel.BILLIARD_BALL;
     
     // DeBroglie View
-    public static final DeBroglieView DEBROGLIE_VIEW = ( TEST ? DeBroglieView.BRIGHTNESS_MAGNITUDE : DeBroglieView.BRIGHTNESS_MAGNITUDE );
+    public static final DeBroglieView DEBROGLIE_VIEW = DeBroglieView.BRIGHTNESS_MAGNITUDE;
     
     // Gun
-    public static final boolean GUN_ENABLED = ( TEST ? false : false );
-    public static final GunMode GUN_MODE = ( TEST ? GunMode.PHOTONS : GunMode.PHOTONS );
-    public static final LightType LIGHT_TYPE = ( TEST ? LightType.MONOCHROMATIC : LightType.WHITE );
-    public static final double WAVELENGTH = ( TEST ? 95 : 490 );
-    public static final double LIGHT_INTENSITY = ( TEST ? 1.0 : 1.0 );
-    public static final double ALPHA_PARTICLES_INTENSITY = ( TEST ? 1.0 : 1.0 );
-    public static final boolean SHOW_ALPHA_PARTICLE_TRACES = ( TEST ? false : false );
+    public static final boolean GUN_ENABLED = false;
+    public static final GunMode GUN_MODE = GunMode.PHOTONS;
+    public static final LightType LIGHT_TYPE = LightType.WHITE;
+    public static final double WAVELENGTH = 490;
+    public static final double LIGHT_INTENSITY = 1.0;
+    public static final double ALPHA_PARTICLES_INTENSITY = 1.0;
+    public static final boolean SHOW_ALPHA_PARTICLE_TRACES = false;
 
     // Spectrometer
-    public static final boolean SPECTROMETER_SELECTED = ( TEST ? true : false );
-    public static final boolean SPECTROMETER_RUNNING = ( TEST ? true : true );
+    public static final boolean SPECTROMETER_SELECTED = false;
+    public static final boolean SPECTROMETER_RUNNING = true;
     
     // Energy Diagrams
-    public static final boolean ENERGY_DIAGRAM_SELECTED = ( TEST ? true : false );
+    public static final boolean ENERGY_DIAGRAM_SELECTED = false;
 }
