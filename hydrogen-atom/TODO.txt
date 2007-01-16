@@ -24,6 +24,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/16/06) - move Spectrometer close buttons up 2 pixels to look better on Windows
 (1/16/06) - bugfix: spectrometer Start/Stop and Reset buttons are fully transparent on Windows
 (1/16/06) - add spacing StateDisplayNode formats to improve readability on Windows
 (1/16/06) - remove test code from HADefaults, difficult to read, no longer needed
