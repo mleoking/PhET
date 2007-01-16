@@ -14,7 +14,6 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - reduce size of panel image files
 - bug: ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside
-- bug: spectrometer buttons are fully transparent on Win98
 - bug: problem with updating drag bounds of ConstrainedDragHandler (see HACK comment in WavelengthControl)
 
 DEFER UNTIL AFTER INTERVIEWS:
@@ -25,6 +24,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/16/06) - bugfix: spectrometer Start/Stop and Reset buttons are fully transparent on Windows
 (1/16/06) - add spacing StateDisplayNode formats to improve readability on Windows
 (1/16/06) - remove test code from HADefaults, difficult to read, no longer needed
 (1/16/06) - add HAConstants.DEBROGLIE_VIEW_IN_MENUBAR for selecting which control (menu or combobox) to use
