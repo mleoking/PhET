@@ -18,6 +18,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+***** CVS tag hydrogenatom-0-00-22-2007-01-16
 (1/16/06) - create final thumbnail image, based on snapshot from Sam McKagan
 (1/16/06) - add description (abstract) to SimStrings file, translate to Spanish
 (1/16/06) - make period of energy squiggle a function of wavelength
