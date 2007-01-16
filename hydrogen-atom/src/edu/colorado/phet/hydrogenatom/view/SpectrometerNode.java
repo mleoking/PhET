@@ -86,9 +86,9 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private static final double TITLE_Y_MARGIN = 7;
     private static final Color TITLE_COLOR = Color.WHITE;
 
-    /* Close butto appears in the upper right */
-    private static final double CLOSE_BUTTON_X_MARGIN = 15;
-    private static final double CLOSE_BUTTON_Y_MARGIN = 4;
+    /* Close button appears in the upper right */
+    private static final double CLOSE_BUTTON_X_MARGIN = 18;
+    private static final double CLOSE_BUTTON_Y_MARGIN = 3;
     
     /* Button panel appear in bottom center */
     private static final double BUTTON_PANEL_Y_MARGIN = 5;
