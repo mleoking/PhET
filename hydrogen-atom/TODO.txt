@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- make period of energy squiggle a function of wavelength
 
 MEDIUM PRIORITY:
 - create final thumbnail image
@@ -24,6 +23,10 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/16/06) - make period of energy squiggle a function of wavelength
+(1/16/06) - change energy squiggle stroke width from 2 to 1 in order to draw higher frequency squiggles
+(1/16/06) - add methods to ColorUtils for determining if a wavelength is UV, IR or visible
+(1/16/06) - use a darker gray for UV and IR, so that it shows up on both black and white backgrounds
 (1/16/06) - move Spectrometer close buttons up 2 pixels to look better on Windows
 (1/16/06) - bugfix: spectrometer Start/Stop and Reset buttons are fully transparent on Windows
 (1/16/06) - add spacing StateDisplayNode formats to improve readability on Windows
