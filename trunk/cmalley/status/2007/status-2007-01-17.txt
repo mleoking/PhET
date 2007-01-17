@@ -1,0 +1,32 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Jan 11 - Jan 17, 2007 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Hydrogen Atom:
+  - finished all remaining items on TODO list
+  - energy squiggle feature meeting
+  - published 0.00.22, 1.00
+  
+  PhET developer interviews:
+  - prepared interview "script"
+  - participated in interviews for 2 candidates
+
+WHAT'S NEXT:
+  
+  - any post-1.0 work on Hydrogen Atom sim, as identified by interviews
+  - start on Optical Tweezers sim
+    
+ISSUES:
+ 
+  - Hydrogen Atom 1.0 needs to be installed on PhET web pages
+  
+DATES UNAVAILABLE:
+
+  - January 18-26
+  - February 9-12
+  - July 30 - August 10 
+  
+--
