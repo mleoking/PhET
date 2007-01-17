@@ -20,6 +20,7 @@ DEFER UNTIL AFTER INTERVIEWS:
 DONE:
 ***** CVS tag hydrogenatom-1-00-00-2007-01-17
 (1/17/06) - publish 1.0 to PhET website
+(1/17/06) - fix and test JNLP files in deploy/
 ***** CVS tag hydrogenatom-0-00-22-2007-01-16
 (1/16/06) - create final thumbnail image, based on snapshot from Sam McKagan
 (1/16/06) - add description (abstract) to SimStrings file, translate to Spanish
