@@ -22,7 +22,7 @@ information.
   <information> 
     <title>The Hydrogen Atom</title>
     <vendor>University of Colorado, Department of Physics</vendor> 
-    <homepage href="docs/help.html"/> 
+    <homepage href="http://phet-web.colorado.edu"/> 
     <icon href="icons/PhET.gif"/> 
     <icon kind="splash" href="icons/PhET.gif"/> 
     <offline-allowed/>
