@@ -1,3 +1,6 @@
+1.05 (1-17-2007)
+Posted on main site.
+
 1.04.01 (1-12-2007)
 Bugfix: When in Gravity=0.0, skater gains energy when grabbing on to track and loses energy when stopping at end of track.
 
