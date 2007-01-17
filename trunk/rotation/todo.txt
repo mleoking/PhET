@@ -5,3 +5,5 @@ Try 2nd order derivative directly from position data
 Time derivatives need a time-offset to match other series.
   
 Should TimeSeriesModel be extended or listened to for Rotation-specific behaivor?
+
+Test at 1024x768
