@@ -1,3 +1,8 @@
+1.05.01 (1-17-2007)
+Fixed a bug in Normal Force computation.
+Fixing the bug in Normal Force computation caused spurious off-track velocities (since buggy normal forces were directed slightly into the track).
+        -Introduced a velocity threshold that has to be met before flying off the track.
+
 1.05 (1-17-2007)
 Posted on main site.
 
