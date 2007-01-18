@@ -38,7 +38,10 @@ public class SplineMode implements UpdateMode {
         afterNewton = body.copyState();
 
 //        double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 60, 2 );
+
         double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 60, 3 );
+//        double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 200, 5 );
+
 //        double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 600, 3 );
         if( x2 <= 0 || x2 >= spline.getLength() - 0.01 ) {//fly off the end of the spline
             fixEnergy( origState, netForce, x2, body, dt );
@@ -58,16 +61,13 @@ public class SplineMode implements UpdateMode {
             lastX = x2;
 
             //todo: make sure we sank into the spline before applying this change
-            //these 2 steps are sometimes changing the energy by a lot!!!
+            //these 2 steps are sometimes changing the energy by a lot
             body.setAttachmentPointPosition( spline.evaluateAnalytical( x2 ) );
             rotateBody( x2, dt, Double.POSITIVE_INFINITY, body );
 
-//            if( !isUserControlled( body ) ) {
-//            System.out.println( "body.getThrust().getMagnitude() = " + body.getThrust().getMagnitude() + ", ltz=" + ( body.getThrust().getMagnitude() <= 0 ) );
             if( body.getThrust().getMagnitude() <= 0 ) {
                 fixEnergy( origState, netForce, x2, body, dt );
             }
-//            }
             lastState = body.copyState();
         }
     }
@@ -80,7 +80,7 @@ public class SplineMode implements UpdateMode {
     private void fixEnergy( Body origState, AbstractVector2D netForce, double x2, final Body body, double dt ) {
         boolean fixed = false;
 
-        if( !fixed && body.getSpeed() >= 0.0001 ) {
+        if( !fixed && ( body.getSpeed() >= 0.0001 ) ) {
             //increasing the speed threshold from 0.001 to 0.1 causes the moon-sticking problem to go away.
             fixed = fixed || new EnergyConserver().fixEnergyWithVelocity( body, origState.getTotalEnergy(), 15, 0.0001 );
 //            if( fixed ) {
@@ -209,9 +209,17 @@ public class SplineMode implements UpdateMode {
         body.setThermalEnergy( state.getThermalEnergy() );
     }
 
+    /*
+     *Fixing the bug in Normal Force computation caused spurious off-track velocities.  Introduced a threshold that has to be met before flying off the track.
+     */
     private boolean shouldFlyOff( double x, Body body ) {
-        boolean flyOffTop = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x ) ) > 0 && isSplineTop( spline, x, body );
-        boolean flyOffBottom = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x ) ) < 0 && !isSplineTop( spline, x, body );
+        double normalVelocity = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x ) );
+//        double threshold=1.0;
+//        double threshold=0.1;
+        double threshold = 1E-1;
+//        System.out.println( "normalVelocity = " + normalVelocity );
+        boolean flyOffTop = isSplineTop( spline, x, body ) && normalVelocity > 0 && Math.abs( normalVelocity ) > threshold;
+        boolean flyOffBottom = !isSplineTop( spline, x, body ) && normalVelocity < 0 && Math.abs( normalVelocity ) > threshold;
         return ( flyOffTop || flyOffBottom ) && !spline.isRollerCoasterMode();
     }
 
@@ -280,15 +288,26 @@ public class SplineMode implements UpdateMode {
         if( Double.isNaN( sum.getX() ) ) {
             System.out.println( "nan" );
         }
+//        System.out.println( "gravity force: " + body.getGravityForce() + "\tnormal=" + getNormalForce( x, body ) + "\tfriction=" + getFrictionForce( x, body ) + "\tnet=" + sum );
+
+        //net force should be orthogonal to unit normal
+        AbstractVector2D unitNormal = getUnitNormal( x, body );
+        double dot = unitNormal.dot( sum );
+//        System.out.println( "dot = " + dot );
         return sum;
     }
 
     private AbstractVector2D getUnitNormal( double x, Body body ) {
         AbstractVector2D n = spline.getUnitNormalVector( x );
         double angle = isSplineTop( spline, x, body ) ? n.getAngle() : n.getAngle() + Math.PI;
-        return Vector2D.Double.parseAngleAndMagnitude( 1.0, angle );
+        AbstractVector2D unitNormal = Vector2D.Double.parseAngleAndMagnitude( 1.0, angle );
+//        System.out.println( "top=" + isSplineTop( spline, x, body ) + ", x=" + x + ", unitNormal = " + unitNormal );
+        return unitNormal;
     }
 
+    /*
+    1-17-2006 Fixed a bug that was causing the wrong normal force to be computed.
+     */
     private AbstractVector2D getNormalForce( double x, Body body ) {
         AbstractVector2D unitNormal = getUnitNormal( x, body );
         AbstractVector2D otherForces = body.getGravityForce().getAddedInstance( body.getThrust() );
@@ -296,8 +315,13 @@ public class SplineMode implements UpdateMode {
         AbstractVector2D normal = new Vector2D.Double( 0, 0 );
         if( length < 0 ) {
             double angle = unitNormal.getAngle();
-            normal = Vector2D.Double.parseAngleAndMagnitude( length, -angle );
+//            normal = Vector2D.Double.parseAngleAndMagnitude( length, -angle );
+//            normal = Vector2D.Double.parseAngleAndMagnitude( Math.abs( length ), -angle );
+
+            normal = Vector2D.Double.parseAngleAndMagnitude( Math.abs( length ), angle );
+//            normal = Vector2D.Double.parseAngleAndMagnitude( Math.abs( length ), angle + Math.PI );
         }
+//        body.setNormalForce(normal);
 //        System.out.println( "normalForce = " + normal );
         return normal;
     }
@@ -310,7 +334,7 @@ public class SplineMode implements UpdateMode {
     //    }
 
     private AbstractVector2D getFrictionForce( double x, Body body ) {
-        //todo kind of a funny workaround for getting friction on the ground.
+        //todo: This is an awkward workaround for computing friction on the ground.
         double coefficient = Math.max( body.getFrictionCoefficient(), spline.getFrictionCoefficient() );
         double fricMag = coefficient * getNormalForce( x, body ).getMagnitude();//todo should the normal force be computed as emergent?
         if( body.getVelocity().getMagnitude() > 0 ) {
