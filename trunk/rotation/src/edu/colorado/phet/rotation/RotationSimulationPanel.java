@@ -5,10 +5,13 @@ import edu.colorado.phet.rotation.graphs.GraphSuite;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.timeseries.TimeSeriesModel;
 import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
+import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * User: Sam Reid
@@ -72,6 +75,14 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
 
             public void componentShown( ComponentEvent e ) {
             }
+        } );
+        addKeyListener( new KeyAdapter() {
+            public void keyReleased( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_F1 && e.isAltDown() ) {
+                    PDebug.debugRegionManagement = !PDebug.debugRegionManagement;
+                }
+            }
+
         } );
     }
 
