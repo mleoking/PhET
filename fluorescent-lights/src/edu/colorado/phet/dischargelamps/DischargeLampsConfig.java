@@ -55,7 +55,6 @@ public class DischargeLampsConfig {
     public static final Insets ELECTRODE_INSETS = new Insets( 15, 30, 15, 30 );
     public static final Point BEAM_CONTROL_LOCATION = new Point( CATHODE_X_LOCATION + 290, 20 );
 
-
     // Images
     public static final String IMAGE_FILE_DIRECTORY = "images/";
     public static final String ELECTRON_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "electron.gif";
@@ -74,7 +73,6 @@ public class DischargeLampsConfig {
     public static final double CONTROL_LAYER = CIRCUIT_LAYER + 100;
 
     // Clock specification
-    private static double fudge = 5.67;
     public static double DT = 12;
     public static final int FPS = 25;
 
@@ -92,4 +90,6 @@ public class DischargeLampsConfig {
 
     // Misc
     public static final DecimalFormat VOLTAGE_FORMAT = new DecimalFormat( "#0.00 V" );
+    // Simulation time for which EnergySquiggles remain on the screen
+    public static final double ENERGY_SQUIGGLE_PERSISTENCE = 50; 
 }

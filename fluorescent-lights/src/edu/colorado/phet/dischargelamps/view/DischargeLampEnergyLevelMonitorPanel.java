@@ -14,6 +14,7 @@ package edu.colorado.phet.dischargelamps.view;
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.PhysicsUtil;
+import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -23,6 +24,9 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
@@ -457,7 +461,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     }
 
     /**
-     * Creates a squiggle on the panel, and remove it after a brief time
+     * Creates a squiggle on the panel, and remove it after a brief time. The time during which the
+     * squiggle remains on the screen is defined in DischargeLampsConfig
      *
      * @param prevState
      * @param currState
@@ -476,23 +481,23 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             this.addGraphic( squiggle );
             squiggle.setBoundsDirty();
             squiggle.repaint();
-            Runnable r = new Runnable() {
-                public void run() {
-                    try {
-                        Thread.sleep( 200 );
+
+            final IClock clock = PhetUtilities.getActiveClock();
+            clock.addClockListener( new ClockAdapter() {
+                double t0 = clock.getSimulationTime();
+                double timeout = DischargeLampsConfig.ENERGY_SQUIGGLE_PERSISTENCE;
+                public void clockTicked( ClockEvent clockEvent ) {
+                    double t1 = clock.getSimulationTime();
+                    if( t1 - t0 > timeout ) {
+                        SwingUtilities.invokeLater( new Runnable() {
+                            public void run() {
+                                removeGraphic( squiggle );
+                            }
+                        } );
+                        clock.removeClockListener( this );
                     }
-                    catch( InterruptedException e ) {
-                        e.printStackTrace();
-                    }
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-                            removeGraphic( squiggle );
-                        }
-                    } );
                 }
-            };
-            Thread t = new Thread( r );
-            t.start();
+            } );
         }
     }
 
