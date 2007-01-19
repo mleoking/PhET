@@ -302,6 +302,8 @@ public class DischargeLampModule extends PhetGraphicsModule {
                                                                      GridBagConstraints.NONE,
                                                                      new Insets( 0,0,0,0),0,0 ) );*/
 
+        // The legend
+        controlPanel.addControlFullWidth( new Legend() );
 
         // A combo box for atom types
         {
