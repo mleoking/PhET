@@ -125,9 +125,9 @@ public class DischargeLampModule extends PhetGraphicsModule {
         configurableElement = new ConfigurableElementProperties( 2, model );
         elementProperties = new ElementProperties[]{
                 new HydrogenProperties(),
-                new NeonProperties(),
-                new SodiumProperties(),
                 new MercuryProperties(),
+                new SodiumProperties(),
+                new NeonProperties(),
                 configurableElement
         };
 
