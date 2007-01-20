@@ -16,27 +16,26 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
 import edu.colorado.phet.dischargelamps.control.BatterySlider;
-import edu.colorado.phet.dischargelamps.control.CurrentSlider;
+import edu.colorado.phet.dischargelamps.control.ElectronProductionControl;
 import edu.colorado.phet.dischargelamps.control.SlowMotionCheckBox;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.view.AtomGraphic;
-import edu.colorado.phet.lasers.view.TubeGraphic;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
+import edu.colorado.phet.lasers.view.TubeGraphic;
 import edu.colorado.phet.quantum.model.*;
 import edu.colorado.phet.quantum.view.AnnotatedAtomGraphic;
 import edu.colorado.phet.quantum.view.PlateGraphic;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -75,7 +74,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
     private Plate leftHandPlate;
     private Plate rightHandPlate;
     private double maxCurrent = 150;
-    protected double currentDisplayFactor = 300;
+    private double currentDisplayFactor = 300;
     private ElementProperties[] elementProperties;
     private ConfigurableElementProperties configurableElement;
 
@@ -85,12 +84,12 @@ public class DischargeLampModule extends PhetGraphicsModule {
     // AffineTransformOp that will scale graphics created in external applications so they appear
     // properly on the screen
     private AffineTransformOp externalGraphicScaleOp;
-    private CurrentSlider currentSlider;
+//    private CurrentSlider heaterControlSlider;
     private DischargeLampEnergyMonitorPanel2 energyLevelsMonitorPanel;
     private SpectrometerGraphic spectrometerGraphic;
     private HeatingElementGraphic[] heatingElementGraphics = new HeatingElementGraphic[2];
     private JCheckBox squiggleCB;
-    private JPanel electronProductionControlPanel;
+    private ElectronProductionControl electronProductionControl;
     private JPanel optionsPanel;
 
     //----------------------------------------------------------------
@@ -146,7 +145,6 @@ public class DischargeLampModule extends PhetGraphicsModule {
         // Needed to handle something that is inherited from the Lasers simulation. When
         // the code is properly decoupled, this can go away.
         StimulatedPhoton.setStimulationBounds( model.getTube().getBounds() );
-
     }
 
     /**
@@ -297,7 +295,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
 
         // Set the minimum width
-        controlPanel.addControlFullWidth( Box.createHorizontalStrut( 300)); /*, new GridBagConstraints( 0,0,1,1,1,1,
+        controlPanel.addControlFullWidth( Box.createHorizontalStrut( 300 ) ); /*, new GridBagConstraints( 0,0,1,1,1,1,
                                                                      GridBagConstraints.NORTH,
                                                                      GridBagConstraints.NONE,
                                                                      new Insets( 0,0,0,0),0,0 ) );*/
@@ -313,18 +311,28 @@ public class DischargeLampModule extends PhetGraphicsModule {
 
         // A slider for the battery current
         {
-            electronProductionControlPanel = new JPanel();
-            electronProductionControlPanel.setBorder( new TitledBorder( SimStrings.get( "Controls.ElectronProduction" ) ) );
-            controlPanel.addControlFullWidth( electronProductionControlPanel );
+//            electronProductionControl = new JPanel();
+//            electronProductionControl.setBorder( new TitledBorder( SimStrings.get( "Controls.ElectronProduction" ) ) );
+//            heaterControlSlider = new CurrentSlider( maxCurrent );
+//            electronProductionControl.add( heaterControlSlider );
+//            heaterControlSlider.addChangeListener( new ChangeListener() {
+//                public void stateChanged( ChangeEvent e ) {
+//                    model.setCurrent( heaterControlSlider.getValue(), 1 / currentDisplayFactor );
+//                }
+//            } );
+//            heaterControlSlider.setValue( 10 );
+//            controlPanel.addControlFullWidth( electronProductionControl );
+            electronProductionControl = new ElectronProductionControl( model, maxCurrent, currentDisplayFactor );
+            PhetGraphic epcpComponent = PhetJComponent.newInstance( getApparatusPanel(), electronProductionControl );
+//            getApparatusPanel().addGraphic( epcpComponent, DischargeLampsConfig.CIRCUIT_LAYER + 1  );
+            getApparatusPanel().add( electronProductionControl );
 
-            currentSlider = new CurrentSlider( maxCurrent );
-            electronProductionControlPanel.add( currentSlider );
-            currentSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    model.setCurrent( currentSlider.getValue(), 1 / currentDisplayFactor );
-                }
-            } );
-            currentSlider.setValue( 10 );
+            int x = DischargeLampsConfig.BEAM_CONTROL_CENTER_PT.x - epcpComponent.getWidth() / 2;
+            int y = DischargeLampsConfig.BEAM_CONTROL_CENTER_PT.y;
+            epcpComponent.setLocation( x, y );
+            electronProductionControl.setLocation( x, y);
+
+//            controlPanel.addControlFullWidth( electronProductionControl );
         }
 
         // Options
@@ -431,23 +439,27 @@ public class DischargeLampModule extends PhetGraphicsModule {
     // Getters and setters
     //----------------------------------------------------------------
 
-    protected JPanel getElectronProductionControlPanel() {
-        return electronProductionControlPanel;
+    protected ElectronProductionControl getElectronProductionControl() {
+        return electronProductionControl;
     }
 
     protected JPanel getOptionsPanel() {
         return optionsPanel;
     }
 
+    protected double getCurrentDisplayFactor() {
+        return currentDisplayFactor;
+    }
+
     /**
      * @param isVisible
      */
-    protected void setHeatingElementsVisible( boolean isVisible ) {
-        for( int i = 0; i < heatingElementGraphics.length; i++ ) {
-            HeatingElementGraphic graphic = heatingElementGraphics[i];
-            graphic.setVisible( isVisible );
-        }
-    }
+//    protected void setHeatingElementsVisible( boolean isVisible ) {
+//        for( int i = 0; i < heatingElementGraphics.length; i++ ) {
+//            HeatingElementGraphic graphic = heatingElementGraphics[i];
+//            graphic.setVisible( isVisible );
+//        }
+//    }
 
     /**
      * Returns a typed reference to the model
@@ -461,13 +473,6 @@ public class DischargeLampModule extends PhetGraphicsModule {
      */
     protected Tube getTube() {
         return tube;
-    }
-
-    /**
-     * @return
-     */
-    protected CurrentSlider getCurrentSlider() {
-        return currentSlider;
     }
 
     /**

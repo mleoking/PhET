@@ -183,7 +183,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         // Add a slider for the battery
         addGraphicBatteryControls();
         beamControl = new BeamControl( getApparatusPanel(),
-                                       DischargeLampsConfig.BEAM_CONTROL_LOCATION,
+                                       PhotoelectricConfig.BEAM_CONTROL_LOCATION,
                                        model.getBeam(),
                                        model.getBeam().getMaxPhotonsPerSecond() );
         getApparatusPanel().addGraphic( beamControl, PhotoelectricConfig.BEAM_LAYER + 1 );

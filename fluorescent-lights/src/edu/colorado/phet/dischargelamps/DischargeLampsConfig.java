@@ -53,7 +53,8 @@ public class DischargeLampsConfig {
                                                                ANODE_LOCATION.getX(),
                                                                ANODE_LOCATION.getY() + ANODE_LENGTH / 2 );
     public static final Insets ELECTRODE_INSETS = new Insets( 15, 30, 15, 30 );
-    public static final Point BEAM_CONTROL_LOCATION = new Point( CATHODE_X_LOCATION + 290, 20 );
+    public static final Point BEAM_CONTROL_CENTER_PT = new Point( ( CATHODE_X_LOCATION + ANODE_X_LOCATION ) / 2,
+                                                                 100 );
 
     // Images
     public static final String IMAGE_FILE_DIRECTORY = "images/";
@@ -91,5 +92,5 @@ public class DischargeLampsConfig {
     // Misc
     public static final DecimalFormat VOLTAGE_FORMAT = new DecimalFormat( "#0.00 V" );
     // Simulation time for which EnergySquiggles remain on the screen
-    public static final double ENERGY_SQUIGGLE_PERSISTENCE = 50; 
+    public static final double ENERGY_SQUIGGLE_PERSISTENCE = 50;
 }
