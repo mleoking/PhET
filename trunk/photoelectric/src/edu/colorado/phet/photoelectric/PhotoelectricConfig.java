@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.photoelectric;
 
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+
 import java.awt.*;
 import java.text.DecimalFormat;
 
@@ -41,6 +43,8 @@ public class PhotoelectricConfig {
     public static final double BEAM_LAYER = 900;
     public static final double ELECTRON_LAYER = 900;
     public static final Dimension CHART_SIZE = new Dimension( 170, 94 );
+    public static final Point BEAM_CONTROL_LOCATION = new Point( DischargeLampsConfig.CATHODE_X_LOCATION + 290, 20 );
+
 
     public static final DecimalFormat BEAM_PERCENTAGE_FORMAT =new DecimalFormat( "#%" );
     public static final DecimalFormat BEAM_WAVELENGTH_FORMAT =new DecimalFormat( "### nm" );
