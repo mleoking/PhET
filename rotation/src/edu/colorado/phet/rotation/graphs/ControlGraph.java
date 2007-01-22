@@ -255,6 +255,10 @@ public class ControlGraph extends PNode {
         }
     }
 
+    static interface LayoutFunction {
+        double getValue( GraphComponent graphComponent );
+    }
+
     public class AlignedLayout implements Layout {
         private GraphComponent[] graphComponents;
 
@@ -262,13 +266,36 @@ public class ControlGraph extends PNode {
             this.graphComponents = graphComponents;
         }
 
+        public double[] getValues( LayoutFunction layoutFunction ) {
+            double[] val = new double[graphComponents.length];
+            for( int i = 0; i < val.length; i++ ) {
+                val[i] = layoutFunction.getValue( graphComponents[i] );
+            }
+            return val;
+        }
+
         public void layout() {
             double dx = 5;
             graphControlNode.setOffset( 0, 0 );
-//            chartSlider.setOffset( graphControlNode.getFullBounds().getMaxX() + dx, 0 );
-            chartSlider.setOffset( 0, 0 );
+            LayoutFunction controlNodeMaxX = new LayoutFunction() {
+                public double getValue( GraphComponent graphComponent ) {
+                    return graphComponent.getControlGraph().graphControlNode.getFullBounds().getWidth();
+                }
+            };
+            chartSlider.setOffset( max( getValues( controlNodeMaxX ) ) + dx, 0 );
 
-            jFreeChartNode.setBounds( chartSlider.getFullBounds().getMaxX(), 0, getBounds().getWidth() - zoomControl.getFullBounds().getWidth() - chartSlider.getFullBounds().getMaxX(), getBounds().getHeight() );
+            //compact the jfreechart node in the x direction by distance from optimal.
+
+            LayoutFunction chartInset = new LayoutFunction() {
+                public double getValue( GraphComponent graphComponent ) {
+                    return getInsetX( graphComponent.getControlGraph().getJFreeChartNode() );
+                }
+            };
+            double maxInset = max( getValues( chartInset ) );
+//            System.out.println( "maxInset = " + maxInset );
+            //todo: this layout code looks like it depends on layout getting called twice for each graph
+            double diff = maxInset - getInsetX( getJFreeChartNode() );
+            jFreeChartNode.setBounds( chartSlider.getFullBounds().getMaxX() + diff, 0, getBounds().getWidth() - zoomControl.getFullBounds().getWidth() - chartSlider.getFullBounds().getMaxX() - diff, getBounds().getHeight() );
             jFreeChartNode.updateChartRenderingInfo();
             zoomControl.setOffset( jFreeChartNode.getFullBounds().getMaxX(), jFreeChartNode.getFullBounds().getCenterY() - zoomControl.getFullBounds().getHeight() / 2 );
             Rectangle2D d = jFreeChartNode.plotToNode( getDataArea() );
@@ -279,6 +306,22 @@ public class ControlGraph extends PNode {
                 seriesNode.relayout();
             }
         }
+
+        private double max( double[] values ) {
+            double max = values[0];
+            for( int i = 1; i < values.length; i++ ) {
+                if( values[i] > max ) {
+                    max = values[i];
+                }
+            }
+            return max;
+        }
+    }
+
+    private static double getInsetX( JFreeChartNode jFreeChartNode ) {
+        Rectangle2D bounds = jFreeChartNode.getBounds();
+        Rectangle2D dataBounds = jFreeChartNode.getDataArea();
+        return dataBounds.getX() - bounds.getX();
     }
 
     public void setLayout( Layout layout ) {
@@ -286,7 +329,7 @@ public class ControlGraph extends PNode {
         relayout();
     }
 
-    private void relayout() {
+    void relayout() {
         layout.layout();
     }
 

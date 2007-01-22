@@ -109,5 +109,9 @@ public class GraphSetNode extends PNode {
             GraphComponent graphComponent = (GraphComponent)graphComponents.get( i );
             graphComponent.setAlignedLayout( gc );
         }
+        for( int i = 0; i < graphComponents.size(); i++ ) {
+            GraphComponent graphComponent = (GraphComponent)graphComponents.get( i );
+            graphComponent.relayoutControlGraph();
+        }
     }
 }
