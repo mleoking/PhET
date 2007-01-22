@@ -84,6 +84,13 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
                 }
             }
         } );
+        addKeyListener( new KeyAdapter() {
+            public void keyReleased( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_F2 && e.isAltDown() ) {
+                    relayout();
+                }
+            }
+        } );
     }
 
     private void relayout() {

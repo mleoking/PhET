@@ -37,7 +37,7 @@ public class ControlGraph extends PNode {
     private ZoomSuiteNode zoomControl;
 
     private ArrayList seriesNodes = new ArrayList();
-    private double xPad = 0;
+    //    private double xPad = 0;
     private JFreeChartNode jFreeChartNode;
     private PNode titleNode;
     private PNode seriesLayer;
@@ -222,27 +222,18 @@ public class ControlGraph extends PNode {
     protected void internalUpdateBounds( double x, double y, double width, double height ) {
         super.internalUpdateBounds( x, y, width, height );
         relayout();
-        jFreeChartNode.setBounds( 0, 0, width - xPad, height );
-        relayout();
     }
 
     private void relayout() {
         double dx = 5;
         graphControlNode.setOffset( 0, 0 );
         chartSlider.setOffset( graphControlNode.getFullBounds().getMaxX() + dx, 0 );
-        jFreeChartNode.setOffset( chartSlider.getFullBounds().getMaxX(), 0 );
 
-        zoomControl.setOffset( jFreeChartNode.getFullBounds().getMaxX(), jFreeChartNode.getFullBounds().getCenterY() - zoomControl.getFullBounds().getHeight() / 2 );
-        Rectangle2D.Double r = getDataArea();
-        Rectangle2D d = jFreeChartNode.plotToNode( r );
-        titleNode.setOffset( d.getX() + jFreeChartNode.getOffset().getX(), d.getY() + jFreeChartNode.getOffset().getY() );
-
-        this.xPad = jFreeChartNode.getFullBounds().getX() + zoomControl.getFullBounds().getWidth();
-
+        jFreeChartNode.setBounds( chartSlider.getFullBounds().getMaxX(), 0, getBounds().getWidth() - zoomControl.getFullBounds().getWidth() - chartSlider.getFullBounds().getMaxX(), getBounds().getHeight() );
         jFreeChartNode.updateChartRenderingInfo();
-        Rectangle2D dataArea = jFreeChartNode.getDataArea();
-        jFreeChartNode.localToGlobal( dataArea );
-        globalToLocal( dataArea );
+        zoomControl.setOffset( jFreeChartNode.getFullBounds().getMaxX(), jFreeChartNode.getFullBounds().getCenterY() - zoomControl.getFullBounds().getHeight() / 2 );
+        Rectangle2D d = jFreeChartNode.plotToNode( getDataArea() );
+        titleNode.setOffset( d.getX() + jFreeChartNode.getOffset().getX(), d.getY() + jFreeChartNode.getOffset().getY() );
 
         for( int i = 0; i < seriesNodes.size(); i++ ) {
             SeriesNode seriesNode = (SeriesNode)seriesNodes.get( i );

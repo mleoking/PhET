@@ -13,3 +13,5 @@ On rotational motion sim, lots of it worked well and looked good, but when showi
 Performance optimization.
 
 Time series implementation.
+
+Graphs shouldn't fill entire vertical space when there is only 1.

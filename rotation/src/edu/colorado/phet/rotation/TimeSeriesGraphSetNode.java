@@ -22,7 +22,6 @@ import java.beans.PropertyChangeListener;
 public class TimeSeriesGraphSetNode extends PNode {
     private GraphSetNode graphSetNode;
     private PSwing timeSeriesControlPanelNode;
-    private Rectangle2D.Double layoutBounds = null;
     private boolean constructed = false;
 
     public TimeSeriesGraphSetNode( PSwingCanvas pSwingCanvas, GraphSetModel graphSetModel, TimeSeriesModel timeSeriesModel ) {
@@ -49,19 +48,14 @@ public class TimeSeriesGraphSetNode extends PNode {
 
     protected void internalUpdateBounds( double x, double y, double width, double height ) {
         relayout();
-        relayout();
-        relayout();
     }
 
     private void relayout() {
-        if( !constructed ) {}
-        else {
+        if( constructed ) {
             Rectangle2D bounds = getBounds();
-            if( layoutBounds == null || !bounds.equals( layoutBounds ) || true ) {
-                graphSetNode.setBounds( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() - timeSeriesControlPanelNode.getFullBounds().getHeight() );
-                timeSeriesControlPanelNode.setOffset( bounds.getX() + bounds.getWidth() / 2.0 - timeSeriesControlPanelNode.getFullBounds().getWidth() / 2.0, graphSetNode.getFullBounds().getMaxY() );
-                layoutBounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
-            }
+            System.out.println( "TSGSN::bounds = " + bounds );
+            graphSetNode.setBounds( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() - timeSeriesControlPanelNode.getFullBounds().getHeight() );
+            timeSeriesControlPanelNode.setOffset( bounds.getX() + bounds.getWidth() / 2.0 - timeSeriesControlPanelNode.getFullBounds().getWidth() / 2.0, graphSetNode.getFullBounds().getMaxY() );
         }
     }
 

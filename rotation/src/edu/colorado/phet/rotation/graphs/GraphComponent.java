@@ -87,7 +87,7 @@ public class GraphComponent extends PNode {
         int buttonInsetX = 3;
         int buttonInsetY = 3;
 
-//        closeButton.setOffset( controlGraph.getFullBounds().getMaxX() - closeButton.getFullBounds().getWidth() - buttonInsetX, buttonInsetY );
+        controlGraph.getJFreeChartNode().updateChartRenderingInfo();
         closeButton.setOffset( controlGraph.getJFreeChartNode().getDataArea().getMaxX() - closeButton.getFullBounds().getWidth() - buttonInsetX + controlGraph.getJFreeChartNode().getOffset().getX(), controlGraph.getJFreeChartNode().getDataArea().getY() );
     }
 
@@ -102,8 +102,10 @@ public class GraphComponent extends PNode {
                 removeChild( stubChild );
                 addChild( graphChild );
             }
+            relayout();
             notifyListeners();
         }
+
     }
 
     public String getLabel() {
