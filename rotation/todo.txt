@@ -19,3 +19,5 @@ Graphs shouldn't fill entire vertical space when there is only 1.
 When the time series is off-scale, dragging the slider doesn't immediately respond.
 
 Add a graph cursor.
+
+Time series are offset incorrectly in graphs (their x-offset is before the beginning of the graph).
