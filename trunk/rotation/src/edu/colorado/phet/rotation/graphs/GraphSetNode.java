@@ -75,6 +75,7 @@ public class GraphSetNode extends PNode {
             }
             yOffset += graphComponent.getFullBounds().getHeight() + yPad;
         }
+        relayoutControlGraphs();
     }
 
     private int numMaximized() {
@@ -109,6 +110,10 @@ public class GraphSetNode extends PNode {
             GraphComponent graphComponent = (GraphComponent)graphComponents.get( i );
             graphComponent.setAlignedLayout( gc );
         }
+        relayoutControlGraphs();
+    }
+
+    private void relayoutControlGraphs() {
         for( int i = 0; i < graphComponents.size(); i++ ) {
             GraphComponent graphComponent = (GraphComponent)graphComponents.get( i );
             graphComponent.relayoutControlGraph();

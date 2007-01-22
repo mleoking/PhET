@@ -8,10 +8,7 @@ import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -91,6 +88,34 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
                 }
             }
         } );
+        addKeyListener( new KeyAdapter() {
+            public void keyPressed( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_F ) {
+                    setFlowLayout();
+                }
+            }
+        } );
+        addKeyListener( new KeyAdapter() {
+            public void keyPressed( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_A ) {
+                    setAlignedLayout();
+                }
+            }
+        } );
+        addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                requestFocus();
+            }
+        } );
+        setAlignedLayout();
+    }
+
+    private void setAlignedLayout() {
+        timeSeriesGraphSetNode.setAlignedLayout();
+    }
+
+    private void setFlowLayout() {
+        timeSeriesGraphSetNode.setFlowLayout();
     }
 
     private void relayout() {
