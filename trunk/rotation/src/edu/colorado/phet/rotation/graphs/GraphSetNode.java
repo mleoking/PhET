@@ -18,6 +18,18 @@ public class GraphSetNode extends PNode {
     private double width;
     private double height;
 
+    private Layout flow = new Layout() {
+        public void update() {
+            setFlowLayout();
+        }
+    };
+    private Layout aligned = new Layout() {
+        public void update() {
+            setAlignedLayout();
+        }
+    };
+    private Layout layout = flow;
+
     public GraphSetNode( GraphSetModel graphSetModel ) {
         this.graphSetModel = graphSetModel;
         graphComponentListener = new GraphComponent.Listener() {
@@ -31,6 +43,11 @@ public class GraphSetNode extends PNode {
             }
         } );
         updateGraphSuite();
+    }
+
+    static interface Layout {
+
+        void update();
     }
 
     protected void internalUpdateBounds( double x, double y, double width, double height ) {
@@ -48,6 +65,7 @@ public class GraphSetNode extends PNode {
         for( int i = 0; i < graphSuite.getGraphComponentCount(); i++ ) {
             addGraphComponent( graphSuite.getGraphComponent( i ) );
         }
+        updateLayout();
         relayout();
     }
 
@@ -55,6 +73,7 @@ public class GraphSetNode extends PNode {
         graphComponents.add( graphComponent );
         addChild( graphComponent );
         graphComponent.addListener( graphComponentListener );
+        updateLayout();
     }
 
     private void relayout() {
@@ -94,6 +113,11 @@ public class GraphSetNode extends PNode {
         GraphComponent graphComponent = (GraphComponent)graphComponents.remove( i );
         graphComponent.removeListener( graphComponentListener );
         removeChild( graphComponent );
+        updateLayout();
+    }
+
+    private void updateLayout() {
+        layout.update();
     }
 
     private GraphComponent getGraphComponent( int i ) {
@@ -105,6 +129,7 @@ public class GraphSetNode extends PNode {
             GraphComponent graphComponent = (GraphComponent)graphComponents.get( i );
             graphComponent.setFlowLayout();
         }
+        this.layout = flow;
     }
 
     public void setAlignedLayout() {
@@ -114,6 +139,7 @@ public class GraphSetNode extends PNode {
             graphComponent.setAlignedLayout( gc );
         }
         relayoutControlGraphs();
+        this.layout = aligned;
     }
 
     private void relayoutControlGraphs() {
