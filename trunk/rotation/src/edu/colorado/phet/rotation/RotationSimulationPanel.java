@@ -12,6 +12,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -82,7 +83,6 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
                     PDebug.debugRegionManagement = !PDebug.debugRegionManagement;
                 }
             }
-
         } );
     }
 
@@ -90,7 +90,9 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
         rotationPlayArea.setOffset( 0, 0 );
         rotationControlPanelNode.setOffset( 0, getHeight() - rotationControlPanelNode.getFullBounds().getHeight() );
         double maxX = Math.max( rotationPlayArea.getFullBounds().getMaxX(), rotationControlPanelNode.getFullBounds().getMaxX() );
-        timeSeriesGraphSetNode.setBounds( maxX, 0, getWidth() - maxX, getHeight() );
+        Rectangle2D bounds = new Rectangle2D.Double( maxX, 0, getWidth() - maxX, getHeight() );
+        System.out.println( "RSP::bounds = " + bounds );
+        timeSeriesGraphSetNode.setBounds( bounds );
     }
 
     public GraphSuite getGraphSuite( int i ) {
