@@ -2,6 +2,27 @@
 #To Do
 #######################
 
+(1) Have you considered adding a diode and a LED to the set of components.
+These devices are on all Physics courses in Ireland and I would assume 
+in most
+other countries as well.
+(2) Labelling the terminals of the battery as + and ? may help students 
+(and some
+teachers) resolve difficulties about current flowing one direction and 
+electrons
+flowing the other. It will also help students to identify the terminals 
+on a real
+battery.
+(3) The voltmeter / multimeter is excellent but only one can be used on 
+the screen.
+If 2 or 3 voltmeters could be on screen at same time this would help me 
+explain
+potential divider circuits better.
+(4) You might consider adding another metal and a piece of plastic to 
+your grab bag
+to reinforce the idea that metals conduct and non metals do not.
+I hope that these ideas are of some use to you. 
+
 Sam,
     Alex was playing with CCK yesterday and figured out how to make current
 flow in an incomplete circuit.  It's reproducable but requires a specific
