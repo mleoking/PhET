@@ -67,11 +67,14 @@ public class GraphSetNode extends PNode {
         }
 
         double yOffset = 0;
+        double graphHeight = Math.min( availableY / numMaximized(), availableY / 2 );//put a minimum on the vertical height of the graph.  Tall graphs were overwhelming.
+
         for( int i = 0; i < graphComponents.size(); i++ ) {
             GraphComponent graphComponent = getGraphComponent( i );
             graphComponent.setOffset( 0, yOffset );
             if( numMaximized() > 0 ) {
-                graphComponent.setAvailableBounds( width, availableY / numMaximized() );
+
+                graphComponent.setAvailableBounds( width, graphHeight );
             }
             yOffset += graphComponent.getFullBounds().getHeight() + yPad;
         }
