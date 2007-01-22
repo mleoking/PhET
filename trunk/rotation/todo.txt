@@ -9,3 +9,7 @@ Should TimeSeriesModel be extended or listened to for Rotation-specific behaivor
 Test at 1024x768
 
 On rotational motion sim, lots of it worked well and looked good, but when showing acceleration a, the zero and the curve was below bottom of graph sometime.  Angular acceleration  worked well though.
+
+Performance optimization.
+
+Time series implementation.

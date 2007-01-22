@@ -21,7 +21,7 @@ public class TestTimeSeriesGraphSetNode {
 
     public TestTimeSeriesGraphSetNode() {
         frame = new JFrame();
-        frame.setSize( 600, 600 );
+        frame.setSize( 1024, 768 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         PSwingCanvas pSwingCanvas = new PSwingCanvas();
