@@ -40,14 +40,6 @@ public class GraphSetNode extends PNode {
         setOffset( x, y );
     }
 
-//    public boolean setBounds( double x, double y, double width, double height ) {
-//        this.width = width;
-//        this.height = height;
-//        relayout();
-//        setOffset( x, y );
-//        return super.setBounds( x, y, width, height )||true;
-//    }
-
     private void updateGraphSuite() {
         while( graphComponents.size() > 0 ) {
             removeGraphComponent( 0 );

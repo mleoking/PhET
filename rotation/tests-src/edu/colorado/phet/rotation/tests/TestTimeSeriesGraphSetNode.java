@@ -15,18 +15,32 @@ import edu.colorado.phet.rotation.timeseries.TimeSeriesModel;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class TestTimeSeriesGraphSetNode {
     private JFrame frame;
+    private TimeSeriesGraphSetNode timeSeriesGraphSetNode;
+    private PSwingCanvas pSwingCanvas;
 
     public TestTimeSeriesGraphSetNode() {
         frame = new JFrame();
         frame.setSize( 1024, 768 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        PSwingCanvas pSwingCanvas = new PSwingCanvas();
+        pSwingCanvas = new PSwingCanvas();
         frame.setContentPane( pSwingCanvas );
-        pSwingCanvas.getLayer().addChild( new TimeSeriesGraphSetNode( pSwingCanvas, new GraphSetModel( new RotationGraphSet( pSwingCanvas, new RotationModel() ).getGraphSuite( 0 ) ), new TimeSeriesModel() ) );
+        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( pSwingCanvas, new GraphSetModel( new RotationGraphSet( pSwingCanvas, new RotationModel() ).getGraphSuite( 0 ) ), new TimeSeriesModel() );
+        pSwingCanvas.getLayer().addChild( timeSeriesGraphSetNode );
+        pSwingCanvas.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                relayout();
+            }
+        } );
+    }
+
+    private void relayout() {
+        timeSeriesGraphSetNode.setBounds( 0, 0, pSwingCanvas.getWidth(), pSwingCanvas.getHeight() );
     }
 
     public static void main( String[] args ) {

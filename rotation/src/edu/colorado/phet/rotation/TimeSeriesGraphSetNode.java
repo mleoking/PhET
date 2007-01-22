@@ -8,10 +8,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -24,6 +23,7 @@ public class TimeSeriesGraphSetNode extends PNode {
     private GraphSetNode graphSetNode;
     private PSwing timeSeriesControlPanelNode;
     private Rectangle2D.Double layoutBounds = null;
+    private boolean constructed = false;
 
     public TimeSeriesGraphSetNode( PSwingCanvas pSwingCanvas, GraphSetModel graphSetModel, TimeSeriesModel timeSeriesModel ) {
         setBounds( 0, 0, 800, 600 );
@@ -33,30 +33,36 @@ public class TimeSeriesGraphSetNode extends PNode {
 
         addChild( graphSetNode );
         addChild( timeSeriesControlPanelNode );
-        //todo: this is a hack to ensure the layout is correct after the sim comes up.
-        Timer timer = new Timer( 2000, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                layoutBounds = null;
+
+        PropertyChangeListener relayout = new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
                 relayout();
             }
-        } );
-        timer.start();
+        };
+        addPropertyChangeListener( PNode.PROPERTY_BOUNDS, relayout );
+        addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, relayout );
+        addPropertyChangeListener( PNode.PROPERTY_VISIBLE, relayout );
 
+        constructed = true;
+        relayout();
+    }
+
+    protected void internalUpdateBounds( double x, double y, double width, double height ) {
+        relayout();
+        relayout();
+        relayout();
     }
 
     private void relayout() {
-        Rectangle2D bounds = getBounds();
-        System.out.println( "TSGSN::bounds = " + bounds );
-        if( layoutBounds == null || !bounds.equals( layoutBounds ) ) {
-            graphSetNode.setBounds( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() - timeSeriesControlPanelNode.getFullBounds().getHeight() );
-            timeSeriesControlPanelNode.setOffset( bounds.getX() + bounds.getWidth() / 2.0 - timeSeriesControlPanelNode.getFullBounds().getWidth() / 2.0, graphSetNode.getFullBounds().getMaxY() );
-            layoutBounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
+        if( !constructed ) {}
+        else {
+            Rectangle2D bounds = getBounds();
+            if( layoutBounds == null || !bounds.equals( layoutBounds ) || true ) {
+                graphSetNode.setBounds( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() - timeSeriesControlPanelNode.getFullBounds().getHeight() );
+                timeSeriesControlPanelNode.setOffset( bounds.getX() + bounds.getWidth() / 2.0 - timeSeriesControlPanelNode.getFullBounds().getWidth() / 2.0, graphSetNode.getFullBounds().getMaxY() );
+                layoutBounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
+            }
         }
-    }
-
-    protected void layoutChildren() {
-        super.layoutChildren();
-        relayout();
     }
 
 }

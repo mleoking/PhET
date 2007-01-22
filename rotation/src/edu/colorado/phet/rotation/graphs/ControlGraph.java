@@ -219,12 +219,11 @@ public class ControlGraph extends PNode {
         return jFreeChartNode;
     }
 
-    public boolean setBounds( double x, double y, double width, double height ) {
+    protected void internalUpdateBounds( double x, double y, double width, double height ) {
+        super.internalUpdateBounds( x, y, width, height );
         relayout();
         jFreeChartNode.setBounds( 0, 0, width - xPad, height );
         relayout();
-        setOffset( x, y );
-        return super.setBounds( x, y, width, height );
     }
 
     private void relayout() {
