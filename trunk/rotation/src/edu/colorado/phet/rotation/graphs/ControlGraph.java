@@ -38,7 +38,7 @@ public class ControlGraph extends PNode {
 
     private ArrayList seriesNodes = new ArrayList();
     private JFreeChartNode jFreeChartNode;
-    private PNode titleNode;
+    private PNode titleLayer = new PNode();
     private PNode seriesLayer;
 
     private ArrayList listeners = new ArrayList();
@@ -53,7 +53,7 @@ public class ControlGraph extends PNode {
 
     public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double min, final double max, Color color, PNode thumb ) {
         seriesLayer = new PNode();
-        addSeries( "default_series", color );
+        addSeries( title, color, abbr );
 
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
         jFreeChart = ChartFactory.createXYLineChart( title + ", " + abbr, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
@@ -87,18 +87,13 @@ public class ControlGraph extends PNode {
             }
         } );
 
-        titleNode = new PNode();
-        ShadowPText titlePText = new ShadowPText( title + ", " + abbr );
-        titlePText.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
-        titlePText.setTextPaint( color );
-        titleNode.addChild( new PhetPPath( RectangleUtils.expand( titlePText.getFullBounds(), 2, 2 ), Color.white, new BasicStroke(), Color.black ) );
-        titleNode.addChild( titlePText );
+//        titleLayer.addChild( new TitleNode( title, abbr, color ) );
 
         addChild( graphControlNode );
         addChild( chartSlider );
         addChild( jFreeChartNode );
         addChild( zoomControl );
-        addChild( titleNode );
+        addChild( titleLayer );
         addChild( seriesLayer );
 
         simulationVariable.addListener( new SimulationVariable.Listener() {
@@ -125,6 +120,17 @@ public class ControlGraph extends PNode {
         zoomControl.addHorizontalZoomListener( zoomListener );
     }
 
+    static class TitleNode extends PNode {
+
+        public TitleNode( String title, String abbr, Color color ) {
+            ShadowPText titlePText = new ShadowPText( title + ", " + abbr );
+            titlePText.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+            titlePText.setTextPaint( color );
+            addChild( new PhetPPath( RectangleUtils.expand( titlePText.getFullBounds(), 2, 2 ), Color.white, new BasicStroke(), Color.black ) );
+            addChild( titlePText );
+        }
+    }
+
     private void zoomHorizontal( double v ) {
         double currentValue = jFreeChart.getXYPlot().getDomainAxis().getUpperBound();
         double newValue = currentValue * v;
@@ -147,10 +153,14 @@ public class ControlGraph extends PNode {
         zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != minDomainValue );
     }
 
-    public void addSeries( String title, Color color ) {
+    public void addSeries( String title, Color color, String abbr ) {
         SeriesNode o = new SeriesNode( title + " " + "series_" + seriesNodes.size(), color, this );
         seriesNodes.add( o );
         seriesLayer.addChild( o );
+
+        TitleNode titleNode = new TitleNode( title, abbr, color );
+        titleNode.setOffset( titleLayer.getFullBounds().getMaxX() + 5, 0 );
+        titleLayer.addChild( titleNode );
     }
 
     public double getMaxDataX() {
@@ -246,7 +256,7 @@ public class ControlGraph extends PNode {
             jFreeChartNode.updateChartRenderingInfo();
             zoomControl.setOffset( jFreeChartNode.getFullBounds().getMaxX(), jFreeChartNode.getFullBounds().getCenterY() - zoomControl.getFullBounds().getHeight() / 2 );
             Rectangle2D d = jFreeChartNode.plotToNode( getDataArea() );
-            titleNode.setOffset( d.getX() + jFreeChartNode.getOffset().getX(), d.getY() + jFreeChartNode.getOffset().getY() );
+            titleLayer.setOffset( d.getX() + jFreeChartNode.getOffset().getX(), d.getY() + jFreeChartNode.getOffset().getY() );
 
             for( int i = 0; i < seriesNodes.size(); i++ ) {
                 SeriesNode seriesNode = (SeriesNode)seriesNodes.get( i );
@@ -308,7 +318,7 @@ public class ControlGraph extends PNode {
             jFreeChartNode.updateChartRenderingInfo();
             zoomControl.setOffset( jFreeChartNode.getFullBounds().getMaxX(), jFreeChartNode.getFullBounds().getCenterY() - zoomControl.getFullBounds().getHeight() / 2 );
             Rectangle2D d = jFreeChartNode.plotToNode( getDataArea() );
-            titleNode.setOffset( d.getX() + jFreeChartNode.getOffset().getX(), d.getY() + jFreeChartNode.getOffset().getY() );
+            titleLayer.setOffset( d.getX() + jFreeChartNode.getOffset().getX(), d.getY() + jFreeChartNode.getOffset().getY() );
 
             for( int i = 0; i < seriesNodes.size(); i++ ) {
                 SeriesNode seriesNode = (SeriesNode)seriesNodes.get( i );
