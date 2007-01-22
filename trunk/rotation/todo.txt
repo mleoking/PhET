@@ -1,6 +1,7 @@
+################
+#           To Do:
+################
 Color coding for variables.
-
-Try 2nd order derivative directly from position data
 
 Time derivatives need a time-offset to match other series.
   
@@ -21,3 +22,8 @@ When the time series is off-scale, dragging the slider doesn't immediately respo
 Add a graph cursor.
 
 Time series are offset incorrectly in graphs (their x-offset is before the beginning of the graph).
+
+################
+#           Postponed:
+################
+Try 2nd order derivative directly from position data..?
