@@ -151,6 +151,14 @@ public class GraphComponent extends PNode {
         controlGraph.clear();
     }
 
+    public void setFlowLayout() {
+        controlGraph.setFlowLayout();
+    }
+
+    public void setAlignedLayout( GraphComponent[] graphComponents ) {
+        controlGraph.setAlignedLayout( graphComponents );
+    }
+
     public static interface Listener {
         void minimizeStateChanged();
     }

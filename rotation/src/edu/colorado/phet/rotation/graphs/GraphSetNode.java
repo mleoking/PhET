@@ -96,4 +96,18 @@ public class GraphSetNode extends PNode {
         return (GraphComponent)graphComponents.get( i );
     }
 
+    public void setFlowLayout() {
+        for( int i = 0; i < graphComponents.size(); i++ ) {
+            GraphComponent graphComponent = (GraphComponent)graphComponents.get( i );
+            graphComponent.setFlowLayout();
+        }
+    }
+
+    public void setAlignedLayout() {
+        GraphComponent[] gc = (GraphComponent[])graphComponents.toArray( new GraphComponent[0] );
+        for( int i = 0; i < graphComponents.size(); i++ ) {
+            GraphComponent graphComponent = (GraphComponent)graphComponents.get( i );
+            graphComponent.setAlignedLayout( gc );
+        }
+    }
 }

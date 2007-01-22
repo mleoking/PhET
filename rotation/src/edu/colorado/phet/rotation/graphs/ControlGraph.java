@@ -37,7 +37,6 @@ public class ControlGraph extends PNode {
     private ZoomSuiteNode zoomControl;
 
     private ArrayList seriesNodes = new ArrayList();
-    //    private double xPad = 0;
     private JFreeChartNode jFreeChartNode;
     private PNode titleNode;
     private PNode seriesLayer;
@@ -46,6 +45,7 @@ public class ControlGraph extends PNode {
     private JFreeChart jFreeChart;
     private int minDomainValue = 1000;
     private double ZOOM_FRACTION = 1.1;
+    private Layout layout = new FlowLayout();
 
     public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double min, double max ) {
         this( pSwingCanvas, simulationVariable, abbr, title, min, max, Color.black, new PText( "THUMB" ) );
@@ -162,9 +162,17 @@ public class ControlGraph extends PNode {
         updateZoomEnabled();
     }
 
+    public void setFlowLayout() {
+        setLayout( new FlowLayout() );
+    }
+
+    public void setAlignedLayout( GraphComponent[] graphComponents ) {
+        setLayout( new AlignedLayout( graphComponents ) );
+    }
+
     private static class SeriesNode extends PNode {
-        XYSeries xySeries;
-        PhetPPath pathNode;
+        private XYSeries xySeries;
+        private PhetPPath pathNode;
         private ControlGraph controlGraph;
         private PClip pathClip;
 
@@ -224,21 +232,62 @@ public class ControlGraph extends PNode {
         relayout();
     }
 
-    private void relayout() {
-        double dx = 5;
-        graphControlNode.setOffset( 0, 0 );
-        chartSlider.setOffset( graphControlNode.getFullBounds().getMaxX() + dx, 0 );
+    public interface Layout {
+        void layout();
+    }
 
-        jFreeChartNode.setBounds( chartSlider.getFullBounds().getMaxX(), 0, getBounds().getWidth() - zoomControl.getFullBounds().getWidth() - chartSlider.getFullBounds().getMaxX(), getBounds().getHeight() );
-        jFreeChartNode.updateChartRenderingInfo();
-        zoomControl.setOffset( jFreeChartNode.getFullBounds().getMaxX(), jFreeChartNode.getFullBounds().getCenterY() - zoomControl.getFullBounds().getHeight() / 2 );
-        Rectangle2D d = jFreeChartNode.plotToNode( getDataArea() );
-        titleNode.setOffset( d.getX() + jFreeChartNode.getOffset().getX(), d.getY() + jFreeChartNode.getOffset().getY() );
+    public class FlowLayout implements Layout {
+        public void layout() {
+            double dx = 5;
+            graphControlNode.setOffset( 0, 0 );
+            chartSlider.setOffset( graphControlNode.getFullBounds().getMaxX() + dx, 0 );
 
-        for( int i = 0; i < seriesNodes.size(); i++ ) {
-            SeriesNode seriesNode = (SeriesNode)seriesNodes.get( i );
-            seriesNode.relayout();
+            jFreeChartNode.setBounds( chartSlider.getFullBounds().getMaxX(), 0, getBounds().getWidth() - zoomControl.getFullBounds().getWidth() - chartSlider.getFullBounds().getMaxX(), getBounds().getHeight() );
+            jFreeChartNode.updateChartRenderingInfo();
+            zoomControl.setOffset( jFreeChartNode.getFullBounds().getMaxX(), jFreeChartNode.getFullBounds().getCenterY() - zoomControl.getFullBounds().getHeight() / 2 );
+            Rectangle2D d = jFreeChartNode.plotToNode( getDataArea() );
+            titleNode.setOffset( d.getX() + jFreeChartNode.getOffset().getX(), d.getY() + jFreeChartNode.getOffset().getY() );
+
+            for( int i = 0; i < seriesNodes.size(); i++ ) {
+                SeriesNode seriesNode = (SeriesNode)seriesNodes.get( i );
+                seriesNode.relayout();
+            }
         }
+    }
+
+    public class AlignedLayout implements Layout {
+        private GraphComponent[] graphComponents;
+
+        public AlignedLayout( GraphComponent[] graphComponents ) {
+            this.graphComponents = graphComponents;
+        }
+
+        public void layout() {
+            double dx = 5;
+            graphControlNode.setOffset( 0, 0 );
+//            chartSlider.setOffset( graphControlNode.getFullBounds().getMaxX() + dx, 0 );
+            chartSlider.setOffset( 0, 0 );
+
+            jFreeChartNode.setBounds( chartSlider.getFullBounds().getMaxX(), 0, getBounds().getWidth() - zoomControl.getFullBounds().getWidth() - chartSlider.getFullBounds().getMaxX(), getBounds().getHeight() );
+            jFreeChartNode.updateChartRenderingInfo();
+            zoomControl.setOffset( jFreeChartNode.getFullBounds().getMaxX(), jFreeChartNode.getFullBounds().getCenterY() - zoomControl.getFullBounds().getHeight() / 2 );
+            Rectangle2D d = jFreeChartNode.plotToNode( getDataArea() );
+            titleNode.setOffset( d.getX() + jFreeChartNode.getOffset().getX(), d.getY() + jFreeChartNode.getOffset().getY() );
+
+            for( int i = 0; i < seriesNodes.size(); i++ ) {
+                SeriesNode seriesNode = (SeriesNode)seriesNodes.get( i );
+                seriesNode.relayout();
+            }
+        }
+    }
+
+    public void setLayout( Layout layout ) {
+        this.layout = layout;
+        relayout();
+    }
+
+    private void relayout() {
+        layout.layout();
     }
 
     private Rectangle2D.Double getDataArea() {
