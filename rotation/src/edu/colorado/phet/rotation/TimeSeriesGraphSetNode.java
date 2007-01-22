@@ -59,4 +59,11 @@ public class TimeSeriesGraphSetNode extends PNode {
         }
     }
 
+    public void setFlowLayout() {
+        graphSetNode.setFlowLayout();
+    }
+
+    public void setAlignedLayout() {
+        graphSetNode.setAlignedLayout();
+    }
 }

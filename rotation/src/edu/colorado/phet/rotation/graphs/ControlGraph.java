@@ -267,9 +267,15 @@ public class ControlGraph extends PNode {
         }
 
         public double[] getValues( LayoutFunction layoutFunction ) {
-            double[] val = new double[graphComponents.length];
+            ArrayList values = new ArrayList();
+            for( int i = 0; i < graphComponents.length; i++ ) {
+                if( !graphComponents[i].isMinimized() ) {
+                    values.add( new Double( layoutFunction.getValue( graphComponents[i] ) ) );
+                }
+            }
+            double[] val = new double[values.size()];
             for( int i = 0; i < val.length; i++ ) {
-                val[i] = layoutFunction.getValue( graphComponents[i] );
+                val[i] = ( (Double)values.get( i ) ).doubleValue();
             }
             return val;
         }
@@ -282,6 +288,9 @@ public class ControlGraph extends PNode {
                     return graphComponent.getControlGraph().graphControlNode.getFullBounds().getWidth();
                 }
             };
+            if( getNumberMaximized() == 0 ) {
+                return;
+            }
             chartSlider.setOffset( max( getValues( controlNodeMaxX ) ) + dx, 0 );
 
             //compact the jfreechart node in the x direction by distance from optimal.
@@ -305,6 +314,17 @@ public class ControlGraph extends PNode {
                 SeriesNode seriesNode = (SeriesNode)seriesNodes.get( i );
                 seriesNode.relayout();
             }
+        }
+
+        private int getNumberMaximized() {
+            int count = 0;
+            for( int i = 0; i < graphComponents.length; i++ ) {
+                GraphComponent graphComponent = graphComponents[i];
+                if( !graphComponent.isMinimized() ) {
+                    count++;
+                }
+            }
+            return count;
         }
 
         private double max( double[] values ) {

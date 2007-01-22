@@ -25,10 +25,12 @@ public class RotationSimulation extends PhetApplication {
     public static final String TITLE = "Rotational Motion";
     public static final String DESCRIPTION = "Rotational Motion Simulation";
     private JMenu testMenu;
+    private RotationModule rotationModule;
 
     public RotationSimulation( String[] args ) {
         super( args, TITLE, DESCRIPTION, readVersion(), createFrameSetup() );
-        addModule( new RotationModule() );
+        rotationModule = new RotationModule();
+        addModule( rotationModule );
 
         addTests();
     }
@@ -108,6 +110,11 @@ public class RotationSimulation extends PhetApplication {
         else {
             return new FrameSetup.TopCenter( Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height - 100 );
         }
+    }
+
+    public void startApplication() {
+        super.startApplication();
+        rotationModule.getRotationSimulationPanel().requestFocus();
     }
 
     public static void main( final String[] args ) {
