@@ -121,7 +121,7 @@ public class GraphComponent extends PNode {
         relayout();
     }
 
-    private void relayout() {
+    public void relayout() {
         updateCloseButton();
         stubChild.setOffset( controlGraph.getFullBounds().getMaxX() - stubChild.getFullBounds().getWidth(), 0 );
 //        stubChild.setOffset( controlGraph.getJFreeChartNode().getDataArea().getMaxX() - stubChild.getFullBounds().getWidth(), controlGraph.getJFreeChartNode().getDataArea( ).getY() );
@@ -157,6 +157,10 @@ public class GraphComponent extends PNode {
 
     public void setAlignedLayout( GraphComponent[] graphComponents ) {
         controlGraph.setAlignedLayout( graphComponents );
+    }
+
+    public void relayoutControlGraph() {
+        controlGraph.relayout();
     }
 
     public static interface Listener {
