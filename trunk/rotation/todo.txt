@@ -13,6 +13,7 @@ Performance optimization.
 Graphs shouldn't fill entire vertical space when there is only 1.
 
 When the time series is off-scale, dragging the slider doesn't immediately respond.
+Clicking on the slider thumb should set the current value, and allow immediate drags.
 
 Time series implementation.
 
