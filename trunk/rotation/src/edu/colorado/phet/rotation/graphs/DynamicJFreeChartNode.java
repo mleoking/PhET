@@ -28,6 +28,10 @@ import java.util.ArrayList;
 public class DynamicJFreeChartNode extends JFreeChartNode {
     private ArrayList seriesDataList = new ArrayList();
     private ArrayList seriesViewList = new ArrayList();
+    private ArrayList listeners = new ArrayList();
+    private PhetPCanvas phetPCanvas;
+    private PhetPPath debugBufferRegion;
+
     private SeriesViewFactory jfreeChartSeriesFactory = new SeriesViewFactory() {
         public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
             return new JFreeChartSeriesView( dynamicJFreeChartNode, seriesData );
@@ -44,8 +48,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     };
     private SeriesViewFactory viewFactory = jfreeChartSeriesFactory;
-    private PhetPCanvas phetPCanvas;
-    private PhetPPath debugBufferRegion;
 
     public DynamicJFreeChartNode( PhetPCanvas phetPCanvas, JFreeChart chart ) {
         super( chart );
@@ -76,6 +78,70 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         for( int i = 0; i < seriesDataList.size(); i++ ) {
             SeriesData seriesData = (SeriesData)seriesDataList.get( i );
             seriesData.clear();
+        }
+    }
+
+    public static interface Listener {
+        void dataAreaChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyListeners() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.dataAreaChanged();
+        }
+    }
+
+    private void repaintPanel( Rectangle2D bounds ) {
+        phetPCanvas.repaint( new PBounds( bounds ) );
+        debugBufferRegion.setPathTo( bounds );
+//        System.out.println( "bounds = " + bounds );
+    }
+
+    static interface SeriesViewFactory {
+        SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData );
+    }
+
+    public void setJFreeChartSeries() {
+        viewFactory = jfreeChartSeriesFactory;
+        updateSeriesViews();
+    }
+
+    public void setPiccoloSeries() {
+        viewFactory = piccoloSeriesFactory;
+        updateSeriesViews();
+    }
+
+    public void setBufferedSeries() {
+        viewFactory = bufferedSeriesFactory;
+        updateSeriesViews();
+    }
+
+    private void updateSeriesViews() {
+        removeAllSeriesViews();
+        clearBuffer();
+        addAllSeriesViews();
+        updateChartRenderingInfo();
+    }
+
+    private void addAllSeriesViews() {
+        for( int i = 0; i < seriesDataList.size(); i++ ) {
+            SeriesData seriesData = (SeriesData)seriesDataList.get( i );
+            SeriesView seriesDataView = viewFactory.createSeriesView( this, seriesData );
+            seriesDataView.install();
+            seriesViewList.add( seriesDataView );
+        }
+    }
+
+    private void removeAllSeriesViews() {
+        while( seriesViewList.size() > 0 ) {
+            SeriesView seriesView = (SeriesView)seriesViewList.get( 0 );
+            seriesView.uninstall();
+            seriesViewList.remove( seriesView );
         }
     }
 
@@ -139,23 +205,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     }
 
-    private ArrayList listeners = new ArrayList();
-
-    public static interface Listener {
-        void dataAreaChanged();
-    }
-
-    public void addListener( Listener listener ) {
-        listeners.add( listener );
-    }
-
-    public void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.dataAreaChanged();
-        }
-    }
-
     static class PiccoloSeriesView extends SeriesView {
 
         private PNode root = new PNode();
@@ -174,7 +223,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 //            pathClip.setStrokePaint( null );//set to non-null for debugging clip area
             pathClip.setStrokePaint( Color.blue );//set to non-null for debugging clip area
             root.addChild( pathClip );
-            pathClip.setPathTo( new Rectangle( -10000, -10000, 20000, 20000 ) );
 
             pathNode = new PhetPPath( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f ), seriesData.getColor() );
             pathClip.addChild( pathNode );
@@ -184,6 +232,16 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
         private void updateClip() {
             pathClip.setPathTo( dynamicJFreeChartNode.getDataArea() );
+//            if( dynamicJFreeChartNode.isBuffered() ) {
+////                pathClip.setOffset( dynamicJFreeChartNode.getBounds().getX(), dynamicJFreeChartNode.getBounds().getY() );
+//                pathClip.setOffset( dynamicJFreeChartNode.getBounds().getX(), dynamicJFreeChartNode.getBounds().getY() );
+//            }
+//            else {
+////                pathClip.setOffset( 0, 0 );
+//                pathClip.setOffset( 0, 0 );
+//            }
+
+//            pathClip.setPathTo( new Rectangle2D.Double( 0,0,dynamicJFreeChartNode.getDataArea().getWidth(),dynamicJFreeChartNode.getDataArea( ).getHeight()) );
         }
 
         public void updateSeriesGraphic() {
@@ -198,9 +256,11 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             }
             pathNode.setPathTo( path );
             if( dynamicJFreeChartNode.isBuffered() ) {
+//                pathClip.setOffset( dynamicJFreeChartNode.getBounds().getX(), dynamicJFreeChartNode.getBounds().getY() );
                 pathNode.setOffset( dynamicJFreeChartNode.getBounds().getX(), dynamicJFreeChartNode.getBounds().getY() );
             }
             else {
+//                pathClip.setOffset( 0, 0 );
                 pathNode.setOffset( 0, 0 );
             }
         }
@@ -289,53 +349,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     }
 
-    private void repaintPanel( Rectangle2D bounds ) {
-        phetPCanvas.repaint( new PBounds( bounds ) );
-        debugBufferRegion.setPathTo( bounds );
-//        System.out.println( "bounds = " + bounds );
-    }
-
-    static interface SeriesViewFactory {
-        SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData );
-    }
-
-    public void setJFreeChartSeries() {
-        viewFactory = jfreeChartSeriesFactory;
-        updateSeriesViews();
-    }
-
-    public void setPiccoloSeries() {
-        viewFactory = piccoloSeriesFactory;
-        updateSeriesViews();
-    }
-
-    public void setBufferedSeries() {
-        viewFactory = bufferedSeriesFactory;
-        updateSeriesViews();
-    }
-
-    private void updateSeriesViews() {
-        removeAllSeriesViews();
-        clearBuffer();
-        addAllSeriesViews();
-    }
-
-    private void addAllSeriesViews() {
-        for( int i = 0; i < seriesDataList.size(); i++ ) {
-            SeriesData seriesData = (SeriesData)seriesDataList.get( i );
-            SeriesView seriesDataView = viewFactory.createSeriesView( this, seriesData );
-            seriesDataView.install();
-            seriesViewList.add( seriesDataView );
-        }
-    }
-
-    private void removeAllSeriesViews() {
-        while( seriesViewList.size() > 0 ) {
-            SeriesView seriesView = (SeriesView)seriesViewList.get( 0 );
-            seriesView.uninstall();
-            seriesViewList.remove( seriesView );
-        }
-    }
 
     public static class SeriesData {
         private String title;
@@ -399,5 +412,12 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     //Todo: provide support for this in the parent class.
     public void clearBuffer() {
         super.chartChanged( null );
+    }
+
+    public void setBuffered( boolean buffered ) {
+        super.setBuffered( buffered );
+        updateChartRenderingInfo();
+        updateSeriesViews();
+        notifyListeners();
     }
 }
