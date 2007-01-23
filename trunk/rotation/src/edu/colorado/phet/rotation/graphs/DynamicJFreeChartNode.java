@@ -82,7 +82,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     }
 
     public static interface Listener {
-        void dataAreaChanged();
+        void changed();
     }
 
     public void addListener( Listener listener ) {
@@ -92,7 +92,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     public void notifyListeners() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
-            listener.dataAreaChanged();
+            listener.changed();
         }
     }
 
@@ -210,7 +210,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         private PhetPPath pathNode;
         private PClip pathClip;
         private DynamicJFreeChartNode.Listener listener = new Listener() {
-            public void dataAreaChanged() {
+            public void changed() {
                 updateClip();
             }
         };
@@ -299,6 +299,8 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     }
 
     static class BufferedSeriesView extends SeriesView {
+        private BufferedImage lastFullPaint = null;
+        private boolean origStateBuffered;
 
         public BufferedSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
             super( dynamicJFreeChartNode, seriesData );
@@ -308,15 +310,16 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             if( getSeries().getItemCount() >= 2 ) {
                 BufferedImage image = dynamicJFreeChartNode.getBuffer();
                 if( image != null ) {
+                    if( image != lastFullPaint ) {
+                        paintAll();
+                        lastFullPaint = image;
+                    }
                     Graphics2D graphics2D = image.createGraphics();
                     graphics2D.setPaint( getSeriesData().getColor() );
                     BasicStroke stroke = new BasicStroke( 2.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f );
                     graphics2D.setStroke( stroke );
                     int itemCount = getSeries().getItemCount();
-//                    Line2D.Double modelLine = new Line2D.Double( , );
-                    Line2D.Double viewLine = new Line2D.Double(
-                            dynamicJFreeChartNode.plotToNode( getPoint( itemCount - 2 ) ),
-                            dynamicJFreeChartNode.plotToNode( getPoint( itemCount - 1 ) ) );
+                    Line2D.Double viewLine = new Line2D.Double( getViewPoint( itemCount - 2 ), getViewPoint( itemCount - 1 ) );
                     graphics2D.draw( viewLine );
 
                     Shape sh = stroke.createStrokedShape( viewLine );
@@ -331,16 +334,31 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             }
         }
 
+        private Point2D getViewPoint( int index ) {
+            return dynamicJFreeChartNode.plotToNode( getPoint( index ) );
+        }
+
         private Point2D.Double getPoint( int index ) {
             return new Point2D.Double( getSeries().getX( index ).doubleValue(), getSeries().getY( index ).doubleValue() );
         }
 
         public void uninstall() {
             super.uninstall();
+            if( dynamicJFreeChartNode.isBuffered() != origStateBuffered ) {
+                dynamicJFreeChartNode.setBuffered( origStateBuffered );
+            }
         }
 
         public void install() {
             super.install();
+            paintAll();
+            this.origStateBuffered = dynamicJFreeChartNode.isBuffered();
+            if( !origStateBuffered ) {
+                dynamicJFreeChartNode.setBuffered( true );
+            }
+        }
+
+        private void paintAll() {
             BufferedImage image = dynamicJFreeChartNode.getBuffer();
             if( image != null ) {
                 Graphics2D graphics2D = image.createGraphics();
@@ -356,10 +374,10 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         private GeneralPath toGeneralPath() {
             GeneralPath path = new GeneralPath();
             if( getSeries().getItemCount() > 0 ) {
-                path.moveTo( (float)getPoint( 0 ).getX(), (float)getPoint( 0 ).getY() );
+                path.moveTo( (float)getViewPoint( 0 ).getX(), (float)getViewPoint( 0 ).getY() );
             }
             for( int i = 1; i < getSeries().getItemCount(); i++ ) {
-                path.lineTo( (float)getPoint( i ).getX(), (float)getPoint( i ).getY() );
+                path.lineTo( (float)getViewPoint( i ).getX(), (float)getViewPoint( i ).getY() );
             }
             return path;
         }
@@ -436,4 +454,5 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         updateSeriesViews();
         notifyListeners();
     }
+
 }

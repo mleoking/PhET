@@ -70,6 +70,11 @@ public class TestDynamicJFreeChartNode {
                 dynamicJFreeChartNode.setBuffered( jCheckBox.isSelected() );
             }
         } );
+        dynamicJFreeChartNode.addListener( new DynamicJFreeChartNode.Listener() {
+            public void changed() {
+                jCheckBox.setSelected( dynamicJFreeChartNode.isBuffered() );
+            }
+        } );
         final JCheckBox debug = new JCheckBox( "Show Regions", PDebug.debugBounds );
         debug.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
