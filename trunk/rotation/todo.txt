@@ -1,8 +1,7 @@
 ################
 #           To Do:
 ################
-Time derivatives need a time-offset to match other series.
-  
+ 
 Should TimeSeriesModel be extended or listened to for Rotation-specific behaivor?
 
 Test at 1024x768
@@ -11,13 +10,15 @@ On rotational motion sim, lots of it worked well and looked good, but when showi
 
 Performance optimization.
 
-Time series implementation.
-
 Graphs shouldn't fill entire vertical space when there is only 1.
 
 When the time series is off-scale, dragging the slider doesn't immediately respond.
 
+Time series implementation.
+
 Add a graph cursor.
+
+Time derivatives need a time-offset to match other series.
 
 Time series are offset incorrectly in graphs (their x-offset is before the beginning of the graph).
 
