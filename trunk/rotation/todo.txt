@@ -25,6 +25,8 @@ Time series are offset incorrectly in graphs (their x-offset is before the begin
 
 Angle graphs should wrap around instead of being modulo 2*Pi.
 
+When resizing a graph, the layout can change (due to difference in axis labels), so realignment should be done after any data area changes.
+
 ################
 #           Postponed:
 ################
