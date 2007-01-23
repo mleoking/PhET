@@ -45,12 +45,14 @@ public class ControlGraph extends PNode {
     private int minDomainValue = 1000;
     private double ZOOM_FRACTION = 1.1;
     private Layout layout = new FlowLayout();
+    private PSwingCanvas pSwingCanvas;
 
     public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double min, double max ) {
         this( pSwingCanvas, simulationVariable, abbr, title, min, max, Color.black, new PText( "THUMB" ) );
     }
 
     public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double min, final double max, Color color, PNode thumb ) {
+        this.pSwingCanvas = pSwingCanvas;
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
         jFreeChart = ChartFactory.createXYLineChart( title + ", " + abbr, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.setTitle( (String)null );
@@ -69,9 +71,8 @@ public class ControlGraph extends PNode {
         jFreeChartNode.setBuffered( true );
         jFreeChartNode.setBounds( 0, 0, 300, 400 );
 
-        addSeries( title, color, abbr );
-
-        graphControlNode = new GraphControlNode( pSwingCanvas, abbr, simulationVariable, new DefaultGraphTimeSeries(), color );
+        graphControlNode = new GraphControlNode( pSwingCanvas, new DefaultGraphTimeSeries() );
+        addSeries( title, color, abbr, simulationVariable );
         chartSlider = new ChartSlider( jFreeChartNode, thumb );
         zoomControl = new ZoomSuiteNode();
         zoomControl.addVerticalZoomListener( new ZoomControlNode.ZoomListener() {
@@ -156,7 +157,7 @@ public class ControlGraph extends PNode {
         zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != minDomainValue );
     }
 
-    public void addSeries( String title, Color color, String abbr ) {
+    public void addSeries( String title, Color color, String abbr, SimulationVariable simulationVariable ) {
         SeriesNode o = new SeriesNode( title + " " + "series_" + seriesNodes.size(), color, this );
         seriesNodes.add( o );
         jFreeChartNode.addChild( o );
@@ -164,6 +165,8 @@ public class ControlGraph extends PNode {
         TitleNode titleNode = new TitleNode( title, abbr, color );
         titleNode.setOffset( titleLayer.getFullBounds().getWidth(), 0 );
         titleLayer.addChild( titleNode );
+
+        graphControlNode.addVariable( abbr, color, simulationVariable, pSwingCanvas );
     }
 
     public double getMaxDataX() {

@@ -34,7 +34,7 @@ public class RotationGraphSet {
         angularAccelerationGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.ALPHA, toControlGraph( pSwingCanvas, UnicodeUtil.ALPHA, "Angular Acceleration", -0.001, 0.001, Color.green, rotationModel.getAVariable(), PImageFactory.create( "images/green-arrow.png" ), true ) );
 
         ControlGraph positionControlGraph = toControlGraph( pSwingCanvas, "x", "Position", -1.2, 1.2, Color.blue, rotationModel.getXPositionVariable(), PImageFactory.create( "images/blue-arrow.png" ), false );
-        positionControlGraph.addSeries( "Position", Color.red, "y" );
+        positionControlGraph.addSeries( "Position", Color.red, "y", rotationModel.getYPositionVariable() );
         positionGraph = new GraphComponent( pSwingCanvas, "x,y", positionControlGraph );
         velocityGraph = new GraphComponent( pSwingCanvas, "vx,vy", toControlGraph( pSwingCanvas, "vx,vy", "Linear Velocity", 0, 0.1, Color.red, rotationModel.getLinearVelocity(), PImageFactory.create( "images/red-arrow.png" ), false ) );
         accelerationGraph = new GraphComponent( pSwingCanvas, "a", toControlGraph( pSwingCanvas, "a", "Centripetal Acceleration", 0, 0.001, Color.green, rotationModel.getCentripetalAcceleration(), PImageFactory.create( "images/green-arrow.png" ), false ) );

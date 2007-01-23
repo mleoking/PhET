@@ -22,26 +22,14 @@ import java.text.DecimalFormat;
  */
 
 public class GraphControlNode extends PNode {
-    private ShadowPText shadowPText;
-    private PSwing textBox;
     private PSwing goStopButton;
     private PSwing clearButton;
-    private TextBox box;
+    private PNode seriesLayer = new PNode();
+    private boolean editable = true;
+    private boolean constructed = false;
 
-    public GraphControlNode( PSwingCanvas pSwingCanvas, String title, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries ) {
-        this( pSwingCanvas, title, simulationVariable, graphTimeSeries, Color.black );
-    }
-
-    public GraphControlNode( PSwingCanvas pSwingCanvas, String title, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries, Color color ) {
-        shadowPText = new ShadowPText( title );
-        shadowPText.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
-        shadowPText.setTextPaint( color );
-        shadowPText.setShadowColor( Color.black );
-        addChild( shadowPText );
-
-        box = new TextBox( title, simulationVariable );
-        textBox = new PSwing( pSwingCanvas, box );
-        addChild( textBox );
+    public GraphControlNode( PSwingCanvas pSwingCanvas, GraphTimeSeries graphTimeSeries ) {
+        addChild( seriesLayer );
 
         goStopButton = new PSwing( pSwingCanvas, new GoStopButton( graphTimeSeries ) );
         addChild( goStopButton );
@@ -49,20 +37,77 @@ public class GraphControlNode extends PNode {
         clearButton = new PSwing( pSwingCanvas, new ClearButton( graphTimeSeries ) );
         addChild( clearButton );
 
+        constructed = true;
         relayout();
     }
 
+    public GraphControlNode( PSwingCanvas pSwingCanvas, String title, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries ) {
+        this( pSwingCanvas, title, simulationVariable, graphTimeSeries, Color.black );
+    }
+
+    public GraphControlNode( PSwingCanvas pSwingCanvas, String title, SimulationVariable simulationVariable, GraphTimeSeries graphTimeSeries, Color color ) {
+        this( pSwingCanvas, graphTimeSeries );
+        addVariable( title, color, simulationVariable, pSwingCanvas );
+        relayout();
+    }
+
+    public void addVariable( String title, Color color, SimulationVariable simulationVariable, PSwingCanvas pSwingCanvas ) {
+        SeriesNode seriesNode = new SeriesNode( title, color, simulationVariable, pSwingCanvas );
+        seriesNode.setEditable( editable );
+        seriesNode.setOffset( 0, seriesLayer.getFullBounds().getHeight() + 5 );
+        seriesLayer.addChild( seriesNode );
+        relayout();
+    }
+
+    static class SeriesNode extends PNode {
+        private ShadowPText shadowPText;
+        private PSwing textBox;
+        private TextBox box;
+
+        public SeriesNode( String title, Color color, SimulationVariable simulationVariable, PSwingCanvas pSwingCanvas ) {
+            shadowPText = new ShadowPText( title );
+            shadowPText.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
+            shadowPText.setTextPaint( color );
+            shadowPText.setShadowColor( Color.black );
+            addChild( shadowPText );
+
+            box = new TextBox( title, simulationVariable );
+            textBox = new PSwing( pSwingCanvas, box );
+            addChild( textBox );
+        }
+
+        public void relayout( double dy ) {
+            shadowPText.setOffset( 0, 0 );
+            textBox.setOffset( 0, shadowPText.getFullBounds().getMaxY() + dy );
+        }
+
+        public void setEditable( boolean editable ) {
+            box.setEditable( editable );
+        }
+    }
+
     private void relayout() {
-        double x = 0;
-        double dy = 5;
-        shadowPText.setOffset( x, 0 );
-        textBox.setOffset( x, shadowPText.getFullBounds().getMaxY() + dy );
-        goStopButton.setOffset( x, textBox.getFullBounds().getMaxY() + dy );
-        clearButton.setOffset( x, goStopButton.getFullBounds().getMaxY() + dy );
+        if( constructed ) {
+            double dy = 5;
+            seriesLayer.setOffset( 0, 0 );
+            for( int i = 0; i < seriesLayer.getChildrenCount(); i++ ) {
+                SeriesNode child = (SeriesNode)seriesLayer.getChild( i );
+                child.relayout( dy );
+            }
+//        seriesNode.setOffset( 0, 0 );
+//        seriesNode.relayout( dy );
+
+            goStopButton.setOffset( 0, seriesLayer.getFullBounds().getMaxY() + dy );
+            clearButton.setOffset( 0, goStopButton.getFullBounds().getMaxY() + dy );
+        }
     }
 
     public void setEditable( boolean editable ) {
-        box.setEditable( editable );
+        this.editable = editable;
+        for( int i = 0; i < seriesLayer.getChildrenCount(); i++ ) {
+            SeriesNode child = (SeriesNode)seriesLayer.getChild( i );
+            child.setEditable( editable );
+        }
     }
 
     static class ClearButton extends JButton {
