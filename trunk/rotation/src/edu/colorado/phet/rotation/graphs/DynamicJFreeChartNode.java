@@ -176,6 +176,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
 
         public void dataAdded() {
+            dynamicJFreeChartNode
         }
 
         public void uninstall() {
