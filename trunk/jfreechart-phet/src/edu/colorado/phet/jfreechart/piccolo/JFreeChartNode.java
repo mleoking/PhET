@@ -433,4 +433,14 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
         _chartImage = null; // the image needs to be regenerated
         repaint();
     }
+
+    /**
+     * Returns the BufferedImage this JFreeChartNode is using to render the underlying JFreeChart if buffered, or null otherwise.
+     * This method is currently for feasibility testing for improved performance during dynamic data display; 
+     * the interface or implementation may change soon..  
+     * @return the BufferedImage used to render this chart, possibly null.
+     */
+    protected BufferedImage getBuffer(){
+        return _chartImage;
+    }
 }
