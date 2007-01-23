@@ -22,6 +22,8 @@ import java.util.ArrayList;
  * This class extends the functionality of JFreeChartNode by providing different strategies for rendering the data.
  * It is assumed that the chart's plot is XYPlot, and some functionality is lost in rendering, since we
  * have our own rendering strategies here.
+ * <p/>
+ * Data is added to the chart through addValue() methods, not through the underlying XYSeriesCollection dataset.
  */
 public class DynamicJFreeChartNode extends JFreeChartNode {
     private ArrayList seriesDataList = new ArrayList();
@@ -137,23 +139,51 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     }
 
+    private ArrayList listeners = new ArrayList();
+
+    public static interface Listener {
+        void dataAreaChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyListeners() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.dataAreaChanged();
+        }
+    }
+
     static class PiccoloSeriesView extends SeriesView {
 
         private PNode root = new PNode();
         private PhetPPath pathNode;
         private PClip pathClip;
+        private DynamicJFreeChartNode.Listener listener = new Listener() {
+            public void dataAreaChanged() {
+                updateClip();
+            }
+        };
 
         public PiccoloSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
             super( dynamicJFreeChartNode, seriesData );
 
             pathClip = new PClip();
-            pathClip.setStrokePaint( null );//set to non-null for debugging clip area
-//            pathClip.setStrokePaint( Color.blue );//set to non-null for debugging clip area
+//            pathClip.setStrokePaint( null );//set to non-null for debugging clip area
+            pathClip.setStrokePaint( Color.blue );//set to non-null for debugging clip area
             root.addChild( pathClip );
             pathClip.setPathTo( new Rectangle( -10000, -10000, 20000, 20000 ) );
 
             pathNode = new PhetPPath( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f ), seriesData.getColor() );
             pathClip.addChild( pathNode );
+
+            updateClip();
+        }
+
+        private void updateClip() {
+            pathClip.setPathTo( dynamicJFreeChartNode.getDataArea() );
         }
 
         public void updateSeriesGraphic() {
@@ -190,17 +220,33 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         public void uninstall() {
             super.uninstall();
             super.getDynamicJFreeChartNode().removeChild( root );
+            dynamicJFreeChartNode.removeListener( listener );
         }
 
         public void install() {
             super.install();
             getDynamicJFreeChartNode().addChild( root );
+            dynamicJFreeChartNode.addListener( listener );
+            updateClip();
+            updateSeriesGraphic();
         }
 
         public void dataAdded() {
             updateSeriesGraphic();
         }
 
+    }
+
+    private void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
+    //todo:  move this to parent class
+    public void updateChartRenderingInfo() {
+        super.updateChartRenderingInfo();
+        if( listeners != null ) {
+            notifyListeners();
+        }
     }
 
     static class BufferedSeriesView extends SeriesView {
@@ -215,7 +261,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
                 if( image != null ) {
                     Graphics2D graphics2D = image.createGraphics();
                     graphics2D.setPaint( getSeriesData().getColor() );
-                    BasicStroke stroke = new BasicStroke(2.0f,BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER,1.0f);
+                    BasicStroke stroke = new BasicStroke( 2.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f );
                     graphics2D.setStroke( stroke );
                     int itemCount = getSeries().getItemCount();
                     Line2D.Double modelLine = new Line2D.Double( getSeries().getX( itemCount - 2 ).doubleValue(), getSeries().getY( itemCount - 2 ).doubleValue(), getSeries().getX( itemCount - 1 ).doubleValue(), getSeries().getY( itemCount - 1 ).doubleValue() );
@@ -270,6 +316,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     private void updateSeriesViews() {
         removeAllSeriesViews();
+        clearBuffer();
         addAllSeriesViews();
     }
 
@@ -324,7 +371,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             notifyDataChanged();
         }
 
-
         public void removeListener( Listener listener ) {
             listeners.remove( listener );
         }
@@ -350,4 +396,8 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     }
 
+    //Todo: provide support for this in the parent class.
+    public void clearBuffer() {
+        super.chartChanged( null );
+    }
 }

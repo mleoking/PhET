@@ -31,7 +31,7 @@ public class TestDynamicJFreeChartNode {
 
     public TestDynamicJFreeChartNode() {
         frame = new JFrame();
-        frame.setSize( 1024-100,768-100);
+        frame.setSize( 1024 - 100, 768 - 100 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         phetPCanvas = new PhetPCanvas();
@@ -78,13 +78,13 @@ public class TestDynamicJFreeChartNode {
         } );
         panel.add( jCheckBox );
         panel.add( debug );
-        JButton clear=new JButton( "Clear");
+        JButton clear = new JButton( "Clear" );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 clear();
             }
         } );
-        panel.add(clear);
+        panel.add( clear );
         pSwing = new PSwing( phetPCanvas, panel );
         phetPCanvas.addScreenChild( pSwing );
 
@@ -119,7 +119,7 @@ public class TestDynamicJFreeChartNode {
 
     private void clear() {
         dynamicJFreeChartNode.clear();
-        t0=System.currentTimeMillis();
+        t0 = System.currentTimeMillis();
     }
 
     private JComponent createButton( String text, ButtonGroup buttonGroup, boolean enabled, ActionListener actionListener ) {
@@ -135,6 +135,7 @@ public class TestDynamicJFreeChartNode {
     private void relayout() {
         pSwing.setOffset( 0, 0 );
         dynamicJFreeChartNode.setBounds( 0, pSwing.getFullBounds().getHeight(), phetPCanvas.getWidth(), phetPCanvas.getHeight() - pSwing.getFullBounds().getHeight() );
+        dynamicJFreeChartNode.updateChartRenderingInfo();//todo: shouldn't this happen after every setBounds()?
     }
 
     public static void main( String[] args ) {
