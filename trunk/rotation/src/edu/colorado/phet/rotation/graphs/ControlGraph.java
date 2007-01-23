@@ -93,15 +93,11 @@ public class ControlGraph extends PNode {
             }
         } );
 
-//        titleLayer.addChild( new TitleNode( title, abbr, color ) );
-
         addChild( graphControlNode );
         addChild( chartSlider );
         addChild( jFreeChartNode );
         addChild( zoomControl );
         addChild( titleLayer );
-//        addChild( seriesLayer );
-//        jFreeChartNode.addChild( seriesLayer);
 
         simulationVariable.addListener( new SimulationVariable.Listener() {
             public void valueChanged() {
@@ -166,7 +162,7 @@ public class ControlGraph extends PNode {
         jFreeChartNode.addChild( o );
 
         TitleNode titleNode = new TitleNode( title, abbr, color );
-        titleNode.setOffset( titleLayer.getFullBounds().getMaxX() + 5, 0 );
+        titleNode.setOffset( titleLayer.getFullBounds().getWidth(), 0 );
         titleLayer.addChild( titleNode );
     }
 

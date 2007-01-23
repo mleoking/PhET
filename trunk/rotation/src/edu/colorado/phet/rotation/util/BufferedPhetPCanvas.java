@@ -23,6 +23,7 @@ public class BufferedPhetPCanvas extends PhetPCanvas {
 
         Graphics2D bufferedGraphics = bufferedImage.createGraphics();
         bufferedGraphics.setClip( g.getClipBounds() );//todo is this correct?
+//        bufferedGraphics.setTransform( ((Graphics2D)g).getTransform() );
         super.paintComponent( bufferedGraphics );
         Graphics2D g2 = (Graphics2D)g;
         g2.drawRenderedImage( bufferedImage, new AffineTransform() );

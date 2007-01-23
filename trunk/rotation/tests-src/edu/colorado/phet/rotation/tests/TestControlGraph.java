@@ -28,6 +28,11 @@ public class TestControlGraph {
 
         phetPCanvas = new BufferedPhetPCanvas();
         controlGraph = new ControlGraph( phetPCanvas, new SimulationVariable(), "abbrev", "title", -10, 10 );
+//        controlGraph.setLayout( new ControlGraph.AlignedLayout( ) );
+        controlGraph.addValue( 0, 0 );
+        controlGraph.addValue( 600, 10 );
+        controlGraph.addValue( 800, -3 );
+//        controlGraph.addValue( 600,10);
         phetPCanvas.addScreenChild( controlGraph );
         phetPCanvas.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
