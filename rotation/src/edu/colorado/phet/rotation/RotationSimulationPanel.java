@@ -19,6 +19,7 @@ import java.awt.geom.Rectangle2D;
  */
 
 public class RotationSimulationPanel extends BufferedPhetPCanvas {
+    //public class RotationSimulationPanel extends PhetPCanvas {
     /*MVC Model components*/
     private RotationModule rotationModule;
 
