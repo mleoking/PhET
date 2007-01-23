@@ -1,11 +1,11 @@
 package edu.colorado.phet.rotation.graphs;
 
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class RotationGraphSet {
     private ArrayList graphComponents = new ArrayList();
     private GraphSuite[] suites;
 
-    public RotationGraphSet( PSwingCanvas pSwingCanvas, final RotationModel rotationModel ) {
+    public RotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel rotationModel ) {
         angleGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.THETA, toControlGraph( pSwingCanvas, UnicodeUtil.THETA, "Angular Position", -Math.PI * 3, Math.PI * 3, Color.blue, rotationModel.getXVariable(), PImageFactory.create( "images/blue-arrow.png" ), true ) );
         angularVelocityGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.OMEGA, toControlGraph( pSwingCanvas, UnicodeUtil.OMEGA, "Angular Velocity", -0.1, 0.1, Color.red, rotationModel.getVVariable(), PImageFactory.create( "images/red-arrow.png" ), true ) );
         angularAccelerationGraph = new GraphComponent( pSwingCanvas, UnicodeUtil.ALPHA, toControlGraph( pSwingCanvas, UnicodeUtil.ALPHA, "Angular Acceleration", -0.001, 0.001, Color.green, rotationModel.getAVariable(), PImageFactory.create( "images/green-arrow.png" ), true ) );
@@ -88,7 +88,7 @@ public class RotationGraphSet {
         } );
     }
 
-    ControlGraph toControlGraph( PSwingCanvas pSwingCanvas, String label, String title, double min, double max, Color color, SimulationVariable simulationVariable, PNode thumb, boolean editable ) {
+    ControlGraph toControlGraph( PhetPCanvas pSwingCanvas, String label, String title, double min, double max, Color color, SimulationVariable simulationVariable, PNode thumb, boolean editable ) {
         final ControlGraph controlGraph = new ControlGraph( pSwingCanvas, simulationVariable, label, title, min, max, color, thumb );
         controlGraph.addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {

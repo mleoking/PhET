@@ -65,13 +65,15 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         this.phetPCanvas = phetPCanvas;
         debugBufferRegion = new PhetPPath( new BasicStroke( 1.0f ), Color.green );
         addChild( debugBufferRegion );
+        debugBufferRegion.setVisible( false );
+        debugBufferRegion.setPickable( false );
     }
 
     public void addValue( double x, double y ) {
         addValue( 0, x, y );
     }
 
-    private void addValue( int series, double x, double y ) {
+    public void addValue( int series, double x, double y ) {
         getSeries( series ).addValue( x, y );
     }
 
@@ -90,6 +92,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             SeriesData seriesData = (SeriesData)seriesDataList.get( i );
             seriesData.clear();
         }
+        clearBuffer();
     }
 
     public static interface Listener {
@@ -117,17 +120,19 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     }
 
     public void setJFreeChartSeries() {
-        viewFactory = jfreeChartSeriesFactory;
-        updateSeriesViews();
+        setViewFactory( jfreeChartSeriesFactory );
     }
 
     public void setPiccoloSeries() {
-        viewFactory = piccoloSeriesFactory;
-        updateSeriesViews();
+        setViewFactory( piccoloSeriesFactory );
     }
 
     public void setBufferedSeries() {
-        viewFactory = bufferedSeriesFactory;
+        setViewFactory( bufferedSeriesFactory );
+    }
+
+    private void setViewFactory( SeriesViewFactory factory ) {
+        viewFactory = factory;
         updateSeriesViews();
     }
 
