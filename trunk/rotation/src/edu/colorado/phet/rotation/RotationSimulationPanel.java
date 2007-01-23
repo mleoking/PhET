@@ -109,6 +109,8 @@ public class RotationSimulationPanel extends BufferedPhetPCanvas {
             }
         } );
         setAlignedLayout();
+
+//        setZoomEventHandler( new PZoomEventHandler() );
     }
 
     private void setAlignedLayout() {

@@ -32,6 +32,8 @@ import java.util.ArrayList;
  */
 
 public class ControlGraph extends PNode {
+    private PSwingCanvas pSwingCanvas;
+
     private GraphControlNode graphControlNode;
     private ChartSlider chartSlider;
     private ZoomSuiteNode zoomControl;
@@ -45,7 +47,8 @@ public class ControlGraph extends PNode {
     private int minDomainValue = 1000;
     private double ZOOM_FRACTION = 1.1;
     private Layout layout = new FlowLayout();
-    private PSwingCanvas pSwingCanvas;
+
+    private ArrayList seriesDataList = new ArrayList();
 
     public ControlGraph( PSwingCanvas pSwingCanvas, final SimulationVariable simulationVariable, String abbr, String title, double min, double max ) {
         this( pSwingCanvas, simulationVariable, abbr, title, min, max, Color.black, new PText( "THUMB" ) );
@@ -157,16 +160,51 @@ public class ControlGraph extends PNode {
         zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != minDomainValue );
     }
 
+    public static class SeriesData {
+        String title;
+        Color color;
+        XYSeries series;
+
+        public SeriesData( String title, Color color ) {
+            this( title, color, new XYSeries( title ) );
+        }
+
+        public SeriesData( String title, Color color, XYSeries series ) {
+            this.title = title;
+            this.color = color;
+            this.series = series;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public Color getColor() {
+            return color;
+        }
+
+        public XYSeries getSeries() {
+            return series;
+        }
+    }
+
     public void addSeries( String title, Color color, String abbr, SimulationVariable simulationVariable ) {
-        SeriesNode o = new SeriesNode( title + " " + "series_" + seriesNodes.size(), color, this );
-        seriesNodes.add( o );
-        jFreeChartNode.addChild( o );
+        SeriesData seriesData = new SeriesData( title, color );
+        seriesDataList.add( seriesData );
+        updateSeriesPlotViews();
 
         TitleNode titleNode = new TitleNode( title, abbr, color );
         titleNode.setOffset( titleLayer.getFullBounds().getWidth(), 0 );
         titleLayer.addChild( titleNode );
 
         graphControlNode.addVariable( abbr, color, simulationVariable, pSwingCanvas );
+    }
+
+    private void updateSeriesPlotViews( String title, Color color, XYSeries series ) {
+
+        SeriesNode o = new SeriesNode( title + " " + "series_" + seriesNodes.size(), color, this, series );
+        seriesNodes.add( o );
+        jFreeChartNode.addChild( o );
     }
 
     public double getMaxDataX() {
@@ -186,18 +224,32 @@ public class ControlGraph extends PNode {
         setLayout( new AlignedLayout( graphComponents ) );
     }
 
-    private static class SeriesNode extends PNode {
+    //The primary ways of drawing the data are:
+    //1. Allow jfreechart to do all the drawing.
+    //2. Buffer the chart background and draw the series as a PNode.
+    //3. Buffer the chart background and draw the series directly into the background.
+    private static interface SeriesGraphic {
+    }
+
+    private static class SeriesBuffer implements SeriesGraphic {
+    }
+
+    private static class JFreeChartSeries implements SeriesGraphic {
+    }
+
+    private static class SeriesNode extends PNode implements SeriesGraphic {
         private XYSeries xySeries;
-        private PhetPPath pathNode;
+
         private ControlGraph controlGraph;
+        private PhetPPath pathNode;
         private PClip pathClip;
 
-        public SeriesNode( String title, Color color, ControlGraph controlGraph ) {
+        public SeriesNode( String title, Color color, ControlGraph controlGraph, XYSeries xySeries ) {
             this.controlGraph = controlGraph;
-            xySeries = new XYSeries( title );
+
             pathClip = new PClip();
-//            pathClip.setStrokePaint( null );//set to non-null for debugging clip area
-            pathClip.setStrokePaint( Color.blue );//set to non-null for debugging clip area
+            pathClip.setStrokePaint( null );//set to non-null for debugging clip area
+//            pathClip.setStrokePaint( Color.blue );//set to non-null for debugging clip area
             addChild( pathClip );
 
             pathNode = new PhetPPath( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f ), color );
