@@ -23,7 +23,7 @@ public class RotationGraphSet {
     private GraphComponent angularVelocityGraph;
     private GraphComponent angularAccelerationGraph;
     private GraphComponent positionGraph;
-    private GraphComponent velocityGraph;
+    private GraphComponent speedGraph;
     private GraphComponent accelerationGraph;
     private ArrayList graphComponents = new ArrayList();
     private GraphSuite[] suites;
@@ -35,16 +35,19 @@ public class RotationGraphSet {
 
         ControlGraph positionControlGraph = toControlGraph( pSwingCanvas, "x", "Position", -1.2, 1.2, Color.blue, rotationModel.getXPositionVariable(), PImageFactory.create( "images/blue-arrow.png" ), false );
         positionControlGraph.addSeries( "Position", Color.red, "y", rotationModel.getYPositionVariable() );
+
         positionGraph = new GraphComponent( pSwingCanvas, "x,y", positionControlGraph );
-        velocityGraph = new GraphComponent( pSwingCanvas, "vx,vy", toControlGraph( pSwingCanvas, "vx,vy", "Linear Velocity", 0, 0.1, Color.red, rotationModel.getLinearVelocity(), PImageFactory.create( "images/red-arrow.png" ), false ) );
+        ControlGraph speedControlGraph = toControlGraph( pSwingCanvas, "|v|", "Linear Speed", 0, 0.1, Color.red, rotationModel.getSpeedVariable(), PImageFactory.create( "images/red-arrow.png" ), false );
+        speedGraph = new GraphComponent( pSwingCanvas, "vx, vy", speedControlGraph );
+
         accelerationGraph = new GraphComponent( pSwingCanvas, "a", toControlGraph( pSwingCanvas, "a", "Centripetal Acceleration", 0, 0.001, Color.green, rotationModel.getCentripetalAcceleration(), PImageFactory.create( "images/green-arrow.png" ), false ) );
-        graphComponents.addAll( Arrays.asList( new GraphComponent[]{angleGraph, angularVelocityGraph, angularAccelerationGraph, positionGraph, velocityGraph, accelerationGraph} ) );
+        graphComponents.addAll( Arrays.asList( new GraphComponent[]{angleGraph, angularVelocityGraph, angularAccelerationGraph, positionGraph, speedGraph, accelerationGraph} ) );
         suites = new GraphSuite[]{
                 new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getPositionGraph()} ),
                 new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getAngularAccelerationGraph()} ),
-                new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getVelocityGraph()} ),
+                new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getSpeedGraph()} ),
                 new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getAccelerationGraph()} ),
-                new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getAngularAccelerationGraph(), positionGraph, velocityGraph, accelerationGraph} )
+                new GraphSuite( new GraphComponent[]{getAngleGraph(), getAngularVelocityGraph(), getAngularAccelerationGraph(), positionGraph, speedGraph, accelerationGraph} )
         };
 
         rotationModel.addListener( new RotationModel.Listener() {
@@ -55,7 +58,7 @@ public class RotationGraphSet {
 
                 positionGraph.addValue( 0, rotationModel.getLastState().getTime(), rotationModel.getLastState().getBody( 0 ).getX( rotationModel.getLastState() ) );
                 positionGraph.addValue( 1, rotationModel.getLastState().getTime(), rotationModel.getLastState().getBody( 0 ).getY( rotationModel.getLastState() ) );
-                velocityGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getBody( 0 ).getVelocity( rotationModel.getLastState() ).getMagnitude() );
+                speedGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getBody( 0 ).getVelocity( rotationModel.getLastState() ).getMagnitude() );
                 accelerationGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getBody( 0 ).getAcceleration( rotationModel.getLastState() ).getMagnitude() );
             }
         } );
@@ -123,8 +126,8 @@ public class RotationGraphSet {
         return positionGraph;
     }
 
-    public GraphComponent getVelocityGraph() {
-        return velocityGraph;
+    public GraphComponent getSpeedGraph() {
+        return speedGraph;
     }
 
     public GraphComponent getAccelerationGraph() {
@@ -146,7 +149,7 @@ public class RotationGraphSet {
 
         positionGraph.clear();
         positionGraph.clear();
-        velocityGraph.clear();
+        speedGraph.clear();
         accelerationGraph.clear();
     }
 }

@@ -23,6 +23,8 @@ Add a graph cursor.
 
 Time series are offset incorrectly in graphs (their x-offset is before the beginning of the graph).
 
+Angle graphs should wrap around instead of being modulo 2*Pi.
+
 ################
 #           Postponed:
 ################
