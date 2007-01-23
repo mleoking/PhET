@@ -1,11 +1,17 @@
 package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.piccolo.nodes.PhetPPath;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.nodes.PClip;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -74,6 +80,14 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         public abstract void uninstall();
 
         public abstract void install();
+
+        public DynamicJFreeChartNode getDynamicJFreeChartNode() {
+            return dynamicJFreeChartNode;
+        }
+
+        public XYSeries getSeries() {
+            return seriesData.getSeries();
+        }
     }
 
     static class JFreeChartSeriesView extends SeriesView {
@@ -99,19 +113,60 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     static class PiccoloSeriesView extends SeriesView {
 
+        private PNode root = new PNode();
+        private PhetPPath pathNode;
+        private PClip pathClip;
+
         public PiccoloSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
             super( dynamicJFreeChartNode, seriesData );
 
+            pathClip = new PClip();
+            pathClip.setStrokePaint( null );//set to non-null for debugging clip area
+//            pathClip.setStrokePaint( Color.blue );//set to non-null for debugging clip area
+            root.addChild( pathClip );
+            pathClip.setPathTo( new Rectangle( -10000, -10000, 20000, 20000 ) );
+
+            pathNode = new PhetPPath( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f ), seriesData.getColor() );
+            pathClip.addChild( pathNode );
         }
 
-        public void dataAdded() {
+        public void updateSeriesGraphic() {
+            GeneralPath path = new GeneralPath();
+            if( super.getSeries().getItemCount() > 0 ) {
+                Point2D d = getNodePoint( 0 );
+                path.moveTo( (float)d.getX(), (float)d.getY() );
+                for( int i = 1; i < getSeries().getItemCount(); i++ ) {
+                    Point2D nodePoint = getNodePoint( i );
+                    path.lineTo( (float)nodePoint.getX(), (float)nodePoint.getY() );
+                }
+            }
+            pathNode.setPathTo( path );
+        }
+
+        public Point2D.Double getPoint( int i ) {
+            return new Point2D.Double( getSeries().getX( i ).doubleValue(), getSeries().getY( i ).doubleValue() );
+        }
+
+        public Point2D getNodePoint( int i ) {
+            return getDynamicJFreeChartNode().plotToNode( getPoint( i ) );
+        }
+
+        public void setClip( Rectangle2D clip ) {
+            pathClip.setPathTo( clip );
         }
 
         public void uninstall() {
+            super.getDynamicJFreeChartNode().removeChild( root );
         }
 
         public void install() {
+            getDynamicJFreeChartNode().addChild( root );
         }
+
+        public void dataAdded() {
+            updateSeriesGraphic();
+        }
+
     }
 
     static class BufferedSeriesView extends SeriesView {
@@ -151,6 +206,10 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     private void updateSeriesViews() {
         removeAllSeriesViews();
+        addAllSeriesViews();
+    }
+
+    private void addAllSeriesViews() {
         for( int i = 0; i < seriesDataList.size(); i++ ) {
             SeriesData seriesData = (SeriesData)seriesDataList.get( i );
             SeriesView seriesDataView = viewFactory.createSeriesView( this, seriesData );
