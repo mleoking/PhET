@@ -71,6 +71,7 @@ public class ControlGraph extends PNode {
         jFreeChartNode.setBuffered( true );
         jFreeChartNode.setBounds( 0, 0, 300, 400 );
         jFreeChartNode.setPiccoloSeries();
+//        jFreeChartNode.setJFreeChartSeries();
 //        jFreeChartNode.setBufferedSeries();
 
         graphControlNode = new GraphControlNode( pSwingCanvas, new DefaultGraphTimeSeries() );

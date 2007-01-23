@@ -1,10 +1,10 @@
 package edu.colorado.phet.rotation.tests;
 
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.controls.GraphSelectionControl;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.model.RotationModel;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
 
@@ -23,7 +23,7 @@ public class TestGraphSelectionControl {
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        RotationGraphSet rotationGraphSet = new RotationGraphSet( new PSwingCanvas(), new RotationModel() );
+        RotationGraphSet rotationGraphSet = new RotationGraphSet( new PhetPCanvas(), new RotationModel() );
         GraphSetModel graphSetPanel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetPanel );
         frame.getContentPane().add( graphSelectionControl );

@@ -7,12 +7,12 @@ package edu.colorado.phet.rotation.tests;
  * Copyright (c) Jan 9, 2007 by Sam Reid
  */
 
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rotation.TimeSeriesGraphSetNode;
 import edu.colorado.phet.rotation.graphs.GraphSetModel;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.timeseries.TimeSeriesModel;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
 import java.awt.event.ComponentAdapter;
@@ -21,14 +21,14 @@ import java.awt.event.ComponentEvent;
 public class TestTimeSeriesGraphSetNode {
     private JFrame frame;
     private TimeSeriesGraphSetNode timeSeriesGraphSetNode;
-    private PSwingCanvas pSwingCanvas;
+    private PhetPCanvas pSwingCanvas;
 
     public TestTimeSeriesGraphSetNode() {
         frame = new JFrame();
         frame.setSize( 1024, 768 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        pSwingCanvas = new PSwingCanvas();
+        pSwingCanvas = new PhetPCanvas();
         frame.setContentPane( pSwingCanvas );
         timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( pSwingCanvas, new GraphSetModel( new RotationGraphSet( pSwingCanvas, new RotationModel() ).getGraphSuite( 0 ) ), new TimeSeriesModel() );
         pSwingCanvas.getLayer().addChild( timeSeriesGraphSetNode );
