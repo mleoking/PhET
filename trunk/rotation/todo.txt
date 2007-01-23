@@ -1,8 +1,6 @@
 ################
 #           To Do:
 ################
-Color coding for variables.
-
 Time derivatives need a time-offset to match other series.
   
 Should TimeSeriesModel be extended or listened to for Rotation-specific behaivor?
