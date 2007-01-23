@@ -23,7 +23,9 @@ public class RotationModel {
 
     private SimulationVariable xPositionVariable;
     private SimulationVariable yPositionVariable;
-    private SimulationVariable linearVelocity;
+    private SimulationVariable speedVariable;
+    private SimulationVariable xVelocityVariable;
+    private SimulationVariable yVelocityVariable;
     private SimulationVariable centripetalAcceleration;
 
     private ArrayList listeners = new ArrayList();
@@ -37,7 +39,9 @@ public class RotationModel {
 
         xPositionVariable = new SimulationVariable( getLastState().getBody( 0 ).getX( getLastState() ) );
         yPositionVariable = new SimulationVariable( getLastState().getBody( 0 ).getY( getLastState() ) );
-        linearVelocity = new SimulationVariable( getLastState().getBody( 0 ).getVelocity( getLastState() ).getMagnitude() );
+        speedVariable = new SimulationVariable( getLastState().getBody( 0 ).getVelocity( getLastState() ).getMagnitude() );
+        xVelocityVariable = new SimulationVariable( getLastState().getBody( 0 ).getVelocity( getLastState() ).getX() );
+        yVelocityVariable = new SimulationVariable( getLastState().getBody( 0 ).getVelocity( getLastState() ).getY() );
         centripetalAcceleration = new SimulationVariable( getLastState().getBody( 0 ).getAcceleration( getLastState() ).getMagnitude() );
 
         xVariable.addListener( new SimulationVariable.Listener() {
@@ -87,7 +91,9 @@ public class RotationModel {
 
         xPositionVariable.setValue( getLastState().getBody( 0 ).getX( getLastState() ) );
         yPositionVariable.setValue( getLastState().getBody( 0 ).getY( getLastState() ) );
-        linearVelocity.setValue( getLastState().getBody( 0 ).getVelocity( getLastState() ).getMagnitude() );
+        speedVariable.setValue( getLastState().getBody( 0 ).getVelocity( getLastState() ).getMagnitude() );
+        xVelocityVariable.setValue( getLastState().getBody( 0 ).getX( getLastState() ) );
+        yVelocityVariable.setValue( getLastState().getBody( 0 ).getY( getLastState() ) );
         centripetalAcceleration.setValue( getLastState().getBody( 0 ).getAcceleration( getLastState() ).getMagnitude() );
 
         notifySteppedInTime();
@@ -170,8 +176,16 @@ public class RotationModel {
         return yPositionVariable;
     }
 
-    public SimulationVariable getLinearVelocity() {
-        return linearVelocity;
+    public SimulationVariable getSpeedVariable() {
+        return speedVariable;
+    }
+
+    public SimulationVariable getXVelocityVariable() {
+        return xVelocityVariable;
+    }
+
+    public SimulationVariable getYVelocityVariable() {
+        return yVelocityVariable;
     }
 
     public SimulationVariable getCentripetalAcceleration() {
