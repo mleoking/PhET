@@ -38,7 +38,7 @@ public class TestDynamicJFreeChartNode {
         frame.setContentPane( phetPCanvas );
 
         JFreeChart chart = ChartFactory.createXYLineChart( "title", "x", "y", new XYSeriesCollection(), PlotOrientation.VERTICAL, false, false, false );
-        dynamicJFreeChartNode = new DynamicJFreeChartNode( chart );
+        dynamicJFreeChartNode = new DynamicJFreeChartNode( phetPCanvas, chart );
         dynamicJFreeChartNode.addSeries( "sine", Color.blue );
         chart.getXYPlot().getRangeAxis().setAutoRange( false );
         chart.getXYPlot().getRangeAxis().setRange( -1, 1 );

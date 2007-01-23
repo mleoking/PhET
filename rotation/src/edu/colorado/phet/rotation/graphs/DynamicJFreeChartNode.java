@@ -1,8 +1,10 @@
 package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PClip;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
@@ -10,8 +12,10 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -38,9 +42,14 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     };
     private SeriesViewFactory viewFactory = jfreeChartSeriesFactory;
+    private PhetPCanvas phetPCanvas;
+    private PhetPPath debugBufferRegion;
 
-    public DynamicJFreeChartNode( JFreeChart chart ) {
+    public DynamicJFreeChartNode( PhetPCanvas phetPCanvas, JFreeChart chart ) {
         super( chart );
+        this.phetPCanvas = phetPCanvas;
+        debugBufferRegion = new PhetPPath( new BasicStroke( 1.0f ), Color.green );
+        addChild( debugBufferRegion );
     }
 
     public void addValue( double x, double y ) {
@@ -87,6 +96,10 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
         public XYSeries getSeries() {
             return seriesData.getSeries();
+        }
+
+        public SeriesData getSeriesData() {
+            return seriesData;
         }
     }
 
@@ -141,6 +154,12 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
                 }
             }
             pathNode.setPathTo( path );
+            if( dynamicJFreeChartNode.isBuffered() ) {
+                pathNode.setOffset( dynamicJFreeChartNode.getBounds().getX(), dynamicJFreeChartNode.getBounds().getY() );
+            }
+            else {
+                pathNode.setOffset( 0, 0 );
+            }
         }
 
         public Point2D.Double getPoint( int i ) {
@@ -176,7 +195,28 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
 
         public void dataAdded() {
-            dynamicJFreeChartNode
+            if( getSeries().getItemCount() >= 2 ) {
+                BufferedImage image = dynamicJFreeChartNode.getBuffer();
+                if( image != null ) {
+                    Graphics2D graphics2D = image.createGraphics();
+                    graphics2D.setPaint( getSeriesData().getColor() );
+                    BasicStroke stroke = new BasicStroke();
+                    graphics2D.setStroke( stroke );
+                    int itemCount = getSeries().getItemCount();
+                    Line2D.Double modelLine = new Line2D.Double( getSeries().getX( itemCount - 2 ).doubleValue(), getSeries().getY( itemCount - 2 ).doubleValue(), getSeries().getX( itemCount - 1 ).doubleValue(), getSeries().getY( itemCount - 1 ).doubleValue() );
+                    Line2D.Double viewLine = new Line2D.Double( dynamicJFreeChartNode.plotToNode( modelLine.getP1() ), dynamicJFreeChartNode.plotToNode( modelLine.getP2() ) );
+                    graphics2D.draw( viewLine );
+
+                    Shape sh = stroke.createStrokedShape( viewLine );
+                    Rectangle2D bounds = sh.getBounds2D();
+                    if( dynamicJFreeChartNode.isBuffered() ) {
+                        bounds = new Rectangle2D.Double( bounds.getX() + dynamicJFreeChartNode.getBounds().getX(), bounds.getY() + dynamicJFreeChartNode.getBounds().getY(), bounds.getWidth(), bounds.getHeight() );
+                    }
+                    dynamicJFreeChartNode.localToGlobal( bounds );
+                    dynamicJFreeChartNode.phetPCanvas.getPhetRootNode().globalToScreen( bounds );
+                    dynamicJFreeChartNode.repaintPanel( bounds );
+                }
+            }
         }
 
         public void uninstall() {
@@ -184,6 +224,12 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
         public void install() {
         }
+    }
+
+    private void repaintPanel( Rectangle2D bounds ) {
+        phetPCanvas.repaint( new PBounds( bounds ) );
+        debugBufferRegion.setPathTo( bounds );
+//        System.out.println( "bounds = " + bounds );
     }
 
     static interface SeriesViewFactory {
