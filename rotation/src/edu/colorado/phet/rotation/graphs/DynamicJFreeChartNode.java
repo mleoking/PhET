@@ -99,7 +99,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     private void repaintPanel( Rectangle2D bounds ) {
         phetPCanvas.repaint( new PBounds( bounds ) );
         debugBufferRegion.setPathTo( bounds );
-//        System.out.println( "bounds = " + bounds );
     }
 
     static interface SeriesViewFactory {
@@ -220,8 +219,8 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             super( dynamicJFreeChartNode, seriesData );
 
             pathClip = new PClip();
-//            pathClip.setStrokePaint( null );//set to non-null for debugging clip area
-            pathClip.setStrokePaint( Color.blue );//set to non-null for debugging clip area
+            pathClip.setStrokePaint( null );//set to non-null for debugging clip area
+//            pathClip.setStrokePaint( Color.blue );//set to non-null for debugging clip area
             root.addChild( pathClip );
 
             pathNode = new PhetPPath( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f ), seriesData.getColor() );
@@ -232,16 +231,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
         private void updateClip() {
             pathClip.setPathTo( dynamicJFreeChartNode.getDataArea() );
-//            if( dynamicJFreeChartNode.isBuffered() ) {
-////                pathClip.setOffset( dynamicJFreeChartNode.getBounds().getX(), dynamicJFreeChartNode.getBounds().getY() );
-//                pathClip.setOffset( dynamicJFreeChartNode.getBounds().getX(), dynamicJFreeChartNode.getBounds().getY() );
-//            }
-//            else {
-////                pathClip.setOffset( 0, 0 );
-//                pathClip.setOffset( 0, 0 );
-//            }
-
-//            pathClip.setPathTo( new Rectangle2D.Double( 0,0,dynamicJFreeChartNode.getDataArea().getWidth(),dynamicJFreeChartNode.getDataArea( ).getHeight()) );
         }
 
         public void updateSeriesGraphic() {
