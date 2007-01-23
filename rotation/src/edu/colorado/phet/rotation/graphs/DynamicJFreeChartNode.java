@@ -70,25 +70,36 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         updateSeriesViews();
     }
 
+    public void clear() {
+        for( int i = 0; i < seriesDataList.size(); i++ ) {
+            SeriesData seriesData = (SeriesData)seriesDataList.get( i );
+            seriesData.clear();
+        }
+    }
+
     static abstract class SeriesView {
         DynamicJFreeChartNode dynamicJFreeChartNode;
         SeriesData seriesData;
+        private SeriesData.Listener listener = new SeriesData.Listener() {
+            public void dataAdded() {
+                SeriesView.this.dataAdded();
+            }
+        };
 
         public SeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
             this.dynamicJFreeChartNode = dynamicJFreeChartNode;
             this.seriesData = seriesData;
-            seriesData.addListener( new SeriesData.Listener() {
-                public void dataAdded() {
-                    SeriesView.this.dataAdded();
-                }
-            } );
         }
 
         public abstract void dataAdded();
 
-        public abstract void uninstall();
+        public void uninstall() {
+            seriesData.removeListener( listener );
+        }
 
-        public abstract void install();
+        public void install() {
+            seriesData.addListener( listener );
+        }
 
         public DynamicJFreeChartNode getDynamicJFreeChartNode() {
             return dynamicJFreeChartNode;
@@ -114,11 +125,13 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
 
         public void uninstall() {
+            super.uninstall();
             XYSeriesCollection xySeriesCollection = (XYSeriesCollection)dynamicJFreeChartNode.getChart().getXYPlot().getDataset();
             xySeriesCollection.removeSeries( seriesData.getSeries() );
         }
 
         public void install() {
+            super.install();
             XYSeriesCollection xySeriesCollection = (XYSeriesCollection)dynamicJFreeChartNode.getChart().getXYPlot().getDataset();
             xySeriesCollection.addSeries( seriesData.getSeries() );
         }
@@ -175,10 +188,12 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
 
         public void uninstall() {
+            super.uninstall();
             super.getDynamicJFreeChartNode().removeChild( root );
         }
 
         public void install() {
+            super.install();
             getDynamicJFreeChartNode().addChild( root );
         }
 
@@ -200,7 +215,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
                 if( image != null ) {
                     Graphics2D graphics2D = image.createGraphics();
                     graphics2D.setPaint( getSeriesData().getColor() );
-                    BasicStroke stroke = new BasicStroke();
+                    BasicStroke stroke = new BasicStroke(2.0f,BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER,1.0f);
                     graphics2D.setStroke( stroke );
                     int itemCount = getSeries().getItemCount();
                     Line2D.Double modelLine = new Line2D.Double( getSeries().getX( itemCount - 2 ).doubleValue(), getSeries().getY( itemCount - 2 ).doubleValue(), getSeries().getX( itemCount - 1 ).doubleValue(), getSeries().getY( itemCount - 1 ).doubleValue() );
@@ -220,9 +235,11 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
 
         public void uninstall() {
+            super.uninstall();
         }
 
         public void install() {
+            super.install();
         }
     }
 
@@ -274,11 +291,11 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     }
 
     public static class SeriesData {
-        String title;
-        Color color;
-        XYSeries series;
-
-        static int index = 0;
+        private String title;
+        private Color color;
+        private XYSeries series;
+        private ArrayList listeners = new ArrayList();
+        private static int index = 0;
 
         public SeriesData( String title, Color color ) {
             this( title, color, new XYSeries( title + " " + ( index++ ) ) );
@@ -304,13 +321,17 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
         public void addValue( double time, double value ) {
             series.add( time, value );
-            notifyDataAdded();
+            notifyDataChanged();
         }
 
-        private ArrayList listeners = new ArrayList();
 
         public void removeListener( Listener listener ) {
             listeners.remove( listener );
+        }
+
+        public void clear() {
+            series.clear();
+            notifyDataChanged();
         }
 
         public static interface Listener {
@@ -321,7 +342,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             listeners.add( listener );
         }
 
-        public void notifyDataAdded() {
+        public void notifyDataChanged() {
             for( int i = 0; i < listeners.size(); i++ ) {
                 Listener listener = (Listener)listeners.get( i );
                 listener.dataAdded();

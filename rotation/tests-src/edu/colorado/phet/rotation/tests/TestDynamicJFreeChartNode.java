@@ -31,7 +31,7 @@ public class TestDynamicJFreeChartNode {
 
     public TestDynamicJFreeChartNode() {
         frame = new JFrame();
-        frame.setSize( 600, 600 );
+        frame.setSize( 1024-100,768-100);
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         phetPCanvas = new PhetPCanvas();
@@ -78,6 +78,13 @@ public class TestDynamicJFreeChartNode {
         } );
         panel.add( jCheckBox );
         panel.add( debug );
+        JButton clear=new JButton( "Clear");
+        clear.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                clear();
+            }
+        } );
+        panel.add(clear);
         pSwing = new PSwing( phetPCanvas, panel );
         phetPCanvas.addScreenChild( pSwing );
 
@@ -108,6 +115,11 @@ public class TestDynamicJFreeChartNode {
             }
         } );
         relayout();
+    }
+
+    private void clear() {
+        dynamicJFreeChartNode.clear();
+        t0=System.currentTimeMillis();
     }
 
     private JComponent createButton( String text, ButtonGroup buttonGroup, boolean enabled, ActionListener actionListener ) {
