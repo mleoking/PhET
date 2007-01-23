@@ -38,7 +38,6 @@ public class ControlGraph extends PNode {
     private ChartSlider chartSlider;
     private ZoomSuiteNode zoomControl;
 
-    //    private ArrayList seriesNodes = new ArrayList();
     private JFreeChartNode jFreeChartNode;
     private PNode titleLayer = new PNode();
 
@@ -189,6 +188,32 @@ public class ControlGraph extends PNode {
         public XYSeries getSeries() {
             return series;
         }
+
+        public void addValue( double time, double value ) {
+            series.add( time, value );
+            notifyDataAdded();
+        }
+
+        private ArrayList listeners = new ArrayList();
+
+        public void removeListener( Listener listener ) {
+            listeners.remove( listener );
+        }
+
+        public static interface Listener {
+            void dataAdded();
+        }
+
+        public void addListener( Listener listener ) {
+            listeners.add( listener );
+        }
+
+        public void notifyDataAdded() {
+            for( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener)listeners.get( i );
+                listener.dataAdded();
+            }
+        }
     }
 
     public void addSeries( String title, Color color, String abbr, SimulationVariable simulationVariable ) {
@@ -223,9 +248,6 @@ public class ControlGraph extends PNode {
             SeriesData seriesData = (SeriesData)seriesDataList.get( i );
             SeriesGraphic seriesGraphic = seriesGraphicFactory.toSeriesGraphic( seriesData, this );
             seriesGraphic.install();
-//            SeriesNode o = new SeriesNode( seriesData, this );
-////            seriesNodes.add( o );
-//            jFreeChartNode.addChild( o );
         }
     }
 
@@ -250,91 +272,113 @@ public class ControlGraph extends PNode {
     //1. Allow jfreechart to do all the drawing.
     //2. Buffer the chart background and draw the series as a PNode.
     //3. Buffer the chart background and draw the series directly into the background.
-    private static interface SeriesGraphic {
-        void uninstall();
-
-        void install();
-
-        void setClip( Rectangle2D dataArea );
-
-        void updateSeriesGraphic();
-
-        void clear();
-
-        void addValue( double time, double value );
-    }
-
-    private static class SeriesBuffer implements SeriesGraphic {
-        public void uninstall() {
-        }
-
-        public void install() {
-        }
-
-        public void setClip( Rectangle2D dataArea ) {
-        }
-
-        public void updateSeriesGraphic() {
-        }
-
-        public void clear() {
-        }
-
-        public void addValue( double time, double value ) {
-        }
-    }
-
-    private static class JFreeChartSeries implements SeriesGraphic {
-        public void uninstall() {
-        }
-
-        public void install() {
-        }
-
-        public void setClip( Rectangle2D dataArea ) {
-        }
-
-        public void updateSeriesGraphic() {
-        }
-
-        public void clear() {
-        }
-
-        public void addValue( double time, double value ) {
-        }
-    }
-
-    private static class SeriesNode extends PNode implements SeriesGraphic {
+    private static abstract class SeriesGraphic {
         private SeriesData seriesData;
         private ControlGraph controlGraph;
 
-        private PhetPPath pathNode;
-        private PClip pathClip;
 
-        public SeriesNode( SeriesData seriesData, ControlGraph controlGraph ) {
+        protected SeriesGraphic( SeriesData seriesData, ControlGraph controlGraph ) {
             this.seriesData = seriesData;
             this.controlGraph = controlGraph;
+        }
+
+        abstract void uninstall();
+
+        abstract void install();
+
+        abstract void setClip( Rectangle2D dataArea );
+
+        abstract void updateSeriesGraphic();
+
+        abstract void clear();
+
+        public XYSeries getSeries() {
+            return seriesData.getSeries();
+        }
+
+        public ControlGraph getControlGraph() {
+            return controlGraph;
+        }
+
+        public SeriesData getSeriesData() {
+            return seriesData;
+        }
+    }
+
+    private static class SeriesBuffer extends SeriesGraphic {
+        protected SeriesBuffer( SeriesData seriesData, ControlGraph controlGraph ) {
+            super( seriesData, controlGraph );
+        }
+
+        public void uninstall() {
+        }
+
+        public void install() {
+        }
+
+        public void setClip( Rectangle2D dataArea ) {
+        }
+
+        public void updateSeriesGraphic() {
+        }
+
+        public void clear() {
+        }
+
+    }
+
+    private static class JFreeChartSeries extends SeriesGraphic {
+
+        protected JFreeChartSeries( SeriesData seriesData, ControlGraph controlGraph ) {
+            super( seriesData, controlGraph );
+        }
+
+        public void uninstall() {
+        }
+
+        public void install() {
+        }
+
+        public void setClip( Rectangle2D dataArea ) {
+        }
+
+        public void updateSeriesGraphic() {
+        }
+
+        public void clear() {
+        }
+
+    }
+
+    private static class SeriesNode extends SeriesGraphic {
+        private PNode root = new PNode();
+        private PhetPPath pathNode;
+        private PClip pathClip;
+        private SeriesData.Listener listener = new SeriesData.Listener() {
+            public void dataAdded() {
+                updateSeriesGraphic();
+            }
+        };
+
+        public SeriesNode( SeriesData seriesData, ControlGraph controlGraph ) {
+            super( seriesData, controlGraph );
 
             pathClip = new PClip();
             pathClip.setStrokePaint( null );//set to non-null for debugging clip area
 //            pathClip.setStrokePaint( Color.blue );//set to non-null for debugging clip area
-            addChild( pathClip );
+            root.addChild( pathClip );
 
             pathNode = new PhetPPath( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f ), seriesData.getColor() );
             pathClip.addChild( pathNode );
-        }
-
-        public void addValue( double time, double value ) {
-            seriesData.getSeries().add( time, value );
-            updateSeriesGraphic();
+            seriesData.addListener( listener );
         }
 
         public void updateSeriesGraphic() {
             GeneralPath path = new GeneralPath();
-            if( seriesData.getSeries().getItemCount() > 0 ) {
+            if( super.getSeries().getItemCount() > 0 ) {
                 Point2D d = getNodePoint( 0 );
                 path.moveTo( (float)d.getX(), (float)d.getY() );
-                for( int i = 1; i < seriesData.getSeries().getItemCount(); i++ ) {
+                for( int i = 1; i < getSeries().getItemCount(); i++ ) {
                     Point2D nodePoint = getNodePoint( i );
                     path.lineTo( (float)nodePoint.getX(), (float)nodePoint.getY() );
                 }
@@ -343,12 +387,12 @@ public class ControlGraph extends PNode {
         }
 
         public Point2D.Double getPoint( int i ) {
-            return new Point2D.Double( seriesData.getSeries().getX( i ).doubleValue(), seriesData.getSeries().getY( i ).doubleValue() );
+            return new Point2D.Double( getSeries().getX( i ).doubleValue(), getSeries().getY( i ).doubleValue() );
         }
 
         public Point2D getNodePoint( int i ) {
 //            return controlGraph.jFreeChartNode.plotToNode( getPoint( i ) );
-            return controlGraph.jFreeChartNode.plotToNode( getPoint( i ) );
+            return super.getControlGraph().getJFreeChartNode().plotToNode( getPoint( i ) );
         }
 
         public void setClip( Rectangle2D clip ) {
@@ -356,16 +400,17 @@ public class ControlGraph extends PNode {
         }
 
         public void clear() {
-            seriesData.getSeries().clear();
+            getSeries().clear();
             updateSeriesGraphic();
         }
 
         public void uninstall() {
-            controlGraph.jFreeChartNode.removeChild( this );
+            getControlGraph().jFreeChartNode.removeChild( root );
+            super.getSeriesData().removeListener( listener );
         }
 
         public void install() {
-            controlGraph.jFreeChartNode.addChild( this );
+            getControlGraph().jFreeChartNode.addChild( root );
         }
     }
 
@@ -528,12 +573,16 @@ public class ControlGraph extends PNode {
     }
 
     public void addValue( int series, double time, double value ) {
-        getSeriesNode( series ).addValue( time, value );
+        getSeriesData( series ).addValue( time, value );
     }
 
-    private SeriesGraphic getSeriesNode( int series ) {
-        return (SeriesNode)plotViews.get( series );
+    private SeriesData getSeriesData( int series ) {
+        return (SeriesData)seriesDataList.get( series );
     }
+
+//    private SeriesGraphic getSeriesNode( int series ) {
+//        return (SeriesNode)plotViews.get( series );
+//    }
 
     public void setEditable( boolean editable ) {
         chartSlider.setVisible( editable );
