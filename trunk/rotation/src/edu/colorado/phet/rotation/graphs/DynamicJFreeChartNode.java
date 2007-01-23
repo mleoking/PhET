@@ -313,8 +313,10 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
                     BasicStroke stroke = new BasicStroke( 2.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f );
                     graphics2D.setStroke( stroke );
                     int itemCount = getSeries().getItemCount();
-                    Line2D.Double modelLine = new Line2D.Double( getSeries().getX( itemCount - 2 ).doubleValue(), getSeries().getY( itemCount - 2 ).doubleValue(), getSeries().getX( itemCount - 1 ).doubleValue(), getSeries().getY( itemCount - 1 ).doubleValue() );
-                    Line2D.Double viewLine = new Line2D.Double( dynamicJFreeChartNode.plotToNode( modelLine.getP1() ), dynamicJFreeChartNode.plotToNode( modelLine.getP2() ) );
+//                    Line2D.Double modelLine = new Line2D.Double( , );
+                    Line2D.Double viewLine = new Line2D.Double(
+                            dynamicJFreeChartNode.plotToNode( getPoint( itemCount - 2 ) ),
+                            dynamicJFreeChartNode.plotToNode( getPoint( itemCount - 1 ) ) );
                     graphics2D.draw( viewLine );
 
                     Shape sh = stroke.createStrokedShape( viewLine );
@@ -329,12 +331,37 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             }
         }
 
+        private Point2D.Double getPoint( int index ) {
+            return new Point2D.Double( getSeries().getX( index ).doubleValue(), getSeries().getY( index ).doubleValue() );
+        }
+
         public void uninstall() {
             super.uninstall();
         }
 
         public void install() {
             super.install();
+            BufferedImage image = dynamicJFreeChartNode.getBuffer();
+            if( image != null ) {
+                Graphics2D graphics2D = image.createGraphics();
+                graphics2D.setPaint( getSeriesData().getColor() );
+                BasicStroke stroke = new BasicStroke( 2.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f );
+                graphics2D.setStroke( stroke );
+                GeneralPath path = toGeneralPath();
+                graphics2D.draw( path );
+                dynamicJFreeChartNode.repaintPanel( new Rectangle2D.Double( 0, 0, dynamicJFreeChartNode.phetPCanvas.getWidth(), dynamicJFreeChartNode.phetPCanvas.getHeight() ) );
+            }
+        }
+
+        private GeneralPath toGeneralPath() {
+            GeneralPath path = new GeneralPath();
+            if( getSeries().getItemCount() > 0 ) {
+                path.moveTo( (float)getPoint( 0 ).getX(), (float)getPoint( 0 ).getY() );
+            }
+            for( int i = 1; i < getSeries().getItemCount(); i++ ) {
+                path.lineTo( (float)getPoint( i ).getX(), (float)getPoint( i ).getY() );
+            }
+            return path;
         }
     }
 
