@@ -24,7 +24,7 @@ import java.awt.geom.Point2D;
 public class TestDynamicJFreeChartNode {
     private JFrame frame;
     private Timer timer;
-    double t0 = System.currentTimeMillis();
+    private double t0 = System.currentTimeMillis();
     private PhetPCanvas phetPCanvas;
     private DynamicJFreeChartNode dynamicJFreeChartNode;
     private PSwing pSwing;
@@ -122,6 +122,19 @@ public class TestDynamicJFreeChartNode {
         relayout();
     }
 
+
+    public DynamicJFreeChartNode getDynamicJFreeChartNode() {
+        return dynamicJFreeChartNode;
+    }
+
+    public PhetPCanvas getPhetPCanvas() {
+        return phetPCanvas;
+    }
+
+    public PSwing getPSwing() {
+        return pSwing;
+    }
+
     private void clear() {
         dynamicJFreeChartNode.clear();
         t0 = System.currentTimeMillis();
@@ -137,17 +150,16 @@ public class TestDynamicJFreeChartNode {
         return jRadioButton;
     }
 
-    private void relayout() {
+    protected void relayout() {
         pSwing.setOffset( 0, 0 );
         dynamicJFreeChartNode.setBounds( 0, pSwing.getFullBounds().getHeight(), phetPCanvas.getWidth(), phetPCanvas.getHeight() - pSwing.getFullBounds().getHeight() );
-        dynamicJFreeChartNode.updateChartRenderingInfo();//todo: shouldn't this happen after every setBounds()?
     }
 
     public static void main( String[] args ) {
         new TestDynamicJFreeChartNode().start();
     }
 
-    private void start() {
+    public void start() {
         frame.setVisible( true );
         timer.start();
         phetPCanvas.requestFocus();
