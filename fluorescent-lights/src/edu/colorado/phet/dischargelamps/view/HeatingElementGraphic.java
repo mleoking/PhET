@@ -37,6 +37,7 @@ public class HeatingElementGraphic extends PhetImageGraphic implements HeatingEl
 
         try {
             baseImage = ImageLoader.loadBufferedImage( DischargeLampsConfig.HEATING_ELEMENT_FILE_NAME );
+            baseImage = BufferedImageUtils.flipY( baseImage );
             if( isRightFacing ) {
                 baseImage = BufferedImageUtils.flipX( baseImage );
             }
@@ -85,7 +86,6 @@ public class HeatingElementGraphic extends PhetImageGraphic implements HeatingEl
             e, e, e, e, e,
         };
         Kernel blurKernel = new Kernel( 5, 5, blurCoeffs );
-//        Kernel blurKernel = new Kernel( 3, 3, blurCoeffs );
         ConvolveOp blurOp = new ConvolveOp( blurKernel, ConvolveOp.EDGE_NO_OP, new RenderingHints( RenderingHints.KEY_ANTIALIASING,
                                                                                                    RenderingHints.VALUE_ANTIALIAS_ON ) );
         newImg = blurOp.filter( newImg, null );

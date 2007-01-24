@@ -251,9 +251,15 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
 
     public void setCurrent( double value ) {
         this.current = value;
+
+        // Compute the temperature of the heating element. The max temperature, corresponding to the maxCurrent,
+        // is 255. This is because it's used in a filter for the graphic image.
         leftHandHeatingElement.setTemperature( 0 );
         rightHandHeatingElement.setTemperature( 0 );
-        double temperature = 255 * value / maxCurrent;
+        double temperature = 255 * value * 1000 / maxCurrent;   // The 1000 here works, but I haven't dug into
+                                                                // exactly why it's needed.
+
+        // Set the current of the appropriate plate, and the temperature of the appropriate heating element
         if( leftHandPlate.getPotential() > rightHandPlate.getPotential() ) {
             leftHandPlate.setCurrent( value );
             rightHandPlate.setCurrent( 0 );
@@ -264,6 +270,11 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
             leftHandPlate.setCurrent( 0 );
             rightHandHeatingElement.setTemperature( temperature );
         }
+        changeListenerProxy.currentChanged( new ChangeEvent(this ));
+    }
+
+    public double getCurrent() {
+        return current;
     }
 
     public Battery getBattery() {
@@ -373,6 +384,8 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
         void energyLevelsChanged( ChangeEvent event );
 
         void voltageChanged( ChangeEvent event );
+
+        void currentChanged( ChangeEvent event );
     }
 
     static public class ChangeListenerAdapter implements ChangeListener {
@@ -380,6 +393,9 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
         }
 
         public void voltageChanged( ChangeEvent event ) {
+        }
+
+        public void currentChanged(ChangeEvent event) {
         }
     }
 

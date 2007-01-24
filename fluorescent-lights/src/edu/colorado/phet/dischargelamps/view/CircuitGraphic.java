@@ -72,4 +72,8 @@ public class CircuitGraphic extends PhetImageGraphic implements DischargeLampMod
             repaint();
         }
     }
+
+    public void currentChanged(DischargeLampModel.ChangeEvent event) {
+        // noop
+    }
 }
