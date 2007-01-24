@@ -55,6 +55,9 @@ import java.util.Map;
 /**
  * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.
  * A disc is drawn on the energy levels for each atom in that state.
+ * <p>
+ * This class is completely wrapped by DischargeLampEnergyLevelMonitorPanel2 and should be folded into it. No other
+ * classes instantiate this one.
  */
 public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implements Atom.ChangeListener {
 
@@ -510,7 +513,10 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     //----------------------------------------------------------------
 
     /**
-     * Add a representation for an electron to the panel
+     * Add a representation for an electron to the panel. We create a
+     * manager object that will create the graphic and add it to the
+     * panel. It will take care of removing it from the panel when the
+     * time comes.
      *
      * @param electron
      */

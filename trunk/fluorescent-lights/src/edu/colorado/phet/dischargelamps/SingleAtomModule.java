@@ -60,162 +60,20 @@ public class SingleAtomModule extends DischargeLampModule {
 
         // Set model parameters
         getDischargeLampModel().setElectronProductionMode( ElectronSource.SINGLE_SHOT_MODE );
-        getDischargeLampModel().setMaxCurrent( maxCurrent / getCurrentDisplayFactor() );
+        getDischargeLampModel().setMaxCurrent( getMaxCurrent() );
 
         // Make the area from which the cathode emits electrons very small, so they will always
         // come out of the middle of the plate
         getDischargeLampModel().getLeftHandPlate().setEmittingLength( 1 );
         getDischargeLampModel().getRightHandPlate().setEmittingLength( 1 );
 
-        // Add module-specific controls
-        addControls();
-
         setSquigglesEnabled( true );
     }
 
-
-    /**
-     * todo: clean this up
-     */
-    private void addControls() {
-        final DischargeLampEnergyMonitorPanel2 elmp = super.getEneregyLevelsMonitorPanel();
-
-        // Add the indicator for what energy an electron will have when it hits the atom. At first, it
-        // isn't enabled. We add a listener that will enable the collision energy indicator when the first
-        // collision occurs
-        collisionEnergyIndicatorGraphic = new CollisionEnergyIndicator( elmp.getElmp(), this );
-        elmp.getElmp().addGraphic( collisionEnergyIndicatorGraphic, -1 );
-        collisionEnergyIndicatorGraphic.setEnabled( false );
-        atom.addElectronCollisionListener( new DischargeLampAtom.ElectronCollisionListener() {
-            public void collisionOccurred( DischargeLampAtom.ElectronCollisionEvent event ) {
-                collisionEnergyIndicatorGraphic.setEnabled( true );
-                event.getAtom().removeElectronCollisionListener( this );
-            }
-        } );
-
-        // Add text that labels the ground state
-        PhetTextGraphic2 groundStateTextGraphic = new PhetTextGraphic2( elmp.getElmp(),
-                                                                        DischargeLampsConfig.DEFAULT_CONTROL_FONT,
-                                                                        SimStrings.get("Misc.groundState" ),
-                                                                        Color.black,
-                                                                        110,
-                                                                        270 );
-        elmp.getElmp().addGroundStateLabel( groundStateTextGraphic, -1);
-
-        // Put the current slider in a set of controls with the Fire button
-        getElectronProductionControl().setMaxCurrent( maxCurrent );
-        getElectronProductionControl().setHeaterValue( 25 );
-//        final CurrentSlider currentSlider = getHeaterControlSlider();
-//        currentSlider.setMaxCurrent( maxCurrent );
-//        getHeaterControlSlider().setValue( 25 );
-
-        // Add a button for firing a single electron. This also tells the energy level panel that if an
-        // electron has been produced
-        {
-            final JButton singleShotBtn = new JButton( SimStrings.get( "Controls.FireElectron" ) );
-            singleShotBtn.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    Electron electron = null;
-                    if( getDischargeLampModel().getVoltage() > 0 ) {
-                        electron = getDischargeLampModel().getLeftHandPlate().produceElectron();
-                    }
-                    else if( getDischargeLampModel().getVoltage() < 0 ) {
-                        electron = getDischargeLampModel().getRightHandPlate().produceElectron();
-                    }
-                    if( electron != null ) {
-                        elmp.addElectron( electron );
-                    }
-                }
-            } );
-            JRadioButton continuousRB = new JRadioButton( new AbstractAction( SimStrings.get( "Controls.Continuous" ) ) {
-                public void actionPerformed( ActionEvent e ) {
-                    getElectronProductionControl().setProductionType( ElectronProductionControl.CONTINUOUS);
-//                    setContinuousElectronProduction( getElectronProductionControl(), singleShotBtn );
-                }
-            } );
-            JRadioButton singleShotRB = new JRadioButton( new AbstractAction( SimStrings.get( "Controls.Single" ) ) {
-                public void actionPerformed( ActionEvent e ) {
-                    getElectronProductionControl().setProductionType( ElectronProductionControl.SINGLE_SHOT );
-//                    setSingleShotElectronProduction( getElectronProductionControl(), singleShotBtn );
-                }
-            } );
-            ButtonGroup electronProductionBtnGrp = new ButtonGroup();
-            electronProductionBtnGrp.add( continuousRB );
-            electronProductionBtnGrp.add( singleShotRB );
-            singleShotRB.setSelected( true );
-            setSingleShotElectronProduction( getElectronProductionControl(), singleShotBtn );
-
-            {
-                JPanel electronProductionControlPanel = getElectronProductionControl();
-                electronProductionControlPanel.setLayout( new GridBagLayout() );
-                GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
-                                                                 GridBagConstraints.CENTER,
-                                                                 GridBagConstraints.NONE,
-                                                                 new Insets( -5, 0, -1, 0 ), 0, 0 );
-                JPanel rbPanel = new JPanel();
-                rbPanel.add( singleShotRB );
-                rbPanel.add( continuousRB );
-                electronProductionControlPanel.add( rbPanel, gbc );
-                gbc.anchor = GridBagConstraints.CENTER;
-                gbc.gridy = 1;
-                gbc.gridx = 0;
-                gbc.insets = new Insets( 0, 0, -1, 0 );
-                electronProductionControlPanel.add( singleShotBtn, gbc );
-//                electronProductionControlPanel.add( currentSlider, gbc );
-
-                singleShotRB.setSelected( true );
-//                currentSlider.setVisible( false );
-
-                getElectronProductionControl().setProductionType( ElectronProductionControl.SINGLE_SHOT );
-                getControlPanel().add( elmp );
-            }
-        }
-
-        // Set the size of the panel
-        elmp.getElmp().setPreferredSize( new Dimension( 200, 300 ) );
+    protected double getMaxCurrent() {
+        return 25;
     }
 
-    /**
-     * Sets the simulation to fire single electrons when the "Fire" button is pressed
-     *
-     * @param singleShotBtn
-     */
-    private void setSingleShotElectronProduction( ElectronProductionControl electronProductionControl, JButton singleShotBtn ) {
-
-        if( getLogoPanel() == null ) {
-            setLogoPanel( logoPanel );
-            PhetUtilities.getPhetFrame().repaint();
-        }
-
-        electronProductionControl.setProductionType( ElectronProductionControl.SINGLE_SHOT );
-//        currentSlider.setVisible( false );
-//        getDischargeLampModel().getLeftHandPlate().setCurrent( 0 );
-//        singleShotBtn.setVisible( true );
-//        getDischargeLampModel().setElectronProductionMode( ElectronSource.SINGLE_SHOT_MODE );
-//        super.setHeatingElementsVisible( false );
-    }
-
-    /**
-     * Sets the simulation to fire electrons continuously at a rate determined by the
-     * "Electron Production Rate" slider
-     *
-     */
-//    private void setContinuousElectronProduction( ElectronProductionControl electronProductionControl, JButton singleShotBtn ) {
-//        electronProductionControl.setProductionType( ElectronProductionControl.CONTINUOUS );
-//        currentSlider.setVisible( true );
-//        getDischargeLampModel().getLeftHandPlate().setCurrent( currentSlider.getValue() / currentDisplayFactor );
-//        singleShotBtn.setVisible( false );
-////        collisionEnergyIndicatorGraphic.setVisible( false );
-//        getDischargeLampModel().setElectronProductionMode( ElectronSource.CONTINUOUS_MODE );
-//        super.setHeatingElementsVisible( true );
-//
-//        if( logoPanel == null ) {
-//            logoPanel = getLogoPanel();
-//        }
-//        setLogoPanel( null );
-//        PhetUtilities.getPhetFrame().repaint();
-//        getControlPanel().revalidate();
-//    }
 
     /**
      * Adds some atoms and their graphics
@@ -236,10 +94,6 @@ public class SingleAtomModule extends DischargeLampModule {
         getApparatusPanel().addGraphic( atomGraphic, DischargeLampsConfig.CIRCUIT_LAYER + 1 );
 
         // Make the atom movable with the mouse within the bounds of the tube
-//        Rectangle2D atomBounds = new Rectangle2D.Double( tubeBounds.getMinX() + atom.getRadius(),
-//                                                         atom.getPosition().getY(),
-//                                                         tubeBounds.getWidth() - atom.getRadius() * 2,
-//                                                         1 );
         Rectangle2D atomBounds = new Rectangle2D.Double( tubeBounds.getMinX() + atom.getRadius(),
                                                          tubeBounds.getMinY() + atom.getRadius(),
                                                          tubeBounds.getWidth() - atom.getRadius() * 2,
