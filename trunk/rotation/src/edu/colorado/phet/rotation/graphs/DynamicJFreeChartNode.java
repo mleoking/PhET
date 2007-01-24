@@ -464,6 +464,12 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         super.chartChanged( null );
     }
 
+    //todo: move this to parent class?
+    protected void internalUpdateBounds( double x, double y, double width, double height ) {
+        super.internalUpdateBounds( x, y, width, height );
+        updateChartRenderingInfo();
+    }
+
     public void setBuffered( boolean buffered ) {
         super.setBuffered( buffered );
         updateChartRenderingInfo();
