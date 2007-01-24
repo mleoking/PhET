@@ -93,14 +93,25 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
         _chartImage = null;
         _imageTransform = new AffineTransform();
         
+        addPNodeUpdateHandler();
+        
+        updateChartRenderingInfo();
+    }
+
+    /**
+     * This initialization method has been made public so that clients can override it to perform no-op if necessary.
+     * (Functionality is unchanged from previous version.)
+     * In DynamicJFreeChartNode, sometimes the BufferedView is causing unidentified bounds change events.
+     * 
+     * Improved handling of the chart buffer in future versions could alleviate the need for this kind of workaround.  
+     */
+    protected void addPNodeUpdateHandler(){
         addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 _chartImage = null;
                 repaint();  
             }
         } );
-        
-        updateChartRenderingInfo();
     }
 
     //----------------------------------------------------------------------------
