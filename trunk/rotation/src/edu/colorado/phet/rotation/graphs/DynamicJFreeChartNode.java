@@ -64,9 +64,12 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         super( chart );
         this.phetPCanvas = phetPCanvas;
         debugBufferRegion = new PhetPPath( new BasicStroke( 1.0f ), Color.green );
-        addChild( debugBufferRegion );
-        debugBufferRegion.setVisible( false );
-        debugBufferRegion.setPickable( false );
+//        addChild( debugBufferRegion );//this can destroy the bounds of the graph
+    }
+
+    protected void addPNodeUpdateHandler() {
+        super.addPNodeUpdateHandler();
+        //avoid adding a PNode property change listener, since some unidentified events from BufferedView are causing buffer clears.
     }
 
     public void addValue( double x, double y ) {
@@ -112,6 +115,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     private void repaintPanel( Rectangle2D bounds ) {
         phetPCanvas.repaint( new PBounds( bounds ) );
+//        phetPCanvas.paintImmediately( (int)bounds.getX(),(int)bounds.getY(),(int)(bounds.getWidth()+1),(int)(bounds.getHeight()+1) );
         debugBufferRegion.setPathTo( bounds );
     }
 
