@@ -39,6 +39,16 @@ public class RotationSimulation extends PhetApplication {
         testMenu = new JMenu( "Tests" );
         testMenu.setMnemonic( 't' );
         getPhetFrame().addMenu( testMenu );
+        addTest( "Dynamic Plot", new Runnable() {
+            public void run() {
+                TestDynamicJFreeChartNode.main( new String[0] );
+            }
+        } );
+        addTest( "Dynamic Plot 2", new Runnable() {
+            public void run() {
+                TestDynamicJFreeChartNodeTree.main( new String[0] );
+            }
+        } );
         addTest( "Platform Graphics", new Runnable() {
             public void run() {
                 TestPlatformNode.main( new String[0] );
