@@ -58,7 +58,8 @@ public class HeatingElementGraphic extends PhetImageGraphic implements HeatingEl
      * @param heatingElement
      */
     private void setFilteredImage( HeatingElement heatingElement ) {
-        double temperature = heatingElement.getIsEnabled() ? heatingElement.getTemperature() : 0;
+        double temperature = heatingElement.getTemperature();
+//        double temperature = heatingElement.getIsEnabled() ? heatingElement.getTemperature() : 0;
         BufferedImage newImg = baseImage;
         ColorModel cm = newImg.getColorModel();
         for( int x = 0; x < newImg.getWidth(); x++ ) {
@@ -74,7 +75,6 @@ public class HeatingElementGraphic extends PhetImageGraphic implements HeatingEl
         }
 
         // blur the coil as it gets hotter
-//        float e = 0;
         float e = ( 1f / 32f ) * (float)( temperature / 255f );
         float f = ( 1f / 9f ) * (float)( temperature / 255f );
         float g = 1 - f - e;
