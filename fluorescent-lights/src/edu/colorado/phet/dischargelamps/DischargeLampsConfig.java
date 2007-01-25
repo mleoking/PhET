@@ -54,7 +54,7 @@ public class DischargeLampsConfig {
                                                                ANODE_LOCATION.getY() + ANODE_LENGTH / 2 );
     public static final Insets ELECTRODE_INSETS = new Insets( 15, 30, 15, 30 );
     public static final Point BEAM_CONTROL_CENTER_PT = new Point( ( CATHODE_X_LOCATION + ANODE_X_LOCATION ) / 2,
-                                                                 200 );
+                                                                 195 );
 
     // Images
     public static final String IMAGE_FILE_DIRECTORY = "images/";
