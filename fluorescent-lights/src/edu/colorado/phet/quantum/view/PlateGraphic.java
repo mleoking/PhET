@@ -100,7 +100,8 @@ public class PlateGraphic extends CompositePhetGraphic implements HeatingElement
      * @param heatingElement
      */
     private void setFilteredImage( HeatingElement heatingElement ) {
-        double temperature = heatingElement.getIsEnabled() ? heatingElement.getTemperature() : 0;
+        double temperature = heatingElement.getTemperature();
+//        double temperature = heatingElement.getIsEnabled() ? heatingElement.getTemperature() : 0;
 
         // Compute the thermal image. Red is full-on, and the alpha is proportional
         // to the temperature.

@@ -30,12 +30,6 @@ public class CurrentSlider extends JSlider {
 
     public CurrentSlider( double maxCurrent ) {
         super( 0, (int)maxCurrent, 0 );
-//        super( SimStrings.get( "Controls.ElectronProductionRate" ),
-//               SimStrings.get( "Controls.ElectronProductionRateUnits" ),
-//               0, 100, 0,
-//               new DecimalFormat( "#" ),
-//               new DecimalFormat( "#" ) );
-        System.out.println("maxCurrent = " + maxCurrent);
         this.maxCurrent = maxCurrent;
 
         setMajorTickSpacing( 25 );
@@ -57,16 +51,4 @@ public class CurrentSlider extends JSlider {
     public double getPctMax() {
         return getValue() / maxCurrent;
     }
-    
-//    public int getValue() {
-//        return (int)(super.getValue() * maxCurrent / 100);
-//    }
-//    public double getValue() {
-//        return super.getValue() * maxCurrent / 100;
-//    }
-
-//    public void  setValue( double value ) {
-//        System.out.println("value = " + value);
-//        super.setValue( (int)value );
-//    }
 }
