@@ -1,0 +1,23 @@
+This document describes how to normalize all the jnlp files in a directory (e.g., the simulations directory) so
+that SimLauncher works properly with them.
+
+first make a backup:
+
+  tar -cpf /my/files/backup.tar `find /my/files -name \*jnlp\*`
+
+make sure your backup tar file contains the files it should contain:
+
+  tar -tf /my/files/backup.tar
+
+double check by extracting the tar file somewhere else:
+
+  mkdir /tmp/test
+  tar -xvpf /my/files/backup.tar
+
+/tmp/test should contain all of your jnlp files in their original
+directory structure. if not, don't proceed. :)
+
+now run the sed script that normalizes the jnlp files:
+
+
+$ sh -c 'for file in `find simulations -name \*.jnlp\*` ; do sed -f set-codebase.sed ${file} > jnlp ; mv -f jnlp ${file} ; done'
