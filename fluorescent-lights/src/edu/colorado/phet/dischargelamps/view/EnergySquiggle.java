@@ -34,6 +34,8 @@ public class EnergySquiggle extends PhetImageGraphic {
     // Class data and methods
     //-----------------------------------------------------------------
     static public final int VERTICAL = 1, HORIZONTAL = 2;
+    static private int numArrowheads = 1;
+
 
     /**
      * @param component
@@ -52,8 +54,11 @@ public class EnergySquiggle extends PhetImageGraphic {
     /**
      * Creates a buffered image for a squiggle
      */
-    private BufferedImage computeSquiggleImage( double wavelength, double phaseAngle,
-                                                int length, int height, int orientation ) {
+    private BufferedImage computeSquiggleImage( double wavelength,
+                                                double phaseAngle,
+                                                int length,
+                                                int height,
+                                                int orientation ) {
         int arrowHeight = height;
 
         // So that the tip of the arrow will just touch an energy level line when it is supposed to match the line,
@@ -61,42 +66,43 @@ public class EnergySquiggle extends PhetImageGraphic {
         int actualLength = length - 1;
 
         // A buffered image for generating the image data
-        if( actualLength + 2 * arrowHeight <= 0 || height <= 0 ) {
+        if( actualLength + numArrowheads * arrowHeight <= 0 || height <= 0 ) {
             System.out.println( "EnergySquiggle.computeSquiggleImage" );
         }
-
-
-        BufferedImage img = new BufferedImage( actualLength + 2 * arrowHeight,
+        BufferedImage img = new BufferedImage( actualLength + numArrowheads * arrowHeight,
                                                height,
                                                BufferedImage.TYPE_INT_ARGB_PRE );
         Graphics2D g2d = img.createGraphics();
-        int kPrev = height / 2;
-        int iPrev = 0;
         Color c = VisibleColor.wavelengthToColor( wavelength );
         if( c.getRed() == 0 && c.getGreen() == 0 & c.getBlue() == 0 ) {
             c = Color.black;
         }
         g2d.setColor( c );
 
+        int kPrev = height / 2;
+        int iPrev = 0;
+        int iOffset = arrowHeight * ( numArrowheads - 1 );
         double renderedWavelength = Math.max( wavelength, VisibleColor.MIN_WAVELENGTH / 2 );
         double freqFactor = 15 * renderedWavelength / 680;
-        for( int i = 0; i < actualLength - arrowHeight * 2; i++ ) {
+        for( int i = 0; i < actualLength - ( arrowHeight * numArrowheads ); i++ ) {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
             for( int j = 0; j < height; j++ ) {
                 if( j == k ) {
-                    g2d.drawLine( iPrev + arrowHeight, kPrev, i + arrowHeight, k );
+                    g2d.drawLine( iPrev + iOffset, kPrev, i + iOffset, k );
                     iPrev = i;
                     kPrev = k;
                 }
             }
         }
-        Arrow head = new Arrow( new Point2D.Double( arrowHeight, height / 2 ),
-                                new Point2D.Double( 0, height / 2 ),
-                                arrowHeight, height * 1.2, 2 );
+        if( numArrowheads == 2 ) {
+            Arrow head = new Arrow( new Point2D.Double( arrowHeight, height / 2 ),
+                                    new Point2D.Double( 0, height / 2 ),
+                                    arrowHeight, height * 1.2, 2 );
+            g2d.fill( head.getShape() );
+        }
         Arrow tail = new Arrow( new Point2D.Double( actualLength - arrowHeight, height / 2 ),
                                 new Point2D.Double( actualLength, height / 2 ),
                                 arrowHeight, height * 1.2, 2 );
-        g2d.fill( head.getShape() );
         g2d.fill( tail.getShape() );
         g2d.dispose();
         if( orientation == VERTICAL ) {
