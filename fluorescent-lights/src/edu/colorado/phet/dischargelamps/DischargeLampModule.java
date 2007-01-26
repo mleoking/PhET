@@ -36,12 +36,9 @@ import edu.colorado.phet.quantum.view.PlateGraphic;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
@@ -85,13 +82,11 @@ public class DischargeLampModule extends PhetGraphicsModule {
     // AffineTransformOp that will scale graphics created in external applications so they appear
     // properly on the screen
     private AffineTransformOp externalGraphicScaleOp;
-//    private CurrentSlider heaterControlSlider;
     private DischargeLampEnergyMonitorPanel2 energyLevelsMonitorPanel;
     private SpectrometerGraphic spectrometerGraphic;
     private HeatingElementGraphic[] heatingElementGraphics = new HeatingElementGraphic[2];
     private JCheckBox squiggleCB;
     private JPanel optionsPanel;
-//    private JWindow electronProductionControlWindow;
     private ElectronProductionControl electronProductionControl;
 
     //----------------------------------------------------------------
@@ -334,7 +329,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
         // Widget to control electron production
         {
             electronProductionControl = new ElectronProductionControl( this, getMaxCurrent() );
-//            getApparatusPanel().add(electronProductionControl);
+            electronProductionControl.setProductionMode( ElectronProductionControl.CONTINUOUS );
 
             // It seems that we have to make this dialog to get the electronProductionControl to layout. If we don't
             // nothing appears when we add the electronProductionControl to the LayeredPane
@@ -451,16 +446,6 @@ public class DischargeLampModule extends PhetGraphicsModule {
     }
 
     /**
-     * @param isVisible
-     */
-//    protected void setHeatingElementsVisible( boolean isVisible ) {
-//        for( int i = 0; i < heatingElementGraphics.length; i++ ) {
-//            HeatingElementGraphic graphic = heatingElementGraphics[i];
-//            graphic.setVisible( isVisible );
-//        }
-//    }
-
-    /**
      * Returns a typed reference to the model
      */
     protected DischargeLampModel getDischargeLampModel() {
@@ -489,7 +474,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
         energyLevelsMonitorPanel.setSquigglesEnabled( squiggleCB.isSelected() );
     }
 
-    public void setProductionType( ElectronProductionControl.ProductionType type ) {
+    public void setProductionType( ElectronProductionControl.ProductionMode type ) {
         if( type == ElectronProductionControl.CONTINUOUS ) {
             getEneregyLevelsMonitorPanel().setShowElectrons( false );
         }
@@ -497,6 +482,12 @@ public class DischargeLampModule extends PhetGraphicsModule {
             getEneregyLevelsMonitorPanel().setShowElectrons( true );
         }
     }
+
+    protected void setElectronProductionMode( ElectronProductionControl.ProductionMode mode ) {
+        electronProductionControl.setProductionMode( mode );
+    }
+
+
 
     //-------------------------------------------------------------------------------------------------
     // Event handling

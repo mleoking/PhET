@@ -59,7 +59,7 @@ public class SingleAtomModule extends DischargeLampModule {
         addAtom( getTube() );
 
         // Set model parameters
-        getDischargeLampModel().setElectronProductionMode( ElectronSource.SINGLE_SHOT_MODE );
+        setElectronProductionMode( ElectronProductionControl.SINGLE_SHOT );
         getDischargeLampModel().setMaxCurrent( getMaxCurrent() );
 
         // Make the area from which the cathode emits electrons very small, so they will always
