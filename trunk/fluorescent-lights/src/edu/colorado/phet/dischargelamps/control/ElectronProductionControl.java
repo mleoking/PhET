@@ -11,6 +11,7 @@
 package edu.colorado.phet.dischargelamps.control;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.dischargelamps.DischargeLampModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.ElectronPulser;
@@ -131,9 +132,10 @@ public class ElectronProductionControl extends JPanel {
                 GridBagConstraints.RELATIVE,
                 0,
                 1, 1, 0, 0,
-                GridBagConstraints.CENTER,
-                GridBagConstraints.NONE,
-                new Insets( 0, 0, 0, 0 ), 0, 0 );
+                GridBagConstraints.EAST,
+//                GridBagConstraints.CENTER,
+GridBagConstraints.NONE,
+new Insets( 0, 0, 0, 0 ), 0, 0 );
         panel.add( singleShotModeRB, gbc );
         panel.add( continuousModeRB, gbc );
 
@@ -163,6 +165,24 @@ public class ElectronProductionControl extends JPanel {
 
         final JTextField readout = new JTextField();
         readout.setHorizontalAlignment( JTextField.RIGHT );
+        readout.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                String txt = readout.getText();
+                if( txt.indexOf( '%' ) >= 0 ) {
+                    txt = txt.substring( 0, txt.indexOf( '%' ) );
+                }
+                try {
+                    double value = Double.parseDouble( txt );
+                    if( value <0 || value > 100 ) {
+                        throw new NumberFormatException();
+                    }
+                    model.setCurrent( value * maxCurrent / 100, currentDisplayFactor );
+                }
+                catch( NumberFormatException nfe ) {
+                    JOptionPane.showMessageDialog( PhetUtilities.getPhetFrame(), SimStrings.get( "Message.notPctFormat"));
+                }
+            }
+        } );
         final DecimalFormat format = new DecimalFormat( "##0%" );
         heaterControlSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -186,7 +206,6 @@ public class ElectronProductionControl extends JPanel {
                                                          GridBagConstraints.EAST,
                                                          GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-        panel.add( Box.createHorizontalStrut( 175 ), gbc );
         panel.add( heaterControlSlider, gbc );
         gbc.gridx++;
         gbc.anchor = GridBagConstraints.WEST;
@@ -222,7 +241,7 @@ public class ElectronProductionControl extends JPanel {
         gbc.insets = new Insets( 0, 20, 0, 0 );
         add( modeSelectorControl, gbc );
         gbc.gridx++;
-        add( Box.createHorizontalStrut( 250 ), gbc );
+        add( Box.createHorizontalStrut( 200 ), gbc );
         add( Box.createVerticalStrut( 30 ), gbc );
         add( fireElectronButton, gbc );
         add( heaterControl, gbc );
