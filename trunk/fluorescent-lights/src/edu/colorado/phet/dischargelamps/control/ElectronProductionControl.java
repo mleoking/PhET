@@ -36,7 +36,7 @@ public class ElectronProductionControl extends JPanel {
     private double currentDisplayFactor = 1E-3;
     private DischargeLampModule module;
     private double maxCurrent;
-    private double continuousCurrent = maxCurrent * .2;
+    private double continuousCurrent;
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -66,6 +66,10 @@ public class ElectronProductionControl extends JPanel {
         fireElectronButton = createFireElectronBtn();
         heaterControl = createHeaterControl();
         modeSelectorControl = createModeSelectorControl();
+
+        // Set the default current for when continuous mode is first selected. Note that this
+        // must be done after the above initializations are performed
+        this.continuousCurrent = maxCurrent * .2;
 
 //        setBorder(new TitledBorder(SimStrings.get("Controls.ElectronProduction")));
         setBorder( new LineBorder( Color.black, 1 ) );
@@ -120,9 +124,11 @@ public class ElectronProductionControl extends JPanel {
                 GridBagConstraints.RELATIVE,
                 0,
                 1, 1, 0, 0,
-                GridBagConstraints.WEST,
-                GridBagConstraints.NONE,
-                new Insets( 0, 0, 0, 0 ), 0, 0 );
+                GridBagConstraints.CENTER,
+//                GridBagConstraints.WEST,
+GridBagConstraints.HORIZONTAL,
+//                GridBagConstraints.NONE,
+new Insets( 0, 0, 0, 0 ), 0, 0 );
         panel.add( singleShotRB, gbc );
         panel.add( continuousRB, gbc );
 
@@ -196,14 +202,19 @@ public class ElectronProductionControl extends JPanel {
                 new Insets( 3, 0, 3, 0 ), 0, 0 );
 
         JLabel title = new JLabel( SimStrings.get( "Controls.ElectronProduction" ) );
+        Font defaultFont = title.getFont();
+        Font newFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() );
+        title.setFont( newFont );
         gbc.gridwidth = 2;
         add( title, gbc );
 
         gbc.gridwidth = 1;
         gbc.gridy++;
+        gbc.insets = new Insets( 0, 20, 0, 0 );
         add( modeSelectorControl, gbc );
         gbc.gridx++;
-        add( Box.createHorizontalStrut( 300 ), gbc );
+        add( Box.createHorizontalStrut( 250 ), gbc );
+        gbc.insets = new Insets( 0, 0, 3, 0 );
         add( fireElectronButton, gbc );
         add( heaterControl, gbc );
     }
