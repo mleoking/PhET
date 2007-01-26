@@ -92,6 +92,7 @@ ignorepath      (those elements of the ant classpath that should not be
             <fileset dir="${development}/lasers/controls-dir/data"/>
             <fileset dir="${development}/lasers/data"/>
             <fileset dir="${development}/lasers/phetgraphics-module/phetcommon-module/data"/>
+            <fileset dir="${development}/lasers/quantum-rjl/data"/>
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>
