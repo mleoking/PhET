@@ -44,6 +44,7 @@ public class AtomTypeChooser extends JPanel {
                 // Get the selected item and tell it to do its thing
                 DischargeLampElementProperties selection = (DischargeLampElementProperties)cb.getSelectedItem();
                 model.setElementProperties( selection );
+                model.getSpectrometer().reset();
             }
         } );
         DischargeLampElementProperties selection = (DischargeLampElementProperties)comboBox.getSelectedItem();
