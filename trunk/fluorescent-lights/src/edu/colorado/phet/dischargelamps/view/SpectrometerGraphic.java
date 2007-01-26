@@ -201,7 +201,6 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 spectrometer.reset();
-                spectrometer.stop();
                 startStopEnabled = true;
             }
         } );
