@@ -66,10 +66,6 @@ public class EqualLikelihoodAbsorptionStrategy extends EnergyAbsorptionStrategy 
         if (highestPossibleNewStateIdx > currStateIdx) {
             int rand = EqualLikelihoodAbsorptionStrategy.random.nextInt(highestPossibleNewStateIdx - currStateIdx) + 1;
             int newStateIdx = rand + currStateIdx;
-            n++;
-            sum += newStateIdx;
-            double ave = ((double) sum) / n;
-            System.out.println("newStateIdx = " + newStateIdx + "\tave = " + ave);
             AtomicState newState = states[newStateIdx];
 
             // Put the atom in the randomly picked state, and reduce the energy of the electron by the difference
@@ -79,7 +75,4 @@ public class EqualLikelihoodAbsorptionStrategy extends EnergyAbsorptionStrategy 
             electron.setEnergy(electronEnergy - energyDiff);
         }
     }
-
-    int n;
-    int sum;
 }
