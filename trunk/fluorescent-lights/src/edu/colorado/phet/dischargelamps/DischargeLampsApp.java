@@ -107,6 +107,8 @@ public class DischargeLampsApp extends PhetApplication {
                 SimStrings.setStrings( LaserConfig.localizedStringsPath );
 
                 DischargeLampsApp app = new DischargeLampsApp( args );
+
+                app.getPhetFrame().setResizable( false );
                 app.startApplication();
             }
         } );

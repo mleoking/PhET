@@ -66,7 +66,7 @@ public class BatteryReadout extends GraphicLayerSet {
     private void setBatteryVoltage( Battery battery, Component component ) {
         double voltage = 0;
         try {
-            String text = readout.getText().toLowerCase();
+            String text = readout.getText().toUpperCase();
             int vLoc = text.indexOf( 'V' );
             text = vLoc >= 0 ? readout.getText().substring( 0, vLoc ) : text;
             voltage = Double.parseDouble( text );

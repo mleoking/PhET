@@ -67,6 +67,9 @@ public class SingleAtomModule extends DischargeLampModule {
         getDischargeLampModel().getLeftHandPlate().setEmittingLength( 1 );
         getDischargeLampModel().getRightHandPlate().setEmittingLength( 1 );
 
+        // Make module-specific modifications to the control panel
+        addControls();
+
         setSquigglesEnabled( true );
     }
 
@@ -74,6 +77,38 @@ public class SingleAtomModule extends DischargeLampModule {
         return 25;
     }
 
+
+    /**
+     * Add the CollisionEnergyIndicatory and labels the ground state
+     */
+    private void addControls() {
+        final DischargeLampEnergyMonitorPanel2 elmp = super.getEneregyLevelsMonitorPanel();
+
+        // Add the indicator for what energy an electron will have when it hits the atom. At first, it
+        // isn't enabled. We add a listener that will enable the collision energy indicator when the first
+        // collision occurs
+        collisionEnergyIndicatorGraphic = new CollisionEnergyIndicator( elmp.getElmp(), this );
+        elmp.getElmp().addGraphic( collisionEnergyIndicatorGraphic, -1 );
+        collisionEnergyIndicatorGraphic.setEnabled( false );
+        atom.addElectronCollisionListener( new DischargeLampAtom.ElectronCollisionListener() {
+            public void collisionOccurred( DischargeLampAtom.ElectronCollisionEvent event ) {
+                collisionEnergyIndicatorGraphic.setEnabled( true );
+                event.getAtom().removeElectronCollisionListener( this );
+            }
+        } );
+
+        // Add text that labels the ground state
+        PhetTextGraphic2 groundStateTextGraphic = new PhetTextGraphic2( elmp.getElmp(),
+                                                                        DischargeLampsConfig.DEFAULT_CONTROL_FONT,
+                                                                        SimStrings.get("Misc.groundState" ),
+                                                                        Color.black,
+                                                                        110,
+                                                                        270 );
+        elmp.getElmp().addGroundStateLabel( groundStateTextGraphic, -1);
+
+        // Set the size of the panel
+        elmp.getElmp().setPreferredSize( new Dimension( 200, 300 ) );
+    }
 
     /**
      * Adds some atoms and their graphics
