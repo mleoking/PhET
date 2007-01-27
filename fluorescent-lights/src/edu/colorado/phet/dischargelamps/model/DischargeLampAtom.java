@@ -32,7 +32,8 @@ public class DischargeLampAtom extends Atom {
 //    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new HighestStateAbsorptionStrategy();
     private EnergyEmissionStrategy energyEmissionStrategy = new HydrogenEnergyEmissionStrategy();
 //    private EnergyEmissionStrategy energyEmissionStrategy = new NextLowestEnergyEmissionStrategy();
-    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
+    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new EqualLikelihoodAbsorptionStrategy();
+//    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
 //    private EnergyEmissionStrategy energyEmissionStrategy = new FiftyPercentEnergyEmissionStrategy();
 
     private double baseRadius = Double.NEGATIVE_INFINITY;
