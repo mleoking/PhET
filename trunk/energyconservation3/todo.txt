@@ -2,18 +2,11 @@
 Remaining Work
 #######################################
 
-There was one bug that I thought was fixed but we still saw at the workshop that I wanted to know the status off... 
-
-It was the one where if you put the man in space on a track he drifts along the track and then stops when he gets to the end. 
-
-The performance degrades significantly after 10 minutes or so.
->>I'm adding a temporary workaround that keeps the recorded data under a manageable size without influencing the rest of the simulation.
->>The user can record about 45 seconds of data, the system automatically switches to live (non-record) mode when this is filled up, the user
->>then has to manually press "clear" before they can record a different dataset.
-
->> Future versions should allow plotting time series data without recording the entire history, and should put the record & playback buttons on the time series panel only.
+Future versions should allow plotting time series data without recording the entire history, and should put the record & playback buttons on the time series panel only.
 
 On a double-potential well where the skater slightly leaves the track, sometimes he attaches to the wrong side of the track.
+
+After going to space, then dragging the gravity slider to some nonzero value, the floor is invisible.
 
 If you zoom out, then change locale, the background refits to the zoomed-out screen. (so that a subsequent zoom-in looks weird).
         When I tried fixing this by always rescaling the background, it causes 2 problems:
@@ -40,16 +33,6 @@ What do we want reset to do? (Reset all?)
 - for energy vs position ... same comment as above for dealing with 
 changes in PE def line ... cannot get negative potentials to be on scale.
 
-- In space, when I set him down on the track he starts moving, but 
-when I let go of him and he's not on a track he stays put? Some how 
-he ends up with a little bit of velocity when i let go of the mouse 
-on the track. (he always wants to go to the left and interestingly he 
-will stop when he gets to the end of the track).
-
-- In space he sometimes forgets that the thruster is on... see 
-screenshot.  (Here he was hardly moving, no response to thruster even 
-though visible).
-
 - Recording path ... got in mode where BOGGED down even though 
 cleared all points and cleared graph. It wasn't actually clearing 
 something. Eventually froze.
@@ -60,6 +43,14 @@ spacing, and if so what was it.
 #################################################################
 Low Priority or Deprecated
 #######################################
+
+Dropping from a height, sometimes the skater gets stuck in the ground
+    I think we discussed this and decided it's okay to leave this.
+    
+Sometimes the skater gets stuck.
+        Difficult to reproduce.
+        Could try searching ahead a few steps to see if the skater will get stuck...
+
 User-selectable skater/vehicle graphics.
 
 Crashing skater?
@@ -93,9 +84,6 @@ cannot move passed
 the vertex and will bounce off of it.
         This only happens if it's not 'rollercoaster mode' and if the skater flys away from the track.
         
-- slow motion button doesn't seem to work right
-        Clarifying...
-        
 -If the skater goes off screen and the user is holding down an arrow key
 when they click "bring back the skater" or "return skater" the skater will return and
 immediately start thrusting in that direction regardless of what arrow keys are or are not
@@ -105,10 +93,6 @@ being pushed.  The only way to fix this is to reset the entire simulation.
 After some combination of recording and playback, the track graphic becomes dissociated from the skater.
         The skater will continue to traverse the path where the track used to be, even after it has been dragged.
         This solution is a bit of a hack.
-
-Save/Load not working sometimes
-        Could be: throwing an exception, "body.debug angles inconsistent"
-        This may be fixed now; I was unable to reproduce the problem so I can't claim this with much certainty.
 
 -When coefficient of friction is turned to maximum and there is a lot of
 gravity (maximum) the skater falls through the track at the bottom point and
@@ -126,19 +110,12 @@ If left on and the yellow dots of the path record allowed to accumulate, it
 seems to cause tremendous lag in the program (maybe set a limit on how long it can be 
 left on?)
 
-Dropping from a height, sometimes the skater gets stuck in the ground
-    I think we discussed this and decided it's okay to leave this.
-    
-Sometimes the skater gets stuck.
-        Difficult to reproduce.
-        Could try searching ahead a few steps to see if the skater will get stuck...
-
 One run caused the skater to behave as if he had 0.001 mass (in space).  Couldn't reproduce this.
 
 arrow keys in space made him vanish on one run...
         Couldn't Reproduce this.
 
-These ideas are scratched indefinitely:
+These ideas are postponed indefinitely:
     I'm still leaning towards the world ending when he goes off one side or the
     other.  I can't see value in tracking his actions when we can't see him.  On
     top of that, we reset things when he is returned.  I think as soon as the
