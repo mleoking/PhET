@@ -36,10 +36,9 @@ public class DeBroglieViewControl extends PComboBox {
     public DeBroglieViewControl() {
         super();
         setOpaque( false );
-        addItem( new Choice( SimStrings.get( "menu.deBroglieView.brightnessMagnitude" ), DeBroglieView.BRIGHTNESS_MAGNITUDE ) );
-        addItem( new Choice( SimStrings.get( "menu.deBroglieView.brightness" ), DeBroglieView.BRIGHTNESS ) );
         addItem( new Choice( SimStrings.get( "menu.deBroglieView.radialDistance" ), DeBroglieView.RADIAL_DISTANCE ) );
         addItem( new Choice( SimStrings.get( "menu.deBroglieView.height3D" ), DeBroglieView.HEIGHT_3D ) );
+        addItem( new Choice( SimStrings.get( "menu.deBroglieView.brightness" ), DeBroglieView.BRIGHTNESS ) );
     }
    
     /**

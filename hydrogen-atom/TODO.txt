@@ -5,19 +5,27 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- label deBroglie view combo box with "Electron wave function representation"
+- add traces feature for photons
+- add a checkbox to open/close Legend window
+- add a checkbox to open/close Transitions window
+- put energy level diagram in a moveable window
+- resolve issues with scale of alpha particles
+- add energy squiggle for gun wavelength
 
 MEDIUM PRIORITY:
 
 LOW PRIORITY:
 
 DEFER UNTIL AFTER INTERVIEWS:
-- should the spectrometer show each UV/IR transition wavelength at a distinct horizontal position?
 - does the user need help getting out of Schrodinger state (2,0,0) with monochromatic light?
-- are help items needed?
-- does the energy diagram need a "gun wavelength" squiggle?
+
  
  
 DONE:
+(1/29/07) - delete "amplitude magnitude -> brightness" option for deBroglie views
+(1/29/07) - change order of deBroglie views to: radial, 3D, brightness
+(1/29/07) - set default deBroglie view to radial
 (1/29/07) - add 2 faster clock speeds
 ***** CVS tag hydrogenatom-1-00-00-2007-01-17
 (1/17/07) - publish 1.0 to PhET website
@@ -572,26 +580,28 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
-(1/16/06) - reduce size of panel image files  (tried, no significant reduction without affecting image quality)
-(1/16/06) - bug: problem with updating drag bounds of ConstrainedDragHandler (piccolo-phet program, documented the problem, worked around it in WavelengthControl)
-(1/16/06) - bug: ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside (happens rarely, nonfatal, problem in piccolo-phet)
-(1/12/06) - if clock is paused, deBroglie 3D view doesn't immediately animate into place (OK as is)
-(1/12/06) - improve performance of Schrodinger, faster Leguerre Polynomial algorithm? (current performance is acceptable)
-(1/12/06) - improve performance of deBroglie brightness views for higher states (current performance is acceptable)
-(1/10/06) - draw DeBroglieBrightNode's ring using one custom PNode, rather than a lot of PPaths (implemented this and it ran much slower)
-(1/10/06) - animation gets a little jerky when you touch wavelength control (Mac only, barely noticeable)
-(1/10/06) - make deBroglie 3D view rotate into place when clock is paused (too hard)
-(1/10/06) - SchodingerModel.chooseLowerElectronState creates ProbabilisticChooser & Entries (not a problem, lightweight)
-(1/10/06) - make EnergySquiggle mutable (no performance benefit, unduly complicates code)
-(1/10/06) - improve performance of deBroglie 3D representation (already fast enough, optimized awhile ago)
-(1/10/06) - rewrite AtomicModelSelector to use inner classes, or layout node (works as is, no need to change)
-(1/10/06) - create layout nodes for creating Piccolo-based control panels (future addition to piccolo-phet project)
-(1/9/06) - show min time that electron is in a state be in wall time? (no, it should be [and is] in sim time) 
-(1/8/06) - verify that ModelViewTransform is used everywhere that it should be (testing reveals it isn't, but the transform will never be anything but 1:1, not worth the effort to debug)
-(1/8/06) - flatten static parts of energy diagram to an image (unlikely to result in perceptible performance improvement)
-(1/8/06) - make AtomicModelSelector panel slide up/down (gratuitous animation, tried it and it caused new problems)
-(1/8/06) - generalize creating a "panel" node to fit under a collection of nodes (PImageFactory.create(String,Dimension) does this)
-(1/8/06) - spontaneously emit 2 photons to get Schrodinger out of state (2,0,0) (dubious, too confusing)
+(1/29/07) - are help items needed? (no, based on 4 interviews)
+(1/29/07) - should the spectrometer show each UV/IR transition wavelength at a distinct horizontal position? (no, based on 4 interviews)
+(1/16/07) - reduce size of panel image files  (tried, no significant reduction without affecting image quality)
+(1/16/07) - bug: problem with updating drag bounds of ConstrainedDragHandler (piccolo-phet program, documented the problem, worked around it in WavelengthControl)
+(1/16/07) - bug: ArrayIndexOutOfBoundsException in CursorHandler when you drag the cursor outside the play area, then back inside (happens rarely, nonfatal, problem in piccolo-phet)
+(1/12/07) - if clock is paused, deBroglie 3D view doesn't immediately animate into place (OK as is)
+(1/12/07) - improve performance of Schrodinger, faster Leguerre Polynomial algorithm? (current performance is acceptable)
+(1/12/07) - improve performance of deBroglie brightness views for higher states (current performance is acceptable)
+(1/10/07) - draw DeBroglieBrightNode's ring using one custom PNode, rather than a lot of PPaths (implemented this and it ran much slower)
+(1/10/07) - animation gets a little jerky when you touch wavelength control (Mac only, barely noticeable)
+(1/10/07) - make deBroglie 3D view rotate into place when clock is paused (too hard)
+(1/10/07) - SchodingerModel.chooseLowerElectronState creates ProbabilisticChooser & Entries (not a problem, lightweight)
+(1/10/07) - make EnergySquiggle mutable (no performance benefit, unduly complicates code)
+(1/10/07) - improve performance of deBroglie 3D representation (already fast enough, optimized awhile ago)
+(1/10/07) - rewrite AtomicModelSelector to use inner classes, or layout node (works as is, no need to change)
+(1/10/07) - create layout nodes for creating Piccolo-based control panels (future addition to piccolo-phet project)
+(1/9/07) - show min time that electron is in a state be in wall time? (no, it should be [and is] in sim time) 
+(1/8/07) - verify that ModelViewTransform is used everywhere that it should be (testing reveals it isn't, but the transform will never be anything but 1:1, not worth the effort to debug)
+(1/8/07) - flatten static parts of energy diagram to an image (unlikely to result in perceptible performance improvement)
+(1/8/07) - make AtomicModelSelector panel slide up/down (gratuitous animation, tried it and it caused new problems)
+(1/8/07) - generalize creating a "panel" node to fit under a collection of nodes (PImageFactory.create(String,Dimension) does this)
+(1/8/07) - spontaneously emit 2 photons to get Schrodinger out of state (2,0,0) (dubious, too confusing)
 (12/28/06) - generate 1 image for entire Spectrometer colorKey (UV and IR range must be compressed)
 (12/26/06) - cache Colors (not necessary, little or no payoff)
 (12/26/06) - encapsulate common "look" code in SpectrometerNode and SpectrometerSnapshotNode (there is a very small amout of it, would complicate code)
