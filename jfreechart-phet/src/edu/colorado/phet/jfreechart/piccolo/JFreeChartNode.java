@@ -282,6 +282,22 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     }
     
     /**
+     * Converts a rectangle in the node's local coordinate system
+     * to a rectangle in the primary plot's coordinate system.
+     * The primary plot must be an XYPlot.
+     * 
+     * @param nodeRect the rectangle to transform.
+     * @return the rectangle in this node's coordinate frame.
+     */
+    public Rectangle2D nodeToPlot( Rectangle2D nodeRect) {
+        Point2D p1=nodeToPlot( new Point2D.Double( nodeRect.getX(), nodeRect.getY( )));
+        Point2D p2=nodeToPlot( new Point2D.Double( nodeRect.getX()+nodeRect.getWidth(), nodeRect.getY()+nodeRect.getHeight()));
+        Rectangle2D.Double rect=new Rectangle2D.Double( );
+        rect.setFrameFromDiagonal( p1, p2);
+        return rect;
+    }
+    
+    /**
      * Converts a point in the node's local coordinate system
      * to a point in a subplot's coordinate system.
      * The primary plot must be a combined XY plot,
