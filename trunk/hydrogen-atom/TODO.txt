@@ -18,98 +18,99 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/29/07) - add 2 faster clock speeds
 ***** CVS tag hydrogenatom-1-00-00-2007-01-17
-(1/17/06) - publish 1.0 to PhET website
-(1/17/06) - fix and test JNLP files in deploy/
+(1/17/07) - publish 1.0 to PhET website
+(1/17/07) - fix and test JNLP files in deploy/
 ***** CVS tag hydrogenatom-0-00-22-2007-01-16
-(1/16/06) - create final thumbnail image, based on snapshot from Sam McKagan
-(1/16/06) - add description (abstract) to SimStrings file, translate to Spanish
-(1/16/06) - make period of energy squiggle a function of wavelength
-(1/16/06) - change energy squiggle stroke width from 2 to 1 in order to draw higher frequency squiggles
-(1/16/06) - add methods to ColorUtils for determining if a wavelength is UV, IR or visible
-(1/16/06) - use a darker gray for UV and IR, so that it shows up on both black and white backgrounds
-(1/16/06) - move Spectrometer close buttons up 2 pixels to look better on Windows
-(1/16/06) - bugfix: spectrometer Start/Stop and Reset buttons are fully transparent on Windows
-(1/16/06) - add spacing StateDisplayNode formats to improve readability on Windows
-(1/16/06) - remove test code from HADefaults, difficult to read, no longer needed
-(1/16/06) - add HAConstants.DEBROGLIE_VIEW_IN_MENUBAR for selecting which control (menu or combobox) to use
-(1/16/06) - hide "Options>deBroglie view" menu
-(1/16/06) - add deBroglie views combobox at inside-top-left of "box"
-(1/15/06) - reduce time to fire absorbable photon to 5 sec in MetastableHandler
-(1/15/06) - add n= state display to lower right for Bohr and deBroglie
-(1/15/06) - create StateDisplayNode for displaying electron state variabled, use throughout
-(1/15/06) - move state display flag to HAConstants
-(1/15/06) - move nlm display to lower right in Schrodginer
-(1/10/06) - verify that behavior is correct when clock is paused
-(1/10/06) - make DeBroglieBrightnessNode preallocate and reuse the objects that it uses to make the ring
-(1/10/06) - rename BohrModel.updateElectronPositon -> updateElectronOffset
-(1/10/06) - rename getElectronOffset to getElectronOffsetRef to indicate that it returns a reference
-(1/10/06) - add getElectronPositionRef to significantly reduce Point2D allocation
-(1/10/06) - add _electronPosition member to PlumPuddingModel to reduce Point2D allocation
-(1/10/06) - change HAModel and Model to use to use toArray for iterating over non-empty collections that may change
-(1/10/06) - reuse transform in EnergySquiggle
-(1/9/06) - make a new thumbnail image
+(1/16/07) - create final thumbnail image, based on snapshot from Sam McKagan
+(1/16/07) - add description (abstract) to SimStrings file, translate to Spanish
+(1/16/07) - make period of energy squiggle a function of wavelength
+(1/16/07) - change energy squiggle stroke width from 2 to 1 in order to draw higher frequency squiggles
+(1/16/07) - add methods to ColorUtils for determining if a wavelength is UV, IR or visible
+(1/16/07) - use a darker gray for UV and IR, so that it shows up on both black and white backgrounds
+(1/16/07) - move Spectrometer close buttons up 2 pixels to look better on Windows
+(1/16/07) - bugfix: spectrometer Start/Stop and Reset buttons are fully transparent on Windows
+(1/16/07) - add spacing StateDisplayNode formats to improve readability on Windows
+(1/16/07) - remove test code from HADefaults, difficult to read, no longer needed
+(1/16/07) - add HAConstants.DEBROGLIE_VIEW_IN_MENUBAR for selecting which control (menu or combobox) to use
+(1/16/07) - hide "Options>deBroglie view" menu
+(1/16/07) - add deBroglie views combobox at inside-top-left of "box"
+(1/15/07) - reduce time to fire absorbable photon to 5 sec in MetastableHandler
+(1/15/07) - add n= state display to lower right for Bohr and deBroglie
+(1/15/07) - create StateDisplayNode for displaying electron state variabled, use throughout
+(1/15/07) - move state display flag to HAConstants
+(1/15/07) - move nlm display to lower right in Schrodginer
+(1/10/07) - verify that behavior is correct when clock is paused
+(1/10/07) - make DeBroglieBrightnessNode preallocate and reuse the objects that it uses to make the ring
+(1/10/07) - rename BohrModel.updateElectronPositon -> updateElectronOffset
+(1/10/07) - rename getElectronOffset to getElectronOffsetRef to indicate that it returns a reference
+(1/10/07) - add getElectronPositionRef to significantly reduce Point2D allocation
+(1/10/07) - add _electronPosition member to PlumPuddingModel to reduce Point2D allocation
+(1/10/07) - change HAModel and Model to use to use toArray for iterating over non-empty collections that may change
+(1/10/07) - reuse transform in EnergySquiggle
+(1/9/07) - make a new thumbnail image
 ***** CVS tag hydrogenatom-0-00-21-2007-01-09
-(1/9/06) - set probability of absorption and stimulated emission to 100% in Bohr/deBroglie/Schrodinger
-(1/9/06) - test Spanish translations
-(1/9/06) - run Schrodinger for 3.5 hours with white light, no problems
-(1/9/06) - bugfix: fix state transition implementation in SchrodingerModel, it was performing invalid transitions
-(1/9/06) - write test harness for phetcommon ProbabilisticChooser, used in SchrodingerModel
-(1/9/06) - major reorganization and cleanup of BohrModel to improve readability
-(1/9/06) - move inner class events and listeners to new "event" package
-(1/8/06) - examine all calls to "new" to identify possible memory optimizations
-(1/8/06) - make NotToScaleNode extend HTMLNode
-(1/8/06) - make the legend invisible (don't draw it) when the energy diagram is visible
-(1/8/06) - flatten BoxOfHydrogenNode to a single PImage
-(1/8/06) - use getPositionRef instead of getPosition throughout to minimize Point2D creation
-(1/8/06) - remove unnecessary Point2D creation from DeBroglieModel.collides3D
-(1/8/06) - remove SwitchAnimatorNode, it introduced new problems and looked odd
-(1/8/06) - wire SwitchAnimatorNode into HAModule
-(1/8/06) - write SwitchAnimatorNode for sliding atomic model selector panel up/down
+(1/9/07) - set probability of absorption and stimulated emission to 100% in Bohr/deBroglie/Schrodinger
+(1/9/07) - test Spanish translations
+(1/9/07) - run Schrodinger for 3.5 hours with white light, no problems
+(1/9/07) - bugfix: fix state transition implementation in SchrodingerModel, it was performing invalid transitions
+(1/9/07) - write test harness for phetcommon ProbabilisticChooser, used in SchrodingerModel
+(1/9/07) - major reorganization and cleanup of BohrModel to improve readability
+(1/9/07) - move inner class events and listeners to new "event" package
+(1/8/07) - examine all calls to "new" to identify possible memory optimizations
+(1/8/07) - make NotToScaleNode extend HTMLNode
+(1/8/07) - make the legend invisible (don't draw it) when the energy diagram is visible
+(1/8/07) - flatten BoxOfHydrogenNode to a single PImage
+(1/8/07) - use getPositionRef instead of getPosition throughout to minimize Point2D creation
+(1/8/07) - remove unnecessary Point2D creation from DeBroglieModel.collides3D
+(1/8/07) - remove SwitchAnimatorNode, it introduced new problems and looked odd
+(1/8/07) - wire SwitchAnimatorNode into HAModule
+(1/8/07) - write SwitchAnimatorNode for sliding atomic model selector panel up/down
 ***** CVS tag hydrogenatom-0-00-20-2007-01-05
-(1/6/06) - bugfix: gun is initialized to white light, but intensity slider shows a color
-(1/5/06) - position spectrometer snapshot based on position of most-recently created snapshot
-(1/5/06) - bugfix: gun defaults to white light but shows monochromatic controls
-(1/5/06) - diagonally stagger location of snapshots
-(1/5/06) - bugfix: hide spectrometer if default value is deselected
-(1/5/06) - add a flag for switching between test and production values in HADefaults
-(1/5/06) - add developer control for time that squiggle is visible
-(1/5/06) - put m= in upper-right corner of Schrodinger energy diagram
-(1/5/06) - javadoc energy diagrams
-(1/5/06) - make squiggles go away after 1.5 seconds
-(1/5/06) - javadoc EnergySquiggle
-(1/4/06) - add arrow and sinusoidal shape to squiggles
-(1/4/06) - align squiggle with center of state line
+(1/6/07) - bugfix: gun is initialized to white light, but intensity slider shows a color
+(1/5/07) - position spectrometer snapshot based on position of most-recently created snapshot
+(1/5/07) - bugfix: gun defaults to white light but shows monochromatic controls
+(1/5/07) - diagonally stagger location of snapshots
+(1/5/07) - bugfix: hide spectrometer if default value is deselected
+(1/5/07) - add a flag for switching between test and production values in HADefaults
+(1/5/07) - add developer control for time that squiggle is visible
+(1/5/07) - put m= in upper-right corner of Schrodinger energy diagram
+(1/5/07) - javadoc energy diagrams
+(1/5/07) - make squiggles go away after 1.5 seconds
+(1/5/07) - javadoc EnergySquiggle
+(1/4/07) - add arrow and sinusoidal shape to squiggles
+(1/4/07) - align squiggle with center of state line
 (1/4/05) - add some missing stuff to HADefaults, document values for public release
 (1/4/05) - get absorption and emission squiggles working as solid straight lines that persist
 (1/4/05) - move setAtom and clearAtom out of energy diagram base class to eliminate need for casting
 (1/4/05) - simplify initialization of electron position in energy diagrams
-(1/3/06) - grab edu.colorado.phet.dischargelamps.view.EnergySquiggle
-(1/3/06) - javadoc AbstractEnergyDiagram base class
-(1/3/06) - javadoc Schrodinger energy diagram
-(1/3/06) - clean up layout of Schrodinger energy diagram
-(1/3/06) - javadoc Bohr energy diagram
-(1/3/06) - clean up layout of Bohr energy diagram
-(1/3/06) - fix layout of y-axis label in energy diagram, falls off bottom
-(1/3/06) - move n=6 label up slightly in energy diagrams to prevent collision with n=5 label
-(1/3/06) - refine distortion of energy levels in energies diagrams
-(1/3/06) - make energy diagram look like a window, with a border and titlebar
-(1/3/06) - remove gap between title and diagram in energy diagram (stroke around clipNode)
-(1/3/06) - bugfix: energy diagram checkbox is clickable through the energy diagram
-(1/3/06) - make spectrometer slightly wider
-(1/3/06) - add title and close button to energy diagram
-(1/3/06) - increase height of energy diagram 
-(1/3/06) - make energy diagram cover its "show" checkbox
-(1/3/06) - make spectrometer cover its "show" checkbox
-(1/3/06) - use CloseButtonNode in spectrometer and its snapshots
-(1/3/06) - refactor close button code into CloseButtonNode
+(1/3/07) - grab edu.colorado.phet.dischargelamps.view.EnergySquiggle
+(1/3/07) - javadoc AbstractEnergyDiagram base class
+(1/3/07) - javadoc Schrodinger energy diagram
+(1/3/07) - clean up layout of Schrodinger energy diagram
+(1/3/07) - javadoc Bohr energy diagram
+(1/3/07) - clean up layout of Bohr energy diagram
+(1/3/07) - fix layout of y-axis label in energy diagram, falls off bottom
+(1/3/07) - move n=6 label up slightly in energy diagrams to prevent collision with n=5 label
+(1/3/07) - refine distortion of energy levels in energies diagrams
+(1/3/07) - make energy diagram look like a window, with a border and titlebar
+(1/3/07) - remove gap between title and diagram in energy diagram (stroke around clipNode)
+(1/3/07) - bugfix: energy diagram checkbox is clickable through the energy diagram
+(1/3/07) - make spectrometer slightly wider
+(1/3/07) - add title and close button to energy diagram
+(1/3/07) - increase height of energy diagram 
+(1/3/07) - make energy diagram cover its "show" checkbox
+(1/3/07) - make spectrometer cover its "show" checkbox
+(1/3/07) - use CloseButtonNode in spectrometer and its snapshots
+(1/3/07) - refactor close button code into CloseButtonNode
 ***** CVS tag hydrogenatom-0-00-19-2007-01-02
-(1/2/06) - add separate layers for state indicators and squiggles in energy diagrams
-(1/2/06) - implement Schrodinger energy diagram with no squiggles, no m=
-(1/2/06) - move common code for node creation and energy value calculation to AbstractEnergyDiagram
-(1/2/06) - implement Bohr/deBroglie energy diagram with no squiggles
-(1/2/06) - Solar System energy diagram must update electron offset even when the diagram is invisible
-(1/2/06) - rename SchrodingerUnstucker to MetastableHandler
+(1/2/07) - add separate layers for state indicators and squiggles in energy diagrams
+(1/2/07) - implement Schrodinger energy diagram with no squiggles, no m=
+(1/2/07) - move common code for node creation and energy value calculation to AbstractEnergyDiagram
+(1/2/07) - implement Bohr/deBroglie energy diagram with no squiggles
+(1/2/07) - Solar System energy diagram must update electron offset even when the diagram is invisible
+(1/2/07) - rename SchrodingerUnstucker to MetastableHandler
 (12/29/06) - implement Solar System energy diagram
 (12/29/06) - set up infrastructure for energy diagrams to observe atom
 (12/29/06) - made DeBroglieEnergyDiagram extend BohrEnergyDiagram
