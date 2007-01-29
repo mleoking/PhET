@@ -2,6 +2,16 @@
 Remaining Work
 #######################################
 
+1. Track control points shouldn't drop below the ground.
+2. When the user releases the skater partway into the track, the skater gets stuck.  Fix this (if easy).  Okay to not conserve energy right on release.
+3. Delete the negative potential energy (black); it causes total area of pie chart to behave unexpectedly.
+4. When potential energy is negative, make the pie chart invisible and gray out the pie chart button.
+5. Look at whether dots disappear... they should.
+6. performance problem after lots of runs.
+7. Control for whether normal velocity should convert to parallel velocity, or convert to thermal.
+8. Energy Dots should be purple?
+9. Skater sometimes falls beneath the ground and zooms out to the side.
+
 Future versions should allow plotting time series data without recording the entire history, and should put the record & playback buttons on the time series panel only.
 
 On a double-potential well where the skater slightly leaves the track, sometimes he attaches to the wrong side of the track.
