@@ -1,6 +1,8 @@
 package edu.colorado.phet.rotation.graphs;
 
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -40,7 +42,7 @@ public class JFreeChartCursorNode extends PNode {
                 update();
             }
         } );
-
+        addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             Point2D pressPoint;
             double pressTime;
@@ -67,6 +69,7 @@ public class JFreeChartCursorNode extends PNode {
                 Point2D dx = new Point2D.Double( d.getX() - pressPoint.getX(), d.getY() - pressPoint.getY() );
                 Point2D diff = localToPlotDifferential( dx.getX(), dx.getY() );
                 time = pressTime + diff.getX();
+                time = MathUtil.clamp( jFreeChartNode.getChart().getXYPlot().getDomainAxis().getRange().getLowerBound(), time, jFreeChartNode.getChart().getXYPlot().getDomainAxis().getRange().getUpperBound() );
 
                 update();
             }
