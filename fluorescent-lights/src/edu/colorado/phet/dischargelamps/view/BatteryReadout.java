@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.dischargelamps.model.Battery;
+import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 
 import javax.swing.*;
@@ -34,6 +35,8 @@ public class BatteryReadout extends GraphicLayerSet {
     private Point centerPoint;
     private JTextField readout;
     private PhetGraphic readoutGraphic;
+    // Used to avoid problems when JOptionPane is shown indicating invalid input
+    private boolean focusLossTemporary;
 
     public BatteryReadout( final Component component, final Battery battery, Point centerPoint, int offset ) {
         super( component );
@@ -48,7 +51,9 @@ public class BatteryReadout extends GraphicLayerSet {
         } );
         readout.addFocusListener( new FocusAdapter() {
             public void focusLost( FocusEvent e ) {
-                setBatteryVoltage( battery, component );
+                if( !focusLossTemporary ) {
+                    setBatteryVoltage( battery, component );
+                }
             }
         } );
         readoutGraphic = PhetJComponent.newInstance( component, readout );
@@ -70,7 +75,17 @@ public class BatteryReadout extends GraphicLayerSet {
             int vLoc = text.indexOf( 'V' );
             text = vLoc >= 0 ? readout.getText().substring( 0, vLoc ) : text;
             voltage = Double.parseDouble( text );
-            battery.setVoltage( voltage );
+            double maxVoltage = DischargeLampModel.MAX_VOLTAGE;
+            if( voltage >= -maxVoltage && voltage <= maxVoltage ) {
+                battery.setVoltage( voltage );
+            }
+            else {
+                focusLossTemporary = true;
+                JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
+                                               "Voltage must be between -" + Double.toString( maxVoltage ) +
+                                               "V and " + Double.toString( maxVoltage ) + "V" );
+                focusLossTemporary = false;
+            }
         }
         catch( NumberFormatException e1 ) {
             JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
