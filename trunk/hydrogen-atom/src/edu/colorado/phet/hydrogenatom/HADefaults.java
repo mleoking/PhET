@@ -38,7 +38,7 @@ public class HADefaults {
     public static final AtomicModel ATOMIC_MODEL = AtomicModel.BILLIARD_BALL;
     
     // DeBroglie View
-    public static final DeBroglieView DEBROGLIE_VIEW = DeBroglieView.BRIGHTNESS_MAGNITUDE;
+    public static final DeBroglieView DEBROGLIE_VIEW = DeBroglieView.RADIAL_DISTANCE;
     
     // Gun
     public static final boolean GUN_ENABLED = false;

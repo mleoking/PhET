@@ -33,32 +33,28 @@ public class DeBroglieViewMenu extends JMenu {
 
     private HAModule _module;
     
-    private JRadioButtonMenuItem _brightnessMagnitudeMenuItem;
-    private JRadioButtonMenuItem _brightnessMenuItem;
     private JRadioButtonMenuItem _radialDistanceMenuItem;
     private JRadioButtonMenuItem _height3DMenuItem;
-
+    private JRadioButtonMenuItem _brightnessMenuItem;
+    
     public DeBroglieViewMenu( HAModule module ) {
         super( SimStrings.get( "menu.deBroglieView" ) );
         setMnemonic( SimStrings.getChar( "menu.deBroglieView.mnemonic" ) );
 
         _module = module;
         
-        _brightnessMagnitudeMenuItem = new JRadioButtonMenuItem( SimStrings.get( "menu.deBroglieView.brightnessMagnitude" ) );
-        _brightnessMenuItem = new JRadioButtonMenuItem( SimStrings.get( "menu.deBroglieView.brightness" ) );
         _radialDistanceMenuItem = new JRadioButtonMenuItem( SimStrings.get( "menu.deBroglieView.radialDistance" ) );
         _height3DMenuItem = new JRadioButtonMenuItem( SimStrings.get( "menu.deBroglieView.height3D" ) );
+        _brightnessMenuItem = new JRadioButtonMenuItem( SimStrings.get( "menu.deBroglieView.brightness" ) );
 
         ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add( _brightnessMagnitudeMenuItem );
-        buttonGroup.add( _brightnessMenuItem );
         buttonGroup.add( _radialDistanceMenuItem );
         buttonGroup.add( _height3DMenuItem );
+        buttonGroup.add( _brightnessMenuItem );
 
-        add( _brightnessMagnitudeMenuItem );
-        add( _brightnessMenuItem );
         add( _radialDistanceMenuItem );
         add( _height3DMenuItem );
+        add( _brightnessMenuItem );
 
         // Event handling
         ActionListener listener = new ActionListener() {
@@ -66,16 +62,12 @@ public class DeBroglieViewMenu extends JMenu {
                 handledeBroglieViewChange( e.getSource() );
             }
         };
-        _brightnessMagnitudeMenuItem.addActionListener( listener );
-        _brightnessMenuItem.addActionListener( listener );
         _radialDistanceMenuItem.addActionListener( listener );
         _height3DMenuItem.addActionListener( listener );
+        _brightnessMenuItem.addActionListener( listener );
 
         // Default state
-        if ( HADefaults.DEBROGLIE_VIEW == DeBroglieView.BRIGHTNESS_MAGNITUDE ) { 
-            _brightnessMagnitudeMenuItem.setSelected( true );
-        }
-        else if ( HADefaults.DEBROGLIE_VIEW == DeBroglieView.BRIGHTNESS ) {
+        if ( HADefaults.DEBROGLIE_VIEW == DeBroglieView.BRIGHTNESS ) {
             _brightnessMenuItem.setSelected( true );
         }
         else if ( HADefaults.DEBROGLIE_VIEW == DeBroglieView.RADIAL_DISTANCE ) {
@@ -88,10 +80,7 @@ public class DeBroglieViewMenu extends JMenu {
 
     private void handledeBroglieViewChange( Object source ) {
         DeBroglieView view = null;
-        if ( source == _brightnessMagnitudeMenuItem ) {
-            view = DeBroglieView.BRIGHTNESS_MAGNITUDE;
-        }
-        else if ( source == _brightnessMenuItem ) {
+        if ( source == _brightnessMenuItem ) {
             view = DeBroglieView.BRIGHTNESS;
         }
         else if ( source == _radialDistanceMenuItem ) {
