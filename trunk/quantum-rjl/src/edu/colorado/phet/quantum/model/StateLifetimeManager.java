@@ -83,17 +83,19 @@ class StateLifetimeManager implements ModelElement {
                 double x = speed * Math.cos( theta );
                 double y = speed * Math.sin( theta );
 
-                Photon emittedPhoton = Photon.create( state.determineEmittedPhotonWavelength( nextState ),
-                                                      new Point2D.Double( atom.getPosition().getX(), atom.getPosition().getY() ),
-                                                      new Vector2D.Double( x, y ) );
+                if( nextState != atom.getCurrState() ) {
+                    Photon emittedPhoton = Photon.create( state.determineEmittedPhotonWavelength( nextState ),
+                                                          new Point2D.Double( atom.getPosition().getX(), atom.getPosition().getY() ),
+                                                          new Vector2D.Double( x, y ) );
 
-                // Place the replacement photon beyond the atom, so it doesn't collide again
-                // right away
-                Vector2D vHat = new Vector2D.Double( emittedPhoton.getVelocity() ).normalize();
-                Vector2D position = new Vector2D.Double( atom.getPosition() );
-                position.add( vHat.scale( atom.getRadius() + 10 ) );
-                emittedPhoton.setPosition( position.getX(), position.getY() );
-                atom.emitPhoton( emittedPhoton );
+                    // Place the replacement photon beyond the atom, so it doesn't collide again
+                    // right away
+                    Vector2D vHat = new Vector2D.Double( emittedPhoton.getVelocity() ).normalize();
+                    Vector2D position = new Vector2D.Double( atom.getPosition() );
+                    position.add( vHat.scale( atom.getRadius() + 10 ) );
+                    emittedPhoton.setPosition( position.getX(), position.getY() );
+                    atom.emitPhoton( emittedPhoton );
+                }
             }
 
             // Change state
