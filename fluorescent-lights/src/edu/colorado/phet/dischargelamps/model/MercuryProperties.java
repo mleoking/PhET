@@ -19,6 +19,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @version $Revision$
  */
 public class MercuryProperties extends DischargeLampElementProperties {
+
+    // Energy levels
     private static double[] energyLevels = {
             -10.38,
             -5.73,
@@ -29,7 +31,6 @@ public class MercuryProperties extends DischargeLampElementProperties {
             -1.55,
             -0.85
     };
-
 
     // Likelihoods of emission transitions from one
     // state to another
@@ -54,14 +55,10 @@ public class MercuryProperties extends DischargeLampElementProperties {
             new TransitionEntry( 0, 0, 1 ),
     };
 
-    static LevelSpecificEnergyEmissionStrategy energyEmissionStrategy = new LevelSpecificEnergyEmissionStrategy( teA );
-
+    /**
+     *
+     */
     public MercuryProperties() {
-        super( SimStrings.get( "Element.mercury" ),
-               MercuryProperties.energyLevels,
-               energyEmissionStrategy ,
-               new FiftyPercentAbsorptionStrategy(),
-               DischargeLampAtom.DEFAULT_STATE_LIFETIME );
-        energyEmissionStrategy.setStates( getStates() );
+        super( SimStrings.get( "Element.mercury" ), energyLevels, teA );
     }
 }

@@ -33,7 +33,7 @@ public class SodiumProperties extends DischargeLampElementProperties {
         super( SimStrings.get( "Element.sodium" ),
                SodiumProperties.energyLevels,
                new HydrogenEnergyEmissionStrategy(),
-               new FiftyPercentAbsorptionStrategy(),
+               new EqualLikelihoodAbsorptionStrategy(),
                DischargeLampAtom.DEFAULT_STATE_LIFETIME );
     }
 }

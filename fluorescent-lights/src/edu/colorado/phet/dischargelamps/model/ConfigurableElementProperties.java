@@ -15,7 +15,9 @@ import edu.colorado.phet.quantum.AtomicStateFactory;
 import edu.colorado.phet.quantum.model.AtomicState;
 
 /**
- * HydrogenProperties
+ * ConfigurableElementProperties
+ * <p>
+ * These are the properties for the configurable element.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -30,7 +32,7 @@ public class ConfigurableElementProperties extends DischargeLampElementPropertie
     public ConfigurableElementProperties( int numEnergyLevels, DischargeLampModel model ) {
         super( SimStrings.get( "Element.configurable" ), energyLevels,
                new ConfigurableAtomEnergyEmissionStrategy(),
-               new FiftyPercentAbsorptionStrategy(),
+               new EqualLikelihoodAbsorptionStrategy(),
                DischargeLampAtom.DEFAULT_STATE_LIFETIME );
         setMeanStateLifetime( meanStateLifetime );
         model.addChangeListener( new LevelChangeHandler() );

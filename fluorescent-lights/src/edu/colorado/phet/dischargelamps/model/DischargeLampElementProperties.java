@@ -22,18 +22,53 @@ import edu.colorado.phet.quantum.model.EnergyEmissionStrategy;
 public class DischargeLampElementProperties extends ElementProperties {
     private EnergyAbsorptionStrategy energyAbsorptionStrategy;
 
-    protected DischargeLampElementProperties( String name, double[] energyLevels,
+    /**
+     *
+     * @param name
+     * @param energyLevels
+     * @param energyEmissionStrategy
+     * @param energyAbsorptionStrategy
+     */
+    protected DischargeLampElementProperties( String name,
+                                              double[] energyLevels,
                                               EnergyEmissionStrategy energyEmissionStrategy,
                                               EnergyAbsorptionStrategy energyAbsorptionStrategy ) {
         this( name, energyLevels, energyEmissionStrategy, energyAbsorptionStrategy, 0 );
     }
 
-    protected DischargeLampElementProperties( String name, double[] energyLevels,
+    /**
+     *
+     * @param name
+     * @param energyLevels
+     * @param energyEmissionStrategy
+     * @param energyAbsorptionStrategy
+     * @param meanStateLifetime
+     */
+    protected DischargeLampElementProperties( String name,
+                                              double[] energyLevels,
                                               EnergyEmissionStrategy energyEmissionStrategy,
                                               EnergyAbsorptionStrategy energyAbsorptionStrategy,
                                               double meanStateLifetime ) {
         super( name, energyLevels, energyEmissionStrategy, meanStateLifetime );
         setEnergyAbsorptionStrategy( energyAbsorptionStrategy );
+    }
+
+    /**
+     * Provided for elements that use a LevelSpecificeEnergyEmissionStrategy.
+     * 
+     * @param name
+     * @param energyLevels
+     * @param teA
+     */
+    protected DischargeLampElementProperties( String name,
+                                              double[] energyLevels,
+                                              TransitionEntry[] teA ) {
+        super( name,
+               energyLevels,
+               new LevelSpecificEnergyEmissionStrategy( teA ),
+               DischargeLampAtom.DEFAULT_STATE_LIFETIME );
+        setEnergyAbsorptionStrategy( new FiftyPercentAbsorptionStrategy());
+        ((LevelSpecificEnergyEmissionStrategy)getEnergyEmissionStrategy()).setStates( getStates() );
     }
 
     public EnergyAbsorptionStrategy getEnergyAbsorptionStrategy() {

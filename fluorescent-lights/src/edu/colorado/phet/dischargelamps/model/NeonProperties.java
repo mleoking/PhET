@@ -20,6 +20,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @version $Revision$
  */
 public class NeonProperties extends DischargeLampElementProperties {
+
+    // Energy levels
     private static double[] energyLevels = {
             -21.56,
             -4.94,
@@ -59,15 +61,11 @@ public class NeonProperties extends DischargeLampElementProperties {
             new TransitionEntry( 0, 0, 1 ),
     };
 
-    static LevelSpecificEnergyEmissionStrategy energyEmissionStrategy = new LevelSpecificEnergyEmissionStrategy( teA );
-
+    /**
+     *
+     */
     public NeonProperties() {
-        super( SimStrings.get( "Element.neon" ),
-               energyLevels,
-               energyEmissionStrategy,
-               new FiftyPercentAbsorptionStrategy(),
-               DischargeLampAtom.DEFAULT_STATE_LIFETIME );
-        energyEmissionStrategy.setStates( getStates() );
+        super( SimStrings.get( "Element.neon" ), energyLevels, teA );
     }
 }
 

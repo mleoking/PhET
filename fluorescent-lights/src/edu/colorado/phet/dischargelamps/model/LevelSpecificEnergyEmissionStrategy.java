@@ -45,6 +45,9 @@ public class LevelSpecificEnergyEmissionStrategy implements EnergyEmissionStrate
 
     public Object getTargetState( Object originState ) {
         ProbabilisticChooser targetMap = (ProbabilisticChooser)originStateToTargetStates.get( originState );
+        if( targetMap == null ) {
+            System.out.println( "LevelSpecificEnergyEmissionStrategy.getTargetState" );
+        }
         Object targetState = targetMap.get( random.nextDouble() );
         return targetState;
     }
@@ -52,32 +55,24 @@ public class LevelSpecificEnergyEmissionStrategy implements EnergyEmissionStrate
     /**
      * Sets the states for the strategy. Builds the map that holds the ProbabilisticChooser for each
      * state.
-     * <p>
-     * NOTE: This can only be called one per instance. Subsequent calls to the method have no effect. This
-     * is to address a bug that I couldn't find another easy fix for. The bug behvior: Start the sim, switch to
-     * a different element (eg, neon) than the default (hydrogen), then back to the default. Now, the atom will
-     * respond to the first electron that hits it, but no others after that. The bug has something to do with
-     * this class, and subsequent calls to this method.
      *
      * @param states
      */
     public void setStates( AtomicState[] states ) {
-        if( !statesSet ) {
-            statesSet = true;
-            for( int i = 0; i < states.length; i++ ) {
-                AtomicState state = states[i];
-                List mapEntries = new ArrayList();
-                for( int j = 0; j < teA.length; j++ ) {
-                    DischargeLampElementProperties.TransitionEntry te = teA[j];
-                    if( i == te.getSourceStateIdx() ) {
-                        ProbabilisticChooser.Entry pmEntry = new ProbabilisticChooser.Entry( states[teA[j].getTargetStateIdx()],
-                                                                                             te.getTxStrength() );
-                        mapEntries.add( pmEntry );
-                    }
-                    ;
+        statesSet = true;
+        for( int i = 0; i < states.length; i++ ) {
+            AtomicState state = states[i];
+            List mapEntries = new ArrayList();
+            for( int j = 0; j < teA.length; j++ ) {
+                DischargeLampElementProperties.TransitionEntry te = teA[j];
+                if( i == te.getSourceStateIdx() ) {
+                    ProbabilisticChooser.Entry pmEntry = new ProbabilisticChooser.Entry( states[teA[j].getTargetStateIdx()],
+                                                                                         te.getTxStrength() );
+                    mapEntries.add( pmEntry );
                 }
-                originStateToTargetStates.put( state, new ProbabilisticChooser( (ProbabilisticChooser.Entry[])mapEntries.toArray( new ProbabilisticChooser.Entry[mapEntries.size()] ) ) );
+                ;
             }
+            originStateToTargetStates.put( state, new ProbabilisticChooser( (ProbabilisticChooser.Entry[])mapEntries.toArray( new ProbabilisticChooser.Entry[mapEntries.size()] ) ) );
         }
     }
 }

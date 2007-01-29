@@ -30,9 +30,11 @@ public class DischargeLampAtom extends Atom {
     public static final double DEFAULT_STATE_LIFETIME = ( DischargeLampsConfig.DT / DischargeLampsConfig.FPS ) * 100;
 
 //    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new HighestStateAbsorptionStrategy();
+//    private EnergyEmissionStrategy energyEmissionStrategy;
     private EnergyEmissionStrategy energyEmissionStrategy = new HydrogenEnergyEmissionStrategy();
 //    private EnergyEmissionStrategy energyEmissionStrategy = new NextLowestEnergyEmissionStrategy();
-    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new EqualLikelihoodAbsorptionStrategy();
+    private EnergyAbsorptionStrategy energyAbsorptionStrategy;
+//    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new EqualLikelihoodAbsorptionStrategy();
 //    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
 //    private EnergyEmissionStrategy energyEmissionStrategy = new FiftyPercentEnergyEmissionStrategy();
 
@@ -42,18 +44,19 @@ public class DischargeLampAtom extends Atom {
     /**
      * @param model
      */
-    public DischargeLampAtom( LaserModel model, ElementProperties elementProperties ) {
+    public DischargeLampAtom( LaserModel model, DischargeLampElementProperties elementProperties ) {
         super( model, elementProperties.getStates().length, true );
 
 
         if( elementProperties.getStates().length < 2 ) {
             throw new RuntimeException( "Atom must have at least two states" );
         }
-        setStates( elementProperties.getStates() );
+//        setStates( elementProperties.getStates() );
+        setElementProperties( elementProperties );
         setCurrState( elementProperties.getStates()[0] );
     }
 
-    public DischargeLampAtom( LaserModel model, ElementProperties elementProperties, EnergyEmissionStrategy ees ) {
+    public DischargeLampAtom( LaserModel model, DischargeLampElementProperties elementProperties, EnergyEmissionStrategy ees ) {
         this( model, elementProperties );
         energyEmissionStrategy = ees;
     }
@@ -114,10 +117,9 @@ public class DischargeLampAtom extends Atom {
     }
 
     public void setElementProperties( DischargeLampElementProperties elementProperties ) {
+        super.setStates( elementProperties.getStates() );
         this.energyAbsorptionStrategy = elementProperties.getEnergyAbsorptionStrategy();
         this.energyEmissionStrategy = elementProperties.getEnergyEmissionStrategy();
-
-        super.setStates( elementProperties.getStates() );
     }
 
     //--------------------------------------------------------------------------------------------------

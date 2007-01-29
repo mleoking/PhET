@@ -20,6 +20,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @version $Revision$
  */
 public class HydrogenProperties extends DischargeLampElementProperties {
+
+    // Energy levels
     private static double[] energyLevels = {
             -13.6,
             -3.4,
@@ -45,16 +47,12 @@ public class HydrogenProperties extends DischargeLampElementProperties {
             new TransitionEntry( 1, 0, 12.53 ),
             new TransitionEntry( 0, 0, 1 ),
     };
-    static boolean statesSet = false;
 
-    static LevelSpecificEnergyEmissionStrategy energyEmissionStrategy = new LevelSpecificEnergyEmissionStrategy( teA );
-
+    /**
+     *
+     */
     public HydrogenProperties() {
-        super( SimStrings.get( "Element.hydrogen" ), energyLevels,
-               energyEmissionStrategy,
-               new FiftyPercentAbsorptionStrategy(),
-               DischargeLampAtom.DEFAULT_STATE_LIFETIME );
-            energyEmissionStrategy.setStates( getStates() );
+        super( SimStrings.get( "Element.hydrogen" ), energyLevels, teA );
     }
 }
 

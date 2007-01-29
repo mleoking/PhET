@@ -50,17 +50,19 @@ public class Sodium extends DischargeLampElementProperties {
             new TransitionEntry( 0, 0, 1 ),
     };
 
-    static LevelSpecificEnergyEmissionStrategy energyEmissionStrategy = new LevelSpecificEnergyEmissionStrategy( teA );
-
-    private static final EnergyEmissionStrategy ENERGY_EMISSION_STRATEGY = new DefaultEnergyEmissionStrategy();
     private static final double WORK_FUNCTION = 2.3;
     private static final EnergyAbsorptionStrategy ENERGY_ABSORPTION_STRATEGY = new MetalEnergyAbsorptionStrategy( WORK_FUNCTION );
 
+    /**
+     * 
+     */
     public Sodium() {
-        super( NAME, ENERGY_LEVELS, energyEmissionStrategy, ENERGY_ABSORPTION_STRATEGY );
-//        super( NAME, ENERGY_LEVELS, ENERGY_EMISSION_STRATEGY, ENERGY_ABSORPTION_STRATEGY );
+        super( NAME,
+               ENERGY_LEVELS,
+               new LevelSpecificEnergyEmissionStrategy( teA ),
+               ENERGY_ABSORPTION_STRATEGY );
 
-        energyEmissionStrategy.setStates( getStates() );
+        ((LevelSpecificEnergyEmissionStrategy)getEnergyEmissionStrategy()).setStates( getStates() );
         setWorkFunction( WORK_FUNCTION );
     }
 }
