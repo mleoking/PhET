@@ -75,6 +75,7 @@ public class JFreeChartCursorNode extends PNode {
             }
         } );
 
+        //todo: remove this timer when wired up to listen to target changes properly
         new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 update();
