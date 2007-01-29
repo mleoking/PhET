@@ -393,7 +393,8 @@ public class DischargeLampModule extends PhetGraphicsModule {
         AtomicState[] atomicStates = model.getAtomicStates();
 
         for( int i = 0; i < numAtoms; i++ ) {
-            atom = new DischargeLampAtom( (LaserModel)getModel(), atomicStates );
+            atom = new DischargeLampAtom( (LaserModel)getModel(), getDischargeLampModel().getElementProperties() );
+//            atom = new DischargeLampAtom( (LaserModel)getModel(), atomicStates );
             atom.setPosition( ( tubeBounds.getX() + ( Math.random() ) * ( tubeBounds.getWidth() - atom.getRadius() * 4 ) + atom.getRadius() * 2 ),
                               ( tubeBounds.getY() + ( Math.random() ) * ( tubeBounds.getHeight() - atom.getRadius() * 4 ) ) + atom.getRadius() * 2 );
             atom.setVelocity( (float)( Math.random() - 0.5 ) * maxSpeed,

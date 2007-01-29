@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
 public class DischargeLampsConfig {
 
     // Version
-    public static String version = "1.02.11";
+    public static String version = "1.02.12";
 
     // Localization
     public static final String localizedStringsPath = "localization/DischargeLampsStrings";

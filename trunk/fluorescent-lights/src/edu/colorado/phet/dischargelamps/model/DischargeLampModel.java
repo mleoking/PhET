@@ -60,7 +60,7 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
     private Battery battery;
     private double current;
     private double maxCurrent;
-    private ElementProperties elementProperties;
+    private DischargeLampElementProperties elementProperties;
 
 
     /**
@@ -209,7 +209,7 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
         return;
     }
 
-    public ElementProperties getElementProperties() {
+    public DischargeLampElementProperties getElementProperties() {
         return elementProperties;
     }
 
