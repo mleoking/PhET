@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+    <jar path="/Volumes/files/phet-workspace/jars/opticaltweezers.jar"/>
+    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/cmalley/build/optical-tweezers.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
+    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="true" saveManifest="false" generateManifest="false" manifestLocation="/cmalley/build/optical-tweezers.mf">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="false" exportOutputFolder="true" exportJavaFiles="false">
+        <javaElement handleIdentifier="=optical-tweezers"/>
+        <javaElement handleIdentifier="=phetcommon"/>
+        <javaElement handleIdentifier="=piccolo"/>
+        <javaElement handleIdentifier="=piccolo-phet"/>
+    </selectedElements>
+</jardesc>
