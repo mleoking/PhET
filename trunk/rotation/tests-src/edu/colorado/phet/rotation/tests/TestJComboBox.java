@@ -10,7 +10,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 30, 2007
  * Time: 11:23:23 AM
- * Copyright (c) Jan 30, 2007 by Sam Reid
  */
 
 public class TestJComboBox {
@@ -28,7 +27,10 @@ public class TestJComboBox {
         JComboBox jComboBox2 = new JComboBox( new String[]{"cat", "dog", "squirrel", "anteater"} );
         panel.add( jComboBox1, gridBagConstraints );
         panel.add( jComboBox2, gridBagConstraints );
-        pCanvas.getLayer().addChild( new PSwing( pCanvas, panel ) );
+        PSwing pSwing = new PSwing( pCanvas, panel );
+        pSwing.setOffset( 200, 200 );
+        pSwing.scale( 2.0 );
+        pCanvas.getLayer().addChild( pSwing );
         frame.setContentPane( pCanvas );
         frame.setSize( 400, 400 );
     }
