@@ -16,6 +16,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Hashtable;
 
 import javax.swing.*;
@@ -43,6 +44,14 @@ import edu.colorado.phet.hydrogenatom.model.HAClock;
 public class HAClockControlPanel extends JPanel {
     
     //----------------------------------------------------------------------------
+    // Debug
+    //----------------------------------------------------------------------------
+    
+    private static final boolean DEBUG_SHOW_DT = true;
+    
+    private static final DecimalFormat DT_FORMATTER = new DecimalFormat( "0.#" );
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -52,6 +61,8 @@ public class HAClockControlPanel extends JPanel {
     private JButton _pauseButton;
     private JButton _stepButton;
     private JSlider _clockIndexSlider;
+    
+    private JLabel _dtLabel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -66,8 +77,9 @@ public class HAClockControlPanel extends JPanel {
         super();
         
         // Clock
+        double dt = HAConstants.DEFAULT_CLOCK_STEP;
         _clock = clock;
-        _clock.setSimulationTimeChange( HAConstants.DEFAULT_CLOCK_STEP );
+        _clock.setSimulationTimeChange( dt );
         
         // Labels (use localized strings from phetcommon)
         String playLabel = SimStrings.get( "Common.ClockControlPanel.Play" );
@@ -126,10 +138,19 @@ public class HAClockControlPanel extends JPanel {
             controlsPanel.add( _stepButton );
         }
         
+        // dt value
+        if ( DEBUG_SHOW_DT ) {           
+            _dtLabel = new JLabel();
+            updateDt( dt );
+        }
+        
         // Layout
         setLayout(  new FlowLayout( FlowLayout.CENTER ) );
         add( new JLabel( clockIcon) );
         add( _clockIndexSlider );
+        if ( _dtLabel != null ) {
+            add( _dtLabel );
+        }
         add( controlsPanel );
         
         // Interactivity
@@ -224,7 +245,9 @@ public class HAClockControlPanel extends JPanel {
     
     private void handleClockIndexChange() {
         int index = _clockIndexSlider.getValue();
-        _clock.setSimulationTimeChange( HAConstants.CLOCK_STEPS[index] );
+        double dt = HAConstants.CLOCK_STEPS[index];
+        _clock.setSimulationTimeChange( dt );
+        updateDt( dt );
     }
     
     private void handlePlay() {
@@ -251,5 +274,12 @@ public class HAClockControlPanel extends JPanel {
         _playButton.setEnabled( isPaused );
         _pauseButton.setEnabled( !isPaused );
         _stepButton.setEnabled( isPaused );
+    }
+    
+    private void updateDt( double dt ) {
+        if ( _dtLabel!= null ) {
+            String s = DT_FORMATTER.format( dt );
+            _dtLabel.setText( "dt=" + s );
+        }
     }
 }
