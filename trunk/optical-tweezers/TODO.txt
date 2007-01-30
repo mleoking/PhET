@@ -1,0 +1,22 @@
+===============================================================================
+"To Do" list for "Optical Tweezers" simulation          $Revision$
+===============================================================================
+
+IN PROGRESS:
+
+HIGH PRIORITY:
+
+MEDIUM PRIORITY:
+
+LOW PRIORITY:
+
+DEFER UNTIL AFTER INTERVIEWS:
+ 
+DONE:
+(1/29/07) - set up basic application framework (modules, control panels, clock controls, persistence, etc)
+(1/29/07) - set up project in CVS
+
+REJECTED:
+
+===============================================================================
+end of file
