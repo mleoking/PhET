@@ -113,11 +113,9 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     }
 
-    private void repaintPanel( Rectangle2D bounds ) {
-        phetPCanvas.repaint( new PBounds( bounds ) );
-//        phetPCanvas.paintImmediately( (int)bounds.getX(),(int)bounds.getY(),(int)(bounds.getWidth()+1),(int)(bounds.getHeight()+1) );
-        debugBufferRegion.setPathTo( bounds );
-    }
+//    private void repaintPanel( Rectangle2D bounds ) {
+//        
+//    }
 
     static interface SeriesViewFactory {
         SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData );
@@ -349,7 +347,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
                     }
                     dynamicJFreeChartNode.localToGlobal( bounds );
                     dynamicJFreeChartNode.phetPCanvas.getPhetRootNode().globalToScreen( bounds );
-                    dynamicJFreeChartNode.repaintPanel( bounds );
+                    repaintPanel( bounds );
                 }
             }
         }
@@ -387,8 +385,13 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
                 graphics2D.setStroke( stroke );
                 GeneralPath path = toGeneralPath();
                 graphics2D.draw( path );
-                dynamicJFreeChartNode.repaintPanel( new Rectangle2D.Double( 0, 0, dynamicJFreeChartNode.phetPCanvas.getWidth(), dynamicJFreeChartNode.phetPCanvas.getHeight() ) );
+                repaintPanel( new Rectangle2D.Double( 0, 0, dynamicJFreeChartNode.phetPCanvas.getWidth(), dynamicJFreeChartNode.phetPCanvas.getHeight() ) );
             }
+        }
+
+        protected void repaintPanel( Rectangle2D bounds ) {
+            dynamicJFreeChartNode.phetPCanvas.repaint( new PBounds( bounds ) );
+            dynamicJFreeChartNode.debugBufferRegion.setPathTo( bounds );
         }
 
         private GeneralPath toGeneralPath() {
@@ -402,7 +405,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             return path;
         }
     }
-
 
     public static class SeriesData {
         private String title;
