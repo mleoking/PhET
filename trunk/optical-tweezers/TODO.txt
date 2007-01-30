@@ -13,6 +13,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+(1/29/07) - create JNLP files
 (1/29/07) - set up basic application framework (modules, control panels, clock controls, persistence, etc)
 (1/29/07) - set up project in CVS
 
