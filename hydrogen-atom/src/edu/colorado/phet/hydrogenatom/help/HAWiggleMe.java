@@ -21,7 +21,7 @@ import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.umd.cs.piccolo.PCanvas;
 
 /**
- * BSWiggleMe encapsulates the "look" of wiggle mes for this simulation.
+ * HAWiggleMe encapsulates the "look" of wiggle me's for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
