@@ -23,6 +23,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/29/06) - add a bunch of clock speeds (0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10) so Sam M. can pick 3
 (1/29/07) - delete "amplitude magnitude -> brightness" option for deBroglie views
 (1/29/07) - change order of deBroglie views to: radial, 3D, brightness
 (1/29/07) - set default deBroglie view to radial
