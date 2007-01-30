@@ -3,6 +3,8 @@
 ===============================================================================
 
 IN PROGRESS:
+- review design document
+- learn about optical tweezers
 
 HIGH PRIORITY:
 
