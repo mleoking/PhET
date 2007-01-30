@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+
+Main-Class: edu.colorado.phet.opticaltweezers.OTApplication
+
+CVS-Tag: opticaltweezers-0-00-01-2007-01-17
+
+
+
