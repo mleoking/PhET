@@ -79,7 +79,6 @@ public class DeveloperControlsDialog extends JDialog {
     }
     
     private JPanel createInputPanel() {
-
         
         // Layout
         JPanel panel = new JPanel();
@@ -89,7 +88,7 @@ public class DeveloperControlsDialog extends JDialog {
         panel.setLayout( layout );
         int row = 0;
         {
-           //XXX layout.addComponent
+           layout.addComponent( new JLabel( "controls go here" ), row, 0 );
         }
         
         return panel;
