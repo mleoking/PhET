@@ -64,6 +64,11 @@ public class TestDynamicJFreeChartNode {
                 dynamicJFreeChartNode.setBufferedSeries();
             }
         } ) );
+        panel.add( createButton( "Buffered Immediate", buttonGroup, false, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                dynamicJFreeChartNode.setBufferedImmediateSeries();
+            }
+        } ) );
         final JCheckBox jCheckBox = new JCheckBox( "buffered", dynamicJFreeChartNode.isBuffered() );
         jCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

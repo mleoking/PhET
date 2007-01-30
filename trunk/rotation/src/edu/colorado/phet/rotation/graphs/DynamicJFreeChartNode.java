@@ -58,6 +58,12 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             return new BufferedSeriesView( dynamicJFreeChartNode, seriesData );
         }
     };
+    private SeriesViewFactory bufferedImmediateSeriesFactory = new SeriesViewFactory() {
+        public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
+            return new BufferedImmediateSeriesView( dynamicJFreeChartNode, seriesData );
+        }
+    };
+
     private SeriesViewFactory viewFactory = jfreeChartSeriesFactory;
 
     public DynamicJFreeChartNode( PhetPCanvas phetPCanvas, JFreeChart chart ) {
@@ -133,7 +139,11 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         setViewFactory( bufferedSeriesFactory );
     }
 
-    private void setViewFactory( SeriesViewFactory factory ) {
+    public void setBufferedImmediateSeries() {
+        setViewFactory( bufferedImmediateSeriesFactory );
+    }
+
+    public void setViewFactory( SeriesViewFactory factory ) {
         viewFactory = factory;
         updateSeriesViews();
     }
@@ -316,6 +326,18 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     }
 
+    static class BufferedImmediateSeriesView extends BufferedSeriesView {
+
+        public BufferedImmediateSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
+            super( dynamicJFreeChartNode, seriesData );
+        }
+
+        protected void repaintPanel( Rectangle2D bounds ) {
+            dynamicJFreeChartNode.phetPCanvas.paintImmediately( new Rectangle( (int)bounds.getX(), (int)bounds.getY(), (int)( bounds.getWidth() + 1 ), (int)( bounds.getHeight() + 1 ) ) );
+            dynamicJFreeChartNode.debugBufferRegion.setPathTo( bounds );
+        }
+    }
+
     static class BufferedSeriesView extends SeriesView {
         private BufferedImage lastFullPaint = null;
         private boolean origStateBuffered;
@@ -362,9 +384,10 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
         public void uninstall() {
             super.uninstall();
-            if( dynamicJFreeChartNode.isBuffered() != origStateBuffered ) {
-                dynamicJFreeChartNode.setBuffered( origStateBuffered );
-            }
+            //todo: this was causing an infinite loop in updateSeriesViews
+//            if( dynamicJFreeChartNode.isBuffered() != origStateBuffered ) {
+//                dynamicJFreeChartNode.setBuffered( origStateBuffered );
+//            }
         }
 
         public void install() {
