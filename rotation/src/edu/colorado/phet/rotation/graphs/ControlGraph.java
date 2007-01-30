@@ -70,7 +70,8 @@ public class ControlGraph extends PNode {
         jFreeChartNode.setBounds( 0, 0, 300, 400 );
 //        jFreeChartNode.setPiccoloSeries();
 //        jFreeChartNode.setJFreeChartSeries();
-        jFreeChartNode.setBufferedSeries();
+//        jFreeChartNode.setBufferedSeries();
+        jFreeChartNode.setBufferedImmediateSeries();
 
         graphControlNode = new GraphControlNode( pSwingCanvas, new DefaultGraphTimeSeries() );
         addSeries( title, color, abbr, simulationVariable );
@@ -119,24 +120,29 @@ public class ControlGraph extends PNode {
         jFreeChartNode.updateChartRenderingInfo();
         relayout();
         updateZoomEnabled();
-        
+
         //for debugging, attach listeners that allow change of rendering style.
-        addInputEventListener( new PBasicInputEventHandler(){
+        addInputEventListener( new PBasicInputEventHandler() {
             public void keyPressed( PInputEvent event ) {
-                if (event.getKeyCode()== KeyEvent.VK_1){
+                if( event.getKeyCode() == KeyEvent.VK_1 ) {
                     jFreeChartNode.setJFreeChartSeries();
-                }else if (event.getKeyCode()==KeyEvent.VK_2){
+                }
+                else if( event.getKeyCode() == KeyEvent.VK_2 ) {
                     jFreeChartNode.setPiccoloSeries();
-                }else if (event.getKeyCode()==KeyEvent.VK_3){
+                }
+                else if( event.getKeyCode() == KeyEvent.VK_3 ) {
                     jFreeChartNode.setBufferedSeries();
+                }
+                else if( event.getKeyCode() == KeyEvent.VK_4 ) {
+                    jFreeChartNode.setBufferedImmediateSeries();
                 }
             }
         } );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
-                event.getInputManager().setKeyboardFocus(event.getPath());
+                event.getInputManager().setKeyboardFocus( event.getPath() );
             }
-        });
+        } );
     }
 
     public void addHorizontalZoomListener( ZoomControlNode.ZoomListener zoomListener ) {
