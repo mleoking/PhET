@@ -7,7 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - choose 3 clock speeds
 - hide dt value shown in clock control panel
-- all wave function should have same max amplitude, similar to 2nd orbit
+- all wave functions should have same max amplitude, similar to 2nd orbit
 - change secondary state 'l' to a curly italic 'l'
 - add "Show absorption wavelengths" checkbox below wavelength slider
 - show/hide vertical black lines in UV portion of wavelength track for ground state transition wavelengths
