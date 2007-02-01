@@ -44,7 +44,7 @@ public class HADefaults {
     public static final boolean GUN_ENABLED = false;
     public static final GunMode GUN_MODE = GunMode.PHOTONS;
     public static final LightType LIGHT_TYPE = LightType.WHITE;
-    public static final double WAVELENGTH = 490;
+    public static final double WAVELENGTH = 94;
     public static final double LIGHT_INTENSITY = 1.0;
     public static final double ALPHA_PARTICLES_INTENSITY = 1.0;
     public static final boolean SHOW_ALPHA_PARTICLE_TRACES = false;
