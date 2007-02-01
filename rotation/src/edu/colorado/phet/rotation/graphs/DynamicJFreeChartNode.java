@@ -152,10 +152,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     }
 
-//    private void repaintPanel( Rectangle2D bounds ) {
-//        
-//    }
-
     static interface SeriesViewFactory {
         SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData );
     }
