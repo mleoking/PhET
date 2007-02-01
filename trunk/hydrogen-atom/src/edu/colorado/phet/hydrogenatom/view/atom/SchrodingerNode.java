@@ -71,14 +71,6 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     private static final boolean DEBUG_CACHE = false;
     
     //----------------------------------------------------------------------------
-    // Public class data
-    //----------------------------------------------------------------------------
-    
-    // If the brightness at the proton's location (0,0) is less then this value,
-    // make the proton visible. Otherwise hide it.
-    public static double PROTON_VISIBILITY_THRESHOLD = 0.25;
-    
-    //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
     
@@ -233,9 +225,6 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         
         // Update the atom.
         _fieldNode.setBrightness( brightness );
-        
-        // Is the proton visible?
-        _protonNode.setVisible( brightness[0][0] < PROTON_VISIBILITY_THRESHOLD );
     }
     
     //----------------------------------------------------------------------------

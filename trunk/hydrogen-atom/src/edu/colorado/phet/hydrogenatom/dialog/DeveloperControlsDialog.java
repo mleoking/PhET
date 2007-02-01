@@ -105,8 +105,6 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     private ColorChip _deBroglieBrightnessZeroChip;
     private SpinnerControl _deBroglieRadialAmplitudeSpinner;
     
-    private SpinnerControl _schrodingerProtonThresholdSpinner;
-    
     private SpinnerControl _squiggleLifetimeSpinner;
     
     private JDialog _colorChooserDialog;
@@ -254,19 +252,6 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             _deBroglieRadialAmplitudeSpinner.setEditable( false );
         }
         
-        // brightness threshold for showing Schrodinger proton
-        {
-            double value = SchrodingerNode.PROTON_VISIBILITY_THRESHOLD;
-            double min = 0;
-            double max = 1;
-            double stepSize = 0.05;
-            int columns = 3;
-            String label = "<html>Proton is visible when<br>brightness at (0,0) is less than:</html>";
-            String units = "";
-            _schrodingerProtonThresholdSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
-            _schrodingerProtonThresholdSpinner.setEditable( false );
-        }
-        
         // Time that squiggles are visible in energy diagrams
         {
             double value = AbstractEnergyDiagram.SQUIGGLE_LIFETIME / 1000;
@@ -296,7 +281,6 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
         _deBroglieBrightnessZeroChip.addMouseListener( listener );
         _deBroglieBrightnessMinusChip.addMouseListener( listener );
         _deBroglieRadialAmplitudeSpinner.getSpinner().addChangeListener( listener );
-        _schrodingerProtonThresholdSpinner.getSpinner().addChangeListener( listener );
         _squiggleLifetimeSpinner.getSpinner().addChangeListener( listener );
         
         // Layout
@@ -325,10 +309,6 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             layout.addComponent( deBroglieBrightnessMagnitudeColorsPanel, row++, 0 );
             layout.addComponent( deBroglieBrightnessColorsPanel, row++, 0 );
             layout.addComponent( deBroglieRadialAmplitudePanel, row++, 0 );
-            layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
-            
-            layout.addComponent( new TitleLabel( "Schr\u00f6dinger:" ), row++, 0 );
-            layout.addComponent( _schrodingerProtonThresholdSpinner, row++, 0 );
             layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
             
             layout.addComponent( new TitleLabel( "Energy diagrams:" ), row++, 0 );
@@ -397,9 +377,6 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             else if ( source == _deBroglieRadialAmplitudeSpinner.getSpinner() ) {
                 handleDeBroglieRadialAmplitudeSpinner();
             }
-            else if ( source == _schrodingerProtonThresholdSpinner.getSpinner() ) {
-                handleSchrodingerThresholdSpinner();
-            }
             else if ( source == _squiggleLifetimeSpinner.getSpinner() ) {
                 handleSquiggleLifetimeSpinner();
             }
@@ -449,10 +426,6 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     
     private void handleDeBroglieRadialAmplitudeSpinner() {
         DeBroglieRadialDistanceNode.RADIAL_OFFSET_FACTOR = _deBroglieRadialAmplitudeSpinner.getIntValue() / 100.0;
-    }
-    
-    private void handleSchrodingerThresholdSpinner() {
-        SchrodingerNode.PROTON_VISIBILITY_THRESHOLD = _schrodingerProtonThresholdSpinner.getDoubleValue();
     }
     
     private void handleSquiggleLifetimeSpinner() {
