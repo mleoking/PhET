@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - choose 3 clock speeds
-- move intensity control for light and alpha particles
 - hide dt value shown in clock control panel
 - all wave function should have same max amplitude, similar to 2nd orbit
 - change secondary state 'l' to a curly italic 'l'
@@ -24,6 +23,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(2/1/07) - remove intensity control for light and alpha particles
 (2/1/07) - GunTypeControl fix, should send notification for selected choice only
 (2/1/07) - LightTypeControl fix, should send notification for selected choice only
 (2/1/07) - reset gun to default wavelength each time monochromatic is selected
