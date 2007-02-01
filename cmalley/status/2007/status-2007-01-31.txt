@@ -34,8 +34,11 @@ WHAT'S NEXT:
 
   o continue work on Optical Tweezers, see: 
     http://www.colorado.edu/physics/phet/dev/optical-tweezers/TODO.html
-
     
+  o fix reported Faraday bug, publish new version
+
+  o fix reported Fourier bug, publish new version
+  
 ISSUES:
  
   - none
