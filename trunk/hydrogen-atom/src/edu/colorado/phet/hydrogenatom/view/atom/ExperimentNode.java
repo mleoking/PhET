@@ -28,12 +28,12 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 public class ExperimentNode extends PhetPNode implements Observer {
 
-    private static final Font FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN, 200 );
+    private static final Font FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN, 100 );
     private static final Color TEXT_COLOR = Color.WHITE;
     private static final Color BOX_FILL_COLOR = new Color( 20, 20, 20 );
     private static final Color BOX_STROKE_COLOR = Color.WHITE;
     private static final Stroke BOX_STROKE = new BasicStroke( 2f );
-    private static final Dimension BOX_SIZE = new Dimension( 250, 250 );
+    private static final Dimension BOX_SIZE = new Dimension( 125, 125 );
     
     private ExperimentModel _atom;
     
