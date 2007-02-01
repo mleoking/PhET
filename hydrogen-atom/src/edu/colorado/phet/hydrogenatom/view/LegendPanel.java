@@ -43,7 +43,10 @@ public class LegendPanel extends JPanel {
     // Class data
     //----------------------------------------------------------------------------
 
+    // Various things that I was asked to remove from the legend...
     private static final boolean SHOW_UV_IR_PHOTONS = false;
+    private static final boolean SHOW_VISIBLE_PHOTONS = false;
+    private static final boolean SHOW_ALPHA_PARTICLES = false;
 
     private static final Color PANEL_COLOR = Color.BLACK;
     private static final Color LABEL_COLOR = Color.WHITE;
@@ -120,9 +123,11 @@ public class LegendPanel extends JPanel {
         setLayout( layout );
         int row = 0;
         int col = 0;
-        layout.addComponent( photonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
-        layout.addComponent( photonText, row++, col++, 1, 1, GridBagConstraints.WEST );
-        col = 0;
+        if ( SHOW_VISIBLE_PHOTONS ) {
+            layout.addComponent( photonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
+            layout.addComponent( photonText, row++, col++, 1, 1, GridBagConstraints.WEST );
+            col = 0;
+        }
         if ( SHOW_UV_IR_PHOTONS ) {
             layout.addComponent( uvPhotonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
             layout.addComponent( uvPhotonText, row++, col++, 1, 1, GridBagConstraints.WEST );
@@ -131,9 +136,11 @@ public class LegendPanel extends JPanel {
             layout.addComponent( irPhotonText, row++, col++, 1, 1, GridBagConstraints.WEST );
             col = 0;
         }
-        layout.addComponent( alphaParticleImage, row, col++, 1, 1, GridBagConstraints.CENTER );
-        layout.addComponent( alphaParticleText, row++, col++, 1, 1, GridBagConstraints.WEST );
-        col = 0;
+        if ( SHOW_ALPHA_PARTICLES ) {
+            layout.addComponent( alphaParticleImage, row, col++, 1, 1, GridBagConstraints.CENTER );
+            layout.addComponent( alphaParticleText, row++, col++, 1, 1, GridBagConstraints.WEST );
+            col = 0;
+        }
         layout.addComponent( neutronImage, row, col++, 1, 1, GridBagConstraints.CENTER );
         layout.addComponent( neutronText, row++, col++, 1, 1, GridBagConstraints.WEST );
         col = 0;
