@@ -17,7 +17,7 @@ import java.beans.PropertyChangeListener;
 public class TestBufferedPropertyListener {
     public static void main( String[] args ) {
         JFreeChartNode node = new JFreeChartNode( new JFreeChart( new CategoryPlot() ) );
-        node.addBufferedChangeListener( new PropertyChangeListener() {
+        node.addBufferedPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 System.out.println( "evt = " + evt );
             }
