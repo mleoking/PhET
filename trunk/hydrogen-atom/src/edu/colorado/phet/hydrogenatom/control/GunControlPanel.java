@@ -297,7 +297,6 @@ public class GunControlPanel extends PhetPNode implements Observer {
         LightType lightType = null;
         if ( _lightTypeControl.isMonochromaticSelected() ) {
             _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
-            _wavelengthControl.setWavelength( HADefaults.WAVELENGTH ); // reset wavelength to default (annoying, but requested feature)
             _wavelengthControl.setVisible( true );
             lightType = LightType.MONOCHROMATIC;
         }

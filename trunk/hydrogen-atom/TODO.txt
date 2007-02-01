@@ -23,6 +23,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(2/1/07) - do NOT reset gun to default wavelength each time monochromatic is selected
 (2/1/07) - remove intensity control for light and alpha particles
 (2/1/07) - GunTypeControl fix, should send notification for selected choice only
 (2/1/07) - LightTypeControl fix, should send notification for selected choice only
