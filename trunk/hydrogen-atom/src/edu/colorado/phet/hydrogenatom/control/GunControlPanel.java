@@ -48,6 +48,10 @@ public class GunControlPanel extends PhetPNode implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
+    // Controls that I was asked to removed, in case they want them restored...
+    private static final boolean SHOW_LIGHT_INTENSITY_CONTROL = false;
+    private static final boolean SHOW_ALPHA_PARTICLES_INTENSITY_CONTROL = false;
+    
     private static final String FONT_NAME = HAConstants.DEFAULT_FONT_NAME;
     private static final int FONT_STYLE = HAConstants.DEFAULT_FONT_STYLE;
     private static final int DEFAULT_FONT_SIZE = HAConstants.DEFAULT_FONT_SIZE;
@@ -120,10 +124,14 @@ public class GunControlPanel extends PhetPNode implements Observer {
         // Layering, back to front
         {
             _lightControls.addChild( lightTypeControlWrapper );
-            _lightControls.addChild( lightIntensityControlWrapper );
+            if ( SHOW_LIGHT_INTENSITY_CONTROL ) {
+                _lightControls.addChild( lightIntensityControlWrapper );
+            }
             _lightControls.addChild( _wavelengthControl );
 
-            _alphaParticleControls.addChild( alphaParticlesIntensityControlWrapper );
+            if ( SHOW_ALPHA_PARTICLES_INTENSITY_CONTROL ) {
+                _alphaParticleControls.addChild( alphaParticlesIntensityControlWrapper );
+            }
             _alphaParticleControls.addChild( alphaParticlesTracesControlWrapper );
 
             addChild( panel );
@@ -134,22 +142,34 @@ public class GunControlPanel extends PhetPNode implements Observer {
 
         // Positioning
         {
-           _gunTypeControl.setOffset( X_MARGIN, Y_MARGIN );
-           PBounds gtb = _gunTypeControl.getFullBounds();
-               
-           _lightControls.setOffset( gtb.getX(), gtb.getY() + gtb.getHeight() + Y_SPACING );
-           lightTypeControlWrapper.setOffset( 0, 0 );
-           PBounds ltb = lightTypeControlWrapper.getFullBounds();
-           lightIntensityControlWrapper.setOffset( ltb.getX(), ltb.getY() + ltb.getHeight() + Y_SPACING );
-           PBounds lib = lightIntensityControlWrapper.getFullBounds();
-           double xFudge = 10; // fudge factor for text field above wavelength slider
-           double yFudge = 25; // fudge factor for text field above wavelength slider
-           _wavelengthControl.setOffset( lib.getX() + xFudge, lib.getY() + lib.getHeight() + Y_SPACING + yFudge );
-           
-           _alphaParticleControls.setOffset( gtb.getX(), gtb.getY() + gtb.getHeight() + Y_SPACING );
-           alphaParticlesIntensityControlWrapper.setOffset( 0, 0 );
-           PBounds aib = alphaParticlesIntensityControlWrapper.getFullBounds();
-           alphaParticlesTracesControlWrapper.setOffset( 0, aib.getHeight() + Y_SPACING );
+            PBounds bAbove; // bounds of the node directly above the one we're positioning
+            
+            _gunTypeControl.setOffset( X_MARGIN, Y_MARGIN );
+            
+            // Light controls
+            bAbove = _gunTypeControl.getFullBounds();
+            _lightControls.setOffset( bAbove.getX(), bAbove.getY() + bAbove.getHeight() + Y_SPACING );
+            lightTypeControlWrapper.setOffset( 0, 0 );
+            bAbove = lightTypeControlWrapper.getFullBounds();
+            if ( SHOW_LIGHT_INTENSITY_CONTROL ) {
+                lightIntensityControlWrapper.setOffset( bAbove.getX(), bAbove.getY() + bAbove.getHeight() + Y_SPACING );
+                bAbove = lightIntensityControlWrapper.getFullBounds();
+            }
+            double xFudge = 10; // fudge factor for text field above wavelength slider
+            double yFudge = 25; // fudge factor for text field above wavelength slider
+            _wavelengthControl.setOffset( bAbove.getX() + xFudge, bAbove.getY() + bAbove.getHeight() + Y_SPACING + yFudge );
+
+            // Alpha particle controls
+            bAbove = _gunTypeControl.getFullBounds();
+            _alphaParticleControls.setOffset( bAbove.getX(), bAbove.getY() + bAbove.getHeight() + Y_SPACING );
+            if ( SHOW_ALPHA_PARTICLES_INTENSITY_CONTROL ) {
+                alphaParticlesIntensityControlWrapper.setOffset( 0, 0 );
+                bAbove = alphaParticlesIntensityControlWrapper.getFullBounds();
+                alphaParticlesTracesControlWrapper.setOffset( 0, bAbove.getHeight() + Y_SPACING );
+            }
+            else {
+                alphaParticlesTracesControlWrapper.setOffset( 0, 0 );
+            }
         }
         
         // Scale the panel background image
