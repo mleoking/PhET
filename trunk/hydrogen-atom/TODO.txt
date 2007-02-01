@@ -24,6 +24,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(2/1/07) - LightTypeControl fix, should send notification for selected choice only
 (2/1/07) - reset gun to default wavelength each time monochromatic is selected
 (2/1/07) - change default wavelength to 94 nm
 (2/1/07) - change color of photon icon to 600 nm
