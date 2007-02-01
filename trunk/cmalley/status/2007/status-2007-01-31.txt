@@ -1,0 +1,48 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Jan 29 - Jan 31, 2007 (Mon-Wed)
+
+ACCOMPLISHMENTS:
+
+  Hydrogen Atom:
+  - reviewed Sam McKagan's interview notes
+  - commented on proposed changes
+  - implemented a couple of the minor changes
+  
+  Optical Tweezers:
+  - reviewed first design document
+  - come up to speed on the topic using web references
+  - created the basic shell for the simulation
+  - set up CVS project
+  - set up dev directory and related files
+  
+  Faraday:
+  - investigated external bug report, fix not yet identified
+  
+  Fourier:
+  - investigated external bug report, could not reproduce, requested more info from submitter
+  
+  Common:
+  - discuss JFreeChartNode changes/enhancements with Sam Reid
+  - add development team credits to a sample About dialog
+
+WHAT'S NEXT:
+  
+  o continue work on Hydrogen Atom simulation, see: 
+    http://www.colorado.edu/physics/phet/dev/hydrogen-atom/TODO.html
+
+  o continue work on Optical Tweezers, see: 
+    http://www.colorado.edu/physics/phet/dev/optical-tweezers/TODO.html
+
+    
+ISSUES:
+ 
+  - none
+  
+DATES UNAVAILABLE:
+
+  - February 9-12
+  - July 30 - August 10
+  
+--
