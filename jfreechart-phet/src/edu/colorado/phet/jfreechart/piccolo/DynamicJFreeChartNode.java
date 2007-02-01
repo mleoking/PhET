@@ -135,7 +135,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             SeriesData seriesData = (SeriesData)seriesDataList.get( i );
             seriesData.clear();
         }
-        clearBuffer();
+        clearBufferAndRepaint();
     }
 
     public static interface Listener {
@@ -185,7 +185,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     private void updateSeriesViews() {
         removeAllSeriesViews();
-        clearBuffer();
+        clearBufferAndRepaint();
         addAllSeriesViews();
         updateChartRenderingInfo();
     }

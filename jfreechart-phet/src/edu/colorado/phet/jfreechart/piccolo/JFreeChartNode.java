@@ -59,10 +59,13 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     private boolean _buffered; // draws the chart to an offscreen buffer
     private BufferedImage _chartImage; // buffered chart image
     private AffineTransform _imageTransform; // transform used in with buffered image
+    private int _bufferedImageType;
+
+    /*Support for property changes*/
     private SwingPropertyChangeSupport _changeSupport = new SwingPropertyChangeSupport( this );// for property changes
     private static final String PROPERTY_CHART_RENDERING_INFO = "chart rendering info";
     private static final String PROPERTY_BUFFERED = "buffered";
-    private int _bufferedImageType;
+    private static final String PROPERTY_BUFFERED_IMAGE_TYPE = "buffered image type";
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -174,6 +177,29 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
 
     public void addChartRenderingInfoPropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
         _changeSupport.addPropertyChangeListener( PROPERTY_CHART_RENDERING_INFO, propertyChangeListener );
+    }
+
+    /**
+     * Returns the type used for the internal buffered image.
+     *
+     * @return the type used for the internal buffered image.
+     */
+    public int getBufferedImageType() {
+        return _bufferedImageType;
+    }
+
+    /**
+     * Sets the image type for the internal buffer, e.g. TYPE_INT_RGB.
+     *
+     * @param bufferedImageType
+     */
+    public void setBufferedImageType( int bufferedImageType ) {
+        if( this._bufferedImageType != bufferedImageType ) {
+            int oldType = this._bufferedImageType;
+            this._bufferedImageType = bufferedImageType;
+            clearBufferAndRepaint();
+            _changeSupport.firePropertyChange( PROPERTY_BUFFERED_IMAGE_TYPE, oldType, _bufferedImageType );
+        }
     }
 
     /**
@@ -494,13 +520,13 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
          * Do not look at event.getSource(), since the source of the event is
          * likely to be one of the chart's components rather than the chart itself.
          */
-        clearBuffer();
+        clearBufferAndRepaint();
     }
 
     /**
      * Instantiates a new buffer and repaints it.
      */
-    protected void clearBuffer() {
+    protected void clearBufferAndRepaint() {
         _chartImage = null; // the image needs to be regenerated
         repaint();
     }
