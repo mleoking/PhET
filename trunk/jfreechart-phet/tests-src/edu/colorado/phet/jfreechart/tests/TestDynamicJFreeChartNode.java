@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.tests;
+package edu.colorado.phet.jfreechart.tests;
 
 /**
  * User: Sam Reid
