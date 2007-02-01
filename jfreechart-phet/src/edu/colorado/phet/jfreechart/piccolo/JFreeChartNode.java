@@ -66,6 +66,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     private static final String PROPERTY_CHART_RENDERING_INFO = "chart rendering info";
     private static final String PROPERTY_BUFFERED = "buffered";
     private static final String PROPERTY_BUFFERED_IMAGE_TYPE = "buffered image type";
+    private static final String PROPERTY_BUFFERED_IMAGE = "buffered image";
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -494,6 +495,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
         if( _chartImage == null ) {
             _chartImage = _chart.createBufferedImage( (int)bounds.getWidth(), (int)bounds.getHeight(),
                                                       BufferedImage.TYPE_INT_ARGB, _info );
+            _changeSupport.firePropertyChange( PROPERTY_BUFFERED_IMAGE, null, _chartImage );
         }
 
         Graphics2D g2 = paintContext.getGraphics();
@@ -503,6 +505,15 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
 
         _imageTransform.setToTranslation( bounds.getX(), bounds.getY() );
         g2.drawRenderedImage( _chartImage, _imageTransform );
+    }
+
+    /**
+     * Adds a listener that is notified when the underlying buffered image is (re)constructed.
+     *
+     * @param propertyChangeListener
+     */
+    protected void addBufferedImagePropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
+        _changeSupport.addPropertyChangeListener( PROPERTY_BUFFERED_IMAGE, propertyChangeListener );
     }
 
     //----------------------------------------------------------------------------

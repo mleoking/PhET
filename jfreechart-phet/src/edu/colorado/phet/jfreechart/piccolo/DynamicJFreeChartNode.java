@@ -283,7 +283,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
             pathClip = new PClip();
             pathClip.setStrokePaint( null );//set to non-null for debugging clip area
-//            pathClip.setStrokePaint( Color.blue );//set to non-null for debugging clip area
             root.addChild( pathClip );
 
             pathNode = new PhetPPath( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f ), seriesData.getColor() );
@@ -308,11 +307,9 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
             }
             pathNode.setPathTo( path );
             if( dynamicJFreeChartNode.isBuffered() ) {
-//                pathClip.setOffset( dynamicJFreeChartNode.getBounds().getX(), dynamicJFreeChartNode.getBounds().getY() );
                 pathNode.setOffset( dynamicJFreeChartNode.getBounds().getX(), dynamicJFreeChartNode.getBounds().getY() );
             }
             else {
-//                pathClip.setOffset( 0, 0 );
                 pathNode.setOffset( 0, 0 );
             }
         }
