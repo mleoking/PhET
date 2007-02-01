@@ -206,7 +206,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      */
     public void setBufferedImageType( int bufferedImageType ) {
         if( _bufferedImageType != bufferedImageType ) {
-            int oldType = this._bufferedImageType;
+            int oldType = _bufferedImageType;
             _bufferedImageType = bufferedImageType;
             clearBufferAndRepaint();
             _changeSupport.firePropertyChange( PROPERTY_BUFFERED_IMAGE_TYPE, oldType, _bufferedImageType );
@@ -380,6 +380,24 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      */
     protected void removeBufferedImagePropertyChangeListener( PropertyChangeListener listener ) {
         _changeSupport.removePropertyChangeListener( PROPERTY_BUFFERED_IMAGE, listener );
+    }
+    
+    /**
+     * Adds a listener that is notified when the buffered image type is changed.
+     *
+     * @param listener
+     */
+    protected void addBufferedImageTypePropertyChangeListener( PropertyChangeListener listener ) {
+        _changeSupport.addPropertyChangeListener( PROPERTY_BUFFERED_IMAGE_TYPE, listener );
+    }
+
+    /**
+     * Adds a listener that is notified when the buffered image type is changed.
+     *
+     * @param listener
+     */
+    protected void removeBufferedImageTypePropertyChangeListener( PropertyChangeListener listener ) {
+        _changeSupport.removePropertyChangeListener( PROPERTY_BUFFERED_IMAGE_TYPE, listener );
     }
     
     /**
@@ -575,9 +593,10 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
         Rectangle2D bounds = getBoundsReference();
 
         if( _chartImage == null ) {
+            BufferedImage oldImage = _chartImage;
             _chartImage = _chart.createBufferedImage( (int)bounds.getWidth(), (int)bounds.getHeight(),
-                                                      BufferedImage.TYPE_INT_ARGB, _info );
-            _changeSupport.firePropertyChange( PROPERTY_BUFFERED_IMAGE, null, _chartImage );
+                                                      _bufferedImageType, _info );
+            _changeSupport.firePropertyChange( PROPERTY_BUFFERED_IMAGE, oldImage, _chartImage );
         }
 
         Graphics2D g2 = paintContext.getGraphics();
