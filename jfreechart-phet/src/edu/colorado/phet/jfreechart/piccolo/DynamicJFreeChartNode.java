@@ -73,7 +73,6 @@ import java.util.ArrayList;
 public class DynamicJFreeChartNode extends JFreeChartNode {
     private ArrayList seriesDataList = new ArrayList();
     private ArrayList seriesViewList = new ArrayList();
-    private ArrayList listeners = new ArrayList();
     private PhetPCanvas phetPCanvas;
     private PhetPPath debugBufferRegion;
 
@@ -138,24 +137,10 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         clearBufferAndRepaint();
     }
 
-    public static interface Listener {
-        void changed();
-    }
-
-    public void addListener( final Listener listener ) {
-        listeners.add( listener );
-        super.addBufferedPropertyChangeListener( new PropertyChangeListener() {
-
-            public void propertyChange( PropertyChangeEvent evt ) {
-                listener.changed();
-            }
-        } );
-        super.addChartRenderingInfoPropertyChangeListener( new PropertyChangeListener() {
-
-            public void propertyChange( PropertyChangeEvent evt ) {
-                listener.changed();
-            }
-        } );
+    public void addListener( final PropertyChangeListener listener ) {
+        super.addBufferedImagePropertyChangeListener( listener );
+        super.addBufferedPropertyChangeListener( listener );
+        super.addChartRenderingInfoPropertyChangeListener( listener );
     }
 
     static interface SeriesViewFactory {
@@ -272,8 +257,8 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         private PNode root = new PNode();
         private PhetPPath pathNode;
         private PClip pathClip;
-        private DynamicJFreeChartNode.Listener listener = new Listener() {
-            public void changed() {
+        private PropertyChangeListener listener = new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
                 updateClip();
             }
         };
@@ -329,13 +314,15 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         public void uninstall() {
             super.uninstall();
             super.getDynamicJFreeChartNode().removeChild( root );
-            dynamicJFreeChartNode.removeListener( listener );
+            dynamicJFreeChartNode.removeChartRenderingInfoPropertyChangeListener( listener );
+            dynamicJFreeChartNode.removeBufferedImagePropertyChangeListener( listener );
         }
 
         public void install() {
             super.install();
             getDynamicJFreeChartNode().addChild( root );
-            dynamicJFreeChartNode.addListener( listener );
+            dynamicJFreeChartNode.addChartRenderingInfoPropertyChangeListener( listener );
+            dynamicJFreeChartNode.addBufferedImagePropertyChangeListener( listener );
             updateClip();
             updateSeriesGraphic();
         }
@@ -343,10 +330,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         public void dataAdded() {
             updateSeriesGraphic();
         }
-    }
-
-    private void removeListener( Listener listener ) {
-        listeners.remove( listener );
     }
 
     static class BufferedImmediateSeriesView extends BufferedSeriesView {

@@ -20,6 +20,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 public class TestDynamicJFreeChartNode {
     private JFrame frame;
@@ -75,8 +77,8 @@ public class TestDynamicJFreeChartNode {
                 dynamicJFreeChartNode.setBuffered( jCheckBox.isSelected() );
             }
         } );
-        dynamicJFreeChartNode.addListener( new DynamicJFreeChartNode.Listener() {
-            public void changed() {
+        dynamicJFreeChartNode.addListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
                 jCheckBox.setSelected( dynamicJFreeChartNode.isBuffered() );
             }
         } );
