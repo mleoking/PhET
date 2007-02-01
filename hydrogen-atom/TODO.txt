@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - choose 3 clock speeds
-- make legend visible only in Prediction mode
 - move intensity control for light and alpha particles
 - change deBroglie view choices to "radial view", "3D view", "brightness view"
 - hide dt value shown in clock control panel
@@ -29,6 +28,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(2/1/07) - make legend visible only in Prediction mode
 (2/1/07) - remove photon and alpha particle from legend
 (2/1/07) - change Experiment box dimensions to 125x125
 (2/1/07) - always show proton in Schrodinger

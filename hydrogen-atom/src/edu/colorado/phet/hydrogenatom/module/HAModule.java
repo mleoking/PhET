@@ -653,6 +653,7 @@ public class HAModule extends PiccoloModule {
         _model.removeAllAlphaParticles();
         _model.removeAllPhotons();
         _spectrometerNode.reset();
+        _legendNode.setVisible( _modeSwitch.isPredictionSelected() );
     }
     
     private void handleAtomicModelChange() {
