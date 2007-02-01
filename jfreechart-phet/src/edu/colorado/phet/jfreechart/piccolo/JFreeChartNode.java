@@ -62,6 +62,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     private SwingPropertyChangeSupport _changeSupport = new SwingPropertyChangeSupport( this );// for property changes
     private static final String PROPERTY_CHART_RENDERING_INFO = "chart rendering info";
     private static final String PROPERTY_BUFFERED = "buffered";
+    private int _bufferedImageType;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -77,6 +78,10 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
         this( chart, false /* buffered */ );
     }
 
+    public JFreeChartNode( JFreeChart chart, boolean buffered ) {
+        this( chart, buffered, BufferedImage.TYPE_INT_ARGB );
+    }
+
     /**
      * Constructs a node that displays the specified chart.
      * You can specify whether the chart's image should be buffered.
@@ -84,9 +89,10 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * @param chart
      * @param buffered
      */
-    public JFreeChartNode( JFreeChart chart, boolean buffered ) {
+    public JFreeChartNode( JFreeChart chart, boolean buffered, int bufferedImageType ) {
         super();
 
+        _bufferedImageType = bufferedImageType;
         _chart = chart;
         _chart.addChangeListener( this );
         _info = new ChartRenderingInfo();
@@ -158,7 +164,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * on the ChartRenderingInfo before the next paint occurs.
      */
     public void updateChartRenderingInfo() {
-        BufferedImage image = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB );
+        BufferedImage image = new BufferedImage( 1, 1, _bufferedImageType );
         Graphics2D g2 = image.createGraphics();
         _chart.draw( g2, getBounds(), _info );
         //In order to use this change support, we have to pass different (according to equals()) objects for old and new
