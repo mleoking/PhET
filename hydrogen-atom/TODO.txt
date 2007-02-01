@@ -7,8 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - choose 3 clock speeds
 - hide dt value shown in clock control panel
-
-- change secondary state 'l' to a curly italic 'l'
 - add "Show absorption wavelengths" checkbox below wavelength slider
 - show/hide vertical black lines in UV portion of wavelength track for ground state transition wavelengths
 - resolve issues with scale of alpha particles
@@ -19,7 +17,6 @@ LOW PRIORITY:
 
 DEFER UNTIL AFTER INTERVIEWS:
 - does the user need help getting out of Schrodinger state (2,0,0) with monochromatic light?
-
  
  
 DONE:
@@ -596,6 +593,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(2/1/07) - change secondary state 'l' to a curly italic 'l' (killed at design meeting)
 (2/1/07) - make UV/IR photons different shades of purple/red (killed at design meeting)
 (2/1/07) - add energy squiggle for gun wavelength (killed at design meeting)
 (2/1/07) - label deBroglie view combo box with "Electron wave function representation" (killed at design meeting)
