@@ -46,6 +46,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 /**
@@ -141,15 +143,20 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         void changed();
     }
 
-    public void addListener( Listener listener ) {
+    public void addListener( final Listener listener ) {
         listeners.add( listener );
-    }
+        super.addBufferedPropertyChangeListener( new PropertyChangeListener() {
 
-    public void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.changed();
-        }
+            public void propertyChange( PropertyChangeEvent evt ) {
+                listener.changed();
+            }
+        } );
+        super.addChartRenderingInfoPropertyChangeListener( new PropertyChangeListener() {
+
+            public void propertyChange( PropertyChangeEvent evt ) {
+                listener.changed();
+            }
+        } );
     }
 
     static interface SeriesViewFactory {
@@ -340,19 +347,10 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         public void dataAdded() {
             updateSeriesGraphic();
         }
-
     }
 
     private void removeListener( Listener listener ) {
         listeners.remove( listener );
-    }
-
-    //todo:  move this to parent class
-    public void updateChartRenderingInfo() {
-        super.updateChartRenderingInfo();
-        if( listeners != null ) {
-            notifyListeners();
-        }
     }
 
     static class BufferedImmediateSeriesView extends BufferedSeriesView {
@@ -517,22 +515,9 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     }
 
-    //Todo: provide support for this in the parent class.
-    public void clearBuffer() {
-        super.chartChanged( null );
-    }
-
-    //todo: move this to parent class?
-    protected void internalUpdateBounds( double x, double y, double width, double height ) {
-        super.internalUpdateBounds( x, y, width, height );
-        updateChartRenderingInfo();
-    }
-
     public void setBuffered( boolean buffered ) {
         super.setBuffered( buffered );
-        updateChartRenderingInfo();
         updateSeriesViews();
-        notifyListeners();
     }
 
 }
