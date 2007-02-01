@@ -7,7 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - choose 3 clock speeds
 - hide dt value shown in clock control panel
-- all wave functions should have same max amplitude, similar to 2nd orbit
+
 - change secondary state 'l' to a curly italic 'l'
 - add "Show absorption wavelengths" checkbox below wavelength slider
 - show/hide vertical black lines in UV portion of wavelength track for ground state transition wavelengths
@@ -23,6 +23,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(2/1/07) - in deBroglie radial view, wave functions for all states should have same max amplitude
 (2/1/07) - do NOT reset gun to default wavelength each time monochromatic is selected
 (2/1/07) - remove intensity control for light and alpha particles
 (2/1/07) - GunTypeControl fix, should send notification for selected choice only

@@ -38,8 +38,8 @@ public class DeBroglieRadialDistanceNode extends AbstractDeBroglie2DViewStrategy
     // Class data
     //----------------------------------------------------------------------------
     
-    // multiply the orbit radius by this number to determine how much to add to radius when amplitude=1 
-    public static double RADIAL_OFFSET_FACTOR = 0.15;
+    // multiply the ground state orbit radius by this number to determine max amplitude
+    public static double RADIAL_OFFSET_FACTOR = 0.45;
     
     // number of line segments used to approximate the ring
     private static final int NUMBER_OF_SEGMENTS = 200;
@@ -83,13 +83,14 @@ public class DeBroglieRadialDistanceNode extends AbstractDeBroglie2DViewStrategy
         
         DeBroglieModel atom = getAtom();
         double radius = ModelViewTransform.transform( getAtom().getElectronOrbitRadius() );
+        double groundRadius = ModelViewTransform.transform( getAtom().getOrbitRadius( DeBroglieModel.getGroundState() ) );
 
         for ( int i = 0; i < NUMBER_OF_SEGMENTS; i++ ) {
 
             double angle = ( 2 * Math.PI ) * ( (double) i / NUMBER_OF_SEGMENTS );
             double amplitude = atom.getAmplitude( angle );
 
-            double maxRadialOffset = RADIAL_OFFSET_FACTOR * radius;
+            double maxRadialOffset = RADIAL_OFFSET_FACTOR * groundRadius;
             double radialOffset = maxRadialOffset * amplitude;
             float x = (float) ( ( radius + radialOffset ) * Math.cos( angle ) );
             float y = (float) ( ( radius + radialOffset ) * Math.sin( angle ) );
