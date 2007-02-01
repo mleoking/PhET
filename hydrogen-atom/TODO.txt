@@ -15,6 +15,7 @@ HIGH PRIORITY:
 - hide dt value shown in clock control panel
 
 MEDIUM PRIORITY:
+- add development team to credits?
 
 LOW PRIORITY:
 
@@ -24,6 +25,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(1/31/07) - add development team to credits
 (1/29/07) - add dt display to clock control panel for debugging
 (1/29/07) - add a bunch of clock speeds (0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10) so Sam M. can pick 3
 (1/29/07) - delete "amplitude magnitude -> brightness" option for deBroglie views
