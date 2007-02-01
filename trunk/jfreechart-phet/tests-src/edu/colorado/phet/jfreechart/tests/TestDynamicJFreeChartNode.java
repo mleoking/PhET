@@ -77,7 +77,7 @@ public class TestDynamicJFreeChartNode {
                 dynamicJFreeChartNode.setBuffered( jCheckBox.isSelected() );
             }
         } );
-        dynamicJFreeChartNode.addListener( new PropertyChangeListener() {
+        dynamicJFreeChartNode.addBufferedPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 jCheckBox.setSelected( dynamicJFreeChartNode.isBuffered() );
             }
