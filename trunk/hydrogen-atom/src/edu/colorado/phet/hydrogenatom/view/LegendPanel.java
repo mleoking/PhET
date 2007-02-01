@@ -141,14 +141,14 @@ public class LegendPanel extends JPanel {
             layout.addComponent( alphaParticleText, row++, col++, 1, 1, GridBagConstraints.WEST );
             col = 0;
         }
-        layout.addComponent( neutronImage, row, col++, 1, 1, GridBagConstraints.CENTER );
-        layout.addComponent( neutronText, row++, col++, 1, 1, GridBagConstraints.WEST );
+        layout.addComponent( electronImage, row, col++, 1, 1, GridBagConstraints.CENTER );
+        layout.addComponent( electronText, row++, col++, 1, 1, GridBagConstraints.WEST );
         col = 0;
         layout.addComponent( protonImage, row, col++, 1, 1, GridBagConstraints.CENTER );
         layout.addComponent( protonText, row++, col++, 1, 1, GridBagConstraints.WEST );
         col = 0;
-        layout.addComponent( electronImage, row, col++, 1, 1, GridBagConstraints.CENTER );
-        layout.addComponent( electronText, row++, col++, 1, 1, GridBagConstraints.WEST );
+        layout.addComponent( neutronImage, row, col++, 1, 1, GridBagConstraints.CENTER );
+        layout.addComponent( neutronText, row++, col++, 1, 1, GridBagConstraints.WEST );
         col = 0;
     }
 
