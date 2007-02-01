@@ -62,7 +62,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     private int _bufferedImageType;
 
     /*Support for property changes*/
-    private SwingPropertyChangeSupport _changeSupport = new SwingPropertyChangeSupport( this );// for property changes
+    private SwingPropertyChangeSupport _changeSupport = new SwingPropertyChangeSupport( this );
     private static final String PROPERTY_CHART_RENDERING_INFO = "chart rendering info";
     private static final String PROPERTY_BUFFERED = "buffered";
     private static final String PROPERTY_BUFFERED_IMAGE_TYPE = "buffered image type";
@@ -82,16 +82,26 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
         this( chart, false /* buffered */ );
     }
 
+    /**
+     * Constructs a node that displays the specified chart.
+     * You can specify whether the chart's image should be buffered.
+     * A default buffer type of BufferedImage.TYPE_INT_ARGB is used.
+     *
+     * @param chart
+     * @param buffered
+     */
     public JFreeChartNode( JFreeChart chart, boolean buffered ) {
         this( chart, buffered, BufferedImage.TYPE_INT_ARGB );
     }
 
     /**
      * Constructs a node that displays the specified chart.
-     * You can specify whether the chart's image should be buffered.
+     * You can specify whether the chart's image should be buffere,
+     * and (if so) what type of buffering should be used.
      *
      * @param chart
      * @param buffered
+     * @param bufferedImageType one of types defined for BufferedImage
      */
     public JFreeChartNode( JFreeChart chart, boolean buffered, int bufferedImageType ) {
         super();
@@ -109,9 +119,29 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
 
         updateChartRenderingInfo();
     }
+    
+    //----------------------------------------------------------------------------
+    // Misc updaters
+    //----------------------------------------------------------------------------
 
     /**
-     * This initialization method has been made public so that clients can override it to perform no-op if necessary.
+     * Forces an update of the chart's ChartRenderingInfo,
+     * normally not updated until the next call to paint.
+     * Call this directly if you have made changes to the
+     * chart and need to calculate something that is based
+     * on the ChartRenderingInfo before the next paint occurs.
+     */
+    public void updateChartRenderingInfo() {
+        BufferedImage image = new BufferedImage( 1, 1, _bufferedImageType );
+        Graphics2D g2 = image.createGraphics();
+        _chart.draw( g2, getBounds(), _info );
+        //In order to use this change support, we have to pass different (according to equals()) objects for old and new
+        //so clients should not use the getPreviousValue() method on the property change event. 
+        _changeSupport.firePropertyChange( PROPERTY_CHART_RENDERING_INFO, null, getChartRenderingInfo() );
+    }
+    
+    /**
+     * This initialization method has been made protected so that clients can override it to perform no-op if necessary.
      * (Functionality is unchanged from previous version.)
      * In DynamicJFreeChartNode, sometimes the BufferedView is causing unidentified bounds change events.
      * <p/>
@@ -124,6 +154,14 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
                 repaint();
             }
         } );
+    }
+
+    /**
+     * Instantiates a new buffer and repaints it.
+     */
+    protected void clearBufferAndRepaint() {
+        _chartImage = null; // the image needs to be regenerated
+        repaint();
     }
 
     //----------------------------------------------------------------------------
@@ -161,30 +199,6 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     }
 
     /**
-     * Forces an update of the chart's ChartRenderingInfo,
-     * normally not updated until the next call to paint.
-     * Call this directly if you have made changes to the
-     * chart and need to calculate something that is based
-     * on the ChartRenderingInfo before the next paint occurs.
-     */
-    public void updateChartRenderingInfo() {
-        BufferedImage image = new BufferedImage( 1, 1, _bufferedImageType );
-        Graphics2D g2 = image.createGraphics();
-        _chart.draw( g2, getBounds(), _info );
-        //In order to use this change support, we have to pass different (according to equals()) objects for old and new
-        //so clients should not use the getPreviousValue() method on the property change event. 
-        _changeSupport.firePropertyChange( PROPERTY_CHART_RENDERING_INFO, null, getChartRenderingInfo() );
-    }
-
-    public void addChartRenderingInfoPropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
-        _changeSupport.addPropertyChangeListener( PROPERTY_CHART_RENDERING_INFO, propertyChangeListener );
-    }
-
-    public void removeChartRenderingInfoPropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
-        _changeSupport.removePropertyChangeListener( PROPERTY_CHART_RENDERING_INFO, propertyChangeListener );
-    }
-
-    /**
      * Returns the type used for the internal buffered image.
      *
      * @return the type used for the internal buffered image.
@@ -194,14 +208,14 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     }
 
     /**
-     * Sets the image type for the internal buffer, e.g. TYPE_INT_RGB.
+     * Sets the image type for the internal buffer, e.g. BufferedImage.TYPE_INT_RGB.
      *
      * @param bufferedImageType
      */
     public void setBufferedImageType( int bufferedImageType ) {
-        if( this._bufferedImageType != bufferedImageType ) {
+        if( _bufferedImageType != bufferedImageType ) {
             int oldType = this._bufferedImageType;
-            this._bufferedImageType = bufferedImageType;
+            _bufferedImageType = bufferedImageType;
             clearBufferAndRepaint();
             _changeSupport.firePropertyChange( PROPERTY_BUFFERED_IMAGE_TYPE, oldType, _bufferedImageType );
         }
@@ -312,19 +326,6 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     }
 
     /**
-     * Adds a PropertyChangeListener that receives notification when the chart's isBuffered property changes.
-     *
-     * @param propertyChangeListener
-     */
-    public void addBufferedPropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
-        _changeSupport.addPropertyChangeListener( PROPERTY_BUFFERED, propertyChangeListener );
-    }
-
-    public void removeBufferedPropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
-        _changeSupport.removePropertyChangeListener( PROPERTY_BUFFERED, propertyChangeListener );
-    }
-
-    /**
      * Is the chart's image buffered?
      *
      * @return true or false
@@ -333,6 +334,80 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
         return _buffered;
     }
 
+    /*
+     * Returns the BufferedImage this JFreeChartNode is using to render the underlying JFreeChart if buffered, or null otherwise.
+     * This method is currently for feasibility testing for improved performance during dynamic data display;
+     * the interface or implementation may change soon.
+     * <p>
+     * NOTE: If this method is ever made public, then also make 
+     * addBufferedImagePropertyChangeListener and removeBufferedImagePropertyChangeListener public.
+     *
+     * @return the BufferedImage used to render this chart, possibly null.
+     */
+    protected BufferedImage getBuffer() {
+        return _chartImage;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Property change notification
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Adds a listener that is notified when the chart's isBuffered property changes.
+     *
+     * @param listener
+     */
+    public void addBufferedPropertyChangeListener( PropertyChangeListener listener ) {
+        _changeSupport.addPropertyChangeListener( PROPERTY_BUFFERED, listener );
+    }
+
+    /**
+     * Removes a listener that is notified when the chart's isBuffered property changes.
+     *
+     * @param listener
+     */
+    public void removeBufferedPropertyChangeListener( PropertyChangeListener listener ) {
+        _changeSupport.removePropertyChangeListener( PROPERTY_BUFFERED, listener );
+    }
+
+    /*
+     * Adds a listener that is notified when the underlying buffered image is (re)constructed.
+     * This is protected because getBufferedImage is protected.
+     *
+     * @param listener
+     */
+    protected void addBufferedImagePropertyChangeListener( PropertyChangeListener listener ) {
+        _changeSupport.addPropertyChangeListener( PROPERTY_BUFFERED_IMAGE, listener );
+    }
+
+    /*
+     * Removes a listener that is notified when the underlying buffered image is (re)constructed.
+     * This is protected because getBufferedImage is protected.
+     *
+     * @param listener
+     */
+    protected void removeBufferedImagePropertyChangeListener( PropertyChangeListener listener ) {
+        _changeSupport.removePropertyChangeListener( PROPERTY_BUFFERED_IMAGE, listener );
+    }
+    
+    /**
+     * Adds a listener that is notified when the associated chart's rendering info changes.
+     *
+     * @param listener
+     */
+    public void addChartRenderingInfoPropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
+        _changeSupport.addPropertyChangeListener( PROPERTY_CHART_RENDERING_INFO, propertyChangeListener );
+    }
+
+    /**
+     * Removes a listener that is notified when the associated chart's rendering info changes.
+     *
+     * @param listener
+     */
+    public void removeChartRenderingInfoPropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
+        _changeSupport.removePropertyChangeListener( PROPERTY_CHART_RENDERING_INFO, propertyChangeListener );
+    }
+    
     //----------------------------------------------------------------------------
     // Coordinate transforms
     //----------------------------------------------------------------------------
@@ -471,7 +546,6 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     * are used to determine the size and location of the chart.
     * Painting the node updates the chart's rendering info.
     */
-
     protected void paint( PPaintContext paintContext ) {
         if( _buffered ) {
             paintBuffered( paintContext );
@@ -515,19 +589,6 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
         g2.drawRenderedImage( _chartImage, _imageTransform );
     }
 
-    /**
-     * Adds a listener that is notified when the underlying buffered image is (re)constructed.
-     *
-     * @param propertyChangeListener
-     */
-    protected void addBufferedImagePropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
-        _changeSupport.addPropertyChangeListener( PROPERTY_BUFFERED_IMAGE, propertyChangeListener );
-    }
-
-    protected void removeBufferedImagePropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
-        _changeSupport.removePropertyChangeListener( PROPERTY_BUFFERED_IMAGE, propertyChangeListener );
-    }
-
     //----------------------------------------------------------------------------
     // ChartChangeListener implementation
     //----------------------------------------------------------------------------
@@ -545,24 +606,4 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
          */
         clearBufferAndRepaint();
     }
-
-    /**
-     * Instantiates a new buffer and repaints it.
-     */
-    protected void clearBufferAndRepaint() {
-        _chartImage = null; // the image needs to be regenerated
-        repaint();
-    }
-
-    /**
-     * Returns the BufferedImage this JFreeChartNode is using to render the underlying JFreeChart if buffered, or null otherwise.
-     * This method is currently for feasibility testing for improved performance during dynamic data display;
-     * the interface or implementation may change soon..
-     *
-     * @return the BufferedImage used to render this chart, possibly null.
-     */
-    protected BufferedImage getBuffer() {
-        return _chartImage;
-    }
-
 }
