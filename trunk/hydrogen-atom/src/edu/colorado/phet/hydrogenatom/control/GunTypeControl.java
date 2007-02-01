@@ -122,12 +122,16 @@ public class GunTypeControl extends PhetPNode {
         final Object eventSource = this;
         _photonsButton.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                fireChangeEvent( new ChangeEvent( eventSource ) );
+                if ( _photonsButton.isSelected() ) {
+                    fireChangeEvent( new ChangeEvent( eventSource ) );
+                }
             }      
         });
         _alphaParticlesButton.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                fireChangeEvent( new ChangeEvent( eventSource ) );
+                if ( _alphaParticlesButton.isSelected() ) {
+                    fireChangeEvent( new ChangeEvent( eventSource ) );
+                }
             }
         });
         
