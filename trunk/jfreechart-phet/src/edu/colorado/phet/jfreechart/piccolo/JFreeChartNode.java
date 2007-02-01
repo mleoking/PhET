@@ -19,6 +19,7 @@ import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.plot.*;
 
+import javax.swing.event.SwingPropertyChangeSupport;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -58,6 +59,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     private boolean _buffered; // draws the chart to an offscreen buffer
     private BufferedImage _chartImage; // buffered chart image
     private AffineTransform _imageTransform; // transform used in with buffered image
+    private SwingPropertyChangeSupport _changeSupport = new SwingPropertyChangeSupport( this );// for property changes
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -247,8 +249,21 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * @param buffered true or false
      */
     public void setBuffered( boolean buffered ) {
-        _buffered = buffered;
-        _chartImage = null;
+        if( _buffered != buffered ) {
+            _buffered = buffered;
+            _chartImage = null;
+            updateChartRenderingInfo();
+            _changeSupport.firePropertyChange( PROPERTY_BOUNDS, !_buffered, _buffered );
+        }
+    }
+
+    /**
+     * Adds a PropertyChangeListener that receives notification when the chart's isBuffered property changes.
+     *
+     * @param propertyChangeListener
+     */
+    public void addBufferedChangeListener( PropertyChangeListener propertyChangeListener ) {
+        _changeSupport.addPropertyChangeListener( PROPERTY_BOUNDS, propertyChangeListener );
     }
 
     /**
