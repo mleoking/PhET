@@ -71,11 +71,14 @@ import java.util.ArrayList;
  * @version $Revision$
  */
 public class DynamicJFreeChartNode extends JFreeChartNode {
-    private ArrayList seriesDataList = new ArrayList();
-    private ArrayList seriesViewList = new ArrayList();
+    private ArrayList seriesDataList = new ArrayList();//of type SeriesData 
+    private ArrayList seriesViewList = new ArrayList();//of type SeriesView
     private PhetPCanvas phetPCanvas;
-    private PhetPPath debugBufferRegion;
+    private PhetPPath debugBufferRegion;//internal debugging tool for deciphering screen output regions 
 
+    /*
+    These internal factories are the built-in strategies for SeriesView construction.
+     */
     private SeriesViewFactory jfreeChartSeriesFactory = new SeriesViewFactory() {
         public SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
             return new JFreeChartSeriesView( dynamicJFreeChartNode, seriesData );
@@ -97,38 +100,51 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     };
 
-    private SeriesViewFactory viewFactory = jfreeChartSeriesFactory;
+    private SeriesViewFactory viewFactory = jfreeChartSeriesFactory;//The default SeriesView is JFreeChart rendering.
 
     public DynamicJFreeChartNode( PhetPCanvas phetPCanvas, JFreeChart chart ) {
         super( chart );
         this.phetPCanvas = phetPCanvas;
         debugBufferRegion = new PhetPPath( new BasicStroke( 1.0f ), Color.green );
-//        addChild( debugBufferRegion );//this can destroy the bounds of the graph
+//        addChild( debugBufferRegion );//this can destroy the bounds of the graph, use with care
     }
 
-    protected void addPNodeUpdateHandler() {
-        super.addPNodeUpdateHandler();
-        //avoid adding a PNode property change listener, since some unidentified events from BufferedView are causing buffer clears.
-    }
-
+    /**
+     * Adds the specified (x,y) pair to the 0th series in this plot.
+     *
+     * @param x the x-value to add
+     * @param y the y-value to add
+     */
     public void addValue( double x, double y ) {
         addValue( 0, x, y );
     }
 
+    /**
+     * Adds the specified (x,y) pair to the specified series.
+     *
+     * @param series the series to which data should be added.  This series should have already been added to this dynamic jfreechartnode with addSeries().
+     * @param x      the x-value to add
+     * @param y      the y-value to add
+     */
     public void addValue( int series, double x, double y ) {
         getSeries( series ).addValue( x, y );
     }
 
-    private SeriesData getSeries( int series ) {
-        return (SeriesData)seriesDataList.get( series );
-    }
-
+    /**
+     * Adds a new series to this chart for plotting, with the given name and color.
+     *
+     * @param title the title for the series
+     * @param color the series' color
+     */
     public void addSeries( String title, Color color ) {
         SeriesData seriesData = new SeriesData( title, color );
         seriesDataList.add( seriesData );
         updateSeriesViews();
     }
 
+    /**
+     * Empties each series associated with this chart.
+     */
     public void clear() {
         for( int i = 0; i < seriesDataList.size(); i++ ) {
             SeriesData seriesData = (SeriesData)seriesDataList.get( i );
@@ -137,32 +153,43 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         clearBufferAndRepaint();
     }
 
-    public void addListener( final PropertyChangeListener listener ) {
-        super.addBufferedImagePropertyChangeListener( listener );
-        super.addBufferedPropertyChangeListener( listener );
-        super.addChartRenderingInfoPropertyChangeListener( listener );
+    private SeriesData getSeries( int series ) {
+        return (SeriesData)seriesDataList.get( series );
     }
 
-    static interface SeriesViewFactory {
-        SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData );
-    }
-
+    /**
+     * Sets the rendering strategy to JFreeChart style.
+     */
     public void setJFreeChartSeries() {
         setViewFactory( jfreeChartSeriesFactory );
     }
 
+    /**
+     * Sets the rendering strategy to Piccolo style.
+     */
     public void setPiccoloSeries() {
         setViewFactory( piccoloSeriesFactory );
     }
 
+    /**
+     * Sets the rendering strategy to Buffered style.
+     */
     public void setBufferedSeries() {
         setViewFactory( bufferedSeriesFactory );
     }
 
+    /**
+     * Sets the rendering strategy to Buffered Immediate style.
+     */
     public void setBufferedImmediateSeries() {
         setViewFactory( bufferedImmediateSeriesFactory );
     }
 
+    /**
+     * Sets an arbitrary (possibly user-defined) view style.
+     *
+     * @param factory
+     */
     public void setViewFactory( SeriesViewFactory factory ) {
         viewFactory = factory;
         updateSeriesViews();
@@ -192,7 +219,19 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     }
 
-    static abstract class SeriesView {
+    public void setBuffered( boolean buffered ) {
+        super.setBuffered( buffered );
+        updateSeriesViews();
+    }
+
+    static interface SeriesViewFactory {
+        SeriesView createSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData );
+    }
+
+    /**
+     * Base class strategy for painting a data series.
+     */
+    public static abstract class SeriesView {
         DynamicJFreeChartNode dynamicJFreeChartNode;
         SeriesData seriesData;
         private SeriesData.Listener listener = new SeriesData.Listener() {
@@ -332,18 +371,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     }
 
-    static class BufferedImmediateSeriesView extends BufferedSeriesView {
-
-        public BufferedImmediateSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
-            super( dynamicJFreeChartNode, seriesData );
-        }
-
-        protected void repaintPanel( Rectangle2D bounds ) {
-            dynamicJFreeChartNode.phetPCanvas.paintImmediately( new Rectangle( (int)bounds.getX(), (int)bounds.getY(), (int)( bounds.getWidth() + 1 ), (int)( bounds.getHeight() + 1 ) ) );
-            dynamicJFreeChartNode.debugBufferRegion.setPathTo( bounds );
-        }
-    }
-
     static class BufferedSeriesView extends SeriesView {
         private BufferedImage lastFullPaint = null;
         private boolean origStateBuffered;
@@ -435,6 +462,18 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         }
     }
 
+    static class BufferedImmediateSeriesView extends BufferedSeriesView {
+
+        public BufferedImmediateSeriesView( DynamicJFreeChartNode dynamicJFreeChartNode, SeriesData seriesData ) {
+            super( dynamicJFreeChartNode, seriesData );
+        }
+
+        protected void repaintPanel( Rectangle2D bounds ) {
+            dynamicJFreeChartNode.phetPCanvas.paintImmediately( new Rectangle( (int)bounds.getX(), (int)bounds.getY(), (int)( bounds.getWidth() + 1 ), (int)( bounds.getHeight() + 1 ) ) );
+            dynamicJFreeChartNode.debugBufferRegion.setPathTo( bounds );
+        }
+    }
+
     public static class SeriesData {
         private String title;
         private Color color;
@@ -492,11 +531,6 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
                 listener.dataAdded();
             }
         }
-    }
-
-    public void setBuffered( boolean buffered ) {
-        super.setBuffered( buffered );
-        updateSeriesViews();
     }
 
 }
