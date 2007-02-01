@@ -9,8 +9,8 @@ HIGH PRIORITY:
 - hide dt value shown in clock control panel
 - all wave function should have same max amplitude, similar to 2nd orbit
 - change secondary state 'l' to a curly italic 'l'
-- add "Show absorption wavelengths" checkbox below wavelength slider, draw vertical black lines in UV portion of 
-  wavelength track for ground state transition wavelengths
+- add "Show absorption wavelengths" checkbox below wavelength slider
+- show/hide vertical black lines in UV portion of wavelength track for ground state transition wavelengths
 - resolve issues with scale of alpha particles
 
 MEDIUM PRIORITY:
