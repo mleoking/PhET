@@ -5,17 +5,24 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- label deBroglie view combo box with "Electron wave function representation"
-- add traces feature for photons
-- add a checkbox to open/close Legend window
-- add a checkbox to open/close Transitions window
-- put energy level diagram in a moveable window
-- resolve issues with scale of alpha particles
-- add energy squiggle for gun wavelength
+- choose 3 clock speeds
+- remove photon and alpha particle from legend
+- make legend visible only in Prediction mode
+- move intensity control for light and alpha particles
+- change deBroglie view choices to "radial view", "3D view", "brightness view"
 - hide dt value shown in clock control panel
+- all wave function should have same max amplitude, similar to 2nd orbit
+- change color of photon icon to 600 nm
+- change default wavelength to 94 nm
+- reset gun to default wavelength each time monochromatic is selected
+- always show proton in Schrodinger
+- change Experiment box dimensions to 125x125
+- change secondary state 'l' to a curly italic 'l'
+- add "Show absorption wavelengths" checkbox below wavelength slider, draw vertical black lines in UV portion of 
+  wavelength track for ground state transition wavelengths
+- resolve issues with scale of alpha particles
 
 MEDIUM PRIORITY:
-- add development team to credits?
 
 LOW PRIORITY:
 
@@ -585,6 +592,13 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(2/1/07) - make UV/IR photons different shades of purple/red (killed at design meeting)
+(2/1/07) - add energy squiggle for gun wavelength (killed at design meeting)
+(2/1/07) - label deBroglie view combo box with "Electron wave function representation" (killed at design meeting)
+(2/1/07) - add a checkbox to open/close Legend window (killed at design meeting)
+(2/1/07) - add a checkbox to open/close Transitions window (killed at design meeting)
+(2/1/07) - put energy level diagram in a moveable window (killed at design meeting)
+(2/1/07) - add traces feature for photons (killed at design meeting)
 (1/29/07) - are help items needed? (no, based on 4 interviews)
 (1/29/07) - should the spectrometer show each UV/IR transition wavelength at a distinct horizontal position? (no, based on 4 interviews)
 (1/16/07) - reduce size of panel image files  (tried, no significant reduction without affecting image quality)
