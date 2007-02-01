@@ -6,7 +6,10 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-
+- bug report: direction of electron movement is wrong in pickup coil for "Pickup Coil" and "Transformer" modules, 
+  OK in "Generator"; foreground electrons should move down as flux increases. Problem in "Transformer" module
+  only when battery voltage is negative.
+ 
 MEDIUM PRIORITY:
 - bug: physics is incorrect for transformer (voltage in the secondary circuit should be proportional to the ratio of
 the number of loops in the secondary to the number in the primary)
