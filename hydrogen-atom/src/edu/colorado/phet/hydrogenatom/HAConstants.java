@@ -130,7 +130,7 @@ public class HAConstants {
     public static final Color ANIMATION_BOX_STROKE_COLOR = Color.WHITE;
     
     // Color for photon used on controls & in legends
-    public static final double PHOTON_ICON_WAVELENGTH = 530; // nm (green)
+    public static final double PHOTON_ICON_WAVELENGTH = 600; // nm
     
     //----------------------------------------------------------------------------
     // Images
