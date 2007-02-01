@@ -15,7 +15,6 @@ HIGH PRIORITY:
 - change color of photon icon to 600 nm
 - change default wavelength to 94 nm
 - reset gun to default wavelength each time monochromatic is selected
-- change Experiment box dimensions to 125x125
 - change secondary state 'l' to a curly italic 'l'
 - add "Show absorption wavelengths" checkbox below wavelength slider, draw vertical black lines in UV portion of 
   wavelength track for ground state transition wavelengths
@@ -31,6 +30,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(2/1/07) - change Experiment box dimensions to 125x125
 (2/1/07) - always show proton in Schrodinger
 (1/31/07) - add development team to credits
 (1/29/07) - add dt display to clock control panel for debugging
