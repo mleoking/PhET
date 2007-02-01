@@ -178,14 +178,6 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     }
 
     /**
-     * When the bounds are changed, this updates the chart rendering info
-     */
-    protected void internalUpdateBounds( double x, double y, double width, double height ) {
-        super.internalUpdateBounds( x, y, width, height );
-        updateChartRenderingInfo();
-    }
-
-    /**
      * Gets the chart's rendering info.
      * Changes to the chart are not reflected in the rendering info
      * until after the chart has been painted.
@@ -540,6 +532,14 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     // PNode overrides
     //----------------------------------------------------------------------------
 
+    /*
+     * When the node's bounds are changed, this updates the chart rendering info
+     */
+    protected void internalUpdateBounds( double x, double y, double width, double height ) {
+        super.internalUpdateBounds( x, y, width, height );
+        updateChartRenderingInfo();
+    }
+    
     /*
     * Paints the node.
     * The node's bounds (in the node's local coordinate system)
