@@ -180,6 +180,10 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
         _changeSupport.addPropertyChangeListener( PROPERTY_CHART_RENDERING_INFO, propertyChangeListener );
     }
 
+    public void removeChartRenderingInfoPropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
+        _changeSupport.removePropertyChangeListener( PROPERTY_CHART_RENDERING_INFO, propertyChangeListener );
+    }
+
     /**
      * Returns the type used for the internal buffered image.
      *
@@ -314,6 +318,10 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      */
     public void addBufferedPropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
         _changeSupport.addPropertyChangeListener( PROPERTY_BUFFERED, propertyChangeListener );
+    }
+
+    public void removeBufferedPropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
+        _changeSupport.removePropertyChangeListener( PROPERTY_BUFFERED, propertyChangeListener );
     }
 
     /**
@@ -514,6 +522,10 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      */
     protected void addBufferedImagePropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
         _changeSupport.addPropertyChangeListener( PROPERTY_BUFFERED_IMAGE, propertyChangeListener );
+    }
+
+    protected void removeBufferedImagePropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
+        _changeSupport.removePropertyChangeListener( PROPERTY_BUFFERED_IMAGE, propertyChangeListener );
     }
 
     //----------------------------------------------------------------------------
