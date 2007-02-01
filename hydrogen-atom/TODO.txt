@@ -9,7 +9,6 @@ HIGH PRIORITY:
 - move intensity control for light and alpha particles
 - hide dt value shown in clock control panel
 - all wave function should have same max amplitude, similar to 2nd orbit
-- change default wavelength to 94 nm
 - reset gun to default wavelength each time monochromatic is selected
 - change secondary state 'l' to a curly italic 'l'
 - add "Show absorption wavelengths" checkbox below wavelength slider, draw vertical black lines in UV portion of 
@@ -26,6 +25,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+(2/1/07) - change default wavelength to 94 nm
 (2/1/07) - change color of photon icon to 600 nm
 (2/1/07) - change deBroglie view choices to "radial view", "3D view", "brightness view"
 (2/1/07) - make legend visible only in Prediction mode
