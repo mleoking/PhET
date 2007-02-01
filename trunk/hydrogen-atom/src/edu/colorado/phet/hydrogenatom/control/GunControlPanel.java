@@ -23,6 +23,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HADefaults;
 import edu.colorado.phet.hydrogenatom.enums.GunMode;
 import edu.colorado.phet.hydrogenatom.enums.LightType;
 import edu.colorado.phet.hydrogenatom.model.Gun;
@@ -276,6 +277,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
         LightType lightType = null;
         if ( _lightTypeControl.isMonochromaticSelected() ) {
             _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
+            _wavelengthControl.setWavelength( HADefaults.WAVELENGTH ); // reset wavelength to default (annoying, but requested feature)
             _wavelengthControl.setVisible( true );
             lightType = LightType.MONOCHROMATIC;
         }
