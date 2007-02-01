@@ -63,10 +63,10 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
 
     /*Support for property changes*/
     private SwingPropertyChangeSupport _changeSupport = new SwingPropertyChangeSupport( this );
-    private static final String PROPERTY_CHART_RENDERING_INFO = "chart rendering info";
+    private static final String PROPERTY_CHART_RENDERING_INFO = "chartRenderingInfo";
     private static final String PROPERTY_BUFFERED = "buffered";
-    private static final String PROPERTY_BUFFERED_IMAGE_TYPE = "buffered image type";
-    private static final String PROPERTY_BUFFERED_IMAGE = "buffered image";
+    private static final String PROPERTY_BUFFERED_IMAGE_TYPE = "bufferedImageType";
+    private static final String PROPERTY_BUFFERED_IMAGE = "bufferedImage";
 
     //----------------------------------------------------------------------------
     // Constructors
