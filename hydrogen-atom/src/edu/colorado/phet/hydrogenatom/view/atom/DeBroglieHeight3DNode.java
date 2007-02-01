@@ -66,7 +66,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
     // Public class data
     //----------------------------------------------------------------------------
     
-    /* How much to scale the orbit in the y dimension,m in order to turn 
+    /* How much to scale the orbit in the y dimension, in order to 
      * create an ellipse that represents the projection of the 3D orbit into 3D.
      * See debugOrbitProjections method.
      * If you change this value, you must also change FINAL_VIEW_ANGLE !!
