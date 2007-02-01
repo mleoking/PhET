@@ -88,14 +88,18 @@ public class LightTypeControl extends JPanel {
         final Object eventSource = this;
         _whiteButton.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                fireChangeEvent( new ChangeEvent( eventSource ) );
+                if ( _whiteButton.isSelected() ) {
+                    fireChangeEvent( new ChangeEvent( eventSource ) );
+                }
             }      
         });
         _monochromaticButton.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                fireChangeEvent( new ChangeEvent( eventSource ) );
-            }      
-        });
+                if ( _monochromaticButton.isSelected() ) {
+                    fireChangeEvent( new ChangeEvent( eventSource ) );
+                }
+            }
+        } );
         
         // Default state
         setWhiteSelected( true );
