@@ -28,9 +28,8 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.rotation.graphs;
+package edu.colorado.phet.jfreechart.piccolo;
 
-import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;

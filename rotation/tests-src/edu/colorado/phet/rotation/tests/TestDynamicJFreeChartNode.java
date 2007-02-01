@@ -7,8 +7,8 @@ package edu.colorado.phet.rotation.tests;
  * Copyright (c) Jan 22, 2007 by Sam Reid
  */
 
+import edu.colorado.phet.jfreechart.piccolo.DynamicJFreeChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.rotation.graphs.DynamicJFreeChartNode;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartFactory;
