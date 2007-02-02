@@ -40,8 +40,13 @@ public class NeonProperties extends DischargeLampElementProperties {
     static TransitionEntry[] teA = new TransitionEntry[]{
             new TransitionEntry( 4, 0, 6.11 ),
             new TransitionEntry( 2, 0, 0.48 ),
-            new TransitionEntry( 9, 2, 0.01 ),
-            new TransitionEntry( 9, 4, 0.68 ),
+            // The following 2 entries are not physically accurate. They are
+            // set to these values so the spetrometer will show more than one
+            // line for transitions from the 9 state (10 in Sam M's original document)
+            new TransitionEntry( 9, 2, 0.45 ),
+            new TransitionEntry( 9, 4, 0.65 ),
+//            new TransitionEntry( 9, 2, 0.01 ),
+//            new TransitionEntry( 9, 4, 0.68 ),
             new TransitionEntry( 8, 1, 0.26 ),
             new TransitionEntry( 8, 2, 0.85 ),
             new TransitionEntry( 7, 1, 0.35 ),
