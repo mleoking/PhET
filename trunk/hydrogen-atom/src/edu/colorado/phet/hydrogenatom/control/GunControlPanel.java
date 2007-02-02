@@ -14,6 +14,8 @@ package edu.colorado.phet.hydrogenatom.control;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.util.Observable;
 import java.util.Observer;
@@ -220,14 +222,19 @@ public class GunControlPanel extends PhetPNode implements Observer {
             panel.setPickable( false );
             
             GunChangeListener listener = new GunChangeListener();
+            
+            // ActionListeners
+            _transitionMarksControl.addActionListener( listener );
+            
+            // ChangeListeners
             _gunTypeControl.addChangeListener( listener );
             _lightTypeControl.addChangeListener( listener );
             _lightIntensityControl.addChangeListener( listener );
             _wavelengthControl.addChangeListener( listener );
-            _transitionMarksControl.addChangeListener( listener );
             _alphaParticlesIntensityControl.addChangeListener( listener );
             _alphaParticlesTracesControl.addChangeListener( listener );
             
+            // InputEventListeners
             _gunTypeControl.addInputEventListener( new CursorHandler() );
             lightTypeControlWrapper.addInputEventListener( new CursorHandler() );
             lightIntensityControlWrapper.addInputEventListener( new CursorHandler() );
@@ -272,8 +279,15 @@ public class GunControlPanel extends PhetPNode implements Observer {
     /*
      * Listens for changes to the gun controls.
      */
-    private class GunChangeListener implements ChangeListener {
+    private class GunChangeListener implements ActionListener, ChangeListener {
 
+        public void actionPerformed( ActionEvent event ) {
+            Object source = event.getSource();
+            if ( source == _transitionMarksControl ) {
+                handleTransitionMarksChange();
+            }
+        }
+        
         public void stateChanged( ChangeEvent event ) {
             Object source = event.getSource();
             if ( source == _gunTypeControl ) {
@@ -287,9 +301,6 @@ public class GunControlPanel extends PhetPNode implements Observer {
             }
             else if ( source == _wavelengthControl ) {
                 handleWavelengthChange();
-            }
-            else if ( source == _transitionMarksControl ) {
-                handleTransitionMarksChange();
             }
             else if ( source == _alphaParticlesIntensityControl ) {
                 handleAlphaParticlesIntensityChange();
