@@ -596,6 +596,7 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(2/1/07) - make "Show absorption wavelengths" check box open a dialog that shows absorption transitions (overruled by Wendy and Kathy)
 (2/1/07) - change secondary state 'l' to a curly italic 'l' (couldn't quickly find this char, killed at design meeting)
 (2/1/07) - make UV/IR photons different shades of purple/red (killed at design meeting)
 (2/1/07) - add energy squiggle for gun wavelength (killed at design meeting)
