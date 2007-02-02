@@ -156,7 +156,6 @@ public class GunWavelengthControl extends WavelengthControl {
      * @param b
      */
     public void setTransitionMarksVisible( boolean b ) {
-        System.out.println( "GunWavelengthControl.setTransitionMarksVisible " + b );//XXX
         _transitionMarksVisible = b;
         if ( _transitionMarksNode != null ) {
             _transitionMarksNode.setVisible( b );
