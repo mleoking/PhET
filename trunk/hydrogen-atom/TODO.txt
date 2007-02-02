@@ -20,6 +20,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
 ***** CVS tag: hydrogenatom-1-00-02-2007-02-02
+(2/2/07) - bugfix: visibility of "Show absorption wavelength" checkbox is not correct
 (2/2/07) - use ActionListener for checkboxs in Gun control panel to prevent duplicate events 
 (2/2/07) - make "Show absorption wavelengths" control visible only for relevant models
 (2/2/07) - fix alignment of wavelength knob & cursor, move origin to knob's tip and cursor's top-center
