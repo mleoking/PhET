@@ -48,6 +48,7 @@ public class HADefaults {
     public static final double LIGHT_INTENSITY = 1.0;
     public static final double ALPHA_PARTICLES_INTENSITY = 1.0;
     public static final boolean SHOW_ALPHA_PARTICLE_TRACES = false;
+    public static final boolean SHOW_TRANSITION_WAVELENGTHS = false;
 
     // Spectrometer
     public static final boolean SPECTROMETER_SELECTED = false;
