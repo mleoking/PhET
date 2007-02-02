@@ -34,6 +34,7 @@ import java.io.IOException;
 
 public class EnergySkateParkControlPanel extends ControlPanel {
     private EnergySkateParkModule module;
+    private PieChartControlPanel piePanel;
 
     public EnergySkateParkControlPanel( final EnergySkateParkModule module ) {
         this.module = module;
@@ -101,7 +102,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 //        getControlPane().setAnchor( GridBagConstraints.CENTER );
 //        getControlPane().setFillNone();
 
-        final JPanel piePanel = new PieChartControlPanel( module, this );
+        piePanel = new PieChartControlPanel( module, this );
         addControlFullWidth( piePanel );
 
         final VerticalLayoutPanel chartPanel = new VerticalLayoutPanel();
@@ -226,5 +227,9 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 
     private void reset() {
         module.confirmAndReset();
+    }
+
+    public void update() {
+        piePanel.update();
     }
 }

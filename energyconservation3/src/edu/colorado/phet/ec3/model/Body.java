@@ -3,8 +3,8 @@ package edu.colorado.phet.ec3.model;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -146,7 +146,9 @@ public class Body {
 
     public void setState( Body body ) {
         this.angularVelocity = body.angularVelocity;
-        this.attachmentPoint.setLocation( body.attachmentPoint );
+
+        setAttachmentPoint(body.attachmentPoint.x, body.attachmentPoint.y);
+
         this.velocity.setComponents( body.velocity.getX(), body.velocity.getY() );
         this.acceleration.setComponents( body.acceleration.getX(), body.velocity.getY() );
         this.mass = body.mass;
@@ -165,7 +167,7 @@ public class Body {
     public Body copyState() {
         Body copy = new Body( width, height, potentialEnergyMetric, energySkateParkModel );
         copy.angularVelocity = this.angularVelocity;
-        copy.attachmentPoint.setLocation( attachmentPoint );
+        copy.setAttachmentPoint(attachmentPoint.x, attachmentPoint.y);
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
         copy.acceleration.setComponents( acceleration.getX(), acceleration.getY() );
         copy.mass = mass;
@@ -317,9 +319,16 @@ public class Body {
         return velocity;
     }
 
+    private void setAttachmentPoint(double x, double y) {
+        attachmentPoint.x = x;
+        attachmentPoint.y = y;
+
+        notifyPotentialEnergyChanged();
+    }
+
     public void translate( double dx, double dy ) {
-        attachmentPoint.x += dx;
-        attachmentPoint.y += dy;
+        setAttachmentPoint(attachmentPoint.x + dx,
+                           attachmentPoint.y + dy);
     }
 
     public double getEnergyDifferenceAbs( Body body ) {
@@ -345,7 +354,7 @@ public class Body {
     }
 
     public void setAttachmentPointPosition( double x, double y ) {
-        attachmentPoint.setLocation( x, y );
+        setAttachmentPoint(x, y);
     }
 
     public boolean isUserControlled() {
