@@ -5,13 +5,12 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-
+- bug: "Show absorption wavelength" control is not properly hidden when switching model with gun set to "white light"
 - choose 3 clock speeds
 - hide dt value shown in clock control panel
 - alpha particles scale problem, option #4: remove alpha particles feature
 
 MEDIUM PRIORITY:
-- check why gun control handlers are called multiple times each time a control is changed
 
 LOW PRIORITY:
 
