@@ -20,6 +20,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+***** CVS tag: hydrogenatom-1-00-01-2007-02-01
 (2/1/07) - add "Show absorption wavelengths" checkbox below wavelength slider (not wired up)
 (2/1/07) - in deBroglie radial view, wave functions for all states should have same max amplitude
 (2/1/07) - do NOT reset gun to default wavelength each time monochromatic is selected
