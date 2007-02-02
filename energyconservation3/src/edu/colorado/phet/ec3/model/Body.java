@@ -4,6 +4,7 @@ package edu.colorado.phet.ec3.model;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -57,6 +58,7 @@ public class Body {
 
     private ArrayList stateRecordHistory = new ArrayList();
     private boolean debugAnglesEnabled = false;
+    private static final double POTENTIAL_ENERGY_EQUALITY_EPS = 1E-6;
 
     public Body( EnergySkateParkModel model ) {
         this( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), model.getPotentialEnergyMetric(), model );
@@ -225,6 +227,11 @@ public class Body {
                 facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAttachmentPointRotation() ) ) > 0;
             }
         }
+
+        if (!MathUtil.isApproxEqual(getPotentialEnergy(), orig.getPotentialEnergy(), POTENTIAL_ENERGY_EQUALITY_EPS)) {
+            notifyPotentialEnergyChanged();
+        }
+        
 //        System.out.println( "facingRight = " + facingRight + ", speed=" + getSpeed() );
         EnergyDebugger.stepFinished( this );
     }
@@ -603,7 +610,7 @@ public class Body {
         return false;
     }
 
-    public void notifyObservers() {
+    public void notifyDoRepaint() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.doRepaint();
@@ -695,16 +702,39 @@ public class Body {
         void thrustChanged();
 
         void doRepaint();
+
+        void potentialEnergyChanged();
+    }
+
+    public static abstract class ListenerAdapter implements Listener {
+        public void thrustChanged() {
+
+        }
+
+        public void doRepaint() {
+
+        }
+
+        public void potentialEnergyChanged() {
+
+        }
     }
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }
 
-    public void notifyThrustChanged() {
+    protected void notifyThrustChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.thrustChanged();
+        }
+    }
+
+    protected void notifyPotentialEnergyChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.potentialEnergyChanged();
         }
     }
 }

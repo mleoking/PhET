@@ -25,13 +25,21 @@ public class PieChartIndicator extends PNode {
     private double dy = 25;
     private boolean ignoreThermal;
 
-    public PieChartIndicator( EnergySkateParkModule module, BodyGraphic body ) {
+    public PieChartIndicator( EnergySkateParkModule module, BodyGraphic bodyGraphic ) {
         this.module = module;
-        this.bodyGraphic = body;
+        this.bodyGraphic = bodyGraphic;
         pieChartNode = new PieChartNode( createPieValues(), createPieRect() );
         addChild( pieChartNode );
         setPickable( false );
         setChildrenPickable( false );
+
+//        final Body body = bodyGraphic.getBody();
+//
+//        body.addListener(new Body.ListenerAdapter() {
+//            public void potentialEnergyChanged() {
+//                setVisible(body.getPotentialEnergy() >= 0);
+//            }
+//        });
     }
 
     private Rectangle createPieRect() {
@@ -103,6 +111,8 @@ public class PieChartIndicator extends PNode {
     public void update() {
         pieChartNode.setArea( createPieRect() );
         pieChartNode.setPieValues( createPieValues() );
+
+        setVisible(bodyGraphic.getBody().getPotentialEnergy() >= 0);
     }
 
     public void setIgnoreThermal( boolean ignoreThermal ) {
