@@ -411,6 +411,16 @@ public class WavelengthControl extends PhetPNode {
         _knob.addInputEventListener( listener );
     }
     
+    /**
+     * Controls visibilty of the cursor, the small rectable that moves in
+     * the track to indicate where the knob is pointing.
+     * 
+     * @param visible true or false
+     */
+    public void setCursorVisible( boolean visible ) {
+        _cursor.setVisible( visible );
+    }
+    
     //----------------------------------------------------------------------------
     // Private methods
     //----------------------------------------------------------------------------
