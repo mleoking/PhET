@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - choose 3 clock speeds
-- add "Show absorption wavelengths" checkbox below wavelength slider
+- hide dt value shown in clock control panel
 - show/hide vertical black lines in UV portion of wavelength track for ground state transition wavelengths
 - resolve issues with scale of alpha particles
 
