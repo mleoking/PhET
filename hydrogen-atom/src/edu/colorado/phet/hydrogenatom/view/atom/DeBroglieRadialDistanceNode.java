@@ -39,7 +39,7 @@ public class DeBroglieRadialDistanceNode extends AbstractDeBroglie2DViewStrategy
     //----------------------------------------------------------------------------
     
     // multiply the ground state orbit radius by this number to determine max amplitude
-    public static double RADIAL_OFFSET_FACTOR = 0.45;
+    private static final double RADIAL_OFFSET_FACTOR = 0.45;
     
     // number of line segments used to approximate the ring
     private static final int NUMBER_OF_SEGMENTS = 200;
