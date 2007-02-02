@@ -8,8 +8,11 @@ HIGH PRIORITY:
 - choose 3 clock speeds
 - hide dt value shown in clock control panel
 - show/hide vertical black lines in UV portion of wavelength track for ground state transition wavelengths
-- resolve issues with scale of alpha particles
 - make time that photon sits in metastable state dependent on sim time, not real time
+- choose a solution for resolving issues with scale of alpha particles
+- alpha particles solution 1: new views for each atomic model
+- alpha particles solution 2: change Solar System view, smaller field of influence for other views
+- alpha particles solution 3: separate panel
 
 MEDIUM PRIORITY:
 - check why gun control handlers are called multiple times each time a control is changed
