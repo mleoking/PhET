@@ -5,6 +5,7 @@ import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.ec3.EnergySkateParkControlPanel;
 import edu.colorado.phet.ec3.EnergySkateParkModule;
 import edu.colorado.phet.ec3.EnergySkateParkStrings;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -19,23 +20,24 @@ import java.awt.event.ActionListener;
 
 public class PieChartControlPanel extends VerticalLayoutPanel {
     private EnergySkateParkModule module;
-    private EnergySkateParkControlPanel EnergySkateParkControlPanel;
+    private EnergySkateParkControlPanel energySkateParkControlPanel;
     //    private JCheckBox ignoreThermal;
     private JCheckBox showThermal;
+    public JCheckBox showPieChartCheckBox;
 
-    public PieChartControlPanel( final EnergySkateParkModule module, EnergySkateParkControlPanel EnergySkateParkControlPanel ) {
+    public PieChartControlPanel( final EnergySkateParkModule module, EnergySkateParkControlPanel energySkateParkControlPanel ) {
         this.module = module;
-        this.EnergySkateParkControlPanel = EnergySkateParkControlPanel;
+        this.energySkateParkControlPanel = energySkateParkControlPanel;
         setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "energy.pie.chart" ) ) );
-        final JCheckBox pieChart = new JCheckBox( EnergySkateParkStrings.getString( "show.pie.chart" ), module.isPieChartVisible() );
-        pieChart.addActionListener( new ActionListener() {
+        showPieChartCheckBox = new JCheckBox( EnergySkateParkStrings.getString( "show.pie.chart" ), module.isPieChartVisible() );
+        showPieChartCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 //                ignoreThermal.setEnabled( pieChart.isSelected() );
-                showThermal.setEnabled( pieChart.isSelected() );
-                module.setPieChartVisible( pieChart.isSelected() );
+                showThermal.setEnabled( showPieChartCheckBox.isSelected() );
+                module.setPieChartVisible( showPieChartCheckBox.isSelected() );
             }
         } );
-        add( pieChart );
+        add( showPieChartCheckBox );
 
 //        ignoreThermal = new JCheckBox( EnergySkateParkStrings.getString( "ignore.thermal" ), module.getEnergyConservationCanvas().getRootNode().getIgnoreThermal() );
 //        ignoreThermal.addActionListener( new ActionListener() {
@@ -53,6 +55,16 @@ public class PieChartControlPanel extends VerticalLayoutPanel {
             }
         } );
         add( showThermal );
-        showThermal.setEnabled( pieChart.isSelected() );
+        showThermal.setEnabled( showPieChartCheckBox.isSelected() );
+    }
+
+    public void update() {
+        EnergySkateParkModel energySkateParkModel = module.getEnergySkateParkModel();
+
+        boolean areSkaters = energySkateParkModel.numBodies() > 0;
+
+        boolean skaterHasPotentialEnergy = energySkateParkModel.bodyAt( 0 ).getPotentialEnergy() > 0.0;
+
+        showPieChartCheckBox.setEnabled( areSkaters && skaterHasPotentialEnergy );
     }
 }

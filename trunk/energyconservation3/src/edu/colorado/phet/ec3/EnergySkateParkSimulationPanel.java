@@ -103,6 +103,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
     private void addGraphicsUpdate( EnergySkateParkModule ec3Module ) {
         ec3Module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
+                // This is invoked both when the simulation is paused,
+                // and also when it is running.
                 updateWorldGraphics();
             }
         } );

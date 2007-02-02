@@ -2,6 +2,8 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.persistence.Point2DPersistenceDelegate;
 import edu.colorado.phet.common.util.services.InputStreamFileContents;
@@ -62,6 +64,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     public static final int energyFrameWidth = 200;
     public static final int chartFrameHeight = 250;
     private BarGraphCanvas barGraphCanvas;
+    public EnergySkateParkControlPanel energySkateParkControlPanel;
 
     public EnergySkateParkModule( String name, IClock clock, PhetFrame phetFrame ) {
         super( name, clock );
@@ -75,8 +78,14 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyCanvas = new EnergySkateParkSimulationPanel( this );
         setSimulationPanel( energyCanvas );
 
-        EnergySkateParkControlPanel EnergySkateParkControlPanel = new EnergySkateParkControlPanel( this );
-        setControlPanel( EnergySkateParkControlPanel );
+        energySkateParkControlPanel = new EnergySkateParkControlPanel( this );
+        setControlPanel( energySkateParkControlPanel );
+
+        clock.addClockListener(new ClockAdapter() {
+                    public void clockTicked( ClockEvent clockEvent ) {
+                        energySkateParkControlPanel.update();
+                    }
+                } );
 
         barChartFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "bar.charts" ), false );
         barGraphCanvas = new BarGraphCanvas( this );
