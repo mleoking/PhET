@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.hydrogenatom.control;
+package edu.colorado.phet.hydrogenatom.hacks;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -18,6 +18,7 @@ import java.awt.Stroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.hydrogenatom.control.WavelengthControl;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;

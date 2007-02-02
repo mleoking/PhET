@@ -26,6 +26,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HADefaults;
 import edu.colorado.phet.hydrogenatom.enums.GunMode;
 import edu.colorado.phet.hydrogenatom.enums.LightType;
+import edu.colorado.phet.hydrogenatom.hacks.GunWavelengthControl;
 import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.hydrogenatom.view.TracesNode;
 import edu.colorado.phet.piccolo.PhetPNode;
