@@ -14,13 +14,18 @@ package edu.colorado.phet.hydrogenatom.hacks;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
+import java.awt.geom.Line2D;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.hydrogenatom.control.WavelengthControl;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
@@ -55,6 +60,9 @@ public class GunWavelengthControl extends WavelengthControl {
     private static final Color KNOB_NORMAL_COLOR = Color.BLACK;
     private static final Color KNOB_HILITE_COLOR = Color.WHITE;
 
+    private static final Stroke TRANSITION_MARKS_STROKE = new BasicStroke( 1f );
+    private static final Color TRANSITION_MARKS_COLOR = Color.BLACK;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -62,6 +70,9 @@ public class GunWavelengthControl extends WavelengthControl {
     private double[] _transitionWavelengths;
     private double _bestMatch; // the best matching transition wavelength
     private boolean _dragging;
+    private boolean _hiliteTransitionWavelengths; // whether to hilite the knob when it is near a transition wavelength
+    private PNode _transitionMarksNode; // markings in the track at transition wavelengths
+    private boolean _transitionMarksVisible;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -75,6 +86,9 @@ public class GunWavelengthControl extends WavelengthControl {
     public GunWavelengthControl( PSwingCanvas canvas, double minWavelength, double maxWavelength, Color uvTrackColor, Color uvLabelColor, Color irTrackColor, Color irLabelColor ) {
         super( canvas, TRACK_WIDTH, TRACK_HEIGHT, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
 
+        // Hide the cursor, it interferes with transition marks
+        setCursorVisible( false );
+        
         addKnobListener( new PBasicInputEventHandler() {
 
             public void mousePressed( PInputEvent event ) {
@@ -89,15 +103,17 @@ public class GunWavelengthControl extends WavelengthControl {
         addChangeListener( new ChangeListener() {
 
             public void stateChanged( ChangeEvent e ) {
-                if ( _dragging ) {
+                if ( _dragging && _hiliteTransitionWavelengths ) {
                     updateKnob();
                 }
             }
         } );
 
         _transitionWavelengths = null;
+        _hiliteTransitionWavelengths = false;
         _bestMatch = NO_MATCH;
         _dragging = false;
+        _transitionMarksVisible = false;
 
         setKnobStroke( KNOB_NORMAL_STROKE );
         setKnobStrokeColor( KNOB_NORMAL_COLOR );
@@ -113,8 +129,29 @@ public class GunWavelengthControl extends WavelengthControl {
      */
     public void setTransitionWavelengths( double[] transitionWavelengths ) {
         _transitionWavelengths = transitionWavelengths;
+        updateTransitionMarks();
     }
 
+    /**
+     * Controls whether the knob hilights when we drag "near" a transitions wavelength.
+     * @param b
+     */
+    public void setKnobHilitingEnabled( boolean b ) {
+        _hiliteTransitionWavelengths = b;
+    }
+    
+    /**
+     * Controls whether we display vertical lines in the track to denote the transition wavelengths.
+     * @param b
+     */
+    public void setTransitionMarksVisible( boolean b ) {
+        System.out.println( "GunWavelengthControl.setTransitionWavelengthMarksVisible " + b );//XXX
+        _transitionMarksVisible = b;
+        if ( _transitionMarksNode != null ) {
+            _transitionMarksNode.setVisible( b );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // private
     //----------------------------------------------------------------------------
@@ -184,6 +221,45 @@ public class GunWavelengthControl extends WavelengthControl {
         else {
             setKnobStroke( KNOB_HILITE_STROKE );
             setKnobStrokeColor( KNOB_HILITE_COLOR );
+        }
+    }
+    
+    /*
+     * Updates the marks for transition wavelengths.
+     * These marks are verticle lines that appear in the tracks.
+     */
+    private void updateTransitionMarks() {
+        
+        PNode trackBorder = getTrackBorder();
+
+        if ( _transitionMarksNode != null ) {
+            trackBorder.removeChild( _transitionMarksNode );
+        }
+
+        if ( _transitionWavelengths != null ) {
+            
+            final double trackBorderWidth = trackBorder.getFullBounds().getWidth();
+            final double trackBorderHeight = trackBorder.getFullBounds().getHeight();
+            final double minWavelength = getMinWavelength();
+            final double maxWavelength = getMaxWavelength();
+            
+            double trackWidth = getTrackFullBounds().getWidth();
+            double widthDiff = trackBorderWidth - trackWidth;
+
+            _transitionMarksNode = new PComposite();
+            _transitionMarksNode.setVisible( _transitionMarksVisible );
+            trackBorder.addChild( _transitionMarksNode );
+            
+            for ( int i = 0; i < _transitionWavelengths.length; i++ ) {
+                
+                double wavelength = _transitionWavelengths[i];
+                double x = ( trackWidth * ( wavelength - minWavelength ) / ( maxWavelength - minWavelength ) ) + ( widthDiff / 2 );
+                PPath path = new PPath( new Line2D.Double( x, 0, x, trackBorderHeight ) );
+                path.setStroke( TRANSITION_MARKS_STROKE );
+                path.setStrokePaint( TRANSITION_MARKS_COLOR );
+                
+                _transitionMarksNode.addChild( path );
+            }
         }
     }
 }
