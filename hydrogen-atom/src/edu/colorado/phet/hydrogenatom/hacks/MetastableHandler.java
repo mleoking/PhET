@@ -51,10 +51,10 @@ public class MetastableHandler extends ClockAdapter implements Observer {
     //----------------------------------------------------------------------------
     
     /* 
-     * When the atom has been in state (2,0,0) for this amount of time (in ms)
-     * we will fire an absorbable photon at its center.
+     * When the atom has been in state (2,0,0) for this amount of
+     * simulation time, we will fire an absorbable photon at its center.
      */
-    private static final double MAX_STUCK_TIME = 5000;
+    public static double MAX_STUCK_SIM_TIME = 125; // dt
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -65,7 +65,7 @@ public class MetastableHandler extends ClockAdapter implements Observer {
     private SchrodingerModel _atom; // the atom, for observing state changes
     
     private boolean _stuck; // true indicates that the atom is in state (2,0,0)
-    private double _stuckTime; // the amount of time that the atom has been in state (2,0,0)
+    private double _stuckSimTime;
     
     private Random _nRandom; // for generating new values of n
     
@@ -92,7 +92,7 @@ public class MetastableHandler extends ClockAdapter implements Observer {
         _atom = atom;
 
         _stuck = false;
-        _stuckTime = 0;
+        _stuckSimTime = 0;
         _nRandom = new Random();
         
         _clock.addClockListener( this );
@@ -123,15 +123,15 @@ public class MetastableHandler extends ClockAdapter implements Observer {
      */
     public void clockTicked( ClockEvent event ) {
         if ( _stuck && _gun.isEnabled() && _gun.isPhotonsMode() && _gun.isWhiteLightType() ) {
-            _stuckTime += event.getWallTimeChange();
-            if ( _stuckTime >= MAX_STUCK_TIME ) {
+            _stuckSimTime += event.getSimulationTimeChange();
+            if ( _stuckSimTime >= MAX_STUCK_SIM_TIME ) {
+                System.out.println( "stuckSimTime=" + _stuckSimTime );//XXX
                 fireOneAbsorbablePhoton();
                 /* 
                  * Restart the timer, but don't clear the stuck flag.
-                 * There is a 50% probability that the photon we fired will be absorbed,
-                 * so we may need to fire another one.
+                 * If the photon we fire is not absorbed, we may need to fire another one.
                  */
-                _stuckTime = 0;
+                _stuckSimTime = 0;
             }
         }
     }
@@ -147,7 +147,7 @@ public class MetastableHandler extends ClockAdapter implements Observer {
         // Select a state higher than n=2, choose from n=[3,4,5,6]
         int nNew = 3 + _nRandom.nextInt( 4 );
         // Determine the wavelength needed to move the atom to the higher state.
-        double wavelength = _atom.getWavelengthAbsorbed( 2, nNew );
+        double wavelength = SchrodingerModel.getWavelengthAbsorbed( 2, nNew );
         if ( DEBUG_OUTPUT ) {
             System.out.println( "SchrodingerUnstucker.fireOneAbsorbablePhoton: nNew=" + nNew + " wavelength=" + wavelength );
         }
@@ -172,7 +172,7 @@ public class MetastableHandler extends ClockAdapter implements Observer {
                 if ( !_stuck && ( n == 2 && l == 0 ) ) {
                     // we have entered (2,0,0), set the stuck flag and timer
                     _stuck = true;
-                    _stuckTime = 0;
+                    _stuckSimTime = 0;
                     if ( DEBUG_OUTPUT ) {
                         System.out.println( "SchrodingerUnstucker.update: atom is stuck" );
                     }
@@ -180,7 +180,7 @@ public class MetastableHandler extends ClockAdapter implements Observer {
                 else if ( _stuck && !( n == 2 && l == 0 ) ) {
                     // we have transitioned out of (2,0,0), clear the stuck flag and timer
                     _stuck = false;
-                    _stuckTime = 0;
+                    _stuckSimTime = 0;
                     if ( DEBUG_OUTPUT ) {
                         System.out.println( "SchrodingerUnstucker.update: atom is unstuck" );
                     }

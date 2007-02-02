@@ -8,7 +8,6 @@ HIGH PRIORITY:
 - choose 3 clock speeds
 - hide dt value shown in clock control panel
 - show/hide vertical black lines in UV portion of wavelength track for ground state transition wavelengths
-- make time that photon sits in metastable state dependent on sim time, not real time
 - choose a solution for resolving issues with scale of alpha particles
 - alpha particles solution 1: new views for each atomic model
 - alpha particles solution 2: change Solar System view, smaller field of influence for other views
@@ -26,6 +25,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
 ***** CVS tag: hydrogenatom-1-00-01-2007-02-01
+(2/2/07) - use sim time for time stuck in metastable state before firing a photon, add dev control (rollup)
 (2/1/07) - add "Show absorption wavelengths" checkbox below wavelength slider (not wired up)
 (2/1/07) - in deBroglie radial view, wave functions for all states should have same max amplitude
 (2/1/07) - do NOT reset gun to default wavelength each time monochromatic is selected
