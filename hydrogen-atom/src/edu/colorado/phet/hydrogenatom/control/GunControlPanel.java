@@ -256,11 +256,13 @@ public class GunControlPanel extends PhetPNode implements Observer {
     
     /**
      * Sets the transition wavelengths for the wavelength control.
+     * 
      * @param transitionWavelengths possibly null
      */
     public void setTransitionWavelengths( double[] transitionWavelengths ) {
         _wavelengthControl.setTransitionWavelengths( transitionWavelengths );
         _wavelengthControl.setKnobHilitingEnabled( true );
+        _absorptionWavelengthsControlWrapper.setVisible( transitionWavelengths != null );
     }
     
     //----------------------------------------------------------------------------
