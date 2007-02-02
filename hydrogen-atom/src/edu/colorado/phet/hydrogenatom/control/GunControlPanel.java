@@ -82,6 +82,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
     private GunWavelengthControl _wavelengthControl;
     private TransitionMarksControl _transitionMarksControl;
     private PSwing _transitionMarksControlWrapper;
+    private boolean _transitionMarksControlVisible;
     
     private PhetPNode _alphaParticleControls;
     private IntensityControl _alphaParticlesIntensityControl;
@@ -99,6 +100,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
         
         _gun = gun;
         _tracesNode = tracesNode;
+        _transitionMarksControlVisible = false;
         
         // Font
         int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
@@ -246,6 +248,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
         // Sync with model
         updateAll();
         _wavelengthControl.setTransitionMarksVisible( HADefaults.SHOW_TRANSITION_WAVELENGTHS );
+        _transitionMarksControlWrapper.setVisible( _transitionMarksControlVisible );
         _gun.addObserver( this );
     }
     
@@ -267,9 +270,17 @@ public class GunControlPanel extends PhetPNode implements Observer {
      * @param transitionWavelengths possibly null
      */
     public void setTransitionWavelengths( double[] transitionWavelengths ) {
+        
         _wavelengthControl.setTransitionWavelengths( transitionWavelengths );
         _wavelengthControl.setKnobHilitingEnabled( true );
-        _transitionMarksControlWrapper.setVisible( transitionWavelengths != null );
+        
+        _transitionMarksControlVisible = ( transitionWavelengths != null );
+        if ( _lightTypeControl.isMonochromaticSelected() ) {
+            _transitionMarksControlWrapper.setVisible( _transitionMarksControlVisible );
+        }
+        else {
+            _transitionMarksControlWrapper.setVisible( false );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -326,11 +337,12 @@ public class GunControlPanel extends PhetPNode implements Observer {
      * Handles selection of light type (white or monochrome).
      */
     private void handleLightTypeChange() {
+        
         LightType lightType = null;
         if ( _lightTypeControl.isMonochromaticSelected() ) {
             _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
             _wavelengthControl.setVisible( true );
-            _transitionMarksControlWrapper.setVisible( true );
+            _transitionMarksControlWrapper.setVisible( _transitionMarksControlVisible );
             lightType = LightType.MONOCHROMATIC;
         }
         else {
@@ -339,6 +351,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
             _transitionMarksControlWrapper.setVisible( false );
             lightType = LightType.WHITE;
         }
+        
         _gun.setLightType( lightType );
     }
     
