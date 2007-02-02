@@ -403,7 +403,7 @@ public class WavelengthControl extends PhetPNode {
      * @param width
      * @param height
      */
-    public void setKnobSize( int width, int height ) {
+    public void setKnobSize( float width, float height ) {
         _knob.setSize( width, height );
     }
     
@@ -532,20 +532,18 @@ public class WavelengthControl extends PhetPNode {
         // Knob position: below the track with tip positioned at wavelength
         final double trackX = trackBounds.getX();
         final double trackWidth = trackBounds.getWidth();
-        final double knobX = trackX + ( trackWidth * ( ( _wavelength - _minWavelength ) / bandwidth ) ) - ( knobWidth / 2 );
+        final double knobX = trackX + ( trackWidth * ( ( _wavelength - _minWavelength ) / bandwidth ) );
         final double knobY = trackBounds.getHeight();
         _knob.setOffset( knobX, knobY );
     
         // Value display: above the track, centered above the knob
         _valueDisplay.setValue( _wavelength );
-        final double valueX = knobX + ( knobWidth / 2 ) - ( valueDisplayWidth / 2 );
+        final double valueX = knobX - ( valueDisplayWidth / 2 );
         final double valueY = -( valueDisplayHeight + VALUE_Y_OFFSET );
         _valueDisplay.setOffset( valueX, valueY );
 
         // Cursor position: inside the track, centered above the knob
-        final double cursorX = knobX + ( knobWidth / 2 ) - ( cursorWidth / 2 );
-        final double cursorY = 0;
-        _cursor.setOffset( cursorX, cursorY );
+        _cursor.setOffset( knobX, 0 );
     }
     
     /**
@@ -590,17 +588,18 @@ public class WavelengthControl extends PhetPNode {
         
         /**
          * Sets the size of the knob by rebuilding the knob's path.
+         * The origin (0,0) is at tip of the knob.
          * 
          * @param width
          * @param height
          */
         public void setSize( float width, float height ) {
             GeneralPath path = new GeneralPath();
-            path.moveTo( 0.5f * width, 0f ); // tip of the knob
-            path.lineTo( width, 0.3f * height );
-            path.lineTo( width, 1f * height );
-            path.lineTo( 0f, 1f * height );
-            path.lineTo( 0f, 0.3f * height );
+            path.moveTo( 0f, 0f ); // tip of the knob
+            path.lineTo( 0.5f * width, 0.3f * height );
+            path.lineTo( 0.5f * width, 1f * height );
+            path.lineTo( -0.5f * width, 1f * height );
+            path.lineTo( -0.5f * width, 0.3f * height );
             path.closePath();
             setPathTo( path );
         }
@@ -795,13 +794,14 @@ public class WavelengthControl extends PhetPNode {
     
     /* 
      * Rectangular "cursor" that appears in the track directly above the knob.
+     * Origin (0,0) is at top center of cursor.
      */
     private static class Cursor extends PPath {
         
         /* Constructor */
         public Cursor( double width, double height ) {
             super();
-            setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
+            setPathTo( new Rectangle2D.Double( -width/2, 0, width, height ) );
             setStroke( CURSOR_STROKE );
             setStrokePaint( CURSOR_COLOR );
         }
