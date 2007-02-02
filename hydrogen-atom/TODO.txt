@@ -6,12 +6,12 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - choose 3 clock speeds
-- hide dt value shown in clock control panel
 - add "Show absorption wavelengths" checkbox below wavelength slider
 - show/hide vertical black lines in UV portion of wavelength track for ground state transition wavelengths
 - resolve issues with scale of alpha particles
 
 MEDIUM PRIORITY:
+- check why gun control handlers are called multiple times each time a control is changed
 
 LOW PRIORITY:
 
