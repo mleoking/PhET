@@ -77,10 +77,7 @@ public class BodyGraphic extends PNode {
                 update();
             }
         } );
-        body.addListener( new Body.Listener() {
-            public void thrustChanged() {
-            }
-
+        body.addListener( new Body.ListenerAdapter() {
             public void doRepaint() {
                 update();
             }

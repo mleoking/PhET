@@ -113,7 +113,7 @@ public class EnergySkateParkModel {
             Body body = (Body)bodies.get( i );
             if( body.isOnSpline( splineGraphic ) ) {
                 body.translate( dx, dy );
-                body.notifyObservers();
+                body.notifyDoRepaint();
             }
         }
     }

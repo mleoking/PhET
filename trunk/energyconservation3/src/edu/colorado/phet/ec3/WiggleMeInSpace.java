@@ -55,13 +55,10 @@ public class WiggleMeInSpace {
         getRootNode().addScreenChild( hintNode );
         hintNode.setOffset( module.getEnergyConservationCanvas().getWidth() / 2, hintNode.getFullBounds().getHeight() / 2 );
         hintNode.animateTo( module.getEnergyConservationCanvas().getWidth() / 2, (int)( module.getEnergyConservationCanvas().getHeight() * 1.0 / 4.0 ) );
-        module.getEnergySkateParkModel().bodyAt( 0 ).addListener( new Body.Listener() {
+        module.getEnergySkateParkModel().bodyAt( 0 ).addListener( new Body.ListenerAdapter() {
             public void thrustChanged() {
                 hintNode.setVisible( false );
                 hintDone = true;
-            }
-
-            public void doRepaint() {
             }
         } );
 //        hintNode.st
