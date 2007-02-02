@@ -17,7 +17,13 @@ import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 
-
+/**
+ * TransitionMarksControl is the control used to turn transition marks on/off
+ * on the Gun's wavelength control.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class TransitionMarksControl extends JCheckBox {
 
     public TransitionMarksControl( Font font ) {
