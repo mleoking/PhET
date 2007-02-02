@@ -234,6 +234,7 @@ public class GunWavelengthControl extends WavelengthControl {
 
         if ( _transitionMarksNode != null ) {
             trackBorder.removeChild( _transitionMarksNode );
+            _transitionMarksNode = null;
         }
 
         if ( _transitionWavelengths != null ) {
