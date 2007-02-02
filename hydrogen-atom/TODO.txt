@@ -12,7 +12,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - check why gun control handlers are called multiple times each time a control is changed
-- get rid of TracesControl and AbsorptionWavelengthsControl classes, use simple JCheckBoxes
 
 LOW PRIORITY:
 
