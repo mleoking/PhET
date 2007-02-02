@@ -8,10 +8,7 @@ HIGH PRIORITY:
 - choose 3 clock speeds
 - hide dt value shown in clock control panel
 - show/hide vertical black lines in UV portion of wavelength track for ground state transition wavelengths
-- choose a solution for resolving issues with scale of alpha particles
-- alpha particles solution 1: new views for each atomic model
-- alpha particles solution 2: change Solar System view, smaller field of influence for other views
-- alpha particles solution 3: separate panel
+- alpha particles scale problem, option #4: remove alpha particles feature
 
 MEDIUM PRIORITY:
 - check why gun control handlers are called multiple times each time a control is changed
@@ -600,6 +597,9 @@ DONE:
 (8/10/06) - set up project in CVS
 
 REJECTED:
+(2/2/07) - alpha particles scale problem, option #1: new views for each atomic model (vetoed by Carl)
+(2/2/07) - alpha particles scale problem, option #2: change Solar System view to have electron spiral in slowly, smaller field of influence for other views (vetoed by Carl)
+(2/2/07) - alpha particles scale problem, option #3: separate panel (vetoed by Carl)
 (2/1/07) - make "Show absorption wavelengths" check box open a dialog that shows absorption transitions (overruled by Wendy and Kathy)
 (2/1/07) - change secondary state 'l' to a curly italic 'l' (couldn't quickly find this char, killed at design meeting)
 (2/1/07) - make UV/IR photons different shades of purple/red (killed at design meeting)
