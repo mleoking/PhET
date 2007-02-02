@@ -24,6 +24,7 @@ DONE:
 (2/2/07) - make "Show absorption wavelengths" control visible only for relevant models
 (2/2/07) - fix alignment of wavelength knob & cursor, move origin to knob's tip and cursor's top-center
 (2/2/07) - mark ground state absorption wavelengths in wavelength control, use vertical black lines in track
+(2/2/07) - add interfaces to WavelengthControl to support adding marks to track
 ***** CVS tag: hydrogenatom-1-00-01-2007-02-01
 (2/2/07) - use sim time for time stuck in metastable state before firing a photon, add dev control (rollup)
 (2/1/07) - add "Show absorption wavelengths" checkbox below wavelength slider (not wired up)
