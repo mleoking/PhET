@@ -30,6 +30,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.control.SpinnerControl;
 import edu.colorado.phet.hydrogenatom.energydiagrams.AbstractEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.hacks.GunWavelengthControl;
+import edu.colorado.phet.hydrogenatom.hacks.MetastableHandler;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.model.Gun;
@@ -38,7 +39,6 @@ import edu.colorado.phet.hydrogenatom.module.HAModule;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieBrightnessMagnitudeNode;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieBrightnessNode;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieRadialDistanceNode;
-import edu.colorado.phet.hydrogenatom.view.atom.SchrodingerNode;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.
@@ -103,7 +103,8 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     private ColorChip _deBroglieBrightnessPlusChip;
     private ColorChip _deBroglieBrightnessMinusChip;
     private ColorChip _deBroglieBrightnessZeroChip;
-    private SpinnerControl _deBroglieRadialAmplitudeSpinner;
+    
+    private SpinnerControl _metastableTimeSpinner;
     
     private SpinnerControl _squiggleLifetimeSpinner;
     
@@ -238,18 +239,17 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             deBroglieBrightnessColorsPanel.add( _deBroglieBrightnessMinusChip );
         }
         
-        // deBroglie radial amplitude control
-        HorizontalLayoutPanel deBroglieRadialAmplitudePanel = new HorizontalLayoutPanel();
+        // Time that Shcrodinger will be stuck in metastable state before firing absorbable photon
         {
-            int value = (int)( DeBroglieRadialDistanceNode.RADIAL_OFFSET_FACTOR * 100 );
-            int min = 5;
-            int max = 50;
+            double value = MetastableHandler.MAX_STUCK_SIM_TIME;
+            int min = 50;
+            int max = 500;
             int stepSize = 1;
             int columns = 3;
-            String label = "Max radial amplitude:";
-            String units = "% of orbit radius";
-            _deBroglieRadialAmplitudeSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
-            _deBroglieRadialAmplitudeSpinner.setEditable( false );
+            String label = "<html>Max time in metastable state<br>before firing absorbable photon:<html>";
+            String units = "dt";
+            _metastableTimeSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
+            _metastableTimeSpinner.setEditable( false );
         }
         
         // Time that squiggles are visible in energy diagrams
@@ -280,7 +280,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
         _deBroglieBrightnessPlusChip.addMouseListener( listener );
         _deBroglieBrightnessZeroChip.addMouseListener( listener );
         _deBroglieBrightnessMinusChip.addMouseListener( listener );
-        _deBroglieRadialAmplitudeSpinner.getSpinner().addChangeListener( listener );
+        _metastableTimeSpinner.getSpinner().addChangeListener( listener );
         _squiggleLifetimeSpinner.getSpinner().addChangeListener( listener );
         
         // Layout
@@ -308,7 +308,10 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             layout.addComponent( new TitleLabel( "deBroglie:" ), row++, 0 );
             layout.addComponent( deBroglieBrightnessMagnitudeColorsPanel, row++, 0 );
             layout.addComponent( deBroglieBrightnessColorsPanel, row++, 0 );
-            layout.addComponent( deBroglieRadialAmplitudePanel, row++, 0 );
+            layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
+            
+            layout.addComponent( new TitleLabel( "Schr\u00f6dinger:" ), row++, 0 );
+            layout.addComponent( _metastableTimeSpinner, row++, 0 );
             layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
             
             layout.addComponent( new TitleLabel( "Energy diagrams:" ), row++, 0 );
@@ -374,8 +377,8 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             else if ( source == _minStateTimeSpinner.getSpinner() ) {
                 handleMinStateTime();
             }
-            else if ( source == _deBroglieRadialAmplitudeSpinner.getSpinner() ) {
-                handleDeBroglieRadialAmplitudeSpinner();
+            else if ( source == _metastableTimeSpinner.getSpinner() ) {
+                handleMetastableTimeSpinner();
             }
             else if ( source == _squiggleLifetimeSpinner.getSpinner() ) {
                 handleSquiggleLifetimeSpinner();
@@ -424,8 +427,8 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
         BohrModel.MIN_TIME_IN_STATE = _minStateTimeSpinner.getIntValue();
     }
     
-    private void handleDeBroglieRadialAmplitudeSpinner() {
-        DeBroglieRadialDistanceNode.RADIAL_OFFSET_FACTOR = _deBroglieRadialAmplitudeSpinner.getIntValue() / 100.0;
+    private void handleMetastableTimeSpinner() {
+        MetastableHandler.MAX_STUCK_SIM_TIME = _metastableTimeSpinner.getDoubleValue();
     }
     
     private void handleSquiggleLifetimeSpinner() {
