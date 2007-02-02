@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- fix alignment problem between wavelength knob and transition marks, knob appear to be off
 - choose 3 clock speeds
 - hide dt value shown in clock control panel
 - show/hide vertical black lines in UV portion of wavelength track for ground state transition wavelengths
