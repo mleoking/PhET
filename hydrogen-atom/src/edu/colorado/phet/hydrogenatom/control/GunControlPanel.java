@@ -72,10 +72,14 @@ public class GunControlPanel extends PhetPNode implements Observer {
     private TracesNode _tracesNode;
     
     private GunTypeControl _gunTypeControl;
+    
     private PhetPNode _lightControls;
     private LightTypeControl _lightTypeControl;
     private IntensityControl _lightIntensityControl;
     private GunWavelengthControl _wavelengthControl;
+    private AbsorptionWavelengthsControl _absorptionWavelengthsControl;
+    private PSwing _absorptionWavelengthsControlWrapper;
+    
     private PhetPNode _alphaParticleControls;
     private IntensityControl _alphaParticlesIntensityControl;
     private TracesControl _alphaParticlesTracesControl;
@@ -108,6 +112,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
                 _gun.getMinWavelength(), _gun.getMaxWavelength(),
                 HAConstants.UV_TRACK_COLOR, HAConstants.UV_LABEL_COLOR,
                 HAConstants.IR_TRACK_COLOR, HAConstants.IR_LABEL_COLOR );
+        _absorptionWavelengthsControl = new AbsorptionWavelengthsControl( font );
         
         _alphaParticleControls = new PhetPNode();
         _alphaParticlesIntensityControl = new IntensityControl( INTENSITY_CONTROL_SIZE, font );
@@ -118,6 +123,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
         // Wrappers for Swing components
         PSwing lightTypeControlWrapper = new PSwing( canvas, _lightTypeControl );
         PSwing lightIntensityControlWrapper = new PSwing( canvas, _lightIntensityControl );
+        _absorptionWavelengthsControlWrapper = new PSwing( canvas, _absorptionWavelengthsControl );
         PSwing alphaParticlesIntensityControlWrapper = new PSwing( canvas, _alphaParticlesIntensityControl );
         PSwing alphaParticlesTracesControlWrapper = new PSwing( canvas, _alphaParticlesTracesControl );
         
@@ -128,6 +134,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
                 _lightControls.addChild( lightIntensityControlWrapper );
             }
             _lightControls.addChild( _wavelengthControl );
+            _lightControls.addChild( _absorptionWavelengthsControlWrapper );
 
             if ( SHOW_ALPHA_PARTICLES_INTENSITY_CONTROL ) {
                 _alphaParticleControls.addChild( alphaParticlesIntensityControlWrapper );
@@ -158,6 +165,9 @@ public class GunControlPanel extends PhetPNode implements Observer {
             double xFudge = 10; // fudge factor for text field above wavelength slider
             double yFudge = 25; // fudge factor for text field above wavelength slider
             _wavelengthControl.setOffset( bAbove.getX() + xFudge, bAbove.getY() + bAbove.getHeight() + Y_SPACING + yFudge );
+            double x = bAbove.getX();
+            bAbove = _wavelengthControl.getFullBounds();
+            _absorptionWavelengthsControlWrapper.setOffset( x, bAbove.getY() + bAbove.getHeight() + Y_SPACING );
 
             // Alpha particle controls
             bAbove = _gunTypeControl.getFullBounds();
@@ -200,6 +210,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _lightTypeControl.setLabelsForeground( LABEL_COLOR );
         _lightIntensityControl.setUnitsForeground( LABEL_COLOR );
         _wavelengthControl.setUnitsForeground( LABEL_COLOR );
+        _absorptionWavelengthsControl.setForeground( LABEL_COLOR );
         _alphaParticlesIntensityControl.setUnitsForeground( LABEL_COLOR );
         _alphaParticlesTracesControl.setForeground( LABEL_COLOR );
         
@@ -212,12 +223,14 @@ public class GunControlPanel extends PhetPNode implements Observer {
             _lightTypeControl.addChangeListener( listener );
             _lightIntensityControl.addChangeListener( listener );
             _wavelengthControl.addChangeListener( listener );
+            _absorptionWavelengthsControl.addChangeListener( listener );
             _alphaParticlesIntensityControl.addChangeListener( listener );
             _alphaParticlesTracesControl.addChangeListener( listener );
             
             _gunTypeControl.addInputEventListener( new CursorHandler() );
             lightTypeControlWrapper.addInputEventListener( new CursorHandler() );
             lightIntensityControlWrapper.addInputEventListener( new CursorHandler() );
+            _absorptionWavelengthsControlWrapper.addInputEventListener( new CursorHandler() );
             alphaParticlesIntensityControlWrapper.addInputEventListener( new CursorHandler() );
             alphaParticlesTracesControlWrapper.addInputEventListener( new CursorHandler() );
         }
@@ -270,6 +283,9 @@ public class GunControlPanel extends PhetPNode implements Observer {
             else if ( source == _wavelengthControl ) {
                 handleWavelengthChange();
             }
+            else if ( source == _absorptionWavelengthsControl ) {
+                handleAbsorptionWavelengthsChange();
+            }
             else if ( source == _alphaParticlesIntensityControl ) {
                 handleAlphaParticlesIntensityChange();
             }
@@ -298,11 +314,13 @@ public class GunControlPanel extends PhetPNode implements Observer {
         if ( _lightTypeControl.isMonochromaticSelected() ) {
             _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
             _wavelengthControl.setVisible( true );
+            _absorptionWavelengthsControlWrapper.setVisible( true );
             lightType = LightType.MONOCHROMATIC;
         }
         else {
             _lightIntensityControl.setColor( Color.WHITE );
             _wavelengthControl.setVisible( false );
+            _absorptionWavelengthsControlWrapper.setVisible( false );
             lightType = LightType.WHITE;
         }
         _gun.setLightType( lightType );
@@ -324,6 +342,14 @@ public class GunControlPanel extends PhetPNode implements Observer {
             _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
         }
         _gun.setWavelength( _wavelengthControl.getWavelength() );
+    }
+    
+    /*
+     * Handles changes to "Show absorption wavelengths" control.
+     */
+    private void handleAbsorptionWavelengthsChange() {
+        //XXX show or hide vertical black lines on wavelength control at transition wavelengths associated with ground state
+        System.out.println( "GunControlPanel.handleAbsorptionWavelengthsChange " + _absorptionWavelengthsControl.isSelected() );//XXX
     }
     
     /*
