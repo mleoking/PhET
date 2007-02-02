@@ -30,10 +30,16 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * GunWavelengthControl adds behavior to the standard WavelengthControl.
+ * <p>
+ * Behavior #1:
  * The knob is hilited when it is dragged "sufficiently close" to a 
  * value that would cause the atom to undergo a transition from state=1
  * to some other state. If the knob is released while it is hilited,
  * it snaps to the closest transition wavelength, and the hilite is cleared.
+ * <p>
+ * Behavior #2:
+ * Markers are drawn in the track to indicate the position of transition
+ * wavelengths. These markers are vertical lines.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -44,7 +50,7 @@ public class GunWavelengthControl extends WavelengthControl {
     // Public class data
     //----------------------------------------------------------------------------
 
-    public static int HILITE_THRESHOLD = 3; // nm
+    public static int KNOB_HILITE_THRESHOLD = 3; // nm
 
     //----------------------------------------------------------------------------
     // Private class data
@@ -86,9 +92,13 @@ public class GunWavelengthControl extends WavelengthControl {
     public GunWavelengthControl( PSwingCanvas canvas, double minWavelength, double maxWavelength, Color uvTrackColor, Color uvLabelColor, Color irTrackColor, Color irLabelColor ) {
         super( canvas, TRACK_WIDTH, TRACK_HEIGHT, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
 
-        // Hide the cursor, it interferes with transition marks
+        /* 
+         * Hide the cursor, because it visually obscures the transition marks.
+         * This is not a mouse cursor; it's the rectangle that appears above the tip of the knob.
+         */
         setCursorVisible( false );
         
+        // Do things when the user starts and stops dragging the knob.
         addKnobListener( new PBasicInputEventHandler() {
 
             public void mousePressed( PInputEvent event ) {
@@ -100,6 +110,7 @@ public class GunWavelengthControl extends WavelengthControl {
             }
         } );
 
+        // When the control's value changes, update the knob hiliting.
         addChangeListener( new ChangeListener() {
 
             public void stateChanged( ChangeEvent e ) {
@@ -182,8 +193,8 @@ public class GunWavelengthControl extends WavelengthControl {
      * close to some transition wavelength.
      */
     private boolean isClose( double wavelength, double transitionWavelength ) {
-        double min = transitionWavelength - HILITE_THRESHOLD;
-        double max = transitionWavelength + HILITE_THRESHOLD;
+        double min = transitionWavelength - KNOB_HILITE_THRESHOLD;
+        double max = transitionWavelength + KNOB_HILITE_THRESHOLD;
         return ( ( wavelength >= min ) && ( wavelength <= max ) );
     }
 
