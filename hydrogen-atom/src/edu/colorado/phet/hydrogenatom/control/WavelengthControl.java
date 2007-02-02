@@ -101,6 +101,8 @@ public class WavelengthControl extends PhetPNode {
     private Knob _knob;
     // track that the knob moves along
     private Track _track;
+    // black border around the track, can be augmented by subclasses
+    private PPath _trackBorder;
     // editable value displayed above the track
     private ValueDisplay _valueDisplay;
     // cursor that appears in the track, directly above the knob
@@ -194,14 +196,16 @@ public class WavelengthControl extends PhetPNode {
          * Put a border around the track.
          * We don't stroke the track itself because stroking the track will affect its bounds, 
          * and will thus affect the drag handle behavior.
+         * Having a separate border also gives subclasses a place to add markings (eg, tick marks)
+         * without affecting the track's bounds.
          */
-        PPath trackBorder = new PPath();
-        trackBorder.setPathTo( new Rectangle2D.Double( 0, 0, _track.getFullBounds().getWidth(), _track.getFullBounds().getHeight() ) );
-        trackBorder.setStroke( new BasicStroke( 1f ) );
-        trackBorder.setStrokePaint( Color.BLACK );
+        _trackBorder = new PPath();
+        _trackBorder.setPathTo( new Rectangle2D.Double( 0, 0, _track.getFullBounds().getWidth(), _track.getFullBounds().getHeight() ) );
+        _trackBorder.setStroke( new BasicStroke( 1f ) );
+        _trackBorder.setStrokePaint( Color.BLACK );
         
         addChild( _track );
-        addChild( trackBorder );
+        addChild( _trackBorder );
         addChild( _valueDisplay );
         addChild( _cursor );
         addChild( _knob );
@@ -256,6 +260,22 @@ public class WavelengthControl extends PhetPNode {
     //----------------------------------------------------------------------------
     // Mutators
     //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the min wavelength for the control's range.
+     * @return double
+     */
+    public double getMinWavelength() {
+        return _minWavelength;
+    }
+    
+    /**
+     * Gets the max wavelength for the control's range.
+     * @return double
+     */
+    public double getMaxWavelength() {
+        return _maxWavelength;
+    }
     
     /**
      * Sets the wavelength.
@@ -421,6 +441,25 @@ public class WavelengthControl extends PhetPNode {
         _cursor.setVisible( visible );
     }
     
+    /*
+     * Gets the track's border. 
+     * The border can be augmented with additional markings (eg, tick marks) by subclasses.
+     * 
+     * @return PNode
+     */
+    protected PNode getTrackBorder() {
+        return _trackBorder;
+    }
+    
+    /*
+     * Gets the full bounds of the track.
+     * Needed for properly aligning marks that subclasses might add to track border.
+     * @return PBounds
+     */
+    protected PBounds getTrackFullBounds() {
+        return _track.getFullBounds();
+    }
+    
     //----------------------------------------------------------------------------
     // Private methods
     //----------------------------------------------------------------------------
@@ -489,7 +528,6 @@ public class WavelengthControl extends PhetPNode {
         // Knob color
         Color wavelengthColor = getWavelengthColor();
         _knob.setPaint( wavelengthColor );
-        _cursor.setPaint( wavelengthColor );
     
         // Knob position: below the track with tip positioned at wavelength
         final double trackX = trackBounds.getX();
