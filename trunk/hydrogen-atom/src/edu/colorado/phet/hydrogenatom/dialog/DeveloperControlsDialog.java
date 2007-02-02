@@ -165,7 +165,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
         
         // Hiliting of transition wavelengths on wavelength control
         {
-            int value = GunWavelengthControl.HILITE_THRESHOLD;
+            int value = GunWavelengthControl.KNOB_HILITE_THRESHOLD;
             int min = 1;
             int max = 20;
             int stepSize = 1;
@@ -414,7 +414,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     }
     
     private void handleWavelengthHiliteThresholdSpinner() {
-        GunWavelengthControl.HILITE_THRESHOLD = _wavelengthHiliteThreshold.getIntValue();
+        GunWavelengthControl.KNOB_HILITE_THRESHOLD = _wavelengthHiliteThreshold.getIntValue();
     }
     
     private void handleAbsorptionEmissionCheckBoxes() {
