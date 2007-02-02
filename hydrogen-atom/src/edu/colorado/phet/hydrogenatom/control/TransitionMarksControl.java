@@ -18,11 +18,11 @@ import javax.swing.JCheckBox;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 
-public class AbsorptionWavelengthsControl extends JCheckBox {
+public class TransitionMarksControl extends JCheckBox {
 
-    public AbsorptionWavelengthsControl( Font font ) {
+    public TransitionMarksControl( Font font ) {
         super();
-        setText( SimStrings.get( "label.showAbsorptionWavelengths" ) );
+        setText( SimStrings.get( "label.transitionMarks" ) );
         setFont( font );
         setOpaque( false );
     }
