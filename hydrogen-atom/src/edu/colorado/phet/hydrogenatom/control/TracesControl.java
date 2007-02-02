@@ -17,7 +17,12 @@ import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 
-
+/**
+ * TracesControl is the control used to turn traces on/off in the Gun control panel.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class TracesControl extends JCheckBox {
 
     public TracesControl( Font font ) {
