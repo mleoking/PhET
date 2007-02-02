@@ -140,7 +140,7 @@ cck cck3 &antutil-dir &jfreechart-dir &jfreechart-phet-dir &phetcommon-dir &picc
 dischargelamps fluorescent-lights &lasers
 
 # Energy Conservation 3 (2nd draft).
-energyskatepark energyconservation3 &piccolo-phet-dir &jfreechart-phet-dir &piccolo-dir &jfreechart-dir &phetcommon-dir &antutil-dir
+energyskatepark energyconservation3 &piccolo-phet-dir &jfreechart-phet-dir &piccolo-dir &jfreechart-dir &phetcommon-dir &antutil-dir service-manager
 
 # Forces 1D
 forces1d forces1d &phetcommon-module &charts-module
