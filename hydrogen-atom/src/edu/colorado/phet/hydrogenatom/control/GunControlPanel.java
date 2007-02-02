@@ -238,8 +238,13 @@ public class GunControlPanel extends PhetPNode implements Observer {
         
         // Sync with model
         updateAll();
+        _wavelengthControl.setTransitionMarksVisible( HADefaults.SHOW_TRANSITION_WAVELENGTHS );
         _gun.addObserver( this );
     }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
     
     /**
      * Forces an update of the wavelength control's drag bounds.
@@ -249,16 +254,13 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _wavelengthControl.updateDragBounds();
     }
     
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
     /**
      * Sets the transition wavelengths for the wavelength control.
      * @param transitionWavelengths possibly null
      */
     public void setTransitionWavelengths( double[] transitionWavelengths ) {
         _wavelengthControl.setTransitionWavelengths( transitionWavelengths );
+        _wavelengthControl.setKnobHilitingEnabled( true );
     }
     
     //----------------------------------------------------------------------------
@@ -349,8 +351,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
      * Handles changes to "Show absorption wavelengths" control.
      */
     private void handleAbsorptionWavelengthsChange() {
-        //XXX show or hide vertical black lines on wavelength control at transition wavelengths associated with ground state
-        System.out.println( "GunControlPanel.handleAbsorptionWavelengthsChange " + _absorptionWavelengthsControl.isSelected() );//XXX
+        _wavelengthControl.setTransitionMarksVisible( _absorptionWavelengthsControl.isSelected() );
     }
     
     /*
