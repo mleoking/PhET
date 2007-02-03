@@ -37,26 +37,27 @@
 #######################################################################################################
 
 # Third-party packages
-^jfreechart\(/\|$\) mail -s "CVS commit: jfreechart" ronlemaster cmalley samreid
-^piccolo\(/\|$\) mail -s "CVS commit: piccolo" ronlemaster cmalley samreid
+^jfreechart\(/\|$\) mail -s "CVS commit: jfreechart" ronlemaster cmalley samreid jdegoes
+^piccolo\(/\|$\) mail -s "CVS commit: piccolo" ronlemaster cmalley samreid jdegoes
 
 # Common libraries
-^charts\(/\|$\) mail -s "CVS commit: charts" ronlemaster cmalley samreid
-^collision\(/\|$\) mail -s "CVS commit: collision" ronlemaster cmalley samreid
-^controls\(/\|$\) mail -s "CVS commit: controls" ronlemaster cmalley samreid
-^jfreechart-phet\(/\|$\) mail -s "CVS commit: jfreechart-phet" ronlemaster cmalley samreid
-^mechanics\(/\|$\) mail -s "CVS commit: mechanics" ronlemaster cmalley samreid
-^phetcommon\(/\|$\) mail -s "CVS commit: phetcommon" ronlemaster cmalley samreid
-^phetgraphics\(/\|$\) mail -s "CVS commit: phetgraphics" ronlemaster cmalley samreid
-^piccolo-phet\(/\|$\) mail -s "CVS commit: piccolo-phet" ronlemaster cmalley samreid
-^stripchart\(/\|$\) mail -s "CVS commit: stripchart" ronlemaster cmalley samreid
-^phetlauncher\(/\|$\) mail -s "CVS commit: phetlauncher" samreid
-^assets\(/\|$\) mail -s "CVS commit: assets" ronlemaster cmalley samreid
+^charts\(/\|$\) mail -s "CVS commit: charts" ronlemaster cmalley samreid jdegoes
+^collision\(/\|$\) mail -s "CVS commit: collision" ronlemaster cmalley samreid jdegoes
+^controls\(/\|$\) mail -s "CVS commit: controls" ronlemaster cmalley samreid jdegoes
+^jfreechart-phet\(/\|$\) mail -s "CVS commit: jfreechart-phet" ronlemaster cmalley samreid jdegoes
+^mechanics\(/\|$\) mail -s "CVS commit: mechanics" ronlemaster cmalley samreid jdegoes
+^phetcommon\(/\|$\) mail -s "CVS commit: phetcommon" ronlemaster cmalley samreid jdegoes
+^phetgraphics\(/\|$\) mail -s "CVS commit: phetgraphics" ronlemaster cmalley samreid jdegoes
+^piccolo-phet\(/\|$\) mail -s "CVS commit: piccolo-phet" ronlemaster cmalley samreid jdegoes
+^stripchart\(/\|$\) mail -s "CVS commit: stripchart" ronlemaster cmalley samreid jdegoes
+^phetlauncher\(/\|$\) mail -s "CVS commit: phetlauncher" samreid jdegoes
+^assets\(/\|$\) mail -s "CVS commit: assets" ronlemaster cmalley samreid jdegoes
 
 # Simulations
 ^bound-states\(/\|$\) mail -s "CVS commit: bound-states" cmalley
 ^colorvision3\(/\|$\) mail -s "CVS commit: colorvision3" cmalley
 ^emf\(/\|$\) mail -s "CVS commit: emf" ronlemaster
+^energyconservation3\(/\|$\) mail -s "CVS commit: energyskatepark" samreid
 ^faraday\(/\|$\) mail -s "CVS commit: faraday" cmalley
 ^fluorescent-lights\(/\|$\) mail -s "CVS commit: fluorescent-lights" ronlemaster
 ^fourier\(/\|$\) mail -s "CVS commit: fourier" cmalley
@@ -73,9 +74,9 @@
 ^soluble-salts\(/\|$\) mail -s "CVS commit: soluble-salts" ronlemaster
 
 # Other
-^CVSROOT\(/\|$\) mail -s "CVS commit: CVSROOT" ronlemaster cmalley samreid
+^CVSROOT\(/\|$\) mail -s "CVS commit: CVSROOT" ronlemaster cmalley samreid jdegoes
 ^cmalley\(/\|$\) mail -s "CVS commit: cmalley" cmalley
-^PhET-installer\(/\|$\) mail -s "CVS commit: PhET-installer" ronlemaster
+^PhET-installer\(/\|$\) mail -s "CVS commit: PhET-installer" ronlemaster samreid jdegoes
 ^test-location\(/\|$\) mail -s "CVS commit: test-location" cmalley
 
 #######################################################################################################
