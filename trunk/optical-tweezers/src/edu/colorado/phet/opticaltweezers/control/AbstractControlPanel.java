@@ -40,7 +40,6 @@ public abstract class AbstractControlPanel extends ControlPanel {
     // Class data
     //----------------------------------------------------------------------------
     
-    protected static final Insets INSETS = new Insets( 1, 1, 1, 1 );
     protected static final Font TITLE_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 12 );
     protected static final Font CONTROL_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.PLAIN, 12 );
     
@@ -101,7 +100,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
         _resetButton.addActionListener( new ActionListener() { 
             public void actionPerformed( ActionEvent e ) {
                 Frame frame = PhetApplication.instance().getPhetFrame();
-                String message = SimStrings.get( "message.reset" );
+                String message = SimStrings.get( "message.resetAll" );
                 int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
                 if ( option == JOptionPane.YES_OPTION ) {
                     CursorUtils.setWaitCursorEnabled( true );
