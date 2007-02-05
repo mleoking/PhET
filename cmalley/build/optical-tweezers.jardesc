@@ -10,6 +10,8 @@
     </manifest>
     <selectedElements exportClassFiles="false" exportOutputFolder="true" exportJavaFiles="false">
         <javaElement handleIdentifier="=optical-tweezers"/>
+        <javaElement handleIdentifier="=jfreechart"/>
+        <javaElement handleIdentifier="=jfreechart-phet"/>
         <javaElement handleIdentifier="=phetcommon"/>
         <javaElement handleIdentifier="=piccolo"/>
         <javaElement handleIdentifier="=piccolo-phet"/>
