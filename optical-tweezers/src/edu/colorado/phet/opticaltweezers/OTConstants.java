@@ -74,9 +74,6 @@ public class OTConstants {
     public static final int DEFAULT_FONT_STYLE = Font.BOLD;
     public static final int DEFAULT_FONT_SIZE = 16;
     
-    public static final Font TIME_DISPLAY_FONT = new Font( DEFAULT_FONT_NAME, Font.BOLD, 16 );
-    public static final Font TIME_UNITS_FONT = new Font( DEFAULT_FONT_NAME, Font.PLAIN, 16 );
-    
     //----------------------------------------------------------------------------
     // Strokes
     //----------------------------------------------------------------------------

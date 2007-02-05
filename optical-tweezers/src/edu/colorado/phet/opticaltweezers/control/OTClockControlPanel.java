@@ -13,6 +13,7 @@ package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -46,37 +47,27 @@ import edu.colorado.phet.opticaltweezers.model.OTClock;
 public class OTClockControlPanel extends JPanel implements ClockListener {
     
     //----------------------------------------------------------------------------
-    // Debug
-    //----------------------------------------------------------------------------
-    
-    private static final boolean DEBUG_SHOW_DT = false;
-    
-    private static final DecimalFormat DT_FORMATTER = new DecimalFormat( "0.#" );
-    
-    //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final int TIME_DISPLAY_COLUMNS = 6;
+    public static final int TIME_DISPLAY_COLUMNS = 6;
+    public static final Font TIME_DISPLAY_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
+    public static final Font TIME_UNITS_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.PLAIN, 16 );
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private OTClock _clock;
+    private IClock _clock;
     
     private JButton _restartButton;
     private JButton _playButton;
     private JButton _pauseButton;
     private JButton _stepButton;
-    private JSlider _clockIndexSlider;
-    
     private JTextField _timeTextField;
     private JLabel _timeUnitsLabel;
     
     private NumberFormat _timeFormat;
-    
-    private JLabel _dtLabel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -87,16 +78,14 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
      * 
      * @param clock
      */
-    public OTClockControlPanel( OTClock clock ) {
+    public OTClockControlPanel( IClock clock ) {
         super();
         
         // Clock
-        double dt = OTConstants.DEFAULT_CLOCK_STEP;
         _clock = clock;
-        _clock.setSimulationTimeChange( dt );
         _clock.addClockListener( this );
         
-        // Labels (use localized strings from phetcommon)
+        // Labels
         String restartLabel = SimStrings.get( "button.restart" );
         String playLabel = SimStrings.get( "Common.ClockControlPanel.Play" );
         String pauseLabel = SimStrings.get( "Common.ClockControlPanel.Pause" );
@@ -126,43 +115,20 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
             JLabel clockLabel = new JLabel( clockIcon );
             _timeTextField = new JTextField();
             _timeTextField.setColumns( TIME_DISPLAY_COLUMNS );
-            _timeTextField.setFont( OTConstants.TIME_DISPLAY_FONT );
+            _timeTextField.setFont( TIME_DISPLAY_FONT );
+            _timeTextField.setPreferredSize( _timeTextField.getPreferredSize() );
+            _timeTextField.setText( "0" );
             _timeTextField.setEditable( false );
             _timeTextField.setHorizontalAlignment( JTextField.RIGHT );
             
             _timeUnitsLabel = new JLabel( timeUnitsLabel );
-            _timeUnitsLabel.setFont( OTConstants.TIME_UNITS_FONT );
+            _timeUnitsLabel.setFont( TIME_UNITS_FONT );
             
             _timeFormat = new DecimalFormat( "0" );
             
             timePanel.add( clockLabel );
             timePanel.add( _timeTextField );
             timePanel.add( _timeUnitsLabel );
-        }
-        
-        // Speed slider
-        {
-            _clockIndexSlider = new JSlider();
-            _clockIndexSlider.setMinimum( 0 );
-            _clockIndexSlider.setMaximum( OTConstants.CLOCK_STEPS.length - 1 );
-            _clockIndexSlider.setMajorTickSpacing( 1 );
-            _clockIndexSlider.setPaintTicks( true );
-            _clockIndexSlider.setPaintLabels( true );
-            _clockIndexSlider.setSnapToTicks( true );
-            _clockIndexSlider.setValue( OTDefaults.CLOCK_INDEX );
-            
-            // Label the min "normal", the max "fast".
-            String normalString = SimStrings.get( "label.clockSpeed.slow" );
-            String fastString = SimStrings.get( "label.clockSpeed.fast" );
-            Hashtable labelTable = new Hashtable();
-            labelTable.put( new Integer( _clockIndexSlider.getMinimum() ), new JLabel( normalString ) );
-            labelTable.put( new Integer( _clockIndexSlider.getMaximum() ), new JLabel( fastString ) );
-            _clockIndexSlider.setLabelTable( labelTable );
-            
-            // Set the slider's physical width
-            Dimension preferredSize = _clockIndexSlider.getPreferredSize();
-            Dimension size = new Dimension( 150, (int) preferredSize.getHeight() );
-            _clockIndexSlider.setPreferredSize( size );
         }
         
         // Clock control buttons
@@ -179,29 +145,13 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
             controlsPanel.add( _stepButton );
         }
         
-        // dt value
-        if ( DEBUG_SHOW_DT ) {           
-            _dtLabel = new JLabel();
-            updateDt( dt );
-        }
-        
         // Layout
-        setLayout(  new FlowLayout( FlowLayout.CENTER ) );
+        setLayout( new FlowLayout( FlowLayout.CENTER ) );
         add( timePanel );
-        add( Box.createHorizontalStrut( 10 ) );
-        add( _clockIndexSlider );
-        if ( _dtLabel != null ) {
-            add( _dtLabel );
-        }
-        add( Box.createHorizontalStrut( 10 ) );
+        add( Box.createHorizontalStrut( 30 ) ); // space between time display and controls
         add( controlsPanel );
         
         // Interactivity
-        _clockIndexSlider.addChangeListener( new ChangeListener() { 
-            public void stateChanged( ChangeEvent event ) {
-                handleClockIndexChange();
-            }
-        } );
         _restartButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleRestart();
@@ -223,24 +173,38 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
             }
         } );
         
-        // Listen for clock state changes
-        _clock.addClockListener( new ClockAdapter() {
-            public void clockStarted( ClockEvent clockEvent ) {
-                updateButtonState();
-            }
-            public void clockPaused( ClockEvent clockEvent ) {
-                updateButtonState();
-            }
-        });
-        
         // Inital state
         updateTimeDisplay();
         updateButtonState();
     }
     
+    /**
+     * Call this method before releasing all references to this object.
+     */
+    public void cleanup() {
+        _clock.removeClockListener( this );
+        _clock = null;
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the "Restart" component, used for attaching help items.
+     * @return
+     */
+    public JComponent getRestartComponent() {
+        return _restartButton;
+    }
+    
+    /**
+     * Gets the "Pause" component, used for attaching help items.
+     * @return
+     */
+    public JComponent getPauseComponent() {
+        return _pauseButton;
+    }
     
     /**
      * Gets the clock associated with this control panel.
@@ -250,36 +214,28 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
     public IClock getClock() {
         return _clock;
     }
-
+    
     /**
-     * Gets the clock index.
+     * Sets the time units label.
      * 
-     * @return clock index
+     * @param label
      */
-    public int getClockIndex() {
-        return _clockIndexSlider.getValue();
+    public void setTimeUnitsLabel( String label ) {
+        _timeUnitsLabel.setText( label );
     }
     
     /**
-     * Sets the clock index.
+     * Sets the formatter used to format the time display.
      * 
-     * @param index
+     * @param enabled
      */
-    public void setClockIndex( int index ) {
-        _clockIndexSlider.setValue( index );
-        handleClockIndexChange();
+    public void setTimeFormat( NumberFormat format ) {
+        _timeFormat = format;
     }
     
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
-    
-    private void handleClockIndexChange() {
-        int index = _clockIndexSlider.getValue();
-        double dt = OTConstants.CLOCK_STEPS[index];
-        _clock.setSimulationTimeChange( dt );
-        updateDt( dt );
-    }
     
     private void handleRestart() {
         _clock.resetSimulationTime();
@@ -319,16 +275,6 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
         double time = _clock.getSimulationTime();
         String sValue = _timeFormat.format( time );
         _timeTextField.setText( sValue );
-    }
-    
-    /*
-     * Updates the dt display.
-     */
-    private void updateDt( double dt ) {
-        if ( _dtLabel!= null ) {
-            String s = DT_FORMATTER.format( dt );
-            _dtLabel.setText( "dt=" + s );
-        }
     }
     
     //----------------------------------------------------------------------------
