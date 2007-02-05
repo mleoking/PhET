@@ -227,15 +227,12 @@ public class SplineGraphic extends PNode {
         setPickable( splineSurface.isInteractive() );
         setChildrenPickable( splineSurface.isInteractive() );
         if( changed() ) {
-//            splinePath.removeAllChildren();
             splinePath.setPathTo( spline.getInterpolationPath() );
-//            splinePath.setStrokePaint( spline.isRollerCoasterMode() ? Color.red : Color.black );
             splineFrontPath.setPathTo( spline.getInterpolationPath() );
             splineFrontPath.setVisible( spline.isRollerCoasterMode() );
             splineFrontPath.setStrokePaint( spline.isRollerCoasterMode() ? Color.gray : Color.black );
 
             controlPointLayer.removeAllChildren();
-//        pathLayer.setPathTo( new Rectangle( 50,50,50,50) );
 
             for( int i = 0; i < spline.numControlPoints(); i++ ) {
                 Point2D point = spline.controlPointAt( i );
@@ -295,7 +292,6 @@ public class SplineGraphic extends PNode {
                 }
 
                 proposeMatchesEndpoint( index );
-//                updateReverseSpline();
                 updateAll();
                 event.setHandled( true );
             }
@@ -303,10 +299,6 @@ public class SplineGraphic extends PNode {
         controlCircle.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         controlCircle.addInputEventListener( new PopupMenuHandler( ec3Canvas, new ControlCirclePopupMenu( index ) ) );
     }
-
-//    private void updateReverseSpline() {
-////        reverse.setControlPoints( reverse( spline.getControlPoints() ) );
-//    }
 
     class ControlCirclePopupMenu extends JPopupMenu {
         public ControlCirclePopupMenu( final int index ) {
