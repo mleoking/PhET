@@ -13,7 +13,7 @@ package edu.colorado.phet.dischargelamps.model;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
- * HydrogenProperties
+ * MercuryProperties
  *
  * @author Ron LeMaster
  * @version $Revision$

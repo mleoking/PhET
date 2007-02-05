@@ -17,7 +17,7 @@ import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
 import edu.colorado.phet.quantum.model.EnergyEmissionStrategy;
 
 /**
- * Zinc
+ * Magnesium
  *
  * @author Ron LeMaster
  * @version $Revision$

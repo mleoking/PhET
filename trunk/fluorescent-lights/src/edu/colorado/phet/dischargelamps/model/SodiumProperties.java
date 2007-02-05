@@ -13,7 +13,7 @@ package edu.colorado.phet.dischargelamps.model;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
- * HydrogenProperties
+ * SodiumProperties
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -29,11 +29,22 @@ public class SodiumProperties extends DischargeLampElementProperties {
             -0.86
     };
 
+    // Likelihoods of emission transitions from one
+    // state to another
+    static TransitionEntry[] teA = new TransitionEntry[]{
+            new TransitionEntry( 4, 0, 0.05 ),
+            new TransitionEntry( 5, 1, 0.24 ),
+            new TransitionEntry( 1, 0, 1.23 ),
+            new TransitionEntry( 5, 1, 0.07 ),
+            new TransitionEntry( 3, 1, 1.03 ),
+            new TransitionEntry( 2, 1, 0.26 ),
+            new TransitionEntry( 5, 3, 0.15 ),
+            new TransitionEntry( 4, 2, 0.13 ),
+            new TransitionEntry( 5, 4, 0.13 ),
+            new TransitionEntry( 0, 0, 1 ),
+    };
+
     public SodiumProperties() {
-        super( SimStrings.get( "Element.sodium" ),
-               SodiumProperties.energyLevels,
-               new HydrogenEnergyEmissionStrategy(),
-               new EqualLikelihoodAbsorptionStrategy(),
-               DischargeLampAtom.DEFAULT_STATE_LIFETIME );
+        super( SimStrings.get( "Element.sodium" ), energyLevels, teA );
     }
 }

@@ -14,7 +14,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * HydrogenProperties
+ * NeonProperties
  *
  * @author Ron LeMaster
  * @version $Revision$
