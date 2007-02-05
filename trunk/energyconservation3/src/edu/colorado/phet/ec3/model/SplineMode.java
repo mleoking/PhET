@@ -20,6 +20,7 @@ public class SplineMode implements UpdateMode {
     private double lastX;
     private Body lastState;
     private Body afterNewton;
+    private static boolean thermalLanding = true;
 
     public SplineMode( EnergySkateParkModel model, AbstractSpline spline ) {
         this.model = model;
@@ -270,7 +271,7 @@ public class SplineMode implements UpdateMode {
     }
 
     private boolean convertNormalKEToThermal() {
-        return true;
+        return thermalLanding;
     }
 
     private void convertNormalKEToThermal( Body body, double x ) {
@@ -364,5 +365,13 @@ public class SplineMode implements UpdateMode {
 
     public void setSpline( AbstractSpline spline ) {
         this.spline = spline;
+    }
+
+    public static void setThermalLanding( boolean thermalLanding ) {
+        SplineMode.thermalLanding = thermalLanding;
+    }
+
+    public static boolean isThermalLanding() {
+        return thermalLanding;
     }
 }
