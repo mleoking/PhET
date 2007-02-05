@@ -20,6 +20,7 @@ import edu.colorado.phet.hydrogenatom.event.PhotonAbsorbedEvent;
 import edu.colorado.phet.hydrogenatom.event.PhotonAbsorbedListener;
 import edu.colorado.phet.hydrogenatom.event.PhotonEmittedEvent;
 import edu.colorado.phet.hydrogenatom.event.PhotonEmittedListener;
+import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 
 /**
@@ -34,8 +35,8 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
     // Public class data
     //----------------------------------------------------------------------------
     
-    /* how close a photon and electron must be for the photon to collide */
-    public static int COLLISION_CLOSENESS = (int)( PhotonNode.DIAMETER / 2 );
+    /* how close a photon and electron (treated as points) must be for them to collide */
+    public static int COLLISION_CLOSENESS = (int)( ( PhotonNode.DIAMETER / 2 ) + ( ElectronNode.DIAMETER / 2 ) );
     
     public static final String PROPERTY_ELECTRON_STATE = "electronState";
     public static final String PROPERTY_ELECTRON_OFFSET = "electronOffset";
