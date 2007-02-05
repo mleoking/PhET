@@ -149,10 +149,10 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
         
         // How close photon must be to electron for it to be absorbed
         {
-            int value = AbstractHydrogenAtom.COLLISION_CLOSENESS;
-            int min = value;
-            int max = value * 4;
-            int stepSize = 1;
+            double value = AbstractHydrogenAtom.COLLISION_CLOSENESS;
+            double min = 1;
+            double max = value * 4;
+            double stepSize = 0.5;
             int columns = 3;
             String label = "Photon absorbed when this close:";
             String units = "";
@@ -406,7 +406,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     }
     
     private void handleAbsorptionClosenessSpinner() {
-        AbstractHydrogenAtom.COLLISION_CLOSENESS = _absorptionClosenessSpinner.getIntValue();
+        AbstractHydrogenAtom.COLLISION_CLOSENESS = _absorptionClosenessSpinner.getDoubleValue();
     }
     
     private void handleRutherfordScatteringOutputCheckBox() {
