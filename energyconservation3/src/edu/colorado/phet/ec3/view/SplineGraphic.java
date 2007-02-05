@@ -262,42 +262,48 @@ public class SplineGraphic extends PNode {
         return lastRenderState.equals( splineSurface.copy() );
     }
 
-    private void addControlPoint( Point2D point, final int index ) {
-        double width = 0.5;
-        PPath controlCircle = new PPath( new Ellipse2D.Double( point.getX() - width / 2, point.getY() - width / 2, width, width ) );
+    private class ControlPointNode extends PPath {
 
-        controlCircle.setStroke( dottedStroke );
-        controlCircle.setStrokePaint( Color.black );
-        controlCircle.setPaint( new Color( 0, 0, 1f, 0.5f ) );
-        controlPointLayer.addChild( controlCircle );
-        controlCircle.addInputEventListener( new PBasicInputEventHandler() {
-            public void mousePressed( PInputEvent event ) {
-                initDragControlPoint( index );
-                spline.setUserControlled( true );
-                event.setHandled( true );
-            }
+        public ControlPointNode( double x, double y, double diameter, final int index ) {
+            super( new Ellipse2D.Double( x - diameter / 2, y - diameter / 2, diameter, diameter ) );
 
-            public void mouseReleased( PInputEvent event ) {
-                finishDragControlPoint( index );
-                spline.setUserControlled( false );
-                event.setHandled( true );
-            }
+            setStroke( dottedStroke );
+            setStrokePaint( Color.black );
+            setPaint( new Color( 0, 0, 1f, 0.5f ) );
 
-            public void mouseDragged( PInputEvent event ) {
-                PDimension rel = event.getDeltaRelativeTo( SplineGraphic.this );
-                spline.translateControlPoint( index, rel.getWidth(), rel.getHeight() );
-                if( index == 0 || index == numControlPointGraphics() - 1 ) {
-                    controlPointLoc.x += rel.getWidth();
-                    controlPointLoc.y += rel.getHeight();
+            addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    initDragControlPoint( index );
+                    spline.setUserControlled( true );
+                    event.setHandled( true );
                 }
 
-                proposeMatchesEndpoint( index );
-                updateAll();
-                event.setHandled( true );
-            }
-        } );
-        controlCircle.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-        controlCircle.addInputEventListener( new PopupMenuHandler( ec3Canvas, new ControlCirclePopupMenu( index ) ) );
+                public void mouseReleased( PInputEvent event ) {
+                    finishDragControlPoint( index );
+                    spline.setUserControlled( false );
+                    event.setHandled( true );
+                }
+
+                public void mouseDragged( PInputEvent event ) {
+                    PDimension rel = event.getDeltaRelativeTo( SplineGraphic.this );
+                    spline.translateControlPoint( index, rel.getWidth(), rel.getHeight() );
+                    if( index == 0 || index == numControlPointGraphics() - 1 ) {
+                        controlPointLoc.x += rel.getWidth();
+                        controlPointLoc.y += rel.getHeight();
+                    }
+
+                    proposeMatchesEndpoint( index );
+                    updateAll();
+                    event.setHandled( true );
+                }
+            } );
+            addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+            addInputEventListener( new PopupMenuHandler( ec3Canvas, new ControlCirclePopupMenu( index ) ) );
+        }
+    }
+
+    private void addControlPoint( Point2D point, int index ) {
+        controlPointLayer.addChild( new ControlPointNode( point.getX(), point.getY(), 0.5, index ) );
     }
 
     class ControlCirclePopupMenu extends JPopupMenu {
