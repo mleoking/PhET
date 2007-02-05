@@ -18,7 +18,10 @@ import edu.colorado.phet.dischargelamps.model.LevelSpecificEnergyEmissionStrateg
 import edu.colorado.phet.quantum.model.EnergyEmissionStrategy;
 
 /**
- * Zinc
+ * Sodium
+ * <p>
+ * Note that this differs from the SodiumProperties used in DischargeLamps because it has a metal energy
+ * absorption strategy
  *
  * @author Ron LeMaster
  * @version $Revision$
