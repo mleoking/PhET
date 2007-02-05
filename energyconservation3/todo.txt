@@ -5,7 +5,6 @@ Remaining Work
 1. Track control points shouldn't drop below the ground.
 2. When the user releases the skater partway into the track, the skater gets stuck.  Fix this (if easy).  Okay to not conserve energy right on release.
 3. Delete the negative potential energy (black); it causes total area of pie chart to behave unexpectedly.
-4. When potential energy is negative, make the pie chart invisible and gray out the pie chart button.
 5. Look at whether dots disappear... they should.
 6. performance problem after lots of runs.
 7. Control for whether normal velocity should convert to parallel velocity, or convert to thermal.
