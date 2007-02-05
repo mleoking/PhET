@@ -68,9 +68,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         // Fields and charged 
         JPanel fieldAndChargesPanel = new JPanel();
         {
-            TitledBorder titledBorder = new TitledBorder( SimStrings.get( "label.fieldsAndCharges" ) );
-            titledBorder.setTitleFont( TITLE_FONT );
-            fieldAndChargesPanel.setBorder( titledBorder );
+            JLabel titleLabel = new JLabel( SimStrings.get( "label.fieldsAndCharges" ) );
+            titleLabel.setFont( TITLE_FONT );
             
             _electricFieldCheckBox = new JCheckBox( SimStrings.get( "label.showElectricField" ) );
             _beadChargesCheckBox = new JCheckBox( SimStrings.get( "label.showBeadCharges" ) );
@@ -80,25 +79,28 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             bg.add( _allChargesRadioButton );
             bg.add( _excessChargesRadioButton );
             
-            EasyGridBagLayout layout = new EasyGridBagLayout( fieldAndChargesPanel );
-            fieldAndChargesPanel.setLayout( layout );
-            layout.setInsets( INSETS );
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
             layout.setFill( GridBagConstraints.HORIZONTAL );
             layout.setMinimumWidth( 0, 20 );
             int row = 0;
+            layout.addComponent( titleLabel, row++, 0, 2, 1 );
             layout.addComponent( _electricFieldCheckBox, row++, 0, 2, 1 );
             layout.addComponent( _beadChargesCheckBox, row++, 0, 2, 1 );
             layout.addComponent( _allChargesRadioButton, row++, 1 );
             layout.addComponent( _excessChargesRadioButton, row++, 1 );
+            
+            fieldAndChargesPanel.setLayout( new BorderLayout() );
+            fieldAndChargesPanel.add( innerPanel, BorderLayout.WEST );
         }
         
         // Forces on bead 
         JPanel forcesPanel = new JPanel();
         {
-            TitledBorder titledBorder = new TitledBorder( SimStrings.get( "label.forcesOnBead" ) );
-            titledBorder.setTitleFont( TITLE_FONT );
-            forcesPanel.setBorder( titledBorder );
+            JLabel titleLabel = new JLabel( SimStrings.get( "label.forcesOnBead" ) );
+            titleLabel.setFont( TITLE_FONT );
             
             _trapForceCheckBox = new JCheckBox( SimStrings.get( "label.showTrapForce" ) );
             _fluidDragCheckBox = new JCheckBox( SimStrings.get( "label.showFluidDrag" ) );
@@ -111,19 +113,23 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             bg.add( _wholeBeadRadioButton );
             bg.add( _halfBeadRadioButton );
             
-            EasyGridBagLayout layout = new EasyGridBagLayout( forcesPanel );
-            forcesPanel.setLayout( layout );
-            layout.setInsets( INSETS );
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
             layout.setFill( GridBagConstraints.HORIZONTAL );
             layout.setMinimumWidth( 0, 20 );
             int row = 0;
+            layout.addComponent( titleLabel, row++, 0, 2, 1 );
             layout.addComponent( _trapForceCheckBox, row++, 0, 2, 1 );
             layout.addComponent( label, row++, 1 );
             layout.addComponent( _wholeBeadRadioButton, row++, 1 );
             layout.addComponent( _halfBeadRadioButton, row++, 1 );
             layout.addComponent( _fluidDragCheckBox, row++, 0, 2, 1 );
             layout.addComponent( _brownianForceCheckBox, row++, 0, 2, 1 );
+            
+            forcesPanel.setLayout( new BorderLayout() );
+            forcesPanel.add( innerPanel, BorderLayout.WEST );
         }
         
         // Ruler
@@ -135,9 +141,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         // Advanced features
         JPanel advancedPanel = new JPanel();
         {
-            Border border = BorderFactory.createEtchedBorder();
-            advancedPanel.setBorder( border );
-            
             _advancedButton = new JButton( SimStrings.get( "label.showAdvanced" ) );
             _fluidFlowCheckBox = new JCheckBox( SimStrings.get( "label.controlFluidFlow" ) );
             _momemtumChangeCheckBox = new JCheckBox( SimStrings.get( "label.showMomentumChange" ) );
@@ -146,7 +149,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
-            layout.setInsets( INSETS );
             layout.setAnchor( GridBagConstraints.WEST );
             layout.setFill( GridBagConstraints.HORIZONTAL );
             layout.setMinimumWidth( 0, 0 );
@@ -184,12 +186,15 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Layout
         {
-            setInsets( INSETS );
             addControlFullWidth( _speedControl );
+            addSeparator();
             addControlFullWidth( fieldAndChargesPanel );
+            addSeparator();
             addControlFullWidth( forcesPanel );
+            addSeparator();
             addControlFullWidth( _rulerCheckBox );
             addControlFullWidth( _positionHistogramCheckBox );
+            addSeparator();
             addControlFullWidth( advancedPanel );
             addSeparator();
             addResetButton();

@@ -11,21 +11,21 @@
 
 package edu.colorado.phet.opticaltweezers.control;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JSlider;
-import javax.swing.border.TitledBorder;
+import javax.swing.*;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 
 public class SpeedControl extends JPanel {
-
+    
+    private static final int SLIDER_WIDTH = 100;
+    
     private JRadioButton _slowRadioButton;
     private JRadioButton _fastRadioButton;
     private JSlider _slowSlider;
@@ -34,9 +34,8 @@ public class SpeedControl extends JPanel {
     public SpeedControl( Font titleFont, Font controlFont ) {
         super();
         
-        TitledBorder titledBorder = new TitledBorder( SimStrings.get( "label.simulationSpeed" ) );
-        titledBorder.setTitleFont( titleFont );
-        setBorder( titledBorder );
+        JLabel titleLabel = new JLabel( SimStrings.get( "label.simulationSpeed" ) );
+        titleLabel.setFont( titleFont );
         
         _slowRadioButton = new JRadioButton( SimStrings.get( "label.slow" ) );
         _fastRadioButton = new JRadioButton( SimStrings.get( "label.fast" ) );
@@ -47,6 +46,9 @@ public class SpeedControl extends JPanel {
         _slowSlider = new JSlider();
         _fastSlider = new JSlider();
         
+        _slowSlider.setPreferredSize( new Dimension( SLIDER_WIDTH, (int) _slowSlider.getPreferredSize().getHeight() ) );
+        _fastSlider.setPreferredSize( new Dimension( SLIDER_WIDTH, (int) _fastSlider.getPreferredSize().getHeight() ) );
+        
         // Fonts
         _slowRadioButton.setFont( controlFont );
         _fastRadioButton.setFont( controlFont );
@@ -54,13 +56,19 @@ public class SpeedControl extends JPanel {
         _fastSlider.setFont( controlFont );
         
         // Layout
-        EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        setLayout( layout );
+        JPanel innerPanel = new JPanel();
+        EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+        innerPanel.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
-        layout.addComponent( _slowRadioButton, 0, 0 );
-        layout.addComponent( _slowSlider, 0, 1 );
-        layout.addComponent( _fastRadioButton, 1, 0 );
-        layout.addComponent( _fastSlider, 1, 1 );
+        layout.setFill( GridBagConstraints.NONE );
+        layout.addComponent( titleLabel, 0, 0, 2, 1 );
+        layout.addComponent( _slowRadioButton, 1, 0 );
+        layout.addComponent( _slowSlider, 1, 1 );
+        layout.addComponent( _fastRadioButton, 2, 0 );
+        layout.addComponent( _fastSlider, 2, 1 );
+        
+        setLayout( new BorderLayout() );
+        add( innerPanel, BorderLayout.WEST );
         
         // Default state
         _slowRadioButton.setSelected( true );
