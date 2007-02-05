@@ -33,7 +33,6 @@ public class HistoryPointGraphic extends PNode {
     public HistoryPointGraphic( final HistoryPoint historyPoint, EnergySkateParkRootNode rootNode ) {
         this.historyPoint = historyPoint;
         this.rootNode = rootNode;
-//        final double scale = 1.0 / 50.0;
         final double scale = 1.5;
         final PPath path = new PPath( new Ellipse2D.Double( -5 * scale, -5 * scale, 10 * scale, 10 * scale ) );
         addChild( path );
@@ -46,7 +45,6 @@ public class HistoryPointGraphic extends PNode {
         htmlGraphic.setColor( Color.black );
 
         htmlGraphic.scale( scale );
-//        htmlGraphic.transformBy( AffineTransform.getScaleInstance( 1, -1 ) );
         PBasicInputEventHandler eventHandler = new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 toggleVisible();
@@ -57,7 +55,6 @@ public class HistoryPointGraphic extends PNode {
                 update();
             }
         } );
-//        rootNode.add
         addInputEventListener( eventHandler );
         htmlGraphic.addInputEventListener( eventHandler );
         update();
@@ -73,8 +70,6 @@ public class HistoryPointGraphic extends PNode {
     }
 
     private void update() {
-//        setOffset( historyPoint.getX(), historyPoint.getY() );
-
         Point2D.Double pt = new Point2D.Double( historyPoint.getX(), historyPoint.getY() );
         rootNode.worldToScreen( pt );
         setOffset( pt );
@@ -93,7 +88,6 @@ public class HistoryPointGraphic extends PNode {
         getReadoutGraphic().setPickable( readoutVisible );
         getReadoutGraphic().setChildrenPickable( readoutVisible );
         getReadoutGraphic().setOffset( getOffset() );
-//        getReadoutGraphic().setTransform( getTransform() );
     }
 
     public void setHistoryPoint( HistoryPoint historyPoint ) {
