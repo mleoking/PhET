@@ -286,6 +286,9 @@ public class SplineGraphic extends PNode {
 
                 public void mouseDragged( PInputEvent event ) {
                     PDimension rel = event.getDeltaRelativeTo( SplineGraphic.this );
+                    if( spline.getControlPoints()[index].getY() + rel.getHeight() < 0 ) {
+                        rel.height = 0 - spline.getControlPoints()[index].getY();
+                    }
                     spline.translateControlPoint( index, rel.getWidth(), rel.getHeight() );
                     if( index == 0 || index == numControlPointGraphics() - 1 ) {
                         controlPointLoc.x += rel.getWidth();

@@ -257,6 +257,10 @@ public abstract class AbstractSpline implements Cloneable {
         return sum / count + 100 * ( getControlPoints().length - spline.getControlPoints().length );
     }
 
+    public void setControlPointLocation( int index, double x, double y ) {
+        controlPointAt( index ).setLocation( x, y );
+    }
+
     public static interface SplineCriteria {
         double evaluate( Point2D loc );
     }
