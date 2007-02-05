@@ -65,6 +65,7 @@
 ^hydrogen-atom\(/\|$\) mail -s "CVS commit: hydrogen-atom" cmalley
 ^ideal-gas-v3\(/\|$\) mail -s "CVS commit: ideal-gas-3" ronlemaster
 ^lasers\(/\|$\) mail -s "CVS commit: lasers" ronlemaster
+^optical-tweezers\(/\|$\) mail -s "CVS commit: optical-tweezers" cmalley
 ^photoelectric\(/\|$\) mail -s "CVS commit: photoelectric" ronlemaster
 ^dischargelamps\(/\|$\) mail -s "CVS commit: dischargelamps" ronlemaster
 ^nuclearphysics\(/\|$\) mail -s "CVS commit: nuclearphysics" ronlemaster
