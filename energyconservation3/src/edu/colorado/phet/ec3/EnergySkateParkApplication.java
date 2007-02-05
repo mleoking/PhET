@@ -32,6 +32,7 @@ public class EnergySkateParkApplication extends PhetApplication {
 new EnergySkateParkFrameSetup() );
         module = new EnergySkateParkModule( "Module", new SwingClock( 30, SIMULATION_TIME_DT ), getPhetFrame() );
         setModules( new Module[]{module} );
+        getPhetFrame().addMenu( new EnergySkateParkOptionsMenu() );
         getPhetFrame().addMenu( new EnergySkateParkTestMenu( this, args ) );
 
         JMenuItem saveItem = new JMenuItem( "Save" );
@@ -73,9 +74,6 @@ new EnergySkateParkFrameSetup() );
     }
 
     public static void main( final String[] args ) {
-//        EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
-//        new EC3LookAndFeel().initLookAndFeel();
-//        new EnergySkateParkApplication( args ).start();
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
