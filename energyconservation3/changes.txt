@@ -1,4 +1,4 @@
-1.05.02
+1.05.02 (2-5-2007)
 When potential energy is negative, pie chart is invisible and pie chart button is disabled.
 After the maximum number of history points (max=100), history points start disappearing.
 History points are now purple rather than yellow.
