@@ -1,4 +1,4 @@
-/* Copyright 2006, University of Colorado */
+/* Copyright 2007, University of Colorado */
 
 /*
  * CVS Info -
