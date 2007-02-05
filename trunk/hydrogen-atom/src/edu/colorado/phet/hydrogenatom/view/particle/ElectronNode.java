@@ -28,7 +28,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class ElectronNode extends SphericalNode {
 
-    private static final double DIAMETER = 9;
+    public static final double DIAMETER = 9;
+    
     private static final Color COLOR = new Color( 120, 120, 255 );
     
     private static final Color HILITE_COLOR = new Color( 140, 140, 255 );
