@@ -7,6 +7,8 @@ IN PROGRESS:
 - learn about optical tweezers
 
 HIGH PRIORITY:
+- add to CVS modules
+- add dependencies on jfreechart and jfreechart-phet
 
 MEDIUM PRIORITY:
 
@@ -15,6 +17,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+(2/5/07) - remove speed slider from clock control panel
 (1/29/07) - set up ProGuard
 (1/29/07) - set up dev directory
 (1/29/07) - create JNLP files
