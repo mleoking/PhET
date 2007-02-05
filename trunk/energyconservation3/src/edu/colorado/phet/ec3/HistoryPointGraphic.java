@@ -29,6 +29,7 @@ public class HistoryPointGraphic extends PNode {
     private ShadowHTMLGraphic htmlGraphic;
     private String html = "";
     private boolean readoutVisible = false;
+    private Paint paint = new Color( 220, 175, 250 );
 
     public HistoryPointGraphic( final HistoryPoint historyPoint, EnergySkateParkRootNode rootNode ) {
         this.historyPoint = historyPoint;
@@ -37,7 +38,7 @@ public class HistoryPointGraphic extends PNode {
         final PPath path = new PPath( new Ellipse2D.Double( -5 * scale, -5 * scale, 10 * scale, 10 * scale ) );
         addChild( path );
         path.setStroke( new BasicStroke( (float)( 1.0f * scale ) ) );
-        path.setPaint( Color.yellow );
+        path.setPaint( paint );
 
         htmlGraphic = new ShadowHTMLGraphic( "" );
         htmlGraphic.setShadowOffset( 1, 1 );
