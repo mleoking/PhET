@@ -42,6 +42,10 @@ public class SodiumProperties extends DischargeLampElementProperties {
             new TransitionEntry( 4, 2, 0.13 ),
             new TransitionEntry( 5, 4, 0.13 ),
             new TransitionEntry( 0, 0, 1 ),
+
+            // The following is a patch I put in to make this work. There was no transition specified for
+            // state 6 (base 0).
+            new TransitionEntry( 6, 0, 1 ),
     };
 
     public SodiumProperties() {
