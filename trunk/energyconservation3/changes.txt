@@ -4,6 +4,7 @@ After the maximum number of history points (max=100), history points start disap
 History points are now purple rather than yellow.
 Control points can no longer be dragged below ground.
 Added a control for whether normal velocity should convert to parallel velocity, or convert to thermal during a landing.
+Removed negative potential energy (black).
 
 1.05.01 (1-17-2007)
 Fixed a bug in Normal Force computation.

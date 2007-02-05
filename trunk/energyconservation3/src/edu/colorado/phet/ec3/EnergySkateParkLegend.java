@@ -12,10 +12,10 @@ import java.awt.*;
  * Copyright (c) Dec 22, 2005 by Sam Reid
  */
 
-public class EC3Legend extends Legend {
+public class EnergySkateParkLegend extends Legend {
     private EnergySkateParkModule ec3Module;
 
-    public EC3Legend( EnergySkateParkModule ec3Module ) {
+    public EnergySkateParkLegend( EnergySkateParkModule ec3Module ) {
         this.ec3Module = ec3Module;
         addEntry( EnergySkateParkStrings.getString( "kinetic.energy" ), ec3Module.getEnergyLookAndFeel().getKEColor() );
         addEntry( EnergySkateParkStrings.getString( "potential.energy" ), ec3Module.getEnergyLookAndFeel().getPEColor() );
