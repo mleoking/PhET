@@ -151,4 +151,8 @@ public class SplineInteraction {
         body.convertToFreefall();//set to spline mode elsewhere
         body.setAngularVelocity( parallelPart / 2 );
     }
+
+    private boolean convertNormalVelocityIntoThermal() {
+        return true;
+    }
 }
