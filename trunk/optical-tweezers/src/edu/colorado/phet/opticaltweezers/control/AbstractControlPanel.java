@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.opticaltweezers.control;
 
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -22,6 +23,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.DialogUtils;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.module.AbstractModule;
 import edu.colorado.phet.opticaltweezers.util.CursorUtils;
 
@@ -34,6 +36,14 @@ import edu.colorado.phet.opticaltweezers.util.CursorUtils;
  */
 public abstract class AbstractControlPanel extends ControlPanel {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    protected static final Insets INSETS = new Insets( 1, 1, 1, 1 );
+    protected static final Font TITLE_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 12 );
+    protected static final Font CONTROL_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.PLAIN, 12 );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------

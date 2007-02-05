@@ -13,6 +13,7 @@ MEDIUM PRIORITY:
 - get details on physical model
 
 LOW PRIORITY:
+- package level javadoc
 
 DEFER UNTIL AFTER INTERVIEWS:
  
