@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.plots;
 
-import edu.colorado.phet.ec3.EC3Legend;
+import edu.colorado.phet.ec3.EnergySkateParkLegend;
 import edu.colorado.phet.ec3.EnergySkateParkModule;
 import edu.colorado.phet.ec3.EnergySkateParkStrings;
 import edu.colorado.phet.ec3.common.LucidaSansFont;
@@ -50,7 +50,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
     private PPath verticalBar = new PPath( new Line2D.Double( 0, 0, 0, 500 ) );
     private static final int COUNT_MOD = 10;
 
-    private EC3Legend legend;
+    private EnergySkateParkLegend legend;
     private int saveCount = 1;
 
     private EnergyType ke;
@@ -136,7 +136,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         verticalBar.setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1, new float[]{10, 3}, 0 ) );
         verticalBar.setStrokePaint( Color.black );
         addScreenChild( verticalBar );
-        legend = new EC3Legend( module );
+        legend = new EnergySkateParkLegend( module );
         legend.addTotalEnergyEntry();
         legend.setFont( new LucidaSansFont( 12 ) );
         addScreenChild( legend );
