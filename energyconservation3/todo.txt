@@ -7,7 +7,6 @@ Remaining Work
 3. Delete the negative potential energy (black); it causes total area of pie chart to behave unexpectedly.
 6. performance problem after lots of runs.
 7. Control for whether normal velocity should convert to parallel velocity, or convert to thermal.
-8. Energy Dots should be purple?
 9. Skater sometimes falls beneath the ground and zooms out to the side.
 
 Future versions should allow plotting time series data without recording the entire history, and should put the record & playback buttons on the time series panel only.
