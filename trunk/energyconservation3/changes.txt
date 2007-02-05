@@ -1,5 +1,6 @@
 1.05.02
 When potential energy is negative, pie chart is invisible and pie chart button is disabled.
+After the maximum number of history points (max=100), history points start disappearing.
 
 1.05.01 (1-17-2007)
 Fixed a bug in Normal Force computation.
