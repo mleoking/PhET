@@ -36,7 +36,7 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
     //----------------------------------------------------------------------------
     
     /* how close a photon and electron (treated as points) must be for them to collide */
-    public static int COLLISION_CLOSENESS = (int)( ( PhotonNode.DIAMETER / 2 ) + ( ElectronNode.DIAMETER / 2 ) );
+    public static double COLLISION_CLOSENESS = ( PhotonNode.DIAMETER / 2 ) + ( ElectronNode.DIAMETER / 2 );
     
     public static final String PROPERTY_ELECTRON_STATE = "electronState";
     public static final String PROPERTY_ELECTRON_OFFSET = "electronOffset";
