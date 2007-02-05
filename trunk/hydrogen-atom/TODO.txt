@@ -5,8 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- choose 3 clock speeds
-- hide dt value shown in clock control panel
+- choose 3 clock speeds (HAConstants.CLOCK_STEPS)
+- hide dt value shown in clock control panel (HAClockControlPanel.DEBUG_SHOW_DT = false)
 - alpha particles scale problem, option #4: remove alpha particles feature
 
 MEDIUM PRIORITY:
