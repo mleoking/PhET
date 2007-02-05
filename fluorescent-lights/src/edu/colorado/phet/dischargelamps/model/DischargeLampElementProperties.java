@@ -67,7 +67,7 @@ public class DischargeLampElementProperties extends ElementProperties {
                energyLevels,
                new LevelSpecificEnergyEmissionStrategy( teA ),
                DischargeLampAtom.DEFAULT_STATE_LIFETIME );
-        setEnergyAbsorptionStrategy( new FiftyPercentAbsorptionStrategy());
+        setEnergyAbsorptionStrategy( new EqualLikelihoodAbsorptionStrategy());
         ((LevelSpecificEnergyEmissionStrategy)getEnergyEmissionStrategy()).setStates( getStates() );
     }
 
