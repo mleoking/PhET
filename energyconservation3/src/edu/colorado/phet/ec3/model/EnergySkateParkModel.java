@@ -31,6 +31,7 @@ public class EnergySkateParkModel {
     public static final double G_EARTH = -9.81;
     public static final double G_MOON = -1.62;
     public static final double G_JUPITER = -25.95;
+    private int maxNumHistoryPoints = 100;
 
     public EnergySkateParkModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
@@ -232,6 +233,7 @@ public class EnergySkateParkModel {
         copy.history = new ArrayList( history );
         copy.time = time;
         copy.gravity = gravity;
+        copy.maxNumHistoryPoints = maxNumHistoryPoints;
         return copy;
     }
 
@@ -251,6 +253,7 @@ public class EnergySkateParkModel {
         this.history.clear();
         this.history.addAll( model.history );
         this.time = model.time;
+        this.maxNumHistoryPoints = model.maxNumHistoryPoints;
         setGravity( model.gravity );
         //todo: some model objects are not getting copied over correctly, body's spline strategy could refer to different splines
         for( int i = 0; i < bodies.size(); i++ ) {
@@ -313,6 +316,9 @@ public class EnergySkateParkModel {
         time += dt;
         if( recordPath && numBodies() > 0 && timeSinceLastHistory() > 0.1 ) {
             history.add( new HistoryPoint( this, bodyAt( 0 ) ) );
+        }
+        if( history.size() > maxNumHistoryPoints ) {
+            history.remove( 0 );
         }
         for( int i = 0; i < listeners.size(); i++ ) {
             EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
