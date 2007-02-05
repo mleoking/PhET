@@ -54,15 +54,6 @@ public class OTConstants {
     
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
     
-    // The clock control area has a slider for choosing a clock "speed".
-    // These are the clock steps that correspond to each speed setting.
-    public static final double[] CLOCK_STEPS = {
-        1, 2, 4
-    };
-       
-    // Defaults
-    public static final double DEFAULT_CLOCK_STEP = CLOCK_STEPS[ OTDefaults.CLOCK_INDEX ];
-    
     //----------------------------------------------------------------------------
     // Fonts
     //----------------------------------------------------------------------------

@@ -25,5 +25,4 @@ public class OTDefaults {
     
     // Clock
     public static final boolean CLOCK_RUNNING = true ;
-    public static final int CLOCK_INDEX = 2;
 }
