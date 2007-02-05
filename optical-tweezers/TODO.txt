@@ -3,8 +3,9 @@
 ===============================================================================
 
 IN PROGRESS:
-- review design document
 - learn about optical tweezers
+- get requirements for "Fun With DNA" and "Molecular Motors" panels
+- get details on physical model
 
 HIGH PRIORITY:
 - add to CVS modules
