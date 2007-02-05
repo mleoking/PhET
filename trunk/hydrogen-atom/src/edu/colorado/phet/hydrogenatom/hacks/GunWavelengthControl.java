@@ -69,6 +69,8 @@ public class GunWavelengthControl extends WavelengthControl {
     private static final Stroke TRANSITION_MARKS_STROKE = new BasicStroke( 1f );
     private static final Color TRANSITION_MARKS_COLOR = Color.BLACK;
     
+    private static final Color ALTERNATE_CURSOR_COLOR = Color.WHITE;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -93,10 +95,10 @@ public class GunWavelengthControl extends WavelengthControl {
         super( canvas, TRACK_WIDTH, TRACK_HEIGHT, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
 
         /* 
-         * Hide the cursor, because it visually obscures the transition marks.
+         * Change the cursor color, so that it doesn't obscure the transition marks.
          * This is not a mouse cursor; it's the rectangle that appears above the tip of the knob.
          */
-        setCursorVisible( false );
+        setCursorColor( ALTERNATE_CURSOR_COLOR );
         
         // Do things when the user starts and stops dragging the knob.
         addKnobListener( new PBasicInputEventHandler() {
