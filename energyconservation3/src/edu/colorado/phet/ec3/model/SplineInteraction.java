@@ -148,7 +148,7 @@ public class SplineInteraction {
         double energyLostInCollision = newTotalEnergy - origEnergy;
         body.addThermalEnergy( -energyLostInCollision );
 //            System.out.println( "speedScale=" + speedScale + ", origSpeed=" + origSpeed + ", newSpeed=" + newSpeed + ", friction=" + body.getFrictionCoefficient() + ", energyLostInCollision=" + energyLostInCollision );
-        body.convertToFreefall();
+        body.convertToFreefall();//set to spline mode elsewhere
         body.setAngularVelocity( parallelPart / 2 );
     }
 }
