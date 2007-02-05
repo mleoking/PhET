@@ -37,11 +37,9 @@ public class SplineMode implements UpdateMode {
         new ForceMode( netForce ).stepInTime( body, dt );
         afterNewton = body.copyState();
 
-//        double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 60, 2 );
-
         double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 60, 3 );
 //        double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 200, 5 );
-
+//        double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 60, 2 );
 //        double x2 = getDistAlongSplineSearch( body.getAttachPoint(), x1, 0.3, 600, 3 );
         if( x2 <= 0 || x2 >= spline.getLength() - 0.01 ) {//fly off the end of the spline
             fixEnergy( origState, netForce, x2, body, dt );
@@ -315,23 +313,10 @@ public class SplineMode implements UpdateMode {
         AbstractVector2D normal = new Vector2D.Double( 0, 0 );
         if( length < 0 ) {
             double angle = unitNormal.getAngle();
-//            normal = Vector2D.Double.parseAngleAndMagnitude( length, -angle );
-//            normal = Vector2D.Double.parseAngleAndMagnitude( Math.abs( length ), -angle );
-
             normal = Vector2D.Double.parseAngleAndMagnitude( Math.abs( length ), angle );
-//            normal = Vector2D.Double.parseAngleAndMagnitude( Math.abs( length ), angle + Math.PI );
         }
-//        body.setNormalForce(normal);
-//        System.out.println( "normalForce = " + normal );
         return normal;
     }
-//    private AbstractVector2D getNormalForce( double x, Body body ) {
-//        AbstractVector2D n = spline.getUnitNormalVector( x );
-//        double length = body.getGravityForce().getAddedInstance( body.getThrust() ).dot( n );
-//        double angle = isSplineTop( spline, x, body ) ? n.getAngle() : n.getAngle() + Math.PI;
-//        return Vector2D.Double.parseAngleAndMagnitude( length, -angle );
-
-    //    }
 
     private AbstractVector2D getFrictionForce( double x, Body body ) {
         //todo: This is an awkward workaround for computing friction on the ground.
