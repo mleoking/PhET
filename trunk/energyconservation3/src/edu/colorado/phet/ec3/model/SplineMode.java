@@ -264,6 +264,23 @@ public class SplineMode implements UpdateMode {
         body.convertToSpline();
         lastX = getDistAlongSpline( body.getAttachPoint() );
         lastState = body.copyState();
+        if( convertNormalKEToThermal() ) {
+            convertNormalKEToThermal( body, lastX );
+        }
+    }
+
+    private boolean convertNormalKEToThermal() {
+        return true;
+    }
+
+    private void convertNormalKEToThermal( Body body, double x ) {
+        double origEnergy = body.getTotalEnergy();
+        double parallelPart = spline.getUnitParallelVector( x ).dot( body.getVelocity() );
+        Vector2D.Double newVelocity = new Vector2D.Double();
+        newVelocity.add( spline.getUnitParallelVector( x ).getScaledInstance( parallelPart ) );
+        body.setVelocity( newVelocity );
+        double finalEnergy = body.getTotalEnergy();
+        body.addThermalEnergy( origEnergy - finalEnergy );//velocity is set to parallel in stepInTime()
     }
 
     private double getDistAlongSpline( Point2D pt, double min, double max, double numPts ) {
