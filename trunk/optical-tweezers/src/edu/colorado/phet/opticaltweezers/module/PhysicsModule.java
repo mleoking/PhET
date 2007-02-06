@@ -244,7 +244,26 @@ public class PhysicsModule extends AbstractModule {
     //----------------------------------------------------------------------------
     
     public void reset() {
-        // TODO Auto-generated method stub
+        
+        // Control panel
+        _controlPanel.setSlowSpeedSelected( PhysicsDefaults.SLOW_SPEED_SELECTED );
+        _controlPanel.setSlowSpeed( PhysicsDefaults.SLOW_SPEED );
+        _controlPanel.setFastSpeed( PhysicsDefaults.FAST_SPEED );
+        _controlPanel.setElectricFieldSelected( PhysicsDefaults.ELECTRIC_FIELD_SELECTED );
+        _controlPanel.setBeadChargesSelected( PhysicsDefaults.BEAD_CHARGES_SELECTED );
+        _controlPanel.setAllChargesSelected( PhysicsDefaults.ALL_BEAD_CHARGES_SELECTED );
+        _controlPanel.setTrapForceSelected( PhysicsDefaults.TRAP_FORCE_SELECTED );
+        _controlPanel.setWholeBeadSelected( PhysicsDefaults.WHOLE_BEAD_SELECTED );
+        _controlPanel.setFluidDragSelected( PhysicsDefaults.FLUID_DRAG_FORCE_SELECTED );
+        _controlPanel.setBrownianForceSelected( PhysicsDefaults.BROWNIAN_FORCE_SELECTED );
+        _controlPanel.setRulerSelected( PhysicsDefaults.RULER_SELECTED );
+        _controlPanel.setPositionHistogramSelected( PhysicsDefaults.POSITION_HISTOGRAM_SELECTED );
+        _controlPanel.setAdvancedVisible( PhysicsDefaults.ADVANCED_VISIBLE );
+        _controlPanel.setFluidFlowSelected( PhysicsDefaults.FLUID_AND_FLOW_CONTROLS_SELECTED );
+        _controlPanel.setMomentumChangeSelected( PhysicsDefaults.MOMENTUM_CHANGE_MODEL_SELECTED );
+        _controlPanel.setPotentialChartSelected( PhysicsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
+        
+        //XXX
     }
 
     public void save( OTConfig appConfig ) {

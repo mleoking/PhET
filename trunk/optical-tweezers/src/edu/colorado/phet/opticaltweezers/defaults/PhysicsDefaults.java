@@ -25,7 +25,7 @@ public class PhysicsDefaults {
     
     // Clock
     public static final boolean CLOCK_RUNNING = true ;
-    public static final boolean SPEED_SLOW = true;
+    public static final boolean SLOW_SPEED_SELECTED = true;
     public static final double SLOW_SPEED = 0.5; // range: 0-1
     public static final double FAST_SPEED = 0.5; // range: 0-1
     
@@ -39,18 +39,18 @@ public class PhysicsDefaults {
     public static final double BEAD_POSITION_Y = 300;
     
     // Control panel settings
-    public static final boolean SHOW_LASER_ELECTRIC_FIELD = false;
-    public static final boolean SHOW_BEAD_CHARGES = false;
-    public static final boolean SHOW_ALL_BEAD_CHARGES = true;
-    public static final boolean SHOW_OPTICAL_TRAP_FORCE = false;
-    public static final boolean SHOW_WHOLE_BEAD = true;
-    public static final boolean SHOW_FLUID_DRAG_FORCE = false;
-    public static final boolean SHOW_BROWNIAN_FORCE = false;
-    public static final boolean SHOW_RULER = false;
-    public static final boolean SHOW_POSITION_HISTOGRAM = false;
-    public static final boolean SHOW_ADVANCED_FEATURES = false;
-    public static final boolean SHOW_FLUID_AND_FLOW_CONTROLS = false;
-    public static final boolean SHOW_MOMENTUM_CHANGE_MODEL = false;
-    public static final boolean SHOW_POTENTIAL_ENERGY_CHART = false;
+    public static final boolean ELECTRIC_FIELD_SELECTED = false;
+    public static final boolean BEAD_CHARGES_SELECTED = false;
+    public static final boolean ALL_BEAD_CHARGES_SELECTED = true;
+    public static final boolean TRAP_FORCE_SELECTED = false;
+    public static final boolean WHOLE_BEAD_SELECTED = true;
+    public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
+    public static final boolean BROWNIAN_FORCE_SELECTED = false;
+    public static final boolean RULER_SELECTED = false;
+    public static final boolean POSITION_HISTOGRAM_SELECTED = false;
+    public static final boolean ADVANCED_VISIBLE = false;
+    public static final boolean FLUID_AND_FLOW_CONTROLS_SELECTED = false;
+    public static final boolean MOMENTUM_CHANGE_MODEL_SELECTED = false;
+    public static final boolean POTENTIAL_ENERGY_CHART_SELECTED = false;
     
 }

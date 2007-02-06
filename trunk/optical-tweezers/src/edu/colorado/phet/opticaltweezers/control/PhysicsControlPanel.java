@@ -260,12 +260,28 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     // Mutators and accessors
     //----------------------------------------------------------------------------
     
-    public void setSpeedSlow( boolean b ) {
+    public void setSlowSpeedSelected( boolean b ) {
         _speedControl.setSlowSelected( b );
     }
     
     public boolean isSpeedSlow() {
         return _speedControl.isSlowSelected();
+    }
+    
+    public void setSlowSpeed( double speed ) {
+        _speedControl.setSlowSpeed( speed );
+    }
+    
+    public double getSlowSpeed() {
+        return _speedControl.getSlowSpeed();
+    }
+    
+    public void setFastSpeed( double speed ) {
+        _speedControl.setFastSpeed( speed );
+    }
+    
+    public double getFastSpeed() {
+        return _speedControl.getFastSpeed();
     }
     
     public void setElectricFieldSelected( boolean b ) {
@@ -338,6 +354,22 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public boolean isBrownianForceSelected() {
         return _brownianForceCheckBox.isSelected();
+    }
+    
+    public void setRulerSelected( boolean b ) {
+        _rulerCheckBox.setSelected( b );
+    }
+    
+    public boolean isRulerSelected() {
+        return _rulerCheckBox.isSelected();
+    }
+    
+    public void setPositionHistogramSelected( boolean b ) {
+        _positionHistogramCheckBox.setSelected( b );
+    }
+    
+    public boolean isPositionHistogramSelected() {
+        return _positionHistogramCheckBox.isSelected();
     }
     
     public void setAdvancedVisible( boolean b ) {
