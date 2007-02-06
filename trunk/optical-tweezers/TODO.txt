@@ -19,6 +19,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
 (2/5/07) - wire up first control panel to show/hide controls properly
+(2/5/07) - create a separate "default values" class for each module
 (2/5/07) - add all Swing components to first control panel, no wiring
 (2/5/07) - add entries in CVS modules and loginfo
 (2/5/07) - sim requires charts, add dependencies on jfreechart and jfreechart-phet
