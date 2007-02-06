@@ -18,6 +18,8 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 
+import edu.colorado.phet.opticaltweezers.util.DoubleRange;
+
 
 /**
  * OTConstants is a collection of constants.
@@ -104,6 +106,10 @@ public class OTConstants {
     // Model
     //----------------------------------------------------------------------------
         
+    public static final DoubleRange FLOW_VELOCITY_RANGE = new DoubleRange( 0, 100, 50, 1 );
+    public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 0, 100, 50, 1 );
+    public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 0, 100, 50, 1 );
+    
     //----------------------------------------------------------------------------
     // Ranges
     //----------------------------------------------------------------------------
