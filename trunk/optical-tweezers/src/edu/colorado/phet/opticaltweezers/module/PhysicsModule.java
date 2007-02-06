@@ -31,6 +31,7 @@ import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.model.OTModel;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
+import edu.colorado.phet.opticaltweezers.view.BeadNode;
 import edu.colorado.phet.opticaltweezers.view.GlassSlideNode;
 import edu.colorado.phet.opticaltweezers.view.OTModelViewManager;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -68,6 +69,7 @@ public class PhysicsModule extends AbstractModule {
     
     // View
     private GlassSlideNode _glassSlideNode;
+    private BeadNode _beadNode;
     
     // Control
     private OTModelViewManager _modelViewManager;
@@ -127,9 +129,13 @@ public class PhysicsModule extends AbstractModule {
         // Glass Slide
         _glassSlideNode = new GlassSlideNode();
         
+        // Bead
+        _beadNode = new BeadNode();
+        
         // Layering order on the canvas (back-to-front)
         {
             _rootNode.addChild( _glassSlideNode );
+            _rootNode.addChild( _beadNode );
         }
         
         //----------------------------------------------------------------------------
@@ -231,6 +237,9 @@ public class PhysicsModule extends AbstractModule {
         // Glass Slide
         _glassSlideNode.setOffset( -10, 50 );//XXX get position from model
         
+        // Bead
+        _beadNode.setOffset( 400, 300 ); //XXX get position from model
+        
         // "Return Bead" button
         _returnBeadButtonWrapper.setOffset( 100, 300 );//XXX
 
@@ -294,7 +303,7 @@ public class PhysicsModule extends AbstractModule {
         _controlPanel.setRulerSelected( PhysicsDefaults.RULER_SELECTED );
         _controlPanel.setPositionHistogramSelected( PhysicsDefaults.POSITION_HISTOGRAM_SELECTED );
         _controlPanel.setAdvancedVisible( PhysicsDefaults.ADVANCED_VISIBLE );
-        _controlPanel.setFluidFlowSelected( PhysicsDefaults.FLUID_AND_FLOW_CONTROLS_SELECTED );
+        _controlPanel.setFluidControlSelected( PhysicsDefaults.FLUID_CONTROLS_SELECTED );
         _controlPanel.setMomentumChangeSelected( PhysicsDefaults.MOMENTUM_CHANGE_MODEL_SELECTED );
         _controlPanel.setPotentialChartSelected( PhysicsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
         
