@@ -28,7 +28,7 @@ MEDIUM PRIORITY:
 - units and range for fluid viscosity
 - units and range for fluid temperature
 - get requirements for "Fun With DNA" and "Molecular Motors" panels
-- get details on physical model
+- get details of physical model
 
 LOW PRIORITY:
 - green control panel background
