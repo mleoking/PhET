@@ -13,10 +13,12 @@ package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -25,6 +27,17 @@ import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
 
 public class PhysicsControlPanel extends AbstractControlPanel {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // Prints debugging output for event handler entries
+    private static final boolean PRINT_DEBUG_EVENT_HANDLERS = true;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private PhysicsModule _module;
     
     private SpeedControl _speedControl;
@@ -35,6 +48,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     private JRadioButton _excessChargesRadioButton;
    
     private JCheckBox _trapForceCheckBox;
+    private JLabel _horizontalTrapForceLabel;
     private JRadioButton _wholeBeadRadioButton;
     private JRadioButton _halfBeadRadioButton;
     private JCheckBox _fluidDragCheckBox;
@@ -44,9 +58,14 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     private JCheckBox _positionHistogramCheckBox;
     
     private JButton _advancedButton;
+    private Box _advancedPanel;
     private JCheckBox _fluidFlowCheckBox;
     private JCheckBox _momemtumChangeCheckBox;
     private JCheckBox _potentialChartCheckBox;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public PhysicsControlPanel( PhysicsModule module ) {
         super( module );
@@ -106,7 +125,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _fluidDragCheckBox = new JCheckBox( SimStrings.get( "label.showFluidDrag" ) );
             _brownianForceCheckBox = new JCheckBox( SimStrings.get( "label.showBrownianForce" ) );
 
-            JLabel label = new JLabel( SimStrings.get( "label.horizontalTrapForce" ) );
+            _horizontalTrapForceLabel = new JLabel( SimStrings.get( "label.horizontalTrapForce" ) );
+            _horizontalTrapForceLabel.setFont( CONTROL_FONT );
             _wholeBeadRadioButton = new JRadioButton( SimStrings.get( "label.wholeBead" ) );
             _halfBeadRadioButton = new JRadioButton( SimStrings.get( "label.halfBead" ) );
             ButtonGroup bg = new ButtonGroup();
@@ -122,7 +142,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             int row = 0;
             layout.addComponent( titleLabel, row++, 0, 2, 1 );
             layout.addComponent( _trapForceCheckBox, row++, 0, 2, 1 );
-            layout.addComponent( label, row++, 1 );
+            layout.addComponent( _horizontalTrapForceLabel, row++, 1 );
             layout.addComponent( _wholeBeadRadioButton, row++, 1 );
             layout.addComponent( _halfBeadRadioButton, row++, 1 );
             layout.addComponent( _fluidDragCheckBox, row++, 0, 2, 1 );
@@ -146,6 +166,11 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _momemtumChangeCheckBox = new JCheckBox( SimStrings.get( "label.showMomentumChange" ) );
             _potentialChartCheckBox = new JCheckBox( SimStrings.get( "label.showPotentialChart" ) );
             
+            _advancedPanel = new Box( BoxLayout.Y_AXIS );
+            _advancedPanel.add( _fluidFlowCheckBox );
+            _advancedPanel.add( _momemtumChangeCheckBox );
+            _advancedPanel.add( _potentialChartCheckBox );
+            
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
@@ -154,9 +179,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             layout.setMinimumWidth( 0, 0 );
             int row = 0;
             layout.addComponent( _advancedButton, row++, 1 );
-            layout.addComponent( _fluidFlowCheckBox, row++, 1 );
-            layout.addComponent( _momemtumChangeCheckBox, row++, 1 );
-            layout.addComponent( _potentialChartCheckBox, row++, 1 );
+            layout.addComponent( _advancedPanel, row++, 1 );
             
             advancedPanel.setLayout( new BorderLayout() );
             advancedPanel.add( innerPanel, BorderLayout.WEST );
@@ -199,6 +222,408 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             addSeparator();
             addResetButton();
         }
+        
+        // Listeners
+        {
+            EventListener listener = new EventListener();
+            _speedControl.addChangeListener( listener );
+            _electricFieldCheckBox.addActionListener( listener );
+            _beadChargesCheckBox.addActionListener( listener );
+            _allChargesRadioButton.addActionListener( listener );
+            _excessChargesRadioButton.addActionListener( listener );
+            _trapForceCheckBox.addActionListener( listener );
+            _wholeBeadRadioButton.addActionListener( listener );
+            _halfBeadRadioButton.addActionListener( listener );
+            _fluidDragCheckBox.addActionListener( listener );
+            _brownianForceCheckBox.addActionListener( listener );
+            _rulerCheckBox.addActionListener( listener );
+            _positionHistogramCheckBox.addActionListener( listener );
+            _advancedButton.addActionListener( listener );
+            _fluidFlowCheckBox.addActionListener( listener );
+            _momemtumChangeCheckBox.addActionListener( listener );
+            _potentialChartCheckBox.addActionListener( listener );
+        }
+        
+        // Default state
+        {
+            _allChargesRadioButton.setSelected( true );
+            _allChargesRadioButton.setEnabled( false );
+            _excessChargesRadioButton.setEnabled( false );
+            _wholeBeadRadioButton.setSelected( true );
+            _wholeBeadRadioButton.setEnabled( false );
+            _halfBeadRadioButton.setEnabled( false );
+            _advancedPanel.setVisible( false );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Mutators and accessors
+    //----------------------------------------------------------------------------
+    
+    public void setSpeedSlow( boolean b ) {
+        _speedControl.setSlowSelected( b );
+    }
+    
+    public boolean isSpeedSlow() {
+        return _speedControl.isSlowSelected();
+    }
+    
+    public void setElectricFieldSelected( boolean b ) {
+        _electricFieldCheckBox.setSelected( b );
+    }
+    
+    public boolean isElectricFieldSelected() {
+        return _electricFieldCheckBox.isSelected();
+    }
+   
+    public void setBeadChargesSelected( boolean b ) {
+        _beadChargesCheckBox.setSelected( b );
+    }
+    
+    public boolean isBeadChargesSelected() {
+        return _beadChargesCheckBox.isSelected();
+    }
+    
+    public void setAllChargesSelected( boolean b ) {
+        _allChargesRadioButton.setSelected( b );
+    }
+    
+    public boolean AllChargesSelected() {
+        return _allChargesRadioButton.isSelected();
+    }
+    
+    public void setExcessChargesSelected( boolean b ) {
+        _excessChargesRadioButton.setSelected( b );
+    }
+    
+    public boolean isExcessChargesSelected() {
+        return _excessChargesRadioButton.isSelected();
+    }
+    
+    public void setTrapForceSelected( boolean b ) {
+        _trapForceCheckBox.setSelected( b );
+    }
+    
+    public boolean isTrapForceSelected() {
+        return _trapForceCheckBox.isSelected();
+    }
+    
+    public void setWholeBeadSelected( boolean b ) {
+        _wholeBeadRadioButton.setSelected( b );
+    }
+    
+    public boolean isWholeBeadSelected() {
+        return _wholeBeadRadioButton.isSelected();
+    }
+    
+    public void setHalfBeadSelected( boolean b ) {
+        _halfBeadRadioButton.setSelected( b );
+    }
+    
+    public boolean isHalfBeadSelected() {
+        return _halfBeadRadioButton.isSelected();
+    }
+   
+    public void setFluidDragSelected( boolean b ) {
+        _fluidDragCheckBox.setSelected( b );
+    }
+    
+    public boolean isFluidDragSelected() {
+        return _fluidDragCheckBox.isSelected();
+    }
+   
+    public void setBrownianForceSelected( boolean b ) {
+        _brownianForceCheckBox.setSelected( b );
+    }
+    
+    public boolean isBrownianForceSelected() {
+        return _brownianForceCheckBox.isSelected();
+    }
+    
+    public void setAdvancedVisible( boolean b ) {
+        if ( b ^ _advancedPanel.isVisible() ) {
+            handleAdvancedButton();
+        }
+    }
+    
+    public void setFluidFlowSelected( boolean b ) {
+        _fluidFlowCheckBox.setSelected( b );
+    }
+    
+    public boolean isFluidFlowSelected() {
+        return _fluidFlowCheckBox.isSelected();
+    }
+    
+    public void setMomentumChangeSelected( boolean b ) {
+        _momemtumChangeCheckBox.setSelected( b );
+    }
+    
+    public boolean isMomentumChangeSelected() {
+        return _momemtumChangeCheckBox.isSelected();
+    }
+    
+    public void setPotentialChartSelected( boolean b ) {
+        _potentialChartCheckBox.setSelected( b );
+    }
+    
+    public boolean isPotentialChartSelected() {
+        return _potentialChartCheckBox.isSelected();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Event dispatching
+    //----------------------------------------------------------------------------
+    
+    private class EventListener implements ActionListener, ChangeListener {
+
+        public void actionPerformed( ActionEvent e ) {
+            Object source = e.getSource();
+            if ( source == _electricFieldCheckBox ) {
+                handleElectricFieldCheckBox();
+            }
+            else if ( source == _beadChargesCheckBox ) {
+                handleBeadChargesCheckBox();
+            }
+            else if ( source == _allChargesRadioButton ) {
+                handleAllChargesRadioButton();
+            }
+            else if ( source == _excessChargesRadioButton ) {
+                handleExcessChargesRadioButton();
+            }
+            else if ( source == _trapForceCheckBox ) {
+                handleTrapForceCheckBox();
+            }
+            else if ( source == _wholeBeadRadioButton ) {
+                handleWholeBeadRadioButton();
+            }
+            else if ( source == _halfBeadRadioButton ) {
+                handleHalfBeadRadioButton();
+            }
+            else if ( source == _fluidDragCheckBox ) {
+                handleFluidDragCheckBox();
+            }
+            else if ( source == _brownianForceCheckBox ) {
+                handleBrownianForceCheckBox();
+            }
+            else if ( source == _rulerCheckBox ) {
+                handleRulerCheckBox();
+            }
+            else if ( source == _positionHistogramCheckBox ) {
+                handlePositionHistogramCheckBox();
+            }
+            else if ( source == _advancedButton ) {
+                handleAdvancedButton();
+            }
+            else if ( source == _fluidFlowCheckBox ) {
+                handleFluidFlowCheckBox();
+            }
+            else if ( source == _momemtumChangeCheckBox ) {
+                handleMomentumChangeCheckBox();
+            }
+            else if ( source == _potentialChartCheckBox ) {
+                handlePotentialChartCheckBox();
+            }
+        }
+
+        public void stateChanged( ChangeEvent e ) {
+            Object source = e.getSource();
+            if ( source == _speedControl ) {
+                handleSpeedControl();
+            }
+        }
+        
+    }
+    
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
+    
+    private void handleSpeedControl() {
+        
+        boolean isSlow = _speedControl.isSlowSelected();
+        
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            String mode = ( isSlow ? "slow" : "fast" );
+            double speed = ( isSlow ? _speedControl.getSlowSpeed() : _speedControl.getFastSpeed() );
+            System.out.println( "PhysicsControlPanel.handleSpeedChange mode=" + mode + " speed=" + speed );
+        }
+        
+        _electricFieldCheckBox.setEnabled( isSlow );
+        _beadChargesCheckBox.setEnabled( isSlow );
+        _allChargesRadioButton.setEnabled( isSlow && _beadChargesCheckBox.isSelected() );
+        _excessChargesRadioButton.setEnabled( isSlow && _beadChargesCheckBox.isSelected() );
+        _horizontalTrapForceLabel.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
+        _wholeBeadRadioButton.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
+        _halfBeadRadioButton.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
+        
+        //XXX
     }
 
+    private void handleElectricFieldCheckBox() {
+        
+        final boolean selected = _electricFieldCheckBox.isSelected();
+        
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            System.out.println( "PhysicsControlPanel.handleElectricFieldCheckBox " + selected );
+        }
+        
+        //XXX
+    }
+    
+    private void handleBeadChargesCheckBox() {
+        
+        final boolean selected = _beadChargesCheckBox.isSelected();
+        
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            System.out.println( "PhysicsControlPanel.handleBeadChargesCheckBox " + selected );
+        }
+        
+        _allChargesRadioButton.setEnabled( selected );
+        _excessChargesRadioButton.setEnabled( selected );
+        
+        //XXX
+    }
+    
+    private void handleAllChargesRadioButton() {
+        
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            System.out.println( "PhysicsControlPanel.handleAllChargesRadioButton" );
+        }
+        
+        //XXX
+    }
+    
+    private void handleExcessChargesRadioButton() {
+        
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            System.out.println( "PhysicsControlPanel.handleExcessChargesRadioButton" );
+        }
+        
+        //XXX
+    }
+    
+    private void handleTrapForceCheckBox() {
+        
+        final boolean selected = _trapForceCheckBox.isSelected();
+
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            System.out.println( "PhysicsControlPanel.handleTrapForceCheckBox " + selected );
+        }
+        
+        _horizontalTrapForceLabel.setEnabled( selected );
+        _wholeBeadRadioButton.setEnabled( selected );
+        _halfBeadRadioButton.setEnabled( selected );
+        
+        //XXX
+    }
+    
+    private void handleWholeBeadRadioButton() {
+        
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            System.out.println( "PhysicsControlPanel.handleWholeBeadRadioButton" );
+        }
+        
+        //XXX
+    }
+    
+    private void handleHalfBeadRadioButton() {
+        
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            System.out.println( "PhysicsControlPanel.handleHalfBeadRadioButton" );
+        }
+        
+        //XXX
+    }
+    
+    private void handleFluidDragCheckBox() {
+        
+        final boolean selected = _fluidDragCheckBox.isSelected();
+        
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            System.out.println( "PhysicsControlPanel.handleFluidDragCheckBox " + selected );
+        }
+        
+        //XXX
+    }
+    
+    private void handleBrownianForceCheckBox() {
+        
+        final boolean selected = _brownianForceCheckBox.isSelected();
+        
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            System.out.println( "PhysicsControlPanel.handleBrownianForceCheckBox " + selected );
+        }
+        
+        //XXX
+    }
+    
+    private void handleRulerCheckBox() {
+       
+        final boolean selected = _rulerCheckBox.isSelected();
+        
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            System.out.println( "PhysicsControlPanel.handleRulerCheckBox " + selected );
+        }
+        
+        //XXX
+    }
+    
+    private void handlePositionHistogramCheckBox() {
+        
+        final boolean selected = _positionHistogramCheckBox.isSelected();
+        
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            System.out.println( "PhysicsControlPanel.handlePositionHistogramCheckBox " + selected );
+        }
+        
+        //XXX
+    }
+    
+    private void handleAdvancedButton() {
+        
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            System.out.println( "PhysicsControlPanel.handleAdvancedButton" );
+        }
+        
+        _advancedPanel.setVisible( !_advancedPanel.isVisible() );
+        if ( _advancedPanel.isVisible() ) {
+            _advancedButton.setText( SimStrings.get( "label.hideAdvanced" ) );
+        }
+        else {
+            _advancedButton.setText( SimStrings.get( "label.showAdvanced" ) );
+        }
+    }
+    
+    private void handleFluidFlowCheckBox() {
+        
+        final boolean selected = _fluidFlowCheckBox.isSelected();
+        
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            System.out.println( "PhysicsControlPanel.handleFluidFlowCheckBox " + selected );
+        }
+        
+        //XXX
+    }
+    
+    private void handleMomentumChangeCheckBox() {
+        
+        final boolean selected = _momemtumChangeCheckBox.isSelected();
+        
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            System.out.println( "PhysicsControlPanel.handleMomentumChangeCheckBox " + selected );
+        }
+        
+        //XXX
+    }
+    
+    private void handlePotentialChartCheckBox() {
+        
+        final boolean selected = _potentialChartCheckBox.isSelected();
+        
+        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
+            System.out.println( "PhysicsControlPanel.handlePotentialChartCheckBox " + selected );
+        }
+        
+        //XXX
+    }
 }

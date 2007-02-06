@@ -20,10 +20,9 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.OTDefaults;
 import edu.colorado.phet.opticaltweezers.control.DNAControlPanel;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
-import edu.colorado.phet.opticaltweezers.control.PhysicsControlPanel;
+import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.model.OTModel;
@@ -74,7 +73,7 @@ public class DNAModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public DNAModule() {
-        super( SimStrings.get( "DNAModule.title" ), new OTClock(), !OTDefaults.CLOCK_RUNNING /* startsPaused */ );
+        super( SimStrings.get( "DNAModule.title" ), new OTClock(), !DNADefaults.CLOCK_RUNNING /* startsPaused */ );
 
         // hide the PhET logo
         setLogoPanel( null );

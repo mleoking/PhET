@@ -20,9 +20,9 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.OTDefaults;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.control.PhysicsControlPanel;
+import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.model.OTModel;
@@ -73,7 +73,7 @@ public class PhysicsModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public PhysicsModule() {
-        super( SimStrings.get( "PhysicsModule.title" ), new OTClock(), !OTDefaults.CLOCK_RUNNING /* startsPaused */ );
+        super( SimStrings.get( "PhysicsModule.title" ), new OTClock(), !PhysicsDefaults.CLOCK_RUNNING /* startsPaused */ );
 
         // hide the PhET logo
         setLogoPanel( null );
