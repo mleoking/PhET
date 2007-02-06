@@ -12,6 +12,7 @@
 package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JSeparator;
@@ -29,8 +30,10 @@ public class FluidControlPanel extends VerticalLayoutPanel {
     private SliderControl _viscosityControl;
     private SliderControl _temperatureControl;
     
-    public FluidControlPanel() {
+    public FluidControlPanel( Font font ) {
         super();
+        
+        //XXX Use font!
         
         setBorder( BorderFactory.createLineBorder( Color.BLACK ) );
         

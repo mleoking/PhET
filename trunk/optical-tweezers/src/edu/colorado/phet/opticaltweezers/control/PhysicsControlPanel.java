@@ -22,6 +22,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
 
 
@@ -69,8 +70,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public PhysicsControlPanel( PhysicsModule module ) {
         super( module );
-        
-        setFont( CONTROL_FONT );
         
         _module = module;
 

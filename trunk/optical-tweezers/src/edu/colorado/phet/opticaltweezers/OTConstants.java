@@ -69,6 +69,12 @@ public class OTConstants {
     public static final int DEFAULT_FONT_STYLE = Font.PLAIN;
     public static final int DEFAULT_FONT_SIZE = 16;
     
+    public static final Font CONTROL_PANEL_TITLE_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 12 );
+    public static final Font CONTROL_PANEL_CONTROL_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.PLAIN, 12 );
+    
+    public static final Font PLAY_AREA_TITLE_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
+    public static final Font PLAY_AREA_CONTROL_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.PLAIN, 14 );
+    
     //----------------------------------------------------------------------------
     // Strokes
     //----------------------------------------------------------------------------
@@ -105,14 +111,18 @@ public class OTConstants {
     //----------------------------------------------------------------------------
     // Model
     //----------------------------------------------------------------------------
-        
-    public static final DoubleRange FLOW_VELOCITY_RANGE = new DoubleRange( 0, 100, 50, 1 );
-    public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 0, 100, 50, 1 );
-    public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 0, 100, 50, 1 );
+    
+    public static final double LASER_WAVELENGTH = 632; // nm
     
     //----------------------------------------------------------------------------
     // Ranges
     //----------------------------------------------------------------------------
+    
+    public static final DoubleRange FLOW_VELOCITY_RANGE = new DoubleRange( 0, 100, 50, 1 ); //XXX
+    public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 0, 100, 50, 1 ); //XXX
+    public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 0, 100, 50, 1 ); //XXX
+    
+    public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500, 1 ); // mW
     
     //----------------------------------------------------------------------------
     // Features

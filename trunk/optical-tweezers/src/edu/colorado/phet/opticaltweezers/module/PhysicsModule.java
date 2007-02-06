@@ -34,6 +34,7 @@ import edu.colorado.phet.opticaltweezers.model.OTModel;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.view.BeadNode;
 import edu.colorado.phet.opticaltweezers.view.GlassSlideNode;
+import edu.colorado.phet.opticaltweezers.view.LaserNode;
 import edu.colorado.phet.opticaltweezers.view.OTModelViewManager;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
@@ -70,6 +71,7 @@ public class PhysicsModule extends AbstractModule {
     
     // View
     private GlassSlideNode _glassSlideNode;
+    private LaserNode _laserNode;
     private BeadNode _beadNode;
     
     // Control
@@ -93,10 +95,6 @@ public class PhysicsModule extends AbstractModule {
 
         // hide the PhET logo
         setLogoPanel( null );
-
-        // Fonts
-        int jComponentFontSize = SimStrings.getInt( "jcomponent.font.size", OTConstants.DEFAULT_FONT_SIZE );
-        Font jComponentFont = new Font( OTConstants.DEFAULT_FONT_NAME, OTConstants.DEFAULT_FONT_STYLE, jComponentFontSize );
         
         //----------------------------------------------------------------------------
         // Model
@@ -132,12 +130,16 @@ public class PhysicsModule extends AbstractModule {
         // Glass Slide
         _glassSlideNode = new GlassSlideNode();
         
+        // Laser
+        _laserNode = new LaserNode( _canvas );
+        
         // Bead
         _beadNode = new BeadNode();
         
         // Layering order on the canvas (back-to-front)
         {
             _rootNode.addChild( _glassSlideNode );
+            _rootNode.addChild( _laserNode );
             _rootNode.addChild( _beadNode );
         }
         
@@ -160,12 +162,12 @@ public class PhysicsModule extends AbstractModule {
         setClockControlPanel( _clockControlPanel );
         
         // Fluid controls
-        _fluidControlPanel = new FluidControlPanel();
+        _fluidControlPanel = new FluidControlPanel( OTConstants.PLAY_AREA_CONTROL_FONT );
         _fluidControlPanelWrapper = new PSwing( _canvas, _fluidControlPanel );
         
         // "Return Bead" button
         JButton returnBeadButton = new JButton( SimStrings.get( "label.returnBead" ) );
-        returnBeadButton.setFont( jComponentFont );
+        returnBeadButton.setFont( OTConstants.PLAY_AREA_CONTROL_FONT );
         returnBeadButton.setOpaque( false );
         returnBeadButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -244,6 +246,9 @@ public class PhysicsModule extends AbstractModule {
         
         // Glass Slide
         _glassSlideNode.setOffset( -10, 50 );//XXX get position from model
+        
+        // Laser
+        _laserNode.setOffset( 200, 600 ); //XXX get postion from model
         
         // Bead
         _beadNode.setOffset( 400, 300 ); //XXX get position from model
