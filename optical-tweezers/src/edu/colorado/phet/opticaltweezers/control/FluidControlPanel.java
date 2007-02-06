@@ -103,14 +103,17 @@ public class FluidControlPanel extends VerticalLayoutPanel {
     }
     
     private void handleVelocityChange() {
+        System.out.println( "FluidControlPanel.handleVelocityChange " + _velocityControl.getValue() );//XXX
         //XXX update model
     }
     
     private void handleViscosityChange() {
+        System.out.println( "FluidControlPanel.handleViscosityChange " + _viscosityControl.getValue() );//XXX
         //XXX update model
     }
     
     private void handleTemperatureChange() {
+        System.out.println( "FluidControlPanel.handleTemperatureChange " + _temperatureControl.getValue() );//XXX
         //XXX update model
     }
 }
