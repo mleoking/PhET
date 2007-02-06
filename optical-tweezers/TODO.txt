@@ -6,18 +6,16 @@ IN PROGRESS:
 - learn more about optical tweezers
 
 HIGH PRIORITY:
+- laser control panel
+- laser view
 - model view transform
-- save/load for first module's control panel
+
+MEDIUM PRIORITY:
 - wire up "Return Bead" button
 - liquid model
 - connect glass slide view to model
 - bead model
-- bead view
 - laser model
-- laser view
-- laser control panel
-
-MEDIUM PRIORITY:
 - make FluidControlPanel observe and update model
 - constrain bead drag
 - dynamically adjust glass slide width based on play area width
@@ -31,6 +29,7 @@ MEDIUM PRIORITY:
 - get details of physical model
 
 LOW PRIORITY:
+- save/load for first module's control panel
 - green control panel background
 - package level javadoc
 
