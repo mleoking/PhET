@@ -40,8 +40,8 @@ public abstract class AbstractControlPanel extends ControlPanel {
     // Class data
     //----------------------------------------------------------------------------
     
-    protected static final Font TITLE_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 12 );
-    protected static final Font CONTROL_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.PLAIN, 12 );
+    protected static final Font TITLE_FONT = OTConstants.CONTROL_PANEL_TITLE_FONT;
+    protected static final Font CONTROL_FONT = OTConstants.CONTROL_PANEL_CONTROL_FONT;
     
     //----------------------------------------------------------------------------
     // Instance data

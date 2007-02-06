@@ -6,12 +6,17 @@ IN PROGRESS:
 - learn more about optical tweezers
 
 HIGH PRIORITY:
+- toggle laser start/stop button
+- caution sign image
+- power text field entry
+- power slider range
 - laser control panel
 - laser power range is 0-1000 mW
 - laser view
 - model view transform
 
 MEDIUM PRIORITY:
+- use font in FluidControlPanel
 - wire up "Return Bead" button
 - liquid model
 - connect glass slide view to model
@@ -36,6 +41,9 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+(2/6/07) - settable font for LaserControlPanel
+(2/6/07) - define separate fonts in OTConstants for controls in control panel and play area
+(2/6/07) - first pass at Laser control panel
 (2/6/07) - fluid control panel
 (2/6/07) - add ad hoc view of bead (no connection to model, no drag constraints)
 (2/6/07) - add ad hoc view of glass slide (no connection to model)
