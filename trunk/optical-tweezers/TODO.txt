@@ -16,6 +16,7 @@ HIGH PRIORITY:
 - model view transform
 
 MEDIUM PRIORITY:
+- generalize LaserPowerControl
 - use font in FluidControlPanel
 - wire up "Return Bead" button
 - liquid model
