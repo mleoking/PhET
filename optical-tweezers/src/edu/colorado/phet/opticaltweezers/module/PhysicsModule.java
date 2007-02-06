@@ -13,9 +13,13 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Dimension2D;
+
+import javax.swing.JButton;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -27,6 +31,7 @@ import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.model.OTModel;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
+import edu.colorado.phet.opticaltweezers.view.GlassSlideNode;
 import edu.colorado.phet.opticaltweezers.view.OTModelViewManager;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
@@ -35,6 +40,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * PhysicsModule is the "Physics of Tweezers" module.
@@ -56,17 +62,22 @@ public class PhysicsModule extends AbstractModule {
 
     private PhetPCanvas _canvas;
     private PNode _rootNode;
-
-    // Control panels
-    private PhysicsControlPanel _controlPanel;
-    private OTClockControlPanel _clockControlPanel;
-
+    
+    // Model
     private OTModel _model;
     
+    // View
+    private GlassSlideNode _glassSlideNode;
+    
+    // Control
+    private OTModelViewManager _modelViewManager;
+    private PhysicsControlPanel _controlPanel;
+    private OTClockControlPanel _clockControlPanel;
+    private PSwing _returnBeadButtonWrapper;
+    
+    // Help
     private OTWiggleMe _wiggleMe;
     private boolean _wiggleMeInitialized = false;
-    
-    private OTModelViewManager _modelViewManager;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -113,10 +124,12 @@ public class PhysicsModule extends AbstractModule {
         _rootNode = new PNode();
         _canvas.addWorldChild( _rootNode );
 
+        // Glass Slide
+        _glassSlideNode = new GlassSlideNode();
         
         // Layering order on the canvas (back-to-front)
         {
-//            _rootNode.addChild(...);
+            _rootNode.addChild( _glassSlideNode );
         }
         
         //----------------------------------------------------------------------------
@@ -136,6 +149,22 @@ public class PhysicsModule extends AbstractModule {
         // Clock controls
         _clockControlPanel = new OTClockControlPanel( (OTClock) getClock() );
         setClockControlPanel( _clockControlPanel );
+        
+        // "Return Bead" button
+        JButton returnBeadButton = new JButton( SimStrings.get( "label.returnBead" ) );
+        returnBeadButton.setFont( jComponentFont );
+        returnBeadButton.setOpaque( false );
+        returnBeadButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handleReturnBeadButton();
+            }
+        } );
+        _returnBeadButtonWrapper = new PSwing( _canvas, returnBeadButton );
+        
+        // Layering of controls on the canvas (back-to-front)
+        {
+            _rootNode.addChild( _returnBeadButtonWrapper );
+        }
 
         //----------------------------------------------------------------------------
         // Help
@@ -190,7 +219,7 @@ public class PhysicsModule extends AbstractModule {
     public void updateCanvasLayout() {
 
         Dimension worldSize = getWorldSize();
-//        System.out.println( "HAModule.updateCanvasLayout worldSize=" + worldSize );//XXX
+        System.out.println( "HAModule.updateCanvasLayout worldSize=" + worldSize );//XXX
         if ( worldSize.getWidth() == 0 || worldSize.getHeight() == 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
@@ -198,6 +227,12 @@ public class PhysicsModule extends AbstractModule {
         
         // reusable (x,y) coordinates, for setting offsets
         double x, y;
+        
+        // Glass Slide
+        _glassSlideNode.setOffset( -10, 50 );//XXX get position from model
+        
+        // "Return Bead" button
+        _returnBeadButtonWrapper.setOffset( 100, 300 );//XXX
 
         if ( HAS_WIGGLE_ME ) {
             initWiggleMe();
@@ -272,5 +307,14 @@ public class PhysicsModule extends AbstractModule {
 
     public void load( OTConfig appConfig ) {
         // TODO Auto-generated method stub
+    }
+    
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
+    
+    private void handleReturnBeadButton() {
+        //XXX
+        System.out.println( "handleReturnBeadButton" );//XXX
     }
 }
