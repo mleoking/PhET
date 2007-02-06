@@ -634,7 +634,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             System.out.println( "PhysicsControlPanel.handleFluidControlsCheckBox " + selected );
         }
         
-        //XXX
+        _module.setFluidControlsVisible( selected );
     }
     
     private void handleMomentumChangeCheckBox() {

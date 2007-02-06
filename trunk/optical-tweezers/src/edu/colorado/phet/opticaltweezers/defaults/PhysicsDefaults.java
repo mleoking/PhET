@@ -53,4 +53,9 @@ public class PhysicsDefaults {
     public static final boolean MOMENTUM_CHANGE_MODEL_SELECTED = false;
     public static final boolean POTENTIAL_ENERGY_CHART_SELECTED = false;
     
+    // Fluid controls
+    public static final double FLOW_VELOCITY = 50;//XXX
+    public static final double FLUID_VISCOSITY = 50;//XXX
+    public static final double FLUID_TEMPERATURE = 50;//XXX
+    
 }
