@@ -9,20 +9,23 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.opticaltweezers;
+package edu.colorado.phet.opticaltweezers.defaults;
 
 
 /**
- * OTDefaults contains default settings for the simulation's controls.
+ * DNADefaults contains default settings for the "Fun with DNA" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class OTDefaults {
+public class DNADefaults {
 
     /* Not intended for instantiation */
-    private OTDefaults() {}
+    private DNADefaults() {}
     
     // Clock
     public static final boolean CLOCK_RUNNING = true ;
+    public static final boolean SPEED_SLOW = true;
+    public static final int SLOW_SPEED = 50; // range is 1-100
+    public static final int FAST_SPEED = 50; // range is 1-100
 }
