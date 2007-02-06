@@ -7,6 +7,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - laser control panel
+- laser power range is 0-1000 mW
 - laser view
 - model view transform
 
@@ -19,7 +20,6 @@ MEDIUM PRIORITY:
 - make FluidControlPanel observe and update model
 - constrain bead drag
 - dynamically adjust glass slide width based on play area width
-- laser power range is 0-1000 mW
 - units and range for slow speed
 - units and range for fast speed
 - range for flow velocity
