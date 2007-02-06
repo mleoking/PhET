@@ -24,7 +24,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 public class GlassSlideNode extends PhetPNode {
 
-    private static final double SLIDE_WIDTH = 10000; //XXX infinitely wide
+    private static final double SLIDE_WIDTH = 1000; //XXX make infinitely wide
     
     private static final double SLIDE_EDGE_HEIGHT = 10; //XXX get from model
     private static final Stroke SLIDE_EDGE_STROKE = new BasicStroke( 1f );
