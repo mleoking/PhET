@@ -8,7 +8,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - model view transform
 - save/load for first module's control panel
-- fluid control panel
 - wire up "Return Bead" button
 - liquid model
 - connect glass slide view to model
@@ -19,6 +18,7 @@ HIGH PRIORITY:
 - laser control panel
 
 MEDIUM PRIORITY:
+- make FluidControlPanel observe and update model
 - constrain bead drag
 - dynamically adjust glass slide width based on play area width
 - laser power range is 0-1000 mW
@@ -37,6 +37,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+(2/6/07) - fluid control panel
 (2/6/07) - add ad hoc view of bead (no connection to model, no drag constraints)
 (2/6/07) - add ad hoc view of glass slide (no connection to model)
 (2/5/07) - implement "reset all" for first module

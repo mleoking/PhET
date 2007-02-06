@@ -24,6 +24,7 @@ import javax.swing.JButton;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.control.FluidControlPanel;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.control.PhysicsControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
@@ -76,6 +77,8 @@ public class PhysicsModule extends AbstractModule {
     private PhysicsControlPanel _controlPanel;
     private OTClockControlPanel _clockControlPanel;
     private PSwing _returnBeadButtonWrapper;
+    private FluidControlPanel _fluidControlPanel;
+    private PSwing _fluidControlPanelWrapper;
     
     // Help
     private OTWiggleMe _wiggleMe;
@@ -156,6 +159,10 @@ public class PhysicsModule extends AbstractModule {
         _clockControlPanel = new OTClockControlPanel( (OTClock) getClock() );
         setClockControlPanel( _clockControlPanel );
         
+        // Fluid controls
+        _fluidControlPanel = new FluidControlPanel();
+        _fluidControlPanelWrapper = new PSwing( _canvas, _fluidControlPanel );
+        
         // "Return Bead" button
         JButton returnBeadButton = new JButton( SimStrings.get( "label.returnBead" ) );
         returnBeadButton.setFont( jComponentFont );
@@ -169,6 +176,7 @@ public class PhysicsModule extends AbstractModule {
         
         // Layering of controls on the canvas (back-to-front)
         {
+            _rootNode.addChild( _fluidControlPanelWrapper );
             _rootNode.addChild( _returnBeadButtonWrapper );
         }
 
@@ -240,8 +248,11 @@ public class PhysicsModule extends AbstractModule {
         // Bead
         _beadNode.setOffset( 400, 300 ); //XXX get position from model
         
+        // Fluid controls
+        _fluidControlPanelWrapper.setOffset( 10, 280 ); //XXX
+        
         // "Return Bead" button
-        _returnBeadButtonWrapper.setOffset( 100, 300 );//XXX
+        _returnBeadButtonWrapper.setOffset( 50, 230 );//XXX
 
         if ( HAS_WIGGLE_ME ) {
             initWiggleMe();
@@ -307,7 +318,11 @@ public class PhysicsModule extends AbstractModule {
         _controlPanel.setMomentumChangeSelected( PhysicsDefaults.MOMENTUM_CHANGE_MODEL_SELECTED );
         _controlPanel.setPotentialChartSelected( PhysicsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
         
-        //XXX
+        // Fluid controls
+        _fluidControlPanelWrapper.setVisible( PhysicsDefaults.FLUID_CONTROLS_SELECTED );
+        _fluidControlPanel.getVelocityControl().setValue( PhysicsDefaults.FLOW_VELOCITY );
+        _fluidControlPanel.getViscosityControl().setValue( PhysicsDefaults.FLUID_VISCOSITY );
+        _fluidControlPanel.getTemperatureControl().setValue( PhysicsDefaults.FLUID_TEMPERATURE );
     }
 
     public void save( OTConfig appConfig ) {
@@ -316,6 +331,14 @@ public class PhysicsModule extends AbstractModule {
 
     public void load( OTConfig appConfig ) {
         // TODO Auto-generated method stub
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public void setFluidControlsVisible( boolean visible ) {
+        _fluidControlPanelWrapper.setVisible( visible );
     }
     
     //----------------------------------------------------------------------------
