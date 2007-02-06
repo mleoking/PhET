@@ -59,7 +59,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     private JButton _advancedButton;
     private Box _advancedPanel;
-    private JCheckBox _fluidFlowCheckBox;
+    private JCheckBox _fluidControlsCheckBox;
     private JCheckBox _momemtumChangeCheckBox;
     private JCheckBox _potentialChartCheckBox;
     
@@ -162,12 +162,12 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         JPanel advancedPanel = new JPanel();
         {
             _advancedButton = new JButton( SimStrings.get( "label.showAdvanced" ) );
-            _fluidFlowCheckBox = new JCheckBox( SimStrings.get( "label.controlFluidFlow" ) );
+            _fluidControlsCheckBox = new JCheckBox( SimStrings.get( "label.controlFluidFlow" ) );
             _momemtumChangeCheckBox = new JCheckBox( SimStrings.get( "label.showMomentumChange" ) );
             _potentialChartCheckBox = new JCheckBox( SimStrings.get( "label.showPotentialChart" ) );
             
             _advancedPanel = new Box( BoxLayout.Y_AXIS );
-            _advancedPanel.add( _fluidFlowCheckBox );
+            _advancedPanel.add( _fluidControlsCheckBox );
             _advancedPanel.add( _momemtumChangeCheckBox );
             _advancedPanel.add( _potentialChartCheckBox );
             
@@ -202,7 +202,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _positionHistogramCheckBox.setFont( CONTROL_FONT );
             
             _advancedButton.setFont( CONTROL_FONT );
-            _fluidFlowCheckBox.setFont( CONTROL_FONT );
+            _fluidControlsCheckBox.setFont( CONTROL_FONT );
             _momemtumChangeCheckBox.setFont( CONTROL_FONT );
             _potentialChartCheckBox.setFont( CONTROL_FONT );
         }
@@ -239,7 +239,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _rulerCheckBox.addActionListener( listener );
             _positionHistogramCheckBox.addActionListener( listener );
             _advancedButton.addActionListener( listener );
-            _fluidFlowCheckBox.addActionListener( listener );
+            _fluidControlsCheckBox.addActionListener( listener );
             _momemtumChangeCheckBox.addActionListener( listener );
             _potentialChartCheckBox.addActionListener( listener );
         }
@@ -378,12 +378,12 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         }
     }
     
-    public void setFluidFlowSelected( boolean b ) {
-        _fluidFlowCheckBox.setSelected( b );
+    public void setFluidControlSelected( boolean b ) {
+        _fluidControlsCheckBox.setSelected( b );
     }
     
-    public boolean isFluidFlowSelected() {
-        return _fluidFlowCheckBox.isSelected();
+    public boolean isFluidControlsSelected() {
+        return _fluidControlsCheckBox.isSelected();
     }
     
     public void setMomentumChangeSelected( boolean b ) {
@@ -446,8 +446,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             else if ( source == _advancedButton ) {
                 handleAdvancedButton();
             }
-            else if ( source == _fluidFlowCheckBox ) {
-                handleFluidFlowCheckBox();
+            else if ( source == _fluidControlsCheckBox ) {
+                handleFluidControlsCheckBox();
             }
             else if ( source == _momemtumChangeCheckBox ) {
                 handleMomentumChangeCheckBox();
@@ -626,12 +626,12 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         }
     }
     
-    private void handleFluidFlowCheckBox() {
+    private void handleFluidControlsCheckBox() {
         
-        final boolean selected = _fluidFlowCheckBox.isSelected();
+        final boolean selected = _fluidControlsCheckBox.isSelected();
         
         if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handleFluidFlowCheckBox " + selected );
+            System.out.println( "PhysicsControlPanel.handleFluidControlsCheckBox " + selected );
         }
         
         //XXX
