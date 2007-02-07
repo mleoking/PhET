@@ -126,6 +126,16 @@
 
  * 11/29/06 - change precision of matrix transform from int to float
 
+ * 12/5/06  - fix computation of RGB deltas, should divide by 15, not 16
+
+ * 12/5/06  - fix assignment of colors
+
+ * 12/5/06  - add computation of transformed bounding box
+
+ * 12/6/06  - add notification of bounds changes
+
+ * 12/6/06  - fix misc bugs related to when transform occurs and when bounds are updated
+
  */
 
 
