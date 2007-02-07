@@ -1,0 +1,46 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Feb 1 - Feb 7, 2007 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Hydrogen Atom:
+  - design team meeting to discuss change requests
+  - implemented all requested changes
+  - published 1.00.01, 1.00.02 and 1.00.03
+  
+  Optical Tweezers:
+  - first design team meeting
+  - started fleshing out "Physics of Tweezers" panel
+  
+  Faraday:
+  - determined that reported bug (electron direction in Pickup Coil) is not a bug, verified with Mike Dubson
+  
+  Fourier:
+  - made 2nd request for more info on bug report (warning dialogs for amplitude text fields)
+  
+  Common:
+  - collaborated with Sam to finish JFreeChartNode enhancements
+  - misc email discussions with Sam and John
+
+WHAT'S NEXT:
+  
+  o finish up Hydrogen Atom, see: 
+    http://www.colorado.edu/physics/phet/dev/hydrogen-atom/TODO.html
+
+  o continue work on Optical Tweezers, see:
+    http://www.colorado.edu/physics/phet/dev/optical-tweezers/TODO.html
+    
+  o investigate Fourier bug report, if more info is received
+  
+ISSUES:
+ 
+  - none
+  
+DATES UNAVAILABLE:
+
+  - February 9-12
+  - July 30 - August 10
+  
+--
