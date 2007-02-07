@@ -57,6 +57,14 @@ public class DoubleRange {
         _significantDecimalPlaces = significantDecimalPlaces;
     }
     
+    /**
+     * Copy constructor.
+     * @param range
+     */
+    public DoubleRange( DoubleRange range ) {
+        this( range.getMin(), range.getMax(), range.getDefault(), range.getSignificantDecimalPlaces() );
+    }
+    
     //----------------------------------------------------------------------------
     // Getters
     //----------------------------------------------------------------------------
