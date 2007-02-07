@@ -99,6 +99,7 @@ public class OTConstants {
     public static final String IMAGES_DIRECTORY = "images/";
     
     public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
+    public static final String IMAGE_LASER_SIGN = IMAGES_DIRECTORY + "laserDangerSign.png";
  
     //----------------------------------------------------------------------------
     // Cursors
