@@ -168,7 +168,7 @@ public class GeneratorModule extends FaradayModule {
         
         // Pickup Coil
         _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model,
-                _pickupCoilModel, _lightbulbModel, _voltmeterModel, _turbineModel );
+                _pickupCoilModel, _lightbulbModel, _voltmeterModel );
         _pickupCoilGraphic.setDraggingEnabled( false );
         _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( ELECTRON_SPEED_SCALE );
         apparatusPanel.addChangeListener( _pickupCoilGraphic );

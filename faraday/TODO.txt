@@ -21,6 +21,7 @@ LOW PRIORITY:
 
 
 DONE:
+(2/7/07) - remove unused argument (AbstractMagnet) from PickupCoilGraphic
 v1r3...
 (8/25/06) - replace water faucet image (not sure where it came from) with one I made
 v1r2...
