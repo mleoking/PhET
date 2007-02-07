@@ -13,6 +13,7 @@ HIGH PRIORITY:
 - model view transform
 
 MEDIUM PRIORITY:
+- vertically align left edges of fluid controls
 - generalize LaserPowerControl
 - use font in FluidControlPanel
 - wire up "Return Bead" button
