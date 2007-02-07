@@ -46,7 +46,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
     // Class data
     //----------------------------------------------------------------------------
     
-    private static boolean _displayFluxEnabled = false;
+    private static boolean _displayFluxEnabled = true;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -133,11 +133,13 @@ public class PickupCoilGraphic extends GraphicLayerSet
             _fluxFormatter = new DecimalFormat( "###0.00" );
             Font font = new Font( "SansSerif", Font.PLAIN, 15 );
             
-            _fluxValue = new PhetTextGraphic( component, font, "XXX", Color.YELLOW, 70, -25 );
+            final int x = 20;
+            
+            _fluxValue = new PhetTextGraphic( component, font, "XXX", Color.YELLOW, x, -25 );
             _fluxValue.setVisible( _displayFluxEnabled );
-            _deltaFluxValue = new PhetTextGraphic( component, font, "YYY", Color.YELLOW, 70, 0 );
+            _deltaFluxValue = new PhetTextGraphic( component, font, "YYY", Color.YELLOW, x, 0 );
             _deltaFluxValue.setVisible( _displayFluxEnabled );
-            _emfValue = new PhetTextGraphic( component, font, "WWW", Color.YELLOW, 70, 25 );
+            _emfValue = new PhetTextGraphic( component, font, "WWW", Color.YELLOW, x, 25 );
             _emfValue.setVisible( _displayFluxEnabled );
             
             _foreground.addGraphic( _fluxValue );
