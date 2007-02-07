@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- bug report: infinite loop of "value out of range" dialogs when entering amplitude values in first panel (fcasparx@web.de)
 - bug in 3.0: after you pause the clock, animation moves another tick
 
 MEDIUM PRIORITY:
