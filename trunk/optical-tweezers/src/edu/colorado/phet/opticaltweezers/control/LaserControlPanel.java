@@ -83,7 +83,7 @@ public class LaserControlPanel extends HorizontalLayoutPanel {
         add( laserSign );
         add( Box.createHorizontalStrut( 20 ) );
         add( _startStopButton );
-        add( Box.createHorizontalStrut( 20 ) );
+        add( Box.createHorizontalStrut( 10 ) );
         add( _powerControl );
     }
 }

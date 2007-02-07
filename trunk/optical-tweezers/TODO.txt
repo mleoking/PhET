@@ -6,11 +6,9 @@ IN PROGRESS:
 - learn more about optical tweezers
 
 HIGH PRIORITY:
-- toggle laser start/stop button
-- power text field entry
-- power slider range
-- laser control panel
-- laser power range is 0-1000 mW
+- laser power control changes sizes when pressing start/stop button
+- laser power text field entry and validation
+- laser power slider range (0-1000 mW)
 - laser view
 - model view transform
 
