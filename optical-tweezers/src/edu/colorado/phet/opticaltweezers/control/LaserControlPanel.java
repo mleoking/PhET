@@ -72,7 +72,7 @@ public class LaserControlPanel extends HorizontalLayoutPanel {
         String units = SimStrings.get( "units.power" );
         int columns = 3; //XXX
         double wavelength = OTConstants.LASER_WAVELENGTH;
-        Dimension size = new Dimension( 150, 15 );
+        Dimension size = new Dimension( 150, 25 );
         _powerControl = new LaserPowerControl( range, label, units, columns, wavelength, size, font );
         _powerControl.setLabelForeground( Color.WHITE );
         _powerControl.setUnitsForeground( Color.WHITE );
