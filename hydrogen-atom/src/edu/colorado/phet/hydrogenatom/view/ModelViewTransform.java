@@ -20,6 +20,9 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 /**
  * ModelViewTransform is the transform between model coordinates 
  * and the view coordinates of the animation region.
+ * <p>
+ * NOTE! This has never been tested with anything other than
+ * a 1:1 transform, and I doubt that it works.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
