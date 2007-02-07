@@ -82,8 +82,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
             BaseModel baseModel,
             PickupCoil pickupCoilModel, 
             Lightbulb lightbulbModel,
-            Voltmeter voltmeterModel,
-            AbstractMagnet magnetModel ) {
+            Voltmeter voltmeterModel ) {
         
         assert ( component != null );
         assert ( baseModel != null );
