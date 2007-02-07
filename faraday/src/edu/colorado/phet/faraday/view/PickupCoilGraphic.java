@@ -46,7 +46,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
     // Class data
     //----------------------------------------------------------------------------
     
-    private static boolean _displayFluxEnabled = true;
+    private static boolean _displayFluxEnabled = false;
     
     //----------------------------------------------------------------------------
     // Instance data
