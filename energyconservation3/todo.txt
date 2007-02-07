@@ -2,6 +2,8 @@
 Remaining Work
 #######################################
 
+See also Keller's document.
+
 2. When the user releases the skater partway into the track, the skater gets stuck.  Fix this (if easy).  Okay to not conserve energy right on release.
 6. performance problem after lots of runs.
 9. Skater sometimes falls beneath the ground and zooms out to the side.
@@ -48,6 +50,9 @@ something. Eventually froze.
 
 - Another thing I was wondering was if the dots had a fixed time 
 spacing, and if so what was it.
+
+- the +/- zoom on the energy vs position seem to work opposite of 
+what I would expect (the + zooms you out so you see more of the axis).
 
 #################################################################
 Low Priority or Deprecated
