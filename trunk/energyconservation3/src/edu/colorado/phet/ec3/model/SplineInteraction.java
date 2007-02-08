@@ -126,6 +126,7 @@ public class SplineInteraction {
     }
 
     private void collideWithTrack( AbstractSpline collisionSpline, double x, Body body ) {
+//        System.out.println( "collisionSpline = " + collisionSpline );
         double origSpeed = body.getSpeed();
         double origEnergy = body.getTotalEnergy();
         double parallelPart = collisionSpline.getUnitParallelVector( x ).dot( body.getVelocity() );
@@ -152,7 +153,4 @@ public class SplineInteraction {
         body.setAngularVelocity( parallelPart / 2 );
     }
 
-    private boolean convertNormalVelocityIntoThermal() {
-        return true;
-    }
 }

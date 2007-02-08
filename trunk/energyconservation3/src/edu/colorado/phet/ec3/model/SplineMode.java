@@ -276,10 +276,19 @@ public class SplineMode implements UpdateMode {
 
     private void convertNormalKEToThermal( Body body, double x ) {
         double origEnergy = body.getTotalEnergy();
-        double parallelPart = spline.getUnitParallelVector( x ).dot( body.getVelocity() );
-        Vector2D.Double newVelocity = new Vector2D.Double();
-        newVelocity.add( spline.getUnitParallelVector( x ).getScaledInstance( parallelPart ) );
-        body.setVelocity( newVelocity );
+
+        double sign = spline.getUnitParallelVector( x ).dot( body.getVelocity() ) > 0 ? 1 : -1;
+        double parallelPart = Math.abs( spline.getUnitParallelVector( x ).dot( body.getVelocity() ) );
+        body.setVelocity( spline.getUnitParallelVector( x ).getInstanceOfMagnitude( parallelPart * sign ) );
+//
+
+//        double parallelPart = spline.getUnitParallelVector( x ).dot( body.getVelocity() );
+//        double perpPart = spline.getUnitNormalVector( x ).dot( body.getVelocity() );
+//        double fractionPerp = perpPart / ( perpPart + parallelPart );
+//        System.out.println( "fractionPerp = " + fractionPerp + ", newSpeed=" + parallelPart );
+//        Vector2D.Double newVelocity = new Vector2D.Double();
+//        newVelocity.add( spline.getUnitParallelVector( x ).getScaledInstance( parallelPart ) );
+//        body.setVelocity( newVelocity );
         double finalEnergy = body.getTotalEnergy();
         body.addThermalEnergy( origEnergy - finalEnergy );//velocity is set to parallel in stepInTime()
     }

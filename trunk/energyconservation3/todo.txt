@@ -2,6 +2,13 @@
 Remaining Work
 #######################################
 
+•	When dropping skater vertically onto horizontal track:
+- sometimes he stops entirely 
+- sometimes he has some horizontal velocity
+- it seems like if you just drop him from a little ways up (~1/4 inch on screen) his horizontal velocity is actually bigger than when you drop him from higher up.
+o	I searched briefly for the cause of this, but couldn’t isolate it.
+•	Sometimes the skater can get stuck in the track when crashing into it with enough speed (this may have been a problem in previous versions as well).
+
 See also Keller's document.
 
 2. When the user releases the skater partway into the track, the skater gets stuck.  Fix this (if easy).  Okay to not conserve energy right on release.
