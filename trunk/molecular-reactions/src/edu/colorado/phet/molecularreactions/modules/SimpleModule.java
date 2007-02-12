@@ -63,7 +63,7 @@ public class SimpleModule extends MRModule {
         super( SimStrings.get( "Module.simpleModuleTitle" ), MRConfig.MOLECULE_SEPARATION_PANE_SIZE );
 
         // Set up the model
-        MRModel model = (MRModel)getModel();
+        MRModel model = getThisModel();
 
         // Add a graphic factory for the launcher graphic
         getSpatialView().addGraphicFactory( new ModelElementGraphicManager.GraphicFactory( Launcher.class,
@@ -85,7 +85,7 @@ public class SimpleModule extends MRModule {
                                             launcherTipLocation.getY() + 15 );
 
         // Set up the molecules
-        setInitialConditions( model );
+        setInitialConditions();
 
         // create the control panel
         controlPanel = new SimpleMRControlPanel( this );
@@ -110,9 +110,10 @@ public class SimpleModule extends MRModule {
     }
 
     /**
-     * @param model
+     * @param
      */
-    protected void setInitialConditions( MRModel model ) {
+    protected void setInitialConditions() {
+        MRModel model = getThisModel();
 
         // Place the heat source to the right of center
         TemperatureControl tempCtrl = model.getTemperatureControl();
@@ -126,10 +127,12 @@ public class SimpleModule extends MRModule {
         launcher.setExtension( 0.0 );
         model.addModelElement( launcher );
         launcherMoleculeClass = MoleculeA.class;
-        resetMolecules( model );
+        resetMolecules();
     }
 
-    public void resetMolecules( MRModel model ) {
+    public void resetMolecules() {
+        MRModel model = getThisModel();
+        
         // Create the appropriate molecule for the launcher
         SimpleMolecule launcherMolecule = null;
         if( launcherMoleculeClass == MoleculeC.class ) {
@@ -141,6 +144,10 @@ public class SimpleModule extends MRModule {
 
         // Create the molecules
         SwingUtilities.invokeLater( new MoleculeCreator( model, launcherMolecule ) );
+    }
+
+    public MRModel getThisModel() {
+        return (MRModel)super.getModel();
     }
 
     /**
@@ -199,14 +206,14 @@ public class SimpleModule extends MRModule {
 
     public void reset() {
         super.reset();
-        setInitialConditions( (MRModel)getModel() );
+        setInitialConditions();
         controlPanel.reset();
     }
 
     public void reload() {
         Launcher.MovementType movementType = launcher.getMovementType();
         launcherMoleculeClass = this.launcherMolecule.getClass();
-        resetMolecules( getMRModel() );
+        resetMolecules();
         launcherLoadPanel.setMolecule( launcherMolecule );
         launcher.setMovementType( movementType );
     }

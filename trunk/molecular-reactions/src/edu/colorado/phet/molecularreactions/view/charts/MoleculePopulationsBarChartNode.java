@@ -37,7 +37,11 @@ import java.awt.event.ActionListener;
  * @version $Revision$
  */
 public class MoleculePopulationsBarChartNode extends PNode implements Rescaleable {
-    private MoleculePopulationsBarChart barChart;
+    private final MoleculePopulationsBarChart barChart;
+    private final PImage mANode  = new PImage();
+    private final PImage mBCNode = new PImage();
+    private final PImage mABNode = new PImage();
+    private final PImage mCNode  = new PImage();
 
     public MoleculePopulationsBarChartNode( ComplexModule module, Dimension size, PhetPCanvas phetPCanvas ) {
         barChart = new MoleculePopulationsBarChart( module.getMRModel(), module.getClock(), 0, MRConfig.BAR_CHART_MAX_Y, 1 );
@@ -49,11 +53,15 @@ public class MoleculePopulationsBarChartNode extends PNode implements Rescaleabl
         barChartPSwing.setOffset( barChartInsets.left,0 );
 
         this.addChild( barChartPSwing );
-        EnergyProfile profile = module.getMRModel().getEnergyProfile();
-        PNode mANode = new PImage( new MoleculeIcon( MoleculeA.class, profile ).getImage() );
-        PNode mBCNode = new PImage( new MoleculeIcon( MoleculeBC.class, profile ).getImage() );
-        PNode mABNode = new PImage( new MoleculeIcon( MoleculeAB.class, profile ).getImage() );
-        PNode mCNode = new PImage( new MoleculeIcon( MoleculeC.class, profile ).getImage() );
+
+        updateLegendGraphics(module.getMRModel().getEnergyProfile());
+
+        module.getMRModel().addListener(new MRModel.ModelListener() {
+            public void energyProfileChanged( EnergyProfile profile ) {
+                updateLegendGraphics(profile);
+            }
+        } );
+
         this.addChild( mANode );
         this.addChild( mBCNode );
         this.addChild( mABNode );
@@ -87,6 +95,13 @@ public class MoleculePopulationsBarChartNode extends PNode implements Rescaleabl
                                getFullBounds().getHeight() - rescaleNode.getFullBounds().getHeight() - 10);
         addChild( rescaleNode );
 
+    }
+
+    private void updateLegendGraphics( EnergyProfile profile ) {
+        mANode.setImage (new MoleculeIcon( MoleculeA.class,  profile ).getImage() );
+        mBCNode.setImage(new MoleculeIcon( MoleculeBC.class, profile ).getImage() );
+        mABNode.setImage(new MoleculeIcon( MoleculeAB.class, profile ).getImage() );
+        mCNode.setImage (new MoleculeIcon( MoleculeC.class,  profile ).getImage() );
     }
 
     public void rescale() {

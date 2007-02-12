@@ -34,7 +34,13 @@ public class MoleculePopulationsPieChart extends PieChartNode {
 
     private double updateInterval;
     private double timeSinceLastUpdate;
-    private PieValue[] values = new PieValue[4];
+    private PieValue[] values = new PieValue[]{
+        new PieValue(),
+        new PieValue(),
+        new PieValue(),
+        new PieValue()
+    };
+    
     private MoleculeCounter counterA;
     private MoleculeCounter counterAB;
     private MoleculeCounter counterBC;
@@ -57,21 +63,32 @@ public class MoleculePopulationsPieChart extends PieChartNode {
 
         this.updateInterval = updateInterval;
 
-        values[0] = new PieValue( 0, MoleculePaints.getPaint( MoleculeA.class ) );
-        values[1] = new PieValue( 0, MoleculePaints.getPaint( MoleculeBC.class ) );
-        values[2] = new PieValue( 0, MoleculePaints.getPaint( MoleculeC.class ) );
-        values[3] = new PieValue( 0, MoleculePaints.getPaint( MoleculeAB.class ) );
-        setPieValues( values );
+        setPaintsForProfile( module.getMRModel().getEnergyProfile());
+
+        module.getMRModel().addListener(new MRModel.ModelListener() {
+            public void energyProfileChanged( EnergyProfile profile ) {
+                setPaintsForProfile(profile);
+            }
+        } );
 
         // Create counters for each of the molecule types
-        counterA = new MoleculeCounter( MoleculeA.class, module.getMRModel() );
+        counterA  = new MoleculeCounter( MoleculeA.class,  module.getMRModel() );
         counterAB = new MoleculeCounter( MoleculeAB.class, module.getMRModel() );
         counterBC = new MoleculeCounter( MoleculeBC.class, module.getMRModel() );
-        counterC = new MoleculeCounter( MoleculeC.class, module.getMRModel() );
+        counterC  = new MoleculeCounter( MoleculeC.class,  module.getMRModel() );
 
         module.getClock().addClockListener( new PieChartUpdater() );
 
         update();
+    }
+
+    private void setPaintsForProfile( EnergyProfile profile ) {
+        values[0].setPaint( MoleculePaints.getPaint( MoleculeA.class, profile ) );
+        values[1].setPaint( MoleculePaints.getPaint( MoleculeBC.class, profile ) );
+        values[2].setPaint( MoleculePaints.getPaint( MoleculeC.class, profile ) );
+        values[3].setPaint( MoleculePaints.getPaint( MoleculeAB.class, profile ) );
+
+        setPieValues( values );
     }
 
     private void update() {
@@ -95,7 +112,6 @@ public class MoleculePopulationsPieChart extends PieChartNode {
 
 
     private class PieChartUpdater extends ClockAdapter {
-
         public void clockTicked( ClockEvent clockEvent ) {
             timeSinceLastUpdate += clockEvent.getSimulationTimeChange();
             if( timeSinceLastUpdate > updateInterval ) {

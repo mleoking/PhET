@@ -73,7 +73,6 @@ public class SpringCollision implements Collision {
         else if( separation <= spring.getRestingLength() ) {
 
             System.out.println( "spring.getEnergy( separation ) = " + spring.getEnergy( separation ) );
-            model.addToPotentialEnergyStored( spring.getEnergy( separation ));
 
             if( true ) {
                 spring.pushOnMolecule( mA, separation, new Vector2D.Double( mA.getPosition(),

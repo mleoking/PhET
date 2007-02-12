@@ -25,10 +25,9 @@ import edu.umd.cs.piccolo.nodes.PText;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.sound.sampled.Line;
 import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+import java.awt.geom.*;
 
 /**
  * EnergyCurve
@@ -111,6 +110,58 @@ class EnergyProfileGraphic extends PNode {
 
 
         update( energyProfile );
+    }
+
+    /**
+     * Retrieves the intersection of the energy profile with the specified
+     * horizontal line.
+     *
+     * @param y             The y value of the line.
+     *
+     * @param defaultValue  A default value to use in case of no intersection.
+     *
+     * @return  The x coordinate of the intersection, or the default value if
+     *          there was no intersection.
+     */
+    public double getIntersectionWithHorizontal(double y, double defaultValue) {
+        double[] coords = new double[6];
+
+        GeneralPath path = centralCurve.getPathReference();
+
+        PathIterator pathIterator = path.getPathIterator(null, 0.5);
+
+        double startX = 0.0, startY = 0.0;
+
+        while (!pathIterator.isDone()) {
+            int code = pathIterator.currentSegment(coords);
+
+            if (code == PathIterator.SEG_MOVETO) {
+                startX = coords[0];
+                startY = coords[1];
+            }
+            else if (code == PathIterator.SEG_LINETO) {
+                double endX = coords[0];
+                double endY = coords[1];
+
+                double midX = startX + (endX - startX) / 2;
+
+                Line2D.Double line = new Line2D.Double(startX, startY, endX, endY);
+
+                if (line.getBounds().contains(midX, y)) {
+                    return midX;
+                }
+
+                startX = endX;
+                startY = endY;
+            }
+            else {
+                assert code == PathIterator.SEG_CLOSE;
+            }
+
+            pathIterator.next();
+        }
+
+        return defaultValue;
     }
 
     private void createMouseIndicatorArrows() {

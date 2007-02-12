@@ -124,6 +124,9 @@ public class MRModule extends Module {
         getClock().start();
     }
 
+    public void resetMolecules() {        
+    }
+
     protected SpatialView getSpatialView() {
         return spatialView;
     }

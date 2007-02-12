@@ -60,20 +60,31 @@ public class MoleculePopulationsBarChart extends BarChart implements Rescaleable
         counterBC = new MoleculeCounter( MoleculeBC.class, model );
         counterC = new MoleculeCounter( MoleculeC.class, model );
 
+        setChartColors(model.getEnergyProfile());
+
+        // Hook up to the clock
+        clock.addClockListener( new Updater() );
+        updateChart();
+
+        model.addListener(new MRModel.ModelListener() {
+                public void energyProfileChanged( EnergyProfile profile ) {
+                    setChartColors(profile);
+                }
+            }
+        );
+    }
+
+    private void setChartColors(EnergyProfile profile) {
         // Set graphic attributes
-        setSeriesPaint( 0, MoleculePaints.getPaint( MoleculeA.class ) );
-        setSeriesPaint( 1, MoleculePaints.getPaint( MoleculeBC.class ) );
-        setSeriesPaint( 2, MoleculePaints.getPaint( MoleculeAB.class ) );
-        setSeriesPaint( 3, MoleculePaints.getPaint( MoleculeC.class ) );
+        setSeriesPaint( 0, MoleculePaints.getPaint( MoleculeA.class, profile ) );
+        setSeriesPaint( 1, MoleculePaints.getPaint( MoleculeBC.class, profile ) );
+        setSeriesPaint( 2, MoleculePaints.getPaint( MoleculeAB.class, profile ) );
+        setSeriesPaint( 3, MoleculePaints.getPaint( MoleculeC.class, profile ) );
 
         getChart().setBackgroundPaint( MRConfig.MOLECULE_PANE_BACKGROUND );
         getChart().setBorderStroke( new BasicStroke( 1 ) );
         getChart().setBorderPaint( Color.black );
         getChart().getTitle().setFont( MRConfig.CHART_TITLE_FONT );
-
-        // Hook up to the clock
-        clock.addClockListener( new Updater() );
-        updateChart();
     }
 
     private void updateChart(){

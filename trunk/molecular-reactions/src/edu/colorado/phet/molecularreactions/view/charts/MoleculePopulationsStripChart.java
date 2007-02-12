@@ -70,14 +70,28 @@ public class MoleculePopulationsStripChart extends StripChart implements Rescale
         counterC = new MoleculeCounter( MoleculeC.class, model );
 
         // Set graphic attributes
+
         setStroke( new BasicStroke( 2.0f ) );
-        setSeriesPaint( 0, MoleculePaints.getPaint( MoleculeA.class ) );
-        setSeriesPaint( 1, MoleculePaints.getPaint( MoleculeBC.class ) );
-        setSeriesPaint( 2, MoleculePaints.getPaint( MoleculeAB.class ) );
-        setSeriesPaint( 3, MoleculePaints.getPaint( MoleculeC.class ) );
+
+        EnergyProfile profile = model.getEnergyProfile();
+
+        setPaintOfMolecules( profile );
+
+        model.addListener(new MRModel.ModelListener() {
+            public void energyProfileChanged( EnergyProfile profile ) {
+                setPaintOfMolecules(profile);
+            }
+        } );
 
         // Hook up to the clock
         clock.addClockListener( new Updater() );
+    }
+
+    private void setPaintOfMolecules( EnergyProfile profile ) {
+        setSeriesPaint( 0, MoleculePaints.getPaint( MoleculeA.class, profile ) );
+        setSeriesPaint( 1, MoleculePaints.getPaint( MoleculeBC.class, profile ) );
+        setSeriesPaint( 2, MoleculePaints.getPaint( MoleculeAB.class, profile ) );
+        setSeriesPaint( 3, MoleculePaints.getPaint( MoleculeC.class, profile ) );
     }
 
     public void rescale() {
