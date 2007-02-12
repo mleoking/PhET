@@ -192,7 +192,7 @@ abstract public class SimpleMoleculeGraphic extends PNode implements SimpleObser
             // If we aren't using the default or "design your own" energy profile, we need to
             // change the color of the image
             if( profile != Profiles.DEFAULT && profile != Profiles.DYO ) {
-                Color duotoneHue = MoleculePaints.getColor( molecule, profile);
+                Color duotoneHue = MoleculePaints.getDuotoneHue( molecule, profile);
                 MakeDuotoneImageOp imgOp = new MakeDuotoneImageOp( duotoneHue );
                 BufferedImage bi = imgOp.filter( (BufferedImage)moleculeNode.getImage(), null );
                 moleculeNode.setImage( bi );

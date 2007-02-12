@@ -37,6 +37,8 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 public class ComplexModule extends MRModule {
+    private static final double DEFAULT_TEMPERATURE = 500.0;
+    
     private StripChartDialog stripChartDlg;
     private MRControlPanel controlPanel;
     private PumpGraphic pumpGraphic;
@@ -69,6 +71,9 @@ public class ComplexModule extends MRModule {
 
         // Add the pump
         MRModel model = getMRModel();
+
+        model.setDefaultTemperature(DEFAULT_TEMPERATURE);
+
         pumpGraphic = new PumpGraphic( this );
         // 15 is the wall thickness of the box graphic
         pumpGraphic.setOffset( model.getBox().getMinX() + model.getBox().getWidth(),

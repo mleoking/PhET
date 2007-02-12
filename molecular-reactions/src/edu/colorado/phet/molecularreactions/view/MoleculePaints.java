@@ -10,15 +10,17 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.view.util.ColorFilter;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
+import edu.colorado.phet.molecularreactions.view.factories.TextureImageFactory;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.collections.keyvalue.MultiKey;
 
 /**
  * MoleculePaints
@@ -34,58 +36,67 @@ import java.util.Map;
  * @version $Revision$
  */
 public class MoleculePaints {
-
+    private static final int LINE_WIDTH = 3;
     //--------------------------------------------------------------------------------------------------
     // Members and methods for getting the paints used for graphics representing different
     // molecules
     //--------------------------------------------------------------------------------------------------
 
-    private static Map moleculeTypeToPaint = new HashMap();
+    private static Color moleculeAPaint = new Color( 220, 220,  80 );
+    private static Color moleculeBPaint = new Color( 200, 120, 110 );
+    private static Color moleculeCPaint = new Color( 70,   80, 180 );
 
-    private static BufferedImage moleculeBCPaintImg;
-    private static Paint moleculeBCPaint;
-
-    static {
-        try {
-            moleculeBCPaintImg = ImageLoader.loadBufferedImage( "images/molecule-bc-paint.gif" );
-            moleculeBCPaint = new TexturePaint( moleculeBCPaintImg, new Rectangle( 0, 0,
-                                                                                   moleculeBCPaintImg.getWidth(),
-                                                                                   moleculeBCPaintImg.getHeight() ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-    }
-
-    private static BufferedImage moleculeABPaintImg;
-    private static Paint moleculeABPaint;
-
-    static {
-        try {
-            moleculeABPaintImg = ImageLoader.loadBufferedImage( "images/molecule-ab-paint.gif" );
-            moleculeABPaint = new TexturePaint( moleculeABPaintImg, new Rectangle( 0, 0,
-                                                                                   moleculeABPaintImg.getWidth(),
-                                                                                   moleculeABPaintImg.getHeight() ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-    }
-
-    private static Paint moleculeAPaint = new Color( 220, 220, 80 );
-//    private static Paint moleculeBCPaint = new Color( 180, 80, 100 ) ;
-    //    private static Paint moleculeABPaint = new Color( 60, 180, 120 );
-    private static Paint moleculeCPaint = new Color( 70, 80, 180 );
-
-    static {
-        moleculeTypeToPaint.put( MoleculeA.class, moleculeAPaint );
-        moleculeTypeToPaint.put( MoleculeBC.class, moleculeBCPaint );
-        moleculeTypeToPaint.put( MoleculeAB.class, moleculeABPaint );
-        moleculeTypeToPaint.put( MoleculeC.class, moleculeCPaint );
-    }
+    private static Map cpToPaint = new HashMap();
 
     public static Paint getPaint( Class moleculeType ) {
-        return (Paint)moleculeTypeToPaint.get( moleculeType );
+        return getPaint(moleculeType, Profiles.DEFAULT);
+    }
+
+    public static Paint getPaint(Class moleculeType, EnergyProfile profile) {
+        MultiKey cacheKey = key( moleculeType, profile );
+
+        Paint paint = (Paint)cpToPaint.get( cacheKey );
+
+        if (paint != null) return paint;
+
+        ColorFilter filterA = ColorFilter.NULL,
+                    filterB = ColorFilter.NULL,
+                    filterC = ColorFilter.NULL;
+
+        if (profile != Profiles.DEFAULT) {
+            filterA = new MakeDuotoneImageOp(getDuotoneHue(MoleculeA.class, profile));
+            filterB = new MakeDuotoneImageOp(getDuotoneHue(MoleculeB.class, profile));
+            filterC = new MakeDuotoneImageOp(getDuotoneHue(MoleculeC.class, profile));
+        }
+
+        Color paintA = filterA.filter(moleculeAPaint),
+              paintB = filterB.filter(moleculeBPaint),
+              paintC = filterC.filter(moleculeCPaint);
+
+        if (moleculeType == MoleculeA.class) {
+            return paintA;
+        }
+        else if (moleculeType == MoleculeB.class) {
+            paint = paintB;
+        }
+        else if (moleculeType == MoleculeC.class) {
+            paint = paintC;
+        }
+        else if (moleculeType == MoleculeAB.class) {
+            paint = TextureImageFactory.createTexturePaint(paintA, paintB, LINE_WIDTH);
+        }
+        else if (moleculeType == MoleculeBC.class) {
+            paint = TextureImageFactory.createTexturePaint(paintB, paintC, LINE_WIDTH);
+        }
+        else {
+            assert false : "A new molecule class type was added; how to generate the paint for said type is not known.";
+
+            paint = Color.BLACK;
+        }
+
+        cpToPaint.put(key(moleculeType, profile), paint);
+
+        return paint;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -93,64 +104,41 @@ public class MoleculePaints {
     // energy profiles
     //--------------------------------------------------------------------------------------------------
 
-    /**
-     * For MoleculeA
-     */
-    private static Map mapR1 = new HashMap();
-    private static Map mapR2 = new HashMap();
-    private static Map mapR3 = new HashMap();
-    private static Map mapDYO = new HashMap();
-
+    private static Map cpToColor = new HashMap();
+    
     static {
-        mapR1.put( MoleculeA.class, new Color( 0, 150, 0 ) );
-        mapR1.put( MoleculeB.class, new Color( 150, 0, 0 ) );
-        mapR1.put( MoleculeC.class, new Color( 0, 0, 250 ) );
+        cpToColor.put( key(MoleculeA.class, Profiles.R1), new Color( 0, 150, 0 ) );
+        cpToColor.put( key(MoleculeB.class, Profiles.R1), new Color( 150, 0, 0 ) );
+        cpToColor.put( key(MoleculeC.class, Profiles.R1), new Color( 0, 0, 250 ) );
 
-        mapR2.put( MoleculeA.class, new Color( 0, 100, 250 ) );
-        mapR2.put( MoleculeB.class, new Color( 250, 0, 250 ) );
-        mapR2.put( MoleculeC.class, new Color( 150, 150, 0 ) );
+        cpToColor.put( key(MoleculeA.class, Profiles.R2), new Color( 0, 100, 250 ) );
+        cpToColor.put( key(MoleculeB.class, Profiles.R2), new Color( 250, 0, 250 ) );
+        cpToColor.put( key(MoleculeC.class, Profiles.R2), new Color( 150, 150, 0 ) );
 
-        mapR3.put( MoleculeA.class, new Color( 200, 60, 0 ) );
-        mapR3.put( MoleculeB.class, new Color( 0, 150, 0 ) );
-        mapR3.put( MoleculeC.class, new Color( 60, 0, 250 ) );
+        cpToColor.put( key(MoleculeA.class, Profiles.R3), new Color( 200, 60, 0 ) );
+        cpToColor.put( key(MoleculeB.class, Profiles.R3), new Color( 0, 150, 0 ) );
+        cpToColor.put( key(MoleculeC.class, Profiles.R3), new Color( 60, 0, 250 ) );
 
-        mapDYO.put( MoleculeA.class, new Color( 120, 30, 0 ) );
-        mapDYO.put( MoleculeB.class, new Color( 30, 0, 120 ) );
-        mapDYO.put( MoleculeC.class, new Color( 0, 120, 30 ) );
-//        mapR1.put( MoleculeA.class, new Color( 0, 200, 0 ) );
-//        mapR1.put( MoleculeB.class, new Color( 200, 0, 0 ) );
-//        mapR1.put( MoleculeC.class, new Color( 0, 0, 200 ) );
-//
-//        mapR2.put( MoleculeA.class, new Color( 0, 200, 200 ) );
-//        mapR2.put( MoleculeB.class, new Color( 200, 0, 200 ) );
-//        mapR2.put( MoleculeC.class, new Color( 200, 200, 0 ) );
-//
-//        mapR3.put( MoleculeA.class, new Color( 200, 30, 0 ) );
-//        mapR3.put( MoleculeB.class, new Color( 0, 200, 30 ) );
-//        mapR3.put( MoleculeC.class, new Color( 30, 0, 200 ) );
-//
-//        mapDYO.put( MoleculeA.class, new Color( 120, 30, 0 ) );
-//        mapDYO.put( MoleculeB.class, new Color( 30, 0, 120 ) );
-//        mapDYO.put( MoleculeC.class, new Color( 0, 120, 30 ) );
+        cpToColor.put( key(MoleculeA.class, Profiles.DYO), new Color( 120, 30, 0 ) );
+        cpToColor.put( key(MoleculeB.class, Profiles.DYO), new Color( 30, 0, 120 ) );
+        cpToColor.put( key(MoleculeC.class, Profiles.DYO), new Color( 0, 120, 30 ) );
     }
 
-    private static Map profileToMolecules = new HashMap();
+    public static Color getDuotoneHue( Class moleculeType, EnergyProfile profile ) {
+        Color color = (Color)cpToColor.get(new MultiKey(moleculeType, profile));
 
-    static {
-        profileToMolecules.put( Profiles.R1, mapR1 );
-        profileToMolecules.put( Profiles.R2, mapR2 );
-        profileToMolecules.put( Profiles.R3, mapR3 );
-        profileToMolecules.put( Profiles.DYO, mapDYO );
-    }
-
-    public static Color getColor( SimpleMolecule molecule, EnergyProfile profile ) {
-        Map colors = (Map)profileToMolecules.get( profile );
-        if( colors == null ) {
-            throw new RuntimeException( "internal error" );
+        if ( color == null ) {
+            throw new InternalError( "A duotone hue for the molecule " + moleculeType.getName() + " and the profile " + profile + " was not found." );
         }
-        Color color = (Color)colors.get( molecule.getClass() );
+
         return color;
     }
 
+    public static Color getDuotoneHue( SimpleMolecule molecule, EnergyProfile profile ) {
+        return getDuotoneHue(molecule.getClass(), profile);
+    }
 
+    private static MultiKey key(Class moleculeType, EnergyProfile profile) {
+        return new MultiKey(moleculeType, profile);
+    }
 }

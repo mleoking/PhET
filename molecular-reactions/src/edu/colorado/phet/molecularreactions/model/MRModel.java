@@ -17,13 +17,10 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.molecularreactions.MRConfig;
-import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 
 import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
@@ -58,20 +55,18 @@ public class MRModel extends PublishingModel {
     private MRBox box;
     private Reaction reaction;
     private SelectedMoleculeTracker selectedMoleculeTracker;
-    private double potentialEnergyStored;
-    private List potentialEnergySources = new ArrayList();
-    private List kineticEnergySources = new ArrayList();
     private TemperatureControl tempCtrl;
     // The amount of energy added or removed from the model in a time step
     // by objects such as the temperature control. This is used in tweaking
     // the total amount of energy in the system at the end of each time step
     // so it is conserved.
     private double dEnergy;
+    private double defaultTemperature = MRConfig.DEFAULT_TEMPERATURE;
 
     /**
      * Constructor
      *
-     * @param clock
+     * @param clock The clock to run the simulation.
      */
     public MRModel( IClock clock ) {
         super( clock );
@@ -104,7 +99,7 @@ public class MRModel extends PublishingModel {
         // temperature control changes
         // todo: Make the TemperatureControl a heatSource and heatSink and make the
         // box a listener to it, to remove this intermediary object
-        BoxHeater boxHeater = new BoxHeater( tempCtrl, box );
+        new BoxHeater( tempCtrl, box );
 
         // Create collisions agents that will detect and handle collisions between molecules,
         // and between molecules and the box
@@ -114,35 +109,6 @@ public class MRModel extends PublishingModel {
         // molecule
         selectedMoleculeTracker = new SelectedMoleculeTracker( this );
         addModelElement( selectedMoleculeTracker );
-    }
-
-    public void addModelElement( ModelElement modelElement ) {
-        super.addModelElement( modelElement );
-        if( modelElement instanceof PotentialEnergySource ) {
-            potentialEnergySources.add( modelElement );
-        }
-        if( modelElement instanceof KineticEnergySource ) {
-            kineticEnergySources.add( modelElement );
-        }
-    }
-
-    public void removeModelElement( ModelElement modelElement ) {
-        super.removeModelElement( modelElement );
-
-        if( modelElement instanceof PotentialEnergySource ) {
-            potentialEnergySources.remove( modelElement );
-        }
-        if( modelElement instanceof KineticEnergySource ) {
-            kineticEnergySources.remove( modelElement );
-        }
-    }
-
-    public void addPotentialEnergySource( PotentialEnergySource peSource ) {
-        potentialEnergySources.add( peSource );
-    }
-
-    public void removePotentialEnergySource( PotentialEnergySource peSource ) {
-        potentialEnergySources.remove( peSource );
     }
 
     public void setReaction( Reaction reaction ) {
@@ -182,10 +148,6 @@ public class MRModel extends PublishingModel {
         selectedMoleculeTracker.removeListener( listener );
     }
 
-    public void addToPotentialEnergyStored( double pe ) {
-        potentialEnergyStored += pe;
-    }
-
     //--------------------------------------------------------------------------------------------------
     // Time-dependent behavior
     //--------------------------------------------------------------------------------------------------
@@ -216,37 +178,18 @@ public class MRModel extends PublishingModel {
                 body.setOmega( body.getOmega() * r );
             }
         }
-//        monitorEnergy();
     }
 
     public void monitorEnergy() {
         List modelElements = getModelElements();
-        double pe = 0;
-        double ke = 0;
         Vector2D m = new Vector2D.Double();
-        int pBondCnt = 0;
-        int springCnt = 0;
         for( int i = 0; i < modelElements.size(); i++ ) {
             Object o = modelElements.get( i );
 
-            pBondCnt += o instanceof ProvisionalBond ? 1 : 0;
-            springCnt += o instanceof ReactionSpring ? 1 : 0;
-
-            if( o instanceof PotentialEnergySource ) {
-                pe += ( (PotentialEnergySource)o ).getPE();
-            }
-            if( o instanceof Body && !( o instanceof SimpleMolecule && ( (SimpleMolecule)o ).isPartOfComposite() ) ) {
-                ke += ( (Body)o ).getKineticEnergy();
-            }
-
             if( o instanceof AbstractMolecule && !( o instanceof AbstractMolecule && ( (AbstractMolecule)o ).isPartOfComposite() ) ) {
-//                Body b = (Body)o;
-//                System.out.println( "b = " + b.getClass() + "\tm = " + b.getMomentum() );
                 m.add( ( (Body)o ).getMomentum() );
             }
         }
-        DecimalFormat df = new DecimalFormat( "#.000" );
-//        System.out.println( "te = " + df.format( pe + ke ) + "\tpe = " + df.format( pe ) + "\tke = " + df.format( ke ) + "\tm = " + df.format( m.getMagnitude() ));
     }
 
     public double getTotalKineticEnergy() {
@@ -266,7 +209,7 @@ public class MRModel extends PublishingModel {
      * Gets the temperature of the system, which is taken to be the
      * average kinetic energy of all the KineticEnergySources.
      *
-     * @return
+     * @return  The temperature of the system.
      */
     public double getTemperature() {
         int cnt = 0;
@@ -277,8 +220,15 @@ public class MRModel extends PublishingModel {
                 cnt++;
             }
         }
-        return cnt > 0 ? getTotalKineticEnergy() / cnt : MRConfig.DEFAULT_TEMPERATURE;
-//        return cnt > 0 ? getTotalKineticEnergy() / cnt : 0;
+        return cnt > 0 ? getTotalKineticEnergy() / cnt : getDefaultTemperature();
+    }
+
+    private double getDefaultTemperature() {
+        return defaultTemperature;
+    }
+
+    public void setDefaultTemperature(double defaultTemperature) {
+        this.defaultTemperature = defaultTemperature;
     }
 
     public double getTotalPotentialEnergy() {

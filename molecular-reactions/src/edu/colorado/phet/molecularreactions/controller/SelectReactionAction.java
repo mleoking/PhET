@@ -101,7 +101,9 @@ public class SelectReactionAction extends AbstractAction {
             // I'm not sure why the profile has to be set before the module is reset,
             // but it does
             module.getMRModel().setEnergyProfile( currentReaction.getEnergyProfile() );
-            module.reset();
+
+            module.resetMolecules();
+
             module.getMRModel().setEnergyProfile( currentReaction.getEnergyProfile() );
         }
 

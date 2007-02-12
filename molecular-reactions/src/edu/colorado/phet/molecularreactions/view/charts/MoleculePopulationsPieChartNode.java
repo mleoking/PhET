@@ -12,10 +12,7 @@ package edu.colorado.phet.molecularreactions.view.charts;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
-import edu.colorado.phet.molecularreactions.model.MoleculeA;
-import edu.colorado.phet.molecularreactions.model.MoleculeAB;
-import edu.colorado.phet.molecularreactions.model.MoleculeBC;
-import edu.colorado.phet.molecularreactions.model.MoleculeC;
+import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.view.MoleculePaints;
 import edu.umd.cs.piccolo.PNode;
@@ -32,13 +29,17 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 public class MoleculePopulationsPieChartNode extends PNode {
+    private PPath mAPaintNode;
+    private PPath mBCPaintNode;
+    private PPath mABPaintNode;
+    private PPath mCPaintNode;
 
     public MoleculePopulationsPieChartNode( ComplexModule module, Rectangle2D bounds ) {
 
         setBounds( bounds );
 
         // Legend
-        createLegend( bounds );
+        createLegend( module.getMRModel(), bounds );
 
 //        Rectangle2D chartBounds = new Rectangle2D.Double( bounds.getX(),
 //                                                          bounds.getY(),
@@ -62,18 +63,24 @@ public class MoleculePopulationsPieChartNode extends PNode {
 
     }
 
-    private void createLegend( Rectangle2D bounds ) {
+    private void createLegend( MRModel model, Rectangle2D bounds ) {
         double paintSwatchWidth = 15;
         double paintSwatchHeight = 10;
         Rectangle2D rect = new Rectangle2D.Double( 0, -paintSwatchHeight / 2, paintSwatchWidth, paintSwatchHeight );
-        PPath mAPaintNode = new PPath( rect );
-        PPath mBCPaintNode = new PPath( rect );
-        PPath mABPaintNode = new PPath( rect );
-        PPath mCPaintNode = new PPath( rect );
-        mAPaintNode.setPaint( MoleculePaints.getPaint( MoleculeA.class ) );
-        mBCPaintNode.setPaint( MoleculePaints.getPaint( MoleculeBC.class ) );
-        mABPaintNode.setPaint( MoleculePaints.getPaint( MoleculeAB.class ) );
-        mCPaintNode.setPaint( MoleculePaints.getPaint( MoleculeC.class ) );
+        mAPaintNode = new PPath( rect );
+        mBCPaintNode = new PPath( rect );
+        mABPaintNode = new PPath( rect );
+        mCPaintNode = new PPath( rect );
+
+        EnergyProfile profile = model.getEnergyProfile();
+
+        setLegendMoleculePaints( profile );
+
+        model.addListener(new MRModel.ModelListener() {
+            public void energyProfileChanged( EnergyProfile profile ) {
+                setLegendMoleculePaints(profile);
+            }
+        } );
 
         PText mATextNode = new PText( "A" );
         PText mBCTextNode = new PText( "BC" );
@@ -114,5 +121,12 @@ public class MoleculePopulationsPieChartNode extends PNode {
                                yPaintSwatchOffset );
         mCTextNode.setOffset( bounds.getWidth() - textInsets.right,
                               yPaintSwatchOffset + yTextAdjustment );
+    }
+
+    private void setLegendMoleculePaints( EnergyProfile profile ) {
+        mAPaintNode.setPaint( MoleculePaints.getPaint( MoleculeA.class, profile ) );
+        mBCPaintNode.setPaint( MoleculePaints.getPaint( MoleculeBC.class, profile ) );
+        mABPaintNode.setPaint( MoleculePaints.getPaint( MoleculeAB.class, profile ) );
+        mCPaintNode.setPaint( MoleculePaints.getPaint( MoleculeC.class, profile ) );
     }
 }

@@ -133,7 +133,7 @@ public class SimpleMRControlPanel extends MRControlPanel {
                 if( twoDRB.isSelected() ) {
                     movementType = Launcher.TWO_DIMENSIONAL;
                 }
-                module.resetMolecules( module.getMRModel() );
+                module.resetMolecules();
 //                module.reset();
                 module.getLauncher().setMovementType( movementType );
             }

@@ -27,10 +27,12 @@ import java.awt.image.ColorModel;
  * This is a BufferedImageOp that creates a duotone image of an input BufferedImage. The color of the duotone is
  * based on a baseColor specified in the ColorFromWavelength constructor.
  */
-public class MakeDuotoneImageOp implements BufferedImageOp {
+public class MakeDuotoneImageOp implements BufferedImageOp, ColorFilter {
     private Color baseColor;
 
     public MakeDuotoneImageOp( Color baseColor ) {
+        assert baseColor != null;
+
         this.baseColor = baseColor;
     }
 
@@ -48,6 +50,12 @@ public class MakeDuotoneImageOp implements BufferedImageOp {
         }
         dstPt.setLocation( srcPt.getX(), srcPt.getY() );
         return dstPt;
+    }
+
+    public Color filter(Color rgb) {
+        double grayRefLevel = getGrayLevel( baseColor );
+
+        return getDuoToneRGB( rgb, grayRefLevel, baseColor );
     }
 
     public BufferedImage filter( BufferedImage src, BufferedImage dest ) {
@@ -68,6 +76,19 @@ public class MakeDuotoneImageOp implements BufferedImageOp {
             }
         }
         return dest;
+    }
+
+    /**
+     * Returns an Color value that is a duotone
+     */
+    public static Color getDuoToneRGB( Color input, double grayRefLevel, Color baseColor ) {
+        double gray = ( input.getRed() + input.getGreen() + input.getBlue() ) / 3;
+
+        int newRed   = getComponent( gray, (double)baseColor.getRed(), grayRefLevel );
+        int newGreen = getComponent( gray, (double)baseColor.getGreen(), grayRefLevel );
+        int newBlue  = getComponent( gray, (double)baseColor.getBlue(), grayRefLevel );
+
+        return new Color(newRed, newGreen, newBlue, input.getAlpha());
     }
 
     /**

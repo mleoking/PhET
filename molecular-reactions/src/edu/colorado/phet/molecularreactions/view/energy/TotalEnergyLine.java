@@ -77,6 +77,10 @@ public class TotalEnergyLine extends PNode {
         setChildrenPickable( false );
         setPickable( false );
     }
+    
+    public double getTotalEnergyY() {
+        return line.getY1();
+    }
 
     public void update() {
         double e = model.getTotalKineticEnergy() + model.getTotalPotentialEnergy();

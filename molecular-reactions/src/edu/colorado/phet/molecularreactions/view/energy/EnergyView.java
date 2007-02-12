@@ -458,7 +458,18 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             double dx = Math.max( ( edgeDist + separationAtFootOfHill ) * r, dr );
             double xOffsetFromCenter = Math.min( curveAreaSize.getWidth() / 2 - xOffset, dx );
             double x = curveAreaSize.getWidth() / 2 + ( xOffsetFromCenter * direction );
-            Point2D midPoint = new Point2D.Double( x, yOffset + maxSeparation / 2 );
+            double y = yOffset + maxSeparation / 2;
+
+            // Do not allow the energy cursor to move beyond where it's
+            // energetically allowed.
+            // Note: This is a hack implemented because the physics of the
+            //       simulation are fudged.
+            double maxX = energyProfileGraphic.getIntersectionWithHorizontal(totalEnergyLine.getTotalEnergyY(), x);
+
+            x = Math.min(x, maxX);
+
+            Point2D midPoint = new Point2D.Double( x,  y );
+
             double yMin = midPoint.getY() - Math.min( cmDist, maxSeparation ) / 2;
             double yMax = midPoint.getY() + Math.min( cmDist, maxSeparation ) / 2;
 
