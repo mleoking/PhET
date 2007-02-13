@@ -215,7 +215,10 @@ public class SplineMode implements UpdateMode {
         double normalVelocity = afterNewton.getVelocity().dot( spline.getUnitNormalVector( x ) );
 //        double threshold=1.0;
 //        double threshold=0.1;
+
         double threshold = 1E-1;
+//        double threshold = 0.0;
+
 //        System.out.println( "normalVelocity = " + normalVelocity );
         boolean flyOffTop = isSplineTop( spline, x, body ) && normalVelocity > 0 && Math.abs( normalVelocity ) > threshold;
         boolean flyOffBottom = !isSplineTop( spline, x, body ) && normalVelocity < 0 && Math.abs( normalVelocity ) > threshold;
