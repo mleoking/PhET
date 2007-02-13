@@ -318,25 +318,30 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
 
     public void keyPressed( KeyEvent e ) {
         multiKeyHandler.keyPressed( e );
-        if( e.getKeyCode() == KeyEvent.VK_P ) {
-            System.out.println( "spline.getSegmentPath().getLength() = " + ec3Model.splineSurfaceAt( 0 ).getLength() );
-            printControlPoints();
+        if( hasFocus() ) {
+            if( e.getKeyCode() == KeyEvent.VK_P ) {
+                System.out.println( "spline.getSegmentPath().getLength() = " + ec3Model.splineSurfaceAt( 0 ).getLength() );
+                printControlPoints();
+            }
+            else if( e.getKeyCode() == KeyEvent.VK_B ) {
+                toggleBox();
+            }
+            else if( e.getKeyCode() == KeyEvent.VK_A ) {
+                addSkater();
+            }
+            else if( e.getKeyCode() == KeyEvent.VK_J ) {
+                addBuses();
+            }
+            else if( e.getKeyCode() == KeyEvent.VK_R ) {
+                removeSkater();
+            }
+            else if( e.getKeyCode() == KeyEvent.VK_D ) {
+                removeSkater();
+                debugScreenSize();
+            }
         }
-        else if( e.getKeyCode() == KeyEvent.VK_B ) {
-            toggleBox();
-        }
-        else if( e.getKeyCode() == KeyEvent.VK_A ) {
-            addSkater();
-        }
-        else if( e.getKeyCode() == KeyEvent.VK_J ) {
-            addBuses();
-        }
-        else if( e.getKeyCode() == KeyEvent.VK_R ) {
-            removeSkater();
-        }
-        else if( e.getKeyCode() == KeyEvent.VK_D ) {
-            removeSkater();
-            debugScreenSize();
+        else {
+
         }
     }
 
