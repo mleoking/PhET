@@ -84,8 +84,8 @@ public class EnergySkateParkModuleBean {
         private double frictionCoefficient;
         private double mass;
         private double thermalEnergy;
-        private boolean freeFrame;
         private double attachmentPointRotation;
+        private boolean freeFrame;
 
         public BodyElement() {
         }
@@ -107,12 +107,13 @@ public class EnergySkateParkModuleBean {
             body.setAttachmentPointPosition( position );
             body.setVelocity( velocity.x, velocity.y );
             body.setAcceleration( acceleration.x, acceleration.y );
-            body.setCMRotation( cmRotation );
+
             body.setAngularVelocity( angularVelocity );
             body.setFrictionCoefficient( frictionCoefficient );
             body.setMass( mass );
             body.setThermalEnergy( thermalEnergy );
             body.convertToFreefall( freeFrame );
+            body.setCMRotation( cmRotation );
             body.setAttachmentPointRotation( attachmentPointRotation );
         }
 
