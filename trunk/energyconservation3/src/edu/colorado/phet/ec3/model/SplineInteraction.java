@@ -54,6 +54,7 @@ public class SplineInteraction {
         splineArea.intersect( feet );
         boolean collide = !splineArea.isEmpty();
         boolean recentGrab = justLeft( body, spline );
+//        boolean recentGrab = false;
         Point2D pt = spline.evaluateAnalytical( spline.getDistAlongSpline( body.getCenterOfMass(), 0, spline.getLength(), 100 ) );
         return collide && !recentGrab && movingTowards( body, pt ) ? 0 : Double.POSITIVE_INFINITY;
     }
