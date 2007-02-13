@@ -48,5 +48,38 @@ public class EnergySkateParkTestMenu extends JMenu {
                 TestUpsideDown.main( args );
             }
         } ) );
+        addSeparator();
+
+        TestItem[] testItems = new TestItem[]{
+                new TestItem( "esp/tests/a.esp", "Head Bounce Get Stuck" ),
+                new TestItem( "esp/tests/double-fall.esp", "Double Well fall-through" )
+        };
+        for( int i = 0; i < testItems.length; i++ ) {
+            final TestItem testItem = testItems[i];
+            add( new JMenuItem( new AbstractAction( testItem.getTitle() ) {
+                public void actionPerformed( ActionEvent e ) {
+                    parentApp.getModule().open( testItem.getLocation() );
+                }
+            } ) );
+        }
+
+    }
+
+    class TestItem {
+        private String location;
+        private String title;
+
+        public TestItem( String location, String title ) {
+            this.location = location;
+            this.title = title;
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public String getTitle() {
+            return title;
+        }
     }
 }
