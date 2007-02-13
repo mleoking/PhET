@@ -52,7 +52,11 @@ public class EnergySkateParkTestMenu extends JMenu {
 
         TestItem[] testItems = new TestItem[]{
                 new TestItem( "esp/tests/a.esp", "Head Bounce Get Stuck" ),
-                new TestItem( "esp/tests/double-fall.esp", "Double Well fall-through" )
+                new TestItem( "esp/tests/double-fall.esp", "Double Well fall-through" ),
+                new TestItem( "esp/tests/moon-upside.esp", "Upside-Down on moon" ),
+                new TestItem( "esp/tests/angle.esp", "Slight angle/speed" ),
+                new TestItem( "esp/tests/fall-through-ground.esp", "Shoulder through ground" ),
+                new TestItem( "esp/tests/dw-rc.esp", "double well roller coaster" )
         };
         for( int i = 0; i < testItems.length; i++ ) {
             final TestItem testItem = testItems[i];

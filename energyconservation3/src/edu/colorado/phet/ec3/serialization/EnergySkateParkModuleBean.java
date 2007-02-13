@@ -3,6 +3,7 @@ package edu.colorado.phet.ec3.serialization;
 import edu.colorado.phet.ec3.EnergySkateParkModule;
 import edu.colorado.phet.ec3.FloorSpline;
 import edu.colorado.phet.ec3.model.Body;
+import edu.colorado.phet.ec3.model.EnergySkateParkModel;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class EnergySkateParkModuleBean {
     private ArrayList bodies = new ArrayList();
     private ArrayList splines = new ArrayList();
+    private double gravity = EnergySkateParkModel.G_EARTH;
 
     public EnergySkateParkModuleBean() {
     }
@@ -33,6 +35,15 @@ public class EnergySkateParkModuleBean {
                 addSplineSurface( splineSurface );
             }
         }
+        this.gravity = module.getEnergySkateParkModel().getGravity();
+    }
+
+    public double getGravity() {
+        return gravity;
+    }
+
+    public void setGravity( double gravity ) {
+        this.gravity = gravity;
     }
 
     private void addSplineSurface( SplineSurface splineSurface ) {
@@ -72,6 +83,7 @@ public class EnergySkateParkModuleBean {
             module.getEnergySkateParkModel().addSplineSurface( ( (SplineElement)splines.get( i ) ).toSplineSurface() );
         }
         module.getEnergySkateParkModel().updateFloorState();
+        module.getEnergySkateParkModel().setGravity( gravity );
     }
 
     public static class BodyElement {
