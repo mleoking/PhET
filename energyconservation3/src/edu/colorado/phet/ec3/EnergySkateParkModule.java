@@ -81,11 +81,11 @@ public class EnergySkateParkModule extends PiccoloModule {
         energySkateParkControlPanel = new EnergySkateParkControlPanel( this );
         setControlPanel( energySkateParkControlPanel );
 
-        clock.addClockListener(new ClockAdapter() {
-                    public void clockTicked( ClockEvent clockEvent ) {
-                        energySkateParkControlPanel.update();
-                    }
-                } );
+        clock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent clockEvent ) {
+                energySkateParkControlPanel.update();
+            }
+        } );
 
         barChartFrame = new JDialog( phetFrame, EnergySkateParkStrings.getString( "bar.charts" ), false );
         barGraphCanvas = new BarGraphCanvas( this );
@@ -297,6 +297,15 @@ public class EnergySkateParkModule extends PiccoloModule {
         }
 
         XMLDecoder xmlDecoder = new XMLDecoder( open.getInputStream() );
+        Object obj = xmlDecoder.readObject();
+        if( obj instanceof EnergySkateParkModuleBean ) {
+            EnergySkateParkModuleBean energySkateParkModelBean = (EnergySkateParkModuleBean)obj;
+            energySkateParkModelBean.apply( this );
+        }
+    }
+
+    public void open( String filename ) {
+        XMLDecoder xmlDecoder = new XMLDecoder( getClass().getClassLoader().getResourceAsStream( filename ) );
         Object obj = xmlDecoder.readObject();
         if( obj instanceof EnergySkateParkModuleBean ) {
             EnergySkateParkModuleBean energySkateParkModelBean = (EnergySkateParkModuleBean)obj;
