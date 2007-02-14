@@ -18,6 +18,7 @@ LOW PRIORITY:
 
 
 DONE:
+v1r4....
 (2/14/07) - recalibrate LIGHTBULB_SCALE, VOLTMETER_SCALE and ELECTRON_SPEED_SCALE in PickupCoilModule
 (2/13/07) - change PICKUP_COIL_DISTANCE_EXPONENT=3 for PickupCoilModule to address issue with electrons appearing to move in wrong direction 
 (2/13/07) - use PICKUP_COIL_DISTANCE_EXPONENT=2 in all modules that create a PickupCoil (no behavior change)

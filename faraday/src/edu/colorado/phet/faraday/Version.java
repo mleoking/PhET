@@ -20,8 +20,8 @@ package edu.colorado.phet.faraday;
  */
 public class Version {
 
-    public static final String NUMBER = "1.03";
-    public static final String CVS_TAG = "faraday-v1r3-2006-08-25";
+    public static final String NUMBER = "1.04";
+    public static final String CVS_TAG = "faraday-v1r4-2007-02-14";
     
     /* This class is not intended for instantiation. */
     private Version() {}
