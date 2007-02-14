@@ -27,6 +27,12 @@ import java.io.IOException;
  */
 public class PhotoWindow extends JDialog {
 
+    public PhotoWindow( JFrame owner, BufferedImage img) {
+        super( owner, false );
+        setContentPane( new PhotoPanel( img ) );
+        pack();
+    }
+
     public PhotoWindow( JFrame owner ) {
         super( owner, false );
         BufferedImage img = null;
