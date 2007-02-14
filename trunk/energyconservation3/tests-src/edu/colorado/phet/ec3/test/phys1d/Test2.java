@@ -1,6 +1,7 @@
 package edu.colorado.phet.ec3.test.phys1d;
 
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
@@ -73,20 +74,29 @@ public class Test2 extends JFrame {
         JRadioButton constantVel = new JRadioButton( "Constant Velocity", particle1d.getUpdateStrategy() instanceof Particle1D.ConstantVelocity );
         constantVel.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                particle1d.setVelocity( 10 );
+                particle1d.setVelocity( 1000*5 );
                 particle1d.setUpdateStrategy( particle1d.createConstantVelocity() );
+            }
+        } );
+        JRadioButton euler = new JRadioButton( "Euler", particle1d.getUpdateStrategy() instanceof Particle1D.Euler );
+        euler.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                particle1d.setVelocity( 0 );
+                particle1d.setUpdateStrategy( particle1d.createEuler() );
             }
         } );
         controlPanel.add( verlet, gridBagConstraints );
         controlPanel.add( constantVel, gridBagConstraints );
+        controlPanel.add( euler, gridBagConstraints );
         controlFrame.setContentPane( controlPanel );
         controlFrame.pack();
         controlFrame.setLocation( this.getX() + this.getWidth(), this.getY() );
         controlFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        
-        ButtonGroup buttonGroup=new ButtonGroup();
+
+        ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( verlet );
         buttonGroup.add( constantVel );
+        buttonGroup.add( euler );
     }
 
     static class ParticleGraphic extends PNode {
@@ -166,8 +176,23 @@ public class Test2 extends JFrame {
             this.velocity = v;
         }
 
+        public UpdateStrategy createEuler() {
+            return new Euler();
+        }
+
         public interface UpdateStrategy {
             void stepInTime( double dt );
+        }
+
+        private void clampAndBounce() {
+            alpha = MathUtil.clamp( 0, alpha, 1.0 );
+
+            if( alpha <= 0 ) {
+                velocity *= -1;
+            }
+            if( alpha >= 1 ) {
+                velocity *= -1;
+            }
         }
 
         public class Verlet implements UpdateStrategy {
@@ -180,33 +205,31 @@ public class Test2 extends JFrame {
                 double newAngle = Math.PI / 2 - cubicSpline.getAngle( alpha );
                 velocity = velocity + g * ( Math.cos( origAngle ) + Math.cos( newAngle ) ) / 2.0 * dt;
 
-                alpha = MathUtil.clamp( 0, alpha, 1.0 );
-
-                if( alpha <= 0 ) {
-                    velocity *= -1;
-                }
-                if( alpha >= 1 ) {
-                    velocity *= -1;
-                }
+                clampAndBounce();
             }
         }
 
         public class ConstantVelocity implements UpdateStrategy {
 
             public void stepInTime( double dt ) {
-                alpha += velocity * dt;
                 alpha += cubicSpline.getFractionalDistance( alpha, velocity * dt );
 
-                alpha = MathUtil.clamp( 0, alpha, 1.0 );
-
-                if( alpha <= 0 ) {
-                    velocity *= -1;
-                }
-                if( alpha >= 1 ) {
-                    velocity *= -1;
-                }
+                clampAndBounce();
             }
         }
+
+        public class Euler implements UpdateStrategy {
+
+            public void stepInTime( double dt ) {
+                Vector2D.Double gVector = new Vector2D.Double( 0, g );
+                double a = cubicSpline.getUnitParallelVector( alpha ).dot( gVector );
+                alpha += cubicSpline.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
+                velocity += a * dt;
+
+                clampAndBounce();
+            }
+        }
+
     }
 
     static class MyCubicCurve2DGraphic extends PNode {
