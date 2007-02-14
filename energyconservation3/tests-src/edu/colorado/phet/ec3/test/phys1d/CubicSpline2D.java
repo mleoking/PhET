@@ -44,9 +44,9 @@ public class CubicSpline2D {
         } );
         for( double s = 0.0; s < 1.0; s += 0.1 ) {
             Point2D at = cubicSpline2D.evaluate( s );
-//            System.out.println( "s = " + s + ", at=" + at );
+            System.out.println( "s = " + s + ", at=" + at );
 //            System.out.println( at.getX()+"\t"+at.getY() );
-            System.out.println( at.getY() );
+//            System.out.println( at.getY() );
         }
     }
 }
