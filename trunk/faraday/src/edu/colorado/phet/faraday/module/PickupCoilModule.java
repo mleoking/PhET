@@ -68,12 +68,12 @@ public class PickupCoilModule extends FaradayModule {
     private static final int PICKUP_COIL_NUMBER_OF_LOOPS = 2;
     private static final double PICKUP_COIL_LOOP_AREA = 0.75 * FaradayConfig.MAX_PICKUP_LOOP_AREA;
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
-    private static final double PICKUP_COIL_DISTANCE_EXPONENT = 2.0;
+    private static final double PICKUP_COIL_DISTANCE_EXPONENT = 3.0;
     
     // Scaling
-    private static final double LIGHTBULB_SCALE = 1.0;
-    private static final double VOLTMETER_SCALE = 1.0;
-    private static final double ELECTRON_SPEED_SCALE = 1.0;
+    private static final double LIGHTBULB_SCALE = 4.0;
+    private static final double VOLTMETER_SCALE = 4.0;
+    private static final double ELECTRON_SPEED_SCALE = 20.0;
     
     //----------------------------------------------------------------------------
     // Instance data
