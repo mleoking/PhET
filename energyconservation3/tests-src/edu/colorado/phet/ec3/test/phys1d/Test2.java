@@ -26,6 +26,8 @@ import java.util.ArrayList;
  */
 public class Test2 extends JFrame {
     private JFrame controlFrame;
+    private double cumulativeEnergyError = 0;
+    private double time = 0;
 
     public Test2() {
         PSwingCanvas pSwingCanvas = new PSwingCanvas();
@@ -47,14 +49,20 @@ public class Test2 extends JFrame {
 
         Timer timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                double origEnergy = particle1d.getEnergy();
                 Point2D origLoc = particle1d.getLocation();
                 double origA = particle1d.alpha;
-                particle1d.stepInTime( 0.001 );
+                double dt = 0.001;
+                particle1d.stepInTime( dt );
 
                 Point2D newLoc = particle1d.getLocation();
                 double dist = newLoc.distance( origLoc );
                 double da = particle1d.alpha - origA;
-                System.out.println( "dA = " + da + " root(dx^2+dy^2)=" + dist );
+                double energy = particle1d.getEnergy();
+                double dE = energy - origEnergy;
+                cumulativeEnergyError += Math.abs( dE );
+                time += dt;
+                System.out.println( "dA = " + da + " root(dx^2+dy^2)=" + dist + ", dE(inst)=" + dE + ", dE(cumulative)=" + cumulativeEnergyError + ", dE(avg)=" + cumulativeEnergyError / time );
             }
         } );
         timer.start();
@@ -74,7 +82,7 @@ public class Test2 extends JFrame {
         JRadioButton constantVel = new JRadioButton( "Constant Velocity", particle1d.getUpdateStrategy() instanceof Particle1D.ConstantVelocity );
         constantVel.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                particle1d.setVelocity( 1000*5 );
+                particle1d.setVelocity( 1000 * 5 );
                 particle1d.setUpdateStrategy( particle1d.createConstantVelocity() );
             }
         } );
@@ -88,15 +96,26 @@ public class Test2 extends JFrame {
         controlPanel.add( verlet, gridBagConstraints );
         controlPanel.add( constantVel, gridBagConstraints );
         controlPanel.add( euler, gridBagConstraints );
-        controlFrame.setContentPane( controlPanel );
-        controlFrame.pack();
-        controlFrame.setLocation( this.getX() + this.getWidth(), this.getY() );
-        controlFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( verlet );
         buttonGroup.add( constantVel );
         buttonGroup.add( euler );
+
+        controlFrame.setContentPane( controlPanel );
+
+        JButton resetEnergyError = new JButton( "Reset Energy Error" );
+        resetEnergyError.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                cumulativeEnergyError = 0;
+                time = 0;
+            }
+        } );
+        controlPanel.add( resetEnergyError, gridBagConstraints );
+
+        controlFrame.pack();
+        controlFrame.setLocation( this.getX() + this.getWidth(), this.getY() );
+        controlFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
 
     static class ParticleGraphic extends PNode {
@@ -126,6 +145,7 @@ public class Test2 extends JFrame {
         private ArrayList listeners = new ArrayList();
         private UpdateStrategy updateStrategy = new Verlet();
         private double g = 9.8 * 100000;//in pixels per time squared
+        private double mass = 1.0;
 
         public Particle1D( CubicSpline2D cubicSpline ) {
             this.cubicSpline = cubicSpline;
@@ -178,6 +198,10 @@ public class Test2 extends JFrame {
 
         public UpdateStrategy createEuler() {
             return new Euler();
+        }
+
+        public double getEnergy() {
+            return 0.5 * mass * velocity * velocity - mass * g * getY();
         }
 
         public interface UpdateStrategy {
