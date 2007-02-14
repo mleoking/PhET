@@ -25,6 +25,9 @@ public class CubicSpline {
     public double evaluate( double x ) {
         for( int i = 0; i < xTrain.length - 1; i++ ) {//todo could be binary search..?
             if( x >= xTrain[i] && x <= xTrain[i + 1] ) {
+                if (i>=segments.length){
+                    throw new RuntimeException("out of bounds");
+                }
                 return segments[i].evaluate( x );
             }
         }
