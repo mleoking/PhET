@@ -68,6 +68,7 @@ public class GeneratorModule extends FaradayModule {
     private static final int PICKUP_COIL_NUMBER_OF_LOOPS = 2;
     private static final double PICKUP_COIL_LOOP_AREA = 0.75 * FaradayConfig.MAX_PICKUP_LOOP_AREA;
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
+    private static final double PICKUP_COIL_DISTANCE_EXPONENT = 2.0;
     
     // Scaling -- values depend on the distance between pickup coil and turbine!
     private static final double LIGHTBULB_SCALE = 2.5;
@@ -132,7 +133,7 @@ public class GeneratorModule extends FaradayModule {
         _fieldMeterModel.setEnabled( false );
         
         // Pickup Coil
-        _pickupCoilModel = new PickupCoil( _turbineModel );
+        _pickupCoilModel = new PickupCoil( _turbineModel, PICKUP_COIL_DISTANCE_EXPONENT );
         _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
         _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );

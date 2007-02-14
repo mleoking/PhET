@@ -18,6 +18,8 @@ LOW PRIORITY:
 
 
 DONE:
+(2/13/07) - use PICKUP_COIL_DISTANCE_EXPONENT=2 in all modules that create a PickupCoil (no behavior change)
+(2/13/07) - make "distance exponent" an arg to PickupCoil constructor
 (2/7/07) - remove unused argument (AbstractMagnet) from PickupCoilGraphic
 v1r3...
 (8/25/06) - replace water faucet image (not sure where it came from) with one I made

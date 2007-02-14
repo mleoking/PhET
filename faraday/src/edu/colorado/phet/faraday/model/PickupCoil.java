@@ -39,14 +39,14 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     /**  Number of sample points below the center of the coil. */
     public static final int SAMPLE_POINTS_BELOW = SAMPLE_POINTS_ABOVE;
     
-    // Determines how the magnetic field decreases with the distance from the magnet.
-    private static final double DISTANCE_EXPONENT = 2.0;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private AbstractMagnet _magnetModel;
+    // Determines how the magnetic field decreases with the distance from the magnet.
+    private final double _distanceExponent;
+    
     private double _flux; // in webers
     private double _deltaFlux; // in webers
     private double _emf; // in volts
@@ -67,12 +67,14 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      * 
      * @param magnetModel the magnet that is affecting the coil
      */
-    public PickupCoil( AbstractMagnet magnetModel ) {
+    public PickupCoil( AbstractMagnet magnetModel, double distanceExponent ) {
         super();
         
         assert( magnetModel != null );
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
+        
+        _distanceExponent = distanceExponent;
         
         _flux = 0.0;
         _deltaFlux = 0.0;
@@ -173,7 +175,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
             getLocation( _samplePoint /* output */ );
             
             // Find the B field vector at that point.
-            _magnetModel.getStrength( _samplePoint, _sampleVector /* output */, DISTANCE_EXPONENT );
+            _magnetModel.getStrength( _samplePoint, _sampleVector /* output */, _distanceExponent );
             
             // Accumulate a sum of the sample points.
             _fieldVector.copy( _sampleVector );
@@ -194,7 +196,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
             }
             
             // Find the B field vector at that point.
-            _magnetModel.getStrength( _samplePoint, _sampleVector /* output */, DISTANCE_EXPONENT  );
+            _magnetModel.getStrength( _samplePoint, _sampleVector /* output */, _distanceExponent  );
             
             // Accumulate a sum of the sample points.
             _fieldVector.add( _sampleVector );
@@ -215,7 +217,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
             }
             
             // Find the B field vector at that point.
-            _magnetModel.getStrength( _samplePoint, _sampleVector /* output */, DISTANCE_EXPONENT  );
+            _magnetModel.getStrength( _samplePoint, _sampleVector /* output */, _distanceExponent  );
             
             // Accumulate a sum of the sample points.
             _fieldVector.add( _sampleVector );
