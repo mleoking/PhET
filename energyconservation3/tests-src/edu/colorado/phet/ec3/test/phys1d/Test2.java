@@ -1,7 +1,7 @@
 package edu.colorado.phet.ec3.test.phys1d;
 
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
-import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -55,14 +55,13 @@ public class Test2 extends JFrame {
         Timer timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 Point2D origLoc = particle1d.getLocation();
-                double origS = particle1d.s;
+                double origA = particle1d.alpha;
                 particle1d.stepInTime( 1.0 );
-
 
                 Point2D newLoc = particle1d.getLocation();
                 double dist = newLoc.distance( origLoc );
-                double ds = particle1d.s - origS;
-                System.out.println( "ds = " + ds + " root(dx^2+dy^2)=" + dist );
+                double da = particle1d.alpha - origA;
+                System.out.println( "dA = " + da + " root(dx^2+dy^2)=" + dist );
             }
         } );
         timer.start();
@@ -90,9 +89,9 @@ public class Test2 extends JFrame {
 
     static class Particle1D {
 
-        double s = 0;
+        double alpha = 0;
         private CubicSpline2D cubicSpline;
-        private double velocity = 0.005;
+        private double velocity = 1;
         private ArrayList listeners = new ArrayList();
 
         public Particle1D( CubicSpline2D cubicSpline ) {
@@ -101,27 +100,29 @@ public class Test2 extends JFrame {
         }
 
         public double getX() {
-            return cubicSpline.evaluate( s ).getX();
+            return cubicSpline.evaluate( alpha ).getX();
 //            return 0;  //To change body of created methods use File | Settings | File Templates.
         }
 
         public double getY() {
-            return cubicSpline.evaluate( s ).getY();
+            return cubicSpline.evaluate( alpha ).getY();
 //            return 0;  //To change body of created methods use File | Settings | File Templates.
         }
 
         public void stepInTime( double dt ) {
-            s += velocity * dt;
-            
-            if (s<=0){
-                velocity*=-1;
+//            alpha += velocity * dt;
+            alpha += cubicSpline.getFractionalDistance( alpha, velocity * dt );
+            alpha = MathUtil.clamp( 0, alpha, 1.0 );
+
+            if( alpha <= 0 ) {
+                velocity *= -1;
                 stepInTime( dt );
             }
-            if (s>=1){
-                velocity*=-1;
+            if( alpha >= 1 ) {
+                velocity *= -1;
                 stepInTime( dt );
             }
-            
+
             for( int i = 0; i < listeners.size(); i++ ) {
                 ParticleGraphic particleGraphic = (ParticleGraphic)listeners.get( i );
                 particleGraphic.update();
