@@ -1,5 +1,8 @@
 package edu.colorado.phet.ec3.test.phys1d;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.Vector2D;
+
 import java.awt.geom.Point2D;
 
 /**
@@ -50,10 +53,10 @@ public class CubicSpline2D {
         }
         double delta = cubicSpline2D.getMetricDelta( 0, 1 );
         System.out.println( "Spline length=" + delta );
-        
-        double fracDist=cubicSpline2D.getFractionalDistance( 0,delta );
+
+        double fracDist = cubicSpline2D.getFractionalDistance( 0, delta );
         System.out.println( "fracDist = " + fracDist );
-        
+
     }
 
     /*
@@ -87,7 +90,7 @@ public class CubicSpline2D {
         double lowerBound = -1;
         double upperBound = 2;
 
-        double guess = (upperBound+lowerBound)/2.0;
+        double guess = ( upperBound + lowerBound ) / 2.0;
 
         double metricDelta = getMetricDelta( alpha0, guess );
         double epsilon = 1E-2;
@@ -101,6 +104,21 @@ public class CubicSpline2D {
             guess = ( upperBound + lowerBound ) / 2.0;
             metricDelta = getMetricDelta( alpha0, guess );
         }
-        return guess-alpha0;
+        return guess - alpha0;
+    }
+
+    public AbstractVector2D getUnitParallelVector( double alpha ) {
+        double epsilon = 1E-4;
+        double a0 = alpha - epsilon / 2;
+        double a1 = alpha + epsilon / 2;
+        return new Vector2D.Double( evaluate( a0 ), evaluate( a1 ) ).getNormalizedInstance();
+    }
+
+    public AbstractVector2D getUnitNormalVector( double alpha ) {
+        return getUnitParallelVector( alpha ).getNormalVector();
+    }
+
+    public double getAngle( double alpha ) {
+        return getUnitParallelVector( alpha ).getAngle();
     }
 }
