@@ -48,5 +48,59 @@ public class CubicSpline2D {
 //            System.out.println( at.getX()+"\t"+at.getY() );
 //            System.out.println( at.getY() );
         }
+        double delta = cubicSpline2D.getMetricDelta( 0, 1 );
+        System.out.println( "Spline length=" + delta );
+        
+        double fracDist=cubicSpline2D.getFractionalDistance( 0,delta );
+        System.out.println( "fracDist = " + fracDist );
+        
+    }
+
+    /*
+    * Returns the metric distance between 2 fractional points.
+     */
+    public double getMetricDelta( double a0, double a1 ) {
+//        if( a0 < 0 || a1 > 1 ) {
+//            throw new RuntimeException( "Out of bounds, a0=" + a0 + ", a1=" + a1 );
+//        }
+        if( a0 > a1 ) {
+            return -getMetricDelta( a1, a0 );
+        }
+        if( a0 == a1 ) {
+            return 0;
+        }
+//        double da = 1E-1;
+//        double da = 1E-1;
+        double da = 1.5;
+        if( Math.abs( a0 - a1 ) < da ) {
+            return evaluate( a0 ).distance( evaluate( a1 ) );
+        }
+        else {
+            return getMetricDelta( a0, a0 + da / 2 ) + getMetricDelta( a0 + da / 2, a1 - da / 2 ) + getMetricDelta( a1 - da / 2, a1 );
+        }
+    }
+
+    /*
+    * Finds the fractional distance along the track that corresponds to metric distance ds
+    */
+    public double getFractionalDistance( double alpha0, double ds ) {
+        double lowerBound = -1;
+        double upperBound = 2;
+
+        double guess = (upperBound+lowerBound)/2.0;
+
+        double metricDelta = getMetricDelta( alpha0, guess );
+        double epsilon = 1E-2;
+        while( Math.abs( metricDelta - ds ) > epsilon ) {
+            if( metricDelta > ds ) {
+                upperBound = guess;
+            }
+            else {
+                lowerBound = guess;
+            }
+            guess = ( upperBound + lowerBound ) / 2.0;
+            metricDelta = getMetricDelta( alpha0, guess );
+        }
+        return guess-alpha0;
     }
 }

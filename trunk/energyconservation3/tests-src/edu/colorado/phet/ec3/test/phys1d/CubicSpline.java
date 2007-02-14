@@ -25,13 +25,19 @@ public class CubicSpline {
     public double evaluate( double x ) {
         for( int i = 0; i < xTrain.length - 1; i++ ) {//todo could be binary search..?
             if( x >= xTrain[i] && x <= xTrain[i + 1] ) {
-                if (i>=segments.length){
-                    throw new RuntimeException("out of bounds");
+                if( i >= segments.length ) {
+                    throw new RuntimeException( "out of bounds" );
                 }
                 return segments[i].evaluate( x );
             }
         }
-        throw new RuntimeException( "value not contained in spline: " + x + ", min=" + xTrain[0] + ", max=" + xTrain[xTrain.length - 1] );
+        if( x < 0 ) {
+            return segments[0].evaluate( x );
+        }
+        else {
+            return segments[segments.length - 1].evaluate( x );
+        }
+//        throw new RuntimeException( "value not contained in spline: " + x + ", min=" + xTrain[0] + ", max=" + xTrain[xTrain.length - 1] );
     }
 
     static class CubicSplineSegment {
@@ -56,7 +62,7 @@ public class CubicSpline {
         }
 
         public double evaluate( double x ) {
-            return ( z1 * Math.pow( x - x0, 3 ) + z0 * Math.pow( x1 - x, 3 ) ) / (6 * h) +
+            return ( z1 * Math.pow( x - x0, 3 ) + z0 * Math.pow( x1 - x, 3 ) ) / ( 6 * h ) +
                    ( y1 / h - h / 6 * z1 ) * ( x - x0 ) + ( y0 / h - h / 6 * z0 ) * ( x1 - x );
         }
     }
