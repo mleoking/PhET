@@ -112,6 +112,16 @@ public class Test2 extends JFrame {
 
         public void stepInTime( double dt ) {
             s += velocity * dt;
+            
+            if (s<=0){
+                velocity*=-1;
+                stepInTime( dt );
+            }
+            if (s>=1){
+                velocity*=-1;
+                stepInTime( dt );
+            }
+            
             for( int i = 0; i < listeners.size(); i++ ) {
                 ParticleGraphic particleGraphic = (ParticleGraphic)listeners.get( i );
                 particleGraphic.update();
