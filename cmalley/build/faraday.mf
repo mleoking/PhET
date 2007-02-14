@@ -2,5 +2,5 @@ Manifest-Version: 1.0
 
 Main-Class: edu.colorado.phet.faraday.FaradayApplication
 
-CVS-Tag: faraday-v1r3-2006-08-25
+CVS-Tag: faraday-v1r4-2007-02-14
 
