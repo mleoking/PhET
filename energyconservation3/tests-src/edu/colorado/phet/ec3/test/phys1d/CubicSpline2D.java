@@ -70,8 +70,8 @@ public class CubicSpline2D {
             return 0;
         }
 //        double da = 1E-1;
-//        double da = 1E-1;
-        double da = 1.5;
+        double da = 1E-1;
+//        double da = 1.5;
         if( Math.abs( a0 - a1 ) < da ) {
             return evaluate( a0 ).distance( evaluate( a1 ) );
         }
