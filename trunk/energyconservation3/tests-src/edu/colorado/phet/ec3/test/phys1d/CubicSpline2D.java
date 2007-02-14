@@ -23,11 +23,11 @@ public class CubicSpline2D {
         double[] x = new double[pts.length];
         double[] y = new double[pts.length];
         for( int i = 0; i < pts.length; i++ ) {
-            s[i] = (1.0 / (pts.length-1) )* i;
+            s[i] = ( 1.0 / ( pts.length - 1 ) ) * i*2.0;
             x[i] = pts[i].getX();
             y[i] = pts[i].getY();
         }
-        s[s.length-1]=1.0;//to be exact, in case of roundoff error
+        s[s.length - 1] = Math.round( s[s.length - 1] );//to be exact, in case of roundoff error
         return new CubicSpline2D( CubicSpline.interpolate( s, x ), CubicSpline.interpolate( s, y ) );
     }
 
@@ -44,7 +44,9 @@ public class CubicSpline2D {
         } );
         for( double s = 0.0; s < 1.0; s += 0.1 ) {
             Point2D at = cubicSpline2D.evaluate( s );
-            System.out.println( "s = " + s + ", at=" + at );
+//            System.out.println( "s = " + s + ", at=" + at );
+//            System.out.println( at.getX()+"\t"+at.getY() );
+            System.out.println( at.getY() );
         }
     }
 }
