@@ -67,6 +67,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
     private static final double SPECTROMETER_LAYER = 1000;
     private static double VOLTAGE_VALUE_LAYER = DischargeLampsConfig.CIRCUIT_LAYER + 1;
     private static final double DEFAULT_VOLTAGE = 23.0 * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
+    private static PhotoWindow photoWindow;
 
     //----------------------------------------------------------------
     // Instance data
@@ -392,9 +393,8 @@ public class DischargeLampModule extends PhetGraphicsModule {
      * Adds a button to the clock control panel that will pop up an image of real lamps
      */
     private void createRealPictureControl() {
-        JButton realLampsBtn = new JButton( "Actual pix" );
+        JButton realLampsBtn = new JButton( SimStrings.get( "Misc.ActualPixBtn.label" ) );
         realLampsBtn.addActionListener( new ActionListener() {
-            private PhotoWindow photoWindow;
 
             public void actionPerformed( ActionEvent e ) {
                 if( photoWindow == null ) {
