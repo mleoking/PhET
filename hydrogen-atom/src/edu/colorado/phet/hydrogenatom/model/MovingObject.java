@@ -83,12 +83,12 @@ public class MovingObject extends FixedObject {
     }
     
     /**
-     * Sets the orientation, in degrees.
-     * @param direction
+     * Sets the orientation, in radians.
+     * @param orientation
      */
-    public void setOrientation( double direction ) {
-        if ( direction != _orientation) {
-            _orientation = direction;
+    public void setOrientation( double orientation ) {
+        if ( orientation != _orientation) {
+            _orientation = orientation;
             notifyObservers( PROPERTY_ORIENTATION );
         }
     }
