@@ -28,8 +28,14 @@ public class CubicSplineSegment {
      * @param x
      * @return
      */
-    public static CubicSplineSegment[] interpolate( double[] x ) {
+    public static CubicSplineSegment[] interpolate( double[] x, double[] y ) {
         int n = x.length;
+        double[] h = new double[x.length - 1];
+        for( int i = 0; i < h.length - 1; i++ ) {
+            h[i] = x[i + 1] - x[i];
+        }
+
+
         Jama.Matrix A = new Matrix( n, n );
         A.set( 0, 0, 1 );
         A.set( n - 1, n - 1, 1 );
