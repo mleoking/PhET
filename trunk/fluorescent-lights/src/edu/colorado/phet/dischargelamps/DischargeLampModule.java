@@ -11,6 +11,7 @@
 package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.application.PhetGraphicsModule;
+import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
@@ -18,6 +19,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
 import edu.colorado.phet.dischargelamps.control.BatterySlider;
@@ -26,6 +28,7 @@ import edu.colorado.phet.dischargelamps.control.SlowMotionCheckBox;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.PhotoWindow;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
@@ -42,8 +45,10 @@ import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.IOException;
 
 /**
  * DischargeLampModule
@@ -57,7 +62,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
     // Class data
     //----------------------------------------------------------------
 
-//    public static boolean DEBUG = true;
+    //    public static boolean DEBUG = true;
     public static boolean DEBUG = false;
     private static final double SPECTROMETER_LAYER = 1000;
     private static double VOLTAGE_VALUE_LAYER = DischargeLampsConfig.CIRCUIT_LAYER + 1;
@@ -372,11 +377,39 @@ public class DischargeLampModule extends PhetGraphicsModule {
                 }
             } );
             cbPanel.add( squiggleCB );
+
             optionsPanel.add( spectrometerCB, gbc );
             optionsPanel.add( squiggleCB, gbc );
             optionsPanel.add( new SlowMotionCheckBox( (Clock)getClock() ), gbc );
             controlPanel.addControlFullWidth( optionsPanel );
+
+            // Add a button to the clock control panel that will pop up an image of real lamps
+            createRealPictureControl();
         }
+    }
+
+    /**
+     * Adds a button to the clock control panel that will pop up an image of real lamps
+     */
+    private void createRealPictureControl() {
+        JButton realLampsBtn = new JButton( "Actual pix" );
+        realLampsBtn.addActionListener( new ActionListener() {
+            private PhotoWindow photoWindow;
+
+            public void actionPerformed( ActionEvent e ) {
+                if( photoWindow == null ) {
+                    try {
+                        BufferedImage bi = ImageLoader.loadBufferedImage( "images/actual-lamps.jpg" );
+                        photoWindow = new PhotoWindow( PhetUtilities.getPhetFrame(), bi );
+                    }
+                    catch( IOException e1 ) {
+                        e1.printStackTrace();
+                    }
+                }
+                photoWindow.setVisible( true );
+            }
+        } );
+        getClockControlPanel().add( realLampsBtn, BorderLayout.WEST );
     }
 
     /**
@@ -487,8 +520,6 @@ public class DischargeLampModule extends PhetGraphicsModule {
     protected void setElectronProductionMode( ElectronProductionControl.ProductionMode mode ) {
         electronProductionControl.setProductionMode( mode );
     }
-
-
 
     //-------------------------------------------------------------------------------------------------
     // Event handling
