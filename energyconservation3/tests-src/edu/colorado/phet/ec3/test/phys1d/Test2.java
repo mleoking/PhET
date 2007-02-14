@@ -142,7 +142,7 @@ public class Test2 extends JFrame {
         private void update() {
             DoubleGeneralPath doubleGeneralPath = new DoubleGeneralPath( cubicSpline2D.evaluate( 0 ) );
             double ds = 0.01;
-            for( double s = ds; s <= 2.0; s += ds ) {
+            for( double s = ds; s <= 1.0; s += ds ) {
                 doubleGeneralPath.lineTo( cubicSpline2D.evaluate( s ) );
             }
             phetPPath.setPathTo( doubleGeneralPath.getGeneralPath() );
