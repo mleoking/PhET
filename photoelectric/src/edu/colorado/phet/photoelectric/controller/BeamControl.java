@@ -299,12 +299,12 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
             PhetUtilities.invokeLater( new Runnable() {
                 public void run() {
                     selfUpdating = true;
-                    int value = intensitySlider.getValue();
+                    double value = intensitySlider.getValue();
 
                     // If we're in intensity mode, then the photons/sec is proportional to
                     // the energy of each photon
                     if( mode == INTENSITY ) {
-                        value = (int)PhotoelectricModelUtil.intensityToPhotonRate( value, beam.getWavelength() );
+                        value = PhotoelectricModelUtil.intensityToPhotonRate( value, beam.getWavelength() );
                     }
                     beam.setPhotonsPerSecond( value );
                     selfUpdating = false;
