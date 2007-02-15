@@ -44,7 +44,7 @@
         <javac srcdir="${build-src}"
                excludes="${build-excludes}"
                classpath="${build-classpath}"
-               destdir="${ant.classes}"/>
+               destdir="${ant.classes}" source="1.4"/>
     </target>
 
     <target name="Generate Build Info">

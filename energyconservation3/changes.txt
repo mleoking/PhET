@@ -1,3 +1,8 @@
+1.05.03 (2-14-2007)
+"Save" also saves skater's rotation, position, etc.
+Added tests for motion.
+Added a test for new spline mechanics.
+
 1.05.02 (2-5-2007)
 When potential energy is negative, pie chart is invisible and pie chart button is disabled.
 After the maximum number of history points (max=100), history points start disappearing.
