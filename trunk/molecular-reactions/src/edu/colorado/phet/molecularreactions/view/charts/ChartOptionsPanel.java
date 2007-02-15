@@ -42,6 +42,7 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
 
     private ComplexModule module;
     private JToggleButton showBondsBtn;
+    private JToggleButton showStopwatchBtn;
     private JToggleButton showStripChartBtn;
     private JToggleButton showPieChartBtn;
     private JToggleButton showBarChartBtn;
@@ -61,6 +62,15 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
         } );
         showBondsBtn.setSelected( false );
         module.setGraphicTypeVisible( showBondsBtn.isSelected() );
+
+        showStopwatchBtn = new JCheckBox(SimStrings.get( "Control.showStopwatch" ));
+        showStopwatchBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setStopwatchVisible( showStopwatchBtn.isSelected() );
+            }
+        } );
+        showBondsBtn.setSelected( false );
+        module.setStopwatchVisible( showStopwatchBtn.isSelected() );
 
         //--------------------------------------------------------------------------------------------------
         // The buttons that put things on the top pane of the energy view
@@ -133,8 +143,10 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
                                                          GridBagConstraints.HORIZONTAL,
                                                          insets, 0, 0 );
         add( chartOptionsPanel, gbc );
-        gbc.fill = GridBagConstraints.NONE;
+        gbc.fill   = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.WEST; 
         add( showBondsBtn, gbc );
+        add( showStopwatchBtn, gbc );
     }
 
     /**

@@ -2,7 +2,7 @@
 <!-- JNLP File for PhET Application --> 
 <jnlp 
   spec="1.0+" 
-  codebase="http://www.colorado.edu/physics/phet/dev/molecular-reactions/0.01.03/"
+  codebase="http://www.colorado.edu/physics/phet/dev/degoes/molecular-reactions/0.01.04/"
   href="molecular-reactions.jnlp"> 
   <information> 
     <title>Molecular Reactions</title> 
@@ -16,11 +16,7 @@
   </information> 
   <resources> 
     <j2se version="1.4+"/> 
-    <jar href="molecular-reactions.jar"/>
-    <jar href="jnlp.jar"/>
-    <jar href="jcommon-1.0.0.jar"/>
-    <jar href="jfreechart-1.0.0.jar"/>
-    <jar href="gnujaxp.jar"/>
+    <jar href="mr-pro.jar"/>
   </resources> 
   <application-desc main-class="edu.colorado.phet.molecularreactions.MRApplication">
   </application-desc> 

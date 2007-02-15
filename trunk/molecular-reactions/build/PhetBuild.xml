@@ -44,7 +44,7 @@ ignorepath      (those elements of the ant classpath that should not be
     <property name="data" location="${development}/data"/>
     <property name="jfreechart-lib" location="${project_home}/jfreechart-phet-module/jfreechart-module/lib"/>
 
-    <property name="addl-classpath" value="${project_home}/piccolo-phet-module/phetcommon-module/lib/jnlp.jar;${jfreechart-lib}/gnujaxp.jar;${jfreechart-lib}/jcommon-1.0.0.jar;${jfreechart-lib}/jfreechart-1.0.0.jar"/>
+    <property name="addl-classpath" value="${project_home}/piccolo-phet-module/phetcommon-module/lib/jnlp.jar;${jfreechart-lib}/gnujaxp.jar;${jfreechart-lib}/jcommon-1.0.0.jar;${jfreechart-lib}/jfreechart-1.0.0.jar;${project_home}/lib/commons-collections-3.2.jar"/>
 
     <description>
         Build File.
@@ -90,7 +90,7 @@ ignorepath      (those elements of the ant classpath that should not be
             description="compile the source ">
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
-        <javac srcdir="${src}" destdir="${classes}">
+        <javac srcdir="${src}" destdir="${classes}" source="1.4">
             <src path="${project_home}/collision-dir/src"/>
             <src path="${project_home}/mechanics-dir/src"/>
             <src path="${project_home}/piccolo-phet-module/src"/>

@@ -4,7 +4,8 @@ import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.model.MoleculeA;
 
 import javax.swing.*;
-import java.awt.*;/* Copyright 2003-2004, University of Colorado */
+import java.awt.*;
+import java.io.*;/* Copyright 2003-2004, University of Colorado */
 
 /*
  * CVS Info -
@@ -27,7 +28,7 @@ public class MRConfig {
     // Misc
     //--------------------------------------------------------------------------------------------------
     // Version
-    public static final String VERSION = "1.01";
+    public static final String VERSION = readVersionFromFile();
     // Prefix of the strings bundles
     public static final String LOCALIZATION_BUNDLE = "localization/MRStrings";
     // Debug flag
@@ -103,4 +104,27 @@ public class MRConfig {
     public static final Font CONTROL_FONT = new Font( UIManager.getFont( "Panel.font" ).getName(),
                                                       Font.BOLD,
                                                       UIManager.getFont( "Panel.font" ).getSize() );
+
+    private static String readVersionFromFile() {
+        InputStream asStream = MRConfig.class.getResourceAsStream( "/version.txt" );
+
+        if (asStream != null) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader( asStream ));
+
+            try {
+                return reader.readLine();
+            }
+            catch( IOException e ) {
+            }
+            finally {
+                try {
+                    reader.close();
+                }
+                catch( IOException e ) {
+                }
+            }
+        }
+
+        return "0.0.0";
+    }
 }

@@ -11,7 +11,9 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.clock.StopwatchPanel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.PublishingModel;
@@ -23,9 +25,18 @@ import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieCh
 import edu.colorado.phet.molecularreactions.view.charts.StripChartDialog;
 import edu.colorado.phet.molecularreactions.view.charts.StripChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.nodes.PhetPPath;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.event.PInputEventListener;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import java.awt.event.ComponentListener;
 import java.awt.geom.Rectangle2D;
+import java.awt.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 /**
  * ComplexModule
@@ -44,8 +55,9 @@ public class ComplexModule extends MRModule {
     private PumpGraphic pumpGraphic;
     private MoleculePopulationsBarChartNode barChartNode;
     private MoleculePopulationsPieChartNode pieChart;
-    public StripChartNode stripChartNode;
+    private StripChartNode stripChartNode;
     private boolean firstTimeStripChartVisible = true;
+    private PSwing stopwatchAdapter;
 
 
     /**
@@ -61,6 +73,8 @@ public class ComplexModule extends MRModule {
      */
     protected ComplexModule( String title ) {
         super( title, MRConfig.CHART_PANE_SIZE );
+
+        addMovableStopwatch(29.0, 453.0 );
 
         // Create the strip chart
         stripChartNode = new StripChartNode( this, MRConfig.CHART_PANE_SIZE );
@@ -205,12 +219,28 @@ public class ComplexModule extends MRModule {
             stripChartNode.setRecording( recording);
     }
 
+    public void setStopwatchVisible( boolean visible ) {
+        stopwatchAdapter.setVisible( visible );
+    }
+
     protected void updateCanvasLayout() {
         super.updateCanvasLayout();
 
         // Don't show the total energy line on the energy view
         getEnergyView().setTotalEnergyLineVisible( false );
         getEnergyView().setProfileLegendVisible( false );
+    }
+
+    protected void addMovableStopwatch( double x, double y ) {
+        StopwatchPanel stopwatchPanel = new StopwatchPanel(getClock());
+
+        stopwatchAdapter = new PSwing(getCanvas(), stopwatchPanel);
+
+        stopwatchAdapter.setOffset(x, y);
+
+        stopwatchAdapter.addInputEventListener( new PDragEventHandler() );
+
+        getCanvas().addScreenChild(stopwatchAdapter);
     }
 }
 

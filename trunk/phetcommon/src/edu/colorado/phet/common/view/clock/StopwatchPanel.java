@@ -278,7 +278,7 @@ public class StopwatchPanel extends JPanel {
     /**
      * Sets the time display format.
      * 
-     * @param format
+     * @param timeFormat
      */
     public void setTimeFormat( NumberFormat timeFormat ) {
         this.timeFormat = timeFormat;
