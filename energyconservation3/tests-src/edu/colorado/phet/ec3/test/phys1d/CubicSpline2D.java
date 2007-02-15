@@ -94,6 +94,7 @@ public class CubicSpline2D {
 
         double metricDelta = getMetricDelta( alpha0, guess );
         double epsilon = 1E-2;
+//        double epsilon = 1E-4;
         while( Math.abs( metricDelta - ds ) > epsilon ) {
             if( metricDelta > ds ) {
                 upperBound = guess;
@@ -109,6 +110,7 @@ public class CubicSpline2D {
 
     public AbstractVector2D getUnitParallelVector( double alpha ) {
         double epsilon = 1E-4;
+//        double epsilon = 1E-6;
         double a0 = alpha - epsilon / 2;
         double a1 = alpha + epsilon / 2;
         return new Vector2D.Double( evaluate( a0 ), evaluate( a1 ) ).getNormalizedInstance();
