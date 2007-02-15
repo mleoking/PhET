@@ -39,12 +39,12 @@
         <delete dir="${ant.lib}"/>
     </target>
 
-    <target name="Compile" depends="init, Clean">
+    <target name="Compile" depends="init, Clean, Update Version File">
         <mkdir dir="${ant.classes}"/>
         <javac srcdir="${build-src}"
                excludes="${build-excludes}"
                classpath="${build-classpath}"
-               destdir="${ant.classes}"/>
+               destdir="${ant.classes}" source="1.4"/>
     </target>
 
     <target name="Generate Build Info">
@@ -65,7 +65,9 @@
         <jar destfile="${ant.jars}/${distname}.jar">
             <fileset dir="${ant.classes}"/>
             <fileset dir="data"/>
-            <fileset dir="phetcommon-dir/data"/>
+            <fileset dir="piccolo-phet-module/phetcommon-module/data"/>
+            <fileset dir="piccolo-phet-module/data"/>
+
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
@@ -87,17 +89,20 @@
     </target>
 
     <target name="Post Dev">
+        <echo message="Hello self"/>            
+        <echo message="${dev-dir}"/>
         <maverick-ssh host="${ssh-host}"
                       username="${username}"
                       password="${password}"
                       version="2">
             <sftp action="mkdir"
                   remotedir="${dev-dir}"/>
+
             <sftp action="put" remotedir="${dev-dir}" verbose="true">
-                <fileset file="${ant.jars}/ec3-pro.jar"/>
+                <fileset file="${ant.jars}/mr-pro.jar"/>
                 <fileset file="${ant.jnlp}/${jnlp-filename}"/>
-                <fileset file="README"/>
-                <fileset file="energy-conservation.gif"/>
+                <!--<fileset file="README"/>-->
+                <!--<fileset file="energy-conservation.gif"/>-->
             </sftp>
         </maverick-ssh>
     </target>
@@ -109,9 +114,15 @@
                       version="2">
             <sftp action="mkdir"
                   remotedir="${dev-parent}"/>
-            <sftp action="put" remotedir="${dev-dir}" verbose="true">
+
+            <sftp action="del" remotedir="${dev-dir}" verbose="true">
                 <fileset file="todo.txt"/>
-                <fileset file="changes.txt"/>
+            </sftp>
+            
+            <sftp action="put" remotedir="${dev-dir}" verbose="true">
+                <!--<fileset file="todo.html"/>
+                <fileset file="changes.txt"/>-->
+                <fileset file="README"/>
             </sftp>
         </maverick-ssh>
     </target>
@@ -121,6 +132,8 @@
             <arg value="${phet-root}/${dev-path}/${dev-version}"/>
         </exec>
     </target>
-
+    <target name="Update Version File">
+        <echo file="data/version.txt" message="${dev-version}"/>
+    </target>
     <target name="Build and Deploy" depends="ProGuard,Update JNLP,Post Dev,Post Docs, Show Browser"/>
 </project>

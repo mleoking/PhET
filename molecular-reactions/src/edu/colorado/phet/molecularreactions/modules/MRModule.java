@@ -11,11 +11,9 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.model.clock.VariableConstantTickClock;
+import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.clock.StopwatchPanel;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.view.SpatialView;
@@ -23,7 +21,9 @@ import edu.colorado.phet.molecularreactions.view.energy.EnergyView;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -42,6 +42,11 @@ public class MRModule extends Module {
     private SpatialView spatialView;
     private EnergyView energyView;
     private Dimension spatialViewSize = MRConfig.SPATIAL_VIEW_SIZE;
+
+    public PhetPCanvas getCanvas() {
+        return canvas;
+    }
+
     private PhetPCanvas canvas;
     private Insets simulationPaneInsets;
     private int chartPaneHeight;
