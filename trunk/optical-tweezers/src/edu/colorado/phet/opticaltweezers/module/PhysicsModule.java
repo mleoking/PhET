@@ -12,7 +12,6 @@
 package edu.colorado.phet.opticaltweezers.module;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -29,13 +28,9 @@ import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.control.PhysicsControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
-import edu.colorado.phet.opticaltweezers.model.OTClock;
-import edu.colorado.phet.opticaltweezers.model.OTModel;
+import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
-import edu.colorado.phet.opticaltweezers.view.BeadNode;
-import edu.colorado.phet.opticaltweezers.view.GlassSlideNode;
-import edu.colorado.phet.opticaltweezers.view.LaserNode;
-import edu.colorado.phet.opticaltweezers.view.OTModelViewManager;
+import edu.colorado.phet.opticaltweezers.view.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
@@ -68,11 +63,16 @@ public class PhysicsModule extends AbstractModule {
     
     // Model
     private OTModel _model;
+    private Laser _laser;
+    private Bead _bead;
+    private Fluid _fluid;
+    private GlassSlide _glassSlide;
     
     // View
     private GlassSlideNode _glassSlideNode;
     private LaserNode _laserNode;
     private BeadNode _beadNode;
+    private ModelViewTransform _modelViewTransform;
     
     // Control
     private OTModelViewManager _modelViewManager;
@@ -102,8 +102,26 @@ public class PhysicsModule extends AbstractModule {
 
         IClock clock = getClock();
         
-        // Model
         _model = new OTModel( clock );
+        
+        _laser = new Laser( PhysicsDefaults.LASER_POSITION, 
+                PhysicsDefaults.LASER_ORIENTATION, 
+                PhysicsDefaults.LASER_WIDTH, 
+                PhysicsDefaults.LASER_WAVELENGTH, 
+                PhysicsDefaults.LASER_POWER_RANGE.getDefault() );
+        
+        _bead = new Bead( PhysicsDefaults.BEAD_POSITION, 
+                PhysicsDefaults.BEAD_ORIENTATION, 
+                PhysicsDefaults.BEAD_DIAMETER );
+        
+        _fluid = new Fluid( PhysicsDefaults.FLUID_VELOCITY_RANGE.getDefault(), 
+                PhysicsDefaults.FLUID_VISCOSITY_RANGE.getDefault(), 
+                PhysicsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
+        
+        _glassSlide = new GlassSlide( PhysicsDefaults.GLASS_SLIDE_POSITION,
+                PhysicsDefaults.GLASS_SLIDE_ORIENTATION,
+                PhysicsDefaults.GLASS_SLIDE_HEIGHT,
+                PhysicsDefaults.GLASS_SLIDE_EDGE_HEIGHT );
 
         //----------------------------------------------------------------------------
         // View
@@ -127,14 +145,17 @@ public class PhysicsModule extends AbstractModule {
         _rootNode = new PNode();
         _canvas.addWorldChild( _rootNode );
 
+        // Model View transform
+        _modelViewTransform = new ModelViewTransform( 0.5, 0, 0 );
+        
         // Glass Slide
-        _glassSlideNode = new GlassSlideNode();
+        _glassSlideNode = new GlassSlideNode( _glassSlide, _modelViewTransform );
         
         // Laser
-        _laserNode = new LaserNode( _canvas );
+        _laserNode = new LaserNode( _canvas, _laser, PhysicsDefaults.LASER_POWER_RANGE );
         
         // Bead
-        _beadNode = new BeadNode();
+        _beadNode = new BeadNode( _bead, _modelViewTransform );
         
         // Layering order on the canvas (back-to-front)
         {
@@ -162,7 +183,10 @@ public class PhysicsModule extends AbstractModule {
         setClockControlPanel( _clockControlPanel );
         
         // Fluid controls
-        _fluidControlPanel = new FluidControlPanel( OTConstants.PLAY_AREA_CONTROL_FONT );
+        _fluidControlPanel = new FluidControlPanel( OTConstants.PLAY_AREA_CONTROL_FONT,
+                PhysicsDefaults.FLUID_VELOCITY_RANGE,
+                PhysicsDefaults.FLUID_VISCOSITY_RANGE,
+                PhysicsDefaults.FLUID_TEMPERATURE_RANGE );
         _fluidControlPanelWrapper = new PSwing( _canvas, _fluidControlPanel );
         
         // "Return Bead" button
@@ -244,8 +268,8 @@ public class PhysicsModule extends AbstractModule {
         // reusable (x,y) coordinates, for setting offsets
         double x, y;
         
-        // Glass Slide
-        _glassSlideNode.setOffset( -10, 50 );//XXX get position from model
+        // Glass Slide, width fills the canvas
+        _glassSlideNode.setCanvasWidth( worldSize.getWidth() );
         
         // Laser
         _laserNode.setOffset( 200, 600 ); //XXX get postion from model
@@ -325,9 +349,9 @@ public class PhysicsModule extends AbstractModule {
         
         // Fluid controls
         _fluidControlPanelWrapper.setVisible( PhysicsDefaults.FLUID_CONTROLS_SELECTED );
-        _fluidControlPanel.getVelocityControl().setValue( PhysicsDefaults.FLOW_VELOCITY );
-        _fluidControlPanel.getViscosityControl().setValue( PhysicsDefaults.FLUID_VISCOSITY );
-        _fluidControlPanel.getTemperatureControl().setValue( PhysicsDefaults.FLUID_TEMPERATURE );
+        _fluidControlPanel.getVelocityControl().setValue( PhysicsDefaults.FLUID_VELOCITY_RANGE.getDefault() );
+        _fluidControlPanel.getViscosityControl().setValue( PhysicsDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
+        _fluidControlPanel.getTemperatureControl().setValue( PhysicsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
     }
 
     public void save( OTConfig appConfig ) {

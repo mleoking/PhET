@@ -113,17 +113,9 @@ public class OTConstants {
     // Model
     //----------------------------------------------------------------------------
     
-    public static final double LASER_WAVELENGTH = 632; // nm
-    
     //----------------------------------------------------------------------------
     // Ranges
     //----------------------------------------------------------------------------
-    
-    public static final DoubleRange FLOW_VELOCITY_RANGE = new DoubleRange( 0, 100, 50, 1 ); //XXX
-    public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 0, 100, 50, 1 ); //XXX
-    public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 0, 100, 50, 1 ); //XXX
-    
-    public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500, 1 ); // mW
     
     //----------------------------------------------------------------------------
     // Features

@@ -49,8 +49,9 @@ public class RoundGradientPaint implements Paint {
      * @param backgroundColor
      */
     public RoundGradientPaint( double x, double y, Color pointColor, Point2D radius, Color backgroundColor ) {
-        if ( radius.distance( 0, 0 ) <= 0 )
+        if ( radius.distance( 0, 0 ) <= 0 ) {
             throw new IllegalArgumentException( "Radius must be greater than 0." );
+        }
         _point = new Point2D.Double( x, y );
         _pointColor = pointColor;
         _radius = radius;

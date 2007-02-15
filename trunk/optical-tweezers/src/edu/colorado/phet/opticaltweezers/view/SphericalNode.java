@@ -28,6 +28,19 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class SphericalNode extends PhetPNode {
     
+    private PPath _pathNode;
+    private PImage _imageNode;
+    private boolean _convertToImage;
+    
+    /*
+     * For use by subclass constructors.
+     * 
+     * @param convertToImage
+     */
+    protected SphericalNode( boolean convertToImage ) {
+        this( 1, null, null, null, convertToImage );
+    }
+    
     /**
      * Constructs a spherical node with no stroke.
      * @param diameter
@@ -48,22 +61,23 @@ public class SphericalNode extends PhetPNode {
      */
     public SphericalNode( double diameter, Paint fillPaint, Stroke stroke, Paint strokePaint, boolean convertToImage ) {
         super();
+        
+        _convertToImage = convertToImage;
 
-        Shape shape = new Ellipse2D.Double( -diameter/2, -diameter/2, diameter, diameter );
-        PPath pathNode = new PPath( shape );
-        pathNode.setPaint( fillPaint );
-        pathNode.setStroke( stroke );
-        pathNode.setStrokePaint( strokePaint );
+        _pathNode = new PPath();
+        _pathNode.setPaint( fillPaint );
+        _pathNode.setStroke( stroke );
+        _pathNode.setStrokePaint( strokePaint );
         
         if ( convertToImage ) {
-            PImage imageNode = new PImage( pathNode.toImage() );
-            // Move origin to center
-            imageNode.setOffset( -imageNode.getFullBounds().getWidth() / 2, -imageNode.getFullBounds().getHeight() / 2 );
-            addChild( imageNode );
+            _imageNode = new PImage();
+             addChild( _imageNode );
         }
         else {
-            addChild( pathNode );
+            addChild( _pathNode );
         }
+        
+        setDiameter( diameter );
     }
     
     /**
@@ -72,5 +86,40 @@ public class SphericalNode extends PhetPNode {
      */
     public double getDiameter() {
         return getFullBounds().getWidth();
+    }
+    
+    public void setDiameter( double diameter ) {
+        Shape shape = new Ellipse2D.Double( -diameter/2, -diameter/2, diameter, diameter );
+        _pathNode.setPathTo( shape );
+        if ( _convertToImage ) {
+            convertToImage();
+        }
+    }
+    
+    public void setPaint( Paint paint ) {
+        _pathNode.setPaint( paint );
+        if ( _convertToImage ) {
+            convertToImage();
+        }
+    }
+    
+    public void setStroke( Stroke stroke ) {
+        _pathNode.setStroke( stroke );
+        if ( _convertToImage ) {
+            convertToImage();
+        }
+    }
+    
+    public void setStrokePaint( Paint paint ) {
+        _pathNode.setStrokePaint( paint );
+        if ( _convertToImage ) {
+            convertToImage();
+        }
+    }
+    
+    private void convertToImage() {
+        _imageNode.setImage( _pathNode.toImage() );
+        // Move origin to center
+        _imageNode.setOffset( -_imageNode.getFullBounds().getWidth() / 2, -_imageNode.getFullBounds().getHeight() / 2 );
     }
 }

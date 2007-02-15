@@ -22,6 +22,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.util.DoubleRange;
 
 
 public class FluidControlPanel extends VerticalLayoutPanel {
@@ -30,41 +31,41 @@ public class FluidControlPanel extends VerticalLayoutPanel {
     private SliderControl _viscosityControl;
     private SliderControl _temperatureControl;
     
-    public FluidControlPanel( Font font ) {
+    public FluidControlPanel( Font font, DoubleRange velocityRange, DoubleRange viscosityRange, DoubleRange temperatureRange ) {
         super();
         
         //XXX Use font!
         
         setBorder( BorderFactory.createLineBorder( Color.BLACK ) );
         
-        double value = OTConstants.FLOW_VELOCITY_RANGE.getDefault();
-        double min = OTConstants.FLOW_VELOCITY_RANGE.getMin();
-        double max = OTConstants.FLOW_VELOCITY_RANGE.getMax();
+        double value = velocityRange.getDefault();
+        double min = velocityRange.getMin();
+        double max = velocityRange.getMax();
         double tickSpacing = max-min; //XXX
         int tickDecimalPlaces = 0; //XXX
-        int valueDecimalPlaces = OTConstants.FLOW_VELOCITY_RANGE.getSignificantDecimalPlaces();
-        String label = SimStrings.get( "label.flowVelocity" );
-        String units = SimStrings.get( "units.flowVelocity" );
+        int valueDecimalPlaces = velocityRange.getSignificantDecimalPlaces();
+        String label = SimStrings.get( "label.fluidVelocity" );
+        String units = SimStrings.get( "units.fluidVelocity" );
         int columns = 4; //XXX
         _velocityControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
 
-        value = OTConstants.FLUID_VISCOSITY_RANGE.getDefault();
-        min = OTConstants.FLUID_VISCOSITY_RANGE.getMin();
-        max = OTConstants.FLUID_VISCOSITY_RANGE.getMax();
+        value = viscosityRange.getDefault();
+        min = viscosityRange.getMin();
+        max = viscosityRange.getMax();
         tickSpacing = max-min; //XXX
         tickDecimalPlaces = 0; //XXX
-        valueDecimalPlaces = OTConstants.FLUID_VISCOSITY_RANGE.getSignificantDecimalPlaces();
+        valueDecimalPlaces = viscosityRange.getSignificantDecimalPlaces();
         label = SimStrings.get( "label.fluidViscosity" );
         units = SimStrings.get( "units.fluidViscosity" );
         columns = 4; //XXX
         _viscosityControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
         
-        value = OTConstants.FLUID_TEMPERATURE_RANGE.getDefault();
-        min = OTConstants.FLUID_TEMPERATURE_RANGE.getMin();
-        max = OTConstants.FLUID_TEMPERATURE_RANGE.getMax();
+        value = temperatureRange.getDefault();
+        min = temperatureRange.getMin();
+        max = temperatureRange.getMax();
         tickSpacing = max-min; //XXX
         tickDecimalPlaces = 0; //XXX
-        valueDecimalPlaces = OTConstants.FLUID_TEMPERATURE_RANGE.getSignificantDecimalPlaces();
+        valueDecimalPlaces = temperatureRange.getSignificantDecimalPlaces();
         label = SimStrings.get( "label.fluidTemperature" );
         units = SimStrings.get( "units.fluidTemperature" );
         columns = 4; //XXX
