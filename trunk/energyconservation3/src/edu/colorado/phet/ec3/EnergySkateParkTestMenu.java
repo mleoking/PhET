@@ -1,9 +1,11 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.ec3.test.apptests.*;
+import edu.colorado.phet.ec3.test.phys1d.Test2;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -67,6 +69,14 @@ public class EnergySkateParkTestMenu extends JMenu {
             } ) );
         }
 
+        addSeparator();
+        JMenuItem jMenuItem = new JMenuItem( "New Spline" );
+        jMenuItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                Test2.main( new String[0] );
+            }
+        } );
+        add( jMenuItem );
     }
 
     class TestItem {
