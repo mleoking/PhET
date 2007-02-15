@@ -37,7 +37,9 @@ public class Test2 extends JFrame {
         CubicSpline2D cubicSpline = CubicSpline2D.interpolate( new Point2D[]{
                 new Point2D.Double( 100, 50 ),
                 new Point2D.Double( 200, 100 ),
-                new Point2D.Double( 300, 50 )
+                new Point2D.Double( 300, 50 ),
+                new Point2D.Double( 450, 200 ),
+                new Point2D.Double( 525, 50 )
         } );
         MyCubicCurve2DGraphic mySplineGraphic = new MyCubicCurve2DGraphic( cubicSpline );
         pSwingCanvas.getLayer().addChild( mySplineGraphic );
@@ -47,6 +49,7 @@ public class Test2 extends JFrame {
         ParticleGraphic particleGraphic = new ParticleGraphic( particle1d );
         pSwingCanvas.getLayer().addChild( particleGraphic );
 
+//        Timer timer = new Timer( 30, new ActionListener() {
         Timer timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 double origEnergy = particle1d.getEnergy();
@@ -62,7 +65,7 @@ public class Test2 extends JFrame {
                 double dE = energy - origEnergy;
                 cumulativeEnergyError += Math.abs( dE );
                 time += dt;
-                System.out.println( "dA = " + da + " root(dx^2+dy^2)=" + dist + ", dE(inst)=" + dE + ", dE(cumulative)=" + cumulativeEnergyError + ", dE(avg)=" + cumulativeEnergyError / time );
+//                System.out.println( "dA = " + da + " root(dx^2+dy^2)=" + dist + ", dE(inst)=" + dE + ", dE(cumulative)=" + cumulativeEnergyError + ", dE(avg)=" + cumulativeEnergyError / time );
             }
         } );
         timer.start();
@@ -160,7 +163,44 @@ public class Test2 extends JFrame {
         }
 
         public void stepInTime( double dt ) {
-            updateStrategy.stepInTime( dt );
+            double initEnergy = getEnergy();
+            int N = 10;
+//            int N=4;
+            for( int i = 0; i < N; i++ ) {
+                updateStrategy.stepInTime( dt / N );
+            }
+
+            double finalEnergy = getEnergy();
+            double dE = finalEnergy - initEnergy;
+            System.out.println( "dE = " + dE );
+
+            //look for an adjacent location that will give the correct energy
+            
+            
+            
+//            //always ok to just increase the velocity
+//            if( dE < 0 ) {
+//                double changeV = Math.abs( dE / ( mass * velocity ) );
+//                if( velocity > 0 ) {
+//                    setVelocity( velocity + changeV );
+//                }
+//                else {
+//                    setVelocity( velocity + changeV );
+//                }
+//                System.out.println( "Fixed energy" );
+//            }
+//            if( dE > 0 ) {
+//                if( velocity > 0.01 ) {
+//                    double changeV = Math.abs( dE / ( mass * velocity ) );
+//                    if( velocity > 0 ) {
+//                        setVelocity( velocity - changeV );
+//                    }
+//                    else {
+//                        setVelocity( velocity + changeV );
+//                    }
+//                }
+//
+//            }
 
             for( int i = 0; i < listeners.size(); i++ ) {
                 ParticleGraphic particleGraphic = (ParticleGraphic)listeners.get( i );
