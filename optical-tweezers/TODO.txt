@@ -41,6 +41,9 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+(2/14/07) - continue work on Laser view (objective, incoming beam, etc)
+(2/14/07) - use model to size/position view nodes
+(2/14/07) - flesh out bits of model related to controls, positioning, sizing, etc.
 (2/6/07) - add warning sign to laser control panel
 (2/6/07) - toggle laser start/stop button
 (2/6/07) - settable font for LaserControlPanel

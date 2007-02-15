@@ -35,7 +35,7 @@ public class LaserControlPanel extends HorizontalLayoutPanel {
     private JButton _startStopButton;
     private LaserPowerControl _powerControl;
     
-    public LaserControlPanel( Font font ) {
+    public LaserControlPanel( Font font, double wavelength, DoubleRange powerRange ) {
         super();
         
         JLabel laserSign = null;
@@ -67,13 +67,11 @@ public class LaserControlPanel extends HorizontalLayoutPanel {
             }
         } );
         
-        DoubleRange range = OTConstants.LASER_POWER_RANGE;
         String label = SimStrings.get( "label.power" );
         String units = SimStrings.get( "units.power" );
         int columns = 3; //XXX
-        double wavelength = OTConstants.LASER_WAVELENGTH;
         Dimension size = new Dimension( 150, 25 );
-        _powerControl = new LaserPowerControl( range, label, units, columns, wavelength, size, font );
+        _powerControl = new LaserPowerControl( powerRange, label, units, columns, wavelength, size, font );
         _powerControl.setLabelForeground( Color.WHITE );
         _powerControl.setUnitsForeground( Color.WHITE );
         
