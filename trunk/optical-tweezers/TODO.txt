@@ -42,6 +42,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+(2/14/07) - dynamically resize width of glass slide view to match play area width
 (2/14/07) - continue work on Laser view (objective, incoming beam, etc)
 (2/14/07) - use model to size/position view nodes
 (2/14/07) - create model-view transform for mapping between coordinate systems
