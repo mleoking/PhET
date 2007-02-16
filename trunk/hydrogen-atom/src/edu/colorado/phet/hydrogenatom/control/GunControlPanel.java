@@ -20,6 +20,7 @@ import java.awt.geom.AffineTransform;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JLabel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -52,6 +53,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     
     // Controls that I was asked to removed, in case they want them restored...
+    private static final boolean SHOW_ALPHA_PARTICLE_CONTROLS = false;
     private static final boolean SHOW_LIGHT_INTENSITY_CONTROL = false;
     private static final boolean SHOW_ALPHA_PARTICLES_INTENSITY_CONTROL = false;
     
@@ -108,6 +110,11 @@ public class GunControlPanel extends PhetPNode implements Observer {
         
         PImage panel = PImageFactory.create( HAConstants.IMAGE_GUN_PANEL );
         
+        JLabel lightControlsLabel = new JLabel( SimStrings.get( "label.lightControls" ) );
+        Font labelFont = new Font( FONT_NAME, FONT_STYLE, fontSize+2 );
+        lightControlsLabel.setFont( labelFont );
+        PSwing lightControlsLabelWrapper = new PSwing( canvas, lightControlsLabel );
+        
         _gunTypeControl = new GunTypeControl( canvas, font );
         
         _lightControls = new PhetPNode();
@@ -147,20 +154,32 @@ public class GunControlPanel extends PhetPNode implements Observer {
             _alphaParticleControls.addChild( alphaParticlesTracesControlWrapper );
 
             addChild( panel );
-            addChild( _gunTypeControl );
+            if ( SHOW_ALPHA_PARTICLE_CONTROLS ) {
+                addChild( _gunTypeControl );
+            }
+            else {
+                addChild( lightControlsLabelWrapper );
+            }
             addChild( _lightControls );
             addChild( _alphaParticleControls );
         }
 
         // Positioning
         {
+            PBounds bTop; // bounds of top-most component
             PBounds bAbove; // bounds of the node directly above the one we're positioning
             
-            _gunTypeControl.setOffset( X_MARGIN, Y_MARGIN );
+            if ( SHOW_ALPHA_PARTICLE_CONTROLS ) {
+                _gunTypeControl.setOffset( X_MARGIN, Y_MARGIN );
+                bTop = _gunTypeControl.getFullBounds();
+            }
+            else {
+                lightControlsLabelWrapper.setOffset( X_MARGIN, Y_MARGIN );
+                bTop = lightControlsLabelWrapper.getFullBounds();
+            }
             
             // Light controls
-            bAbove = _gunTypeControl.getFullBounds();
-            _lightControls.setOffset( bAbove.getX(), bAbove.getY() + bAbove.getHeight() + Y_SPACING );
+            _lightControls.setOffset( bTop.getX(), bTop.getY() + bTop.getHeight() + Y_SPACING );
             lightTypeControlWrapper.setOffset( 0, 0 );
             bAbove = lightTypeControlWrapper.getFullBounds();
             if ( SHOW_LIGHT_INTENSITY_CONTROL ) {
@@ -175,8 +194,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
             _transitionMarksControlWrapper.setOffset( x, bAbove.getY() + bAbove.getHeight() + Y_SPACING );
 
             // Alpha particle controls
-            bAbove = _gunTypeControl.getFullBounds();
-            _alphaParticleControls.setOffset( bAbove.getX(), bAbove.getY() + bAbove.getHeight() + Y_SPACING );
+            _alphaParticleControls.setOffset( bTop.getX(), bTop.getY() + bTop.getHeight() + Y_SPACING );
             if ( SHOW_ALPHA_PARTICLES_INTENSITY_CONTROL ) {
                 alphaParticlesIntensityControlWrapper.setOffset( 0, 0 );
                 bAbove = alphaParticlesIntensityControlWrapper.getFullBounds();
@@ -194,7 +212,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
             _wavelengthControl.setUnitsFont( font );
             
             PBounds pb = panel.getFullBounds();
-            PBounds gtb = _gunTypeControl.getFullBounds();
+            PBounds gtb = ( SHOW_ALPHA_PARTICLE_CONTROLS ) ? _gunTypeControl.getFullBounds() : lightControlsLabelWrapper.getFullBounds();
             PBounds lb = _lightControls.getFullBounds();
             PBounds ab = _alphaParticleControls.getFullBounds();
             
@@ -212,6 +230,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
         
         // Colors
         _gunTypeControl.setLabelsForeground( LABEL_COLOR );
+        lightControlsLabel.setForeground( LABEL_COLOR );
         _lightTypeControl.setLabelsForeground( LABEL_COLOR );
         _lightIntensityControl.setUnitsForeground( LABEL_COLOR );
         _wavelengthControl.setUnitsForeground( LABEL_COLOR );
