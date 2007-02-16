@@ -54,7 +54,7 @@ public class MetastableHandler extends ClockAdapter implements Observer {
      * When the atom has been in state (2,0,0) for this amount of
      * simulation time, we will fire an absorbable photon at its center.
      */
-    public static double MAX_STUCK_SIM_TIME = 125; // dt
+    public static double MAX_STUCK_SIM_TIME = 100; // dt
     
     //----------------------------------------------------------------------------
     // Instance data
