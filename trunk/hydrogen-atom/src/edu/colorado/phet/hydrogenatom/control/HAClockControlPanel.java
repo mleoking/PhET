@@ -35,7 +35,7 @@ import edu.colorado.phet.hydrogenatom.model.HAClock;
 
 
 /**
- * HAClockControls is a custom clock control panel.
+ * HAClockControlPanel is a custom clock control panel.
  * It has control buttons (Play, Pause, Step) and a time speed slider.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -47,7 +47,7 @@ public class HAClockControlPanel extends JPanel {
     // Debug
     //----------------------------------------------------------------------------
     
-    private static final boolean DEBUG_SHOW_DT = true;
+    private static final boolean DEBUG_SHOW_DT = false;
     
     private static final DecimalFormat DT_FORMATTER = new DecimalFormat( "0.#" );
     
