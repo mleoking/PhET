@@ -29,7 +29,7 @@ public class HADefaults {
     
     // Clock
     public static final boolean CLOCK_RUNNING = true ;
-    public static final int CLOCK_INDEX = 2;
+    public static final int CLOCK_INDEX = 1; // index into HAConstants.CLOCK_STEPS[]
     
     // Mode (Experiment/Prediction)
     public static final boolean MODE_EXPERIMENT = true;

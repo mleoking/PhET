@@ -78,7 +78,7 @@ public class HAConstants {
     // The clock control area has a slider for choosing a clock "speed".
     // These are the clock steps that correspond to each speed setting.
     public static final double[] CLOCK_STEPS = {
-        0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+        0.5, 2, 6
     };
        
     // Defaults
@@ -195,5 +195,4 @@ public class HAConstants {
     
     // deBroglie view control can be in either menu bar or play area
     public static final boolean DEBROGLIE_VIEW_IN_MENUBAR = false;
-    
 }
