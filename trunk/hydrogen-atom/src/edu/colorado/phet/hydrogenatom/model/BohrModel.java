@@ -66,7 +66,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     //----------------------------------------------------------------------------
     
     /* minimum time (simulation clock time) that electron stays in a state before emission can occur */
-    public static int MIN_TIME_IN_STATE = 100;
+    public static int MIN_TIME_IN_STATE = 50;
     
     //----------------------------------------------------------------------------
     // Private class data
