@@ -5,19 +5,23 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- choose 3 clock speeds (HAConstants.CLOCK_STEPS)
-- hide dt value shown in clock control panel (HAClockControlPanel.DEBUG_SHOW_DT = false)
-- alpha particles scale problem, option #4: remove alpha particles feature
 
 MEDIUM PRIORITY:
 
 LOW PRIORITY:
 
 DEFER UNTIL AFTER INTERVIEWS:
-- does the user need help getting out of Schrodinger state (2,0,0) with monochromatic light?
+
  
  
 DONE:
+***** CVS tag: hydrogenatom-1-01-00-2007-02-16
+(2/16/07) - add "Light controls" label at top of GunControlPanel
+(2/16/07) - hide alpha particles features in gun control panel (GunControlPanel.SHOW_ALPHA_PARTICLE_CONTROLS = false)
+(2/16/07) - hide dt value shown in clock control panel (HAClockControlPanel.DEBUG_SHOW_DT = false)
+(2/16/07) - choose 3 clock speeds: { 0.5, 2, 6 }, default to 2
+(2/16/07) - change MetastableHandler.MAX_STUCK_SIM_TIME to 100
+(2/16/07) - change BohrModel.MIN_TIME_IN_STATE to 50
 (2/7/07) - very brief package level javadoc
 ***** CVS tag: hydrogenatom-1-00-03-2007-02-05
 (2/5/07) - AbstractHydrogenAtom.COLLISION_CLOSENESS should have double precision
@@ -619,6 +623,7 @@ REJECTED:
 (2/1/07) - add a checkbox to open/close Transitions window (killed at design meeting)
 (2/1/07) - put energy level diagram in a moveable window (killed at design meeting)
 (2/1/07) - add traces feature for photons (killed at design meeting)
+(1/29/07) - does the user need help getting out of Schrodinger state (2,0,0) with monochromatic light? (no, will address with wrapper)
 (1/29/07) - are help items needed? (no, based on 4 interviews)
 (1/29/07) - should the spectrometer show each UV/IR transition wavelength at a distinct horizontal position? (no, based on 4 interviews)
 (1/16/07) - reduce size of panel image files  (tried, no significant reduction without affecting image quality)
