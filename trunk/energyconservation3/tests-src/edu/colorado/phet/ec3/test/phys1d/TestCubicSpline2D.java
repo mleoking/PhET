@@ -44,4 +44,12 @@ public class TestCubicSpline2D extends TestCase {
         } );
         assertEquals( "Length should be equal", Math.sqrt( 2 ), cubicSpline.getMetricDelta( 0, 1 ), 1E-6 );//is arc direction ok?
     }
+
+    public void testSplineLength3() {
+        CubicSpline2D cubicSpline = CubicSpline2D.interpolate( new Point2D[]{
+                new Point2D.Double( 0, 0 ),
+                new Point2D.Double( 100, 0 )
+        } );
+        assertEquals( "Length should be equal", 10, cubicSpline.getMetricDelta( 0.1, 0.2 ), 1E-6 );//is arc direction ok?
+    }
 }
