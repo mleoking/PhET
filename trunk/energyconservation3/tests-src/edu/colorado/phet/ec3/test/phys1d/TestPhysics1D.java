@@ -40,8 +40,8 @@ public class TestPhysics1D extends JFrame {
         final Particle1D particle1d = new Particle1D( cubicSpline );
         particle1d.setUpdateStrategy( particle1d.createEuler() );
 //        particle1d.setUpdateStrategy( particle1d.createVerletOffset() );
-        ParticleGraphic particleGraphic = new ParticleGraphic( particle1d );
-        pSwingCanvas.getLayer().addChild( particleGraphic );
+        ParticleNode particleNode = new ParticleNode( particle1d );
+        pSwingCanvas.getLayer().addChild( particleNode );
 
         Timer timer = new Timer( 30, new ActionListener() {
             //        Timer timer = new Timer( 300, new ActionListener() {

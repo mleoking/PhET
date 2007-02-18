@@ -64,8 +64,8 @@ class CubicSpline2DNode extends PNode {
         public ControlPointNode( int index_ ) {
             this.index = index_;
 
-            controlPoint = new PhetPPath( Color.red, new BasicStroke( 1 ), Color.black );
-            double w = 5;
+            controlPoint = new PhetPPath( new Color( 255, 50, 50, 128 ), new BasicStroke( 1 ), Color.black );
+            double w = 10;
             controlPoint.setPathTo( new Ellipse2D.Double( -w / 2, -w / 2, w, w ) );
 
             addChild( controlPoint );
