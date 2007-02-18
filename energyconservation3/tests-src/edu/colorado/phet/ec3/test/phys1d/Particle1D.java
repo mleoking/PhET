@@ -112,6 +112,10 @@ public class Particle1D {
         return cubicSpline.getUnitParallelVector( alpha ).getInstanceOfMagnitude( velocity );
     }
 
+    public void setCubicSpline2D( CubicSpline2D spline ) {
+        cubicSpline = spline;
+    }
+
     public interface UpdateStrategy {
         void stepInTime( double dt );
     }

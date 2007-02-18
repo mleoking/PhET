@@ -65,7 +65,12 @@
         <jar destfile="${ant.jars}/${distname}.jar">
             <fileset dir="${ant.classes}"/>
             <fileset dir="data"/>
+
             <fileset dir="phetcommon-dir/data"/>
+
+            <!--Oyoaha-->
+            <fileset dir="lookandfeels/data"/>
+
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>

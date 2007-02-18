@@ -1,3 +1,6 @@
+1.05.04 (2-18-2007)
+Added tests for L&F
+
 1.05.03 (2-14-2007)
 "Save" also saves skater's rotation, position, etc.
 Added tests for motion.
