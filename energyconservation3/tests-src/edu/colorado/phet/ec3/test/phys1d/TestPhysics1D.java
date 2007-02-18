@@ -46,11 +46,12 @@ public class TestPhysics1D extends JFrame {
         setSize( 800, 600 );
 
         final Particle1D particle1d = new Particle1D( cubicSpline );
+        particle1d.setUpdateStrategy( particle1d.createVerletOffset() );
         ParticleGraphic particleGraphic = new ParticleGraphic( particle1d );
         pSwingCanvas.getLayer().addChild( particleGraphic );
 
-//        Timer timer = new Timer( 30, new ActionListener() {
         Timer timer = new Timer( 30, new ActionListener() {
+            //        Timer timer = new Timer( 300, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 double origEnergy = particle1d.getEnergy();
                 Point2D origLoc = particle1d.getLocation();
@@ -96,9 +97,19 @@ public class TestPhysics1D extends JFrame {
                 particle1d.setUpdateStrategy( particle1d.createEuler() );
             }
         } );
+
+        JRadioButton verletOffset = new JRadioButton( "Verlet Offset", particle1d.getUpdateStrategy() instanceof Particle1D.VerletOffset );
+        euler.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                particle1d.setVelocity( 0 );
+                particle1d.setUpdateStrategy( particle1d.createVerletOffset() );
+            }
+        } );
         controlPanel.add( verlet, gridBagConstraints );
         controlPanel.add( constantVel, gridBagConstraints );
         controlPanel.add( euler, gridBagConstraints );
+        controlPanel.add( verletOffset, gridBagConstraints );
+
 
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( verlet );
@@ -172,12 +183,12 @@ public class TestPhysics1D extends JFrame {
                 updateStrategy.stepInTime( dt / N );
             }
 
-            double dEUpdate = ( getEnergy() - initEnergy ) / initEnergy;
+            double dEUpdate = getNormalizedEnergyDiff( initEnergy );
             totalDE += dEUpdate;
 
-            fixEnergy( initEnergy, getEnergy() );
-            double dEFix = ( getEnergy() - initEnergy ) / initEnergy;
-            System.out.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE );
+            fixEnergy( initEnergy );
+            double dEFix = getNormalizedEnergyDiff( initEnergy );
+            System.out.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE + ", RC=" + getRadiusOfCurvature() );
 //            System.out.println( "dEAfter = " + ( getEnergy() - initEnergy ) / initEnergy );
             //look for an adjacent location that will give the correct energy
 
@@ -223,6 +234,10 @@ public class TestPhysics1D extends JFrame {
             return 0.5 * mass * velocity * velocity - mass * g * getY();
         }
 
+        public UpdateStrategy createVerletOffset() {
+            return new VerletOffset();
+        }
+
         public interface UpdateStrategy {
             void stepInTime( double dt );
         }
@@ -238,46 +253,62 @@ public class TestPhysics1D extends JFrame {
             }
         }
 
-        private void fixEnergy( final double initEnergy, double finalEnergy ) {
-//            double origLocation = alpha;
-//            //try to fix with height
-//            double lowestError = Math.abs( getEnergy() - initEnergy );
-//            double band = 0.0001;
-//            double numSteps = 100;
-//            double da = band / numSteps;
-//            double bestAlpha = origLocation;
-//            for( int i = 0; i < numSteps; i++ ) {
-//                double a = alpha - band / 2 + i * da;
-////            }
-////            for( double a = alpha - band / 2; a <= alpha + band / 2; a += da ) {
-//                alpha = a;
-//                double error = Math.abs( getEnergy() - initEnergy );
-//                if( error <= lowestError ) {
-//                    lowestError = error;
-//                    bestAlpha = a;
-//                    System.out.println( "found best alpha" );
+        private void fixEnergy( final double initEnergy ) {
+//            int count = 0;
+//            while( getNormalizedEnergyDiff( initEnergy ) < 0 ) {
+//                velocity *= 1.1;
+//                System.out.println( "getNormalizedEnergyDiff( ) = " + getNormalizedEnergyDiff( initEnergy ) );
+//                count++;
+//                if( count > 10 ) {
+//                    break;
 //                }
 //            }
-//            alpha = bestAlpha;
 //
-////            double dE = ( finalEnergy - initEnergy ) / initEnergy;
-////            System.out.println( "dE = " + dE );
-////            while( finalEnergy < initEnergy ) {
-////                velocity *= 2;
-//////                dE = ( getEnergy() - initEnergy ) / initEnergy;
-////                finalEnergy = getEnergy();
-////                System.out.println( " added energy" );
-////            }
-////            int count = 0;
-////            while( finalEnergy > initEnergy ) {
-////                velocity /= 2;
-////                finalEnergy = getEnergy();
-////                System.out.println( "subtracted energy" );
-////                count++;
-////                if( count > 100 ) {
-////                    break;
+//            while( getNormalizedEnergyDiff( initEnergy ) > 0 ) {
+//                velocity *= 0.9;
+//                System.out.println( "reducing energy...getNormalizedEnergyDiff( ) = " + getNormalizedEnergyDiff( initEnergy ) );
+//                count++;
+//                if( count > 10 ) {
+//                    break;
+//                }
+//            }
+//            double dE=finalEnergy-initEnergy;
+//            System.out.println( "dE = " + dE );
+//            double arg = 2.0 / mass * ( initEnergy + mass * g * getY() );
+//            if( arg > 0 ) {
+//                double deltaV = Math.abs( Math.sqrt( arg ) - velocity );
+//                velocity+=deltaV;
+////                if( finalEnergy > initEnergy ) {
+////                    velocity = ( Math.abs( velocity ) + deltaV ) * MathUtil.getSign( velocity );
 ////                }
-////            }
+////                else {
+////                    velocity = ( Math.abs( velocity ) - deltaV ) * MathUtil.getSign( velocity );
+////                }
+//            }
+        }
+
+        private double getNormalizedEnergyDiff( double initEnergy ) {
+            return ( getEnergy() - initEnergy ) / Math.abs( initEnergy );
+        }
+
+        double getRadiusOfCurvature() {
+            double epsilon = 0.001;
+            double dtds = ( cubicSpline.getAngle( alpha - epsilon ) - cubicSpline.getAngle( alpha + epsilon ) ) / epsilon;
+            return 1.0 / dtds;
+        }
+
+        public class VerletOffset implements UpdateStrategy {
+
+            public void stepInTime( double dt ) {
+                double origAngle = Math.PI / 2 - cubicSpline.getAngle( alpha );
+                double ds = velocity * dt - 0.5 * g * Math.cos( origAngle ) * dt * dt;
+
+                alpha += cubicSpline.getFractionalDistance( alpha, ds );
+                double newAngle = Math.PI / 2 - cubicSpline.getAngle( alpha );
+                velocity = velocity + g * ( Math.cos( origAngle ) + Math.cos( newAngle ) ) / 2.0 * dt;
+
+                clampAndBounce();
+            }
         }
 
         public class Verlet implements UpdateStrategy {
