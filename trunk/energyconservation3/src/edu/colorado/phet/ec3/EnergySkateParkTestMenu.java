@@ -1,7 +1,7 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.ec3.test.apptests.*;
-import edu.colorado.phet.ec3.test.phys1d.Test2;
+import edu.colorado.phet.ec3.test.phys1d.TestPhysics1D;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -73,7 +73,7 @@ public class EnergySkateParkTestMenu extends JMenu {
         JMenuItem jMenuItem = new JMenuItem( "New Spline" );
         jMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                Test2.main( new String[0] );
+                TestPhysics1D.main( new String[0] );
             }
         } );
         add( jMenuItem );
