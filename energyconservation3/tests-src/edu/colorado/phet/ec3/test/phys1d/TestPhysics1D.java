@@ -239,45 +239,45 @@ public class TestPhysics1D extends JFrame {
         }
 
         private void fixEnergy( final double initEnergy, double finalEnergy ) {
-            double origLocation = alpha;
-            //try to fix with height
-            double lowestError = Math.abs( getEnergy() - initEnergy );
-            double band = 0.0001;
-            double numSteps = 100;
-            double da = band / numSteps;
-            double bestAlpha = origLocation;
-            for( int i = 0; i < numSteps; i++ ) {
-                double a = alpha - band / 2 + i * da;
-//            }
-//            for( double a = alpha - band / 2; a <= alpha + band / 2; a += da ) {
-                alpha = a;
-                double error = Math.abs( getEnergy() - initEnergy );
-                if( error <= lowestError ) {
-                    lowestError = error;
-                    bestAlpha = a;
-                    System.out.println( "found best alpha" );
-                }
-            }
-            alpha = bestAlpha;
-
-//            double dE = ( finalEnergy - initEnergy ) / initEnergy;
-//            System.out.println( "dE = " + dE );
-//            while( finalEnergy < initEnergy ) {
-//                velocity *= 2;
-////                dE = ( getEnergy() - initEnergy ) / initEnergy;
-//                finalEnergy = getEnergy();
-//                System.out.println( " added energy" );
-//            }
-//            int count = 0;
-//            while( finalEnergy > initEnergy ) {
-//                velocity /= 2;
-//                finalEnergy = getEnergy();
-//                System.out.println( "subtracted energy" );
-//                count++;
-//                if( count > 100 ) {
-//                    break;
+//            double origLocation = alpha;
+//            //try to fix with height
+//            double lowestError = Math.abs( getEnergy() - initEnergy );
+//            double band = 0.0001;
+//            double numSteps = 100;
+//            double da = band / numSteps;
+//            double bestAlpha = origLocation;
+//            for( int i = 0; i < numSteps; i++ ) {
+//                double a = alpha - band / 2 + i * da;
+////            }
+////            for( double a = alpha - band / 2; a <= alpha + band / 2; a += da ) {
+//                alpha = a;
+//                double error = Math.abs( getEnergy() - initEnergy );
+//                if( error <= lowestError ) {
+//                    lowestError = error;
+//                    bestAlpha = a;
+//                    System.out.println( "found best alpha" );
 //                }
 //            }
+//            alpha = bestAlpha;
+//
+////            double dE = ( finalEnergy - initEnergy ) / initEnergy;
+////            System.out.println( "dE = " + dE );
+////            while( finalEnergy < initEnergy ) {
+////                velocity *= 2;
+//////                dE = ( getEnergy() - initEnergy ) / initEnergy;
+////                finalEnergy = getEnergy();
+////                System.out.println( " added energy" );
+////            }
+////            int count = 0;
+////            while( finalEnergy > initEnergy ) {
+////                velocity /= 2;
+////                finalEnergy = getEnergy();
+////                System.out.println( "subtracted energy" );
+////                count++;
+////                if( count > 100 ) {
+////                    break;
+////                }
+////            }
         }
 
         public class Verlet implements UpdateStrategy {
