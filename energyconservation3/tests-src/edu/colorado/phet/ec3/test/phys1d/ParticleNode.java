@@ -2,9 +2,12 @@ package edu.colorado.phet.ec3.test.phys1d;
 
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -13,20 +16,36 @@ import java.awt.geom.Ellipse2D;
  * Copyright (c) Feb 18, 2007 by Sam Reid
  */
 class ParticleNode extends PNode {
-    private Particle1D particle1d;
+    private Particle particle;
     private PhetPPath phetPPath;
 
-    public ParticleNode( Particle1D particle1d ) {
+    public ParticleNode( final Particle particle ) {
         //To change body of created methods use File | Settings | File Templates.
-        this.particle1d = particle1d;
-        phetPPath = new PhetPPath( new BasicStroke( 1 ), Color.red );
-        phetPPath.setPathTo( new Ellipse2D.Double( 0, 0, 10, 10 ) );
+        this.particle = particle;
+        Color y = Color.yellow;
+        phetPPath = new PhetPPath( new Color( y.getRed(), y.getGreen(), y.getBlue(), 128 ), new BasicStroke( 1 ), Color.red );
+        double w = 30;
+        phetPPath.setPathTo( new Ellipse2D.Double( 0, 0, w, w ) );
         addChild( phetPPath );
-        particle1d.addListener( this );
+        particle.addListener( new Particle.Listener() {
+            public void particleChanged() {
+                update();
+            }
+        } );
+        addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                Point2D position = particle.getPosition();
+//                particle.setPosition( position.getX() + event.getDeltaRelativeTo( ParticleNode.this.getParent( ) ).width,
+//                                      position.getY() + event.getDeltaRelativeTo( ParticleNode.this.getParent( ) ).height );
+                particle.setPosition( event.getPositionRelativeTo( ParticleNode.this ) );
+                particle.setVelocity( 0, 0 );
+            }
+        } );
+
         update();
     }
 
     public void update() {
-        phetPPath.setOffset( particle1d.getX() - phetPPath.getWidth() / 2, particle1d.getY() - phetPPath.getHeight() / 2 );
+        phetPPath.setOffset( particle.getX() - phetPPath.getWidth() / 2, particle.getY() - phetPPath.getHeight() / 2 );
     }
 }

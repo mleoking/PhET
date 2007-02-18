@@ -18,6 +18,7 @@ import java.awt.geom.Point2D;
  */
 public class TestPhysics1D extends JFrame {
     private JFrame controlFrame;
+    private Timer timer;
 
     public TestPhysics1D() {
         PSwingCanvas pSwingCanvas = new PSwingCanvas();
@@ -37,30 +38,23 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.getLayer().addChild( splineNode );
         setSize( 800, 600 );
 
-        final Particle1D particle1d = new Particle1D( cubicSpline );
-        particle1d.setUpdateStrategy( particle1d.createEuler() );
-//        particle1d.setUpdateStrategy( particle1d.createVerletOffset() );
-        ParticleNode particleNode = new ParticleNode( particle1d );
+        final Particle particle = new Particle( cubicSpline );
+        ParticleNode particleNode = new ParticleNode( particle );
         pSwingCanvas.getLayer().addChild( particleNode );
 
-        Timer timer = new Timer( 30, new ActionListener() {
-            //        Timer timer = new Timer( 300, new ActionListener() {
+        final Particle1D particle1d = new Particle1D( cubicSpline );
+        particle1d.setUpdateStrategy( particle1d.createEuler() );
+        Particle1DNode particle1DNode = new Particle1DNode( particle1d );
+        pSwingCanvas.getLayer().addChild( particle1DNode );
+
+        timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                double origEnergy = particle1d.getEnergy();
-                Point2D origLoc = particle1d.getLocation();
-                double origA = particle1d.getAlpha();
                 double dt = 0.001;
                 particle1d.stepInTime( dt );
-
-                Point2D newLoc = particle1d.getLocation();
-//                double dist = newLoc.distance( origLoc );
-//                double da = particle1d.getAlpha() - origA;
-                double energy = particle1d.getEnergy();
-//                double dE = energy - origEnergy;
-//                System.out.println( "dA = " + da + " root(dx^2+dy^2)=" + dist + ", dE(inst)=" + dE + ", dE(cumulative)=" + cumulativeEnergyError + ", dE(avg)=" + cumulativeEnergyError / time );
+                particle.stepInTime( dt );
             }
         } );
-        timer.start();
+
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         controlFrame = new JFrame();
@@ -101,7 +95,6 @@ public class TestPhysics1D extends JFrame {
         controlPanel.add( euler, gridBagConstraints );
         controlPanel.add( verletOffset, gridBagConstraints );
 
-
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( verlet );
         buttonGroup.add( constantVel );
@@ -113,8 +106,6 @@ public class TestPhysics1D extends JFrame {
         JButton resetEnergyError = new JButton( "Reset Energy Error" );
         resetEnergyError.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-//                cumulativeEnergyError = 0;
-//                time = 0;
                 particle1d.resetEnergyError();
             }
         } );
@@ -133,5 +124,6 @@ public class TestPhysics1D extends JFrame {
         //To change body of created methods use File | Settings | File Templates.
         setVisible( true );
         controlFrame.setVisible( true );
+        timer.start();
     }
 }
