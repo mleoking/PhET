@@ -4,6 +4,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -17,17 +18,25 @@ public class CubicSpline2D {
     private CubicSpline y;
     private Point2D[] pts;
 
-    public CubicSpline2D( CubicSpline x, CubicSpline y, Point2D[] pts ) {
-        this.x = x;
-        this.y = y;
+    public CubicSpline2D( Point2D[] pts ) {
         this.pts = pts;
+        update();
     }
 
-    public Point2D[] getPts() {
-        return pts;
+    public void translateControlPoint( int i, double dx, double dy ) {
+        setControlPoint( i, new Point2D.Double( pts[i].getX() + dx, pts[i].getY() + dy ) );
     }
 
-    public static CubicSpline2D interpolate( Point2D[] pts ) {
+    public Point2D getControlPoint( int i ) {
+        return new Point2D.Double( pts[i].getX(), pts[i].getY() );
+    }
+
+    public void setControlPoint( int i, Point2D pt ) {
+        pts[i] = new Point2D.Double( pt.getX(), pt.getY() );
+        update();
+    }
+
+    private void update() {
         double[] s = new double[pts.length];
         double[] x = new double[pts.length];
         double[] y = new double[pts.length];
@@ -37,7 +46,42 @@ public class CubicSpline2D {
             y[i] = pts[i].getY();
         }
         s[s.length - 1] = Math.round( s[s.length - 1] );//to be exact, in case of roundoff error
-        return new CubicSpline2D( CubicSpline.interpolate( s, x ), CubicSpline.interpolate( s, y ), pts );
+        this.x = CubicSpline.interpolate( s, x );
+        this.y = CubicSpline.interpolate( s, y );
+        notifyTrackChanged();
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public int getNumControlPoints() {
+        return pts.length;
+    }
+
+    public static interface Listener {
+        void trackChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyTrackChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.trackChanged();
+        }
+    }
+
+    public Point2D[] getControlPoints() {
+        Point2D[] a = new Point2D[pts.length];
+        for( int i = 0; i < a.length; i++ ) {
+            a[i] = new Point2D.Double( pts[i].getX(), pts[i].getY() );
+        }
+        return a;
+    }
+
+    public static CubicSpline2D interpolate( Point2D[] pts ) {
+        return new CubicSpline2D( pts );
     }
 
     public Point2D evaluate( double alpha ) {
