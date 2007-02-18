@@ -112,6 +112,7 @@ public class Test2 extends JFrame {
             public void actionPerformed( ActionEvent e ) {
                 cumulativeEnergyError = 0;
                 time = 0;
+                particle1d.totalDE = 0;
             }
         } );
         controlPanel.add( resetEnergyError, gridBagConstraints );
@@ -149,6 +150,7 @@ public class Test2 extends JFrame {
         private UpdateStrategy updateStrategy = new Verlet();
         private double g = 9.8 * 100000;//in pixels per time squared
         private double mass = 1.0;
+        private double totalDE = 0;
 
         public Particle1D( CubicSpline2D cubicSpline ) {
             this.cubicSpline = cubicSpline;
@@ -171,13 +173,12 @@ public class Test2 extends JFrame {
             }
 
             double finalEnergy = getEnergy();
-            double dE = finalEnergy - initEnergy;
-            System.out.println( "dE = " + dE );
+            double dE = ( finalEnergy - initEnergy ) / initEnergy;
+            totalDE += dE;
+            System.out.println( "dE = " + dE + "\ttotalDE=" + totalDE );
 
             //look for an adjacent location that will give the correct energy
-            
-            
-            
+
 //            //always ok to just increase the velocity
 //            if( dE < 0 ) {
 //                double changeV = Math.abs( dE / ( mass * velocity ) );
