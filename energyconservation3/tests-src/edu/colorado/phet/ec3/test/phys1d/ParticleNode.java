@@ -7,7 +7,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -20,7 +19,6 @@ class ParticleNode extends PNode {
     private PhetPPath phetPPath;
 
     public ParticleNode( final Particle particle ) {
-        //To change body of created methods use File | Settings | File Templates.
         this.particle = particle;
         Color y = Color.yellow;
         phetPPath = new PhetPPath( new Color( y.getRed(), y.getGreen(), y.getBlue(), 128 ), new BasicStroke( 1 ), Color.red );
@@ -34,11 +32,13 @@ class ParticleNode extends PNode {
         } );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                Point2D position = particle.getPosition();
-//                particle.setPosition( position.getX() + event.getDeltaRelativeTo( ParticleNode.this.getParent( ) ).width,
-//                                      position.getY() + event.getDeltaRelativeTo( ParticleNode.this.getParent( ) ).height );
                 particle.setPosition( event.getPositionRelativeTo( ParticleNode.this ) );
+                particle.setUserUpdateStrategy();
                 particle.setVelocity( 0, 0 );
+            }
+
+            public void mouseReleased( PInputEvent event ) {
+                particle.setFreeFall();
             }
         } );
 

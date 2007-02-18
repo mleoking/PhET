@@ -1,5 +1,7 @@
 package edu.colorado.phet.ec3.test.phys1d;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -12,35 +14,72 @@ import java.util.ArrayList;
 
 public class Particle {
     private Particle1D particle1D;
-    private Particle2D particle2D;
     private boolean splineMode = true;
     private double x;
     private double y;
+    double vx;
+    double vy;
+    double g = 9.8 * 10000;
+
+    UpdateStrategy updateStrategy = new Particle1DUpdate();
 
     public Particle( CubicSpline2D cubicSpline ) {
         particle1D = new Particle1D( cubicSpline );
-        particle2D = new Particle2D();
     }
 
     public void stepInTime( double dt ) {
-        if( splineMode ) {
+        updateStrategy.stepInTime( dt );
+        update();
+    }
+
+    interface UpdateStrategy {
+        void stepInTime( double dt );
+    }
+
+    class Particle1DUpdate implements UpdateStrategy {
+        public void stepInTime( double dt ) {
             particle1D.stepInTime( dt );
+            x = particle1D.getX();
+            y = particle1D.getY();
+            AbstractVector2D vel = particle1D.getVelocity();
+            vx = vel.getX();
+            vy = vel.getY();
         }
-        else {
-            particle2D.stepInTime( dt );
+    }
+
+    class FreeFall implements UpdateStrategy {
+
+        public void stepInTime( double dt ) {
+            y += vy * dt + 0.5 * g * dt * dt;
+            x += vx * dt;
+            vy += g * dt;
+            vx += 0;
         }
+    }
+
+    class UserUpdateStrategy implements UpdateStrategy {
+        public void stepInTime( double dt ) {
+        }
+    }
+
+    public void setFreeFall() {
+        setUpdateStrategy( new FreeFall() );
+    }
+
+    public void setParticle1DStrategy() {
+        setUpdateStrategy( new Particle1DUpdate() );
+    }
+
+    public void setUserUpdateStrategy() {
+        setUpdateStrategy( new UserUpdateStrategy() );
+    }
+
+    public void setUpdateStrategy( UpdateStrategy updateStrategy ) {
+        this.updateStrategy = updateStrategy;
         update();
     }
 
     private void update() {
-        if( splineMode ) {
-            this.x = particle1D.getX();
-            this.y = particle1D.getY();
-        }
-        else {
-            this.x = particle2D.getX();
-            this.y = particle2D.getY();
-        }
         notifyListeners();
     }
 
@@ -55,8 +94,9 @@ public class Particle {
     }
 
     public void setPosition( double x, double y ) {
-        this.splineMode = false;
-        particle2D.setPosition( x, y );
+        setFreeFall();
+        this.x = x;
+        this.y = y;
     }
 
     public double getX() {
@@ -68,7 +108,9 @@ public class Particle {
     }
 
     public void setVelocity( double vx, double vy ) {
-        particle2D.setVelocity( vx, vy );
+        this.vx = vx;
+        this.vy = vy;
+        notifyListeners();
     }
 
     public static interface Listener {

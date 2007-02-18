@@ -1,5 +1,6 @@
 package edu.colorado.phet.ec3.test.phys1d;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 
@@ -105,6 +106,10 @@ public class Particle1D {
 
     public void resetEnergyError() {
         totalDE = 0.0;
+    }
+
+    public AbstractVector2D getVelocity() {
+        return cubicSpline.getUnitParallelVector( alpha ).getInstanceOfMagnitude( velocity );
     }
 
     public interface UpdateStrategy {
