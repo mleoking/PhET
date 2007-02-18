@@ -12,11 +12,11 @@ import java.awt.geom.Ellipse2D;
  * Time: 11:15:44 AM
  * Copyright (c) Feb 18, 2007 by Sam Reid
  */
-class ParticleGraphic extends PNode {
+class ParticleNode extends PNode {
     private Particle1D particle1d;
     private PhetPPath phetPPath;
 
-    public ParticleGraphic( Particle1D particle1d ) {
+    public ParticleNode( Particle1D particle1d ) {
         //To change body of created methods use File | Settings | File Templates.
         this.particle1d = particle1d;
         phetPPath = new PhetPPath( new BasicStroke( 1 ), Color.red );

@@ -54,13 +54,13 @@ public class Particle1D {
         //look for an adjacent location that will give the correct energy
 
         for( int i = 0; i < listeners.size(); i++ ) {
-            ParticleGraphic particleGraphic = (ParticleGraphic)listeners.get( i );
-            particleGraphic.update();
+            ParticleNode particleNode = (ParticleNode)listeners.get( i );
+            particleNode.update();
         }
     }
 
-    public void addListener( ParticleGraphic particleGraphic ) {
-        listeners.add( particleGraphic );
+    public void addListener( ParticleNode particleNode ) {
+        listeners.add( particleNode );
     }
 
     public Point2D getLocation() {
