@@ -99,7 +99,7 @@ public class TestPhysics1D extends JFrame {
         } );
 
         JRadioButton verletOffset = new JRadioButton( "Verlet Offset", particle1d.getUpdateStrategy() instanceof Particle1D.VerletOffset );
-        euler.addActionListener( new ActionListener() {
+        verletOffset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 particle1d.setVelocity( 0 );
                 particle1d.setUpdateStrategy( particle1d.createVerletOffset() );
@@ -115,6 +115,7 @@ public class TestPhysics1D extends JFrame {
         buttonGroup.add( verlet );
         buttonGroup.add( constantVel );
         buttonGroup.add( euler );
+        buttonGroup.add( verletOffset );
 
         controlFrame.setContentPane( controlPanel );
 
@@ -299,13 +300,20 @@ public class TestPhysics1D extends JFrame {
 
         public class VerletOffset implements UpdateStrategy {
 
+            double L = 50;
+
             public void stepInTime( double dt ) {
+                double R = getRadiusOfCurvature();
                 double origAngle = Math.PI / 2 - cubicSpline.getAngle( alpha );
-                double ds = velocity * dt - 0.5 * g * Math.cos( origAngle ) * dt * dt;
+//                double aOrig = g * Math.cos( origAngle );
+                double aOrig = Math.pow( R / ( R + L ), 2 ) * g * Math.cos( origAngle ) * ( 1 + L / R );
+                double ds = velocity * dt - 0.5 * aOrig * dt * dt;
 
                 alpha += cubicSpline.getFractionalDistance( alpha, ds );
                 double newAngle = Math.PI / 2 - cubicSpline.getAngle( alpha );
-                velocity = velocity + g * ( Math.cos( origAngle ) + Math.cos( newAngle ) ) / 2.0 * dt;
+//                double accel = g * ( Math.cos( origAngle ) + Math.cos( newAngle ) ) / 2.0;
+                double accel = Math.pow( R / ( R + L ), 2 ) * g * ( Math.cos( origAngle ) + Math.cos( newAngle ) ) / 2 * ( 1 + L / R );
+                velocity = velocity + accel * dt;
 
                 clampAndBounce();
             }
