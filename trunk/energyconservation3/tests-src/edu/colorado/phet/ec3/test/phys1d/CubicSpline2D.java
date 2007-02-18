@@ -50,7 +50,7 @@ public class CubicSpline2D {
         if( a1 < a0 ) {
             return -getMetricDeltaIterative( a1, a0 );
         }
-        int numSegments = 50;
+        int numSegments = 10;
         double da = ( a1 - a0 ) / ( numSegments - 1 );
         Point2D prev = evaluate( a0 );
         double sum = 0;
@@ -93,7 +93,7 @@ public class CubicSpline2D {
         double guess = ( upperBound + lowerBound ) / 2.0;
 
         double metricDelta = getMetricDelta( alpha0, guess );
-        double epsilon = 1E-6;
+        double epsilon = 1E-2;
         int count = 0;
         while( Math.abs( metricDelta - ds ) > epsilon ) {
             if( metricDelta > ds ) {
