@@ -24,12 +24,12 @@ import java.util.ArrayList;
  * Time: 11:12:30 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Test2 extends JFrame {
+public class TestPhysics1D extends JFrame {
     private JFrame controlFrame;
     private double cumulativeEnergyError = 0;
     private double time = 0;
 
-    public Test2() {
+    public TestPhysics1D() {
         PSwingCanvas pSwingCanvas = new PSwingCanvas();
         pSwingCanvas.setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setContentPane( pSwingCanvas );
@@ -166,42 +166,21 @@ public class Test2 extends JFrame {
 
         public void stepInTime( double dt ) {
             double initEnergy = getEnergy();
-            int N = 10;
+            int N = 1;
 //            int N=4;
             for( int i = 0; i < N; i++ ) {
                 updateStrategy.stepInTime( dt / N );
             }
 
-            double finalEnergy = getEnergy();
-            double dE = ( finalEnergy - initEnergy ) / initEnergy;
-            totalDE += dE;
-            System.out.println( "dE = " + dE + "\ttotalDE=" + totalDE );
+            double dEUpdate = ( getEnergy() - initEnergy ) / initEnergy;
+            totalDE += dEUpdate;
 
+
+            fixEnergy( initEnergy, getEnergy() );
+            double dEFix = ( getEnergy() - initEnergy ) / initEnergy;
+            System.out.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE );
+//            System.out.println( "dEAfter = " + ( getEnergy() - initEnergy ) / initEnergy );
             //look for an adjacent location that will give the correct energy
-
-//            //always ok to just increase the velocity
-//            if( dE < 0 ) {
-//                double changeV = Math.abs( dE / ( mass * velocity ) );
-//                if( velocity > 0 ) {
-//                    setVelocity( velocity + changeV );
-//                }
-//                else {
-//                    setVelocity( velocity + changeV );
-//                }
-//                System.out.println( "Fixed energy" );
-//            }
-//            if( dE > 0 ) {
-//                if( velocity > 0.01 ) {
-//                    double changeV = Math.abs( dE / ( mass * velocity ) );
-//                    if( velocity > 0 ) {
-//                        setVelocity( velocity - changeV );
-//                    }
-//                    else {
-//                        setVelocity( velocity + changeV );
-//                    }
-//                }
-//
-//            }
 
             for( int i = 0; i < listeners.size(); i++ ) {
                 ParticleGraphic particleGraphic = (ParticleGraphic)listeners.get( i );
@@ -259,6 +238,88 @@ public class Test2 extends JFrame {
                 velocity *= -1;
             }
         }
+
+        private void fixEnergy( final double initEnergy, double finalEnergy ) {
+            final double dE = ( finalEnergy - initEnergy ) / initEnergy;
+            System.out.println( "dE = " + dE );
+            if( dE < 0 ) {//lost energy
+                System.out.println( "velocity = " + velocity );
+
+//                if( Math.abs( velocity ) > 1 ) {
+//                    //binary search for correct velocity
+//
+//                    double minVel = velocity / 2;
+//                    double maxVel = velocity * 2;
+//
+////                    double velGuess = maxVel - minVel;
+//                    double velocity = BinarySearch.search( new BinarySearch.Function() {
+//                        public double evaluate( double v ) {
+//                            double proposedFinalEnergy = 0.5 * mass * v * v - mass * g * getY();
+//                            return proposedFinalEnergy - initEnergy;
+//                        }
+//                    }, Math.min( minVel, maxVel ), Math.max( minVel, maxVel ), 0, 1E-8, 100 );
+//                    this.velocity = velocity;
+//                    System.out.println( "Fixed velocity based on search" );
+////                    double energy=;
+//                }
+
+//                double arg = 2 / mass * ( initEnergy - mass * g * getY() );
+//                if( arg > 0 ) {
+//                    double dv = velocity + Math.sqrt( arg );
+////                double dv = Math.abs( dE / mass / velocity );
+//                    if( velocity < 0 ) {
+//                        velocity += dv;
+//                    }
+//                    else {
+//                        velocity -= dv;
+//                    }
+//                    System.out.println( "patched energy by increasing velocity dvFrac=" + dv / velocity );
+//                }
+//                else {
+//                    System.out.println( "arg <0 " );
+//                }
+            }
+            else {//gained energy
+                double dv = Math.abs( dE / mass / velocity );
+                if( velocity < 0 ) {
+                    velocity -= dv;
+                }
+                else {
+                    velocity += dv;
+                }
+                System.out.println( "patched energy by decreasing velocity dvFrac=" + dv / velocity );
+            }
+        }
+//        private void fixEnergy( double initEnergy, double finalEnergy ) {
+//            double dE = ( finalEnergy - initEnergy ) / initEnergy;
+//            System.out.println( "dE = " + dE );
+//            if( dE < 0 ) {//lost energy
+//                double arg = 2 / mass * ( initEnergy - mass * g * getY() );
+//                if( arg > 0 ) {
+//                    double dv = velocity + Math.sqrt( arg );
+////                double dv = Math.abs( dE / mass / velocity );
+//                    if( velocity < 0 ) {
+//                        velocity += dv;
+//                    }
+//                    else {
+//                        velocity -= dv;
+//                    }
+//                    System.out.println( "patched energy by increasing velocity dvFrac=" + dv / velocity );
+//                }else{
+//                    System.out.println( "arg <0 " );
+//                }
+//            }
+//            else {//gained energy
+//                double dv = Math.abs( dE / mass / velocity );
+//                if( velocity < 0 ) {
+//                    velocity -= dv;
+//                }
+//                else {
+//                    velocity += dv;
+//                }
+//                System.out.println( "patched energy by decreasing velocity dvFrac=" + dv / velocity );
+//            }
+//        }
 
         public class Verlet implements UpdateStrategy {
 
@@ -337,7 +398,7 @@ public class Test2 extends JFrame {
     }
 
     public static void main( String[] args ) {
-        new Test2().start();
+        new TestPhysics1D().start();
     }
 
     private void start() {
