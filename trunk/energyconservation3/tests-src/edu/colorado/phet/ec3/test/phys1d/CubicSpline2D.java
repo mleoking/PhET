@@ -15,10 +15,16 @@ import java.awt.geom.Point2D;
 public class CubicSpline2D {
     private CubicSpline x;
     private CubicSpline y;
+    private Point2D[] pts;
 
-    public CubicSpline2D( CubicSpline x, CubicSpline y ) {
+    public CubicSpline2D( CubicSpline x, CubicSpline y, Point2D[] pts ) {
         this.x = x;
         this.y = y;
+        this.pts = pts;
+    }
+
+    public Point2D[] getPts() {
+        return pts;
     }
 
     public static CubicSpline2D interpolate( Point2D[] pts ) {
@@ -31,7 +37,7 @@ public class CubicSpline2D {
             y[i] = pts[i].getY();
         }
         s[s.length - 1] = Math.round( s[s.length - 1] );//to be exact, in case of roundoff error
-        return new CubicSpline2D( CubicSpline.interpolate( s, x ), CubicSpline.interpolate( s, y ) );
+        return new CubicSpline2D( CubicSpline.interpolate( s, x ), CubicSpline.interpolate( s, y ), pts );
     }
 
     public Point2D evaluate( double alpha ) {
@@ -141,8 +147,6 @@ public class CubicSpline2D {
         for( double s = 0.0; s < 1.0; s += 0.1 ) {
             Point2D at = cubicSpline2D.evaluate( s );
             System.out.println( "s = " + s + ", at=" + at );
-//            System.out.println( at.getX()+"\t"+at.getY() );
-//            System.out.println( at.getY() );
         }
         double delta = cubicSpline2D.getMetricDelta( 0, 1 );
         System.out.println( "Spline length=" + delta );

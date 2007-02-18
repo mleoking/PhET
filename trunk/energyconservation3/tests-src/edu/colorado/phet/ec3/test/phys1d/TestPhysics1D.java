@@ -46,7 +46,8 @@ public class TestPhysics1D extends JFrame {
         setSize( 800, 600 );
 
         final Particle1D particle1d = new Particle1D( cubicSpline );
-        particle1d.setUpdateStrategy( particle1d.createVerletOffset() );
+        particle1d.setUpdateStrategy( particle1d.createEuler() );
+//        particle1d.setUpdateStrategy( particle1d.createVerletOffset() );
         ParticleGraphic particleGraphic = new ParticleGraphic( particle1d );
         pSwingCanvas.getLayer().addChild( particleGraphic );
 
@@ -188,8 +189,13 @@ public class TestPhysics1D extends JFrame {
             totalDE += dEUpdate;
 
             fixEnergy( initEnergy );
+//            fixEnergy( initEnergy );
+//            fixEnergy( initEnergy );
+//            fixEnergy( initEnergy );
+//            fixEnergy( initEnergy );
             double dEFix = getNormalizedEnergyDiff( initEnergy );
-            System.out.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE + ", RC=" + getRadiusOfCurvature() );
+//            System.out.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE + ", RC=" + getRadiusOfCurvature() );
+            System.out.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE );// + ", RC=" + getRadiusOfCurvature() );
 //            System.out.println( "dEAfter = " + ( getEnergy() - initEnergy ) / initEnergy );
             //look for an adjacent location that will give the correct energy
 
@@ -255,24 +261,34 @@ public class TestPhysics1D extends JFrame {
         }
 
         private void fixEnergy( final double initEnergy ) {
-//            int count = 0;
-//            while( getNormalizedEnergyDiff( initEnergy ) < 0 ) {
-//                velocity *= 1.1;
+            int count = 0;
+
+            if( Math.abs( velocity ) > 1 ) {
+                for( int i = 0; i < 1; i++ ) {
+                    double dE = getNormalizedEnergyDiff( initEnergy ) * Math.abs( initEnergy );
+                    double dv = dE / mass / velocity;
+                    velocity += dv;
+                }
+            }
+
+//            while( getNormalizedEnergyDiff( initEnergy ) < -1E-6 ) {
+//                velocity *= 1.001;
 //                System.out.println( "getNormalizedEnergyDiff( ) = " + getNormalizedEnergyDiff( initEnergy ) );
 //                count++;
-//                if( count > 10 ) {
+//                if( count > 1000 ) {
 //                    break;
 //                }
 //            }
 //
-//            while( getNormalizedEnergyDiff( initEnergy ) > 0 ) {
-//                velocity *= 0.9;
+//            while( getNormalizedEnergyDiff( initEnergy ) > 1E-6 ) {
+//                velocity *= 0.999;
 //                System.out.println( "reducing energy...getNormalizedEnergyDiff( ) = " + getNormalizedEnergyDiff( initEnergy ) );
 //                count++;
-//                if( count > 10 ) {
+//                if( count > 1000 ) {
 //                    break;
 //                }
 //            }
+
 //            double dE=finalEnergy-initEnergy;
 //            System.out.println( "dE = " + dE );
 //            double arg = 2.0 / mass * ( initEnergy + mass * g * getY() );
@@ -362,19 +378,29 @@ public class TestPhysics1D extends JFrame {
 
         public MyCubicCurve2DGraphic( CubicSpline2D splineSurface ) {
             this.cubicSpline2D = splineSurface;
-            //To change body of created methods use File | Settings | File Templates.
             phetPPath = new PhetPPath( new BasicStroke( 1 ), Color.blue );
             addChild( phetPPath );
             update();
         }
 
         private void update() {
+            removeAllChildren();
             DoubleGeneralPath doubleGeneralPath = new DoubleGeneralPath( cubicSpline2D.evaluate( 0 ) );
             double ds = 0.01;
             for( double s = ds; s <= 1.0; s += ds ) {
                 doubleGeneralPath.lineTo( cubicSpline2D.evaluate( s ) );
             }
             phetPPath.setPathTo( doubleGeneralPath.getGeneralPath() );
+            addChild( phetPPath );
+
+            for( int i = 0; i < cubicSpline2D.getPts().length; i++ ) {
+                PhetPPath controlPoint = new PhetPPath( Color.red, new BasicStroke( 1 ), Color.black );
+                double w = 5;
+                controlPoint.setPathTo( new Ellipse2D.Double( -w / 2, -w / 2, w, w ) );
+                controlPoint.setOffset( cubicSpline2D.getPts()[i] );
+                addChild( controlPoint );
+            }
+
         }
     }
 
