@@ -11,6 +11,7 @@
 package edu.colorado.phet.common.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,48 +48,75 @@ public class ClockControlPanel extends JPanel implements ClockListener {
     public static final String IMAGE_FAST_FORWARD = IMAGES_DIRECTORY + "FastForward24.gif";
     public static final String IMAGE_STOP = IMAGES_DIRECTORY + "Stop24.gif";
     
-    private JButton play;
-    private JButton pause;
+    private JButton playPause;
     private JButton step;
     private IClock clock;
     private JPanel buttonPanel;
+    
+    ImageIcon playIcon;
+    ImageIcon pauseIcon;
+    
+    String playString;
+    String pauseString;
 
     public ClockControlPanel( final IClock clock ) {
-        this.clock = clock;
-        clock.addClockListener( this );
+        
         if( clock == null ) {
             throw new RuntimeException( "Cannot have a control panel for a null clock." );
         }
+        this.clock = clock;
+        clock.addClockListener( this );
 
+        // Button labels
+        playString = SimStrings.get( "Common.ClockControlPanel.Play" );
+        pauseString = SimStrings.get( "Common.ClockControlPanel.Pause" );
+        String stepString = SimStrings.get( "Common.ClockControlPanel.Step" );
+        
+        // Button icons
         BufferedImage playU = loadImage( IMAGE_PLAY );
         BufferedImage pauseU = loadImage( IMAGE_PAUSE );
         BufferedImage stepU = loadImage( IMAGE_STEP );
-        ImageIcon playIcon = new ImageIcon( playU );
-        ImageIcon pauseIcon = new ImageIcon( pauseU );
+        playIcon = new ImageIcon( playU );
+        pauseIcon = new ImageIcon( pauseU );
         ImageIcon stepIcon = new ImageIcon( stepU );
-        play = new JButton( SimStrings.get( "Common.ClockControlPanel.Play" ), playIcon );
-        pause = new JButton( SimStrings.get( "Common.ClockControlPanel.Pause" ), pauseIcon );
-        step = new JButton( SimStrings.get( "Common.ClockControlPanel.Step" ), stepIcon );
-        step.setEnabled( false );
+        
+        // Play/Pause button
+        // Set this button to its maximum size so that the contents of
+        // the control panel don't horizontally shift as the button state changes.
+        {
+            playPause = new JButton();
+            
+            // Get dimensions for "Play" state
+            playPause.setText( playString );
+            playPause.setIcon( playIcon );
+            Dimension playSize = playPause.getPreferredSize();
+            
+            // Get dimensions for "Pause" state
+            playPause.setText( pauseString );
+            playPause.setIcon( pauseIcon );
+            Dimension pauseSize = playPause.getPreferredSize();
+            
+            // Set max dimensions
+            int maxWidth = (int) Math.max( playSize.getWidth(), pauseSize.getWidth() );
+            int maxHeight = (int) Math.max( playSize.getHeight(), pauseSize.getHeight() );
+            playPause.setPreferredSize( new Dimension( maxWidth, maxHeight ) );
+        }
+        
+        // Step button
+        step = new JButton( stepString, stepIcon );
 
-        SwingUtils.fixButtonOpacity( play );
-        SwingUtils.fixButtonOpacity( pause );
+        SwingUtils.fixButtonOpacity( playPause );
         SwingUtils.fixButtonOpacity( step );
 
-        play.addActionListener( new ActionListener() {
+        playPause.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                clock.start();
-                play.setEnabled( false );
-                pause.setEnabled( true );
-                step.setEnabled( false );
-            }
-        } );
-        pause.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                clock.pause();
-                play.setEnabled( true );
-                pause.setEnabled( false );
-                step.setEnabled( true );
+                if( clock.isPaused() ) {
+                    clock.start();
+                }
+                else {
+                    clock.pause();
+                }
+                updateButtons();
             }
         } );
 
@@ -102,12 +130,11 @@ public class ClockControlPanel extends JPanel implements ClockListener {
 
         setLayout( new BorderLayout() );
         buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
-        buttonPanel.add( play );
-        buttonPanel.add( pause );
+        buttonPanel.add( playPause );
         buttonPanel.add( step );
         this.add( buttonPanel, BorderLayout.CENTER );
 
-        stateChanged( clock.isPaused() );
+        updateButtons();
     }
 
     /**
@@ -118,14 +145,18 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         buttonPanel.add(control);
     }
     
-    private BufferedImage loadImage( String s ) {
+    /*
+     * Used to load button icons.
+     */
+    private BufferedImage loadImage( String resourceName ) {
+        BufferedImage image = null;
         try {
-            return ImageLoader.loadBufferedImage( s );
+            image = ImageLoader.loadBufferedImage( resourceName );
         }
         catch( IOException e ) {
             e.printStackTrace();
-            throw new RuntimeException( e );
         }
+        return image;
     }
 
     /**
@@ -137,7 +168,7 @@ public class ClockControlPanel extends JPanel implements ClockListener {
      */
     public void setEnabled( boolean enabled ) {
         super.setEnabled( enabled );
-        stateChanged( clock.isPaused() );
+        updateButtons();
     }
     
     public void addToLeft( JComponent component ) {
@@ -149,29 +180,41 @@ public class ClockControlPanel extends JPanel implements ClockListener {
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // Event handlers
+    // Updaters
     //
-
+    
     /*
-    * Updates the state of the buttons to correspond to
-    * the state of the clock and the control panel.
-    */
-    private void stateChanged( boolean isPaused ) {
+     * Updates the state of the buttons to correspond to
+     * the state of the clock and the control panel.
+     */
+    private void updateButtons() {
         boolean enabled = isEnabled();
-        play.setEnabled( enabled && isPaused );
-        pause.setEnabled( enabled && !isPaused );
+        boolean isPaused = clock.isPaused();
+        if( isPaused ) {
+            playPause.setText( playString );
+            playPause.setIcon( playIcon );
+        }
+        else {
+            playPause.setText( pauseString );
+            playPause.setIcon( pauseIcon );
+        }
+        playPause.setEnabled( enabled );
         step.setEnabled( enabled && isPaused );
     }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // Event handlers
+    //
 
     public void clockTicked( ClockEvent clockEvent ) {
     }
 
     public void clockStarted( ClockEvent clockEvent ) {
-        stateChanged( clockEvent.getClock().isPaused() );
+        updateButtons();
     }
 
     public void clockPaused( ClockEvent clockEvent ) {
-        stateChanged( clockEvent.getClock().isPaused() );
+        updateButtons();
     }
 
     public void simulationTimeChanged( ClockEvent clockEvent ) {
