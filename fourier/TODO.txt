@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- bug report: infinite loop of "value out of range" dialogs when entering amplitude values in first panel (fcasparx@web.de)
 - bug in 3.0: after you pause the clock, animation moves another tick
 
 MEDIUM PRIORITY:
@@ -650,30 +649,30 @@ sandbox-2005-05-10...
 2005 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 REJECTED:
-(11/1) - get rid of Vector2D if it continues to be used only by WiggleMeGraphic (not worth the trouble)
-(11/1) - optimize allocation of AnimationCycleEvents (it's not causing any problems as is)
-(11/1) - add presets for musical instruments to Discrete panel (can't make convincing instrument sounds)
-(10/19) - "Sound & Music" panel
-(10/18) - add hints to game (use "cheat" panel instead)
-(9/22) - set anti-aliasing on leaf graphics instead of container (fixed rendering hints in PhetGraphic)
-(9/22) - restore state of anti-aliasing hint in FourierTitlePanel.paintComponent (not necessary, argument is a copy of Graphics)
-(9/22) - wiggle me isn't hidden when user clicks in the control panel (click in apparatus panel & model changes is enough)
-(9/19) - break up control panels into reusable subpanels (not practical, since they keep changing)
-(9/13) - add equations for Gaussian wave packet above D2C amplitudes graph (voted down by design team)
-(9/13) - make Discrete amplitude sliders 50% narrower (not needed)
-(9/13) - Discrete x-axis ticks and labeling should be consistent with D2C (zoom levels and symbolic labeling are different)
-(9/13) - add ability to show multiple wavelength/period tools in Discrete module (voted down)
-(9/8) - smaller font for equation subscripts (fine as is, HTML tags to do this don't work)
-(8/30) - display at full-screen resolution on start up? (per Carl as status meeting)
-(8/30) - refactor chart config out of HarmonicsChart, SumChart and AmplitudesChart (each chart is different)
-(8/29) - with a single module, Fourier starts up with the module's apparatus panel magnified (sim will not be single module)
-(7/26) - rewrite ZoomControl to use static shapes instead of images (waste of time)
-(7/14) - restructure things so that all Harmonics and HarmonicPlots are preallocated, but only relevant ones are used (diminishing returns)
-(7/8) - FourierSeries model should not have a preset and waveType properties (this is OK)
-(6/21) - make graph titles prettier (no one asked for this)
-(6/20) - investigate Jex for rendering equations (no doc, uses OpenOffice for rendering, install Windows only)
-(6/14) - highlight component when mouse moves over it in Harmonics graph (dropped this feature)
-(5/20) - use multi-line choices in Math Form menu (doesn't work on Mac)
-2005 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(2/14/07) - bug report by fcasparx@web.de: infinite loop of "value out of range" dialogs when entering amplitude values in first panel (could not reproduce, no response to info request)
+(11/1/05) - get rid of Vector2D if it continues to be used only by WiggleMeGraphic (not worth the trouble)
+(11/1/05) - optimize allocation of AnimationCycleEvents (it's not causing any problems as is)
+(11/1/05) - add presets for musical instruments to Discrete panel (can't make convincing instrument sounds)
+(10/19/05) - "Sound & Music" panel
+(10/18/05) - add hints to game (use "cheat" panel instead)
+(9/22/05) - set anti-aliasing on leaf graphics instead of container (fixed rendering hints in PhetGraphic)
+(9/22/05) - restore state of anti-aliasing hint in FourierTitlePanel.paintComponent (not necessary, argument is a copy of Graphics)
+(9/22/05) - wiggle me isn't hidden when user clicks in the control panel (click in apparatus panel & model changes is enough)
+(9/19/05) - break up control panels into reusable subpanels (not practical, since they keep changing)
+(9/13/05) - add equations for Gaussian wave packet above D2C amplitudes graph (voted down by design team)
+(9/13/05) - make Discrete amplitude sliders 50% narrower (not needed)
+(9/13/05) - Discrete x-axis ticks and labeling should be consistent with D2C (zoom levels and symbolic labeling are different)
+(9/13/05) - add ability to show multiple wavelength/period tools in Discrete module (voted down)
+(9/8/05) - smaller font for equation subscripts (fine as is, HTML tags to do this don't work)
+(8/30/05) - display at full-screen resolution on start up? (per Carl as status meeting)
+(8/30/05) - refactor chart config out of HarmonicsChart, SumChart and AmplitudesChart (each chart is different)
+(8/29/05) - with a single module, Fourier starts up with the module's apparatus panel magnified (sim will not be single module)
+(7/26/05) - rewrite ZoomControl to use static shapes instead of images (waste of time)
+(7/14/05) - restructure things so that all Harmonics and HarmonicPlots are preallocated, but only relevant ones are used (diminishing returns)
+(7/8/05) - FourierSeries model should not have a preset and waveType properties (this is OK)
+(6/21/05) - make graph titles prettier (no one asked for this)
+(6/20/05) - investigate Jex for rendering equations (no doc, uses OpenOffice for rendering, install Windows only)
+(6/14/05) - highlight component when mouse moves over it in Harmonics graph (dropped this feature)
+(5/20/05) - use multi-line choices in Math Form menu (doesn't work on Mac)
 
 ===============================================================================
