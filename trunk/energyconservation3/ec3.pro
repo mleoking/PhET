@@ -5,6 +5,7 @@
 -injars 'jfreechart-dir\lib\junit.jar'
 -injars 'jfreechart-dir\lib\servlet.jar'
 -injars 'service-manager\lib\jnlp.jar'
+-injars 'lookandfeels\liquidlnf-2.9.1-src\lib\laf-plugin.jar'
 -outjars ant_output\jars\ec3-pro.jar
 
 -libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'
