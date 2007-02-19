@@ -16,7 +16,8 @@ import javax.swing.*;
  */
 
 public class TestPhetApplicationLookAndFeel {
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws IllegalAccessException, UnsupportedLookAndFeelException, InstantiationException, ClassNotFoundException {
+
         PhetApplication phetApplication = new PhetApplication( args, "title", "", "", new FrameSetup.CenteredWithSize( 800, 600 ) );
         MyModule myModule = new MyModule( "module", new SwingClock( 30, 1 ) );
         myModule.setSimulationPanel( new JPanel() );

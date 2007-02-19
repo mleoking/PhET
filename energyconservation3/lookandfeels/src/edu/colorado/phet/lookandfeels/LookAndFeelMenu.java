@@ -48,10 +48,41 @@ public class LookAndFeelMenu extends JMenu {
             } );
             add( jMenuItem );
         }
-        add( new ThemePackMenuItem( "Daisy", "Oyoaha.themepack.14.04.05\\daisy2.zotm" ) );
-        String[] names = new String[]{"anidaisy matrix.zotm", "anidaisy.zotm", "daisy2.zotm", "flat1.zotm", "flat2.zotm", "flat3.zotm", "flat4.zotm", "flat5.zotm", "flat6.zotm", "flat7.zotm", "flat8.zotm", "gang.zotm", "gradient.zotm", "licence.txt", "slushy.zotm", "slushy10.zotm", "slushy2.zotm", "slushy3.zotm", "slushy4.zotm", "slushy5.zotm", "slushy6.zotm", "slushy7.zotm", "slushy8.zotm", "slushy9.zotm", "tfiberr.zotm", "tfiberr2.zotm", "tflat1.zotm", "tflat2.zotm", "tflat3.zotm", "tflat4.zotm", "tflat5.zotm", "tflat6.zotm", "tflat7.zotm", "tgang.zotm", "tgang2.zotm", "tgang3.zotm", "tzipper.zotm", "zipper.zotm"};
+
+        LookAndFeelMenuItem liquid = new LookAndFeelMenuItem( "Liquid", "com.birosoft.liquid.LiquidLookAndFeel" );
+        add( liquid );
+
+//        add( new ThemePackMenuItem( "Daisy", "Oyoaha.themepack.14.04.05/daisy2.zotm" ) );
+        String[] names = new String[]{"anidaisy matrix.zotm", "anidaisy.zotm", "daisy2.zotm", "flat1.zotm", "flat2.zotm", "flat3.zotm", "flat4.zotm", "flat5.zotm", "flat6.zotm", "flat7.zotm", "flat8.zotm", "gang.zotm", "gradient.zotm", "slushy.zotm", "slushy10.zotm", "slushy2.zotm", "slushy3.zotm", "slushy4.zotm", "slushy5.zotm", "slushy6.zotm", "slushy7.zotm", "slushy8.zotm", "slushy9.zotm", "tfiberr.zotm", "tfiberr2.zotm", "tflat1.zotm", "tflat2.zotm", "tflat3.zotm", "tflat4.zotm", "tflat5.zotm", "tflat6.zotm", "tflat7.zotm", "tgang.zotm", "tgang2.zotm", "tgang3.zotm", "tzipper.zotm", "zipper.zotm"};
         for( int i = 0; i < names.length; i++ ) {
-            add( new ThemePackMenuItem( names[i], "Oyoaha.themepack.14.04.05\\" + names[i] ) );
+            add( new ThemePackMenuItem( names[i], "Oyoaha.themepack.14.04.05/" + names[i] ) );
+        }
+    }
+
+    public class LookAndFeelMenuItem extends JMenuItem {
+
+        public LookAndFeelMenuItem( String name, final String lookAndFeelClassName ) {
+            super( name );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    try {
+                        UIManager.setLookAndFeel( lookAndFeelClassName );
+                        refreshApp();
+                    }
+                    catch( ClassNotFoundException e1 ) {
+                        e1.printStackTrace();
+                    }
+                    catch( InstantiationException e1 ) {
+                        e1.printStackTrace();
+                    }
+                    catch( IllegalAccessException e1 ) {
+                        e1.printStackTrace();
+                    }
+                    catch( UnsupportedLookAndFeelException e1 ) {
+                        e1.printStackTrace();
+                    }
+                }
+            } );
         }
     }
 
@@ -65,7 +96,9 @@ public class LookAndFeelMenu extends JMenu {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     OyoahaLookAndFeel look = new OyoahaLookAndFeel();
-                    URL url = getClass().getClassLoader().getResource( resource );
+//                    URL url = getClass().getClassLoader().getResource( resource );
+                    System.out.println( "Trying to load resource: " + resource );
+                    URL url = Thread.currentThread().getContextClassLoader().getResource( resource );
                     look.setOyoahaTheme( url );
 
                     try {

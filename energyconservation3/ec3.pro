@@ -13,12 +13,15 @@
 -dontobfuscate
 -dontusemixedcaseclassnames
 -verbose
+-dontshrink
 
 # Keep - Applications. Keep all application classes that have a main method.
 -keepclasseswithmembers public class edu.colorado.phet.ec3.EnergySkateParkApplication{
     public static void main(java.lang.String[]);
 }
-
+-keep class * extends javax.swing.plaf.ComponentUI {
+    public static javax.swing.plaf.ComponentUI createUI(javax.swing.JComponent);
+}
 # Also keep - Enumerations. Keep a method that is required in enumeration
 # classes.
 -keepclassmembers class * extends java.lang.Enum {
