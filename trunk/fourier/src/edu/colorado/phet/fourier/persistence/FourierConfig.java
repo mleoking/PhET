@@ -22,7 +22,7 @@ import java.io.Serializable;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class FourierConfig implements Serializable {
+public class FourierConfig implements FourierSerializable {
 
     private GlobalConfig globalConfig;
     
@@ -80,7 +80,7 @@ public class FourierConfig implements Serializable {
     // Global-level configuration, applies to all modules
     //----------------------------------------------------------------------------
 
-    public class GlobalConfig implements Serializable {
+    public class GlobalConfig implements FourierSerializable {
 
         private String versionNumber;
         private String buildNumber;
@@ -144,7 +144,7 @@ public class FourierConfig implements Serializable {
     // "Discrete" module configuration
     //----------------------------------------------------------------------------
     
-    public class DiscreteConfig implements Serializable {
+    public class DiscreteConfig implements FourierSerializable {
         
         // Configuration parameters
         private String presetName;
@@ -293,7 +293,7 @@ public class FourierConfig implements Serializable {
     // "Discrete to Continous" (D2C) module configuration
     //----------------------------------------------------------------------------
     
-    public class D2CConfig implements Serializable { 
+    public class D2CConfig implements FourierSerializable { 
         
         // Configuration parameters
         private double spacing;
@@ -397,7 +397,7 @@ public class FourierConfig implements Serializable {
     // "Game" module configuration
     //----------------------------------------------------------------------------
     
-    public class GameConfig implements Serializable {
+    public class GameConfig implements FourierSerializable {
         
         // Configuration parameters
         private String gameLevelName;
