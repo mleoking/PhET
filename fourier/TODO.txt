@@ -54,6 +54,9 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(2/19/07) - create ProGuard file
+(2/19/07) - add FourierSerializable marker interface so that ProGuard doesn't strip out persistence code
+(2/19/07) - change "Reset" to "Reset All"
 (11/29/06) - add missing description in SimStrings file, format for new About dialog
 3.01.00
 (2/2/06) - wait to initialize sound until user clicks Sound checkbox, because some users have hosed audio drivers
