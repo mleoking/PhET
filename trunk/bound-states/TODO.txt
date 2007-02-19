@@ -7,6 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
+- combine Play & Pause clock buttons ?
 - in some cases, magnifying glass is not powerful enough to show all eigenstates, add variable power
 - zoom level is not remembered when switching between potential types in Many module
 
