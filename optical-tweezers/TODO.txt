@@ -38,6 +38,7 @@ LOW PRIORITY:
 - green control panel background
 - package level javadoc
 - make laser danger sign look better
+- combine Play & Pause clock buttons ?
 
 DEFER UNTIL AFTER INTERVIEWS:
  
