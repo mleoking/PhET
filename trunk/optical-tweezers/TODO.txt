@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- learn more about optical tweezers
 
 HIGH PRIORITY:
 - laser power text field entry and validation
