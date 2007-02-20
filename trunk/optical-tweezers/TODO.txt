@@ -25,6 +25,7 @@ MEDIUM PRIORITY:
 - dynamically adjust glass slide width based on play area width
 - units and range for slow speed
 - units and range for fast speed
+- change clock speed control?
 - range for flow velocity
 - units and range for fluid viscosity
 - units and range for fluid temperature
