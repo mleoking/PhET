@@ -23,6 +23,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * OriginNode is the node used to indicate the (0,0) origin of a composite node.
+ * A cross is drawn to indicate the origin point.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
