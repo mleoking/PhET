@@ -11,17 +11,22 @@
 
 package edu.colorado.phet.opticaltweezers.model;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.opticaltweezers.util.DoubleRange;
 
-
+/**
+ * Fluid
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class Fluid extends MovableObject implements ModelElement {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String PROPERTY_VELOCITY = "velocity";
     private static final String PROPERTY_VISCOSITY = "viscosity";
     private static final String PROPERTY_TEMPERATURE = "temperature";
     
@@ -29,7 +34,7 @@ public class Fluid extends MovableObject implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private double _velocity; //XXX units?
+    private double _width; // nm
     private double _viscosity; //XXX units?
     private double _temperature; //XXX units?
     
@@ -37,9 +42,19 @@ public class Fluid extends MovableObject implements ModelElement {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Fluid( double velocity, double viscosity, double temperature ) {
-        super();
-        _velocity = velocity;
+    /**
+     * Constructor.
+     * 
+     * @param position position at the center of the fluid "stream"
+     * @param orientation direction that the fluid stream flows in (radians)
+     * @param width width of the fluid stream
+     * @param speed speed of the fluid stream
+     * @param viscosity
+     * @param temperature
+     */
+    public Fluid( Point2D position, double orientation, double width, double speed, double viscosity, double temperature ) {
+        super( position, orientation, speed );
+        _width = width;
         _viscosity = viscosity;
         _temperature = temperature;
     }
@@ -47,18 +62,15 @@ public class Fluid extends MovableObject implements ModelElement {
     //----------------------------------------------------------------------------
     // Mutators and accessors
     //----------------------------------------------------------------------------
+
+    public double getWidth() {
+        return _width;
+    }
     
-    public double getVelocity() {
-        return _velocity;
+    private void setWidth( double width ) {
+        throw new UnsupportedOperationException( "width is immutable" );
     }
-
-    public void setVelocity( double velocity ) {
-        if ( velocity != _velocity ) {
-            _velocity = velocity;
-            notifyObservers( PROPERTY_VELOCITY );
-        }
-    }
-
+    
     public double getViscosity() {
         return _viscosity;
     }

@@ -14,54 +14,62 @@ package edu.colorado.phet.opticaltweezers.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Observable;
+import java.util.Observer;
 
-import edu.colorado.phet.opticaltweezers.model.GlassSlide;
+import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 
-public class GlassSlideNode extends PhetPNode {
+public class GlassSlideNode extends PhetPNode implements Observer {
 
-    private static final Stroke SLIDE_EDGE_STROKE = new BasicStroke( 1f );
-    private static final Color SLIDE_EDGE_STROKE_COLOR = Color.BLACK;
-    private static final Color SLIDE_EDGE_FILL_COLOR = new Color( 176, 218, 200 );
+    public static final double EDGE_HEIGHT = 12; // pixels
+    private static final Stroke EDGE_STROKE = new BasicStroke( 1f );
+    private static final Color EDGE_STROKE_COLOR = Color.BLACK;
+    private static final Color EDGE_FILL_COLOR = new Color( 176, 218, 200 );
     
-    private static final Color SLIDE_CENTER_FILL_COLOR = new Color( 220, 239, 239 );
+    private static final Color CENTER_FILL_COLOR = new Color( 220, 239, 239 );
 
-    private GlassSlide _glassSlide;
+    private Fluid _fluid;
     private ModelViewTransform _modelViewTransform;
     private double _canvasWidth;
     
     private PPath topEdgeNode, bottomEdgeNode, centerNode;
     
-    public GlassSlideNode( GlassSlide glassSlide, ModelViewTransform modelViewTransform ) {
+    public GlassSlideNode( Fluid fluid, ModelViewTransform modelViewTransform ) {
         super();
          
-        _glassSlide = glassSlide;
+        _fluid = fluid;
+        _fluid.addObserver( this );
+        
         _modelViewTransform = modelViewTransform;
         _canvasWidth = 1;
         
         topEdgeNode = new PPath();
-        topEdgeNode.setStroke( SLIDE_EDGE_STROKE );
-        topEdgeNode.setStrokePaint( SLIDE_EDGE_STROKE_COLOR );
-        topEdgeNode.setPaint( SLIDE_EDGE_FILL_COLOR );
+        topEdgeNode.setStroke( EDGE_STROKE );
+        topEdgeNode.setStrokePaint( EDGE_STROKE_COLOR );
+        topEdgeNode.setPaint( EDGE_FILL_COLOR );
         
         bottomEdgeNode = new PPath();
-        bottomEdgeNode.setStroke( SLIDE_EDGE_STROKE );
-        bottomEdgeNode.setStrokePaint( SLIDE_EDGE_STROKE_COLOR );
-        bottomEdgeNode.setPaint( SLIDE_EDGE_FILL_COLOR );
+        bottomEdgeNode.setStroke( EDGE_STROKE );
+        bottomEdgeNode.setStrokePaint( EDGE_STROKE_COLOR );
+        bottomEdgeNode.setPaint( EDGE_FILL_COLOR );
         
         centerNode = new PPath();
         centerNode.setStroke( null );
-        centerNode.setPaint( SLIDE_CENTER_FILL_COLOR );
+        centerNode.setPaint( CENTER_FILL_COLOR );
         
         addChild( centerNode );
         addChild( topEdgeNode );
         addChild( bottomEdgeNode );
         
         update();
+    }
+    
+    public void cleanup() {
+        _fluid.deleteObserver( this );
     }
     
     public void setCanvasWidth( double canvasWidth ) {
@@ -76,18 +84,30 @@ public class GlassSlideNode extends PhetPNode {
     
     private void update() {
         
-        final double height = _modelViewTransform.transform( _glassSlide.getHeight() );
-        final double edgeHeight = _modelViewTransform.transform( _glassSlide.getEdgeHeight() );
-        final double y = _modelViewTransform.transform( _glassSlide.getY() );
+        // fluid flow must be left-to-right or right-to-left
+        assert( _fluid.getOrientation() ==  Math.toRadians( 0 ) || _fluid.getOrientation() == Math.toRadians( 90 ) );
         
-        topEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, edgeHeight ) );
-        bottomEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, edgeHeight ) );
-        centerNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, height - ( 2 * edgeHeight ) ) );
+        final double height = _modelViewTransform.transform( _fluid.getWidth() );
+        final double y = _modelViewTransform.transform( _fluid.getY() );
         
-        topEdgeNode.setOffset( 0, 0 );
-        centerNode.setOffset( 0, topEdgeNode.getHeight() );
-        bottomEdgeNode.setOffset( 0, topEdgeNode.getHeight() + centerNode.getHeight() );
+        // create each part with (0,0) at top right
+        topEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, EDGE_HEIGHT ) );
+        bottomEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, EDGE_HEIGHT ) );
+        centerNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, height ) );
+        
+        // translate parts so that (0,0) of the slide is at left center
+        topEdgeNode.setOffset( 0, -( height / 2 ) - EDGE_HEIGHT );
+        centerNode.setOffset( 0, -( height / 2 ) );
+        bottomEdgeNode.setOffset( 0, +( height / 2 ) );
         
         setOffset( 0, y );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    public void update( Observable o, Object arg ) {
+        //XXX
     }
 }

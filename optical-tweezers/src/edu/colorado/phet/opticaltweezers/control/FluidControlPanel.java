@@ -27,27 +27,27 @@ import edu.colorado.phet.opticaltweezers.util.DoubleRange;
 
 public class FluidControlPanel extends VerticalLayoutPanel {
     
-    private SliderControl _velocityControl;
+    private SliderControl _speedControl;
     private SliderControl _viscosityControl;
     private SliderControl _temperatureControl;
     
-    public FluidControlPanel( Font font, DoubleRange velocityRange, DoubleRange viscosityRange, DoubleRange temperatureRange ) {
+    public FluidControlPanel( Font font, DoubleRange speedRange, DoubleRange viscosityRange, DoubleRange temperatureRange ) {
         super();
         
         //XXX Use font!
         
         setBorder( BorderFactory.createLineBorder( Color.BLACK ) );
         
-        double value = velocityRange.getDefault();
-        double min = velocityRange.getMin();
-        double max = velocityRange.getMax();
+        double value = speedRange.getDefault();
+        double min = speedRange.getMin();
+        double max = speedRange.getMax();
         double tickSpacing = max-min; //XXX
         int tickDecimalPlaces = 0; //XXX
-        int valueDecimalPlaces = velocityRange.getSignificantDecimalPlaces();
-        String label = SimStrings.get( "label.fluidVelocity" );
-        String units = SimStrings.get( "units.fluidVelocity" );
+        int valueDecimalPlaces = speedRange.getSignificantDecimalPlaces();
+        String label = SimStrings.get( "label.fluidSpeed" );
+        String units = SimStrings.get( "units.fluidSpeed" );
         int columns = 4; //XXX
-        _velocityControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+        _speedControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
 
         value = viscosityRange.getDefault();
         min = viscosityRange.getMin();
@@ -71,15 +71,15 @@ public class FluidControlPanel extends VerticalLayoutPanel {
         columns = 4; //XXX
         _temperatureControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
         
-        add( _velocityControl );
+        add( _speedControl );
         add( new JSeparator() );
         add( _viscosityControl );
         add( new JSeparator() );
         add( _temperatureControl );
         
-        _velocityControl.addChangeListener( new ChangeListener() {
+        _speedControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                handleVelocityChange();
+                handleSpeedChange();
             }
         } );
         _viscosityControl.addChangeListener( new ChangeListener() {
@@ -94,8 +94,8 @@ public class FluidControlPanel extends VerticalLayoutPanel {
         } );
     }
     
-    public SliderControl getVelocityControl() {
-        return _velocityControl;
+    public SliderControl getSpeedControl() {
+        return _speedControl;
     }
 
     public SliderControl getViscosityControl() {
@@ -106,8 +106,8 @@ public class FluidControlPanel extends VerticalLayoutPanel {
         return _temperatureControl;
     }
     
-    private void handleVelocityChange() {
-        System.out.println( "FluidControlPanel.handleVelocityChange " + _velocityControl.getValue() );//XXX
+    private void handleSpeedChange() {
+        System.out.println( "FluidControlPanel.handleSpeedChange " + _speedControl.getValue() );//XXX
         //XXX update model
     }
     

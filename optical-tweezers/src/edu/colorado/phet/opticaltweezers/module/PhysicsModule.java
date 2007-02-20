@@ -66,7 +66,6 @@ public class PhysicsModule extends AbstractModule {
     private Laser _laser;
     private Bead _bead;
     private Fluid _fluid;
-    private GlassSlide _glassSlide;
     
     // View
     private GlassSlideNode _glassSlideNode;
@@ -114,14 +113,12 @@ public class PhysicsModule extends AbstractModule {
                 PhysicsDefaults.BEAD_ORIENTATION, 
                 PhysicsDefaults.BEAD_DIAMETER );
         
-        _fluid = new Fluid( PhysicsDefaults.FLUID_VELOCITY_RANGE.getDefault(), 
+        _fluid = new Fluid( PhysicsDefaults.FLUID_POSITION,
+                PhysicsDefaults.FLUID_ORIENTATION,
+                PhysicsDefaults.FLUID_WIDTH,
+                PhysicsDefaults.FLUID_SPEED_RANGE.getDefault(), 
                 PhysicsDefaults.FLUID_VISCOSITY_RANGE.getDefault(), 
                 PhysicsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
-        
-        _glassSlide = new GlassSlide( PhysicsDefaults.GLASS_SLIDE_POSITION,
-                PhysicsDefaults.GLASS_SLIDE_ORIENTATION,
-                PhysicsDefaults.GLASS_SLIDE_HEIGHT,
-                PhysicsDefaults.GLASS_SLIDE_EDGE_HEIGHT );
 
         //----------------------------------------------------------------------------
         // View
@@ -149,7 +146,7 @@ public class PhysicsModule extends AbstractModule {
         _modelViewTransform = new ModelViewTransform( 0.5, 0, 0 );
         
         // Glass Slide
-        _glassSlideNode = new GlassSlideNode( _glassSlide, _modelViewTransform );
+        _glassSlideNode = new GlassSlideNode( _fluid, _modelViewTransform );
         
         // Laser
         _laserNode = new LaserNode( _canvas, _laser, PhysicsDefaults.LASER_POWER_RANGE );
@@ -184,7 +181,7 @@ public class PhysicsModule extends AbstractModule {
         
         // Fluid controls
         _fluidControlPanel = new FluidControlPanel( OTConstants.PLAY_AREA_CONTROL_FONT,
-                PhysicsDefaults.FLUID_VELOCITY_RANGE,
+                PhysicsDefaults.FLUID_SPEED_RANGE,
                 PhysicsDefaults.FLUID_VISCOSITY_RANGE,
                 PhysicsDefaults.FLUID_TEMPERATURE_RANGE );
         _fluidControlPanelWrapper = new PSwing( _canvas, _fluidControlPanel );
@@ -349,7 +346,7 @@ public class PhysicsModule extends AbstractModule {
         
         // Fluid controls
         _fluidControlPanelWrapper.setVisible( PhysicsDefaults.FLUID_CONTROLS_SELECTED );
-        _fluidControlPanel.getVelocityControl().setValue( PhysicsDefaults.FLUID_VELOCITY_RANGE.getDefault() );
+        _fluidControlPanel.getSpeedControl().setValue( PhysicsDefaults.FLUID_SPEED_RANGE.getDefault() );
         _fluidControlPanel.getViscosityControl().setValue( PhysicsDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
         _fluidControlPanel.getTemperatureControl().setValue( PhysicsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
     }

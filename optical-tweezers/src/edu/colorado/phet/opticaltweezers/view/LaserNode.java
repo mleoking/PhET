@@ -11,6 +11,9 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.control.LaserControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Laser;
@@ -20,9 +23,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 
-public class LaserNode extends PhetPNode {
+public class LaserNode extends PhetPNode implements Observer {
 
-    private static final double LASER_BEAM_WIDTH = 300; //XXX get from model
     private static final double LASER_BEAM_HEIGHT = 100; //XXX get from model
     
     private static final double OBJECTIVE_ASPECT_RATIO = 12.0; // width:height ratio
@@ -35,7 +37,7 @@ public class LaserNode extends PhetPNode {
         super();
         
         _laser = laser;
-        //XXX observe!
+        _laser.addObserver( this );
         
         final double laserWidth = _laser.getWidth();
         
@@ -53,5 +55,17 @@ public class LaserNode extends PhetPNode {
         addChild( objectiveNode );
         addChild( beamNode );
         addChild( controlPanelWrapper );
+    }
+
+    public void cleanup() {
+        _laser.deleteObserver( this );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    public void update( Observable o, Object arg ) {
+        //XXX
     }
 }
