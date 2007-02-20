@@ -11,6 +11,7 @@ HIGH PRIORITY:
 
 
 MEDIUM PRIORITY:
+- javadoc what I've done so far
 - vertically align left edges of fluid controls
 - generalize LaserPowerControl
 - use font in FluidControlPanel
