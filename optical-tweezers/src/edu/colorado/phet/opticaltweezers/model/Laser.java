@@ -23,7 +23,8 @@ public class Laser extends MovableObject implements ModelElement {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String PROPERTY_POWER = "power";
+    public static final String PROPERTY_POWER = "power";
+    public static final String PROPERTY_RUNNING = "running";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -32,6 +33,7 @@ public class Laser extends MovableObject implements ModelElement {
     private double _width; // nm
     private double _wavelength; // nm
     private double _power; // mW
+    private boolean _running;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -51,11 +53,23 @@ public class Laser extends MovableObject implements ModelElement {
         _width = width;
         _wavelength = wavelength;
         _power = power;
+        _running = false;
     }
     
     //----------------------------------------------------------------------------
     // Mutators and accessors
     //----------------------------------------------------------------------------
+    
+    public void setRunning( boolean running ) {
+        if ( running != _running ) {
+            _running = running;
+            notifyObservers( PROPERTY_RUNNING );
+        }
+    }
+    
+    public boolean isRunning() {
+        return _running;
+    }
     
     public double getWidth() {
         return _width;
