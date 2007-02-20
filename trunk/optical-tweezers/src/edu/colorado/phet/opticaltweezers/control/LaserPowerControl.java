@@ -25,7 +25,7 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.opticaltweezers.util.DoubleRange;
+import edu.colorado.phet.opticaltweezers.util.IntegerRange;
 
 /**
  * LaserPowerControl is a control for laser power.
@@ -40,8 +40,10 @@ public class LaserPowerControl extends JPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private int _minPower, _maxPower;
+    
     private JLabel _label;
-    private ColorIntensitySlider _slider;
+    private ColorIntensitySlider _intensitySlider;
     private JFormattedTextField _formattedTextField;
     private JLabel _units;
     private EventListenerList _listenerList;
@@ -57,16 +59,19 @@ public class LaserPowerControl extends JPanel {
      * @param sliderSize
      * @param font
      */
-    public LaserPowerControl( DoubleRange range, String label, String units, int columns, double wavelength, Dimension sliderSize, Font font ) {
+    public LaserPowerControl( IntegerRange powerRange, String label, String units, int columns, double wavelength, Dimension sliderSize, Font font ) {
         super();
+        
+        _minPower = powerRange.getMin();
+        _maxPower = powerRange.getMax();
         
         _listenerList = new EventListenerList();
         _eventSource = this;
         EventHandler listener = new EventHandler();
         
         Color color = VisibleColor.wavelengthToColor( wavelength );
-        _slider = new ColorIntensitySlider( color, ColorIntensitySlider.HORIZONTAL, sliderSize );
-        _slider.addChangeListener( listener );
+        _intensitySlider = new ColorIntensitySlider( color, ColorIntensitySlider.HORIZONTAL, sliderSize );
+        _intensitySlider.addChangeListener( listener );
         
         _label = new JLabel( label );
         _label.setFont( font );
@@ -84,7 +89,7 @@ public class LaserPowerControl extends JPanel {
         
         // Opacity
         setOpaque( false );
-        _slider.setOpaque( false );
+        _intensitySlider.setOpaque( false );
         _units.setOpaque( false );
         
         // Layout
@@ -95,12 +100,12 @@ public class LaserPowerControl extends JPanel {
         int row = 0;
         int col = 0;
         layout.addComponent( _label, row, col++ );
-        layout.addComponent( _slider, row, col++ );
+        layout.addComponent( _intensitySlider, row, col++ );
         layout.addComponent( _formattedTextField, row, col++ );
         layout.addComponent( _units, row, col++ );
         
         // Default state
-        setValue( 0 );
+        setPower( powerRange.getDefault() );
     }
     
     //----------------------------------------------------------------------------
@@ -109,17 +114,19 @@ public class LaserPowerControl extends JPanel {
     
     public void setWavelength( double wavelength ) {
         Color color = VisibleColor.wavelengthToColor( wavelength );
-        _slider.setColor( color );
+        _intensitySlider.setColor( color );
     }
     
-    public void setValue( int value ) {
-        _slider.setValue( value );
+    public void setPower( int power ) {
+        int intensity = powerToIntensity( power );
+        _intensitySlider.setValue( intensity );
         updateTextField();
         fireChangeEvent( new ChangeEvent( this ) );
     }
     
-    public int getValue() {
-        return _slider.getValue();
+    public int getPower() {
+        int intensity = _intensitySlider.getValue();
+        return intensityToPower( intensity );
     }
     
     public void setLabelForeground( Color color ) {
@@ -128,6 +135,22 @@ public class LaserPowerControl extends JPanel {
     
     public void setUnitsForeground( Color color ) {
         _units.setForeground( color );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Conversions between power and intensity
+    //----------------------------------------------------------------------------
+    
+    private int powerToIntensity( int power ) {
+        assert( power >= _minPower );
+        assert( power <= _maxPower );
+        return 100 * ( power - _minPower ) / ( _maxPower - _minPower );
+    }
+    
+    private int intensityToPower( int intensity ) {
+        assert( intensity >= 0 );
+        assert( intensity <= 100 );
+        return _minPower + (int)( ( intensity / 100.0 ) * ( _maxPower - _minPower ) );
     }
     
     //----------------------------------------------------------------------------
@@ -144,9 +167,10 @@ public class LaserPowerControl extends JPanel {
         
         String s = _formattedTextField.getText();
         try {
-            int i = Integer.parseInt( s );
-            if ( i >= _slider.getMinimum() && i <= _slider.getMaximum() ) {
-                _slider.setValue( i );
+            int power = Integer.parseInt( s );
+            if ( power >= _minPower && power <= _maxPower ) {
+                int intensity = powerToIntensity( power );
+                _intensitySlider.setValue( intensity );
             }
             else {
                 error = true;
@@ -166,8 +190,9 @@ public class LaserPowerControl extends JPanel {
      * Updates the text field to match the slider value.
      */
     private void updateTextField() {
-        final int value = _slider.getValue();
-        String s = "" + value;
+        int intensity = _intensitySlider.getValue();
+        int power = intensityToPower( intensity );
+        String s = "" + power;
         _formattedTextField.setText( s );
     }
     
@@ -220,12 +245,12 @@ public class LaserPowerControl extends JPanel {
         public void keyPressed( KeyEvent e ) {
             if ( e.getSource() == _formattedTextField ) {
                 if ( e.getKeyCode() == KeyEvent.VK_UP ) {
-                    final int value = _slider.getValue() + 1;
-                    setValue( value );
+                    final int value = _intensitySlider.getValue() + 1;
+                    setPower( value );
                 }
                 else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
-                    final int value = _slider.getValue() - 1;
-                    setValue( value );
+                    final int value = _intensitySlider.getValue() - 1;
+                    setPower( value );
                 }
             }
         }
@@ -240,7 +265,7 @@ public class LaserPowerControl extends JPanel {
         
         /* Slider was moved. */
         public void stateChanged( ChangeEvent event ) {
-            if ( event.getSource() == _slider ) {
+            if ( event.getSource() == _intensitySlider ) {
                 updateTextField();
                 fireChangeEvent( new ChangeEvent( _eventSource ) );
             }

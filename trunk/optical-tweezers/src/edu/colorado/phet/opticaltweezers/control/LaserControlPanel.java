@@ -25,7 +25,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.util.DoubleRange;
+import edu.colorado.phet.opticaltweezers.util.IntegerRange;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
@@ -45,7 +45,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     private static final Color PANEL_FILL_COLOR = Color.DARK_GRAY;
     
     private static final Dimension POWER_SLIDER_SIZE = new Dimension( 150, 25 );
-    private static final int POWER_VALUE_DIGITS = 3;
+    private static final int POWER_VALUE_DIGITS = 4;
         
     private Laser _laser;
     
@@ -54,7 +54,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     
     private String _startString, _stopString;
     
-    public LaserControlPanel( PSwingCanvas canvas, Font font, double minPanelWidth, Laser laser, DoubleRange powerRange ) {
+    public LaserControlPanel( PSwingCanvas canvas, Font font, double minPanelWidth, Laser laser, IntegerRange powerRange ) {
         super();
         
         _laser = laser;
@@ -86,7 +86,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         _powerControl.setUnitsForeground( Color.WHITE );
         _powerControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                int power = _powerControl.getValue();
+                int power = _powerControl.getPower();
                 _laser.setPower( power );
             }
         } );
@@ -145,7 +145,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
             }
             else if ( arg == Laser.PROPERTY_POWER ) {
                 double power = _laser.getPower();
-                _powerControl.setValue( (int) power );
+                _powerControl.setPower( (int) power );
             }
         }
     }

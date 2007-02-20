@@ -19,9 +19,8 @@ import java.util.Observer;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.control.LaserControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.util.DoubleRange;
+import edu.colorado.phet.opticaltweezers.util.IntegerRange;
 import edu.colorado.phet.piccolo.PhetPNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 
@@ -38,7 +37,7 @@ public class LaserNode extends PhetPNode implements Observer {
     private ModelViewTransform _modelViewTransform;
     private LaserControlPanel _controlPanel;
     
-    public LaserNode( PSwingCanvas canvas, Laser laser, ModelViewTransform modelViewTransform, DoubleRange powerRange ) {
+    public LaserNode( PSwingCanvas canvas, Laser laser, ModelViewTransform modelViewTransform, IntegerRange powerRange ) {
         super();
         
         _laser = laser;
