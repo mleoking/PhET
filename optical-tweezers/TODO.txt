@@ -10,7 +10,7 @@ HIGH PRIORITY:
 - laser power text field entry and validation
 - laser power slider range (0-1000 mW)
 - laser view
-
+- make FluidControlPanel observer of Fluid
 
 MEDIUM PRIORITY:
 - vertically align left edges of fluid controls
@@ -42,6 +42,8 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+(2/20/07) - set layout of laser objective, incoming beam, control panel
+(2/20/07) - fix initial positioning of Laser and Bead views
 (2/20/07) - make view nodes observers of their model elements
 (2/20/07) - remove glass slide from model, fluid model is sufficient
 (2/20/07) - change "flow velocity" to "flow speed" through, there is no direction control

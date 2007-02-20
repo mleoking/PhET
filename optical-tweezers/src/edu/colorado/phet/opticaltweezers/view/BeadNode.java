@@ -19,6 +19,7 @@ import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.util.RoundGradientPaint;
 import edu.colorado.phet.piccolo.event.CursorHandler;

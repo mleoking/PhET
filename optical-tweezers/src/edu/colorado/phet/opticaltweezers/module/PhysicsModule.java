@@ -149,7 +149,7 @@ public class PhysicsModule extends AbstractModule {
         _glassSlideNode = new GlassSlideNode( _fluid, _modelViewTransform );
         
         // Laser
-        _laserNode = new LaserNode( _canvas, _laser, PhysicsDefaults.LASER_POWER_RANGE );
+        _laserNode = new LaserNode( _canvas, _laser, _modelViewTransform, PhysicsDefaults.LASER_POWER_RANGE );
         
         // Bead
         _beadNode = new BeadNode( _bead, _modelViewTransform );
@@ -267,12 +267,6 @@ public class PhysicsModule extends AbstractModule {
         
         // Glass Slide, width fills the canvas
         _glassSlideNode.setCanvasWidth( worldSize.getWidth() );
-        
-        // Laser
-        _laserNode.setOffset( 200, 600 ); //XXX get postion from model
-        
-        // Bead
-        _beadNode.setOffset( 400, 300 ); //XXX get position from model
         
         // Fluid controls
         _fluidControlPanelWrapper.setOffset( 10, 280 ); //XXX

@@ -28,6 +28,7 @@ public class ObjectiveNode extends PPath {
     public ObjectiveNode( double width, double height ) {
         super();
         
+        // (0,0) is at upper left
         setPathTo( new Ellipse2D.Double( 0, 0, width, height ) );
         setPaint( FILL_COLOR );
         setStroke( STROKE );
