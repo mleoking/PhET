@@ -37,6 +37,15 @@ public class Laser extends MovableObject implements ModelElement {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param position position of the laser's objective (nm)
+     * @param orientation orientation of the beam (radians)
+     * @param width width of the laser beam, as it enters the objective (nm)
+     * @param wavelength wavelenght (nm)
+     * @param power power (mW)
+     */
     public Laser( Point2D position, double orientation, double width, double wavelength, double power ) {
         super( position, orientation, 0 /* speed */ );
         _width = width;

@@ -34,17 +34,17 @@ public class PhysicsDefaults {
     public static final double FAST_SPEED = 0.5; // range: 0-1
     
     // Laser model
-    public static final double LASER_WAVELENGTH = 632; // nm
-    public static final boolean LASER_ON = false;
-    public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500, 1 ); // mW
-    public static final Point2D LASER_POSITION = new Point2D.Double( 400, 400 ); // nm
+    public static final Point2D LASER_POSITION = new Point2D.Double( 1200, 1200 ); // nm
     public static final double LASER_ORIENTATION = Math.toRadians( -90 );
-    public static final double LASER_WIDTH = 700; // nm
+    public static final double LASER_WIDTH = 1000; // nm
+    public static final double LASER_WAVELENGTH = 632; // nm
+    public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500, 1 ); // mW
+    public static final boolean LASER_ON = false;
     
     // Bead model
-    public static final double BEAD_DIAMETER = 200; // nm
-    public static final Point2D BEAD_POSITION = new Point2D.Double( 300, 300 ); // nm
+    public static final Point2D BEAD_POSITION = new Point2D.Double( 1200, 800 ); // nm
     public static final double BEAD_ORIENTATION = Math.toRadians( 0 );
+    public static final double BEAD_DIAMETER = 200; // nm
     
     // Fluid model
     public static final Point2D FLUID_POSITION = new Point2D.Double( 0, 600 ); // nm
