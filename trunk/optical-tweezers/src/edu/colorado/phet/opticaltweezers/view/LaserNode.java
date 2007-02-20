@@ -57,13 +57,12 @@ public class LaserNode extends PhetPNode implements Observer {
         BeamNode beamNode = new BeamNode( laserWidth, CONTROL_PANEL_Y_OFFSET, laser.getWavelength() );
         
         // Control panel
-        _controlPanel = new LaserControlPanel( OTConstants.PLAY_AREA_CONTROL_FONT, laser.getWavelength(), powerRange );
-        PSwing controlPanelWrapper = new PSwing( canvas, _controlPanel );
+        _controlPanel = new LaserControlPanel( canvas, OTConstants.PLAY_AREA_CONTROL_FONT, objectiveWidth, laser, powerRange );
         
         // Layering
         addChild( objectiveNode );
         addChild( beamNode );
-        addChild( controlPanelWrapper );
+        addChild( _controlPanel );
         if ( DEBUG_SHOW_ORIGIN ) {
             addChild( new OriginNode( Color.RED ) );
         }
@@ -73,7 +72,7 @@ public class LaserNode extends PhetPNode implements Observer {
         // Beam below objective
         beamNode.setOffset( -beamNode.getFullBounds().getWidth()/2, 0 );
         // Control panel below beam
-        controlPanelWrapper.setOffset( -controlPanelWrapper.getFullBounds().getWidth()/2, beamNode.getFullBounds().getHeight() );
+        _controlPanel.setOffset( -_controlPanel.getFullBounds().getWidth()/2, beamNode.getFullBounds().getHeight() );
         
         // Position the entire node at the laser's position
         Point2D laserPosition = _modelViewTransform.transform( _laser.getPosition() );

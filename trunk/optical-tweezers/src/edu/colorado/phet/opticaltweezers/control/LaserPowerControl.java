@@ -54,10 +54,10 @@ public class LaserPowerControl extends JPanel {
     /**
      * Constructor.
      * 
-     * @param size
+     * @param sliderSize
      * @param font
      */
-    public LaserPowerControl( DoubleRange range, String label, String units, int columns, double wavelength, Dimension size, Font font ) {
+    public LaserPowerControl( DoubleRange range, String label, String units, int columns, double wavelength, Dimension sliderSize, Font font ) {
         super();
         
         _listenerList = new EventListenerList();
@@ -65,7 +65,7 @@ public class LaserPowerControl extends JPanel {
         EventHandler listener = new EventHandler();
         
         Color color = VisibleColor.wavelengthToColor( wavelength );
-        _slider = new ColorIntensitySlider( color, ColorIntensitySlider.HORIZONTAL, size );
+        _slider = new ColorIntensitySlider( color, ColorIntensitySlider.HORIZONTAL, sliderSize );
         _slider.addChangeListener( listener );
         
         _label = new JLabel( label );
