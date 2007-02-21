@@ -13,6 +13,7 @@ package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.MessageFormat;
 import java.text.ParseException;
 
 import javax.swing.JFormattedTextField;
@@ -23,7 +24,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.util.DialogUtils;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.opticaltweezers.util.IntegerRange;
 
@@ -46,6 +50,7 @@ public class LaserPowerControl extends JPanel {
     private ColorIntensitySlider _intensitySlider;
     private JFormattedTextField _formattedTextField;
     private JLabel _units;
+    private EventHandler _listener;
     private EventListenerList _listenerList;
     private Object _eventSource;
     
@@ -64,14 +69,14 @@ public class LaserPowerControl extends JPanel {
         
         _minPower = powerRange.getMin();
         _maxPower = powerRange.getMax();
-        
+      
+        _listener = new EventHandler();
         _listenerList = new EventListenerList();
         _eventSource = this;
-        EventHandler listener = new EventHandler();
         
         Color color = VisibleColor.wavelengthToColor( wavelength );
         _intensitySlider = new ColorIntensitySlider( color, ColorIntensitySlider.HORIZONTAL, sliderSize );
-        _intensitySlider.addChangeListener( listener );
+        _intensitySlider.addChangeListener( _listener );
         
         _label = new JLabel( label );
         _label.setFont( font );
@@ -80,9 +85,9 @@ public class LaserPowerControl extends JPanel {
         _formattedTextField.setFont( font );
         _formattedTextField.setColumns( columns );
         _formattedTextField.setHorizontalAlignment( JTextField.RIGHT );
-        _formattedTextField.addActionListener( listener );
-        _formattedTextField.addFocusListener( listener );
-        _formattedTextField.addKeyListener( listener );
+        _formattedTextField.addActionListener( _listener );
+        _formattedTextField.addFocusListener( _listener );
+        _formattedTextField.addKeyListener( _listener );
         
         _units = new JLabel( units );
         _units.setFont( font );
@@ -181,7 +186,7 @@ public class LaserPowerControl extends JPanel {
         }
         
         if ( error ) {
-            warnUser();
+            warnUser( s );
             updateTextField();
         }
     }
@@ -197,10 +202,19 @@ public class LaserPowerControl extends JPanel {
     }
     
     /*
-     * Produces an audible beep, used to indicate invalid text entry.
+     * Produces an audible beep and posts an error dialog
+     * indicating that the user's input was incorrect.
      */
-    private void warnUser() {
+    private void warnUser( String userInput ) {
         Toolkit.getDefaultToolkit().beep();
+        Component parent = PhetApplication.instance().getPhetFrame();
+        String title = SimStrings.get( "title.error" );
+        String pattern = SimStrings.get( "message.badPowerInput" );
+        Object[] args = new Object[] { new Integer( _minPower ), new Integer( _maxPower ) };
+        String message = MessageFormat.format( pattern, args );
+        _formattedTextField.removeFocusListener( _listener ); // prevent circular validation
+        DialogUtils.showErrorDialog( parent, message, title );
+        _formattedTextField.addFocusListener( _listener );
     }
     
     //----------------------------------------------------------------------------
@@ -285,12 +299,13 @@ public class LaserPowerControl extends JPanel {
          */
         public void focusLost( FocusEvent e ) {
             if ( e.getSource() == _formattedTextField ) {
+                String s = _formattedTextField.getText();
                 try {
                     _formattedTextField.commitEdit();
                     updateSlider();
                 }
                 catch ( ParseException pe ) {
-                    warnUser();
+                    warnUser( s );
                     updateTextField(); // revert
                 }
             }
