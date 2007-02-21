@@ -21,6 +21,8 @@ import edu.colorado.phet.opticaltweezers.control.LaserControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.util.IntegerRange;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 
@@ -89,6 +91,12 @@ public class LaserNode extends PhetPNode implements Observer {
         // Position the entire node at the laser's position
         Point2D laserPosition = _modelViewTransform.transform( _laser.getPosition() );
         setOffset( laserPosition.getX(), laserPosition.getY() );
+        
+        // Put hand cursor on parts that are interactive
+        objectiveNode.addInputEventListener( new CursorHandler() );
+        _controlPanel.addInputEventListener( new CursorHandler() );
+        
+//        addInputEventListener( new PDragEventHandler() ); //XXX lock vertical, constrain horizontally to bounds of play area
         
         // Default state
         handleRunningChange();
