@@ -16,19 +16,27 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.opticaltweezers.util.ColorUtils;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 
-public class BeamNode extends PPath {
+public class BeamOutNode extends PhetPNode {
 
     private static final int ALPHA_CHANNEL = 100; // 0-255
     
-    public BeamNode( double width, double height, double wavelength ) {
+    public BeamOutNode( double width, double height, double wavelength ) {
         super();
-        setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
+        
+        Rectangle2D r = new Rectangle2D.Double( 0, 0, width, height );
+
+        //XXX use constructive geometry to create beam waist
+        
+        PPath pathNode = new PPath();
+        pathNode.setPathTo( r );
         Color wavelengthColor = VisibleColor.wavelengthToColor( wavelength );
         Color laserColor = ColorUtils.addAlpha( wavelengthColor, ALPHA_CHANNEL );
-        setPaint( laserColor );
-        setStroke( null );
+        pathNode.setPaint( laserColor );
+        pathNode.setStroke( null );
+        addChild( pathNode );
     }
 }
