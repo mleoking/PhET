@@ -45,19 +45,15 @@ public class BeadNode extends SphericalNode implements Observer {
         
         _modelViewTransform = modelViewTransform;
         
-        final double diameter = _modelViewTransform.transform( bead.getDiameter() );
-        Point2D position = _modelViewTransform.transform( bead.getPositionRef() );
-        
-        setDiameter( diameter );
-        Paint paint = new RoundGradientPaint( 0, diameter/6, HILITE_COLOR, new Point2D.Double( diameter/4, diameter/4 ), PRIMARY_COLOR );
-        setPaint( paint );
         setStroke( STROKE );
         setStrokePaint( STROKE_PAINT );
         
-        setOffset( position.getX(), position.getY() );
-        
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragEventHandler() ); //XXX constrain to bounds of glass slide
+        
+        // Default state
+        handleDiameterChange();
+        handlePositionChange();
     }
     
     public void cleanup() {
@@ -69,6 +65,29 @@ public class BeadNode extends SphericalNode implements Observer {
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        //XXX
+        if ( o == _bead ) {
+            if ( arg == Bead.PROPERTY_POSITION ) {
+                handlePositionChange();
+            }
+            if ( arg == Bead.PROPERTY_DIAMETER ) {
+                handleDiameterChange();
+            }
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Property change handlers
+    //----------------------------------------------------------------------------
+    
+    private void handlePositionChange() {
+        Point2D position = _modelViewTransform.transform( _bead.getPositionRef() );
+        setOffset( position.getX(), position.getY() );
+    }
+    
+    private void handleDiameterChange() {
+        final double diameter = _modelViewTransform.transform( _bead.getDiameter() );
+        setDiameter( diameter );
+        Paint paint = new RoundGradientPaint( 0, diameter/6, HILITE_COLOR, new Point2D.Double( diameter/4, diameter/4 ), PRIMARY_COLOR );
+        setPaint( paint );
     }
 }

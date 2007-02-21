@@ -40,6 +40,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+(2/21/07) - make bead diameter mutable
 (2/21/07) - setPickable(false) on non-interactive nodes
 (2/21/07) - hook up laser power control to alpha channel of laser beam view
 (2/20/07) - add laser beam coming out of objective, no waist
