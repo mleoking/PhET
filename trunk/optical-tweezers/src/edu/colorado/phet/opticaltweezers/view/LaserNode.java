@@ -99,12 +99,10 @@ public class LaserNode extends PhetPNode implements Observer {
         
         // Put hand cursor on parts that are interactive
         _objectiveNode.addInputEventListener( new CursorHandler() );
-        _controlPanel.addInputEventListener( new CursorHandler() );
         
         // Constrain dragging
         _dragHandler = new BoundedDragHandler( this, dragBoundsNode );
         _objectiveNode.addInputEventListener( _dragHandler );
-        _controlPanel.addInputEventListener( _dragHandler );
         
         // Default state
         handleRunningChange();
