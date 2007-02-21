@@ -22,9 +22,10 @@ import java.util.Observer;
 
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.util.RoundGradientPaint;
+import edu.colorado.phet.piccolo.event.BoundedDragHandler;
 import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.PNode;
 
 
 public class BeadNode extends SphericalNode implements Observer {
@@ -37,9 +38,9 @@ public class BeadNode extends SphericalNode implements Observer {
     
     private Bead _bead;
     private ModelViewTransform _modelViewTransform;
-    private ConstrainedDragHandler _dragHandler;
+    private BoundedDragHandler _dragHandler;
     
-    public BeadNode( Bead bead, ModelViewTransform modelViewTransform ) {
+    public BeadNode( Bead bead, ModelViewTransform modelViewTransform, PNode dragBoundsNode ) {
         super( true /* convertToImage */ );
         
         _bead = bead;
@@ -52,8 +53,7 @@ public class BeadNode extends SphericalNode implements Observer {
         
         addInputEventListener( new CursorHandler() );
         
-        _dragHandler = new ConstrainedDragHandler();
-        _dragHandler.setTreatAsPointEnabled( false );
+        _dragHandler = new BoundedDragHandler( this, dragBoundsNode );
         addInputEventListener( _dragHandler  );
         
         // Default state
@@ -68,15 +68,6 @@ public class BeadNode extends SphericalNode implements Observer {
     //----------------------------------------------------------------------------
     // Accessors and mutators
     //----------------------------------------------------------------------------
-    
-    /**
-     * Sets the drag bounds.
-     * 
-     * @param dragBound drag bounds, in global coordinates
-     */
-    public void setGlobalDragBounds( Rectangle2D dragBounds ) {
-        _dragHandler.setDragBounds( dragBounds );
-    }
     
     //----------------------------------------------------------------------------
     // Observer implementation

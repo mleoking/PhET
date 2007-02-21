@@ -13,6 +13,7 @@ package edu.colorado.phet.opticaltweezers.view;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -21,8 +22,10 @@ import edu.colorado.phet.opticaltweezers.control.LaserControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.util.IntegerRange;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.piccolo.event.BoundedDragHandler;
+import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 
@@ -40,11 +43,13 @@ public class LaserNode extends PhetPNode implements Observer {
     private Laser _laser;
     private ModelViewTransform _modelViewTransform;
     
+    private ObjectiveNode _objectiveNode;
     private BeamInNode _beamInNode;
     private BeamOutNode _beamOutNode;
     private LaserControlPanel _controlPanel;
+    private BoundedDragHandler _dragHandler;
     
-    public LaserNode( PSwingCanvas canvas, Laser laser, ModelViewTransform modelViewTransform, IntegerRange powerRange ) {
+    public LaserNode( PSwingCanvas canvas, Laser laser, ModelViewTransform modelViewTransform, IntegerRange powerRange, PNode dragBoundsNode ) {
         super();
         
         _laser = laser;
@@ -57,7 +62,7 @@ public class LaserNode extends PhetPNode implements Observer {
         // Objective (lens) used to focus the laser beam
         double objectiveWidth = laserWidth / OBJECT_WIDTH_TO_BEAM_WIDTH_RATIO;
         double objectiveHeight = objectiveWidth / OBJECTIVE_WIDTH_TO_OBJECTIVE_HEIGHT_RATIO;
-        ObjectiveNode objectiveNode = new ObjectiveNode( objectiveWidth, objectiveHeight );
+        _objectiveNode = new ObjectiveNode( objectiveWidth, objectiveHeight );
         
         // Control panel
         _controlPanel = new LaserControlPanel( canvas, OTConstants.PLAY_AREA_CONTROL_FONT, objectiveWidth, laser, powerRange );
@@ -72,7 +77,7 @@ public class LaserNode extends PhetPNode implements Observer {
         
         // Layering
         addChild( _beamInNode );
-        addChild( objectiveNode );
+        addChild( _objectiveNode );
         addChild( _beamOutNode );
         addChild( _controlPanel );
         if ( DEBUG_SHOW_ORIGIN ) {
@@ -80,7 +85,7 @@ public class LaserNode extends PhetPNode implements Observer {
         }
         
         // Center of objective at (0,0)
-        objectiveNode.setOffset( -objectiveNode.getFullBounds().getWidth()/2, -objectiveNode.getFullBounds().getHeight()/2 );
+        _objectiveNode.setOffset( -_objectiveNode.getFullBounds().getWidth()/2, -_objectiveNode.getFullBounds().getHeight()/2 );
         // Beam below objective
         _beamInNode.setOffset( -_beamInNode.getFullBounds().getWidth()/2, 0 );
         // Beam above objective
@@ -93,10 +98,13 @@ public class LaserNode extends PhetPNode implements Observer {
         setOffset( laserPosition.getX(), laserPosition.getY() );
         
         // Put hand cursor on parts that are interactive
-        objectiveNode.addInputEventListener( new CursorHandler() );
+        _objectiveNode.addInputEventListener( new CursorHandler() );
         _controlPanel.addInputEventListener( new CursorHandler() );
         
-//        addInputEventListener( new PDragEventHandler() ); //XXX lock vertical, constrain horizontally to bounds of play area
+        // Constrain dragging
+        _dragHandler = new BoundedDragHandler( this, dragBoundsNode );
+        _objectiveNode.addInputEventListener( _dragHandler );
+        _controlPanel.addInputEventListener( _dragHandler );
         
         // Default state
         handleRunningChange();
@@ -107,6 +115,10 @@ public class LaserNode extends PhetPNode implements Observer {
     public void cleanup() {
         _laser.deleteObserver( this );
     }
+    
+    //----------------------------------------------------------------------------
+    // Accessors and mutators
+    //----------------------------------------------------------------------------
     
     //----------------------------------------------------------------------------
     // Property change handlers
