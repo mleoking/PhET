@@ -27,6 +27,8 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 public class LaserNode extends PhetPNode implements Observer {
 
     private static final boolean DEBUG_SHOW_ORIGIN = true;
+
+    private static final int MAX_ALPHA_CHANNEL = 180; // 0-255
     
     private static final double CONTROL_PANEL_Y_OFFSET = 50; // pixels, from the center of the objective
     
@@ -55,15 +57,16 @@ public class LaserNode extends PhetPNode implements Observer {
         double objectiveHeight = objectiveWidth / OBJECTIVE_WIDTH_TO_OBJECTIVE_HEIGHT_RATIO;
         ObjectiveNode objectiveNode = new ObjectiveNode( objectiveWidth, objectiveHeight );
         
+        // Control panel
+        _controlPanel = new LaserControlPanel( canvas, OTConstants.PLAY_AREA_CONTROL_FONT, objectiveWidth, laser, powerRange );
+        
         // Laser beam coming into objective
-        _beamInNode = new BeamInNode( laserWidth, CONTROL_PANEL_Y_OFFSET, laser.getWavelength() );
+        final int alpha = powerToAlpha( _laser.getPower() );
+        _beamInNode = new BeamInNode( laserWidth, CONTROL_PANEL_Y_OFFSET, laser.getWavelength(), alpha );
         
         // Laser beam coming out of objective
         double beamOutHeight = _modelViewTransform.transform( laser.getPositionRef().getY() ); // distance from top of canvas
-        _beamOutNode = new BeamOutNode( laserWidth, beamOutHeight, laser.getWavelength() );
-        
-        // Control panel
-        _controlPanel = new LaserControlPanel( canvas, OTConstants.PLAY_AREA_CONTROL_FONT, objectiveWidth, laser, powerRange );
+        _beamOutNode = new BeamOutNode( laserWidth, beamOutHeight, laser.getWavelength(), alpha );
         
         // Layering
         addChild( _beamInNode );
@@ -88,8 +91,9 @@ public class LaserNode extends PhetPNode implements Observer {
         setOffset( laserPosition.getX(), laserPosition.getY() );
         
         // Default state
-        updateVisibility();
-        updatePosition();
+        handleRunningChange();
+        handlePositionChange();
+        handlePowerChange();
     }
 
     public void cleanup() {
@@ -97,17 +101,28 @@ public class LaserNode extends PhetPNode implements Observer {
     }
     
     //----------------------------------------------------------------------------
-    // Observer implementation
+    // Property change handlers
     //----------------------------------------------------------------------------
     
-    private void updateVisibility() {
+    private void handleRunningChange() {
         _beamInNode.setVisible( _laser.isRunning() );
         _beamOutNode.setVisible( _laser.isRunning() );
     }
     
-    private void updatePosition() {
+    private void handlePositionChange() {
         Point2D laserPosition = _modelViewTransform.transform( _laser.getPosition() );
         setOffset( laserPosition.getX(), laserPosition.getY() );
+    }
+    
+    private void handlePowerChange() {
+        int power = _laser.getPower();
+        int alpha = powerToAlpha( power);
+        _beamInNode.setAlpha( alpha );
+        _beamOutNode.setAlpha( alpha );
+    }
+    
+    private int powerToAlpha( int power ) {
+        return (int)( MAX_ALPHA_CHANNEL * ( power - _controlPanel.getMinPower() ) / (double)( _controlPanel.getMaxPower() - _controlPanel.getMinPower() ) );
     }
     
     //----------------------------------------------------------------------------
@@ -117,10 +132,13 @@ public class LaserNode extends PhetPNode implements Observer {
     public void update( Observable o, Object arg ) {
         if ( o == _laser ) {
             if ( arg == Laser.PROPERTY_POSITION ) {
-                updatePosition();
+                handlePositionChange();
             }
             else if ( arg == Laser.PROPERTY_RUNNING ) {
-                updateVisibility();
+                handleRunningChange();
+            }
+            else if ( arg == Laser.PROPERTY_POWER ) {
+                handlePowerChange();
             }
             //XXX other properties?
         }

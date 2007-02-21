@@ -22,21 +22,27 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 public class BeamOutNode extends PhetPNode {
 
-    private static final int ALPHA_CHANNEL = 100; // 0-255
+    private PPath _pathNode;
+    private Color _laserColor;
     
-    public BeamOutNode( double width, double height, double wavelength ) {
+    public BeamOutNode( double width, double height, double wavelength, int alpha ) {
         super();
         
         Rectangle2D r = new Rectangle2D.Double( 0, 0, width, height );
 
         //XXX use constructive geometry to create beam waist
         
-        PPath pathNode = new PPath();
-        pathNode.setPathTo( r );
+        _pathNode = new PPath();
+        _pathNode.setPathTo( r );
         Color wavelengthColor = VisibleColor.wavelengthToColor( wavelength );
-        Color laserColor = ColorUtils.addAlpha( wavelengthColor, ALPHA_CHANNEL );
-        pathNode.setPaint( laserColor );
-        pathNode.setStroke( null );
-        addChild( pathNode );
+        _laserColor = ColorUtils.addAlpha( wavelengthColor, alpha );
+        _pathNode.setPaint( _laserColor );
+        _pathNode.setStroke( null );
+        addChild( _pathNode );
+    }
+    
+    public void setAlpha( int alpha ) {
+        Color newColor = ColorUtils.addAlpha( _laserColor, alpha );
+        _pathNode.setPaint( newColor );
     }
 }

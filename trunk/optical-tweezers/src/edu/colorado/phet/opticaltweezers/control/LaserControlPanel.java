@@ -134,6 +134,14 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         _laser.deleteObserver( this );
     }
     
+    public int getMinPower() {
+        return _powerControl.getMinPower();
+    }
+    
+    public int getMaxPower() {
+        return _powerControl.getMaxPower();
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------

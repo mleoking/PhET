@@ -134,6 +134,14 @@ public class LaserPowerControl extends JPanel {
         return intensityToPower( intensity );
     }
     
+    public int getMinPower() {
+        return _minPower;
+    }
+    
+    public int getMaxPower() {
+        return _maxPower;
+    }
+    
     public void setLabelForeground( Color color ) {
         _label.setForeground( color );
     }
