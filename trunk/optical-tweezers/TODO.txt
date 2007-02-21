@@ -42,7 +42,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
-(2/20/07) - hook up laser power control to alpha channel of laser beam view
+(2/21/07) - hook up laser power control to alpha channel of laser beam view
 (2/20/07) - add laser beam coming out of objective, no waist
 (2/20/07) - laser power text field entry and validation with error dialog
 (2/20/07) - make laser power slider range be 0-1000 mW
