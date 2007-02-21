@@ -36,7 +36,7 @@ public class GlassSlideNode extends PhetPNode implements Observer {
     private ModelViewTransform _modelViewTransform;
     private double _canvasWidth;
     
-    private PPath topEdgeNode, bottomEdgeNode, centerNode;
+    private PPath _topEdgeNode, _bottomEdgeNode, _centerNode;
     
     public GlassSlideNode( Fluid fluid, ModelViewTransform modelViewTransform ) {
         super();
@@ -50,29 +50,37 @@ public class GlassSlideNode extends PhetPNode implements Observer {
         _modelViewTransform = modelViewTransform;
         _canvasWidth = 1;
         
-        topEdgeNode = new PPath();
-        topEdgeNode.setStroke( EDGE_STROKE );
-        topEdgeNode.setStrokePaint( EDGE_STROKE_COLOR );
-        topEdgeNode.setPaint( EDGE_FILL_COLOR );
+        _topEdgeNode = new PPath();
+        _topEdgeNode.setStroke( EDGE_STROKE );
+        _topEdgeNode.setStrokePaint( EDGE_STROKE_COLOR );
+        _topEdgeNode.setPaint( EDGE_FILL_COLOR );
         
-        bottomEdgeNode = new PPath();
-        bottomEdgeNode.setStroke( EDGE_STROKE );
-        bottomEdgeNode.setStrokePaint( EDGE_STROKE_COLOR );
-        bottomEdgeNode.setPaint( EDGE_FILL_COLOR );
+        _bottomEdgeNode = new PPath();
+        _bottomEdgeNode.setStroke( EDGE_STROKE );
+        _bottomEdgeNode.setStrokePaint( EDGE_STROKE_COLOR );
+        _bottomEdgeNode.setPaint( EDGE_FILL_COLOR );
         
-        centerNode = new PPath();
-        centerNode.setStroke( null );
-        centerNode.setPaint( CENTER_FILL_COLOR );
+        _centerNode = new PPath();
+        _centerNode.setStroke( null );
+        _centerNode.setPaint( CENTER_FILL_COLOR );
         
-        addChild( centerNode );
-        addChild( topEdgeNode );
-        addChild( bottomEdgeNode );
+        addChild( _centerNode );
+        addChild( _topEdgeNode );
+        addChild( _bottomEdgeNode );
         
         update();
     }
     
     public void cleanup() {
         _fluid.deleteObserver( this );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors and mutators
+    //----------------------------------------------------------------------------
+    
+    public Rectangle2D getCenterGlobalBounds() {
+        return _centerNode.getGlobalFullBounds();
     }
     
     public void setCanvasWidth( double canvasWidth ) {
@@ -85,6 +93,10 @@ public class GlassSlideNode extends PhetPNode implements Observer {
         }
     }
     
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
     private void update() {
         
         // fluid flow must be left-to-right or right-to-left
@@ -94,14 +106,14 @@ public class GlassSlideNode extends PhetPNode implements Observer {
         final double y = _modelViewTransform.transform( _fluid.getY() );
         
         // create each part with (0,0) at top right
-        topEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, EDGE_HEIGHT ) );
-        bottomEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, EDGE_HEIGHT ) );
-        centerNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, height ) );
+        _topEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, EDGE_HEIGHT ) );
+        _bottomEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, EDGE_HEIGHT ) );
+        _centerNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, height ) );
         
         // translate parts so that (0,0) of the slide is at left center
-        topEdgeNode.setOffset( 0, -( height / 2 ) - EDGE_HEIGHT );
-        centerNode.setOffset( 0, -( height / 2 ) );
-        bottomEdgeNode.setOffset( 0, +( height / 2 ) );
+        _topEdgeNode.setOffset( 0, -( height / 2 ) - EDGE_HEIGHT );
+        _centerNode.setOffset( 0, -( height / 2 ) );
+        _bottomEdgeNode.setOffset( 0, +( height / 2 ) );
         
         setOffset( 0, y );
     }

@@ -14,9 +14,9 @@ MEDIUM PRIORITY:
 - javadoc what I've done so far
 - vertically align left edges of fluid controls
 - use font in FluidControlPanel
-- wire up "Return Bead" button
+- wire up "Return Bead" button, visible only when bead is outside of canvas
 - horizontally constrain laser drag
-- constrain bead drag to slide
+- better way to constrain bead dragging
 - units and range for slow speed
 - units and range for fast speed
 - change clock speed control?
@@ -38,6 +38,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+(2/21/07) - contrain bead dragging with ConstrainedDragHandler for now
 (2/21/07) - make bead diameter mutable
 (2/21/07) - setPickable(false) on non-interactive nodes
 (2/21/07) - hook up laser power control to alpha channel of laser beam view

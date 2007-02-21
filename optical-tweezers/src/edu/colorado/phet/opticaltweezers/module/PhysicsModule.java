@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JButton;
 
@@ -262,11 +263,23 @@ public class PhysicsModule extends AbstractModule {
             return;
         }
         
-        // reusable (x,y) coordinates, for setting offsets
-        double x, y;
-        
         // Glass Slide, width fills the canvas
         _glassSlideNode.setCanvasWidth( worldSize.getWidth() );
+        
+        // Adjust drag bounds of bead, so it stays on the glass slide
+        {
+            // This percentage of the bead must remain visible
+            final double m = 0.15;
+            
+            Rectangle2D sb = _glassSlideNode.getCenterGlobalBounds();
+            Rectangle2D bb = _beadNode.getGlobalFullBounds();
+            double x = sb.getX() - ( ( 1 - m ) * bb.getWidth() );
+            double y = sb.getY();
+            double w = sb.getWidth() + ( 2 * ( 1 - m ) * bb.getWidth() );
+            double h = sb.getHeight();
+            Rectangle2D dragBounds = new Rectangle2D.Double( x, y, w, h );
+            _beadNode.setGlobalDragBounds( dragBounds );
+        }
         
         // Fluid controls
         _fluidControlPanelWrapper.setOffset( 10, 280 ); //XXX
