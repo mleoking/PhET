@@ -39,6 +39,7 @@ LOW PRIORITY:
 - make laser danger sign look better
 - combine Play & Pause clock buttons ?
 - setPickable(false) on non-interactive nodes
+- rescale image files  to minimize file size
 
 DEFER UNTIL AFTER INTERVIEWS:
  
