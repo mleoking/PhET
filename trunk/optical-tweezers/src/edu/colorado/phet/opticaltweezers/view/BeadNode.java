@@ -16,14 +16,15 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.util.RoundGradientPaint;
+import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 
 
 public class BeadNode extends SphericalNode implements Observer {
@@ -36,6 +37,7 @@ public class BeadNode extends SphericalNode implements Observer {
     
     private Bead _bead;
     private ModelViewTransform _modelViewTransform;
+    private ConstrainedDragHandler _dragHandler;
     
     public BeadNode( Bead bead, ModelViewTransform modelViewTransform ) {
         super( true /* convertToImage */ );
@@ -49,7 +51,10 @@ public class BeadNode extends SphericalNode implements Observer {
         setStrokePaint( STROKE_PAINT );
         
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PDragEventHandler() ); //XXX constrain to bounds of glass slide
+        
+        _dragHandler = new ConstrainedDragHandler();
+        _dragHandler.setTreatAsPointEnabled( false );
+        addInputEventListener( _dragHandler  );
         
         // Default state
         handleDiameterChange();
@@ -58,6 +63,19 @@ public class BeadNode extends SphericalNode implements Observer {
     
     public void cleanup() {
         _bead.deleteObserver( this );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors and mutators
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the drag bounds.
+     * 
+     * @param dragBound drag bounds, in global coordinates
+     */
+    public void setGlobalDragBounds( Rectangle2D dragBounds ) {
+        _dragHandler.setDragBounds( dragBounds );
     }
     
     //----------------------------------------------------------------------------
@@ -90,4 +108,5 @@ public class BeadNode extends SphericalNode implements Observer {
         Paint paint = new RoundGradientPaint( 0, diameter/6, HILITE_COLOR, new Point2D.Double( diameter/4, diameter/4 ), PRIMARY_COLOR );
         setPaint( paint );
     }
+    
 }
