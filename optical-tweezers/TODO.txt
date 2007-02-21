@@ -8,6 +8,7 @@ HIGH PRIORITY:
 - laser view
 - drag laser
 - make FluidControlPanel observer of Fluid
+- hook up laser power control
 
 
 MEDIUM PRIORITY:
