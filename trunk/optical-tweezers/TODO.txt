@@ -9,25 +9,23 @@ HIGH PRIORITY:
 - make laser draggable
 - make FluidControlPanel observer of Fluid
 
-
 MEDIUM PRIORITY:
+- get details of physical model
 - javadoc what I've done so far
 - vertically align left edges of fluid controls
-- generalize LaserPowerControl
 - use font in FluidControlPanel
 - wire up "Return Bead" button
 - horizontally constrain laser drag
-- constrain bead drag
-- dynamically adjust glass slide width based on play area width
+- constrain bead drag to slide
 - units and range for slow speed
 - units and range for fast speed
 - change clock speed control?
-- range for flow speed
+- units and range for flow speed
 - units and range for fluid viscosity
 - units and range for fluid temperature
-- get details of physical model
 
 LOW PRIORITY:
+- generalize LaserPowerControl
 - get requirements for "Fun With DNA" and "Molecular Motors" panels
 - save/load for first module's control panel
 - green control panel background ala design doc
