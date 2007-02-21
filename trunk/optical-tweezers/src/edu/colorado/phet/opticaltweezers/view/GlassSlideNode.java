@@ -41,6 +41,9 @@ public class GlassSlideNode extends PhetPNode implements Observer {
     public GlassSlideNode( Fluid fluid, ModelViewTransform modelViewTransform ) {
         super();
          
+        setPickable( false );
+        setChildrenPickable( false );
+        
         _fluid = fluid;
         _fluid.addObserver( this );
         

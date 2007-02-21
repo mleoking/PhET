@@ -28,6 +28,9 @@ public class BeamInNode extends PhetPNode {
     public BeamInNode( double width, double height, double wavelength, int alpha ) {
         super();
         
+        setPickable( false );
+        setChildrenPickable( false );
+        
         _pathNode = new PPath();
         _pathNode.setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
         Color wavelengthColor = VisibleColor.wavelengthToColor( wavelength );
