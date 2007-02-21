@@ -115,7 +115,7 @@ hydrogenatom-module hydrogenatom &phetcommon-dir &piccolo-dir &piccolo-phetdir
 shaper-module shaper &phetcommon-dir &phetgraphics-dir &charts-dir
 
 # Optical Tweezers
-optical-tweezers-module optical-tweezers &phetcommon-dir &piccolo-dir &piccolo-phetdir &jfreechart-dir &jfreechart-phet-dir
+optical-tweezers-module optical-tweezers &phetcommon-dir &piccolo-dir &piccolo-phet-dir &jfreechart-dir &jfreechart-phet-dir
 
 # Quantum Tunneling
 quantum-tunneling-module quantum-tunneling &phetcommon-dir &piccolo-dir &piccolo-phetdir &jfreechart-dir &jfreechart-phet-dir
