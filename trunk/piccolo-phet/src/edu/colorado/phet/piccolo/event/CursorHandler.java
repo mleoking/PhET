@@ -113,8 +113,8 @@ public class CursorHandler extends PBasicInputEventHandler {
             component.popCursor();
         }
         catch( Exception e ) {
-            // attempted to pop an empty cursor stack
-            e.printStackTrace();
+            System.err.println( "CursorHandler.popCursor attempted to pop an empty cursor stack" );
+            // this is a well-known (but benign) problem, so don't print the stack trace
         }
     }
 }
