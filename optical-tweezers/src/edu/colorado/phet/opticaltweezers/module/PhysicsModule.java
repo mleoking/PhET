@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.opticaltweezers.module;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,6 +40,7 @@ import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -73,6 +76,8 @@ public class PhysicsModule extends AbstractModule {
     private LaserNode _laserNode;
     private BeadNode _beadNode;
     private ModelViewTransform _modelViewTransform;
+    private PPath _beadDragBoundsNode;
+    private PPath _laserDragBoundsNode;
     
     // Control
     private OTModelViewManager _modelViewManager;
@@ -150,16 +155,21 @@ public class PhysicsModule extends AbstractModule {
         _glassSlideNode = new GlassSlideNode( _fluid, _modelViewTransform );
         
         // Laser
-        _laserNode = new LaserNode( _canvas, _laser, _modelViewTransform, PhysicsDefaults.LASER_POWER_RANGE );
+        _laserDragBoundsNode = new PPath();
+        _laserDragBoundsNode.setStroke( null );
+        _laserNode = new LaserNode( _canvas, _laser, _modelViewTransform, PhysicsDefaults.LASER_POWER_RANGE, _laserDragBoundsNode );
         
         // Bead
-        _beadNode = new BeadNode( _bead, _modelViewTransform );
+        _beadDragBoundsNode = new PPath();
+        _beadDragBoundsNode.setStroke( null );
+        _beadNode = new BeadNode( _bead, _modelViewTransform, _beadDragBoundsNode );
         
         // Layering order on the canvas (back-to-front)
         {
             _rootNode.addChild( _glassSlideNode );
             _rootNode.addChild( _laserNode );
             _rootNode.addChild( _beadNode );
+            _rootNode.addChild( _beadDragBoundsNode );
         }
         
         //----------------------------------------------------------------------------
@@ -185,7 +195,7 @@ public class PhysicsModule extends AbstractModule {
                 PhysicsDefaults.FLUID_SPEED_RANGE,
                 PhysicsDefaults.FLUID_VISCOSITY_RANGE,
                 PhysicsDefaults.FLUID_TEMPERATURE_RANGE );
-        _fluidControlPanelWrapper = new PSwing( _canvas, _fluidControlPanel );
+        _fluidControlPanelWrapper = new PhetPSwing( _canvas, _fluidControlPanel );
         
         // "Return Bead" button
         JButton returnBeadButton = new JButton( SimStrings.get( "label.returnBead" ) );
@@ -196,7 +206,7 @@ public class PhysicsModule extends AbstractModule {
                 handleReturnBeadButton();
             }
         } );
-        _returnBeadButtonWrapper = new PSwing( _canvas, returnBeadButton );
+        _returnBeadButtonWrapper = new PhetPSwing( _canvas, returnBeadButton );
         
         // Layering of controls on the canvas (back-to-front)
         {
@@ -277,8 +287,28 @@ public class PhysicsModule extends AbstractModule {
             double y = sb.getY();
             double w = sb.getWidth() + ( 2 * ( 1 - m ) * bb.getWidth() );
             double h = sb.getHeight();
-            Rectangle2D dragBounds = new Rectangle2D.Double( x, y, w, h );
-            _beadNode.setGlobalDragBounds( dragBounds );
+            Rectangle2D globalDragBounds = new Rectangle2D.Double( x, y, w, h );
+            Rectangle2D localDragBounds = _beadDragBoundsNode.globalToLocal( globalDragBounds );
+            _beadDragBoundsNode.setPathTo( localDragBounds );
+        }
+        
+        // Adjust drag bounds of laser, so it stays in canvas
+        {
+            // This percentage of the laser must remain visible
+            final double m = 0.15;
+            
+            Rectangle2D sb = _glassSlideNode.getCenterGlobalBounds();
+            Rectangle2D lb = _laserNode.getGlobalFullBounds();
+            double xAdjust = ( 1 - m ) * lb.getWidth();
+            double x = -xAdjust;
+            double y = lb.getY();
+            double w = sb.getWidth() + ( 2 * xAdjust );
+            double h = lb.getHeight();
+            Rectangle2D globalDragBounds = new Rectangle2D.Double( x, y, w, h );
+            Rectangle2D localDragBounds = _laserDragBoundsNode.globalToLocal( globalDragBounds );
+            _laserDragBoundsNode.setPathTo( localDragBounds );
+            
+            //XXX if laser is not visible, move it onto canvas?
         }
         
         // Fluid controls
@@ -286,11 +316,14 @@ public class PhysicsModule extends AbstractModule {
         
         // "Return Bead" button
         _returnBeadButtonWrapper.setOffset( 50, 230 );//XXX
+        //XXX determine if bead is no longer visible
 
         if ( HAS_WIGGLE_ME ) {
             initWiggleMe();
         }
     }
+    
+
     
     //----------------------------------------------------------------------------
     // Wiggle Me
