@@ -19,6 +19,12 @@ import edu.colorado.phet.common.model.ModelElement;
 public class Bead extends MovableObject implements ModelElement {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    public static final String PROPERTY_DIAMETER = "diameter";
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -39,6 +45,16 @@ public class Bead extends MovableObject implements ModelElement {
     //----------------------------------------------------------------------------
     // Mutators and accessors
     //----------------------------------------------------------------------------
+    
+    public void setDiameter( double diameter ) {
+        if ( diameter <= 0 ) {
+            throw new IllegalArgumentException( "diameter must be > 0" );
+        }
+        if ( diameter != _diameter ) {
+            _diameter = diameter;
+            notifyObservers( PROPERTY_DIAMETER );
+        }
+    }
     
     public double getDiameter() {
         return _diameter;
