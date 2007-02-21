@@ -35,6 +35,9 @@ public class LaserNode extends PhetPNode implements Observer {
     
     private Laser _laser;
     private ModelViewTransform _modelViewTransform;
+    
+    private BeamInNode _beamInNode;
+    private BeamOutNode _beamOutNode;
     private LaserControlPanel _controlPanel;
     
     public LaserNode( PSwingCanvas canvas, Laser laser, ModelViewTransform modelViewTransform, IntegerRange powerRange ) {
@@ -53,14 +56,19 @@ public class LaserNode extends PhetPNode implements Observer {
         ObjectiveNode objectiveNode = new ObjectiveNode( objectiveWidth, objectiveHeight );
         
         // Laser beam coming into objective
-        BeamNode beamNode = new BeamNode( laserWidth, CONTROL_PANEL_Y_OFFSET, laser.getWavelength() );
+        _beamInNode = new BeamInNode( laserWidth, CONTROL_PANEL_Y_OFFSET, laser.getWavelength() );
+        
+        // Laser beam coming out of objective
+        double beamOutHeight = _modelViewTransform.transform( laser.getPositionRef().getY() ); // distance from top of canvas
+        _beamOutNode = new BeamOutNode( laserWidth, beamOutHeight, laser.getWavelength() );
         
         // Control panel
         _controlPanel = new LaserControlPanel( canvas, OTConstants.PLAY_AREA_CONTROL_FONT, objectiveWidth, laser, powerRange );
         
         // Layering
+        addChild( _beamInNode );
         addChild( objectiveNode );
-        addChild( beamNode );
+        addChild( _beamOutNode );
         addChild( _controlPanel );
         if ( DEBUG_SHOW_ORIGIN ) {
             addChild( new OriginNode( Color.RED ) );
@@ -69,13 +77,19 @@ public class LaserNode extends PhetPNode implements Observer {
         // Center of objective at (0,0)
         objectiveNode.setOffset( -objectiveNode.getFullBounds().getWidth()/2, -objectiveNode.getFullBounds().getHeight()/2 );
         // Beam below objective
-        beamNode.setOffset( -beamNode.getFullBounds().getWidth()/2, 0 );
+        _beamInNode.setOffset( -_beamInNode.getFullBounds().getWidth()/2, 0 );
+        // Beam above objective
+        _beamOutNode.setOffset( -_beamOutNode.getFullBounds().getWidth()/2, -_beamOutNode.getFullBounds().getHeight() );
         // Control panel below beam
-        _controlPanel.setOffset( -_controlPanel.getFullBounds().getWidth()/2, beamNode.getFullBounds().getHeight() );
+        _controlPanel.setOffset( -_controlPanel.getFullBounds().getWidth()/2, _beamInNode.getFullBounds().getHeight() );
         
         // Position the entire node at the laser's position
         Point2D laserPosition = _modelViewTransform.transform( _laser.getPosition() );
         setOffset( laserPosition.getX(), laserPosition.getY() );
+        
+        // Default state
+        updateVisibility();
+        updatePosition();
     }
 
     public void cleanup() {
@@ -86,7 +100,29 @@ public class LaserNode extends PhetPNode implements Observer {
     // Observer implementation
     //----------------------------------------------------------------------------
     
+    private void updateVisibility() {
+        _beamInNode.setVisible( _laser.isRunning() );
+        _beamOutNode.setVisible( _laser.isRunning() );
+    }
+    
+    private void updatePosition() {
+        Point2D laserPosition = _modelViewTransform.transform( _laser.getPosition() );
+        setOffset( laserPosition.getX(), laserPosition.getY() );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
     public void update( Observable o, Object arg ) {
-        //XXX
+        if ( o == _laser ) {
+            if ( arg == Laser.PROPERTY_POSITION ) {
+                updatePosition();
+            }
+            else if ( arg == Laser.PROPERTY_RUNNING ) {
+                updateVisibility();
+            }
+            //XXX other properties?
+        }
     }
 }
