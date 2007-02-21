@@ -23,7 +23,7 @@ import java.awt.geom.Point2D;
 
 public class BoundedDragHandler extends PBasicInputEventHandler {
     private PNode dragNode;
-    private PNode boundingNode;//work in global coordinate frame for generality.
+    private PNode boundingNode;
     private Point2D relativeClickPoint;
 
     public BoundedDragHandler( PNode dragNode, PNode boundingNode ) {
@@ -42,11 +42,9 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
     }
 
     private Point2D getGlobalClickPoint( PInputEvent event ) {
-        return event.getCanvasPosition();
-//
-//        Point2D pt = event.getPositionRelativeTo( dragNode ); //TODO lose the assumption that global=canvas coordinate frame.
-//        pt = dragNode.parentToLocal( pt );  //todo this failed for a ruler node in SchrodingerApp
-//        return dragNode.localToGlobal( pt );
+        Point2D pt = event.getPositionRelativeTo( dragNode );
+        dragNode.localToGlobal( pt );
+        return pt;
     }
 
     public void mouseDragged( PInputEvent event ) {
@@ -58,11 +56,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
 
             Point2D pt = getGlobalClickPoint( event );
             Point2D newPoint = new Point2D.Double( pt.getX() - relativeClickPoint.getX(), pt.getY() - relativeClickPoint.getY() );
-//            System.out.println( System.currentTimeMillis() + ", relativeClickPoint=" + relativeClickPoint + ", pt=" + pt + ", newPoint = " + newPoint );
             pickedNode.setGlobalTranslation( newPoint );
-
-//            System.out.println( "pickedNode.getGlobalFullBounds().getMaxX() = " + pickedNode.getGlobalFullBounds().getMaxX() );
-//            System.out.println( "boundingNode.getGlobalFullBounds().getMaxX() = " + boundingNode.getGlobalFullBounds().getMaxX() );
 
             if( !boundingNode.getGlobalFullBounds().contains( dragNode.getGlobalFullBounds() ) ) {
                 double newX = pickedNode.getGlobalTranslation().getX();
@@ -111,11 +105,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                     newY = fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMaxY() );
                 }
                 Point2D offset = new Point2D.Double( newX, newY );
-//                System.out.println( System.currentTimeMillis() + ", offset = " + offset );
-//                Point2D fullRollbackPoint = new Point2D.Double( newX - offset.getX(), newY - offset.getY() );
-//                System.out.println( "rollbackPoint = " + offset );
                 dragNode.setGlobalTranslation( offset );
-//                event.getPickedNode().setOffset( rollbackPoint );
             }
         }
     }
@@ -124,11 +114,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
     private double fitLinear( double x0, double y0, double x1, double y1, double minX ) {
         double slope = ( y0 - y1 ) / ( x0 - x1 );
         double intercept = y0 - slope * x0;
-
-        double desiredY = minX;
-        double requiredGlobalOffset = ( desiredY - intercept ) / slope;
-
-        return requiredGlobalOffset;
+        return ( minX - intercept ) / slope;
     }
 
     public void mouseReleased( PInputEvent event ) {
