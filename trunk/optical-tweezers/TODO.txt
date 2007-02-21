@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- laser power text field entry and validation
 - laser view
 - make FluidControlPanel observer of Fluid
 
@@ -42,6 +41,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+(2/20/07) - laser power text field entry and validation with error dialog
 (2/20/07) - make laser power slider range be 0-1000 mW
 (2/20/07) - make LaserControlPanel observer of Laser
 (2/20/07) - layout LaserControlPanel using Piccolo instead of JPanel
