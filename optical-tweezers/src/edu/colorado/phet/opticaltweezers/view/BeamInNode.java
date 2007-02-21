@@ -22,17 +22,23 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 public class BeamInNode extends PhetPNode {
 
-    private static final int ALPHA_CHANNEL = 100; // 0-255
+    private PPath _pathNode;
+    private Color _laserColor;
     
-    public BeamInNode( double width, double height, double wavelength ) {
+    public BeamInNode( double width, double height, double wavelength, int alpha ) {
         super();
         
-        PPath pathNode = new PPath();
-        pathNode.setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
+        _pathNode = new PPath();
+        _pathNode.setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
         Color wavelengthColor = VisibleColor.wavelengthToColor( wavelength );
-        Color laserColor = ColorUtils.addAlpha( wavelengthColor, ALPHA_CHANNEL );
-        pathNode.setPaint( laserColor );
-        pathNode.setStroke( null );
-        addChild( pathNode );
+        _laserColor = ColorUtils.addAlpha( wavelengthColor, alpha );
+        _pathNode.setPaint( _laserColor );
+        _pathNode.setStroke( null );
+        addChild( _pathNode );
+    }
+    
+    public void setAlpha( int alpha ) {
+        Color newColor = ColorUtils.addAlpha( _laserColor, alpha );
+        _pathNode.setPaint( newColor );
     }
 }
