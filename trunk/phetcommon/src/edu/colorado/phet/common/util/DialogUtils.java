@@ -119,4 +119,24 @@ public class DialogUtils {
         JDialog dialog = pane.createDialog( parentComponent, title );
         dialog.show();
     }
+    
+    /*
+     * Convenience methods, for various types of dialogs.
+     */
+    
+    public static void showErrorDialog( Component parentComponent, String message, String title ) {
+        showMessageDialog( parentComponent, message, title, JOptionPane.ERROR_MESSAGE );
+    }
+    
+    public static void showInformationDialog( Component parentComponent, String message, String title ) {
+        showMessageDialog( parentComponent, message, title, JOptionPane.INFORMATION_MESSAGE );
+    }
+    
+    public static void showWarningDialog( Component parentComponent, String message, String title ) {
+        showMessageDialog( parentComponent, message, title, JOptionPane.WARNING_MESSAGE );
+    }
+    
+    public static void showQuestionDialog( Component parentComponent, String message, String title ) {
+        showMessageDialog( parentComponent, message, title, JOptionPane.QUESTION_MESSAGE );
+    }
 }
