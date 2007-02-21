@@ -5,14 +5,25 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add handles to ends of laser control panel, make them draggable
 - make FluidControlPanel observer of Fluid
+- add ruler
+- position histogram
+- potential energy chart
+- E-field vectors
+- fluid flow vectors
+- charges on bead
+- trap force on bead
 
 MEDIUM PRIORITY:
+- cursors that indicate direction when drag is horizontally or vertically constrained
 - get details of physical model
 - javadoc what I've done so far
 - vertically align left edges of fluid controls
 - use font in FluidControlPanel
 - wire up "Return Bead" button, visible only when bead is outside of canvas
+- check bead visibility when canvas is resized
+- check laser visibility when canvas is resized
 - units and range for slow speed
 - units and range for fast speed
 - change clock speed control?
@@ -34,6 +45,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+(2/21/07) - remove drag handler from laser control panel, multiple PSwing-related problems
 (2/21/07) - change to BoundedDragHandler for bead and laser dragging
 (2/21/07) - create PhetPSwing so that wrapped JComponents aren't active when invisible
 (2/21/07) - contrain bead dragging with ConstrainedDragHandler for now
