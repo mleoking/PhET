@@ -28,6 +28,9 @@ public class BeamOutNode extends PhetPNode {
     public BeamOutNode( double width, double height, double wavelength, int alpha ) {
         super();
         
+        setPickable( false );
+        setChildrenPickable( false );
+        
         Rectangle2D r = new Rectangle2D.Double( 0, 0, width, height );
 
         //XXX use constructive geometry to create beam waist
