@@ -42,11 +42,33 @@ public class TestRulerNode {
         frame.setContentPane( pCanvas );
         frame.setSize( 800, 400 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        String[] digits = new String[11];
-        for( int i = 0; i < digits.length; i++ ) {
-            digits[i] = new String( i + "" );
+
+        String[] readings;
+        
+        // Ruler that reads 0-10 nm.
+        readings = new String[11];
+        for ( int i = 0; i < readings.length; i++ ) {
+            readings[i] = String.valueOf( i );
         }
-        pCanvas.getLayer().addChild( new RulerNode( digits, "nm", 650, 40 ) );
+        RulerNode ruler1 = new RulerNode( readings, "nm", 300, 40 );
+        pCanvas.getLayer().addChild( ruler1 );
+        
+        // Ruler that reads 0-20 nm.
+        // This ruler is twice as long as the above ruler,
+        // so I would expect the tick spacing to be the same.
+        // But the tick spacing is NOT the same.
+        // The problem is caused by RulerNode.horizontalInset.
+        readings = new String[21];
+        for ( int i = 0; i < readings.length; i++ ) {
+            readings[i] = String.valueOf( i );
+        }
+        RulerNode ruler2 = new RulerNode( readings, "nm", 600, 40 );
+        pCanvas.getLayer().addChild( ruler2 );
+        
+        ruler1.setOffset( 0, 0 );
+        ruler2.setOffset( 0, ruler1.getFullBounds().getHeight() );
+
         frame.show();
     }
+    
 }
