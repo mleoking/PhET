@@ -30,44 +30,78 @@
  */
 package edu.colorado.phet.tests.piccolo;
 
+import java.awt.Font;
+
 import edu.colorado.phet.piccolo.nodes.RulerNode;
 import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 
 import javax.swing.*;
 
 public class TestRulerNode {
+    
     public static void main( String[] args ) {
+        
         PCanvas pCanvas = new PCanvas();
         JFrame frame = new JFrame();
         frame.setContentPane( pCanvas );
         frame.setSize( 800, 400 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        String[] readings;
+        int distanceBetweenFirstAndLastTick = 350;
+        int rulerInsetWidth = 14;
+        int rulerHeight = 40;
+        String[] majorTickLabels;
+        Font majorTickFont = new Font( "Lucida Sans", Font.PLAIN, 14 );
+        String units = "nm";
+        Font unitsFont = new Font( "Lucida Sans", Font.BOLD, 16 );
+        int numMinorTicksBetweenMajors = 4;
+        int majorTickHeight = 10;
+        int minorTickHeight = 6;
         
         // Ruler that reads 0-10 nm.
-        readings = new String[11];
-        for ( int i = 0; i < readings.length; i++ ) {
-            readings[i] = String.valueOf( i );
+        majorTickLabels = new String[11];
+        for ( int i = 0; i < majorTickLabels.length; i++ ) {
+            majorTickLabels[i] = String.valueOf( i );
         }
-        RulerNode ruler1 = new RulerNode( readings, "nm", 300, 40 );
+        RulerNode ruler1 = new RulerNode( distanceBetweenFirstAndLastTick, rulerInsetWidth, rulerHeight,
+                majorTickLabels, majorTickFont, units, unitsFont, 
+                numMinorTicksBetweenMajors, majorTickHeight, minorTickHeight );
         pCanvas.getLayer().addChild( ruler1 );
         
         // Ruler that reads 0-20 nm.
-        // This ruler is twice as long as the above ruler,
-        // so I would expect the tick spacing to be the same.
-        // But the tick spacing is NOT the same.
-        // The problem is caused by RulerNode.horizontalInset.
-        readings = new String[21];
-        for ( int i = 0; i < readings.length; i++ ) {
-            readings[i] = String.valueOf( i );
+        // This ruler is twice as long, but the tick spacing should be identical to ruler1 above.
+        majorTickLabels = new String[21];
+        for ( int i = 0; i < majorTickLabels.length; i++ ) {
+            majorTickLabels[i] = String.valueOf( i );
         }
-        RulerNode ruler2 = new RulerNode( readings, "nm", 600, 40 );
+        RulerNode ruler2 = new RulerNode( 2 * distanceBetweenFirstAndLastTick, rulerInsetWidth, rulerHeight,
+                majorTickLabels, majorTickFont, units, unitsFont, 
+                numMinorTicksBetweenMajors, majorTickHeight, minorTickHeight );
         pCanvas.getLayer().addChild( ruler2 );
         
-        ruler1.setOffset( 0, 0 );
-        ruler2.setOffset( 0, ruler1.getFullBounds().getHeight() );
-
+        // Test the simplified constructor
+        units = "ft";
+        numMinorTicksBetweenMajors = 2;
+        int fontSize = 12;
+        RulerNode ruler3 = new RulerNode( 2 * distanceBetweenFirstAndLastTick, rulerHeight, majorTickLabels, units, numMinorTicksBetweenMajors, fontSize );
+        pCanvas.getLayer().addChild( ruler3 );
+        
+        // Test boundary conditions (null units, no minor ticks)
+        units = null;
+        numMinorTicksBetweenMajors = 0;
+        RulerNode ruler4 = new RulerNode( 2 * distanceBetweenFirstAndLastTick, rulerHeight, majorTickLabels, units, numMinorTicksBetweenMajors, fontSize );
+        pCanvas.getLayer().addChild( ruler4 );
+        
+        // Vertically align left edges of rulers
+        int x = 20;
+        int y = 50;
+        int yspace = 5;
+        ruler1.setOffset( x, y );
+        ruler2.setOffset( x, ruler1.getFullBounds().getY() + ruler1.getFullBounds().getHeight() + yspace );
+        ruler3.setOffset( x, ruler2.getFullBounds().getY() + ruler2.getFullBounds().getHeight() + yspace );
+        ruler4.setOffset( x, ruler3.getFullBounds().getY() + ruler3.getFullBounds().getHeight() + yspace );
+        
         frame.show();
     }
     
