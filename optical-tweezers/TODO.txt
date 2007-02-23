@@ -4,6 +4,7 @@
 
 IN PROGRESS:
 - fix problems with rulers
+- fix problems with power slider (eg, type in "85" and it gets set to "80")
 - straighten out lots of coordinate system transform problems
 
 HIGH PRIORITY:
