@@ -240,45 +240,47 @@ public class RulerNode extends PhetPNode {
         backgroundNode.setPathToRectangle( (float)x, (float)y, (float)width, (float)height );
         parentNode.addChild( backgroundNode );
 
-        double distanceBetweenFirstAndLastTick = width - ( 2 * insetWidth );
-        double distBetweenMajorReadings = distanceBetweenFirstAndLastTick / ( majorTickLabels.length - 1 );
-        double distBetweenMinor = distBetweenMajorReadings / ( numMinorTicksBetweenMajors + 1 );
-        
-        for( int i = 0; i < majorTickLabels.length; i++ ) {
+        if( majorTickLabels != null && majorTickLabels.length > 0 ) {
             
-            // Major tick label
-            String reading = majorTickLabels[i];
-            PText majorTickLabelNode = new PText( reading );
-            majorTickLabelNode.setFont( majorTickFont );
-            double xVal = ( distBetweenMajorReadings * i ) + insetWidth;
-            double yVal = height / 2 - majorTickLabelNode.getFullBounds().getHeight() / 2;
-            majorTickLabelNode.setOffset( xVal - majorTickLabelNode.getFullBounds().getWidth() / 2, yVal );
-            parentNode.addChild( majorTickLabelNode );
+            double distanceBetweenFirstAndLastTick = width - ( 2 * insetWidth );
+            double distBetweenMajorReadings = distanceBetweenFirstAndLastTick / ( majorTickLabels.length - 1 );
+            double distBetweenMinor = distBetweenMajorReadings / ( numMinorTicksBetweenMajors + 1 );
 
-            // Major tick mark
-            DoubleGeneralPath tickPath = createTickMark( xVal, height, majorTickHeight );
-            PPath majorTickNode = new PPath( tickPath.getGeneralPath(), TICK_STROKE );
-            majorTickNode.setStrokePaint( TICK_COLOR );
-            parentNode.addChild( majorTickNode );
+            for( int i = 0; i < majorTickLabels.length; i++ ) {
 
-            // Minor tick marks
-            if( i < majorTickLabels.length - 1 ) {
-                for( int k = 1; k <= numMinorTicksBetweenMajors; k++ ) {
-                    DoubleGeneralPath pair = createTickMark( xVal + k * distBetweenMinor, height, minorTickHeight );
-                    PPath minorTickNode = new PPath( pair.getGeneralPath(), TICK_STROKE );
-                    minorTickNode.setStrokePaint( TICK_COLOR );
-                    parentNode.addChild( minorTickNode );
+                // Major tick label
+                String reading = majorTickLabels[i];
+                PText majorTickLabelNode = new PText( reading );
+                majorTickLabelNode.setFont( majorTickFont );
+                double xVal = ( distBetweenMajorReadings * i ) + insetWidth;
+                double yVal = height / 2 - majorTickLabelNode.getFullBounds().getHeight() / 2;
+                majorTickLabelNode.setOffset( xVal - majorTickLabelNode.getFullBounds().getWidth() / 2, yVal );
+                parentNode.addChild( majorTickLabelNode );
+
+                // Major tick mark
+                DoubleGeneralPath tickPath = createTickMark( xVal, height, majorTickHeight );
+                PPath majorTickNode = new PPath( tickPath.getGeneralPath(), TICK_STROKE );
+                majorTickNode.setStrokePaint( TICK_COLOR );
+                parentNode.addChild( majorTickNode );
+
+                // Minor tick marks
+                if( i < majorTickLabels.length - 1 ) {
+                    for ( int k = 1; k <= numMinorTicksBetweenMajors; k++ ) {
+                        DoubleGeneralPath pair = createTickMark( xVal + k * distBetweenMinor, height, minorTickHeight );
+                        PPath minorTickNode = new PPath( pair.getGeneralPath(), TICK_STROKE );
+                        minorTickNode.setStrokePaint( TICK_COLOR );
+                        parentNode.addChild( minorTickNode );
+                    }
                 }
-            }
 
-            // Units to the right of first major tick label, 
-            if( i == 0 && units != null ) {
-                PText unitsNode = new PText( units );
-                unitsNode.setFont( unitsFont );
-                parentNode.addChild( unitsNode );
-                // To the right of first major tick label, baselines aligned
-                unitsNode.setOffset( majorTickLabelNode.getOffset().getX() + majorTickLabelNode.getFullBounds().getWidth() + UNITS_SPACING, 
-                        majorTickLabelNode.getOffset().getY() + ( majorTickLabelNode.getFullBounds().getHeight() - unitsNode.getFullBounds().getHeight() ) );
+                // Units to the right of first major tick label, 
+                if( i == 0 && units != null ) {
+                    PText unitsNode = new PText( units );
+                    unitsNode.setFont( unitsFont );
+                    parentNode.addChild( unitsNode );
+                    // To the right of first major tick label, baselines aligned
+                    unitsNode.setOffset( majorTickLabelNode.getOffset().getX() + majorTickLabelNode.getFullBounds().getWidth() + UNITS_SPACING, majorTickLabelNode.getOffset().getY() + ( majorTickLabelNode.getFullBounds().getHeight() - unitsNode.getFullBounds().getHeight() ) );
+                }
             }
         }
     }
