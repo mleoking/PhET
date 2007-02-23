@@ -35,8 +35,10 @@ import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.view.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
+import edu.colorado.phet.piccolo.nodes.RulerNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -78,14 +80,16 @@ public class PhysicsModule extends AbstractModule {
     private ModelViewTransform _modelViewTransform;
     private PPath _beadDragBoundsNode;
     private PPath _laserDragBoundsNode;
+    private OTRulerNode _rulerNode;
+    private PPath _rulerDragBoundsNode;
     
     // Control
     private OTModelViewManager _modelViewManager;
     private PhysicsControlPanel _controlPanel;
     private OTClockControlPanel _clockControlPanel;
-    private PSwing _returnBeadButtonWrapper;
+    private PhetPNode _returnBeadButtonWrapper;
     private FluidControlPanel _fluidControlPanel;
-    private PSwing _fluidControlPanelWrapper;
+    private PhetPNode _fluidControlPanelWrapper;
     
     // Help
     private OTWiggleMe _wiggleMe;
@@ -164,12 +168,21 @@ public class PhysicsModule extends AbstractModule {
         _beadDragBoundsNode.setStroke( null );
         _beadNode = new BeadNode( _bead, _modelViewTransform, _beadDragBoundsNode );
         
+        // Ruler
+        _rulerDragBoundsNode = new PPath();
+        _rulerDragBoundsNode.setStroke( new BasicStroke() );//XXX
+        _rulerDragBoundsNode.setStrokePaint( Color.RED );//XXX
+        _rulerNode = new OTRulerNode( 600 /* width */, _laser,_modelViewTransform, _rulerDragBoundsNode );
+        
         // Layering order on the canvas (back-to-front)
         {
             _rootNode.addChild( _glassSlideNode );
             _rootNode.addChild( _laserNode );
+            _rootNode.addChild( _laserDragBoundsNode );
             _rootNode.addChild( _beadNode );
             _rootNode.addChild( _beadDragBoundsNode );
+            _rootNode.addChild( _rulerNode );
+            _rootNode.addChild( _rulerDragBoundsNode );
         }
         
         //----------------------------------------------------------------------------
@@ -195,7 +208,7 @@ public class PhysicsModule extends AbstractModule {
                 PhysicsDefaults.FLUID_SPEED_RANGE,
                 PhysicsDefaults.FLUID_VISCOSITY_RANGE,
                 PhysicsDefaults.FLUID_TEMPERATURE_RANGE );
-        _fluidControlPanelWrapper = new PhetPSwing( _canvas, _fluidControlPanel );
+        _fluidControlPanelWrapper = new PhetPNode( new PSwing( _canvas, _fluidControlPanel ) );
         
         // "Return Bead" button
         JButton returnBeadButton = new JButton( SimStrings.get( "label.returnBead" ) );
@@ -206,7 +219,7 @@ public class PhysicsModule extends AbstractModule {
                 handleReturnBeadButton();
             }
         } );
-        _returnBeadButtonWrapper = new PhetPSwing( _canvas, returnBeadButton );
+        _returnBeadButtonWrapper = new PhetPNode( new PSwing( _canvas, returnBeadButton ) );
         
         // Layering of controls on the canvas (back-to-front)
         {
@@ -275,6 +288,14 @@ public class PhysicsModule extends AbstractModule {
         
         // Glass Slide, width fills the canvas
         _glassSlideNode.setCanvasWidth( worldSize.getWidth() );
+        
+        // Ruler width fills the canvas. adjust drag bounds for vertical dragging
+        {
+            _rulerNode.setCanvasWidth( worldSize.getWidth() );
+            Rectangle2D globalDragBounds = new Rectangle2D.Double( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
+            Rectangle2D localDragBounds = _rulerDragBoundsNode.globalToLocal( globalDragBounds );
+            _rulerDragBoundsNode.setPathTo( localDragBounds );
+        }
         
         // Adjust drag bounds of bead, so it stays on the glass slide
         {

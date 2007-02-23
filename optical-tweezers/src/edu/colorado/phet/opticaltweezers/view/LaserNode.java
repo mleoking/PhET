@@ -11,9 +11,14 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Stroke;
+import java.awt.geom.Line2D;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,19 +28,26 @@ import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.util.IntegerRange;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.BoundedDragHandler;
-import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.piccolo.nodes.HandleNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 
-public class LaserNode extends PhetPNode implements Observer {
+public class LaserNode extends PhetPNode implements Observer, PropertyChangeListener {
 
-    private static final boolean DEBUG_SHOW_ORIGIN = true;
+    private static final boolean DEBUG_SHOW_ORIGIN = false;
 
     private static final int MAX_ALPHA_CHANNEL = 180; // 0-255
     
     private static final double CONTROL_PANEL_Y_OFFSET = 50; // pixels, from the center of the objective
+    
+    private static final Stroke LINE_STROKE = new BasicStroke();
+    private static final Color LINE_COLOR = Color.BLACK;
+    
+    private static final double HANDLE_WIDTH = 25;
+    private static final Color HANDLE_COLOR = Color.LIGHT_GRAY;
     
     private static final double OBJECT_WIDTH_TO_BEAM_WIDTH_RATIO = 0.95; // (objective width)/(beam width)
     private static final double OBJECTIVE_WIDTH_TO_OBJECTIVE_HEIGHT_RATIO = 12.0; // (objective width)/(objective height)
@@ -43,11 +55,9 @@ public class LaserNode extends PhetPNode implements Observer {
     private Laser _laser;
     private ModelViewTransform _modelViewTransform;
     
-    private ObjectiveNode _objectiveNode;
     private BeamInNode _beamInNode;
     private BeamOutNode _beamOutNode;
     private LaserControlPanel _controlPanel;
-    private BoundedDragHandler _dragHandler;
     
     public LaserNode( PSwingCanvas canvas, Laser laser, ModelViewTransform modelViewTransform, IntegerRange powerRange, PNode dragBoundsNode ) {
         super();
@@ -62,10 +72,19 @@ public class LaserNode extends PhetPNode implements Observer {
         // Objective (lens) used to focus the laser beam
         double objectiveWidth = laserWidth / OBJECT_WIDTH_TO_BEAM_WIDTH_RATIO;
         double objectiveHeight = objectiveWidth / OBJECTIVE_WIDTH_TO_OBJECTIVE_HEIGHT_RATIO;
-        _objectiveNode = new ObjectiveNode( objectiveWidth, objectiveHeight );
+        ObjectiveNode objectiveNode = new ObjectiveNode( objectiveWidth, objectiveHeight );
         
         // Control panel
         _controlPanel = new LaserControlPanel( canvas, OTConstants.PLAY_AREA_CONTROL_FONT, objectiveWidth, laser, powerRange );
+        
+        // Lines connecting objective to control panel.
+        Line2D line = new Line2D.Double( 0, -CONTROL_PANEL_Y_OFFSET, 0, 0 );
+        PPath leftLineNode = new PPath( line );
+        leftLineNode.setStroke( LINE_STROKE );
+        leftLineNode.setStrokePaint( LINE_COLOR );
+        PPath rightLineNode = new PPath( line );
+        rightLineNode.setStroke( LINE_STROKE );
+        rightLineNode.setStrokePaint( LINE_COLOR );
         
         // Laser beam coming into objective
         final int alpha = powerToAlpha( _laser.getPower() );
@@ -75,34 +94,59 @@ public class LaserNode extends PhetPNode implements Observer {
         double beamOutHeight = _modelViewTransform.transform( laser.getPositionRef().getY() ); // distance from top of canvas
         _beamOutNode = new BeamOutNode( laserWidth, beamOutHeight, laser.getWavelength(), alpha );
         
+        // Handles
+        double handleHeight = 0.8 * _controlPanel.getFullBounds().getHeight();
+        HandleNode leftHandleNode = new HandleNode( HANDLE_WIDTH, handleHeight, HANDLE_COLOR );
+        HandleNode rightHandleNode = new HandleNode( HANDLE_WIDTH, handleHeight, HANDLE_COLOR );
+        
         // Layering
         addChild( _beamInNode );
-        addChild( _objectiveNode );
+        addChild( leftLineNode );
+        addChild( rightLineNode );
+        addChild( objectiveNode );
         addChild( _beamOutNode );
+        addChild( leftHandleNode );
+        addChild( rightHandleNode );
         addChild( _controlPanel );
         if ( DEBUG_SHOW_ORIGIN ) {
             addChild( new OriginNode( Color.RED ) );
         }
         
         // Center of objective at (0,0)
-        _objectiveNode.setOffset( -_objectiveNode.getFullBounds().getWidth()/2, -_objectiveNode.getFullBounds().getHeight()/2 );
+        objectiveNode.setOffset( -objectiveNode.getFullBounds().getWidth()/2, -objectiveNode.getFullBounds().getHeight()/2 );
         // Beam below objective
         _beamInNode.setOffset( -_beamInNode.getFullBounds().getWidth()/2, 0 );
         // Beam above objective
         _beamOutNode.setOffset( -_beamOutNode.getFullBounds().getWidth()/2, -_beamOutNode.getFullBounds().getHeight() );
         // Control panel below beam
         _controlPanel.setOffset( -_controlPanel.getFullBounds().getWidth()/2, _beamInNode.getFullBounds().getHeight() );
+        // Connecting lines
+        leftLineNode.setOffset( _controlPanel.getFullBounds().getX(), _controlPanel.getFullBounds().getY() );
+        rightLineNode.setOffset( _controlPanel.getFullBounds().getMaxX(), _controlPanel.getFullBounds().getY() );
+        // Handles
+        leftHandleNode.setOffset( _controlPanel.getFullBounds().getX() - leftHandleNode.getFullBounds().getWidth() + 2, 
+                _controlPanel.getFullBounds().getY() + ( ( _controlPanel.getFullBounds().getHeight() - leftHandleNode.getFullBounds().getHeight() ) / 2 ) );
+        rightHandleNode.rotate( Math.toRadians( 180 ) );
+        rightHandleNode.setOffset( _controlPanel.getFullBounds().getMaxX() + rightHandleNode.getFullBounds().getWidth() - 2, 
+                _controlPanel.getFullBounds().getMaxY() - ( ( _controlPanel.getFullBounds().getHeight() - rightHandleNode.getFullBounds().getHeight() ) / 2 ) );
         
         // Position the entire node at the laser's position
         Point2D laserPosition = _modelViewTransform.transform( _laser.getPosition() );
         setOffset( laserPosition.getX(), laserPosition.getY() );
         
         // Put hand cursor on parts that are interactive
-        _objectiveNode.addInputEventListener( new CursorHandler() );
+        objectiveNode.addInputEventListener( new CursorHandler() );
+        leftHandleNode.addInputEventListener( new CursorHandler() );
+        rightHandleNode.addInputEventListener( new CursorHandler() );
         
         // Constrain dragging
-        _dragHandler = new BoundedDragHandler( this, dragBoundsNode );
-        _objectiveNode.addInputEventListener( _dragHandler );
+        BoundedDragHandler dragHandler = new BoundedDragHandler( this, dragBoundsNode );
+        objectiveNode.addInputEventListener( dragHandler );
+        leftHandleNode.addInputEventListener( dragHandler );
+        rightHandleNode.addInputEventListener( dragHandler );
+        
+        // Update the model when this node is dragged.
+        addPropertyChangeListener( this );
         
         // Default state
         handleRunningChange();
@@ -141,6 +185,24 @@ public class LaserNode extends PhetPNode implements Observer {
     
     private int powerToAlpha( int power ) {
         return (int)( MAX_ALPHA_CHANNEL * ( power - _controlPanel.getMinPower() ) / (double)( _controlPanel.getMaxPower() - _controlPanel.getMinPower() ) );
+    }
+    
+    public void propertyChange( PropertyChangeEvent event ) {
+        if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
+            double newX = 0;
+            try {
+                newX = _modelViewTransform.inverseTransform( getOffset().getX() );
+            }
+            catch ( NoninvertibleTransformException e ) {
+                e.printStackTrace();
+                return;
+            }
+            Point2D p = _laser.getPositionRef();
+            double y = p.getY();
+            _laser.deleteObserver( this );
+            _laser.setPosition( newX, y );
+            _laser.addObserver( this );
+        }
     }
     
     //----------------------------------------------------------------------------
