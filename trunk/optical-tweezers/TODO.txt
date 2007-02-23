@@ -3,11 +3,14 @@
 ===============================================================================
 
 IN PROGRESS:
+- fix problems with rulers
+- straighten out lots of coordinate system transform problems
 
 HIGH PRIORITY:
-- add handles to ends of laser control panel, make them draggable
+- no error dialog for power textfield input; if value is bad, beep and clamp to min/max
+- laser dragging is messed up at boundaries, especially left edge
 - make FluidControlPanel observer of Fluid
-- add ruler
+- ruler
 - position histogram
 - potential energy chart
 - E-field vectors
@@ -16,6 +19,7 @@ HIGH PRIORITY:
 - trap force on bead
 
 MEDIUM PRIORITY:
+- add handles to ends of laser control panel, make them draggable
 - cursors that indicate direction when drag is horizontally or vertically constrained
 - get details of physical model
 - javadoc what I've done so far
@@ -45,6 +49,11 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+(2/23/07) - add ruler, lots of problems, no vertical drag
+(2/23/07) - add draggable handles to sides of laser control panel
+(2/23/07) - create HandleNode in piccolo-phet
+(2/23/07) - add vertical lines to connect objective to laser control panel
+(2/22/07) - work on piccolo-phet RulerNode
 (2/21/07) - remove drag handler from laser control panel, multiple PSwing-related problems
 (2/21/07) - change to BoundedDragHandler for bead and laser dragging
 (2/21/07) - create PhetPSwing so that wrapped JComponents aren't active when invisible
