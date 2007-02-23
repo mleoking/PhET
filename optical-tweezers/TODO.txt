@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - no error dialog for power textfield input; if value is bad, beep and clamp to min/max
 - laser dragging is messed up at boundaries, especially left edge
 - make FluidControlPanel observer of Fluid
-- ruler
 - position histogram
 - potential energy chart
 - E-field vectors
