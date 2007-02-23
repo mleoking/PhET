@@ -1,7 +1,7 @@
 /*
 * The Physics Education Technology (PhET) project provides 
 * a suite of interactive educational simulations. 
-* Copyright (C) 2004-2006 University of Colorado.
+* Copyright (C) 2007 University of Colorado.
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -41,69 +41,198 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
+/**
+ * RulerNode draws a ruler.
+ *
+ * @author Sam Reid, Chris Malley
+ * @version $Revision$
+ */
 public class RulerNode extends PhetPNode {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // Background properties
     private static final Color BACKGROUND_COLOR = new Color( 236, 225, 113 );
-    private static final Color BACKGROUNG_STROKE_COLOR = Color.BLACK;
+    private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke();
     
+    // Tick properties
     private static final Color TICK_COLOR = Color.BLACK;
     private static final Stroke TICK_STROKE = new BasicStroke();
     
-    private static final Font LABEL_FONT = new Font( "Lucida Sans", Font.BOLD, 22 );
+    // Horizontal space between left-most major tick label and units
+    private static final int UNITS_SPACING = 3;
     
+    // Defaults
+    private static final int DEFAULT_INSET_WIDTH = 14;
+    private static final String DEFAULT_FONT_NAME = "Lucida Sans";
+    private static final int DEFAULT_FONT_STYLE = Font.PLAIN;
+    private static final double DEFAULT_MAJOR_TICK_HEIGHT_TO_RULER_HEIGHT_RATIO = 0.40;
+    private static final double DEFAULT_MINOR_TICK_HEIGHT_TO_RULER_HEIGHT_RATIO = 0.20;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private double insetWidth;
+    private String[] majorTickLabels;
+    private Font majorTickFont;
+    private String units;
+    private Font unitsFont;
+    private int numMinorTicksBetweenMajors;
+    private double majorTickHeight;
+    private double minorTickHeight;
+
     private PNode parentNode;
     private PPath backgroundNode;
-    private String[] readings;
-    private String units;
     
-    private int horizontalInset = 14;
-    private int numMinorTicksBetweenMajors = 5;
-    private double majorTickHeight = 10;
-    private double minorTickHeight = 6;
-
-    public RulerNode( String[] readings, String units, int width, int height ) {
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Simplified constructor.
+     * Creates a good-looking ruler for most situations.
+     * Use the fully-specified constructor if you are a ruler tweaker.
+     * 
+     * @param distanceBetweenFirstAndLastTick
+     * @param height
+     * @param majorTickLabels
+     * @param units
+     * @param numMinorTicksBetweenMajors
+     * @param fontSize
+     */
+    public RulerNode( 
+            double distanceBetweenFirstAndLastTick, 
+            double height,
+            String[] majorTickLabels, 
+            String units,
+            int numMinorTicksBetweenMajors,
+            int fontSize ) {
         
+        this( distanceBetweenFirstAndLastTick, DEFAULT_INSET_WIDTH, height,
+                majorTickLabels, new Font( DEFAULT_FONT_NAME, DEFAULT_FONT_STYLE, fontSize), 
+                units, new Font( DEFAULT_FONT_NAME, DEFAULT_FONT_STYLE, fontSize),
+                numMinorTicksBetweenMajors,
+                height * DEFAULT_MAJOR_TICK_HEIGHT_TO_RULER_HEIGHT_RATIO / 2, 
+                height * DEFAULT_MINOR_TICK_HEIGHT_TO_RULER_HEIGHT_RATIO / 2 );
+    }
+    
+    /**
+     * Fully-specified constructor.
+     * 
+     * @param distanceBetweenFirstAndLastTick
+     * @param insetWidth space to the left (and right) of the first (and last) tick marks
+     * @param height
+     * @param majorTickLabels
+     * @param majorTickFont
+     * @param units
+     * @param unitsFont
+     * @param numMinorTicksBetweenMajors
+     * @param majorTickHeight
+     * @param minorTickHeight
+     */
+    public RulerNode(
+            double distanceBetweenFirstAndLastTick, 
+            double insetWidth, 
+            double height,
+            String[] majorTickLabels, 
+            Font majorTickFont,
+            String units,
+            Font unitsFont,
+            int numMinorTicksBetweenMajors,
+            double majorTickHeight,
+            double minorTickHeight ) {
+        
+        setChildrenPickable( false );
+       
+        this.insetWidth = insetWidth;
+        this.majorTickLabels = majorTickLabels;
+        this.majorTickFont = majorTickFont;
         this.units = units;
-        this.readings = readings;
+        this.unitsFont = unitsFont;
+        this.numMinorTicksBetweenMajors = numMinorTicksBetweenMajors;
+        this.majorTickHeight = majorTickHeight;
+        this.minorTickHeight = minorTickHeight;
         
         parentNode = new PNode();
         addChild( parentNode );
         
         backgroundNode = new PPath();
         backgroundNode.setPaint( BACKGROUND_COLOR );
-        backgroundNode.setStrokePaint( BACKGROUNG_STROKE_COLOR );
+        backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
         backgroundNode.setStroke( BACKGROUND_STROKE );
         parentNode.addChild( backgroundNode );
 
-        setBounds( 0, 0, width, height );
+        double totalWidth = distanceBetweenFirstAndLastTick + ( 2 * insetWidth );
+        setBounds( 0, 0, totalWidth, height );
         update();
     }
 
-    public void setReadings( String[] readings ) {
-        this.readings = readings;
+    //----------------------------------------------------------------------------
+    // Accessors and mutators
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the distance between the first and last ticks.
+     * 
+     * @param distanceBetweenFirstAndLastTick
+     */
+    public void setDistanceBetweenFirstAndLastTick( double distanceBetweenFirstAndLastTick ) {
+        setWidth( distanceBetweenFirstAndLastTick + ( 2 * insetWidth ) );
+        update();
+    }
+    
+    /**
+     * Gets the amount of space that appears to the left (and right) 
+     * of the first (and last) tick marks.
+     */
+    public double getInsetWidth() {
+        return insetWidth;
+    }
+    
+    /**
+     * Sets the major tick labels.
+     * 
+     * @param majorTickLabels
+     */
+    public void setMajorTickLabels( String[] majorTickLabels ) {
+        this.majorTickLabels = majorTickLabels;
         update();
     }
 
-    protected void update() {
-        doUpdate( getX(), getY(), getWidth(), getHeight() );
-    }
-
-    public void setUnitsText( String units ) {
+    /**
+     * Sets the units.
+     * 
+     * @param units
+     */
+    public void setUnits( String units ) {
         this.units = units;
         update();
     }
-
-    public void setMeasurementPixelWidth( double width ) {
-        setWidth( width + horizontalInset * 2 );
-        update();
-    }
+    
+    //----------------------------------------------------------------------------
+    // PNode overrides
+    //----------------------------------------------------------------------------
 
     protected void internalUpdateBounds( double x, double y, double width, double height ) {
         super.internalUpdateBounds( x, y, width, height );
         doUpdate( x, y, width, height );
     }
 
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
+    protected void update() {
+        doUpdate( getX(), getY(), getWidth(), getHeight() );
+    }
+
+    /*
+     * The ruler is constructed here.
+     */
     private void doUpdate( double x, double y, double width, double height ) {
         
         parentNode.removeAllChildren();
@@ -111,46 +240,62 @@ public class RulerNode extends PhetPNode {
         backgroundNode.setPathToRectangle( (float)x, (float)y, (float)width, (float)height );
         parentNode.addChild( backgroundNode );
 
-        double rulerDist = width - horizontalInset * 2;
-        double distBetweenMajorReadings = rulerDist / ( readings.length - 1 );
-        double distBetweenMinor = distBetweenMajorReadings / numMinorTicksBetweenMajors;
-        for( int i = 0; i < readings.length; i++ ) {
+        double distanceBetweenFirstAndLastTick = width - ( 2 * insetWidth );
+        double distBetweenMajorReadings = distanceBetweenFirstAndLastTick / ( majorTickLabels.length - 1 );
+        double distBetweenMinor = distBetweenMajorReadings / ( numMinorTicksBetweenMajors + 1 );
+        
+        for( int i = 0; i < majorTickLabels.length; i++ ) {
             
-            String reading = readings[i];
-            PText pText = new PText( reading );
-            double xVal = distBetweenMajorReadings * i + horizontalInset;
-            double yVal = height / 2 - pText.getFullBounds().getHeight() / 2;
-            pText.setOffset( xVal - pText.getFullBounds().getWidth() / 2, yVal );
-            parentNode.addChild( pText );
+            // Major tick label
+            String reading = majorTickLabels[i];
+            PText majorTickLabelNode = new PText( reading );
+            majorTickLabelNode.setFont( majorTickFont );
+            double xVal = ( distBetweenMajorReadings * i ) + insetWidth;
+            double yVal = height / 2 - majorTickLabelNode.getFullBounds().getHeight() / 2;
+            majorTickLabelNode.setOffset( xVal - majorTickLabelNode.getFullBounds().getWidth() / 2, yVal );
+            parentNode.addChild( majorTickLabelNode );
 
-            DoubleGeneralPath tickPath = createTickPair( xVal, height, majorTickHeight );
-            PPath majorTick = new PPath( tickPath.getGeneralPath(), TICK_STROKE );
-            majorTick.setStrokePaint( TICK_COLOR );
-            parentNode.addChild( majorTick );
+            // Major tick mark
+            DoubleGeneralPath tickPath = createTickMark( xVal, height, majorTickHeight );
+            PPath majorTickNode = new PPath( tickPath.getGeneralPath(), TICK_STROKE );
+            majorTickNode.setStrokePaint( TICK_COLOR );
+            parentNode.addChild( majorTickNode );
 
-            if( i < readings.length - 1 ) {
-                for( int k = 1; k < numMinorTicksBetweenMajors; k++ ) {
-                    DoubleGeneralPath pair = createTickPair( xVal + k * distBetweenMinor, height, minorTickHeight );
-                    PPath minorTick = new PPath( pair.getGeneralPath(), TICK_STROKE );
-                    minorTick.setStrokePaint( TICK_COLOR );
-                    parentNode.addChild( minorTick );
+            // Minor tick marks
+            if( i < majorTickLabels.length - 1 ) {
+                for( int k = 1; k <= numMinorTicksBetweenMajors; k++ ) {
+                    DoubleGeneralPath pair = createTickMark( xVal + k * distBetweenMinor, height, minorTickHeight );
+                    PPath minorTickNode = new PPath( pair.getGeneralPath(), TICK_STROKE );
+                    minorTickNode.setStrokePaint( TICK_COLOR );
+                    parentNode.addChild( minorTickNode );
                 }
             }
 
-            if( i == 0 ) {
-                PText unitsGraphic = new PText( units );
-                unitsGraphic.setFont( LABEL_FONT );
-                parentNode.addChild( unitsGraphic );
-                unitsGraphic.setOffset( pText.getOffset().getX() + pText.getFullBounds().getWidth() + 5, pText.getOffset().getY() - pText.getFullBounds().getHeight() / 2 );
+            // Units to the right of first major tick label, 
+            if( i == 0 && units != null ) {
+                PText unitsNode = new PText( units );
+                unitsNode.setFont( unitsFont );
+                parentNode.addChild( unitsNode );
+                // To the right of first major tick label, baselines aligned
+                unitsNode.setOffset( majorTickLabelNode.getOffset().getX() + majorTickLabelNode.getFullBounds().getWidth() + UNITS_SPACING, 
+                        majorTickLabelNode.getOffset().getY() + ( majorTickLabelNode.getFullBounds().getHeight() - unitsNode.getFullBounds().getHeight() ) );
             }
         }
     }
 
-    private DoubleGeneralPath createTickPair( double xVal, double height, double tickSize ) {
-        DoubleGeneralPath tickPath = new DoubleGeneralPath( xVal, 0 );
-        tickPath.lineTo( xVal, tickSize );
-        tickPath.moveTo( xVal, height - tickSize );
-        tickPath.lineTo( xVal, height );
+    //----------------------------------------------------------------------------
+    // Static utility methods
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Creates a tick mark at a specific x location.
+     * Each tick is marked at the top and bottom of the ruler.
+     */
+    private static DoubleGeneralPath createTickMark( double xPosition, double rulerHeight, double tickHeight ) {
+        DoubleGeneralPath tickPath = new DoubleGeneralPath( xPosition, 0 );
+        tickPath.lineTo( xPosition, tickHeight );
+        tickPath.moveTo( xPosition, rulerHeight - tickHeight );
+        tickPath.lineTo( xPosition, rulerHeight );
         return tickPath;
     }
 
