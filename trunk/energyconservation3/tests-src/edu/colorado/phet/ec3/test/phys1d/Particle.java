@@ -1,7 +1,6 @@
 package edu.colorado.phet.ec3.test.phys1d;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Line2D;
@@ -78,14 +77,36 @@ public class Particle {
                     boolean checkForCrossOver = checkForCrossOver( cubicSpline, alpha, origLoc, newLoc );
 
                     double ptLineDist = new Line2D.Double( origLoc, newLoc ).ptLineDist( cubicSpline.evaluate( alpha ) );
-                    System.out.println( "k = " + k + ", cross=" + checkForCrossOver + ", ptLineDist=" + ptLineDist );
+//                    System.out.println( "k = " + k + ", cross=" + checkForCrossOver + ", ptLineDist=" + ptLineDist );
                     if( checkForCrossOver ) {
                         System.out.println( "crossed over" );
-                        if( ptLineDist < splineLength / numSegments * 100 ) {//todo: should take a min over all possible crossover points
+
+                        if( ptLineDist < splineLength / numSegments * 100 ) {
+                            //todo: should take a min over all possible crossover points
                             //todo: possibly even binary search for better precision
-                            setParticle1DStrategy( cubicSpline );
+
+                            boolean bounce = true;//todo: add bounce test
+                            if( bounce ) {
+                                AbstractVector2D parallel = cubicSpline.getUnitParallelVector( alpha );
+                                AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
+                                //reflect the velocity about the parallel direction
+                                AbstractVector2D parallelVelocity = parallel.getInstanceOfMagnitude( parallel.dot( getVelocity() ) );
+                                AbstractVector2D normalVelocity = norm.getInstanceOfMagnitude( norm.dot( getVelocity() ) );
+
+                                AbstractVector2D newVelocity = parallelVelocity.getSubtractedInstance( normalVelocity );
+                                setVelocity( newVelocity );
+
+                                //set the position to be just on top of the spline
+                                Point2D splineLoc = cubicSpline.evaluate( alpha );
+                                double sign = isBelowSpline( cubicSpline, alpha, origLoc ) ? -1.0 : 1.0;
+                                Point2D finalPosition = norm.getInstanceOfMagnitude( 1E-6 * sign ).getDestination( splineLoc );
+                                setPosition( finalPosition );
+                            }
+                            else {
+                                setParticle1DStrategy( cubicSpline );
 //                            double bestAlpha=getAlpha(origLoc,newLoc);
-                            particle1D.setAlpha( alpha );
+                                particle1D.setAlpha( alpha );
+                            }
                             break;
                         }
                     }
@@ -94,18 +115,34 @@ public class Particle {
         }
     }
 
-    boolean checkForCrossOver( CubicSpline2D cubicSpline2D, double alpha, Point2D origLoc, Point2D newLoc ) {
+    private void setVelocity( AbstractVector2D velocity ) {
+        setVelocity( velocity.getX(), velocity.getY() );
+    }
+
+    public Vector2D.Double getVelocity() {
+        return new Vector2D.Double( vx, vy );
+    }
+
+    public boolean isBelowSpline( CubicSpline2D cubicSpline2D, double alpha, Point2D loc ) {
         AbstractVector2D v = cubicSpline2D.getUnitNormalVector( alpha );
-        Vector2D.Double a = new Vector2D.Double( cubicSpline2D.evaluate( alpha ), origLoc );
-        Vector2D.Double b = new Vector2D.Double( cubicSpline2D.evaluate( alpha ), newLoc );
-//        System.out.println( "a = " + a+", b="+b+", v="+v );
-        System.out.println( "alpha=" + alpha + ", m=" + cubicSpline2D.evaluate( alpha ) + ", origLoc=" + origLoc + ", newLoc=" + newLoc );
-        if( MathUtil.getSign( a.dot( v ) ) != MathUtil.getSign( b.dot( v ) ) ) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        Vector2D.Double a = new Vector2D.Double( cubicSpline2D.evaluate( alpha ), loc );
+        return a.dot( v ) < 0;
+    }
+
+    boolean checkForCrossOver( CubicSpline2D cubicSpline2D, double alpha, Point2D origLoc, Point2D newLoc ) {
+        return isBelowSpline( cubicSpline2D, alpha, origLoc ) != isBelowSpline( cubicSpline2D, alpha, newLoc );
+//        AbstractVector2D v = cubicSpline2D.getUnitNormalVector( alpha );
+//        Vector2D.Double a = new Vector2D.Double( cubicSpline2D.evaluate( alpha ), origLoc );
+//        Vector2D.Double b = new Vector2D.Double( cubicSpline2D.evaluate( alpha ), newLoc );
+////        System.out.println( "a = " + a+", b="+b+", v="+v );
+//
+////        System.out.println( "alpha=" + alpha + ", m=" + cubicSpline2D.evaluate( alpha ) + ", origLoc=" + origLoc + ", newLoc=" + newLoc );
+//        if( MathUtil.getSign( a.dot( v ) ) != MathUtil.getSign( b.dot( v ) ) ) {
+//            return true;
+//        }
+//        else {
+//            return false;
+//        }
     }
 
     class UserUpdateStrategy implements UpdateStrategy {
