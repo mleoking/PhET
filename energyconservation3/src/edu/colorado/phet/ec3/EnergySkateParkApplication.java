@@ -42,13 +42,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
-/**
- * User: Sam Reid
- * Date: Sep 21, 2005
- * Time: 3:07:25 AM
- * Copyright (c) Sep 21, 2005 by Sam Reid
- */
-
 public class EnergySkateParkApplication extends PhetApplication {
     private static final String VERSION = "1.05.05";
     private EnergySkateParkModule module;
