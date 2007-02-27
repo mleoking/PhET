@@ -99,7 +99,7 @@ public class Particle {
                                 //set the position to be just on top of the spline
                                 Point2D splineLoc = cubicSpline.evaluate( alpha );
                                 double sign = isBelowSpline( cubicSpline, alpha, origLoc ) ? -1.0 : 1.0;
-                                Point2D finalPosition = norm.getInstanceOfMagnitude( 1E-6 * sign ).getDestination( splineLoc );
+                                Point2D finalPosition = norm.getInstanceOfMagnitude( 1E-2 * sign ).getDestination( splineLoc );
                                 setPosition( finalPosition );
                             }
                             else {
@@ -131,18 +131,6 @@ public class Particle {
 
     boolean checkForCrossOver( CubicSpline2D cubicSpline2D, double alpha, Point2D origLoc, Point2D newLoc ) {
         return isBelowSpline( cubicSpline2D, alpha, origLoc ) != isBelowSpline( cubicSpline2D, alpha, newLoc );
-//        AbstractVector2D v = cubicSpline2D.getUnitNormalVector( alpha );
-//        Vector2D.Double a = new Vector2D.Double( cubicSpline2D.evaluate( alpha ), origLoc );
-//        Vector2D.Double b = new Vector2D.Double( cubicSpline2D.evaluate( alpha ), newLoc );
-////        System.out.println( "a = " + a+", b="+b+", v="+v );
-//
-////        System.out.println( "alpha=" + alpha + ", m=" + cubicSpline2D.evaluate( alpha ) + ", origLoc=" + origLoc + ", newLoc=" + newLoc );
-//        if( MathUtil.getSign( a.dot( v ) ) != MathUtil.getSign( b.dot( v ) ) ) {
-//            return true;
-//        }
-//        else {
-//            return false;
-//        }
     }
 
     class UserUpdateStrategy implements UpdateStrategy {

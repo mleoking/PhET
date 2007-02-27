@@ -47,7 +47,7 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.getLayer().addChild( particle1DNode );
         pSwingCanvas.getLayer().addChild( particleNode );
 
-        clock = new SwingClock( 30, 0.001 );
+        clock = new SwingClock( 30, 0.001 * 1.8 );
         clock.addClockListener( new ClockAdapter() {
 
             public void simulationTimeChanged( ClockEvent clockEvent ) {
