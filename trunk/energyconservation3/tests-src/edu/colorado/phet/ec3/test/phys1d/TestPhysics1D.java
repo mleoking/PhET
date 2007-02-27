@@ -1,5 +1,9 @@
 package edu.colorado.phet.ec3.test.phys1d;
 
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -9,16 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Feb 13, 2007
- * Time: 11:12:30 AM
- * To change this template use File | Settings | File Templates.
- */
 public class TestPhysics1D extends JFrame {
     private JFrame controlFrame;
-    private Timer timer;
+    private SwingClock clock;
+    private JFrame ccpFrame;
 
     public TestPhysics1D() {
         PSwingCanvas pSwingCanvas = new PSwingCanvas();
@@ -40,20 +38,28 @@ public class TestPhysics1D extends JFrame {
 
         final Particle particle = new Particle( cubicSpline );
         ParticleNode particleNode = new ParticleNode( particle );
-        pSwingCanvas.getLayer().addChild( particleNode );
+
 
         final Particle1D particle1d = new Particle1D( cubicSpline );
         particle1d.setUpdateStrategy( particle1d.createEuler() );
         Particle1DNode particle1DNode = new Particle1DNode( particle1d );
-        pSwingCanvas.getLayer().addChild( particle1DNode );
 
-        timer = new Timer( 30, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                double dt = 0.001;
-                particle1d.stepInTime( dt );
-                particle.stepInTime( dt );
+        pSwingCanvas.getLayer().addChild( particle1DNode );
+        pSwingCanvas.getLayer().addChild( particleNode );
+
+        clock = new SwingClock( 30, 0.001 );
+        clock.addClockListener( new ClockAdapter() {
+
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                particle1d.stepInTime( clockEvent.getSimulationTimeChange() );
+                particle.stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
+        ccpFrame = new JFrame( "Clock Controls" );
+        ccpFrame.setContentPane( new ClockControlPanel( clock ) );
+        ccpFrame.pack();
+        ccpFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        ccpFrame.setLocation( getX(), getY() + getHeight() );
 
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
@@ -124,6 +130,8 @@ public class TestPhysics1D extends JFrame {
         //To change body of created methods use File | Settings | File Templates.
         setVisible( true );
         controlFrame.setVisible( true );
-        timer.start();
+        ccpFrame.setVisible( true );
+        clock.start();
+//        timer.start();
     }
 }
