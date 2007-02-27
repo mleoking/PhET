@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="dist" name="Liquid Look And Feel">
+
+    <!-- Don't worry if you don't know the Ant syntax completely or need help on some tasks! -->
+    <!-- The standard Ant documentation can be downloaded from AutoUpdate and -->
+    <!-- and then you can access the help in menu Help | Help Sets | Ant 1.5.1 Manual. -->
+
+    <!-- You can set up any variables you want used throughout the script here. -->
+    <property environment="env"/>
+    <property file="liquid.properties"/>
+    <property name="xdoclet.home" value="/usr/local/xdoclet"/>
+    <property name="project.classes" value="bin"/>
+    <property name="project.dist" value="dist"/>
+    <property name="project.src" value="src"/>
+    <property name="project.test" value="test"/>
+    <property name="project.bin.test" value="bin/test"/>
+    <property name="project.bin" value="dist/bin"/>
+    <property name="project.lib" value="./lib"/>
+
+    <target name="run-check" depends="compile-test">
+        <java classname="test.Check" fork="true" jvm="${runtime.jvm}">
+            <jvmarg value="-Dcom.sun.management.jmxremote"/>
+            <jvmarg value="-Dliquidlnf.windowDecoration=liquid"/>
+            <classpath>
+                <pathelement path="${project.classes}"/>
+                <pathelement path="${basedir}"/>
+                <pathelement path="${project.lib}/substance.jar"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="run-int" depends="compile-test">
+        <java classname="test.InternalFrameHeightTest" fork="true">
+            <jvmarg value="-Dcom.sun.management.jmxremote"/>
+            <jvmarg value="-Dliquidlnf.windowDecoration=liquid"/>
+            <classpath>
+                <pathelement path="${project.classes}"/>
+                <pathelement path="${basedir}"/>
+                <pathelement path="${project.lib}/substance.jar"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="profile-check" depends="compile-test">
+        <fail unless="netbeans.home">This target can only run inside the NetBeans IDE.</fail>
+        
+        <nbprofiledirect>
+            <classpath> 
+                <pathelement path="${project.classes}"/>
+                <pathelement path="${basedir}"/>
+                <pathelement path="${project.lib}/substance.jar"/>
+            </classpath>
+        </nbprofiledirect>
+        
+        <java classname="test.Check" fork="true" jvm="${profiler.info.jvm}">
+            <!--jvmarg value="-Dcom.sun.management.jmxremote"/-->
+            <jvmarg value="${profiler.info.jvmargs.agent}"/>
+            <classpath>
+                <pathelement path="${project.classes}"/>
+                <pathelement path="${basedir}"/>
+                <pathelement path="${project.lib}/substance.jar"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="init">
+        <delete file="${java.home}/lib/ext/${jar.name}" quiet="true" />
+        <mkdir dir="${project.classes}"/>        
+        
+        <tstamp/>        
+    </target>
+
+    <target depends="compile" name="compile-test">
+        <javac classpath="${project.lib}/laf-plugin.jar" bootclasspath="${compile.bootclasspath}" debug="true" deprecation="false" target="${compile.target}" source="${compile.source}" description="Project compilation." destdir="${project.classes}" srcdir="${project.test}"/>
+        <copy todir="${project.classes}">
+            <fileset dir="${project.test}" excludes="**/*.java,**/*.form,**/.nbattrs"/>
+        </copy>
+    </target>
+
+    <target depends="init" name="compile">
+        <javac classpath="${project.lib}/laf-plugin.jar" bootclasspath="${compile.bootclasspath}" debug="${compile.debug}" deprecation="false" target="${compile.target}" source="${compile.source}" description="Project compilation." destdir="${project.classes}" srcdir="${project.src}" />
+        <copy todir="${project.classes}">
+            <fileset dir="${project.src}" excludes="**/*.java,**/*.form,**/.nbattrs"/>
+        </copy>
+    </target>
+
+    <target depends="init,compile" description="Make jar file" name="jar">
+	<mkdir dir="${project.dist}"/>
+        <unjar src="${project.lib}/laf-plugin.jar" dest="${project.classes}/"/>
+        <jar basedir="${project.classes}" compress="true" jarfile="${project.dist}/${jar.name}">
+            <exclude name="**/*.java"/>
+            <exclude name="**/*.form"/>
+            <exclude name="**/test/*"/>
+            
+            <manifest>
+                <attribute name ="Built-By" 
+                           value="${user.name}"/>
+                <attribute name ="Specification-Title"
+                           value="${spec.title}" />
+                <attribute name ="Specification-Vendor"
+                           value="${spec.vendor}" />
+                <attribute name ="Specification-Version"
+                           value="${spec.version}" />
+         	<attribute name ="Implementation-Title"
+                           value="${impl.title}" />
+                <attribute name ="Implementation-Vendor"
+                           value="${impl.vendor}" />
+         	<attribute name ="Implementation-Version"
+                           value="${impl.version} ${TODAY}" />
+           </manifest>
+        </jar>
+    </target>
+
+    <target depends="compile-test" description="Make test jar file" name="testjar">
+        <mkdir dir="${project.classes}"/>        
+	<mkdir dir="${project.dist}"/>
+        <delete file="${java.home}/lib/ext/${testjar.name}" quiet="true" />
+        <jar basedir="${project.classes}" compress="true" jarfile="${project.dist}/${testjar.name}">
+            <exclude name="**/*.java"/>
+            <exclude name="**/*.form"/>
+            <exclude name="**/src/*"/>
+            <include name="**/test/*"/>
+        </jar>
+    </target>
+    
+    <target depends="jar" description="Install jar file" name="install">
+        <copy file="${project.dist}/${jar.name}" todir="${java.home}/lib/ext"/>
+    </target>
+
+    <target depends="install" description="Colour test" name="colour">
+        <java classname="com.birosoft.liquid.util.Colors" fork="yes">
+            <classpath>
+                <pathelement path="${project.classes}"/>
+                <pathelement path="${basedir}"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target depends="clean" description="Create src.jar file" name="src.dist">
+        <tar basedir="." tarfile="${project.name}-${project.version}-src.tar">
+            <exclude name="CVS/*.*"/>
+            <exclude name="**/.nbattrs"/>
+        	<exclude name="antoan"/>	
+	    	<exclude name="antoan/*"/>
+	    	<exclude name="mosfet_artwork"/>
+	    	<exclude name="mosfet_artwork/*"/>
+	    	<exclude name="logs"/>
+	    	<exclude name="logs/*"/>
+	    	<exclude name="archives"/>
+	    	<exclude name="archives/**"/>
+	    	<exclude name="bugs"/>
+	    	<exclude name="bugs/**"/>
+	    	<exclude name="hold"/>
+	    	<exclude name="hold/**"/>
+	    	<exclude name="old_images"/>
+	    	<exclude name="old_images/**"/>
+        	<exclude name=".*"/>
+        </tar>
+        <mkdir dir="${project.dist}"/>
+        <bzip2 src="${project.name}-${project.version}-src.tar" zipfile="${project.dist}/${project.name}-${project.version}-src.tar.bz2"/>
+        <delete file="${project.name}-${project.version}-src.tar"/>
+    </target>
+
+    <target depends="src.dist,jar,testjar" description="Create files for distribution" name="dist">
+	<mkdir dir="${project.bin}"/>
+	<copy todir="${project.bin}">
+	    <fileset dir="${project.dist}" excludes="bin,**/*.bz2"/>
+	    <fileset dir="." includes="README,swing.properties,*.txt"/>
+	</copy>
+	<zip destfile="${project.dist}/${project.name}-${project.version}.zip" basedir="${project.bin}"/>
+	<delete file="${project.dist}/${jar.name}"/>
+    </target>
+
+    <target description="Clean project." name="clean">
+        <delete dir="${project.classes}"/>
+        <delete dir="${project.dist}"/>
+    </target>
+
+</project>

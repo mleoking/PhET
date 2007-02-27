@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".." name="Liquid Look And Feel-IDE">
+    <import file="../build.xml"/>
+    <!-- TODO: edit the following target according to your needs -->
+    <!-- (more info: http://www.netbeans.org/kb/41/freeform-config.html#debugj2se) -->
+    <target depends="compile-test" name="debug-nb">
+        <nbjpdastart addressproperty="jpda.address" name="Liquid Look And Feel" transport="dt_socket">
+            <classpath>
+                <pathelement path="${project.classes}"/>
+                <pathelement path="${basedir}"/>
+            </classpath>
+        </nbjpdastart>
+        <java classname="test.Check" fork="yes">
+            <classpath>
+                <pathelement path="${project.classes}"/>
+                <pathelement path="${basedir}"/>
+            </classpath>
+            <jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xnoagent"/>
+            <jvmarg value="-Djava.compiler=none"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jpda.address}"/>
+        </java>
+    </target>
+</project>

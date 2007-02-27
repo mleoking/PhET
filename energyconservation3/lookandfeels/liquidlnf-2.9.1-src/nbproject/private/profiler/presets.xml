@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment></comment>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-0">com.birosoft.liquid.LiquidTabbedPaneUI,createUI,(Ljavax/swing/JComponent;)Ljavax/swing/plaf/ComponentUI;</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-15">com.birosoft.liquid.LiquidTabbedPaneUI,getSkinLeft,()Lcom/birosoft/liquid/skin/Skin;</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-14">com.birosoft.liquid.LiquidTabbedPaneUI,getSkinTop,()Lcom/birosoft/liquid/skin/Skin;</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-13">com.birosoft.liquid.LiquidTabbedPaneUI,getTabLabelShiftY,(IIZ)I</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-12">com.birosoft.liquid.LiquidTabbedPaneUI,getTabLabelShiftX,(IIZ)I</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-11">com.birosoft.liquid.LiquidTabbedPaneUI,update,(Ljava/awt/Graphics;Ljavax/swing/JComponent;)V</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-10">com.birosoft.liquid.LiquidTabbedPaneUI,paint,(Ljava/awt/Graphics;Ljavax/swing/JComponent;)V</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-20">com.birosoft.liquid.LiquidTabbedPaneUI,getSkinBorderRight,()Lcom/birosoft/liquid/skin/Skin;</entry>
+<entry key="presets.cpufragment.profiler.settings.fragment.selection"></entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-9">com.birosoft.liquid.LiquidTabbedPaneUI,paintText,(Ljava/awt/Graphics;ILjava/awt/Font;Ljava/awt/FontMetrics;ILjava/lang/String;Ljava/awt/Rectangle;Z)V</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-8">com.birosoft.liquid.LiquidTabbedPaneUI,paintTabBorder,(Ljava/awt/Graphics;IIIIIIZ)V</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-7">com.birosoft.liquid.LiquidTabbedPaneUI,paintContentBorder,(Ljava/awt/Graphics;II)V</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-6">com.birosoft.liquid.LiquidTabbedPaneUI,paintFocusIndicator,(Ljava/awt/Graphics;I[Ljava/awt/Rectangle;ILjava/awt/Rectangle;Ljava/awt/Rectangle;Z)V</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-5">com.birosoft.liquid.LiquidTabbedPaneUI,paintTabBackground,(Ljava/awt/Graphics;IIIIIIZ)V</entry>
+<entry key="presets.cpupart.profiler.settings.instrumentation.root.methods.size">21</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-19">com.birosoft.liquid.LiquidTabbedPaneUI,getSkinBorderVertical,()Lcom/birosoft/liquid/skin/Skin;</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-4">com.birosoft.liquid.LiquidTabbedPaneUI,getTabAtLocation,(II)I</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-18">com.birosoft.liquid.LiquidTabbedPaneUI,getSkinBorder,()Lcom/birosoft/liquid/skin/Skin;</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-3">com.birosoft.liquid.LiquidTabbedPaneUI,ensureCurrentLayout,()V</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-17">com.birosoft.liquid.LiquidTabbedPaneUI,getSkinBottom,()Lcom/birosoft/liquid/skin/Skin;</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-2">com.birosoft.liquid.LiquidTabbedPaneUI,createMouseListener,()Ljava/awt/event/MouseListener;</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-16">com.birosoft.liquid.LiquidTabbedPaneUI,getSkinRight,()Lcom/birosoft/liquid/skin/Skin;</entry>
+<entry key="presets.cpupart.profiler.settings.istrumentation.root.methods-1">com.birosoft.liquid.LiquidTabbedPaneUI,installListeners,()V</entry>
+</properties>

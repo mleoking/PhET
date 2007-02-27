@@ -1,0 +1,364 @@
+AUTHORS of Liquid L&F:
+Current Maintainer: Erik Vickroy - evickroy@liquid.dev.java.net
+Original Author:  Miroslav Lazarevic (Mickey) - mickey@birosoft.com
+
+
+What is LiquidLnF?
+
+This is a look and feel for Java GUI applications based on Swing. 
+It is based on Mosfet's Liquid theme for KDE 3.x. 
+I want to thanks to Daniel for this great widget theme which I adopted
+for use in Java GUI apps. His work is under BSD license.
+
+As of 2005, this project is powered by java.net!
+
+
+INSTALL NOTES:
+
+If you are downloaded source: You'll need Ant to build it.
+To create dist files just call Ant's batch script in source base directory.
+To create only jar file in dist directory call Ant's batch file with jar 
+as parameter.
+
+If you downloaded binary in zip file:
+
+- Unpack archive liquidlnf-0.2.x.zip.
+- Put liquidlnf file in your CLASSPATH or (jre/lib/ext not usually recommended)
+- (Optional) Copy swing.properties from zip file into jre/lib to use Liquid for all Java apps. 
+- Start SwingSet2.jar demo included with JDK or start any other Java GUI app 
+  to test your configuration.
+
+You will need a JDK or JRE 1.4.x or later to use this look and feel.
+
+WHAT'S NEW:
+I bring new feature to Java GUI apps.
+I made a scrollBar to behave like in KDE when you using scroll button of yours
+mouse. If you have activated both scrollbars in a frame, you can scroll a 
+horizontal scrollbar with mouse wheel holding Alt key while you rotate mouse 
+wheel.
+
+
+FAQ:
+======
+
+Q: How to set my app to use LiquidLnF without swing.properties file?
+
+A1: You can find answer in Sun's Java tutorial.
+
+A2: Put next lines in main method of your Java GUI app:
+
+    try {
+	javax.swing.UIManager.setLookAndFeel("com.birosoft.liquid.LiquidLookAndFeel");
+
+	// if you want decorations for frames and dialogs you can put this line
+	//
+	// com.birosoft.liquid.LiquidLookAndFeel.setLiquidDecorations(true);
+	//
+	// or if you want to use simulated Mac window decorations, put this line
+	//
+	// com.birosoft.liquid.LiquidLookAndFeel.setLiquidDecorations(true, "mac");
+        // For a full list of custom properties, checkout the project site at: https://liquidlnf.dev.java.net/
+    } catch (Exception e) {}
+    
+======
+    
+Q: Can't resize window dragging title bar, upper left or upper right corner when
+   using panther decoration.
+   
+A: It is possible but hardly. This happend because insets of Panther frame border
+   is very small (0,1,1,1). Increasing of border's insets solve resizing window 
+   problem but look of frame is not satisfactory. So I will leave small insets 
+   for now.
+
+======
+
+CHANGES:
+
+Version 2.9.1
+
+- Bugfix for unable to move caret position in an editable combobox (Issue #33).
+- Bugfix for Editable JComboBox flickers within UI editing tools (Issue #27).
+- Bugfix for Inner frames with long titles not rendered correctly (Issue #41).  Thanks to Alex Mermod.
+- Bugfix for NPE when running Netbeans 5.5 with Liquid (Issue #42).  Thanks to Christian Schlichtherle.
+- Added version and license information to LiquidLookAndFeel.getDescription.
+- Added version information to jar manifest.
+
+Version 0.2.9
+
+NOTE: 0.2.9 will be the last release that is targetted for Java 1.4.  Starting with release 3.0, 
+      Liquid will be targeted for Java 5.0
+
+- Bugfix for JTabbedPane scroll tab layout - single line (Issue #39). Thanks to Mihai Popet.
+- Bugfix for JTabbedPane tab remaining painted for rollover after mouse leaves the tab (Issue #38)  
+- Bugfix for JTabbedPane content border shifting when changing tab placement (Issue #37).
+- Bugfix for JTabbedPane not having any focus feedback (Issue #36).
+- Bugfix for Liquid style frames being too close to margin (Issue #31).
+- Bugfix for LEFT and RIGHT placed JTabbedPanes not painting the blue separator bar (Issue #29).
+- Bugfix for no indicator visible for default button (Issue #24).
+- Completed support for Panther (Mac) decorations for internal frames (Issue #23). Thanks to Dalton Filho.
+- Bugfix for JComboBox and JRadioButton lack of focus indicator (Issue #12).
+- Bugfix for indeterminate horizontal progress bar paints very slowly on Linux.  Seems corrected by 
+  the new progress bars (Issue #10).  Thanks to Simon Bennett and jjowdy.
+- Bugfix for nested JTabbedPanes maxing out the CPU (Issue #9).
+- Bugfix for JToolbar buttons lack of focus indicator and always painting stipples (Issue #8).
+- Added subtle rollover feedback to JSpinner buttons.
+- Changed the look of JProgressBars to have more of a Liquid style.
+- Added a content border to the JTabbedPanes.
+- Added a property to control the focusability of JToolbar buttons (defaults to false).
+- Added a property to control the rollover skin of JToolbar buttons (defaults to true).
+- Laf-Plugin support updated. (See https://laf-plugin.dev.java.net/ for details)
+
+
+Version 0.2.9-beta
+
+- Bugfix for non opaque panel repaint problem (Issue #7).
+- Bugfix for loss of Vertical Progress Bar support (Issue #18).  
+  Thanks to Andrew Crawford.
+- Bugfix for horizontal indeterminate progressbar renders incorrectly (Issue #19).
+  Thanks to jjowdy for the patch.
+- Laf-Plugin support added. (See https://laf-plugin.dev.java.net/ for details)
+
+Version 0.2.9-alpha6
+
+- Bugfix for decorated frames and its maximizing.
+- Look of JTree has changed.
+
+Version 0.2.9-alpha5
+
+- Bugfix for JPasswordField.
+
+Version 0.2.9-alpha4
+
+- Fixed null pointer exception in LiquidComboUI. Thanks to Lokhan Wong.
+- Fixed background drawing for tabbed panes when orientation is bottom. Thanks to
+  Lionel Badiou
+- Fixed system menu for dialogs. Thanks to Lionel Badiou
+- Fixed look of buttons in "native" JDialogs. They are not use flat button look
+  any more. Thanks to Lionel Badiou
+- Changed way a resource from jar file is retreived. Please, check SecretLoader 
+  class and tell me is this what you expect to be done, Adrian Tarau?
+- Added "PasswordFieldUI" constant for Java 5 compatibility.
+- List of items does not appear in Combobox using keyboard bug solved.
+- David from JIDE Software suggest me how to improve PanelUI code to deal with 
+  custom panel which override isOpaque method like their JideSplitPane. Thank you
+  David.
+
+Version 0.2.9-alpha3
+
+- Check for screen resolution turned off for button margins.
+- Panther native decorations finished for frames (JFrame) and dialogs (JDialog).
+  Try it and report bugs if you find them.
+
+Version 0.2.9-alpha2
+
+- This release contain some bugfixes which are currently in CVS repository. 
+  Because of that I will release only binary package. If someone needs source 
+  he/she can get it from CVS.
+- New static method for use of Panther decoration added. 
+  LiquidLookAndFeel.setLiquidDecorations(true, "panther");
+
+Version 0.2.9-alpha
+
+- Started implementation of MacOS Panther window decoration. Because new 
+  window decoration is planned to be finished for 0.2.9 I named this
+  release 0.2.9-alpha. 
+- liquidlnf.conf added for control look and feel apps which use LiquidLnF
+  through swing.properties file. This file must be in application's folder.
+  
+  Properties of liquidlnf.conf file are:
+
+  panelTransparency = true|false
+  showTableGrids = false|true
+  stipples = true|false
+  alternateBackground = true|false
+  windowDecoration = liquid|panther
+  toolbarFlattedButtons = true|false
+  
+- added new method LiquidLookAndFeel.setToolbarFlattedButtons(boolean). 
+  True is default.
+- Bug fix for buttons margin. This is occur when resolution of screen is 
+  different. While I use RH 7.3 resolution in KDE was 111 DPI while now on
+  Mandrake 10 it is 75 DPI. Now LiquidLnF checks for resolution of screen 
+  and choose valid margins for buttons.
+
+
+Version 0.2.8
+
+- LiquidLookAndFeel.setPanelTransparency(boolean) introduced. Default value is 
+  true (should garanted aligned stipples), but if you experience a problem with 
+  panel's transparency you can turn it off and get panels behavior like before 
+  0.2.5 release.
+- Fixed transparency of panels when changing from Liquid to other LAF.
+- JFreeReport's PreviewFrame class has a toolbar which is not child of JPanel 
+  component. Because of that toolbar can't be non-opaque and must draw stipples
+  itself which may cause that its stipples and stipples of other components are
+  not aligned. 
+- Toolbar button focusable property fixed.
+- Tablehaeder don't share look with tableheader any more. This is bugfix for 
+  table header look in 0.2.7
+- Use LiquidLookAndFeel.setShowTableGrids(true) if you want to grid be painted
+  in JTables with default row background mode.
+
+Version 0.2.7
+
+- Toolbar buttons are flated now like in Liquid 0.9.7 for KDE.
+- And finally I found the reason why disabled JSpinner components throwed 
+  RasterForamtException and fixed this.
+- Bugfix for "The FileChooserBasicUI doesn't use the "FileChooser.useShellFolder" 
+  client property like the MetalFileChooserUI does in JDK 1.4.2."
+
+Version 0.2.6
+
+- Some minor problems drawing of stipples fixed.
+- JSlider background and ticks drawing is now fixed.
+
+Version 0.2.5
+
+- Buttons on internal frames as well those on frames and dialog are not focusable 
+  any more.
+- Fixed bug for JSpinner when it used for editing of timedate fields.
+- Fixed bug for background stipples of JOptionPane dialogs.
+- Fixed bug for JTextField insets
+- Some changes on drawing background stipples are occured. You can also turn off
+  stipples if you like with LiquidLookAndFeel.setStipples(false).
+
+Version 0.2.4
+
+- And finally window decorations are implemented.
+
+Version 0.2.3
+
+- Fixed drawing of progressbar when it is indeterminated.
+- Fixed drawing of JButton when it has focus and it is placed on toolbar.
+  Thanks to Carlos Nunes for bug submitting.
+- Fixed background bug for JCheckBox when it used as renderer component in JTable.
+  Thanks to L. Yeung for bug submitting.
+
+Version 0.2.2
+
+- Fixed border for JPasswordField component.
+- Fixed keyboard actions bug for ComboBoxes. Thanks to Dominik Schwald <d.schwald@nextbyte.de>
+
+Version 0.2.1
+
+- Fixed bug when JSeparator orientation needs to be a vertical. Thanks to Adrian 
+  Tarau <ady@level7.ro>.
+- new look of JList. List's rows look now like table's rows which was introduced
+  in previous version. Thanks to Adrian Tarau.
+- LiquidLookAndFeel.setDefaultTableBackgroundMode(boolean) is deprecated. You 
+  should use LiquidLookAndFeel.setDefaultRowBackgroundMode(boolean) from now.
+- Fixed look of JToggleButton when it is used on toolbars. Thanks to Adrian Tarau.
+
+Version 0.2.0
+
+- new look of JTable introduced. Every second row of table has same background 
+  color and no borders between cells. If you want to all rows has one color 
+  you need set LiquidLookAndFeel.setDefaultTableBackgroundMode(false) in main 
+  method of yours application or in class where you use JTable swing component
+
+- changed look of checkbox and radiobutton so disabled item of those components
+  are dimmed. It's also improved state of these components when mouse cursor is 
+  over them
+
+- disabled sliders are grayed now
+
+- fixed bug for LiquidToolBarUI. If you are using more than one toolbar now each 
+  of them is properly recognized by LiquidLnF.
+
+- CheckBoxMenuItem and RadioButtonMenuItem have different look now.
+
+
+Version 0.1.9.1
+
+- ensure that building is independent of some previous LiquidLnF.jar installed
+  in jre/lib/ext
+
+- bugfix of "java.lang.NoClassDefFoundError: com/birosoft/liquid/TableHeaderUI"
+
+- fix for use of Liquid L&F in applets
+
+Version 0.1.9
+
+- Minor change in LiquidTabbedPane
+
+- Fixed bug with JTable.AUTO_RESIZE_OFF when horizontal scrollbar must be used by
+  JTable. Tanks to Carlos Antonio de Oliveira Nunes Junior <carlos.nunes@choose.com.br>
+  for report of this bug.
+
+- Fixed caption drawing of internal frame (Netbeans MDI mode looks ok now).
+
+Version 0.1.8
+
+- LiquidListBorder introduced
+
+- Shroted name for LiquidL&F (it's just Liquid). Thanks to Nathan Fiedler <nfiedler@bluemarsh.com>
+
+- LiquidFocusCellHighlightBorder introduced
+
+- Bugfix in LiquidSplitPaneDivider when window of another app overlap Java app
+  window which contain JSplitPane component.
+
+- Look of selected cell in a selected row of JTable changed
+
+Version 0.1.7
+
+- fixed some colors. Now GUI editing in Netbeans looks better.
+
+- fixed bug in LiquidTableHeader's createUI() method 
+  (thanks to Sebastian Clau� <sc2@inf.tu-dresden.de>).
+
+- Liquid extending BasicLookAndFeel now instead MetalLookAndFeel. Changing of L&F
+  inside application from Liquid to Metal now looks much better. 
+  But some stuff in this area are very strange for me. For the example in SwingSet2 
+  app when change from Metal to Liquid TableHeader is still like in Metal. 
+  Only changing of L&F when table demo is active changes look of table header is
+  proper. Does anybody knows is this bug in JDK or in LiquidLnF? 
+
+Version 0.1.6
+
+- Fixed bug of background painting when MenuItem has a icon.
+
+- Fixed bug in JTabbedPaneUI when update() method called instead some paint methods
+  (noticed in Swing JTabbed palette of Netbeans)
+
+- JSplitPane divider implemented. It seems that KDE has not one-touchable dividers.
+  I don't know what to do with it at this time. Any suggestion?
+
+Version 0.1.5
+
+- Fixed bug in JTabbedPaneUI because TabbedPane.contentBorderInsets was set to 
+  (5,0,5,0). Now TabbedPane.contentBorderInsets property has default value for 
+  TOP placement (5,0,0,0) and can dynamically change its state if user changes 
+  tab placement interactivelly.
+
+- Fixed toolbar.png file.
+
+- Added LiquidTableHeaderUI so now JTable headers look like Mosfet's Liquid table
+  headers.
+
+Version 0.1.4
+
+- JTabbedPaneUI now fully looks like in Mosfet's Liquid KDE theme. Only top & bottom
+  placement of tabs are properlly rendered. I don't need left and right placement
+  in my apps and there is no such placement in KDE 3.x either.
+
+- Fixed bug in toolbar's handler rendering.
+
+Version 0.1.3
+
+- thanks to Ralph Vince to make me notice that JToggleButtons don't behave like 
+  expected. Now JToggleButtons behave properlly.
+
+Version 0.1.2
+
+- editable JCombobox now rendered fine
+
+- disabled focus painting when instance of JButton is too small
+
+Version 0.1.1
+
+- behavior of JScrollBar thumb corrected when it's size has to be smallest
+
+Version 0.1.0
+
+- initial release posted to Sourceforge.net
