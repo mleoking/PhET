@@ -74,13 +74,18 @@ public class Particle {
                 double splineLength = cubicSpline.getMetricDelta( 0, 1 ) / numSegments;
 
                 for( int k = 0; k < numSegments; k++ ) {
-                    boolean checkForCrossOver = checkForCrossOver( cubicSpline, k / numSegments, origLoc, newLoc );
                     double alpha = ( (double)k ) / numSegments;
+                    boolean checkForCrossOver = checkForCrossOver( cubicSpline, alpha, origLoc, newLoc );
+
                     double ptLineDist = new Line2D.Double( origLoc, newLoc ).ptLineDist( cubicSpline.evaluate( alpha ) );
                     System.out.println( "k = " + k + ", cross=" + checkForCrossOver + ", ptLineDist=" + ptLineDist );
                     if( checkForCrossOver ) {
-                        if( ptLineDist < splineLength / numSegments * 10 ) {
+                        System.out.println( "crossed over" );
+                        if( ptLineDist < splineLength / numSegments * 100 ) {//todo: should take a min over all possible crossover points
+                            //todo: possibly even binary search for better precision
                             setParticle1DStrategy( cubicSpline );
+//                            double bestAlpha=getAlpha(origLoc,newLoc);
+                            particle1D.setAlpha( alpha );
                             break;
                         }
                     }
@@ -93,6 +98,8 @@ public class Particle {
         AbstractVector2D v = cubicSpline2D.getUnitNormalVector( alpha );
         Vector2D.Double a = new Vector2D.Double( cubicSpline2D.evaluate( alpha ), origLoc );
         Vector2D.Double b = new Vector2D.Double( cubicSpline2D.evaluate( alpha ), newLoc );
+//        System.out.println( "a = " + a+", b="+b+", v="+v );
+        System.out.println( "alpha=" + alpha + ", m=" + cubicSpline2D.evaluate( alpha ) + ", origLoc=" + origLoc + ", newLoc=" + newLoc );
         if( MathUtil.getSign( a.dot( v ) ) != MathUtil.getSign( b.dot( v ) ) ) {
             return true;
         }

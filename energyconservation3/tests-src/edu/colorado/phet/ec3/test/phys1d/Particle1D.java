@@ -36,6 +36,10 @@ public class Particle1D {
         return cubicSpline.evaluate( alpha ).getY();
     }
 
+    public void setAlpha( double alpha ) {
+        this.alpha = alpha;
+    }
+
     public void stepInTime( double dt ) {
         double initEnergy = getEnergy();
         int N = 10;
