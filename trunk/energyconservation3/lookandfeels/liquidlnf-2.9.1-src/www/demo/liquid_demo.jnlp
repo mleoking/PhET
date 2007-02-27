@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0+" codebase="https://liquidlnf.dev.java.net/demo" href="liquid_demo.jnlp">
+  <information>
+    <title>Liquid Look and Feel - Demo</title>
+    <vendor>https://liquidlnf.dev.java.net/</vendor>
+    <homepage href="https://liquidlnf.dev.java.net"/>
+    <icon href="radio.jpg" kind="default"/>
+    <!--icon href="../images/radio.png" kind="splash"/--> 
+    <offline-allowed/>
+  </information>
+<security>
+</security>
+  <resources>
+    <j2se version="1.4+"/> 
+    <jar href="liquidlnftest.jar" download="eager" main="true"/>
+    <jar href="liquidlnf.jar" download="eager"/>
+  </resources> 
+  <application-desc main-class="test.Check">
+  </application-desc>
+</jnlp>

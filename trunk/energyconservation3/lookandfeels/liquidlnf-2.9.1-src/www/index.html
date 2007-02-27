@@ -1,0 +1,146 @@
+<html>
+<head>
+<title>Project Home Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="shortcut icon" href="/images/radio.png" />
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>Liquid look & feel</h1>
+<p>The goal of this project is to provide a look and feel based on the Mosfet Liquid KDE 3.x theme.</p>
+
+<br>
+<p>To make <b>LiquidLnF</b> the current L&F, add this line to the beginning of your main method:<br>
+<code><font color="darkblue">UIManager.setLookAndFeel("com.birosoft.liquid.LiquidLookAndFeel");</font></code><br><br>
+</p>
+<p><b>OR</b> use the following VM parameter when launching the application:<br>
+<code><font color="darkblue">-Dswing.defaultlaf=com.birosoft.liquid.LiquidLookAndFeel</font></code><br><br>
+</p>
+
+<p>To make <b>LiquidLnF</b> the default L&F for all Java applications, you will need to modify the swing.properties file in ../jre/lib.
+Here is an example of that file:<br><br>
+<samp>
+swing.installedlafs = motif,windows,metal,mac,<font color="darkblue">liquid</font><br>
+swing.installedlaf.motif.name = CDE/Motif<br>
+swing.installedlaf.motif.class = com.sun.java.swing.plaf.motif.MotifLookAndFeel<br>
+swing.installedlaf.windows.name = Windows<br>
+swing.installedlaf.windows.class = com.sun.java.swing.plaf.windows.WindowsLookAndFeel<br>
+swing.installedlaf.metal.name = Metal<br>
+swing.installedlaf.metal.class = javax.swing.plaf.metal.MetalLookAndFeel<br>
+swing.installedlaf.mac.name = Mac<br>
+swing.installedlaf.mac.class = com.sun.java.swing.plaf.mac.MacLookAndFeel<br>
+<font color="darkblue">swing.installedlaf.liquid.name = Liquid<br>
+swing.installedlaf.liquid.class = com.birosoft.liquid.LiquidLookAndFeel<br>
+swing.defaultlaf=com.birosoft.liquid.LiquidLookAndFeel</font><br>
+</samp>
+</p>
+
+<h3>Demos</h3>
+<br>
+<a href="demo/liquid_demo.jnlp"><img src="images/jws-launch-button.png"></a> - A demo of Liquid UI delegates.<br><br>
+
+<h3>Screenshots</h3>
+Below are sample screenshots of the SwingSet demo using the <b>LiquidLnF</b>. 
+<table>
+  <tbody>
+    <tr>
+      <td><a href="images/shot1full.png"><img src="images/shot1full.png" alt="Screenshot" width=100 height=92 align="middle" border=0></a></td>
+      <td><a href="images/shot2full.png"><img src="images/shot2full.png" alt="Screenshot" width=100 height=92 align="middle" border=0></a></td>
+      <td><a href="images/shot3full.png"><img src="images/shot3full.png" alt="Screenshot" width=100 height=92 align="middle" border=0></a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Runnable</h3>
+<br>
+You can download the latest jar file <a href="https://liquidlnf.dev.java.net/servlets/ProjectDocumentList?folderID=3763">here</a><br><br>
+
+<h3>Custom Properties</h3>
+<p>There are several custom properties that can set to alter the default Look of Liquid. 
+   Here is the list of the properties with their default setting in blue: </p>
+<ul type="disc">
+    <li><b>Window Decorations</b> - When on, all frames, dialogs, and internal frames will use custom decorations for their titlebar.  Default is <i>false</i>.
+        <ul><li>Sample when ON: <pre>LiquidLookAndFeel.setLiquidDecorations(true);</pre></li></ul>
+        <img src="images/sample_win_deco.png"/>
+        <br>
+        <br>
+        <ul><li>Sample when ON with "mac" style specified:  <pre>LiquidLookAndFeel.setLiquidDecorations(true, "mac");</pre></li></ul> 
+        <img src="images/sample_win_deco_mac.png"/>
+    </li>
+    <br>
+    <br>
+    <li><b>Stipples</b> - When on, little pin stripes, aka stipples, will be displayed as the background for all panels.  Default is <i>true</i>.
+        <ul><li>Sample when ON (<i>Default</i>):</li></ul>
+        <img src="images/sample_stipples.png"/>
+        <br>
+        <br>
+        <ul><li>Sample when OFF:  <pre>LiquidLookAndFeel.setStipples(false);</pre></li></ul> 
+        <img src="images/sample_nostipples.png"/>
+    </li>
+    <br>
+    <br>
+    <li><b>Show Table Grids</b> - When on, all tables will show grid lines between rows and columns.  Default is <i>false</i>.
+        <ul><li>Sample when OFF (<i>Default</i>):</li></ul>
+        <img src="images/sample_alternate_background.png"/>
+        <br>
+        <br>
+        <ul><li>Sample when ON:  <pre>LiquidLookAndFeel.setShowTableGrids(true);</pre></li></ul> 
+        <img src="images/sample_table_grids.png"/>
+    </li>
+    <br>
+    <br>
+    <li><b>Alternate Row Background</b> - When on, all multi-row components will show an alternating background color.  Default is <i>true</i>.
+        <ul><li>Sample when ON (<i>Default</i>):</li></ul>
+        <img src="images/sample_alternate_background.png"/>
+        <br>
+        <br>
+        <ul><li>Sample when OFF:  <pre>LiquidLookAndFeel.setDefaultRowBackgroundMode(false);</pre></li></ul> 
+        <img src="images/sample_noalternate_background.png"/>
+        <br>
+        <i>NOTE: Turning this off automatically turns on showing table grids.  If you don't want grids either, then see above for turning off table grids.</i>
+    </li>
+    <br>
+    <br>
+    <li><b>Use Flat Toolbar Buttons</b> - When on, toolbar buttons will be flat unless the mouse is over the button. Default is <i>true</i>.
+        <ul><li>Sample when ON (<i>Default</i>):</li></ul>
+        <img src="images/sample_flat_toolbar.png"/>
+        <br>
+        <br>
+        <ul><li>Sample when OFF:  <pre>LiquidLookAndFeel.setToolbarFlattedButtons(false);</pre></li></ul> 
+        <img src="images/sample_nonflat_toolbar.png"/>
+    </li>
+    <br>
+    <br>
+    <li><b>Use Focusable Toolbar Buttons</b> - When on, toolbar buttons will receive focus. Default is <i>false</i>.
+        <ul><li>Sample when OFF (<i>Default</i>):  <pre>LiquidLookAndFeel.setToolbarButtonsFocusable(false);</pre></li></ul> 
+        <img src="images/sample_nonflat_toolbar.png"/>
+        <br>
+        <br>
+        <ul><li>Sample when ON with Flat toolbar buttons:</li></ul>
+        <img src="images/sample_flat_toolbar_focusable.png"/>
+        <br>
+        <br>
+        <ul><li>Sample when ON with Non Flat toolbar buttons:</li></ul>
+        <img src="images/sample_nonflat_toolbar_focusable.png"/>
+    </li>
+    <br>
+    <br>
+    <li><b>Use Toolbar Buttons Rollover</b> - When on, toolbar buttons will have the normal rollover effect when the mouse is over the button. Default is <i>true</i>.
+        <ul><li>Sample when ON (<i>Default</i>):</li></ul>
+        <img src="images/sample_flat_toolbar_focusable.png"/>
+        <br>
+        <br>
+        <ul><li>Sample when OFF:  <pre>LiquidLookAndFeel.setToolbarFlattedButtonsRollover(false);</pre></li></ul> 
+        <img src="images/sample_flat_toolbar.png"/>
+    </li>
+    <br>
+    <br>
+    <li><b>Auto Panel Transparency</b> - When on, all panels will automatically be transparent. Any attempt 
+        change the opaque property of any panel will fail.  When off, all panels will have normal behavior 
+        based on the value of the opaque property.  Default is <i>true</i>.
+    </li>
+</ul>
+
+</body>
+</html>
+

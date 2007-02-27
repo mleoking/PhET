@@ -1,0 +1,6 @@
+We appreciate your interest in the LiquidLnF project. The policy of the LiquidLnF team is to give developer access (which includes commit access to the CVS source tree) to those individuals that demonstrate an exceptional level of committment to the project over a period of time.
+
+The role you may be more interested in is the Observer role, which grants read-only access to the source tree.
+
+Thanks!
+The LiquidLnF team.
