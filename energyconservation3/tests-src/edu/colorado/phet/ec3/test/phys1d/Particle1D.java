@@ -54,7 +54,8 @@ public class Particle1D {
 //        fixEnergy( initEnergy );
         double dEFix = getNormalizedEnergyDiff( initEnergy );
 //            System.out.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE + ", RC=" + getRadiusOfCurvature() );
-        System.out.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE );// + ", RC=" + getRadiusOfCurvature() );
+
+//        System.out.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE );// + ", RC=" + getRadiusOfCurvature() );
 //            System.out.println( "dEAfter = " + ( getEnergy() - initEnergy ) / initEnergy );
         //look for an adjacent location that will give the correct energy
 
