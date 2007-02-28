@@ -29,6 +29,11 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/bernoulli/src-hpa" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/bound-states/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/bound-states/test-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations/cck3/mna-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations/cck3/phetcommon-cck/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations/cck3/phetcommon-cck/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations/cck3/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations/cck3/tests-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/energyskatepark/Jama-1.0.2" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/energyskatepark/ec3-timeseries/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/energyskatepark/lookandfeels/src" isTestSource="false" />
@@ -236,6 +241,60 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/../../simulations/bound-states/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations/cck3/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../simulations/cck3/lib/grabbag.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../simulations/cck3/lib/Jama-1.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../simulations/cck3/cck-help.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../simulations/cck3/lib/nanoxml-2.2.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations/cck3/phetcommon-cck/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

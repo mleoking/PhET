@@ -19,10 +19,7 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
 import net.n3.nanoxml.*;
 
-import javax.jnlp.BasicService;
-import javax.jnlp.FileContents;
-import javax.jnlp.FileOpenService;
-import javax.jnlp.FileSaveService;
+import javax.jnlp.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -285,7 +282,13 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     }
 
     private void load() throws IOException, XMLException {
-        FileOpenService fos = PhetServiceManager.getFileOpenService( module.getSimulationPanel() );
+        FileOpenService fos = null;
+        try {
+            fos = PhetServiceManager.getFileOpenService( module.getSimulationPanel() );
+        }
+        catch( UnavailableServiceException e ) {
+            e.printStackTrace();
+        }
         FileContents open = fos.openFileDialog( SimStrings.get( "CCK3ControlPanel.OpenFileDialog" ),
                                                 new String[]{SimStrings.get( "CCK3ControlPanel.FileExtension" )} );
         if( open == null ) {
@@ -310,7 +313,13 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     }
 
     private void save() throws IOException {
-        FileSaveService fos = PhetServiceManager.getFileSaveService( module.getSimulationPanel() );
+        FileSaveService fos = null;
+        try {
+            fos = PhetServiceManager.getFileSaveService( module.getSimulationPanel() );
+        }
+        catch( UnavailableServiceException e ) {
+            e.printStackTrace();
+        }
 
         XMLElement xml = CircuitXML.toXML( module.getCircuit() );
         StringWriter sw = new StringWriter();
@@ -325,14 +334,16 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     }
 
     public void showHelpGIF() {
-        BasicService bs = PhetServiceManager.getBasicService();
-        URL url = null;
         try {
-            url = new URL( SimStrings.get( "CCK3ControlPanel.CCKHelpGifURL" ) );
+            BasicService bs = PhetServiceManager.getBasicService();
+            URL url = new URL( SimStrings.get( "CCK3ControlPanel.CCKHelpGifURL" ) );
             System.out.println( "url = " + url );
             bs.showDocument( url );
         }
         catch( MalformedURLException e ) {
+            e.printStackTrace();
+        }
+        catch( UnavailableServiceException e ) {
             e.printStackTrace();
         }
     }
@@ -547,12 +558,16 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     }
 
     private void showPhetPage() {
-        BasicService bs = PhetServiceManager.getBasicService();
+
         try {
+            BasicService bs = PhetServiceManager.getBasicService();
             URL url = new URL( SimStrings.get( "CCK3ControlPanel.PhETURL" ) );
             bs.showDocument( url );
         }
         catch( MalformedURLException e ) {
+            e.printStackTrace();
+        }
+        catch( UnavailableServiceException e ) {
             e.printStackTrace();
         }
     }
