@@ -1,0 +1,40 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 06/20/06-06/26/06 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Bound States:
+  - reviewed interview summary
+  - worked on Save/Load feature (95% complete)
+  - fixed problem that caused Coulomb potential to not draw on Windows
+  - fixed drawing layer problem that was very visible on Macintosh
+  - verified that everything updates properly when the clock is paused
+  - gathered requirements for drag handles that were spread out across documents and emails
+  - misc code reorganization/cleanup to improve maintainability
+
+  Quantum Tunneling
+  - reviewed interview summary
+  - reviewed change requests
+  - made one minor change request
+
+  Common Code:
+  - identified and fixed a drawing order bug in XYPlotNode
+  - identified layout problem in PhetTabbedPane
+  
+WHAT'S NEXT:
+  
+  o continue work on Bound States, see: 
+    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.html
+    
+ISSUES:
+ 
+  o none
+
+DATES UNAVAILABLE:
+
+  - July 10-11, 17-26
+  - August 14-24
+  
+--

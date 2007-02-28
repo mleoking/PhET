@@ -1,0 +1,27 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 8/9/05 - 8/15/05 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Fourier simulation:
+    o started fleshing out the "Discrete to Continuous" module
+    o published a couple of sandbox versions for the Fourier group
+    o published 1.0.1
+
+  phetcommon:
+    o development meeting RE: versioning and builds
+    
+  charts:
+    o added support for bar graphs
+
+WHAT'S NEXT:
+ 
+  o continue work on Fourier (see "To Do" list at http://www.colorado.edu/physics/phet/dev/fourier/TODO.txt)
+
+ISSUES:
+
+  o I need requirements for the Fourier "Wave Pulse Generator" and "Sound" modules.
+
+-- 

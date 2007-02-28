@@ -1,0 +1,26 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 02/07/06-02/10/06 (Tue-Fri)
+
+ACCOMPLISHMENTS:
+
+  Quantum Tunneling:
+  - major performance increases in graphics and Richardson algorithm
+  - published 0.00.11, 0.00.12, 0.00.13
+  - changed help items as requested
+  
+  Common Code:
+  - added buffering to JFreeChartNode
+  - added XYPlotNode for directly rendering XYPlot
+  
+WHAT'S NEXT:
+ 
+  o continue work on Quantum Tunneling, see: 
+    http://www.colorado.edu/physics/phet/dev/quantum-tunneling/TODO.txt
+
+ISSUES:
+
+  o I will be gone Feb 13-14, so I won't be at the Feb 14 status meeting
+
+-- 

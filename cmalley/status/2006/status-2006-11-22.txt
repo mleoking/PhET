@@ -1,0 +1,29 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Nov 16 - Nov 22, 2006 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Hydrogen Atom:
+  - published 0.00.10, 0.00.11
+  - implemented all 2D visual representation for deBroglie model
+  - implemented collision detection between photon and deBroglie "ring"
+  - implemented "Options>deBroglie view" menu
+  - changed white light to emit mostly photons from atom's absorption spectrum
+  - made electron stay in a state a min amount of time before it can emit a photon
+  - added several developer controls
+  - misc change requests
+  
+WHAT'S NEXT:
+  
+  o continue work on Hydrogen Atom simulation, see: 
+    http://www.colorado.edu/physics/phet/dev/hydrogen-atom/TODO.html
+    
+  o publish Bound States 1.02 ?
+    
+ISSUES:
+ 
+  o none
+  
+--

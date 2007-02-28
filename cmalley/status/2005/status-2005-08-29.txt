@@ -1,0 +1,29 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 8/23/05 - 8/29/05 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Fourier simulation:
+    o made all changes requested at 8/23 status meeting
+    o added a control for wave packet center point (k0)
+    o reorganized the Discrete-to-Continuous control panel to remove scrollbars
+    o added an equation above Amplitudes graph
+    o optimized drawing of charts by drawing static images whenever possible
+    o plugged memory leaks
+    o published versions 1.0.5 & 1.0.6 (see their release notes for details)
+    
+  charts:
+    o fixed memory leaks
+    o consolidate clipping code in DataSetGraphic base class
+
+WHAT'S NEXT:
+ 
+  o continue work on Fourier (see "To Do" list at http://www.colorado.edu/physics/phet/dev/fourier/TODO.txt)
+
+ISSUES:
+
+  o I need requirements for the Fourier "Wave Pulse Generator" and "Sound" modules.
+
+-- 

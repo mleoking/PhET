@@ -1,0 +1,36 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Mon 10/11/04 - Fri 10/15/04
+
+HOURS: 33.0 (7.5 + 4 + 6 + 6 + 9.5)
+
+ACCOMPLISHMENTS:
+
+  - wrote an example Flash program ("wiggler") to demonstrate that Flash
+    is not capable of handling the 2D drawing requirements of the 
+    Color Vision simulation.  Used this as the basis for abandoning
+    Flash and resuming the port to Java.
+  - started porting Flash code to Java, reused some of what Ron had 
+    already ported
+  - still learning my way around the PhET architecture, asked Ron a 
+    bunch of questions to make sure I have a correct understanding of 
+    how to put together a simulation
+  - completed a substantial portion of the "RGB Bulb" module, including
+    the photon beams.  Hooked up some JSliders to the photon beams and
+    verifed that the user interface remains responsive when a large 
+    number of photons are being drawn
+
+WHAT'S NEXT:
+ 
+  - finish remaining portions of "RBG Bulb" module, including:
+      o change thought bulb color
+      o create "color gradient" sliders for bulb intensity control
+      o clean up images and placement of objects on apparatus
+  - all of "Single Bulb" module still to be done
+
+ISSUES:
+
+  - none
+
+-- 

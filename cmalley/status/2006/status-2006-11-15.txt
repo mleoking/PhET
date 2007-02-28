@@ -1,0 +1,33 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Nov 9 - Nov 15, 2006 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Hydrogen Atom:
+  - expanded Bohr's 1st orbit and distorted other orbits so they all fit in the box
+  - adjusted radius of billiard ball and plum pudding to match Bohr's 1st orbit
+  - created other "looks" for plum pudding, decided not to change it
+  - implemented Bohr absorption, emission and stimulated emission
+  - added Help>Spectral Line Table dialog
+  - added developer control for "closeness" required for photon absorption
+  - added developer control for "max particles in box" when intensity is 100%
+  - reduced memory footprint and garbage collection by caching photon images
+  - improved random number generation used in probabilistic algorithms
+  - made particles go behind Experiment atom
+  - tried to locate spectral line table model in Discharge Lamps sim
+  - published 0.00.09
+  
+WHAT'S NEXT:
+  
+  o continue work on Hydrogen Atom simulation, see: 
+    http://www.colorado.edu/physics/phet/dev/hydrogen-atom/TODO.html
+    
+  o publish Bound States 1.02 ?
+    
+ISSUES:
+ 
+  o none
+  
+--

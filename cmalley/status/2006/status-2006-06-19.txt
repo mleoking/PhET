@@ -1,0 +1,35 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 06/13/06-06/19/06 (Tue-Mon)
+
+   I was out of town from 6/14 - 6/19, so this report is brief.
+
+ACCOMPLISHMENTS:
+
+  Bound States:
+  - continued investigating why Coulomb potentials sometimes don't draw
+    on Windows, problem is not solved yet
+  
+  Quantum Tunneling
+  - changed zoom levels
+  - published 1.04 to PhET web site
+
+  Common Code:
+  - discussed open source licensing issues
+  
+WHAT'S NEXT:
+  
+  o continue work on Bound States, see: 
+    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.html
+    
+ISSUES:
+ 
+  o none
+
+DATES UNAVAILABLE:
+
+  - July 10-11, 17-26
+  - August 14-24
+  
+--

@@ -1,0 +1,37 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 02/21/06-02/27/06 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Quantum Tunneling:
+  - reimplemented potential energy region boundaries to 
+    improve responsiveness of drag handles
+  - fixed 2 minor bugs
+  - made a couple of minor changes requested by Sam M.
+  - published 0.00.16
+  - proposed a test that shows problems with using 
+    Yalabik et. al.'s algorithm to replace Richardson
+  - proposed keeping Richardson and modifying our requirements
+  
+  Bound States:
+  - reviewed draft #2
+  - set up the basic application framework
+  - created the CVS project, dev directory, etc.
+  
+WHAT'S NEXT:
+ 
+  o continue work on Quantum Tunneling, see: 
+    http://www.colorado.edu/physics/phet/dev/quantum-tunneling/TODO.txt
+
+  o start work on Bound States, see: 
+    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.txt
+    
+ISSUES:
+
+  o Lots of open issues in Bound States design, too early to start implementing?
+  o No suitable replacement for Richardson in QT has been identified.
+  o I've run out of things to do.
+
+-- 

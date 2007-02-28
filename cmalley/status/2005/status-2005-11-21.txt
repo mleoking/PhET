@@ -1,0 +1,24 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 11/15/05 - 11/21/05 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Optical Quantum Control:
+  - now available on PhET website
+
+  Quantum Tunneling:
+  - integrated JFreeChart
+  - got most of "Configure Energy" panel done, still some issues
+  
+WHAT'S NEXT:
+ 
+  o continue work on Quantum Tunneling, see: 
+    http://www.colorado.edu/physics/phet/dev/quantum-tunneling/TODO.txt
+
+ISSUES:
+
+  o none
+
+-- 

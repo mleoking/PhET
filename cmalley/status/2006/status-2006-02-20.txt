@@ -1,0 +1,30 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 02/15/06-02/20/06 (Wed-Mon)
+
+ACCOMPLISHMENTS:
+
+  Quantum Tunneling:
+  - shrunk download size from 3.4MB to 866KB using ProGuard
+  - hid time display until we replace Richardson algorithm
+  - improved reflection damping
+  - fixed tab order traversal in Configure Energy dialog
+  - add description to Help>About dialog
+  - test and fixed Spanish translations
+  - added clock state to Save/Load feature
+  - published 0.00.14, 0.00.15
+  
+  Bound State:
+  - reviewed and provided feedback on first design draft
+  
+WHAT'S NEXT:
+ 
+  o continue work on Quantum Tunneling, see: 
+    http://www.colorado.edu/physics/phet/dev/quantum-tunneling/TODO.txt
+
+ISSUES:
+
+  o none
+
+-- 

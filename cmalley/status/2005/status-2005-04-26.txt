@@ -1,0 +1,33 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Wed 4/20/05 - Tue 4/26/05
+
+ACCOMPLISHMENTS:
+    
+  Faraday simulation:
+    o completed all requested features, fixed all known bugs
+    o published v0r25 (see that release for feature & bug details)
+    o tried a few more performance optimizations that didn't work
+    o finished code documentation (package-level javadoc, fixed javadoc warnings/errors)
+    o wrote a short document summarizing how the physics model is implemented, checked into CVS
+
+  Fourier simulation:
+    o reviewed the related physics
+    o reviewed the design document, asked Sam M. a bunch of questions
+    o stopped work at Carl's request, since requirements are not clear
+  
+  phetcommon:
+    o fixes to PhetLookAndFeel so that it works on all platforms
+    
+WHAT'S NEXT:
+ 
+  o publish Faraday v1r0, post on the PhET website
+  o wait for requirements from the Fourier team
+
+ISSUES:
+
+  o I will be out of town 4/28/05 - 5/2/05 (Thursday - Monday).
+  o Without Fourier requirement, I will not have any work to do when I return.
+
+-- 
