@@ -4,14 +4,6 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../..">
-      <sourceFolder url="file://$MODULE_DIR$/../../../contrib/jfreechart/source" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../contrib/liquidlnf-2.9.1-src/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../contrib/oyoaha/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../contrib/piccolo/examples" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../contrib/piccolo/extras" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../contrib/piccolo/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../contrib/piccolo/tests" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../contrib/smoothmetal-1.1/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/jfreechart-phet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/jfreechart-phet/tests-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/phetcommon/src" isTestSource="false" />
@@ -20,38 +12,43 @@
       <sourceFolder url="file://$MODULE_DIR$/../../common/piccolo-phet/test-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/service-manager/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/service-manager/tests-src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/balloons/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/balloons/src-pc" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/batteryvoltage/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/batteryvoltage/src-pc" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/bernoulli/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/bernoulli/src-hp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/bernoulli/src-hpa" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/bound-states/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/bound-states/test-src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/cck3/mna-src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/cck3/phetcommon-cck/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/cck3/phetcommon-cck/tests-src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/cck3/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/cck3/tests-src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/energyskatepark/Jama-1.0.2" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/energyskatepark/ec3-timeseries/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/energyskatepark/lookandfeels/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/energyskatepark/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/energyskatepark/tests-src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/optical-tweezers/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/optical-tweezers/test-src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/rotation/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/rotation/tests-src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/waveinterference/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/waveinterference/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/jfreechart/source" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/liquidlnf-2.9.1-src/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/oyoaha/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo/examples" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo/extras" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo/tests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/smoothmetal-1.1/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/balloons/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/balloons/src-pc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/batteryvoltage/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/batteryvoltage/src-pc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/bound-states/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/bound-states/test-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/cck3/mna-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/cck3/phetcommon-cck/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/cck3/phetcommon-cck/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/cck3/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/cck3/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/energyskatepark/Jama-1.0.2" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/energyskatepark/ec3-timeseries/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/energyskatepark/lookandfeels/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/energyskatepark/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/energyskatepark/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/optical-tweezers/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/optical-tweezers/test-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/rotation/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/rotation/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/waveinterference/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/waveinterference/tests-src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../contrib/piccolo/lib/swt.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../contrib/piccolo/lib/swt.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -60,7 +57,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../contrib/jfreechart/lib/servlet.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../contrib/jfreechart/lib/servlet.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -69,7 +66,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../contrib/jfreechart/lib/jcommon-1.0.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../contrib/jfreechart/lib/jcommon-1.0.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -78,7 +75,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/energyskatepark/lookandfeels/data" />
+          <root url="file://$MODULE_DIR$/../../simulations-java/energyskatepark/lookandfeels/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -87,7 +84,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../contrib/jfreechart/lib/gnujaxp.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../contrib/jfreechart/lib/gnujaxp.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -96,7 +93,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/energyskatepark/data" />
+          <root url="file://$MODULE_DIR$/../../simulations-java/energyskatepark/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -105,7 +102,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../contrib/jfreechart/lib/junit.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../contrib/jfreechart/lib/junit.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -114,7 +111,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../contrib/jfreechart/lib/jfreechart-1.0.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../contrib/jfreechart/lib/jfreechart-1.0.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -123,7 +120,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../contrib/piccolo/lib/ant.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../contrib/piccolo/lib/ant.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -159,7 +156,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../contrib/liquidlnf-2.9.1-src/lib/laf-plugin.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../contrib/liquidlnf-2.9.1-src/lib/laf-plugin.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -168,7 +165,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/rotation/data" />
+          <root url="file://$MODULE_DIR$/../../simulations-java/rotation/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -177,7 +174,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../contrib/JSci/classes/jsci-core.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../contrib/JSci/classes/jsci-core.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -186,7 +183,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/waveinterference/data" />
+          <root url="file://$MODULE_DIR$/../../simulations-java/waveinterference/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -195,7 +192,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/optical-tweezers/data" />
+          <root url="file://$MODULE_DIR$/../../simulations-java/optical-tweezers/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -204,7 +201,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/balloons/data" />
+          <root url="file://$MODULE_DIR$/../../simulations-java/balloons/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -213,7 +210,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/batteryvoltage/data" />
+          <root url="file://$MODULE_DIR$/../../simulations-java/batteryvoltage/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -222,7 +219,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/bernoulli/data" />
+          <root url="file://$MODULE_DIR$/../../simulations-java/bernoulli/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -231,7 +228,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/bernoulli/data-hp" />
+          <root url="file://$MODULE_DIR$/../../simulations-java/bernoulli/data-hp" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -240,7 +237,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/bound-states/data" />
+          <root url="file://$MODULE_DIR$/../../simulations-java/bound-states/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -249,7 +246,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/cck3/data" />
+          <root url="file://$MODULE_DIR$/../../simulations-java/cck3/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -258,7 +255,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../simulations/cck3/lib/grabbag.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../simulations-java/cck3/lib/grabbag.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -267,7 +264,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../simulations/cck3/lib/Jama-1.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../simulations-java/cck3/lib/Jama-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -276,7 +273,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../simulations/cck3/cck-help.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../simulations-java/cck3/cck-help.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -285,7 +282,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../simulations/cck3/lib/nanoxml-2.2.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../simulations-java/cck3/lib/nanoxml-2.2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -294,7 +291,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/cck3/phetcommon-cck/data" />
+          <root url="file://$MODULE_DIR$/../../simulations-java/cck3/phetcommon-cck/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
