@@ -16,9 +16,7 @@
     <option name="USER" value="" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phet.iws" afterPath="$PROJECT_DIR$/phet.iws" />
-    </list>
+    <list default="true" name="Default" comment="" />
     <list name="Failed commit: Default" comment="(2-27-2007) Deleted: energyconservation, was deprecated version of energy skate park.">
       <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\application\ModuleManager.java" afterPath="" />
       <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\branch.gif" afterPath="" />
@@ -498,7 +496,7 @@
       <file leaf-file-name="EnergySkateParkModule.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/energyskatepark/src/edu/colorado/phet/ec3/EnergySkateParkModule.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="76" selection-start="2107" selection-end="2107" vertical-scroll-proportion="0.027960526">
+            <state line="51" column="76" selection-start="2107" selection-end="2107" vertical-scroll-proportion="0.018065887">
               <folding />
             </state>
           </provider>
@@ -507,7 +505,7 @@
       <file leaf-file-name="LookAndFeelMenu.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/energyskatepark/lookandfeels/src/edu/colorado/phet/lookandfeels/LookAndFeelMenu.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="133" selection-start="343" selection-end="343" vertical-scroll-proportion="0.02866779">
+            <state line="16" column="133" selection-start="343" selection-end="343" vertical-scroll-proportion="0.01835853">
               <folding />
             </state>
           </provider>
@@ -516,7 +514,7 @@
       <file leaf-file-name="RotationMath.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/rotation/src/edu/colorado/phet/rotation/model/RotationMath.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="76" selection-start="755" selection-end="755" vertical-scroll-proportion="0.61513156">
+            <state line="23" column="76" selection-start="755" selection-end="755" vertical-scroll-proportion="0.39744952">
               <folding />
             </state>
           </provider>
@@ -534,7 +532,7 @@
       <file leaf-file-name="README.txt" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/test-location/README.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="70" selection-start="764" selection-end="764" vertical-scroll-proportion="0.36348686">
+            <state line="13" column="70" selection-start="764" selection-end="764" vertical-scroll-proportion="0.23485653">
               <folding />
             </state>
           </provider>
@@ -552,7 +550,7 @@
       <file leaf-file-name="WaveInterferenceApplication.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/waveinterference/src/edu/colorado/phet/waveinterference/WaveInterferenceApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="50" selection-start="438" selection-end="438" vertical-scroll-proportion="0.02866779">
+            <state line="11" column="50" selection-start="438" selection-end="438" vertical-scroll-proportion="0.01835853">
               <folding />
             </state>
           </provider>
@@ -561,7 +559,7 @@
       <file leaf-file-name="OTApplication.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/optical-tweezers/src/edu/colorado/phet/opticaltweezers/OTApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="7" selection-start="2426" selection-end="2426" vertical-scroll-proportion="1.0904605">
+            <state line="68" column="7" selection-start="2426" selection-end="2426" vertical-scroll-proportion="0.7045696">
               <folding />
             </state>
           </provider>
@@ -570,7 +568,7 @@
       <file leaf-file-name="TestWIAUI.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/waveinterference/tests-src/edu/colorado/phet/waveinterference/test/TestWIAUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="78" selection-start="1286" selection-end="1286" vertical-scroll-proportion="0.0756579">
+            <state line="38" column="78" selection-start="1286" selection-end="1286" vertical-scroll-proportion="0.048884165">
               <folding />
             </state>
           </provider>
@@ -937,7 +935,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1608" height="1118" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
@@ -946,7 +944,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18158403" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32929292" order="8" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929292" order="8" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="6" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
@@ -981,7 +979,7 @@
     <option name="PERFORM_COMMIT_IN_BACKGROUND" value="false" />
     <option name="PUT_FOCUS_INTO_COMMENT" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="(2-27-2007) Deleted: energyconservation, was deprecated version of energy skate park." />
+    <option name="LAST_COMMIT_MESSAGE" value="Testing svn commits of project files." />
     <option name="SAVE_LAST_COMMIT_MESSAGE" value="true" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -989,12 +987,13 @@
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
     <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
     <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
-    <option name="ERROR_OCCURED" value="true" />
+    <option name="ERROR_OCCURED" value="false" />
     <option name="ACTIVE_VCS_NAME" value="svn" />
     <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="(2-27-2007) Deleted: energyconservation, was deprecated version of energy skate park." />
+    <MESSAGE value="Testing svn commits of project files." />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -1264,21 +1263,21 @@
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/energyskatepark/src/edu/colorado/phet/ec3/EnergySkateParkModule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="76" selection-start="2107" selection-end="2107" vertical-scroll-proportion="0.027960526">
+        <state line="51" column="76" selection-start="2107" selection-end="2107" vertical-scroll-proportion="0.018065887">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/energyskatepark/lookandfeels/src/edu/colorado/phet/lookandfeels/LookAndFeelMenu.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="133" selection-start="343" selection-end="343" vertical-scroll-proportion="0.02866779">
+        <state line="16" column="133" selection-start="343" selection-end="343" vertical-scroll-proportion="0.01835853">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/rotation/src/edu/colorado/phet/rotation/model/RotationMath.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="76" selection-start="755" selection-end="755" vertical-scroll-proportion="0.61513156">
+        <state line="23" column="76" selection-start="755" selection-end="755" vertical-scroll-proportion="0.39744952">
           <folding />
         </state>
       </provider>
@@ -1292,7 +1291,7 @@
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/test-location/README.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="70" selection-start="764" selection-end="764" vertical-scroll-proportion="0.36348686">
+        <state line="13" column="70" selection-start="764" selection-end="764" vertical-scroll-proportion="0.23485653">
           <folding />
         </state>
       </provider>
@@ -1306,21 +1305,21 @@
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/waveinterference/src/edu/colorado/phet/waveinterference/WaveInterferenceApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="50" selection-start="438" selection-end="438" vertical-scroll-proportion="0.02866779">
+        <state line="11" column="50" selection-start="438" selection-end="438" vertical-scroll-proportion="0.01835853">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/waveinterference/tests-src/edu/colorado/phet/waveinterference/test/TestWIAUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="78" selection-start="1286" selection-end="1286" vertical-scroll-proportion="0.0756579">
+        <state line="38" column="78" selection-start="1286" selection-end="1286" vertical-scroll-proportion="0.048884165">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/optical-tweezers/src/edu/colorado/phet/opticaltweezers/OTApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="7" selection-start="2426" selection-end="2426" vertical-scroll-proportion="1.0904605">
+        <state line="68" column="7" selection-start="2426" selection-end="2426" vertical-scroll-proportion="0.7045696">
           <folding />
         </state>
       </provider>
