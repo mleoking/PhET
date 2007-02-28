@@ -3,13 +3,13 @@ package edu.colorado.phet.bernoulli.pump;
 //import edu.colorado.phet.bernoulli.common.DifferentialDragHandler;
 
 import edu.colorado.phet.bernoulli.common.RepaintManager;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.coreadditions.graphics.DifferentialDragHandler;
-import edu.colorado.phet.coreadditions.graphics.arrows.LineSegment;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.bernoulli.view.ApparatusPanel;
+import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.DifferentialDragHandler;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.arrows.LineSegment;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.TransformListener;
+import edu.colorado.phet.coreadditions.bernoulli.math.PhetVector;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

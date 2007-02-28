@@ -7,7 +7,7 @@ import edu.colorado.phet.bernoulli.common.PumpListener;
 import edu.colorado.phet.bernoulli.common.RepaintManager;
 import edu.colorado.phet.bernoulli.valves.Valve;
 import edu.colorado.phet.bernoulli.watertower.RectangularTank;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.bernoulli.model.ModelElement;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;

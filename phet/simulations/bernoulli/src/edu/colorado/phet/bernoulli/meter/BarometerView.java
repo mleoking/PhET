@@ -1,10 +1,10 @@
 package edu.colorado.phet.bernoulli.meter;
 
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.coreadditions.graphics.DifferentialDragHandler;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
-import edu.colorado.phet.coreadditions.simpleobserver.SimpleObserver;
+import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.DifferentialDragHandler;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.TransformListener;
+import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObserver;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

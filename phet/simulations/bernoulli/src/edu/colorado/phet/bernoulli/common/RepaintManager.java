@@ -1,8 +1,8 @@
 package edu.colorado.phet.bernoulli.common;
 
-import edu.colorado.phet.coreadditions.clock2.AbstractClock;
-import edu.colorado.phet.coreadditions.clock2.TickListener;
-import edu.colorado.phet.coreadditions.simpleobserver.SimpleObserver;
+import edu.colorado.phet.coreadditions.bernoulli.clock2.AbstractClock;
+import edu.colorado.phet.coreadditions.bernoulli.clock2.TickListener;
+import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObserver;
 
 import java.awt.*;
 

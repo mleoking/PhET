@@ -1,11 +1,11 @@
 package edu.colorado.phet.bernoulli.common.animation;
 
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions.graphics.GraphicsUtilities;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.math.PhetVector;
-import edu.colorado.phet.coreadditions.physics2d.Force;
-import edu.colorado.phet.coreadditions.physics2d.Particle2d;
+import edu.colorado.phet.common.bernoulli.view.util.graphics.ImageLoader;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.GraphicsUtilities;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.coreadditions.bernoulli.math.PhetVector;
+import edu.colorado.phet.coreadditions.bernoulli.physics2d.Force;
+import edu.colorado.phet.coreadditions.bernoulli.physics2d.Particle2d;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

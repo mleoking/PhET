@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.bernoulli.meter;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.ModelViewTransform2d;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -21,7 +21,7 @@ public class PressureMeasurementTool extends MouseInputAdapter {
     int crosshairRadius = 15;
     Point2D.Double startPoint = new Point2D.Double();
     Point2D.Double endPoint = new Point2D.Double();
-    private edu.colorado.phet.common.view.ApparatusPanel panel;
+    private edu.colorado.phet.common.bernoulli.view.ApparatusPanel panel;
     private double y;
     private JTextField yTF = new JTextField( 5 );
     private MeasuringGraphic measuringGraphic = new MeasuringGraphic();
@@ -31,7 +31,7 @@ public class PressureMeasurementTool extends MouseInputAdapter {
     private int yOffset;
     private boolean dragging;
 
-    public PressureMeasurementTool( edu.colorado.phet.common.view.ApparatusPanel panel ) {
+    public PressureMeasurementTool( edu.colorado.phet.common.bernoulli.view.ApparatusPanel panel ) {
 
         this.panel = panel;
 

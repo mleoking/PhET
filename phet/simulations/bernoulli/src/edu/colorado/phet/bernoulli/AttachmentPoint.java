@@ -5,7 +5,7 @@
  */
 package edu.colorado.phet.bernoulli;
 
-import edu.colorado.phet.coreadditions.simpleobserver.SimpleObservable;
+import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObservable;
 
 public class AttachmentPoint extends SimpleObservable {
     double x;

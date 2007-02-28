@@ -2,7 +2,7 @@ package edu.colorado.phet.bernoulli.pump;
 
 import edu.colorado.phet.bernoulli.BernoulliModule;
 import edu.colorado.phet.bernoulli.common.IdeaGraphic3;
-import edu.colorado.phet.coreadditions.clock2.SimulationTimeListener;
+import edu.colorado.phet.coreadditions.bernoulli.clock2.SimulationTimeListener;
 
 import java.awt.*;
 

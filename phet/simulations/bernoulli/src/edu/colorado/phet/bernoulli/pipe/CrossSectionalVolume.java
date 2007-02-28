@@ -4,9 +4,9 @@ import edu.colorado.phet.bernoulli.common.DoubleGeneralPath;
 import edu.colorado.phet.bernoulli.spline.Spline;
 import edu.colorado.phet.bernoulli.spline.segments.Segment;
 import edu.colorado.phet.bernoulli.spline.segments.SegmentPath;
-import edu.colorado.phet.coreadditions.math.PhetVector;
-import edu.colorado.phet.coreadditions.simpleobserver.SimpleObservable;
-import edu.colorado.phet.coreadditions.simpleobserver.SimpleObserver;
+import edu.colorado.phet.coreadditions.bernoulli.math.PhetVector;
+import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObservable;
+import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObserver;
 
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;

@@ -1,6 +1,6 @@
 package edu.colorado.phet.bernoulli.zoom;
 
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.coreadditions.bernoulli.math.PhetVector;
 
 /**
  * User: Sam Reid

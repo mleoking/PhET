@@ -1,6 +1,6 @@
 package edu.colorado.phet.bernoulli.valves;
 
-import edu.colorado.phet.coreadditions.simpleobserver.SimpleObservable;
+import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObservable;
 
 /**
  * User: Sam Reid

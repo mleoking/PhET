@@ -1,9 +1,9 @@
 package edu.colorado.phet.bernoulli.common;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.graphics.arrows.Arrow;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.arrows.Arrow;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.TransformListener;
 
 import java.awt.*;
 

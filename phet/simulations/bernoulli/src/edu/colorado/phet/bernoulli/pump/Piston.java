@@ -1,7 +1,7 @@
 package edu.colorado.phet.bernoulli.pump;
 
-import edu.colorado.phet.common.model.AutomatedObservable;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.bernoulli.model.AutomatedObservable;
+import edu.colorado.phet.coreadditions.bernoulli.math.PhetVector;
 
 import java.awt.geom.Rectangle2D;
 
