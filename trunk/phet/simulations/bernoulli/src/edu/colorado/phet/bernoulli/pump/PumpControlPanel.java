@@ -2,7 +2,7 @@ package edu.colorado.phet.bernoulli.pump;
 
 import edu.colorado.phet.bernoulli.BernoulliModule;
 import edu.colorado.phet.bernoulli.pipe.VolumeGraphic;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.bernoulli.model.ModelElement;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

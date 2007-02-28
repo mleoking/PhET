@@ -3,7 +3,7 @@ package edu.colorado.phet.bernoulli.pipe;
 import edu.colorado.phet.bernoulli.common.SegmentGraphic;
 import edu.colorado.phet.bernoulli.spline.segments.Segment;
 import edu.colorado.phet.bernoulli.spline.segments.SegmentPath;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.ModelViewTransform2d;
 
 import java.awt.*;
 

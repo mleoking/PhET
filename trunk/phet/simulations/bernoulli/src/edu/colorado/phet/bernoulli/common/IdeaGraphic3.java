@@ -1,6 +1,6 @@
 package edu.colorado.phet.bernoulli.common;
 
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

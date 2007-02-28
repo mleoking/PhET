@@ -1,6 +1,6 @@
 package edu.colorado.phet.bernoulli.common;
 
-import edu.colorado.phet.common.model.*;
+import edu.colorado.phet.common.bernoulli.model.*;
 
 /**
  * User: Sam Reid

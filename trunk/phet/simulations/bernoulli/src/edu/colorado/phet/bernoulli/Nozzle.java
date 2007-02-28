@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.bernoulli;
 
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.coreadditions.math.PhetVector;
-import edu.colorado.phet.coreadditions.simpleobserver.SimpleObservable;
+import edu.colorado.phet.common.bernoulli.model.ModelElement;
+import edu.colorado.phet.coreadditions.bernoulli.math.PhetVector;
+import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObservable;
 
 import java.awt.geom.Point2D;
 

@@ -1,7 +1,6 @@
 package edu.colorado.phet.bernoulli;
 
-import edu.colorado.phet.coreadditions.simpleobserver.SimpleObservable;
-import edu.colorado.phet.bernoulli.meter.Barometer;
+import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObservable;
 
 /**
  * Created by IntelliJ IDEA.

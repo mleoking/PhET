@@ -1,6 +1,6 @@
 package edu.colorado.phet.bernoulli.pipe;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.bernoulli.model.ModelElement;
 
 /**
  * Represents an entity a certain distance along the pipe.

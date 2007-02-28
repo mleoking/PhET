@@ -1,6 +1,6 @@
 package edu.colorado.phet.bernoulli.pump;
 
-import edu.colorado.phet.coreadditions.clock2.SimulationTimeListener;
+import edu.colorado.phet.coreadditions.bernoulli.clock2.SimulationTimeListener;
 
 /**
  * User: Sam Reid

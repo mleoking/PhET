@@ -7,10 +7,10 @@
 package edu.colorado.phet.bernoulli.tube;
 
 import edu.colorado.phet.bernoulli.common.graphics.GeneralPathGraphic;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
-import edu.colorado.phet.coreadditions.simpleobserver.SimpleObserver;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.TransformListener;
+import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObserver;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;

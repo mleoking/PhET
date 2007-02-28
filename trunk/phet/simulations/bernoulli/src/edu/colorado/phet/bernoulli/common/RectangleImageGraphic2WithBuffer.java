@@ -1,6 +1,6 @@
 package edu.colorado.phet.bernoulli.common;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

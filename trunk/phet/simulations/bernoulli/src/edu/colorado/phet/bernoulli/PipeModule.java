@@ -9,12 +9,12 @@ package edu.colorado.phet.bernoulli;
 import edu.colorado.phet.bernoulli.pipe.*;
 import edu.colorado.phet.bernoulli.tube.Tube;
 import edu.colorado.phet.bernoulli.tube.TubeGraphic;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.clock2.DefaultClock;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.math.PhetVector;
-import edu.colorado.phet.coreadditions.simpleobserver.SimpleObserver;
+import edu.colorado.phet.common.bernoulli.model.ModelElement;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
+import edu.colorado.phet.coreadditions.bernoulli.clock2.DefaultClock;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.coreadditions.bernoulli.math.PhetVector;
+import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObserver;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

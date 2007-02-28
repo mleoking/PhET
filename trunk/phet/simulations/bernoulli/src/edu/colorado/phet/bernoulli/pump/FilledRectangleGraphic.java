@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.bernoulli.pump;
 
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.ModelViewTransform2d;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

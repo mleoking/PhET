@@ -1,9 +1,9 @@
 package edu.colorado.phet.bernoulli.watertower;
 
 import edu.colorado.phet.bernoulli.valves.HorizontalValveGraphic;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.bernoulli.view.ApparatusPanel;
+import edu.colorado.phet.common.bernoulli.view.CompositeGraphic;
+import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.ModelViewTransform2d;
 
 import java.awt.*;
 

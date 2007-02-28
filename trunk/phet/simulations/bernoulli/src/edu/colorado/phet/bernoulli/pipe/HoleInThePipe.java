@@ -2,8 +2,8 @@ package edu.colorado.phet.bernoulli.pipe;
 
 import edu.colorado.phet.bernoulli.BernoulliModule;
 import edu.colorado.phet.bernoulli.Drop;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.bernoulli.model.ModelElement;
+import edu.colorado.phet.coreadditions.bernoulli.math.PhetVector;
 
 import java.util.Random;
 
