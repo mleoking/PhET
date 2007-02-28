@@ -17,317 +17,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\observation\ObservationType.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/Pump.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/Pump.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\help\HelpItem.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\observation\Creation.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\components\clockgui\ClockTimeReadout.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\positioned\CenteredCircleGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\util\framesetup\FrameSetup.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\LineSegment.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\ModelElement.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\DefaultClock.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\positioned\PositionedImageGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/examples/hellophet/application/modules/fastmodule" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/plafdep" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\application\ModuleObserver.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\util\framesetup\AbsoluteFrameSetup.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/EarthGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/EarthGraphic.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\messagemodule\MessageModuleResetHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\ImageFlip.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\RescaleOp2.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/RepaintManager.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/RepaintManager.java" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/watertower/WaterTower.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/watertower/WaterTower.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\AbstractClock.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/examples/clocktestmodule" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/graphics" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/VolumeGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/VolumeGraphic.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\lines\LinePainter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/graphics/arrows" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\command\CommandQueue.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/PluggableInteractiveGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/PluggableInteractiveGraphic.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\math\transforms\functions\RangeToRange.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\StrokedDynamicArrow.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\util\framesetup\FullScreen.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\util\graphics\RescaleOp.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\application\PhetApplication.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\clocks\UtilTimerClock.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/valves/VerticalValveGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/valves/VerticalValveGraphic.java" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/PistonGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/PistonGraphic.java" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/application" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/view/util" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\math\Vector2D.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\ApplicationView.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\application\commands\MoveMessageCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\compositetestmodule\CompositeTestModule.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\view\MessageView.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\positioned\CenteredImageGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\BufferedGraphicForComponent.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/FirefighterModule.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/FirefighterModule.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\controllers\CompositeMouseHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\fastmodule\FastModule.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/LeftPipeEndGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/LeftPipeEndGraphic.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\transform\CompositeTransformListener.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/FlameGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/FlameGraphic.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics2\TextGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/examples/hellophet/application" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\physics2d\rotation\ConstantTorque.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/PipeParticle.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/PipeParticle.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\Arrowhead.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\Graphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\positioned\PositionedRectangleGraphic.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/AutoPumpWithExplanation.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/AutoPumpWithExplanation.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\messagemodule\MessageMonitorPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/view" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\positioned\PositionGraphicAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\positioned\CompositePositionedGraphic.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/spline/segments/Segment.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/spline/segments/Segment.java" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/examples/hellophet" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phet.iml" afterPath="$PROJECT_DIR$/phet.iml" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/AttachmentPoint.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/AttachmentPoint.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\positioned\PositionedGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/view/graphics" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\messagemodule\HelloPhetSimpleControlPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/model/observation" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\CompositeModelElement.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\ApparatusPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\application\HelloPhet.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\IdentityTimeConverter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/clock2/components" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\components\OrderOfMagnitudeSpinner.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\physics2d\rotation\Torque.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/Piston.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/Piston.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\util\framesetup\FrameCenterer.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/RectangleGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/RectangleGraphic.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics2\BufferedImageGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\IClock.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics2\TranslationController.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/CircleGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/CircleGraphic.java" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/ArrowGraphicTransform.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/ArrowGraphicTransform.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\components\media\Resettable.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/view/components" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\util\VersionUtils.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/animation/WindowIconAnimator.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/animation/WindowIconAnimator.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\math\transforms\IBoxToBox.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/examples/hellophet/application/commands" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/simpleobserver" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/physics2d/rotation" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/FakeClock.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/FakeClock.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\simpleobserver\SimpleObserver.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/animation/AnimationTest.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/animation/AnimationTest.java" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/examples/hellophet/view" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/model/command" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\positioned\CenteredImageGraphic2.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics2\SegmentGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\plaf\LectureLookAndFeel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\CompositeClockTickListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/graphics/positioned" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/IdeaGraphic3.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/IdeaGraphic3.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\application\Module.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\InteractiveGraphic.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/graphics/GeneralPathGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/graphics/GeneralPathGraphic.java" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/CrossSectionalVolume.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/CrossSectionalVolume.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\compositetestmodule\CompositeTestControlPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\FixedClock.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\positioned\PositionedTextGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\WallToSimulationTimeConverter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\BufferedGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\ArrowTail.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\tests\ClockTest.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\view\ArrowStyleMessageView.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/view/help" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/spline/Spline.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/spline/Spline.java" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/graphics/transform" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\ClockStateListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\plaf\LectureLookAndFeel2.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\command\commands\AddModelElementCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/graphics2" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\plafdep\DynamicLookAndFeel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\components\menu\PhetFileMenu.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\StrokedFixedArrow.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\math\transforms\BoxToBoxInvertY.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\simpleobserver\SimpleObservable.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\command\Command.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/plaf" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\application\ModuleManager.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\physics1d\Particle1d.java" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/ide/intellij" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\model\HelloPhetModel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\PhetFrame.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/zoom/MoveTo2D.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/zoom/MoveTo2D.java" />
-      <change type="NEW" beforePath="" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/ide/intellij/bernoulli.iml" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/tube/Tube.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/tube/Tube.java" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/controllers" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\controllers\AbstractShape.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/HoleInThePipe.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/HoleInThePipe.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics2\RectangleGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\controllers\MouseHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/view/graphics/positioned" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\TransformSlider.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\physics2d\rotation\RotationalParticle.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/view/util/framesetup" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\plaf\PlafTest.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/RectangleImageGraphic2.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/RectangleImageGraphic2.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\HelpMenu.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\lines\Arrow.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\math\PhetVector.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/RightPipeEndGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/RightPipeEndGraphic.java" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/PumpControlPanel.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/PumpControlPanel.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\CompositeTickListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\ImageGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/math/transforms/functions" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\plafdep\LectureLookAndFeel.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/Pipe.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/Pipe.java" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/examples/hellophet/application/modules/messagemodule" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\DisappearingArrow.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\components\clockgui\ClockControlPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\WallToSimulationAdapter.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/meter/BarometerView.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/meter/BarometerView.java" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/watertower/CompositeWaterTowerGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/watertower/CompositeWaterTowerGraphic.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\ApplicationModel.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/zoom/PinRectangle.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/zoom/PinRectangle.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\util\graphics\ImageLoader.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\controllers\DefaultControlGraphic.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/Flame.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/Flame.java" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/zoom/ZoomToCoordinates.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/zoom/ZoomToCoordinates.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\help\HelpItemManager.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\math\transforms\functions\Scale.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/valves/HorizontalValveGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/valves/HorizontalValveGraphic.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\plaf\DynamicLookAndFeel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\model\Message.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\math\TimeSeries.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/NozzleView.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/NozzleView.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\BufferedGraphic2.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\MaximizeFrame.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\clocktestmodule\ClockTestModule.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/PipeGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/PipeGraphic.java" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/math/transforms" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/examples/hellophet/model" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\math\CircularBuffer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\util\GraphicsUtil.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/ControlSection.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/ControlSection.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\plaf\ClientLookAndFeel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\components\media\IRunAndStop.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/util" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\DynamicClock.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\ApplicationDescriptor.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/view/graphics/lines" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\math\transforms\Transform.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/model" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/zoom/ZoomPins.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/zoom/ZoomPins.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\lines\StrokedLinePainter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/examples/hellophet/application/modules/compositetestmodule" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\apparatuspanelcontainment\TabbedApparatusPanelContainer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\apparatuspanelcontainment\ApparatusPanelContainer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\DragHandler.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/FilledRectangleGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/FilledRectangleGraphic.java" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/Vessel.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/Vessel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phet.iws" afterPath="$PROJECT_DIR$/phet.iws" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/PipeControlPointGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/PipeControlPointGraphic.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\IdeaGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/examples" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\positioned\PositionedOvalGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics2\Translatable.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/BernoulliModule.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/BernoulliModule.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\clocks\ThreadClock.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\transform\ModelViewTransform2d.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\StaticImageGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\Animation.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\math\DoubleSeries.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\math\transforms\functions\Translate.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\fastmodule\FastModuleControlPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics2\TextGraphicOnBackground.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/Nozzle.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/Nozzle.java" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/view/util/graphics" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/GroundGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/GroundGraphic.java" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/view/components/menu" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\apparatuspanelcontainment\TabDescriptor.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\apparatuspanelcontainment\ApparatusPanelContainerFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\GraphicsUtilities.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\plaf\PlafUtil.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\Arrow.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\physics1d\CompositeForce1d.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/examples/hellophet/application/modules" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/spline/SplineGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/spline/SplineGraphic.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\CompositeGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\CompositeClockStateListener.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/LakeGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/LakeGraphic.java" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/spline/segments/SegmentCollisionTest.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/spline/segments/SegmentCollisionTest.java" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/meter/Barometer.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/meter/Barometer.java" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/valves/Valve.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/valves/Valve.java" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/tube/TubeGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/tube/TubeGraphic.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\ObservingGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\ArrowTest.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\CompositeSimulationTimeListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/clock2/clocks" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/clock2/tests" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\math\transforms\functions\Function.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\math\MathUtil.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\graphics\positioned\PositionedRect3DGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/math" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\ClockStateListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\DifferentialDragHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\BaseModel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\physics1d\Force1d.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/watertower/TankWaterGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/watertower/TankWaterGraphic.java" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/view/components/clockgui" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\plafdep\ClientLookAndFeel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\view\MessageMonitor.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/FireDog.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/FireDog.java" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/model/command/commands" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/view/components/media" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\transform\TransformListener.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/Drop.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/Drop.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\apparatuspanelcontainment\SingleApparatusPanelContainer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\ClockTickListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\ClockTimer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/physics2d" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/math" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\application\commands\SetYCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\math\PhysicalVector.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\observation\Deletion.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/valves/VerticalValveGraphicPaint.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/valves/VerticalValveGraphicPaint.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\components\DefaultClockStatePanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\plafdep\PurpleLookAndFeel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\AutomatedObservable.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/PipeModule.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/PipeModule.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics2\FilledShapeGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\messagemodule\MessageModule.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\model\ThreadPriority.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/clock2" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hp/edu/colorado/phet/common/view/apparatuspanelcontainment" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/meter/PressureMeasurementTool.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/meter/PressureMeasurementTool.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\math\Average.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\graphics\positioned\CenteredCircleGraphic2.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\messagemodule\MessageModuleControlPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\math\transforms\InvertibleTransform.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\components\clockgui\ClockDialog.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src-hpa/edu/colorado/phet/coreadditions/physics1d" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/SegmentPathGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/SegmentPathGraphic.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\clocks\SwingTimerClock.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\physics2d\Particle2d.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\physics2d\ConstantForce.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\TickListener.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/DoubleGeneralPath.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/DoubleGeneralPath.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\SimulationTimeListener.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/RectangleImageGraphic2WithBuffer.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/RectangleImageGraphic2WithBuffer.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\physics2d\Force.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\BasicPhetPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\clock2\ConstantTimeConverter.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/watertower/WaterTowerGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/watertower/WaterTowerGraphic.java" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/SimpleParticleGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pipe/SimpleParticleGraphic.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\components\clockgui\ClockControlPanelBackup.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/DropGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/DropGraphic.java" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/SegmentGraphic.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/common/SegmentGraphic.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\examples\hellophet\model\MessageData.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hp\edu\colorado\phet\common\view\components\media\ApplicationModelControlPanel.java" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/ide" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\math\transforms\functions\RangeToRangeInvert.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/CastleView.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/CastleView.java" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/AutoPump.java" afterPath="C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/pump/AutoPump.java" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\plaf\PurpleLookAndFeel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\math\transforms\functions\CompositeFunction.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\bernoulli\src-hpa\edu\colorado\phet\coreadditions\math\transforms\BoxToBox.java" afterPath="" />
     </list>
     <list name="Failed commit: Default" comment="(2-27-2007) Deleted: energyconservation, was deprecated version of energy skate park." />
   </component>
@@ -453,37 +144,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MotorsModule.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/optical-tweezers/src/edu/colorado/phet/opticaltweezers/module/MotorsModule.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="81" column="44" selection-start="2831" selection-end="2831" vertical-scroll-proportion="0.027960526">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SimStrings.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/common/phetcommon/src/edu/colorado/phet/common/view/util/SimStrings.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="147" column="22" selection-start="4641" selection-end="4641" vertical-scroll-proportion="0.21710527">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SimStrings_Balloons.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/balloons/src/edu/colorado/phet/common/view/util/SimStrings_Balloons.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="37" selection-start="1282" selection-end="1282" vertical-scroll-proportion="0.027960526">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="phet.iws" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/phet.iws">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="237" column="161" selection-start="42834" selection-end="42834" vertical-scroll-proportion="0.02866779">
+            <state line="823" column="39" selection-start="42834" selection-end="42834" vertical-scroll-proportion="0.025110783">
               <folding />
             </state>
           </provider>
@@ -492,7 +156,7 @@
       <file leaf-file-name="phet.ipr" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/phet.ipr">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="12" selection-start="185" selection-end="185" vertical-scroll-proportion="0.14333895">
+            <state line="5" column="12" selection-start="185" selection-end="185" vertical-scroll-proportion="0.025110783">
               <folding />
             </state>
           </provider>
@@ -510,7 +174,7 @@
       <file leaf-file-name="batteryvoltage.iws" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/batteryvoltage/ide/intellij/batteryvoltage.iws">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-16.728498">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -519,16 +183,43 @@
       <file leaf-file-name="phet.iml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/phet.iml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="10" selection-start="224" selection-end="224" vertical-scroll-proportion="0.1118421">
+            <state line="4" column="10" selection-start="224" selection-end="224" vertical-scroll-proportion="0.024566473">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BernoulliModule.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="BernoulliModule.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/BernoulliModule.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="13" selection-start="2604" selection-end="2604" vertical-scroll-proportion="0.2866779">
+            <state line="51" column="13" selection-start="2604" selection-end="2604" vertical-scroll-proportion="0.025110783">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BSBoundStatesApplication.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/PhET/svn/trunk/phet/simulations/bound-states/src/edu/colorado/phet/boundstates/BSBoundStatesApplication.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="28" column="13" selection-start="668" selection-end="668" vertical-scroll-proportion="0.31936416">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BSBandStructureApplication.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/PhET/svn/trunk/phet/simulations/bound-states/src/edu/colorado/phet/boundstates/BSBandStructureApplication.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="28" column="13" selection-start="687" selection-end="687" vertical-scroll-proportion="0.31936416">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BSCovalentBondsApplication.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://C:/PhET/svn/trunk/phet/simulations/bound-states/src/edu/colorado/phet/boundstates/BSCovalentBondsApplication.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="34" column="19" selection-start="973" selection-end="973" vertical-scroll-proportion="0.46676302">
               <folding />
             </state>
           </provider>
@@ -689,7 +380,41 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations\bernoulli" />
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations\bound-states" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="phet.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations\bound-states" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations\bound-states\src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations\bound-states\src\edu\colorado\phet\boundstates" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -739,8 +464,8 @@
     <property name="cvs_file_history_flatOrder1" value="1" />
     <property name="cvs_file_history_flatWidth1" value="378" />
     <property name="cvs_file_history_treeWidth1" value="378" />
-    <property name="cvs_file_history_treeWidth3" value="378" />
     <property name="cvs_file_history_treeOrder2" value="2" />
+    <property name="cvs_file_history_treeWidth3" value="378" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="cvs_file_history_flatOrder2" value="2" />
     <property name="MemberChooser.showClasses" value="true" />
@@ -749,47 +474,15 @@
     <property name="cvs_file_history_treeWidth2" value="378" />
     <property name="cvs_file_history_flatOrder3" value="3" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="cvs_file_history_treeOrder0" value="0" />
     <property name="RunManagerConfig.showSettingsBeforeRunnig" value="false" />
+    <property name="cvs_file_history_treeOrder0" value="0" />
   </component>
   <component name="ReadonlyStatusHandler">
     <option name="SHOW_DIALOG" value="true" />
   </component>
   <component name="RecentsManager" />
   <component name="RestoreUpdateTree" />
-  <component name="RunManager" selected="Application.BernoulliModule">
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="C:/Program Files/JetBrains/IntelliJ IDEA 6.0/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-    </configuration>
-    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <module name="" />
-      <method>
-        <option name="Make" value="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.BSCovalentBondsApplication">
     <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -805,6 +498,38 @@
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="wholeProject" />
       </option>
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="C:/Program Files/JetBrains/IntelliJ IDEA 6.0/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <module name="" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
     </configuration>
     <configuration default="false" name="EnergySkateParkApplication" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.ec3.EnergySkateParkApplication" />
@@ -916,6 +641,51 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
+    <configuration default="false" name="BSBoundStatesApplication" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.boundstates.BSBoundStatesApplication" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <module name="phet" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="false" name="BSBandStructureApplication" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.boundstates.BSBandStructureApplication" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <module name="phet" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="false" name="BSCovalentBondsApplication" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.boundstates.BSCovalentBondsApplication" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <module name="phet" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
       <Port>5050</Port>
@@ -1000,13 +770,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1608" height="1118" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25048295" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25048295" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929292" order="8" />
@@ -1016,7 +786,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929292" order="2" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24444444" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="4" />
@@ -1115,27 +885,6 @@
     <option name="myLastEditedConfigurable" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://C:/PhET/svn/trunk/phet/simulations/balloons/src/edu/colorado/phet/balloon/BalloonApplet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="13" selection-start="772" selection-end="772" vertical-scroll-proportion="0.018065887">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/PhET/svn/trunk/phet/common/phetcommon/src/edu/colorado/phet/common/view/clock/StopwatchPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="128" column="18" selection-start="4519" selection-end="4519" vertical-scroll-proportion="0.018065887">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/PhET/svn/trunk/phet/common/phetcommon/src/edu/colorado/phet/common/view/util/SwingUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="155" column="33" selection-start="5470" selection-end="5470" vertical-scroll-proportion="0.23060574">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/balloons/src/edu/colorado/phet/balloon/util/SwingUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="25" column="27" selection-start="0" selection-end="5685" vertical-scroll-proportion="0.018065887">
@@ -1152,42 +901,35 @@
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/optical-tweezers/src/edu/colorado/phet/opticaltweezers/module/MotorsModule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="44" selection-start="2831" selection-end="2831" vertical-scroll-proportion="0.027960526">
+        <state line="81" column="44" selection-start="2831" selection-end="2831" vertical-scroll-proportion="0.024566473">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/common/phetcommon/src/edu/colorado/phet/common/view/util/SimStrings.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="147" column="22" selection-start="4641" selection-end="4641" vertical-scroll-proportion="0.21710527">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/PhET/svn/trunk/phet/simulations/batteryvoltage/src/edu/colorado/phet/batteryvoltage/BatteryApplet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="45" selection-start="59" selection-end="59" vertical-scroll-proportion="0.0">
+        <state line="147" column="22" selection-start="4641" selection-end="4641" vertical-scroll-proportion="0.216763">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/balloons/src/edu/colorado/phet/common/view/util/SimStrings_Balloons.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="37" selection-start="1282" selection-end="1282" vertical-scroll-proportion="0.027960526">
+        <state line="42" column="37" selection-start="1282" selection-end="1282" vertical-scroll-proportion="0.024566473">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phet.iws">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="237" column="161" selection-start="42834" selection-end="42834" vertical-scroll-proportion="0.02866779">
+        <state line="823" column="39" selection-start="42834" selection-end="42834" vertical-scroll-proportion="0.025110783">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phet.ipr">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="12" selection-start="185" selection-end="185" vertical-scroll-proportion="0.14333895">
+        <state line="5" column="12" selection-start="185" selection-end="185" vertical-scroll-proportion="0.025110783">
           <folding />
         </state>
       </provider>
@@ -1201,21 +943,49 @@
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/batteryvoltage/ide/intellij/batteryvoltage.iws">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-16.728498">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/svn/trunk/phet/simulations/batteryvoltage/src/edu/colorado/phet/batteryvoltage/BatteryApplet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="45" selection-start="59" selection-end="59" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phet.iml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="10" selection-start="224" selection-end="224" vertical-scroll-proportion="0.1118421">
+        <state line="4" column="10" selection-start="224" selection-end="224" vertical-scroll-proportion="0.024566473">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/BernoulliModule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="13" selection-start="2604" selection-end="2604" vertical-scroll-proportion="0.2866779">
+        <state line="51" column="13" selection-start="2604" selection-end="2604" vertical-scroll-proportion="0.025110783">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/svn/trunk/phet/simulations/bound-states/src/edu/colorado/phet/boundstates/BSBoundStatesApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="13" selection-start="668" selection-end="668" vertical-scroll-proportion="0.31936416">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/svn/trunk/phet/simulations/bound-states/src/edu/colorado/phet/boundstates/BSBandStructureApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="13" selection-start="687" selection-end="687" vertical-scroll-proportion="0.31936416">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/svn/trunk/phet/simulations/bound-states/src/edu/colorado/phet/boundstates/BSCovalentBondsApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="19" selection-start="973" selection-end="973" vertical-scroll-proportion="0.46676302">
           <folding />
         </state>
       </provider>
