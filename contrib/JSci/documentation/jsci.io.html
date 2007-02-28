@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>IO Package</title>
+<link rel="stylesheet" href="guide.css" title="Default" type="text/css"/>
+<link rel="contents" href="guide.html"/>
+</head>
+<body>
+<h1>IO Package</h1>
+<p>The IO package contains classes for reading and writing math objects to various I/O streams.</p>
+<h3>Class descriptions</h3>
+<h4>MathMLDocumentJSciImpl</h4>
+<p><code>MathMLDocumentJSciImpl</code> will translate JSci objects into MathML code. The MathML code can then be used to construct a MathML document, which can be printed to any output stream.</p>
+<p>Sample code to create a MathML document:</p>
+<pre>
+import JSci.io.*;
+import org.w3c.dom.*;
+import org.apache.xerces.dom.*;
+.
+.
+MathMLDocumentJSciImpl doc = new MathMLDocumentJSciImpl();
+Element root = doc.getDocumentElement();
+root.appendChild(doc.createNumber(2.3));
+Element aNode = doc.createElement("a tag name");
+aNode.appendChild(doc.createVector(aVector));
+aNode.appendChild(doc.createNumber(4));
+root.appendChild(aNode);
+</pre>
+
+<p>Use <code>doc.print(writer)</code> to write the document to an output stream.</p>
+<p>It is also possible to create DocumentFragments by using <code>doc.createDocumentFragment()</code>. A DocumentFragment represents a fragment of MathML code to which elements can be appended. In turn, it can be appended to a MathML document. Some of the MathMLDocumentJSciImpl.createXXX() methods require a DocumentFragment as an argument.</p>
+<p>DocumentFragment sample code:</p>
+<pre>
+DocumentFragment frag = doc.createDocumentFragment();
+frag.appendChild(node1);
+frag.appendChild(node2);
+doc.appendChild(frag);
+</pre>
+
+<h4>MathMLParser</h4>
+<p>This class uses the Apache Xerces XML parser.
+MathMLParser will translate a MathML document into JSci objects or JSci Java code.</p>
+<p>Sample code to parse a MathML document:</p>
+<pre>
+import JSci.io.*;
+.
+.
+MathMLParser parser = new MathMLParser();
+try {
+        parser.parse("doc.xml");
+} catch(Exception e) {
+        e.printStackTrace();
+}
+Object parseList[] = parser.translateToJSciObjects();
+</pre>
+
+<p>
+The <var>parseList</var> is an array containing parsed MathML lines.
+A MathML line may consist of a mathematical expression or just a single math object.
+The <code>instanceof</code> operator should be used to determine which.
+If <var>parseList[i]</var> is an instance of MathNumber, MathVector, etc, then the line just contains that object.
+However, if it is an instance of MathMLExpression then this object will specify a math operation and arguments to which it is to be applied.
+The arguments may either be math objects or other MathMLExpressions.
+The <code>evaluate()</code> method can be used to evaluate a MathMLExpression to a single math object.
+</p>
+<hr/>
+<p>Return to the Developer's Guide <a href="guide.html">contents</a>.</p>
+</body>
+</html>

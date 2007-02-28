@@ -1,0 +1,3254 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>JDepend Analysis</title>
+<style type="text/css">
+      body {
+        font:normal 68% verdana,arial,helvetica;
+        color:#000000;
+      }
+      table tr td, tr th {
+          font-size: 68%;
+      }
+      table.details tr th{
+        font-weight: bold;
+        text-align:left;
+        background:#a6caf0;
+      }
+      table.details tr td{
+        background:#eeeee0;
+      }
+      
+      p {
+        line-height:1.5em;
+        margin-top:0.5em; margin-bottom:1.0em;
+        margin-left:2em;
+        margin-right:2em;
+      }
+      h1 {
+        margin: 0px 0px 5px; font: 165% verdana,arial,helvetica
+      }
+      h2 {
+        margin-top: 1em; margin-bottom: 0.5em; font: bold 125% verdana,arial,helvetica
+      }
+      h3 {
+        margin-bottom: 0.5em; font: bold 115% verdana,arial,helvetica
+      }
+      h4 {
+        margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
+      }
+      h5 {
+        margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
+      }
+      h6 {
+        margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
+      }
+      .Error {
+        font-weight:bold; color:red;
+      }
+      .Failure {
+        font-weight:bold; color:purple;
+      }
+      .Properties {
+        text-align:right;
+      }
+      </style>
+</head>
+<body>
+<h1>
+<a name="top">JDepend Analysis</a>
+</h1>
+<p align="right">Designed for use with <a href="http://www.clarkware.com/software/JDepend.html">JDepend</a> and <a href="http://jakarta.apache.org">Ant</a>.</p>
+<hr size="2">
+<table width="100%">
+<tr>
+<td><a name="NVsummary">
+<h2>Summary</h2>
+</a></td><td align="right">
+    [<a href="#NVsummary">summary</a>]
+    [<a href="#NVpackages">packages</a>]
+    [<a href="#NVcycles">cycles</a>]
+    [<a href="#NVexplanations">explanations</a>]
+    </td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Package</th><th>Total Classes</th><th><a href="#EXnumber">Abstract Classes</a></th><th><a href="#EXnumber">Concrete Classes</a></th><th><a href="#EXafferent">Afferent Couplings</a></th><th><a href="#EXefferent">Efferent Couplings</a></th><th><a href="#EXabstractness">Abstractness</a></th><th><a href="#EXinstability">Instability</a></th><th><a href="#EXdistance">Distance</a></th>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci">JSci</a></td><td align="right">2</td><td align="right">0</td><td align="right">2</td><td align="right">8</td><td align="right">0</td><td align="right">0</td><td align="right">0</td><td align="right">1</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.astro">JSci.astro</a></td><td align="right">1</td><td align="right">1</td><td align="right">0</td><td align="right">0</td><td align="right">1</td><td align="right">1</td><td align="right">1</td><td align="right">1</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.astro.telescope">JSci.astro.telescope</a></td><td align="right">13</td><td align="right">1</td><td align="right">12</td><td align="right">0</td><td align="right">0</td><td align="right">0.08</td><td align="right">0</td><td align="right">0.92</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.awt">JSci.awt</a></td><td align="right">38</td><td align="right">10</td><td align="right">28</td><td align="right">1</td><td align="right">1</td><td align="right">0.26</td><td align="right">0.5</td><td align="right">0.24</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.beans">JSci.beans</a></td><td align="right">4</td><td align="right">1</td><td align="right">3</td><td align="right">0</td><td align="right">6</td><td align="right">0.25</td><td align="right">1</td><td align="right">0.25</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.biology">JSci.biology</a></td><td align="right">2</td><td align="right">0</td><td align="right">2</td><td align="right">0</td><td align="right">3</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.chemistry">JSci.chemistry</a></td><td align="right">7</td><td align="right">1</td><td align="right">6</td><td align="right">2</td><td align="right">5</td><td align="right">0.14</td><td align="right">0.71</td><td align="right">0.14</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.chemistry.periodictable">JSci.chemistry.periodictable</a></td><td align="right">8</td><td align="right">0</td><td align="right">8</td><td align="right">1</td><td align="right">1</td><td align="right">0</td><td align="right">0.5</td><td align="right">0.5</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.doclet">JSci.doclet</a></td><td align="right">3</td><td align="right">0</td><td align="right">3</td><td align="right">0</td><td align="right">2</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.instruments">JSci.instruments</a></td><td align="right">64</td><td align="right">14</td><td align="right">50</td><td align="right">1</td><td align="right">1</td><td align="right">0.22</td><td align="right">0.5</td><td align="right">0.28</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.instruments.pi">JSci.instruments.pi</a></td><td align="right">27</td><td align="right">1</td><td align="right">26</td><td align="right">0</td><td align="right">1</td><td align="right">0.04</td><td align="right">1</td><td align="right">0.04</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.io">JSci.io</a></td><td align="right">8</td><td align="right">1</td><td align="right">7</td><td align="right">2</td><td align="right">12</td><td align="right">0.12</td><td align="right">0.86</td><td align="right">0.02</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.mathml">JSci.mathml</a></td><td align="right">51</td><td align="right">0</td><td align="right">51</td><td align="right">1</td><td align="right">3</td><td align="right">0</td><td align="right">0.75</td><td align="right">0.25</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths">JSci.maths</a></td><td align="right">25</td><td align="right">7</td><td align="right">18</td><td align="right">32</td><td align="right">8</td><td align="right">0.28</td><td align="right">0.2</td><td align="right">0.52</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.algebras">JSci.maths.algebras</a></td><td align="right">19</td><td align="right">12</td><td align="right">7</td><td align="right">6</td><td align="right">5</td><td align="right">0.63</td><td align="right">0.45</td><td align="right">0.09</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.analysis">JSci.maths.analysis</a></td><td align="right">45</td><td align="right">4</td><td align="right">41</td><td align="right">4</td><td align="right">4</td><td align="right">0.09</td><td align="right">0.5</td><td align="right">0.41</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.categories">JSci.maths.categories</a></td><td align="right">25</td><td align="right">6</td><td align="right">19</td><td align="right">0</td><td align="right">6</td><td align="right">0.24</td><td align="right">1</td><td align="right">0.24</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.chaos">JSci.maths.chaos</a></td><td align="right">10</td><td align="right">2</td><td align="right">8</td><td align="right">0</td><td align="right">1</td><td align="right">0.2</td><td align="right">1</td><td align="right">0.2</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.fields">JSci.maths.fields</a></td><td align="right">7</td><td align="right">4</td><td align="right">3</td><td align="right">11</td><td align="right">2</td><td align="right">0.57</td><td align="right">0.15</td><td align="right">0.27</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.groups">JSci.maths.groups</a></td><td align="right">17</td><td align="right">9</td><td align="right">8</td><td align="right">12</td><td align="right">3</td><td align="right">0.53</td><td align="right">0.2</td><td align="right">0.27</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.matrices">JSci.maths.matrices</a></td><td align="right">34</td><td align="right">10</td><td align="right">24</td><td align="right">11</td><td align="right">6</td><td align="right">0.29</td><td align="right">0.35</td><td align="right">0.35</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.polynomials">JSci.maths.polynomials</a></td><td align="right">11</td><td align="right">2</td><td align="right">9</td><td align="right">3</td><td align="right">6</td><td align="right">0.18</td><td align="right">0.67</td><td align="right">0.15</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.statistics">JSci.maths.statistics</a></td><td align="right">17</td><td align="right">1</td><td align="right">16</td><td align="right">1</td><td align="right">1</td><td align="right">0.06</td><td align="right">0.5</td><td align="right">0.44</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.symbolic">JSci.maths.symbolic</a></td><td align="right">19</td><td align="right">2</td><td align="right">17</td><td align="right">0</td><td align="right">4</td><td align="right">0.11</td><td align="right">1</td><td align="right">0.11</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.vectors">JSci.maths.vectors</a></td><td align="right">15</td><td align="right">4</td><td align="right">11</td><td align="right">13</td><td align="right">6</td><td align="right">0.27</td><td align="right">0.32</td><td align="right">0.42</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a></td><td align="right">17</td><td align="right">4</td><td align="right">13</td><td align="right">12</td><td align="right">5</td><td align="right">0.24</td><td align="right">0.29</td><td align="right">0.47</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.wavelet.cdf2_4">JSci.maths.wavelet.cdf2_4</a></td><td align="right">5</td><td align="right">0</td><td align="right">5</td><td align="right">0</td><td align="right">3</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.wavelet.cdf3_5">JSci.maths.wavelet.cdf3_5</a></td><td align="right">4</td><td align="right">0</td><td align="right">4</td><td align="right">0</td><td align="right">3</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.wavelet.daubechies2">JSci.maths.wavelet.daubechies2</a></td><td align="right">4</td><td align="right">0</td><td align="right">4</td><td align="right">0</td><td align="right">2</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.wavelet.daubechies3">JSci.maths.wavelet.daubechies3</a></td><td align="right">3</td><td align="right">0</td><td align="right">3</td><td align="right">0</td><td align="right">2</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.wavelet.daubechies4">JSci.maths.wavelet.daubechies4</a></td><td align="right">3</td><td align="right">0</td><td align="right">3</td><td align="right">0</td><td align="right">2</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.wavelet.daubechies5">JSci.maths.wavelet.daubechies5</a></td><td align="right">3</td><td align="right">0</td><td align="right">3</td><td align="right">0</td><td align="right">2</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.wavelet.daubechies6">JSci.maths.wavelet.daubechies6</a></td><td align="right">3</td><td align="right">0</td><td align="right">3</td><td align="right">0</td><td align="right">2</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.wavelet.daubechies7">JSci.maths.wavelet.daubechies7</a></td><td align="right">3</td><td align="right">0</td><td align="right">3</td><td align="right">0</td><td align="right">2</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.wavelet.daubechies8">JSci.maths.wavelet.daubechies8</a></td><td align="right">3</td><td align="right">0</td><td align="right">3</td><td align="right">0</td><td align="right">2</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.wavelet.haar">JSci.maths.wavelet.haar</a></td><td align="right">2</td><td align="right">0</td><td align="right">2</td><td align="right">0</td><td align="right">3</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.wavelet.splines">JSci.maths.wavelet.splines</a></td><td align="right">5</td><td align="right">1</td><td align="right">4</td><td align="right">4</td><td align="right">2</td><td align="right">0.2</td><td align="right">0.33</td><td align="right">0.47</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.maths.wavelet.symmlet8">JSci.maths.wavelet.symmlet8</a></td><td align="right">1</td><td align="right">0</td><td align="right">1</td><td align="right">0</td><td align="right">1</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.physics">JSci.physics</a></td><td align="right">22</td><td align="right">8</td><td align="right">14</td><td align="right">4</td><td align="right">4</td><td align="right">0.36</td><td align="right">0.5</td><td align="right">0.14</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.physics.particles">JSci.physics.particles</a></td><td align="right">79</td><td align="right">23</td><td align="right">56</td><td align="right">1</td><td align="right">3</td><td align="right">0.29</td><td align="right">0.75</td><td align="right">0.04</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.physics.quantum">JSci.physics.quantum</a></td><td align="right">10</td><td align="right">1</td><td align="right">9</td><td align="right">1</td><td align="right">7</td><td align="right">0.1</td><td align="right">0.88</td><td align="right">0.02</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.physics.relativity">JSci.physics.relativity</a></td><td align="right">10</td><td align="right">1</td><td align="right">9</td><td align="right">2</td><td align="right">3</td><td align="right">0.1</td><td align="right">0.6</td><td align="right">0.3</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.swing">JSci.swing</a></td><td align="right">34</td><td align="right">3</td><td align="right">31</td><td align="right">1</td><td align="right">2</td><td align="right">0.09</td><td align="right">0.67</td><td align="right">0.25</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.tests">JSci.tests</a></td><td align="right">21</td><td align="right">0</td><td align="right">21</td><td align="right">0</td><td align="right">16</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.text">JSci.text</a></td><td align="right">1</td><td align="right">0</td><td align="right">1</td><td align="right">0</td><td align="right">0</td><td align="right">0</td><td align="right">0</td><td align="right">1</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKJSci.util">JSci.util</a></td><td align="right">4</td><td align="right">0</td><td align="right">4</td><td align="right">3</td><td align="right">3</td><td align="right">0</td><td align="right">0.5</td><td align="right">0.5</td>
+</tr>
+<tr>
+<td align="left">com.sun.javadoc</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">com.sun.tools.doclets</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">junit.extensions</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">junit.framework</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">junit.textui</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">junitx.extensions</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">org.apache.xerces.dom</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">org.apache.xerces.parsers</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">org.w3c.dom</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">org.w3c.dom.mathml</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">org.xml.sax</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+</table>
+<table width="100%">
+<tr>
+<td><a name="NVpackages">
+<h2>Packages</h2>
+</a></td><td align="right">
+    [<a href="#NVsummary">summary</a>]
+    [<a href="#NVpackages">packages</a>]
+    [<a href="#NVcycles">cycles</a>]
+    [<a href="#NVexplanations">explanations</a>]
+    </td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci">JSci</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 8</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 0</td><td><a href="#EXdistance">Distance</a>: 1</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.GlobalSettings
+                <br>
+                    JSci.Version
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+<a href="#PKJSci.maths.polynomials">JSci.maths.polynomials</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+<a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+<a href="#PKJSci.physics">JSci.physics</a>
+<br>
+<a href="#PKJSci.physics.relativity">JSci.physics.relativity</a>
+<br>
+<a href="#PKJSci.tests">JSci.tests</a>
+<br>
+</td><td valign="top" width="25%"><i>None</i></td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.astro">JSci.astro</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 1</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 1</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.astro.AstronomicalConstants
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.physics">JSci.physics</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.astro.telescope">JSci.astro.telescope</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.08</td><td><a href="#EXinstability">Instability</a>: 0</td><td><a href="#EXdistance">Distance</a>: 0.92</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.astro.telescope.LX200Remote
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.astro.telescope.LX200
+                <br>
+                    JSci.astro.telescope.LX200ControlPanel
+                <br>
+                    JSci.astro.telescope.LX200ControlPanel$1
+                <br>
+                    JSci.astro.telescope.LX200ControlPanel$FocusActionListener
+                <br>
+                    JSci.astro.telescope.LX200ControlPanel$FocusRateItemListener
+                <br>
+                    JSci.astro.telescope.LX200ControlPanel$GotoActionListener
+                <br>
+                    JSci.astro.telescope.LX200ControlPanel$SlewActionListener
+                <br>
+                    JSci.astro.telescope.LX200ControlPanel$SlewRateItemListener
+                <br>
+                    JSci.astro.telescope.LX200ControlPanel$SyncActionListener
+                <br>
+                    JSci.astro.telescope.LX200DebugServer
+                <br>
+                    JSci.astro.telescope.LX200Server
+                <br>
+                    JSci.astro.telescope.NexStar
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><i>None</i></td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.awt">JSci.awt</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.26</td><td><a href="#EXinstability">Instability</a>: 0.5</td><td><a href="#EXdistance">Distance</a>: 0.24</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.awt.AbstractGraphModel
+                <br>
+                    JSci.awt.CategoryGraph2D
+                <br>
+                    JSci.awt.CategoryGraph2DModel
+                <br>
+                    JSci.awt.ColorScheme
+                <br>
+                    JSci.awt.DoubleBufferedCanvas
+                <br>
+                    JSci.awt.Graph2D
+                <br>
+                    JSci.awt.Graph2D$DataMarker
+                <br>
+                    JSci.awt.Graph2DModel
+                <br>
+                    JSci.awt.Graph3DModel
+                <br>
+                    JSci.awt.GraphDataListener
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.awt.ArgandDiagramModel
+                <br>
+                    JSci.awt.BarGraph
+                <br>
+                    JSci.awt.ContourPlot
+                <br>
+                    JSci.awt.DefaultCategoryGraph2DModel
+                <br>
+                    JSci.awt.DefaultCategoryGraph2DModel$DataSeries
+                <br>
+                    JSci.awt.DefaultGraph2DModel
+                <br>
+                    JSci.awt.DefaultGraph2DModel$DataSeries
+                <br>
+                    JSci.awt.DefaultGraph3DModel
+                <br>
+                    JSci.awt.DefaultGraph3DModel$DataSeries
+                <br>
+                    JSci.awt.Graph2D$1
+                <br>
+                    JSci.awt.Graph2D$DataMarker$Circle
+                <br>
+                    JSci.awt.Graph2D$DataMarker$Square
+                <br>
+                    JSci.awt.Graph2D$NoneDataMarker
+                <br>
+                    JSci.awt.GraphDataEvent
+                <br>
+                    JSci.awt.GraphLayout
+                <br>
+                    JSci.awt.Histogram
+                <br>
+                    JSci.awt.ImageCanvas
+                <br>
+                    JSci.awt.LayeredBarGraph
+                <br>
+                    JSci.awt.LineGraph
+                <br>
+                    JSci.awt.LineGraph3D
+                <br>
+                    JSci.awt.LineTrace
+                <br>
+                    JSci.awt.LineTrace$MouseLineAdapter
+                <br>
+                    JSci.awt.Matrix3D
+                <br>
+                    JSci.awt.Model3D
+                <br>
+                    JSci.awt.PieChart
+                <br>
+                    JSci.awt.Point2DListModel
+                <br>
+                    JSci.awt.ScatterGraph
+                <br>
+                    JSci.awt.StackedBarGraph
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.swing">JSci.swing</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.beans">JSci.beans</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 6</td><td><a href="#EXabstractness">Abstractness</a>: 0.25</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0.25</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.beans.VariableListener
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.beans.MathBean
+                <br>
+                    JSci.beans.VariableBean
+                <br>
+                    JSci.beans.VariableEvent
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.io">JSci.io</a>
+<br>
+<a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+<a href="#PKJSci.util">JSci.util</a>
+<br>
+<a href="#PKorg.apache.xerces.parsers">org.apache.xerces.parsers</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.biology">JSci.biology</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 3</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.biology.AminoAcid
+                <br>
+                    JSci.biology.AminoAcids
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.chemistry">JSci.chemistry</a>
+<br>
+<a href="#PKorg.w3c.dom">org.w3c.dom</a>
+<br>
+<a href="#PKorg.xml.sax">org.xml.sax</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.chemistry">JSci.chemistry</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 5</td><td><a href="#EXabstractness">Abstractness</a>: 0.14</td><td><a href="#EXinstability">Instability</a>: 0.71</td><td><a href="#EXdistance">Distance</a>: 0.14</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.chemistry.Bond
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.chemistry.Atom
+                <br>
+                    JSci.chemistry.CovalentBond
+                <br>
+                    JSci.chemistry.Element
+                <br>
+                    JSci.chemistry.IonicBond
+                <br>
+                    JSci.chemistry.Molecule
+                <br>
+                    JSci.chemistry.PeriodicTable
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.biology">JSci.biology</a>
+<br>
+<a href="#PKJSci.chemistry.periodictable">JSci.chemistry.periodictable</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci.chemistry.periodictable">JSci.chemistry.periodictable</a>
+<br>
+<a href="#PKJSci.physics">JSci.physics</a>
+<br>
+<a href="#PKJSci.physics.particles">JSci.physics.particles</a>
+<br>
+<a href="#PKorg.w3c.dom">org.w3c.dom</a>
+<br>
+<a href="#PKorg.xml.sax">org.xml.sax</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.chemistry.periodictable">JSci.chemistry.periodictable</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 0.5</td><td><a href="#EXdistance">Distance</a>: 0.5</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.chemistry.periodictable.AlkaliEarthMetal
+                <br>
+                    JSci.chemistry.periodictable.AlkaliMetal
+                <br>
+                    JSci.chemistry.periodictable.Halogen
+                <br>
+                    JSci.chemistry.periodictable.Metal
+                <br>
+                    JSci.chemistry.periodictable.NobleGas
+                <br>
+                    JSci.chemistry.periodictable.NonMetal
+                <br>
+                    JSci.chemistry.periodictable.RareEarthMetal
+                <br>
+                    JSci.chemistry.periodictable.TransitionMetal
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.chemistry">JSci.chemistry</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci.chemistry">JSci.chemistry</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.doclet">JSci.doclet</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.doclet.NoosphereTaglet
+                <br>
+                    JSci.doclet.PlanetMathTaglet
+                <br>
+                    JSci.doclet.PlanetPhysicsTaglet
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKcom.sun.javadoc">com.sun.javadoc</a>
+<br>
+<a href="#PKcom.sun.tools.doclets">com.sun.tools.doclets</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.instruments">JSci.instruments</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.22</td><td><a href="#EXinstability">Instability</a>: 0.5</td><td><a href="#EXdistance">Distance</a>: 0.28</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.instruments.Control
+                <br>
+                    JSci.instruments.Dimensions
+                <br>
+                    JSci.instruments.Image
+                <br>
+                    JSci.instruments.ImageFilter
+                <br>
+                    JSci.instruments.ImageFilterAdapter
+                <br>
+                    JSci.instruments.ImageSink
+                <br>
+                    JSci.instruments.ImageSource
+                <br>
+                    JSci.instruments.Overlay
+                <br>
+                    JSci.instruments.ParticleTracker
+                <br>
+                    JSci.instruments.ParticleTrackerListener
+                <br>
+                    JSci.instruments.PositionControl
+                <br>
+                    JSci.instruments.PositionControlAdapter
+                <br>
+                    JSci.instruments.ROI
+                <br>
+                    JSci.instruments.ROIAdapter
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.instruments.DummyPositionControl
+                <br>
+                    JSci.instruments.DummyPositionControl$1
+                <br>
+                    JSci.instruments.DummyPositionControl$2
+                <br>
+                    JSci.instruments.DummyPositionControl$3
+                <br>
+                    JSci.instruments.DummyPositionControl$4
+                <br>
+                    JSci.instruments.DummyPositionControl$5
+                <br>
+                    JSci.instruments.Image$1
+                <br>
+                    JSci.instruments.PTCroquette
+                <br>
+                    JSci.instruments.PTCroquette$1
+                <br>
+                    JSci.instruments.PTCroquette$2
+                <br>
+                    JSci.instruments.PTCroquette$MouseHandler
+                <br>
+                    JSci.instruments.PTCroquette$MouseMotionHandler
+                <br>
+                    JSci.instruments.PTCroquette$MouseWheelHandler
+                <br>
+                    JSci.instruments.PTCroquette$PTControlComponent
+                <br>
+                    JSci.instruments.PTCroquette$PTControlComponent$1
+                <br>
+                    JSci.instruments.PTCroquette$PTControlComponent$1$1
+                <br>
+                    JSci.instruments.PTCroquette$PTControlComponent$2
+                <br>
+                    JSci.instruments.PTCroquette$PTControlComponent$3
+                <br>
+                    JSci.instruments.PTCroquetteCross
+                <br>
+                    JSci.instruments.PTCroquetteCross$CComponent
+                <br>
+                    JSci.instruments.PTTemplate
+                <br>
+                    JSci.instruments.PTTemplate$1
+                <br>
+                    JSci.instruments.PTTemplate$2
+                <br>
+                    JSci.instruments.PTTemplate$3
+                <br>
+                    JSci.instruments.PTTemplate$SimulatedBarycentreSource
+                <br>
+                    JSci.instruments.PTTemplate$SimulatedBarycentreSource$1
+                <br>
+                    JSci.instruments.PTTemplateCross
+                <br>
+                    JSci.instruments.PTTemplateCross$1
+                <br>
+                    JSci.instruments.PTTwoDBarycentre
+                <br>
+                    JSci.instruments.PTTwoDBarycentre$1
+                <br>
+                    JSci.instruments.PTTwoDBarycentre$2
+                <br>
+                    JSci.instruments.PTTwoDBarycentre$3
+                <br>
+                    JSci.instruments.PTTwoDBarycentre$SimulatedBarycentreSource
+                <br>
+                    JSci.instruments.PTTwoDBarycentre$SimulatedBarycentreSource$1
+                <br>
+                    JSci.instruments.PTTwoDBarycentreCross
+                <br>
+                    JSci.instruments.PTTwoDBarycentreCross$1
+                <br>
+                    JSci.instruments.PTTwoDBarycentreCross$2
+                <br>
+                    JSci.instruments.Player
+                <br>
+                    JSci.instruments.Player$1
+                <br>
+                    JSci.instruments.RectangularROI
+                <br>
+                    JSci.instruments.Simulated
+                <br>
+                    JSci.instruments.Simulated$1
+                <br>
+                    JSci.instruments.Simulated$2
+                <br>
+                    JSci.instruments.TestImageSource
+                <br>
+                    JSci.instruments.TestImageSource$1
+                <br>
+                    JSci.instruments.TestImageSource$2
+                <br>
+                    JSci.instruments.TwoROI
+                <br>
+                    JSci.instruments.TwoROI$1
+                <br>
+                    JSci.instruments.TwoROI$2
+                <br>
+                    JSci.instruments.TwoROI$3
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.instruments.pi">JSci.instruments.pi</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci.swing">JSci.swing</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.instruments.pi">JSci.instruments.pi</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.04</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0.04</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.instruments.pi.Mercury
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.instruments.pi.Mercury$1
+                <br>
+                    JSci.instruments.pi.Mercury$10
+                <br>
+                    JSci.instruments.pi.Mercury$11
+                <br>
+                    JSci.instruments.pi.Mercury$12
+                <br>
+                    JSci.instruments.pi.Mercury$13
+                <br>
+                    JSci.instruments.pi.Mercury$14
+                <br>
+                    JSci.instruments.pi.Mercury$15
+                <br>
+                    JSci.instruments.pi.Mercury$16
+                <br>
+                    JSci.instruments.pi.Mercury$17
+                <br>
+                    JSci.instruments.pi.Mercury$18
+                <br>
+                    JSci.instruments.pi.Mercury$19
+                <br>
+                    JSci.instruments.pi.Mercury$1ActposChangeListener
+                <br>
+                    JSci.instruments.pi.Mercury$1ActposChangeListener$1
+                <br>
+                    JSci.instruments.pi.Mercury$1ActvelChangeListener
+                <br>
+                    JSci.instruments.pi.Mercury$1ActvelChangeListener$1
+                <br>
+                    JSci.instruments.pi.Mercury$2
+                <br>
+                    JSci.instruments.pi.Mercury$20
+                <br>
+                    JSci.instruments.pi.Mercury$21
+                <br>
+                    JSci.instruments.pi.Mercury$3
+                <br>
+                    JSci.instruments.pi.Mercury$4
+                <br>
+                    JSci.instruments.pi.Mercury$5
+                <br>
+                    JSci.instruments.pi.Mercury$6
+                <br>
+                    JSci.instruments.pi.Mercury$7
+                <br>
+                    JSci.instruments.pi.Mercury$8
+                <br>
+                    JSci.instruments.pi.Mercury$9
+                <br>
+                    JSci.instruments.pi.PiezoServo
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.instruments">JSci.instruments</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.io">JSci.io</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 12</td><td><a href="#EXabstractness">Abstractness</a>: 0.12</td><td><a href="#EXinstability">Instability</a>: 0.86</td><td><a href="#EXdistance">Distance</a>: 0.02</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.io.MathMLParser$Translator
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.io.MathMLDocumentJSciImpl
+                <br>
+                    JSci.io.MathMLExpression
+                <br>
+                    JSci.io.MathMLParser
+                <br>
+                    JSci.io.MathMLParser$JSciCodeTranslator
+                <br>
+                    JSci.io.MathMLParser$JSciObjectTranslator
+                <br>
+                    JSci.io.TextReader
+                <br>
+                    JSci.io.TextWriter
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.beans">JSci.beans</a>
+<br>
+<a href="#PKJSci.tests">JSci.tests</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci.mathml">JSci.mathml</a>
+<br>
+<a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.algebras">JSci.maths.algebras</a>
+<br>
+<a href="#PKJSci.maths.fields">JSci.maths.fields</a>
+<br>
+<a href="#PKJSci.maths.groups">JSci.maths.groups</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+<a href="#PKorg.apache.xerces.dom">org.apache.xerces.dom</a>
+<br>
+<a href="#PKorg.apache.xerces.parsers">org.apache.xerces.parsers</a>
+<br>
+<a href="#PKorg.w3c.dom">org.w3c.dom</a>
+<br>
+<a href="#PKorg.w3c.dom.mathml">org.w3c.dom.mathml</a>
+<br>
+<a href="#PKorg.xml.sax">org.xml.sax</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.mathml">JSci.mathml</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 3</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 0.75</td><td><a href="#EXdistance">Distance</a>: 0.25</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.mathml.MathMLActionElementImpl
+                <br>
+                    JSci.mathml.MathMLAlignGroupElementImpl
+                <br>
+                    JSci.mathml.MathMLAlignMarkElementImpl
+                <br>
+                    JSci.mathml.MathMLAnnotationElementImpl
+                <br>
+                    JSci.mathml.MathMLApplyElementImpl
+                <br>
+                    JSci.mathml.MathMLBinaryOpImpl
+                <br>
+                    JSci.mathml.MathMLBinaryRelImpl
+                <br>
+                    JSci.mathml.MathMLBvarElementImpl
+                <br>
+                    JSci.mathml.MathMLCiElementImpl
+                <br>
+                    JSci.mathml.MathMLCnElementImpl
+                <br>
+                    JSci.mathml.MathMLConditionElementImpl
+                <br>
+                    JSci.mathml.MathMLContentContainerImpl
+                <br>
+                    JSci.mathml.MathMLContentContainerImpl$1
+                <br>
+                    JSci.mathml.MathMLContentContainerImpl$2
+                <br>
+                    JSci.mathml.MathMLContentTokenImpl
+                <br>
+                    JSci.mathml.MathMLContentTokenImpl$1
+                <br>
+                    JSci.mathml.MathMLCsymbolElementImpl
+                <br>
+                    JSci.mathml.MathMLDOMImplementationImpl
+                <br>
+                    JSci.mathml.MathMLDocumentImpl
+                <br>
+                    JSci.mathml.MathMLElementImpl
+                <br>
+                    JSci.mathml.MathMLEncloseElementImpl
+                <br>
+                    JSci.mathml.MathMLFencedElementImpl
+                <br>
+                    JSci.mathml.MathMLFnElementImpl
+                <br>
+                    JSci.mathml.MathMLFractionElementImpl
+                <br>
+                    JSci.mathml.MathMLFunctionImpl
+                <br>
+                    JSci.mathml.MathMLGlyphElementImpl
+                <br>
+                    JSci.mathml.MathMLListElementImpl
+                <br>
+                    JSci.mathml.MathMLMathElementImpl
+                <br>
+                    JSci.mathml.MathMLMathElementImpl$1
+                <br>
+                    JSci.mathml.MathMLMathElementImpl$2
+                <br>
+                    JSci.mathml.MathMLMatrixElementImpl
+                <br>
+                    JSci.mathml.MathMLMatrixElementImpl$1
+                <br>
+                    JSci.mathml.MathMLMatrixrowElementImpl
+                <br>
+                    JSci.mathml.MathMLNaryOpImpl
+                <br>
+                    JSci.mathml.MathMLNaryRelImpl
+                <br>
+                    JSci.mathml.MathMLPaddedElementImpl
+                <br>
+                    JSci.mathml.MathMLPredefinedSymbolImpl
+                <br>
+                    JSci.mathml.MathMLPresentationContainerImpl
+                <br>
+                    JSci.mathml.MathMLPresentationContainerImpl$1
+                <br>
+                    JSci.mathml.MathMLPresentationContainerImpl$2
+                <br>
+                    JSci.mathml.MathMLPresentationTokenImpl
+                <br>
+                    JSci.mathml.MathMLRadicalElementImpl
+                <br>
+                    JSci.mathml.MathMLScriptElementImpl
+                <br>
+                    JSci.mathml.MathMLSetElementImpl
+                <br>
+                    JSci.mathml.MathMLSpaceElementImpl
+                <br>
+                    JSci.mathml.MathMLStringLitElementImpl
+                <br>
+                    JSci.mathml.MathMLTendsToElementImpl
+                <br>
+                    JSci.mathml.MathMLUnaryOpImpl
+                <br>
+                    JSci.mathml.MathMLUnderOverElementImpl
+                <br>
+                    JSci.mathml.MathMLVectorElementImpl
+                <br>
+                    JSci.mathml.MathMLXMLAnnotationElementImpl
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.io">JSci.io</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKorg.apache.xerces.dom">org.apache.xerces.dom</a>
+<br>
+<a href="#PKorg.w3c.dom">org.w3c.dom</a>
+<br>
+<a href="#PKorg.w3c.dom.mathml">org.w3c.dom.mathml</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths">JSci.maths</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 32</td><td><a href="#EXefferent">Efferent Couplings</a>: 8</td><td><a href="#EXabstractness">Abstractness</a>: 0.28</td><td><a href="#EXinstability">Instability</a>: 0.2</td><td><a href="#EXdistance">Distance</a>: 0.52</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.maths.AbstractMath
+                <br>
+                    JSci.maths.ComplexMapping
+                <br>
+                    JSci.maths.Mapping
+                <br>
+                    JSci.maths.MappingND
+                <br>
+                    JSci.maths.MathSet
+                <br>
+                    JSci.maths.Member
+                <br>
+                    JSci.maths.NumericalConstants
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.maths.ArrayMath
+                <br>
+                    JSci.maths.Complex
+                <br>
+                    JSci.maths.CoordinateMath
+                <br>
+                    JSci.maths.DimensionException
+                <br>
+                    JSci.maths.EngineerMath
+                <br>
+                    JSci.maths.ExtraMath
+                <br>
+                    JSci.maths.FiniteSet
+                <br>
+                    JSci.maths.FourierMath
+                <br>
+                    JSci.maths.KarhunenLoeve
+                <br>
+                    JSci.maths.LinearMath
+                <br>
+                    JSci.maths.MathDouble
+                <br>
+                    JSci.maths.MathInteger
+                <br>
+                    JSci.maths.MaximumIterationsExceededException
+                <br>
+                    JSci.maths.NumericalMath
+                <br>
+                    JSci.maths.Quaternion
+                <br>
+                    JSci.maths.SpecialMath
+                <br>
+                    JSci.maths.Supernumber
+                <br>
+                    JSci.maths.WaveletMath
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.awt">JSci.awt</a>
+<br>
+<a href="#PKJSci.beans">JSci.beans</a>
+<br>
+<a href="#PKJSci.io">JSci.io</a>
+<br>
+<a href="#PKJSci.maths.algebras">JSci.maths.algebras</a>
+<br>
+<a href="#PKJSci.maths.analysis">JSci.maths.analysis</a>
+<br>
+<a href="#PKJSci.maths.categories">JSci.maths.categories</a>
+<br>
+<a href="#PKJSci.maths.chaos">JSci.maths.chaos</a>
+<br>
+<a href="#PKJSci.maths.fields">JSci.maths.fields</a>
+<br>
+<a href="#PKJSci.maths.groups">JSci.maths.groups</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+<a href="#PKJSci.maths.polynomials">JSci.maths.polynomials</a>
+<br>
+<a href="#PKJSci.maths.statistics">JSci.maths.statistics</a>
+<br>
+<a href="#PKJSci.maths.symbolic">JSci.maths.symbolic</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+<a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+<a href="#PKJSci.maths.wavelet.cdf2_4">JSci.maths.wavelet.cdf2_4</a>
+<br>
+<a href="#PKJSci.maths.wavelet.cdf3_5">JSci.maths.wavelet.cdf3_5</a>
+<br>
+<a href="#PKJSci.maths.wavelet.daubechies2">JSci.maths.wavelet.daubechies2</a>
+<br>
+<a href="#PKJSci.maths.wavelet.daubechies3">JSci.maths.wavelet.daubechies3</a>
+<br>
+<a href="#PKJSci.maths.wavelet.daubechies4">JSci.maths.wavelet.daubechies4</a>
+<br>
+<a href="#PKJSci.maths.wavelet.daubechies5">JSci.maths.wavelet.daubechies5</a>
+<br>
+<a href="#PKJSci.maths.wavelet.daubechies6">JSci.maths.wavelet.daubechies6</a>
+<br>
+<a href="#PKJSci.maths.wavelet.daubechies7">JSci.maths.wavelet.daubechies7</a>
+<br>
+<a href="#PKJSci.maths.wavelet.daubechies8">JSci.maths.wavelet.daubechies8</a>
+<br>
+<a href="#PKJSci.maths.wavelet.haar">JSci.maths.wavelet.haar</a>
+<br>
+<a href="#PKJSci.maths.wavelet.splines">JSci.maths.wavelet.splines</a>
+<br>
+<a href="#PKJSci.physics">JSci.physics</a>
+<br>
+<a href="#PKJSci.physics.quantum">JSci.physics.quantum</a>
+<br>
+<a href="#PKJSci.physics.relativity">JSci.physics.relativity</a>
+<br>
+<a href="#PKJSci.swing">JSci.swing</a>
+<br>
+<a href="#PKJSci.tests">JSci.tests</a>
+<br>
+<a href="#PKJSci.util">JSci.util</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci">JSci</a>
+<br>
+<a href="#PKJSci.maths.algebras">JSci.maths.algebras</a>
+<br>
+<a href="#PKJSci.maths.analysis">JSci.maths.analysis</a>
+<br>
+<a href="#PKJSci.maths.fields">JSci.maths.fields</a>
+<br>
+<a href="#PKJSci.maths.groups">JSci.maths.groups</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+<a href="#PKJSci.maths.polynomials">JSci.maths.polynomials</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.algebras">JSci.maths.algebras</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 6</td><td><a href="#EXefferent">Efferent Couplings</a>: 5</td><td><a href="#EXabstractness">Abstractness</a>: 0.63</td><td><a href="#EXinstability">Instability</a>: 0.45</td><td><a href="#EXdistance">Distance</a>: 0.09</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.maths.algebras.Algebra
+                <br>
+                    JSci.maths.algebras.Algebra$Member
+                <br>
+                    JSci.maths.algebras.BanachSpace
+                <br>
+                    JSci.maths.algebras.BanachSpace$Member
+                <br>
+                    JSci.maths.algebras.CStarAlgebra
+                <br>
+                    JSci.maths.algebras.CStarAlgebra$Member
+                <br>
+                    JSci.maths.algebras.HilbertSpace$Member
+                <br>
+                    JSci.maths.algebras.LieAlgebra
+                <br>
+                    JSci.maths.algebras.Module
+                <br>
+                    JSci.maths.algebras.Module$Member
+                <br>
+                    JSci.maths.algebras.VectorSpace
+                <br>
+                    JSci.maths.algebras.VectorSpace$Member
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.maths.algebras.HilbertSpace
+                <br>
+                    JSci.maths.algebras.so3_1Dim4
+                <br>
+                    JSci.maths.algebras.sp2_RDim2
+                <br>
+                    JSci.maths.algebras.sp2_RDim3
+                <br>
+                    JSci.maths.algebras.su2Dim2
+                <br>
+                    JSci.maths.algebras.su2Dim3
+                <br>
+                    JSci.maths.algebras.su3Dim3
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.io">JSci.io</a>
+<br>
+<a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.categories">JSci.maths.categories</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+<a href="#PKJSci.physics.quantum">JSci.physics.quantum</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.fields">JSci.maths.fields</a>
+<br>
+<a href="#PKJSci.maths.groups">JSci.maths.groups</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.analysis">JSci.maths.analysis</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 4</td><td><a href="#EXefferent">Efferent Couplings</a>: 4</td><td><a href="#EXabstractness">Abstractness</a>: 0.09</td><td><a href="#EXinstability">Instability</a>: 0.5</td><td><a href="#EXdistance">Distance</a>: 0.41</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.maths.analysis.ComplexFunction
+                <br>
+                    JSci.maths.analysis.RealFunction
+                <br>
+                    JSci.maths.analysis.RealFunction2D
+                <br>
+                    JSci.maths.analysis.RealFunctionND
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.maths.analysis.ComplexExponential
+                <br>
+                    JSci.maths.analysis.ComplexFunction$Composition
+                <br>
+                    JSci.maths.analysis.ComplexFunction$Constant
+                <br>
+                    JSci.maths.analysis.ComplexFunction$Difference
+                <br>
+                    JSci.maths.analysis.ComplexFunction$Negation
+                <br>
+                    JSci.maths.analysis.ComplexFunction$Product
+                <br>
+                    JSci.maths.analysis.ComplexFunction$Quotient
+                <br>
+                    JSci.maths.analysis.ComplexFunction$Reciprocal
+                <br>
+                    JSci.maths.analysis.ComplexFunction$Sum
+                <br>
+                    JSci.maths.analysis.Cosine
+                <br>
+                    JSci.maths.analysis.Exponential
+                <br>
+                    JSci.maths.analysis.Power
+                <br>
+                    JSci.maths.analysis.RealFunction$Composition
+                <br>
+                    JSci.maths.analysis.RealFunction$Constant
+                <br>
+                    JSci.maths.analysis.RealFunction$Difference
+                <br>
+                    JSci.maths.analysis.RealFunction$Negation
+                <br>
+                    JSci.maths.analysis.RealFunction$Product
+                <br>
+                    JSci.maths.analysis.RealFunction$Quotient
+                <br>
+                    JSci.maths.analysis.RealFunction$Reciprocal
+                <br>
+                    JSci.maths.analysis.RealFunction$Sum
+                <br>
+                    JSci.maths.analysis.RealFunction$TensorProduct2D
+                <br>
+                    JSci.maths.analysis.RealFunction2D$Constant
+                <br>
+                    JSci.maths.analysis.RealFunction2D$Difference
+                <br>
+                    JSci.maths.analysis.RealFunction2D$Negation
+                <br>
+                    JSci.maths.analysis.RealFunction2D$Product
+                <br>
+                    JSci.maths.analysis.RealFunction2D$Quotient
+                <br>
+                    JSci.maths.analysis.RealFunction2D$Reciprocal
+                <br>
+                    JSci.maths.analysis.RealFunction2D$Sum
+                <br>
+                    JSci.maths.analysis.RealFunction2D$TensorProduct3D
+                <br>
+                    JSci.maths.analysis.RealFunction2D$TensorProduct4D
+                <br>
+                    JSci.maths.analysis.RealFunctionND$Constant
+                <br>
+                    JSci.maths.analysis.RealFunctionND$Difference
+                <br>
+                    JSci.maths.analysis.RealFunctionND$Negation
+                <br>
+                    JSci.maths.analysis.RealFunctionND$Product
+                <br>
+                    JSci.maths.analysis.RealFunctionND$Quotient
+                <br>
+                    JSci.maths.analysis.RealFunctionND$Reciprocal
+                <br>
+                    JSci.maths.analysis.RealFunctionND$Sum
+                <br>
+                    JSci.maths.analysis.RealFunctionND$TensorProductN1D
+                <br>
+                    JSci.maths.analysis.RealFunctionND$TensorProductND
+                <br>
+                    JSci.maths.analysis.Sine
+                <br>
+                    JSci.maths.analysis.Tangent
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.polynomials">JSci.maths.polynomials</a>
+<br>
+<a href="#PKJSci.maths.symbolic">JSci.maths.symbolic</a>
+<br>
+<a href="#PKJSci.tests">JSci.tests</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.fields">JSci.maths.fields</a>
+<br>
+<a href="#PKJSci.maths.groups">JSci.maths.groups</a>
+<br>
+<a href="#PKJSci.maths.polynomials">JSci.maths.polynomials</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.categories">JSci.maths.categories</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 6</td><td><a href="#EXabstractness">Abstractness</a>: 0.24</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0.24</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.maths.categories.Bifunctor
+                <br>
+                    JSci.maths.categories.Category
+                <br>
+                    JSci.maths.categories.Category$HomSet
+                <br>
+                    JSci.maths.categories.Category$Morphism
+                <br>
+                    JSci.maths.categories.Functor
+                <br>
+                    JSci.maths.categories.NaturalTransformation
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.maths.categories.FinSet
+                <br>
+                    JSci.maths.categories.FinSet$Function
+                <br>
+                    JSci.maths.categories.FinSet$FunctionSet
+                <br>
+                    JSci.maths.categories.FinSet$IdentityFunction
+                <br>
+                    JSci.maths.categories.Hilb
+                <br>
+                    JSci.maths.categories.Hilb$LinearMap
+                <br>
+                    JSci.maths.categories.Hilb$OperatorSpace
+                <br>
+                    JSci.maths.categories.HomFunctor
+                <br>
+                    JSci.maths.categories.HomFunctor$HomMorphism
+                <br>
+                    JSci.maths.categories.Preorder
+                <br>
+                    JSci.maths.categories.Preorder$Relation
+                <br>
+                    JSci.maths.categories.Preorder$RelationSet
+                <br>
+                    JSci.maths.categories.Simplicial
+                <br>
+                    JSci.maths.categories.Simplicial$Addition
+                <br>
+                    JSci.maths.categories.Simplicial$DegeneracyMap
+                <br>
+                    JSci.maths.categories.Simplicial$FaceMap
+                <br>
+                    JSci.maths.categories.Simplicial$FunctionSet
+                <br>
+                    JSci.maths.categories.Simplicial$IncreasingMap
+                <br>
+                    JSci.maths.categories.UndefinedCompositionException
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.algebras">JSci.maths.algebras</a>
+<br>
+<a href="#PKJSci.maths.fields">JSci.maths.fields</a>
+<br>
+<a href="#PKJSci.maths.groups">JSci.maths.groups</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.chaos">JSci.maths.chaos</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.2</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0.2</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.maths.chaos.CantorDust
+                <br>
+                    JSci.maths.chaos.KochCurve
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.maths.chaos.CatMap
+                <br>
+                    JSci.maths.chaos.GingerbreadManMap
+                <br>
+                    JSci.maths.chaos.HenonMap
+                <br>
+                    JSci.maths.chaos.JuliaSet
+                <br>
+                    JSci.maths.chaos.LogisticMap
+                <br>
+                    JSci.maths.chaos.MandelbrotMap
+                <br>
+                    JSci.maths.chaos.MandelbrotSet
+                <br>
+                    JSci.maths.chaos.StandardMap
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.fields">JSci.maths.fields</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 11</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0.57</td><td><a href="#EXinstability">Instability</a>: 0.15</td><td><a href="#EXdistance">Distance</a>: 0.27</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.maths.fields.Field
+                <br>
+                    JSci.maths.fields.Field$Member
+                <br>
+                    JSci.maths.fields.Ring
+                <br>
+                    JSci.maths.fields.Ring$Member
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.maths.fields.ComplexField
+                <br>
+                    JSci.maths.fields.IntegerRing
+                <br>
+                    JSci.maths.fields.RealField
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.io">JSci.io</a>
+<br>
+<a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.algebras">JSci.maths.algebras</a>
+<br>
+<a href="#PKJSci.maths.analysis">JSci.maths.analysis</a>
+<br>
+<a href="#PKJSci.maths.categories">JSci.maths.categories</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+<a href="#PKJSci.maths.polynomials">JSci.maths.polynomials</a>
+<br>
+<a href="#PKJSci.maths.symbolic">JSci.maths.symbolic</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+<a href="#PKJSci.physics.quantum">JSci.physics.quantum</a>
+<br>
+<a href="#PKJSci.tests">JSci.tests</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.groups">JSci.maths.groups</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.groups">JSci.maths.groups</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 12</td><td><a href="#EXefferent">Efferent Couplings</a>: 3</td><td><a href="#EXabstractness">Abstractness</a>: 0.53</td><td><a href="#EXinstability">Instability</a>: 0.2</td><td><a href="#EXdistance">Distance</a>: 0.27</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.maths.groups.AbelianGroup
+                <br>
+                    JSci.maths.groups.AbelianGroup$Member
+                <br>
+                    JSci.maths.groups.FiniteGroup
+                <br>
+                    JSci.maths.groups.Group
+                <br>
+                    JSci.maths.groups.Group$Member
+                <br>
+                    JSci.maths.groups.Monoid
+                <br>
+                    JSci.maths.groups.Monoid$Member
+                <br>
+                    JSci.maths.groups.Semigroup
+                <br>
+                    JSci.maths.groups.Semigroup$Member
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.maths.groups.CyclicGroup
+                <br>
+                    JSci.maths.groups.CyclicGroup$Member
+                <br>
+                    JSci.maths.groups.DihedralGroup
+                <br>
+                    JSci.maths.groups.DihedralGroup$Member
+                <br>
+                    JSci.maths.groups.LieGroup
+                <br>
+                    JSci.maths.groups.QuaternionGroup
+                <br>
+                    JSci.maths.groups.QuaternionGroup$Member
+                <br>
+                    JSci.maths.groups.U1
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.io">JSci.io</a>
+<br>
+<a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.algebras">JSci.maths.algebras</a>
+<br>
+<a href="#PKJSci.maths.analysis">JSci.maths.analysis</a>
+<br>
+<a href="#PKJSci.maths.categories">JSci.maths.categories</a>
+<br>
+<a href="#PKJSci.maths.fields">JSci.maths.fields</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+<a href="#PKJSci.maths.polynomials">JSci.maths.polynomials</a>
+<br>
+<a href="#PKJSci.maths.symbolic">JSci.maths.symbolic</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+<a href="#PKJSci.physics.quantum">JSci.physics.quantum</a>
+<br>
+<a href="#PKJSci.tests">JSci.tests</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.matrices">JSci.maths.matrices</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 11</td><td><a href="#EXefferent">Efferent Couplings</a>: 6</td><td><a href="#EXabstractness">Abstractness</a>: 0.29</td><td><a href="#EXinstability">Instability</a>: 0.35</td><td><a href="#EXdistance">Distance</a>: 0.35</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.maths.matrices.AbstractComplexMatrix
+                <br>
+                    JSci.maths.matrices.AbstractComplexSquareMatrix
+                <br>
+                    JSci.maths.matrices.AbstractDoubleMatrix
+                <br>
+                    JSci.maths.matrices.AbstractDoubleSquareMatrix
+                <br>
+                    JSci.maths.matrices.AbstractIntegerMatrix
+                <br>
+                    JSci.maths.matrices.AbstractIntegerSquareMatrix
+                <br>
+                    JSci.maths.matrices.DiagonalMatrix
+                <br>
+                    JSci.maths.matrices.Matrix
+                <br>
+                    JSci.maths.matrices.SquareMatrix
+                <br>
+                    JSci.maths.matrices.TridiagonalMatrix
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.maths.matrices.AbstractComplexSquareMatrix$1
+                <br>
+                    JSci.maths.matrices.AbstractComplexSquareMatrix$SquareMatrixAdaptor
+                <br>
+                    JSci.maths.matrices.AbstractDoubleSquareMatrix$1
+                <br>
+                    JSci.maths.matrices.AbstractDoubleSquareMatrix$SquareMatrixAdaptor
+                <br>
+                    JSci.maths.matrices.AbstractIntegerSquareMatrix$1
+                <br>
+                    JSci.maths.matrices.AbstractIntegerSquareMatrix$SquareMatrixAdaptor
+                <br>
+                    JSci.maths.matrices.ComplexDiagonalMatrix
+                <br>
+                    JSci.maths.matrices.ComplexMatrix
+                <br>
+                    JSci.maths.matrices.ComplexSquareMatrix
+                <br>
+                    JSci.maths.matrices.ComplexTridiagonalMatrix
+                <br>
+                    JSci.maths.matrices.DoubleDiagonalMatrix
+                <br>
+                    JSci.maths.matrices.DoubleMatrix
+                <br>
+                    JSci.maths.matrices.DoubleMatrixAlgebra
+                <br>
+                    JSci.maths.matrices.DoubleSparseMatrix
+                <br>
+                    JSci.maths.matrices.DoubleSparseSquareMatrix
+                <br>
+                    JSci.maths.matrices.DoubleSquareMatrix
+                <br>
+                    JSci.maths.matrices.DoubleTridiagonalMatrix
+                <br>
+                    JSci.maths.matrices.IntegerDiagonalMatrix
+                <br>
+                    JSci.maths.matrices.IntegerMatrix
+                <br>
+                    JSci.maths.matrices.IntegerMatrixAlgebra
+                <br>
+                    JSci.maths.matrices.IntegerSquareMatrix
+                <br>
+                    JSci.maths.matrices.IntegerTridiagonalMatrix
+                <br>
+                    JSci.maths.matrices.MatrixDimensionException
+                <br>
+                    JSci.maths.matrices.RingMatrix
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.beans">JSci.beans</a>
+<br>
+<a href="#PKJSci.io">JSci.io</a>
+<br>
+<a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.algebras">JSci.maths.algebras</a>
+<br>
+<a href="#PKJSci.maths.categories">JSci.maths.categories</a>
+<br>
+<a href="#PKJSci.maths.groups">JSci.maths.groups</a>
+<br>
+<a href="#PKJSci.maths.polynomials">JSci.maths.polynomials</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+<a href="#PKJSci.physics.quantum">JSci.physics.quantum</a>
+<br>
+<a href="#PKJSci.tests">JSci.tests</a>
+<br>
+<a href="#PKJSci.util">JSci.util</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci">JSci</a>
+<br>
+<a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.algebras">JSci.maths.algebras</a>
+<br>
+<a href="#PKJSci.maths.fields">JSci.maths.fields</a>
+<br>
+<a href="#PKJSci.maths.groups">JSci.maths.groups</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.polynomials">JSci.maths.polynomials</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 3</td><td><a href="#EXefferent">Efferent Couplings</a>: 6</td><td><a href="#EXabstractness">Abstractness</a>: 0.18</td><td><a href="#EXinstability">Instability</a>: 0.67</td><td><a href="#EXdistance">Distance</a>: 0.15</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.maths.polynomials.Polynomial
+                <br>
+                    JSci.maths.polynomials.PolynomialBasis
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.maths.polynomials.ChebychevBasis
+                <br>
+                    JSci.maths.polynomials.ComplexLagrangeBasis
+                <br>
+                    JSci.maths.polynomials.ComplexPolynomial
+                <br>
+                    JSci.maths.polynomials.ComplexPolynomialRing
+                <br>
+                    JSci.maths.polynomials.PolynomialMath
+                <br>
+                    JSci.maths.polynomials.RealLagrangeBasis
+                <br>
+                    JSci.maths.polynomials.RealMonomialBasis
+                <br>
+                    JSci.maths.polynomials.RealPolynomial
+                <br>
+                    JSci.maths.polynomials.RealPolynomialRing
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.analysis">JSci.maths.analysis</a>
+<br>
+<a href="#PKJSci.tests">JSci.tests</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci">JSci</a>
+<br>
+<a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.analysis">JSci.maths.analysis</a>
+<br>
+<a href="#PKJSci.maths.fields">JSci.maths.fields</a>
+<br>
+<a href="#PKJSci.maths.groups">JSci.maths.groups</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.statistics">JSci.maths.statistics</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.06</td><td><a href="#EXinstability">Instability</a>: 0.5</td><td><a href="#EXdistance">Distance</a>: 0.44</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.maths.statistics.ProbabilityDistribution
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.maths.statistics.BetaDistribution
+                <br>
+                    JSci.maths.statistics.BinomialDistribution
+                <br>
+                    JSci.maths.statistics.CauchyDistribution
+                <br>
+                    JSci.maths.statistics.ChiSqrDistribution
+                <br>
+                    JSci.maths.statistics.ExponentialDistribution
+                <br>
+                    JSci.maths.statistics.FDistribution
+                <br>
+                    JSci.maths.statistics.GammaDistribution
+                <br>
+                    JSci.maths.statistics.GeometricDistribution
+                <br>
+                    JSci.maths.statistics.LognormalDistribution
+                <br>
+                    JSci.maths.statistics.NormalDistribution
+                <br>
+                    JSci.maths.statistics.OutOfRangeException
+                <br>
+                    JSci.maths.statistics.ParetoDistribution
+                <br>
+                    JSci.maths.statistics.PoissonDistribution
+                <br>
+                    JSci.maths.statistics.SampleStatistics
+                <br>
+                    JSci.maths.statistics.TDistribution
+                <br>
+                    JSci.maths.statistics.WeibullDistribution
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.tests">JSci.tests</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.symbolic">JSci.maths.symbolic</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 4</td><td><a href="#EXabstractness">Abstractness</a>: 0.11</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0.11</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.maths.symbolic.Expression
+                <br>
+                    JSci.maths.symbolic.ExpressionParserConstants
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.maths.symbolic.Constant
+                <br>
+                    JSci.maths.symbolic.Evaluation
+                <br>
+                    JSci.maths.symbolic.ExpressionParser
+                <br>
+                    JSci.maths.symbolic.ExpressionParser$1
+                <br>
+                    JSci.maths.symbolic.ExpressionParser$JJCalls
+                <br>
+                    JSci.maths.symbolic.ExpressionParser$LookaheadSuccess
+                <br>
+                    JSci.maths.symbolic.ExpressionParserTokenManager
+                <br>
+                    JSci.maths.symbolic.Function
+                <br>
+                    JSci.maths.symbolic.Negative
+                <br>
+                    JSci.maths.symbolic.ParseException
+                <br>
+                    JSci.maths.symbolic.Power
+                <br>
+                    JSci.maths.symbolic.Product
+                <br>
+                    JSci.maths.symbolic.SimpleCharStream
+                <br>
+                    JSci.maths.symbolic.Sum
+                <br>
+                    JSci.maths.symbolic.Token
+                <br>
+                    JSci.maths.symbolic.TokenMgrError
+                <br>
+                    JSci.maths.symbolic.Variable
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.analysis">JSci.maths.analysis</a>
+<br>
+<a href="#PKJSci.maths.fields">JSci.maths.fields</a>
+<br>
+<a href="#PKJSci.maths.groups">JSci.maths.groups</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.vectors">JSci.maths.vectors</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 13</td><td><a href="#EXefferent">Efferent Couplings</a>: 6</td><td><a href="#EXabstractness">Abstractness</a>: 0.27</td><td><a href="#EXinstability">Instability</a>: 0.32</td><td><a href="#EXdistance">Distance</a>: 0.42</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.maths.vectors.AbstractComplexVector
+                <br>
+                    JSci.maths.vectors.AbstractDoubleVector
+                <br>
+                    JSci.maths.vectors.AbstractIntegerVector
+                <br>
+                    JSci.maths.vectors.MathVector
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.maths.vectors.Complex2Vector
+                <br>
+                    JSci.maths.vectors.Complex3Vector
+                <br>
+                    JSci.maths.vectors.ComplexVector
+                <br>
+                    JSci.maths.vectors.Double2Vector
+                <br>
+                    JSci.maths.vectors.Double3Vector
+                <br>
+                    JSci.maths.vectors.DoubleSparseVector
+                <br>
+                    JSci.maths.vectors.DoubleVector
+                <br>
+                    JSci.maths.vectors.Integer2Vector
+                <br>
+                    JSci.maths.vectors.Integer3Vector
+                <br>
+                    JSci.maths.vectors.IntegerVector
+                <br>
+                    JSci.maths.vectors.VectorDimensionException
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.beans">JSci.beans</a>
+<br>
+<a href="#PKJSci.io">JSci.io</a>
+<br>
+<a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.algebras">JSci.maths.algebras</a>
+<br>
+<a href="#PKJSci.maths.categories">JSci.maths.categories</a>
+<br>
+<a href="#PKJSci.maths.groups">JSci.maths.groups</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+<a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+<a href="#PKJSci.physics">JSci.physics</a>
+<br>
+<a href="#PKJSci.physics.quantum">JSci.physics.quantum</a>
+<br>
+<a href="#PKJSci.physics.relativity">JSci.physics.relativity</a>
+<br>
+<a href="#PKJSci.tests">JSci.tests</a>
+<br>
+<a href="#PKJSci.util">JSci.util</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci">JSci</a>
+<br>
+<a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.algebras">JSci.maths.algebras</a>
+<br>
+<a href="#PKJSci.maths.fields">JSci.maths.fields</a>
+<br>
+<a href="#PKJSci.maths.groups">JSci.maths.groups</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 12</td><td><a href="#EXefferent">Efferent Couplings</a>: 5</td><td><a href="#EXabstractness">Abstractness</a>: 0.24</td><td><a href="#EXinstability">Instability</a>: 0.29</td><td><a href="#EXdistance">Distance</a>: 0.47</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.maths.wavelet.FWT
+                <br>
+                    JSci.maths.wavelet.Filter
+                <br>
+                    JSci.maths.wavelet.Multiresolution
+                <br>
+                    JSci.maths.wavelet.MultiscaleFunction
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.maths.wavelet.BasisFunctionLibrary
+                <br>
+                    JSci.maths.wavelet.Cascades
+                <br>
+                    JSci.maths.wavelet.Cosine
+                <br>
+                    JSci.maths.wavelet.DiscreteFunction
+                <br>
+                    JSci.maths.wavelet.DiscreteHilbertSpace
+                <br>
+                    JSci.maths.wavelet.FWTCoef
+                <br>
+                    JSci.maths.wavelet.FWTCoefMath
+                <br>
+                    JSci.maths.wavelet.FWTPacketCoef
+                <br>
+                    JSci.maths.wavelet.IllegalScalingException
+                <br>
+                    JSci.maths.wavelet.MatchingPursuit
+                <br>
+                    JSci.maths.wavelet.Signal
+                <br>
+                    JSci.maths.wavelet.Sine
+                <br>
+                    JSci.maths.wavelet.SparseDiscreteFunction
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.maths.wavelet.cdf2_4">JSci.maths.wavelet.cdf2_4</a>
+<br>
+<a href="#PKJSci.maths.wavelet.cdf3_5">JSci.maths.wavelet.cdf3_5</a>
+<br>
+<a href="#PKJSci.maths.wavelet.daubechies2">JSci.maths.wavelet.daubechies2</a>
+<br>
+<a href="#PKJSci.maths.wavelet.daubechies3">JSci.maths.wavelet.daubechies3</a>
+<br>
+<a href="#PKJSci.maths.wavelet.daubechies4">JSci.maths.wavelet.daubechies4</a>
+<br>
+<a href="#PKJSci.maths.wavelet.daubechies5">JSci.maths.wavelet.daubechies5</a>
+<br>
+<a href="#PKJSci.maths.wavelet.daubechies6">JSci.maths.wavelet.daubechies6</a>
+<br>
+<a href="#PKJSci.maths.wavelet.daubechies7">JSci.maths.wavelet.daubechies7</a>
+<br>
+<a href="#PKJSci.maths.wavelet.daubechies8">JSci.maths.wavelet.daubechies8</a>
+<br>
+<a href="#PKJSci.maths.wavelet.haar">JSci.maths.wavelet.haar</a>
+<br>
+<a href="#PKJSci.maths.wavelet.splines">JSci.maths.wavelet.splines</a>
+<br>
+<a href="#PKJSci.maths.wavelet.symmlet8">JSci.maths.wavelet.symmlet8</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci">JSci</a>
+<br>
+<a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+<a href="#PKJSci.maths.wavelet.splines">JSci.maths.wavelet.splines</a>
+<br>
+<a href="#PKJSci.util">JSci.util</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.wavelet.cdf2_4">JSci.maths.wavelet.cdf2_4</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 3</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.maths.wavelet.cdf2_4.CDF2_4
+                <br>
+                    JSci.maths.wavelet.cdf2_4.DualScaling2_4
+                <br>
+                    JSci.maths.wavelet.cdf2_4.DualWavelet2_4
+                <br>
+                    JSci.maths.wavelet.cdf2_4.FastCDF2_4
+                <br>
+                    JSci.maths.wavelet.cdf2_4.MultiSpline2_4
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+<a href="#PKJSci.maths.wavelet.splines">JSci.maths.wavelet.splines</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.wavelet.cdf3_5">JSci.maths.wavelet.cdf3_5</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 3</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.maths.wavelet.cdf3_5.CDF3_5
+                <br>
+                    JSci.maths.wavelet.cdf3_5.DualScaling3_5
+                <br>
+                    JSci.maths.wavelet.cdf3_5.DualWavelet3_5
+                <br>
+                    JSci.maths.wavelet.cdf3_5.MultiSpline3_5
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+<a href="#PKJSci.maths.wavelet.splines">JSci.maths.wavelet.splines</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.wavelet.daubechies2">JSci.maths.wavelet.daubechies2</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.maths.wavelet.daubechies2.Daubechies2
+                <br>
+                    JSci.maths.wavelet.daubechies2.FastDaubechies2
+                <br>
+                    JSci.maths.wavelet.daubechies2.Scaling2
+                <br>
+                    JSci.maths.wavelet.daubechies2.Wavelet2
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.wavelet.daubechies3">JSci.maths.wavelet.daubechies3</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.maths.wavelet.daubechies3.Daubechies3
+                <br>
+                    JSci.maths.wavelet.daubechies3.Scaling3
+                <br>
+                    JSci.maths.wavelet.daubechies3.Wavelet3
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.wavelet.daubechies4">JSci.maths.wavelet.daubechies4</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.maths.wavelet.daubechies4.Daubechies4
+                <br>
+                    JSci.maths.wavelet.daubechies4.Scaling4
+                <br>
+                    JSci.maths.wavelet.daubechies4.Wavelet4
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.wavelet.daubechies5">JSci.maths.wavelet.daubechies5</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.maths.wavelet.daubechies5.Daubechies5
+                <br>
+                    JSci.maths.wavelet.daubechies5.Scaling5
+                <br>
+                    JSci.maths.wavelet.daubechies5.Wavelet5
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.wavelet.daubechies6">JSci.maths.wavelet.daubechies6</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.maths.wavelet.daubechies6.Daubechies6
+                <br>
+                    JSci.maths.wavelet.daubechies6.Scaling6
+                <br>
+                    JSci.maths.wavelet.daubechies6.Wavelet6
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.wavelet.daubechies7">JSci.maths.wavelet.daubechies7</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.maths.wavelet.daubechies7.Daubechies7
+                <br>
+                    JSci.maths.wavelet.daubechies7.Scaling7
+                <br>
+                    JSci.maths.wavelet.daubechies7.Wavelet7
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.wavelet.daubechies8">JSci.maths.wavelet.daubechies8</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.maths.wavelet.daubechies8.Daubechies8
+                <br>
+                    JSci.maths.wavelet.daubechies8.Scaling8
+                <br>
+                    JSci.maths.wavelet.daubechies8.Wavelet8
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.wavelet.haar">JSci.maths.wavelet.haar</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 3</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.maths.wavelet.haar.FastHaar
+                <br>
+                    JSci.maths.wavelet.haar.MultiSplineHaar
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+<a href="#PKJSci.maths.wavelet.splines">JSci.maths.wavelet.splines</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.wavelet.splines">JSci.maths.wavelet.splines</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 4</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0.2</td><td><a href="#EXinstability">Instability</a>: 0.33</td><td><a href="#EXdistance">Distance</a>: 0.47</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.maths.wavelet.splines.Spline
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.maths.wavelet.splines.LinearSpline
+                <br>
+                    JSci.maths.wavelet.splines.PiecewiseConstant
+                <br>
+                    JSci.maths.wavelet.splines.QuadraticSpline
+                <br>
+                    JSci.maths.wavelet.splines.SumOfDiracs
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+<a href="#PKJSci.maths.wavelet.cdf2_4">JSci.maths.wavelet.cdf2_4</a>
+<br>
+<a href="#PKJSci.maths.wavelet.cdf3_5">JSci.maths.wavelet.cdf3_5</a>
+<br>
+<a href="#PKJSci.maths.wavelet.haar">JSci.maths.wavelet.haar</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.maths.wavelet.symmlet8">JSci.maths.wavelet.symmlet8</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.maths.wavelet.symmlet8.FastSymmlet8
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.physics">JSci.physics</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 4</td><td><a href="#EXefferent">Efferent Couplings</a>: 4</td><td><a href="#EXabstractness">Abstractness</a>: 0.36</td><td><a href="#EXinstability">Instability</a>: 0.5</td><td><a href="#EXdistance">Distance</a>: 0.14</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.physics.AbstractClassicalParticle
+                <br>
+                    JSci.physics.Force
+                <br>
+                    JSci.physics.Force2D
+                <br>
+                    JSci.physics.Force3D
+                <br>
+                    JSci.physics.Particle
+                <br>
+                    JSci.physics.PhysicalConstants
+                <br>
+                    JSci.physics.RelativisticParticle
+                <br>
+                    JSci.physics.Torque3D
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.physics.ClassicalParticle
+                <br>
+                    JSci.physics.ClassicalParticle2D
+                <br>
+                    JSci.physics.ClassicalParticle3D
+                <br>
+                    JSci.physics.ConstantForce2D
+                <br>
+                    JSci.physics.ConstantForce3D
+                <br>
+                    JSci.physics.ConstantTorque3D
+                <br>
+                    JSci.physics.Drag
+                <br>
+                    JSci.physics.Drag$Force
+                <br>
+                    JSci.physics.GravityField
+                <br>
+                    JSci.physics.GravityField$Force
+                <br>
+                    JSci.physics.RigidBody2D
+                <br>
+                    JSci.physics.RigidBody3D
+                <br>
+                    JSci.physics.Spring
+                <br>
+                    JSci.physics.Spring$Force
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.astro">JSci.astro</a>
+<br>
+<a href="#PKJSci.chemistry">JSci.chemistry</a>
+<br>
+<a href="#PKJSci.physics.particles">JSci.physics.particles</a>
+<br>
+<a href="#PKJSci.physics.quantum">JSci.physics.quantum</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci">JSci</a>
+<br>
+<a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+<a href="#PKJSci.physics.relativity">JSci.physics.relativity</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.physics.particles">JSci.physics.particles</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 3</td><td><a href="#EXabstractness">Abstractness</a>: 0.29</td><td><a href="#EXinstability">Instability</a>: 0.75</td><td><a href="#EXdistance">Distance</a>: 0.04</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.physics.particles.AntiBaryon
+                <br>
+                    JSci.physics.particles.AntiHadron
+                <br>
+                    JSci.physics.particles.AntiHyperon
+                <br>
+                    JSci.physics.particles.AntiKaon
+                <br>
+                    JSci.physics.particles.AntiLepton
+                <br>
+                    JSci.physics.particles.AntiMeson
+                <br>
+                    JSci.physics.particles.AntiNucleon
+                <br>
+                    JSci.physics.particles.AntiPion
+                <br>
+                    JSci.physics.particles.AntiQuark
+                <br>
+                    JSci.physics.particles.AntiSigma
+                <br>
+                    JSci.physics.particles.AntiXi
+                <br>
+                    JSci.physics.particles.Baryon
+                <br>
+                    JSci.physics.particles.GaugeBoson
+                <br>
+                    JSci.physics.particles.Hadron
+                <br>
+                    JSci.physics.particles.Hyperon
+                <br>
+                    JSci.physics.particles.Kaon
+                <br>
+                    JSci.physics.particles.Lepton
+                <br>
+                    JSci.physics.particles.Meson
+                <br>
+                    JSci.physics.particles.Nucleon
+                <br>
+                    JSci.physics.particles.Pion
+                <br>
+                    JSci.physics.particles.Quark
+                <br>
+                    JSci.physics.particles.Sigma
+                <br>
+                    JSci.physics.particles.Xi
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.physics.particles.AntiBottom
+                <br>
+                    JSci.physics.particles.AntiCharm
+                <br>
+                    JSci.physics.particles.AntiDown
+                <br>
+                    JSci.physics.particles.AntiElectronNeutrino
+                <br>
+                    JSci.physics.particles.AntiKZero
+                <br>
+                    JSci.physics.particles.AntiLambda
+                <br>
+                    JSci.physics.particles.AntiMuon
+                <br>
+                    JSci.physics.particles.AntiMuonNeutrino
+                <br>
+                    JSci.physics.particles.AntiNeutron
+                <br>
+                    JSci.physics.particles.AntiOmegaMinus
+                <br>
+                    JSci.physics.particles.AntiProton
+                <br>
+                    JSci.physics.particles.AntiSigmaMinus
+                <br>
+                    JSci.physics.particles.AntiSigmaPlus
+                <br>
+                    JSci.physics.particles.AntiSigmaZero
+                <br>
+                    JSci.physics.particles.AntiStrange
+                <br>
+                    JSci.physics.particles.AntiTau
+                <br>
+                    JSci.physics.particles.AntiTauNeutrino
+                <br>
+                    JSci.physics.particles.AntiTop
+                <br>
+                    JSci.physics.particles.AntiUp
+                <br>
+                    JSci.physics.particles.AntiXiZero
+                <br>
+                    JSci.physics.particles.Bottom
+                <br>
+                    JSci.physics.particles.Charm
+                <br>
+                    JSci.physics.particles.Down
+                <br>
+                    JSci.physics.particles.Electron
+                <br>
+                    JSci.physics.particles.ElectronNeutrino
+                <br>
+                    JSci.physics.particles.Eta
+                <br>
+                    JSci.physics.particles.Gluon
+                <br>
+                    JSci.physics.particles.Graviton
+                <br>
+                    JSci.physics.particles.KMinus
+                <br>
+                    JSci.physics.particles.KPlus
+                <br>
+                    JSci.physics.particles.KZero
+                <br>
+                    JSci.physics.particles.Lambda
+                <br>
+                    JSci.physics.particles.Muon
+                <br>
+                    JSci.physics.particles.MuonNeutrino
+                <br>
+                    JSci.physics.particles.Neutron
+                <br>
+                    JSci.physics.particles.OmegaMinus
+                <br>
+                    JSci.physics.particles.Photon
+                <br>
+                    JSci.physics.particles.PiMinus
+                <br>
+                    JSci.physics.particles.PiPlus
+                <br>
+                    JSci.physics.particles.PiZero
+                <br>
+                    JSci.physics.particles.Positron
+                <br>
+                    JSci.physics.particles.Proton
+                <br>
+                    JSci.physics.particles.SigmaMinus
+                <br>
+                    JSci.physics.particles.SigmaPlus
+                <br>
+                    JSci.physics.particles.SigmaZero
+                <br>
+                    JSci.physics.particles.Strange
+                <br>
+                    JSci.physics.particles.Tau
+                <br>
+                    JSci.physics.particles.TauNeutrino
+                <br>
+                    JSci.physics.particles.Top
+                <br>
+                    JSci.physics.particles.Up
+                <br>
+                    JSci.physics.particles.WMinus
+                <br>
+                    JSci.physics.particles.WPlus
+                <br>
+                    JSci.physics.particles.XiMinus
+                <br>
+                    JSci.physics.particles.XiPlus
+                <br>
+                    JSci.physics.particles.XiZero
+                <br>
+                    JSci.physics.particles.ZZero
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.chemistry">JSci.chemistry</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci.physics">JSci.physics</a>
+<br>
+<a href="#PKJSci.physics.quantum">JSci.physics.quantum</a>
+<br>
+<a href="#PKJSci.physics.relativity">JSci.physics.relativity</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.physics.quantum">JSci.physics.quantum</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 7</td><td><a href="#EXabstractness">Abstractness</a>: 0.1</td><td><a href="#EXinstability">Instability</a>: 0.88</td><td><a href="#EXdistance">Distance</a>: 0.02</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.physics.quantum.QuantumParticle
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.physics.quantum.BraVector
+                <br>
+                    JSci.physics.quantum.DensityMatrix
+                <br>
+                    JSci.physics.quantum.GammaMatrix
+                <br>
+                    JSci.physics.quantum.KetVector
+                <br>
+                    JSci.physics.quantum.Operator
+                <br>
+                    JSci.physics.quantum.Projector
+                <br>
+                    JSci.physics.quantum.QuantumMath
+                <br>
+                    JSci.physics.quantum.SpinOperator
+                <br>
+                    JSci.physics.quantum.SpinorProjector
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.physics.particles">JSci.physics.particles</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.algebras">JSci.maths.algebras</a>
+<br>
+<a href="#PKJSci.maths.fields">JSci.maths.fields</a>
+<br>
+<a href="#PKJSci.maths.groups">JSci.maths.groups</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+<a href="#PKJSci.physics">JSci.physics</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.physics.relativity">JSci.physics.relativity</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 3</td><td><a href="#EXabstractness">Abstractness</a>: 0.1</td><td><a href="#EXinstability">Instability</a>: 0.6</td><td><a href="#EXdistance">Distance</a>: 0.3</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.physics.relativity.Tensor
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.physics.relativity.EMFieldTensor
+                <br>
+                    JSci.physics.relativity.KroneckerDelta
+                <br>
+                    JSci.physics.relativity.LeviCivita
+                <br>
+                    JSci.physics.relativity.LorentzBoost
+                <br>
+                    JSci.physics.relativity.MinkowskiMetric
+                <br>
+                    JSci.physics.relativity.Rank1Tensor
+                <br>
+                    JSci.physics.relativity.Rank2Tensor
+                <br>
+                    JSci.physics.relativity.Rank3Tensor
+                <br>
+                    JSci.physics.relativity.Rank4Tensor
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.physics">JSci.physics</a>
+<br>
+<a href="#PKJSci.physics.particles">JSci.physics.particles</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci">JSci</a>
+<br>
+<a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.swing">JSci.swing</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0.09</td><td><a href="#EXinstability">Instability</a>: 0.67</td><td><a href="#EXdistance">Distance</a>: 0.25</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    JSci.swing.JCategoryGraph2D
+                <br>
+                    JSci.swing.JDoubleBufferedComponent
+                <br>
+                    JSci.swing.JGraph2D
+                <br>
+</td><td valign="top" width="25%">
+                    JSci.swing.JArcDial
+                <br>
+                    JSci.swing.JArcDial$1
+                <br>
+                    JSci.swing.JArcDial$2
+                <br>
+                    JSci.swing.JArcDial$TheMouseListener
+                <br>
+                    JSci.swing.JArcDial$TheMouseMotionListener
+                <br>
+                    JSci.swing.JBarGraph
+                <br>
+                    JSci.swing.JContourPlot
+                <br>
+                    JSci.swing.JGraphLayout
+                <br>
+                    JSci.swing.JHistogram
+                <br>
+                    JSci.swing.JImageCanvas
+                <br>
+                    JSci.swing.JLayeredBarGraph
+                <br>
+                    JSci.swing.JLineGraph
+                <br>
+                    JSci.swing.JLineGraph3D
+                <br>
+                    JSci.swing.JLineTrace
+                <br>
+                    JSci.swing.JLineTrace$MouseLineAdapter
+                <br>
+                    JSci.swing.JPieChart
+                <br>
+                    JSci.swing.JPointer
+                <br>
+                    JSci.swing.JRoundDial
+                <br>
+                    JSci.swing.JRoundDial$1
+                <br>
+                    JSci.swing.JRoundDial$2
+                <br>
+                    JSci.swing.JRoundDial$TheMouseListener
+                <br>
+                    JSci.swing.JRoundDial$TheMouseMotionListener
+                <br>
+                    JSci.swing.JScatterGraph
+                <br>
+                    JSci.swing.JSliderPlus
+                <br>
+                    JSci.swing.JSliderPlus$1
+                <br>
+                    JSci.swing.JSliderPlus$2
+                <br>
+                    JSci.swing.JSliderPlus$TheMouseListener
+                <br>
+                    JSci.swing.JSliderPlus$TheMouseMotionListener
+                <br>
+                    JSci.swing.JStackedBarGraph
+                <br>
+                    JSci.swing.Matrix3D
+                <br>
+                    JSci.swing.Model3D
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.instruments">JSci.instruments</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci.awt">JSci.awt</a>
+<br>
+<a href="#PKJSci.maths">JSci.maths</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.tests">JSci.tests</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 16</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.tests.ArrayTest
+                <br>
+                    JSci.tests.ComplexMatrixEigenTest
+                <br>
+                    JSci.tests.ComplexTest
+                <br>
+                    JSci.tests.DoubleMatrixEigenTest
+                <br>
+                    JSci.tests.EngineerTest
+                <br>
+                    JSci.tests.ExtraMathTest
+                <br>
+                    JSci.tests.FourierTest
+                <br>
+                    JSci.tests.MathMLTest
+                <br>
+                    JSci.tests.MatrixDecompositionTest
+                <br>
+                    JSci.tests.MatrixTest
+                <br>
+                    JSci.tests.NumberTest
+                <br>
+                    JSci.tests.NumericalTest
+                <br>
+                    JSci.tests.NumericalTest$1
+                <br>
+                    JSci.tests.PolynomialTest
+                <br>
+                    JSci.tests.QuaternionTest
+                <br>
+                    JSci.tests.SpecialTest
+                <br>
+                    JSci.tests.StatisticsTest
+                <br>
+                    JSci.tests.TestProperties
+                <br>
+                    JSci.tests.TestProperties$1
+                <br>
+                    JSci.tests.VectorTest
+                <br>
+                    JSci.tests.WaveletTest
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKJSci">JSci</a>
+<br>
+<a href="#PKJSci.io">JSci.io</a>
+<br>
+<a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.analysis">JSci.maths.analysis</a>
+<br>
+<a href="#PKJSci.maths.fields">JSci.maths.fields</a>
+<br>
+<a href="#PKJSci.maths.groups">JSci.maths.groups</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+<a href="#PKJSci.maths.polynomials">JSci.maths.polynomials</a>
+<br>
+<a href="#PKJSci.maths.statistics">JSci.maths.statistics</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+<a href="#PKJSci.util">JSci.util</a>
+<br>
+<a href="#PKjunit.extensions">junit.extensions</a>
+<br>
+<a href="#PKjunit.framework">junit.framework</a>
+<br>
+<a href="#PKjunit.textui">junit.textui</a>
+<br>
+<a href="#PKjunitx.extensions">junitx.extensions</a>
+<br>
+<a href="#PKorg.apache.xerces.parsers">org.apache.xerces.parsers</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.text">JSci.text</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 0</td><td><a href="#EXdistance">Distance</a>: 1</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.text.TimeFormat
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><i>None</i></td>
+</tr>
+</table>
+<h3>
+<a name="PKJSci.util">JSci.util</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 3</td><td><a href="#EXefferent">Efferent Couplings</a>: 3</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 0.5</td><td><a href="#EXdistance">Distance</a>: 0.5</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    JSci.util.ArrayCaster
+                <br>
+                    JSci.util.MatrixToolkit
+                <br>
+                    JSci.util.RandomMap
+                <br>
+                    JSci.util.VectorToolkit
+                <br>
+</td><td valign="top" width="25%"><a href="#PKJSci.beans">JSci.beans</a>
+<br>
+<a href="#PKJSci.maths.wavelet">JSci.maths.wavelet</a>
+<br>
+<a href="#PKJSci.tests">JSci.tests</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKJSci.maths">JSci.maths</a>
+<br>
+<a href="#PKJSci.maths.matrices">JSci.maths.matrices</a>
+<br>
+<a href="#PKJSci.maths.vectors">JSci.maths.vectors</a>
+<br>
+</td>
+</tr>
+</table>
+<table width="100%">
+<tr>
+<td><a name="NVcycles">
+<h2>Cycles</h2>
+</a></td><td align="right">
+    [<a href="#NVsummary">summary</a>]
+    [<a href="#NVpackages">packages</a>]
+    [<a href="#NVcycles">cycles</a>]
+    [<a href="#NVexplanations">explanations</a>]
+    </td>
+</tr>
+</table>
+<h3>JSci.astro</h3>
+<p>JSci.physics<br>JSci.maths.vectors<br>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.awt</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.beans</h3>
+<p>JSci.maths.vectors<br>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.biology</h3>
+<p>JSci.chemistry<br>JSci.physics<br>JSci.maths.vectors<br>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.chemistry</h3>
+<p>JSci.physics<br>JSci.maths.vectors<br>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.chemistry.periodictable</h3>
+<p>JSci.chemistry<br>JSci.physics<br>JSci.maths.vectors<br>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.instruments</h3>
+<p>JSci.swing<br>JSci.awt<br>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.instruments.pi</h3>
+<p>JSci.instruments<br>JSci.swing<br>JSci.awt<br>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.io</h3>
+<p>JSci.maths.vectors<br>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths</h3>
+<p>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.algebras</h3>
+<p>JSci.maths.fields<br>JSci.maths.groups<br>JSci.maths<br>JSci.maths.groups<br>
+</p>
+<h3>JSci.maths.analysis</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.categories</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.chaos</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.fields</h3>
+<p>JSci.maths.groups<br>JSci.maths<br>JSci.maths.groups<br>
+</p>
+<h3>JSci.maths.groups</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>
+</p>
+<h3>JSci.maths.matrices</h3>
+<p>JSci.maths.vectors<br>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.polynomials</h3>
+<p>JSci.maths.groups<br>JSci.maths<br>JSci.maths.groups<br>
+</p>
+<h3>JSci.maths.statistics</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.symbolic</h3>
+<p>JSci.maths.groups<br>JSci.maths<br>JSci.maths.groups<br>
+</p>
+<h3>JSci.maths.vectors</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.wavelet</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.wavelet.cdf2_4</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.wavelet.cdf3_5</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.wavelet.daubechies2</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.wavelet.daubechies3</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.wavelet.daubechies4</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.wavelet.daubechies5</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.wavelet.daubechies6</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.wavelet.daubechies7</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.wavelet.daubechies8</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.wavelet.haar</h3>
+<p>JSci.maths.wavelet<br>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.wavelet.splines</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.maths.wavelet.symmlet8</h3>
+<p>JSci.maths.wavelet<br>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.physics</h3>
+<p>JSci.maths.vectors<br>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.physics.particles</h3>
+<p>JSci.physics.quantum<br>JSci.maths.groups<br>JSci.maths<br>JSci.maths.groups<br>
+</p>
+<h3>JSci.physics.quantum</h3>
+<p>JSci.maths.groups<br>JSci.maths<br>JSci.maths.groups<br>
+</p>
+<h3>JSci.physics.relativity</h3>
+<p>JSci.maths.vectors<br>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.swing</h3>
+<p>JSci.awt<br>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.tests</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<h3>JSci.util</h3>
+<p>JSci.maths<br>JSci.maths.groups<br>JSci.maths<br>
+</p>
+<table width="100%">
+<tr>
+<td><a name="NVexplanations">
+<h2>Explanations</h2>
+</a></td><td align="right">
+    [<a href="#NVsummary">summary</a>]
+    [<a href="#NVpackages">packages</a>]
+    [<a href="#NVcycles">cycles</a>]
+    [<a href="#NVexplanations">explanations</a>]
+    </td>
+</tr>
+</table>
+<p>The following explanations are for quick reference and are lifted directly from the original <a href="http://www.clarkware.com/software/JDepend.html">JDepend documentation</a>.</p>
+<h3>
+<a name="EXnumber">Number of Classes</a>
+</h3>
+<p>The number of concrete and abstract classes (and interfaces) in the package is an indicator of the extensibility of the package.</p>
+<h3>
+<a name="EXafferent">Afferent Couplings</a>
+</h3>
+<p>The number of other packages that depend upon classes within the package is an indicator of the package's responsibility. </p>
+<h3>
+<a name="EXefferent">Efferent Couplings</a>
+</h3>
+<p>The number of other packages that the classes in the package depend upon is an indicator of the package's independence. </p>
+<h3>
+<a name="EXabstractness">Abstractness</a>
+</h3>
+<p>The ratio of the number of abstract classes (and interfaces) in the analyzed package to the total number of classes in the analyzed package. </p>
+<p>The range for this metric is 0 to 1, with A=0 indicating a completely concrete package and A=1 indicating a completely abstract package. </p>
+<h3>
+<a name="EXinstability">Instability</a>
+</h3>
+<p>The ratio of efferent coupling (Ce) to total coupling (Ce / (Ce + Ca)). This metric is an indicator of the package's resilience to change. </p>
+<p>The range for this metric is 0 to 1, with I=0 indicating a completely stable package and I=1 indicating a completely instable package. </p>
+<h3>
+<a name="EXdistance">Distance</a>
+</h3>
+<p>The perpendicular distance of a package from the idealized line A + I = 1. This metric is an indicator of the package's balance between abstractness and stability. </p>
+<p>A package squarely on the main sequence is optimally balanced with respect to its abstractness and stability. Ideal packages are either completely abstract and stable (x=0, y=1) or completely concrete and instable (x=1, y=0). </p>
+<p>The range for this metric is 0 to 1, with D=0 indicating a package that is coincident with the main sequence and D=1 indicating a package that is as far from the main sequence as possible. </p>
+</body>
+</html>

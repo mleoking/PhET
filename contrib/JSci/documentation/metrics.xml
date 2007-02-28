@@ -1,0 +1,3938 @@
+<?xml version="1.0"?>
+<JDepend>
+    <Packages>
+
+        <Package name="JSci">
+            <Stats>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>8</Ca>
+                <Ce>0</Ce>
+                <A>0</A>
+                <I>0</I>
+                <D>1</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.GlobalSettings
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.Version
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.matrices</Package>
+                <Package>JSci.maths.polynomials</Package>
+                <Package>JSci.maths.vectors</Package>
+                <Package>JSci.maths.wavelet</Package>
+                <Package>JSci.physics</Package>
+                <Package>JSci.physics.relativity</Package>
+                <Package>JSci.tests</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.astro">
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>0</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>1</Ce>
+                <A>1</A>
+                <I>1</I>
+                <D>1</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.astro.AstronomicalConstants
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.physics</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.astro.telescope">
+            <Stats>
+                <TotalClasses>13</TotalClasses>
+                <ConcreteClasses>12</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>0</Ce>
+                <A>0.08</A>
+                <I>0</I>
+                <D>0.92</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.astro.telescope.LX200Remote
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.astro.telescope.LX200
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.astro.telescope.LX200ControlPanel
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.astro.telescope.LX200ControlPanel$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.astro.telescope.LX200ControlPanel$FocusActionListener
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.astro.telescope.LX200ControlPanel$FocusRateItemListener
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.astro.telescope.LX200ControlPanel$GotoActionListener
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.astro.telescope.LX200ControlPanel$SlewActionListener
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.astro.telescope.LX200ControlPanel$SlewRateItemListener
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.astro.telescope.LX200ControlPanel$SyncActionListener
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.astro.telescope.LX200DebugServer
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.astro.telescope.LX200Server
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.astro.telescope.NexStar
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.awt">
+            <Stats>
+                <TotalClasses>38</TotalClasses>
+                <ConcreteClasses>28</ConcreteClasses>
+                <AbstractClasses>10</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>1</Ce>
+                <A>0.26</A>
+                <I>0.5</I>
+                <D>0.24</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.awt.AbstractGraphModel
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.CategoryGraph2D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.CategoryGraph2DModel
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.ColorScheme
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.DoubleBufferedCanvas
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.Graph2D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.Graph2D$DataMarker
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.Graph2DModel
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.Graph3DModel
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.GraphDataListener
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.awt.ArgandDiagramModel
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.BarGraph
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.ContourPlot
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.DefaultCategoryGraph2DModel
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.DefaultCategoryGraph2DModel$DataSeries
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.DefaultGraph2DModel
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.DefaultGraph2DModel$DataSeries
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.DefaultGraph3DModel
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.DefaultGraph3DModel$DataSeries
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.Graph2D$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.Graph2D$DataMarker$Circle
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.Graph2D$DataMarker$Square
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.Graph2D$NoneDataMarker
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.GraphDataEvent
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.GraphLayout
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.Histogram
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.ImageCanvas
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.LayeredBarGraph
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.LineGraph
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.LineGraph3D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.LineTrace
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.LineTrace$MouseLineAdapter
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.Matrix3D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.Model3D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.PieChart
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.Point2DListModel
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.ScatterGraph
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.awt.StackedBarGraph
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.swing</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.beans">
+            <Stats>
+                <TotalClasses>4</TotalClasses>
+                <ConcreteClasses>3</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>6</Ce>
+                <A>0.25</A>
+                <I>1</I>
+                <D>0.25</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.beans.VariableListener
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.beans.MathBean
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.beans.VariableBean
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.beans.VariableEvent
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.io</Package>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.matrices</Package>
+                <Package>JSci.maths.vectors</Package>
+                <Package>JSci.util</Package>
+                <Package>org.apache.xerces.parsers</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.biology">
+            <Stats>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>3</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.biology.AminoAcid
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.biology.AminoAcids
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.chemistry</Package>
+                <Package>org.w3c.dom</Package>
+                <Package>org.xml.sax</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.chemistry">
+            <Stats>
+                <TotalClasses>7</TotalClasses>
+                <ConcreteClasses>6</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>2</Ca>
+                <Ce>5</Ce>
+                <A>0.14</A>
+                <I>0.71</I>
+                <D>0.14</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.chemistry.Bond
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.chemistry.Atom
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.chemistry.CovalentBond
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.chemistry.Element
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.chemistry.IonicBond
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.chemistry.Molecule
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.chemistry.PeriodicTable
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.chemistry.periodictable</Package>
+                <Package>JSci.physics</Package>
+                <Package>JSci.physics.particles</Package>
+                <Package>org.w3c.dom</Package>
+                <Package>org.xml.sax</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.biology</Package>
+                <Package>JSci.chemistry.periodictable</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.chemistry.periodictable">
+            <Stats>
+                <TotalClasses>8</TotalClasses>
+                <ConcreteClasses>8</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>1</Ce>
+                <A>0</A>
+                <I>0.5</I>
+                <D>0.5</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.chemistry.periodictable.AlkaliEarthMetal
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.chemistry.periodictable.AlkaliMetal
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.chemistry.periodictable.Halogen
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.chemistry.periodictable.Metal
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.chemistry.periodictable.NobleGas
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.chemistry.periodictable.NonMetal
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.chemistry.periodictable.RareEarthMetal
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.chemistry.periodictable.TransitionMetal
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.chemistry</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.chemistry</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.doclet">
+            <Stats>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>3</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>2</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.doclet.NoosphereTaglet
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.doclet.PlanetMathTaglet
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.doclet.PlanetPhysicsTaglet
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>com.sun.javadoc</Package>
+                <Package>com.sun.tools.doclets</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.instruments">
+            <Stats>
+                <TotalClasses>64</TotalClasses>
+                <ConcreteClasses>50</ConcreteClasses>
+                <AbstractClasses>14</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>1</Ce>
+                <A>0.22</A>
+                <I>0.5</I>
+                <D>0.28</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.Control
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.Dimensions
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.Image
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.ImageFilter
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.ImageFilterAdapter
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.ImageSink
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.ImageSource
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.Overlay
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.ParticleTracker
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.ParticleTrackerListener
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PositionControl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PositionControlAdapter
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.ROI
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.ROIAdapter
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.DummyPositionControl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.DummyPositionControl$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.DummyPositionControl$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.DummyPositionControl$3
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.DummyPositionControl$4
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.DummyPositionControl$5
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.Image$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTCroquette
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTCroquette$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTCroquette$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTCroquette$MouseHandler
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTCroquette$MouseMotionHandler
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTCroquette$MouseWheelHandler
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTCroquette$PTControlComponent
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTCroquette$PTControlComponent$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTCroquette$PTControlComponent$1$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTCroquette$PTControlComponent$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTCroquette$PTControlComponent$3
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTCroquetteCross
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTCroquetteCross$CComponent
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTemplate
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTemplate$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTemplate$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTemplate$3
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTemplate$SimulatedBarycentreSource
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTemplate$SimulatedBarycentreSource$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTemplateCross
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTemplateCross$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTwoDBarycentre
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTwoDBarycentre$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTwoDBarycentre$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTwoDBarycentre$3
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTwoDBarycentre$SimulatedBarycentreSource
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTwoDBarycentre$SimulatedBarycentreSource$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTwoDBarycentreCross
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTwoDBarycentreCross$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.PTTwoDBarycentreCross$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.Player
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.Player$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.RectangularROI
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.Simulated
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.Simulated$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.Simulated$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.TestImageSource
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.TestImageSource$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.TestImageSource$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.TwoROI
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.TwoROI$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.TwoROI$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.TwoROI$3
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.swing</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.instruments.pi</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.instruments.pi">
+            <Stats>
+                <TotalClasses>27</TotalClasses>
+                <ConcreteClasses>26</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>1</Ce>
+                <A>0.04</A>
+                <I>1</I>
+                <D>0.04</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$10
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$11
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$12
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$13
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$14
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$15
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$16
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$17
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$18
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$19
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$1ActposChangeListener
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$1ActposChangeListener$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$1ActvelChangeListener
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$1ActvelChangeListener$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$20
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$21
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$3
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$4
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$5
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$6
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$7
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$8
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.Mercury$9
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.instruments.pi.PiezoServo
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.instruments</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.io">
+            <Stats>
+                <TotalClasses>8</TotalClasses>
+                <ConcreteClasses>7</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>2</Ca>
+                <Ce>12</Ce>
+                <A>0.12</A>
+                <I>0.86</I>
+                <D>0.02</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.io.MathMLParser$Translator
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.io.MathMLDocumentJSciImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.io.MathMLExpression
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.io.MathMLParser
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.io.MathMLParser$JSciCodeTranslator
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.io.MathMLParser$JSciObjectTranslator
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.io.TextReader
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.io.TextWriter
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.mathml</Package>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.algebras</Package>
+                <Package>JSci.maths.fields</Package>
+                <Package>JSci.maths.groups</Package>
+                <Package>JSci.maths.matrices</Package>
+                <Package>JSci.maths.vectors</Package>
+                <Package>org.apache.xerces.dom</Package>
+                <Package>org.apache.xerces.parsers</Package>
+                <Package>org.w3c.dom</Package>
+                <Package>org.w3c.dom.mathml</Package>
+                <Package>org.xml.sax</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.beans</Package>
+                <Package>JSci.tests</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.mathml">
+            <Stats>
+                <TotalClasses>51</TotalClasses>
+                <ConcreteClasses>51</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>3</Ce>
+                <A>0</A>
+                <I>0.75</I>
+                <D>0.25</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLActionElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLAlignGroupElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLAlignMarkElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLAnnotationElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLApplyElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLBinaryOpImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLBinaryRelImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLBvarElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLCiElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLCnElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLConditionElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLContentContainerImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLContentContainerImpl$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLContentContainerImpl$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLContentTokenImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLContentTokenImpl$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLCsymbolElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLDOMImplementationImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLDocumentImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLEncloseElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLFencedElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLFnElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLFractionElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLFunctionImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLGlyphElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLListElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLMathElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLMathElementImpl$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLMathElementImpl$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLMatrixElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLMatrixElementImpl$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLMatrixrowElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLNaryOpImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLNaryRelImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLPaddedElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLPredefinedSymbolImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLPresentationContainerImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLPresentationContainerImpl$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLPresentationContainerImpl$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLPresentationTokenImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLRadicalElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLScriptElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLSetElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLSpaceElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLStringLitElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLTendsToElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLUnaryOpImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLUnderOverElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLVectorElementImpl
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.mathml.MathMLXMLAnnotationElementImpl
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>org.apache.xerces.dom</Package>
+                <Package>org.w3c.dom</Package>
+                <Package>org.w3c.dom.mathml</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.io</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths">
+            <Stats>
+                <TotalClasses>25</TotalClasses>
+                <ConcreteClasses>18</ConcreteClasses>
+                <AbstractClasses>7</AbstractClasses>
+                <Ca>32</Ca>
+                <Ce>8</Ce>
+                <A>0.28</A>
+                <I>0.2</I>
+                <D>0.52</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.AbstractMath
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.ComplexMapping
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.Mapping
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.MappingND
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.MathSet
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.Member
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.NumericalConstants
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.ArrayMath
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.Complex
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.CoordinateMath
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.DimensionException
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.EngineerMath
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.ExtraMath
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.FiniteSet
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.FourierMath
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.KarhunenLoeve
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.LinearMath
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.MathDouble
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.MathInteger
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.MaximumIterationsExceededException
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.NumericalMath
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.Quaternion
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.SpecialMath
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.Supernumber
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.WaveletMath
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci</Package>
+                <Package>JSci.maths.algebras</Package>
+                <Package>JSci.maths.analysis</Package>
+                <Package>JSci.maths.fields</Package>
+                <Package>JSci.maths.groups</Package>
+                <Package>JSci.maths.matrices</Package>
+                <Package>JSci.maths.polynomials</Package>
+                <Package>JSci.maths.vectors</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.awt</Package>
+                <Package>JSci.beans</Package>
+                <Package>JSci.io</Package>
+                <Package>JSci.maths.algebras</Package>
+                <Package>JSci.maths.analysis</Package>
+                <Package>JSci.maths.categories</Package>
+                <Package>JSci.maths.chaos</Package>
+                <Package>JSci.maths.fields</Package>
+                <Package>JSci.maths.groups</Package>
+                <Package>JSci.maths.matrices</Package>
+                <Package>JSci.maths.polynomials</Package>
+                <Package>JSci.maths.statistics</Package>
+                <Package>JSci.maths.symbolic</Package>
+                <Package>JSci.maths.vectors</Package>
+                <Package>JSci.maths.wavelet</Package>
+                <Package>JSci.maths.wavelet.cdf2_4</Package>
+                <Package>JSci.maths.wavelet.cdf3_5</Package>
+                <Package>JSci.maths.wavelet.daubechies2</Package>
+                <Package>JSci.maths.wavelet.daubechies3</Package>
+                <Package>JSci.maths.wavelet.daubechies4</Package>
+                <Package>JSci.maths.wavelet.daubechies5</Package>
+                <Package>JSci.maths.wavelet.daubechies6</Package>
+                <Package>JSci.maths.wavelet.daubechies7</Package>
+                <Package>JSci.maths.wavelet.daubechies8</Package>
+                <Package>JSci.maths.wavelet.haar</Package>
+                <Package>JSci.maths.wavelet.splines</Package>
+                <Package>JSci.physics</Package>
+                <Package>JSci.physics.quantum</Package>
+                <Package>JSci.physics.relativity</Package>
+                <Package>JSci.swing</Package>
+                <Package>JSci.tests</Package>
+                <Package>JSci.util</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.algebras">
+            <Stats>
+                <TotalClasses>19</TotalClasses>
+                <ConcreteClasses>7</ConcreteClasses>
+                <AbstractClasses>12</AbstractClasses>
+                <Ca>6</Ca>
+                <Ce>5</Ce>
+                <A>0.63</A>
+                <I>0.45</I>
+                <D>0.09</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.Algebra
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.Algebra$Member
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.BanachSpace
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.BanachSpace$Member
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.CStarAlgebra
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.CStarAlgebra$Member
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.HilbertSpace$Member
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.LieAlgebra
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.Module
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.Module$Member
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.VectorSpace
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.VectorSpace$Member
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.HilbertSpace
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.so3_1Dim4
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.sp2_RDim2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.sp2_RDim3
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.su2Dim2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.su2Dim3
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.algebras.su3Dim3
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.fields</Package>
+                <Package>JSci.maths.groups</Package>
+                <Package>JSci.maths.matrices</Package>
+                <Package>JSci.maths.vectors</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.io</Package>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.categories</Package>
+                <Package>JSci.maths.matrices</Package>
+                <Package>JSci.maths.vectors</Package>
+                <Package>JSci.physics.quantum</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.analysis">
+            <Stats>
+                <TotalClasses>45</TotalClasses>
+                <ConcreteClasses>41</ConcreteClasses>
+                <AbstractClasses>4</AbstractClasses>
+                <Ca>4</Ca>
+                <Ce>4</Ce>
+                <A>0.09</A>
+                <I>0.5</I>
+                <D>0.41</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.ComplexFunction
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction2D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunctionND
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.ComplexExponential
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.ComplexFunction$Composition
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.ComplexFunction$Constant
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.ComplexFunction$Difference
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.ComplexFunction$Negation
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.ComplexFunction$Product
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.ComplexFunction$Quotient
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.ComplexFunction$Reciprocal
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.ComplexFunction$Sum
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.Cosine
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.Exponential
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.Power
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction$Composition
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction$Constant
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction$Difference
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction$Negation
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction$Product
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction$Quotient
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction$Reciprocal
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction$Sum
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction$TensorProduct2D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction2D$Constant
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction2D$Difference
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction2D$Negation
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction2D$Product
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction2D$Quotient
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction2D$Reciprocal
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction2D$Sum
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction2D$TensorProduct3D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunction2D$TensorProduct4D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunctionND$Constant
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunctionND$Difference
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunctionND$Negation
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunctionND$Product
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunctionND$Quotient
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunctionND$Reciprocal
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunctionND$Sum
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunctionND$TensorProductN1D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.RealFunctionND$TensorProductND
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.Sine
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.analysis.Tangent
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.fields</Package>
+                <Package>JSci.maths.groups</Package>
+                <Package>JSci.maths.polynomials</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.polynomials</Package>
+                <Package>JSci.maths.symbolic</Package>
+                <Package>JSci.tests</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.categories">
+            <Stats>
+                <TotalClasses>25</TotalClasses>
+                <ConcreteClasses>19</ConcreteClasses>
+                <AbstractClasses>6</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>6</Ce>
+                <A>0.24</A>
+                <I>1</I>
+                <D>0.24</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Bifunctor
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Category
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Category$HomSet
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Category$Morphism
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Functor
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.NaturalTransformation
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.FinSet
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.FinSet$Function
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.FinSet$FunctionSet
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.FinSet$IdentityFunction
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Hilb
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Hilb$LinearMap
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Hilb$OperatorSpace
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.HomFunctor
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.HomFunctor$HomMorphism
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Preorder
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Preorder$Relation
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Preorder$RelationSet
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Simplicial
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Simplicial$Addition
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Simplicial$DegeneracyMap
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Simplicial$FaceMap
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Simplicial$FunctionSet
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.Simplicial$IncreasingMap
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.categories.UndefinedCompositionException
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.algebras</Package>
+                <Package>JSci.maths.fields</Package>
+                <Package>JSci.maths.groups</Package>
+                <Package>JSci.maths.matrices</Package>
+                <Package>JSci.maths.vectors</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.chaos">
+            <Stats>
+                <TotalClasses>10</TotalClasses>
+                <ConcreteClasses>8</ConcreteClasses>
+                <AbstractClasses>2</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>1</Ce>
+                <A>0.2</A>
+                <I>1</I>
+                <D>0.2</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.chaos.CantorDust
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.chaos.KochCurve
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.chaos.CatMap
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.chaos.GingerbreadManMap
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.chaos.HenonMap
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.chaos.JuliaSet
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.chaos.LogisticMap
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.chaos.MandelbrotMap
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.chaos.MandelbrotSet
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.chaos.StandardMap
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.fields">
+            <Stats>
+                <TotalClasses>7</TotalClasses>
+                <ConcreteClasses>3</ConcreteClasses>
+                <AbstractClasses>4</AbstractClasses>
+                <Ca>11</Ca>
+                <Ce>2</Ce>
+                <A>0.57</A>
+                <I>0.15</I>
+                <D>0.27</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.fields.Field
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.fields.Field$Member
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.fields.Ring
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.fields.Ring$Member
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.fields.ComplexField
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.fields.IntegerRing
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.fields.RealField
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.groups</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.io</Package>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.algebras</Package>
+                <Package>JSci.maths.analysis</Package>
+                <Package>JSci.maths.categories</Package>
+                <Package>JSci.maths.matrices</Package>
+                <Package>JSci.maths.polynomials</Package>
+                <Package>JSci.maths.symbolic</Package>
+                <Package>JSci.maths.vectors</Package>
+                <Package>JSci.physics.quantum</Package>
+                <Package>JSci.tests</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.groups">
+            <Stats>
+                <TotalClasses>17</TotalClasses>
+                <ConcreteClasses>8</ConcreteClasses>
+                <AbstractClasses>9</AbstractClasses>
+                <Ca>12</Ca>
+                <Ce>3</Ce>
+                <A>0.53</A>
+                <I>0.2</I>
+                <D>0.27</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.AbelianGroup
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.AbelianGroup$Member
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.FiniteGroup
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.Group
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.Group$Member
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.Monoid
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.Monoid$Member
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.Semigroup
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.Semigroup$Member
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.CyclicGroup
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.CyclicGroup$Member
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.DihedralGroup
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.DihedralGroup$Member
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.LieGroup
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.QuaternionGroup
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.QuaternionGroup$Member
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.groups.U1
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.matrices</Package>
+                <Package>JSci.maths.vectors</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.io</Package>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.algebras</Package>
+                <Package>JSci.maths.analysis</Package>
+                <Package>JSci.maths.categories</Package>
+                <Package>JSci.maths.fields</Package>
+                <Package>JSci.maths.matrices</Package>
+                <Package>JSci.maths.polynomials</Package>
+                <Package>JSci.maths.symbolic</Package>
+                <Package>JSci.maths.vectors</Package>
+                <Package>JSci.physics.quantum</Package>
+                <Package>JSci.tests</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.matrices">
+            <Stats>
+                <TotalClasses>34</TotalClasses>
+                <ConcreteClasses>24</ConcreteClasses>
+                <AbstractClasses>10</AbstractClasses>
+                <Ca>11</Ca>
+                <Ce>6</Ce>
+                <A>0.29</A>
+                <I>0.35</I>
+                <D>0.35</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.AbstractComplexMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.AbstractComplexSquareMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.AbstractDoubleMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.AbstractDoubleSquareMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.AbstractIntegerMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.AbstractIntegerSquareMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.DiagonalMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.Matrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.SquareMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.TridiagonalMatrix
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.AbstractComplexSquareMatrix$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.AbstractComplexSquareMatrix$SquareMatrixAdaptor
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.AbstractDoubleSquareMatrix$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.AbstractDoubleSquareMatrix$SquareMatrixAdaptor
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.AbstractIntegerSquareMatrix$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.AbstractIntegerSquareMatrix$SquareMatrixAdaptor
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.ComplexDiagonalMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.ComplexMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.ComplexSquareMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.ComplexTridiagonalMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.DoubleDiagonalMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.DoubleMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.DoubleMatrixAlgebra
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.DoubleSparseMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.DoubleSparseSquareMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.DoubleSquareMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.DoubleTridiagonalMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.IntegerDiagonalMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.IntegerMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.IntegerMatrixAlgebra
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.IntegerSquareMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.IntegerTridiagonalMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.MatrixDimensionException
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.matrices.RingMatrix
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci</Package>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.algebras</Package>
+                <Package>JSci.maths.fields</Package>
+                <Package>JSci.maths.groups</Package>
+                <Package>JSci.maths.vectors</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.beans</Package>
+                <Package>JSci.io</Package>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.algebras</Package>
+                <Package>JSci.maths.categories</Package>
+                <Package>JSci.maths.groups</Package>
+                <Package>JSci.maths.polynomials</Package>
+                <Package>JSci.maths.vectors</Package>
+                <Package>JSci.physics.quantum</Package>
+                <Package>JSci.tests</Package>
+                <Package>JSci.util</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.polynomials">
+            <Stats>
+                <TotalClasses>11</TotalClasses>
+                <ConcreteClasses>9</ConcreteClasses>
+                <AbstractClasses>2</AbstractClasses>
+                <Ca>3</Ca>
+                <Ce>6</Ce>
+                <A>0.18</A>
+                <I>0.67</I>
+                <D>0.15</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.polynomials.Polynomial
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.polynomials.PolynomialBasis
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.polynomials.ChebychevBasis
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.polynomials.ComplexLagrangeBasis
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.polynomials.ComplexPolynomial
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.polynomials.ComplexPolynomialRing
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.polynomials.PolynomialMath
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.polynomials.RealLagrangeBasis
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.polynomials.RealMonomialBasis
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.polynomials.RealPolynomial
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.polynomials.RealPolynomialRing
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci</Package>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.analysis</Package>
+                <Package>JSci.maths.fields</Package>
+                <Package>JSci.maths.groups</Package>
+                <Package>JSci.maths.matrices</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.analysis</Package>
+                <Package>JSci.tests</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.statistics">
+            <Stats>
+                <TotalClasses>17</TotalClasses>
+                <ConcreteClasses>16</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>1</Ce>
+                <A>0.06</A>
+                <I>0.5</I>
+                <D>0.44</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.ProbabilityDistribution
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.BetaDistribution
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.BinomialDistribution
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.CauchyDistribution
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.ChiSqrDistribution
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.ExponentialDistribution
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.FDistribution
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.GammaDistribution
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.GeometricDistribution
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.LognormalDistribution
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.NormalDistribution
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.OutOfRangeException
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.ParetoDistribution
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.PoissonDistribution
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.SampleStatistics
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.TDistribution
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.statistics.WeibullDistribution
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.tests</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.symbolic">
+            <Stats>
+                <TotalClasses>19</TotalClasses>
+                <ConcreteClasses>17</ConcreteClasses>
+                <AbstractClasses>2</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>4</Ce>
+                <A>0.11</A>
+                <I>1</I>
+                <D>0.11</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.Expression
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.ExpressionParserConstants
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.Constant
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.Evaluation
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.ExpressionParser
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.ExpressionParser$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.ExpressionParser$JJCalls
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.ExpressionParser$LookaheadSuccess
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.ExpressionParserTokenManager
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.Function
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.Negative
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.ParseException
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.Power
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.Product
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.SimpleCharStream
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.Sum
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.Token
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.TokenMgrError
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.symbolic.Variable
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.analysis</Package>
+                <Package>JSci.maths.fields</Package>
+                <Package>JSci.maths.groups</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.vectors">
+            <Stats>
+                <TotalClasses>15</TotalClasses>
+                <ConcreteClasses>11</ConcreteClasses>
+                <AbstractClasses>4</AbstractClasses>
+                <Ca>13</Ca>
+                <Ce>6</Ce>
+                <A>0.27</A>
+                <I>0.32</I>
+                <D>0.42</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.vectors.AbstractComplexVector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.vectors.AbstractDoubleVector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.vectors.AbstractIntegerVector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.vectors.MathVector
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.vectors.Complex2Vector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.vectors.Complex3Vector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.vectors.ComplexVector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.vectors.Double2Vector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.vectors.Double3Vector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.vectors.DoubleSparseVector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.vectors.DoubleVector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.vectors.Integer2Vector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.vectors.Integer3Vector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.vectors.IntegerVector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.vectors.VectorDimensionException
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci</Package>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.algebras</Package>
+                <Package>JSci.maths.fields</Package>
+                <Package>JSci.maths.groups</Package>
+                <Package>JSci.maths.matrices</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.beans</Package>
+                <Package>JSci.io</Package>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.algebras</Package>
+                <Package>JSci.maths.categories</Package>
+                <Package>JSci.maths.groups</Package>
+                <Package>JSci.maths.matrices</Package>
+                <Package>JSci.maths.wavelet</Package>
+                <Package>JSci.physics</Package>
+                <Package>JSci.physics.quantum</Package>
+                <Package>JSci.physics.relativity</Package>
+                <Package>JSci.tests</Package>
+                <Package>JSci.util</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.wavelet">
+            <Stats>
+                <TotalClasses>17</TotalClasses>
+                <ConcreteClasses>13</ConcreteClasses>
+                <AbstractClasses>4</AbstractClasses>
+                <Ca>12</Ca>
+                <Ce>5</Ce>
+                <A>0.24</A>
+                <I>0.29</I>
+                <D>0.47</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.FWT
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.Filter
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.Multiresolution
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.MultiscaleFunction
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.BasisFunctionLibrary
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.Cascades
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.Cosine
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.DiscreteFunction
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.DiscreteHilbertSpace
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.FWTCoef
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.FWTCoefMath
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.FWTPacketCoef
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.IllegalScalingException
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.MatchingPursuit
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.Signal
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.Sine
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.SparseDiscreteFunction
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci</Package>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.vectors</Package>
+                <Package>JSci.maths.wavelet.splines</Package>
+                <Package>JSci.util</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.maths.wavelet.cdf2_4</Package>
+                <Package>JSci.maths.wavelet.cdf3_5</Package>
+                <Package>JSci.maths.wavelet.daubechies2</Package>
+                <Package>JSci.maths.wavelet.daubechies3</Package>
+                <Package>JSci.maths.wavelet.daubechies4</Package>
+                <Package>JSci.maths.wavelet.daubechies5</Package>
+                <Package>JSci.maths.wavelet.daubechies6</Package>
+                <Package>JSci.maths.wavelet.daubechies7</Package>
+                <Package>JSci.maths.wavelet.daubechies8</Package>
+                <Package>JSci.maths.wavelet.haar</Package>
+                <Package>JSci.maths.wavelet.splines</Package>
+                <Package>JSci.maths.wavelet.symmlet8</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.wavelet.cdf2_4">
+            <Stats>
+                <TotalClasses>5</TotalClasses>
+                <ConcreteClasses>5</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>3</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.cdf2_4.CDF2_4
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.cdf2_4.DualScaling2_4
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.cdf2_4.DualWavelet2_4
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.cdf2_4.FastCDF2_4
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.cdf2_4.MultiSpline2_4
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.wavelet</Package>
+                <Package>JSci.maths.wavelet.splines</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.wavelet.cdf3_5">
+            <Stats>
+                <TotalClasses>4</TotalClasses>
+                <ConcreteClasses>4</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>3</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.cdf3_5.CDF3_5
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.cdf3_5.DualScaling3_5
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.cdf3_5.DualWavelet3_5
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.cdf3_5.MultiSpline3_5
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.wavelet</Package>
+                <Package>JSci.maths.wavelet.splines</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.wavelet.daubechies2">
+            <Stats>
+                <TotalClasses>4</TotalClasses>
+                <ConcreteClasses>4</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>2</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies2.Daubechies2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies2.FastDaubechies2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies2.Scaling2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies2.Wavelet2
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.wavelet</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.wavelet.daubechies3">
+            <Stats>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>3</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>2</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies3.Daubechies3
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies3.Scaling3
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies3.Wavelet3
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.wavelet</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.wavelet.daubechies4">
+            <Stats>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>3</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>2</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies4.Daubechies4
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies4.Scaling4
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies4.Wavelet4
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.wavelet</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.wavelet.daubechies5">
+            <Stats>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>3</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>2</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies5.Daubechies5
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies5.Scaling5
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies5.Wavelet5
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.wavelet</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.wavelet.daubechies6">
+            <Stats>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>3</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>2</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies6.Daubechies6
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies6.Scaling6
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies6.Wavelet6
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.wavelet</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.wavelet.daubechies7">
+            <Stats>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>3</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>2</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies7.Daubechies7
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies7.Scaling7
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies7.Wavelet7
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.wavelet</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.wavelet.daubechies8">
+            <Stats>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>3</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>2</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies8.Daubechies8
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies8.Scaling8
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.daubechies8.Wavelet8
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.wavelet</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.wavelet.haar">
+            <Stats>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>3</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.haar.FastHaar
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.haar.MultiSplineHaar
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.wavelet</Package>
+                <Package>JSci.maths.wavelet.splines</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.wavelet.splines">
+            <Stats>
+                <TotalClasses>5</TotalClasses>
+                <ConcreteClasses>4</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>4</Ca>
+                <Ce>2</Ce>
+                <A>0.2</A>
+                <I>0.33</I>
+                <D>0.47</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.splines.Spline
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.splines.LinearSpline
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.splines.PiecewiseConstant
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.splines.QuadraticSpline
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.splines.SumOfDiracs
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.wavelet</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.maths.wavelet</Package>
+                <Package>JSci.maths.wavelet.cdf2_4</Package>
+                <Package>JSci.maths.wavelet.cdf3_5</Package>
+                <Package>JSci.maths.wavelet.haar</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.maths.wavelet.symmlet8">
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>1</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.maths.wavelet.symmlet8.FastSymmlet8
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths.wavelet</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.physics">
+            <Stats>
+                <TotalClasses>22</TotalClasses>
+                <ConcreteClasses>14</ConcreteClasses>
+                <AbstractClasses>8</AbstractClasses>
+                <Ca>4</Ca>
+                <Ce>4</Ce>
+                <A>0.36</A>
+                <I>0.5</I>
+                <D>0.14</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.physics.AbstractClassicalParticle
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.Force
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.Force2D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.Force3D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.Particle
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.PhysicalConstants
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.RelativisticParticle
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.Torque3D
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.physics.ClassicalParticle
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.ClassicalParticle2D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.ClassicalParticle3D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.ConstantForce2D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.ConstantForce3D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.ConstantTorque3D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.Drag
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.Drag$Force
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.GravityField
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.GravityField$Force
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.RigidBody2D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.RigidBody3D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.Spring
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.Spring$Force
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci</Package>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.vectors</Package>
+                <Package>JSci.physics.relativity</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.astro</Package>
+                <Package>JSci.chemistry</Package>
+                <Package>JSci.physics.particles</Package>
+                <Package>JSci.physics.quantum</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.physics.particles">
+            <Stats>
+                <TotalClasses>79</TotalClasses>
+                <ConcreteClasses>56</ConcreteClasses>
+                <AbstractClasses>23</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>3</Ce>
+                <A>0.29</A>
+                <I>0.75</I>
+                <D>0.04</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiBaryon
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiHadron
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiHyperon
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiKaon
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiLepton
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiMeson
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiNucleon
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiPion
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiQuark
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiSigma
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiXi
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Baryon
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.GaugeBoson
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Hadron
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Hyperon
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Kaon
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Lepton
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Meson
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Nucleon
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Pion
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Quark
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Sigma
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Xi
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiBottom
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiCharm
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiDown
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiElectronNeutrino
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiKZero
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiLambda
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiMuon
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiMuonNeutrino
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiNeutron
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiOmegaMinus
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiProton
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiSigmaMinus
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiSigmaPlus
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiSigmaZero
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiStrange
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiTau
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiTauNeutrino
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiTop
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiUp
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.AntiXiZero
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Bottom
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Charm
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Down
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Electron
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.ElectronNeutrino
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Eta
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Gluon
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Graviton
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.KMinus
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.KPlus
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.KZero
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Lambda
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Muon
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.MuonNeutrino
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Neutron
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.OmegaMinus
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Photon
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.PiMinus
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.PiPlus
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.PiZero
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Positron
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Proton
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.SigmaMinus
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.SigmaPlus
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.SigmaZero
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Strange
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Tau
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.TauNeutrino
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Top
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.Up
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.WMinus
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.WPlus
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.XiMinus
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.XiPlus
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.XiZero
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.particles.ZZero
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.physics</Package>
+                <Package>JSci.physics.quantum</Package>
+                <Package>JSci.physics.relativity</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.chemistry</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.physics.quantum">
+            <Stats>
+                <TotalClasses>10</TotalClasses>
+                <ConcreteClasses>9</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>7</Ce>
+                <A>0.1</A>
+                <I>0.88</I>
+                <D>0.02</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.physics.quantum.QuantumParticle
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.physics.quantum.BraVector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.quantum.DensityMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.quantum.GammaMatrix
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.quantum.KetVector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.quantum.Operator
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.quantum.Projector
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.quantum.QuantumMath
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.quantum.SpinOperator
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.quantum.SpinorProjector
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.algebras</Package>
+                <Package>JSci.maths.fields</Package>
+                <Package>JSci.maths.groups</Package>
+                <Package>JSci.maths.matrices</Package>
+                <Package>JSci.maths.vectors</Package>
+                <Package>JSci.physics</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.physics.particles</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.physics.relativity">
+            <Stats>
+                <TotalClasses>10</TotalClasses>
+                <ConcreteClasses>9</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>2</Ca>
+                <Ce>3</Ce>
+                <A>0.1</A>
+                <I>0.6</I>
+                <D>0.3</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.physics.relativity.Tensor
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.physics.relativity.EMFieldTensor
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.relativity.KroneckerDelta
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.relativity.LeviCivita
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.relativity.LorentzBoost
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.relativity.MinkowskiMetric
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.relativity.Rank1Tensor
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.relativity.Rank2Tensor
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.relativity.Rank3Tensor
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.physics.relativity.Rank4Tensor
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci</Package>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.vectors</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.physics</Package>
+                <Package>JSci.physics.particles</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.swing">
+            <Stats>
+                <TotalClasses>34</TotalClasses>
+                <ConcreteClasses>31</ConcreteClasses>
+                <AbstractClasses>3</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>2</Ce>
+                <A>0.09</A>
+                <I>0.67</I>
+                <D>0.25</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JCategoryGraph2D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JDoubleBufferedComponent
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JGraph2D
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JArcDial
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JArcDial$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JArcDial$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JArcDial$TheMouseListener
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JArcDial$TheMouseMotionListener
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JBarGraph
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JContourPlot
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JGraphLayout
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JHistogram
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JImageCanvas
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JLayeredBarGraph
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JLineGraph
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JLineGraph3D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JLineTrace
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JLineTrace$MouseLineAdapter
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JPieChart
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JPointer
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JRoundDial
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JRoundDial$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JRoundDial$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JRoundDial$TheMouseListener
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JRoundDial$TheMouseMotionListener
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JScatterGraph
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JSliderPlus
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JSliderPlus$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JSliderPlus$2
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JSliderPlus$TheMouseListener
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JSliderPlus$TheMouseMotionListener
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.JStackedBarGraph
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.Matrix3D
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.swing.Model3D
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.awt</Package>
+                <Package>JSci.maths</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.instruments</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.tests">
+            <Stats>
+                <TotalClasses>21</TotalClasses>
+                <ConcreteClasses>21</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>16</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.tests.ArrayTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.ComplexMatrixEigenTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.ComplexTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.DoubleMatrixEigenTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.EngineerTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.ExtraMathTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.FourierTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.MathMLTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.MatrixDecompositionTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.MatrixTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.NumberTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.NumericalTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.NumericalTest$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.PolynomialTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.QuaternionTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.SpecialTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.StatisticsTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.TestProperties
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.TestProperties$1
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.VectorTest
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.tests.WaveletTest
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci</Package>
+                <Package>JSci.io</Package>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.analysis</Package>
+                <Package>JSci.maths.fields</Package>
+                <Package>JSci.maths.groups</Package>
+                <Package>JSci.maths.matrices</Package>
+                <Package>JSci.maths.polynomials</Package>
+                <Package>JSci.maths.statistics</Package>
+                <Package>JSci.maths.vectors</Package>
+                <Package>JSci.util</Package>
+                <Package>junit.extensions</Package>
+                <Package>junit.framework</Package>
+                <Package>junit.textui</Package>
+                <Package>junitx.extensions</Package>
+                <Package>org.apache.xerces.parsers</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.text">
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>0</Ce>
+                <A>0</A>
+                <I>0</I>
+                <D>1</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.text.TimeFormat
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="JSci.util">
+            <Stats>
+                <TotalClasses>4</TotalClasses>
+                <ConcreteClasses>4</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>3</Ca>
+                <Ce>3</Ce>
+                <A>0</A>
+                <I>0.5</I>
+                <D>0.5</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Unknown">
+                    JSci.util.ArrayCaster
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.util.MatrixToolkit
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.util.RandomMap
+                </Class>
+                <Class sourceFile="Unknown">
+                    JSci.util.VectorToolkit
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>JSci.maths</Package>
+                <Package>JSci.maths.matrices</Package>
+                <Package>JSci.maths.vectors</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>JSci.beans</Package>
+                <Package>JSci.maths.wavelet</Package>
+                <Package>JSci.tests</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="com.sun.javadoc">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="com.sun.tools.doclets">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="junit.extensions">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="junit.framework">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="junit.textui">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="junitx.extensions">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.apache.xerces.dom">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.apache.xerces.parsers">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.w3c.dom">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.w3c.dom.mathml">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.xml.sax">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+    </Packages>
+
+    <Cycles>
+        <Package Name="JSci.astro">
+            <Package>JSci.physics</Package>
+            <Package>JSci.maths.vectors</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.awt">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.beans">
+            <Package>JSci.maths.vectors</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.biology">
+            <Package>JSci.chemistry</Package>
+            <Package>JSci.physics</Package>
+            <Package>JSci.maths.vectors</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.chemistry">
+            <Package>JSci.physics</Package>
+            <Package>JSci.maths.vectors</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.chemistry.periodictable">
+            <Package>JSci.chemistry</Package>
+            <Package>JSci.physics</Package>
+            <Package>JSci.maths.vectors</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.instruments">
+            <Package>JSci.swing</Package>
+            <Package>JSci.awt</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.instruments.pi">
+            <Package>JSci.instruments</Package>
+            <Package>JSci.swing</Package>
+            <Package>JSci.awt</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.io">
+            <Package>JSci.maths.vectors</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths">
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.algebras">
+            <Package>JSci.maths.fields</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+        </Package>
+
+        <Package Name="JSci.maths.analysis">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.categories">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.chaos">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.fields">
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+        </Package>
+
+        <Package Name="JSci.maths.groups">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+        </Package>
+
+        <Package Name="JSci.maths.matrices">
+            <Package>JSci.maths.vectors</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.polynomials">
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+        </Package>
+
+        <Package Name="JSci.maths.statistics">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.symbolic">
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+        </Package>
+
+        <Package Name="JSci.maths.vectors">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.wavelet">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.wavelet.cdf2_4">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.wavelet.cdf3_5">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.wavelet.daubechies2">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.wavelet.daubechies3">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.wavelet.daubechies4">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.wavelet.daubechies5">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.wavelet.daubechies6">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.wavelet.daubechies7">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.wavelet.daubechies8">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.wavelet.haar">
+            <Package>JSci.maths.wavelet</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.wavelet.splines">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.maths.wavelet.symmlet8">
+            <Package>JSci.maths.wavelet</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.physics">
+            <Package>JSci.maths.vectors</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.physics.particles">
+            <Package>JSci.physics.quantum</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+        </Package>
+
+        <Package Name="JSci.physics.quantum">
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+        </Package>
+
+        <Package Name="JSci.physics.relativity">
+            <Package>JSci.maths.vectors</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.swing">
+            <Package>JSci.awt</Package>
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.tests">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+        <Package Name="JSci.util">
+            <Package>JSci.maths</Package>
+            <Package>JSci.maths.groups</Package>
+            <Package>JSci.maths</Package>
+        </Package>
+
+    </Cycles>
+</JDepend>

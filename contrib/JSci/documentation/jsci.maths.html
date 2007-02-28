@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>Maths Package</title>
+<link rel="stylesheet" href="guide.css" title="Default" type="text/css"/>
+<link rel="contents" href="guide.html"/>
+</head>
+<body>
+<h1>Maths Package</h1>
+<p>The maths package contains the following sub-packages:</p>
+<ul>
+<li><a href="#algebras">Algebras</a></li>
+<li><a href="#fields">Fields</a></li>
+<li><a href="#groups">Groups</a></li>
+<li><a href="#statistics">Statistics</a></li>
+<li><a href="#chaos">Chaos</a></li>
+<li><a href="jsci.maths.wavelet.html">Wavelet</a></li></ul>
+<h3>Numeric classes</h3>
+<p>JSci implements a wide range of numeric types as classes.
+The behaviour of these classes are defined in terms of algebra, field and group member interfaces
+(the Mathematical Structures Framework).
+These interfaces provide a high level of abstraction.</p>
+<h4>Complex</h4>
+<p>Most complex functions are implemented as static methods. This was done to improve code readability, e.g. <code>Complex.sin(z)</code> rather than <code>z.sin()</code>. The "power" methods such as <code>sqrt</code> and <code>sqr</code> are implemented as instance methods. This is so <code>z.sqrt()</code> resembles z<sup>&frac12;</sup>. (It is also a bit faster than using a static method.)</p>
+<p>Tip: where possible use the constants defined in the Complex class or the JSci.maths.fields.ComplexField class. These numbers are already instantiated and will reduce memory usage.</p>
+<h4>Quaternion</h4>
+<p>Quaternions are a generalisation of complex numbers, they have three imaginary parts rather than one. The imaginary parts are encapsulated in a 3-vector.</p>
+<h4>Supernumber</h4>
+<p>Supernumber objects encapsulate elements of the Grassmann algebra Lambda<sub>4</sub>. This is the same as the exterior algebra of differential forms in 4 dimensions.</p>
+<h4>Matrix and Vector classes</h4>
+<p>The matrix and vector classes support three different numeric types. These are integer (for speed), double (for accuracy) and complex.</p>
+<p>The square matrix classes introduce the following methods:</p>
+<ul>
+<li>LU decomposition (<code>luDecompose</code>)
+<p>Decomposes a matrix M into a lower triangular matrix L and an upper triangular matrix U, such that M=LU.</p></li>
+<li>Cholesky decomposition (<code>choleskyDecompose</code>)
+<p>Similar to LU decomposition but with the addition property that U=L<sup>T</sup>. The matrix must be symmetric and positive definite for this to work correctly.</p></li>
+<li>Singular value decomposition (<code>singularValueDecompose</code>)
+<p>Decomposes a matrix M into an orthogonal matrix U, a diagonal matrix S and an orthogonal matrix V, such that M=USV<sup>T</sup>.</p></li>
+<li>Inverse (<code>inverse</code>)
+<p>Computes the inverse of a matrix using LU decomposition (M<sup>-1</sup>=U<sup>-1</sup>L<sup>-1</sup>).</p></li></ul>
+<p>Where ever possible, the abstract matrix/vector API should be used in preference to a particular matrix/vector implementation API.
+That is, use code like <code>AbstractDoubleVector vec = new DoubleVector(dim);</code>.
+This philosophy is similar to that of the Java Collections Framework.</p>
+<h3>Class hierarchy</h3>
+<h4>Vector tree</h4>
+<pre>
+            MathVector
+                |
+         Abstract...Vector                    Abstract API
+                |
+     ---------------------------
+     |          |              |
+...Vector  ...3Vector  ...SparseVector        Implementations
+</pre>
+
+<h4>Matrix tree</h4>
+<pre>
+               Matrix
+                  |
+         Abstract...Matrix
+                  |
+    -----------------------------------
+    |             |                   |
+...Matrix ...SparseMatrix   Abstract...SquareMatrix
+                                      |
+         -----------------------------------------------------------
+         |                   |                   |                 |
+  ..SquareMatrix ...SparseSquareMatrix ...TridiagonalMatrix ...DiagonalMatrix
+</pre>
+
+<h3>Mathematical Structures Framework</h3>
+<p>This consists of the interfaces in the algebras, fields and groups packages.
+It is the maths equivalent of the Java Collections Framework.
+Each interface describes a structured set, and has a nested interface which describes a member of that set.
+</p>
+<h3>Interface descriptions</h3>
+<h4>NumericalConstants</h4>
+<p>This interface defines some commonly used numbers. It is desirable to use these where possible as it removes the need to compute them, reducing numerical errors and processor time.</p>
+<h3>Class descriptions</h3>
+<h4>ExtraMath</h4>
+<p>The ExtraMath class contains methods that are not available in java.lang.Math. It includes the hyperbolic trigonometric functions.</p>
+<h4>LinearMath</h4>
+<p>This class contains methods for solving common linear algebra problems.</p>
+<ul>
+<li>Curve fitting - method of least squares (<code>leastSquaresFit</code>)
+<p>The method of least squares is used to fit an nth degree polynomial to some given data.</p></li>
+<li>Solving linear systems - Mx=b (<code>solve</code>)
+<p>Solves a specified linear system for the unknown vector x.</p></li>
+<li>Eigenvalue/Eigenvector problems - Mx=kx (<code>eigen</code>[<code>value</code>]<code>SolveSymmetric</code>)
+<p>Returns the eigenvalues and eigenvectors of a specified matrix.</p></li></ul>
+<h4>FourierMath</h4>
+<p>The FourierMath class contains methods for performing the FFT and the inverse FFT of an array of data. Most uses will need to wrap the sort method around the FFT method to return the output in the correct ascending order.</p>
+<h3><a id="algebras">Algebras</a></h3>
+<p>This package contains the interfaces for modules, vector spaces, and algebras. There are also classes that encapsulate some common Lie algebras.</p>
+<h3><a id="fields">Fields</a></h3>
+<p>This package contains the interfaces for rings and fields. There are aslo classes that encapsulate some common fields.</p>
+<h3><a id="groups">Groups</a></h3>
+<p>This package contains the interfaces for semigroups, monoids, and groups. The discrete group classes represent elements using a, b, c, e notation (e = identity). The Lie group parent class uses complex square matrices to represent its elements. All Lie group sub-classes override the LieGroup class methods in such a way as to maintain the matrix representation, even though they themselves may use a different representation.</p>
+<h3><a id="statistics">Statistics</a></h3>
+<p>This package contains classes that model several statistical distributions.</p>
+<p>The ChiSqrDistribution methods are related to the Microsoft Excel CHIDIST and CHIINV functions as follows:</p>
+<ul>
+<li><code>CHIDIST(x) = 1 - ChiSqrDistribution.cumulative(x)</code></li>
+<li><code>CHIINV(x) = ChiSqrDistribution.inverse(1-x)</code></li></ul>
+<h3><a id="chaos">Chaos</a></h3>
+<p>Contains some chaotic maps.</p>
+<hr/>
+<p>Return to the Developer's Guide <a href="guide.html">contents</a>.</p>
+</body>
+</html>

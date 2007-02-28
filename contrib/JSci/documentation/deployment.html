@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>Deploying Programs using JSci</title>
+<link rel="stylesheet" href="guide.css" title="Default" type="text/css"/>
+<link rel="toc" href="guide.html"/>
+</head>
+<body>
+<h1>Deploying Programs using JSci</h1>
+<p>As JSci is not part of the standard Java packages,
+extra preparation may be needed before your program can be deployed to the intended user base.</p>
+<h3><a id="applications">Distributing Applications</a></h3>
+<p>If your user base has JSci installed on their machines then all you need to do is distribute your class files.
+For the case where user's may not have JSci installed you will need to distribute the appropriate jar files with your application class files.
+These can be found in the <code>JSci/classes</code> sub-directory.</p>
+<h3><a id="applets">Setting up Applets</a></h3>
+<p>If JSci is not installed on the client machines then you can use the <code>archive</code> attribute
+in the <code>&lt;applet&gt;</code> tag to specify the appropriate JAR files.
+Nowadays, the <code>&lt;object&gt;</code> tag should be used instead of the <code>&lt;applet&gt;</code> tag.</p>
+<hr/>
+<p>Return to the Developer's Guide <a href="guide.html">contents</a>.</p>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>Physics Package</title>
+<link rel="stylesheet" href="guide.css" title="Default" type="text/css"/>
+<link rel="contents" href="guide.html"/>
+</head>
+<body>
+<h1>Physics Package</h1>
+<p>The physics package contains the following sub-packages:</p>
+<ul>
+<li><a href="#particles">Particles</a></li>
+<li><a href="#quantum">Quantum</a></li>
+<li><a href="#relativity">Relativity</a></li></ul>
+<h3>Interface descriptions</h3>
+<h4>PhysicalConstants</h4>
+<p>This interface defines often used physical constants, in SI units.</p>
+<h3>Mechanics classes</h3>
+<p>The ClassicalParticle classes encapsulate the kinetics of point particles. As well as methods for accessing the kinetics, there are also methods to apply dynamics to the class. The RigidBody classes provide similar capabilities for extended particles.</p>
+<h3><a id="particles">Particles</a></h3>
+<p>This package contains classes that represent the fundamental particles. These are a useful source of data for quantities such as particle rest masses.</p>
+<h3><a id="quantum">Quantum</a></h3>
+<p>The quantum package distinguishes between abstract Hilbert space objects and the representations of those objects. The abstract side is encapsulated by operator classes, and the Dirac bra and ket vector classes. The representations use the standard JSci.maths complex matrix and vector classes. There are methods for switching between the two treatments but representations can only operate on representations and abstracts can only operate on abstracts.</p>
+<h3><a id="relativity">Relativity</a></h3>
+<p>This is based on the index-free notation of differential geometry.</p>
+<hr/>
+<p>Return to the Developer's Guide <a href="guide.html">contents</a>.</p>
+</body>
+</html>
