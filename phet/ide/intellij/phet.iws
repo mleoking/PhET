@@ -17,10 +17,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phet.iml" afterPath="$PROJECT_DIR$/phet.iml" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/CCKAboutDialog.java" afterPath="C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/CCKAboutDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phet.iws" afterPath="$PROJECT_DIR$/phet.iws" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/CCKControlPanel.java" afterPath="C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/CCKControlPanel.java" />
     </list>
     <list name="Failed commit: Default" comment="(2-27-2007) Deleted: energyconservation, was deprecated version of energy skate park." />
   </component>
@@ -149,7 +146,7 @@
       <file leaf-file-name="BSBandStructureApplication.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/bound-states/src/edu/colorado/phet/boundstates/BSBandStructureApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="13" selection-start="687" selection-end="687" vertical-scroll-proportion="0.024566473">
+            <state line="28" column="13" selection-start="687" selection-end="687" vertical-scroll-proportion="0.018065887">
               <folding />
             </state>
           </provider>
@@ -158,7 +155,7 @@
       <file leaf-file-name="BSCovalentBondsApplication.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/bound-states/src/edu/colorado/phet/boundstates/BSCovalentBondsApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="40" selection-start="1863" selection-end="1863" vertical-scroll-proportion="0.6632948">
+            <state line="60" column="40" selection-start="1863" selection-end="1863" vertical-scroll-proportion="0.11477152">
               <folding />
             </state>
           </provider>
@@ -167,7 +164,7 @@
       <file leaf-file-name="CCK2Module.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck/src/edu/colorado/phet/cck/CCK2Module.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="69" column="55" selection-start="3178" selection-end="3178" vertical-scroll-proportion="0.47710487">
+            <state line="69" column="55" selection-start="3178" selection-end="3178" vertical-scroll-proportion="0.01835853">
               <folding>
                 <marker date="1172630395984" expanded="true" signature="2792:2901" placeholder="/**...*/" />
                 <marker date="1172630395984" expanded="true" signature="4578:4889" placeholder="{...}" />
@@ -242,7 +239,7 @@
       <file leaf-file-name="CCKApplication.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/CCKApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="13" selection-start="1303" selection-end="1303" vertical-scroll-proportion="0.27023122">
+            <state line="36" column="13" selection-start="1303" selection-end="1303" vertical-scroll-proportion="0.018065887">
               <folding />
             </state>
           </provider>
@@ -251,7 +248,7 @@
       <file leaf-file-name="ComponentNode.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/piccolo_cck/ComponentNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="48" selection-start="1103" selection-end="1103" vertical-scroll-proportion="0.46387282">
+            <state line="31" column="48" selection-start="1103" selection-end="1103" vertical-scroll-proportion="0.018065887">
               <folding />
             </state>
           </provider>
@@ -260,7 +257,7 @@
       <file leaf-file-name="CCKControlPanel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/CCKControlPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="336" column="22" selection-start="13989" selection-end="13989" vertical-scroll-proportion="0.21820809">
+            <state line="336" column="22" selection-start="13989" selection-end="13989" vertical-scroll-proportion="0.01835853">
               <folding />
             </state>
           </provider>
@@ -269,7 +266,7 @@
       <file leaf-file-name="CCKAboutDialog.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/CCKAboutDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="8" selection-start="326" selection-end="326" vertical-scroll-proportion="0.31936416">
+            <state line="13" column="8" selection-start="326" selection-end="326" vertical-scroll-proportion="0.23485653">
               <folding />
             </state>
           </provider>
@@ -278,7 +275,7 @@
       <file leaf-file-name="PhetAboutDialog.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/common/phetcommon/src/edu/colorado/phet/common/application/PhetAboutDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="70" selection-start="1174" selection-end="1174" vertical-scroll-proportion="0.34393063">
+            <state line="37" column="70" selection-start="1174" selection-end="1174" vertical-scroll-proportion="0.018065887">
               <folding />
             </state>
           </provider>
@@ -287,7 +284,7 @@
       <file leaf-file-name="JunctionGraphic.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck/src/edu/colorado/phet/cck/elements/circuit/JunctionGraphic.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="72" selection-start="789" selection-end="789" vertical-scroll-proportion="0.07533235">
+            <state line="17" column="72" selection-start="789" selection-end="789" vertical-scroll-proportion="0.01835853">
               <folding>
                 <marker date="1172630408796" expanded="true" signature="791:857" placeholder="/**...*/" />
                 <marker date="1172630408796" expanded="true" signature="1572:2721" placeholder="{...}" />
@@ -474,7 +471,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations\cck3" />
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations\cck" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -500,11 +497,11 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations\cck3" />
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations\cck" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations\cck3\phetcommon-cck" />
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations\cck\lib" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -554,8 +551,8 @@
     <property name="cvs_file_history_flatOrder1" value="1" />
     <property name="cvs_file_history_flatWidth1" value="378" />
     <property name="cvs_file_history_treeWidth1" value="378" />
-    <property name="cvs_file_history_treeWidth3" value="378" />
     <property name="cvs_file_history_treeOrder2" value="2" />
+    <property name="cvs_file_history_treeWidth3" value="378" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="cvs_file_history_flatOrder2" value="2" />
     <property name="MemberChooser.showClasses" value="true" />
@@ -564,8 +561,8 @@
     <property name="cvs_file_history_treeWidth2" value="378" />
     <property name="cvs_file_history_flatOrder3" value="3" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="cvs_file_history_treeOrder0" value="0" />
     <property name="RunManagerConfig.showSettingsBeforeRunnig" value="false" />
+    <property name="cvs_file_history_treeOrder0" value="0" />
   </component>
   <component name="ReadonlyStatusHandler">
     <option name="SHOW_DIALOG" value="true" />
@@ -875,13 +872,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1608" height="1118" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25048295" order="0" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2698004" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929292" order="8" />
@@ -1025,63 +1022,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/PhET/svn/trunk/phet/simulations/batteryvoltage/src/edu/colorado/phet/batteryvoltage/BatteryApplet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="45" selection-start="59" selection-end="59" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/bound-states/src/edu/colorado/phet/boundstates/BSBandStructureApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="13" selection-start="687" selection-end="687" vertical-scroll-proportion="0.024566473">
+        <state line="28" column="13" selection-start="687" selection-end="687" vertical-scroll-proportion="0.018065887">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck/src/edu/colorado/phet/cck/elements/circuit/JunctionGraphic.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="72" selection-start="789" selection-end="789" vertical-scroll-proportion="0.07533235">
-          <folding>
-            <marker date="1172630408796" expanded="true" signature="791:857" placeholder="/**...*/" />
-            <marker date="1172630408796" expanded="true" signature="1572:2721" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="1880:2084" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="1944:1985" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="2033:2074" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="2253:2477" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="2312:2467" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="2579:2694" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="2637:2684" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="2763:2818" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="2879:3049" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="3100:3217" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="3268:4104" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="4149:4156" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="4193:4353" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="4405:5182" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="5229:5236" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="5287:5386" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="5436:5538" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="5578:6970" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="7050:7075" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="7102:7397" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="7421:7456" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="7480:7515" placeholder="{...}" />
-            <marker date="1172630408796" expanded="true" signature="7561:7732" placeholder="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/bound-states/src/edu/colorado/phet/boundstates/BSCovalentBondsApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="40" selection-start="1863" selection-end="1863" vertical-scroll-proportion="0.6632948">
+        <state line="60" column="40" selection-start="1863" selection-end="1863" vertical-scroll-proportion="0.11477152">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck/src/edu/colorado/phet/cck/CCK2Module.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="55" selection-start="3178" selection-end="3178" vertical-scroll-proportion="0.47710487">
+        <state line="69" column="55" selection-start="3178" selection-end="3178" vertical-scroll-proportion="0.01835853">
           <folding>
             <marker date="1172630395984" expanded="true" signature="2792:2901" placeholder="/**...*/" />
             <marker date="1172630395984" expanded="true" signature="4578:4889" placeholder="{...}" />
@@ -1154,35 +1111,75 @@
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/piccolo_cck/ComponentNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="48" selection-start="1103" selection-end="1103" vertical-scroll-proportion="0.46387282">
+        <state line="31" column="48" selection-start="1103" selection-end="1103" vertical-scroll-proportion="0.018065887">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/CCKControlPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="336" column="22" selection-start="13989" selection-end="13989" vertical-scroll-proportion="0.21820809">
+        <state line="336" column="22" selection-start="13989" selection-end="13989" vertical-scroll-proportion="0.01835853">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/CCKAboutDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="8" selection-start="326" selection-end="326" vertical-scroll-proportion="0.31936416">
+        <state line="13" column="8" selection-start="326" selection-end="326" vertical-scroll-proportion="0.23485653">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/common/phetcommon/src/edu/colorado/phet/common/application/PhetAboutDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="70" selection-start="1174" selection-end="1174" vertical-scroll-proportion="0.34393063">
+        <state line="37" column="70" selection-start="1174" selection-end="1174" vertical-scroll-proportion="0.018065887">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck/src/edu/colorado/phet/cck/elements/circuit/JunctionGraphic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="72" selection-start="789" selection-end="789" vertical-scroll-proportion="0.01835853">
+          <folding>
+            <marker date="1172630408796" expanded="true" signature="791:857" placeholder="/**...*/" />
+            <marker date="1172630408796" expanded="true" signature="1572:2721" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="1880:2084" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="1944:1985" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="2033:2074" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="2253:2477" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="2312:2467" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="2579:2694" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="2637:2684" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="2763:2818" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="2879:3049" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="3100:3217" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="3268:4104" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="4149:4156" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="4193:4353" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="4405:5182" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="5229:5236" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="5287:5386" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="5436:5538" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="5578:6970" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="7050:7075" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="7102:7397" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="7421:7456" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="7480:7515" placeholder="{...}" />
+            <marker date="1172630408796" expanded="true" signature="7561:7732" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/svn/trunk/phet/simulations/batteryvoltage/src/edu/colorado/phet/batteryvoltage/BatteryApplet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="45" selection-start="59" selection-end="59" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/CCKApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="13" selection-start="1303" selection-end="1303" vertical-scroll-proportion="0.27023122">
+        <state line="36" column="13" selection-start="1303" selection-end="1303" vertical-scroll-proportion="0.018065887">
           <folding />
         </state>
       </provider>
