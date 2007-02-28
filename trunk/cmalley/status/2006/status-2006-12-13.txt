@@ -1,0 +1,34 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Dec 07 - Dec 13, 2006 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Hydrogen Atom:
+  - fixed remaining problems with deBroglie 3D view
+  - improved performance of deBroglie 3D rotation
+  - implemented a solution to the Schrodinger equation in 3D
+  - mapped the 3D Schrodinger solution to 2D (the 3rd dimension is mapped to rightness)
+  - identified an open source solution to the Associated Legendre Polynomial
+  - identified problems with Schrodinger state transitions rules in the design doc
+  - published 0.00.15
+  
+  Bound States:
+  - changed the range of the electric field
+  - published 1.02 to the PhET website (will be included with new Installer)
+
+WHAT'S NEXT:
+  
+  o continue work on Hydrogen Atom simulation, see: 
+    http://www.colorado.edu/physics/phet/dev/hydrogen-atom/TODO.html
+    
+ISSUES:
+ 
+  o none
+  
+DATES UNAVAILABLE:
+
+  - January 18-26
+  
+--

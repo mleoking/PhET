@@ -1,0 +1,30 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Wed 1/12/05 - Wed 1/19/05
+
+ACCOMPLISHMENTS:
+
+  - worked on Faraday simulation, including:
+    o implemented Verlet algorithm for compass needle behavior in magnetic field
+    o modeled current in the pickup coil, and its relationship with voltmeter and lightbulb
+    o added median filtering for voltmeter and lightbulb
+    o published revisions vr04 and v0r5 for review
+    
+  - worked on phetcommon, including:
+    o tested Ron's changes to ApparatusPanel2 for scaling issue
+    o met with Ron & Sam about various topics
+    o fixed the paint method of most PhetGraphic subclasses
+  
+
+WHAT'S NEXT:
+ 
+  - continue work on Faraday simulation, see "To Do" list at
+    http://www.colorado.edu/physics/phet/dev/faraday/v0r5/
+
+ISSUES:
+
+  - see "Questions" for Faraday simulation at 
+    http://www.colorado.edu/physics/phet/dev/faraday/v0r5/
+
+-- 

@@ -1,0 +1,37 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 3/21/06-03/27/06 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Quantum Tunneling:
+  - major improvement in graphics performance by rewriting JFreeChart renderer
+  - major improvement in performance on Java 1.5 by setting interpolation method (Sam Reid)
+  - major improvement in damping of boundary reflection and circularity
+  - changed position range to [-4,+8]
+  - added color schemes (presets and custom)
+  - added Developer menu for accessing Richardson Controls dialog
+  - published 0.00.20, 0.00.21, 0.00.22
+  
+  Bound States:
+  - added color schemes (presets and custom)
+  - applied performance improvements from Quantum Tunneling
+  - started integrating Sam Reid's code for finding eigenstates
+  
+  Common Code:
+  - generalize custom JFreeChart renderer, add to jfreechart-phet
+  
+WHAT'S NEXT:
+ 
+  o continue work on Quantum Tunneling, see: 
+    http://www.colorado.edu/physics/phet/dev/quantum-tunneling/TODO.txt
+
+  o continue work on Bound States, see: 
+    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.txt
+    
+ISSUES:
+
+  o none
+
+-- 

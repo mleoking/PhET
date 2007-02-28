@@ -1,0 +1,34 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Wed 4/13/05 - Tue 4/19/05
+
+ACCOMPLISHMENTS:
+    
+  Faraday simulation:
+    o published v0r23 and v0r24
+    o implemented and debugged a new model for the electromagnet
+    o added the ability to draw the shape of any magnet model
+    o increased the number of B-field sample points on the pickup coil
+    o added a "Reset" button to all modules
+    o enhanced compass so that it still appears to rotate when kinematics if off
+    o ensure that field meter angles are always in the range -180...180 degrees
+    o made the compass grid appear to be inside the coils
+    o misc bug fixes
+    o misc internal code changes and simplifications
+
+  Fourier simulation:
+    o nothing
+  
+  phetcommon:
+    o tested stuff that was merged into trunk, identified problems and missing files
+    
+WHAT'S NEXT:
+ 
+  - continue work on Faraday (see "To Do" list at http://www.colorado.edu/physics/phet/dev/faraday/todo.txt)
+
+ISSUES:
+
+  - none
+
+-- 

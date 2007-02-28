@@ -1,0 +1,28 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Mon 11/29/04 - Fri 12/3/04
+
+HOURS:  16.75 (6.5 + 5.75 + 4.5 + 0 + 0)
+
+ACCOMPLISHMENTS:
+
+  - set up my IDE for PhET code format
+  - reformatted all colorvision3 code
+  - added PhET headers to colorvision3 and some phetcommon code
+  - weekly status meeting
+  - published 2 revisions of colorvision3 (v0r4 , v1r1)
+  - started looking at Faraday simulation
+
+WHAT'S NEXT:
+ 
+  - add Help to colorvision3 (waiting for requirements from Kathy)
+  - make my changes to phetcommon trunk
+  - port colorvision3 to phetcommon trunk ?
+  - work on Faraday simulation
+
+ISSUES:
+
+  - I was out sick Thurs & Fri, which is why my hours are low
+
+-- 

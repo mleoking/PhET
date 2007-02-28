@@ -1,0 +1,34 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 7/19/05-7/25/05 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Fourier simulation:
+    o publish v0r5, v0r6 and a few sandbox versions
+    o fix animation synchronization
+    o disable all modules except Discrete (for AAPT)
+    o add open & close buttons for Harmonics and Sum graphs
+    o redo layout of all graphs, expand to fit vertical space
+    o add Help
+    o add wiggle me
+    o change simulation title
+    
+  phetcommon:
+    o fixed HTML rendering of plain text
+    o fixed synchronization of Help button and Help menu item
+    o fixed notification of visibility changes
+
+  charts:
+    o misc bug fixes
+
+WHAT'S NEXT:
+ 
+  o continue work on Fourier (see "To Do" list at http://www.colorado.edu/physics/phet/dev/fourier/TODO.txt)
+
+ISSUES:
+
+  o I need requirements for the Fourier "Wave Pulse Generator" and "Sound" modules.
+
+-- 

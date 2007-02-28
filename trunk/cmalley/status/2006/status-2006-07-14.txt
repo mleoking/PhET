@@ -1,0 +1,32 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: July 11 - July 14, 2006 (Tue-Fri)
+
+ACCOMPLISHMENTS:
+
+  Bound States:
+  - improved responsiveness of drag handles
+  - fixed misc bugs (see release notes)
+  - published 1.00.01, 1.00.02, 1.01
+
+  Misc:
+  - change JNLP files to be compatible with installer
+  
+WHAT'S NEXT:
+  
+  o start on Optical Tweezers when I return from vacation
+  
+  o continue work on Bound States, see: 
+    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.html
+    
+ISSUES:
+ 
+  o none
+
+DATES UNAVAILABLE:
+
+  - July 17-26
+  - August 14-24
+  
+--

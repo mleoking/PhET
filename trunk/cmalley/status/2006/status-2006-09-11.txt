@@ -1,0 +1,33 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Sept 5 - Sept 11, 2006 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Hydrogen Atom:
+  - gathered requirements that aren't explicit in the design document
+  - first pass with all controls visible
+  - worked on layout of the play area
+  - created most of the images that aren't borrowed from other sims
+  - feedback from Sam McKagan on sandbox version
+  
+  Common code:
+  - PhetPNode changes
+  
+WHAT'S NEXT:
+  
+  o continue work on Hydrogen Atom, see: 
+    http://www.colorado.edu/physics/phet/dev/hydrogen-atom/TODO.html
+    
+  o publish Bound States 1.02 ?
+    
+ISSUES:
+ 
+  o Hydrogen Atom sim is much larger and more complicated than expected
+
+DATES UNAVAILABLE:
+
+  - October 8-19
+  
+--

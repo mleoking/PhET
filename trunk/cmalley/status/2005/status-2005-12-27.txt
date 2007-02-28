@@ -1,0 +1,31 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 12/20/05-12/27/05 (Tue-Tue)
+
+ACCOMPLISHMENTS:
+
+  Quantum Tunneling:
+  - debugged the wave function solutions for plane waves
+  - finished Save/Load feature
+  - changed energy range to -1...+1
+  - changed time precision to 0.1 fs
+  
+  common code:
+  - synchronized with major revisions that Sam R. made to common code
+  - upgraded all of my sims (Quantum Tunneling, Fourier, Optical Quantum Control, Faraday)
+  - misc changes/fixes to common code
+  
+  misc:
+  - collaborated with Sam R. on CCK fixes for Macintosh
+  
+WHAT'S NEXT:
+ 
+  o continue work on Quantum Tunneling, see: 
+    http://www.colorado.edu/physics/phet/dev/quantum-tunneling/TODO.txt
+
+ISSUES:
+
+  o none
+
+-- 

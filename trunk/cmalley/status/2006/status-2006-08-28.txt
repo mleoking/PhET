@@ -1,0 +1,37 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: August 23 - August 28, 2006 (Wed-Mon)
+
+ACCOMPLISHMENTS:
+
+  Hydrogen Atom:
+  - begin development
+  - collect stuff from other sims for reuse
+  - identify what needs to be ported from phetgraphics to Piccolo
+  - work on photon gun controls
+  
+  Faraday:
+  - replace water faucet image
+  - publish 1.03
+  
+  Common:
+  - clean up "controls" package
+
+  
+WHAT'S NEXT:
+  
+  o continue work on Hydrogen Atom, see: 
+    http://www.colorado.edu/physics/phet/dev/hydrogen-atom/TODO.html
+    
+  o publish Bound States 1.02 ?
+    
+ISSUES:
+ 
+  o none
+
+DATES UNAVAILABLE:
+
+  - October 8-19
+  
+--

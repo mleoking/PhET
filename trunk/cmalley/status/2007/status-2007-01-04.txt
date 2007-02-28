@@ -1,0 +1,28 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Dec 28 - Jan 4, 2007 (Thu-Thu)
+
+ACCOMPLISHMENTS:
+
+  Hydrogen Atom:
+  - implemented energy diagrams
+  - worked on specification for default values of all controls
+  - added hand cursor to all interactive controls
+  - bunch of little things related to generalizing wavelength control
+  - published 0.00.19
+
+WHAT'S NEXT:
+  
+  o continue work on Hydrogen Atom simulation, see: 
+    http://www.colorado.edu/physics/phet/dev/hydrogen-atom/TODO.html
+    
+ISSUES:
+ 
+  o none
+  
+DATES UNAVAILABLE:
+
+  - January 18-26
+  
+--

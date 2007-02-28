@@ -1,0 +1,36 @@
+Chris Malley - PixelZoom, Inc.
+March 2005 hours
+
+Tue 01  = 5.25
+Wed 02  = 4.5
+Thu 03  = 5.0
+Fri 04  = 4.5
+Sat 05  = 0
+Sun 06  = 0
+Mon 07  = 5.0
+Tue 08  = 7.75
+Wed 09  = 6.25
+Thu 10  = 4.0
+Fri 11  = 3.0
+Sat 12  = 1.5
+Sun 13  = 0
+Mon 14  = 6.0
+Tue 15  = 4.5
+Wed 16  = 7.5
+Thu 17  = 6.0
+Fri 18  = 6.0
+Sat 19  = 0
+Sun 20  = 0
+Mon 21  = 8.0
+Tue 22  = 7.25
+Wed 23  = 7.5
+Thu 24  = 7.5
+Fri 25  = 7.0
+Sat 26  = 5.5
+Sun 27  = 0
+Mon 28  = 4.0
+Tue 29  = 6.75
+Wed 30  = 4.75
+Thu 31  = 4.5
+--------------------
+TOTAL   = 139.5

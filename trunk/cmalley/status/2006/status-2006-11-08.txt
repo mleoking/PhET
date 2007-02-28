@@ -1,0 +1,27 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Nov 2 - Nov 8, 2006 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Hydrogen Atom:
+  - made all requested changes to Plum Pudding model
+  - added Rutherford Scattering for alpha particle trajectories
+  - started on Bohr model
+  - experimented with different UV/IR photon representations
+  - major reorganization of model code
+  - published 0.00.06, 0.00.07, 0.00.08
+  
+WHAT'S NEXT:
+  
+  o continue work on Hydrogen Atom simulation, see: 
+    http://www.colorado.edu/physics/phet/dev/hydrogen-atom/TODO.html
+    
+  o publish Bound States 1.02 ?
+    
+ISSUES:
+ 
+  o none
+  
+--

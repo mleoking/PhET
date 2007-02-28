@@ -1,0 +1,42 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Sept 21 - Sept 27, 2006 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Hydrogen Atom:
+  - published versions 0.00.01, 0.00.02, 0.00.03
+  - incorporated feedback into layout and "look" of user interface
+  - added a legend
+  - added Options menu to menubar, with "deBroglie wave view" choices
+  - distorted Bohr and deBroglie orbits so that 6 orbits fit in atom box
+  - created new photon image in Java2D
+  - started working on model
+  
+  Quantum Tunneling:
+  - reviewed change requests
+    
+  Common code:
+  - fixes to PSwing
+  - created "assets" project in CVS for storing images that are used in multiple sims
+  - discussed consolidation of logo images
+  
+WHAT'S NEXT:
+  
+  o continue work on Hydrogen Atom, see: 
+    http://www.colorado.edu/physics/phet/dev/hydrogen-atom/TODO.html
+    
+  o change requests for Qunatum Tunneling
+    
+  o publish Bound States 1.02 ?
+    
+ISSUES:
+ 
+  o prioritization of Hydrogen Atom and Quantum Tunneling work?
+
+DATES UNAVAILABLE:
+
+  - October 8-19
+  
+--
