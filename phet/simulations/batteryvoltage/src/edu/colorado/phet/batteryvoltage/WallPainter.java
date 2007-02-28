@@ -1,7 +1,7 @@
 package edu.colorado.phet.batteryvoltage;
 
-import edu.colorado.phet.electron.paint.Painter;
-import edu.colorado.phet.electron.paint.StrokedRectanglePainter;
+import edu.colorado.phet.common.batteryvoltage.electron.paint.Painter;
+import edu.colorado.phet.common.batteryvoltage.electron.paint.StrokedRectanglePainter;
 
 import java.awt.*;
 

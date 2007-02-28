@@ -1,7 +1,7 @@
 package edu.colorado.phet.batteryvoltage;
 
 import edu.colorado.phet.batteryvoltage.man.voltListeners.VoltageListener;
-import edu.colorado.phet.electron.paint.BufferedImagePainter;
+import edu.colorado.phet.common.batteryvoltage.electron.paint.BufferedImagePainter;
 
 import java.awt.image.BufferedImage;
 
