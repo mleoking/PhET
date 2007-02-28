@@ -27,6 +27,8 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/bernoulli/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/bernoulli/src-hp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/bernoulli/src-hpa" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations/bound-states/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations/bound-states/test-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/energyskatepark/Jama-1.0.2" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/energyskatepark/ec3-timeseries/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/energyskatepark/lookandfeels/src" isTestSource="false" />
@@ -225,6 +227,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/../../simulations/bernoulli/data-hp" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations/bound-states/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
