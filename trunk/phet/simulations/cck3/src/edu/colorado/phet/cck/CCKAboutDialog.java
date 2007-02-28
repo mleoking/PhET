@@ -14,11 +14,11 @@ public class CCKAboutDialog extends PhetAboutDialog {
         super( cckApplication );
     }
 
-    protected String getLicenseText() {
-        String s = super.getLicenseText();
-        s += System.getProperty( "line.separator" );
-        s += System.getProperty( "line.separator" );
-        s += readText( "cck-projects.txt" );
-        return s;
-    }
+//    protected String getLicenseText() {
+//        String s = super.getLicenseText();
+//        s += System.getProperty( "line.separator" );
+//        s += System.getProperty( "line.separator" );
+//        s += readText( "cck-projects.txt" );
+//        return s;
+//    }
 }
