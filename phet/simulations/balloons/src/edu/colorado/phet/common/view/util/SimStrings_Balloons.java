@@ -21,7 +21,7 @@ import java.util.Vector;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SimStrings {
+public class SimStrings_Balloons {
 
     private static Vector localizedStrings;
     private static Vector stringsPaths;
