@@ -17,7 +17,262 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\AutomatedObservable.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\transform\TransformListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\physics2d\ConstantForce.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/util" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\math\DoubleSeries.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\StrokedFixedArrow.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\ClockTickListener.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="C:/Documents and Settings/Sam Reid/Desktop/mytrunk/simulations-java/bernoulli/common/src-hpa/edu/colorado/phet/coreadditions/bernoulli" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\messagemodule\HelloPhetSimpleControlPanel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\positioned\CenteredCircleGraphic2.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/graphics/positioned" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/math/transforms/functions" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\math\MathUtil.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\transform\CompositeTransformListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/view/util/framesetup" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\Arrow.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\positioned\PositionedRect3DGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/examples" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/view/components/menu" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\CompositeTickListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\TickListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\ModelElement.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\command\Command.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\application\PhetApplication.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\plaf\PlafUtil.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\application\ModuleObserver.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\StrokedDynamicArrow.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\plaf\PlafTest.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\StaticImageGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\positioned\PositionedOvalGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\components\DefaultClockStatePanel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\math\Average.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\positioned\CenteredCircleGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\util\GraphicsUtil.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\Animation.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\physics2d\rotation\RotationalParticle.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\util\framesetup\FullScreen.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\physics1d\Particle1d.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\plafdep\ClientLookAndFeel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/examples/hellophet/model" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\math\PhysicalVector.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\positioned\CenteredImageGraphic2.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\DefaultClock.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\application\HelloPhet.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\clocktestmodule\ClockTestModule.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/clock2/clocks" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/examples/hellophet/view" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/simpleobserver" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\ClockStateListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\messagemodule\MessageModule.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/clock2/components" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\application\ModuleManager.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/graphics/transform" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\transform\ModelViewTransform2d.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\physics1d\CompositeForce1d.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\ClockStateListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\model\HelloPhetModel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\positioned\PositionedGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\controllers\CompositeMouseHandler.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\math\transforms\BoxToBoxInvertY.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\InteractiveGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/examples/hellophet/application/modules/messagemodule" afterPath="" />
+      <change type="MODIFICATION" beforePath="C:/Documents and Settings/Sam Reid/Desktop/desktop-2-21-2007/MozillaHtmlParser-v-0-1-2-platform-independent/MozillaHtmlParser/native/src/MozillaParser.cpp" afterPath="C:/Documents and Settings/Sam Reid/Desktop/desktop-2-21-2007/MozillaHtmlParser-v-0-1-2-platform-independent/MozillaHtmlParser/native/src/MozillaParser.cpp" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\ImageGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\apparatuspanelcontainment\TabbedApparatusPanelContainer.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="C:/Documents and Settings/Sam Reid/Desktop/mytrunk/simulations-java/bernoulli/common" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/view/graphics/lines" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\components\media\ApplicationModelControlPanel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/controllers" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\CompositeModelElement.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\MaximizeFrame.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/view/components/media" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\math\transforms\functions\CompositeFunction.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\view\ArrowStyleMessageView.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\simpleobserver\SimpleObservable.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\WallToSimulationAdapter.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\observation\Deletion.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/view/components" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\math\transforms\functions\RangeToRange.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics2\TextGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\clocks\SwingTimerClock.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phet.iws" afterPath="$PROJECT_DIR$/phet.iws" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\math\transforms\functions\RangeToRangeInvert.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\command\CommandQueue.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\positioned\PositionedTextGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\positioned\PositionedRectangleGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/graphics/arrows" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\controllers\DefaultControlGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\util\graphics\RescaleOp.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/view/graphics" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\math\transforms\Transform.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/examples/hellophet/application/modules/compositetestmodule" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\math\transforms\BoxToBox.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\GraphicsUtilities.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\LineSegment.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\messagemodule\MessageMonitorPanel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\plafdep\DynamicLookAndFeel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\messagemodule\MessageModuleControlPanel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\BufferedGraphicForComponent.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\ImageFlip.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\plafdep\PurpleLookAndFeel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/math/transforms" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/model" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\math\transforms\InvertibleTransform.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\CompositeClockStateListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/examples/hellophet/application/commands" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/view/apparatuspanelcontainment" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/model/observation" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/examples/hellophet/application/modules/fastmodule" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\fastmodule\FastModuleControlPanel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\BasicPhetPanel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\CompositeSimulationTimeListener.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="C:/Documents and Settings/Sam Reid/Desktop/mytrunk/simulations-java/bernoulli/common/src-hp/edu/colorado/phet/common/bernoulli" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\math\PhetVector.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\components\media\Resettable.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\plaf\LectureLookAndFeel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\plaf\LectureLookAndFeel2.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\controllers\AbstractShape.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\apparatuspanelcontainment\ApparatusPanelContainer.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\help\HelpItem.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\apparatuspanelcontainment\ApparatusPanelContainerFactory.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\plafdep\LectureLookAndFeel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/view/util/graphics" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\util\framesetup\AbsoluteFrameSetup.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/graphics2" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\plaf\PurpleLookAndFeel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\components\media\IRunAndStop.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\physics2d\Force.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\BaseModel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\ArrowTest.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\DragHandler.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\physics2d\Particle2d.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\messagemodule\MessageModuleResetHandler.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\math\TimeSeries.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\ClockTimer.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics2\TranslationController.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/view/util" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\Graphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\application\commands\SetYCommand.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\compositetestmodule\CompositeTestControlPanel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\CompositeGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\fastmodule\FastModule.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\ArrowTail.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\view\MessageView.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\components\clockgui\ClockTimeReadout.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\CompositeClockTickListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\components\menu\PhetFileMenu.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\ConstantTimeConverter.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/model/command/commands" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\Arrowhead.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\plaf\ClientLookAndFeel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\util\framesetup\FrameSetup.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\observation\Creation.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\DifferentialDragHandler.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\physics2d\rotation\ConstantTorque.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\math\transforms\functions\Translate.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics2\RectangleGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\model\MessageData.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/physics2d/rotation" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\util\graphics\ImageLoader.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\simpleobserver\SimpleObserver.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\util\VersionUtils.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/math" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/application" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\controllers\MouseHandler.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/view" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\math\transforms\functions\Scale.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\components\OrderOfMagnitudeSpinner.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/view/components/clockgui" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\ObservingGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/examples/hellophet" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/examples/hellophet/application/modules" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\application\commands\MoveMessageCommand.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\BufferedGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics2\SegmentGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\command\commands\AddModelElementCommand.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\plaf\DynamicLookAndFeel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/physics2d" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\positioned\PositionGraphicAdapter.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/model/command" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\ApparatusPanel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/plaf" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\ThreadPriority.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phet.iml" afterPath="$PROJECT_DIR$/phet.iml" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\lines\Arrow.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\BufferedGraphic2.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\TransformSlider.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/clock2/tests" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\application\Module.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\lines\LinePainter.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\view\MessageMonitor.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/plafdep" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\PhetFrame.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\RescaleOp2.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\WallToSimulationTimeConverter.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\physics1d\Force1d.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/clock2" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\physics2d\rotation\Torque.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\components\clockgui\ClockDialog.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\observation\ObservationType.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/examples/clocktestmodule" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\math\Vector2D.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\positioned\CompositePositionedGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/math" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\IClock.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\util\framesetup\FrameCenterer.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\clocks\ThreadClock.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\DynamicClock.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/view/help" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\math\transforms\IBoxToBox.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\tests\ClockTest.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="C:/Documents and Settings/Sam Reid/Desktop/mytrunk/simulations-java/bernoulli/common/src-hp" />
+      <change type="MODIFICATION" beforePath="C:/Documents and Settings/Sam Reid/Desktop/desktop-2-21-2007/MozillaHtmlParser-v-0-1-2-platform-independent-out/MozillaHtmlParser/native/src/MozillaParser.cpp" afterPath="C:/Documents and Settings/Sam Reid/Desktop/desktop-2-21-2007/MozillaHtmlParser-v-0-1-2-platform-independent-out/MozillaHtmlParser/native/src/MozillaParser.cpp" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\apparatuspanelcontainment\TabDescriptor.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\AbstractClock.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\ApplicationView.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\components\clockgui\ClockControlPanel.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="C:/Documents and Settings/Sam Reid/Desktop/mytrunk/simulations-java/bernoulli/common/src-hpa" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\clocks\UtilTimerClock.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/physics1d" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\arrows\DisappearingArrow.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics\IdeaGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/examples/hellophet/application" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\positioned\CenteredImageGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\math\CircularBuffer.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics2\FilledShapeGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics2\BufferedImageGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\components\clockgui\ClockControlPanelBackup.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="C:/Documents and Settings/Sam Reid/Desktop/desktop-2-21-2007/checkout-cvs2svn/cvs2svn_lib/artifact_manager.py" afterPath="C:/Documents and Settings/Sam Reid/Desktop/desktop-2-21-2007/checkout-cvs2svn/cvs2svn_lib/artifact_manager.py" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\IdentityTimeConverter.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\positioned\PositionedImageGraphic.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\graphics\lines\StrokedLinePainter.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\ApplicationDescriptor.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics2\Translatable.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\HelpMenu.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hp/edu/colorado/phet/common/view/graphics/positioned" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\model\Message.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\FixedClock.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\clock2\SimulationTimeListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\examples\hellophet\application\modules\compositetestmodule\CompositeTestModule.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\help\HelpItemManager.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\model\ApplicationModel.java" afterPath="" />
+      <change type="DELETED" beforePath="C:/Documents and Settings/Sam Reid/Desktop/bernie/src-hpa/edu/colorado/phet/coreadditions/graphics" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hp\edu\colorado\phet\common\view\apparatuspanelcontainment\SingleApparatusPanelContainer.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\math\transforms\functions\Function.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Documents and Settings\Sam Reid\Desktop\bernie\src-hpa\edu\colorado\phet\coreadditions\graphics2\TextGraphicOnBackground.java" afterPath="" />
     </list>
     <list name="Failed commit: Default" comment="(2-27-2007) Deleted: energyconservation, was deprecated version of energy skate park." />
   </component>
@@ -143,183 +398,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="BSBandStructureApplication.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/bound-states/src/edu/colorado/phet/boundstates/BSBandStructureApplication.java">
+      <file leaf-file-name="EnergySkateParkApplication.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/Documents and Settings/Sam Reid/Desktop/mytrunk/simulations-java/energyskatepark/src/edu/colorado/phet/ec3/EnergySkateParkApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="13" selection-start="687" selection-end="687" vertical-scroll-proportion="0.018065887">
+            <state line="45" column="13" selection-start="1661" selection-end="1661" vertical-scroll-proportion="0.023909986">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BSCovalentBondsApplication.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/bound-states/src/edu/colorado/phet/boundstates/BSCovalentBondsApplication.java">
+      <file leaf-file-name="CCKSimulationPanel.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/Documents and Settings/Sam Reid/Desktop/mytrunk/simulations-java/cck3/src/edu/colorado/phet/cck/piccolo_cck/CCKSimulationPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="40" selection-start="1863" selection-end="1863" vertical-scroll-proportion="0.11477152">
+            <state line="22" column="57" selection-start="867" selection-end="867" vertical-scroll-proportion="0.024425287">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CCK2Module.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck/src/edu/colorado/phet/cck/CCK2Module.java">
+      <file leaf-file-name="Vessel.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/Documents and Settings/Sam Reid/Desktop/mytrunk/simulations-java/bernoulli/src/edu/colorado/phet/bernoulli/Vessel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="69" column="55" selection-start="3178" selection-end="3178" vertical-scroll-proportion="0.01835853">
+            <state line="12" column="30" selection-start="362" selection-end="362" vertical-scroll-proportion="0.28691983">
               <folding>
-                <marker date="1172630395984" expanded="true" signature="2792:2901" placeholder="/**...*/" />
-                <marker date="1172630395984" expanded="true" signature="4578:4889" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="4647:4658" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="4729:4775" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="4837:4883" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="5409:5601" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="5468:5503" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="5560:5595" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="5974:6008" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="6084:11614" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="8756:8855" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="8791:8845" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="9198:9358" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="9286:9348" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="9577:9713" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="9616:9699" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="9771:10158" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="9810:10144" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="10667:10914" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="10723:10904" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="10983:11115" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="11038:11105" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="11655:16797" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="13845:14021" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="13916:14011" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="17350:18479" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="17507:17909" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="17571:17899" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="18224:18441" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="18312:18431" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="18521:18662" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="18572:18656" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="18696:18864" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="18918:19018" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="19047:19097" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="19127:19178" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="19219:19372" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="19558:19625" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="19655:19848" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="19897:19930" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="20058:20111" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="20165:20226" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="20283:20355" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="20410:20605" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="20658:20722" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="20756:20787" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="20823:20861" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="20893:20931" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="20969:20998" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="21054:21096" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="21160:21206" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="21255:21309" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="21375:21422" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="21449:21837" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="21872:22182" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="22233:22315" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="22354:22414" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="22462:22501" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="22545:22579" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="22645:26203" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="25567:25756" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="25626:25746" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="26285:26952" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="27006:27121" placeholder="{...}" />
-                <marker date="1172630395984" expanded="true" signature="27177:27257" placeholder="{...}" />
+                <marker date="1172690831687" expanded="true" signature="121:275" placeholder="/**...*/" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CCKApplication.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/CCKApplication.java">
+      <file leaf-file-name="OTApplication.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://C:/Documents and Settings/Sam Reid/Desktop/mytrunk/simulations-java/optical-tweezers/src/edu/colorado/phet/opticaltweezers/OTApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="13" selection-start="1303" selection-end="1303" vertical-scroll-proportion="0.018065887">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ComponentNode.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/piccolo_cck/ComponentNode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="48" selection-start="1103" selection-end="1103" vertical-scroll-proportion="0.018065887">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CCKControlPanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/CCKControlPanel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="336" column="22" selection-start="13989" selection-end="13989" vertical-scroll-proportion="0.01835853">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CCKAboutDialog.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/CCKAboutDialog.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="8" selection-start="326" selection-end="326" vertical-scroll-proportion="0.23485653">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PhetAboutDialog.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/common/phetcommon/src/edu/colorado/phet/common/application/PhetAboutDialog.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="70" selection-start="1174" selection-end="1174" vertical-scroll-proportion="0.018065887">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JunctionGraphic.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck/src/edu/colorado/phet/cck/elements/circuit/JunctionGraphic.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="72" selection-start="789" selection-end="789" vertical-scroll-proportion="0.01835853">
-              <folding>
-                <marker date="1172630408796" expanded="true" signature="791:857" placeholder="/**...*/" />
-                <marker date="1172630408796" expanded="true" signature="1572:2721" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="1880:2084" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="1944:1985" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="2033:2074" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="2253:2477" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="2312:2467" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="2579:2694" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="2637:2684" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="2763:2818" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="2879:3049" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="3100:3217" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="3268:4104" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="4149:4156" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="4193:4353" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="4405:5182" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="5229:5236" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="5287:5386" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="5436:5538" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="5578:6970" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="7050:7075" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="7102:7397" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="7421:7456" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="7480:7515" placeholder="{...}" />
-                <marker date="1172630408796" expanded="true" signature="7561:7732" placeholder="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BatteryApplet.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/batteryvoltage/src/edu/colorado/phet/batteryvoltage/BatteryApplet.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="45" selection-start="59" selection-end="59" vertical-scroll-proportion="0.0">
+            <state line="43" column="27" selection-start="1443" selection-end="1443" vertical-scroll-proportion="0.3347398">
               <folding />
             </state>
           </provider>
@@ -356,7 +467,20 @@
     <option name="LAST_EDITED_TAB_NAME" />
   </component>
   <component name="NamedScopeManager" />
-  <component name="PackagesPane" />
+  <component name="PackagesPane">
+    <subPane>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="phet.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+        </PATH_ELEMENT>
+      </PATH>
+    </subPane>
+  </component>
   <component name="PerforceChangeBrowserSettings">
     <option name="USE_CLIENT_FILTER" value="true" />
     <option name="CLIENT" value="" />
@@ -419,11 +543,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet" />
+          <option name="myItemId" value="PsiDirectory:C:\Documents and Settings\Sam Reid\Desktop" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -437,85 +557,11 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk" />
+          <option name="myItemId" value="PsiDirectory:C:\Documents and Settings\Sam Reid\Desktop" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="phet.ipr" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="phet" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations\cck" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="phet.ipr" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="phet" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations\cck" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations\cck\lib" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="phet.ipr" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="phet" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk" />
+          <option name="myItemId" value="PsiDirectory:C:\Documents and Settings\Sam Reid\Desktop\mytrunk" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -532,7 +578,7 @@
       <showLibraryContents />
       <hideEmptyPackages />
       <abbreviatePackageNames />
-      <showStructure ProjectPane="false" Scope="false" Favorites="false" />
+      <showStructure ProjectPane="false" PackagesPane="false" Scope="false" Favorites="false" />
       <autoscrollToSource />
       <autoscrollFromSource />
       <sortByType />
@@ -551,8 +597,8 @@
     <property name="cvs_file_history_flatOrder1" value="1" />
     <property name="cvs_file_history_flatWidth1" value="378" />
     <property name="cvs_file_history_treeWidth1" value="378" />
-    <property name="cvs_file_history_treeOrder2" value="2" />
     <property name="cvs_file_history_treeWidth3" value="378" />
+    <property name="cvs_file_history_treeOrder2" value="2" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="cvs_file_history_flatOrder2" value="2" />
     <property name="MemberChooser.showClasses" value="true" />
@@ -561,15 +607,40 @@
     <property name="cvs_file_history_treeWidth2" value="378" />
     <property name="cvs_file_history_flatOrder3" value="3" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="RunManagerConfig.showSettingsBeforeRunnig" value="false" />
     <property name="cvs_file_history_treeOrder0" value="0" />
+    <property name="RunManagerConfig.showSettingsBeforeRunnig" value="false" />
   </component>
   <component name="ReadonlyStatusHandler">
     <option name="SHOW_DIALOG" value="true" />
   </component>
   <component name="RecentsManager" />
   <component name="RestoreUpdateTree" />
-  <component name="RunManager" selected="Application.CCKApplication">
+  <component name="RunManager" selected="Application.OTApplication">
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="C:/Program Files/JetBrains/IntelliJ IDEA 6.0/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <module name="" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -585,18 +656,9 @@
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="wholeProject" />
       </option>
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="C:/Program Files/JetBrains/IntelliJ IDEA 6.0/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
@@ -604,19 +666,6 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
-    </configuration>
-    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <module name="" />
-      <method>
-        <option name="Make" value="true" />
-      </method>
     </configuration>
     <configuration default="false" name="EnergySkateParkApplication" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.ec3.EnergySkateParkApplication" />
@@ -854,6 +903,7 @@
     <configuration useDefault="true">C:\Documents and Settings\Sam Reid\Application Data\Subversion</configuration>
     <checkoutURL>https://phet.svn.sourceforge.net/svnroot/phet</checkoutURL>
     <checkoutURL>https://svn.sourceforge.net/svnroot/joode</checkoutURL>
+    <remoteStatus />
     <upgradeMode>auto</upgradeMode>
   </component>
   <component name="TodoView" selected-index="0">
@@ -872,13 +922,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1608" height="1118" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2698004" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3296845" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929292" order="8" />
@@ -888,7 +938,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24444444" order="2" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24343434" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="4" />
@@ -987,41 +1037,6 @@
     <option name="myLastEditedConfigurable" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://C:/PhET/svn/trunk/phet/simulations/batteryvoltage/ide/intellij/batteryvoltage.ipr">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/PhET/svn/trunk/phet/simulations/batteryvoltage/ide/intellij/batteryvoltage.iws">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phet.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="10" selection-start="224" selection-end="224" vertical-scroll-proportion="0.027960526">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/PhET/svn/trunk/phet/simulations/bernoulli/src/edu/colorado/phet/bernoulli/BernoulliModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="13" selection-start="2604" selection-end="2604" vertical-scroll-proportion="0.02866779">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/PhET/svn/trunk/phet/simulations/bound-states/src/edu/colorado/phet/boundstates/BSBoundStatesApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="13" selection-start="668" selection-end="668" vertical-scroll-proportion="0.027960526">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/bound-states/src/edu/colorado/phet/boundstates/BSBandStructureApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="28" column="13" selection-start="687" selection-end="687" vertical-scroll-proportion="0.018065887">
@@ -1180,6 +1195,43 @@
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/cck3/src/edu/colorado/phet/cck/CCKApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="36" column="13" selection-start="1303" selection-end="1303" vertical-scroll-proportion="0.018065887">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phet.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="45" selection-start="3470" selection-end="3470" vertical-scroll-proportion="0.85955054">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Documents and Settings/Sam Reid/Desktop/mytrunk/simulations-java/energyskatepark/src/edu/colorado/phet/ec3/EnergySkateParkApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="13" selection-start="1661" selection-end="1661" vertical-scroll-proportion="0.023909986">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Documents and Settings/Sam Reid/Desktop/mytrunk/simulations-java/cck3/src/edu/colorado/phet/cck/piccolo_cck/CCKSimulationPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="57" selection-start="867" selection-end="867" vertical-scroll-proportion="0.024425287">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Documents and Settings/Sam Reid/Desktop/mytrunk/simulations-java/bernoulli/src/edu/colorado/phet/bernoulli/Vessel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="30" selection-start="362" selection-end="362" vertical-scroll-proportion="0.28691983">
+          <folding>
+            <marker date="1172690831687" expanded="true" signature="121:275" placeholder="/**...*/" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Documents and Settings/Sam Reid/Desktop/mytrunk/simulations-java/optical-tweezers/src/edu/colorado/phet/opticaltweezers/OTApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="27" selection-start="1443" selection-end="1443" vertical-scroll-proportion="0.3347398">
           <folding />
         </state>
       </provider>
