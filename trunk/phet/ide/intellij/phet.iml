@@ -22,6 +22,8 @@
       <sourceFolder url="file://$MODULE_DIR$/../../common/service-manager/tests-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/balloons/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/balloons/src-pc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations/batteryvoltage/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations/batteryvoltage/src-pc" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/energyskatepark/Jama-1.0.2" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/energyskatepark/ec3-timeseries/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/energyskatepark/lookandfeels/src" isTestSource="false" />
@@ -193,6 +195,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/../../simulations/balloons/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations/batteryvoltage/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
