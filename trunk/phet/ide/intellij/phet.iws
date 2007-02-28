@@ -16,359 +16,11 @@
     <option name="USER" value="" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" name="Default" comment="" />
+    <list default="true" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phet.iws" afterPath="$PROJECT_DIR$/phet.iws" />
+    </list>
     <list name="Failed commit: Default" comment="(2-27-2007) Deleted: energyconservation, was deprecated version of energy skate park.">
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\application\ModuleManager.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\branch.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\images-html.txt" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/lib" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/math" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\ClockTickListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\plaf\LectureLookAndFeel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\model\MessageData.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\arrows\ArrowTest.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\command\Command.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\lib\jfreechart-0.9.20-pg.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data-hp-22\localization\HP-22Strings.properties" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/imaging/mars/originals" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/view/util/framesetup" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\controllers\MouseHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/examples" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\application\modules\compositetestmodule\CompositeTestControlPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data-hp-22\images\icons\java\media\Stop24.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/graphics" afterPath="" />
-      <change type="MODIFICATION" beforePath="C:/PhET/svn/trunk/phet/simulations/readme.txt" afterPath="C:/PhET/svn/trunk/phet/simulations/readme.txt" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\lines\Arrow.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\application\modules\fastmodule\FastModuleControlPanel.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$" afterPath="$PROJECT_DIR$" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics2\Translatable.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/view/graphics/lines" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\math\transforms\functions\RangeToRangeInvert.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\math\transforms\functions\Translate.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/data-hpa-22" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\math\Vector2D.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/physics2d" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/examples/hellophet/model" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\apparatuspanelcontainment\TabbedApparatusPanelContainer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\positioned\PositionedRect3DGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\application\modules\messagemodule\MessageModuleControlPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\localization\EnergyConservationStrings.properties" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\util\framesetup\FullScreen.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/simpleobserver" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/deploy" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/examples/hellophet/application/modules/messagemodule" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\util\VersionUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\audio\imawesome.wav" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\physics2d\rotation\Torque.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics2\TextGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics2\BufferedImageGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\AutomatedObservable.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\milkymoon_casado_big.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/examples/hellophet/application/commands" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\Earth.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\ThreadPriority.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\clock2\clocks\UtilTimerClock.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\components\menu\PhetFileMenu.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/view/components/clockgui" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\RescaleOp2.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\build\build10.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\clock2\components\DefaultClockStatePanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\clock2\ClockStateListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\icons\TipOfTheDay24.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/view" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/examples/hellophet/application/modules" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\CompositeModelElement.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\IClock.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/view/components" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\application\modules\messagemodule\MessageMonitorPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/examples/hellophet/view" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/application" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/view/graphics" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\audio\whee.wav" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\InteractiveGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\clock2\ConstantTimeConverter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data-hp-22\images\icons\java\media\Volume24.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\clock2\TickListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data-hp-22\images\icons\java\media\Movie24.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\apple.url" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\lib\jcommon-0.9.5-pg.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data-hp-22\images\icons\java\media\StepForward24.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\controllers\CompositeMouseHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/physics2d/rotation" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\deploy\energyconservation.jnlp" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/view/util" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\build\build.properties" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\build\Build10-old.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\DifferentialDragHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\application\Module.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\HelpMenu.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\observation\Deletion.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\ApplicationModel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\moon\originals\as11_44_6552.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\mars\MoonLander.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\positioned\PositionedImageGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/data-hp-22/images" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\moon\Untitled-2.psd" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\math\PhetVector.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\math\MathUtil.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\util\graphics\ImageLoader.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\Camry.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\phet-tape.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\downloads\CurveCanvas.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\build\proguard-deploy-config.pro" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\audio\awesome.wav" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\moon\originals\apollo17_schmitt_boulder.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\arrows\StrokedFixedArrow.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\ModelElement.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/data/images" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\plafdep\DynamicLookAndFeel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/model/observation" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\audio\ohyes.wav" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/graphics/transform" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\math\transforms\Transform.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\moon\rover.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\clock2\SimulationTimeListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics2\TranslationController.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\plaf\PlafUtil.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/data-hp-22" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\model\Message.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\physics2d\Particle2d.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/math/transforms/functions" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\StaticImageGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\ObservingGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\moon\moon.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\mars\Lunar-Rover-130.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/physics1d" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\arrows\ArrowTail.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\clock2\CompositeClockStateListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\positioned\CenteredCircleGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\energyconservation.build.time.stamp" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/data/localization" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/examples/hellophet/application/modules/fastmodule" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\math\CircularBuffer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\math\transforms\IBoxToBox.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/plafdep" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\positioned\CenteredCircleGraphic2.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\BasicPhetPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics2\RectangleGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\ImageFlip.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\downloads\NatCubic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\application\modules\messagemodule\MessageModule.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\help\HelpItem.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics2\SegmentGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\view\MessageMonitor.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\Graphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\Moon.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\GraphicsUtilities.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\moon\Untitled-3.psd" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/graphics/positioned" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\math\PhysicalVector.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\clock2\DefaultClock.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\icons\unselected.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\mars\originals\sojourner2.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\ferrari-side copy.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/model/command/commands" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\moon\apollo17_schmitt_boulder.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/view/components/media" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\ImageGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/downloads" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\physics1d\Force1d.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\application\modules\messagemodule\MessageModuleResetHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\motorcycle.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\ferrari-side2.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\command\CommandQueue.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\application\modules\fastmodule\FastModule.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\games\branch.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/model/command" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\Earth.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\CompositeClockTickListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/data-hpa-22/localization" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\simpleobserver\SimpleObserver.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\branch.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\mars\twin-peaks-pathfinder.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\controllers\AbstractShape.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/data" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\downloads\MouseEvent.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\plafdep\PurpleLookAndFeel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\apparatuspanelcontainment\SingleApparatusPanelContainer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\mars\originals\twin-peaks-pathfinder.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\motorcycle.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data-hpa-22\localization\HPA-22Strings.properties" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\DragHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\deploy\energyconservation_es.jnlp" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/data/audio" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/plaf" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\IdeaGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\Animation.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\lines\StrokedLinePainter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\lib\jfreechart-0.9.20.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\clock2\WallToSimulationTimeConverter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/clock2/clocks" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/data-hp-22/localization" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/data/images/windowicons" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\components\media\Resettable.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\ApparatusPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\1934_11.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data-hp-22\images\icons\java\media\Play24.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\audio\somekindabird.wav" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/model" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\CompositeGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\clock2\AbstractClock.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\Mars.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\components\media\ApplicationModelControlPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\arrows\DisappearingArrow.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\localization\EnergyConservationStrings_test.properties" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data-hp-22\localization\HP-22Strings_test.properties" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\plaf\DynamicLookAndFeel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\windowicons\butrfly2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\util\framesetup\AbsoluteFrameSetup.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\simpleobserver\SimpleObservable.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\positioned\PositionedTextGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\physics1d\Particle1d.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data-hpa-22\localization\HPA-22Strings_test.properties" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\BufferedGraphicForComponent.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\Google Image Result for www.scripps.edu-services-parking-images-motorcycle.jpg.url" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\moon\originals\rover.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\application\ModuleObserver.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\icons\selected.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\skate100-2.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/examples/hellophet" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\view\ArrowStyleMessageView.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\moon\as11_44_6552.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\clock2\WallToSimulationAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\plafdep\ClientLookAndFeel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\ApplicationView.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\ClockStateListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\arrows\Arrow.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\physics2d\Force.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\apple-60.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\S3500002.JPG" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data-hp-22\images\icons\java\media\Rewind24.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/data-hp-22/images/icons/java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/view/apparatuspanelcontainment" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics2\FilledShapeGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\moon\Untitled-2 copy.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\util\framesetup\FrameCenterer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\clock2\clocks\SwingTimerClock.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\icons\About24.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/math/transforms" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/data-hp-22/images/icons" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\Mars-Lander.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\math\transforms\functions\Scale.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\plaf\LectureLookAndFeel2.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\math\DoubleSeries.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\apparatuspanelcontainment\ApparatusPanelContainer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/examples/hellophet/application/modules/compositetestmodule" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\untitled.psd" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\mars\twin-peaks-pathfinder.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\application\commands\SetYCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\arrows\StrokedDynamicArrow.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\util\framesetup\FrameSetup.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\mars\sojourner2.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\math\transforms\BoxToBox.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\moon\Untitled-2 copy.bmp" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\clock2\IdentityTimeConverter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\positioned\PositionedGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\positioned\PositionGraphicAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/clock2" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\plaf\PurpleLookAndFeel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\observation\ObservationType.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\transform\ModelViewTransform2d.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics2\TextGraphicOnBackground.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\games\apple-60.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\math\TimeSeries.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\util\graphics\RescaleOp.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\positioned\CenteredImageGraphic2.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\plaf\PlafTest.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/data/images/games" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\arrows\LineSegment.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/math" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\bullseye.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\components\clockgui\ClockControlPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data-hp-22\images\icons\java\media\StepBack24.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/imaging/moon/originals" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/view/util/graphics" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\DynamicClock.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\skate-300.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\math\transforms\functions\RangeToRange.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\lib\jcommon-0.9.5.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\application\commands\MoveMessageCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\components\clockgui\ClockControlPanelBackup.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\math\transforms\InvertibleTransform.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\clock2\CompositeTickListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\transform\CompositeTransformListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\Lunar-Rover.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\command\commands\AddModelElementCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\skate-100-cutout.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/controllers" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\math\Average.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/data/images/icons" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\energyconservation.build.number" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\TransformSlider.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\physics2d\rotation\ConstantTorque.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\PhetFrame.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\model\HelloPhetModel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\math\transforms\functions\Function.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\downloads\ControlCurve.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\lines\LinePainter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/imaging/moon" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\plaf\ClientLookAndFeel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\plafdep\LectureLookAndFeel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\ApplicationDescriptor.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/imaging" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\Untitled-1.psd" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\components\clockgui\ClockDialog.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\mars\lander.psd" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\application\modules\compositetestmodule\CompositeTestModule.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/examples/hellophet/application" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\FixedClock.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\graphics\positioned\CenteredImageGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/clock2/components" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\components\clockgui\ClockTimeReadout.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\downloads\Cubic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\BaseModel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/graphics2" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\1934_11.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\model\observation\Creation.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\application\PhetApplication.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\controllers\DefaultControlGraphic.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data-hp-22\images\icons\java\media\FastForward24.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/view/components/menu" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\milkymoon_casado_big.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/data-hp-22/images/icons/java/media" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\mars\water-ice.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\util\GraphicsUtil.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\mars\originals\water-ice.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data\images\Camry150.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\physics2d\rotation\RotationalParticle.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\util\SimStrings.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/imaging/mars" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\view\MessageView.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/view/graphics/positioned" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\transform\TransformListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/util" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hp-22/edu/colorado/phet/common/view/help" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\apparatuspanelcontainment\TabDescriptor.java" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/build" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\examples\hellophet\application\modules\messagemodule\HelloPhetSimpleControlPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\imaging\Untitled-2.psd" afterPath="" />
-      <change type="DELETED" beforePath="C:/PhET/svn/trunk/phet/simulations/energyconservation/src-hpa-22/edu/colorado/phet/coreadditions/graphics/arrows" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\graphics\arrows\Arrowhead.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data-hp-22\images\help-item-icon.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\data-hp-22\images\icons\java\media\Pause24.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hpa-22\edu\colorado\phet\coreadditions\clock2\CompositeSimulationTimeListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\PhET\svn\trunk\phet\simulations\energyconservation\src-hp-22\edu\colorado\phet\common\view\apparatuspanelcontainment\ApparatusPanelContainerFactory.java" afterPath="" />
     </list>
   </component>
   <component name="ChangeListSynchronizer" />
@@ -493,51 +145,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="EnergySkateParkModule.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/energyskatepark/src/edu/colorado/phet/ec3/EnergySkateParkModule.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="76" selection-start="2107" selection-end="2107" vertical-scroll-proportion="0.018065887">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LookAndFeelMenu.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/energyskatepark/lookandfeels/src/edu/colorado/phet/lookandfeels/LookAndFeelMenu.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="133" selection-start="343" selection-end="343" vertical-scroll-proportion="0.01835853">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RotationMath.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/rotation/src/edu/colorado/phet/rotation/model/RotationMath.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="76" selection-start="755" selection-end="755" vertical-scroll-proportion="0.39744952">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RotationSimulation.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/rotation/src/edu/colorado/phet/rotation/RotationSimulation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="README.txt" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/test-location/README.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="70" selection-start="764" selection-end="764" vertical-scroll-proportion="0.23485653">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="readme.txt" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/readme.txt">
           <provider selected="true" editor-type-id="text-editor">
@@ -547,28 +154,82 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WaveInterferenceApplication.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/waveinterference/src/edu/colorado/phet/waveinterference/WaveInterferenceApplication.java">
+      <file leaf-file-name="readme.txt" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/PhET/svn/trunk/phet/simulations/readme.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="50" selection-start="438" selection-end="438" vertical-scroll-proportion="0.01835853">
+            <state line="7" column="85" selection-start="179" selection-end="179" vertical-scroll-proportion="0.19572368">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OTApplication.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/optical-tweezers/src/edu/colorado/phet/opticaltweezers/OTApplication.java">
+      <file leaf-file-name="BalloonApplet.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/PhET/svn/trunk/phet/simulations/balloons/src/edu/colorado/phet/balloon/BalloonApplet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="7" selection-start="2426" selection-end="2426" vertical-scroll-proportion="0.7045696">
+            <state line="30" column="13" selection-start="772" selection-end="772" vertical-scroll-proportion="0.27960527">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestWIAUI.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/PhET/svn/trunk/phet/simulations/waveinterference/tests-src/edu/colorado/phet/waveinterference/test/TestWIAUI.java">
+      <file leaf-file-name="StopwatchPanel.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/PhET/svn/trunk/phet/common/phetcommon/src/edu/colorado/phet/common/view/clock/StopwatchPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="78" selection-start="1286" selection-end="1286" vertical-scroll-proportion="0.048884165">
+            <state line="128" column="18" selection-start="4519" selection-end="4519" vertical-scroll-proportion="0.33223686">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SwingUtils.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/PhET/svn/trunk/phet/common/phetcommon/src/edu/colorado/phet/common/view/util/SwingUtils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="155" column="33" selection-start="5470" selection-end="5470" vertical-scroll-proportion="0.31743422">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SwingUtils.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/PhET/svn/trunk/phet/simulations/balloons/src/edu/colorado/phet/balloon/util/SwingUtils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="25" column="27" selection-start="0" selection-end="5685" vertical-scroll-proportion="0.33223686">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClockControlPanel.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/PhET/svn/trunk/phet/common/phetcommon/src/edu/colorado/phet/common/view/ClockControlPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="107" column="19" selection-start="3976" selection-end="3976" vertical-scroll-proportion="0.33223686">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MotorsModule.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/PhET/svn/trunk/phet/simulations/optical-tweezers/src/edu/colorado/phet/opticaltweezers/module/MotorsModule.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="81" column="44" selection-start="2831" selection-end="2831" vertical-scroll-proportion="0.33223686">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SimStrings.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/PhET/svn/trunk/phet/common/phetcommon/src/edu/colorado/phet/common/view/util/SimStrings.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="147" column="22" selection-start="4641" selection-end="4641" vertical-scroll-proportion="0.33223686">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SimStrings_Balloons.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://C:/PhET/svn/trunk/phet/simulations/balloons/src/edu/colorado/phet/common/view/util/SimStrings_Balloons.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="31" column="7" selection-start="714" selection-end="714" vertical-scroll-proportion="0.53125">
               <folding />
             </state>
           </provider>
@@ -694,7 +355,173 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\simulations" />
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\ide" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\ide\intellij" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="phet.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="phet.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common\phetcommon" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="phet.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common\phetcommon" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common\phetcommon\src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common\phetcommon\src\edu\colorado\phet\common" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="phet.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common\phetcommon" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common\phetcommon\src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common\phetcommon\src\edu\colorado\phet\common" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common\phetcommon\src\edu\colorado\phet\common\view" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="phet.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common\phetcommon" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common\phetcommon\src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common\phetcommon\src\edu\colorado\phet\common" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common\phetcommon\src\edu\colorado\phet\common\view" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\PhET\svn\trunk\phet\common\phetcommon\src\edu\colorado\phet\common\view\util" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -746,7 +573,22 @@
   </component>
   <component name="RecentsManager" />
   <component name="RestoreUpdateTree" />
-  <component name="RunManager" selected="Application.OTApplication">
+  <component name="RunManager" selected="Application.BalloonApplet">
+    <tempConfiguration default="false" name="BalloonApplet" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.balloon.BalloonApplet" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <module name="phet" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </tempConfiguration>
     <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" />
       <option name="VM_PARAMETERS" />
@@ -935,13 +777,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1608" height="1118" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18158403" order="0" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2614295" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929292" order="8" />
@@ -951,7 +793,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32929292" order="2" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32929292" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="4" />
@@ -1048,240 +890,6 @@
     <option name="myLastEditedConfigurable" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://C:/PhET/svn/trunk/phet/common/phetlauncher/NanoXML-2.2.1/Sources/Lite/nanoxml/XMLElement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="106" column="32" selection-start="3736" selection-end="3736" vertical-scroll-proportion="0.44089457">
-          <folding>
-            <marker date="1172629819828" expanded="false" signature="0:1180" placeholder="/.../" />
-            <marker date="1172629819828" expanded="true" signature="1495:3668" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="3700:3751" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="3821:4156" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="4222:4557" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="4619:4891" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="4932:5272" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="5308:5723" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="5755:6056" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="6092:6687" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="6726:6901" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="6932:7044" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="7083:7205" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="7250:7473" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="7514:7760" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="7794:8002" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="8039:8881" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="8910:8967" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="8978:9957" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="10004:10054" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="10061:11076" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="11134:11207" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="11214:12340" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="12442:12508" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="12515:13745" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="13891:13963" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="13970:15512" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="15728:16719" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="16726:17595" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="17643:17691" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="17698:19683" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="19773:19913" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="19920:20221" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="20309:20356" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="20363:21849" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="21945:22092" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="22099:22393" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="22480:22529" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="22536:24043" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="24145:24291" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="24298:24601" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="24689:24742" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="24749:25238" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="25274:25318" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="25325:28334" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="28388:28434" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="28441:28608" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="28661:28715" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="28722:29188" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="29236:29284" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="29291:29813" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="29850:30125" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="30132:30331" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="30368:30409" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="30416:30644" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="30680:30717" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="30724:31007" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="31039:31074" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="31081:32122" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="32171:32224" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="32231:33329" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="33430:33662" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="33669:35211" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="35423:35906" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="35913:37040" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="37095:37154" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="37161:38295" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="38408:38478" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="38485:40164" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="40400:40535" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="40542:41468" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="41517:41570" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="41577:42579" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="42680:43097" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="43104:44733" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="44951:45725" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="45732:46696" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="46751:46808" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="46815:47847" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="47960:48389" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="48396:50069" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="50311:51085" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="51092:52420" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="52656:53085" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="53092:53351" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="53504:53583" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="53590:53753" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="53801:53854" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="53861:54042" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="54141:54208" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="54215:54377" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="54470:54534" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="54541:54712" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="54811:54878" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="54885:55114" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="55317:55447" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="55454:55707" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="55860:55936" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="55943:56208" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="56379:56461" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="56468:56727" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="56901:56979" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="56986:57251" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="57443:57524" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="57531:57662" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="57695:57728" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="57735:57852" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="57888:57926" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="57933:58793" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="58887:58954" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="58961:59908" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="60061:60603" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="60610:61244" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="61325:61549" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="61556:62322" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="62446:62505" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="62512:63429" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="63593:63657" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="63664:64668" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="64883:65116" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="65123:66040" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="66212:66290" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="66297:67301" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="67527:67768" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="67775:68596" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="68647:68698" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="68705:72014" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="72064:72189" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="72196:72417" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="72466:72509" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="72516:72737" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="72783:72826" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="72833:72965" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="73018:73208" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="73215:73325" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="73373:73413" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="73420:73604" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="73649:73684" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="73691:74022" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="74064:74097" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="74104:74232" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="74266:74660" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="74667:75121" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="75190:76641" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="76648:77050" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="77173:78700" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="78707:79359" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="79446:79845" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="79852:79994" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="80062:80367" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="80374:80706" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="80793:81137" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="81144:81494" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="81577:82019" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="82026:82329" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="82410:82886" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="82893:83187" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="83270:84955" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="84962:85134" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="85199:85544" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="85551:85911" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="85995:87355" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="87362:87718" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="87801:88024" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="88031:88082" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="88144:88616" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="88623:88904" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="88983:92218" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="92225:92606" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="92689:93604" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="93611:93896" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="93940:93982" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="93989:94263" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="94329:94489" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="94496:94855" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="94977:95188" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="95195:95299" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="95358:95498" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="95505:95828" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="95893:96040" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="96047:96465" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="96532:96662" placeholder="{...}" />
-            <marker date="1172629819828" expanded="true" signature="96669:96976" placeholder="/**...*/" />
-            <marker date="1172629819828" expanded="true" signature="97040:97191" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/PhET/svn/trunk/phet/simulations/energyskatepark/src/edu/colorado/phet/ec3/common/Legend.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="59" selection-start="417" selection-end="417" vertical-scroll-proportion="0.08146965">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/PhET/svn/trunk/phet/psl/src/edu/colorado/phet/psl/ResourceGatherer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/PhET/svn/trunk/phet/psl/src/edu/colorado/phet/psl/JnlpGatherer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="20" selection-start="213" selection-end="213" vertical-scroll-proportion="0.30756578">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/PhET/svn/trunk/phet/simulations/energyskatepark/src/edu/colorado/phet/ec3/EnergySkateParkModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="76" selection-start="2107" selection-end="2107" vertical-scroll-proportion="0.018065887">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/PhET/svn/trunk/phet/simulations/energyskatepark/lookandfeels/src/edu/colorado/phet/lookandfeels/LookAndFeelMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="133" selection-start="343" selection-end="343" vertical-scroll-proportion="0.01835853">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/PhET/svn/trunk/phet/simulations/rotation/src/edu/colorado/phet/rotation/model/RotationMath.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="76" selection-start="755" selection-end="755" vertical-scroll-proportion="0.39744952">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/rotation/src/edu/colorado/phet/rotation/RotationSimulation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -1292,13 +900,6 @@
     <entry file="file://C:/PhET/svn/trunk/phet/test-location/README.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="70" selection-start="764" selection-end="764" vertical-scroll-proportion="0.23485653">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/readme.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1319,7 +920,77 @@
     </entry>
     <entry file="file://C:/PhET/svn/trunk/phet/simulations/optical-tweezers/src/edu/colorado/phet/opticaltweezers/OTApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="7" selection-start="2426" selection-end="2426" vertical-scroll-proportion="0.7045696">
+        <state line="59" column="30" selection-start="2158" selection-end="2158" vertical-scroll-proportion="0.8388158">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/readme.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/svn/trunk/phet/simulations/readme.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="85" selection-start="179" selection-end="179" vertical-scroll-proportion="0.19572368">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/svn/trunk/phet/simulations/balloons/src/edu/colorado/phet/balloon/BalloonApplet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="13" selection-start="772" selection-end="772" vertical-scroll-proportion="0.27960527">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/svn/trunk/phet/simulations/balloons/src/edu/colorado/phet/balloon/util/SwingUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="27" selection-start="0" selection-end="5685" vertical-scroll-proportion="0.33223686">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/svn/trunk/phet/common/phetcommon/src/edu/colorado/phet/common/view/clock/StopwatchPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="128" column="18" selection-start="4519" selection-end="4519" vertical-scroll-proportion="0.33223686">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/svn/trunk/phet/common/phetcommon/src/edu/colorado/phet/common/view/ClockControlPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="107" column="19" selection-start="3976" selection-end="3976" vertical-scroll-proportion="0.33223686">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/svn/trunk/phet/common/phetcommon/src/edu/colorado/phet/common/view/util/SwingUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="155" column="33" selection-start="5470" selection-end="5470" vertical-scroll-proportion="0.31743422">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/svn/trunk/phet/simulations/optical-tweezers/src/edu/colorado/phet/opticaltweezers/module/MotorsModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="44" selection-start="2831" selection-end="2831" vertical-scroll-proportion="0.33223686">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/svn/trunk/phet/common/phetcommon/src/edu/colorado/phet/common/view/util/SimStrings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="147" column="22" selection-start="4641" selection-end="4641" vertical-scroll-proportion="0.33223686">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/svn/trunk/phet/simulations/balloons/src/edu/colorado/phet/common/view/util/SimStrings_Balloons.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="7" selection-start="714" selection-end="714" vertical-scroll-proportion="0.53125">
           <folding />
         </state>
       </provider>
