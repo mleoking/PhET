@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>Wavelet Sub-packages</title>
+<link rel="stylesheet" href="guide.css" title="Default" type="text/css"/>
+<link rel="contents" href="guide.html"/>
+</head>
+<body>
+<h1>Wavelet Sub-packages</h1>
+<h2>History</h2>
+<p>This package was designed with Alain B&eacute;liveau and Mohamed Jardak in the winter of 1998 (at the &Eacute;cole Polytechnique de Montr&eacute;al).
+The idea was to provide a wavelet package that could equally well handle numerical analysis and signal processing.
+This is made possible by an extensive use of object-oriented design.</p>
+<h2>Terminology and background</h2>
+<p>This package assumes you know wavelet theory.
+If not, a good start is Daubechies' book "Ten lectures on wavelets" published by SIAM.</p>
+<p>Numbers of the form k/2^j are called dyadic numbers and form the dyadic grid.
+If j is the smallest (positive) integer so that x=k/2^j, we say that x is a dyadic number of depth j.
+The set of all dyadic numbers is a dense set of the reals.
+A uniformly continuous function over the dyadic numbers is therefore continuous.</p>
+<p>In this package, a multiscale function is a function defined (iteratively) on the dyadic grid.</p>
+<h2>Conventions</h2>
+<ol>
+<li>Numbering of wavelets 
+<p>When wavelets and scaling functions are created, one must keep in mind that the dimension() parameter (often noted n0) is the number of scaling functions (numbered from 0 to n0-1 according the the C-like notation).</p>
+<p>In the dyadic context, with filters of type k (for example), you'll have n0-k wavelets numbered from 0 to n0-k-1.
+With Haar, for example, which has a filters of type 0, you'll have as many wavelets as you have scaling functions.</p></li>
+<li>DiscreteHilbertSpace and numerical integration 
+<p>Numerical integration of irregular functions such as wavelets is a delicate problem.
+The methods in the class <code>DiscreteHilbertSpace</code> are only some tested solutions.
+They are not necessarily the best choices and contributions are welcomed (as always)!</p></li></ol>
+<h2>To add wavelets (subpackages)</h2>
+<p>The wavelet package was designed so that one could add wavelets at will.
+Simply create you own subpackage and obey a few simple rules.</p>
+<ol>
+<li>Use numerical integration as included in the <code>DiscreteHilbertSpace</code> class for testing (bi)orthonormality. (You should get the identity matrix).</li>
+<li>The lowpass filters must preserve constants away from the boundaries.
+That is, if you apply the filter to the array {1,1,1,1,1,...,1} then, you'll get {1,1,1,1,1,...,1} (except maybe at the boundaries). This mean that for a dyadic filter, the sum of the coefficients of the filter should be 2 (away from the boundaries).</li>
+<li>The euclidean norm of your wavelet filter should be 1 away from the boundary.</li>
+<li>Use final static constants whenever possible for performance considerations.</li>
+<li>Use the <code>IllegalScalingException</code> whenever it applies.</li>
+<li>You should have at least one object of type <code>Multiresolution</code> if you filters are dyadic.</li>
+<li>As a rule, you should handle boundaries properly.</li></ol>
+<h2>Optimisation and performance</h2>
+<p>While this package is not designed primarily for speed, it uses fast algorithms and should be adequately fast for most purposes. It was succesfully used for signal processing and numerical analysis and real-time applications have been written from it.</p>
+<p>Some notes:</p>
+<ol>
+<li>Precision parameter 
+<p>Numerous methods have a "precision parameter" or "number of iterations" (same meaning).
+You should use as small a value as possible for this parameter.
+Note that it follows a logarithmic scale (everytime you add one, your code slows down by half).
+A value of 3 or 5 should be sufficient.</p></li>
+<li>Caching results 
+<p>The method "evaluate" should be cached whenever possible because it is the costliest method in most cases.</p>
+<p>Exampe : You must replace</p>
+<pre>
+for(int k=0;k&lt;10000;k++) {
+        d[k]=f.evaluate(j)[k];
+}
+</pre>
+
+<p>by</p>
+<pre>
+double[] t=f.evaluate(j);
+for(int k=0;k&lt;10000;k++) {
+        d[k]=t[k];
+}
+</pre>
+</li></ol>
+<h2>The future</h2>
+<p>Image processing is planned in the near future.
+Wavelets will be added periodically and performance should be gradually enhanced.
+In particular, the package should include more of in-place computations maybe using the lifting scheme.</p>
+<p>Preprocessing and postprocessing is needed for wavelets other than <code>Haar</code> and <code>CDF2_4</code> when using them in a signal processing context because of boundary effects.</p>
+<h2>Examples</h2>
+<p>There is a lot to this package, from wavelet packets to matching pursuit...
+All the latest ideas are included somehow in this package.
+But, since one has to start somehow, here are some basic examples.</p>
+<ol>
+<li>(Bi)orthonormality 
+<p>This <a href="../examples/wavelet/TestBiorthogonalityDau2.java">code</a> can be used to test the orthonormality of the Daubechies wavelet.
+Similar code would work for any wavelet.</p></li>
+<li>Signal processing 
+<p>This <a href="../examples/wavelet/DougJamesDau2.java">code</a> is an example of signal processing using Daubechies wavelets.</p></li></ol>
+<h2>F.A.Q.</h2>
+<ol>
+<li><strong>Question:</strong>
+How do I calculate the number of low/high-pass coefficients?
+<p>
+<strong>Answer:</strong>
+If there are <var>n</var> data samples and the wavelet has filter type <var>filterType</var>, then<br/>
+no. low-pass coeffs = (n + filterType)/2,<br/>
+no. high-pass coeffs = (n - filterType)/2.
+</p>
+</li>
+<li><strong>Help!</strong> FWT doesn't work with level 2, 3 ,4.
+I don't understand because when I try to execute FWT Daubechies 4 of level 4 
+(2, 3 too) on a 1024 sample vector it throws this exception:
+"JSci.maths.wavelet.IllegalScalingException: Even number of values into an
+odd filter! Change the number of values/iterations: 515".
+This is the code:
+<pre>
+public class Sub_Band {
+   Daubechies4 ondelette = new Daubechies4();
+
+   public Sub_Band() {}
+
+   public void jbInit(short[] data) {
+      double d[] = new double[data.length];
+
+      for (int i=0; i&lt;data.length; i++) {
+         d = data;
+      }
+      System.out.println(d.length);
+      Signal s = new Signal(d);
+      s.setFilter(ondelette);
+
+      int level=4;
+      FWTCoef sCoef = s.fwt(level); // for some level int
+      ArrayMath.print(sCoef.getCoefs()[0]);
+      ArrayMath.print(sCoef.getCoefs()[1]);
+   }
+}
+</pre>
+This only works with level 1.
+<p><strong>Solution:</strong> Sure it does, but you need proper padding (Meyer boundaries!).
+The JSci implementation of Daubechies 4 uses the Meyer technique to adapt the filters to the interval.
+Basically, many pieces of code you can find out there will simply assume you have an infinite signal
+and do something really fishy at the boundaries.
+This implementation does something proposed by Meyer which is
+a bit cleaner than some alternatives.
+
+The key point is that if your original signal is a polynomial, you'd want the
+wavelet coefficients, even near the boundary, to be small.
+
+Because the filter type in this case is 6, this means that starting with
+n=1024 samples, you'll get n/2+3=515 low-pass coefficients and n/2-3=509 high-pass
+coefficients.
+The problem here is that 515 is odd, so Meyer's trick doesn't apply.
+
+But if you had started with a signal of length 1026, then you'd have 516
+low-pass coefficients and 510 high-pass ones, and so you'd be able to
+transform 516 to get 175 low-pass coefficients and 169 high-pass
+coefficients...
+ 
+Try a signal of length 1030 and it should work as you want.
+</p>
+</li>
+</ol>
+<h2>Further information</h2>
+<p>Visit the <a href="http://www.ondelette.com/forum/">Wavelet Forum</a> to discuss both JSci specific and general issues relating to wavelets.</p>
+<address>Daniel Lemire (<a href="mailto:Daniel.Lemire@ondelette.com">Daniel.Lemire@ondelette.com</a>)</address>
+<h2>Links</h2>
+<ul>
+<li><a href="http://engineering.rowan.edu/%7epolikar/WAVELETS/WTtutorial.html">The Wavelet Tutorial</a></li>
+</ul>
+<hr/>
+<p>Return to the Developer's Guide <a href="guide.html">contents</a>.</p>
+</body>
+</html>

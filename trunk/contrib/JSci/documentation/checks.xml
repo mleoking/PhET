@@ -1,0 +1,2133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="4.1">
+<file name="classes\JSci\GlobalSettings.java">
+</file>
+<file name="classes\JSci\Version.java">
+</file>
+<file name="classes\JSci\astro\AstronomicalConstants.java">
+</file>
+<file name="classes\JSci\astro\telescope\LX200.java">
+</file>
+<file name="classes\JSci\astro\telescope\LX200ControlPanel.java">
+</file>
+<file name="classes\JSci\astro\telescope\LX200DebugServer.java">
+</file>
+<file name="classes\JSci\astro\telescope\LX200Remote.java">
+</file>
+<file name="classes\JSci\astro\telescope\LX200Server.java">
+</file>
+<file name="classes\JSci\astro\telescope\NexStar.java">
+</file>
+<file name="classes\JSci\awt\AbstractGraphModel.java">
+</file>
+<file name="classes\JSci\awt\ArgandDiagramModel.java">
+</file>
+<file name="classes\JSci\awt\BarGraph.java">
+</file>
+<file name="classes\JSci\awt\CategoryGraph2D.java">
+</file>
+<file name="classes\JSci\awt\CategoryGraph2DModel.java">
+</file>
+<file name="classes\JSci\awt\ColorScheme.java">
+</file>
+<file name="classes\JSci\awt\ContourPlot.java">
+</file>
+<file name="classes\JSci\awt\DefaultCategoryGraph2DModel.java">
+</file>
+<file name="classes\JSci\awt\DefaultGraph2DModel.java">
+</file>
+<file name="classes\JSci\awt\DefaultGraph3DModel.java">
+</file>
+<file name="classes\JSci\awt\DoubleBufferedCanvas.java">
+</file>
+<file name="classes\JSci\awt\Graph2D.java">
+</file>
+<file name="classes\JSci\awt\Graph2DModel.java">
+</file>
+<file name="classes\JSci\awt\Graph3DModel.java">
+</file>
+<file name="classes\JSci\awt\GraphDataEvent.java">
+</file>
+<file name="classes\JSci\awt\GraphDataListener.java">
+</file>
+<file name="classes\JSci\awt\GraphLayout.java">
+</file>
+<file name="classes\JSci\awt\Histogram.java">
+</file>
+<file name="classes\JSci\awt\ImageCanvas.java">
+</file>
+<file name="classes\JSci\awt\LayeredBarGraph.java">
+</file>
+<file name="classes\JSci\awt\LineGraph.java">
+</file>
+<file name="classes\JSci\awt\LineGraph3D.java">
+</file>
+<file name="classes\JSci\awt\LineTrace.java">
+</file>
+<file name="classes\JSci\awt\PieChart.java">
+</file>
+<file name="classes\JSci\awt\Point2DListModel.java">
+</file>
+<file name="classes\JSci\awt\ScatterGraph.java">
+</file>
+<file name="classes\JSci\awt\StackedBarGraph.java">
+</file>
+<file name="classes\JSci\beans\MathBean.java">
+</file>
+<file name="classes\JSci\beans\VariableBean.java">
+</file>
+<file name="classes\JSci\beans\VariableEvent.java">
+</file>
+<file name="classes\JSci\beans\VariableListener.java">
+</file>
+<file name="classes\JSci\biology\AminoAcid.java">
+</file>
+<file name="classes\JSci\biology\AminoAcids.java">
+</file>
+<file name="classes\JSci\chemistry\Atom.java">
+</file>
+<file name="classes\JSci\chemistry\Bond.java">
+</file>
+<file name="classes\JSci\chemistry\CovalentBond.java">
+</file>
+<file name="classes\JSci\chemistry\Element.java">
+</file>
+<file name="classes\JSci\chemistry\IonicBond.java">
+</file>
+<file name="classes\JSci\chemistry\Molecule.java">
+</file>
+<file name="classes\JSci\chemistry\PeriodicTable.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\AlkaliEarthMetal.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\AlkaliMetal.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\Halogen.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\Metal.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\NobleGas.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\NonMetal.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\RareEarthMetal.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\TransitionMetal.java">
+</file>
+<file name="classes\JSci\doclet\NoosphereTaglet.java">
+</file>
+<file name="classes\JSci\doclet\PlanetMathTaglet.java">
+</file>
+<file name="classes\JSci\doclet\PlanetPhysicsTaglet.java">
+</file>
+<file name="classes\JSci\instruments\Control.java">
+</file>
+<file name="classes\JSci\instruments\Dimensions.java">
+</file>
+<file name="classes\JSci\instruments\DummyPositionControl.java">
+</file>
+<file name="classes\JSci\instruments\Image.java">
+</file>
+<file name="classes\JSci\instruments\ImageFilter.java">
+</file>
+<file name="classes\JSci\instruments\ImageFilterAdapter.java">
+</file>
+<file name="classes\JSci\instruments\ImageSink.java">
+</file>
+<file name="classes\JSci\instruments\ImageSource.java">
+</file>
+<file name="classes\JSci\instruments\Overlay.java">
+</file>
+<file name="classes\JSci\instruments\PTCroquette.java">
+</file>
+<file name="classes\JSci\instruments\PTCroquetteCross.java">
+</file>
+<file name="classes\JSci\instruments\PTTemplate.java">
+</file>
+<file name="classes\JSci\instruments\PTTemplateCross.java">
+</file>
+<file name="classes\JSci\instruments\PTTwoDBarycentre.java">
+</file>
+<file name="classes\JSci\instruments\PTTwoDBarycentreCross.java">
+</file>
+<file name="classes\JSci\instruments\ParticleTracker.java">
+</file>
+<file name="classes\JSci\instruments\ParticleTrackerListener.java">
+</file>
+<file name="classes\JSci\instruments\Player.java">
+</file>
+<file name="classes\JSci\instruments\PositionControl.java">
+</file>
+<file name="classes\JSci\instruments\PositionControlAdapter.java">
+</file>
+<file name="classes\JSci\instruments\ROI.java">
+</file>
+<file name="classes\JSci\instruments\ROIAdapter.java">
+</file>
+<file name="classes\JSci\instruments\RectangularROI.java">
+</file>
+<file name="classes\JSci\instruments\TestImageSource.java">
+</file>
+<file name="classes\JSci\instruments\TwoROI.java">
+</file>
+<file name="classes\JSci\instruments\pi\Mercury.java">
+</file>
+<file name="classes\JSci\instruments\pi\PiezoServo.java">
+</file>
+<file name="classes\JSci\io\MathMLDocumentJSciImpl.java">
+</file>
+<file name="classes\JSci\io\MathMLExpression.java">
+</file>
+<file name="classes\JSci\io\MathMLParser.java">
+</file>
+<file name="classes\JSci\io\TextReader.java">
+</file>
+<file name="classes\JSci\io\TextWriter.java">
+</file>
+<file name="classes\JSci\mathml\MathMLActionElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLAlignGroupElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLAlignMarkElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLAnnotationElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLApplyElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLBinaryOpImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLBinaryRelImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLBvarElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLCiElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLCnElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLConditionElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLContentContainerImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLContentTokenImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLCsymbolElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLDOMImplementationImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLDocumentImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLEncloseElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLFencedElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLFnElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLFractionElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLFunctionImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLGlyphElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLListElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLMathElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLMatrixElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLMatrixrowElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLNaryOpImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLNaryRelImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLPaddedElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLPredefinedSymbolImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLPresentationContainerImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLPresentationTokenImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLRadicalElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLScriptElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLSetElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLSpaceElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLStringLitElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLTendsToElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLUnaryOpImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLUnderOverElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLVectorElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLXMLAnnotationElementImpl.java">
+</file>
+<file name="classes\JSci\maths\AbstractMath.java">
+</file>
+<file name="classes\JSci\maths\ArrayMath.java">
+</file>
+<file name="classes\JSci\maths\Complex.java">
+</file>
+<file name="classes\JSci\maths\ComplexMapping.java">
+</file>
+<file name="classes\JSci\maths\CoordinateMath.java">
+</file>
+<file name="classes\JSci\maths\DimensionException.java">
+</file>
+<file name="classes\JSci\maths\EngineerMath.java">
+</file>
+<file name="classes\JSci\maths\ExtraMath.java">
+</file>
+<file name="classes\JSci\maths\FiniteSet.java">
+</file>
+<file name="classes\JSci\maths\FourierMath.java">
+</file>
+<file name="classes\JSci\maths\KarhunenLoeve.java">
+</file>
+<file name="classes\JSci\maths\LinearMath.java">
+</file>
+<file name="classes\JSci\maths\Mapping.java">
+</file>
+<file name="classes\JSci\maths\MappingND.java">
+</file>
+<file name="classes\JSci\maths\MathDouble.java">
+</file>
+<file name="classes\JSci\maths\MathInteger.java">
+</file>
+<file name="classes\JSci\maths\MathSet.java">
+</file>
+<file name="classes\JSci\maths\MaximumIterationsExceededException.java">
+</file>
+<file name="classes\JSci\maths\Member.java">
+</file>
+<file name="classes\JSci\maths\NumericalConstants.java">
+</file>
+<file name="classes\JSci\maths\NumericalMath.java">
+</file>
+<file name="classes\JSci\maths\Quaternion.java">
+</file>
+<file name="classes\JSci\maths\SpecialMath.java">
+</file>
+<file name="classes\JSci\maths\Supernumber.java">
+</file>
+<file name="classes\JSci\maths\WaveletMath.java">
+</file>
+<file name="classes\JSci\maths\algebras\Algebra.java">
+</file>
+<file name="classes\JSci\maths\algebras\BanachSpace.java">
+</file>
+<file name="classes\JSci\maths\algebras\CStarAlgebra.java">
+</file>
+<file name="classes\JSci\maths\algebras\HilbertSpace.java">
+</file>
+<file name="classes\JSci\maths\algebras\LieAlgebra.java">
+</file>
+<file name="classes\JSci\maths\algebras\Module.java">
+</file>
+<file name="classes\JSci\maths\algebras\VectorSpace.java">
+</file>
+<file name="classes\JSci\maths\algebras\so3_1Dim4.java">
+</file>
+<file name="classes\JSci\maths\algebras\sp2_RDim2.java">
+</file>
+<file name="classes\JSci\maths\algebras\sp2_RDim3.java">
+</file>
+<file name="classes\JSci\maths\algebras\su2Dim2.java">
+</file>
+<file name="classes\JSci\maths\algebras\su2Dim3.java">
+</file>
+<file name="classes\JSci\maths\algebras\su3Dim3.java">
+</file>
+<file name="classes\JSci\maths\analysis\ComplexExponential.java">
+</file>
+<file name="classes\JSci\maths\analysis\ComplexFunction.java">
+</file>
+<file name="classes\JSci\maths\analysis\Cosine.java">
+</file>
+<file name="classes\JSci\maths\analysis\Exponential.java">
+</file>
+<file name="classes\JSci\maths\analysis\Power.java">
+</file>
+<file name="classes\JSci\maths\analysis\RealFunction.java">
+</file>
+<file name="classes\JSci\maths\analysis\RealFunction2D.java">
+</file>
+<file name="classes\JSci\maths\analysis\RealFunctionND.java">
+</file>
+<file name="classes\JSci\maths\analysis\Sine.java">
+</file>
+<file name="classes\JSci\maths\analysis\Tangent.java">
+</file>
+<file name="classes\JSci\maths\categories\Bifunctor.java">
+</file>
+<file name="classes\JSci\maths\categories\Category.java">
+</file>
+<file name="classes\JSci\maths\categories\FinSet.java">
+</file>
+<file name="classes\JSci\maths\categories\Functor.java">
+</file>
+<file name="classes\JSci\maths\categories\Hilb.java">
+</file>
+<file name="classes\JSci\maths\categories\HomFunctor.java">
+</file>
+<file name="classes\JSci\maths\categories\NaturalTransformation.java">
+</file>
+<file name="classes\JSci\maths\categories\Preorder.java">
+</file>
+<file name="classes\JSci\maths\categories\Simplicial.java">
+</file>
+<file name="classes\JSci\maths\categories\UndefinedCompositionException.java">
+</file>
+<file name="classes\JSci\maths\chaos\CantorDust.java">
+</file>
+<file name="classes\JSci\maths\chaos\CatMap.java">
+</file>
+<file name="classes\JSci\maths\chaos\GingerbreadManMap.java">
+</file>
+<file name="classes\JSci\maths\chaos\HenonMap.java">
+</file>
+<file name="classes\JSci\maths\chaos\JuliaSet.java">
+</file>
+<file name="classes\JSci\maths\chaos\KochCurve.java">
+</file>
+<file name="classes\JSci\maths\chaos\LogisticMap.java">
+</file>
+<file name="classes\JSci\maths\chaos\MandelbrotMap.java">
+</file>
+<file name="classes\JSci\maths\chaos\MandelbrotSet.java">
+</file>
+<file name="classes\JSci\maths\chaos\StandardMap.java">
+</file>
+<file name="classes\JSci\maths\fields\ComplexField.java">
+</file>
+<file name="classes\JSci\maths\fields\Field.java">
+</file>
+<file name="classes\JSci\maths\fields\IntegerRing.java">
+</file>
+<file name="classes\JSci\maths\fields\RealField.java">
+</file>
+<file name="classes\JSci\maths\fields\Ring.java">
+</file>
+<file name="classes\JSci\maths\groups\AbelianGroup.java">
+</file>
+<file name="classes\JSci\maths\groups\CyclicGroup.java">
+</file>
+<file name="classes\JSci\maths\groups\DihedralGroup.java">
+</file>
+<file name="classes\JSci\maths\groups\FiniteGroup.java">
+</file>
+<file name="classes\JSci\maths\groups\Group.java">
+</file>
+<file name="classes\JSci\maths\groups\LieGroup.java">
+</file>
+<file name="classes\JSci\maths\groups\Monoid.java">
+</file>
+<file name="classes\JSci\maths\groups\QuaternionGroup.java">
+</file>
+<file name="classes\JSci\maths\groups\Semigroup.java">
+</file>
+<file name="classes\JSci\maths\groups\U1.java">
+</file>
+<file name="classes\JSci\maths\matrices\AbstractComplexMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\AbstractComplexSquareMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\AbstractDoubleMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\AbstractDoubleSquareMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\AbstractIntegerMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\AbstractIntegerSquareMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\ComplexDiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\ComplexMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\ComplexSquareMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\ComplexTridiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\DiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\DoubleDiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\DoubleMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\DoubleMatrixAlgebra.java">
+</file>
+<file name="classes\JSci\maths\matrices\DoubleSparseMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\DoubleSparseSquareMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\DoubleSquareMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\DoubleTridiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\IntegerDiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\IntegerMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\IntegerMatrixAlgebra.java">
+</file>
+<file name="classes\JSci\maths\matrices\IntegerSquareMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\IntegerTridiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\Matrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\MatrixDimensionException.java">
+</file>
+<file name="classes\JSci\maths\matrices\RingMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\SquareMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\TridiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\polynomials\ChebychevBasis.java">
+</file>
+<file name="classes\JSci\maths\polynomials\ComplexLagrangeBasis.java">
+</file>
+<file name="classes\JSci\maths\polynomials\ComplexPolynomial.java">
+</file>
+<file name="classes\JSci\maths\polynomials\ComplexPolynomialRing.java">
+</file>
+<file name="classes\JSci\maths\polynomials\Polynomial.java">
+</file>
+<file name="classes\JSci\maths\polynomials\PolynomialBasis.java">
+</file>
+<file name="classes\JSci\maths\polynomials\PolynomialMath.java">
+</file>
+<file name="classes\JSci\maths\polynomials\RealLagrangeBasis.java">
+</file>
+<file name="classes\JSci\maths\polynomials\RealMonomialBasis.java">
+</file>
+<file name="classes\JSci\maths\polynomials\RealPolynomial.java">
+</file>
+<file name="classes\JSci\maths\polynomials\RealPolynomialRing.java">
+</file>
+<file name="classes\JSci\maths\statistics\BetaDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\BinomialDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\CauchyDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\ChiSqrDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\ExponentialDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\FDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\GammaDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\GeometricDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\LognormalDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\NormalDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\OutOfRangeException.java">
+</file>
+<file name="classes\JSci\maths\statistics\ParetoDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\PoissonDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\ProbabilityDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\SampleStatistics.java">
+</file>
+<file name="classes\JSci\maths\statistics\TDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\WeibullDistribution.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Constant.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Evaluation.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Expression.java">
+</file>
+<file name="classes\JSci\maths\symbolic\ExpressionParser.java">
+</file>
+<file name="classes\JSci\maths\symbolic\ExpressionParserConstants.java">
+</file>
+<file name="classes\JSci\maths\symbolic\ExpressionParserTokenManager.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Function.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Negative.java">
+</file>
+<file name="classes\JSci\maths\symbolic\ParseException.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Power.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Product.java">
+</file>
+<file name="classes\JSci\maths\symbolic\SimpleCharStream.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Sum.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Token.java">
+</file>
+<file name="classes\JSci\maths\symbolic\TokenMgrError.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Variable.java">
+</file>
+<file name="classes\JSci\maths\vectors\AbstractComplexVector.java">
+</file>
+<file name="classes\JSci\maths\vectors\AbstractDoubleVector.java">
+</file>
+<file name="classes\JSci\maths\vectors\AbstractIntegerVector.java">
+</file>
+<file name="classes\JSci\maths\vectors\Complex2Vector.java">
+</file>
+<file name="classes\JSci\maths\vectors\Complex3Vector.java">
+</file>
+<file name="classes\JSci\maths\vectors\ComplexVector.java">
+</file>
+<file name="classes\JSci\maths\vectors\Double2Vector.java">
+</file>
+<file name="classes\JSci\maths\vectors\Double3Vector.java">
+</file>
+<file name="classes\JSci\maths\vectors\DoubleSparseVector.java">
+</file>
+<file name="classes\JSci\maths\vectors\DoubleVector.java">
+</file>
+<file name="classes\JSci\maths\vectors\Integer2Vector.java">
+</file>
+<file name="classes\JSci\maths\vectors\Integer3Vector.java">
+</file>
+<file name="classes\JSci\maths\vectors\IntegerVector.java">
+</file>
+<file name="classes\JSci\maths\vectors\MathVector.java">
+</file>
+<file name="classes\JSci\maths\vectors\VectorDimensionException.java">
+</file>
+<file name="classes\JSci\maths\wavelet\BasisFunctionLibrary.java">
+</file>
+<file name="classes\JSci\maths\wavelet\Cascades.java">
+</file>
+<file name="classes\JSci\maths\wavelet\Cosine.java">
+</file>
+<file name="classes\JSci\maths\wavelet\DiscreteFunction.java">
+</file>
+<file name="classes\JSci\maths\wavelet\DiscreteHilbertSpace.java">
+</file>
+<file name="classes\JSci\maths\wavelet\FWT.java">
+</file>
+<file name="classes\JSci\maths\wavelet\FWTCoef.java">
+</file>
+<file name="classes\JSci\maths\wavelet\FWTCoefMath.java">
+</file>
+<file name="classes\JSci\maths\wavelet\FWTPacketCoef.java">
+</file>
+<file name="classes\JSci\maths\wavelet\Filter.java">
+</file>
+<file name="classes\JSci\maths\wavelet\IllegalScalingException.java">
+</file>
+<file name="classes\JSci\maths\wavelet\MatchingPursuit.java">
+</file>
+<file name="classes\JSci\maths\wavelet\Multiresolution.java">
+</file>
+<file name="classes\JSci\maths\wavelet\MultiscaleFunction.java">
+</file>
+<file name="classes\JSci\maths\wavelet\Signal.java">
+</file>
+<file name="classes\JSci\maths\wavelet\Sine.java">
+</file>
+<file name="classes\JSci\maths\wavelet\SparseDiscreteFunction.java">
+</file>
+<file name="classes\JSci\maths\wavelet\cdf2_4\CDF2_4.java">
+</file>
+<file name="classes\JSci\maths\wavelet\cdf2_4\DualScaling2_4.java">
+</file>
+<file name="classes\JSci\maths\wavelet\cdf2_4\DualWavelet2_4.java">
+</file>
+<file name="classes\JSci\maths\wavelet\cdf2_4\FastCDF2_4.java">
+</file>
+<file name="classes\JSci\maths\wavelet\cdf2_4\MultiSpline2_4.java">
+</file>
+<file name="classes\JSci\maths\wavelet\cdf3_5\CDF3_5.java">
+</file>
+<file name="classes\JSci\maths\wavelet\cdf3_5\DualScaling3_5.java">
+</file>
+<file name="classes\JSci\maths\wavelet\cdf3_5\DualWavelet3_5.java">
+</file>
+<file name="classes\JSci\maths\wavelet\cdf3_5\MultiSpline3_5.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies2\Daubechies2.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies2\FastDaubechies2.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies2\Scaling2.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies2\Wavelet2.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies3\Daubechies3.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies3\Scaling3.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies3\Wavelet3.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies4\Daubechies4.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies4\Scaling4.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies4\Wavelet4.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies5\Daubechies5.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies5\Scaling5.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies5\Wavelet5.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies6\Daubechies6.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies6\Scaling6.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies6\Wavelet6.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies7\Daubechies7.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies7\Scaling7.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies7\Wavelet7.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies8\Daubechies8.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies8\Scaling8.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies8\Wavelet8.java">
+</file>
+<file name="classes\JSci\maths\wavelet\haar\FastHaar.java">
+</file>
+<file name="classes\JSci\maths\wavelet\haar\MultiSplineHaar.java">
+</file>
+<file name="classes\JSci\maths\wavelet\splines\LinearSpline.java">
+</file>
+<file name="classes\JSci\maths\wavelet\splines\PiecewiseConstant.java">
+</file>
+<file name="classes\JSci\maths\wavelet\splines\QuadraticSpline.java">
+</file>
+<file name="classes\JSci\maths\wavelet\splines\Spline.java">
+</file>
+<file name="classes\JSci\maths\wavelet\splines\SumOfDiracs.java">
+</file>
+<file name="classes\JSci\maths\wavelet\symmlet8\FastSymmlet8.java">
+</file>
+<file name="classes\JSci\physics\AbstractClassicalParticle.java">
+</file>
+<file name="classes\JSci\physics\ClassicalParticle.java">
+</file>
+<file name="classes\JSci\physics\ClassicalParticle2D.java">
+</file>
+<file name="classes\JSci\physics\ClassicalParticle3D.java">
+</file>
+<file name="classes\JSci\physics\ConstantForce2D.java">
+</file>
+<file name="classes\JSci\physics\ConstantForce3D.java">
+</file>
+<file name="classes\JSci\physics\ConstantTorque3D.java">
+</file>
+<file name="classes\JSci\physics\Drag.java">
+</file>
+<file name="classes\JSci\physics\Force.java">
+</file>
+<file name="classes\JSci\physics\Force2D.java">
+</file>
+<file name="classes\JSci\physics\Force3D.java">
+</file>
+<file name="classes\JSci\physics\GravityField.java">
+</file>
+<file name="classes\JSci\physics\Particle.java">
+</file>
+<file name="classes\JSci\physics\PhysicalConstants.java">
+</file>
+<file name="classes\JSci\physics\RelativisticParticle.java">
+</file>
+<file name="classes\JSci\physics\RigidBody2D.java">
+</file>
+<file name="classes\JSci\physics\RigidBody3D.java">
+</file>
+<file name="classes\JSci\physics\Spring.java">
+</file>
+<file name="classes\JSci\physics\Torque3D.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiBaryon.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiBottom.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiCharm.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiDown.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiElectronNeutrino.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiHadron.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiHyperon.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiKZero.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiKaon.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiLambda.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiLepton.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiMeson.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiMuon.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiMuonNeutrino.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiNeutron.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiNucleon.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiOmegaMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiPion.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiProton.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiQuark.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiSigma.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiSigmaMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiSigmaPlus.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiSigmaZero.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiStrange.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiTau.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiTauNeutrino.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiTop.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiUp.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiXi.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiXiZero.java">
+</file>
+<file name="classes\JSci\physics\particles\Baryon.java">
+</file>
+<file name="classes\JSci\physics\particles\Bottom.java">
+</file>
+<file name="classes\JSci\physics\particles\Charm.java">
+</file>
+<file name="classes\JSci\physics\particles\Down.java">
+</file>
+<file name="classes\JSci\physics\particles\Electron.java">
+</file>
+<file name="classes\JSci\physics\particles\ElectronNeutrino.java">
+</file>
+<file name="classes\JSci\physics\particles\Eta.java">
+</file>
+<file name="classes\JSci\physics\particles\GaugeBoson.java">
+</file>
+<file name="classes\JSci\physics\particles\Gluon.java">
+</file>
+<file name="classes\JSci\physics\particles\Graviton.java">
+</file>
+<file name="classes\JSci\physics\particles\Hadron.java">
+</file>
+<file name="classes\JSci\physics\particles\Hyperon.java">
+</file>
+<file name="classes\JSci\physics\particles\KMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\KPlus.java">
+</file>
+<file name="classes\JSci\physics\particles\KZero.java">
+</file>
+<file name="classes\JSci\physics\particles\Kaon.java">
+</file>
+<file name="classes\JSci\physics\particles\Lambda.java">
+</file>
+<file name="classes\JSci\physics\particles\Lepton.java">
+</file>
+<file name="classes\JSci\physics\particles\Meson.java">
+</file>
+<file name="classes\JSci\physics\particles\Muon.java">
+</file>
+<file name="classes\JSci\physics\particles\MuonNeutrino.java">
+</file>
+<file name="classes\JSci\physics\particles\Neutron.java">
+</file>
+<file name="classes\JSci\physics\particles\Nucleon.java">
+</file>
+<file name="classes\JSci\physics\particles\OmegaMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\Photon.java">
+</file>
+<file name="classes\JSci\physics\particles\PiMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\PiPlus.java">
+</file>
+<file name="classes\JSci\physics\particles\PiZero.java">
+</file>
+<file name="classes\JSci\physics\particles\Pion.java">
+</file>
+<file name="classes\JSci\physics\particles\Positron.java">
+</file>
+<file name="classes\JSci\physics\particles\Proton.java">
+</file>
+<file name="classes\JSci\physics\particles\Quark.java">
+</file>
+<file name="classes\JSci\physics\particles\Sigma.java">
+</file>
+<file name="classes\JSci\physics\particles\SigmaMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\SigmaPlus.java">
+</file>
+<file name="classes\JSci\physics\particles\SigmaZero.java">
+</file>
+<file name="classes\JSci\physics\particles\Strange.java">
+</file>
+<file name="classes\JSci\physics\particles\Tau.java">
+</file>
+<file name="classes\JSci\physics\particles\TauNeutrino.java">
+</file>
+<file name="classes\JSci\physics\particles\Top.java">
+</file>
+<file name="classes\JSci\physics\particles\Up.java">
+</file>
+<file name="classes\JSci\physics\particles\WMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\WPlus.java">
+</file>
+<file name="classes\JSci\physics\particles\Xi.java">
+</file>
+<file name="classes\JSci\physics\particles\XiMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\XiPlus.java">
+</file>
+<file name="classes\JSci\physics\particles\XiZero.java">
+</file>
+<file name="classes\JSci\physics\particles\ZZero.java">
+</file>
+<file name="classes\JSci\physics\quantum\BraVector.java">
+</file>
+<file name="classes\JSci\physics\quantum\DensityMatrix.java">
+</file>
+<file name="classes\JSci\physics\quantum\GammaMatrix.java">
+</file>
+<file name="classes\JSci\physics\quantum\KetVector.java">
+</file>
+<file name="classes\JSci\physics\quantum\Operator.java">
+</file>
+<file name="classes\JSci\physics\quantum\Projector.java">
+</file>
+<file name="classes\JSci\physics\quantum\QuantumMath.java">
+</file>
+<file name="classes\JSci\physics\quantum\QuantumParticle.java">
+</file>
+<file name="classes\JSci\physics\quantum\SpinOperator.java">
+</file>
+<file name="classes\JSci\physics\quantum\SpinorProjector.java">
+</file>
+<file name="classes\JSci\physics\relativity\EMFieldTensor.java">
+</file>
+<file name="classes\JSci\physics\relativity\KroneckerDelta.java">
+</file>
+<file name="classes\JSci\physics\relativity\LeviCivita.java">
+</file>
+<file name="classes\JSci\physics\relativity\LorentzBoost.java">
+</file>
+<file name="classes\JSci\physics\relativity\MinkowskiMetric.java">
+</file>
+<file name="classes\JSci\physics\relativity\Rank1Tensor.java">
+</file>
+<file name="classes\JSci\physics\relativity\Rank2Tensor.java">
+</file>
+<file name="classes\JSci\physics\relativity\Rank3Tensor.java">
+</file>
+<file name="classes\JSci\physics\relativity\Rank4Tensor.java">
+</file>
+<file name="classes\JSci\physics\relativity\Tensor.java">
+</file>
+<file name="classes\JSci\swing\JArcDial.java">
+</file>
+<file name="classes\JSci\swing\JBarGraph.java">
+</file>
+<file name="classes\JSci\swing\JCategoryGraph2D.java">
+</file>
+<file name="classes\JSci\swing\JContourPlot.java">
+</file>
+<file name="classes\JSci\swing\JDoubleBufferedComponent.java">
+</file>
+<file name="classes\JSci\swing\JGraph2D.java">
+</file>
+<file name="classes\JSci\swing\JGraphLayout.java">
+</file>
+<file name="classes\JSci\swing\JHistogram.java">
+</file>
+<file name="classes\JSci\swing\JImageCanvas.java">
+</file>
+<file name="classes\JSci\swing\JLayeredBarGraph.java">
+</file>
+<file name="classes\JSci\swing\JLineGraph.java">
+</file>
+<file name="classes\JSci\swing\JLineGraph3D.java">
+</file>
+<file name="classes\JSci\swing\JLineTrace.java">
+</file>
+<file name="classes\JSci\swing\JPieChart.java">
+</file>
+<file name="classes\JSci\swing\JPointer.java">
+</file>
+<file name="classes\JSci\swing\JRoundDial.java">
+</file>
+<file name="classes\JSci\swing\JScatterGraph.java">
+</file>
+<file name="classes\JSci\swing\JSliderPlus.java">
+</file>
+<file name="classes\JSci\swing\JStackedBarGraph.java">
+</file>
+<file name="classes\JSci\tests\ArrayTest.java">
+</file>
+<file name="classes\JSci\tests\ComplexMatrixEigenTest.java">
+</file>
+<file name="classes\JSci\tests\ComplexTest.java">
+</file>
+<file name="classes\JSci\tests\DoubleMatrixEigenTest.java">
+</file>
+<file name="classes\JSci\tests\EngineerTest.java">
+</file>
+<file name="classes\JSci\tests\ExtraMathTest.java">
+</file>
+<file name="classes\JSci\tests\FourierTest.java">
+</file>
+<file name="classes\JSci\tests\MathMLTest.java">
+</file>
+<file name="classes\JSci\tests\MatrixDecompositionTest.java">
+</file>
+<file name="classes\JSci\tests\MatrixTest.java">
+</file>
+<file name="classes\JSci\tests\NumberTest.java">
+</file>
+<file name="classes\JSci\tests\NumericalTest.java">
+</file>
+<file name="classes\JSci\tests\PolynomialTest.java">
+</file>
+<file name="classes\JSci\tests\QuaternionTest.java">
+</file>
+<file name="classes\JSci\tests\SpecialTest.java">
+</file>
+<file name="classes\JSci\tests\StatisticsTest.java">
+</file>
+<file name="classes\JSci\tests\TestProperties.java">
+</file>
+<file name="classes\JSci\tests\VectorTest.java">
+</file>
+<file name="classes\JSci\tests\WaveletTest.java">
+</file>
+<file name="classes\JSci\text\TimeFormat.java">
+</file>
+<file name="classes\JSci\util\ArrayCaster.java">
+</file>
+<file name="classes\JSci\util\MatrixToolkit.java">
+</file>
+<file name="classes\JSci\util\RandomMap.java">
+</file>
+<file name="classes\JSci\util\VectorToolkit.java">
+</file>
+<file name="classes\JSci\GlobalSettings.java">
+</file>
+<file name="classes\JSci\Version.java">
+</file>
+<file name="classes\JSci\astro\AstronomicalConstants.java">
+</file>
+<file name="classes\JSci\astro\telescope\LX200.java">
+</file>
+<file name="classes\JSci\astro\telescope\LX200ControlPanel.java">
+</file>
+<file name="classes\JSci\astro\telescope\LX200DebugServer.java">
+</file>
+<file name="classes\JSci\astro\telescope\LX200Remote.java">
+</file>
+<file name="classes\JSci\astro\telescope\LX200Server.java">
+</file>
+<file name="classes\JSci\astro\telescope\NexStar.java">
+</file>
+<file name="classes\JSci\awt\AbstractGraphModel.java">
+</file>
+<file name="classes\JSci\awt\ArgandDiagramModel.java">
+</file>
+<file name="classes\JSci\awt\BarGraph.java">
+</file>
+<file name="classes\JSci\awt\CategoryGraph2D.java">
+</file>
+<file name="classes\JSci\awt\CategoryGraph2DModel.java">
+</file>
+<file name="classes\JSci\awt\ColorScheme.java">
+</file>
+<file name="classes\JSci\awt\ContourPlot.java">
+</file>
+<file name="classes\JSci\awt\DefaultCategoryGraph2DModel.java">
+</file>
+<file name="classes\JSci\awt\DefaultGraph2DModel.java">
+</file>
+<file name="classes\JSci\awt\DefaultGraph3DModel.java">
+</file>
+<file name="classes\JSci\awt\DoubleBufferedCanvas.java">
+</file>
+<file name="classes\JSci\awt\Graph2D.java">
+</file>
+<file name="classes\JSci\awt\Graph2DModel.java">
+</file>
+<file name="classes\JSci\awt\Graph3DModel.java">
+</file>
+<file name="classes\JSci\awt\GraphDataEvent.java">
+</file>
+<file name="classes\JSci\awt\GraphDataListener.java">
+</file>
+<file name="classes\JSci\awt\GraphLayout.java">
+</file>
+<file name="classes\JSci\awt\Histogram.java">
+</file>
+<file name="classes\JSci\awt\ImageCanvas.java">
+</file>
+<file name="classes\JSci\awt\LayeredBarGraph.java">
+</file>
+<file name="classes\JSci\awt\LineGraph.java">
+</file>
+<file name="classes\JSci\awt\LineGraph3D.java">
+</file>
+<file name="classes\JSci\awt\LineTrace.java">
+</file>
+<file name="classes\JSci\awt\PieChart.java">
+</file>
+<file name="classes\JSci\awt\Point2DListModel.java">
+</file>
+<file name="classes\JSci\awt\ScatterGraph.java">
+</file>
+<file name="classes\JSci\awt\StackedBarGraph.java">
+</file>
+<file name="classes\JSci\beans\MathBean.java">
+</file>
+<file name="classes\JSci\beans\VariableBean.java">
+</file>
+<file name="classes\JSci\beans\VariableEvent.java">
+</file>
+<file name="classes\JSci\beans\VariableListener.java">
+</file>
+<file name="classes\JSci\biology\AminoAcid.java">
+</file>
+<file name="classes\JSci\biology\AminoAcids.java">
+</file>
+<file name="classes\JSci\chemistry\Atom.java">
+</file>
+<file name="classes\JSci\chemistry\Bond.java">
+</file>
+<file name="classes\JSci\chemistry\CovalentBond.java">
+</file>
+<file name="classes\JSci\chemistry\Element.java">
+</file>
+<file name="classes\JSci\chemistry\IonicBond.java">
+</file>
+<file name="classes\JSci\chemistry\Molecule.java">
+</file>
+<file name="classes\JSci\chemistry\PeriodicTable.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\AlkaliEarthMetal.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\AlkaliMetal.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\Halogen.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\Metal.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\NobleGas.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\NonMetal.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\RareEarthMetal.java">
+</file>
+<file name="classes\JSci\chemistry\periodictable\TransitionMetal.java">
+</file>
+<file name="classes\JSci\doclet\NoosphereTaglet.java">
+</file>
+<file name="classes\JSci\doclet\PlanetMathTaglet.java">
+</file>
+<file name="classes\JSci\doclet\PlanetPhysicsTaglet.java">
+</file>
+<file name="classes\JSci\instruments\Control.java">
+</file>
+<file name="classes\JSci\instruments\Dimensions.java">
+</file>
+<file name="classes\JSci\instruments\DummyPositionControl.java">
+</file>
+<file name="classes\JSci\instruments\Image.java">
+</file>
+<file name="classes\JSci\instruments\ImageFilter.java">
+</file>
+<file name="classes\JSci\instruments\ImageFilterAdapter.java">
+</file>
+<file name="classes\JSci\instruments\ImageSink.java">
+</file>
+<file name="classes\JSci\instruments\ImageSource.java">
+</file>
+<file name="classes\JSci\instruments\Overlay.java">
+</file>
+<file name="classes\JSci\instruments\PTCroquette.java">
+</file>
+<file name="classes\JSci\instruments\PTCroquetteCross.java">
+</file>
+<file name="classes\JSci\instruments\PTTemplate.java">
+</file>
+<file name="classes\JSci\instruments\PTTemplateCross.java">
+</file>
+<file name="classes\JSci\instruments\PTTwoDBarycentre.java">
+</file>
+<file name="classes\JSci\instruments\PTTwoDBarycentreCross.java">
+</file>
+<file name="classes\JSci\instruments\ParticleTracker.java">
+</file>
+<file name="classes\JSci\instruments\ParticleTrackerListener.java">
+</file>
+<file name="classes\JSci\instruments\Player.java">
+</file>
+<file name="classes\JSci\instruments\PositionControl.java">
+</file>
+<file name="classes\JSci\instruments\PositionControlAdapter.java">
+</file>
+<file name="classes\JSci\instruments\ROI.java">
+</file>
+<file name="classes\JSci\instruments\ROIAdapter.java">
+</file>
+<file name="classes\JSci\instruments\RectangularROI.java">
+</file>
+<file name="classes\JSci\instruments\TestImageSource.java">
+</file>
+<file name="classes\JSci\instruments\TwoROI.java">
+</file>
+<file name="classes\JSci\instruments\pi\Mercury.java">
+</file>
+<file name="classes\JSci\instruments\pi\PiezoServo.java">
+</file>
+<file name="classes\JSci\io\MathMLDocumentJSciImpl.java">
+</file>
+<file name="classes\JSci\io\MathMLExpression.java">
+</file>
+<file name="classes\JSci\io\MathMLParser.java">
+</file>
+<file name="classes\JSci\io\TextReader.java">
+</file>
+<file name="classes\JSci\io\TextWriter.java">
+</file>
+<file name="classes\JSci\mathml\MathMLActionElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLAlignGroupElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLAlignMarkElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLAnnotationElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLApplyElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLBinaryOpImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLBinaryRelImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLBvarElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLCiElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLCnElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLConditionElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLContentContainerImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLContentTokenImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLCsymbolElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLDOMImplementationImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLDocumentImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLEncloseElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLFencedElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLFnElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLFractionElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLFunctionImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLGlyphElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLListElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLMathElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLMatrixElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLMatrixrowElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLNaryOpImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLNaryRelImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLPaddedElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLPredefinedSymbolImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLPresentationContainerImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLPresentationTokenImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLRadicalElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLScriptElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLSetElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLSpaceElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLStringLitElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLTendsToElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLUnaryOpImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLUnderOverElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLVectorElementImpl.java">
+</file>
+<file name="classes\JSci\mathml\MathMLXMLAnnotationElementImpl.java">
+</file>
+<file name="classes\JSci\maths\AbstractMath.java">
+</file>
+<file name="classes\JSci\maths\ArrayMath.java">
+</file>
+<file name="classes\JSci\maths\Complex.java">
+</file>
+<file name="classes\JSci\maths\ComplexMapping.java">
+</file>
+<file name="classes\JSci\maths\CoordinateMath.java">
+</file>
+<file name="classes\JSci\maths\DimensionException.java">
+</file>
+<file name="classes\JSci\maths\EngineerMath.java">
+</file>
+<file name="classes\JSci\maths\ExtraMath.java">
+</file>
+<file name="classes\JSci\maths\FiniteSet.java">
+</file>
+<file name="classes\JSci\maths\FourierMath.java">
+</file>
+<file name="classes\JSci\maths\KarhunenLoeve.java">
+</file>
+<file name="classes\JSci\maths\LinearMath.java">
+</file>
+<file name="classes\JSci\maths\Mapping.java">
+</file>
+<file name="classes\JSci\maths\MappingND.java">
+</file>
+<file name="classes\JSci\maths\MathDouble.java">
+</file>
+<file name="classes\JSci\maths\MathInteger.java">
+</file>
+<file name="classes\JSci\maths\MathSet.java">
+</file>
+<file name="classes\JSci\maths\MaximumIterationsExceededException.java">
+</file>
+<file name="classes\JSci\maths\Member.java">
+</file>
+<file name="classes\JSci\maths\NumericalConstants.java">
+</file>
+<file name="classes\JSci\maths\NumericalMath.java">
+</file>
+<file name="classes\JSci\maths\Quaternion.java">
+</file>
+<file name="classes\JSci\maths\SpecialMath.java">
+</file>
+<file name="classes\JSci\maths\Supernumber.java">
+</file>
+<file name="classes\JSci\maths\WaveletMath.java">
+</file>
+<file name="classes\JSci\maths\algebras\Algebra.java">
+</file>
+<file name="classes\JSci\maths\algebras\BanachSpace.java">
+</file>
+<file name="classes\JSci\maths\algebras\CStarAlgebra.java">
+</file>
+<file name="classes\JSci\maths\algebras\HilbertSpace.java">
+</file>
+<file name="classes\JSci\maths\algebras\LieAlgebra.java">
+</file>
+<file name="classes\JSci\maths\algebras\Module.java">
+</file>
+<file name="classes\JSci\maths\algebras\VectorSpace.java">
+</file>
+<file name="classes\JSci\maths\algebras\so3_1Dim4.java">
+</file>
+<file name="classes\JSci\maths\algebras\sp2_RDim2.java">
+</file>
+<file name="classes\JSci\maths\algebras\sp2_RDim3.java">
+</file>
+<file name="classes\JSci\maths\algebras\su2Dim2.java">
+</file>
+<file name="classes\JSci\maths\algebras\su2Dim3.java">
+</file>
+<file name="classes\JSci\maths\algebras\su3Dim3.java">
+</file>
+<file name="classes\JSci\maths\analysis\ComplexExponential.java">
+</file>
+<file name="classes\JSci\maths\analysis\ComplexFunction.java">
+</file>
+<file name="classes\JSci\maths\analysis\Cosine.java">
+</file>
+<file name="classes\JSci\maths\analysis\Exponential.java">
+</file>
+<file name="classes\JSci\maths\analysis\Power.java">
+</file>
+<file name="classes\JSci\maths\analysis\RealFunction.java">
+</file>
+<file name="classes\JSci\maths\analysis\RealFunction2D.java">
+</file>
+<file name="classes\JSci\maths\analysis\RealFunctionND.java">
+</file>
+<file name="classes\JSci\maths\analysis\Sine.java">
+</file>
+<file name="classes\JSci\maths\analysis\Tangent.java">
+</file>
+<file name="classes\JSci\maths\categories\Bifunctor.java">
+</file>
+<file name="classes\JSci\maths\categories\Category.java">
+</file>
+<file name="classes\JSci\maths\categories\FinSet.java">
+</file>
+<file name="classes\JSci\maths\categories\Functor.java">
+</file>
+<file name="classes\JSci\maths\categories\Hilb.java">
+</file>
+<file name="classes\JSci\maths\categories\HomFunctor.java">
+</file>
+<file name="classes\JSci\maths\categories\NaturalTransformation.java">
+</file>
+<file name="classes\JSci\maths\categories\Preorder.java">
+</file>
+<file name="classes\JSci\maths\categories\Simplicial.java">
+</file>
+<file name="classes\JSci\maths\categories\UndefinedCompositionException.java">
+</file>
+<file name="classes\JSci\maths\chaos\CantorDust.java">
+</file>
+<file name="classes\JSci\maths\chaos\CatMap.java">
+</file>
+<file name="classes\JSci\maths\chaos\GingerbreadManMap.java">
+</file>
+<file name="classes\JSci\maths\chaos\HenonMap.java">
+</file>
+<file name="classes\JSci\maths\chaos\JuliaSet.java">
+</file>
+<file name="classes\JSci\maths\chaos\KochCurve.java">
+</file>
+<file name="classes\JSci\maths\chaos\LogisticMap.java">
+</file>
+<file name="classes\JSci\maths\chaos\MandelbrotMap.java">
+</file>
+<file name="classes\JSci\maths\chaos\MandelbrotSet.java">
+</file>
+<file name="classes\JSci\maths\chaos\StandardMap.java">
+</file>
+<file name="classes\JSci\maths\fields\ComplexField.java">
+</file>
+<file name="classes\JSci\maths\fields\Field.java">
+</file>
+<file name="classes\JSci\maths\fields\IntegerRing.java">
+</file>
+<file name="classes\JSci\maths\fields\RealField.java">
+</file>
+<file name="classes\JSci\maths\fields\Ring.java">
+</file>
+<file name="classes\JSci\maths\groups\AbelianGroup.java">
+</file>
+<file name="classes\JSci\maths\groups\CyclicGroup.java">
+</file>
+<file name="classes\JSci\maths\groups\DihedralGroup.java">
+</file>
+<file name="classes\JSci\maths\groups\FiniteGroup.java">
+</file>
+<file name="classes\JSci\maths\groups\Group.java">
+</file>
+<file name="classes\JSci\maths\groups\LieGroup.java">
+</file>
+<file name="classes\JSci\maths\groups\Monoid.java">
+</file>
+<file name="classes\JSci\maths\groups\QuaternionGroup.java">
+</file>
+<file name="classes\JSci\maths\groups\Semigroup.java">
+</file>
+<file name="classes\JSci\maths\groups\U1.java">
+</file>
+<file name="classes\JSci\maths\matrices\AbstractComplexMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\AbstractComplexSquareMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\AbstractDoubleMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\AbstractDoubleSquareMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\AbstractIntegerMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\AbstractIntegerSquareMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\ComplexDiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\ComplexMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\ComplexSquareMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\ComplexTridiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\DiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\DoubleDiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\DoubleMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\DoubleMatrixAlgebra.java">
+</file>
+<file name="classes\JSci\maths\matrices\DoubleSparseMatrix.java">
+<error line="97" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+<error line="97" column="30" severity="error" message="covariant equals without overriding equals(java.lang.Object)." source="com.puppycrawl.tools.checkstyle.checks.coding.CovariantEqualsCheck"/>
+</file>
+<file name="classes\JSci\maths\matrices\DoubleSparseSquareMatrix.java">
+<error line="97" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+<error line="97" column="30" severity="error" message="covariant equals without overriding equals(java.lang.Object)." source="com.puppycrawl.tools.checkstyle.checks.coding.CovariantEqualsCheck"/>
+</file>
+<file name="classes\JSci\maths\matrices\DoubleSquareMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\DoubleTridiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\IntegerDiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\IntegerMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\IntegerMatrixAlgebra.java">
+</file>
+<file name="classes\JSci\maths\matrices\IntegerSquareMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\IntegerTridiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\Matrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\MatrixDimensionException.java">
+</file>
+<file name="classes\JSci\maths\matrices\RingMatrix.java">
+<error line="36" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\matrices\SquareMatrix.java">
+</file>
+<file name="classes\JSci\maths\matrices\TridiagonalMatrix.java">
+</file>
+<file name="classes\JSci\maths\polynomials\ChebychevBasis.java">
+</file>
+<file name="classes\JSci\maths\polynomials\ComplexLagrangeBasis.java">
+</file>
+<file name="classes\JSci\maths\polynomials\ComplexPolynomial.java">
+</file>
+<file name="classes\JSci\maths\polynomials\ComplexPolynomialRing.java">
+</file>
+<file name="classes\JSci\maths\polynomials\Polynomial.java">
+</file>
+<file name="classes\JSci\maths\polynomials\PolynomialBasis.java">
+</file>
+<file name="classes\JSci\maths\polynomials\PolynomialMath.java">
+</file>
+<file name="classes\JSci\maths\polynomials\RealLagrangeBasis.java">
+</file>
+<file name="classes\JSci\maths\polynomials\RealMonomialBasis.java">
+</file>
+<file name="classes\JSci\maths\polynomials\RealPolynomial.java">
+</file>
+<file name="classes\JSci\maths\polynomials\RealPolynomialRing.java">
+</file>
+<file name="classes\JSci\maths\statistics\BetaDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\BinomialDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\CauchyDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\ChiSqrDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\ExponentialDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\FDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\GammaDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\GeometricDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\LognormalDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\NormalDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\OutOfRangeException.java">
+</file>
+<file name="classes\JSci\maths\statistics\ParetoDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\PoissonDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\ProbabilityDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\SampleStatistics.java">
+</file>
+<file name="classes\JSci\maths\statistics\TDistribution.java">
+</file>
+<file name="classes\JSci\maths\statistics\WeibullDistribution.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Constant.java">
+<error line="49" column="5" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\symbolic\Evaluation.java">
+<error line="42" column="5" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\symbolic\Expression.java">
+</file>
+<file name="classes\JSci\maths\symbolic\ExpressionParser.java">
+</file>
+<file name="classes\JSci\maths\symbolic\ExpressionParserConstants.java">
+</file>
+<file name="classes\JSci\maths\symbolic\ExpressionParserTokenManager.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Function.java">
+<error line="69" column="5" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\symbolic\Negative.java">
+</file>
+<file name="classes\JSci\maths\symbolic\ParseException.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Power.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Product.java">
+</file>
+<file name="classes\JSci\maths\symbolic\SimpleCharStream.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Sum.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Token.java">
+</file>
+<file name="classes\JSci\maths\symbolic\TokenMgrError.java">
+</file>
+<file name="classes\JSci\maths\symbolic\Variable.java">
+<error line="44" column="5" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\vectors\AbstractComplexVector.java">
+</file>
+<file name="classes\JSci\maths\vectors\AbstractDoubleVector.java">
+</file>
+<file name="classes\JSci\maths\vectors\AbstractIntegerVector.java">
+</file>
+<file name="classes\JSci\maths\vectors\Complex2Vector.java">
+</file>
+<file name="classes\JSci\maths\vectors\Complex3Vector.java">
+</file>
+<file name="classes\JSci\maths\vectors\ComplexVector.java">
+</file>
+<file name="classes\JSci\maths\vectors\Double2Vector.java">
+</file>
+<file name="classes\JSci\maths\vectors\Double3Vector.java">
+</file>
+<file name="classes\JSci\maths\vectors\DoubleSparseVector.java">
+</file>
+<file name="classes\JSci\maths\vectors\DoubleVector.java">
+</file>
+<file name="classes\JSci\maths\vectors\Integer2Vector.java">
+</file>
+<file name="classes\JSci\maths\vectors\Integer3Vector.java">
+</file>
+<file name="classes\JSci\maths\vectors\IntegerVector.java">
+<error line="41" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\vectors\MathVector.java">
+</file>
+<file name="classes\JSci\maths\vectors\VectorDimensionException.java">
+</file>
+<file name="classes\JSci\maths\wavelet\BasisFunctionLibrary.java">
+</file>
+<file name="classes\JSci\maths\wavelet\Cascades.java">
+</file>
+<file name="classes\JSci\maths\wavelet\Cosine.java">
+<error line="32" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\DiscreteFunction.java">
+<error line="50" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\DiscreteHilbertSpace.java">
+</file>
+<file name="classes\JSci\maths\wavelet\FWT.java">
+</file>
+<file name="classes\JSci\maths\wavelet\FWTCoef.java">
+</file>
+<file name="classes\JSci\maths\wavelet\FWTCoefMath.java">
+</file>
+<file name="classes\JSci\maths\wavelet\FWTPacketCoef.java">
+</file>
+<file name="classes\JSci\maths\wavelet\Filter.java">
+</file>
+<file name="classes\JSci\maths\wavelet\IllegalScalingException.java">
+</file>
+<file name="classes\JSci\maths\wavelet\MatchingPursuit.java">
+</file>
+<file name="classes\JSci\maths\wavelet\Multiresolution.java">
+</file>
+<file name="classes\JSci\maths\wavelet\MultiscaleFunction.java">
+<error line="82" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\Signal.java">
+<error line="410" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+<error line="410" column="24" severity="error" message="covariant equals without overriding equals(java.lang.Object)." source="com.puppycrawl.tools.checkstyle.checks.coding.CovariantEqualsCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\Sine.java">
+<error line="45" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\SparseDiscreteFunction.java">
+</file>
+<file name="classes\JSci\maths\wavelet\cdf2_4\CDF2_4.java">
+</file>
+<file name="classes\JSci\maths\wavelet\cdf2_4\DualScaling2_4.java">
+<error line="22" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\cdf2_4\DualWavelet2_4.java">
+<error line="22" column="5" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\cdf2_4\FastCDF2_4.java">
+</file>
+<file name="classes\JSci\maths\wavelet\cdf2_4\MultiSpline2_4.java">
+</file>
+<file name="classes\JSci\maths\wavelet\cdf3_5\CDF3_5.java">
+</file>
+<file name="classes\JSci\maths\wavelet\cdf3_5\DualScaling3_5.java">
+<error line="20" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\cdf3_5\DualWavelet3_5.java">
+<error line="25" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\cdf3_5\MultiSpline3_5.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies2\Daubechies2.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies2\FastDaubechies2.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies2\Scaling2.java">
+<error line="35" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies2\Wavelet2.java">
+<error line="37" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies3\Daubechies3.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies3\Scaling3.java">
+<error line="22" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies3\Wavelet3.java">
+<error line="24" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies4\Daubechies4.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies4\Scaling4.java">
+<error line="22" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies4\Wavelet4.java">
+<error line="22" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies5\Daubechies5.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies5\Scaling5.java">
+<error line="22" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies5\Wavelet5.java">
+<error line="24" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies6\Daubechies6.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies6\Scaling6.java">
+<error line="24" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies6\Wavelet6.java">
+<error line="38" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies7\Daubechies7.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies7\Scaling7.java">
+<error line="24" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies7\Wavelet7.java">
+<error line="37" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies8\Daubechies8.java">
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies8\Scaling8.java">
+<error line="37" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\daubechies8\Wavelet8.java">
+<error line="32" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\haar\FastHaar.java">
+</file>
+<file name="classes\JSci\maths\wavelet\haar\MultiSplineHaar.java">
+</file>
+<file name="classes\JSci\maths\wavelet\splines\LinearSpline.java">
+<error line="47" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\splines\PiecewiseConstant.java">
+<error line="32" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\splines\QuadraticSpline.java">
+<error line="48" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\splines\Spline.java">
+<error line="25" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\splines\SumOfDiracs.java">
+<error line="46" column="3" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\maths\wavelet\symmlet8\FastSymmlet8.java">
+</file>
+<file name="classes\JSci\physics\AbstractClassicalParticle.java">
+</file>
+<file name="classes\JSci\physics\ClassicalParticle.java">
+</file>
+<file name="classes\JSci\physics\ClassicalParticle2D.java">
+</file>
+<file name="classes\JSci\physics\ClassicalParticle3D.java">
+</file>
+<file name="classes\JSci\physics\ConstantForce2D.java">
+</file>
+<file name="classes\JSci\physics\ConstantForce3D.java">
+</file>
+<file name="classes\JSci\physics\ConstantTorque3D.java">
+</file>
+<file name="classes\JSci\physics\Drag.java">
+</file>
+<file name="classes\JSci\physics\Force.java">
+</file>
+<file name="classes\JSci\physics\Force2D.java">
+</file>
+<file name="classes\JSci\physics\Force3D.java">
+</file>
+<file name="classes\JSci\physics\GravityField.java">
+</file>
+<file name="classes\JSci\physics\Particle.java">
+</file>
+<file name="classes\JSci\physics\PhysicalConstants.java">
+</file>
+<file name="classes\JSci\physics\RelativisticParticle.java">
+</file>
+<file name="classes\JSci\physics\RigidBody2D.java">
+</file>
+<file name="classes\JSci\physics\RigidBody3D.java">
+</file>
+<file name="classes\JSci\physics\Spring.java">
+</file>
+<file name="classes\JSci\physics\Torque3D.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiBaryon.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiBottom.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiCharm.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiDown.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiElectronNeutrino.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiHadron.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiHyperon.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiKZero.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiKaon.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiLambda.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiLepton.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiMeson.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiMuon.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiMuonNeutrino.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiNeutron.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiNucleon.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiOmegaMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiPion.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiProton.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiQuark.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiSigma.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiSigmaMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiSigmaPlus.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiSigmaZero.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiStrange.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiTau.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiTauNeutrino.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiTop.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiUp.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiXi.java">
+</file>
+<file name="classes\JSci\physics\particles\AntiXiZero.java">
+</file>
+<file name="classes\JSci\physics\particles\Baryon.java">
+</file>
+<file name="classes\JSci\physics\particles\Bottom.java">
+</file>
+<file name="classes\JSci\physics\particles\Charm.java">
+</file>
+<file name="classes\JSci\physics\particles\Down.java">
+</file>
+<file name="classes\JSci\physics\particles\Electron.java">
+</file>
+<file name="classes\JSci\physics\particles\ElectronNeutrino.java">
+</file>
+<file name="classes\JSci\physics\particles\Eta.java">
+</file>
+<file name="classes\JSci\physics\particles\GaugeBoson.java">
+</file>
+<file name="classes\JSci\physics\particles\Gluon.java">
+</file>
+<file name="classes\JSci\physics\particles\Graviton.java">
+</file>
+<file name="classes\JSci\physics\particles\Hadron.java">
+</file>
+<file name="classes\JSci\physics\particles\Hyperon.java">
+</file>
+<file name="classes\JSci\physics\particles\KMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\KPlus.java">
+</file>
+<file name="classes\JSci\physics\particles\KZero.java">
+</file>
+<file name="classes\JSci\physics\particles\Kaon.java">
+</file>
+<file name="classes\JSci\physics\particles\Lambda.java">
+</file>
+<file name="classes\JSci\physics\particles\Lepton.java">
+</file>
+<file name="classes\JSci\physics\particles\Meson.java">
+</file>
+<file name="classes\JSci\physics\particles\Muon.java">
+</file>
+<file name="classes\JSci\physics\particles\MuonNeutrino.java">
+</file>
+<file name="classes\JSci\physics\particles\Neutron.java">
+</file>
+<file name="classes\JSci\physics\particles\Nucleon.java">
+</file>
+<file name="classes\JSci\physics\particles\OmegaMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\Photon.java">
+</file>
+<file name="classes\JSci\physics\particles\PiMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\PiPlus.java">
+</file>
+<file name="classes\JSci\physics\particles\PiZero.java">
+</file>
+<file name="classes\JSci\physics\particles\Pion.java">
+</file>
+<file name="classes\JSci\physics\particles\Positron.java">
+</file>
+<file name="classes\JSci\physics\particles\Proton.java">
+</file>
+<file name="classes\JSci\physics\particles\Quark.java">
+</file>
+<file name="classes\JSci\physics\particles\Sigma.java">
+</file>
+<file name="classes\JSci\physics\particles\SigmaMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\SigmaPlus.java">
+</file>
+<file name="classes\JSci\physics\particles\SigmaZero.java">
+</file>
+<file name="classes\JSci\physics\particles\Strange.java">
+</file>
+<file name="classes\JSci\physics\particles\Tau.java">
+</file>
+<file name="classes\JSci\physics\particles\TauNeutrino.java">
+</file>
+<file name="classes\JSci\physics\particles\Top.java">
+</file>
+<file name="classes\JSci\physics\particles\Up.java">
+</file>
+<file name="classes\JSci\physics\particles\WMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\WPlus.java">
+</file>
+<file name="classes\JSci\physics\particles\Xi.java">
+</file>
+<file name="classes\JSci\physics\particles\XiMinus.java">
+</file>
+<file name="classes\JSci\physics\particles\XiPlus.java">
+</file>
+<file name="classes\JSci\physics\particles\XiZero.java">
+</file>
+<file name="classes\JSci\physics\particles\ZZero.java">
+</file>
+<file name="classes\JSci\physics\quantum\BraVector.java">
+</file>
+<file name="classes\JSci\physics\quantum\DensityMatrix.java">
+</file>
+<file name="classes\JSci\physics\quantum\GammaMatrix.java">
+</file>
+<file name="classes\JSci\physics\quantum\KetVector.java">
+</file>
+<file name="classes\JSci\physics\quantum\Operator.java">
+</file>
+<file name="classes\JSci\physics\quantum\Projector.java">
+</file>
+<file name="classes\JSci\physics\quantum\QuantumMath.java">
+</file>
+<file name="classes\JSci\physics\quantum\QuantumParticle.java">
+</file>
+<file name="classes\JSci\physics\quantum\SpinOperator.java">
+</file>
+<file name="classes\JSci\physics\quantum\SpinorProjector.java">
+</file>
+<file name="classes\JSci\physics\relativity\EMFieldTensor.java">
+</file>
+<file name="classes\JSci\physics\relativity\KroneckerDelta.java">
+</file>
+<file name="classes\JSci\physics\relativity\LeviCivita.java">
+</file>
+<file name="classes\JSci\physics\relativity\LorentzBoost.java">
+</file>
+<file name="classes\JSci\physics\relativity\MinkowskiMetric.java">
+</file>
+<file name="classes\JSci\physics\relativity\Rank1Tensor.java">
+</file>
+<file name="classes\JSci\physics\relativity\Rank2Tensor.java">
+<error line="24" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\physics\relativity\Rank3Tensor.java">
+<error line="24" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\physics\relativity\Rank4Tensor.java">
+<error line="24" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="classes\JSci\physics\relativity\Tensor.java">
+</file>
+<file name="classes\JSci\swing\JArcDial.java">
+</file>
+<file name="classes\JSci\swing\JBarGraph.java">
+</file>
+<file name="classes\JSci\swing\JCategoryGraph2D.java">
+</file>
+<file name="classes\JSci\swing\JContourPlot.java">
+</file>
+<file name="classes\JSci\swing\JDoubleBufferedComponent.java">
+</file>
+<file name="classes\JSci\swing\JGraph2D.java">
+</file>
+<file name="classes\JSci\swing\JGraphLayout.java">
+</file>
+<file name="classes\JSci\swing\JHistogram.java">
+</file>
+<file name="classes\JSci\swing\JImageCanvas.java">
+</file>
+<file name="classes\JSci\swing\JLayeredBarGraph.java">
+</file>
+<file name="classes\JSci\swing\JLineGraph.java">
+</file>
+<file name="classes\JSci\swing\JLineGraph3D.java">
+</file>
+<file name="classes\JSci\swing\JLineTrace.java">
+</file>
+<file name="classes\JSci\swing\JPieChart.java">
+</file>
+<file name="classes\JSci\swing\JPointer.java">
+</file>
+<file name="classes\JSci\swing\JRoundDial.java">
+</file>
+<file name="classes\JSci\swing\JScatterGraph.java">
+</file>
+<file name="classes\JSci\swing\JSliderPlus.java">
+</file>
+<file name="classes\JSci\swing\JStackedBarGraph.java">
+</file>
+<file name="classes\JSci\tests\ArrayTest.java">
+</file>
+<file name="classes\JSci\tests\ComplexMatrixEigenTest.java">
+</file>
+<file name="classes\JSci\tests\ComplexTest.java">
+</file>
+<file name="classes\JSci\tests\DoubleMatrixEigenTest.java">
+</file>
+<file name="classes\JSci\tests\EngineerTest.java">
+</file>
+<file name="classes\JSci\tests\ExtraMathTest.java">
+</file>
+<file name="classes\JSci\tests\FourierTest.java">
+</file>
+<file name="classes\JSci\tests\MathMLTest.java">
+</file>
+<file name="classes\JSci\tests\MatrixDecompositionTest.java">
+</file>
+<file name="classes\JSci\tests\MatrixTest.java">
+</file>
+<file name="classes\JSci\tests\NumberTest.java">
+</file>
+<file name="classes\JSci\tests\NumericalTest.java">
+</file>
+<file name="classes\JSci\tests\PolynomialTest.java">
+</file>
+<file name="classes\JSci\tests\QuaternionTest.java">
+</file>
+<file name="classes\JSci\tests\SpecialTest.java">
+</file>
+<file name="classes\JSci\tests\StatisticsTest.java">
+</file>
+<file name="classes\JSci\tests\TestProperties.java">
+</file>
+<file name="classes\JSci\tests\VectorTest.java">
+</file>
+<file name="classes\JSci\tests\WaveletTest.java">
+</file>
+<file name="classes\JSci\text\TimeFormat.java">
+</file>
+<file name="classes\JSci\util\ArrayCaster.java">
+</file>
+<file name="classes\JSci\util\MatrixToolkit.java">
+</file>
+<file name="classes\JSci\util\RandomMap.java">
+</file>
+<file name="classes\JSci\util\VectorToolkit.java">
+</file>
+</checkstyle>

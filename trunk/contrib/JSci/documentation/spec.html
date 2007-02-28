@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>JSci Specification</title>
+<link rel="stylesheet" href="guide.css" title="Default" type="text/css"/>
+<link rel="toc" href="guide.html"/>
+</head>
+<body>
+<h1>JSci Specification</h1>
+<p>This is here as a reminder for me and an aid to you when developing further classes for JSci.</p>
+<h3>Naming</h3>
+<p>All sub-package names should be in lower case.</p>
+<h3>Hierarchy</h3>
+<p>Any class with the postfix <code>Math</code> should extend <code>JSci.maths.AbstractMath</code>,
+be declared <code>public final</code> and be impossible to instantiate.</p>
+<h3>Class Design</h3>
+<p>Classes that encapsulate mathematical objects should follow these guidelines:</p>
+<ul>
+<li>implement a sub-interface of <code>JSci.maths.Member</code>.</li>
+<li>generally be immutable (does not implement <code>java.lang.Cloneable</code> interface). This ensures these objects are thread-safe.</li>
+<li>contain methods that perform defined mathematical operations on the class.
+The following method names should be used where appropriate:
+<ul>
+<li><code>add()</code></li>
+<li><code>subtract()</code></li>
+<li><code>multiply()</code></li>
+<li><code>divide()</code></li>
+<li><code>dimension()</code></li>
+</ul>
+</li>
+<li>non-mathematical methods should be kept to an absolute minimum - put them in another class. This is to keep the dependence on other (auxiliary) classes to a minimum.</li></ul>
+<hr/>
+<p>Return to the Developer's Guide <a href="guide.html">contents</a>.</p>
+</body>
+</html>

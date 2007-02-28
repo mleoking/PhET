@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>AWT/Swing Packages</title>
+<link rel="stylesheet" href="guide.css" title="Default" type="text/css"/>
+<link rel="contents" href="guide.html"/>
+</head>
+<body>
+<h1>AWT/Swing Packages</h1>
+<p><strong>If possible, the JSci.swing components should be used in preference to the JSci.awt components.</strong></p>
+<p>The LineGraph and LineTrace components provide a bridge between data arrays and line graphs. The LineGraph class displays a data array as a graph, whereas the LineTrace class does the reverse operation. It allows the user to sketch a graph which is captured into a data array.</p>
+<p>The other graph components provide alternative graph types for displaying data arrays. The 3D graph can be rotated using the mouse.</p>
+<p>The graph components adhere to the Swing MVC (Model-View-Controller) architecture.</p>
+
+<h4>How do I use the graph components/model interfaces?</h4>
+<p>The graphs are used in a similar way to the Swing JTable class. There is a distinction between the graph GUI and the graph data. The graph component classes handle the visual display of data, while the graph model interfaces provide the means of making data available to the graph components in a format independent way.</p>
+<p>To create a graph model, you can either use one of the default model classes provided, or write your own class by extending AbstractGraphModel and implementing one of the graph model interfaces. The default models should be sufficient for most purposes. For advanced needs (e.g. reading data over a network from several sources), it is strongly recommended that you write your own model class.</p>
+<p>Once a data model has been created, it can simply be plugged in to any compatible graph component. This means you can easily switch between different (but compatible) graph components without having to make any changes to the graph model. Any real-time updates or other changes to the data are done through the graph model (the graph component will update automatically).</p>
+<p>For an example, see the GraphDemo <a href="../examples/GraphDemo/GraphDemo.java">source code</a>.</p>
+
+<h4>How do I add a title and axis labels to my graph component?</h4>
+<p>Use the GraphLayout manager to arrange the graph component with a title and axis label components. Any component can be used as a title or axis label, an obvious choice is java.awt.Label.</p>
+<p>For an example, see the GraphDemo <a href="../examples/GraphDemo/GraphDemo.java">source code</a>.</p>
+
+<h4>How can I incrementally update (stream data to) a line graph?</h4>
+<p>You need to write your own Graph2DModel which fires GraphDataEvents
+with <code>isIncrementalChange=true</code> every time a new data point
+becomes available.
+Use <code>setXExtrema(float min, float max, float growth)</code>
+and <code>setYExtrema(float min, float max, float growth)</code>
+to specify the amount the graph should extend the axis by,
+when it needs to enlarge the graph.</p>
+
+<h3>Class hierarchy</h3>
+<h4>AWT tree</h4>
+<p><img src="images/awt-tree.gif" alt="AWT class tree"/></p>
+<h4>Swing tree</h4>
+<p><img src="images/swing-tree.gif" alt="Swing class tree"/></p>
+<h4>GraphModel tree</h4>
+<p><img src="images/graphmodel-tree.gif" alt="GraphModel class tree"/></p>
+<p>Images courtesy of John Carr.</p>
+<hr/>
+<p>Return to the Developer's Guide <a href="guide.html">contents</a>.</p>
+</body>
+</html>
