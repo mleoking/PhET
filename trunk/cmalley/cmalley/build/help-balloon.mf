@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-
-Main-Class: edu.colorado.phet.tests.piccolo.TestHelpBalloon
-
-CVS-Tag: helpballoon-0-0-0-2006-02-07
-
