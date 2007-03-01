@@ -16,3 +16,4 @@ Here's my process for building and publishing a simulation:
 4. scp the processed JAR to spot.colorado.edu
 5. move the processed JAR to the proper subdirectory in spot:/htdocs/physics/phet/dev/
 
+
