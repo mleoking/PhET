@@ -4,13 +4,13 @@
 
 package edu.colorado.phet.semiconductor;
 
-import edu.colorado.phet.common.math.PhetVector;
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.ImageGraphic;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.conductivity.math.PhetVector;
+import edu.colorado.phet.common.conductivity.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
+import edu.colorado.phet.common.conductivity.view.graphics.ImageGraphic;
+import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.conductivity.view.util.graphics.ImageLoader;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

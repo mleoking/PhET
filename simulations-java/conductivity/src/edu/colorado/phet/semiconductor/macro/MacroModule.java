@@ -4,26 +4,26 @@
 
 package edu.colorado.phet.semiconductor.macro;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.math.PhetVector;
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.ApplicationDescriptor;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.apparatuspanelcontainment.SingleApparatusPanelContainer;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.ShapeGraphic;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.util.AspectRatioLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.framesetup.FrameCenterer;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.conductivity.application.Module;
+import edu.colorado.phet.common.conductivity.application.PhetApplication;
+import edu.colorado.phet.common.conductivity.math.PhetVector;
+import edu.colorado.phet.common.conductivity.model.BaseModel;
+import edu.colorado.phet.common.conductivity.model.ModelElement;
+import edu.colorado.phet.common.conductivity.model.clock.AbstractClock;
+import edu.colorado.phet.common.conductivity.model.clock.ClockTickListener;
+import edu.colorado.phet.common.conductivity.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.conductivity.view.ApparatusPanel;
+import edu.colorado.phet.common.conductivity.view.ApplicationDescriptor;
+import edu.colorado.phet.common.conductivity.view.BasicGraphicsSetup;
+import edu.colorado.phet.common.conductivity.view.apparatuspanelcontainment.SingleApparatusPanelContainer;
+import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
+import edu.colorado.phet.common.conductivity.view.graphics.ShapeGraphic;
+import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.conductivity.view.util.AspectRatioLayout;
+import edu.colorado.phet.common.conductivity.view.util.SimStrings;
+import edu.colorado.phet.common.conductivity.view.util.framesetup.FrameCenterer;
+import edu.colorado.phet.common.conductivity.view.util.graphics.ImageLoader;
 import edu.colorado.phet.semiconductor.Flashlight;
 import edu.colorado.phet.semiconductor.FlashlightGraphic;
 import edu.colorado.phet.semiconductor.Photon;
@@ -287,7 +287,7 @@ public class MacroModule extends Module {
         };
         swingtimerclock.addClockTickListener( clockticklistener );
         phetapplication.getApplicationView().getBasicPhetPanel().setBackground( new Color( 245, 245, 255 ) );
-        edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainer apparatuspanelcontainer = phetapplication.getApplicationView().getApparatusPanelContainer();
+        edu.colorado.phet.common.conductivity.view.apparatuspanelcontainment.ApparatusPanelContainer apparatuspanelcontainer = phetapplication.getApplicationView().getApparatusPanelContainer();
         if( apparatuspanelcontainer instanceof SingleApparatusPanelContainer ) {
             SingleApparatusPanelContainer singleapparatuspanelcontainer = (SingleApparatusPanelContainer)apparatuspanelcontainer;
             singleapparatuspanelcontainer.getComponent().setLayout( new AspectRatioLayout( module.getApparatusPanel(), 10, 10, 0.75D ) );

@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.semiconductor.macro.bands;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.conductivity.model.ModelElement;
 import edu.colorado.phet.semiconductor.macro.MacroSystem;
 
 import java.util.ArrayList;

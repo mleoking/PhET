@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.semiconductor.macro;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.conductivity.model.ModelElement;
 import edu.colorado.phet.semiconductor.macro.bands.ConductorBandSet;
 import edu.colorado.phet.semiconductor.macro.bands.DefaultBandSet;
 import edu.colorado.phet.semiconductor.macro.bands.InsulatorBandSet;

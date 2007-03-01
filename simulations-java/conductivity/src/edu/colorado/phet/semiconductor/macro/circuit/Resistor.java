@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.conductivity.math.PhetVector;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.circuit:
 //            LinearBranch

@@ -4,9 +4,9 @@
 
 package edu.colorado.phet.semiconductor.macro.bands;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.conductivity.view.graphics.Graphic;
+import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformListener;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
