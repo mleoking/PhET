@@ -71,6 +71,7 @@ public class Particle {
                 CubicSpline2D cubicSpline = particleStage.getCubicSpline2D( i );
 
                 double alpha = cubicSpline.getClosestPoint( newLoc );
+//                double alpha = cubicSpline.getClosestPoint( new Line2D.Double(origLoc,newLoc) );
                 boolean crossed = checkForCrossOver( cubicSpline, alpha, origLoc, newLoc );
                 
                 if( crossed ) {
