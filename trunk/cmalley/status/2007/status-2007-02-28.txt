@@ -1,0 +1,45 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Feb 22 - Feb 28, 2007 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  SVN migration:
+  - participate in discussion about repository structure
+  - migrate my development workspace from CVS to SVN
+  - re-build and re-test all of my sims
+  - run tests with Subclipse SVN client
+  - read many Subclipse tutorials, forums, etc.
+  - investigate alternatives to Subclipse
+  - work around many (all?) Subclipse problems
+  
+  Optical Tweezers:
+  - implemented minor change requests from previous status meeting
+  - minor progress, nothing significant to demo
+  
+  Rutherford Scattering:
+  - receive "go ahead" to start this sim
+  - did not start, waiting until SVN migration is done
+
+WHAT'S NEXT:
+  
+  o continue work on Optical Tweezers, see:
+    http://www.colorado.edu/physics/phet/dev/optical-tweezers/TODO.html
+    
+  o start on Rutherford Scattering sim
+  
+  o combine Play & Pause clock buttons in my sims?
+  
+ISSUES:
+ 
+  - SVN migration was much more expensive than expected (15.25 hours so far)
+  - I don't have a lot of confidence in the Subclipse SVN client
+  - until I find a better SVN client, my productivity will be slightly decreased
+  
+DATES UNAVAILABLE:
+
+  - July 16-20
+  - August 6-17
+  
+--
