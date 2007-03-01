@@ -70,36 +70,42 @@ public class Particle {
             for( int i = 0; i < particleStage.numCubicSpline2Ds(); i++ ) {
                 CubicSpline2D cubicSpline = particleStage.getCubicSpline2D( i );
 
-                double alpha = cubicSpline.getClosestPoint( new Line2D.Double(origLoc,newLoc) );
+                double alpha = cubicSpline.getClosestPoint( new Line2D.Double( origLoc, newLoc ) );
                 boolean crossed = checkForCrossOver( cubicSpline, alpha, origLoc, newLoc );
-                
+
                 if( crossed ) {
                     System.out.println( "crossed over" );
                     double ptLineDist = new Line2D.Double( origLoc, newLoc ).ptLineDist( cubicSpline.evaluate( alpha ) );
                     System.out.println( "ptLineDist = " + ptLineDist );
-                    if( ptLineDist < 0.5 ) {//this number was determined heuristically for a set of tests
+                    if( ptLineDist < 0.5 ) {//this number was determined heuristically for a set of tests (free parameter)
                         //todo: should take a min over all possible crossover points (for this spline and others)
 
-                        boolean bounce = true;//todo: add grab test
-                        if( bounce ) {
-                            AbstractVector2D parallel = cubicSpline.getUnitParallelVector( alpha );
-                            AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
-                            //reflect the velocity about the parallel direction
-                            AbstractVector2D parallelVelocity = parallel.getInstanceOfMagnitude( parallel.dot( getVelocity() ) );
-                            AbstractVector2D normalVelocity = norm.getInstanceOfMagnitude( norm.dot( getVelocity() ) );
+                        AbstractVector2D parallel = cubicSpline.getUnitParallelVector( alpha );
+                        AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
+                        //reflect the velocity about the parallel direction
+                        AbstractVector2D parallelVelocity = parallel.getInstanceOfMagnitude( parallel.dot( getVelocity() ) );
+                        AbstractVector2D normalVelocity = norm.getInstanceOfMagnitude( norm.dot( getVelocity() ) );
+                        AbstractVector2D newVelocity = parallelVelocity.getSubtractedInstance( normalVelocity );
+                        double elasticity = 1.0;
+                        double stickiness = 0.25;
 
-                            AbstractVector2D newVelocity = parallelVelocity.getSubtractedInstance( normalVelocity );
+                        double testVal = Math.abs( elasticity * normalVelocity.getMagnitude() / newVelocity.getMagnitude() );
+                        System.out.println( "testv = " + testVal );
+                        boolean bounce = testVal >= stickiness;
+
+                        if( bounce ) {
                             setVelocity( newVelocity );
 
                             //set the position to be just on top of the spline
                             Point2D splineLoc = cubicSpline.evaluate( alpha );
                             double sign = isBelowSpline( cubicSpline, alpha, origLoc ) ? -1.0 : 1.0;
-                            Point2D finalPosition = norm.getInstanceOfMagnitude( 1E-1 * sign ).getDestination( splineLoc );
+                            Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0 * sign ).getDestination( splineLoc );//todo: determine this free parameter
                             setPosition( finalPosition );
                         }
                         else {
                             setParticle1DStrategy( cubicSpline );
                             particle1D.setAlpha( alpha );
+                            particle1D.setVelocity( 0.0 );//todo convert 2d velocity to 1d velocity
                         }
                         break;
                     }
