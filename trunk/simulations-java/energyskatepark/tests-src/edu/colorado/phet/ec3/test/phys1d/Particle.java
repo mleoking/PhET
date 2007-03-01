@@ -77,11 +77,11 @@ public class Particle {
                     System.out.println( "crossed over" );
                     double ptLineDist = new Line2D.Double( origLoc, newLoc ).ptLineDist( cubicSpline.evaluate( alpha ) );
 //                    if( ptLineDist < splineLength / numSegments * 100 ) {
+                    System.out.println( "ptLineDist = " + ptLineDist );
                     if( ptLineDist < 100 ) {//todo: determine the acceptable threshold for crossing a spline
                         //todo: should take a min over all possible crossover points
-                        //todo: possibly even binary search for better precision
 
-                        boolean bounce = true;//todo: add bounce test
+                        boolean bounce = true;//todo: add grab test
                         if( bounce ) {
                             AbstractVector2D parallel = cubicSpline.getUnitParallelVector( alpha );
                             AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
