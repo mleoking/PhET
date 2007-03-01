@@ -35,7 +35,6 @@ ISSUES:
  
   - SVN migration was much more expensive than expected (15.25 hours so far)
   - I don't have a lot of confidence in the Subclipse SVN client
-  - until I find a better SVN client, my productivity will be slightly decreased
   
 DATES UNAVAILABLE:
 
