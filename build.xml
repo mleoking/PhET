@@ -1,0 +1,11 @@
+<project name="PhET Build Script" default="Build" basedir=".">
+
+    <!--  Set ant output directories.  -->
+    <property name="ant.output" value="ant_output"/>
+
+    <target name="Build" description="Builds all PhET Simulations">
+        <!--Not written yet-->
+        <ant antfile="simulations-java/balloons/build.xml" target="Compile"/>
+    </target>
+
+</project>
