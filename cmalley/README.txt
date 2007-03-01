@@ -1,4 +1,5 @@
 This is Chris Malley's personal development project.
+
 This project contains:
 - status reports
 - hours reports
