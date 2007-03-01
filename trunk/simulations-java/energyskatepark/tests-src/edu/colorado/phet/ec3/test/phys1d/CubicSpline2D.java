@@ -64,44 +64,48 @@ public class CubicSpline2D {
         return getClosestPointBinarySearch( pt );
     }
 
-//    public double getClosestPoint( Line2D.Double line ) {
-//        return getClosestPointBinarySearch( line );
-//    }
+    public double getClosestPoint( Line2D.Double line ) {
+        return getClosestPointBinarySearch( line );
+    }
 
-//    private double getClosestPointBinarySearch( Line2D.Double pt ) {
-//        int numTestPts = 100;
-//        double distBetweenTestPts = 1.0 / numTestPts;
-//        Point2D center = new Point2D.Double( ( pt.getX1() - pt.getX2() ) / 2.0, ( pt.getY1() - pt.getY2() ) / 2.0 );
-//        double approx = getClosestPointFlatSearch( center, numTestPts );
-//        SearchPoint low = new SearchPoint( approx - distBetweenTestPts * 1.5, pt );
-//        SearchPoint high = new SearchPoint( approx + distBetweenTestPts * 1.5, pt );
-//
-//        int iterations = 0;
-//        double threshold = 1E-6;
-//        while( true ) {
-//            SearchPoint mid = new SearchPoint( ( low.alpha + high.alpha ) / 2.0, pt );
-//            SearchPoint[] pts = new SearchPoint[]{low, mid, high};
-//            Arrays.sort( pts );
-//            if( pts[0].alpha < pts[1].alpha ) {
-//                low = pts[0];
-//                high = pts[1];
-//            }
-//            else {
-//                low = pts[1];
-//                high = pts[0];
-//            }
-//            iterations++;
-//            if( iterations > 10 || Math.abs( low.alpha - high.alpha ) < threshold ) {
-//                break;
-//            }
-//            //take the best 2 as our new endpoints
-//        }
-//        return ( low.alpha + high.alpha ) / 2.0;
-//    }
+    private double getClosestPointBinarySearch( Line2D.Double line ) {
+        int numTestPts = 100;
+        double distBetweenTestPts = 1.0 / numTestPts;
+        Point2D center = new Point2D.Double( ( line.getX1() + line.getX2() ) / 2.0, ( line.getY1() + line.getY2() ) / 2.0 );
+        double approx = getClosestPointFlatSearch( center, numTestPts );
+        SearchPoint low = new SearchPoint( approx - distBetweenTestPts * 1.5, line );
+        SearchPoint high = new SearchPoint( approx + distBetweenTestPts * 1.5, line );
+
+        int iterations = 0;
+        double threshold = 1E-6;
+        while( true ) {
+            SearchPoint mid = new SearchPoint( ( low.alpha + high.alpha ) / 2.0, line );
+            SearchPoint[] pts = new SearchPoint[]{low, mid, high};
+            Arrays.sort( pts );
+            if( pts[0].alpha < pts[1].alpha ) {
+                low = pts[0];
+                high = pts[1];
+            }
+            else {
+                low = pts[1];
+                high = pts[0];
+            }
+            iterations++;
+            if( iterations > 10 || Math.abs( low.alpha - high.alpha ) < threshold ) {
+                break;
+            }
+            //take the best 2 as our new endpoints
+        }
+        return ( low.alpha + high.alpha ) / 2.0;
+    }
 
     class SearchPoint implements Comparable {
         double alpha;
         double dist;
+
+        public SearchPoint( double alpha, Line2D lineSegment ) {
+            this( alpha, lineSegment.ptLineDist( evaluate( alpha ) ) );//this is for the infinitely extended line
+        }
 
         public SearchPoint( double alpha, Point2D pt ) {
             this( alpha, evaluate( alpha ).distance( pt ) );

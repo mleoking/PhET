@@ -70,17 +70,15 @@ public class Particle {
             for( int i = 0; i < particleStage.numCubicSpline2Ds(); i++ ) {
                 CubicSpline2D cubicSpline = particleStage.getCubicSpline2D( i );
 
-                double alpha = cubicSpline.getClosestPoint( newLoc );
-//                double alpha = cubicSpline.getClosestPoint( new Line2D.Double(origLoc,newLoc) );
+                double alpha = cubicSpline.getClosestPoint( new Line2D.Double(origLoc,newLoc) );
                 boolean crossed = checkForCrossOver( cubicSpline, alpha, origLoc, newLoc );
                 
                 if( crossed ) {
                     System.out.println( "crossed over" );
                     double ptLineDist = new Line2D.Double( origLoc, newLoc ).ptLineDist( cubicSpline.evaluate( alpha ) );
-//                    if( ptLineDist < splineLength / numSegments * 100 ) {
                     System.out.println( "ptLineDist = " + ptLineDist );
-                    if( ptLineDist < 100 ) {//todo: determine the acceptable threshold for crossing a spline
-                        //todo: should take a min over all possible crossover points
+                    if( ptLineDist < 0.5 ) {//this number was determined heuristically for a set of tests
+                        //todo: should take a min over all possible crossover points (for this spline and others)
 
                         boolean bounce = true;//todo: add grab test
                         if( bounce ) {
