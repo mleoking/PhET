@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jardesc>
     <jar path="/Volumes/files/phet-workspace/jars/helpballoon.jar"/>
-    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/cmalley/build/help-balloon.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
-    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="true" saveManifest="false" generateManifest="false" manifestLocation="/cmalley/build/help-balloon.mf">
+    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/cmalley/eclipse/help-balloon.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
+    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="true" saveManifest="false" generateManifest="false" manifestLocation="/cmalley/eclipse/help-balloon.mf">
         <sealing sealJar="false">
             <packagesToSeal/>
             <packagesToUnSeal/>
