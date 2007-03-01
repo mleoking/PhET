@@ -5,3 +5,4 @@ This project contains:
 - hours reports
 - misc files that are specific to Eclipse
 - misc documentation
+
