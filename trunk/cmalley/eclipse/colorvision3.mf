@@ -1,7 +1,3 @@
 Manifest-Version: 1.0
-
 Main-Class: edu.colorado.phet.colorvision.ColorVisionApplication
-
 CVS-Tag: colorvision3-v1r1-2004-11-30
-
-
