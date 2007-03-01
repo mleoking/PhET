@@ -1,11 +1,11 @@
 -injars 'ant_output\jars\ec3.jar'
--injars 'jfreechart-dir\lib\gnujaxp.jar'
--injars 'jfreechart-dir\lib\jcommon-1.0.0.jar'
--injars 'jfreechart-dir\lib\jfreechart-1.0.0.jar'
--injars 'jfreechart-dir\lib\junit.jar'
--injars 'jfreechart-dir\lib\servlet.jar'
--injars 'service-manager\lib\jnlp.jar'
--injars 'lookandfeels\liquidlnf-2.9.1-src\lib\laf-plugin.jar'
+-injars '..\..\contrib\jfreechart\lib\gnujaxp.jar'
+-injars '..\..\contrib\jfreechart\lib\jcommon-1.0.0.jar'
+-injars '..\..\contrib\jfreechart\lib\jfreechart-1.0.0.jar'
+-injars '..\..\contrib\jfreechart\lib\junit.jar'
+-injars '..\..\contrib\jfreechart\lib\servlet.jar'
+-injars '..\..\common\service-manager\lib\jnlp.jar'
+-injars '..\..\contrib\liquidlnf-2.9.1-src\lib\laf-plugin.jar'
 -outjars ant_output\jars\ec3-pro.jar
 
 -libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'

@@ -51,7 +51,7 @@ public class Particle {
             double r = Math.abs( particle1D.getRadiusOfCurvature() );//todo: how can I be certain units are correct here?
             
             double threshold = particle1D.getSpeed() * particle1D.getSpeed() / r;
-            System.out.println( "normalAccel=" + a + ", v^2/r=" + threshold );
+//            System.out.println( "normalAccel=" + a + ", v^2/r=" + threshold );
 
             particle1D.stepInTime( dt );
             x = particle1D.getX();
