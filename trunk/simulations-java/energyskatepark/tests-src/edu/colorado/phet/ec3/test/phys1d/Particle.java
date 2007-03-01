@@ -45,10 +45,18 @@ public class Particle {
 
     class Particle1DUpdate implements UpdateStrategy {
         public void stepInTime( double dt ) {
+
+            //compare a to v/r^2 to see if it leaves the track
+            double a = Math.abs( particle1D.getUnitNormalVector().dot( particle1D.getNetForce() ) ) / particle1D.getMass();
+            double r = Math.abs( particle1D.getRadiusOfCurvature() );//todo: how can I be certain units are correct here?
+            
+            double threshold = particle1D.getSpeed() * particle1D.getSpeed() / r;
+            System.out.println( "normalAccel=" + a + ", v^2/r=" + threshold );
+
             particle1D.stepInTime( dt );
             x = particle1D.getX();
             y = particle1D.getY();
-            AbstractVector2D vel = particle1D.getVelocity();
+            AbstractVector2D vel = particle1D.getVelocity2D();
             vx = vel.getX();
             vy = vel.getY();
         }
@@ -84,12 +92,13 @@ public class Particle {
                         AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
                         //reflect the velocity about the parallel direction
                         AbstractVector2D parallelVelocity = parallel.getInstanceOfMagnitude( parallel.dot( getVelocity() ) );
-                        AbstractVector2D normalVelocity = norm.getInstanceOfMagnitude( norm.dot( getVelocity() ) );
-                        AbstractVector2D newVelocity = parallelVelocity.getSubtractedInstance( normalVelocity );
-                        double elasticity = 1.0;
-                        double stickiness = 0.25;
+                        double elasticity = 0.9;
+                        AbstractVector2D newNormalVelocity = norm.getInstanceOfMagnitude( norm.dot( getVelocity() ) ).getScaledInstance( elasticity );
+                        AbstractVector2D newVelocity = parallelVelocity.getSubtractedInstance( newNormalVelocity );
 
-                        double testVal = Math.abs( elasticity * normalVelocity.getMagnitude() / newVelocity.getMagnitude() );
+                        double stickiness = 0.5;
+
+                        double testVal = Math.abs( newNormalVelocity.getMagnitude() / newVelocity.getMagnitude() );
                         System.out.println( "testv = " + testVal );
                         boolean bounce = testVal >= stickiness;
 

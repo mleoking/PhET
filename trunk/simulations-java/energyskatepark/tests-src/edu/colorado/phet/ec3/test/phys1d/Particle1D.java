@@ -42,7 +42,7 @@ public class Particle1D {
 
     public void stepInTime( double dt ) {
         double initEnergy = getEnergy();
-        int N = 10;
+        int N = 10;//todo determine this free parameter
 //            int N=4;
         for( int i = 0; i < N; i++ ) {
             updateStrategy.stepInTime( dt / N );
@@ -52,7 +52,7 @@ public class Particle1D {
         totalDE += dEUpdate;
 
 //        fixEnergy( initEnergy );
-        double dEFix = getNormalizedEnergyDiff( initEnergy );
+//        double dEFix = getNormalizedEnergyDiff( initEnergy );
 //            System.out.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE + ", RC=" + getRadiusOfCurvature() );
 
 //        System.out.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE );// + ", RC=" + getRadiusOfCurvature() );
@@ -113,12 +113,20 @@ public class Particle1D {
         totalDE = 0.0;
     }
 
-    public AbstractVector2D getVelocity() {
+    public AbstractVector2D getVelocity2D() {
         return cubicSpline.getUnitParallelVector( alpha ).getInstanceOfMagnitude( velocity );
     }
 
     public void setCubicSpline2D( CubicSpline2D spline ) {
         cubicSpline = spline;
+    }
+
+    public double getSpeed() {
+        return Math.abs( velocity );
+    }
+
+    public double getMass() {
+        return mass;
     }
 
     public interface UpdateStrategy {
@@ -190,6 +198,13 @@ public class Particle1D {
         return 1.0 / dtds;
     }
 
+    public AbstractVector2D getUnitParallelVector(){
+        return cubicSpline.getUnitParallelVector( alpha );
+    }
+    public AbstractVector2D getUnitNormalVector(){
+        return cubicSpline.getUnitNormalVector( alpha );
+    }
+    
     public class VerletOffset implements UpdateStrategy {
 
         double L = 50;
@@ -234,11 +249,18 @@ public class Particle1D {
         }
     }
 
+    /*
+    Returns the net force (discluding normal forces).
+     */
+    public Vector2D getNetForce() {
+        return new Vector2D.Double( 0, g );
+    }
+
     public class Euler implements UpdateStrategy {
 
         public void stepInTime( double dt ) {
-            Vector2D.Double gVector = new Vector2D.Double( 0, g );
-            double a = cubicSpline.getUnitParallelVector( alpha ).dot( gVector );
+            Vector2D netForce = getNetForce();
+            double a = cubicSpline.getUnitParallelVector( alpha ).dot( netForce );
             alpha += cubicSpline.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
             velocity += a * dt;
 
