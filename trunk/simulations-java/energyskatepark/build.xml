@@ -13,8 +13,8 @@
     <property name="releases" location="../releases"/>
 
     <property file="build.properties"/>
-    <property file="local.properties"/>
-    <property file="build.time.stamp" location="data"/>
+    <property file="../../local.properties"/>
+    <!--<property file="build.time.stamp" location="data"/>-->
 
     <property name="build.number.txt" value="data/${distname}.build.number"/>
     <property name="timestamp.name" value="data/${distname}.build.time.stamp"/>
@@ -22,10 +22,10 @@
     <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
     <property name="dev-parent" value="${phet-ssh-root}/${dev-path}"/>
     <property name="dev-dir" value="${dev-parent}/${dev-version}"/>
+    <property name="common" value="../../common"/>
+    <taskdef resource="proguard/ant/task.properties" classpath="${common}/antutil/lib/proguard.jar"/>
 
-    <taskdef resource="proguard/ant/task.properties" classpath="antutil-dir/lib/proguard.jar"/>
-
-    <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh" classpath="antutil-dir/lib/maverick-ant.jar"/>
+    <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh" classpath="${common}/antutil/lib/maverick-ant.jar"/>
 
     <target name="init">
         <tstamp/>
@@ -66,7 +66,7 @@
             <fileset dir="${ant.classes}"/>
             <fileset dir="data"/>
 
-            <fileset dir="phetcommon-dir/data"/>
+            <fileset dir="../../common/phetcommon/data"/>
 
             <!--Oyoaha-->
             <fileset dir="lookandfeels/data"/>

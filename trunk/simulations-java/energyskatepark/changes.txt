@@ -1,3 +1,6 @@
+1.05.06 (2-28-2007)
+Added 1-d track collisions & reattachment.
+
 1.05.04 (2-18-2007)
 Added tests for L&F
 
