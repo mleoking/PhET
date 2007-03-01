@@ -5,6 +5,7 @@ import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -55,6 +56,77 @@ public class CubicSpline2D {
 
     public int getNumControlPoints() {
         return pts.length;
+    }
+
+    public double getClosestPoint( Point2D pt ) {
+//        return getClosestPointFlatSearch( pt );
+        return getClosestPointBinarySearch( pt );
+    }
+
+    class SearchPoint implements Comparable {
+        double alpha;
+        double dist;
+
+        public SearchPoint( double alpha, Point2D pt ) {
+            this( alpha, evaluate( alpha ).distance( pt ) );
+        }
+
+        public SearchPoint( double alpha, double dist ) {
+            this.alpha = alpha;
+            this.dist = dist;
+        }
+
+        public int compareTo( Object o ) {
+            return new Double( dist ).compareTo( new Double( ( (SearchPoint)o ).dist ) );
+        }
+
+        public String toString() {
+            return "alpha=" + alpha + ", dist=" + dist;
+        }
+    }
+
+    private double getClosestPointBinarySearch( Point2D pt ) {
+        int numTestPts = 100;
+        double distBetweenTestPts=1.0/numTestPts;
+        double approx = getClosestPointFlatSearch( pt, numTestPts );
+        SearchPoint low = new SearchPoint( approx - distBetweenTestPts*1.5, pt );
+        SearchPoint high = new SearchPoint( approx + distBetweenTestPts*1.5, pt );
+
+        int iterations = 0;
+        double threshold = 1E-6;
+        while( true ) {
+            SearchPoint mid = new SearchPoint( ( low.alpha + high.alpha ) / 2.0, pt );
+            SearchPoint[] pts = new SearchPoint[]{low, mid, high};
+            Arrays.sort( pts );
+            if( pts[0].alpha < pts[1].alpha ) {
+                low = pts[0];
+                high = pts[1];
+            }
+            else {
+                low = pts[1];
+                high = pts[0];
+            }
+            iterations++;
+            if( iterations > 10 || Math.abs( low.alpha - high.alpha ) < threshold ) {
+                break;
+            }
+            //take the best 2 as our new endpoints
+        }
+        return ( low.alpha + high.alpha ) / 2.0;
+    }
+
+    private double getClosestPointFlatSearch( Point2D pt, int numSegments ) {
+        double closestDist = Double.POSITIVE_INFINITY;
+        double bestAlpha = Double.NaN;
+        for( int k = 0; k < numSegments; k++ ) {
+            double alpha = ( (double)k ) / numSegments;
+            double dist = evaluate( alpha ).distance( pt );
+            if( dist < closestDist ) {
+                closestDist = dist;
+                bestAlpha = alpha;
+            }
+        }
+        return bestAlpha;
     }
 
     public static interface Listener {

@@ -69,46 +69,40 @@ public class Particle {
             //check for crossover
             for( int i = 0; i < particleStage.numCubicSpline2Ds(); i++ ) {
                 CubicSpline2D cubicSpline = particleStage.getCubicSpline2D( i );
-                int numSegments = 100;
-                double splineLength = cubicSpline.getMetricDelta( 0, 1 ) / numSegments;
 
-                for( int k = 0; k < numSegments; k++ ) {
-                    double alpha = ( (double)k ) / numSegments;
-                    boolean checkForCrossOver = checkForCrossOver( cubicSpline, alpha, origLoc, newLoc );
-
+                double alpha = cubicSpline.getClosestPoint( newLoc );
+                boolean crossed = checkForCrossOver( cubicSpline, alpha, origLoc, newLoc );
+                
+                if( crossed ) {
+                    System.out.println( "crossed over" );
                     double ptLineDist = new Line2D.Double( origLoc, newLoc ).ptLineDist( cubicSpline.evaluate( alpha ) );
-//                    System.out.println( "k = " + k + ", cross=" + checkForCrossOver + ", ptLineDist=" + ptLineDist );
-                    if( checkForCrossOver ) {
-                        System.out.println( "crossed over" );
+//                    if( ptLineDist < splineLength / numSegments * 100 ) {
+                    if( ptLineDist < 100 ) {//todo: determine the acceptable threshold for crossing a spline
+                        //todo: should take a min over all possible crossover points
+                        //todo: possibly even binary search for better precision
 
-                        if( ptLineDist < splineLength / numSegments * 100 ) {
-                            //todo: should take a min over all possible crossover points
-                            //todo: possibly even binary search for better precision
+                        boolean bounce = true;//todo: add bounce test
+                        if( bounce ) {
+                            AbstractVector2D parallel = cubicSpline.getUnitParallelVector( alpha );
+                            AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
+                            //reflect the velocity about the parallel direction
+                            AbstractVector2D parallelVelocity = parallel.getInstanceOfMagnitude( parallel.dot( getVelocity() ) );
+                            AbstractVector2D normalVelocity = norm.getInstanceOfMagnitude( norm.dot( getVelocity() ) );
 
-                            boolean bounce = true;//todo: add bounce test
-                            if( bounce ) {
-                                AbstractVector2D parallel = cubicSpline.getUnitParallelVector( alpha );
-                                AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
-                                //reflect the velocity about the parallel direction
-                                AbstractVector2D parallelVelocity = parallel.getInstanceOfMagnitude( parallel.dot( getVelocity() ) );
-                                AbstractVector2D normalVelocity = norm.getInstanceOfMagnitude( norm.dot( getVelocity() ) );
+                            AbstractVector2D newVelocity = parallelVelocity.getSubtractedInstance( normalVelocity );
+                            setVelocity( newVelocity );
 
-                                AbstractVector2D newVelocity = parallelVelocity.getSubtractedInstance( normalVelocity );
-                                setVelocity( newVelocity );
-
-                                //set the position to be just on top of the spline
-                                Point2D splineLoc = cubicSpline.evaluate( alpha );
-                                double sign = isBelowSpline( cubicSpline, alpha, origLoc ) ? -1.0 : 1.0;
-                                Point2D finalPosition = norm.getInstanceOfMagnitude( 1E-2 * sign ).getDestination( splineLoc );
-                                setPosition( finalPosition );
-                            }
-                            else {
-                                setParticle1DStrategy( cubicSpline );
-//                            double bestAlpha=getAlpha(origLoc,newLoc);
-                                particle1D.setAlpha( alpha );
-                            }
-                            break;
+                            //set the position to be just on top of the spline
+                            Point2D splineLoc = cubicSpline.evaluate( alpha );
+                            double sign = isBelowSpline( cubicSpline, alpha, origLoc ) ? -1.0 : 1.0;
+                            Point2D finalPosition = norm.getInstanceOfMagnitude( 1E-1 * sign ).getDestination( splineLoc );
+                            setPosition( finalPosition );
                         }
+                        else {
+                            setParticle1DStrategy( cubicSpline );
+                            particle1D.setAlpha( alpha );
+                        }
+                        break;
                     }
                 }
             }
