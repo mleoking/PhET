@@ -4,9 +4,9 @@
 
 package edu.colorado.phet.semiconductor.macro;
 
-import edu.colorado.phet.common.math.PhetVector;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.conductivity.math.PhetVector;
+import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.conductivity.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.common.ArrowShape;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 

@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.semiconductor.macro.bands.states;
 
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.conductivity.math.PhetVector;
 import edu.colorado.phet.semiconductor.macro.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.bands.BandParticleState;
 import edu.colorado.phet.semiconductor.macro.bands.EnergyCell;

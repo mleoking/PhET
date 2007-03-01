@@ -4,9 +4,9 @@
 
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.common.math.PhetVector;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.simpleobservable.SimpleObservable;
+import edu.colorado.phet.common.conductivity.math.PhetVector;
+import edu.colorado.phet.common.conductivity.model.ModelElement;
+import edu.colorado.phet.common.conductivity.model.simpleobservable.SimpleObservable;
 
 public class Particle extends SimpleObservable
         implements ModelElement {

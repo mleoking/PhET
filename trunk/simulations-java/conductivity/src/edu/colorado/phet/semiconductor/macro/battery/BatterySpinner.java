@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.semiconductor.macro.battery;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.conductivity.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.macro.MacroModule;
 
 import javax.swing.*;

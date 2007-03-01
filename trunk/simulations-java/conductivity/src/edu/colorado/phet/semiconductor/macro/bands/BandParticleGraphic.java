@@ -4,8 +4,8 @@
 
 package edu.colorado.phet.semiconductor.macro.bands;
 
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.conductivity.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 
@@ -31,7 +31,7 @@ public class BandParticleGraphic extends TransformGraphic {
     }
 
     public void paint( Graphics2D graphics2d ) {
-        edu.colorado.phet.common.math.PhetVector phetvector = bandParticle.getPosition();
+        edu.colorado.phet.common.conductivity.math.PhetVector phetvector = bandParticle.getPosition();
         java.awt.Point point = getTransform().modelToView( phetvector );
         graphic.setPosition( point );
         graphic.paint( graphics2d );
