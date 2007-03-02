@@ -12,7 +12,6 @@ import edu.colorado.phet.common.model.ModelElement;
  * AbstractHydrogenAtom is the base class for all hydrogen atom models.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public abstract class AbstractHydrogenAtom extends FixedObject implements ModelElement {
 

@@ -18,7 +18,6 @@ import edu.colorado.phet.rutherfordscattering.event.GunFiredListener;
  * - N alpha particles
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class RSModel extends Model implements GunFiredListener {
     

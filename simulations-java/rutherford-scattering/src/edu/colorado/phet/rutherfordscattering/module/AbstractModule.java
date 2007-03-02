@@ -17,7 +17,6 @@ import edu.colorado.phet.rutherfordscattering.model.RSClock;
  * AbstractModule is the module implementation shared by all modules in this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public abstract class AbstractModule extends PiccoloModule {
 

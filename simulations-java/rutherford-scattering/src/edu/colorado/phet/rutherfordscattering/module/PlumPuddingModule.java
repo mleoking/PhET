@@ -31,7 +31,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  * PlumPuddingModule is the "Plum Pudding" module for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class PlumPuddingModule extends AbstractModule {
 

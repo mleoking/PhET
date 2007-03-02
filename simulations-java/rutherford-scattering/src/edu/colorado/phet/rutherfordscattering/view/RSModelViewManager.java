@@ -11,7 +11,6 @@ import edu.umd.cs.piccolo.PLayer;
  * contains node factories specific to this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class RSModelViewManager extends ModelViewManager {
 

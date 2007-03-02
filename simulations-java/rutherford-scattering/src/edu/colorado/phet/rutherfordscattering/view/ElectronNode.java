@@ -15,7 +15,6 @@ import edu.colorado.phet.rutherfordscattering.util.RoundGradientPaint;
  * An electron is blue, and has a specular highlight with the light source coming from below.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class ElectronNode extends SphericalNode {
 

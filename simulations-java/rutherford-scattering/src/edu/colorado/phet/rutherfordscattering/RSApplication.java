@@ -17,7 +17,6 @@ import edu.colorado.phet.rutherfordscattering.module.RutherfordAtomModule;
  * RSApplication
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class RSApplication extends PiccoloPhetApplication {
 

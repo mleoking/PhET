@@ -17,13 +17,13 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - Spanish translations
-- remove CVS tags from file headers and javadoc
 - file level javadoc
 - package level javadoc
 
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/2/07 - remove CVS tags from file headers and javadoc
 3/2/07 - first attempt at randomly distributing atoms in plum pudding atom
 3/2/07 - implement control panel for Rutherford Atom module
 3/2/07 - redo slider controls, show current value and provide text entry

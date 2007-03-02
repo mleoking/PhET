@@ -15,7 +15,6 @@ import edu.umd.cs.piccolo.PCanvas;
  * HAWiggleMe encapsulates the "look" of wiggle me's for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class RSWiggleMe extends MotionHelpBalloon {
 

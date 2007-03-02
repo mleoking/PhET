@@ -15,7 +15,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * SphericalNode draws a sphere, with origin at the center of the sphere.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class SphericalNode extends PhetPNode {
     

@@ -13,7 +13,6 @@ import edu.colorado.phet.rutherfordscattering.RSConstants;
  * regardless of when (in wall time) the ticks actually happen.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class RSClock extends SwingClock {
 

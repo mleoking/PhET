@@ -24,7 +24,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * BeamNode is the beam the comes out of the gun.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class BeamNode extends PhetPNode implements Observer {
 

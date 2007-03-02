@@ -8,6 +8,8 @@ import edu.colorado.phet.rutherfordscattering.model.AlphaParticle;
 
 /**
  * GunFiredEvent indicates that the gun has been fired.
+ * 
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GunFiredEvent extends EventObject {
 
