@@ -25,7 +25,7 @@ import edu.colorado.phet.hydrogenatom.event.*;
  * - 1 gun
  * - 1 hydrogen atom
  * - N photons
- * - N electrons
+ * - N alpha particles
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
