@@ -28,6 +28,7 @@ public class Particle {
 
     private UpdateStrategy updateStrategy = new Particle1DUpdate();
     private ParticleStage particleStage;
+    private boolean convertNormalVelocityToThermalOnLanding = false;
 
     public Particle( CubicSpline2D cubicSpline2D ) {
         this( new ParticleStage( cubicSpline2D ) );
@@ -106,13 +107,18 @@ public class Particle {
             }
             else {
                 particle1D.stepInTime( dt );
-                x = particle1D.getX();
-                y = particle1D.getY();
-                AbstractVector2D vel = particle1D.getVelocity2D();
-                vx = vel.getX();
-                vy = vel.getY();
+                updateStateFrom1D();
+
             }
         }
+    }
+
+    private void updateStateFrom1D() {
+        x = particle1D.getX();
+        y = particle1D.getY();
+        AbstractVector2D vel = particle1D.getVelocity2D();
+        vx = vel.getX();
+        vy = vel.getY();
     }
 
     private void switchToFreeFall() {
@@ -141,17 +147,15 @@ public class Particle {
 
             Point2D newLoc = new Point2D.Double( x, y );
 
-            //check for crossover
+
             for( int i = 0; i < particleStage.numCubicSpline2Ds(); i++ ) {
 
                 CubicSpline2D cubicSpline = particleStage.getCubicSpline2D( i );
-//                double alpha = cubicSpline.getClosestPoint( new Line2D.Double( origLoc, newLoc ) );
                 double alpha = cubicSpline.getClosestPoint( newLoc );
-
-//                double alpha = cubicSpline.getClosestPoint( new Point2D.Double( (origLoc.getX()+newLoc.getX())/2,(origLoc.getY()+newLoc.getY())/2) );
 
                 boolean above = isAboveSpline( cubicSpline, alpha, newLoc );
                 System.out.println( "above = " + above );
+                //check for crossover
                 boolean crossed = origAbove != above;
 
                 if( crossed ) {
@@ -169,28 +173,22 @@ public class Particle {
                         AbstractVector2D newNormalVelocity = norm.getInstanceOfMagnitude( norm.dot( getVelocity() ) ).getScaledInstance( elasticity );
                         AbstractVector2D newVelocity = parallelVelocity.getSubtractedInstance( newNormalVelocity );
 
-//                        double stickiness = 0.25;
-
-//                        double stickiness = 0.001;
-
                         double testVal = Math.abs( newNormalVelocity.getMagnitude() / newVelocity.getMagnitude() );
                         System.out.println( "testv = " + testVal );
                         boolean bounce = testVal >= stickiness;
 
                         double newAlpha = cubicSpline.getClosestPoint( newLoc );
+
+                        //make sure the velocity is toward the track to enable switching to track (otherwise over a tight curve, the particle doesn't leave the track when N~0)
                         boolean velocityTowardTrack = isVelocityTowardTrack( origLoc, cubicSpline, newAlpha );
                         System.out.println( "velocityTowardTrack = " + velocityTowardTrack );
                         if( bounce || !velocityTowardTrack ) {
                             setVelocity( newVelocity );
                             //set the position to be just on top of the spline
-//                            offsetOnSpline( cubicSpline, alpha, isAboveSpline( cubicSpline, alpha, origLoc ) );
                             offsetOnSpline( cubicSpline, newAlpha, origAbove );
                             System.out.println( "bounced" );
                         }
                         else {
-//                            switchToTrack( cubicSpline, alpha, isAboveSpline( cubicSpline, alpha, origLoc ) );
-                            //todo make sure the velocity is toward the track to enable switching to track (otherwise over a tight curve, the particle doesn't leave the track when N~0)
-
                             switchToTrack( cubicSpline, newAlpha, origAbove );
                             System.out.println( "grabbed track" );
                         }
@@ -201,7 +199,7 @@ public class Particle {
         }
     }
 
-    private boolean isVelocityTowardTrack( Point2D origPosition,CubicSpline2D cubicSpline, double newAlpha ) {
+    private boolean isVelocityTowardTrack( Point2D origPosition, CubicSpline2D cubicSpline, double newAlpha ) {
         Vector2D vel = getVelocity();
 //        Vector2D toTrack = new Vector2D.Double( getPosition(), cubicSpline.evaluate( newAlpha ) );
         Vector2D toTrack = new Vector2D.Double( origPosition, cubicSpline.evaluate( newAlpha ) );
@@ -246,7 +244,9 @@ public class Particle {
         particle1D.setAlpha( alpha );
         particle1D.setCubicSpline2D( spline, top );
         double sign = spline.getUnitParallelVector( alpha ).dot( getVelocity() ) > 0 ? 1.0 : -1.0;
-        particle1D.setVelocity( getSpeed() * sign );
+
+        double newVelocityMagnitude = convertNormalVelocityToThermalOnLanding ? getParallelSpeed( spline, alpha ) : getSpeed();
+        particle1D.setVelocity( newVelocityMagnitude * sign );
 
         setUpdateStrategy( new Particle1DUpdate() );
         AbstractVector2D newVelocity = particle1D.getVelocity2D();
@@ -255,6 +255,19 @@ public class Particle {
         if( dot < 0 ) {
             System.out.println( "Velocities were in contrary directions" );
         }
+        updateStateFrom1D();
+    }
+
+    public boolean isConvertNormalVelocityToThermalOnLanding() {
+        return convertNormalVelocityToThermalOnLanding;
+    }
+
+    public void setConvertNormalVelocityToThermalOnLanding( boolean convertNormalVelocityToThermalOnLanding ) {
+        this.convertNormalVelocityToThermalOnLanding = convertNormalVelocityToThermalOnLanding;
+    }
+
+    private double getParallelSpeed( CubicSpline2D cubicSpline2D, double alpha ) {
+        return Math.abs( cubicSpline2D.getUnitParallelVector( alpha ).dot( getVelocity() ) );
     }
 
     public double getSpeed() {
