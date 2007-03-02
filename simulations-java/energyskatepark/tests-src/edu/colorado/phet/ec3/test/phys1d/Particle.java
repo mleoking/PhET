@@ -84,6 +84,8 @@ public class Particle {
         return mass;
     }
 
+    DebugFrame debugFrame = new DebugFrame( "debug outsideCircle" );
+
     class Particle1DUpdate implements UpdateStrategy {
         public void stepInTime( double dt ) {
 
@@ -91,6 +93,7 @@ public class Particle {
             double r = Math.abs( particle1D.getRadiusOfCurvature() );//todo: how can I be certain units are correct here?
 //            System.out.println( "r = " + r );
 //            double normalForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r - getMass() * g;
+            
             double normalForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r - particle1D.getNetForce().dot( particle1D.getCurvatureDirection() );
 
             System.out.println( "r = " + r );
@@ -99,7 +102,15 @@ public class Particle {
 
             //if normal force is positive on the top of a hill fly off
             //if normal force is negative on a valley fly off
-//            boolean hillside=(normalForce<0&&particle1D.getCurvatureDirection().getY()<=0);
+            AbstractVector2D sideVector = getSideVector( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() );
+            boolean outsideCircle = sideVector.dot( particle1D.getCurvatureDirection() ) < 0;
+//            boolean hillside = ( normalForce < 0 && particle1D.getCurvatureDirection().getY() <= 0 );
+            System.out.println( "outsideCircle= " + outsideCircle );
+            if( !debugFrame.isVisible() ) {
+                debugFrame.setVisible( true );
+            }
+            debugFrame.appendLine( "outsideCircle=" + outsideCircle );
+
 //            if(( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0) ||hillside) {
 //            if( ( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0 ) ) {
             if( ( normalForce > 0 ) ) {
@@ -218,6 +229,12 @@ public class Particle {
         Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-3 * sign ).getDestination( splineLoc );//todo: determine this free parameter
 //        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0 * sign ).getDestination( splineLoc );//todo: determine this free parameter
         setPosition( finalPosition );
+    }
+
+    private AbstractVector2D getSideVector( CubicSpline2D cubicSpline, double alpha, boolean top ) {
+        AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
+        double sign = top ? 1.0 : -1.0;
+        return norm.getInstanceOfMagnitude( sign );
     }
 
     private void setVelocity( AbstractVector2D velocity ) {

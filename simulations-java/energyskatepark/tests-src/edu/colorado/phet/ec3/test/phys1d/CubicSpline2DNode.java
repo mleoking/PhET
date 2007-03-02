@@ -1,5 +1,6 @@
 package edu.colorado.phet.ec3.test.phys1d;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
@@ -21,13 +22,15 @@ public class CubicSpline2DNode extends PNode {
     private CubicSpline2D cubicSpline2D;
     private PhetPPath phetPPath;
     private PNode controlPointLayer = new PNode();
-    private PNode topLayer;
+    private PNode topLayer = new PNode();
     private boolean normalsVisible = false;
     private CubicSpline2D.Listener listener = new CubicSpline2D.Listener() {
         public void trackChanged() {
             update();
         }
     };
+    private boolean curvatureVisible = false;
+    private PNode curvatureLayer = new PNode();
 
     public CubicSpline2DNode( CubicSpline2D splineSurface ) {
         this.cubicSpline2D = splineSurface;
@@ -36,8 +39,8 @@ public class CubicSpline2DNode extends PNode {
 
         splineSurface.addListener( listener );
         addChild( controlPointLayer );
-        topLayer = new PNode();
         addChild( topLayer );
+        addChild( curvatureLayer );
 
         update();
     }
@@ -83,6 +86,18 @@ public class CubicSpline2DNode extends PNode {
                 topLayer.addChild( phetPPath );
             }
         }
+
+        curvatureLayer.removeAllChildren();
+        if( curvatureVisible ) {
+            for( double x = 0; x <= cubicSpline2D.getMetricDelta( 0, 1 ); x += 0.1 ) {
+                double alpha = cubicSpline2D.getFractionalDistance( 0, x );
+                Point2D at = cubicSpline2D.evaluate( alpha );
+                AbstractVector2D pt = cubicSpline2D.getCurvatureDirection( alpha );
+                Arrow arrow = new Arrow( at, pt.getScaledInstance( 0.1 ).getDestination( at ), 0.03f, 0.03f, 0.01f );
+                PhetPPath phetPPath = new PhetPPath( arrow.getShape(), Color.blue );
+                curvatureLayer.addChild( phetPPath );
+            }
+        }
     }
 
     public void setNormalsVisible( boolean normalsVisible ) {
@@ -92,6 +107,15 @@ public class CubicSpline2DNode extends PNode {
 
     private void removeControlPointNode() {
         controlPointLayer.removeChild( controlPointLayer.getChildrenCount() - 1 );
+    }
+
+    public boolean isCurvatureVisible() {
+        return curvatureVisible;
+    }
+
+    public void setCurvatureVisible( boolean selected ) {
+        this.curvatureVisible = selected;
+        update();
     }
 
     class ControlPointNode extends PNode {

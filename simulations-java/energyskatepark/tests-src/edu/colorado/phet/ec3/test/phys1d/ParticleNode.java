@@ -22,7 +22,7 @@ class ParticleNode extends PNode {
     public ParticleNode( final Particle particle ) {
         this.particle = particle;
         Color color = Color.yellow;
-        phetPPath = new PhetPPath( toTransparentColor( color, 128 ), new BasicStroke( 0.01f ), Color.red );
+        phetPPath = new PhetPPath( toTransparentColor( color, 128 ), new BasicStroke( 0.02f ), Color.red );
         double w = 0.30f;
         phetPPath.setPathTo( new Ellipse2D.Double( 0, 0, w, w ) );
         addChild( phetPPath );
@@ -63,7 +63,7 @@ class ParticleNode extends PNode {
             return particle.isAboveSplineZero() ? Color.green : Color.black;
         }
         else {
-            return particle.isAboveSpline1D() ? Color.green : Color.black;
+            return particle.isAboveSpline1D() ? Color.green : Color.yellow;
         }
     }
 
