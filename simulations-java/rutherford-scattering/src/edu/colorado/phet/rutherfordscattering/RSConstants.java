@@ -122,4 +122,12 @@ public class RSConstants {
     
     public static final double ALPHA_PARTICLE_INITIAL_SPEED = 5; // distance moved per dt
     
+    public static final int MIN_PROTONS = 1;
+    public static final int MAX_PROTONS = 100;
+    public static final int DEFAULT_PROTONS = 79;
+    
+    public static final int MIN_NEUTRONS = 1;
+    public static final int MAX_NEUTRONS = 150;
+    public static final int DEFAULT_NEUTRONS = 118;
+    
 }

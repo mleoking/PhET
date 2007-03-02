@@ -20,7 +20,7 @@ public class PlumPuddingControlPanel extends AbstractControlPanel {
 
     private static final double CLOCK_STEP_TO_ENERGY_MULTIPLER = 100;
     
-    private JSlider _energySlider;
+    private EnergyControl _energyControl;
     
     public PlumPuddingControlPanel( PlumPuddingModule module ) {
         super( module );
@@ -28,47 +28,34 @@ public class PlumPuddingControlPanel extends AbstractControlPanel {
         JLabel titleLabel = new JLabel( SimStrings.get( "label.alphaParticleProperties" ) );
         titleLabel.setFont( RSConstants.TITLE_FONT );
         
-        JPanel energyPanel = new JPanel();
-        TitledBorder titledBorder = new TitledBorder( SimStrings.get( "label.energy" ) );
-        titledBorder.setTitleFont( RSConstants.CONTROL_FONT  );
-        energyPanel.setBorder( titledBorder );
-        
-        _energySlider = new JSlider();
-        _energySlider.setFont( RSConstants.CONTROL_FONT );
-        _energySlider.setMinimum( clockStepToEnergy( RSConstants.MIN_CLOCK_STEP ) );
-        _energySlider.setMaximum( clockStepToEnergy( RSConstants.MAX_CLOCK_STEP ) );
-        _energySlider.setValue( clockStepToEnergy( RSConstants.DEFAULT_CLOCK_STEP ) );
-        _energySlider.setMajorTickSpacing( _energySlider.getMaximum() - _energySlider.getMinimum() );
-        _energySlider.setPaintTicks( true );
-        _energySlider.setPaintLabels( true );
-        Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( _energySlider.getMinimum() ), new JLabel( SimStrings.get(  "label.minEnergy"  ) ) );
-        labelTable.put( new Integer( _energySlider.getMaximum() ), new JLabel( SimStrings.get(  "label.maxEnergy"  ) ) );
-        _energySlider.setLabelTable( labelTable );
-        _energySlider.addChangeListener( new ChangeListener() {
+        int min = clockStepToEnergy( RSConstants.MIN_CLOCK_STEP );
+        int max = clockStepToEnergy( RSConstants.MAX_CLOCK_STEP );
+        int value = clockStepToEnergy( RSConstants.DEFAULT_CLOCK_STEP );
+        _energyControl = new EnergyControl( min, max, value );
+        _energyControl.setTitleFont( RSConstants.CONTROL_FONT );
+        _energyControl.setSliderFont( RSConstants.CONTROL_FONT );
+        _energyControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                handleEnergySliderChange();
+                handleEnergyChange();
             }
         });
-        
-        energyPanel.add( _energySlider );
         
         addVerticalSpace( 20 );
         addControlFullWidth( titleLabel );
         addVerticalSpace( 20 );
-        addControlFullWidth( energyPanel );
+        addControlFullWidth( _energyControl );
     }
     
     private static double energyToClockStep( int energy ) {
-        return energy / (double)CLOCK_STEP_TO_ENERGY_MULTIPLER;
-    }
-    
-    private static int clockStepToEnergy( double clockStep ) {
-        return (int)( clockStep * CLOCK_STEP_TO_ENERGY_MULTIPLER );
+        return energy / (double) CLOCK_STEP_TO_ENERGY_MULTIPLER;
     }
 
-    private void handleEnergySliderChange() {
-        int energy = _energySlider.getValue();
+    private static int clockStepToEnergy( double clockStep ) {
+        return (int) ( clockStep * CLOCK_STEP_TO_ENERGY_MULTIPLER );
+    }
+    
+    private void handleEnergyChange() {
+        int energy = _energyControl.getValue();
         double clockStep = energyToClockStep( energy );
         getModule().setDt( clockStep );
     }

@@ -61,7 +61,6 @@ public abstract class AbstractModule extends PiccoloModule {
      * @param dt
      */
     public void setDt( double dt ) {
-        System.out.println( "AbstractModule.setDt dt=" + dt );//XXX
         _clock.setSimulationTimeChange(  dt  );
     }
     

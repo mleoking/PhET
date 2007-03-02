@@ -42,7 +42,6 @@ public class PlumPuddingModule extends AbstractModule {
     public static final boolean CLOCK_PAUSED = false;
     public static final boolean GUN_ENABLED = false;
     public static final double GUN_INTENSITY = 1.0; // 0-1 (1=100%)
-    public static final double ENERGY_INTENSITY = 0.5; // 0-1 (1=100%)
     
     //----------------------------------------------------------------------------
     // Instance data
