@@ -6,14 +6,17 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - move most of PlumPuddingModule into AbstractModule, RutherfordAtomModule is very similar
+- create atom views via ModelViewManager
 - SliderControl text entry is broken (in other sims too?)
-- make ModelViewTransform an instance, not a singleton
 - randomly place 79 electrons in PlumPuddingNode
-- flesh out "Rutherford Atom" panel
-- modify Rutherford Scattering algorithm
+- modify D parameter in Rutherford Scattering algorithm
+- implement RutherfordAtomModel
+- implement RutherfordAtomNode, orbiting electron, dynamically adjust # of protons and neutrons
+- hook up Rutherford Atom controls to model
 
 MEDIUM PRIORITY:
-- performance issue with drawing alpha particles on top of large plum pudding image (costly scaling xform?)
+- make ModelViewTransform an instance, not a singleton, test for non 1:1 transforms
+- performance issue with drawing alpha particles and traces on top of large plum pudding image
 
 LOW PRIORITY:
 - Spanish translations
