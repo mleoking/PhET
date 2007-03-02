@@ -4,10 +4,13 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
+import edu.colorado.phet.common.view.ModelSlider;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -128,14 +131,30 @@ public class TestPhysics1D extends JFrame {
             }
         } );
         controlPanel.add( showNormals, gridBagConstraints );
-        
-        JButton outputSpline=new JButton( "print spline");
+
+        JButton outputSpline = new JButton( "print spline" );
         outputSpline.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 System.out.println( "cubicSpline.toStringSerialization() = " + cubicSpline.toStringSerialization() );
             }
         } );
-        controlPanel.add( outputSpline,gridBagConstraints);
+        controlPanel.add( outputSpline, gridBagConstraints );
+
+        final ModelSlider elasticity = new ModelSlider( "Elasticity", "", 0.0, 1.0, particle.getElasticity() );
+        elasticity.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                particle.setElasticity( elasticity.getValue() );
+            }
+        } );
+        controlPanel.add( elasticity, gridBagConstraints );
+        
+        final ModelSlider stickiness = new ModelSlider( "Stickiness", "", 0.0, 2.0, particle.getStickiness() );
+        stickiness.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                particle.setStickiness( stickiness.getValue() );
+            }
+        } );
+        controlPanel.add( stickiness, gridBagConstraints );
 
         controlFrame.setContentPane( controlPanel );
 
