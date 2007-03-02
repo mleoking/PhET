@@ -167,6 +167,14 @@ public class TestPhysics1D extends JFrame {
         } );
         controlPanel.add( updateGraphics, gridBagConstraints );
 
+        final JCheckBox checkBox = new JCheckBox( "convert normal velocity to thermal on landing", particle.isConvertNormalVelocityToThermalOnLanding() );
+        checkBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                particle.setConvertNormalVelocityToThermalOnLanding( checkBox.isSelected() );
+            }
+        } );
+        controlPanel.add( checkBox, gridBagConstraints );
+
 
         controlFrame.setContentPane( controlPanel );
 
