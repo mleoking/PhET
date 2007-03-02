@@ -31,8 +31,7 @@ public class Particle {
     }
 
     public Particle( ParticleStage particleStage ) {
-        particle1D = new Particle1D( particleStage.getCubicSpline2D( 0 ), g );
-
+        particle1D = new Particle1D( particleStage.getCubicSpline2D( 0 ), true, g );
         this.particleStage = particleStage;
     }
 
@@ -55,18 +54,17 @@ public class Particle {
             //compare a to v/r^2 to see if it leaves the track
             double r = Math.abs( particle1D.getRadiusOfCurvature() );//todo: how can I be certain units are correct here?
             double normalForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r - getMass() * g;
-            
+
 //            System.out.println( "r = " + r );
 //            System.out.println( "normalForce = " + normalForce );
 //            System.out.println( "particle1D.getCurvatureDirection() = " + particle1D.getCurvatureDirection() + ", y>=0: " + ( particle1D.getCurvatureDirection().getY() >= 0 ) );
-            
+
             //if normal force is positive on the top of a hill fly off
             //if normal force is negative on a valley fly off
             if( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0 ) {
                 switchToFreeFall();
             }
             else {
-
                 particle1D.stepInTime( dt );
                 x = particle1D.getX();
                 y = particle1D.getY();
@@ -81,6 +79,7 @@ public class Particle {
         setVelocity( particle1D.getVelocity2D() );
         setFreeFall();
         //todo: update location so it's guaranteed on the right side of the spline?
+        offsetOnSpline( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() );
     }
 
     class FreeFall implements UpdateStrategy {
@@ -127,19 +126,28 @@ public class Particle {
                             setVelocity( newVelocity );
 
                             //set the position to be just on top of the spline
-                            Point2D splineLoc = cubicSpline.evaluate( alpha );
-                            double sign = isBelowSpline( cubicSpline, alpha, origLoc ) ? -1.0 : 1.0;
-                            Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-2 * sign ).getDestination( splineLoc );//todo: determine this free parameter
-                            setPosition( finalPosition );
+                            offsetOnSpline( cubicSpline, alpha, !isBelowSpline( cubicSpline, alpha, origLoc ) );
                         }
                         else {
-                            switchToTrack( cubicSpline, alpha );
+                            switchToTrack( cubicSpline, alpha, !isBelowSpline( cubicSpline, alpha, origLoc ) );
                         }
                         break;
                     }
                 }
             }
         }
+
+
+    }
+
+    private void offsetOnSpline( CubicSpline2D cubicSpline, double alpha, boolean top ) {
+//            CubicSpline2D cubicSpline = particle1D.getCubicSpline2D();
+//            double alpha = particle1D.getAlpha();
+        AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
+        Point2D splineLoc = cubicSpline.evaluate( alpha );
+        double sign = top ? 1.0 : -1.0;
+        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-2 * sign ).getDestination( splineLoc );//todo: determine this free parameter
+        setPosition( finalPosition );
     }
 
     private void setVelocity( AbstractVector2D velocity ) {
@@ -169,9 +177,9 @@ public class Particle {
         setUpdateStrategy( new FreeFall() );
     }
 
-    public void switchToTrack( CubicSpline2D spline, double alpha ) {
+    public void switchToTrack( CubicSpline2D spline, double alpha, boolean top ) {
         particle1D.setAlpha( alpha );
-        particle1D.setCubicSpline2D( spline );
+        particle1D.setCubicSpline2D( spline, top );
         double sign = spline.getUnitParallelVector( alpha ).dot( getVelocity() ) > 0 ? 1.0 : -1.0;
         particle1D.setVelocity( getSpeed() * sign );
 
