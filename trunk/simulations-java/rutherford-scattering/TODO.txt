@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- redo slider controls, need to show current value and provide text entry
 - make ModelViewTransform an instance, not a singleton
 - make PlumPuddingNode place 79 electrons
 - flesh out "Rutherford Atom" panel
@@ -19,6 +20,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/2/07 - generalize energy control
 3/2/07 - add energy control to Plum Pudding control panel
 3/2/07 - make big box bigger
 3/2/07 - add control panel hierarchy 
