@@ -146,16 +146,20 @@ public class Particle {
                         System.out.println( "testv = " + testVal );
                         boolean bounce = testVal >= stickiness;
 
+                        double newAlpha= cubicSpline.getClosestPoint( newLoc );
                         if( bounce ) {
                             setVelocity( newVelocity );
                             //set the position to be just on top of the spline
 //                            offsetOnSpline( cubicSpline, alpha, isAboveSpline( cubicSpline, alpha, origLoc ) );
-                            offsetOnSpline( cubicSpline, alpha, !origBelow );
+//                            offsetOnSpline( cubicSpline, alpha, !origBelow );
+                            offsetOnSpline( cubicSpline, newAlpha, !origBelow );
                             System.out.println( "bounced" );
                         }
                         else {
 //                            switchToTrack( cubicSpline, alpha, isAboveSpline( cubicSpline, alpha, origLoc ) );
-                            switchToTrack( cubicSpline, alpha, !origBelow );
+                            
+//                            switchToTrack( cubicSpline, alpha, !origBelow );
+                            switchToTrack( cubicSpline, newAlpha, !origBelow );
                             System.out.println( "grabbed track" );
                         }
                         break;
