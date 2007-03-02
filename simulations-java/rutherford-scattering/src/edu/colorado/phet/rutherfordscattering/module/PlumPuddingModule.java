@@ -92,7 +92,7 @@ public class PlumPuddingModule extends PiccoloModule {
 
         // Gun
         Point2D position = new Point2D.Double( 0, 0 );
-        double orientation = Math.toRadians( -90 ); // degrees, pointing straight up
+        double orientation = Math.toRadians( -90 ); // pointing straight up
         double nozzleWidth = RSConstants.ANIMATION_BOX_SIZE.width;
         Gun gun = new Gun( position, orientation, nozzleWidth );
 
@@ -107,7 +107,8 @@ public class PlumPuddingModule extends PiccoloModule {
 
         // Atom
         Point2D spaceCenter = _model.getSpace().getCenter();
-        _atomModel = new PlumPuddingModel( spaceCenter );
+        double radius = 0.95 * ( RSConstants.ANIMATION_BOX_SIZE.width / 2 );
+        _atomModel = new PlumPuddingModel( spaceCenter, radius );
         _model.addModelElement( _atomModel );
 
         //----------------------------------------------------------------------------
@@ -297,11 +298,9 @@ public class PlumPuddingModule extends PiccoloModule {
 
         // Zoom Indicator
         {
-            PBounds tb = _boxOfHydrogenNode.getTinyBoxGlobalBounds();
-            Point2D tp = _rootNode.globalToLocal( tb.getOrigin() );
-            Dimension2D td = _rootNode.globalToLocal( tb.getSize() );
-            PBounds ab = _animationBoxNode.getFullBounds();
-            _zoomIndicatorNode.update( tp, td, ab.getOrigin(), ab.getSize() );
+            Rectangle2D tinyBoxBounds = _zoomIndicatorNode.globalToLocal( _boxOfHydrogenNode.getTinyBoxGlobalFullBounds() );
+            Rectangle2D bigBoxBounds = _zoomIndicatorNode.globalToLocal( _animationBoxNode.getGlobalFullBounds() );
+            _zoomIndicatorNode.update( tinyBoxBounds, bigBoxBounds );
         }
         
         initWiggleMe();
