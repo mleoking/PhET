@@ -24,9 +24,9 @@
     <content url="file://$MODULE_DIR$/../../contrib/piccolo/src">
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo/src" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$">
+    <content url="file://$MODULE_DIR$/data" />
+    <content url="file://$MODULE_DIR$/src">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
