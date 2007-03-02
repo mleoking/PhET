@@ -12,7 +12,6 @@ import edu.colorado.phet.rutherfordscattering.util.DebugUtils;
  * An alpha particle has a position and direction of motion.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class AlphaParticle extends MovingObject implements ModelElement {
     

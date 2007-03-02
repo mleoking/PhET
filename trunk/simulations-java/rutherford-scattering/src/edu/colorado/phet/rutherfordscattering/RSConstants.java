@@ -20,7 +20,6 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * RSConstants is a collection of constants.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class RSConstants {
 

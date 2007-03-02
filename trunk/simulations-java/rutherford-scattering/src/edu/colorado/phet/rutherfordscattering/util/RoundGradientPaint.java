@@ -28,7 +28,6 @@ import java.awt.image.WritableRaster;
  * Adapted from an example in Chapter 4 of "Java 2D Graphics" by Jonathan Knudsen.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class RoundGradientPaint implements Paint {
 

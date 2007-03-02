@@ -30,7 +30,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * It includes on/off controls.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class GunNode extends PhetPNode implements Observer {
 

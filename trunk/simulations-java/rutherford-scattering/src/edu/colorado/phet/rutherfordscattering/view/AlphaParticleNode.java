@@ -17,7 +17,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * It's local origin is at its center.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class AlphaParticleNode extends PhetPNode implements Observer {
 

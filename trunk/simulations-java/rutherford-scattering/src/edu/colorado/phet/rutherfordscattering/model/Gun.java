@@ -21,7 +21,6 @@ import edu.colorado.phet.rutherfordscattering.event.GunFiredListener;
  * The gun's local origin is at the center of its nozzle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class Gun extends FixedObject implements ModelElement {
     

@@ -9,7 +9,6 @@ import java.awt.geom.Point2D;
  * MovingObject is an object that has mutable position, orientation and speed.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class MovingObject extends FixedObject {
 

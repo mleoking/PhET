@@ -11,7 +11,6 @@ import edu.colorado.phet.common.model.clock.ClockListener;
  * FixedObject is an object that has a fixed (immutable) position and orientation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class FixedObject extends RSObservable {
     

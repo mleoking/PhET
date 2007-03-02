@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2007, University of Colorado */
 
 package edu.colorado.phet.rutherfordscattering.view;
 
@@ -43,7 +34,6 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * is updates and drawn for every alpha particle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class TracesNode extends PhetPNode implements ModelListener, Observer {
 

@@ -12,7 +12,6 @@ import edu.colorado.phet.common.model.ModelElement;
  * and where they encounter atoms.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class Space implements ModelElement {
 

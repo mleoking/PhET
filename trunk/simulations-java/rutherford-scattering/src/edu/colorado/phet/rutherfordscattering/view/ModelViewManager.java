@@ -17,7 +17,6 @@ import edu.umd.cs.piccolo.PNode;
  * Supports multiple views of a ModelElement.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class ModelViewManager implements ModelListener {
 

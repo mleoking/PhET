@@ -4,7 +4,6 @@ package edu.colorado.phet.rutherfordscattering.model;
 
 import java.util.Observable;
 
-
 /**
  * RSObservable is an extension of java.util.Observable that 
  * allows you to temporarily disable notification.  This is 
@@ -12,7 +11,6 @@ import java.util.Observable;
  * notifying Observers.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class RSObservable extends Observable {
 

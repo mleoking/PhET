@@ -13,7 +13,6 @@ import edu.umd.cs.piccolox.nodes.PClip;
  * AnimationBoxNode is the box in which animation of atoms and alpha particles takes place.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class AnimationBoxNode extends PClip {
 

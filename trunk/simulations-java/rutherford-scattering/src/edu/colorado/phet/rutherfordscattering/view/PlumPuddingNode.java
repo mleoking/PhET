@@ -31,7 +31,6 @@ import edu.umd.cs.piccolo.util.PBounds;
  * model of the hydrogen atom.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class PlumPuddingNode extends PhetPNode {
     

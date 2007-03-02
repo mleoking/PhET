@@ -30,7 +30,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * in the "exploded" view.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class BoxOfHydrogenNode extends PNode {
 

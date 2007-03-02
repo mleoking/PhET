@@ -16,7 +16,6 @@ import edu.colorado.phet.rutherfordscattering.util.RoundGradientPaint;
  * A neutron is gray, and has a specular highlight with the light source coming from below.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class NeutronNode extends SphericalNode {
 

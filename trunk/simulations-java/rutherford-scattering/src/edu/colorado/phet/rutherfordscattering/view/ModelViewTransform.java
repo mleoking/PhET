@@ -24,7 +24,6 @@ import edu.colorado.phet.rutherfordscattering.RSConstants;
  * a 1:1 transform, and I doubt that it works.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class ModelViewTransform {
 
