@@ -128,6 +128,14 @@ public class TestPhysics1D extends JFrame {
             }
         } );
         controlPanel.add( showNormals, gridBagConstraints );
+        
+        JButton outputSpline=new JButton( "print spline");
+        outputSpline.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.println( "cubicSpline.toStringSerialization() = " + cubicSpline.toStringSerialization() );
+            }
+        } );
+        controlPanel.add( outputSpline,gridBagConstraints);
 
         controlFrame.setContentPane( controlPanel );
 

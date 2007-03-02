@@ -60,9 +60,10 @@ class ParticleNode extends PNode {
 
     private Paint getColorForTop() {
         if( particle.isFreeFall() ) {
-            return particle.isBelowSplineZero()?Color.black : Color.green;
-        }else{
-            return particle.isBelowSpline1D()?Color.black:Color.green;
+            return particle.isAboveSplineZero() ? Color.green : Color.black;
+        }
+        else {
+            return particle.isAboveSpline1D() ? Color.green : Color.black;
         }
     }
 
