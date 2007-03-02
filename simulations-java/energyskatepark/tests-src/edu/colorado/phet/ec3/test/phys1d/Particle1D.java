@@ -138,7 +138,7 @@ public class Particle1D {
     }
 
     public AbstractVector2D getCurvatureDirection() {
-        return cubicSpline.getCurvatureDirection(alpha );
+        return cubicSpline.getCurvatureDirection( alpha );
     }
 
     public interface UpdateStrategy {
