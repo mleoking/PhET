@@ -1,0 +1,30 @@
+===============================================================================
+"To Do" list for "The Hydrogen Atom" simulation          $Revision$
+===============================================================================
+
+IN PROGRESS:
+
+HIGH PRIORITY:
+- make PlumPuddingNode circular, place electrons
+- add control panel to "Plum Pudding" panel
+- flesh out "Rutherford Atom" panel
+- modify Rutherford Scattering algorithm
+
+MEDIUM PRIORITY:
+
+LOW PRIORITY:
+
+DEFER UNTIL AFTER INTERVIEWS:
+
+DONE:
+3/2/07 - check into new SVN project
+3/2/07 - get everything to build without errors
+3/1/07 - flesh out "Plum Pudding" panel
+3/1/07 - cannibalize and simplify code from hydrogen-atom sim
+3/1/07 - hook up basic services
+3/1/07 - set up application framework
+
+REJECTED:
+
+===============================================================================
+end of file
