@@ -12,9 +12,7 @@
 package edu.colorado.phet.rutherfordscattering.view;
 
 import java.awt.*;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -23,7 +21,6 @@ import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -35,13 +32,13 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BoxOfHydrogenNode extends PImage {
+public class BoxOfHydrogenNode extends PNode {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Paint BOX_FRONT_PAINT = Color.GRAY;
+    private static final Paint BOX_FRONT_PAINT = new Color( 106, 112, 49 ); // gold
 
     private static final Color TOP_COLOR_FRONT = Color.GRAY;
     private static final Color TOP_COLOR_BACK = Color.DARK_GRAY;
@@ -51,10 +48,6 @@ public class BoxOfHydrogenNode extends PImage {
     
     private static final float BACK_DEPTH = 10f;
     private static final float BACK_OFFSET = 0.15f;
-    
-    private static final String FONT_NAME = RSConstants.DEFAULT_FONT_NAME;
-    private static final int FONT_STYLE = Font.BOLD;
-    private static final int DEFAULT_FONT_SIZE = 16;
     
     private static final double Y_SPACING = 5;  // space between label and box
     
@@ -113,13 +106,10 @@ public class BoxOfHydrogenNode extends PImage {
         labelNode.setHTMLColor( RSConstants.CANVAS_LABELS_COLOR );
         labelNode.setFont( RSConstants.DEFAULT_FONT );
         
-        // Parent node for everything
-        PComposite parentNode = new PComposite();
-        
         // Layering
-        parentNode.addChild( boxNode );
-        parentNode.addChild( _tinyBoxNode );
-        parentNode.addChild( labelNode );
+        addChild( boxNode );
+        addChild( _tinyBoxNode );
+        addChild( labelNode );
         
         // Label centered above box, orgin in upper-left corner of bounds
         final double labelWidth = labelNode.getFullBounds().getWidth();
@@ -135,11 +125,8 @@ public class BoxOfHydrogenNode extends PImage {
         
         // Tiny box in upper right quadrant of box
         double x = boxNode.getFullBounds().getX() + ( 0.6 * boxNode.getFullBounds().getWidth() );
-        double y = boxNode.getFullBounds().getY() + ( 0.3 * boxNode.getFullBounds().getHeight() );
+        double y = boxNode.getFullBounds().getY() + ( 0.5 * boxNode.getFullBounds().getHeight() );
         _tinyBoxNode.setOffset( x, y );
-        
-        // Flatten everything to an image
-        setImage( parentNode.toImage() );
     }
     
     //----------------------------------------------------------------------------
@@ -147,17 +134,13 @@ public class BoxOfHydrogenNode extends PImage {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the global bounds of the tiny box that shows the "exploded" 
+     * Gets the global full bounds of the tiny box that shows the "exploded" 
      * part of the box of hydrogen.  We use these bounds to attached
      * dashed lines between the box of hydrogen and the exploded view.
      * 
      * @return PBounds
      */
-    public PBounds getTinyBoxGlobalBounds() {
-        PBounds fb = _tinyBoxNode.getFullBounds();
-        Point2D gp = localToGlobal( fb.getOrigin() );
-        Dimension2D gd = localToGlobal( fb.getSize() );
-        PBounds gb = new PBounds( gp.getX(), gp.getY(), gd.getWidth(), gd.getHeight() );
-        return gb;
+    public Rectangle2D getTinyBoxGlobalFullBounds() {
+        return _tinyBoxNode.getGlobalFullBounds();
     }
 }

@@ -44,7 +44,7 @@ public class RSConstants {
     
     public static final Dimension TINY_BOX_SIZE = new Dimension( 10, 10 );
 
-    public static final Dimension BOX_OF_HYDROGEN_SIZE = new Dimension( 70, 70 );
+    public static final Dimension BOX_OF_HYDROGEN_SIZE = new Dimension( 70, 18 );
     public static final double BOX_OF_HYDROGEN_DEPTH = 10;
     
     public static final Dimension BEAM_SIZE = new Dimension( (int) ( .75 * BOX_OF_HYDROGEN_SIZE.width ), 75 );

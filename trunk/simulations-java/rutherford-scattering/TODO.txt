@@ -5,18 +5,22 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- make PlumPuddingNode circular, place electrons
+- make PlumPuddingNode place 79 electrons
 - add control panel to "Plum Pudding" panel
 - flesh out "Rutherford Atom" panel
 - modify Rutherford Scattering algorithm
 
 MEDIUM PRIORITY:
+- performance issue with drawing alpha particles on top of large plum pudding image (costly scaling xform?)
 
 LOW PRIORITY:
 
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/2/07 - make plum pudding image larger, so that it fills the big box
+3/2/07 - fix coordinate system mapping problems with zoom indicator
+3/2/07 - make box of hydrogen shorter and gold
 3/2/07 - check into new SVN project
 3/2/07 - get everything to build without errors
 3/1/07 - flesh out "Plum Pudding" panel
