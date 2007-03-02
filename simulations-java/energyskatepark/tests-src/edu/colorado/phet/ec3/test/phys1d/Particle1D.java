@@ -137,6 +137,10 @@ public class Particle1D {
         return mass;
     }
 
+    public AbstractVector2D getCurvatureDirection() {
+        return cubicSpline.getCurvatureDirection(alpha );
+    }
+
     public interface UpdateStrategy {
         void stepInTime( double dt );
     }
