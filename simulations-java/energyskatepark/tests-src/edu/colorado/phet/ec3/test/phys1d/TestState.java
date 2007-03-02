@@ -12,6 +12,15 @@ import java.util.ArrayList;
 
 public class TestState {
     private ArrayList controlPointSets = new ArrayList();
+    private String name;
+
+    public TestState( String name ) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public int numCubicSpline2Ds() {
         return controlPointSets.size();
@@ -41,6 +50,11 @@ public class TestState {
         boolean top;
 
         public SplineTestState( int splineIndex, double alpha, double velocity, boolean top ) {
+            this( "", splineIndex, alpha, velocity, top );
+        }
+
+        public SplineTestState( String name, int splineIndex, double alpha, double velocity, boolean top ) {
+            super( name );
             this.splineIndex = splineIndex;
             this.alpha = alpha;
             this.velocity = velocity;
@@ -80,7 +94,7 @@ public class TestState {
         }
 
         public void init( Particle particle, ParticleStage particleStage ) {
-            super.init( particle,particleStage );
+            super.init( particle, particleStage );
             particle.switchToTrack( particleStage.getCubicSpline2D( splineIndex ), alpha, top );
             particle.getParticle1D().setVelocity( velocity );
         }
@@ -93,6 +107,11 @@ public class TestState {
         double vy;
 
         public FreeFallTestState( double x, double y, double vx, double vy ) {
+            this( "", x, y, vx, vy );
+        }
+
+        public FreeFallTestState( String name, double x, double y, double vx, double vy ) {
+            super( name );
             this.x = x;
             this.y = y;
             this.vx = vx;
@@ -110,7 +129,7 @@ public class TestState {
         }
 
         public void init( Particle particle, ParticleStage particleStage ) {
-            super.init( particle,particleStage );
+            super.init( particle, particleStage );
             particle.setFreeFall();
 //            particle.switchToTrack( particleStage.getCubicSpline2D( splineIndex ), alpha, top );
 //            particle.getParticle1D().setVelocity( velocity );
