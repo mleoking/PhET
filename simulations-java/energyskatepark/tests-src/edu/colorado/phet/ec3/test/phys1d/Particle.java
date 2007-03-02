@@ -64,6 +64,7 @@ public class Particle {
             if( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0 ) {
                 System.out.println( "Switching to freefall" );
                 switchToFreeFall();
+                System.out.println( "switched to freefall, below="+isBelowSplineZero() );
             }
             else {
                 particle1D.stepInTime( dt );
@@ -83,9 +84,18 @@ public class Particle {
         offsetOnSpline( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() );
     }
 
+    public boolean isBelowSplineZero() {
+        boolean below = isBelowSpline( particleStage.getCubicSpline2D( 0 ), particleStage.getCubicSpline2D( 0 ).getClosestPoint( new Point2D.Double( x, y ) ), new Point2D.Double( x, y ) );
+//        System.out.println( "below = " + below );
+        return below;
+    }
+
     class FreeFall implements UpdateStrategy {
 
         public void stepInTime( double dt ) {
+            boolean origBelow=isBelowSplineZero();
+            System.out.println( "stepping freefall, below="+isBelowSplineZero() );
+
             Point2D origLoc = new Point2D.Double( x, y );
             vy += g * dt;
             vx += 0;
@@ -97,10 +107,13 @@ public class Particle {
 
             //check for crossover
             for( int i = 0; i < particleStage.numCubicSpline2Ds(); i++ ) {
-                CubicSpline2D cubicSpline = particleStage.getCubicSpline2D( i );
 
+                CubicSpline2D cubicSpline = particleStage.getCubicSpline2D( i );
                 double alpha = cubicSpline.getClosestPoint( new Line2D.Double( origLoc, newLoc ) );
-                boolean crossed = checkForCrossOver( cubicSpline, alpha, origLoc, newLoc );
+
+                boolean below = isBelowSpline( cubicSpline, alpha, newLoc );
+                System.out.println( "below = " + below );
+                boolean crossed = origBelow!=below;
 
                 if( crossed ) {
                     System.out.println( "crossed over" );
