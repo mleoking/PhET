@@ -129,6 +129,10 @@ public class CubicSpline2D {
         return a + "};";
     }
 
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
     class SearchPoint implements Comparable {
         double alpha;
         double dist;

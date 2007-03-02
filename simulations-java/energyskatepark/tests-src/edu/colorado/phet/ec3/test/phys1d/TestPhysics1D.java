@@ -21,9 +21,9 @@ public class TestPhysics1D extends JFrame {
     private SwingClock clock;
     private JFrame ccpFrame;
     private PSwingCanvas pSwingCanvas;
-    private CubicSpline2D cubicSpline;
     private Particle particle;
-    private CubicSpline2DNode splineNode;
+    private ParticleStage particleStage = new ParticleStage();
+    private SplineLayer splineLayer = new SplineLayer( particleStage );
 
     public TestPhysics1D() {
         pSwingCanvas = new PSwingCanvas();
@@ -32,26 +32,24 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setContentPane( pSwingCanvas );
 
-        cubicSpline = CubicSpline2D.interpolate( new Point2D[]{
+        CubicSpline2D cubicSpline = CubicSpline2D.interpolate( new Point2D[]{
                 new Point2D.Double( 1, 0.5 ),
                 new Point2D.Double( 2, 1 ),
                 new Point2D.Double( 3, 0.5 ),
                 new Point2D.Double( 4, 2 ),
                 new Point2D.Double( 5, 0.5 )
         } );
-        splineNode = new CubicSpline2DNode( cubicSpline );
+        particleStage.addCubicSpline2D( cubicSpline );
+//        CubicSpline2DNode splineNode = new CubicSpline2DNode( cubicSpline );
+//        pSwingCanvas.getLayer().scale
         pSwingCanvas.getLayer().scale( 100 );
-        pSwingCanvas.getLayer().addChild( splineNode );
+//        pSwingCanvas.getLayer().addChild( splineNode );
+        pSwingCanvas.getLayer().addChild( splineLayer );
         setSize( 800, 600 );
 
-        particle = new Particle( cubicSpline );
+        particle = new Particle( particleStage );
         final ParticleNode particleNode = new ParticleNode( particle );
 
-//        final Particle1D particle1d = new Particle1D( cubicSpline );
-//        particle1d.setUpdateStrategy( particle1d.createEuler() );
-//        Particle1DNode particle1DNode = new Particle1DNode( particle1d );
-
-//        pSwingCanvas.getLayer().addChild( particle1DNode );
         pSwingCanvas.getLayer().addChild( particleNode );
 
         int msPerClockTick = 30;
@@ -59,8 +57,6 @@ public class TestPhysics1D extends JFrame {
         clock.addClockListener( new ClockAdapter() {
 
             public void simulationTimeChanged( ClockEvent clockEvent ) {
-//                System.out.println( "clockEvent.getSimulationTimeChange() = " + clockEvent.getSimulationTimeChange() );
-//                particle1d.stepInTime( clockEvent.getSimulationTimeChange() );
                 particle.stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
@@ -124,10 +120,12 @@ public class TestPhysics1D extends JFrame {
         } );
         controlPanel.add( resetParticle, gridBagConstraints );
 
-        final JCheckBox showNormals = new JCheckBox( "show (top) normals", splineNode.isNormalsVisible() );
+        final JCheckBox showNormals = new JCheckBox( "show (top) normals", splineLayer.isNormalsVisible() );
         showNormals.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                splineNode.setNormalsVisible( showNormals.isSelected() );
+                splineLayer.setNormalsVisible( showNormals.isSelected() );
+//                particleStage.setNormalsVisible(showNormals.isSelected() );)
+//                splineNode.setNormalsVisible( showNormals.isSelected() );
             }
         } );
         controlPanel.add( showNormals, gridBagConstraints );
@@ -135,7 +133,8 @@ public class TestPhysics1D extends JFrame {
         JButton outputSpline = new JButton( "print spline" );
         outputSpline.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                System.out.println( "cubicSpline.toStringSerialization() = " + cubicSpline.toStringSerialization() );
+                System.out.println( "particleStage = " + particleStage.toStringSerialization() );
+//                System.out.println( "cubicSpline.toStringSerialization() = " + cubicSpline.toStringSerialization() );
             }
         } );
         controlPanel.add( outputSpline, gridBagConstraints );
@@ -191,17 +190,20 @@ public class TestPhysics1D extends JFrame {
         controlFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
 
-    public CubicSpline2D getCubicSpline() {
-        return cubicSpline;
-    }
-
-
     public Particle getParticle() {
         return particle;
     }
 
     public static void main( String[] args ) {
         new TestPhysics1D().start();
+    }
+
+    public void setTestState( TestState testState ) {
+        particleStage.clear();
+        for( int i = 0; i < testState.numCubicSpline2Ds(); i++ ) {
+            particleStage.addCubicSpline2D( new CubicSpline2D( testState.getCubicSpline2D( i ) ) );
+        }
+        testState.init( particle, particleStage );
     }
 
     public void start() {
