@@ -20,6 +20,7 @@ public class TestPhysics1D extends JFrame {
     private PSwingCanvas pSwingCanvas;
     private CubicSpline2D cubicSpline;
     private Particle particle;
+    private CubicSpline2DNode splineNode;
 
     public TestPhysics1D() {
         pSwingCanvas = new PSwingCanvas();
@@ -35,7 +36,7 @@ public class TestPhysics1D extends JFrame {
                 new Point2D.Double( 4, 2 ),
                 new Point2D.Double( 5, 0.5 )
         } );
-        CubicSpline2DNode splineNode = new CubicSpline2DNode( cubicSpline );
+        splineNode = new CubicSpline2DNode( cubicSpline );
         pSwingCanvas.getLayer().scale( 100 );
         pSwingCanvas.getLayer().addChild( splineNode );
         setSize( 800, 600 );
@@ -119,6 +120,15 @@ public class TestPhysics1D extends JFrame {
             }
         } );
         controlPanel.add( resetParticle, gridBagConstraints );
+
+        final JCheckBox showNormals = new JCheckBox( "show (top) normals", splineNode.isNormalsVisible() );
+        showNormals.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                splineNode.setNormalsVisible( showNormals.isSelected() );
+            }
+        } );
+        controlPanel.add( showNormals, gridBagConstraints );
+
         controlFrame.setContentPane( controlPanel );
 
 //        JButton resetEnergyError = new JButton( "Reset Energy Error" );
