@@ -101,7 +101,8 @@ public class Particle {
             //if normal force is negative on a valley fly off
 //            boolean hillside=(normalForce<0&&particle1D.getCurvatureDirection().getY()<=0);
 //            if(( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0) ||hillside) {
-            if( ( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0 ) ) {
+//            if( ( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0 ) ) {
+            if( ( normalForce > 0 ) ) {
                 System.out.println( "Switching to freefall" );
                 switchToFreeFall();
 
