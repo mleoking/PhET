@@ -27,13 +27,15 @@ public class Particle1D {
     private double totalDE = 0;
 
     private ArrayList listeners = new ArrayList();
+    private boolean splineTop = true;
 
-    public Particle1D( CubicSpline2D cubicSpline ) {
-        this( cubicSpline, 9.8 );
+    public Particle1D( CubicSpline2D cubicSpline, boolean splineTop ) {
+        this( cubicSpline, splineTop, 9.8 );
     }
 
-    public Particle1D( CubicSpline2D cubicSpline2D, double g ) {
+    public Particle1D( CubicSpline2D cubicSpline2D, boolean splineTop, double g ) {
         this.cubicSpline = cubicSpline2D;
+        this.splineTop = splineTop;
         this.g = g;
     }
 
@@ -125,8 +127,9 @@ public class Particle1D {
         return cubicSpline.getUnitParallelVector( alpha ).getInstanceOfMagnitude( velocity );
     }
 
-    public void setCubicSpline2D( CubicSpline2D spline ) {
+    public void setCubicSpline2D( CubicSpline2D spline,boolean top ) {
         cubicSpline = spline;
+        this.splineTop=top;
     }
 
     public double getSpeed() {
@@ -139,6 +142,14 @@ public class Particle1D {
 
     public AbstractVector2D getCurvatureDirection() {
         return cubicSpline.getCurvatureDirection( alpha );
+    }
+
+    public CubicSpline2D getCubicSpline2D() {
+        return cubicSpline;
+    }
+
+    public boolean isSplineTop() {
+        return splineTop;
     }
 
     public interface UpdateStrategy {
