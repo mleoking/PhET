@@ -21,8 +21,8 @@ class ParticleNode extends PNode {
     public ParticleNode( final Particle particle ) {
         this.particle = particle;
         Color y = Color.yellow;
-        phetPPath = new PhetPPath( new Color( y.getRed(), y.getGreen(), y.getBlue(), 128 ), new BasicStroke( 1 ), Color.red );
-        double w = 30;
+        phetPPath = new PhetPPath( new Color( y.getRed(), y.getGreen(), y.getBlue(), 128 ), new BasicStroke( 0.01f ), Color.red );
+        double w = 0.30f;
         phetPPath.setPathTo( new Ellipse2D.Double( 0, 0, w, w ) );
         addChild( phetPPath );
         particle.addListener( new Particle.Listener() {

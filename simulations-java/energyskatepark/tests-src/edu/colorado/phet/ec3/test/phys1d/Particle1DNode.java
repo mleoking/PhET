@@ -18,8 +18,8 @@ class Particle1DNode extends PNode {
 
     public Particle1DNode( final Particle1D particle1d ) {
         this.particle1d = particle1d;
-        phetPPath = new PhetPPath( new BasicStroke( 1 ), Color.gray );
-        phetPPath.setPathTo( new Ellipse2D.Double( 0, 0, 10, 10 ) );
+        phetPPath = new PhetPPath( new BasicStroke( 0.01f ), Color.gray );
+        phetPPath.setPathTo( new Ellipse2D.Double( 0, 0, 0.10, 0.10 ) );
         addChild( phetPPath );
         particle1d.addListener( this );
 
