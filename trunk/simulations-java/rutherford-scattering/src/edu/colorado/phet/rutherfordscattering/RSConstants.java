@@ -60,7 +60,10 @@ public class RSConstants {
     //----------------------------------------------------------------------------
     
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
-    public static final double CLOCK_STEP = 1; // dt per clock tick
+
+    public static final double MIN_CLOCK_STEP = 0.5;
+    public static final double MAX_CLOCK_STEP = 3.0;
+    public static final double DEFAULT_CLOCK_STEP = 2;
     
     //----------------------------------------------------------------------------
     // Fonts
@@ -70,6 +73,9 @@ public class RSConstants {
     public static final int DEFAULT_FONT_STYLE = Font.BOLD;
     public static final int DEFAULT_FONT_SIZE = 16;
     public static final Font DEFAULT_FONT = new Font( DEFAULT_FONT_NAME, DEFAULT_FONT_STYLE, DEFAULT_FONT_SIZE );
+    
+    public static final Font TITLE_FONT = new Font( DEFAULT_FONT_NAME, Font.BOLD, 14 );
+    public static final Font CONTROL_FONT = new Font( DEFAULT_FONT_NAME, Font.PLAIN, 14 );
     
     //----------------------------------------------------------------------------
     // Paints

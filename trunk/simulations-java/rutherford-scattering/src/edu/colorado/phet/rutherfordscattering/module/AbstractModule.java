@@ -9,8 +9,8 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.rutherfordscattering.model.RSClock;
 
 
 /**
@@ -21,6 +21,8 @@ import edu.colorado.phet.piccolo.PiccoloModule;
  */
 public abstract class AbstractModule extends PiccoloModule {
 
+    private RSClock _clock;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -32,8 +34,10 @@ public abstract class AbstractModule extends PiccoloModule {
      * @param clock
      * @param startsPaused
      */
-    public AbstractModule( String title, IClock clock, boolean startsPaused ) {
+    public AbstractModule( String title, RSClock clock, boolean startsPaused ) {
         super( title, clock, startsPaused );
+        
+        _clock = clock;
         
         // hide the PhET logo
         setLogoPanel( null );
@@ -50,6 +54,15 @@ public abstract class AbstractModule extends PiccoloModule {
      */
     public JFrame getFrame() {
         return PhetApplication.instance().getPhetFrame();
+    }
+    
+    /**
+     * Sets the clock dt for the module.
+     * @param dt
+     */
+    public void setDt( double dt ) {
+        System.out.println( "AbstractModule.setDt dt=" + dt );//XXX
+        _clock.setSimulationTimeChange(  dt  );
     }
     
     //----------------------------------------------------------------------------

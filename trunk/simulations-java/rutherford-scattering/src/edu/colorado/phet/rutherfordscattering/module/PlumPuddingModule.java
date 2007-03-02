@@ -261,7 +261,7 @@ public class PlumPuddingModule extends AbstractModule {
     protected void updateCanvasLayout() {
 
         Dimension worldSize = getWorldSize();
-        System.out.println( "HAModule.updateCanvasLayout worldSize=" + worldSize );//XXX
+//        System.out.println( "HAModule.updateCanvasLayout worldSize=" + worldSize );//XXX
         if ( worldSize.getWidth() == 0 || worldSize.getHeight() == 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
