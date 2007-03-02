@@ -96,7 +96,7 @@ public class CubicSpline2D {
                 high = pts[0];
             }
             iterations++;
-            if( iterations > 10 || Math.abs( low.alpha - high.alpha ) < threshold ) {
+            if( iterations > 50 || Math.abs( low.alpha - high.alpha ) < threshold ) {
                 break;
             }
             //take the best 2 as our new endpoints
@@ -166,7 +166,7 @@ public class CubicSpline2D {
                 high = pts[0];
             }
             iterations++;
-            if( iterations > 10 || Math.abs( low.alpha - high.alpha ) < threshold ) {
+            if( iterations > 30 || Math.abs( low.alpha - high.alpha ) < threshold ) {
                 break;
             }
             //take the best 2 as our new endpoints
