@@ -17,11 +17,12 @@ import java.awt.geom.Ellipse2D;
 class ParticleNode extends PNode {
     private Particle particle;
     private PhetPPath phetPPath;
+//    private PNode topIndicator;
 
     public ParticleNode( final Particle particle ) {
         this.particle = particle;
-        Color y = Color.yellow;
-        phetPPath = new PhetPPath( new Color( y.getRed(), y.getGreen(), y.getBlue(), 128 ), new BasicStroke( 0.01f ), Color.red );
+        Color color = Color.yellow;
+        phetPPath = new PhetPPath( toTransparentColor( color, 128 ), new BasicStroke( 0.01f ), Color.red );
         double w = 0.30f;
         phetPPath.setPathTo( new Ellipse2D.Double( 0, 0, w, w ) );
         addChild( phetPPath );
@@ -42,10 +43,35 @@ class ParticleNode extends PNode {
             }
         } );
 
+//        topIndicator = new PNode();
+//        addChild( topIndicator );
         update();
+    }
+
+    private Color toTransparentColor( Color color, int alpha ) {
+        return new Color( color.getRed(), color.getGreen(), color.getBlue(), alpha );
     }
 
     public void update() {
         phetPPath.setOffset( particle.getX() - phetPPath.getWidth() / 2, particle.getY() - phetPPath.getHeight() / 2 );
+        phetPPath.setPaint( toTransparentColor( getParticleColor(), 128 ) );
+        phetPPath.setStrokePaint( getColorForTop() );
+    }
+
+    private Paint getColorForTop() {
+        if( particle.isFreeFall() ) {
+            return particle.isBelowSplineZero()?Color.black : Color.green;
+        }else{
+            return particle.isBelowSpline1D()?Color.black:Color.green;
+        }
+    }
+
+    private Color getParticleColor() {
+        if( particle.isFreeFall() ) {
+            return Color.blue;
+        }
+        else {
+            return Color.red;
+        }
     }
 }
