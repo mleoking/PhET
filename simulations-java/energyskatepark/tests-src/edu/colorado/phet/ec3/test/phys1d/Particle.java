@@ -67,6 +67,14 @@ public class Particle {
         return particle1D.isSplineTop();
     }
 
+    public Particle1D getParticle1D() {
+        return particle1D;
+    }
+
+    public boolean isSplineMode() {
+        return updateStrategy instanceof Particle1DUpdate;
+    }
+
     interface UpdateStrategy {
         void stepInTime( double dt );
     }
@@ -80,6 +88,7 @@ public class Particle {
 
             //compare a to v/r^2 to see if it leaves the track
             double r = Math.abs( particle1D.getRadiusOfCurvature() );//todo: how can I be certain units are correct here?
+//            System.out.println( "r = " + r );
             double normalForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r - getMass() * g;
 
 //            System.out.println( "r = " + r );

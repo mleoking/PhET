@@ -45,7 +45,7 @@ public class TestPhysics1D extends JFrame {
         setSize( 800, 600 );
 
         particle = new Particle( cubicSpline );
-        ParticleNode particleNode = new ParticleNode( particle );
+        final ParticleNode particleNode = new ParticleNode( particle );
 
 //        final Particle1D particle1d = new Particle1D( cubicSpline );
 //        particle1d.setUpdateStrategy( particle1d.createEuler() );
@@ -147,7 +147,7 @@ public class TestPhysics1D extends JFrame {
             }
         } );
         controlPanel.add( elasticity, gridBagConstraints );
-        
+
         final ModelSlider stickiness = new ModelSlider( "Stickiness", "", 0.0, 2.0, particle.getStickiness() );
         stickiness.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -155,6 +155,18 @@ public class TestPhysics1D extends JFrame {
             }
         } );
         controlPanel.add( stickiness, gridBagConstraints );
+
+        JButton updateGraphics = new JButton( "Update Particle Node" );
+        updateGraphics.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                particleNode.update();
+                if( particle.isSplineMode() ) {
+                    System.out.println( "particle.getParticle1D().getRadiusOfCurvature() = " + particle.getParticle1D().getRadiusOfCurvature() );
+                }
+            }
+        } );
+        controlPanel.add( updateGraphics, gridBagConstraints );
+
 
         controlFrame.setContentPane( controlPanel );
 
