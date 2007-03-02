@@ -64,7 +64,7 @@ public class Particle {
             if( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0 ) {
                 System.out.println( "Switching to freefall" );
                 switchToFreeFall();
-                System.out.println( "switched to freefall, below="+isBelowSplineZero() );
+                System.out.println( "switched to freefall, below=" + isBelowSplineZero() );
             }
             else {
                 particle1D.stepInTime( dt );
@@ -85,16 +85,15 @@ public class Particle {
     }
 
     public boolean isBelowSplineZero() {
-        boolean below = isBelowSpline( particleStage.getCubicSpline2D( 0 ), particleStage.getCubicSpline2D( 0 ).getClosestPoint( new Point2D.Double( x, y ) ), new Point2D.Double( x, y ) );
-//        System.out.println( "below = " + below );
-        return below;
+        //        System.out.println( "below = " + below );
+        return isBelowSpline( particleStage.getCubicSpline2D( 0 ), particleStage.getCubicSpline2D( 0 ).getClosestPoint( new Point2D.Double( x, y ) ), new Point2D.Double( x, y ) );
     }
 
     class FreeFall implements UpdateStrategy {
 
         public void stepInTime( double dt ) {
-            boolean origBelow=isBelowSplineZero();
-            System.out.println( "stepping freefall, below="+isBelowSplineZero() );
+            boolean origBelow = isBelowSplineZero();
+            System.out.println( "stepping freefall, below=" + isBelowSplineZero() );
 
             Point2D origLoc = new Point2D.Double( x, y );
             vy += g * dt;
@@ -113,7 +112,7 @@ public class Particle {
 
                 boolean below = isBelowSpline( cubicSpline, alpha, newLoc );
                 System.out.println( "below = " + below );
-                boolean crossed = origBelow!=below;
+                boolean crossed = origBelow != below;
 
                 if( crossed ) {
                     System.out.println( "crossed over" );
@@ -141,11 +140,11 @@ public class Particle {
                             setVelocity( newVelocity );
 
                             //set the position to be just on top of the spline
-                            offsetOnSpline( cubicSpline, alpha, !isBelowSpline( cubicSpline, alpha, origLoc ) );
+                            offsetOnSpline( cubicSpline, alpha, isAboveSpline( cubicSpline, alpha, origLoc ) );
                         }
                         else {
                             System.out.println( "grabbed track" );
-                            switchToTrack( cubicSpline, alpha, !isBelowSpline( cubicSpline, alpha, origLoc ) );
+                            switchToTrack( cubicSpline, alpha, isAboveSpline( cubicSpline, alpha, origLoc ) );
                         }
                         break;
                     }
@@ -171,15 +170,21 @@ public class Particle {
         return new Vector2D.Double( vx, vy );
     }
 
+    public boolean isAboveSpline( CubicSpline2D cubicSpline2D, double alpha, Point2D loc ) {
+        AbstractVector2D v = cubicSpline2D.getUnitNormalVector( alpha );
+        Vector2D.Double a = new Vector2D.Double( cubicSpline2D.evaluate( alpha ), loc );
+        return a.dot( v ) > 0;
+    }
+
     public boolean isBelowSpline( CubicSpline2D cubicSpline2D, double alpha, Point2D loc ) {
         AbstractVector2D v = cubicSpline2D.getUnitNormalVector( alpha );
         Vector2D.Double a = new Vector2D.Double( cubicSpline2D.evaluate( alpha ), loc );
         return a.dot( v ) < 0;
     }
 
-    boolean checkForCrossOver( CubicSpline2D cubicSpline2D, double alpha, Point2D origLoc, Point2D newLoc ) {
-        return isBelowSpline( cubicSpline2D, alpha, origLoc ) != isBelowSpline( cubicSpline2D, alpha, newLoc );
-    }
+//    boolean checkForCrossOver( CubicSpline2D cubicSpline2D, double alpha, Point2D origLoc, Point2D newLoc ) {
+//        return isAboveSpline( cubicSpline2D, alpha, origLoc ) != isAboveSpline( cubicSpline2D, alpha, newLoc );
+//    }
 
     class UserUpdateStrategy implements UpdateStrategy {
         public void stepInTime( double dt ) {
