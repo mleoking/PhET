@@ -2,12 +2,9 @@
 
 package edu.colorado.phet.rutherfordscattering.control;
 
-import java.util.Hashtable;
-
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -18,9 +15,7 @@ import edu.colorado.phet.rutherfordscattering.module.PlumPuddingModule;
 
 public class PlumPuddingControlPanel extends AbstractControlPanel {
 
-    private static final double CLOCK_STEP_TO_ENERGY_MULTIPLER = 100;
-    
-    private EnergyControl _energyControl;
+    private SliderControl _clockControl;
     
     public PlumPuddingControlPanel( PlumPuddingModule module ) {
         super( module );
@@ -28,35 +23,38 @@ public class PlumPuddingControlPanel extends AbstractControlPanel {
         JLabel titleLabel = new JLabel( SimStrings.get( "label.alphaParticleProperties" ) );
         titleLabel.setFont( RSConstants.TITLE_FONT );
         
-        int min = clockStepToEnergy( RSConstants.MIN_CLOCK_STEP );
-        int max = clockStepToEnergy( RSConstants.MAX_CLOCK_STEP );
-        int value = clockStepToEnergy( RSConstants.DEFAULT_CLOCK_STEP );
-        _energyControl = new EnergyControl( min, max, value );
-        _energyControl.setTitleFont( RSConstants.CONTROL_FONT );
-        _energyControl.setSliderFont( RSConstants.CONTROL_FONT );
-        _energyControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                handleEnergyChange();
-            }
-        });
+        // Clock (Energy) control
+        {
+            double value = RSConstants.DEFAULT_CLOCK_STEP;
+            double min = RSConstants.MIN_CLOCK_STEP;
+            double max = RSConstants.MAX_CLOCK_STEP;
+            double tickSpacing = max - min;
+            int tickDecimalPlaces = 0;
+            int valueDecimalPlaces = 1;
+            String label = SimStrings.get( "label.energy" ); // labeled "Energy" !
+            String units = "";
+            int columns = 1;
+            _clockControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+            _clockControl.setBorder( BorderFactory.createEtchedBorder() );
+            _clockControl.setTextFieldVisible( false );
+            _clockControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
+            _clockControl.addChangeListener( new ChangeListener() {
+
+                public void stateChanged( ChangeEvent event ) {
+                    handleClockChange();
+                }
+            } );
+        }
         
         addVerticalSpace( 20 );
         addControlFullWidth( titleLabel );
         addVerticalSpace( 20 );
-        addControlFullWidth( _energyControl );
+        addControlFullWidth( _clockControl );
     }
     
-    private static double energyToClockStep( int energy ) {
-        return energy / (double) CLOCK_STEP_TO_ENERGY_MULTIPLER;
-    }
-
-    private static int clockStepToEnergy( double clockStep ) {
-        return (int) ( clockStep * CLOCK_STEP_TO_ENERGY_MULTIPLER );
-    }
-    
-    private void handleEnergyChange() {
-        int energy = _energyControl.getValue();
-        double clockStep = energyToClockStep( energy );
-        getModule().setDt( clockStep );
+    private void handleClockChange() {
+        double dt = _clockControl.getValue();
+        System.out.println( "PlumPuddingControlPanel.handleClockChange dt=" + dt );//XXX
+        getModule().setDt( dt );
     }
 }
