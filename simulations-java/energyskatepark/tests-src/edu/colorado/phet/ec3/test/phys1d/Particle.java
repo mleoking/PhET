@@ -174,7 +174,7 @@ public class Particle {
         Point2D splineLoc = cubicSpline.evaluate( alpha );
         double sign = top ? 1.0 : -1.0;
 //        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-4 * sign ).getDestination( splineLoc );//todo: determine this free parameter
-        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-6 * sign ).getDestination( splineLoc );//todo: determine this free parameter
+        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-3 * sign ).getDestination( splineLoc );//todo: determine this free parameter
 //        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0 * sign ).getDestination( splineLoc );//todo: determine this free parameter
         setPosition( finalPosition );
     }
