@@ -99,6 +99,20 @@ public class CubicSpline2D {
         return ( low.alpha + high.alpha ) / 2.0;
     }
 
+    public AbstractVector2D getCurvatureDirection( double alpha ) {
+        double epsilon = 0.001;
+        Point2D a0 = evaluate( alpha - epsilon / 2.0 );
+        Point2D a1 = evaluate( alpha + epsilon / 2.0 );
+        Point2D center = evaluate( alpha );
+        Point2D avg = new Point2D.Double( ( a0.getX() + a1.getX() ) / 2.0, ( a0.getY() + a1.getY() ) / 2.0 );
+        Vector2D.Double dir = new Vector2D.Double( center, avg );
+        AbstractVector2D vec = new Vector2D.Double( getUnitNormalVector( alpha ) );
+        if( dir.dot( vec ) < 0 ) {
+            vec = vec.getScaledInstance( -1.0 );
+        }
+        return vec;
+    }
+
     class SearchPoint implements Comparable {
         double alpha;
         double dist;

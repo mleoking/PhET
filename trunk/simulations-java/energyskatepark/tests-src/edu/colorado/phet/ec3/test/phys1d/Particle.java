@@ -21,6 +21,7 @@ public class Particle {
     private double vx;
     private double vy;
     private double g = 9.8;
+    private double mass = 1.0;
 
     private UpdateStrategy updateStrategy = new Particle1DUpdate();
     private ParticleStage particleStage;
@@ -44,27 +45,43 @@ public class Particle {
         void stepInTime( double dt );
     }
 
+    public double getMass() {
+        return mass;
+    }
+
     class Particle1DUpdate implements UpdateStrategy {
         public void stepInTime( double dt ) {
 
             //compare a to v/r^2 to see if it leaves the track
-            double a = Math.abs( particle1D.getUnitNormalVector().dot( particle1D.getNetForce() ) ) / particle1D.getMass();
+//            double a = Math.abs( particle1D.getUnitNormalVector().dot( particle1D.getNetForce() ) );
             double r = Math.abs( particle1D.getRadiusOfCurvature() );//todo: how can I be certain units are correct here?
             System.out.println( "r = " + r );
-            double threshold = particle1D.getSpeed() * particle1D.getSpeed() / r;
-            System.out.println( "normalAccel=" + a + ", v^2/r=" + threshold );
-
-            if( a > threshold ) {
-
+            double normalForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r - getMass() * g;
+            System.out.println( "normalForce = " + normalForce );
+//            double threshold = particle1D.getSpeed() * particle1D.getSpeed() / r;
+//            System.out.println( "normalAccel=" + a + ", v^2/r=" + threshold );
+            System.out.println( "particle1D.getCurvatureDirection() = " + particle1D.getCurvatureDirection() + ", y>=0: " + (particle1D.getCurvatureDirection().getY() >= 0) );
+            //if normal force is positive on the top of a hill fly off
+            //if normal force is negative on a valley fly off
+            if( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0 ) {
+                switchToFreeFall();
             }
+            else {
 
-            particle1D.stepInTime( dt );
-            x = particle1D.getX();
-            y = particle1D.getY();
-            AbstractVector2D vel = particle1D.getVelocity2D();
-            vx = vel.getX();
-            vy = vel.getY();
+                particle1D.stepInTime( dt );
+                x = particle1D.getX();
+                y = particle1D.getY();
+                AbstractVector2D vel = particle1D.getVelocity2D();
+                vx = vel.getX();
+                vy = vel.getY();
+            }
         }
+    }
+
+    private void switchToFreeFall() {
+        setVelocity( particle1D.getVelocity2D() );
+        setFreeFall();
+        //todo: update location so it's guaranteed on the right side of the spline?
     }
 
     class FreeFall implements UpdateStrategy {
