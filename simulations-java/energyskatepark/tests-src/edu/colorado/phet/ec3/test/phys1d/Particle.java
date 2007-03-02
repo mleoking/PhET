@@ -90,15 +90,18 @@ public class Particle {
             //compare a to v/r^2 to see if it leaves the track
             double r = Math.abs( particle1D.getRadiusOfCurvature() );//todo: how can I be certain units are correct here?
 //            System.out.println( "r = " + r );
-            double normalForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r - getMass() * g;
+//            double normalForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r - getMass() * g;
+            double normalForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r - particle1D.getNetForce().dot( particle1D.getCurvatureDirection() );
 
-//            System.out.println( "r = " + r );
-//            System.out.println( "normalForce = " + normalForce );
-//            System.out.println( "particle1D.getCurvatureDirection() = " + particle1D.getCurvatureDirection() + ", y>=0: " + ( particle1D.getCurvatureDirection().getY() >= 0 ) );
+            System.out.println( "r = " + r );
+            System.out.println( "normalForce = " + normalForce );
+            System.out.println( "particle1D.getCurvatureDirection() = " + particle1D.getCurvatureDirection() + ", y>=0: " + ( particle1D.getCurvatureDirection().getY() >= 0 ) );
 
             //if normal force is positive on the top of a hill fly off
             //if normal force is negative on a valley fly off
-            if( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0 ) {
+//            boolean hillside=(normalForce<0&&particle1D.getCurvatureDirection().getY()<=0);
+//            if(( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0) ||hillside) {
+            if( ( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0 ) ) {
                 System.out.println( "Switching to freefall" );
                 switchToFreeFall();
 
