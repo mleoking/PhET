@@ -48,7 +48,7 @@ public class SplineLayer extends PNode {
     }
 
     public boolean isNormalsVisible() {
-        if (getChildrenCount()==0){
+        if( getChildrenCount() == 0 ) {
             return false;
         }
         if( ( (CubicSpline2DNode)getChild( 0 ) ).isNormalsVisible() ) {
@@ -56,6 +56,25 @@ public class SplineLayer extends PNode {
         }
         else {
             return false;
+        }
+    }
+
+    public boolean isCurvatureVisible() {
+        if( getChildrenCount() == 0 ) {
+            return false;
+        }
+        if( ( (CubicSpline2DNode)getChild( 0 ) ).isCurvatureVisible() ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public void setCurvatureVisible( boolean selected ) {
+        for( int i = 0; i < getChildrenCount(); i++ ) {
+            CubicSpline2DNode node = (CubicSpline2DNode)getChild( i );
+            node.setCurvatureVisible( selected );
         }
     }
 }

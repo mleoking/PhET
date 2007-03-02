@@ -130,6 +130,16 @@ public class TestPhysics1D extends JFrame {
         } );
         controlPanel.add( showNormals, gridBagConstraints );
 
+        final JCheckBox showCurvature = new JCheckBox( "show curvature normals", splineLayer.isCurvatureVisible() );
+        showCurvature.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                splineLayer.setCurvatureVisible( showCurvature.isSelected() );
+//                particleStage.setNormalsVisible(showNormals.isSelected() );)
+//                splineNode.setNormalsVisible( showNormals.isSelected() );
+            }
+        } );
+        controlPanel.add( showCurvature, gridBagConstraints );
+
         JButton outputSpline = new JButton( "print spline" );
         outputSpline.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
