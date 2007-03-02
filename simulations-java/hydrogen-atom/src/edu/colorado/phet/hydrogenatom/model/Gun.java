@@ -33,7 +33,7 @@ import edu.colorado.phet.hydrogenatom.util.ColorUtils;
  * has a nozzle with a specific width.
  * The gun's local origin is at the center of its nozzle.
  * When firing photons, it shoots a beam of light that wavelength and intensity.
- * When firing photons, it shoots alpha particles with some intensity.
+ * When firing alpha particles, it shoots alpha particles with some intensity.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
