@@ -16,18 +16,18 @@ import java.util.ArrayList;
 public class Particle1D {
     private double alpha = 0.25;
     private double velocity = 0;
-    
+
     private CubicSpline2D cubicSpline;
-    
-//    private UpdateStrategy updateStrategy = new Verlet();
+
+    //    private UpdateStrategy updateStrategy = new Verlet();
     private UpdateStrategy updateStrategy = new Euler();
-    
+
     private double g;// meters/s/s
     private double mass = 1.0;//kg
     private double totalDE = 0;
 
     private ArrayList listeners = new ArrayList();
-    
+
     public Particle1D( CubicSpline2D cubicSpline ) {
         this( cubicSpline, 9.8 );
     }
@@ -201,9 +201,16 @@ public class Particle1D {
     }
 
     double getRadiusOfCurvature() {
+//        double epsilon = 0.001;
+        //        double curvatureAlpha = ( cubicSpline.getAngle( alpha - epsilon ) - cubicSpline.getAngle( alpha + epsilon ) ) / epsilon;
+//        return 1.0 / curvatureAlpha;
+
         double epsilon = 0.001;
-        double dtds = ( cubicSpline.getAngle( alpha - epsilon ) - cubicSpline.getAngle( alpha + epsilon ) ) / epsilon;
-        return 1.0 / dtds;
+        double a0 = alpha + cubicSpline.getFractionalDistance( alpha, -epsilon / 2.0 );
+        double a1 = alpha + cubicSpline.getFractionalDistance( alpha, epsilon / 2.0 );
+        double d = cubicSpline.evaluate( a0 ).distance( cubicSpline.evaluate( a1 ) );
+        double curvature = ( cubicSpline.getAngle( a0 ) - cubicSpline.getAngle( a1 ) ) / d;
+        return 1.0 / curvature;
     }
 
     public AbstractVector2D getUnitParallelVector() {

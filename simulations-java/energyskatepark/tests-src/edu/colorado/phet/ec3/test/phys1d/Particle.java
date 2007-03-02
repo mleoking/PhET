@@ -31,7 +31,7 @@ public class Particle {
 
     public Particle( ParticleStage particleStage ) {
         particle1D = new Particle1D( particleStage.getCubicSpline2D( 0 ), g );
-        
+
         this.particleStage = particleStage;
     }
 
@@ -50,9 +50,13 @@ public class Particle {
             //compare a to v/r^2 to see if it leaves the track
             double a = Math.abs( particle1D.getUnitNormalVector().dot( particle1D.getNetForce() ) ) / particle1D.getMass();
             double r = Math.abs( particle1D.getRadiusOfCurvature() );//todo: how can I be certain units are correct here?
-
+            System.out.println( "r = " + r );
             double threshold = particle1D.getSpeed() * particle1D.getSpeed() / r;
-//            System.out.println( "normalAccel=" + a + ", v^2/r=" + threshold );
+            System.out.println( "normalAccel=" + a + ", v^2/r=" + threshold );
+
+            if( a > threshold ) {
+
+            }
 
             particle1D.stepInTime( dt );
             x = particle1D.getX();
