@@ -174,6 +174,10 @@ public class TestPhysics1D extends JFrame {
         } );
         controlPanel.add( checkBox, gridBagConstraints );
 
+        TestJList testJList = new TestJList( new DefaultTestSet(), this );
+        controlPanel.add( testJList, gridBagConstraints );
+//        controlPanel.add( new JList(new Object[]{"a","b","c"}), gridBagConstraints );
+
 
         controlFrame.setContentPane( controlPanel );
 
