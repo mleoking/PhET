@@ -3,6 +3,9 @@
   <component name="ModuleRootManager" />
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
+    <content url="file://$MODULE_DIR$/../../common/charts/data">
+      <sourceFolder url="file://$MODULE_DIR$/../../common/charts/data" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../common/collision/src">
       <sourceFolder url="file://$MODULE_DIR$/../../common/collision/src" isTestSource="false" />
     </content>
@@ -12,8 +15,17 @@
     <content url="file://$MODULE_DIR$/../../common/mechanics/src">
       <sourceFolder url="file://$MODULE_DIR$/../../common/mechanics/src" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../common/phetcommon/data">
+      <sourceFolder url="file://$MODULE_DIR$/../../common/phetcommon/data" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../common/phetcommon/src">
       <sourceFolder url="file://$MODULE_DIR$/../../common/phetcommon/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../common/phetgraphics/data">
+      <sourceFolder url="file://$MODULE_DIR$/../../common/phetgraphics/data" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../common/piccolo-phet/data">
+      <sourceFolder url="file://$MODULE_DIR$/../../common/piccolo-phet/data" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../common/piccolo-phet/src">
       <sourceFolder url="file://$MODULE_DIR$/../../common/piccolo-phet/src" isTestSource="false" />
@@ -24,7 +36,9 @@
     <content url="file://$MODULE_DIR$/../../contrib/piccolo/src">
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo/src" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$/data" />
+    <content url="file://$MODULE_DIR$/data">
+      <sourceFolder url="file://$MODULE_DIR$/data" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/src">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
