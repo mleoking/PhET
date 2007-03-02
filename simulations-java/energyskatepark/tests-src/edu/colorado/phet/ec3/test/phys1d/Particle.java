@@ -62,6 +62,7 @@ public class Particle {
             //if normal force is positive on the top of a hill fly off
             //if normal force is negative on a valley fly off
             if( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0 ) {
+                System.out.println( "Switching to freefall" );
                 switchToFreeFall();
             }
             else {
@@ -123,12 +124,14 @@ public class Particle {
                         boolean bounce = testVal >= stickiness;
 
                         if( bounce ) {
+                            System.out.println( "bounced" );
                             setVelocity( newVelocity );
 
                             //set the position to be just on top of the spline
                             offsetOnSpline( cubicSpline, alpha, !isBelowSpline( cubicSpline, alpha, origLoc ) );
                         }
                         else {
+                            System.out.println( "grabbed track" );
                             switchToTrack( cubicSpline, alpha, !isBelowSpline( cubicSpline, alpha, origLoc ) );
                         }
                         break;
@@ -136,17 +139,14 @@ public class Particle {
                 }
             }
         }
-
-
     }
 
     private void offsetOnSpline( CubicSpline2D cubicSpline, double alpha, boolean top ) {
-//            CubicSpline2D cubicSpline = particle1D.getCubicSpline2D();
-//            double alpha = particle1D.getAlpha();
         AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
         Point2D splineLoc = cubicSpline.evaluate( alpha );
         double sign = top ? 1.0 : -1.0;
-        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-2 * sign ).getDestination( splineLoc );//todo: determine this free parameter
+        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-4 * sign ).getDestination( splineLoc );//todo: determine this free parameter
+//        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0 * sign ).getDestination( splineLoc );//todo: determine this free parameter
         setPosition( finalPosition );
     }
 
