@@ -40,6 +40,14 @@ public class Particle {
         update();
     }
 
+    public boolean isFreeFall() {
+        return updateStrategy instanceof FreeFall;
+    }
+
+    public boolean isBelowSpline1D() {
+        return !particle1D.isSplineTop();
+    }
+
     interface UpdateStrategy {
         void stepInTime( double dt );
     }
@@ -64,7 +72,9 @@ public class Particle {
             if( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0 ) {
                 System.out.println( "Switching to freefall" );
                 switchToFreeFall();
+                
                 System.out.println( "switched to freefall, below=" + isBelowSplineZero() );
+                Particle.this.stepInTime( dt );
             }
             else {
                 particle1D.stepInTime( dt );
@@ -109,6 +119,7 @@ public class Particle {
 
                 CubicSpline2D cubicSpline = particleStage.getCubicSpline2D( i );
                 double alpha = cubicSpline.getClosestPoint( new Line2D.Double( origLoc, newLoc ) );
+//                double alpha = cubicSpline.getClosestPoint( new Point2D.Double( (origLoc.getX()+newLoc.getX())/2,(origLoc.getY()+newLoc.getY())/2) );
 
                 boolean below = isBelowSpline( cubicSpline, alpha, newLoc );
                 System.out.println( "below = " + below );
@@ -129,22 +140,23 @@ public class Particle {
                         AbstractVector2D newNormalVelocity = norm.getInstanceOfMagnitude( norm.dot( getVelocity() ) ).getScaledInstance( elasticity );
                         AbstractVector2D newVelocity = parallelVelocity.getSubtractedInstance( newNormalVelocity );
 
-                        double stickiness = 0.5;
+                        double stickiness = 0.25;
 
                         double testVal = Math.abs( newNormalVelocity.getMagnitude() / newVelocity.getMagnitude() );
                         System.out.println( "testv = " + testVal );
                         boolean bounce = testVal >= stickiness;
 
                         if( bounce ) {
-                            System.out.println( "bounced" );
                             setVelocity( newVelocity );
-
                             //set the position to be just on top of the spline
-                            offsetOnSpline( cubicSpline, alpha, isAboveSpline( cubicSpline, alpha, origLoc ) );
+//                            offsetOnSpline( cubicSpline, alpha, isAboveSpline( cubicSpline, alpha, origLoc ) );
+                            offsetOnSpline( cubicSpline, alpha, !origBelow );
+                            System.out.println( "bounced" );
                         }
                         else {
+//                            switchToTrack( cubicSpline, alpha, isAboveSpline( cubicSpline, alpha, origLoc ) );
+                            switchToTrack( cubicSpline, alpha, !origBelow );
                             System.out.println( "grabbed track" );
-                            switchToTrack( cubicSpline, alpha, isAboveSpline( cubicSpline, alpha, origLoc ) );
                         }
                         break;
                     }
@@ -157,7 +169,8 @@ public class Particle {
         AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
         Point2D splineLoc = cubicSpline.evaluate( alpha );
         double sign = top ? 1.0 : -1.0;
-        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-4 * sign ).getDestination( splineLoc );//todo: determine this free parameter
+//        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-4 * sign ).getDestination( splineLoc );//todo: determine this free parameter
+        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-6 * sign ).getDestination( splineLoc );//todo: determine this free parameter
 //        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0 * sign ).getDestination( splineLoc );//todo: determine this free parameter
         setPosition( finalPosition );
     }
@@ -182,10 +195,6 @@ public class Particle {
         return a.dot( v ) < 0;
     }
 
-//    boolean checkForCrossOver( CubicSpline2D cubicSpline2D, double alpha, Point2D origLoc, Point2D newLoc ) {
-//        return isAboveSpline( cubicSpline2D, alpha, origLoc ) != isAboveSpline( cubicSpline2D, alpha, newLoc );
-//    }
-
     class UserUpdateStrategy implements UpdateStrategy {
         public void stepInTime( double dt ) {
         }
@@ -196,12 +205,19 @@ public class Particle {
     }
 
     public void switchToTrack( CubicSpline2D spline, double alpha, boolean top ) {
+        Vector2D.Double origVel=getVelocity();
         particle1D.setAlpha( alpha );
         particle1D.setCubicSpline2D( spline, top );
         double sign = spline.getUnitParallelVector( alpha ).dot( getVelocity() ) > 0 ? 1.0 : -1.0;
         particle1D.setVelocity( getSpeed() * sign );
 
         setUpdateStrategy( new Particle1DUpdate() );
+        AbstractVector2D newVelocity= particle1D.getVelocity2D();
+        double dot=newVelocity.dot( origVel );
+        System.out.println( "switched to track, velocity dot product= " + dot );
+        if (dot<0){
+            System.out.println( "Velocities were in contrary directions" );
+        }
     }
 
     public double getSpeed() {

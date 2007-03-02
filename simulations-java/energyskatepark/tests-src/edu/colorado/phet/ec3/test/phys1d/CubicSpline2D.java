@@ -82,7 +82,7 @@ public class CubicSpline2D {
         SearchPoint high = new SearchPoint( approx + distBetweenTestPts * 1.5, line );
 
         int iterations = 0;
-        double threshold = 1E-6;
+        double threshold = 1E-9;
         while( true ) {
             SearchPoint mid = new SearchPoint( ( low.alpha + high.alpha ) / 2.0, line );
             SearchPoint[] pts = new SearchPoint[]{low, mid, high};

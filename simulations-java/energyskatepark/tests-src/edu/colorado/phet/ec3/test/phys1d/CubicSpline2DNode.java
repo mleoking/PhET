@@ -59,7 +59,7 @@ public class CubicSpline2DNode extends PNode {
             controlPointNode.setIndex( i );
         }
         topLayer.removeAllChildren();
-        for( double x = 0; x <= cubicSpline2D.getMetricDelta( 0, 1 ); x += 0.1 ) {
+        for( double x = 0; x <= cubicSpline2D.getMetricDelta( 0, 1 ); x += 0.33 ) {
             double alpha = cubicSpline2D.getFractionalDistance( 0, x );
             Point2D pt = cubicSpline2D.evaluate( alpha );
             Arrow arrow = new Arrow( pt, cubicSpline2D.getUnitNormalVector( alpha ).getScaledInstance( 0.1).getDestination( pt ), 0.03f, 0.03f, 0.01f );
