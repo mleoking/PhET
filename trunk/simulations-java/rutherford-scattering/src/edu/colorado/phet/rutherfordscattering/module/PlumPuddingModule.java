@@ -17,6 +17,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
+import edu.colorado.phet.rutherfordscattering.control.PlumPuddingControlPanel;
 import edu.colorado.phet.rutherfordscattering.help.RSWiggleMe;
 import edu.colorado.phet.rutherfordscattering.model.*;
 import edu.colorado.phet.rutherfordscattering.view.*;
@@ -32,7 +33,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PlumPuddingModule extends PiccoloModule {
+public class PlumPuddingModule extends AbstractModule {
 
     //----------------------------------------------------------------------------
     // Default settings
@@ -81,9 +82,6 @@ public class PlumPuddingModule extends PiccoloModule {
     public PlumPuddingModule() {
         super( SimStrings.get( "PlumPuddingModule.title" ), new RSClock(), CLOCK_PAUSED );
 
-        // hide the PhET logo
-        setLogoPanel( null );
-
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
@@ -120,13 +118,6 @@ public class PlumPuddingModule extends PiccoloModule {
             _canvas = new PhetPCanvas( RSConstants.CANVAS_RENDERING_SIZE );
             _canvas.setBackground( RSConstants.CANVAS_BACKGROUND );
             setSimulationPanel( _canvas );
-
-            _canvas.addComponentListener( new ComponentAdapter() {
-                public void componentResized( ComponentEvent e ) {
-                    // update the layout when the canvas is resized
-                    updateCanvasLayout();
-                }
-            } );
         }
 
         // Root of our scene graph
@@ -201,6 +192,10 @@ public class PlumPuddingModule extends PiccoloModule {
         // Clock controls
         _clockControlPanel = new ClockControlPanel( (RSClock) getClock() );
         setClockControlPanel( _clockControlPanel );
+        
+        // Control panel
+        PlumPuddingControlPanel controlPanel = new PlumPuddingControlPanel( this );
+        setControlPanel( controlPanel );
 
         //----------------------------------------------------------------------------
         // Help
@@ -237,7 +232,7 @@ public class PlumPuddingModule extends PiccoloModule {
      * Resets the module to its default state.
      * All default values are defined in HADefaults.
      */
-    private void reset() {
+    public void reset() {
         
         Gun gun = _model.getGun();
         gun.setEnabled( GUN_ENABLED );
@@ -263,10 +258,10 @@ public class PlumPuddingModule extends PiccoloModule {
     /*
      * Updates the layout of stuff on the canvas.
      */
-    public void updateCanvasLayout() {
+    protected void updateCanvasLayout() {
 
         Dimension worldSize = getWorldSize();
-//        System.out.println( "HAModule.updateCanvasLayout worldSize=" + worldSize );//XXX
+        System.out.println( "HAModule.updateCanvasLayout worldSize=" + worldSize );//XXX
         if ( worldSize.getWidth() == 0 || worldSize.getHeight() == 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
@@ -274,7 +269,7 @@ public class PlumPuddingModule extends PiccoloModule {
         
         // margins and spacing
         final double xMargin = 40;
-        final double yMargin = 40;
+        final double yMargin = 20;
         final double xSpacing = 20;
         final double ySpacing = 10;
 
@@ -284,7 +279,7 @@ public class PlumPuddingModule extends PiccoloModule {
         // Box of Hydrogen / Beam / Gun
         {
             x = xMargin;
-            y = 200;
+            y = 250;
             _boxBeamGunParent.setOffset( x, y );
         }
         
