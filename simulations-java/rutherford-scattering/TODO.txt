@@ -5,8 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- make PlumPuddingNode place 79 electrons
 - add control panel to "Plum Pudding" panel
+- make ModelViewTransform an instance, not a singleton
+- make PlumPuddingNode place 79 electrons
 - flesh out "Rutherford Atom" panel
 - modify Rutherford Scattering algorithm
 
@@ -14,10 +15,13 @@ MEDIUM PRIORITY:
 - performance issue with drawing alpha particles on top of large plum pudding image (costly scaling xform?)
 
 LOW PRIORITY:
+- remove CVS tags from file headers and javadoc
 
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/2/07 - make big box bigger
+3/2/07 - add control panel hierarchy 
 3/2/07 - make plum pudding image larger, so that it fills the big box
 3/2/07 - fix coordinate system mapping problems with zoom indicator
 3/2/07 - make box of hydrogen shorter and gold

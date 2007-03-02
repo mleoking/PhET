@@ -40,7 +40,7 @@ public class RSConstants {
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 750, 750 );
 
     // Animation box size, must be square!
-    public static final Dimension ANIMATION_BOX_SIZE = new Dimension( 600, 600 );
+    public static final Dimension ANIMATION_BOX_SIZE = new Dimension( 700, 700 );
     
     public static final Dimension TINY_BOX_SIZE = new Dimension( 10, 10 );
 

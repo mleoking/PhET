@@ -81,7 +81,7 @@ public class TestZoomIndicator extends JFrame {
         linesParent.addChild( bottomLine );
         bottomLine.setOffset( 0, 0 );
         rootNode.addChild( linesParent );
-        linesParent.setOffset( 0, 0 );
+        linesParent.setOffset( 55, 77 ); // should be able to use any values here
         
         // Bounds of the small and big squares in the line's coordinate system
         Rectangle2D smallBoxBounds = topLine.globalToLocal( smallSquare.getGlobalFullBounds() );
