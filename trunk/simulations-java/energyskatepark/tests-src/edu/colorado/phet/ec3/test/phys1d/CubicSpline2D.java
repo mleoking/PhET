@@ -118,6 +118,17 @@ public class CubicSpline2D {
         return vec;
     }
 
+    public String toStringSerialization() {
+        String a = "new Point2D.Double[]{";
+        for( int i = 0; i < pts.length; i++ ) {
+            a += "new Point2D.Double(" + pts[i].getX() + ", " + pts[i].getY() + ")";
+            if( i < pts.length - 1 ) {
+                a += ", ";
+            }
+        }
+        return a + "};";
+    }
+
     class SearchPoint implements Comparable {
         double alpha;
         double dist;
