@@ -22,22 +22,32 @@ public class CubicSpline2DNode extends PNode {
     private PhetPPath phetPPath;
     private PNode controlPointLayer = new PNode();
     private PNode topLayer;
-    private boolean normalsVisible=false;
+    private boolean normalsVisible = false;
+    private CubicSpline2D.Listener listener = new CubicSpline2D.Listener() {
+        public void trackChanged() {
+            update();
+        }
+    };
 
     public CubicSpline2DNode( CubicSpline2D splineSurface ) {
         this.cubicSpline2D = splineSurface;
         phetPPath = new PhetPPath( new BasicStroke( 0.01f ), Color.blue );
         addChild( phetPPath );
 
-        splineSurface.addListener( new CubicSpline2D.Listener() {
-            public void trackChanged() {
-                update();
-            }
-        } );
+        splineSurface.addListener( listener );
         addChild( controlPointLayer );
         topLayer = new PNode();
         addChild( topLayer );
 
+        update();
+    }
+
+    public void setCubicSpline2D( CubicSpline2D cubicSpline2D ) {
+        if( this.cubicSpline2D != null ) {
+            this.cubicSpline2D.removeListener( listener );
+        }
+        this.cubicSpline2D = cubicSpline2D;
+        cubicSpline2D.addListener( listener );
         update();
     }
 
