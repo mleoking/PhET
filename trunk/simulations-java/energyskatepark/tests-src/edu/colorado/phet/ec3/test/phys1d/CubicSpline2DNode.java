@@ -1,5 +1,6 @@
 package edu.colorado.phet.ec3.test.phys1d;
 
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -8,6 +9,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -19,18 +21,23 @@ public class CubicSpline2DNode extends PNode {
     private CubicSpline2D cubicSpline2D;
     private PhetPPath phetPPath;
     private PNode controlPointLayer = new PNode();
+    private PNode topLayer;
 
     public CubicSpline2DNode( CubicSpline2D splineSurface ) {
         this.cubicSpline2D = splineSurface;
         phetPPath = new PhetPPath( new BasicStroke( 0.01f ), Color.blue );
         addChild( phetPPath );
-        update();
+
         splineSurface.addListener( new CubicSpline2D.Listener() {
             public void trackChanged() {
                 update();
             }
         } );
         addChild( controlPointLayer );
+        topLayer = new PNode();
+        addChild( topLayer );
+
+        update();
     }
 
     private void update() {
@@ -50,6 +57,14 @@ public class CubicSpline2DNode extends PNode {
         for( int i = 0; i < controlPointLayer.getChildrenCount(); i++ ) {
             ControlPointNode controlPointNode = (ControlPointNode)controlPointLayer.getChild( i );
             controlPointNode.setIndex( i );
+        }
+        topLayer.removeAllChildren();
+        for( double x = 0; x <= cubicSpline2D.getMetricDelta( 0, 1 ); x += 0.1 ) {
+            double alpha = cubicSpline2D.getFractionalDistance( 0, x );
+            Point2D pt = cubicSpline2D.evaluate( alpha );
+            Arrow arrow = new Arrow( pt, cubicSpline2D.getUnitNormalVector( alpha ).getScaledInstance( 0.1).getDestination( pt ), 0.03f, 0.03f, 0.01f );
+            PhetPPath phetPPath = new PhetPPath( arrow.getShape(), Color.black );
+            topLayer.addChild( phetPPath );
         }
     }
 
