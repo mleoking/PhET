@@ -14,18 +14,26 @@ import java.util.ArrayList;
  * Copyright (c) Feb 18, 2007 by Sam Reid
  */
 public class Particle1D {
-
     private double alpha = 0.25;
-    private CubicSpline2D cubicSpline;
     private double velocity = 0;
-    private ArrayList listeners = new ArrayList();
+    
+    private CubicSpline2D cubicSpline;
+    
     private UpdateStrategy updateStrategy = new Verlet();
-    private double g = 9.8 * 100000;//in pixels per time squared
-    private double mass = 1.0;
+    
+    private double g;// meters/s/s
+    private double mass = 1.0;//kg
     private double totalDE = 0;
 
+    private ArrayList listeners = new ArrayList();
+    
     public Particle1D( CubicSpline2D cubicSpline ) {
-        this.cubicSpline = cubicSpline;
+        this( cubicSpline, 9.8 );
+    }
+
+    public Particle1D( CubicSpline2D cubicSpline2D, double g ) {
+        this.cubicSpline = cubicSpline2D;
+        this.g = g;
     }
 
     public double getX() {
@@ -198,13 +206,14 @@ public class Particle1D {
         return 1.0 / dtds;
     }
 
-    public AbstractVector2D getUnitParallelVector(){
+    public AbstractVector2D getUnitParallelVector() {
         return cubicSpline.getUnitParallelVector( alpha );
     }
-    public AbstractVector2D getUnitNormalVector(){
+
+    public AbstractVector2D getUnitNormalVector() {
         return cubicSpline.getUnitNormalVector( alpha );
     }
-    
+
     public class VerletOffset implements UpdateStrategy {
 
         double L = 50;

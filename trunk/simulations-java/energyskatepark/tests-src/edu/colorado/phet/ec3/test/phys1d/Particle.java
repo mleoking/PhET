@@ -20,7 +20,7 @@ public class Particle {
     private double y;
     private double vx;
     private double vy;
-    private double g = 9.8 * 10000;
+    private double g = 9.8;
 
     private UpdateStrategy updateStrategy = new Particle1DUpdate();
     private ParticleStage particleStage;
@@ -30,7 +30,7 @@ public class Particle {
     }
 
     public Particle( ParticleStage particleStage ) {
-        particle1D = new Particle1D( particleStage.getCubicSpline2D( 0 ) );
+        particle1D = new Particle1D( particleStage.getCubicSpline2D( 0 ) ,g);
         this.particleStage = particleStage;
     }
 

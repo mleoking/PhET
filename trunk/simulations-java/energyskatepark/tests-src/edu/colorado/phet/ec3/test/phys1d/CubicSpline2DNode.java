@@ -15,14 +15,14 @@ import java.awt.geom.Ellipse2D;
  * Time: 11:16:04 AM
  * Copyright (c) Feb 18, 2007 by Sam Reid
  */
-class CubicSpline2DNode extends PNode {
+public class CubicSpline2DNode extends PNode {
     private CubicSpline2D cubicSpline2D;
     private PhetPPath phetPPath;
     private PNode controlPointLayer = new PNode();
 
     public CubicSpline2DNode( CubicSpline2D splineSurface ) {
         this.cubicSpline2D = splineSurface;
-        phetPPath = new PhetPPath( new BasicStroke( 1 ), Color.blue );
+        phetPPath = new PhetPPath( new BasicStroke( 0.01f ), Color.blue );
         addChild( phetPPath );
         update();
         splineSurface.addListener( new CubicSpline2D.Listener() {
@@ -64,8 +64,8 @@ class CubicSpline2DNode extends PNode {
         public ControlPointNode( int index_ ) {
             this.index = index_;
 
-            controlPoint = new PhetPPath( new Color( 255, 50, 50, 128 ), new BasicStroke( 1 ), Color.black );
-            double w = 10;
+            controlPoint = new PhetPPath( new Color( 255, 50, 50, 128 ), new BasicStroke( 0.01f ), Color.black );
+            double w = 0.10;
             controlPoint.setPathTo( new Ellipse2D.Double( -w / 2, -w / 2, w, w ) );
 
             addChild( controlPoint );

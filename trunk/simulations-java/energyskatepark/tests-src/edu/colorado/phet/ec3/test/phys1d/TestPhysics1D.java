@@ -26,19 +26,19 @@ public class TestPhysics1D extends JFrame {
         setContentPane( pSwingCanvas );
 
         CubicSpline2D cubicSpline = CubicSpline2D.interpolate( new Point2D[]{
-                new Point2D.Double( 100, 50 ),
-                new Point2D.Double( 200, 100 ),
-                new Point2D.Double( 300, 50 ),
-                new Point2D.Double( 450, 200 ),
-                new Point2D.Double( 525, 50 )
+                new Point2D.Double( 1, 0.5 ),
+                new Point2D.Double( 2, 1 ),
+                new Point2D.Double( 3, 0.5 ),
+                new Point2D.Double( 4, 2 ),
+                new Point2D.Double( 5, 0.5 )
         } );
         CubicSpline2DNode splineNode = new CubicSpline2DNode( cubicSpline );
+        pSwingCanvas.getLayer().scale( 100);
         pSwingCanvas.getLayer().addChild( splineNode );
         setSize( 800, 600 );
 
         final Particle particle = new Particle( cubicSpline );
         ParticleNode particleNode = new ParticleNode( particle );
-
 
         final Particle1D particle1d = new Particle1D( cubicSpline );
         particle1d.setUpdateStrategy( particle1d.createEuler() );
@@ -47,10 +47,12 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.getLayer().addChild( particle1DNode );
         pSwingCanvas.getLayer().addChild( particleNode );
 
-        clock = new SwingClock( 30, 0.001 * 1.8 );
+        int msPerClockTick = 30;
+        clock = new SwingClock( msPerClockTick, msPerClockTick / 1000.0 );
         clock.addClockListener( new ClockAdapter() {
 
             public void simulationTimeChanged( ClockEvent clockEvent ) {
+//                System.out.println( "clockEvent.getSimulationTimeChange() = " + clockEvent.getSimulationTimeChange() );
                 particle1d.stepInTime( clockEvent.getSimulationTimeChange() );
                 particle.stepInTime( clockEvent.getSimulationTimeChange() );
             }
@@ -77,7 +79,7 @@ public class TestPhysics1D extends JFrame {
         JRadioButton constantVel = new JRadioButton( "Constant Velocity", particle1d.getUpdateStrategy() instanceof Particle1D.ConstantVelocity );
         constantVel.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                particle1d.setVelocity( 1000 * 5 );
+                particle1d.setVelocity( 1 );
                 particle1d.setUpdateStrategy( particle1d.createConstantVelocity() );
             }
         } );
