@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4" relativePaths="true" type="JAVA_MODULE">
+  <component name="ModuleRootManager" />
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../common/collision/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../common/collision/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../common/jfreechart-phet/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../common/jfreechart-phet/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../common/mechanics/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../common/mechanics/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../common/phetcommon/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../common/phetcommon/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../common/piccolo-phet/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../common/piccolo-phet/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../contrib/piccolo/extras">
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo/extras" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../contrib/piccolo/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/jfreechart/lib/servlet.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/jfreechart/lib/jcommon-1.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/jfreechart/lib/gnujaxp.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/jfreechart/lib/junit.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/jfreechart/lib/jfreechart-1.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/piccolo/lib/swt.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/piccolo/lib/ant.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/commons-collections-3.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntryProperties />
+  </component>
+</module>
+
