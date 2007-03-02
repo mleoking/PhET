@@ -30,7 +30,8 @@ public class Particle {
     }
 
     public Particle( ParticleStage particleStage ) {
-        particle1D = new Particle1D( particleStage.getCubicSpline2D( 0 ) ,g);
+        particle1D = new Particle1D( particleStage.getCubicSpline2D( 0 ), g );
+        
         this.particleStage = particleStage;
     }
 
@@ -49,7 +50,7 @@ public class Particle {
             //compare a to v/r^2 to see if it leaves the track
             double a = Math.abs( particle1D.getUnitNormalVector().dot( particle1D.getNetForce() ) ) / particle1D.getMass();
             double r = Math.abs( particle1D.getRadiusOfCurvature() );//todo: how can I be certain units are correct here?
-            
+
             double threshold = particle1D.getSpeed() * particle1D.getSpeed() / r;
 //            System.out.println( "normalAccel=" + a + ", v^2/r=" + threshold );
 
@@ -108,7 +109,7 @@ public class Particle {
                             //set the position to be just on top of the spline
                             Point2D splineLoc = cubicSpline.evaluate( alpha );
                             double sign = isBelowSpline( cubicSpline, alpha, origLoc ) ? -1.0 : 1.0;
-                            Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0 * sign ).getDestination( splineLoc );//todo: determine this free parameter
+                            Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-2 * sign ).getDestination( splineLoc );//todo: determine this free parameter
                             setPosition( finalPosition );
                         }
                         else {

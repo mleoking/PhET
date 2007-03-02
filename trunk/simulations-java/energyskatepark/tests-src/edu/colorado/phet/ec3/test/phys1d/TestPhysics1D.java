@@ -40,11 +40,11 @@ public class TestPhysics1D extends JFrame {
         final Particle particle = new Particle( cubicSpline );
         ParticleNode particleNode = new ParticleNode( particle );
 
-        final Particle1D particle1d = new Particle1D( cubicSpline );
-        particle1d.setUpdateStrategy( particle1d.createEuler() );
-        Particle1DNode particle1DNode = new Particle1DNode( particle1d );
+//        final Particle1D particle1d = new Particle1D( cubicSpline );
+//        particle1d.setUpdateStrategy( particle1d.createEuler() );
+//        Particle1DNode particle1DNode = new Particle1DNode( particle1d );
 
-        pSwingCanvas.getLayer().addChild( particle1DNode );
+//        pSwingCanvas.getLayer().addChild( particle1DNode );
         pSwingCanvas.getLayer().addChild( particleNode );
 
         int msPerClockTick = 30;
@@ -53,7 +53,7 @@ public class TestPhysics1D extends JFrame {
 
             public void simulationTimeChanged( ClockEvent clockEvent ) {
 //                System.out.println( "clockEvent.getSimulationTimeChange() = " + clockEvent.getSimulationTimeChange() );
-                particle1d.stepInTime( clockEvent.getSimulationTimeChange() );
+//                particle1d.stepInTime( clockEvent.getSimulationTimeChange() );
                 particle.stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
@@ -69,55 +69,55 @@ public class TestPhysics1D extends JFrame {
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        JRadioButton verlet = new JRadioButton( "Verlet", particle1d.getUpdateStrategy() instanceof Particle1D.Verlet );
-        verlet.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                particle1d.setVelocity( 0 );
-                particle1d.setUpdateStrategy( particle1d.createVerlet() );
-            }
-        } );
-        JRadioButton constantVel = new JRadioButton( "Constant Velocity", particle1d.getUpdateStrategy() instanceof Particle1D.ConstantVelocity );
-        constantVel.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                particle1d.setVelocity( 1 );
-                particle1d.setUpdateStrategy( particle1d.createConstantVelocity() );
-            }
-        } );
-        JRadioButton euler = new JRadioButton( "Euler", particle1d.getUpdateStrategy() instanceof Particle1D.Euler );
-        euler.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                particle1d.setVelocity( 0 );
-                particle1d.setUpdateStrategy( particle1d.createEuler() );
-            }
-        } );
+//        JRadioButton verlet = new JRadioButton( "Verlet", particle1d.getUpdateStrategy() instanceof Particle1D.Verlet );
+//        verlet.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                particle1d.setVelocity( 0 );
+//                particle1d.setUpdateStrategy( particle1d.createVerlet() );
+//            }
+//        } );
+//        JRadioButton constantVel = new JRadioButton( "Constant Velocity", particle1d.getUpdateStrategy() instanceof Particle1D.ConstantVelocity );
+//        constantVel.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                particle1d.setVelocity( 1 );
+//                particle1d.setUpdateStrategy( particle1d.createConstantVelocity() );
+//            }
+//        } );
+//        JRadioButton euler = new JRadioButton( "Euler", particle1d.getUpdateStrategy() instanceof Particle1D.Euler );
+//        euler.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                particle1d.setVelocity( 0 );
+//                particle1d.setUpdateStrategy( particle1d.createEuler() );
+//            }
+//        } );
+//
+//        JRadioButton verletOffset = new JRadioButton( "Verlet Offset", particle1d.getUpdateStrategy() instanceof Particle1D.VerletOffset );
+//        verletOffset.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                particle1d.setVelocity( 0 );
+//                particle1d.setUpdateStrategy( particle1d.createVerletOffset() );
+//            }
+//        } );
+//        controlPanel.add( verlet, gridBagConstraints );
+//        controlPanel.add( constantVel, gridBagConstraints );
+//        controlPanel.add( euler, gridBagConstraints );
+//        controlPanel.add( verletOffset, gridBagConstraints );
 
-        JRadioButton verletOffset = new JRadioButton( "Verlet Offset", particle1d.getUpdateStrategy() instanceof Particle1D.VerletOffset );
-        verletOffset.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                particle1d.setVelocity( 0 );
-                particle1d.setUpdateStrategy( particle1d.createVerletOffset() );
-            }
-        } );
-        controlPanel.add( verlet, gridBagConstraints );
-        controlPanel.add( constantVel, gridBagConstraints );
-        controlPanel.add( euler, gridBagConstraints );
-        controlPanel.add( verletOffset, gridBagConstraints );
-
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add( verlet );
-        buttonGroup.add( constantVel );
-        buttonGroup.add( euler );
-        buttonGroup.add( verletOffset );
+//        ButtonGroup buttonGroup = new ButtonGroup();
+//        buttonGroup.add( verlet );
+//        buttonGroup.add( constantVel );
+//        buttonGroup.add( euler );
+//        buttonGroup.add( verletOffset );
 
         controlFrame.setContentPane( controlPanel );
 
-        JButton resetEnergyError = new JButton( "Reset Energy Error" );
-        resetEnergyError.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                particle1d.resetEnergyError();
-            }
-        } );
-        controlPanel.add( resetEnergyError, gridBagConstraints );
+//        JButton resetEnergyError = new JButton( "Reset Energy Error" );
+//        resetEnergyError.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                particle1d.resetEnergyError();
+//            }
+//        } );
+//        controlPanel.add( resetEnergyError, gridBagConstraints );
 
         controlFrame.pack();
         controlFrame.setLocation( this.getX() + this.getWidth(), this.getY() );

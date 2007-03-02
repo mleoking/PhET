@@ -19,7 +19,8 @@ public class Particle1D {
     
     private CubicSpline2D cubicSpline;
     
-    private UpdateStrategy updateStrategy = new Verlet();
+//    private UpdateStrategy updateStrategy = new Verlet();
+    private UpdateStrategy updateStrategy = new Euler();
     
     private double g;// meters/s/s
     private double mass = 1.0;//kg
@@ -56,8 +57,7 @@ public class Particle1D {
             updateStrategy.stepInTime( dt / N );
         }
 
-        double dEUpdate = getNormalizedEnergyDiff( initEnergy );
-        totalDE += dEUpdate;
+        totalDE += getNormalizedEnergyDiff( initEnergy );
 
 //        fixEnergy( initEnergy );
 //        double dEFix = getNormalizedEnergyDiff( initEnergy );

@@ -255,7 +255,7 @@ public class CubicSpline2D {
         double guess = ( upperBound + lowerBound ) / 2.0;
 
         double metricDelta = getMetricDelta( alpha0, guess );
-        double epsilon = 1E-2;
+        double epsilon = 1E-6;
         int count = 0;
         while( Math.abs( metricDelta - ds ) > epsilon ) {
             if( metricDelta > ds ) {
