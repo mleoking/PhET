@@ -33,7 +33,7 @@ public class TestPhysics1D extends JFrame {
                 new Point2D.Double( 5, 0.5 )
         } );
         CubicSpline2DNode splineNode = new CubicSpline2DNode( cubicSpline );
-        pSwingCanvas.getLayer().scale( 100);
+        pSwingCanvas.getLayer().scale( 100 );
         pSwingCanvas.getLayer().addChild( splineNode );
         setSize( 800, 600 );
 
@@ -108,7 +108,14 @@ public class TestPhysics1D extends JFrame {
 //        buttonGroup.add( constantVel );
 //        buttonGroup.add( euler );
 //        buttonGroup.add( verletOffset );
-
+        JButton resetParticle = new JButton( "reset particle" );
+        resetParticle.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                particle.setVelocity( 0, 0 );
+                particle.setPosition( 2.5, 0 );
+            }
+        } );
+        controlPanel.add(resetParticle,gridBagConstraints);
         controlFrame.setContentPane( controlPanel );
 
 //        JButton resetEnergyError = new JButton( "Reset Energy Error" );

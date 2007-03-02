@@ -53,14 +53,13 @@ public class Particle {
         public void stepInTime( double dt ) {
 
             //compare a to v/r^2 to see if it leaves the track
-//            double a = Math.abs( particle1D.getUnitNormalVector().dot( particle1D.getNetForce() ) );
             double r = Math.abs( particle1D.getRadiusOfCurvature() );//todo: how can I be certain units are correct here?
-            System.out.println( "r = " + r );
             double normalForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r - getMass() * g;
-            System.out.println( "normalForce = " + normalForce );
-//            double threshold = particle1D.getSpeed() * particle1D.getSpeed() / r;
-//            System.out.println( "normalAccel=" + a + ", v^2/r=" + threshold );
-            System.out.println( "particle1D.getCurvatureDirection() = " + particle1D.getCurvatureDirection() + ", y>=0: " + (particle1D.getCurvatureDirection().getY() >= 0) );
+            
+//            System.out.println( "r = " + r );
+//            System.out.println( "normalForce = " + normalForce );
+//            System.out.println( "particle1D.getCurvatureDirection() = " + particle1D.getCurvatureDirection() + ", y>=0: " + ( particle1D.getCurvatureDirection().getY() >= 0 ) );
+            
             //if normal force is positive on the top of a hill fly off
             //if normal force is negative on a valley fly off
             if( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0 ) {
@@ -134,9 +133,7 @@ public class Particle {
                             setPosition( finalPosition );
                         }
                         else {
-                            setParticle1DStrategy( cubicSpline );
-                            particle1D.setAlpha( alpha );
-                            particle1D.setVelocity( 0.0 );//todo convert 2d velocity to 1d velocity
+                            switchToTrack( cubicSpline, alpha );
                         }
                         break;
                     }
@@ -172,9 +169,17 @@ public class Particle {
         setUpdateStrategy( new FreeFall() );
     }
 
-    public void setParticle1DStrategy( CubicSpline2D spline ) {
+    public void switchToTrack( CubicSpline2D spline, double alpha ) {
+        particle1D.setAlpha( alpha );
         particle1D.setCubicSpline2D( spline );
+        double sign = spline.getUnitParallelVector( alpha ).dot( getVelocity() ) > 0 ? 1.0 : -1.0;
+        particle1D.setVelocity( getSpeed() * sign );
+
         setUpdateStrategy( new Particle1DUpdate() );
+    }
+
+    public double getSpeed() {
+        return Math.sqrt( vx * vx + vy * vy );
     }
 
     public void setUserUpdateStrategy() {
