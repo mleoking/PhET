@@ -25,6 +25,11 @@ public class CubicSpline2D {
         update();
     }
 
+    public void setControlPoints( Point2D[] pts ) {
+        this.pts = pts;
+        update();
+    }
+
     public void translateControlPoint( int i, double dx, double dy ) {
         setControlPoint( i, new Point2D.Double( pts[i].getX() + dx, pts[i].getY() + dy ) );
     }

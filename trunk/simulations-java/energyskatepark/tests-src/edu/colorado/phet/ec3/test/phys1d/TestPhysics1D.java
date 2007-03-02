@@ -17,15 +17,18 @@ public class TestPhysics1D extends JFrame {
     private JFrame controlFrame;
     private SwingClock clock;
     private JFrame ccpFrame;
+    private PSwingCanvas pSwingCanvas;
+    private CubicSpline2D cubicSpline;
+    private Particle particle;
 
     public TestPhysics1D() {
-        PSwingCanvas pSwingCanvas = new PSwingCanvas();
+        pSwingCanvas = new PSwingCanvas();
         pSwingCanvas.setPanEventHandler( null );
         pSwingCanvas.setZoomEventHandler( null );
         pSwingCanvas.setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setContentPane( pSwingCanvas );
 
-        CubicSpline2D cubicSpline = CubicSpline2D.interpolate( new Point2D[]{
+        cubicSpline = CubicSpline2D.interpolate( new Point2D[]{
                 new Point2D.Double( 1, 0.5 ),
                 new Point2D.Double( 2, 1 ),
                 new Point2D.Double( 3, 0.5 ),
@@ -37,7 +40,7 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.getLayer().addChild( splineNode );
         setSize( 800, 600 );
 
-        final Particle particle = new Particle( cubicSpline );
+        particle = new Particle( cubicSpline );
         ParticleNode particleNode = new ParticleNode( particle );
 
 //        final Particle1D particle1d = new Particle1D( cubicSpline );
@@ -115,7 +118,7 @@ public class TestPhysics1D extends JFrame {
                 particle.setPosition( 2.5, 0 );
             }
         } );
-        controlPanel.add(resetParticle,gridBagConstraints);
+        controlPanel.add( resetParticle, gridBagConstraints );
         controlFrame.setContentPane( controlPanel );
 
 //        JButton resetEnergyError = new JButton( "Reset Energy Error" );
@@ -131,11 +134,20 @@ public class TestPhysics1D extends JFrame {
         controlFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
 
+    public CubicSpline2D getCubicSpline() {
+        return cubicSpline;
+    }
+
+
+    public Particle getParticle() {
+        return particle;
+    }
+
     public static void main( String[] args ) {
         new TestPhysics1D().start();
     }
 
-    private void start() {
+    public void start() {
         //To change body of created methods use File | Settings | File Templates.
         setVisible( true );
         controlFrame.setVisible( true );
