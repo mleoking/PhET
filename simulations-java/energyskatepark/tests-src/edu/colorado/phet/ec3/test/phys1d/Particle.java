@@ -142,14 +142,17 @@ public class Particle {
                         AbstractVector2D newVelocity = parallelVelocity.getSubtractedInstance( newNormalVelocity );
 
 //                        double stickiness = 0.25;
-                        double stickiness = 0.1;
+                        double stickiness = 0.15;
+//                        double stickiness = 0.001;
 
                         double testVal = Math.abs( newNormalVelocity.getMagnitude() / newVelocity.getMagnitude() );
                         System.out.println( "testv = " + testVal );
                         boolean bounce = testVal >= stickiness;
 
                         double newAlpha = cubicSpline.getClosestPoint( newLoc );
-                        if( bounce ) {
+                        boolean velocityTowardTrack=isVelocityTowardTrack(cubicSpline,newAlpha);
+                        System.out.println( "velocityTowardTrack = " + velocityTowardTrack );
+                        if( bounce ||!velocityTowardTrack) {
                             setVelocity( newVelocity );
                             //set the position to be just on top of the spline
 //                            offsetOnSpline( cubicSpline, alpha, isAboveSpline( cubicSpline, alpha, origLoc ) );
@@ -159,6 +162,7 @@ public class Particle {
                         else {
 //                            switchToTrack( cubicSpline, alpha, isAboveSpline( cubicSpline, alpha, origLoc ) );
                             //todo make sure the velocity is toward the track to enable switching to track (otherwise over a tight curve, the particle doesn't leave the track when N~0)
+                            
                             switchToTrack( cubicSpline, newAlpha, origAbove );
                             System.out.println( "grabbed track" );
                         }
@@ -167,6 +171,12 @@ public class Particle {
                 }
             }
         }
+    }
+
+    private boolean isVelocityTowardTrack( CubicSpline2D cubicSpline, double newAlpha ) {
+        Vector2D vel=getVelocity();
+        Vector2D toTrack=new Vector2D.Double( getPosition(),cubicSpline.evaluate( newAlpha ) );
+        return vel.dot( toTrack )>0;
     }
 
     private void offsetOnSpline( CubicSpline2D cubicSpline, double alpha, boolean top ) {
