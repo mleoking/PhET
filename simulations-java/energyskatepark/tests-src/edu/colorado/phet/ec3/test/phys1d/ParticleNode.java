@@ -14,10 +14,9 @@ import java.awt.geom.Ellipse2D;
  * Time: 11:15:44 AM
  * Copyright (c) Feb 18, 2007 by Sam Reid
  */
-class ParticleNode extends PNode {
+public class ParticleNode extends PNode {
     private Particle particle;
     private PhetPPath phetPPath;
-//    private PNode topIndicator;
 
     public ParticleNode( final Particle particle ) {
         this.particle = particle;
@@ -43,8 +42,6 @@ class ParticleNode extends PNode {
             }
         } );
 
-//        topIndicator = new PNode();
-//        addChild( topIndicator );
         update();
     }
 

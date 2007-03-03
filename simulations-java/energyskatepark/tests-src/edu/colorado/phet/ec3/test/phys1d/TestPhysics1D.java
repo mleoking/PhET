@@ -45,7 +45,8 @@ public class TestPhysics1D extends JFrame {
         setSize( 800, 600 );
 
         particle = new Particle( particleStage );
-        final ParticleNode particleNode = new ParticleNode( particle );
+//        final ParticleNode particleNode = new ParticleNode( particle );
+        final ParticleImageNode particleNode = new ParticleImageNode( particle );
 
         pSwingCanvas.getLayer().addChild( particleNode );
 
