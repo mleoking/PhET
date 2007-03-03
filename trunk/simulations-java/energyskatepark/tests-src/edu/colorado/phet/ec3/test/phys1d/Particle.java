@@ -125,6 +125,9 @@ public class Particle {
             else {
                 particle1D.stepInTime( dt );
                 updateStateFrom1D();
+                if( !particle1D.isReflect() && ( particle1D.getAlpha() < 0 || particle1D.getAlpha() > 1.0 ) ) {
+                    switchToFreeFall();
+                }
             }
         }
     }
@@ -208,7 +211,7 @@ public class Particle {
                 //check for crossover
                 boolean crossed = origAbove[i] != above;
 
-                if( crossed ) {
+                if( crossed && ( alpha > 0.0 && alpha < 1.0 ) ) {
                     double ptLineDist = pointSegmentDistance( cubicSpline.evaluate( alpha ), new Line2D.Double( origLoc, newLoc ) );
 //                    double ptLineDist = new Line2D.Double( origLoc, newLoc ).ptLineDist( cubicSpline.evaluate( alpha ) );
                     System.out.println( "crossed spline[" + i + "] at alpha=" + alpha + ", ptLineDist=" + ptLineDist );
