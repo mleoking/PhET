@@ -174,9 +174,6 @@ public class Particle {
         else {
             return distToInfiniteLine;
         }
-//        double[] vals = new double[]{distToInfiniteLine, distToP1, distToP2};
-//        Arrays.sort( vals );
-//        return vals[0];
     }
 
     class FreeFall implements UpdateStrategy {
@@ -261,7 +258,6 @@ public class Particle {
 
     private boolean isVelocityTowardTrack( Point2D origPosition, CubicSpline2D cubicSpline, double newAlpha ) {
         Vector2D vel = getVelocity();
-//        Vector2D toTrack = new Vector2D.Double( getPosition(), cubicSpline.evaluate( newAlpha ) );
         Vector2D toTrack = new Vector2D.Double( origPosition, cubicSpline.evaluate( newAlpha ) );
         return vel.dot( toTrack ) > 0;
     }
@@ -270,9 +266,7 @@ public class Particle {
         AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
         Point2D splineLoc = cubicSpline.evaluate( alpha );
         double sign = top ? 1.0 : -1.0;
-//        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-4 * sign ).getDestination( splineLoc );//todo: determine this free parameter
         Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-3 * sign ).getDestination( splineLoc );//todo: determine this free parameter
-//        Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0 * sign ).getDestination( splineLoc );//todo: determine this free parameter
         setPosition( finalPosition );
     }
 
