@@ -40,10 +40,7 @@ public class TestPhysics1D extends JFrame {
                 new Point2D.Double( 5, 0.5 )
         } );
         particleStage.addCubicSpline2D( cubicSpline );
-//        CubicSpline2DNode splineNode = new CubicSpline2DNode( cubicSpline );
-//        pSwingCanvas.getLayer().scale
         pSwingCanvas.getLayer().scale( 100 );
-//        pSwingCanvas.getLayer().addChild( splineNode );
         pSwingCanvas.getLayer().addChild( splineLayer );
         setSize( 800, 600 );
 
@@ -195,6 +192,14 @@ public class TestPhysics1D extends JFrame {
             }
         } );
         controlPanel.add( jCheckBox, gridBagConstraints );
+
+        final JCheckBox showTopOffsetSpline = new JCheckBox( "Show Top Offset Spline", splineLayer.isShowTopOffsetSpline() );
+        showTopOffsetSpline.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                splineLayer.setShowTopOffsetSpline( showTopOffsetSpline.isSelected() );
+            }
+        } );
+        controlPanel.add( showTopOffsetSpline, gridBagConstraints );
 
         controlFrame.setContentPane( controlPanel );
 

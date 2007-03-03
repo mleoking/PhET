@@ -10,6 +10,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class SplineLayer extends PNode {
     private ParticleStage particleStage;
+    private boolean showTopOffsetSpline = false;
 
     public SplineLayer( ParticleStage particleStage ) {
         this.particleStage = particleStage;
@@ -37,6 +38,10 @@ public class SplineLayer extends PNode {
         for( int i = 0; i < getChildrenCount(); i++ ) {
             CubicSpline2DNode node = (CubicSpline2DNode)getChild( i );
             node.setCubicSpline2D( particleStage.getCubicSpline2D( i ) );
+        }
+        for( int i = 0; i < getChildrenCount(); i++ ) {
+            CubicSpline2DNode node = (CubicSpline2DNode)getChild( i );
+            node.setShowTopOffsetSpline( showTopOffsetSpline );
         }
     }
 
@@ -76,5 +81,14 @@ public class SplineLayer extends PNode {
             CubicSpline2DNode node = (CubicSpline2DNode)getChild( i );
             node.setCurvatureVisible( selected );
         }
+    }
+
+    public boolean isShowTopOffsetSpline() {
+        return showTopOffsetSpline;
+    }
+
+    public void setShowTopOffsetSpline( boolean showTopOffsetSpline ) {
+        this.showTopOffsetSpline = showTopOffsetSpline;
+        update();
     }
 }

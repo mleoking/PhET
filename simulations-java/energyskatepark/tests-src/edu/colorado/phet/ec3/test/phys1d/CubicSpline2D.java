@@ -327,6 +327,10 @@ public class CubicSpline2D {
     }
 
 
+    public Point2D getOffsetPoint( double alpha, double dist, boolean top ) {
+        return getUnitNormalVector( alpha ).getInstanceOfMagnitude( dist * ( top ? 1 : -1 ) ).getDestination( evaluate( alpha ) );
+    }
+
     public static void main( String[] args ) {
 
         CubicSpline2D cubicSpline2D = CubicSpline2D.interpolate( new Point2D[]{

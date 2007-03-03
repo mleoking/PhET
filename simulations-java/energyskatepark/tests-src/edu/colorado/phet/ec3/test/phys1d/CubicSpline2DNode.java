@@ -31,6 +31,8 @@ public class CubicSpline2DNode extends PNode {
     };
     private boolean curvatureVisible = false;
     private PNode curvatureLayer = new PNode();
+    private PNode topOffsetTrack = new PNode();
+    private boolean topOffsetTrackVisible = true;
 
     public CubicSpline2DNode( CubicSpline2D splineSurface ) {
         this.cubicSpline2D = splineSurface;
@@ -41,6 +43,7 @@ public class CubicSpline2DNode extends PNode {
         addChild( controlPointLayer );
         addChild( topLayer );
         addChild( curvatureLayer );
+        addChild( topOffsetTrack );
 
         update();
     }
@@ -98,7 +101,23 @@ public class CubicSpline2DNode extends PNode {
                 curvatureLayer.addChild( phetPPath );
             }
         }
+        topOffsetTrack.removeAllChildren();
+        //typical height of a human =1.7 meters
+        //	1.7 meters = 5.57742782 feet
+        double humanHeight = 1.7;
+        double offset = humanHeight *0.56;
+        //http://hypertextbook.com/facts/2006/centerofmass.shtml
+        if( topOffsetTrackVisible ) {
+            double alpha = 0;
+            double dAlpha = 0.005;
+            DoubleGeneralPath path = new DoubleGeneralPath( cubicSpline2D.getOffsetPoint( alpha, offset, true ) );
+            for( alpha = alpha + dAlpha; alpha <= 1.0; alpha += dAlpha ) {
+                path.lineTo( cubicSpline2D.getOffsetPoint( alpha, 1.0, true ) );
+            }
+            topOffsetTrack.addChild( new PhetPPath( path.getGeneralPath(), new BasicStroke( 0.01f ), Color.green ) );
+        }
     }
+
 
     public void setNormalsVisible( boolean normalsVisible ) {
         this.normalsVisible = normalsVisible;
@@ -115,6 +134,11 @@ public class CubicSpline2DNode extends PNode {
 
     public void setCurvatureVisible( boolean selected ) {
         this.curvatureVisible = selected;
+        update();
+    }
+
+    public void setShowTopOffsetSpline( boolean showTopOffsetSpline ) {
+        this.topOffsetTrackVisible=showTopOffsetSpline;
         update();
     }
 
