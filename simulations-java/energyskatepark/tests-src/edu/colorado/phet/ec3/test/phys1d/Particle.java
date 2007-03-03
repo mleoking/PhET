@@ -91,7 +91,6 @@ public class Particle {
 
             AbstractVector2D sideVector = getSideVector( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() );
             boolean outsideCircle = sideVector.dot( particle1D.getCurvatureDirection() ) < 0;
-//            boolean hillside = ( normalForce < 0 && particle1D.getCurvatureDirection().getY() <= 0 );
             System.out.println( "outsideCircle= " + outsideCircle );
             if( !debugFrame.isVisible() ) {
                 debugFrame.setVisible( true );
@@ -102,21 +101,12 @@ public class Particle {
             double r = Math.abs( particle1D.getRadiusOfCurvature() );
             double centripForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r;
             double gravForceRad = particle1D.getNetForce().dot( particle1D.getCurvatureDirection() );
-//            double normalForce = centripForce - gravForceRad;
 
             System.out.println( "r = " + r );
             System.out.println( "particle1D.getCurvatureDirection() = " + particle1D.getCurvatureDirection() );
             System.out.println( "centripForce = " + centripForce );
             System.out.println( "gravForceRad = " + gravForceRad );
-//            System.out.println( "normalForce = " + normalForce );
-
-//            double netForce
-
-            //if normal force is positive on the top of a hill fly off
-            //if normal force is negative on a valley fly off
-
-//            if(( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0) ||hillside) {
-//            if( ( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0 ) ) {
+            
             boolean leaveTrack = false;
             if( gravForceRad < centripForce && outsideCircle ) {
                 leaveTrack = true;
@@ -124,7 +114,6 @@ public class Particle {
             if( gravForceRad > centripForce && !outsideCircle ) {
                 leaveTrack = true;
             }
-//            if( ( normalForce < 0 && outsideCircle ) || ( normalForce > 0 && !outsideCircle ) ) {
             if( leaveTrack ) {
                 System.out.println( "Switching to freefall" );
                 switchToFreeFall();
@@ -148,10 +137,12 @@ public class Particle {
     }
 
     private void switchToFreeFall() {
+        
         setVelocity( particle1D.getVelocity2D() );
         setFreeFall();
         //todo: update location so it's guaranteed on the right side of the spline?
         offsetOnSpline( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() );
+        particle1D.setCubicSpline2D( null, false );
     }
 
     public boolean isAboveSplineZero() {
@@ -173,6 +164,10 @@ public class Particle {
 
             Point2D newLoc = new Point2D.Double( x, y );
 
+            //take a min over all possible crossover points
+            double closestDist = Double.POSITIVE_INFINITY;
+            CubicSpline2D closestTrack = null;
+            double closestAlpha = 0;
 
             for( int i = 0; i < particleStage.numCubicSpline2Ds(); i++ ) {
 
@@ -188,38 +183,43 @@ public class Particle {
                     System.out.println( "crossed over" );
                     double ptLineDist = new Line2D.Double( origLoc, newLoc ).ptLineDist( cubicSpline.evaluate( alpha ) );
                     System.out.println( "ptLineDist = " + ptLineDist );
-                    if( ptLineDist < 0.5 ) {//this number was determined heuristically for a set of tests (free parameter)
-                        //todo: should take a min over all possible crossover points (for this spline and others)
-
-                        AbstractVector2D parallel = cubicSpline.getUnitParallelVector( alpha );
-                        AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
-                        //reflect the velocity about the parallel direction
-                        AbstractVector2D parallelVelocity = parallel.getInstanceOfMagnitude( parallel.dot( getVelocity() ) );
-
-                        AbstractVector2D newNormalVelocity = norm.getInstanceOfMagnitude( norm.dot( getVelocity() ) ).getScaledInstance( elasticity );
-                        AbstractVector2D newVelocity = parallelVelocity.getSubtractedInstance( newNormalVelocity );
-
-                        double testVal = Math.abs( newNormalVelocity.getMagnitude() / newVelocity.getMagnitude() );
-                        System.out.println( "testv = " + testVal );
-                        boolean bounce = testVal >= stickiness;
-
-                        double newAlpha = cubicSpline.getClosestPoint( newLoc );
-
-                        //make sure the velocity is toward the track to enable switching to track (otherwise over a tight curve, the particle doesn't leave the track when N~0)
-                        boolean velocityTowardTrack = isVelocityTowardTrack( origLoc, cubicSpline, newAlpha );
-                        System.out.println( "velocityTowardTrack = " + velocityTowardTrack );
-                        if( bounce || !velocityTowardTrack ) {
-                            setVelocity( newVelocity );
-                            //set the position to be just on top of the spline
-                            offsetOnSpline( cubicSpline, newAlpha, origAbove );
-                            System.out.println( "bounced" );
-                        }
-                        else {
-                            switchToTrack( cubicSpline, newAlpha, origAbove );
-                            System.out.println( "grabbed track" );
-                        }
-                        break;
+                    if( ptLineDist < closestDist ) {
+                        closestDist = ptLineDist;
+                        closestTrack = cubicSpline;
+                        closestAlpha = alpha;
                     }
+                }
+            }
+
+            if( closestDist < 0.5 ) {//this number was determined heuristically for a set of tests (free parameter)
+                CubicSpline2D cubicSpline = closestTrack;
+                double alpha = closestAlpha;
+                AbstractVector2D parallel = cubicSpline.getUnitParallelVector( alpha );
+                AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
+                //reflect the velocity about the parallel direction
+                AbstractVector2D parallelVelocity = parallel.getInstanceOfMagnitude( parallel.dot( getVelocity() ) );
+
+                AbstractVector2D newNormalVelocity = norm.getInstanceOfMagnitude( norm.dot( getVelocity() ) ).getScaledInstance( elasticity );
+                AbstractVector2D newVelocity = parallelVelocity.getSubtractedInstance( newNormalVelocity );
+
+                double testVal = Math.abs( newNormalVelocity.getMagnitude() / newVelocity.getMagnitude() );
+                System.out.println( "testv = " + testVal );
+                boolean bounce = testVal >= stickiness;
+
+                double newAlpha = cubicSpline.getClosestPoint( newLoc );
+
+                //make sure the velocity is toward the track to enable switching to track (otherwise over a tight curve, the particle doesn't leave the track when N~0)
+                boolean velocityTowardTrack = isVelocityTowardTrack( origLoc, cubicSpline, newAlpha );
+                System.out.println( "velocityTowardTrack = " + velocityTowardTrack );
+                if( bounce || !velocityTowardTrack ) {
+                    setVelocity( newVelocity );
+                    //set the position to be just on top of the spline
+                    offsetOnSpline( cubicSpline, newAlpha, origAbove );
+                    System.out.println( "bounced" );
+                }
+                else {
+                    switchToTrack( cubicSpline, newAlpha, origAbove );
+                    System.out.println( "grabbed track" );
                 }
             }
         }
