@@ -12,6 +12,7 @@ public class SplineLayer extends PNode {
     private ParticleStage particleStage;
     private boolean showTopOffsetSpline = false;
     private double offsetDistance = CubicSpline2DNode.HUMAN_CENTER_OF_MASS_HEIGHT;
+    private boolean showBottomOffsetSpline=false;
 
     public SplineLayer( ParticleStage particleStage ) {
         this.particleStage = particleStage;
@@ -43,6 +44,7 @@ public class SplineLayer extends PNode {
         for( int i = 0; i < getChildrenCount(); i++ ) {
             CubicSpline2DNode node = (CubicSpline2DNode)getChild( i );
             node.setShowTopOffsetSpline( showTopOffsetSpline );
+            node.setShowBottomOffsetSpline(showBottomOffsetSpline);
         }
         for( int i = 0; i < getChildrenCount(); i++ ) {
             CubicSpline2DNode node = (CubicSpline2DNode)getChild( i );
@@ -103,6 +105,15 @@ public class SplineLayer extends PNode {
 
     public void setOffsetDistance( double value ) {
         this.offsetDistance = value;
+        update();
+    }
+
+    public boolean isShowBottomOffsetSpline() {
+        return showBottomOffsetSpline;
+    }
+
+    public void setShowBottomOffsetSpline( boolean selected ) {
+        this.showBottomOffsetSpline=selected;
         update();
     }
 }

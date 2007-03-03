@@ -32,8 +32,11 @@ public class CubicSpline2DNode extends PNode {
     private boolean curvatureVisible = false;
     private PNode curvatureLayer = new PNode();
     private PNode topOffsetTrack = new PNode();
+    private PNode bottomOffsetTrack=new PNode();
     private boolean topOffsetTrackVisible = true;
-    private double topSplineOffset = HUMAN_CENTER_OF_MASS_HEIGHT;
+    private double splineOffset = HUMAN_CENTER_OF_MASS_HEIGHT;
+    private boolean showBottomOffsetSpline=false;
+    
 
     public CubicSpline2DNode( CubicSpline2D splineSurface ) {
         this.cubicSpline2D = splineSurface;
@@ -45,6 +48,7 @@ public class CubicSpline2DNode extends PNode {
         addChild( topLayer );
         addChild( curvatureLayer );
         addChild( topOffsetTrack );
+        addChild( bottomOffsetTrack);
 
         update();
     }
@@ -107,11 +111,21 @@ public class CubicSpline2DNode extends PNode {
         if( topOffsetTrackVisible ) {
             double alpha = 0;
             double dAlpha = 0.005;
-            DoubleGeneralPath path = new DoubleGeneralPath( cubicSpline2D.getOffsetPoint( alpha, topSplineOffset, true ) );
+            DoubleGeneralPath path = new DoubleGeneralPath( cubicSpline2D.getOffsetPoint( alpha, splineOffset, true ) );
             for( alpha = alpha + dAlpha; alpha <= 1.0; alpha += dAlpha ) {
-                path.lineTo( cubicSpline2D.getOffsetPoint( alpha, topSplineOffset, true ) );
+                path.lineTo( cubicSpline2D.getOffsetPoint( alpha, splineOffset, true ) );
             }
             topOffsetTrack.addChild( new PhetPPath( path.getGeneralPath(), new BasicStroke( 0.01f ), Color.green ) );
+        }
+        bottomOffsetTrack.removeAllChildren();
+        if (showBottomOffsetSpline){
+            double alpha = 0;
+            double dAlpha = 0.005;
+            DoubleGeneralPath path = new DoubleGeneralPath( cubicSpline2D.getOffsetPoint( alpha, splineOffset, false ) );
+            for( alpha = alpha + dAlpha; alpha <= 1.0; alpha += dAlpha ) {
+                path.lineTo( cubicSpline2D.getOffsetPoint( alpha, splineOffset, false ) );
+            }
+            bottomOffsetTrack.addChild( new PhetPPath( path.getGeneralPath(), new BasicStroke( 0.01f ), Color.magenta ) );
         }
     }
 
@@ -147,7 +161,12 @@ public class CubicSpline2DNode extends PNode {
     }
 
     public void setOffsetSplineDistance( double offsetDistance ) {
-        this.topSplineOffset = offsetDistance;
+        this.splineOffset = offsetDistance;
+        update();
+    }
+
+    public void setShowBottomOffsetSpline( boolean showBottomOffsetSpline ) {
+        this.showBottomOffsetSpline=showBottomOffsetSpline;
         update();
     }
 
