@@ -201,6 +201,14 @@ public class TestPhysics1D extends JFrame {
         } );
         controlPanel.add( showTopOffsetSpline, gridBagConstraints );
 
+        final ModelSlider offsetDistance=new ModelSlider( "Offset Distance","meters",0,1.7,splineLayer.getOffsetDistance());
+        offsetDistance.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                splineLayer.setOffsetDistance(offsetDistance.getValue());
+            }
+        } );
+        controlPanel.add(offsetDistance,gridBagConstraints);
+        
         controlFrame.setContentPane( controlPanel );
 
 //        JButton resetEnergyError = new JButton( "Reset Energy Error" );
