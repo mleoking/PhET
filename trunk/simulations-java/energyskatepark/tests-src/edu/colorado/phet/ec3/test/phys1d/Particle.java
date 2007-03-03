@@ -29,6 +29,7 @@ public class Particle {
     private UpdateStrategy updateStrategy = new Particle1DUpdate();
     private ParticleStage particleStage;
     private boolean convertNormalVelocityToThermalOnLanding = false;
+    private double angle = 0.0;
 
     public Particle( CubicSpline2D cubicSpline2D ) {
         this( new ParticleStage( cubicSpline2D ) );
@@ -74,6 +75,10 @@ public class Particle {
 
     public boolean isSplineMode() {
         return updateStrategy instanceof Particle1DUpdate;
+    }
+
+    public double getAngle() {
+        return angle;
     }
 
     interface UpdateStrategy {
@@ -138,6 +143,7 @@ public class Particle {
         AbstractVector2D vel = particle1D.getVelocity2D();
         vx = vel.getX();
         vy = vel.getY();
+        angle=getSideVector( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop( )).getAngle();
     }
 
     private void switchToFreeFall() {
