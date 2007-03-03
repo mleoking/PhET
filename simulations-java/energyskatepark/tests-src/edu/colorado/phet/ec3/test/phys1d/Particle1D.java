@@ -127,9 +127,9 @@ public class Particle1D {
         return cubicSpline.getUnitParallelVector( alpha ).getInstanceOfMagnitude( velocity );
     }
 
-    public void setCubicSpline2D( CubicSpline2D spline,boolean top ) {
+    public void setCubicSpline2D( CubicSpline2D spline, boolean top ) {
         cubicSpline = spline;
-        this.splineTop=top;
+        this.splineTop = top;
     }
 
     public double getSpeed() {
@@ -284,7 +284,7 @@ public class Particle1D {
     Returns the net force (discluding normal forces).
      */
     public Vector2D getNetForce() {
-        return new Vector2D.Double( 0, g );
+        return new Vector2D.Double( 0, mass * g );
     }
 
     public class Euler implements UpdateStrategy {
