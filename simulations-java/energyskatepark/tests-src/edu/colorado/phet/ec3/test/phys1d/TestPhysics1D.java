@@ -40,15 +40,17 @@ public class TestPhysics1D extends JFrame {
                 new Point2D.Double( 5, 0.5 )
         } );
         particleStage.addCubicSpline2D( cubicSpline );
-        pSwingCanvas.getLayer().scale( 100 );
+//        pSwingCanvas.getLayer().scale( 100 );
+        pSwingCanvas.getLayer().scale( 80 );
         pSwingCanvas.getLayer().addChild( splineLayer );
         setSize( 800, 600 );
 
         particle = new Particle( particleStage );
-//        final ParticleNode particleNode = new ParticleNode( particle );
-        final ParticleImageNode particleNode = new ParticleImageNode( particle );
+        final ParticleNode particleNode = new ParticleNode( particle );
+        final ParticleImageNode particleImageNode = new ParticleImageNode( particle );
 
         pSwingCanvas.getLayer().addChild( particleNode );
+        pSwingCanvas.getLayer().addChild( particleImageNode );
 
         int msPerClockTick = 30;
         clock = new SwingClock( msPerClockTick, msPerClockTick / 1000.0 );
@@ -166,6 +168,7 @@ public class TestPhysics1D extends JFrame {
         JButton updateGraphics = new JButton( "Update Particle Node" );
         updateGraphics.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                particleImageNode.update();
                 particleNode.update();
                 if( particle.isSplineMode() ) {
                     System.out.println( "particle.getParticle1D().getRadiusOfCurvature() = " + particle.getParticle1D().getRadiusOfCurvature() );
@@ -202,14 +205,30 @@ public class TestPhysics1D extends JFrame {
         } );
         controlPanel.add( showTopOffsetSpline, gridBagConstraints );
 
-        final ModelSlider offsetDistance=new ModelSlider( "Offset Distance","meters",0,1.7,splineLayer.getOffsetDistance());
+        final ModelSlider offsetDistance = new ModelSlider( "Offset Distance", "meters", 0, 1.7, splineLayer.getOffsetDistance() );
         offsetDistance.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                splineLayer.setOffsetDistance(offsetDistance.getValue());
+                splineLayer.setOffsetDistance( offsetDistance.getValue() );
             }
         } );
-        controlPanel.add(offsetDistance,gridBagConstraints);
-        
+        controlPanel.add( offsetDistance, gridBagConstraints );
+
+        final JCheckBox showParticle = new JCheckBox( "Show Particle", particleNode.getVisible() );
+        showParticle.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                particleNode.setVisible( showParticle.isSelected() );
+            }
+        } );
+        controlPanel.add( showParticle, gridBagConstraints );
+
+        final JCheckBox showCharacter = new JCheckBox( "Show Character", particleImageNode.getVisible() );
+        showCharacter.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                particleImageNode.setVisible( showCharacter.isSelected() );
+            }
+        } );
+        controlPanel.add( showCharacter, gridBagConstraints );
+
         controlFrame.setContentPane( controlPanel );
 
 //        JButton resetEnergyError = new JButton( "Reset Energy Error" );
