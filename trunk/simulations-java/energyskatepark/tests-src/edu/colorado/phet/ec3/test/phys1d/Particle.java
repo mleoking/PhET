@@ -84,29 +84,30 @@ public class Particle {
         return mass;
     }
 
-    DebugFrame debugFrame = new DebugFrame( "debug outsideCircle" );
+//    DebugFrame debugFrame = new DebugFrame( "debug outsideCircle" );
 
     class Particle1DUpdate implements UpdateStrategy {
         public void stepInTime( double dt ) {
 
             AbstractVector2D sideVector = getSideVector( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() );
             boolean outsideCircle = sideVector.dot( particle1D.getCurvatureDirection() ) < 0;
-            System.out.println( "outsideCircle= " + outsideCircle );
-            if( !debugFrame.isVisible() ) {
-                debugFrame.setVisible( true );
-            }
-            debugFrame.appendLine( "outsideCircle=" + outsideCircle );
+
+//            System.out.println( "outsideCircle= " + outsideCircle );
+//            if( !debugFrame.isVisible() ) {
+//                debugFrame.setVisible( true );
+//            }
+//            debugFrame.appendLine( "outsideCircle=" + outsideCircle );
 
             //compare a to v/r^2 to see if it leaves the track
             double r = Math.abs( particle1D.getRadiusOfCurvature() );
             double centripForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r;
             double gravForceRad = particle1D.getNetForce().dot( particle1D.getCurvatureDirection() );
 
-            System.out.println( "r = " + r );
-            System.out.println( "particle1D.getCurvatureDirection() = " + particle1D.getCurvatureDirection() );
-            System.out.println( "centripForce = " + centripForce );
-            System.out.println( "gravForceRad = " + gravForceRad );
-            
+//            System.out.println( "r = " + r );
+//            System.out.println( "particle1D.getCurvatureDirection() = " + particle1D.getCurvatureDirection() );
+//            System.out.println( "centripForce = " + centripForce );
+//            System.out.println( "gravForceRad = " + gravForceRad );
+
             boolean leaveTrack = false;
             if( gravForceRad < centripForce && outsideCircle ) {
                 leaveTrack = true;
@@ -137,7 +138,7 @@ public class Particle {
     }
 
     private void switchToFreeFall() {
-        
+
         setVelocity( particle1D.getVelocity2D() );
         setFreeFall();
         //todo: update location so it's guaranteed on the right side of the spline?
@@ -145,15 +146,44 @@ public class Particle {
         particle1D.setCubicSpline2D( null, false );
     }
 
+    public boolean isAboveSpline( int index ) {
+        return isAboveSpline( particleStage.getCubicSpline2D( index ), particleStage.getCubicSpline2D( index ).getClosestPoint( new Point2D.Double( x, y ) ), new Point2D.Double( x, y ) );
+    }
+
     public boolean isAboveSplineZero() {
-        return isAboveSpline( particleStage.getCubicSpline2D( 0 ), particleStage.getCubicSpline2D( 0 ).getClosestPoint( new Point2D.Double( x, y ) ), new Point2D.Double( x, y ) );
+        return isAboveSpline( 0 );
+    }
+
+    public boolean[] getOrigAbove() {
+        boolean[] orig = new boolean[particleStage.numCubicSpline2Ds()];
+        for( int i = 0; i < particleStage.numCubicSpline2Ds(); i++ ) {
+            orig[i] = isAboveSpline( i );
+        }
+        return orig;
+    }
+
+    //todo: test this function
+    public static double pointSegmentDistance( Point2D pt, Line2D.Double line ) {
+        double distToInfiniteLine = line.ptLineDist( pt );
+
+        double distToP1 = line.getP1().distance( pt );
+        double distToP2 = line.getP2().distance( pt );
+        if( distToP1 > distToInfiniteLine || distToP2 > distToInfiniteLine ) {
+            return Math.min( distToP1, distToP2 );
+        }
+        else {
+            return distToInfiniteLine;
+        }
+//        double[] vals = new double[]{distToInfiniteLine, distToP1, distToP2};
+//        Arrays.sort( vals );
+//        return vals[0];
     }
 
     class FreeFall implements UpdateStrategy {
 
         public void stepInTime( double dt ) {
-            boolean origAbove = isAboveSplineZero();
-            System.out.println( "stepping freefall, origAbove=" + origAbove );
+            boolean[] origAbove = getOrigAbove();
+//            System.out.println( "stepping freefall, origAbove=" + origAbove );
 
             Point2D origLoc = new Point2D.Double( x, y );
             vy += g * dt;
@@ -168,30 +198,34 @@ public class Particle {
             double closestDist = Double.POSITIVE_INFINITY;
             CubicSpline2D closestTrack = null;
             double closestAlpha = 0;
+            int closestIndex = -1;
 
             for( int i = 0; i < particleStage.numCubicSpline2Ds(); i++ ) {
-
+//                System.out.println( "Checking spline[" + i + "]" );
                 CubicSpline2D cubicSpline = particleStage.getCubicSpline2D( i );
                 double alpha = cubicSpline.getClosestPoint( newLoc );
 
                 boolean above = isAboveSpline( cubicSpline, alpha, newLoc );
-                System.out.println( "above = " + above );
+//                System.out.println( "above = " + above );
+
                 //check for crossover
-                boolean crossed = origAbove != above;
+                boolean crossed = origAbove[i] != above;
 
                 if( crossed ) {
-                    System.out.println( "crossed over" );
-                    double ptLineDist = new Line2D.Double( origLoc, newLoc ).ptLineDist( cubicSpline.evaluate( alpha ) );
-                    System.out.println( "ptLineDist = " + ptLineDist );
+                    double ptLineDist = pointSegmentDistance( cubicSpline.evaluate( alpha ), new Line2D.Double( origLoc, newLoc ) );
+//                    double ptLineDist = new Line2D.Double( origLoc, newLoc ).ptLineDist( cubicSpline.evaluate( alpha ) );
+                    System.out.println( "crossed spline[" + i + "] at alpha=" + alpha + ", ptLineDist=" + ptLineDist );
                     if( ptLineDist < closestDist ) {
                         closestDist = ptLineDist;
                         closestTrack = cubicSpline;
                         closestAlpha = alpha;
+                        closestIndex = i;
                     }
                 }
             }
 
-            if( closestDist < 0.5 ) {//this number was determined heuristically for a set of tests (free parameter)
+            if( closestDist < 0.2 ) {//this number was determined heuristically for a set of tests (free parameter)
+//            if( closestDist < 0.1 ) {//this number was determined heuristically for a set of tests (free parameter)
                 CubicSpline2D cubicSpline = closestTrack;
                 double alpha = closestAlpha;
                 AbstractVector2D parallel = cubicSpline.getUnitParallelVector( alpha );
@@ -214,11 +248,11 @@ public class Particle {
                 if( bounce || !velocityTowardTrack ) {
                     setVelocity( newVelocity );
                     //set the position to be just on top of the spline
-                    offsetOnSpline( cubicSpline, newAlpha, origAbove );
+                    offsetOnSpline( cubicSpline, newAlpha, origAbove[closestIndex] );
                     System.out.println( "bounced" );
                 }
                 else {
-                    switchToTrack( cubicSpline, newAlpha, origAbove );
+                    switchToTrack( cubicSpline, newAlpha, origAbove[closestIndex] );
                     System.out.println( "grabbed track" );
                 }
             }
