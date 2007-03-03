@@ -89,19 +89,6 @@ public class Particle {
     class Particle1DUpdate implements UpdateStrategy {
         public void stepInTime( double dt ) {
 
-            //compare a to v/r^2 to see if it leaves the track
-            double r = Math.abs( particle1D.getRadiusOfCurvature() );//todo: how can I be certain units are correct here?
-//            System.out.println( "r = " + r );
-//            double normalForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r - getMass() * g;
-            
-            double normalForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r - particle1D.getNetForce().dot( particle1D.getCurvatureDirection() );
-
-            System.out.println( "r = " + r );
-            System.out.println( "normalForce = " + normalForce );
-            System.out.println( "particle1D.getCurvatureDirection() = " + particle1D.getCurvatureDirection() + ", y>=0: " + ( particle1D.getCurvatureDirection().getY() >= 0 ) );
-
-            //if normal force is positive on the top of a hill fly off
-            //if normal force is negative on a valley fly off
             AbstractVector2D sideVector = getSideVector( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() );
             boolean outsideCircle = sideVector.dot( particle1D.getCurvatureDirection() ) < 0;
 //            boolean hillside = ( normalForce < 0 && particle1D.getCurvatureDirection().getY() <= 0 );
@@ -111,9 +98,34 @@ public class Particle {
             }
             debugFrame.appendLine( "outsideCircle=" + outsideCircle );
 
+            //compare a to v/r^2 to see if it leaves the track
+            double r = Math.abs( particle1D.getRadiusOfCurvature() );
+            double centripForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r;
+            double gravForceRad = particle1D.getNetForce().dot( particle1D.getCurvatureDirection() );
+//            double normalForce = centripForce - gravForceRad;
+
+            System.out.println( "r = " + r );
+            System.out.println( "particle1D.getCurvatureDirection() = " + particle1D.getCurvatureDirection() );
+            System.out.println( "centripForce = " + centripForce );
+            System.out.println( "gravForceRad = " + gravForceRad );
+//            System.out.println( "normalForce = " + normalForce );
+
+//            double netForce
+
+            //if normal force is positive on the top of a hill fly off
+            //if normal force is negative on a valley fly off
+
 //            if(( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0) ||hillside) {
 //            if( ( normalForce > 0 && particle1D.getCurvatureDirection().getY() >= 0 ) ) {
-            if( ( normalForce > 0 ) ) {
+            boolean leaveTrack = false;
+            if( gravForceRad < centripForce && outsideCircle ) {
+                leaveTrack = true;
+            }
+            if( gravForceRad > centripForce && !outsideCircle ) {
+                leaveTrack = true;
+            }
+//            if( ( normalForce < 0 && outsideCircle ) || ( normalForce > 0 && !outsideCircle ) ) {
+            if( leaveTrack ) {
                 System.out.println( "Switching to freefall" );
                 switchToFreeFall();
 
@@ -123,7 +135,6 @@ public class Particle {
             else {
                 particle1D.stepInTime( dt );
                 updateStateFrom1D();
-
             }
         }
     }
