@@ -169,13 +169,6 @@ public class Particle1D {
         if( reflect ) {
             clampAndBounce();
         }
-        else {
-            testFlyOff();
-        }
-    }
-
-    private void testFlyOff() {
-        System.out.println( "Test fly off" );
     }
 
     private void clampAndBounce() {
