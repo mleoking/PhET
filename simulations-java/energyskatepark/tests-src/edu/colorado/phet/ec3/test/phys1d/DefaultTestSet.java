@@ -26,7 +26,7 @@ public class DefaultTestSet {
         dualTrackTest.addCubicSpline2D( new Point2D.Double[]{new Point2D.Double( 0, 0 ), new Point2D.Double( 1, 1 ), new Point2D.Double( 2, 2 )} );
         tests.add( dualTrackTest );
 
-        upsideDownLoop = new TestState.SplineTestState( "Upside Down Loop", 0, 0.92, 0.0, false );
+        upsideDownLoop = new TestState.SplineTestState( "Upside Down Loop", 0, 1.0, 0.0, false );
         upsideDownLoop.addCubicSpline2D( new Point2D.Double[]{new Point2D.Double( 4.560000000000002, 5.269999999999993 ), new Point2D.Double( 3.4899999999999984, 3.1999999999999953 ), new Point2D.Double( 4.999999999999996, 3.3499999999999908 ), new Point2D.Double( 3.1999999999999966, 5.2099999999999875 ), new Point2D.Double( 1.009999999999998, 2.1999999999999984 )} );
         tests.add( upsideDownLoop );
 
