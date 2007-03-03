@@ -28,6 +28,7 @@ public class Particle1D {
 
     private ArrayList listeners = new ArrayList();
     private boolean splineTop = true;
+    private boolean reflect = true;
 
     public Particle1D( CubicSpline2D cubicSpline, boolean splineTop ) {
         this( cubicSpline, splineTop, 9.8 );
@@ -37,6 +38,14 @@ public class Particle1D {
         this.cubicSpline = cubicSpline2D;
         this.splineTop = splineTop;
         this.g = g;
+    }
+
+    public boolean isReflect() {
+        return reflect;
+    }
+
+    public void setReflect( boolean reflect ) {
+        this.reflect = reflect;
     }
 
     public double getX() {
@@ -156,6 +165,19 @@ public class Particle1D {
         void stepInTime( double dt );
     }
 
+    private void handleBoundary() {
+        if( reflect ) {
+            clampAndBounce();
+        }
+        else {
+            testFlyOff();
+        }
+    }
+
+    private void testFlyOff() {
+        System.out.println( "Test fly off" );
+    }
+
     private void clampAndBounce() {
         alpha = MathUtil.clamp( 0, alpha, 1.0 );
 
@@ -253,7 +275,7 @@ public class Particle1D {
             double accel = Math.pow( R / ( R + L ), 2 ) * g * ( Math.cos( origAngle ) + Math.cos( newAngle ) ) / 2 * ( 1 + L / R );
             velocity = velocity + accel * dt;
 
-            clampAndBounce();
+            handleBoundary();
         }
     }
 
@@ -267,7 +289,7 @@ public class Particle1D {
             double newAngle = Math.PI / 2 - cubicSpline.getAngle( alpha );
             velocity = velocity + g * ( Math.cos( origAngle ) + Math.cos( newAngle ) ) / 2.0 * dt;
 
-            clampAndBounce();
+            handleBoundary();
         }
     }
 
@@ -276,7 +298,7 @@ public class Particle1D {
         public void stepInTime( double dt ) {
             alpha += cubicSpline.getFractionalDistance( alpha, velocity * dt );
 
-            clampAndBounce();
+            handleBoundary();
         }
     }
 
@@ -295,7 +317,7 @@ public class Particle1D {
             alpha += cubicSpline.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
             velocity += a * dt;
 
-            clampAndBounce();
+            handleBoundary();
         }
     }
 

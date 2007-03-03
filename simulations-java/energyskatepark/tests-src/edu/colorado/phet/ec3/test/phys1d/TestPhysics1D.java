@@ -188,6 +188,13 @@ public class TestPhysics1D extends JFrame {
         controlPanel.add( testJList, gridBagConstraints );
 //        controlPanel.add( new JList(new Object[]{"a","b","c"}), gridBagConstraints );
 
+        final JCheckBox jCheckBox = new JCheckBox( "reflect (1d)", particle.getParticle1D().isReflect() );
+        jCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                particle.getParticle1D().setReflect( jCheckBox.isSelected() );
+            }
+        } );
+        controlPanel.add( jCheckBox, gridBagConstraints );
 
         controlFrame.setContentPane( controlPanel );
 
