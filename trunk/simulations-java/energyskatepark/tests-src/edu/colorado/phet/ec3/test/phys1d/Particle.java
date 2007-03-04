@@ -31,8 +31,8 @@ public class Particle {
     private boolean convertNormalVelocityToThermalOnLanding = false;
     private double angle = 0.0;
 
-    public Particle( CubicSpline2D cubicSpline2D ) {
-        this( new ParticleStage( cubicSpline2D ) );
+    public Particle( ParametricFunction2D parametricFunction2D ) {
+        this( new ParticleStage( parametricFunction2D ) );
     }
 
     public Particle( ParticleStage particleStage ) {
@@ -202,13 +202,13 @@ public class Particle {
 
             //take a min over all possible crossover points
             double closestDist = Double.POSITIVE_INFINITY;
-            CubicSpline2D closestTrack = null;
+            ParametricFunction2D closestTrack = null;
             double closestAlpha = 0;
             int closestIndex = -1;
 
             for( int i = 0; i < particleStage.numCubicSpline2Ds(); i++ ) {
 //                System.out.println( "Checking spline[" + i + "]" );
-                CubicSpline2D cubicSpline = particleStage.getCubicSpline2D( i );
+                ParametricFunction2D cubicSpline = particleStage.getCubicSpline2D( i );
                 double alpha = cubicSpline.getClosestPoint( newLoc );
 
                 boolean above = isAboveSpline( cubicSpline, alpha, newLoc );
@@ -232,7 +232,7 @@ public class Particle {
 
             if( closestDist < 0.2 ) {//this number was determined heuristically for a set of tests (free parameter)
 //            if( closestDist < 0.1 ) {//this number was determined heuristically for a set of tests (free parameter)
-                CubicSpline2D cubicSpline = closestTrack;
+                ParametricFunction2D cubicSpline = closestTrack;
                 double alpha = closestAlpha;
                 AbstractVector2D parallel = cubicSpline.getUnitParallelVector( alpha );
                 AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
@@ -265,13 +265,13 @@ public class Particle {
         }
     }
 
-    private boolean isVelocityTowardTrack( Point2D origPosition, CubicSpline2D cubicSpline, double newAlpha ) {
+    private boolean isVelocityTowardTrack( Point2D origPosition, ParametricFunction2D cubicSpline, double newAlpha ) {
         Vector2D vel = getVelocity();
         Vector2D toTrack = new Vector2D.Double( origPosition, cubicSpline.evaluate( newAlpha ) );
         return vel.dot( toTrack ) > 0;
     }
 
-    private void offsetOnSpline( CubicSpline2D cubicSpline, double alpha, boolean top ) {
+    private void offsetOnSpline( ParametricFunction2D cubicSpline, double alpha, boolean top ) {
         AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
         Point2D splineLoc = cubicSpline.evaluate( alpha );
         double sign = top ? 1.0 : -1.0;
@@ -279,7 +279,7 @@ public class Particle {
         setPosition( finalPosition );
     }
 
-    private AbstractVector2D getSideVector( CubicSpline2D cubicSpline, double alpha, boolean top ) {
+    private AbstractVector2D getSideVector( ParametricFunction2D cubicSpline, double alpha, boolean top ) {
         AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
         double sign = top ? 1.0 : -1.0;
         return norm.getInstanceOfMagnitude( sign );
@@ -293,9 +293,9 @@ public class Particle {
         return new Vector2D.Double( vx, vy );
     }
 
-    public boolean isAboveSpline( CubicSpline2D cubicSpline2D, double alpha, Point2D loc ) {
-        AbstractVector2D v = cubicSpline2D.getUnitNormalVector( alpha );
-        Vector2D.Double a = new Vector2D.Double( cubicSpline2D.evaluate( alpha ), loc );
+    public boolean isAboveSpline( ParametricFunction2D parametricFunction2D, double alpha, Point2D loc ) {
+        AbstractVector2D v = parametricFunction2D.getUnitNormalVector( alpha );
+        Vector2D.Double a = new Vector2D.Double( parametricFunction2D.evaluate( alpha ), loc );
         return a.dot( v ) > 0;
     }
 
@@ -308,7 +308,7 @@ public class Particle {
         setUpdateStrategy( new FreeFall() );
     }
 
-    public void switchToTrack( CubicSpline2D spline, double alpha, boolean top ) {
+    public void switchToTrack( ParametricFunction2D spline, double alpha, boolean top ) {
         Vector2D.Double origVel = getVelocity();
         particle1D.setAlpha( alpha );
         particle1D.setCubicSpline2D( spline, top );
@@ -335,8 +335,8 @@ public class Particle {
         this.convertNormalVelocityToThermalOnLanding = convertNormalVelocityToThermalOnLanding;
     }
 
-    private double getParallelSpeed( CubicSpline2D cubicSpline2D, double alpha ) {
-        return Math.abs( cubicSpline2D.getUnitParallelVector( alpha ).dot( getVelocity() ) );
+    private double getParallelSpeed( ParametricFunction2D parametricFunction2D, double alpha ) {
+        return Math.abs( parametricFunction2D.getUnitParallelVector( alpha ).dot( getVelocity() ) );
     }
 
     public double getSpeed() {
