@@ -27,8 +27,8 @@ public class LinearSpline2D extends ParametricFunction2D {
         if( alpha < 0 ) {//todo: this may break lots of things, may need an extrapolation
             alpha = 0;
         }
-        if( alpha > 1 ) {
-            alpha = 1;
+        if( alpha > 1-1E-6 ) {
+            alpha = 1-1E-6;
         }
         int aIndex = (int)( alpha * ( points.length - 1 ) );
         int bIndex = aIndex + 1;

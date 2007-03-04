@@ -33,17 +33,24 @@ public class TestPhysics1D extends JFrame {
         setContentPane( pSwingCanvas );
 
         ParametricFunction2D cubicSpline = new CubicSpline2D( new Point2D[]{
-                new Point2D.Double( 1*2, 0.5*2 ),
-                new Point2D.Double( 2*2, 1*2 ),
-                new Point2D.Double( 3*2, 0.5*2 ),
-                new Point2D.Double( 4*2, 2*2 ),
-                new Point2D.Double( 5*2, 0.5*2 )
+                new Point2D.Double( 1 * 2, 0.5 * 2 ),
+                new Point2D.Double( 2 * 2, 1 * 2 ),
+                new Point2D.Double( 3 * 2, 0.5 * 2 ),
+                new Point2D.Double( 4 * 2, 2 * 2 ),
+                new Point2D.Double( 5 * 2, 0.5 * 2 )
         } );
+
+
         particleStage.addCubicSpline2D( cubicSpline );
 //        pSwingCanvas.getLayer().scale( 100 );
         pSwingCanvas.getLayer().scale( 65 );
         pSwingCanvas.getLayer().addChild( splineLayer );
         setSize( 800, 600 );
+
+        Point2D[] pts = cubicSpline.getOffsetSpline( 1.0, true, 100 );
+        LinearSpline2D linearSpline2D = new LinearSpline2D( pts );
+        ParametricFunction2DNode node = new ParametricFunction2DNode( linearSpline2D );
+        pSwingCanvas.getLayer().addChild( node );
 
         particle = new Particle( particleStage );
         final ParticleNode particleNode = new ParticleNode( particle );
@@ -205,14 +212,14 @@ public class TestPhysics1D extends JFrame {
         } );
         controlPanel.add( showTopOffsetSpline, gridBagConstraints );
 
-        final JCheckBox showBottomOffsetSpline=new JCheckBox( "Show Bottom Offset Spline",splineLayer.isShowBottomOffsetSpline());
+        final JCheckBox showBottomOffsetSpline = new JCheckBox( "Show Bottom Offset Spline", splineLayer.isShowBottomOffsetSpline() );
         showBottomOffsetSpline.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                splineLayer.setShowBottomOffsetSpline(showBottomOffsetSpline.isSelected());
+                splineLayer.setShowBottomOffsetSpline( showBottomOffsetSpline.isSelected() );
             }
         } );
-        controlPanel.add(showBottomOffsetSpline,gridBagConstraints);
-        
+        controlPanel.add( showBottomOffsetSpline, gridBagConstraints );
+
         final ModelSlider offsetDistance = new ModelSlider( "Offset Distance", "meters", 0, 1.7, splineLayer.getOffsetDistance() );
         offsetDistance.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -237,14 +244,14 @@ public class TestPhysics1D extends JFrame {
         } );
         controlPanel.add( showCharacter, gridBagConstraints );
 
-        final JCheckBox centered=new JCheckBox( "Centered character",particleImageNode.isCentered());
+        final JCheckBox centered = new JCheckBox( "Centered character", particleImageNode.isCentered() );
         centered.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 particleImageNode.setCentered( centered.isSelected() );
             }
         } );
-        controlPanel.add(centered,gridBagConstraints);
-        
+        controlPanel.add( centered, gridBagConstraints );
+
         controlFrame.setContentPane( controlPanel );
 
 //        JButton resetEnergyError = new JButton( "Reset Energy Error" );

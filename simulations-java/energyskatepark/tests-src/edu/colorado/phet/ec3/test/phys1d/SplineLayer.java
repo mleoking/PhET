@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.PNode;
 public class SplineLayer extends PNode {
     private ParticleStage particleStage;
     private boolean showTopOffsetSpline = false;
-    private double offsetDistance = CubicSpline2DNode.HUMAN_CENTER_OF_MASS_HEIGHT;
+    private double offsetDistance = ParametricFunction2DNode.HUMAN_CENTER_OF_MASS_HEIGHT;
     private boolean showBottomOffsetSpline=false;
 
     public SplineLayer( ParticleStage particleStage ) {
@@ -42,19 +42,19 @@ public class SplineLayer extends PNode {
             node.setCubicSpline2D( (CubicSpline2D)particleStage.getCubicSpline2D( i ) );//todo: other spline types
         }
         for( int i = 0; i < getChildrenCount(); i++ ) {
-            CubicSpline2DNode node = (CubicSpline2DNode)getChild( i );
+            ParametricFunction2DNode node = (ParametricFunction2DNode)getChild( i );
             node.setShowTopOffsetSpline( showTopOffsetSpline );
             node.setShowBottomOffsetSpline(showBottomOffsetSpline);
         }
         for( int i = 0; i < getChildrenCount(); i++ ) {
-            CubicSpline2DNode node = (CubicSpline2DNode)getChild( i );
+            ParametricFunction2DNode node = (ParametricFunction2DNode)getChild( i );
             node.setOffsetSplineDistance( offsetDistance );
         }
     }
 
     public void setNormalsVisible( boolean selected ) {
         for( int i = 0; i < getChildrenCount(); i++ ) {
-            CubicSpline2DNode node = (CubicSpline2DNode)getChild( i );
+            ParametricFunction2DNode node = (ParametricFunction2DNode)getChild( i );
             node.setNormalsVisible( selected );
         }
     }
@@ -63,7 +63,7 @@ public class SplineLayer extends PNode {
         if( getChildrenCount() == 0 ) {
             return false;
         }
-        if( ( (CubicSpline2DNode)getChild( 0 ) ).isNormalsVisible() ) {
+        if( ( (ParametricFunction2DNode)getChild( 0 ) ).isNormalsVisible() ) {
             return true;
         }
         else {
@@ -75,7 +75,7 @@ public class SplineLayer extends PNode {
         if( getChildrenCount() == 0 ) {
             return false;
         }
-        if( ( (CubicSpline2DNode)getChild( 0 ) ).isCurvatureVisible() ) {
+        if( ( (ParametricFunction2DNode)getChild( 0 ) ).isCurvatureVisible() ) {
             return true;
         }
         else {
@@ -85,7 +85,7 @@ public class SplineLayer extends PNode {
 
     public void setCurvatureVisible( boolean selected ) {
         for( int i = 0; i < getChildrenCount(); i++ ) {
-            CubicSpline2DNode node = (CubicSpline2DNode)getChild( i );
+            ParametricFunction2DNode node = (ParametricFunction2DNode)getChild( i );
             node.setCurvatureVisible( selected );
         }
     }
