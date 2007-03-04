@@ -20,12 +20,14 @@ public class ParticleImageNode extends PNode {
     private double h;
     private double scale;
 
+    private boolean centered = false;
+
     public ParticleImageNode( final Particle particle ) {
         this.particle = particle;
         imageNode = PImageFactory.create( "images/skater3.png" );
         w = imageNode.getFullBounds().getWidth();
         h = imageNode.getFullBounds().getHeight();
-        scale = 0.004*1.4;
+        scale = 0.004 * 1.4;
         imageNode.scale( scale );
         addChild( imageNode );
         particle.addListener( new Particle.Listener() {
@@ -47,17 +49,19 @@ public class ParticleImageNode extends PNode {
         update();
     }
 
-    public void update() {
-//        imageNode.setRotation( 0 );
-//        imageNode.rotateAboutPoint( particle.getAngle(), imageNode.getFullBounds().getWidth() / 2.0, imageNode.getFullBounds().getHeight() / 2.0 );
+    public boolean isCentered() {
+        return centered;
+    }
 
-//        imageNode.setOffset( particle.getX() - imageNode.getFullBounds().getWidth() / 2, particle.getY() - imageNode.getFullBounds().getHeight() / 2 );
+    public void setCentered( boolean centered ) {
+        this.centered = centered;
+        update();
+    }
+
+    public void update() {
         imageNode.setOffset( particle.getX(), particle.getY() );
         imageNode.setRotation( particle.getAngle() + Math.PI / 2 );
-//        imageNode.translate( -imageNode.getFullBounds().getWidth() / 2.0, imageNode.getFullBounds().getHeight() / 2.0 );
-//        imageNode.translate( -w / 2.0, -h / 2.0 );
-        imageNode.translate( -w / 2.0, -h  );
-//        imageNode.rotate( particle.getAngle()+Math.PI/2);
-//        imageNode.setRotation( particle.getAngle()+Math.PI/2);
+        imageNode.translate( -w / 2.0, centered ? -h / 2.0 : -h );
+//        imageNode.translate( -w / 2.0, -h/2.0  );
     }
 }
