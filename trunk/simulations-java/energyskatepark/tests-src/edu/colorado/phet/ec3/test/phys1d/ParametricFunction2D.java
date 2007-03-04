@@ -5,7 +5,6 @@ import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -16,12 +15,6 @@ import java.util.Arrays;
  */
 
 public abstract class ParametricFunction2D {
-
-
-
-
-    
-
 
     public double getClosestPoint( Point2D pt ) {
 //        return getClosestPointFlatSearch( pt );
@@ -252,5 +245,14 @@ public abstract class ParametricFunction2D {
         return getUnitNormalVector( alpha ).getInstanceOfMagnitude( dist * ( top ? 1 : -1 ) ).getDestination( evaluate( alpha ) );
     }
 
-
+    public Point2D[] getOffsetSpline( double dist, boolean top, int numPts ) {
+        double alpha = 0;
+        double dAlpha = 1.0 / ( numPts - 1 );
+        Point2D[]pts=new Point2D[numPts];
+        for( int i = 0; i < numPts; i++ ) {
+            pts[i]=getOffsetPoint( alpha, dist, top );
+            alpha+=dAlpha;
+        }
+        return pts;
+    }
 }
