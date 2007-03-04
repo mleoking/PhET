@@ -237,6 +237,14 @@ public class TestPhysics1D extends JFrame {
         } );
         controlPanel.add( showCharacter, gridBagConstraints );
 
+        final JCheckBox centered=new JCheckBox( "Centered character",particleImageNode.isCentered());
+        centered.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                particleImageNode.setCentered( centered.isSelected() );
+            }
+        } );
+        controlPanel.add(centered,gridBagConstraints);
+        
         controlFrame.setContentPane( controlPanel );
 
 //        JButton resetEnergyError = new JButton( "Reset Energy Error" );
