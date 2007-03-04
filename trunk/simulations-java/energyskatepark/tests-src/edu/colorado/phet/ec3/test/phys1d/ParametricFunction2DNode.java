@@ -26,7 +26,7 @@ public class ParametricFunction2DNode extends PNode {
     private PNode curvatureLayer = new PNode();
     private PNode topOffsetTrack = new PNode();
     private PNode bottomOffsetTrack = new PNode();
-    private boolean topOffsetTrackVisible = true;
+    private boolean topOffsetTrackVisible = false;
     private double splineOffset = HUMAN_CENTER_OF_MASS_HEIGHT;
     private boolean showBottomOffsetSpline = false;
 
