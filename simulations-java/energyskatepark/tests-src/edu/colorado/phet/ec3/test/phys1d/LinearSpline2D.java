@@ -24,18 +24,22 @@ public class LinearSpline2D extends ParametricFunction2D {
     }
 
     public Point2D evaluate( double alpha ) {
-        if( alpha < 0 ) {//todo: this may break lots of things, may need an extrapolation
-            alpha = 0;
-        }
-        if( alpha > 1-1E-6 ) {
-            alpha = 1-1E-6;
-        }
+
         int aIndex = (int)( alpha * ( points.length - 1 ) );
-        int bIndex = aIndex + 1;
+
+        if( alpha < 0 ) {//todo: this may break lots of things, may need an extrapolation
+//            alpha = 0;
+            aIndex = 0;
+        }
+        if( alpha > 1 - 1E-6 ) {
+//            alpha = 1 - 1E-6;
+            aIndex = points.length - 2;
+        }
+
         Point2D a = points[aIndex];
-        Point2D b = points[bIndex];
-        Function.LinearFunction x = new Function.LinearFunction( aIndex, bIndex, a.getX(), b.getX() );
-        Function.LinearFunction y = new Function.LinearFunction( aIndex, bIndex, a.getY(), b.getY() );
+        Point2D b = points[aIndex + 1];
+        Function.LinearFunction x = new Function.LinearFunction( aIndex, aIndex+1, a.getX(), b.getX() );
+        Function.LinearFunction y = new Function.LinearFunction( aIndex, aIndex+1, a.getY(), b.getY() );
         return new Point2D.Double( x.evaluate( alpha * ( points.length - 1 ) ), y.evaluate( alpha * ( points.length - 1 ) ) );
     }
 
@@ -47,7 +51,7 @@ public class LinearSpline2D extends ParametricFunction2D {
         };
         double dAlpha = 0.1;
         LinearSpline2D linearSpline2D = new LinearSpline2D( pts );
-        for( double alpha = 0; alpha <= 1.0; alpha += dAlpha ) {
+        for( double alpha = -1; alpha <= 2; alpha += dAlpha ) {
             System.out.println( "alpha = " + alpha + ", location=" + linearSpline2D.evaluate( alpha ) );
         }
     }

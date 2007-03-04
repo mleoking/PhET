@@ -40,19 +40,18 @@ public class TestPhysics1D extends JFrame {
                 new Point2D.Double( 5 * 2, 0.5 * 2 )
         } );
 
-
         particleStage.addCubicSpline2D( cubicSpline );
-//        pSwingCanvas.getLayer().scale( 100 );
         pSwingCanvas.getLayer().scale( 65 );
         pSwingCanvas.getLayer().addChild( splineLayer );
         setSize( 800, 600 );
 
         Point2D[] pts = cubicSpline.getOffsetSpline( 1.0, true, 100 );
-        LinearSpline2D linearSpline2D = new LinearSpline2D( pts );
-        ParametricFunction2DNode node = new ParametricFunction2DNode( linearSpline2D );
-        pSwingCanvas.getLayer().addChild( node );
+        final LinearSpline2D linearSpline2D = new LinearSpline2D( pts );
+        final ParametricFunction2DNode linearSegmentNode = new ParametricFunction2DNode( linearSpline2D );
+        pSwingCanvas.getLayer().addChild( linearSegmentNode );
 
         particle = new Particle( particleStage );
+//        particle.switchToTrack( linearSpline2D, 0.5, true );
         final ParticleNode particleNode = new ParticleNode( particle );
         final ParticleImageNode particleImageNode = new ParticleImageNode( particle );
 
@@ -251,6 +250,22 @@ public class TestPhysics1D extends JFrame {
             }
         } );
         controlPanel.add( centered, gridBagConstraints );
+
+        final ModelSlider switchToLinear = new ModelSlider( "set to linear", "", 0, 1, 0.5 );
+        switchToLinear.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                particle.switchToTrack( linearSpline2D, switchToLinear.getValue(), true );
+            }
+        } );
+        controlPanel.add( switchToLinear, gridBagConstraints );
+
+        final JCheckBox linearTrackVisible = new JCheckBox( "Linear track visible", linearSegmentNode.getVisible() );
+        linearTrackVisible.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                linearSegmentNode.setVisible( linearTrackVisible.isSelected() );
+            }
+        } );
+        controlPanel.add( linearTrackVisible, gridBagConstraints );
 
         controlFrame.setContentPane( controlPanel );
 
