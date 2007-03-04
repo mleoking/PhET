@@ -32,7 +32,7 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setContentPane( pSwingCanvas );
 
-        CubicSpline2D cubicSpline = CubicSpline2D.interpolate( new Point2D[]{
+        ParametricFunction2D cubicSpline = new CubicSpline2D( new Point2D[]{
                 new Point2D.Double( 1*2, 0.5*2 ),
                 new Point2D.Double( 2*2, 1*2 ),
                 new Point2D.Double( 3*2, 0.5*2 ),

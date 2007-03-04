@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
 public class TestCubicSpline2D extends TestCase {
 
     public void testAngle() {
-        CubicSpline2D cubicSpline = CubicSpline2D.interpolate( new Point2D[]{
+        ParametricFunction2D cubicSpline = new CubicSpline2D( new Point2D[]{
                 new Point2D.Double( 0, 0 ),
                 new Point2D.Double( 1, 0 )
         } );
@@ -22,7 +22,7 @@ public class TestCubicSpline2D extends TestCase {
     }
 
     public void testAngleSlope() {
-        CubicSpline2D cubicSpline = CubicSpline2D.interpolate( new Point2D[]{
+        ParametricFunction2D cubicSpline = new CubicSpline2D( new Point2D[]{
                 new Point2D.Double( 0, 0 ),
                 new Point2D.Double( 1, 1 )
         } );
@@ -30,7 +30,7 @@ public class TestCubicSpline2D extends TestCase {
     }
 
     public void testSplineLength() {
-        CubicSpline2D cubicSpline = CubicSpline2D.interpolate( new Point2D[]{
+        ParametricFunction2D cubicSpline = new CubicSpline2D( new Point2D[]{
                 new Point2D.Double( 0, 0 ),
                 new Point2D.Double( 1, 0 )
         } );
@@ -38,7 +38,7 @@ public class TestCubicSpline2D extends TestCase {
     }
 
     public void testSplineLength2() {
-        CubicSpline2D cubicSpline = CubicSpline2D.interpolate( new Point2D[]{
+        ParametricFunction2D cubicSpline = new CubicSpline2D( new Point2D[]{
                 new Point2D.Double( 0, 0 ),
                 new Point2D.Double( 1, 1 )
         } );
@@ -46,7 +46,7 @@ public class TestCubicSpline2D extends TestCase {
     }
 
     public void testSplineLength3() {
-        CubicSpline2D cubicSpline = CubicSpline2D.interpolate( new Point2D[]{
+        ParametricFunction2D cubicSpline = new CubicSpline2D( new Point2D[]{
                 new Point2D.Double( 0, 0 ),
                 new Point2D.Double( 100, 0 )
         } );

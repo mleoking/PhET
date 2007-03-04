@@ -35,11 +35,11 @@ public class SplineLayer extends PNode {
             removeChild( getChildrenCount() - 1 );
         }
         while( particleStage.numCubicSpline2Ds() > getChildrenCount() ) {
-            addChild( new CubicSpline2DNode( particleStage.getCubicSpline2D( particleStage.numCubicSpline2Ds() - 1 ) ) );
+            addChild( new CubicSpline2DNode( (CubicSpline2D)particleStage.getCubicSpline2D( particleStage.numCubicSpline2Ds() - 1 ) ) );//todo other spline types
         }
         for( int i = 0; i < getChildrenCount(); i++ ) {
             CubicSpline2DNode node = (CubicSpline2DNode)getChild( i );
-            node.setCubicSpline2D( particleStage.getCubicSpline2D( i ) );
+            node.setCubicSpline2D( (CubicSpline2D)particleStage.getCubicSpline2D( i ) );//todo: other spline types
         }
         for( int i = 0; i < getChildrenCount(); i++ ) {
             CubicSpline2DNode node = (CubicSpline2DNode)getChild( i );

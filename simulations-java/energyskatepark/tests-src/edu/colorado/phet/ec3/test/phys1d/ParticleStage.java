@@ -15,12 +15,12 @@ public class ParticleStage {
     public ParticleStage() {
     }
 
-    public ParticleStage( CubicSpline2D cubicSpline2D ) {
-        addCubicSpline2D( cubicSpline2D );
+    public ParticleStage( ParametricFunction2D parametricFunction2D ) {
+        addCubicSpline2D( parametricFunction2D );
     }
 
-    public void addCubicSpline2D( CubicSpline2D cubicSpline2D ) {
-        splines.add( cubicSpline2D );
+    public void addCubicSpline2D( ParametricFunction2D parametricFunction2D ) {
+        splines.add( parametricFunction2D );
         notifySplineAdded();
     }
 
@@ -28,8 +28,8 @@ public class ParticleStage {
         return splines.size();
     }
 
-    public CubicSpline2D getCubicSpline2D( int i ) {
-        return (CubicSpline2D)splines.get( i );
+    public ParametricFunction2D getCubicSpline2D( int i ) {
+        return (ParametricFunction2D)splines.get( i );
     }
 
     private ArrayList listeners = new ArrayList();
@@ -61,8 +61,8 @@ public class ParticleStage {
     public String toStringSerialization() {
         String str = new String();
         for( int i = 0; i < splines.size(); i++ ) {
-            CubicSpline2D cubicSpline2D = (CubicSpline2D)splines.get( i );
-            str += cubicSpline2D.toStringSerialization();
+            ParametricFunction2D parametricFunction2D = (ParametricFunction2D)splines.get( i );
+            str += parametricFunction2D.toStringSerialization();
         }
         return str;
     }

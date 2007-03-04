@@ -17,7 +17,7 @@ public class Particle1D {
     private double alpha = 0.25;
     private double velocity = 0;
 
-    private CubicSpline2D cubicSpline;
+    private ParametricFunction2D cubicSpline;
 
     //    private UpdateStrategy updateStrategy = new Verlet();
     private UpdateStrategy updateStrategy = new Euler();
@@ -30,12 +30,12 @@ public class Particle1D {
     private boolean splineTop = true;
     private boolean reflect = true;
 
-    public Particle1D( CubicSpline2D cubicSpline, boolean splineTop ) {
+    public Particle1D( ParametricFunction2D cubicSpline, boolean splineTop ) {
         this( cubicSpline, splineTop, 9.8 );
     }
 
-    public Particle1D( CubicSpline2D cubicSpline2D, boolean splineTop, double g ) {
-        this.cubicSpline = cubicSpline2D;
+    public Particle1D( ParametricFunction2D parametricFunction2D, boolean splineTop, double g ) {
+        this.cubicSpline = parametricFunction2D;
         this.splineTop = splineTop;
         this.g = g;
     }
@@ -136,7 +136,7 @@ public class Particle1D {
         return cubicSpline.getUnitParallelVector( alpha ).getInstanceOfMagnitude( velocity );
     }
 
-    public void setCubicSpline2D( CubicSpline2D spline, boolean top ) {
+    public void setCubicSpline2D( ParametricFunction2D spline, boolean top ) {
         cubicSpline = spline;
         this.splineTop = top;
     }
@@ -153,7 +153,7 @@ public class Particle1D {
         return cubicSpline.getCurvatureDirection( alpha );
     }
 
-    public CubicSpline2D getCubicSpline2D() {
+    public ParametricFunction2D getCubicSpline2D() {
         return cubicSpline;
     }
 

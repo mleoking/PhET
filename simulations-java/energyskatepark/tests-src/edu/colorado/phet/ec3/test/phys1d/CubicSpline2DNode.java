@@ -19,12 +19,12 @@ import java.awt.geom.Point2D;
  * Copyright (c) Feb 18, 2007 by Sam Reid
  */
 public class CubicSpline2DNode extends PNode {
-    private CubicSpline2D cubicSpline2D;
+    private CubicSpline2D parametricFunction2D;
     private PhetPPath phetPPath;
     private PNode controlPointLayer = new PNode();
     private PNode topLayer = new PNode();
     private boolean normalsVisible = false;
-    private CubicSpline2D.Listener listener = new CubicSpline2D.Listener() {
+    private ParametricFunction2D.Listener listener = new ParametricFunction2D.Listener() {
         public void trackChanged() {
             update();
         }
@@ -39,7 +39,7 @@ public class CubicSpline2DNode extends PNode {
     
 
     public CubicSpline2DNode( CubicSpline2D splineSurface ) {
-        this.cubicSpline2D = splineSurface;
+        this.parametricFunction2D = splineSurface;
         phetPPath = new PhetPPath( new BasicStroke( 0.01f ), Color.blue );
         addChild( phetPPath );
 
@@ -54,10 +54,10 @@ public class CubicSpline2DNode extends PNode {
     }
 
     public void setCubicSpline2D( CubicSpline2D cubicSpline2D ) {
-        if( this.cubicSpline2D != null ) {
-            this.cubicSpline2D.removeListener( listener );
+        if( this.parametricFunction2D != null ) {
+            this.parametricFunction2D.removeListener( listener );
         }
-        this.cubicSpline2D = cubicSpline2D;
+        this.parametricFunction2D = cubicSpline2D;
         cubicSpline2D.addListener( listener );
         update();
     }
@@ -67,17 +67,17 @@ public class CubicSpline2DNode extends PNode {
     }
 
     private void update() {
-        DoubleGeneralPath doubleGeneralPath = new DoubleGeneralPath( cubicSpline2D.evaluate( 0 ) );
+        DoubleGeneralPath doubleGeneralPath = new DoubleGeneralPath( parametricFunction2D.evaluate( 0 ) );
         double ds = 0.01;
         for( double s = ds; s < 1.0; s += ds ) {
-            doubleGeneralPath.lineTo( cubicSpline2D.evaluate( s ) );
+            doubleGeneralPath.lineTo( parametricFunction2D.evaluate( s ) );
         }
-        doubleGeneralPath.lineTo( cubicSpline2D.evaluate( 1.0 ) );
+        doubleGeneralPath.lineTo( parametricFunction2D.evaluate( 1.0 ) );
         phetPPath.setPathTo( doubleGeneralPath.getGeneralPath() );
-        while( controlPointLayer.getChildrenCount() < cubicSpline2D.getNumControlPoints() ) {
+        while( controlPointLayer.getChildrenCount() < parametricFunction2D.getNumControlPoints() ) {
             addControlPointNode();
         }
-        while( controlPointLayer.getChildrenCount() > cubicSpline2D.getNumControlPoints() ) {
+        while( controlPointLayer.getChildrenCount() > parametricFunction2D.getNumControlPoints() ) {
             removeControlPointNode();
         }
         for( int i = 0; i < controlPointLayer.getChildrenCount(); i++ ) {
@@ -86,10 +86,10 @@ public class CubicSpline2DNode extends PNode {
         }
         topLayer.removeAllChildren();
         if( normalsVisible ) {
-            for( double x = 0; x <= cubicSpline2D.getMetricDelta( 0, 1 ); x += 0.1 ) {
-                double alpha = cubicSpline2D.getFractionalDistance( 0, x );
-                Point2D pt = cubicSpline2D.evaluate( alpha );
-                Arrow arrow = new Arrow( pt, cubicSpline2D.getUnitNormalVector( alpha ).getScaledInstance( 0.1 ).getDestination( pt ), 0.03f, 0.03f, 0.01f );
+            for( double x = 0; x <= parametricFunction2D.getMetricDelta( 0, 1 ); x += 0.1 ) {
+                double alpha = parametricFunction2D.getFractionalDistance( 0, x );
+                Point2D pt = parametricFunction2D.evaluate( alpha );
+                Arrow arrow = new Arrow( pt, parametricFunction2D.getUnitNormalVector( alpha ).getScaledInstance( 0.1 ).getDestination( pt ), 0.03f, 0.03f, 0.01f );
                 PhetPPath phetPPath = new PhetPPath( arrow.getShape(), Color.black );
                 topLayer.addChild( phetPPath );
             }
@@ -97,10 +97,10 @@ public class CubicSpline2DNode extends PNode {
 
         curvatureLayer.removeAllChildren();
         if( curvatureVisible ) {
-            for( double x = 0; x <= cubicSpline2D.getMetricDelta( 0, 1 ); x += 0.1 ) {
-                double alpha = cubicSpline2D.getFractionalDistance( 0, x );
-                Point2D at = cubicSpline2D.evaluate( alpha );
-                AbstractVector2D pt = cubicSpline2D.getCurvatureDirection( alpha );
+            for( double x = 0; x <= parametricFunction2D.getMetricDelta( 0, 1 ); x += 0.1 ) {
+                double alpha = parametricFunction2D.getFractionalDistance( 0, x );
+                Point2D at = parametricFunction2D.evaluate( alpha );
+                AbstractVector2D pt = parametricFunction2D.getCurvatureDirection( alpha );
                 Arrow arrow = new Arrow( at, pt.getScaledInstance( 0.1 ).getDestination( at ), 0.03f, 0.03f, 0.01f );
                 PhetPPath phetPPath = new PhetPPath( arrow.getShape(), Color.blue );
                 curvatureLayer.addChild( phetPPath );
@@ -111,9 +111,9 @@ public class CubicSpline2DNode extends PNode {
         if( topOffsetTrackVisible ) {
             double alpha = 0;
             double dAlpha = 0.005;
-            DoubleGeneralPath path = new DoubleGeneralPath( cubicSpline2D.getOffsetPoint( alpha, splineOffset, true ) );
+            DoubleGeneralPath path = new DoubleGeneralPath( parametricFunction2D.getOffsetPoint( alpha, splineOffset, true ) );
             for( alpha = alpha + dAlpha; alpha <= 1.0; alpha += dAlpha ) {
-                path.lineTo( cubicSpline2D.getOffsetPoint( alpha, splineOffset, true ) );
+                path.lineTo( parametricFunction2D.getOffsetPoint( alpha, splineOffset, true ) );
             }
             topOffsetTrack.addChild( new PhetPPath( path.getGeneralPath(), new BasicStroke( 0.01f ), Color.green ) );
         }
@@ -121,9 +121,9 @@ public class CubicSpline2DNode extends PNode {
         if (showBottomOffsetSpline){
             double alpha = 0;
             double dAlpha = 0.005;
-            DoubleGeneralPath path = new DoubleGeneralPath( cubicSpline2D.getOffsetPoint( alpha, splineOffset, false ) );
+            DoubleGeneralPath path = new DoubleGeneralPath( parametricFunction2D.getOffsetPoint( alpha, splineOffset, false ) );
             for( alpha = alpha + dAlpha; alpha <= 1.0; alpha += dAlpha ) {
-                path.lineTo( cubicSpline2D.getOffsetPoint( alpha, splineOffset, false ) );
+                path.lineTo( parametricFunction2D.getOffsetPoint( alpha, splineOffset, false ) );
             }
             bottomOffsetTrack.addChild( new PhetPPath( path.getGeneralPath(), new BasicStroke( 0.01f ), Color.magenta ) );
         }
@@ -185,7 +185,7 @@ public class CubicSpline2DNode extends PNode {
 
             controlPoint.addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
-                    cubicSpline2D.translateControlPoint( index, event.getDeltaRelativeTo( CubicSpline2DNode.this ).width,
+                    parametricFunction2D.translateControlPoint( index, event.getDeltaRelativeTo( CubicSpline2DNode.this ).width,
                                                          event.getDeltaRelativeTo( CubicSpline2DNode.this ).height );
                 }
             } );
@@ -195,7 +195,7 @@ public class CubicSpline2DNode extends PNode {
         }
 
         public void update() {
-            controlPoint.setOffset( cubicSpline2D.getControlPoints()[index] );
+            controlPoint.setOffset( parametricFunction2D.getControlPoints()[index] );
         }
 
         public void setIndex( int i ) {
