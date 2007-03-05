@@ -24,8 +24,10 @@ public class TestPhysics1D extends JFrame {
     private Particle particle;
     private ParticleStage particleStage = new ParticleStage();
     private SplineLayer splineLayer = new SplineLayer( particleStage );
+    private static final String VERSION = "1.05.07";
 
     public TestPhysics1D() {
+        super( "Test Physics 1D (" + VERSION + ")" );
         pSwingCanvas = new PSwingCanvas();
         pSwingCanvas.setPanEventHandler( null );
         pSwingCanvas.setZoomEventHandler( null );
@@ -253,7 +255,6 @@ public class TestPhysics1D extends JFrame {
         controlPanel.add( centered, gridBagConstraints );
 
 
-
         final JCheckBox linearTrackVisible = new JCheckBox( "Linear track visible", linearSegmentNode.getVisible() );
         linearTrackVisible.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -262,14 +263,14 @@ public class TestPhysics1D extends JFrame {
         } );
         controlPanel.add( linearTrackVisible, gridBagConstraints );
 
-                final ModelSlider switchToLinear = new ModelSlider( "set to linear", "", 0, 1, 0.5 );
+        final ModelSlider switchToLinear = new ModelSlider( "set to linear", "", 0, 1, 0.5 );
         switchToLinear.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 particle.switchToTrack( linearSpline2D, switchToLinear.getValue(), true );
             }
         } );
         controlPanel.add( switchToLinear, gridBagConstraints );
-        
+
         controlFrame.setContentPane( controlPanel );
 
 //        JButton resetEnergyError = new JButton( "Reset Energy Error" );
