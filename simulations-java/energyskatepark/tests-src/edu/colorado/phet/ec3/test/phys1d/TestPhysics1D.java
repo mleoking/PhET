@@ -48,6 +48,7 @@ public class TestPhysics1D extends JFrame {
         Point2D[] pts = cubicSpline.getOffsetSpline( 1.0, true, 100 );
         final LinearSpline2D linearSpline2D = new LinearSpline2D( pts );
         final ParametricFunction2DNode linearSegmentNode = new ParametricFunction2DNode( linearSpline2D );
+        linearSegmentNode.setVisible( false );
         pSwingCanvas.getLayer().addChild( linearSegmentNode );
 
         particle = new Particle( particleStage );
@@ -251,13 +252,7 @@ public class TestPhysics1D extends JFrame {
         } );
         controlPanel.add( centered, gridBagConstraints );
 
-        final ModelSlider switchToLinear = new ModelSlider( "set to linear", "", 0, 1, 0.5 );
-        switchToLinear.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                particle.switchToTrack( linearSpline2D, switchToLinear.getValue(), true );
-            }
-        } );
-        controlPanel.add( switchToLinear, gridBagConstraints );
+
 
         final JCheckBox linearTrackVisible = new JCheckBox( "Linear track visible", linearSegmentNode.getVisible() );
         linearTrackVisible.addActionListener( new ActionListener() {
@@ -267,6 +262,14 @@ public class TestPhysics1D extends JFrame {
         } );
         controlPanel.add( linearTrackVisible, gridBagConstraints );
 
+                final ModelSlider switchToLinear = new ModelSlider( "set to linear", "", 0, 1, 0.5 );
+        switchToLinear.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                particle.switchToTrack( linearSpline2D, switchToLinear.getValue(), true );
+            }
+        } );
+        controlPanel.add( switchToLinear, gridBagConstraints );
+        
         controlFrame.setContentPane( controlPanel );
 
 //        JButton resetEnergyError = new JButton( "Reset Energy Error" );

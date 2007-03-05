@@ -33,6 +33,7 @@ package edu.colorado.phet.ec3;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.ec3.test.phys1d.TestPhysics1D;
 import edu.colorado.phet.lookandfeels.LookAndFeelMenu;
 
 import javax.jnlp.UnavailableServiceException;
@@ -97,16 +98,6 @@ new EnergySkateParkFrameSetup() );
         getPhetFrame().addMenu( new LookAndFeelMenu() );
     }
 
-    public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
-                new EC3LookAndFeel().initLookAndFeel();
-                new EnergySkateParkApplication( args ).start();
-            }
-        } );
-    }
-
     public EnergySkateParkModule getModule() {
         return module;
     }
@@ -138,4 +129,24 @@ new EnergySkateParkFrameSetup() );
             }
         } );
     }
+
+    public static void mainESP( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
+                new EC3LookAndFeel().initLookAndFeel();
+                new EnergySkateParkApplication( args ).start();
+            }
+        } );
+    }
+
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                new EC3LookAndFeel().initLookAndFeel();
+                TestPhysics1D.main( args );
+            }
+        } );
+    }
+
 }
