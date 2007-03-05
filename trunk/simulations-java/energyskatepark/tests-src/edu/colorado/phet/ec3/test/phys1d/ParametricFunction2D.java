@@ -229,7 +229,7 @@ public abstract class ParametricFunction2D {
 //        double epsilon = 1E-6;
         double a0 = alpha - epsilon / 2;
         double a1 = alpha + epsilon / 2;
-        System.out.println( "a0 = " + a0 +", a1="+a1);
+//        System.out.println( "a0 = " + a0 +", a1="+a1);
         return new Vector2D.Double( evaluate( a0 ), evaluate( a1 ) ).getNormalizedInstance();
     }
 
