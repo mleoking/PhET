@@ -2,15 +2,20 @@
 
 package edu.colorado.phet.rutherfordscattering.module;
 
+import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Dimension2D;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.rutherfordscattering.model.RSClock;
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -21,6 +26,7 @@ import edu.colorado.phet.rutherfordscattering.model.RSClock;
 public abstract class AbstractModule extends PiccoloModule {
 
     private RSClock _clock;
+    private PhetPCanvas _canvas;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -56,11 +62,22 @@ public abstract class AbstractModule extends PiccoloModule {
     }
     
     /**
-     * Sets the clock dt for the module.
-     * @param dt
+     * Sets the clock step (dt) for the module.
+     * 
+     * @param clockStep
      */
-    public void setDt( double dt ) {
-        _clock.setSimulationTimeChange(  dt  );
+    public void setClockStep( double clockStep ) {
+        _clock.setDt(  clockStep  );
+    }
+    
+    /**
+     * Determines the visible bounds of the canvas in world coordinates.
+     */ 
+    public Dimension getWorldSize() {
+        Dimension2D dim = new PDimension( _canvas.getWidth(), _canvas.getHeight() );
+        _canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
+        Dimension worldSize = new Dimension( (int) dim.getWidth(), (int) dim.getHeight() );
+        return worldSize;
     }
     
     //----------------------------------------------------------------------------
@@ -71,9 +88,10 @@ public abstract class AbstractModule extends PiccoloModule {
      * Adds a component listener to the simulation panel,
      * so that the canvas layout will be updated when it changes size.
      */
-    public void setSimulationPanel( JComponent simulationPanel ) {
-        super.setSimulationPanel( simulationPanel );
-        simulationPanel.addComponentListener( new ComponentAdapter() {
+    public void setSimulationPanel( PhetPCanvas canvas ) {
+        super.setSimulationPanel( canvas );
+        _canvas = canvas;
+        _canvas.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 // update the layout when the canvas is resized
                 updateCanvasLayout();

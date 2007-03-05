@@ -26,7 +26,7 @@ public class RSClock extends SwingClock {
         super( WALL_DT, new TimingStrategy.Constant( SIM_DT ) );
     }
     
-    public void setSimulationTimeChange( final double dt ) {
+    public void setDt( final double dt ) {
         setTimingStrategy( new TimingStrategy.Constant( dt ) );
     }
 }
