@@ -41,6 +41,7 @@ public class PlumPuddingModule extends AbstractModule {
     public static final boolean CLOCK_PAUSED = false;
     public static final boolean GUN_ENABLED = false;
     public static final double GUN_INTENSITY = 1.0; // 0-1 (1=100%)
+    public static final double CLOCK_STEP = RSConstants.DEFAULT_CLOCK_STEP;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -51,6 +52,7 @@ public class PlumPuddingModule extends AbstractModule {
 
     // Control panels
     private ClockControlPanel _clockControlPanel;
+    private PlumPuddingControlPanel _controlPanel;
 
     // Box/beam/gun
     private PNode _boxBeamGunParent;
@@ -192,8 +194,8 @@ public class PlumPuddingModule extends AbstractModule {
         setClockControlPanel( _clockControlPanel );
         
         // Control panel
-        PlumPuddingControlPanel controlPanel = new PlumPuddingControlPanel( this );
-        setControlPanel( controlPanel );
+        _controlPanel = new PlumPuddingControlPanel( this );
+        setControlPanel( _controlPanel );
 
         //----------------------------------------------------------------------------
         // Help
@@ -223,7 +225,7 @@ public class PlumPuddingModule extends AbstractModule {
     }
     
     //----------------------------------------------------------------------------
-    // Reset
+    // AbstractModule implementation
     //----------------------------------------------------------------------------
 
     /*
@@ -236,21 +238,7 @@ public class PlumPuddingModule extends AbstractModule {
         gun.setEnabled( GUN_ENABLED );
         gun.setIntensity( GUN_INTENSITY );
         
-        //XXX set energy control
-    }
-    
-    //----------------------------------------------------------------------------
-    // Canvas layout
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Determines the visible bounds of the canvas in world coordinates.
-     */ 
-    public Dimension getWorldSize() {
-        Dimension2D dim = new PDimension( _canvas.getWidth(), _canvas.getHeight() );
-        _canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
-        Dimension worldSize = new Dimension( (int) dim.getWidth(), (int) dim.getHeight() );
-        return worldSize;
+        _controlPanel.setClockStep( CLOCK_STEP );
     }
     
     /*

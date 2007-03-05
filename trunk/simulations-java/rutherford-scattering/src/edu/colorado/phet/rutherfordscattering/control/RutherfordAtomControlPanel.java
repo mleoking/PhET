@@ -14,9 +14,7 @@ import edu.colorado.phet.rutherfordscattering.module.RutherfordAtomModule;
 
 public class RutherfordAtomControlPanel extends AbstractControlPanel {
 
-    private static final double CLOCK_STEP_TO_ENERGY_MULTIPLER = 100;
-    
-    private SliderControl _clockControl;
+    private SliderControl _clockStepControl;
     private SliderControl _protonsControl;
     private SliderControl _neutronsControl;
     
@@ -37,11 +35,11 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel {
             String label = SimStrings.get( "label.energy" ); // labeled "Energy" !
             String units = "";
             int columns = 1;
-            _clockControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
-            _clockControl.setBorder( BorderFactory.createEtchedBorder() );
-            _clockControl.setTextFieldVisible( false );
-            _clockControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
-            _clockControl.addChangeListener( new ChangeListener() {
+            _clockStepControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+            _clockStepControl.setBorder( BorderFactory.createEtchedBorder() );
+            _clockStepControl.setTextFieldVisible( false );
+            _clockStepControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
+            _clockStepControl.addChangeListener( new ChangeListener() {
 
                 public void stateChanged( ChangeEvent event ) {
                     handleClockChange();
@@ -74,7 +72,6 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel {
         
         // Number of neutrons
         {
-
             int value = RSConstants.DEFAULT_NEUTRONS;
             int min = RSConstants.MIN_NEUTRONS;
             int max = RSConstants.MAX_NEUTRONS;
@@ -96,7 +93,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel {
         addVerticalSpace( 20 );
         addControlFullWidth( alphaParticlePropertiesLabel );
         addVerticalSpace( 20 );
-        addControlFullWidth( _clockControl );
+        addControlFullWidth( _clockStepControl );
         addVerticalSpace( 20 );
         addSeparator();
         addVerticalSpace( 20 );
@@ -107,11 +104,23 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel {
         addVerticalSpace( 20 );
         addSeparator();
     }
+    
+    public void setClockStep( double clockStep ) {
+        _clockStepControl.setValue( clockStep );
+    }
+    
+    public void setNumberOfProtons( int numberOfProtons ) {
+        _protonsControl.setValue( numberOfProtons );
+    }
+    
+    public void setNumberOfNeutrons( int numberOfNeutrons ) {
+        _neutronsControl.setValue( numberOfNeutrons );
+    }
 
     private void handleClockChange() {
-        double dt = _clockControl.getValue();
+        double dt = _clockStepControl.getValue();
         System.out.println( "RutherfordAtomControlPanel.handleClockChange dt=" + dt );//XXX
-        getModule().setDt( dt );
+        getModule().setClockStep( dt );
     }
     
     private void handleProtonsChange() {

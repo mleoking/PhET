@@ -15,7 +15,7 @@ import edu.colorado.phet.rutherfordscattering.module.PlumPuddingModule;
 
 public class PlumPuddingControlPanel extends AbstractControlPanel {
 
-    private SliderControl _clockControl;
+    private SliderControl _clockStepControl;
     
     public PlumPuddingControlPanel( PlumPuddingModule module ) {
         super( module );
@@ -23,7 +23,7 @@ public class PlumPuddingControlPanel extends AbstractControlPanel {
         JLabel titleLabel = new JLabel( SimStrings.get( "label.alphaParticleProperties" ) );
         titleLabel.setFont( RSConstants.TITLE_FONT );
         
-        // Clock (Energy) control
+        // Clock Step control
         {
             double value = RSConstants.DEFAULT_CLOCK_STEP;
             double min = RSConstants.MIN_CLOCK_STEP;
@@ -34,14 +34,13 @@ public class PlumPuddingControlPanel extends AbstractControlPanel {
             String label = SimStrings.get( "label.energy" ); // labeled "Energy" !
             String units = "";
             int columns = 1;
-            _clockControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
-            _clockControl.setBorder( BorderFactory.createEtchedBorder() );
-            _clockControl.setTextFieldVisible( false );
-            _clockControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
-            _clockControl.addChangeListener( new ChangeListener() {
-
+            _clockStepControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+            _clockStepControl.setBorder( BorderFactory.createEtchedBorder() );
+            _clockStepControl.setTextFieldVisible( false );
+            _clockStepControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
+            _clockStepControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
-                    handleClockChange();
+                    handleClockStepChange();
                 }
             } );
         }
@@ -49,12 +48,16 @@ public class PlumPuddingControlPanel extends AbstractControlPanel {
         addVerticalSpace( 20 );
         addControlFullWidth( titleLabel );
         addVerticalSpace( 20 );
-        addControlFullWidth( _clockControl );
+        addControlFullWidth( _clockStepControl );
     }
     
-    private void handleClockChange() {
-        double dt = _clockControl.getValue();
+    public void setClockStep( double dt ) {
+        _clockStepControl.setValue( dt );
+    }
+    
+    private void handleClockStepChange() {
+        double dt = _clockStepControl.getValue();
         System.out.println( "PlumPuddingControlPanel.handleClockChange dt=" + dt );//XXX
-        getModule().setDt( dt );
+        getModule().setClockStep( dt );
     }
 }
