@@ -107,7 +107,7 @@ public class BaseModel {
     /**
      * Steps all the model elements. This needs to be provided as a protected method for backward compatibility
      * for older simulations
-     * 
+     *
      * @param dt
      */
     protected void stepInTime( double dt ) {
@@ -120,17 +120,38 @@ public class BaseModel {
      * Selects for all elements assignable from the specified class.
      *
      * @param modelElementClass The class of the element to select for.
-     *
-     * @return  All elements assignable from the specified class.
+     * @return All elements assignable from the specified class.
      */
-    public List selectFor(Class modelElementClass) {
+    public List selectFor( Class modelElementClass ) {
+        return selectFor( modelElements, modelElementClass );
+    }
+
+    /**
+     * Selects for classes assignable from ALL of the specified interfaces.
+     *
+     * @param classes The classes.
+     * @return All elements assignable from ALL of the specified classes.
+     */
+    public List selectFor( Class[] classes ) {
+        List elements = new ArrayList( modelElements );
+
+        for( int i = 0; i < classes.length; i++ ) {
+            Class c = classes[i];
+
+            elements = selectFor( elements, c );
+        }
+
+        return elements;
+    }
+
+    private static List selectFor( List modelElements, Class modelElementClass ) {
         List elements = new ArrayList();
 
-        for (int i = 0; i < numModelElements(); i++) {
-            Object element = modelElementAt(i);
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            Object element = modelElements.get( i );
 
-            if (modelElementClass.isAssignableFrom(element.getClass())) {
-                elements.add(element);
+            if( modelElementClass.isAssignableFrom( element.getClass() ) ) {
+                elements.add( element );
             }
         }
 
