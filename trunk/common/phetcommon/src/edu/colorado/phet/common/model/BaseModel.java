@@ -13,6 +13,8 @@ package edu.colorado.phet.common.model;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Collection;
 
 /**
  * This class encompasses model elements in a physical system.
@@ -114,4 +116,24 @@ public class BaseModel {
         }
     }
 
+    /**
+     * Selects for all elements assignable from the specified class.
+     *
+     * @param modelElementClass The class of the element to select for.
+     *
+     * @return  All elements assignable from the specified class.
+     */
+    public List selectFor(Class modelElementClass) {
+        List elements = new ArrayList();
+
+        for (int i = 0; i < numModelElements(); i++) {
+            Object element = modelElementAt(i);
+
+            if (modelElementClass.isAssignableFrom(element.getClass())) {
+                elements.add(element);
+            }
+        }
+
+        return elements;
+    }
 }
