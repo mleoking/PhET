@@ -61,7 +61,6 @@ public class PlumPuddingControlPanel extends AbstractControlPanel {
     
     private void handleClockStepChange() {
         double dt = _clockStepControl.getValue();
-        System.out.println( "PlumPuddingControlPanel.handleClockChange dt=" + dt );//XXX
         _module.setClockStep( dt );
         _module.removeAllAlphaParticles();
     }

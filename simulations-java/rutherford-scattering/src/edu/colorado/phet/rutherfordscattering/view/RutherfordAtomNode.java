@@ -55,7 +55,6 @@ public class RutherfordAtomNode extends PhetPNode implements Observer {
         int max = RSConstants.MAX_PROTONS + RSConstants.MAX_NEUTRONS;
         double m = ( protons + neutrons - min ) / (double)( max - min );
         double radius = MIN_RADIUS + ( m * ( MAX_RADIUS - MIN_RADIUS ) );
-        System.out.println( "RutherfordAtomNode.updateNucleus radius=" + radius );//XXX
         _circleNode.setPathTo( new Ellipse2D.Double( -radius, -radius, 2 * radius, 2 * radius )  );
     }
 }

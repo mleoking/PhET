@@ -17,7 +17,8 @@ MEDIUM PRIORITY:
 - faking energy using clock control is asking for trouble
 - make ModelViewTransform an instance, not a singleton, test for non 1:1 transforms
 - performance issue with drawing alpha particles and traces on top of large plum pudding image
-- hide energy value
+- hide energy value on slider
+- control panels should observer model
 
 LOW PRIORITY:
 - Spanish translations
