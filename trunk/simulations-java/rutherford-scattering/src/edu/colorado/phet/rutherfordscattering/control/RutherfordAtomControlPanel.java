@@ -125,14 +125,12 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel {
 
     private void handleClockChange() {
         double dt = _clockStepControl.getValue();
-        System.out.println( "RutherfordAtomControlPanel.handleClockChange dt=" + dt );//XXX
         getModule().setClockStep( dt );
         _module.removeAllAlphaParticles();
     }
     
     private void handleProtonsChange() {
         int numberOfProtons = (int) _protonsControl.getValue();
-        System.out.println( "RutherfordAtomControlPanel.handleProtonsChange numberOfProtons=" + numberOfProtons );//XXX
         RutherfordAtomModel atom = _module.getAtom();
         atom.setNumberOfProtons( numberOfProtons );
         _module.removeAllAlphaParticles();
@@ -140,7 +138,6 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel {
 
     private void handleNeutronsChange() {
         int numberOfNeutrons = (int) _neutronsControl.getValue();
-        System.out.println( "RutherfordAtomControlPanel.handleNeutronsChange numberOfNeutrons=" + numberOfNeutrons );//XXX
         RutherfordAtomModel atom = _module.getAtom();
         atom.setNumberOfNeutrons( numberOfNeutrons );
         _module.removeAllAlphaParticles();
