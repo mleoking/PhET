@@ -5,9 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- making the energy control adjust the clock dt also means that the electron speed changes, OK?...
-- alpha particles suddenly disappear when they get to nucleus center with E=3, p=11, n=118
-- faking energy by changing clock dt is asking for trouble
+- change energy control so that it adjusts initial velocity of alpha particles (range=[2.5,15], default=10)
+- alpha particles suddenly disappear when they get to nucleus center with E=3, p=11, n=118 (verified in Mathematica)
 
 MEDIUM PRIORITY:
 - SliderControl text entry is broken (in other sims too?)
@@ -28,6 +27,8 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/6/07 - change #neutrons range to 40-250
+3/6/07 - change #protons range to 20-100
 3/5/07 - set up Eclipse .jardec, .mf and ProGuard config files
 3/5/07 - jprofile, verify that 48% of time is spent drawing the plum pudding image
 3/5/07 - sync with phetcommon revision 13468
