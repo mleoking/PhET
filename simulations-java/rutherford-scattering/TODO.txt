@@ -20,6 +20,7 @@ MEDIUM PRIORITY:
 - control panels should observe model
 
 LOW PRIORITY:
+- JNLP files
 - Spanish translations
 - file level javadoc
 - package level javadoc
