@@ -17,7 +17,7 @@ public class RutherfordAtomModel extends AbstractHydrogenAtom {
     public static final String PROPERTY_ELECTRON_OFFSET = "electronOffset";
     
     /* change in orbit angle per dt for ground state orbit */
-    private static final double ELECTRON_ANGLE_DELTA = Math.toRadians( 10 );
+    private static final double ELECTRON_ANGLE_DELTA = Math.toRadians( 0.5 );
     
     //----------------------------------------------------------------------------
     // Instance data
