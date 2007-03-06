@@ -5,17 +5,19 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- alpha particles suddenly disappear when they get to nucleus center with E=3, p=11, n=118
+- implement orbiting electron in RutherfordAtomNode 
 - create atom views via ModelViewManager
 - SliderControl text entry is broken (in other sims too?)
 - randomly place 79 electrons in PlumPuddingNode
-- modify D parameter in Rutherford Scattering algorithm
-- implement RutherfordAtomModel
-- implement RutherfordAtomNode, orbiting electron, dynamically adjust # of protons and neutrons
-- hook up Rutherford Atom controls to model
+- implement dynamic generation of nucleus view in RutherfordAtomNode
+- don't create any alpha particles until done dragging sliders
 
 MEDIUM PRIORITY:
+- faking energy using clock control is asking for trouble
 - make ModelViewTransform an instance, not a singleton, test for non 1:1 transforms
 - performance issue with drawing alpha particles and traces on top of large plum pudding image
+- hide energy value
 
 LOW PRIORITY:
 - Spanish translations
@@ -25,6 +27,11 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/5/07 - clear alpha particles whenever energy, #protons, #neutrons is changed
+3/5/07 - change size of a simple circle in RutherfordAtomNode to represent nucleus 
+3/5/07 - hook up Rutherford Atom controls to model
+3/5/07 - implement RutherfordAtomModel
+3/5/07 - modify Rutherford Scattering algorithm
 3/5/07 - complete reset method for both modules
 3/5/07 - flesh out Rutherford Atom panel
 3/2/07 - remove CVS tags from file headers and javadoc

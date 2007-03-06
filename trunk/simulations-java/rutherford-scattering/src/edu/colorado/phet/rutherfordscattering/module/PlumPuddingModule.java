@@ -80,13 +80,13 @@ public class PlumPuddingModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public PlumPuddingModule() {
-        super( SimStrings.get( "PlumPuddingModule.title" ), new RSClock(), CLOCK_PAUSED );
+        super( SimStrings.get( "PlumPuddingModule.title" ), new RSClock( CLOCK_STEP ), CLOCK_PAUSED );
 
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
 
-        IClock clock = getClock();
+        RSClock clock = (RSClock) getClock();
 
         // Gun
         Point2D position = new Point2D.Double( 0, 0 );
@@ -222,6 +222,10 @@ public class PlumPuddingModule extends AbstractModule {
     
     public Gun getGun() {
         return _model.getGun();
+    }
+    
+    public void removeAllAlphaParticles() {
+        _model.removeAllAlphaParticles();
     }
     
     //----------------------------------------------------------------------------
