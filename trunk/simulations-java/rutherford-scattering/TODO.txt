@@ -27,6 +27,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/5/07 - set up Eclipse .jardec, .mf and ProGuard config files
 3/5/07 - jprofile, verify that 48% of time is spent drawing the plum pudding image
 3/5/07 - sync with phetcommon revision 13468
 3/5/07 - implement orbiting electron in RutherfordAtomNode 
