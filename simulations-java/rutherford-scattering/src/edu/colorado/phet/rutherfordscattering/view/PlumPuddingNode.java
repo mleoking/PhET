@@ -11,20 +11,14 @@
 
 package edu.colorado.phet.rutherfordscattering.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.util.Random;
 
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.model.PlumPuddingModel;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * PlumPuddingNode is the visual representation of the "plum pudding" 
@@ -83,7 +77,12 @@ public class PlumPuddingNode extends PhetPNode {
 //        }
         
         // Flatten everything to an image
-        PImage imageNode = new PImage( this.toImage() );
+        PImage imageNode = new PImage( this.toImage() ) {
+            //XXX for verifying performance bottleneck in JProfiler
+            public void paint( PPaintContext paintContext ) {
+                super.paint( paintContext );
+            }
+        };
         imageNode.setOffset( -imageNode.getFullBounds().getWidth()/2, -imageNode.getFullBounds().getHeight()/2 );
         removeAllChildren();
         addChild( imageNode );
