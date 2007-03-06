@@ -5,20 +5,19 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- making the energy control adjust the clock dt also means that the electron speed changes, OK?...
 - alpha particles suddenly disappear when they get to nucleus center with E=3, p=11, n=118
-- implement orbiting electron in RutherfordAtomNode 
-- create atom views via ModelViewManager
 - SliderControl text entry is broken (in other sims too?)
 - randomly place 79 electrons in PlumPuddingNode
 - implement dynamic generation of nucleus view in RutherfordAtomNode
 - don't create any alpha particles until done dragging sliders
 
 MEDIUM PRIORITY:
-- faking energy using clock control is asking for trouble
+- faking energy by changing clock dt is asking for trouble
 - make ModelViewTransform an instance, not a singleton, test for non 1:1 transforms
 - performance issue with drawing alpha particles and traces on top of large plum pudding image
 - hide energy value on slider
-- control panels should observer model
+- control panels should observe model
 
 LOW PRIORITY:
 - Spanish translations
@@ -28,6 +27,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/5/07 - implement orbiting electron in RutherfordAtomNode 
 3/5/07 - clear alpha particles whenever energy, #protons, #neutrons is changed
 3/5/07 - change size of a simple circle in RutherfordAtomNode to represent nucleus 
 3/5/07 - hook up Rutherford Atom controls to model
@@ -54,6 +54,7 @@ DONE:
 3/1/07 - set up application framework
 
 REJECTED:
+3/5/07 - create atom views via ModelViewManager (not necessary, each module has only 1 atom)
 
 ===============================================================================
 end of file
