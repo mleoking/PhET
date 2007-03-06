@@ -1,1 +1,0 @@
-java -jar cvsrelease.jar %1 %2 -v -b
