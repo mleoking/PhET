@@ -81,6 +81,26 @@ public class Particle {
         return angle;
     }
 
+    public double getKineticEnergy() {
+        return 0.5 * mass * getSpeed() * getSpeed();
+    }
+
+    public double getTotalEnergy() {
+        return getKineticEnergy() + getPotentialEnergy() + getThermalEnergy();
+    }
+
+    public double getThermalEnergy() {
+        return 0;//todo: add thermal energy
+    }
+
+    public double getPotentialEnergy() {
+        return mass * g * y;
+    }
+
+    public double getGravity() {
+        return g;
+    }
+
     interface UpdateStrategy {
         void stepInTime( double dt );
     }
@@ -94,7 +114,8 @@ public class Particle {
     class Particle1DUpdate implements UpdateStrategy {
         public void stepInTime( double dt ) {
 
-            AbstractVector2D sideVector = getSideVector( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() );
+//            AbstractVector2D sideVector = getSideVector( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() );
+            AbstractVector2D sideVector = particle1D.getSideVector();
             boolean outsideCircle = sideVector.dot( particle1D.getCurvatureDirection() ) < 0;
 
 //            System.out.println( "outsideCircle= " + outsideCircle );
@@ -143,7 +164,8 @@ public class Particle {
         AbstractVector2D vel = particle1D.getVelocity2D();
         vx = vel.getX();
         vy = vel.getY();
-        angle=getSideVector( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop( )).getAngle();
+//        angle = getSideVector( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() ).getAngle();
+        angle = particle1D.getSideVector().getAngle();
     }
 
     private void switchToFreeFall() {
@@ -279,11 +301,6 @@ public class Particle {
         setPosition( finalPosition );
     }
 
-    private AbstractVector2D getSideVector( ParametricFunction2D cubicSpline, double alpha, boolean top ) {
-        AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
-        double sign = top ? 1.0 : -1.0;
-        return norm.getInstanceOfMagnitude( sign );
-    }
 
     private void setVelocity( AbstractVector2D velocity ) {
         setVelocity( velocity.getX(), velocity.getY() );

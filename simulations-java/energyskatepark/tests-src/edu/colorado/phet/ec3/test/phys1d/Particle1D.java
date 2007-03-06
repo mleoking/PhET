@@ -60,6 +60,19 @@ public class Particle1D {
         this.alpha = alpha;
     }
 
+//    public AbstractVector2D getSideVector( ParametricFunction2D cubicSpline, double alpha, boolean top ) {
+//        AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
+//        double sign = top ? 1.0 : -1.0;
+//        return norm.getInstanceOfMagnitude( sign );
+//    }
+//    
+    
+    public AbstractVector2D getSideVector() {
+        AbstractVector2D vector = getCubicSpline2D().getUnitNormalVector( alpha );
+        double sign = isSplineTop() ? 1.0 : -1.0;
+        return vector.getInstanceOfMagnitude( sign );
+    }
+
     public void stepInTime( double dt ) {
         double initEnergy = getEnergy();
         int N = 10;//todo determine this free parameter
@@ -120,8 +133,8 @@ public class Particle1D {
         return 0.5 * mass * velocity * velocity - mass * g * getY();
     }
 
-    public UpdateStrategy createVerletOffset() {
-        return new VerletOffset();
+    public UpdateStrategy createVerletOffset( double L ) {
+        return new VerletOffset( L );
     }
 
     public double getAlpha() {
@@ -252,8 +265,11 @@ public class Particle1D {
     }
 
     public class VerletOffset implements UpdateStrategy {
+        private double L;
 
-        double L = 50;
+        public VerletOffset( double l ) {
+            this.L = l;
+        }
 
         public void stepInTime( double dt ) {
             double R = getRadiusOfCurvature();
@@ -269,6 +285,10 @@ public class Particle1D {
             velocity = velocity + accel * dt;
 
             handleBoundary();
+        }
+
+        public void setL( double offsetDistance ) {
+            this.L = offsetDistance;
         }
     }
 

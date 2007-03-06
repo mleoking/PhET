@@ -1,5 +1,6 @@
 package edu.colorado.phet.ec3.test.phys1d;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.SwingClock;
@@ -66,7 +67,20 @@ public class TestPhysics1D extends JFrame {
         clock.addClockListener( new ClockAdapter() {
 
             public void simulationTimeChanged( ClockEvent clockEvent ) {
+//                double energy = particle.getKineticEnergy();
+                double e1 = particle.getTotalEnergy();
+                double offsetE1 = getOffsetEnergy();
+//                System.out.println( "energy = " + energy );
                 particle.stepInTime( clockEvent.getSimulationTimeChange() );
+                double e2 = particle.getTotalEnergy();
+                double offsetE2 = getOffsetEnergy();
+                double de = ( e2 - e1 ) / e1;
+                System.out.println( "ON TRACK: de=" + de + ", e1=" + e1 + ", e2=" + e2 );
+
+                double offsetDE = ( offsetE2 - offsetE1 ) / offsetE1;
+                System.out.println( "OFF TRACK: de= " + offsetDE + ", e1=" + offsetE1 + ", e2=" + offsetE2 );
+//                System.out.println( "OFF TRACK: de=" + );
+
             }
         } );
         ccpFrame = new JFrame( "Clock Controls" );
@@ -81,45 +95,48 @@ public class TestPhysics1D extends JFrame {
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
-//        JRadioButton verlet = new JRadioButton( "Verlet", particle1d.getUpdateStrategy() instanceof Particle1D.Verlet );
-//        verlet.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                particle1d.setVelocity( 0 );
-//                particle1d.setUpdateStrategy( particle1d.createVerlet() );
-//            }
-//        } );
-//        JRadioButton constantVel = new JRadioButton( "Constant Velocity", particle1d.getUpdateStrategy() instanceof Particle1D.ConstantVelocity );
-//        constantVel.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                particle1d.setVelocity( 1 );
-//                particle1d.setUpdateStrategy( particle1d.createConstantVelocity() );
-//            }
-//        } );
-//        JRadioButton euler = new JRadioButton( "Euler", particle1d.getUpdateStrategy() instanceof Particle1D.Euler );
-//        euler.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                particle1d.setVelocity( 0 );
-//                particle1d.setUpdateStrategy( particle1d.createEuler() );
-//            }
-//        } );
-//
-//        JRadioButton verletOffset = new JRadioButton( "Verlet Offset", particle1d.getUpdateStrategy() instanceof Particle1D.VerletOffset );
-//        verletOffset.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                particle1d.setVelocity( 0 );
-//                particle1d.setUpdateStrategy( particle1d.createVerletOffset() );
-//            }
-//        } );
-//        controlPanel.add( verlet, gridBagConstraints );
-//        controlPanel.add( constantVel, gridBagConstraints );
-//        controlPanel.add( euler, gridBagConstraints );
-//        controlPanel.add( verletOffset, gridBagConstraints );
 
-//        ButtonGroup buttonGroup = new ButtonGroup();
-//        buttonGroup.add( verlet );
-//        buttonGroup.add( constantVel );
-//        buttonGroup.add( euler );
-//        buttonGroup.add( verletOffset );
+        final Particle1D particle1d = particle.getParticle1D();
+        JRadioButton verlet = new JRadioButton( "Verlet", particle1d.getUpdateStrategy() instanceof Particle1D.Verlet );
+        verlet.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                particle1d.setVelocity( 0 );
+                particle1d.setUpdateStrategy( particle1d.createVerlet() );
+            }
+        } );
+        JRadioButton constantVel = new JRadioButton( "Constant Velocity", particle1d.getUpdateStrategy() instanceof Particle1D.ConstantVelocity );
+        constantVel.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                particle1d.setVelocity( 1 );
+                particle1d.setUpdateStrategy( particle1d.createConstantVelocity() );
+            }
+        } );
+        JRadioButton euler = new JRadioButton( "Euler", particle1d.getUpdateStrategy() instanceof Particle1D.Euler );
+        euler.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                particle1d.setVelocity( 0 );
+                particle1d.setUpdateStrategy( particle1d.createEuler() );
+            }
+        } );
+//
+        JRadioButton verletOffset = new JRadioButton( "Verlet Offset", particle1d.getUpdateStrategy() instanceof Particle1D.VerletOffset );
+        verletOffset.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                particle1d.setVelocity( 0 );
+                particle1d.setUpdateStrategy( particle1d.createVerletOffset( splineLayer.getOffsetDistance() ) );
+            }
+        } );
+        controlPanel.add( verlet, gridBagConstraints );
+        controlPanel.add( constantVel, gridBagConstraints );
+        controlPanel.add( euler, gridBagConstraints );
+        controlPanel.add( verletOffset, gridBagConstraints );
+
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add( verlet );
+        buttonGroup.add( constantVel );
+        buttonGroup.add( euler );
+        buttonGroup.add( verletOffset );
+
         JButton resetParticle = new JButton( "reset particle" );
         resetParticle.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -143,8 +160,6 @@ public class TestPhysics1D extends JFrame {
         showCurvature.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 splineLayer.setCurvatureVisible( showCurvature.isSelected() );
-//                particleStage.setNormalsVisible(showNormals.isSelected() );)
-//                splineNode.setNormalsVisible( showNormals.isSelected() );
             }
         } );
         controlPanel.add( showCurvature, gridBagConstraints );
@@ -153,7 +168,6 @@ public class TestPhysics1D extends JFrame {
         outputSpline.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 System.out.println( "particleStage = " + particleStage.toStringSerialization() );
-//                System.out.println( "cubicSpline.toStringSerialization() = " + cubicSpline.toStringSerialization() );
             }
         } );
         controlPanel.add( outputSpline, gridBagConstraints );
@@ -196,7 +210,6 @@ public class TestPhysics1D extends JFrame {
 
         TestJList testJList = new TestJList( new DefaultTestSet(), this );
         controlPanel.add( testJList, gridBagConstraints );
-//        controlPanel.add( new JList(new Object[]{"a","b","c"}), gridBagConstraints );
 
         final JCheckBox jCheckBox = new JCheckBox( "reflect (1d)", particle.getParticle1D().isReflect() );
         jCheckBox.addActionListener( new ActionListener() {
@@ -226,6 +239,10 @@ public class TestPhysics1D extends JFrame {
         offsetDistance.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 splineLayer.setOffsetDistance( offsetDistance.getValue() );
+                if( particle1d.getUpdateStrategy() instanceof Particle1D.VerletOffset ) {
+                    Particle1D.VerletOffset ve = (Particle1D.VerletOffset)particle1d.getUpdateStrategy();
+                    ve.setL( splineLayer.getOffsetDistance() );
+                }
             }
         } );
         controlPanel.add( offsetDistance, gridBagConstraints );
@@ -284,6 +301,14 @@ public class TestPhysics1D extends JFrame {
         controlFrame.pack();
         controlFrame.setLocation( this.getX() + this.getWidth(), this.getY() );
         controlFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+    }
+
+    private double getOffsetEnergy() {
+        double R = Math.abs( particle.getParticle1D().getRadiusOfCurvature() );//todo: should this be allowed to be negative?
+        double L = splineLayer.getOffsetDistance();
+        AbstractVector2D vec = particle.getParticle1D().getSideVector().getScaledInstance( L ).getAddedInstance( particle.getX(), particle.getY() );
+        double offE1 = particle.getKineticEnergy() * ( R + L ) / R + particle.getPotentialEnergy() + particle.getMass() * particle.getGravity() * vec.getY();
+        return offE1;
     }
 
     public Particle getParticle() {
