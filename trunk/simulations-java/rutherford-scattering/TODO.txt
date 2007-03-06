@@ -7,14 +7,14 @@ IN PROGRESS:
 HIGH PRIORITY:
 - change energy control so that it adjusts initial velocity of alpha particles (range=[2.5,15], default=10)
 - alpha particles suddenly disappear when they get to nucleus center with E=3, p=11, n=118 (verified in Mathematica)
+- don't create any alpha particles until done dragging sliders
+- performance issue with drawing alpha particles and traces on top of large plum pudding image
 
 MEDIUM PRIORITY:
 - SliderControl text entry is broken (in other sims too?)
 - randomly place 79 electrons in PlumPuddingNode
 - implement dynamic generation of nucleus view in RutherfordAtomNode
-- don't create any alpha particles until done dragging sliders
 - make ModelViewTransform an instance, not a singleton, test for non 1:1 transforms
-- performance issue with drawing alpha particles and traces on top of large plum pudding image
 - hide energy value on slider
 - control panels should observe model
 
