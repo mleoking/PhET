@@ -66,21 +66,21 @@ public class PlumPuddingNode extends PhetPNode {
         addChild( puddingNode );
       
         // Create electrons at random locations throughout the pudding
-        Random randomDistance = new Random();
-        Random randomAngle = new Random();
-        double maxDistance = atomDiameter / 2;
-        for ( int i = 0; i < NUMBER_OF_ELECTRONS; i++ ) {
-            ElectronNode electronNode = new ElectronNode();
-            // choose a random location in polar coordinates
-            double distance = randomDistance.nextDouble() * maxDistance;
-            double angle = randomAngle.nextDouble() * ( 2 * Math.PI );
-            // convert to Cartesian coordinates
-            double x = distance * Math.cos( angle );
-            double y = distance * Math.sin( angle );
-            System.out.println( "adding electron at (" + x + "," + y + ")" );//XXX
-            electronNode.setOffset( x, y );
-            addChild( electronNode );
-        }
+//        Random randomDistance = new Random();
+//        Random randomAngle = new Random();
+//        double maxDistance = atomDiameter / 2;
+//        for ( int i = 0; i < NUMBER_OF_ELECTRONS; i++ ) {
+//            ElectronNode electronNode = new ElectronNode();
+//            // choose a random location in polar coordinates
+//            double distance = randomDistance.nextDouble() * maxDistance;
+//            double angle = randomAngle.nextDouble() * ( 2 * Math.PI );
+//            // convert to Cartesian coordinates
+//            double x = distance * Math.cos( angle );
+//            double y = distance * Math.sin( angle );
+//            System.out.println( "adding electron at (" + x + "," + y + ")" );//XXX
+//            electronNode.setOffset( x, y );
+//            addChild( electronNode );
+//        }
         
         // Flatten everything to an image
         PImage imageNode = new PImage( this.toImage() );

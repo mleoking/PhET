@@ -3,23 +3,19 @@
 package edu.colorado.phet.rutherfordscattering.module;
 
 import java.awt.Dimension;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Observable;
+import java.util.Observer;
 
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
-import edu.colorado.phet.rutherfordscattering.control.PlumPuddingControlPanel;
 import edu.colorado.phet.rutherfordscattering.control.RutherfordAtomControlPanel;
-import edu.colorado.phet.rutherfordscattering.help.RSWiggleMe;
 import edu.colorado.phet.rutherfordscattering.model.*;
 import edu.colorado.phet.rutherfordscattering.view.*;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PDimension;
 
 
 public class RutherfordAtomModule extends AbstractModule {
@@ -62,9 +58,6 @@ public class RutherfordAtomModule extends AbstractModule {
     private RSModel _model;
     private RutherfordAtomModel _atomModel;
     
-    private RSWiggleMe _wiggleMe;
-    private boolean _wiggleMeInitialized = false;
-    
     private RSModelViewManager _modelViewManager;
     
     //----------------------------------------------------------------------------
@@ -72,13 +65,13 @@ public class RutherfordAtomModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public RutherfordAtomModule() {
-        super( SimStrings.get( "RutherfordAtomModule.title" ), new RSClock(), CLOCK_PAUSED );
+        super( SimStrings.get( "RutherfordAtomModule.title" ), new RSClock( CLOCK_STEP ), CLOCK_PAUSED );
 
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
 
-        IClock clock = getClock();
+        RSClock clock = (RSClock) getClock();
 
         // Gun
         Point2D position = new Point2D.Double( 0, 0 );
@@ -98,7 +91,7 @@ public class RutherfordAtomModule extends AbstractModule {
         // Atom
         Point2D spaceCenter = _model.getSpace().getCenter();
         double radius = 0.95 * ( RSConstants.ANIMATION_BOX_SIZE.width / 2 );
-        _atomModel = new RutherfordAtomModel( spaceCenter, radius );
+        _atomModel = new RutherfordAtomModel( spaceCenter, radius, NUMBER_OF_PROTONS, NUMBER_OF_NEUTRONS, RSConstants.ANIMATION_BOX_SIZE, clock );
         _model.addModelElement( _atomModel );
 
         //----------------------------------------------------------------------------
@@ -214,6 +207,14 @@ public class RutherfordAtomModule extends AbstractModule {
     
     public Gun getGun() {
         return _model.getGun();
+    }
+    
+    public RutherfordAtomModel getAtom() {
+        return _atomModel;
+    }
+    
+    public void removeAllAlphaParticles() {
+        _model.removeAllAlphaParticles();
     }
     
     //----------------------------------------------------------------------------

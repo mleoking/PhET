@@ -15,10 +15,13 @@ import edu.colorado.phet.rutherfordscattering.module.PlumPuddingModule;
 
 public class PlumPuddingControlPanel extends AbstractControlPanel {
 
+    private PlumPuddingModule _module;
     private SliderControl _clockStepControl;
     
     public PlumPuddingControlPanel( PlumPuddingModule module ) {
         super( module );
+        
+        _module = module;
         
         JLabel titleLabel = new JLabel( SimStrings.get( "label.alphaParticleProperties" ) );
         titleLabel.setFont( RSConstants.TITLE_FONT );
@@ -33,10 +36,11 @@ public class PlumPuddingControlPanel extends AbstractControlPanel {
             int valueDecimalPlaces = 1;
             String label = SimStrings.get( "label.energy" ); // labeled "Energy" !
             String units = "";
-            int columns = 1;
+            int columns = 3;
             _clockStepControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
             _clockStepControl.setBorder( BorderFactory.createEtchedBorder() );
-            _clockStepControl.setTextFieldVisible( false );
+            _clockStepControl.setTextFieldEditable( false );
+//            _clockStepControl.setTextFieldVisible( false );
             _clockStepControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
             _clockStepControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
@@ -58,6 +62,7 @@ public class PlumPuddingControlPanel extends AbstractControlPanel {
     private void handleClockStepChange() {
         double dt = _clockStepControl.getValue();
         System.out.println( "PlumPuddingControlPanel.handleClockChange dt=" + dt );//XXX
-        getModule().setClockStep( dt );
+        _module.setClockStep( dt );
+        _module.removeAllAlphaParticles();
     }
 }

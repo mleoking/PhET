@@ -1,19 +1,25 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2006, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 
 package edu.colorado.phet.rutherfordscattering.model;
 
+import java.awt.Dimension;
 import java.text.DecimalFormat;
-
-import edu.colorado.phet.rutherfordscattering.RSConstants;
 
 /**
  * RutherfordScattering is the algorthm for computing the alpha particle trajectories
- * for the Rutherford Scattering hydrogen atom models.
+ * for the Rutherford Atom model.
  * <p>
  * This algorithm was specified by Sam McKagan.
- * See the file doc/trajectories.pdf ("Trajectories for Rutherford Scattering").
- * The design specification (doc/rutherford-scattering.pdf) also contains some
- * details about how to calculate D.
+ * See the files doc/trajectories.pdf and doc/rutherford-scattering.pdf for details.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -56,14 +62,24 @@ public class RutherfordScattering {
      * @param dt the time step
      * @param D the constant D
      */
-    public static void moveParticle( RutherfordAtomModel atom, AlphaParticle alphaParticle, final double dt ) {
+    public static void moveParticle( RutherfordAtomModel atom, AlphaParticle alphaParticle, final double dt, Dimension boxSize, RSClock clock ) {
 
         assert( dt > 0 );
+        assert( boxSize.getWidth() == boxSize.getHeight() ); // box must be square!
 
-        final double D = getD( atom, alphaParticle );
+        // Calculate D
+        final double L = boxSize.getWidth();
+        final int p0 = atom.getDefaultNumberOfProtons();
+        final int p = atom.getNumberOfProtons();
+        final double s = clock.getDefaultDt();
+        final double s0 = clock.getDt();
+        final double D = ( L / 16 ) * ( p / (double)p0 ) * ( ( s0 * s0 ) / ( s * s ) );
         
         // Alpha particle's initial position, relative to the atom's center.
-        final double x0 = getX0( atom, alphaParticle );
+        double x0 = Math.abs( alphaParticle.getInitialPosition().getX() - atom.getX() );
+        if ( x0 == 0 ) {
+            x0 = X_MIN; // algorithm fails for x0=0
+        }
         assert( x0 > 0 );
         double y0 = alphaParticle.getInitialPosition().getY() - atom.getY();
         y0 *= -1; // flip y0 sign from model to algorithm
@@ -114,7 +130,7 @@ public class RutherfordScattering {
             System.out.println( "  particle id=" + alphaParticle.getId() );
             System.out.println( "  atom type=" + atom.getClass().getName() );
             System.out.println( "  constants:" );
-            System.out.println( "    L=" + F.format( RSConstants.ANIMATION_BOX_SIZE.height ) );
+            System.out.println( "    L=" + F.format( boxSize.getWidth() ) );
             System.out.println( "    D=" + F.format( D ) );
             System.out.println( "    dt=" + F.format( dt ) );
             System.out.println( "    (x0,y0)=(" + F.format( x0 ) + "," + F.format( y0 ) + ")" );
@@ -143,33 +159,5 @@ public class RutherfordScattering {
         alphaParticle.setPosition( xNew, yNew );
         alphaParticle.setSpeed( vNew );
         alphaParticle.setOrientation( phiNew );
-    }
-
-    /*
-     * Gets the value x0.
-     * This value must be > 0, and is adjusted accordingly.
-     * 
-     * @param atom
-     * @param alphaParticle
-     * @return
-     */
-    private static double getX0( AbstractHydrogenAtom atom, AlphaParticle alphaParticle ) {
-        double x0 = Math.abs( alphaParticle.getInitialPosition().getX() - atom.getX() );
-        if ( x0 == 0 ) {
-            x0 = X_MIN;
-        }
-        return x0;
-    }
-    
-    /*
-     * Gets the constant D.
-     * 
-     * @param alphaParticle
-     * @return double
-     */
-    private static double getD( RutherfordAtomModel atom, AlphaParticle alphaParticle ) {
-        final double L = RSConstants.ANIMATION_BOX_SIZE.height;
-        final double D = L / 16;
-        return D;
     }
 }
