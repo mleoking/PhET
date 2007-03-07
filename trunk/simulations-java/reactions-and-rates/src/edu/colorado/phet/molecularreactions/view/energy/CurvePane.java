@@ -17,7 +17,7 @@ public class CurvePane extends PPath {
     private final Color energyPaneBackgroundColor = MRConfig.ENERGY_PANE_BACKGROUND;
     private final Color curveColor = MRConfig.POTENTIAL_ENERGY_COLOR;
     private final Insets curveAreaInsets = new Insets( 20, 30, 40, 10 );
-    private Dimension curvePaneSize, curveAreaSize;
+    private final Dimension curvePaneSize, curveAreaSize;
 
     private volatile EnergyProfileGraphic energyProfileGraphic;
 
@@ -25,10 +25,13 @@ public class CurvePane extends PPath {
     private EnergyCursor cursor;
 
     public CurvePane(final MRModel model, Dimension upperPaneSize, EnergyView.State state) {
+
         super( new Rectangle2D.Double( 0,
               0,
-              state.curvePaneSize.getWidth() - 1,
-              state.curvePaneSize.getHeight()
+              upperPaneSize.width - 1,
+              (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() )
+                                              - upperPaneSize.height
+                                              - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height
         ));
 
         curvePaneSize = new Dimension( upperPaneSize.width, (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() )
@@ -54,12 +57,8 @@ public class CurvePane extends PPath {
         this.addChild( curveLayer );
         this.addChild( cursorLayer );
 
-        // Determine the size of the area where the curve will appear
-        state.curveAreaSize = new Dimension( (int)state.curvePaneSize.getWidth() - curveAreaInsets.left - curveAreaInsets.right,
-                                       (int)state.curvePaneSize.getHeight() - curveAreaInsets.top - curveAreaInsets.bottom );
-
         // Create the line that shows total energy, and a legend for it
-        energyLine = new EnergyLine( state.curveAreaSize, model, state.module.getClock() );
+        energyLine = new EnergyLine( curveAreaSize, model, state.module.getClock() );
         totalEnergyLineLayer.addChild( energyLine );
 
         // Create the curve, and add a listener to the model that will update the curve if the
@@ -72,7 +71,7 @@ public class CurvePane extends PPath {
         } );
 
         // Create the cursor
-        cursor = new EnergyCursor( state.curveAreaSize.getHeight(), 0, state.curveAreaSize.getWidth(), model );
+        cursor = new EnergyCursor( curveAreaSize.getHeight(), 0, curveAreaSize.getWidth(), model );
         cursor.setVisible( false );
         cursorLayer.addChild( cursor );
 
@@ -97,7 +96,7 @@ public class CurvePane extends PPath {
         this.addChild( yAxis );
     }
 
-    public Dimension getCurvePaneSize() {
+    public Dimension getSize() {
         return curvePaneSize;
     }
 
