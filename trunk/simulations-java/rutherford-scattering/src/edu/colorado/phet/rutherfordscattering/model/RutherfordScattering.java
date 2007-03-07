@@ -82,7 +82,7 @@ public class RutherfordScattering {
         
         // Calculate D
         final double L = boxSize.getWidth();
-        final double D = ( L / 16 ) * ( p / (double)pd ) * ( ( vd * vd ) / ( v * v ) );
+        final double D = ( L / 16 ) * ( p / (double)pd ) * ( ( vd * vd ) / ( v0 * v0 ) );
         
         // Alpha particle's initial position, relative to the atom's center.
         double x0 = Math.abs( alphaParticle.getInitialPosition().getX() - atom.getX() );

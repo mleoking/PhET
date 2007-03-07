@@ -27,6 +27,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/7/07 - calculation of D in RutherfordScattering should have v0 in denomincator, error is design doc
 3/7/07 - randomly place 79 electrons in PlumPuddingNode
 3/7/07 - add dbug code to RutherfordScattering to verify that it fails when D>rNew
 3/6/07 - add debug flag to show/hide value on energy control
