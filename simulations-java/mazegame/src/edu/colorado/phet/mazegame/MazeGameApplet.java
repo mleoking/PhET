@@ -59,7 +59,8 @@ public class MazeGameApplet extends JApplet {
         try {
 
             splat = ImageLoader.loadBufferedImage( "RedBang.gif" );
-            ballImage = ImageLoader.loadBufferedImage( "ballsmall2-orig.gif" );
+//            ballImage = ImageLoader.loadBufferedImage( "ballsmall2-orig.gif" );
+            ballImage = ImageLoader.loadBufferedImage( "ballsmall2.gif" );
 //            splat = ImageLoader.loadBufferedImage( "RedBang.gif" );//getImage(getDocumentBase(), "RedBang.gif");
 //            ballImage = ImageLoader.loadBufferedImage( "ballsmall2.gif" );//getImage(getDocumentBase(), "ballsmall2.gif");
         }
