@@ -24,6 +24,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/7/07 - make textfield editable for energy (will be hidden in production version)
 3/7/07 - make textfields editable for #protons and #neutrons
 3/7/07 - Spanish translations
 3/7/07 - create JNLP files
