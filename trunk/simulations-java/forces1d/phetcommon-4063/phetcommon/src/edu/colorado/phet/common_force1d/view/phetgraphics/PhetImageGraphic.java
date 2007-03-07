@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:13536 $
+ * Date modified : $Date:2007-03-06 23:42:13 -0700 (Tue, 06 Mar 2007) $
  */
 package edu.colorado.phet.common_force1d.view.phetgraphics;
 
@@ -21,7 +21,7 @@ import java.io.IOException;
  * PhetImageGraphic
  *
  * @author ?
- * @version $Revision$
+ * @version $Revision:13536 $
  */
 public class PhetImageGraphic extends PhetGraphic {
     private BufferedImage image;
@@ -86,7 +86,8 @@ public class PhetImageGraphic extends PhetGraphic {
                 g2.drawRenderedImage( image, getNetTransform() );
             }
             catch( RuntimeException paintException ) {
-                paintException.printStackTrace();
+                //omit unnecessary exception
+//                paintException.printStackTrace();
             }
             super.restoreGraphicsState();
         }
