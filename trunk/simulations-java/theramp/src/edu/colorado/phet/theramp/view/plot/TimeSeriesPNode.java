@@ -2,12 +2,12 @@
 package edu.colorado.phet.theramp.view.plot;
 
 import edu.colorado.phet.common.view.util.RectangleUtils;
-import edu.colorado.phet.piccolo.ShadowHTMLGraphic;
-import edu.colorado.phet.piccolo.ShadowPText;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
-import edu.colorado.phet.timeseries.TimePoint;
-import edu.colorado.phet.timeseries.TimeSeries;
+import edu.colorado.phet.timeseries_ramp.TimePoint;
+import edu.colorado.phet.timeseries_ramp.TimeSeries;
+import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
+import edu.colorado.phet.piccolo.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 

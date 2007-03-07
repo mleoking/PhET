@@ -1,5 +1,5 @@
 /*PhET, 2004.*/
-package edu.colorado.phet.timeseries;
+package edu.colorado.phet.timeseries_ramp;
 
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;

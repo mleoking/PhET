@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.timeseries;
+package edu.colorado.phet.timeseries_ramp;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.theramp.TheRampStrings;

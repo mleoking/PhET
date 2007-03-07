@@ -1,10 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.piccolo.PDebugKeyHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.TargetedWiggleMe;
-import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.colorado.phet.piccolo.help.TargetedWiggleMe;
+import edu.colorado.phet.piccolo.event.PDebugKeyHandler;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampPlotSet;
 import edu.colorado.phet.theramp.TheRampStrings;
@@ -13,10 +12,11 @@ import edu.colorado.phet.theramp.model.RampObject;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.bars.BarGraphSuite;
 import edu.colorado.phet.theramp.view.plot.TimeSeriesPNode;
-import edu.colorado.phet.timeseries.TimeSeriesModel;
+import edu.colorado.phet.timeseries_ramp.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import java.awt.*;
 import java.awt.event.ComponentEvent;

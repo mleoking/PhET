@@ -14,8 +14,8 @@ import edu.colorado.phet.theramp.model.RampObject;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.FireDog;
 import edu.colorado.phet.theramp.view.RampPanel;
-import edu.colorado.phet.timeseries.TimeSeriesModel;
-import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
+import edu.colorado.phet.timeseries_ramp.TimeSeriesModel;
+import edu.colorado.phet.timeseries_ramp.TimeSeriesPlaybackPanel;
 
 import javax.swing.*;
 import java.awt.*;

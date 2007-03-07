@@ -9,8 +9,8 @@ import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.theramp.view.plot.TimePlotSuitePNode;
 import edu.colorado.phet.theramp.view.plot.TimeSeriesPNode;
-import edu.colorado.phet.timeseries.TimeSeries;
-import edu.colorado.phet.timeseries.TimeSeriesModel;
+import edu.colorado.phet.timeseries_ramp.TimeSeries;
+import edu.colorado.phet.timeseries_ramp.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;

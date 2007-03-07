@@ -6,11 +6,11 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.RectangleUtils;
-import edu.colorado.phet.piccolo.CursorHandler;
-import edu.colorado.phet.piccolo.HTMLGraphic;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
+import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -174,7 +174,7 @@ public class FreeBodyDiagram extends PNode {
 
     public static class ForceArrow extends PNode {
         private PPath shapeGraphic;
-        private HTMLGraphic textGraphic;
+        private HTMLNode textGraphic;
         private FreeBodyDiagram fbd;
 //        private double dx;
 //        private double dy;
@@ -194,7 +194,7 @@ public class FreeBodyDiagram extends PNode {
             addChild( shapeGraphic );
             Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
 //            textGraphic = new PhetShadowTextGraphic( component, name, font, 0, 0, color, 1, 1, Color.black );
-            textGraphic = new HTMLGraphic( name, font, color );
+            textGraphic = new HTMLNode( name, font, color );
             addChild( textGraphic );
             setVector( v );
             setPickable( false );
