@@ -7,6 +7,7 @@ import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.view.AxisNode;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -24,7 +25,7 @@ public class CurvePane extends PPath {
     private volatile EnergyLine energyLine;
     private EnergyCursor cursor;
 
-    public CurvePane(final MRModel model, Dimension upperPaneSize, EnergyView.State state) {
+    public CurvePane(final MRModule module, Dimension upperPaneSize, EnergyView.State state) {
 
         super( new Rectangle2D.Double( 0,
               0,
@@ -33,6 +34,8 @@ public class CurvePane extends PPath {
                                               - upperPaneSize.height
                                               - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height
         ));
+
+        final MRModel model = module.getMRModel();
 
         curvePaneSize = new Dimension( upperPaneSize.width, (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() )
                                               - upperPaneSize.height
@@ -58,7 +61,7 @@ public class CurvePane extends PPath {
         this.addChild( cursorLayer );
 
         // Create the line that shows total energy, and a legend for it
-        energyLine = new EnergyLine( curveAreaSize, model, state.module.getClock() );
+        energyLine = new EnergyLine( curveAreaSize, model, module.getClock() );
         totalEnergyLineLayer.addChild( energyLine );
 
         // Create the curve, and add a listener to the model that will update the curve if the

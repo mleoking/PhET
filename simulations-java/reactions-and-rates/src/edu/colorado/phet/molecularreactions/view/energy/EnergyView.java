@@ -71,8 +71,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
 
     public static class State {
-        Font labelFont;
-        MRModule module;
         CurvePane curvePane;
         UpperEnergyPane upperPane;
     }
@@ -90,6 +88,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
     private volatile State state;
     private volatile MolecularPaneState molecularPaneState;
+    private volatile MRModule module;
 
     public EnergyView() {
     }
@@ -103,7 +102,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         molecularPaneState = new MolecularPaneState();
 
         
-        state.module = module;
+        this.module = module;
+
         MRModel model = module.getMRModel();
 
         // The pane that has the molecules
@@ -117,7 +117,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         addChild( state.upperPane );
 
         // The pane that has the curve and cursor
-        state.curvePane = new CurvePane(module.getMRModel(), upperPaneSize, state);
+        state.curvePane = new CurvePane(module, upperPaneSize, state);
 
         addChild( state.curvePane );
 
@@ -168,7 +168,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         molecularPaneState.nearestToSelectedMoleculeGraphic = null;
 
         // Listen for changes in the selected molecule and the molecule closest to it
-        state.module.getMRModel().addSelectedMoleculeTrackerListener( new SelectedMoleculeListener() );
+        module.getMRModel().addSelectedMoleculeTrackerListener( new SelectedMoleculeListener() );
     }
 
     public void resetMolecularPaneState() {
@@ -327,7 +327,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
             // Position the molecule graphics
             double cmDist = molecularPaneState.selectedMolecule.getPosition().distance( molecularPaneState.nearestToSelectedMolecule.getPosition() );
-            A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)state.module.getMRModel().getReaction();
+            A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)module.getMRModel().getReaction();
             double edgeDist = reaction.getDistanceToCollision( freeMolecule, boundMolecule.getParentComposite() );
 
             // In the middle of the reaction, the collision distance is underfined
@@ -455,7 +455,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
             if( newTrackedMolecule != null ) {
                 molecularPaneState.selectedMoleculeGraphic = new EnergyMoleculeGraphic( newTrackedMolecule.getFullMolecule(),
-                                                                     state.module.getMRModel().getEnergyProfile() );
+                                                                     module.getMRModel().getEnergyProfile() );
                 molecularPaneState.moleculeLayer.addChild( molecularPaneState.selectedMoleculeGraphic );
                 newTrackedMolecule.addObserver( EnergyView.this );
                 molecularPaneState.moleculePaneAxisNode.setVisible( true );
@@ -478,7 +478,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                 molecularPaneState.moleculeLayer.removeChild( molecularPaneState.nearestToSelectedMoleculeGraphic );
             }
             molecularPaneState.nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( newClosestMolecule.getFullMolecule(),
-                                                                          state.module.getMRModel().getEnergyProfile() );
+                                                                          module.getMRModel().getEnergyProfile() );
             molecularPaneState.moleculeLayer.addChild( molecularPaneState.nearestToSelectedMoleculeGraphic );
 
             newClosestMolecule.addObserver( EnergyView.this );
