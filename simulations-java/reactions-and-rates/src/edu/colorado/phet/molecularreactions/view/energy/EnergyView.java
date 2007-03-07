@@ -77,10 +77,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         Dimension upperPaneSize;
         Dimension curvePaneSize;
 
-        SimpleMolecule selectedMolecule;
-        SimpleMolecule nearestToSelectedMolecule;
-        EnergyMoleculeGraphic selectedMoleculeGraphic;
-        EnergyMoleculeGraphic nearestToSelectedMoleculeGraphic;
+
 
         EnergyCursor cursor;
 
@@ -94,10 +91,14 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     }
 
     private static class MolecularPaneState {
+        PNode moleculeLayer;
+        PNode moleculePaneAxisNode;
+        SeparationIndicatorArrow separationIndicatorArrow;
 
-        public PNode moleculeLayer;
-        public PNode moleculePaneAxisNode;
-        public SeparationIndicatorArrow separationIndicatorArrow;
+        SimpleMolecule selectedMolecule;
+        SimpleMolecule nearestToSelectedMolecule;
+        EnergyMoleculeGraphic selectedMoleculeGraphic;
+        EnergyMoleculeGraphic nearestToSelectedMoleculeGraphic;
     }
 
     private volatile State state;
@@ -173,20 +174,24 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
     public void reset() {
 
-        state.selectedMolecule = null;
-        state.nearestToSelectedMolecule = null;
+        molecularPaneState.selectedMolecule = null;
+        molecularPaneState.nearestToSelectedMolecule = null;
 
-        if( state.selectedMoleculeGraphic != null ) {
-            molecularPaneState.moleculeLayer.removeChild( state.selectedMoleculeGraphic );
+        if( molecularPaneState.selectedMoleculeGraphic != null ) {
+            molecularPaneState.moleculeLayer.removeChild( molecularPaneState.selectedMoleculeGraphic );
         }
-        if( state.nearestToSelectedMoleculeGraphic != null ) {
-            molecularPaneState.moleculeLayer.removeChild( state.nearestToSelectedMoleculeGraphic );
+        if( molecularPaneState.nearestToSelectedMoleculeGraphic != null ) {
+            molecularPaneState.moleculeLayer.removeChild( molecularPaneState.nearestToSelectedMoleculeGraphic );
         }
-        state.selectedMoleculeGraphic = null;
-        state.nearestToSelectedMoleculeGraphic = null;
+        molecularPaneState.selectedMoleculeGraphic = null;
+        molecularPaneState.nearestToSelectedMoleculeGraphic = null;
 
         // Listen for changes in the selected molecule and the molecule closest to it
         state.module.getMRModel().addSelectedMoleculeTrackerListener( new SelectedMoleculeListener() );
+    }
+
+    public void resetMolecularPaneState() {
+
     }
 
     /*
@@ -367,7 +372,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
      * SimpleMRModule now, it should be refactored into its own class
      */
     public void update() {
-        if( state.selectedMolecule != null && state.selectedMoleculeGraphic != null && state.nearestToSelectedMoleculeGraphic != null ) {
+        if( molecularPaneState.selectedMolecule != null && molecularPaneState.selectedMoleculeGraphic != null && molecularPaneState.nearestToSelectedMoleculeGraphic != null ) {
 
             // Which side of the profile the molecules show up on depends on their type
 
@@ -377,19 +382,19 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             // updated yet. We have to handle that by returning without updating ourselves/
             SimpleMolecule boundMolecule = null;
             SimpleMolecule freeMolecule = null;
-            if( state.selectedMolecule.isPartOfComposite() ) {
-                boundMolecule = state.selectedMolecule;
-                if( !state.nearestToSelectedMolecule.isPartOfComposite() ) {
-                    freeMolecule = state.nearestToSelectedMolecule;
+            if( molecularPaneState.selectedMolecule.isPartOfComposite() ) {
+                boundMolecule = molecularPaneState.selectedMolecule;
+                if( !molecularPaneState.nearestToSelectedMolecule.isPartOfComposite() ) {
+                    freeMolecule = molecularPaneState.nearestToSelectedMolecule;
                 }
                 else {
                     return;
                 }
             }
-            else if( state.nearestToSelectedMolecule.isPartOfComposite() ) {
-                boundMolecule = state.nearestToSelectedMolecule;
-                if( !state.selectedMolecule.isPartOfComposite() ) {
-                    freeMolecule = state.selectedMolecule;
+            else if( molecularPaneState.nearestToSelectedMolecule.isPartOfComposite() ) {
+                boundMolecule = molecularPaneState.nearestToSelectedMolecule;
+                if( !molecularPaneState.selectedMolecule.isPartOfComposite() ) {
+                    freeMolecule = molecularPaneState.selectedMolecule;
                 }
                 else {
                     return;
@@ -407,19 +412,19 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             // Figure out on which side of the centerline the molecules should appear
             int direction = 0;
             // If the selected molecule is an A molecule and it's free, we're on the left
-            if( state.selectedMolecule instanceof MoleculeA && state.selectedMolecule == freeMolecule ) {
+            if( molecularPaneState.selectedMolecule instanceof MoleculeA && molecularPaneState.selectedMolecule == freeMolecule ) {
                 direction = -1;
             }
             // If the selected molecule is an A molecule and it's bound, we're on the right
-            else if( state.selectedMolecule instanceof MoleculeA && state.selectedMolecule == boundMolecule ) {
+            else if( molecularPaneState.selectedMolecule instanceof MoleculeA && molecularPaneState.selectedMolecule == boundMolecule ) {
                 direction = 1;
             }
             // If the selected molecule is a C molecule and it's free, we're on the right
-            else if( state.selectedMolecule instanceof MoleculeC && state.selectedMolecule == freeMolecule ) {
+            else if( molecularPaneState.selectedMolecule instanceof MoleculeC && molecularPaneState.selectedMolecule == freeMolecule ) {
                 direction = 1;
             }
             // If the selected molecule is a C molecule and it's bound, we're on the left
-            else if( state.selectedMolecule instanceof MoleculeC && state.selectedMolecule == boundMolecule ) {
+            else if( molecularPaneState.selectedMolecule instanceof MoleculeC && molecularPaneState.selectedMolecule == boundMolecule ) {
                 direction = -1;
             }
             else {
@@ -427,7 +432,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             }
 
             // Position the molecule graphics
-            double cmDist = state.selectedMolecule.getPosition().distance( state.nearestToSelectedMolecule.getPosition() );
+            double cmDist = molecularPaneState.selectedMolecule.getPosition().distance( molecularPaneState.nearestToSelectedMolecule.getPosition() );
             A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)state.module.getMRModel().getReaction();
             double edgeDist = reaction.getDistanceToCollision( freeMolecule, boundMolecule.getParentComposite() );
 
@@ -440,7 +445,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             double xOffset = 20;
 
             // The distance between the molecule's CMs when they first come into contact
-            double separationAtFootOfHill = Math.min( state.selectedMolecule.getRadius(), state.nearestToSelectedMolecule.getRadius() );
+            double separationAtFootOfHill = Math.min( molecularPaneState.selectedMolecule.getRadius(), molecularPaneState.nearestToSelectedMolecule.getRadius() );
 
             // Scale the actual inter-molecular distance to the scale of the energy profile
             double r = ( reaction.getEnergyProfile().getThresholdWidth() / 2 ) / separationAtFootOfHill;
@@ -470,21 +475,21 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
             // Set locatation of molecules. Use the *direction* variable we set above
             // to determine which graphic should be on top
-            if( freeMolecule instanceof MoleculeC && freeMolecule == state.selectedMolecule ) {
-                state.selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
-                state.nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
+            if( freeMolecule instanceof MoleculeC && freeMolecule == molecularPaneState.selectedMolecule ) {
+                molecularPaneState.selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
+                molecularPaneState.nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
             }
-            else if( freeMolecule instanceof MoleculeC && freeMolecule == state.nearestToSelectedMolecule ) {
-                state.selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
-                state.nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
+            else if( freeMolecule instanceof MoleculeC && freeMolecule == molecularPaneState.nearestToSelectedMolecule ) {
+                molecularPaneState.selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
+                molecularPaneState.nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
             }
-            else if( freeMolecule instanceof MoleculeA && freeMolecule == state.selectedMolecule ) {
-                state.selectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
-                state.nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
+            else if( freeMolecule instanceof MoleculeA && freeMolecule == molecularPaneState.selectedMolecule ) {
+                molecularPaneState.selectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
+                molecularPaneState.nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
             }
-            else if( freeMolecule instanceof MoleculeA && freeMolecule == state.nearestToSelectedMolecule ) {
-                state.selectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
-                state.nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
+            else if( freeMolecule instanceof MoleculeA && freeMolecule == molecularPaneState.nearestToSelectedMolecule ) {
+                molecularPaneState.selectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
+                molecularPaneState.nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
             }
 
             // Set the size of the separation indicator arrow
@@ -494,11 +499,11 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             // set location of cursor
             state.cursor.setOffset( midPoint.getX(), 0 );
         }
-        else if( state.selectedMoleculeGraphic != null ) {
-            state.selectedMoleculeGraphic.setOffset( 20, 20 );
+        else if( molecularPaneState.selectedMoleculeGraphic != null ) {
+            molecularPaneState.selectedMoleculeGraphic.setOffset( 20, 20 );
         }
-        else if( state.nearestToSelectedMoleculeGraphic != null ) {
-            state.nearestToSelectedMoleculeGraphic.setOffset( 20, 50 );
+        else if( molecularPaneState.nearestToSelectedMoleculeGraphic != null ) {
+            molecularPaneState.nearestToSelectedMoleculeGraphic.setOffset( 20, 50 );
         }
     }
 
@@ -542,20 +547,20 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
         public void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule,
                                                  SimpleMolecule prevTrackedMolecule ) {
-            if( state.selectedMolecule != null ) {
-                state.selectedMolecule.removeObserver( EnergyView.this );
+            if( molecularPaneState.selectedMolecule != null ) {
+                molecularPaneState.selectedMolecule.removeObserver( EnergyView.this );
             }
 
-            state.selectedMolecule = newTrackedMolecule;
-            if( state.selectedMoleculeGraphic != null
-                && molecularPaneState.moleculeLayer.getChildrenReference().contains( state.selectedMoleculeGraphic ) ) {
-                molecularPaneState.moleculeLayer.removeChild( state.selectedMoleculeGraphic );
+            molecularPaneState.selectedMolecule = newTrackedMolecule;
+            if( molecularPaneState.selectedMoleculeGraphic != null
+                && molecularPaneState.moleculeLayer.getChildrenReference().contains( molecularPaneState.selectedMoleculeGraphic ) ) {
+                molecularPaneState.moleculeLayer.removeChild( molecularPaneState.selectedMoleculeGraphic );
             }
 
             if( newTrackedMolecule != null ) {
-                state.selectedMoleculeGraphic = new EnergyMoleculeGraphic( newTrackedMolecule.getFullMolecule(),
+                molecularPaneState.selectedMoleculeGraphic = new EnergyMoleculeGraphic( newTrackedMolecule.getFullMolecule(),
                                                                      state.module.getMRModel().getEnergyProfile() );
-                molecularPaneState.moleculeLayer.addChild( state.selectedMoleculeGraphic );
+                molecularPaneState.moleculeLayer.addChild( molecularPaneState.selectedMoleculeGraphic );
                 newTrackedMolecule.addObserver( EnergyView.this );
                 molecularPaneState.moleculePaneAxisNode.setVisible( true );
             }
@@ -563,22 +568,22 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                 molecularPaneState.moleculePaneAxisNode.setVisible( false );
 
             }
-            state.cursor.setVisible( state.selectedMolecule != null );
+            state.cursor.setVisible( molecularPaneState.selectedMolecule != null );
         }
 
         public void closestMoleculeChanged( SimpleMolecule newClosestMolecule,
                                             SimpleMolecule prevClosestMolecule ) {
-            if( state.nearestToSelectedMolecule != null ) {
-                state.nearestToSelectedMolecule.removeObserver( EnergyView.this );
+            if( molecularPaneState.nearestToSelectedMolecule != null ) {
+                molecularPaneState.nearestToSelectedMolecule.removeObserver( EnergyView.this );
             }
 
-            state.nearestToSelectedMolecule = newClosestMolecule;
-            if( state.nearestToSelectedMoleculeGraphic != null ) {
-                molecularPaneState.moleculeLayer.removeChild( state.nearestToSelectedMoleculeGraphic );
+            molecularPaneState.nearestToSelectedMolecule = newClosestMolecule;
+            if( molecularPaneState.nearestToSelectedMoleculeGraphic != null ) {
+                molecularPaneState.moleculeLayer.removeChild( molecularPaneState.nearestToSelectedMoleculeGraphic );
             }
-            state.nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( newClosestMolecule.getFullMolecule(),
+            molecularPaneState.nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( newClosestMolecule.getFullMolecule(),
                                                                           state.module.getMRModel().getEnergyProfile() );
-            molecularPaneState.moleculeLayer.addChild( state.nearestToSelectedMoleculeGraphic );
+            molecularPaneState.moleculeLayer.addChild( molecularPaneState.nearestToSelectedMoleculeGraphic );
 
             newClosestMolecule.addObserver( EnergyView.this );
 
@@ -587,17 +592,17 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
 
         public void notifyEnergyProfileChanged( EnergyProfile profile ) {
-            if( state.selectedMoleculeGraphic != null ) {
-                molecularPaneState.moleculeLayer.removeChild( state.selectedMoleculeGraphic );
-                state.selectedMoleculeGraphic = new EnergyMoleculeGraphic( state.selectedMolecule.getFullMolecule(),
+            if( molecularPaneState.selectedMoleculeGraphic != null ) {
+                molecularPaneState.moleculeLayer.removeChild( molecularPaneState.selectedMoleculeGraphic );
+                molecularPaneState.selectedMoleculeGraphic = new EnergyMoleculeGraphic( molecularPaneState.selectedMolecule.getFullMolecule(),
                                                                      profile );
-                molecularPaneState.moleculeLayer.addChild( state.selectedMoleculeGraphic );
+                molecularPaneState.moleculeLayer.addChild( molecularPaneState.selectedMoleculeGraphic );
             }
-            if( state.nearestToSelectedMoleculeGraphic != null ) {
-                molecularPaneState.moleculeLayer.removeChild( state.nearestToSelectedMoleculeGraphic );
-                state.nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( state.nearestToSelectedMolecule.getFullMolecule(),
+            if( molecularPaneState.nearestToSelectedMoleculeGraphic != null ) {
+                molecularPaneState.moleculeLayer.removeChild( molecularPaneState.nearestToSelectedMoleculeGraphic );
+                molecularPaneState.nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( molecularPaneState.nearestToSelectedMolecule.getFullMolecule(),
                                                                               profile );
-                molecularPaneState.moleculeLayer.addChild( state.nearestToSelectedMoleculeGraphic );
+                molecularPaneState.moleculeLayer.addChild( molecularPaneState.nearestToSelectedMoleculeGraphic );
             }
         }
     }
