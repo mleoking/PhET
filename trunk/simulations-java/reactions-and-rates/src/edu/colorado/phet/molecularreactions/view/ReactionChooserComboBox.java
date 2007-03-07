@@ -45,6 +45,8 @@ public class ReactionChooserComboBox extends JComboBox implements MRModel.ModelL
     private ImageIcon r3Item;
     private String designYourOwnItem;
 
+
+
     /**
      * 
      * @param module
@@ -121,7 +123,7 @@ public class ReactionChooserComboBox extends JComboBox implements MRModel.ModelL
     // Implementation of MRModel.ModelListener
     //--------------------------------------------------------------------------------------------------
 
-    public void energyProfileChanged( EnergyProfile profile ) {
+    public void notifyEnergyProfileChanged( EnergyProfile profile ) {
         Object selectedItem = null;
         selectedItem = ( profile == Profiles.DEFAULT ) ? defaultItem : selectedItem;
         selectedItem = ( profile == Profiles.R1 ) ? r1Item : selectedItem;
@@ -129,5 +131,9 @@ public class ReactionChooserComboBox extends JComboBox implements MRModel.ModelL
         selectedItem = ( profile == Profiles.R3 ) ? r3Item : selectedItem;
         selectedItem = ( profile == Profiles.DYO ) ? designYourOwnItem : selectedItem;
         setSelectedItem( selectedItem );
+    }
+
+    public void notifyDefaultTemperatureChanged( double newInitialTemperature ) {
+
     }
 }

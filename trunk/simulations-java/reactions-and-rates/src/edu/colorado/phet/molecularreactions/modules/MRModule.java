@@ -13,7 +13,6 @@ package edu.colorado.phet.molecularreactions.modules;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.clock.StopwatchPanel;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.view.SpatialView;
@@ -21,9 +20,7 @@ import edu.colorado.phet.molecularreactions.view.energy.EnergyView;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -42,6 +39,7 @@ public class MRModule extends Module {
     private SpatialView spatialView;
     private EnergyView energyView;
     private Dimension spatialViewSize = MRConfig.SPATIAL_VIEW_SIZE;
+    private MRModel mrModel;
 
     public PhetPCanvas getCanvas() {
         return canvas;
@@ -63,8 +61,8 @@ public class MRModule extends Module {
         chartPaneHeight = chartPaneSize.height;
 
         // Create the model
-        MRModel model = new MRModel( getClock() );
-        setModel( model );
+        mrModel = new MRModel( getClock() );
+        setModel( mrModel );
 
         // create the control panel
         ControlPanel controlPanel = new ControlPanel();
@@ -129,7 +127,7 @@ public class MRModule extends Module {
         getClock().start();
     }
 
-    public void resetMolecules() {        
+    public void resetMolecules() {
     }
 
     protected SpatialView getSpatialView() {
@@ -162,10 +160,6 @@ public class MRModule extends Module {
      * Updates the canvas layout.
      */
     protected void updateCanvasLayout() {
-
-        if( true ) {
-            return;
-        }
         Dimension worldSize = getWorldSize( canvas );
         if( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, skip layout
@@ -177,13 +171,12 @@ public class MRModule extends Module {
         createEnergyView( (int)energyViewWidth, new Dimension( (int)energyViewWidth, chartPaneHeight ) );
     }
 
-    /**
+    /*
      * Determines the visible bounds of the canvas in world coordinates.
      */
     public static Dimension getWorldSize( PhetPCanvas canvas ) {
         Dimension2D dim = new PDimension( canvas.getWidth(), canvas.getHeight() );
         canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
-        Dimension worldSize = new Dimension( (int)dim.getWidth(), (int)dim.getHeight() );
-        return worldSize;
+        return new Dimension( (int)dim.getWidth(), (int)dim.getHeight() );
     }
 }

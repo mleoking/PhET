@@ -105,7 +105,9 @@ public class ThermometerGraphic extends PNode {
     }
 
     public void update() {
-        double modelValue = Math.min( model.getTemperature(), maxModelValue );
+        double energy = model.getAverageTotalEnergy() / 1.5;
+
+        double modelValue = Math.min( energy, maxModelValue );
         double ke =  modelValue * fillHeightScale;
         columnFill.setFrame( 0, column.getHeight() - ke, column.getWidth(), ke );
         fillNode.setPathTo( columnFill);

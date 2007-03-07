@@ -42,7 +42,6 @@ public class MRConfig {
     public static final int MAX_MOLECULE_CNT = 200;
     public static double DEFAULT_REACTION_THRESHOLD = MAX_REACTION_THRESHOLD * .7;
     public static final double MAX_SPEED = 100; // Loeblein approved!!
-    //    public static final double MAX_SPEED = 3;
     public static final double DEFAULT_TEMPERATURE = MAX_SPEED;
     public static final double LAUNCHER_MIN_THETA = -Math.PI / 4;
     public static final double LAUNCHER_MAX_THETA = Math.PI / 4;
@@ -104,6 +103,7 @@ public class MRConfig {
     public static final Font CONTROL_FONT = new Font( UIManager.getFont( "Panel.font" ).getName(),
                                                       Font.BOLD,
                                                       UIManager.getFont( "Panel.font" ).getSize() );
+    public static final Font LABEL_FONT = UIManager.getFont( "Label.font" );
 
     private static String readVersionFromFile() {
         InputStream asStream = MRConfig.class.getResourceAsStream( "/version.txt" );

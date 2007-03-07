@@ -25,15 +25,13 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 
 /**
- * TotalEnergyLine
- * <p>
- * A line that indicates the total energy in the molecule being tracked, the molecule closest to it, and
- * any provisional bond that may be between them.
+ * A line that indicates the energy in the molecule being tracked, the
+ * molecule closest to it, and any provisional bond that may be between them.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class TotalEnergyLine extends PNode {
+public class EnergyLine extends PNode {
     public static final Paint linePaint = MRConfig.TOTAL_ENERGY_COLOR;
     public static final Stroke lineStroke = new BasicStroke( EnergyProfileGraphic.LINE_STROKE.getLineWidth() + 1 );
 
@@ -48,7 +46,7 @@ public class TotalEnergyLine extends PNode {
      * @param bounds The bounds within which this line is to be drawn
      * @param model
      */
-    public TotalEnergyLine( Dimension bounds, MRModel model, IClock clock ) {
+    public EnergyLine( Dimension bounds, MRModel model, IClock clock ) {
         this.bounds = bounds;
         this.model = model;
 
@@ -61,7 +59,7 @@ public class TotalEnergyLine extends PNode {
 
         addChild( lineNode );
 
-        Font defaultFont = UIManager.getFont( "Label.font" );
+        Font defaultFont = MRConfig.LABEL_FONT;
         Font labelFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
         totalEnergyLegend = new PText( SimStrings.get( "EnergyView.Legend.totalEnergy" ) );
         totalEnergyLegend.setFont( labelFont );
@@ -74,22 +72,31 @@ public class TotalEnergyLine extends PNode {
             }
         });
 
+        model.addListener( new MRModel.ModelListenerAdapter() {
+            public void notifyDefaultTemperatureChanged( double newInitialTemperature ) {
+                update();
+            }
+        });
+
         setChildrenPickable( false );
         setPickable( false );
     }
     
-    public double getTotalEnergyY() {
+    public double getEnergyLineY() {
         return line.getY1();
     }
 
     public void update() {
-        double e = model.getTotalKineticEnergy() + model.getTotalPotentialEnergy();
+        double e = model.getAverageTotalEnergy();
+
         double y = Math.max( bounds.getHeight() - ( e * scale ), 0 );
         line.setLine( 0, y, bounds.getWidth(), y );
         lineNode.setPathTo( line );
 
         totalEnergyLegend.setOffset( line.getX2() - totalEnergyLegend.getFullBounds().getWidth(),
                                      y + 5 );
+
+
     }
 
     public void setLegendVisible( boolean visible ) {

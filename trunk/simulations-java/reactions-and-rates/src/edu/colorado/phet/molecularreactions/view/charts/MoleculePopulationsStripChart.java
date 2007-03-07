@@ -77,8 +77,8 @@ public class MoleculePopulationsStripChart extends StripChart implements Rescale
 
         setPaintOfMolecules( profile );
 
-        model.addListener(new MRModel.ModelListener() {
-            public void energyProfileChanged( EnergyProfile profile ) {
+        model.addListener(new MRModel.ModelListenerAdapter() {
+            public void notifyEnergyProfileChanged( EnergyProfile profile ) {
                 setPaintOfMolecules(profile);
             }
         } );

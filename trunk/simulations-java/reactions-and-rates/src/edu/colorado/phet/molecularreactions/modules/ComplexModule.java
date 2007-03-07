@@ -20,6 +20,7 @@ import edu.colorado.phet.molecularreactions.model.PublishingModel;
 import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 import edu.colorado.phet.molecularreactions.view.PumpGraphic;
 import edu.colorado.phet.molecularreactions.view.SimpleMoleculeGraphic;
+import edu.colorado.phet.molecularreactions.view.InitialTemperaturePanel;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChartNode;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChartNode;
 import edu.colorado.phet.molecularreactions.view.charts.StripChartDialog;
@@ -48,7 +49,7 @@ import java.beans.PropertyChangeEvent;
  * @version $Revision$
  */
 public class ComplexModule extends MRModule {
-    private static final double DEFAULT_TEMPERATURE = 500.0;
+    //private static final double DEFAULT_TEMPERATURE = 500.0;
     
     private StripChartDialog stripChartDlg;
     private MRControlPanel controlPanel;
@@ -86,7 +87,7 @@ public class ComplexModule extends MRModule {
         // Add the pump
         MRModel model = getMRModel();
 
-        model.setDefaultTemperature(DEFAULT_TEMPERATURE);
+        model.setDefaultTemperature(MRConfig.DEFAULT_TEMPERATURE);
 
         pumpGraphic = new PumpGraphic( this );
         // 15 is the wall thickness of the box graphic
@@ -97,9 +98,6 @@ public class ComplexModule extends MRModule {
         // Create the control panel
         controlPanel = createControlPanel();
         getControlPanel().addControl( controlPanel );
-
-        // Don't show the total energy line on the energy view
-        getEnergyView().setTotalEnergyLineVisible( false );
 
         // Create an agent that will start the strip chart when the first molecule is added to the model
         getMRModel().addListener( new PublishingModel.ModelListenerAdapter(){
@@ -225,10 +223,6 @@ public class ComplexModule extends MRModule {
 
     protected void updateCanvasLayout() {
         super.updateCanvasLayout();
-
-        // Don't show the total energy line on the energy view
-        getEnergyView().setTotalEnergyLineVisible( false );
-        getEnergyView().setProfileLegendVisible( false );
     }
 
     protected void addMovableStopwatch( double x, double y ) {

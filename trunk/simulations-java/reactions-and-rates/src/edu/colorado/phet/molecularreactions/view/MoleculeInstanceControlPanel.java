@@ -40,8 +40,8 @@ public class MoleculeInstanceControlPanel extends JPanel {
     public MoleculeInstanceControlPanel( final MRModel model ) {
 
         // Add a listener to the model that will update the icons if the energy profile changes
-        model.addListener( new MRModel.ModelListener() {
-            public void energyProfileChanged( EnergyProfile profile ) {
+        model.addListener( new MRModel.ModelListenerAdapter() {
+            public void notifyEnergyProfileChanged( EnergyProfile profile ) {
                 updateIcons( model.getEnergyProfile() );
             }
         } );

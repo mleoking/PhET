@@ -56,8 +56,8 @@ public class ConstantTemperatureMoleculeParamGenerator implements MoleculeParamG
                                                       double minTheta,
                                                       double maxTheta,
                                                       Class moleculeType ) {
-        this.bounds = bounds;
-        this.model = model;
+        this.bounds   = bounds;
+        this.model    = model;
         this.minTheta = minTheta;
         this.maxTheta = maxTheta;
         this.maxAlpha = maxAlpha;
@@ -89,7 +89,6 @@ public class ConstantTemperatureMoleculeParamGenerator implements MoleculeParamG
 
         // Generate angular velocity
         double a = 0;
-//        double a = maxAlpha * random.nextDouble() * MathUtil.nextRandomSign();
 
         return new Params( p, v, a );
     }

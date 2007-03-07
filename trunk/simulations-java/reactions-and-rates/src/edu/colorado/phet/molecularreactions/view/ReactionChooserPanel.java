@@ -156,11 +156,16 @@ public class ReactionChooserPanel extends JPanel implements MRModel.ModelListene
     // Implementation of MRModel.ModelListener
     //--------------------------------------------------------------------------------------------------
 
-    public void energyProfileChanged( EnergyProfile profile ) {
+    public void notifyEnergyProfileChanged( EnergyProfile profile ) {
         defaultRB.setSelected( profile == Profiles.DEFAULT );
         r1RB.setSelected( profile == Profiles.R1 );
         r2RB.setSelected( profile == Profiles.R2 );
         r3RB.setSelected( profile == Profiles.R3 );
         designYourOwnRB.setSelected( profile == Profiles.DYO );
+    }
+
+
+    public void notifyDefaultTemperatureChanged( double newInitialTemperature ) {
+
     }
 }

@@ -1,13 +1,5 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.molecularreactions.view.energy;
 
 import edu.colorado.phet.common.view.graphics.Arrow;
@@ -22,10 +14,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
-import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.sound.sampled.Line;
 import java.awt.*;
 import java.awt.geom.*;
 
@@ -37,12 +27,9 @@ import java.awt.geom.*;
  * They are drawn and handled separately, and they each have their own mouse handlers.
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 class EnergyProfileGraphic extends PNode {
-
     public static final BasicStroke LINE_STROKE = new BasicStroke( 3 );
-
 
     private double peakLevel;
     private double modelToViewScale;
@@ -62,8 +49,10 @@ class EnergyProfileGraphic extends PNode {
     private PText potentialEnergyLegend;
 
     /**
-     * @param size  size of the area in which the curve is to be drawn
-     * @param color
+     * @param energyProfile The energy profile to which this graphic will be bound.
+     * @param size          size of the area in which the curve is to be drawn
+     * @param color         Color of the curve
+     *
      */
     EnergyProfileGraphic( EnergyProfile energyProfile, Dimension size, Color color ) {
         this.energyProfile = energyProfile;
@@ -100,7 +89,7 @@ class EnergyProfileGraphic extends PNode {
         createMouseIndicatorArrows();
 
         // Legends
-        Font defaultFont = UIManager.getFont( "Label.font" );
+        Font defaultFont = MRConfig.LABEL_FONT;
         Font labelFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
 
         potentialEnergyLegend = new PText( SimStrings.get( "EnergyView.Legend.potentialEnergy" ) );
@@ -267,7 +256,7 @@ class EnergyProfileGraphic extends PNode {
         /**
          * Set the level in the model.
          *
-         * @param event
+         * @param event Input event
          */
         public void mouseDragged( PInputEvent event ) {
             double eventY = event.getPositionRelativeTo( centralCurve.getParent() ).getY();
@@ -287,19 +276,6 @@ class EnergyProfileGraphic extends PNode {
                     energyProfile.setRightLevel( level );
                 }
             }
-        }
-    }
-
-    private class Legend extends PNode {
-
-
-        public Legend() {
-            Font defaultFont = UIManager.getFont( "Label.font" );
-            Font labelFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
-            PText totalEnergyText = new PText( SimStrings.get( "EnergyView.Legend.totalEnergy" ) );
-            totalEnergyText.setFont( labelFont );
-            totalEnergyText.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
-            addChild( totalEnergyText );
         }
     }
 

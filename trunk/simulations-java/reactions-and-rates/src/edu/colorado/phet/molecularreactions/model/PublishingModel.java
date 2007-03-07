@@ -19,6 +19,7 @@ import edu.colorado.phet.common.util.EventChannel;
 
 import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.Collection;
 
 /**
  * PublishingModel

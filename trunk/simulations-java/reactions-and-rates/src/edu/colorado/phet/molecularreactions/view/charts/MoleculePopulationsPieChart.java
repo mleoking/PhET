@@ -65,8 +65,8 @@ public class MoleculePopulationsPieChart extends PieChartNode {
 
         setPaintsForProfile( module.getMRModel().getEnergyProfile());
 
-        module.getMRModel().addListener(new MRModel.ModelListener() {
-            public void energyProfileChanged( EnergyProfile profile ) {
+        module.getMRModel().addListener(new MRModel.ModelListenerAdapter() {
+            public void notifyEnergyProfileChanged( EnergyProfile profile ) {
                 setPaintsForProfile(profile);
             }
         } );

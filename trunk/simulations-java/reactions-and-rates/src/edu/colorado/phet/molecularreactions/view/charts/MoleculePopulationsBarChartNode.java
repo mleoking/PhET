@@ -56,8 +56,8 @@ public class MoleculePopulationsBarChartNode extends PNode implements Rescaleabl
 
         updateLegendGraphics(module.getMRModel().getEnergyProfile());
 
-        module.getMRModel().addListener(new MRModel.ModelListener() {
-            public void energyProfileChanged( EnergyProfile profile ) {
+        module.getMRModel().addListener(new MRModel.ModelListenerAdapter() {
+            public void notifyEnergyProfileChanged( EnergyProfile profile ) {
                 updateLegendGraphics(profile);
             }
         } );
