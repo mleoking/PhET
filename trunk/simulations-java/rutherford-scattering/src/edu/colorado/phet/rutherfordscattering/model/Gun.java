@@ -46,10 +46,10 @@ public class Gun extends FixedObject implements ModelElement {
     private double _nozzleWidth; // width of the beam
     private double _intensity; // intensity of the alpha particles, 0.0-1.0
     private double _speed; // initial speed of alpha particles shot from the gun
-    final private double _defaultSpeed; // default speed
-    final private double _minSpeed, _maxSpeed;
-    final private Color _beamColor; // base color (no alpha) of the alpha particle beam
-    final private Dimension _boxSize; // size of the box that the gun is shooting across
+    private final double _defaultSpeed; // default speed
+    private final double _minSpeed, _maxSpeed;
+    private final Color _beamColor; // base color (no alpha) of the alpha particle beam
+    private final Dimension _boxSize; // size of the box that the gun is shooting across
     
     private int _maxParticles; // particles in the animation box when gun intensity is 100%
     private double _dtPerGunFired; // dt between each firing of the gun
@@ -262,10 +262,8 @@ public class Gun extends FixedObject implements ModelElement {
             // Direction of alpha particle is same as gun's orientation.
             double orientation = getOrientation();
             
-            double speed = _speed;
-
             // Create the alpha particle
-            AlphaParticle alphaParticle = new AlphaParticle( position, orientation, speed );
+            AlphaParticle alphaParticle = new AlphaParticle( position, orientation, _speed, _defaultSpeed );
 
             // Fire the alpha particle
             GunFiredEvent event = new GunFiredEvent( this, alphaParticle );

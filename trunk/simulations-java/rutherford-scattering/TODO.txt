@@ -7,10 +7,10 @@ IN PROGRESS:
 HIGH PRIORITY:
 - RutherfordScattering fails when D > rNew
 - don't create any alpha particles until done dragging sliders
-- performance issue with drawing alpha particles and traces on top of large plum pudding image
+- repaint performance issues with plum pudding panel
+- AnimationBoxNode.paint gets called twice on clock steps that create/delete an alpha particle
 
 MEDIUM PRIORITY:
-- pass vd to RutherfordScattering instead of getting it from RSConstants
 - SliderControl text entry is broken (in other sims too?)
 - implement dynamic generation of nucleus view in RutherfordAtomNode
 - make ModelViewTransform an instance, not a singleton, test for non 1:1 transforms
@@ -27,6 +27,8 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/7/07 - add final modifier to immutable member data in model
+3/7/07 - add vd to AlphaParticle model so that it's accessible by RutherfordScattering
 3/7/07 - calculation of D in RutherfordScattering should have v0 in denomincator, error is design doc
 3/7/07 - randomly place 79 electrons in PlumPuddingNode
 3/7/07 - add dbug code to RutherfordScattering to verify that it fails when D>rNew

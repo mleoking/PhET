@@ -26,21 +26,21 @@ public class RutherfordAtom extends AbstractAtom {
     //----------------------------------------------------------------------------
     
     // default number of protons
-    final private int _defaultNumberOfProtons;
+    private final int _defaultNumberOfProtons;
     // default number of neutrons
-    final private int _defaultNumberOfNeutrons;
+    private final int _defaultNumberOfNeutrons;
     // current number of protons
     private int _numberOfProtons;
     // min and max number of protons
-    final private int _minNumberOfProtons, _maxNumberOfProtons;
+    private final int _minNumberOfProtons, _maxNumberOfProtons;
     // current number of neutrons
     private int _numberOfNeutrons;
     // min and max number of neutrons
-    final private int _minNumberOfNeutrons, _maxNumberOfNeutrons;
+    private final int _minNumberOfNeutrons, _maxNumberOfNeutrons;
     // size of the box that the animation takes place in
-    final private Dimension _boxSize;
+    private final Dimension _boxSize;
     // radius of the electron's orbit in nm (immutable, always in ground state)
-    final private double _electronOrbitRadius;
+    private final double _electronOrbitRadius;
     // current angle of electron
     private double _electronAngle;
     // offset of the electron relative to atom's center

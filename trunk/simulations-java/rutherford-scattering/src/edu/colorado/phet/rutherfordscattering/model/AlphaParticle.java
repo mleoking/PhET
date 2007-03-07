@@ -19,17 +19,19 @@ public class AlphaParticle extends MovingObject implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Point2D _initialPosition; // required by Rutherford Scattering algorithm
-    private double _initialSpeed; // required by Rutherford Scattering algorithm
+    private final Point2D _initialPosition; // required by Rutherford Scattering algorithm
+    private final double _initialSpeed; // required by Rutherford Scattering algorithm
+    private final double _defaultSpeed; // required by Rutherford Scattering algorithm
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AlphaParticle( Point2D position, double orientation, double speed ) {
-        super( position, orientation, speed );
+    public AlphaParticle( Point2D position, double orientation, double initialSpeed, double defaultSpeed ) {
+        super( position, orientation, initialSpeed );
         _initialPosition = new Point2D.Double( position.getX(), position.getY() );
-        _initialSpeed = speed;
+        _initialSpeed = initialSpeed;
+        _defaultSpeed = defaultSpeed;
     }
     
     //----------------------------------------------------------------------------
@@ -42,6 +44,10 @@ public class AlphaParticle extends MovingObject implements ModelElement {
     
     public double getInitialSpeed() {
         return _initialSpeed;
+    }
+    
+    public double getDefaultSpeed() {
+        return _defaultSpeed;
     }
     
     //----------------------------------------------------------------------------

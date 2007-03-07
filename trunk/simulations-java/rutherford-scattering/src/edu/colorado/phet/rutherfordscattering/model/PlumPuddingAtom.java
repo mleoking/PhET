@@ -13,7 +13,7 @@ public class PlumPuddingAtom extends AbstractAtom {
     //----------------------------------------------------------------------------
     
     // radius of the atom's goo
-    private double _radius;
+    private final double _radius;
     
     //----------------------------------------------------------------------------
     // Constructors
