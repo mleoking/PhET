@@ -30,7 +30,7 @@ DONE:
 3/6/07 - add debug flag to show/hide value on energy control
 3/6/07 - rename AbstractHydrogenAtom->AbstractAtom, PlumPuddingModel->PlumPuddingAtom, RutherfordAtomModel->RutherfordAtom
 3/6/07 - make control panels observers of model elements
-3/6/07 - change energy control so that it adjusts initial velocity of alpha particles (range=[2.5,15], default=10)
+3/6/07 - change energy control so that it adjusts initial speed of alpha particles (range=[2.5,15], default=10)
 3/6/07 - use a constant clock with immutable dt
 3/6/07 - change #neutrons range to 40-250
 3/6/07 - change #protons range to 20-100
