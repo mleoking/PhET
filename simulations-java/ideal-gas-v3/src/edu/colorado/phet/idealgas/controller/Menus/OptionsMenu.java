@@ -10,10 +10,11 @@
  */
 package edu.colorado.phet.idealgas.controller.menus;
 
-import edu.colorado.phet.collision.SphereSphereExpert;
+import edu.colorado.phet.collision_idealgas.SphereSphereExpert;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.model.SimulationClock;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
 import edu.colorado.phet.idealgas.controller.MovableWallsModule;
 
@@ -32,12 +33,12 @@ public class OptionsMenu extends JMenu {
     private DiffusionModule diffusionModule;
     private MovableWallsModule movableWallModule;
 
-    public OptionsMenu( PhetApplication application ) {
+    public OptionsMenu( PhetApplication application, SimulationClock simulationClock ) {
         super( "Options" );
         setMnemonic( 'O' );
         this.application = application;
-        diffusionModule = new DiffusionModule( application.getClock() );
-        movableWallModule = new MovableWallsModule( application.getClock() );
+        diffusionModule = new DiffusionModule( simulationClock );
+        movableWallModule = new MovableWallsModule( simulationClock );
 
 //        this.add( new AdvancedMenu() );
 //        this.add( new AdvancedPanelsMI() );
@@ -62,12 +63,12 @@ public class OptionsMenu extends JMenu {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( AdvancedPanelsMI.this.isSelected() ) {
-                        application.getModuleManager().addModule( movableWallModule );
-                        application.getModuleManager().addModule( diffusionModule );
+                        application.addModule( movableWallModule );
+                        application.addModule( diffusionModule );
                     }
                     else {
-                        application.getModuleManager().removeModule( movableWallModule );
-                        application.getModuleManager().removeModule( diffusionModule );
+                        application.removeModule( movableWallModule );
+                        application.removeModule( diffusionModule );
                     }
                 }
             } );

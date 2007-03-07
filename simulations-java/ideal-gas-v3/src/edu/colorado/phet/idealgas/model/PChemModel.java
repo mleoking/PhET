@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.collision.Wall;
+import edu.colorado.phet.collision_idealgas.Wall;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 

@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.idealgas.view;
 
-import edu.colorado.phet.collision.Wall;
+import edu.colorado.phet.collision_idealgas.Wall;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;

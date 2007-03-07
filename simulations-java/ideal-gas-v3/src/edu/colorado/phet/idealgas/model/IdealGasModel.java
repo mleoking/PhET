@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.collision.CollidableBody;
-import edu.colorado.phet.collision.CollisionExpert;
-import edu.colorado.phet.collision.CollisionGod;
-import edu.colorado.phet.collision.SphereSphereExpert;
+import edu.colorado.phet.collision_idealgas.CollidableBody;
+import edu.colorado.phet.collision_idealgas.CollisionExpert;
+import edu.colorado.phet.collision_idealgas.CollisionGod;
+import edu.colorado.phet.collision_idealgas.SphereSphereExpert;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;

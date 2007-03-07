@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.collision.VerticalBarrier;
+import edu.colorado.phet.collision_idealgas.VerticalBarrier;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.util.SimpleObserver;
