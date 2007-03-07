@@ -53,8 +53,10 @@ public abstract class Surface extends SimpleObservable {
     }
 
     public void setAngle( double angle ) {
+        if (this.angle!=angle){
         this.angle = angle;
         notifyObservers();
+        }
     }
 
     public void setLength( double length ) {
