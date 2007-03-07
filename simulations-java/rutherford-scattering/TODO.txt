@@ -6,13 +6,11 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - RutherfordScattering fails when D > rNew
-- don't create any alpha particles until done dragging sliders
 - repaint performance issues with plum pudding panel
 - AnimationBoxNode.paint gets called twice on clock steps that create/delete an alpha particle
 
 MEDIUM PRIORITY:
 - implement dynamic generation of nucleus view in RutherfordAtomNode
-- make ModelViewTransform an instance, not a singleton, test for non 1:1 transforms
 
 LOW PRIORITY:
 - hide value on energy slider (DEBUG_SHOW_ENERGY_VALUE = false)
@@ -24,6 +22,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/7/07 - don't create any alpha particles while sliders are being adjusted
 3/7/07 - make textfield editable for energy (will be hidden in production version)
 3/7/07 - make textfields editable for #protons and #neutrons
 3/7/07 - Spanish translations
@@ -71,6 +70,7 @@ DONE:
 3/1/07 - set up application framework
 
 REJECTED:
+3/7/07 - make ModelViewTransform an instance, not a singleton (problematic with ModelViewManager architecture)
 3/5/07 - create atom views via ModelViewManager (not necessary, each module has only 1 atom)
 
 ===============================================================================

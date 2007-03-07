@@ -53,7 +53,7 @@ public class SliderControl extends JPanel {
     private DecimalFormat _valueNumberFormat;
     private EventListenerList _listenerList; // notification of slider changes
     private boolean _notifyWhileDragging; // if true, fire ChangeEvents while the slider is dragged
-    private boolean _isDragging; // is the slider currently being dragged?
+    private boolean _isAdjusting; // is the slider being adjusted (dragged) ?
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -113,7 +113,7 @@ public class SliderControl extends JPanel {
         _valueNumberFormat = createFormat( valueDecimalPlaces );
 
         _notifyWhileDragging = true;
-        _isDragging = false;
+        _isAdjusting = false;
         
         _listenerList = new EventListenerList();
         
@@ -332,8 +332,8 @@ public class SliderControl extends JPanel {
      * 
      * @return true or false
      */
-    public boolean isDragging() {
-        return _isDragging;
+    public boolean isAdjusting() {
+        return _isAdjusting;
     }
     
     /**
@@ -587,8 +587,8 @@ public class SliderControl extends JPanel {
          */
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() == _slider ) {
-                _isDragging = _slider.getValueIsAdjusting();
-                boolean notify = ( _notifyWhileDragging || !_isDragging );
+                _isAdjusting = _slider.getValueIsAdjusting();
+                boolean notify = ( _notifyWhileDragging || !_isAdjusting );
                 setValue( getSliderValue(), notify );
             }
         }
