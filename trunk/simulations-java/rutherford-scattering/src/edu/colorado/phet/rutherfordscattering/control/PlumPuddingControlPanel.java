@@ -71,7 +71,12 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
             _energyControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
             _energyListener = new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
-                    handleEnergyChange();
+                    _module.removeAllAlphaParticles();
+                    _gun.setRunning( false );
+                    if ( !_energyControl.isAdjusting() ) {
+                        handleEnergyChange();
+                        _gun.setRunning( true );
+                    }
                 }
             };
             _energyControl.addChangeListener( _energyListener );
@@ -92,11 +97,19 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
     //----------------------------------------------------------------------------
     
     private void handleEnergyChange() {
+        
+        _module.removeAllAlphaParticles();
+        _gun.setRunning( false );
+        
         double speed = _energyControl.getValue();
         _gun.deleteObserver( this );
         _gun.setSpeed( speed );
         _gun.addObserver( this );
-        _module.removeAllAlphaParticles();
+        
+        if ( !_energyControl.isAdjusting() ) {
+            // restart the gun when slider is released
+            _gun.setRunning( true );
+        }
     }
 
     //----------------------------------------------------------------------------

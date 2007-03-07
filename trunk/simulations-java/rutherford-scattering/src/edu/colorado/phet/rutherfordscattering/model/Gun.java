@@ -43,6 +43,7 @@ public class Gun extends FixedObject implements ModelElement {
     //----------------------------------------------------------------------------
     
     private boolean _enabled; // is the gun on or off?
+    private boolean _running; // is the gun running? used to stop alpha particle production while dragging sliders
     private double _nozzleWidth; // width of the beam
     private double _intensity; // intensity of the alpha particles, 0.0-1.0
     private double _speed; // initial speed of alpha particles shot from the gun
@@ -83,6 +84,7 @@ public class Gun extends FixedObject implements ModelElement {
         }
         
         _enabled = false;
+        _running = true;
         _nozzleWidth = nozzleWidth;
         _defaultSpeed = _speed = speedRange.getDefault();
         _minSpeed = speedRange.getMin();
@@ -114,6 +116,15 @@ public class Gun extends FixedObject implements ModelElement {
     
     public boolean isEnabled() {
         return _enabled;
+    }
+    
+    public void setRunning( boolean running ) {
+        _running = running;
+        // no notification required
+    }
+    
+    public boolean isRunning() {
+        return _running;
     }
     
     public void setNozzleWidth( double nozzleWidth ) {
@@ -235,7 +246,7 @@ public class Gun extends FixedObject implements ModelElement {
      * If the gun is disabled, do nothing.
      */
     public void stepInTime( double dt ) {
-        if ( _enabled && _intensity > 0 ) {
+        if ( _enabled && _running && _intensity > 0 ) {
             fireAlphaParticle( dt );
         }
     }

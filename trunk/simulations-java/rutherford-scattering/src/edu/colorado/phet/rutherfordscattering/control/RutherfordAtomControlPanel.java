@@ -161,27 +161,51 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
     //----------------------------------------------------------------------------
 
     private void handleEnergyChange() {
+        
+        _module.removeAllAlphaParticles();
+        _gun.setRunning( false );
+        
         double speed = _energyControl.getValue();
         _gun.deleteObserver( this );
         _gun.setSpeed( speed );
         _gun.addObserver( this );
-        _module.removeAllAlphaParticles();
+        
+        if ( !_energyControl.isAdjusting() ) {
+            // restart the gun when slider is released
+            _gun.setRunning( true );
+        }
     }
     
     private void handleProtonsChange() {
+        
+        _module.removeAllAlphaParticles();
+        _gun.setRunning( false );
+        
         int numberOfProtons = (int) _protonsControl.getValue();
         _atom.deleteObserver( this );
         _atom.setNumberOfProtons( numberOfProtons );
         _atom.addObserver(  this );
-        _module.removeAllAlphaParticles();
+        
+        if ( !_protonsControl.isAdjusting() ) {
+            // restart the gun when slider is released
+            _gun.setRunning(  true  );
+        }
     }
 
     private void handleNeutronsChange() {
+        
+        _module.removeAllAlphaParticles();
+        _gun.setRunning( false );
+        
         int numberOfNeutrons = (int) _neutronsControl.getValue();
         _atom.deleteObserver( this );
         _atom.setNumberOfNeutrons( numberOfNeutrons );
         _atom.addObserver( this );
-        _module.removeAllAlphaParticles();
+        
+        if ( !_neutronsControl.isAdjusting() ) {
+            // restart the gun when slider is released
+            _gun.setRunning(  true  );
+        }
     }
 
     //----------------------------------------------------------------------------
