@@ -17,7 +17,8 @@ MEDIUM PRIORITY:
 - make ModelViewTransform an instance, not a singleton, test for non 1:1 transforms
 
 LOW PRIORITY:
-- hide value on energy slider (set DEBUG_SHOW_ENERGY_VALUE = false)
+- hide value on energy slider (DEBUG_SHOW_ENERGY_VALUE = false)
+- disable debug output in RutherfordScattering (DEBUG_OUTPUT_ENABLED=false)
 - JNLP files
 - Spanish translations
 - file level javadoc
