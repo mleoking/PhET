@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.umd.cs.piccolo.PLayer;
+import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
@@ -57,5 +58,11 @@ public class AnimationBoxNode extends PClip {
     
     public PLayer getTopLayer() {
         return _topLayer;
+    }
+    
+    //XXX debug
+    protected void paint( PPaintContext paintContext ) {
+        System.out.println( "AnimationBoxNode.paint " + System.currentTimeMillis() );
+        super.paint( paintContext );
     }
 }

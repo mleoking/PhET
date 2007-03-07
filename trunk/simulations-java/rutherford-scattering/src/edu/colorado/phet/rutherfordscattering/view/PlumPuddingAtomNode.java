@@ -133,7 +133,7 @@ public class PlumPuddingAtomNode extends PhetPNode {
         // Flatten everything to an image
         PImage imageNode = new PImage( this.toImage() ) {
             //XXX for verifying performance bottleneck in JProfiler
-            public void paint( PPaintContext paintContext ) {
+            protected void paint( PPaintContext paintContext ) {
                 super.paint( paintContext );
             }
         };
