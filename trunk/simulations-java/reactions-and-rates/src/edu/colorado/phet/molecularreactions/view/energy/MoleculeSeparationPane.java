@@ -31,9 +31,11 @@ public class MoleculeSeparationPane extends PPath {
         this.molecularPaneState  = state;
 
         this.setPaint( MRConfig.MOLECULE_PANE_BACKGROUND );
+
         state.moleculeLayer = new PNode();
         state.moleculeLayer.setOffset( state.paneInsets.left, 0 );
-        this.addChild( state.moleculeLayer );
+
+        addChild( state.moleculeLayer );
 
         // Axis: An arrow that shows separation of molecules and text label
         // They are grouped in a single node so that they can be made visible or
@@ -53,11 +55,9 @@ public class MoleculeSeparationPane extends PPath {
     }
 
     /*
-     * Updates the positions of the molecule graphics in the upper pane. This was originaly supposed
-     * to be on all the modules. That's why it's embedded in this class. Since it is only in the
-     * SimpleMRModule now, it should be refactored into its own class
+     * Updates the positions of the molecule graphics in the upper pane.
      */
-    public void update( EnergyView.State state ) {
+    public void update( CurvePane curvePane ) {
         if( molecularPaneState.selectedMolecule != null && molecularPaneState.selectedMoleculeGraphic != null && molecularPaneState.nearestToSelectedMoleculeGraphic != null ) {
 
             // Which side of the profile the molecules show up on depends on their type
@@ -142,15 +142,15 @@ public class MoleculeSeparationPane extends PPath {
             double dr = currentOverlap / reactionOverlap * r;
 
             double dx = Math.max( ( edgeDist + separationAtFootOfHill ) * r, dr );
-            double xOffsetFromCenter = Math.min( state.curvePane.getCurveAreaSize().getWidth() / 2 - xOffset, dx );
-            double x = state.curvePane.getCurveAreaSize().getWidth() / 2 + ( xOffsetFromCenter * direction );
+            double xOffsetFromCenter = Math.min( curvePane.getCurveAreaSize().getWidth() / 2 - xOffset, dx );
+            double x = curvePane.getCurveAreaSize().getWidth() / 2 + ( xOffsetFromCenter * direction );
             double y = yOffset + maxSeparation / 2;
 
             // Do not allow the energy cursor to move beyond where it's
             // energetically allowed.
             // Note: This is a hack implemented because the physics of the
             //       simulation are fudged.
-            double maxX = state.curvePane.getIntersectionWithHorizontal( x );
+            double maxX = curvePane.getIntersectionWithHorizontal( x );
 
             x = Math.min(x, maxX);
 
@@ -183,7 +183,7 @@ public class MoleculeSeparationPane extends PPath {
                                                    molecularPaneState.paneInsets.left / 2 + 10, yMax );
 
             // set location of cursor
-            state.curvePane.setEnergyCursorOffset( midPoint.getX() );
+            curvePane.setEnergyCursorOffset( midPoint.getX() );
         }
         else if( molecularPaneState.selectedMoleculeGraphic != null ) {
             molecularPaneState.selectedMoleculeGraphic.setOffset( 20, 20 );
@@ -196,13 +196,14 @@ public class MoleculeSeparationPane extends PPath {
     static class MolecularPaneState {
         Insets paneInsets = new Insets( 20, 30, 40, 10 );
 
-        PNode moleculeLayer;
+        EnergyMoleculeGraphic selectedMoleculeGraphic;
+        EnergyMoleculeGraphic nearestToSelectedMoleculeGraphic;
+
         PNode moleculePaneAxisNode;
         SeparationIndicatorArrow separationIndicatorArrow;
 
+        PNode moleculeLayer;
         SimpleMolecule selectedMolecule;
         SimpleMolecule nearestToSelectedMolecule;
-        EnergyMoleculeGraphic selectedMoleculeGraphic;
-        EnergyMoleculeGraphic nearestToSelectedMoleculeGraphic;
     }
 }
