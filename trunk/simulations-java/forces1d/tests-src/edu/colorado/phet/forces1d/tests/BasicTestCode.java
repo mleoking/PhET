@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d.tests;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 
 import javax.swing.*;
 

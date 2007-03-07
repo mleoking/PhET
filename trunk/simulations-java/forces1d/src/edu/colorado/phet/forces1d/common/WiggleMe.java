@@ -1,14 +1,14 @@
 package edu.colorado.phet.forces1d.common;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_force1d.math.AbstractVector2D;
+import edu.colorado.phet.common_force1d.math.Vector2D;
+import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
+import edu.colorado.phet.common_force1d.model.clock.ClockTickEvent;
+import edu.colorado.phet.common_force1d.model.clock.ClockTickListener;
+import edu.colorado.phet.common_force1d.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
 
 import javax.swing.*;
 import java.awt.*;

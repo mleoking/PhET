@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d.model;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

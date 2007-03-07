@@ -1,13 +1,13 @@
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.math.Function;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_force1d.math.Function;
+import edu.colorado.phet.common_force1d.view.ApparatusPanel;
+import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common_force1d.view.util.ImageLoader;
+import edu.colorado.phet.common_force1d.view.util.SimStrings;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.model.BoundaryCondition;
 

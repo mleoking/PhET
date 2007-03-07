@@ -1,10 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d.common.plotdevice;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_force1d.view.ApparatusPanel;
+import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common_force1d.view.util.ImageLoader;
+import edu.colorado.phet.common_force1d.view.util.SimStrings;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
 
 import javax.swing.*;

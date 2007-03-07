@@ -1,7 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.forces1d.model;
 
-import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common_force1d.math.MathUtil;
 
 /**
  * User: Sam Reid

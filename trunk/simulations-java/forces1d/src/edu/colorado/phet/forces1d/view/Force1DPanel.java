@@ -1,17 +1,17 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.math.Function;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.ContentPanel;
-import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.*;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_force1d.math.Function;
+import edu.colorado.phet.common_force1d.math.Vector2D;
+import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
+import edu.colorado.phet.common_force1d.view.BasicGraphicsSetup;
+import edu.colorado.phet.common_force1d.view.ContentPanel;
+import edu.colorado.phet.common_force1d.view.PhetFrame;
+import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_force1d.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common_force1d.view.phetgraphics.*;
+import edu.colorado.phet.common_force1d.view.util.SimStrings;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.common.*;

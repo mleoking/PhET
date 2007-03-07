@@ -1,13 +1,13 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_force1d.math.Vector2D;
+import edu.colorado.phet.common_force1d.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShadowTextGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_force1d.view.util.SimStrings;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 

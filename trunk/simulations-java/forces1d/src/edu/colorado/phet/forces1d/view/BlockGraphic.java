@@ -1,10 +1,10 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.math.Function;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common_force1d.math.Function;
+import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;

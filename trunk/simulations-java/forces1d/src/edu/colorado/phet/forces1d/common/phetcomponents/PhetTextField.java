@@ -1,9 +1,9 @@
 package edu.colorado.phet.forces1d.common.phetcomponents;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
 
 import javax.swing.*;
 import java.awt.*;

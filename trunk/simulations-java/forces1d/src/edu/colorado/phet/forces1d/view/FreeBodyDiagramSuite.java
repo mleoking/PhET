@@ -1,13 +1,13 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
+import edu.colorado.phet.common_force1d.view.ControlPanel;
+import edu.colorado.phet.common_force1d.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
+import edu.colorado.phet.common_force1d.view.util.ImageLoader;
+import edu.colorado.phet.common_force1d.view.util.SimStrings;
 import edu.colorado.phet.forces1d.Force1DModule;
 
 import javax.swing.*;

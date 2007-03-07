@@ -1,7 +1,7 @@
 package edu.colorado.phet.forces1d.common.plotdevice;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_force1d.view.util.ImageLoader;
+import edu.colorado.phet.common_force1d.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -1,13 +1,13 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d.tests;
 
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
+import edu.colorado.phet.common_force1d.model.clock.SwingTimerClock;
+import edu.colorado.phet.common_force1d.view.ApparatusPanel;
+import edu.colorado.phet.common_force1d.view.BasicGraphicsSetup;
+import edu.colorado.phet.common_force1d.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common_force1d.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.forces1d.common.HelpItem2;
 
 import javax.swing.*;

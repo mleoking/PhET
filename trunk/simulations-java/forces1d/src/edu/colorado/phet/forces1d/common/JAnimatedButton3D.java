@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d.common;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
+import edu.colorado.phet.common_force1d.view.ApparatusPanel;
+import edu.colorado.phet.common_force1d.view.BasicGraphicsSetup;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
