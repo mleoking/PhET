@@ -18,7 +18,6 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - hide value on energy slider (DEBUG_SHOW_ENERGY_VALUE = false)
 - disable debug output in RutherfordScattering (DEBUG_OUTPUT_ENABLED=false)
-- Spanish translations
 - file level javadoc
 - package level javadoc
 - fix ProGuard file so it's not using jfreechart/lib/junit.jar
@@ -26,6 +25,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/7/07 - Spanish translations
 3/7/07 - create JNLP files
 3/7/07 - change v (velocity) to s (speed) throughout, we're dealing with a scalar quantity
 3/7/07 - add final modifier to immutable member data in model
