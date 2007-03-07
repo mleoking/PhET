@@ -16,7 +16,7 @@ import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.LightSpecies;
-import edu.colorado.phet.instrumentation.Histogram;
+import edu.colorado.phet.instrumentation_idealgas.Histogram;
 import edu.colorado.phet.mechanics.Body;
 
 import javax.swing.*;

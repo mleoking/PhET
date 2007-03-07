@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.collision.SphereBoxExpert;
-import edu.colorado.phet.collision.SphereSphereExpert;
+import edu.colorado.phet.collision_idealgas.SphereBoxExpert;
+import edu.colorado.phet.collision_idealgas.SphereSphereExpert;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.Command;
@@ -23,13 +23,13 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.coreadditions.StopwatchPanel;
+import edu.colorado.phet.coreadditions_idealgas.StopwatchPanel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.*;
 import edu.colorado.phet.idealgas.view.monitors.*;
-import edu.colorado.phet.instrumentation.Thermometer;
+import edu.colorado.phet.instrumentation_idealgas.Thermometer;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;

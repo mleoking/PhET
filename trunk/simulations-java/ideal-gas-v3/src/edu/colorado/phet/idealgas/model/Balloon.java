@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.collision.CollidableBody;
+import edu.colorado.phet.collision_idealgas.CollidableBody;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;

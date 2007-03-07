@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.idealgas.view;
 
-import edu.colorado.phet.collision.Wall;
+import edu.colorado.phet.collision_idealgas.Wall;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
-import edu.colorado.phet.coreadditions.Translatable;
+import edu.colorado.phet.coreadditions_idealgas.Translatable;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;

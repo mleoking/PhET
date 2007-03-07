@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.collision.SphereHotAirBalloonExpert;
+import edu.colorado.phet.collision_idealgas.SphereHotAirBalloonExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.ControlPanel;

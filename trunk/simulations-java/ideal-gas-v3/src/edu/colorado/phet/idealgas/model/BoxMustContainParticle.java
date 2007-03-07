@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.collision.SphericalBody;
+import edu.colorado.phet.collision_idealgas.SphericalBody;
 import edu.colorado.phet.common.model.ModelElement;
 
 /**

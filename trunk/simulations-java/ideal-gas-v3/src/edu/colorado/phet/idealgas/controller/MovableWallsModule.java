@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.collision.*;
+import edu.colorado.phet.collision_idealgas.*;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.ControlPanel;
@@ -20,13 +20,14 @@ import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.*;
+import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.view.GraduatedWallGraphic;
 import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
 import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
 import edu.colorado.phet.idealgas.view.WallGraphic;
 import edu.colorado.phet.idealgas.view.monitors.EnergyHistogramDialog;
 import edu.colorado.phet.idealgas.view.monitors.SpeciesMonitorDialog;
-import edu.colorado.phet.instrumentation.Thermometer;
+import edu.colorado.phet.instrumentation_idealgas.Thermometer;
 
 import javax.swing.*;
 import java.awt.*;

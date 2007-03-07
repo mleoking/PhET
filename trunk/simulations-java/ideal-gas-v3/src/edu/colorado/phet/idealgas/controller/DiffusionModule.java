@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.collision.SphereWallExpert;
-import edu.colorado.phet.collision.VerticalBarrier;
-import edu.colorado.phet.collision.VerticalWallFixupStrategy;
-import edu.colorado.phet.collision.Wall;
+import edu.colorado.phet.collision_idealgas.SphereWallExpert;
+import edu.colorado.phet.collision_idealgas.VerticalBarrier;
+import edu.colorado.phet.collision_idealgas.VerticalWallFixupStrategy;
+import edu.colorado.phet.collision_idealgas.Wall;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.ControlPanel;

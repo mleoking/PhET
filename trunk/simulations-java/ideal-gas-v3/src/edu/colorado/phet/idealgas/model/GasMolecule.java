@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.collision.SolidSphere;
+import edu.colorado.phet.collision_idealgas.SolidSphere;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 
