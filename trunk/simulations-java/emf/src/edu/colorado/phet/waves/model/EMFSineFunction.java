@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.waves.model;
 
-public class SineFunction implements PeriodicFunction {
+public class EMFSineFunction implements EMFPeriodicFunction {
 
-    public SineFunction() {
+    public EMFSineFunction() {
     }
 
     /**

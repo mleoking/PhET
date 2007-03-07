@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.waves.model;
 
-public interface PeriodicFunction {
+public interface EMFPeriodicFunction {
 
     /**
      * Gives the amplitude of the wave funtion at a specified time
