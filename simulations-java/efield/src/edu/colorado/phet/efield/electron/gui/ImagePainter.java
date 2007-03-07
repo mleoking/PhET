@@ -2,15 +2,15 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui;
+package edu.colorado.phet.efield.electron.gui;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import phys2d.DoublePoint;
-import phys2d.Particle;
+import phys2d_efield.DoublePoint;
+import phys2d_efield.Particle;
 
-// Referenced classes of package electron.gui:
+// Referenced classes of package edu.colorado.phet.efield.electron.gui:
 //            ParticlePainter
 
 public class ImagePainter

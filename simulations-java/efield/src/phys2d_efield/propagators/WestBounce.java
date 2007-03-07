@@ -2,38 +2,38 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package phys2d.propagators;
+package phys2d_efield.propagators;
 
-import phys2d.DoublePoint;
+import phys2d_efield.DoublePoint;
 
 // Referenced classes of package phys2d.propagators:
 //            BoundsBounce
 
-public class SouthBounce extends BoundsBounce
+public class WestBounce extends BoundsBounce
 {
 
-    public SouthBounce(double d, double d1)
+    public WestBounce(double d, double d1)
     {
-        yMax = d;
+        xMin = d;
         distFromWall = d1;
     }
 
     public boolean isOutOfBounds(DoublePoint doublepoint)
     {
-        return doublepoint.getY() > yMax;
+        return doublepoint.getX() < xMin;
     }
 
     public DoublePoint getNewVelocity(DoublePoint doublepoint)
     {
-        double d = -Math.abs(doublepoint.getY());
-        return new DoublePoint(doublepoint.getX(), d);
+        double d = Math.abs(doublepoint.getX());
+        return new DoublePoint(d, doublepoint.getY());
     }
 
     public DoublePoint getPointAtBounds(DoublePoint doublepoint)
     {
-        return new DoublePoint(doublepoint.getX(), yMax - distFromWall);
+        return new DoublePoint(xMin + distFromWall, doublepoint.getY());
     }
 
-    double yMax;
+    double xMin;
     double distFromWall;
 }

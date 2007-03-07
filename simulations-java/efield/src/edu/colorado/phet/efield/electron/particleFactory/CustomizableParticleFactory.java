@@ -2,16 +2,16 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.particleFactory;
+package edu.colorado.phet.efield.electron.particleFactory;
 
-import electron.core.ParticleFactory;
+import edu.colorado.phet.efield.electron.core.ParticleFactory;
 import java.awt.Rectangle;
 import java.util.Random;
-import phys2d.DoublePoint;
-import phys2d.Particle;
-import util.Debug;
+import phys2d_efield.DoublePoint;
+import phys2d_efield.Particle;
+import util_efield.Debug;
 
-// Referenced classes of package electron.particleFactory:
+// Referenced classes of package edu.colorado.phet.efield.electron.particleFactory:
 //            ParticlePropertyListener
 
 public class CustomizableParticleFactory

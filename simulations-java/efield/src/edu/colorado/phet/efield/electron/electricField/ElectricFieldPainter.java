@@ -1,8 +1,8 @@
-package electron.electricField;
+package edu.colorado.phet.efield.electron.electricField;
 
-import electron.gui.Painter;
-import electron.gui.vectorChooser.VectorPainter;
-import phys2d.DoublePoint;
+import edu.colorado.phet.efield.electron.gui.Painter;
+import edu.colorado.phet.efield.electron.gui.vectorChooser.VectorPainter;
+import phys2d_efield.DoublePoint;
 
 import java.awt.*;
 import java.util.Vector;

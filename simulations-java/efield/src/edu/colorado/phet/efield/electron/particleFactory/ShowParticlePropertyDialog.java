@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.particleFactory;
+package edu.colorado.phet.efield.electron.particleFactory;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-// Referenced classes of package electron.particleFactory:
+// Referenced classes of package edu.colorado.phet.efield.electron.particleFactory:
 //            ParticlePropertyDialog
 
 public class ShowParticlePropertyDialog

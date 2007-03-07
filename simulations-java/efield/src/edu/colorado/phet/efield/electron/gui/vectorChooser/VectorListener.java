@@ -2,9 +2,9 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui.vectorChooser;
+package edu.colorado.phet.efield.electron.gui.vectorChooser;
 
-import phys2d.DoublePoint;
+import phys2d_efield.DoublePoint;
 
 public interface VectorListener
 {

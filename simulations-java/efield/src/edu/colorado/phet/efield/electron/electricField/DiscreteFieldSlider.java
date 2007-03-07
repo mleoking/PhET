@@ -1,6 +1,6 @@
-package electron.electricField;
+package edu.colorado.phet.efield.electron.electricField;
 
-import phet.view.util.SimStrings;
+import phet.view.util_efield.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

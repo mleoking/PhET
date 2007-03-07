@@ -2,11 +2,11 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui;
+package edu.colorado.phet.efield.electron.gui;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
-import phys2d.Particle;
+import phys2d_efield.Particle;
 
 public interface ParticlePainter
 {

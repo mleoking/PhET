@@ -1,4 +1,4 @@
-package electron.utils;
+package edu.colorado.phet.efield.electron.utils;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

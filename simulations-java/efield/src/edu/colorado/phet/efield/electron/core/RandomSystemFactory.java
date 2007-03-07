@@ -2,24 +2,24 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.core;
+package edu.colorado.phet.efield.electron.core;
 
-import electron.gui.ParticlePainter;
-import electron.gui.ParticlePanel;
-import electron.gui.RepaintLaw;
-import phys2d.DoublePoint;
-import phys2d.Law;
-import phys2d.Particle;
-import phys2d.System2D;
-import phys2d.propagators.FourBounds;
-import phys2d.propagators.PositionUpdate;
-import phys2d.propagators.ResetAcceleration;
-import phys2d.propagators.VelocityUpdate;
+import edu.colorado.phet.efield.electron.gui.ParticlePainter;
+import edu.colorado.phet.efield.electron.gui.ParticlePanel;
+import edu.colorado.phet.efield.electron.gui.RepaintLaw;
+import phys2d_efield.DoublePoint;
+import phys2d_efield.Law;
+import phys2d_efield.Particle;
+import phys2d_efield.System2D;
+import phys2d_efield.propagators.FourBounds;
+import phys2d_efield.propagators.PositionUpdate;
+import phys2d_efield.propagators.ResetAcceleration;
+import phys2d_efield.propagators.VelocityUpdate;
 
 import java.util.Random;
 import java.util.Vector;
 
-// Referenced classes of package electron.core:
+// Referenced classes of package edu.colorado.phet.efield.electron.core:
 //            ParticleContainer, SystemFactory
 
 public class RandomSystemFactory

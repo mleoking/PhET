@@ -1,8 +1,8 @@
-package electron.electricField;
+package edu.colorado.phet.efield.electron.electricField;
 
-import electron.gui.popupMenu.MenuConstructor;
-import phet.view.util.SimStrings;
-import phys2d.Particle;
+import edu.colorado.phet.efield.electron.gui.popupMenu.MenuConstructor;
+import phet.view.util_efield.SimStrings;
+import phys2d_efield.Particle;
 
 import javax.swing.*;
 import java.awt.*;

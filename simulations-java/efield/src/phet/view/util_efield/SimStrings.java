@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Sep 24, 2004
  */
-package phet.view.util;
+package phet.view.util_efield;
 
 import java.util.Iterator;
 import java.util.Locale;

@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.utils;
+package edu.colorado.phet.efield.electron.utils;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
-// Referenced classes of package electron.utils:
+// Referenced classes of package edu.colorado.phet.efield.electron.utils:
 //            ImageConverter
 
 public class ResourceLoader

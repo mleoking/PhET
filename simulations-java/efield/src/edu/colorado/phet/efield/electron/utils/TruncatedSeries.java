@@ -1,4 +1,4 @@
-package electron.utils;
+package edu.colorado.phet.efield.electron.utils;
 
 import java.util.Vector;
 

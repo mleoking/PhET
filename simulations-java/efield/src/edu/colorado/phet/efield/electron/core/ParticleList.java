@@ -2,14 +2,14 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.core;
+package edu.colorado.phet.efield.electron.core;
 
-import phys2d.Particle;
+import phys2d_efield.Particle;
 
 import java.util.Arrays;
 import java.util.Vector;
 
-// Referenced classes of package electron.core:
+// Referenced classes of package edu.colorado.phet.efield.electron.core:
 //            ParticleContainer
 
 public class ParticleList

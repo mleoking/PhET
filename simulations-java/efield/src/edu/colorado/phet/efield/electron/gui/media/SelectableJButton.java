@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui.media;
+package edu.colorado.phet.efield.electron.gui.media;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

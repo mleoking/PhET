@@ -2,17 +2,17 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.particleFactory;
+package edu.colorado.phet.efield.electron.particleFactory;
 
-import phet.view.util.SimStrings;
+import phet.view.util_efield.SimStrings;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 import javax.swing.*;
-import phys2d.Particle;
-import util.Debug;
+import phys2d_efield.Particle;
+import util_efield.Debug;
 
-// Referenced classes of package electron.particleFactory:
+// Referenced classes of package edu.colorado.phet.efield.electron.particleFactory:
 //            ParticlePropertyListener
 
 public class ParticlePropertyDialog extends JPanel
