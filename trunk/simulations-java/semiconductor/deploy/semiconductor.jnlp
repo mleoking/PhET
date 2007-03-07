@@ -23,7 +23,7 @@
 
   </resources> 
 
-  <application-desc main-class="edu.colorado.phet.semiconductor.macro.SemiconductorModule"> 
+  <application-desc main-class="edu.colorado.phet.semiconductor_semi.macro.SemiconductorModule"> 
   <!-- uncomment to specify user language
     <argument>user.language=test</argument>
   -->
