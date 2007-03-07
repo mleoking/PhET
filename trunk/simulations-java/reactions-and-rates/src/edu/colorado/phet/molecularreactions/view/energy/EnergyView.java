@@ -73,7 +73,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     private final Insets curveAreaInsets = new Insets( 20, 30, 40, 10 );
 
 
-    private static class State {
+    public static class State {
         Dimension upperPaneSize;
         Dimension curvePaneSize;
 
@@ -84,10 +84,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         Dimension curveAreaSize;
         Font labelFont;
         MRModule module;
-        PPath curvePane;
-        EnergyLine energyLine;
+        CurvePane curvePane;
         PPath upperPane;
-        EnergyProfileGraphic energyProfileGraphic;
     }
 
     private static class MolecularPaneState {
@@ -153,7 +151,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         addChild( legendNode );
 
         // The pane that has the curve and cursor
-        state.curvePane = createCurvePane( moleculePane, model );
+        state.curvePane = new CurvePane(module.getMRModel(), upperPaneSize, state);
+
         addChild( state.curvePane );
 
         // Put a border around the energy view
@@ -230,8 +229,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
      * @param visible
      */
     public void setProfileLegendVisible( boolean visible ) {
-        state.energyLine.setLegendVisible( visible );
-        state.energyProfileGraphic.setLegendVisible( visible );
+        state.curvePane.setLegendVisible( visible );
     }
 
     /*
@@ -240,98 +238,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
      * @param visible
      */
     public void setTotalEnergyLineVisible( boolean visible ) {
-        state.energyLine.setVisible( visible );
-    }
-
-    /*
-     * Creates the pane that has the energy curve, cursor, and the total energy line
-     *
-     * @param moleculePane
-     * @return a PNode
-     */
-    private PPath createCurvePane( PPath moleculePane, final MRModel model ) {
-        final PNode totalEnergyLineLayer = new PNode();
-        totalEnergyLineLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
-        final PNode curveLayer = new PNode();
-        curveLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
-        PNode cursorLayer = new PNode();
-        cursorLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
-
-        // the -1 adjusts for a stroke width issue between this pane and the chart pane.
-        PPath curvePane = new PPath( new Rectangle2D.Double( 0,
-                                                             0,
-                                                             state.curvePaneSize.getWidth() - 1,
-                                                             state.curvePaneSize.getHeight() ) );
-        curvePane.setOffset( 0, moleculePane.getHeight() );
-        curvePane.setPaint( energyPaneBackgroundColor );
-        curvePane.setStrokePaint( new Color( 0, 0, 0, 0 ) );
-        curvePane.addChild( totalEnergyLineLayer );
-        curvePane.addChild( curveLayer );
-        curvePane.addChild( cursorLayer );
-
-        // Determine the size of the area where the curve will appear
-        state.curveAreaSize = new Dimension( (int)state.curvePaneSize.getWidth() - curveAreaInsets.left - curveAreaInsets.right,
-                                       (int)state.curvePaneSize.getHeight() - curveAreaInsets.top - curveAreaInsets.bottom );
-
-        // Create the line that shows total energy, and a legend for it
-        state.energyLine = new EnergyLine( state.curveAreaSize, model, state.module.getClock() );
-        totalEnergyLineLayer.addChild( state.energyLine );
-
-        // Create the curve, and add a listener to the model that will update the curve if the
-        // model's energy profile changes
-        createCurve( model, curveLayer );
-        model.addListener( new MRModel.ModelListenerAdapter() {
-            public void notifyEnergyProfileChanged( EnergyProfile profile ) {
-                createCurve( model, curveLayer );
-            }
-        } );
-
-        // Create the cursor
-        state.cursor = new EnergyCursor( state.curveAreaSize.getHeight(), 0, state.curveAreaSize.getWidth(), model );
-        state.cursor.setVisible( false );
-        cursorLayer.addChild( state.cursor );
-
-        // Add axes
-        RegisterablePNode xAxis = new RegisterablePNode( new AxisNode( SimStrings.get( "EnergyView.ReactionCoordinate" ),
-                                                                       200,
-                                                                       MRConfig.ENERGY_PANE_TEXT_COLOR,
-                                                                       AxisNode.HORIZONTAL,
-                                                                       AxisNode.BOTTOM ) );
-        xAxis.setRegistrationPoint( xAxis.getFullBounds().getWidth() / 2, 0 );
-        xAxis.setOffset( curvePane.getFullBounds().getWidth() / 2 + curveAreaInsets.left / 2,
-                         curvePane.getHeight() - 25 );
-        curvePane.addChild( xAxis );
-
-        RegisterablePNode yAxis = new RegisterablePNode( new AxisNode( "Energy", 200,
-                                                                       MRConfig.ENERGY_PANE_TEXT_COLOR,
-                                                                       AxisNode.VERTICAL,
-                                                                       AxisNode.TOP ) );
-        yAxis.setRegistrationPoint( yAxis.getFullBounds().getWidth() / 2,
-                                    -yAxis.getFullBounds().getHeight() / 2 );
-        yAxis.setOffset( curveAreaInsets.left / 2, curvePane.getFullBounds().getHeight() / 2 );
-        curvePane.addChild( yAxis );
-
-        return curvePane;
-    }
-
-    /*
-     * Creates the curve graphic for the profile
-     * @param model
-     * @param curveLayer
-     */
-    private void createCurve( MRModel model, PNode curveLayer ) {
-        if( state.energyProfileGraphic != null ) {
-            try {
-                curveLayer.removeChild( state.energyProfileGraphic );
-            }
-            catch (ArrayIndexOutOfBoundsException e) {
-
-            }
-        }
-        state.energyProfileGraphic = new EnergyProfileGraphic( model.getEnergyProfile(),
-                                                         state.curveAreaSize,
-                                                         curveColor );
-        curveLayer.addChild( state.energyProfileGraphic );
+        state.curvePane.setTotalEnergyLineVisible( visible );
     }
 
     /**
@@ -469,7 +376,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             // energetically allowed.
             // Note: This is a hack implemented because the physics of the
             //       simulation are fudged.
-            double maxX = state.energyProfileGraphic.getIntersectionWithHorizontal( state.energyLine.getEnergyLineY(), x);
+            double maxX = state.curvePane.getIntersectionWithHorizontal( x );
 
             x = Math.min(x, maxX);
 
@@ -533,7 +440,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     }
 
     public void setProfileManipulable( boolean manipulable ) {
-        state.energyProfileGraphic.setManipulable( manipulable );
+        state.curvePane.setProfileManipulable( manipulable );
     }
 
     public PNode getUpperPaneContents() {
