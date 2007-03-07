@@ -6,13 +6,13 @@
  */
 package edu.colorado.phet.emf.view;
 
-import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common_1200.math.MathUtil;
+import edu.colorado.phet.common_1200.math.Vector2D;
+import edu.colorado.phet.common_1200.util.SimpleObserver;
+import edu.colorado.phet.common_1200.view.graphics.Graphic;
+import edu.colorado.phet.common_1200.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common_1200.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
 import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.emf.view.graphics.splines.CubicSpline;
 import edu.colorado.phet.emf.EmfConfig;
@@ -21,7 +21,6 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 

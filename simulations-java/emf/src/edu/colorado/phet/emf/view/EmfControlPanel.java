@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.emf.view;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
+import edu.colorado.phet.common_1200.view.util.ImageLoader;
+import edu.colorado.phet.common_1200.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.MessageFormatter;
 import edu.colorado.phet.emf.EmfConfig;
 import edu.colorado.phet.emf.EmfModule;

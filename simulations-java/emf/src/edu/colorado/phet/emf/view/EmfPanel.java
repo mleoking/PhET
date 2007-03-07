@@ -6,12 +6,12 @@
  */
 package edu.colorado.phet.emf.view;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common_1200.view.ApparatusPanel;
+import edu.colorado.phet.common_1200.view.fastpaint.FastPaintImageGraphic;
+import edu.colorado.phet.common_1200.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_1200.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
+import edu.colorado.phet.common_1200.view.util.ImageLoader;
 import edu.colorado.phet.emf.model.Electron;
 
 import java.awt.*;
