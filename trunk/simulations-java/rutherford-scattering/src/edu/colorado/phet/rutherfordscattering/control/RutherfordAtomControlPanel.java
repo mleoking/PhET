@@ -105,6 +105,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
             int columns = 3;
             _protonsControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
             _protonsControl.setBorder( BorderFactory.createEtchedBorder() );
+            _protonsControl.setTextFieldEditable( true );
             _protonsListener = new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
                     handleProtonsChange();
@@ -126,6 +127,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
             int columns = 3;
             _neutronsControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
             _neutronsControl.setBorder( BorderFactory.createEtchedBorder() );
+            _neutronsControl.setTextFieldEditable( true );
             _neutronsListener = new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
                     handleNeutronsChange();

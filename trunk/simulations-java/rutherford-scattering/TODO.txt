@@ -11,7 +11,6 @@ HIGH PRIORITY:
 - AnimationBoxNode.paint gets called twice on clock steps that create/delete an alpha particle
 
 MEDIUM PRIORITY:
-- SliderControl text entry is broken (in other sims too?)
 - implement dynamic generation of nucleus view in RutherfordAtomNode
 - make ModelViewTransform an instance, not a singleton, test for non 1:1 transforms
 
@@ -25,6 +24,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/7/07 - make textfields editable for #protons and #neutrons
 3/7/07 - Spanish translations
 3/7/07 - create JNLP files
 3/7/07 - change v (velocity) to s (speed) throughout, we're dealing with a scalar quantity
