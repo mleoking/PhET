@@ -76,8 +76,8 @@ public class MoleculePopulationsPieChartNode extends PNode {
 
         setLegendMoleculePaints( profile );
 
-        model.addListener(new MRModel.ModelListener() {
-            public void energyProfileChanged( EnergyProfile profile ) {
+        model.addListener(new MRModel.ModelListenerAdapter() {
+            public void notifyEnergyProfileChanged( EnergyProfile profile ) {
                 setLegendMoleculePaints(profile);
             }
         } );

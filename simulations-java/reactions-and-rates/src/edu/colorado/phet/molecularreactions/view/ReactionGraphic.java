@@ -100,7 +100,12 @@ public class ReactionGraphic extends RegisterablePNode implements MRModel.ModelL
     // Implementation of MRModel.ModelListener
     //--------------------------------------------------------------------------------------------------
 
-    public void energyProfileChanged( EnergyProfile profile ) {
+    public void notifyEnergyProfileChanged( EnergyProfile profile ) {
         setMoleculeImages( profile );
+    }
+
+
+    public void notifyDefaultTemperatureChanged( double newInitialTemperature ) {
+
     }
 }

@@ -21,8 +21,7 @@ import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 
 import java.awt.geom.Point2D;
-import java.util.EventListener;
-import java.util.List;
+import java.util.*;
 
 /**
  * MRModel
@@ -121,7 +120,7 @@ public class MRModel extends PublishingModel {
 
     public void setEnergyProfile( EnergyProfile profile ) {
         getReaction().setEnergyProfile( profile );
-        modelListenerProxy.energyProfileChanged( profile );
+        modelListenerProxy.notifyEnergyProfileChanged( profile );
     }
 
     public EnergyProfile getEnergyProfile() {
@@ -169,39 +168,38 @@ public class MRModel extends PublishingModel {
         // Adjust the velocities of objects so energy is conserved
         double keF = pe0 + ke0 - pe1 + dEnergy;
         double r = Math.sqrt( ke1 != 0 ? keF / ke1 : 1 );
-        List modelElements = getModelElements();
+        List modelElements = selectFor(Body.class);
+
         for( int i = 0; i < modelElements.size(); i++ ) {
-            Object o = modelElements.get( i );
-            if( o instanceof Body ) {
-                Body body = (Body)o;
-                body.setVelocity( body.getVelocity().scale( r ) );
-                body.setOmega( body.getOmega() * r );
-            }
+            Body body = (Body)modelElements.get( i );            
+            body.setVelocity( body.getVelocity().scale( r ) );
+            body.setOmega( body.getOmega() * r );
         }
     }
 
     public void monitorEnergy() {
-        List modelElements = getModelElements();
-        Vector2D m = new Vector2D.Double();
-        for( int i = 0; i < modelElements.size(); i++ ) {
-            Object o = modelElements.get( i );
+        List modelElements = selectFor(AbstractMolecule.class);
 
-            if( o instanceof AbstractMolecule && !( o instanceof AbstractMolecule && ( (AbstractMolecule)o ).isPartOfComposite() ) ) {
-                m.add( ( (Body)o ).getMomentum() );
+        Vector2D m = new Vector2D.Double();
+
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            AbstractMolecule abstractMolecule = (AbstractMolecule)modelElements.get( i );
+
+            if (abstractMolecule.isPartOfComposite()) {
+                m.add( ( (Body)abstractMolecule ).getMomentum() );
             }
         }
     }
 
     public double getTotalKineticEnergy() {
         double keTotal = 0;
-        List modelElements = getModelElements();
+        List modelElements = selectFor(new Class[]{Body.class, KineticEnergySource.class});
+
         for( int i = 0; i < modelElements.size(); i++ ) {
-            Object o = modelElements.get( i );
-            if( o instanceof Body && o instanceof KineticEnergySource ) {
-                Body body = (Body)o;
-                keTotal += body.getKineticEnergy();
-            }
+            Body body = (Body)modelElements.get(i);
+            keTotal += body.getKineticEnergy();
         }
+
         return keTotal;
     }
 
@@ -212,62 +210,155 @@ public class MRModel extends PublishingModel {
      * @return  The temperature of the system.
      */
     public double getTemperature() {
-        int cnt = 0;
-        List modelElements = getModelElements();
-        for( int i = 0; i < modelElements.size(); i++ ) {
-            Object o = modelElements.get( i );
-            if( o instanceof AbstractMolecule && !((AbstractMolecule)o).isPartOfComposite()){
-                cnt++;
-            }
-        }
+        int cnt = countWholeMolecules();
+
         return cnt > 0 ? getTotalKineticEnergy() / cnt : getDefaultTemperature();
     }
 
-    private double getDefaultTemperature() {
+    public double getDefaultTemperature() {
         return defaultTemperature;
     }
 
     public void setDefaultTemperature(double defaultTemperature) {
         this.defaultTemperature = defaultTemperature;
+
+        modelListenerProxy.notifyDefaultTemperatureChanged( defaultTemperature );
+    }
+
+    // TODO: Factor out common code from 'averaging' methods
+    public double getAverageKineticEnergy() {
+        Map peMap    = new HashMap(),
+            totalMap = new HashMap();
+
+        List modelElements = selectFor(Body.class);
+
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            Body source = (Body)modelElements.get( i );
+
+            Class key = source.getClass();
+
+            if (!(source instanceof AbstractMolecule) ||
+                (!((AbstractMolecule)source).isPartOfComposite())) {
+
+
+                double peTotal = peMap.containsKey(key) ? ((Double)peMap.get(key)).doubleValue() : 0.0;
+                int    total   = totalMap.containsKey(key) ? ((Integer)totalMap.get(key)).intValue() : 0;
+
+                peMap.put(key,    new Double(peTotal + source.getKineticEnergy()));
+                totalMap.put(key, new Integer(total + 1));
+            }
+        }
+
+        Iterator keyIterator = peMap.keySet().iterator();
+
+        double keTotal = 0.0;
+
+        while (keyIterator.hasNext()) {
+            Class key = (Class)keyIterator.next();
+
+            double pe  = ((Double)peMap.get(key)).doubleValue();
+            int    num = ((Integer)totalMap.get(key)).intValue();
+
+            keTotal += pe / (double)num;
+        }
+
+        return keTotal;
+    }
+
+    public double getAveragePotentialEnergy() {
+        Map peMap    = new HashMap(),
+            totalMap = new HashMap();
+
+        List modelElements = selectFor(PotentialEnergySource.class);
+
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            PotentialEnergySource source = (PotentialEnergySource)modelElements.get( i );
+
+            Class key = source.getClass();
+
+            if (!(source instanceof AbstractMolecule) ||
+                (!((AbstractMolecule)source).isPartOfComposite())) {
+
+
+                double peTotal = peMap.containsKey(key)    ? ((Double)peMap.get(key)).doubleValue() : 0.0;
+                int    total   = totalMap.containsKey(key) ? ((Integer)totalMap.get(key)).intValue() : 0;
+
+                peMap.put(key,    new Double(peTotal + source.getPE()));
+                totalMap.put(key, new Integer(total + 1));
+            }
+        }
+
+        Iterator keyIterator = peMap.keySet().iterator();
+
+        double peTotal = 0.0;
+
+        while (keyIterator.hasNext()) {
+            Class key = (Class)keyIterator.next();
+
+            double pe  = ((Double)peMap.get(key)).doubleValue();
+            int    num = ((Integer)totalMap.get(key)).intValue();
+
+            peTotal += pe / (double)num;
+        }
+
+        return peTotal;
     }
 
     public double getTotalPotentialEnergy() {
         double peTotal = 0;
-        List modelElements = getModelElements();
+        
+        List modelElements = selectFor(PotentialEnergySource.class);
+        
         for( int i = 0; i < modelElements.size(); i++ ) {
-            Object o = modelElements.get( i );
-            if( o instanceof PotentialEnergySource ) {
-                PotentialEnergySource body = (PotentialEnergySource)o;
-                peTotal += body.getPE();
-            }
+            PotentialEnergySource body = (PotentialEnergySource)modelElements.get( i );
+
+            peTotal += body.getPE();
         }
+        
         return peTotal;
     }
 
     public void addEnergy( double de ) {
-        dEnergy = de;
+        dEnergy += de;
     }
 
     /**
      * Removes all molecules and bonds from the model
      */
     public void removeAllMolecules() {
-        List modelElements = getModelElements();
+        List modelElements = selectFor(new Class[]{AbstractMolecule.class, Bond.class, ProvisionalBond.class});
+
         for( int i = modelElements.size() - 1; i >= 0; i-- ) {
             ModelElement me = (ModelElement)modelElements.get( i );
-            if( me instanceof AbstractMolecule
-                || me instanceof Bond
-                || me instanceof ProvisionalBond ) {
-                removeModelElement( me );
-            }
+            
+            removeModelElement( me );
         }
+    }
+
+    public double getAverageTotalEnergy() {
+        double e = getAverageKineticEnergy() +
+                   getAveragePotentialEnergy();
+
+        if (e == 0.0) return getDefaultTemperature();
+
+        return e;
     }
 
     //--------------------------------------------------------------------------------------------------
     // Events and listeners
     //--------------------------------------------------------------------------------------------------
     public interface ModelListener extends EventListener {
-        void energyProfileChanged( EnergyProfile profile );
+        void notifyEnergyProfileChanged( EnergyProfile profile );
+
+        void notifyDefaultTemperatureChanged( double newInitialTemperature );
+    }
+
+    public static class ModelListenerAdapter implements ModelListener {
+        public void notifyEnergyProfileChanged( EnergyProfile profile ) {
+        }
+
+        public void notifyDefaultTemperatureChanged( double newInitialTemperature ) {
+        }
     }
 
     private EventChannel modelEventChannel = new EventChannel( ModelListener.class );
@@ -279,5 +370,53 @@ public class MRModel extends PublishingModel {
 
     public void removeListener( ModelListener listener ) {
         modelEventChannel.removeListener( listener );
+    }
+
+    public int countSimpleMolecules() {
+        int cnt = 0;
+
+        List modelElements = selectFor(AbstractMolecule.class);
+
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            AbstractMolecule abstractMolecule = (AbstractMolecule)modelElements.get( i );
+
+            if (abstractMolecule.isSimpleMolecule()) {
+                cnt++;
+            }
+        }
+
+        return cnt;
+    }
+
+    public int countCompositeMolecules() {
+        int cnt = 0;
+
+        List modelElements = selectFor(AbstractMolecule.class);
+
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            AbstractMolecule abstractMolecule = (AbstractMolecule)modelElements.get( i );
+
+            if (abstractMolecule.isComposite()) {
+                cnt++;
+            }
+        }
+
+        return cnt;
+    }
+
+    public int countWholeMolecules() {
+        int cnt = 0;
+
+        List modelElements = selectFor(AbstractMolecule.class);
+
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            AbstractMolecule abstractMolecule = (AbstractMolecule)modelElements.get( i );
+
+            if (abstractMolecule.isWholeMolecule()){
+                cnt++;
+            }
+        }
+        
+        return cnt;
     }
 }

@@ -14,7 +14,6 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.SpatialSimpleMoleculeGraphic;
 import edu.umd.cs.piccolo.PNode;
@@ -37,17 +36,16 @@ public class SimpleMoleculeGraphicFactory extends ModelElementGraphicManager.Gra
     }
 
     public PNode createGraphic( ModelElement modelElement ) {
-        PNode newNode = new SpatialSimpleMoleculeGraphic( (SimpleMolecule)modelElement,
-                                                          profile );
-
-        // If we're not using the default profile, change the color of the image
-        if( profile != Profiles.DEFAULT ) {
-
-        }
-        return newNode;
+        return new SpatialSimpleMoleculeGraphic( (SimpleMolecule)modelElement,
+                                                 profile );
     }
 
-    public void energyProfileChanged( EnergyProfile profile ) {
+    public void notifyEnergyProfileChanged( EnergyProfile profile ) {
         this.profile = profile;
+    }
+
+
+    public void notifyDefaultTemperatureChanged( double newInitialTemperature ) {
+
     }
 }

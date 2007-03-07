@@ -44,8 +44,8 @@ public class LauncherLoadPanel extends JPanel {
         moleculeCLabel = new JLabel();
         moleculeCLabel.setHorizontalAlignment( JLabel.CENTER );
         // Add a listener to the model that will update the icons if the energy profile changes
-        module.getMRModel().addListener( new MRModel.ModelListener() {
-            public void energyProfileChanged( EnergyProfile profile ) {
+        module.getMRModel().addListener( new MRModel.ModelListenerAdapter() {
+            public void notifyEnergyProfileChanged( EnergyProfile profile ) {
                 updateIcons();
             }
         } );

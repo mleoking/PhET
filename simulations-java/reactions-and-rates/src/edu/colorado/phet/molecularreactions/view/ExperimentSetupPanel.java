@@ -51,6 +51,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     private MoleculeCounter moleculeBCCounter;
     private MoleculeCounter moleculeABCounter;
     private MoleculeCounter moleculeCCounter;
+    private InitialTemperaturePanel initialTemperaturePanel;
 
     /**
      * @param module
@@ -134,7 +135,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ExperimentSetup.title" ) ) );
 
         // Lay out the controls
-        GridBagConstraints labelGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+        GridBagConstraints c = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                               1, 1, 1, 1,
                                                               GridBagConstraints.WEST,
                                                               GridBagConstraints.NONE,
@@ -146,28 +147,28 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
                                                                   GridBagConstraints.NONE,
                                                                   new Insets( 2, 3, 3, 3 ),
                                                                   0, 0 );
-        labelGbc.gridx = 0;
-        labelGbc.gridwidth = 4;
-        labelGbc.anchor = GridBagConstraints.WEST;
-        add( new JLabel( SimStrings.get( "Control.selectReaction" ) ), labelGbc );
-        labelGbc.anchor = GridBagConstraints.CENTER;
-        add( new ReactionChooserComboBox( module ), labelGbc );
+        c.gridx = 0;
+        c.gridwidth = 4;
+        c.anchor = GridBagConstraints.WEST;
+        add( new JLabel( SimStrings.get( "Control.selectReaction" ) ), c );
+        c.anchor = GridBagConstraints.CENTER;
+        add( new ReactionChooserComboBox( module ), c );
 
         // Header
-        labelGbc.gridwidth = 4;
-        labelGbc.anchor = GridBagConstraints.WEST;
-        add( topLineLbl, labelGbc );
+        c.gridwidth = 4;
+        c.anchor = GridBagConstraints.WEST;
+        add( topLineLbl, c );
 
         // Labels
-        labelGbc.gridwidth = 1;
-        labelGbc.anchor = GridBagConstraints.EAST;
-        add( numALbl, labelGbc );
-        add( numABLbl, labelGbc );
-        labelGbc.gridy = 0;
-        labelGbc.gridx = 2;
-        labelGbc.gridy = GridBagConstraints.RELATIVE;
-        add( numBCLbl, labelGbc );
-        add( numCLbl, labelGbc );
+        c.gridwidth = 1;
+        c.anchor = GridBagConstraints.EAST;
+        add( numALbl, c );
+        add( numABLbl, c );
+        c.gridy = 0;
+        c.gridx = 2;
+        c.gridy = GridBagConstraints.RELATIVE;
+        add( numBCLbl, c );
+        add( numCLbl, c );
 
         // Text fields
         textFieldGbc.gridy = GridBagConstraints.RELATIVE;
@@ -179,13 +180,28 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         add( numBCTF, textFieldGbc );
         add( numCTF, textFieldGbc );
 
-        // Buttons
-        labelGbc.gridx = 0;
-        labelGbc.gridwidth = 4;
-        labelGbc.anchor = GridBagConstraints.WEST;
-        labelGbc.anchor = GridBagConstraints.CENTER;
-        add( goButton, labelGbc );
-        add( resetBtn, labelGbc );
+        // Initial temperature slider:
+        initialTemperaturePanel = new InitialTemperaturePanel( (MRModel)module.getModel() );
+
+        c.gridx      = 0;
+        c.gridy      = GridBagConstraints.RELATIVE;
+        c.gridwidth  = GridBagConstraints.REMAINDER;
+        add(initialTemperaturePanel, c);
+
+        // Buttons on button panel
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
+
+        buttonPanel.add( goButton );
+        buttonPanel.add( resetBtn );
+
+        // Button panel
+        c.anchor     = GridBagConstraints.CENTER;
+        c.gridx      = 0;
+        c.gridy      = GridBagConstraints.RELATIVE;
+        c.gridwidth  = GridBagConstraints.REMAINDER;
+        c.gridheight = GridBagConstraints.REMAINDER;       
+
+        add(buttonPanel, c);
     }
 
     /**
@@ -263,6 +279,8 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         module.resetStripChart();
 //        module.setStripChartRecording( true );
         module.getClock().start();
+
+        initialTemperaturePanel.reset();
     }
 
     //--------------------------------------------------------------------------------------------------

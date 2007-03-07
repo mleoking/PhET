@@ -145,20 +145,22 @@ public class PumpGraphic extends PNode implements Resetable {
             double x = model.getBox().getMaxX() - 20;
             double y = model.getBox().getMaxY() - 80;
             Rectangle2D creationBounds = new Rectangle2D.Double( x, y, 1, 1 );
-            MoleculeParamGenerator moleculeParamGenerator = new ConstantTemperatureMoleculeParamGenerator( creationBounds,
-                                                                                                    model,
-                                                                                                    .1,
-                                                                                                    Math.PI * 3 / 4,
-                                                                                                    Math.PI * 5 / 4,
-                                                                                                    currentMoleculeType );
-//            RandomMoleculeParamGenerator moleculeParamGenerator = new RandomMoleculeParamGenerator( creationBounds,
-//                                                                                                    MRConfig.MAX_SPEED,
-//                                                                                                    .1,
-//                                                                                                    Math.PI * 3 / 4,
-//                                                                                                    Math.PI * 5 / 4 );
-            AbstractMolecule newMolecule = MoleculeFactory.createMolecule( currentMoleculeType,
-                                                                           moleculeParamGenerator );
-            return newMolecule;
+
+            MoleculeParamGenerator moleculeParamGenerator =
+                    
+            new ConstantTemperatureMoleculeParamGenerator(
+                creationBounds,
+                model,
+                .1,
+                Math.PI * 3 / 4,
+                Math.PI * 5 / 4,
+                currentMoleculeType
+            );
+
+            return MoleculeFactory.createMolecule( 
+                currentMoleculeType,
+                moleculeParamGenerator
+            );
         }
     }
 
@@ -181,8 +183,8 @@ public class PumpGraphic extends PNode implements Resetable {
             iconC.addMouseListener( new MoleculeIconMouseAdapter( cRB ) );
 
             // Listen for changes in the energy profile, and update the icons when they occur
-            model.addListener( new MRModel.ModelListener() {
-                public void energyProfileChanged( EnergyProfile profile ) {
+            model.addListener( new MRModel.ModelListenerAdapter() {
+                public void notifyEnergyProfileChanged( EnergyProfile profile ) {
                     updateIcons();
                 }
             } );

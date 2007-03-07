@@ -147,6 +147,8 @@ public class MoleculeTrackerPane extends PNode implements SimpleObserver {
                 throw new RuntimeException( "internal error" );
             }
 
+            System.out.println("Direction = " + direction);
+
             // Position the molecule graphics
             double cmDist = selectedMolecule.getPosition().distance( nearestToSelectedMolecule.getPosition() );
             double edgeDist = module.getMRModel().getReaction().getDistanceToCollision( freeMolecule, boundMolecule.getParentComposite() );

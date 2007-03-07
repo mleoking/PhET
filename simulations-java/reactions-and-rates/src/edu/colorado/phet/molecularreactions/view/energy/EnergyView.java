@@ -23,7 +23,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -79,7 +78,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     private SimpleMolecule nearestToSelectedMolecule;
     private EnergyMoleculeGraphic selectedMoleculeGraphic;
     private EnergyMoleculeGraphic nearestToSelectedMoleculeGraphic;
-    private MyBondGraphic bondGraphic;
 
     private EnergyCursor cursor;
     private Insets curveAreaInsets = new Insets( 20, 30, 40, 10 );
@@ -90,14 +88,11 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     private SeparationIndicatorArrow separationIndicatorArrow;
     private MRModule module;
     private PPath curvePane;
-    private TotalEnergyLine totalEnergyLine;
+    private EnergyLine energyLine;
     private PPath upperPane;
-    private PPath moleculePane;
     private EnergyProfileGraphic energyProfileGraphic;
+    //private boolean upperPaneVisible = true;
 
-    /**
-     *
-     */
     public EnergyView( MRModule module, int width, Dimension upperPaneSize ) {
         this.upperPaneSize = upperPaneSize;
         this.width = width;
@@ -108,11 +103,11 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         MRModel model = module.getMRModel();
 
         // Set up the font for labels
-        Font defaultFont = UIManager.getFont( "Label.font" );
+        Font defaultFont = MRConfig.LABEL_FONT;
         labelFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
 
         // The pane that has the molecules
-        moleculePane = createMoleculePane();
+        PPath moleculePane = createMoleculePane();
         addChild( moleculePane );
 
         // Add another pane on top of the molecule pane to display charts.
@@ -173,9 +168,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         update();
     }
 
-    /**
-     *
-     */
     public void reset() {
 
         selectedMolecule = null;
@@ -194,14 +186,14 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         module.getMRModel().addSelectedMoleculeTrackerListener( new SelectedMoleculeListener() );
     }
 
-    /**
+    /*
      *
      */
     public Dimension getUpperPaneSize() {
         return upperPaneSize;
     }
 
-    /**
+    /*
      * Adds a pNode to the upper pane
      *
      * @param pNode
@@ -212,7 +204,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         upperPane.setVisible( true );
     }
 
-    /**
+    /*
      * Removes a pNode from the upper pane
      *
      * @param pNode
@@ -220,30 +212,30 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     public void removeFromUpperPane( PNode pNode ) {
         if( upperPane.getChildrenReference().contains( pNode ) ) {
             upperPane.removeChild( pNode );
-            upperPane.setVisible( false );
+            upperPane.setVisible( upperPane.getChildrenCount() != 0 );
         }
     }
 
-    /**
+    /*
      * Sets the visibility of the legend for the profile curve
      *
      * @param visible
      */
     public void setProfileLegendVisible( boolean visible ) {
-        totalEnergyLine.setLegendVisible( visible );
+        energyLine.setLegendVisible( visible );
         energyProfileGraphic.setLegendVisible( visible );
     }
 
-    /**
+    /*
      * Sets the visibility of the total energy line
      *
      * @param visible
      */
     public void setTotalEnergyLineVisible( boolean visible ) {
-        totalEnergyLine.setVisible( visible );
+        energyLine.setVisible( visible );
     }
 
-    /**
+    /*
      * Creates the pane that has the energy curve, cursor, and the total energy line
      *
      * @param moleculePane
@@ -274,14 +266,14 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                                        (int)curvePaneSize.getHeight() - curveAreaInsets.top - curveAreaInsets.bottom );
 
         // Create the line that shows total energy, and a legend for it
-        this.totalEnergyLine = new TotalEnergyLine( curveAreaSize, model, module.getClock() );
-        totalEnergyLineLayer.addChild( this.totalEnergyLine );
+        this.energyLine = new EnergyLine( curveAreaSize, model, module.getClock() );
+        totalEnergyLineLayer.addChild( this.energyLine );
 
         // Create the curve, and add a listener to the model that will update the curve if the
         // model's energy profile changes
         createCurve( model, curveLayer );
-        model.addListener( new MRModel.ModelListener() {
-            public void energyProfileChanged( EnergyProfile profile ) {
+        model.addListener( new MRModel.ModelListenerAdapter() {
+            public void notifyEnergyProfileChanged( EnergyProfile profile ) {
                 createCurve( model, curveLayer );
             }
         } );
@@ -314,7 +306,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         return curvePane;
     }
 
-    /**
+    /*
      * Creates the curve graphic for the profile
      * @param model
      * @param curveLayer
@@ -397,15 +389,12 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                     return;
                 }
             }
-
-            // If neither molecule is part of a composite, then the selected molecule might
-            // have just gone through a reaction and is now on its own, but the rest of the
-            // model hasn't gone through the time step so the SelectedMoleculeTracker hasn't
-            // had a chance to change the nearestToSelectedMolecule. The easiest thing to do
-            // in this case is take a pass for now...
             else {
-//                System.out.println( "selectedMolecule = " + selectedMolecule );
-//                System.out.println( "nearestToSelectedMolecule = " + nearestToSelectedMolecule );
+                // If neither molecule is part of a composite, then the selected molecule might
+                // have just gone through a reaction and is now on its own, but the rest of the
+                // model hasn't gone through the time step so the SelectedMoleculeTracker hasn't
+                // had a chance to change the nearestToSelectedMolecule. The easiest thing to do
+                // in this case is take a pass for now...
                 return;
             }
 
@@ -464,7 +453,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             // energetically allowed.
             // Note: This is a hack implemented because the physics of the
             //       simulation are fudged.
-            double maxX = energyProfileGraphic.getIntersectionWithHorizontal(totalEnergyLine.getTotalEnergyY(), x);
+            double maxX = energyProfileGraphic.getIntersectionWithHorizontal( energyLine.getEnergyLineY(), x);
 
             x = Math.min(x, maxX);
 
@@ -480,26 +469,21 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                 nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
             }
             else if( freeMolecule instanceof MoleculeC && freeMolecule == nearestToSelectedMolecule ) {
-                selectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
-                nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
+                selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
+                nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
             }
             else if( freeMolecule instanceof MoleculeA && freeMolecule == selectedMolecule ) {
                 selectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
                 nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
             }
             else if( freeMolecule instanceof MoleculeA && freeMolecule == nearestToSelectedMolecule ) {
-                selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
-                nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
+                selectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
+                nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
             }
 
             // Set the size of the separation indicator arrow
             separationIndicatorArrow.setEndpoints( curveAreaInsets.left / 2 + 10, yMin,
                                                    curveAreaInsets.left / 2 + 10, yMax );
-
-            // Set the location of the bond graphic
-            if( bondGraphic != null ) {
-                bondGraphic.update( boundMolecule );
-            }
 
             // set location of cursor
             cursor.setOffset( midPoint.getX(), 0 );
@@ -516,6 +500,14 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         cursor.setManualControlEnabled( manualControl );
     }
 
+    public void setSeparationViewVisible(boolean visible) {
+        //upperPaneVisible = visible;
+        
+        System.out.println("Setting separation view is visible: " + visible);
+
+        //upperPane.setVisible( visible );
+    }
+
     public PPath getCurvePane() {
         return curvePane;
     }
@@ -529,6 +521,10 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     }
 
     public PNode getUpperPaneContents() {
+        if (upperPane.getChildrenCount() == 0) {
+            return null;
+        }
+        
         return upperPane.getChild( 0 );
     }
 
@@ -536,7 +532,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     // Inner classes
     //--------------------------------------------------------------------------------------------------
 
-    private class SelectedMoleculeListener implements SelectedMoleculeTracker.Listener, MRModel.ModelListener {
+    private class SelectedMoleculeListener extends MRModel.ModelListenerAdapter implements SelectedMoleculeTracker.Listener {
 
         public void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule,
                                                  SimpleMolecule prevTrackedMolecule ) {
@@ -584,7 +580,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         }
 
 
-        public void energyProfileChanged( EnergyProfile profile ) {
+        public void notifyEnergyProfileChanged( EnergyProfile profile ) {
             if( selectedMoleculeGraphic != null ) {
                 moleculeLayer.removeChild( selectedMoleculeGraphic );
                 selectedMoleculeGraphic = new EnergyMoleculeGraphic( selectedMolecule.getFullMolecule(),
@@ -597,18 +593,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                                                                               profile );
                 moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
             }
-        }
-    }
-
-    private class MyBondGraphic extends BondGraphic {
-        private EnergyMoleculeGraphic emg;
-
-        public MyBondGraphic( EnergyMoleculeGraphic emg ) {
-            super( new Bond( selectedMolecule, nearestToSelectedMolecule ) );
-            this.emg = emg;
-        }
-
-        public void update( SimpleMolecule sm ) {
         }
     }
 }

@@ -66,8 +66,8 @@ public class MoleculePopulationsBarChart extends BarChart implements Rescaleable
         clock.addClockListener( new Updater() );
         updateChart();
 
-        model.addListener(new MRModel.ModelListener() {
-                public void energyProfileChanged( EnergyProfile profile ) {
+        model.addListener(new MRModel.ModelListenerAdapter() {
+                public void notifyEnergyProfileChanged( EnergyProfile profile ) {
                     setChartColors(profile);
                 }
             }

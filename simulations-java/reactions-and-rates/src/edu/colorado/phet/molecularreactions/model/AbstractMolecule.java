@@ -1,13 +1,5 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.collision.Collidable;
@@ -32,7 +24,6 @@ import java.util.EventListener;
  * part of a composite, or the propertis of the composite if the AbstractMolecule is part one.
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 abstract public class AbstractMolecule extends Body implements Collidable, KineticEnergySource {
 
@@ -113,6 +104,18 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
 
     public boolean isPartOfComposite() {
         return parentComposite != null;
+    }
+
+    public boolean isSimpleMolecule() {
+        return !isPartOfComposite() && getComponentMolecules().length == 1;
+    }
+
+    public boolean isComposite() {
+        return !isPartOfComposite() && getComponentMolecules().length > 1;
+    }
+
+    public boolean isWholeMolecule() {
+        return !isPartOfComposite();
     }
 
     public CompositeMolecule getParentComposite() {
@@ -234,5 +237,4 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
     public void removeListener( ChangeListener listener ) {
         listenerChannel.removeListener( listener );
     }
-
 }
