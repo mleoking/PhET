@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.coreadditions.Disk;
-import edu.colorado.phet.coreadditions.ModelViewTx1D;
+import edu.colorado.phet.coreadditions_greenhouse.Disk;
+import edu.colorado.phet.coreadditions_greenhouse.ModelViewTx1D;
 import edu.colorado.phet.instrumentation.TemperatureReporter;
 
 import java.awt.geom.Point2D;

@@ -7,16 +7,16 @@
 package edu.colorado.phet.greenhouse;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.IClock;
-import edu.colorado.phet.common.view.ApplicationDescriptor;
-import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainerFactory;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.coreadditions.MessageFormatter;
-import edu.colorado.phet.coreadditions.SplashWindow;
-import edu.colorado.phet.coreadditions.clock.StaticClockModel;
-import edu.colorado.phet.coreadditions.clock.SwingTimerClock;
+import edu.colorado.phet.common_greenhouse.application.Module;
+import edu.colorado.phet.common_greenhouse.application.PhetApplication;
+import edu.colorado.phet.common_greenhouse.model.IClock;
+import edu.colorado.phet.common_greenhouse.view.ApplicationDescriptor;
+import edu.colorado.phet.common_greenhouse.view.apparatuspanelcontainment.ApparatusPanelContainerFactory;
+import edu.colorado.phet.common_greenhouse.view.util.SimStrings;
+import edu.colorado.phet.coreadditions_greenhouse.MessageFormatter;
+import edu.colorado.phet.coreadditions_greenhouse.SplashWindow;
+import edu.colorado.phet.coreadditions_greenhouse.clock.StaticClockModel;
+import edu.colorado.phet.coreadditions_greenhouse.clock.SwingTimerClock;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;

@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.IClock;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common_greenhouse.model.BaseModel;
+import edu.colorado.phet.common_greenhouse.model.IClock;
+import edu.colorado.phet.common_greenhouse.model.ModelElement;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;

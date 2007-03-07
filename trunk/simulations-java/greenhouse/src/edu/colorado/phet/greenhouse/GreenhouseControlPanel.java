@@ -12,10 +12,10 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions.ModelViewTx1D;
+import edu.colorado.phet.common_greenhouse.view.util.GraphicsUtil;
+import edu.colorado.phet.common_greenhouse.view.util.SimStrings;
+import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
+import edu.colorado.phet.coreadditions_greenhouse.ModelViewTx1D;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

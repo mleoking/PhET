@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.coreadditions.Body;
-import edu.colorado.phet.coreadditions.Vector3D;
+import edu.colorado.phet.common_greenhouse.math.Vector2D;
+import edu.colorado.phet.coreadditions_greenhouse.Body;
+import edu.colorado.phet.coreadditions_greenhouse.Vector3D;
 import edu.colorado.phet.filter.BandpassFilter;
 import edu.colorado.phet.filter.Filter1D;
 import edu.colorado.phet.filter.ProbablisticPassFilter;

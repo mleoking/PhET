@@ -6,10 +6,9 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions.MessageFormatter;
+import edu.colorado.phet.common_greenhouse.view.util.SimStrings;
+import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
+import edu.colorado.phet.coreadditions_greenhouse.MessageFormatter;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

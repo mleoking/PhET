@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.coreadditions.Annulus;
+import edu.colorado.phet.coreadditions_greenhouse.Annulus;
 import edu.colorado.phet.filter.BandpassFilter;
 
 import java.util.ArrayList;

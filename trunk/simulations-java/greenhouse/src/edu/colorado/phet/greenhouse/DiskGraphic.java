@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.Disk;
-import edu.colorado.phet.coreadditions.graphics.ShapeGraphicType;
+import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
+import edu.colorado.phet.coreadditions_greenhouse.Disk;
+import edu.colorado.phet.coreadditions_greenhouse.graphics.ShapeGraphicType;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
