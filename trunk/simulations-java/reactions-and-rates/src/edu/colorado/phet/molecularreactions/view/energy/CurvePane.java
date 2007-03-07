@@ -22,6 +22,7 @@ public class CurvePane extends PPath {
     private volatile EnergyProfileGraphic energyProfileGraphic;
 
     private volatile EnergyLine energyLine;
+    private EnergyCursor cursor;
 
     public CurvePane(final MRModel model, Dimension upperPaneSize, EnergyView.State state) {
         super( new Rectangle2D.Double( 0,
@@ -71,9 +72,9 @@ public class CurvePane extends PPath {
         } );
 
         // Create the cursor
-        state.cursor = new EnergyCursor( state.curveAreaSize.getHeight(), 0, state.curveAreaSize.getWidth(), model );
-        state.cursor.setVisible( false );
-        cursorLayer.addChild( state.cursor );
+        cursor = new EnergyCursor( state.curveAreaSize.getHeight(), 0, state.curveAreaSize.getWidth(), model );
+        cursor.setVisible( false );
+        cursorLayer.addChild( cursor );
 
         // Add axes
         RegisterablePNode xAxis = new RegisterablePNode( new AxisNode( SimStrings.get( "EnergyView.ReactionCoordinate" ),
@@ -112,6 +113,10 @@ public class CurvePane extends PPath {
         return curveColor;
     }
 
+    public void setEnergyCursorOffset(double offset) {
+        cursor.setOffset( offset, 0 );
+    }
+
     private void createCurve( MRModel model, PNode curveLayer ) {
         if( energyProfileGraphic != null ) {
             try {
@@ -142,5 +147,13 @@ public class CurvePane extends PPath {
 
     public double getIntersectionWithHorizontal(double x) {
         return energyProfileGraphic.getIntersectionWithHorizontal( energyLine.getEnergyLineY(), x);
+    }
+
+    public void setManualControlEnabled( boolean manualControl ) {
+        cursor.setManualControlEnabled( manualControl );
+    }
+
+    public void setEnergyCursorVisible( boolean b ) {
+        cursor.setVisible( b );
     }
 }

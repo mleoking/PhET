@@ -18,7 +18,6 @@ import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.view.*;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -68,20 +67,14 @@ import java.awt.geom.Rectangle2D;
 public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
     private final Color moleculePaneBackgroundColor = MRConfig.MOLECULE_PANE_BACKGROUND;
-    private final Color energyPaneBackgroundColor = MRConfig.ENERGY_PANE_BACKGROUND;
-    private final Color curveColor = MRConfig.POTENTIAL_ENERGY_COLOR;
     private final Insets curveAreaInsets = new Insets( 20, 30, 40, 10 );
 
 
     public static class State {
         Dimension upperPaneSize;
         Dimension curvePaneSize;
-
-
-
-        EnergyCursor cursor;
-
         Dimension curveAreaSize;
+
         Font labelFont;
         MRModule module;
         CurvePane curvePane;
@@ -409,7 +402,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                                                    curveAreaInsets.left / 2 + 10, yMax );
 
             // set location of cursor
-            state.cursor.setOffset( midPoint.getX(), 0 );
+            state.curvePane.setEnergyCursorOffset( midPoint.getX() );
         }
         else if( molecularPaneState.selectedMoleculeGraphic != null ) {
             molecularPaneState.selectedMoleculeGraphic.setOffset( 20, 20 );
@@ -420,7 +413,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     }
 
     public void setManualControl( boolean manualControl ) {
-        state.cursor.setManualControlEnabled( manualControl );
+        state.curvePane.setManualControlEnabled( manualControl );
     }
 
     public void setSeparationViewVisible(boolean visible) {
@@ -482,7 +475,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                 molecularPaneState.moleculePaneAxisNode.setVisible( false );
 
             }
-            state.cursor.setVisible( molecularPaneState.selectedMolecule != null );
+            state.curvePane.setEnergyCursorVisible( molecularPaneState.selectedMolecule != null );
         }
 
         public void closestMoleculeChanged( SimpleMolecule newClosestMolecule,
