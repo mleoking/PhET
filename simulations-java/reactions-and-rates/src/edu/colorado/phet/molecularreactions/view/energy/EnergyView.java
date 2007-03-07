@@ -104,16 +104,16 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     private volatile State state;
     private volatile MolecularPaneState molecularPaneState;
 
-    public EnergyView( MRModule module, int width, Dimension upperPaneSize ) {
-        initialize( module, width, upperPaneSize );
+    public EnergyView( MRModule module, Dimension upperPaneSize ) {
+        initialize( module, upperPaneSize );
     }
 
-    private void initialize( MRModule module, int width, Dimension upperPaneSize ) {
+    private void initialize( MRModule module, Dimension upperPaneSize ) {
         state = new State();
         molecularPaneState = new MolecularPaneState();
 
         state.upperPaneSize = upperPaneSize;
-        state.curvePaneSize = new Dimension( width, (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() )
+        state.curvePaneSize = new Dimension( upperPaneSize.width, (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() )
                                               - upperPaneSize.height
                                               - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height );
         state.module = module;

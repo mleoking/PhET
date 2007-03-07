@@ -82,7 +82,7 @@ public class MRModule extends Module {
         canvas.addWorldChild( spatialView );
 
         // Create energy view
-        createEnergyView( chartPaneSize.width, chartPaneSize );
+        createEnergyView( chartPaneSize );
 
         // Create a listener that will adjust the layout when the frame changes size
         canvas.addComponentListener( new ComponentAdapter() {
@@ -105,13 +105,13 @@ public class MRModule extends Module {
         } );
     }
 
-    private void createEnergyView( int width, Dimension chartPaneSize ) {
+    private void createEnergyView( Dimension chartPaneSize ) {
         PNode upperPaneContents = null;
         if( energyView != null ) {
             upperPaneContents = energyView.getUpperPaneContents();
             canvas.removeWorldChild( energyView );
         }
-        energyView = new EnergyView( this, width, chartPaneSize );
+        energyView = new EnergyView( this, chartPaneSize );
         energyView.setOffset( simulationPaneInsets.left + spatialView.getFullBounds().getWidth() + simulationPaneInsets.left,
                               simulationPaneInsets.top );
         if( upperPaneContents != null ) {
@@ -168,7 +168,7 @@ public class MRModule extends Module {
 
         // Layout nodes on the canvas ...
         double energyViewWidth = worldSize.getWidth() - spatialView.getFullBounds().getWidth() - simulationPaneInsets.right * 2 - simulationPaneInsets.left;
-        createEnergyView( (int)energyViewWidth, new Dimension( (int)energyViewWidth, chartPaneHeight ) );
+        createEnergyView( new Dimension( (int)energyViewWidth, chartPaneHeight ) );
     }
 
     /*
