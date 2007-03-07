@@ -37,7 +37,7 @@ public class MRModule extends Module {
 
     private Dimension canvasSize = MRConfig.SIMULATION_PANEL_SIZE;
     private SpatialView spatialView;
-    private EnergyView energyView;
+    private EnergyView energyView = new EnergyView();
     private Dimension spatialViewSize = MRConfig.SPATIAL_VIEW_SIZE;
     private MRModel mrModel;
 
@@ -107,11 +107,13 @@ public class MRModule extends Module {
 
     private void createEnergyView( Dimension chartPaneSize ) {
         PNode upperPaneContents = null;
-        if( energyView != null ) {
+
+        if (energyView.isInitialized()) {
             upperPaneContents = energyView.getUpperPaneContents();
             canvas.removeWorldChild( energyView );
         }
-        energyView = new EnergyView( this, chartPaneSize );
+
+        energyView.initialize( this, chartPaneSize );
         energyView.setOffset( simulationPaneInsets.left + spatialView.getFullBounds().getWidth() + simulationPaneInsets.left,
                               simulationPaneInsets.top );
         if( upperPaneContents != null ) {

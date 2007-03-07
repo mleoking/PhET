@@ -104,11 +104,14 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     private volatile State state;
     private volatile MolecularPaneState molecularPaneState;
 
-    public EnergyView( MRModule module, Dimension upperPaneSize ) {
-        initialize( module, upperPaneSize );
+    public EnergyView() {
     }
 
-    private void initialize( MRModule module, Dimension upperPaneSize ) {
+    public boolean isInitialized() {
+        return state != null;
+    }
+
+    public void initialize( MRModule module, Dimension upperPaneSize ) {
         state = new State();
         molecularPaneState = new MolecularPaneState();
 
@@ -118,9 +121,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                                               - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height );
         state.module = module;
         MRModel model = module.getMRModel();
-
-        // Set up the font for labels
-        Font defaultFont = MRConfig.LABEL_FONT;
 
         // The pane that has the molecules
         PPath moleculePane = createMoleculePane( state.upperPaneSize, curveAreaInsets, moleculePaneBackgroundColor, molecularPaneState );
@@ -321,7 +321,12 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
      */
     private void createCurve( MRModel model, PNode curveLayer ) {
         if( state.energyProfileGraphic != null ) {
-            curveLayer.removeChild( state.energyProfileGraphic );
+            try {
+                curveLayer.removeChild( state.energyProfileGraphic );
+            }
+            catch (ArrayIndexOutOfBoundsException e) {
+
+            }
         }
         state.energyProfileGraphic = new EnergyProfileGraphic( model.getEnergyProfile(),
                                                          state.curveAreaSize,
@@ -532,6 +537,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     }
 
     public PNode getUpperPaneContents() {
+        if (state.upperPane == null) return null;
+
         if ( state.upperPane.getChildrenCount() == 0) {
             return null;
         }
