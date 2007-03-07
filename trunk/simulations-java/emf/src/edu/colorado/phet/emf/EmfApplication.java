@@ -6,23 +6,18 @@
  */
 package edu.colorado.phet.emf;
 
-import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.model.clock.ThreadedClock;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_1200.application.ApplicationModel;
+import edu.colorado.phet.common_1200.application.PhetApplication;
+import edu.colorado.phet.common_1200.model.clock.SwingTimerClock;
+import edu.colorado.phet.common_1200.view.PhetFrame;
+import edu.colorado.phet.common_1200.view.util.FrameSetup;
+import edu.colorado.phet.common_1200.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.ClientPhetLookAndFeel;
 import edu.colorado.phet.coreadditions.LecturePhetLookAndFeel;
 import edu.colorado.phet.coreadditions.PhetLookAndFeel;
 import edu.colorado.phet.waves.view.WaveMediumGraphic;
 
 import javax.swing.*;
-import java.util.Locale;
 import java.util.logging.Logger;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

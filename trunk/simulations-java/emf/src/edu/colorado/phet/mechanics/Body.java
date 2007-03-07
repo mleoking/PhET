@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.mechanics;
 
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.common_1200.math.Vector2D;
+import edu.colorado.phet.common_1200.model.Particle;
 
 import java.awt.geom.Point2D;
 

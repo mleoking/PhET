@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.emf.model;
 
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common_1200.math.Vector2D;
 import edu.colorado.phet.emf.model.movement.ManualMovement;
 import edu.colorado.phet.emf.model.movement.SinusoidalMovement;
 

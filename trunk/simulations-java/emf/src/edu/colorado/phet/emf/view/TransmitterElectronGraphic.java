@@ -6,14 +6,14 @@
  */
 package edu.colorado.phet.emf.view;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.BoundedGraphic;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common_1200.view.ApparatusPanel;
+import edu.colorado.phet.common_1200.view.graphics.BoundedGraphic;
+import edu.colorado.phet.common_1200.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common_1200.view.graphics.Graphic;
+import edu.colorado.phet.common_1200.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.common_1200.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_1200.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common_1200.view.util.ImageLoader;
 import edu.colorado.phet.emf.EmfConfig;
 import edu.colorado.phet.emf.EmfModule;
 import edu.colorado.phet.emf.model.Electron;

@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.emf.model;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common_1200.model.BaseModel;
+import edu.colorado.phet.common_1200.model.ModelElement;
+import edu.colorado.phet.common_1200.model.clock.AbstractClock;
 import edu.colorado.phet.emf.model.movement.MovementType;
 
 import java.util.ArrayList;

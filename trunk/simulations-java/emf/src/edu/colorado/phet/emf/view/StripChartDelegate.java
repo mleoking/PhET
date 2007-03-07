@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.emf.view;
 
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common_1200.util.SimpleObserver;
 import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.util.StripChart;
 

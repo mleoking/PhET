@@ -6,13 +6,12 @@
  */
 package edu.colorado.phet.util;
 
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common_1200.model.clock.ClockTickListener;
+import edu.colorado.phet.common_1200.model.clock.AbstractClock;
+import edu.colorado.phet.common_1200.model.clock.SwingTimerClock;
 //import edu.SwingTimerClock;
 
 import javax.swing.*;
-import java.awt.image.BufferedImage;
 import java.awt.geom.Rectangle2D;
 import java.awt.*;
 
