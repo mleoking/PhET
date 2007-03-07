@@ -1,7 +1,7 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.semiconductor.common;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
 
 import java.awt.*;
 

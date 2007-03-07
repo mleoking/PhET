@@ -1,10 +1,7 @@
 package edu.colorado.phet.semiconductor.macro.energy.states;
 
-import edu.colorado.phet.common.math.PhetVector;
-import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticleState;
-import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
 
 import java.util.ArrayList;
 

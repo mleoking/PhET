@@ -1,9 +1,9 @@
 /** Sam Reid*/
 package edu.colorado.phet.semiconductor.macro;
 
-import edu.colorado.phet.common.math.PhetVector;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_semiconductor.math.PhetVector;
+import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
+import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
 

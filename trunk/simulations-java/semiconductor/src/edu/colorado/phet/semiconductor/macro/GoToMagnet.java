@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.semiconductor.macro;
 
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common_semiconductor.math.PhetVector;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticleState;
 import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;

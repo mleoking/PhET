@@ -1,24 +1,18 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import edu.colorado.phet.common.math.PhetVector;
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.ShapeGraphic;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common_semiconductor.math.PhetVector;
+import edu.colorado.phet.common_semiconductor.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common_semiconductor.view.graphics.ShapeGraphic;
+import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_semiconductor.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.common.ClipGraphic;
-import edu.colorado.phet.semiconductor.common.Particle;
-import edu.colorado.phet.semiconductor.common.ParticleGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
-import edu.colorado.phet.semiconductor.macro.circuit.MacroCircuitGraphic;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
-import java.util.Hashtable;
 
 /**
  * User: Sam Reid
