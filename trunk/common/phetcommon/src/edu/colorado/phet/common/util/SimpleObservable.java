@@ -20,6 +20,7 @@ import java.util.ArrayList;
  */
 public class SimpleObservable {
     private ArrayList observers = new ArrayList();
+    private SimpleObserver observerController = new SimpleObserverController();
 
     public void addObserver( SimpleObserver so ) {
         observers.add( so );
@@ -78,6 +79,16 @@ public class SimpleObservable {
      */
     public ArrayList getObserverList() {
         return observers;
+    }
+
+    public SimpleObserver getController() {
+        return observerController;
+    }
+
+    private class SimpleObserverController implements SimpleObserver {
+        public void update() {
+            notifyObservers();
+        }
     }
 }
 
