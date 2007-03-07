@@ -9,8 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.rutherfordscattering.RSConstants;
-import edu.colorado.phet.rutherfordscattering.model.RutherfordAtomModel;
+import edu.colorado.phet.rutherfordscattering.model.RutherfordAtom;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 
@@ -19,12 +18,12 @@ public class RutherfordAtomNode extends PhetPNode implements Observer {
     private static final double MAX_NUCLEUS_RADIUS = 80; // view coordinates
     private static final double MIN_NUCLEUS_RADIUS = 10; // view coordinates
     
-    private RutherfordAtomModel _atom;
+    private RutherfordAtom _atom;
     
     private PPath _nucleusNode;
     private ElectronNode _electronNode;
     
-    public RutherfordAtomNode( RutherfordAtomModel atom ) {
+    public RutherfordAtomNode( RutherfordAtom atom ) {
         super();
         
         _atom = atom;
@@ -42,15 +41,15 @@ public class RutherfordAtomNode extends PhetPNode implements Observer {
         setOffset( nodePosition );
         
         updateNucleus();
-        update( _atom, RutherfordAtomModel.PROPERTY_ELECTRON_OFFSET );
+        update( _atom, RutherfordAtom.PROPERTY_ELECTRON_OFFSET );
     }
 
     public void update( Observable o, Object arg ) {
         if ( o == _atom ) {
-            if ( arg == RutherfordAtomModel.PROPERTY_ELECTRON_OFFSET ) {
+            if ( arg == RutherfordAtom.PROPERTY_ELECTRON_OFFSET ) {
                 updateElectronOffset();
             }
-            else if ( arg == RutherfordAtomModel.PROPERTY_NUMBER_OF_PROTONS || arg == RutherfordAtomModel.PROPERTY_NUMBER_OF_NEUTRONS ) {
+            else if ( arg == RutherfordAtom.PROPERTY_NUMBER_OF_PROTONS || arg == RutherfordAtom.PROPERTY_NUMBER_OF_NEUTRONS ) {
                 updateNucleus();
             }
         }
@@ -67,10 +66,11 @@ public class RutherfordAtomNode extends PhetPNode implements Observer {
     private void updateNucleus() {
         int protons = _atom.getNumberOfProtons();
         int neutrons = _atom.getNumberOfNeutrons();
-        int min = RSConstants.MIN_PROTONS + RSConstants.MIN_NEUTRONS;
-        int max = RSConstants.MAX_PROTONS + RSConstants.MAX_NEUTRONS;
+        int min = _atom.getMinNumberOfProtons() + _atom.getMinNumberOfNeutrons();
+        int max = _atom.getMaxNumberOfProtons() + _atom.getMaxNumberOfNeutrons();
         double m = ( protons + neutrons - min ) / (double)( max - min );
         double radius = MIN_NUCLEUS_RADIUS + ( m * ( MAX_NUCLEUS_RADIUS - MIN_NUCLEUS_RADIUS ) );
+        assert( radius > 0 );
         _nucleusNode.setPathTo( new Ellipse2D.Double( -radius, -radius, 2 * radius, 2 * radius )  );
     }
 }

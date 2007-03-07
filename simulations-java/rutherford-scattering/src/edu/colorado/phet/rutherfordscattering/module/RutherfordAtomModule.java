@@ -12,60 +12,47 @@ import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
+import edu.colorado.phet.rutherfordscattering.control.PlumPuddingControlPanel;
 import edu.colorado.phet.rutherfordscattering.control.RutherfordAtomControlPanel;
+import edu.colorado.phet.rutherfordscattering.help.RSWiggleMe;
 import edu.colorado.phet.rutherfordscattering.model.*;
 import edu.colorado.phet.rutherfordscattering.view.*;
 import edu.umd.cs.piccolo.PNode;
 
 
 public class RutherfordAtomModule extends AbstractModule {
-
-    //----------------------------------------------------------------------------
-    // Default settings
-    //----------------------------------------------------------------------------
-    
-    public static final boolean CLOCK_PAUSED = false;
-    public static final boolean GUN_ENABLED = false;
-    public static final double GUN_INTENSITY = 1.0; // 0-1 (1=100%)
-    public static final double CLOCK_STEP = RSConstants.DEFAULT_CLOCK_STEP;
-    public static final int NUMBER_OF_PROTONS = 79;
-    public static final int NUMBER_OF_NEUTRONS = 118;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
+    // Model
+    private RSModel _model;
+    private Gun _gun;
+    private RutherfordAtom _atom;
+    
+    // View
     private PhetPCanvas _canvas;
     private PNode _rootNode;
-
-    // Control panels
-    private ClockControlPanel _clockControlPanel;
-    private RutherfordAtomControlPanel _controlPanel;
-
-    // Box/beam/gun
     private PNode _boxBeamGunParent;
     private BoxOfHydrogenNode _boxOfHydrogenNode;
     private BeamNode _beamNode;
     private GunNode _gunNode;
-
-    // Animation box
     private AnimationBoxNode _animationBoxNode;
     private ZoomIndicatorNode _zoomIndicatorNode;
-
-    // Alpha Particle traces
     private TracesNode _alphaParticleTracesNode;
-    
-    private RSModel _model;
-    private RutherfordAtomModel _atomModel;
-    
     private RSModelViewManager _modelViewManager;
+    
+    // Control panels
+    private ClockControlPanel _clockControlPanel;
+    private RutherfordAtomControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     public RutherfordAtomModule() {
-        super( SimStrings.get( "RutherfordAtomModule.title" ), new RSClock( CLOCK_STEP ), CLOCK_PAUSED );
+        super( SimStrings.get( "RutherfordAtomModule.title" ), new RSClock(), RSConstants.CLOCK_PAUSED );
 
         //----------------------------------------------------------------------------
         // Model
@@ -77,22 +64,25 @@ public class RutherfordAtomModule extends AbstractModule {
         Point2D position = new Point2D.Double( 0, 0 );
         double orientation = Math.toRadians( -90 ); // pointing straight up
         double nozzleWidth = RSConstants.ANIMATION_BOX_SIZE.width;
-        Gun gun = new Gun( position, orientation, nozzleWidth );
+        _gun = new Gun( position, orientation, nozzleWidth, 
+                RSConstants.INITIAL_SPEED_RANGE,
+                RSConstants.BEAM_OF_ALPHA_PARTICLES_COLOR, 
+                RSConstants.ANIMATION_BOX_SIZE );
 
         // Space
-        double spaceWidth = gun.getNozzleWidth();
+        double spaceWidth = _gun.getNozzleWidth();
         double spaceHeight = RSConstants.ANIMATION_BOX_SIZE.height;
         Rectangle2D bounds = new Rectangle2D.Double( -spaceWidth / 2, -spaceHeight, spaceWidth, spaceHeight );
         Space space = new Space( bounds );
 
-        // Model
-        _model = new RSModel( clock, gun, space );
-
         // Atom
-        Point2D spaceCenter = _model.getSpace().getCenter();
+        Point2D spaceCenter = space.getCenter();
         double radius = 0.95 * ( RSConstants.ANIMATION_BOX_SIZE.width / 2 );
-        _atomModel = new RutherfordAtomModel( spaceCenter, radius, NUMBER_OF_PROTONS, NUMBER_OF_NEUTRONS, RSConstants.ANIMATION_BOX_SIZE, clock );
-        _model.addModelElement( _atomModel );
+        _atom = new RutherfordAtom( spaceCenter, radius, 
+                RSConstants.NUMBER_OF_PROTONS_RANGE, RSConstants.NUMBER_OF_NEUTRONS_RANGE, RSConstants.ANIMATION_BOX_SIZE );
+        
+        // Model
+        _model = new RSModel( clock, _gun, space, _atom );
 
         //----------------------------------------------------------------------------
         // View
@@ -146,7 +136,7 @@ public class RutherfordAtomModule extends AbstractModule {
         _zoomIndicatorNode = new ZoomIndicatorNode();
         
         // Atom
-        RutherfordAtomNode atomNode = new RutherfordAtomNode( _atomModel );
+        RutherfordAtomNode atomNode = new RutherfordAtomNode( _atom );
         _animationBoxNode.getAtomLayer().addChild(  atomNode  );
         
         // Alpha Particles tracer
@@ -209,8 +199,8 @@ public class RutherfordAtomModule extends AbstractModule {
         return _model.getGun();
     }
     
-    public RutherfordAtomModel getAtom() {
-        return _atomModel;
+    public RutherfordAtom getAtom() {
+        return _atom;
     }
     
     public void removeAllAlphaParticles() {
@@ -223,17 +213,15 @@ public class RutherfordAtomModule extends AbstractModule {
 
     /*
      * Resets the module to its default state.
-     * All default values are defined in HADefaults.
      */
     public void reset() {
         
-        Gun gun = _model.getGun();
-        gun.setEnabled( GUN_ENABLED );
-        gun.setIntensity( GUN_INTENSITY );
+        _gun.setEnabled( RSConstants.GUN_ENABLED );
+        _gun.setIntensity( RSConstants.GUN_INTENSITY );
+        _gun.setSpeed( RSConstants.INITIAL_SPEED_RANGE.getDefault() );
         
-        _controlPanel.setClockStep( CLOCK_STEP );
-        _controlPanel.setNumberOfProtons( NUMBER_OF_PROTONS );
-        _controlPanel.setNumberOfNeutrons( NUMBER_OF_NEUTRONS );
+        _atom.setNumberOfProtons( RSConstants.NUMBER_OF_PROTONS_RANGE.getDefault() );
+        _atom.setNumberOfNeutrons( RSConstants.NUMBER_OF_NEUTRONS_RANGE.getDefault() );
     }
     
     /*

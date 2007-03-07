@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
-import edu.colorado.phet.rutherfordscattering.model.PlumPuddingModel;
+import edu.colorado.phet.rutherfordscattering.model.PlumPuddingAtom;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
@@ -44,7 +44,7 @@ public class PlumPuddingNode extends PhetPNode {
      * Constructor.
      * @param atom
      */
-    public PlumPuddingNode( PlumPuddingModel atom ) {
+    public PlumPuddingNode( PlumPuddingAtom atom ) {
         super();
         
         setPickable( false );

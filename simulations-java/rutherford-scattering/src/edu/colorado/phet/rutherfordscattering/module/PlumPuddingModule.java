@@ -3,10 +3,6 @@
 package edu.colorado.phet.rutherfordscattering.module;
 
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -14,7 +10,6 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.control.PlumPuddingControlPanel;
@@ -24,8 +19,6 @@ import edu.colorado.phet.rutherfordscattering.view.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * PlumPuddingModule is the "Plum Pudding" module for this simulation.
@@ -33,81 +26,70 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PlumPuddingModule extends AbstractModule {
-
-    //----------------------------------------------------------------------------
-    // Default settings
-    //----------------------------------------------------------------------------
-    
-    public static final boolean CLOCK_PAUSED = false;
-    public static final boolean GUN_ENABLED = false;
-    public static final double GUN_INTENSITY = 1.0; // 0-1 (1=100%)
-    public static final double CLOCK_STEP = RSConstants.DEFAULT_CLOCK_STEP;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
+    // Model
+    private RSModel _model;
+    private Gun _gun;
+    
+    // View
     private PhetPCanvas _canvas;
     private PNode _rootNode;
-
-    // Control panels
-    private ClockControlPanel _clockControlPanel;
-    private PlumPuddingControlPanel _controlPanel;
-
-    // Box/beam/gun
     private PNode _boxBeamGunParent;
     private BoxOfHydrogenNode _boxOfHydrogenNode;
     private BeamNode _beamNode;
     private GunNode _gunNode;
-
-    // Animation box
     private AnimationBoxNode _animationBoxNode;
     private ZoomIndicatorNode _zoomIndicatorNode;
-
-    // Alpha Particle traces
     private TracesNode _alphaParticleTracesNode;
+    private RSModelViewManager _modelViewManager;
     
-    private RSModel _model;
-    private PlumPuddingModel _atomModel;
+    // Control panels
+    private ClockControlPanel _clockControlPanel;
+    private PlumPuddingControlPanel _controlPanel;
     
+    // Help
     private RSWiggleMe _wiggleMe;
     private boolean _wiggleMeInitialized = false;
-    
-    private RSModelViewManager _modelViewManager;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     public PlumPuddingModule() {
-        super( SimStrings.get( "PlumPuddingModule.title" ), new RSClock( CLOCK_STEP ), CLOCK_PAUSED );
+        super( SimStrings.get( "PlumPuddingModule.title" ), new RSClock(), RSConstants.CLOCK_PAUSED );
 
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
 
-        RSClock clock = (RSClock) getClock();
+        IClock clock = getClock();
 
         // Gun
         Point2D position = new Point2D.Double( 0, 0 );
         double orientation = Math.toRadians( -90 ); // pointing straight up
         double nozzleWidth = RSConstants.ANIMATION_BOX_SIZE.width;
-        Gun gun = new Gun( position, orientation, nozzleWidth );
+        _gun = new Gun( position, orientation, nozzleWidth, 
+                RSConstants.INITIAL_SPEED_RANGE,
+                RSConstants.BEAM_OF_ALPHA_PARTICLES_COLOR, 
+                RSConstants.ANIMATION_BOX_SIZE );
 
         // Space
-        double spaceWidth = gun.getNozzleWidth();
+        double spaceWidth = _gun.getNozzleWidth();
         double spaceHeight = RSConstants.ANIMATION_BOX_SIZE.height;
         Rectangle2D bounds = new Rectangle2D.Double( -spaceWidth / 2, -spaceHeight, spaceWidth, spaceHeight );
         Space space = new Space( bounds );
 
-        // Model
-        _model = new RSModel( clock, gun, space );
-
         // Atom
-        Point2D spaceCenter = _model.getSpace().getCenter();
+        Point2D spaceCenter = space.getCenter();
         double radius = 0.95 * ( RSConstants.ANIMATION_BOX_SIZE.width / 2 );
-        _atomModel = new PlumPuddingModel( spaceCenter, radius );
-        _model.addModelElement( _atomModel );
+        PlumPuddingAtom atom = new PlumPuddingAtom( spaceCenter, radius );
+        
+        // Model
+        _model = new RSModel( clock, _gun, space, atom );
 
         //----------------------------------------------------------------------------
         // View
@@ -161,7 +143,7 @@ public class PlumPuddingModule extends AbstractModule {
         _zoomIndicatorNode = new ZoomIndicatorNode();
         
         // Atom
-        PlumPuddingNode atomNode = new PlumPuddingNode( _atomModel );
+        PlumPuddingNode atomNode = new PlumPuddingNode( atom );
         _animationBoxNode.getAtomLayer().addChild(  atomNode  );
         
         // Alpha Particles tracer
@@ -219,9 +201,9 @@ public class PlumPuddingModule extends AbstractModule {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     public Gun getGun() {
-        return _model.getGun();
+        return _gun;
     }
     
     public void removeAllAlphaParticles() {
@@ -234,15 +216,11 @@ public class PlumPuddingModule extends AbstractModule {
 
     /*
      * Resets the module to its default state.
-     * All default values are defined in HADefaults.
      */
     public void reset() {
-        
-        Gun gun = _model.getGun();
-        gun.setEnabled( GUN_ENABLED );
-        gun.setIntensity( GUN_INTENSITY );
-        
-        _controlPanel.setClockStep( CLOCK_STEP );
+        _gun.setEnabled( RSConstants.GUN_ENABLED );
+        _gun.setIntensity( RSConstants.GUN_INTENSITY );
+        _gun.setSpeed( RSConstants.INITIAL_SPEED_RANGE.getDefault() );
     }
     
     /*

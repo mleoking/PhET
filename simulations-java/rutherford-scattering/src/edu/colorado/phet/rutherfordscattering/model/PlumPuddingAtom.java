@@ -6,7 +6,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 
-public class PlumPuddingModel extends AbstractHydrogenAtom {
+public class PlumPuddingAtom extends AbstractAtom {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -24,7 +24,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
      * @param position
      * @param radius
      */
-    public PlumPuddingModel( Point2D position, double radius ) {
+    public PlumPuddingAtom( Point2D position, double radius ) {
         super( position, 0 /* orientation */ );
         _radius = radius;
     }

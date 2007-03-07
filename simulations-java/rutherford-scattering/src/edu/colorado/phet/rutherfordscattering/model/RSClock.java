@@ -19,24 +19,10 @@ public class RSClock extends SwingClock {
     /* Wall time between clock ticks (milliseconds) */
     private static final int WALL_DT = ( 1000 / RSConstants.CLOCK_FRAME_RATE );
     
-    private double _defaultDt;
-    private double _dt;
+    /* Sim time between ticks (dt) */
+    private static final double SIM_DT = RSConstants.CLOCK_STEP;
     
-    public RSClock( double dt ) {
-        super( WALL_DT, new TimingStrategy.Constant( dt ) );
-        _defaultDt = _dt = dt;
-    }
-    
-    public void setDt( final double dt ) {
-        _dt = dt;
-        setTimingStrategy( new TimingStrategy.Constant( dt ) );
-    }
-    
-    public double getDt() {
-        return _dt;
-    }
-    
-    public double getDefaultDt() {
-        return _defaultDt;
+    public RSClock() {
+        super( WALL_DT, SIM_DT );
     }
 }
