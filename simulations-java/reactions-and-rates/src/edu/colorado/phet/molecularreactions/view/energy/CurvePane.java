@@ -25,7 +25,7 @@ public class CurvePane extends PPath {
     private volatile EnergyLine energyLine;
     private EnergyCursor energyCursor;
 
-    public CurvePane(final MRModule module, Dimension upperPaneSize, EnergyView.State state) {
+    public CurvePane(final MRModule module, Dimension upperPaneSize) {
 
         super( new Rectangle2D.Double( 0,
               0,
