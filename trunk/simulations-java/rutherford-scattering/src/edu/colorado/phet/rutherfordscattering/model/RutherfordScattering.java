@@ -14,6 +14,8 @@ package edu.colorado.phet.rutherfordscattering.model;
 import java.awt.Dimension;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.rutherfordscattering.RSConstants;
+
 /**
  * RutherfordScattering is the algorthm for computing the alpha particle trajectories
  * for the Rutherford Atom model.
@@ -27,7 +29,7 @@ import java.text.DecimalFormat;
 public class RutherfordScattering {
 
     // Prints debugging output
-    public static boolean DEBUG_OUTPUT_ENABLED = false;
+    public static boolean DEBUG_OUTPUT_ENABLED = true;
     
     // Formatter, for debug output
     private static final DecimalFormat F = new DecimalFormat( "0.00" );
@@ -72,14 +74,15 @@ public class RutherfordScattering {
         double y = alphaParticle.getY();
         final double v = alphaParticle.getSpeed();
         final double v0 = alphaParticle.getInitialSpeed();
+        final double vd = RSConstants.INITIAL_SPEED_RANGE.getDefault();//XXX
         
         // atom properties
-        final int p0 = atom.getDefaultNumberOfProtons();
+        final int pd = atom.getDefaultNumberOfProtons();
         final int p = atom.getNumberOfProtons();
         
         // Calculate D
         final double L = boxSize.getWidth();
-        final double D = ( L / 16 ) * ( p / (double)p0 ) * ( ( v0 * v0 ) / ( v * v ) );
+        final double D = ( L / 16 ) * ( p / (double)pd ) * ( ( vd * vd ) / ( v * v ) );
         
         // Alpha particle's initial position, relative to the atom's center.
         double x0 = Math.abs( alphaParticle.getInitialPosition().getX() - atom.getX() );
@@ -93,7 +96,6 @@ public class RutherfordScattering {
         // b, horizontal distance to atom's center at y == negative infinity
         final double b1 = Math.sqrt( ( x0 * x0 ) + ( y0 * y0 ) );
         final double b = 0.5 * ( x0 + Math.sqrt( ( -2 * D * b1 ) - ( 2 * D * y0 ) + ( x0 * x0 ) ) );
-        assert ( b > 0 );
 
         // adjust for atom position
         x -= atom.getX();
@@ -125,17 +127,19 @@ public class RutherfordScattering {
         double yNew = -rNew * Math.cos( phiNew );
         
         // Debugging output, in coordinates relative to atom's center
-        if ( DEBUG_OUTPUT_ENABLED ) {
+        if ( DEBUG_OUTPUT_ENABLED && ( ( !( b > 0 ) ) || ( !( vNew > 0 ) ) ) ) {
             System.out.println( "RutherfordScattering.moveParticle" );
             System.out.println( "  particle id=" + alphaParticle.getId() );
-            System.out.println( "  atom type=" + atom.getClass().getName() );
             System.out.println( "  constants:" );
-            System.out.println( "    L=" + F.format( boxSize.getWidth() ) );
-            System.out.println( "    D=" + F.format( D ) );
             System.out.println( "    dt=" + F.format( dt ) );
+            System.out.println( "    b=" + b );
+            System.out.println( "    L=" + F.format( L ) );
+            System.out.println( "    D=" + D );
             System.out.println( "    (x0,y0)=(" + F.format( x0 ) + "," + F.format( y0 ) + ")" );
             System.out.println( "    v0=" + F.format( v0 ) );
-            System.out.println( "    b=" + F.format( b ) );
+            System.out.println( "    vd=" + F.format( vd ) );
+            System.out.println( "    p=" + p );
+            System.out.println( "    pd=" + pd );
             System.out.println( "  current state:" );
             System.out.println( "    (x,y)=(" + F.format( x ) + "," + F.format( y ) + ")" );
             System.out.println( "    (r,phi)=(" + F.format( r ) + "," + F.format( Math.toDegrees( phi ) ) + ")" );
@@ -143,8 +147,10 @@ public class RutherfordScattering {
             System.out.println( "  new state:" );
             System.out.println( "    (x,y)=(" + F.format( xNew ) + "," + F.format( yNew ) + ")" );
             System.out.println( "    (r,phi)=(" + F.format( rNew ) + "," + F.format( Math.toDegrees( phiNew ) ) + ")" );
-            System.out.println( "    v=" + F.format( vNew ) );
+            System.out.println( "    v=" + vNew );
         }
+        assert ( b > 0 );
+        assert ( vNew > 0 );
         
         // Adjust the sign of x.
         xNew *= sign;
