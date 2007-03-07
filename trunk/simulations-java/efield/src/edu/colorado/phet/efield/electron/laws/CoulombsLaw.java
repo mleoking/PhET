@@ -11,7 +11,7 @@ import phys2d_efield.Particle;
 //            ForceLaw
 
 public class CoulombsLaw
-    implements ForceLaw
+    implements MyForceLaw
 {
 
     public CoulombsLaw(double d)

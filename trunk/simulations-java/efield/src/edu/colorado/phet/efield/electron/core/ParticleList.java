@@ -12,8 +12,7 @@ import java.util.Vector;
 // Referenced classes of package edu.colorado.phet.efield.electron.core:
 //            ParticleContainer
 
-public class ParticleList
-        implements ParticleContainer {
+public class ParticleList implements ParticleContainer {
 
     public ParticleList() {
         v = new Vector();

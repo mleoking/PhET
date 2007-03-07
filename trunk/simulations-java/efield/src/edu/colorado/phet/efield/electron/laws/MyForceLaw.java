@@ -7,8 +7,7 @@ package edu.colorado.phet.efield.electron.laws;
 import phys2d_efield.DoublePoint;
 import phys2d_efield.Particle;
 
-public interface ForceLaw
-{
+public interface MyForceLaw {
 
     public abstract DoublePoint getForce(Particle particle, Particle particle1);
 }

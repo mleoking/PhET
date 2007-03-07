@@ -5,16 +5,17 @@
 package edu.colorado.phet.efield.electron.laws;
 
 import edu.colorado.phet.efield.electron.core.ParticleList;
+import edu.colorado.phet.common.phys2d.laws.ForceLaw;
 import phys2d_efield.*;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.laws:
 //            ForceLaw
 
 public class ForceLawAdapter extends ParticleList
-    implements Law
+        implements Law
 {
 
-    public ForceLawAdapter(Particle aparticle[], ForceLaw forcelaw)
+    public ForceLawAdapter(Particle aparticle[], MyForceLaw forcelaw)
     {
         addAll(aparticle);
         law = forcelaw;
@@ -47,5 +48,5 @@ public class ForceLawAdapter extends ParticleList
 
     }
 
-    ForceLaw law;
+    MyForceLaw law;
 }
