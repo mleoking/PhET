@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.emf.model;
 
-import edu.colorado.phet.waves.model.PeriodicFunction;
+import edu.colorado.phet.waves.model.EMFPeriodicFunction;
 
-public class ConstantFunction implements PeriodicFunction {
+public class ConstantFunction implements EMFPeriodicFunction {
 
     public float valueAtTime( float frequency, float maxAmplitude, float time ) {
         return maxAmplitude;

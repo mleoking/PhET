@@ -9,14 +9,14 @@ package edu.colorado.phet.emf.model.movement;
 import edu.colorado.phet.common_1200.math.Vector2D;
 import edu.colorado.phet.emf.EmfApplication;
 import edu.colorado.phet.emf.model.Electron;
-import edu.colorado.phet.waves.model.SineFunction;
+import edu.colorado.phet.waves.model.EMFSineFunction;
 
 import java.awt.geom.Point2D;
 import java.util.Observable;
 
 public class SinusoidalMovement extends Observable implements MovementType {
 
-    private SineFunction sineFunction = new SineFunction();
+    private EMFSineFunction sineFunction = new EMFSineFunction();
     private float frequency;
     private float amplitude;
     private Point2D nextPosition = new Point2D.Double();
