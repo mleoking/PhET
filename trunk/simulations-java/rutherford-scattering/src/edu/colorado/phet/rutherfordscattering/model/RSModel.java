@@ -14,7 +14,7 @@ import edu.colorado.phet.rutherfordscattering.event.GunFiredListener;
  * RSModel is the model for this simulation.
  * The model consists of "space" that contain:
  * - 1 gun
- * - 1 hydrogen atom
+ * - 1 atom
  * - N alpha particles
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -27,14 +27,14 @@ public class RSModel extends Model implements GunFiredListener {
     
     private Gun _gun;
     private Space _space;
-    private AbstractHydrogenAtom _atom;
+    private AbstractAtom _atom;
     private ArrayList _alphaParticles; // array of AlphaParticle
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public RSModel( IClock clock, Gun gun, Space space ) {
+    public RSModel( IClock clock, Gun gun, Space space, AbstractAtom atom ) {
         super( clock );
         
         _gun = gun;
@@ -44,7 +44,7 @@ public class RSModel extends Model implements GunFiredListener {
         _space = space;
         super.addModelElement( _space );
         
-        _atom = null;
+        _atom = atom;
         _alphaParticles = new ArrayList();
     }
     
@@ -60,7 +60,7 @@ public class RSModel extends Model implements GunFiredListener {
         return _gun;
     }
     
-    public AbstractHydrogenAtom getAtom() {
+    public AbstractAtom getAtom() {
         return _atom;
     }
     
@@ -69,8 +69,7 @@ public class RSModel extends Model implements GunFiredListener {
     //----------------------------------------------------------------------------
     
     /**
-     * When a model element is added, also add it to one of 
-     * the lists used for collision detection.
+     * Dynamically adds a model element.
      * 
      * @param modelElement
      */
@@ -78,11 +77,8 @@ public class RSModel extends Model implements GunFiredListener {
         if ( modelElement instanceof AlphaParticle ) {
             _alphaParticles.add( modelElement );
         }
-        else if ( modelElement instanceof AbstractHydrogenAtom ) {
-            if ( _atom != null ) {
-                throw new IllegalArgumentException( "model already contains an AbstractHydrogenAtom" );
-            }
-            _atom = (AbstractHydrogenAtom) modelElement;
+        else if ( modelElement instanceof AbstractAtom ) {
+            throw new IllegalArgumentException( "Atom must be added in constructor" );
         }
         else if ( modelElement instanceof Gun ) {
             throw new IllegalArgumentException( "Gun must be added in constructor" );
@@ -97,8 +93,7 @@ public class RSModel extends Model implements GunFiredListener {
     }
 
     /**
-     * When a model element is removed, also remove it from one of 
-     * the lists used for collision detection.
+     * Dynamically removes a model element.
      * 
      * @param modelElement
      */
@@ -107,7 +102,7 @@ public class RSModel extends Model implements GunFiredListener {
             _alphaParticles.remove( modelElement );
         }
         else if ( modelElement == _atom ) {
-            _atom = null;
+            throw new IllegalArgumentException( "Atom cannot be removed" );
         }
         else if ( modelElement == _gun ) {
             throw new IllegalArgumentException( "Gun cannot be removed" );
@@ -138,7 +133,7 @@ public class RSModel extends Model implements GunFiredListener {
     //----------------------------------------------------------------------------
     
     /**
-     * Detect collisions whenever the clock ticks.
+     * Advances the simulation when the clock ticks.
      * 
      * @param event
      */
@@ -148,23 +143,17 @@ public class RSModel extends Model implements GunFiredListener {
         _atom.stepInTime( dt );
         moveParticles( dt );
         cullParticles();
-//        System.out.println( "photons=" + _photons.size() + " alphaParticles=" + _alphaParticles.size() );//XXX
     }
     
     /*
      * Moves alpha particles.
      */
     private void moveParticles( double dt ) {
-        
-        if ( _atom != null ) {
-
-            // Alpha Particle collisions
-            if ( _alphaParticles.size() > 0 ) {
-                Object[] alphaParticles = _alphaParticles.toArray(); // copy, this operation may delete from list
-                for ( int i = 0; i < alphaParticles.length; i++ ) {
-                    AlphaParticle alphaParticle = (AlphaParticle) alphaParticles[i];
-                    _atom.moveAlphaParticle( alphaParticle, dt );
-                }
+        if ( _alphaParticles.size() > 0 ) {
+            Object[] alphaParticles = _alphaParticles.toArray(); // copy, this operation may delete from list
+            for ( int i = 0; i < alphaParticles.length; i++ ) {
+                AlphaParticle alphaParticle = (AlphaParticle) alphaParticles[i];
+                _atom.moveAlphaParticle( alphaParticle, dt );
             }
         }
     }
@@ -173,7 +162,6 @@ public class RSModel extends Model implements GunFiredListener {
      * Culls alpha particles that have left the bounds of space.
      */
     private void cullParticles() {
-        
         if ( _alphaParticles.size() > 0 ) {
             Object[] alphaParticles = _alphaParticles.toArray(); // copy, this operation may delete from list
             for ( int i = 0; i < alphaParticles.length; i++ ) {
@@ -190,7 +178,7 @@ public class RSModel extends Model implements GunFiredListener {
     //----------------------------------------------------------------------------
     
     /**
-     * When the gun fires an alpha particle, add the alpha particle to the model.
+     * When the gun fires an alpha particle, adds the alpha particle to the model.
      * @param event
      */
     public void alphaParticleFired( GunFiredEvent event ) {

@@ -9,11 +9,11 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.common.model.ModelElement;
 
 /**
- * AbstractHydrogenAtom is the base class for all hydrogen atom models.
+ * AbstractAtom is the base class for all atom models.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractHydrogenAtom extends FixedObject implements ModelElement {
+public abstract class AbstractAtom extends FixedObject implements ModelElement {
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -25,7 +25,7 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
      * @param position
      * @param orientation
      */
-    public AbstractHydrogenAtom( Point2D position, double orientation ) {
+    public AbstractAtom( Point2D position, double orientation ) {
         super( position, orientation );
     }
     

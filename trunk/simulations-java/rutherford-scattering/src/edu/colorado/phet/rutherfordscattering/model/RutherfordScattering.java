@@ -62,18 +62,24 @@ public class RutherfordScattering {
      * @param dt the time step
      * @param D the constant D
      */
-    public static void moveParticle( RutherfordAtomModel atom, AlphaParticle alphaParticle, final double dt, Dimension boxSize, RSClock clock ) {
+    public static void moveParticle( RutherfordAtom atom, AlphaParticle alphaParticle, final double dt, Dimension boxSize ) {
 
         assert( dt > 0 );
         assert( boxSize.getWidth() == boxSize.getHeight() ); // box must be square!
 
-        // Calculate D
-        final double L = boxSize.getWidth();
+        // particle properties
+        double x = alphaParticle.getX();
+        double y = alphaParticle.getY();
+        final double v = alphaParticle.getSpeed();
+        final double v0 = alphaParticle.getInitialSpeed();
+        
+        // atom properties
         final int p0 = atom.getDefaultNumberOfProtons();
         final int p = atom.getNumberOfProtons();
-        final double s = clock.getDefaultDt();
-        final double s0 = clock.getDt();
-        final double D = ( L / 16 ) * ( p / (double)p0 ) * ( ( s0 * s0 ) / ( s * s ) );
+        
+        // Calculate D
+        final double L = boxSize.getWidth();
+        final double D = ( L / 16 ) * ( p / (double)p0 ) * ( ( v0 * v0 ) / ( v * v ) );
         
         // Alpha particle's initial position, relative to the atom's center.
         double x0 = Math.abs( alphaParticle.getInitialPosition().getX() - atom.getX() );
@@ -89,12 +95,6 @@ public class RutherfordScattering {
         final double b = 0.5 * ( x0 + Math.sqrt( ( -2 * D * b1 ) - ( 2 * D * y0 ) + ( x0 * x0 ) ) );
         assert ( b > 0 );
 
-        // particle's current position and speed
-        double x = alphaParticle.getX();
-        double y = alphaParticle.getY();
-        final double v = alphaParticle.getSpeed();
-        final double v0 = alphaParticle.getInitialSpeed();
-        
         // adjust for atom position
         x -= atom.getX();
         y -= atom.getY();

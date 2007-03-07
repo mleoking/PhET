@@ -5,8 +5,10 @@ package edu.colorado.phet.rutherfordscattering.model;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.rutherfordscattering.util.IntegerRange;
 
-public class RutherfordAtomModel extends AbstractHydrogenAtom {
+
+public class RutherfordAtom extends AbstractAtom {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -23,39 +25,44 @@ public class RutherfordAtomModel extends AbstractHydrogenAtom {
     // Instance data
     //----------------------------------------------------------------------------
     
-    // default number of protons (immuatable)
-    private int _defaultNumberOfProtons;
-    // default number of neutrons (immutable)
-    private int _defaultNumberOfNeutrons;
+    // default number of protons
+    final private int _defaultNumberOfProtons;
+    // default number of neutrons
+    final private int _defaultNumberOfNeutrons;
     // current number of protons
     private int _numberOfProtons;
+    // min and max number of protons
+    final private int _minNumberOfProtons, _maxNumberOfProtons;
     // current number of neutrons
     private int _numberOfNeutrons;
+    // min and max number of neutrons
+    final private int _minNumberOfNeutrons, _maxNumberOfNeutrons;
     // size of the box that the animation takes place in
-    private Dimension _boxSize;  // immutable
+    final private Dimension _boxSize;
     // radius of the electron's orbit in nm (immutable, always in ground state)
-    private double _electronOrbitRadius;
+    final private double _electronOrbitRadius;
     // current angle of electron
     private double _electronAngle;
     // offset of the electron relative to atom's center
     private Point2D _electronOffset;
-    // the clock
-    private RSClock _clock;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public RutherfordAtomModel( Point2D position, double orientation, int numberOfProtons, int numberOfNeutrons, Dimension boxSize, RSClock clock ) {
+    public RutherfordAtom( Point2D position, double orientation, IntegerRange numberOfProtonsRange, IntegerRange numberOfNeutronsRange, Dimension boxSize ) {
         super( position, orientation );
         
-        assert( numberOfProtons > 0 );
-        assert( numberOfNeutrons > 0 );
         assert( boxSize.getWidth() == boxSize.getHeight() ); // must be square!
         
-        _defaultNumberOfProtons = _numberOfProtons = numberOfProtons;
-        _defaultNumberOfNeutrons = _numberOfNeutrons = numberOfNeutrons;
+        _defaultNumberOfProtons = _numberOfProtons = numberOfProtonsRange.getDefault();
+        _minNumberOfProtons = numberOfProtonsRange.getMin();
+        _maxNumberOfProtons = numberOfProtonsRange.getMax();
 
+        _defaultNumberOfNeutrons = _numberOfNeutrons = numberOfNeutronsRange.getDefault();
+        _minNumberOfNeutrons = numberOfNeutronsRange.getMin();
+        _maxNumberOfNeutrons = numberOfNeutronsRange.getMax();
+        
         _boxSize = new Dimension( boxSize );
         final double boxDiagonal = boxSize.getWidth() * Math.sqrt(  2  );
         _electronOrbitRadius = ( 0.9 * boxDiagonal ) / 2;
@@ -64,8 +71,6 @@ public class RutherfordAtomModel extends AbstractHydrogenAtom {
         double xOffset = _electronOrbitRadius * Math.sin( _electronAngle );
         double yOffset = _electronOrbitRadius * Math.cos( _electronAngle );
         _electronOffset = new Point2D.Double( xOffset, yOffset );
-        
-        _clock = clock;
     }
     
     //----------------------------------------------------------------------------
@@ -81,6 +86,9 @@ public class RutherfordAtomModel extends AbstractHydrogenAtom {
     }
     
     public void setNumberOfProtons( int numberOfProtons ) {
+        if ( numberOfProtons < _minNumberOfProtons || numberOfProtons > _maxNumberOfProtons ) {
+            throw new IllegalArgumentException( "numberOfProtons is out of range: " + numberOfProtons );
+        }
         if ( numberOfProtons != _numberOfProtons ) {
             _numberOfProtons = numberOfProtons;
             notifyObservers( PROPERTY_NUMBER_OF_PROTONS );
@@ -91,7 +99,18 @@ public class RutherfordAtomModel extends AbstractHydrogenAtom {
         return _numberOfProtons;
     }
     
+    public int getMinNumberOfProtons() {
+        return _minNumberOfProtons;
+    }
+    
+    public int getMaxNumberOfProtons() {
+        return _maxNumberOfProtons;
+    }
+    
     public void setNumberOfNeutrons( int numberOfNeutrons ) {
+        if ( numberOfNeutrons < _minNumberOfNeutrons || numberOfNeutrons > _maxNumberOfNeutrons ) {
+            throw new IllegalArgumentException( "numberOfNeutrons is out of range: " + numberOfNeutrons );
+        }
         if ( numberOfNeutrons != _numberOfNeutrons ) {
             _numberOfNeutrons = numberOfNeutrons;
             notifyObservers( PROPERTY_NUMBER_OF_NEUTRONS );
@@ -100,6 +119,14 @@ public class RutherfordAtomModel extends AbstractHydrogenAtom {
     
     public int getNumberOfNeutrons() {
         return _numberOfNeutrons;
+    }
+    
+    public int getMinNumberOfNeutrons() {
+        return _minNumberOfNeutrons;
+    }
+    
+    public int getMaxNumberOfNeutrons() {
+        return _maxNumberOfNeutrons;
     }
     
     /**
@@ -123,7 +150,7 @@ public class RutherfordAtomModel extends AbstractHydrogenAtom {
      * @param dt
      */
     public void moveAlphaParticle( AlphaParticle alphaParticle, double dt ) {
-        RutherfordScattering.moveParticle( this, alphaParticle, dt, _boxSize, _clock );
+        RutherfordScattering.moveParticle( this, alphaParticle, dt, _boxSize );
     }
     
     //----------------------------------------------------------------------------

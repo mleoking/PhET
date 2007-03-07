@@ -24,7 +24,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public abstract class AbstractModule extends PiccoloModule {
 
-    private RSClock _clock;
     private PhetPCanvas _canvas;
     
     //----------------------------------------------------------------------------
@@ -41,8 +40,6 @@ public abstract class AbstractModule extends PiccoloModule {
     public AbstractModule( String title, RSClock clock, boolean startsPaused ) {
         super( title, clock, startsPaused );
         
-        _clock = clock;
-        
         // hide the PhET logo
         setLogoPanel( null );
     }
@@ -58,15 +55,6 @@ public abstract class AbstractModule extends PiccoloModule {
      */
     public JFrame getFrame() {
         return PhetApplication.instance().getPhetFrame();
-    }
-    
-    /**
-     * Sets the clock step (dt) for the module.
-     * 
-     * @param clockStep
-     */
-    public void setClockStep( double clockStep ) {
-        _clock.setDt(  clockStep  );
     }
     
     /**
@@ -102,9 +90,8 @@ public abstract class AbstractModule extends PiccoloModule {
     // Abstract
     //----------------------------------------------------------------------------
     
-    /*
-     * Lays out nodes on the canvas.
-     * This is called whenever the canvas size changes.
+    /**
+     * Called whenever the canvas size changes.
      */
     protected abstract void updateCanvasLayout();
 

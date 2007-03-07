@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.rutherfordscattering.control;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.event.ChangeEvent;
@@ -9,48 +12,62 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
-import edu.colorado.phet.rutherfordscattering.model.RutherfordAtomModel;
+import edu.colorado.phet.rutherfordscattering.model.Gun;
+import edu.colorado.phet.rutherfordscattering.model.RutherfordAtom;
 import edu.colorado.phet.rutherfordscattering.module.RutherfordAtomModule;
+import edu.colorado.phet.rutherfordscattering.util.DoubleRange;
+import edu.colorado.phet.rutherfordscattering.util.IntegerRange;
 
 
-public class RutherfordAtomControlPanel extends AbstractControlPanel {
+public class RutherfordAtomControlPanel extends AbstractControlPanel implements Observer {
 
     private RutherfordAtomModule _module;
-    
-    private SliderControl _clockStepControl;
+    private Gun _gun;
+    private RutherfordAtom _atom;
+    private SliderControl _initialSpeedControl;
+    private ChangeListener _initialSpeedListener;
     private SliderControl _protonsControl;
+    private ChangeListener _protonsListener;
     private SliderControl _neutronsControl;
+    private ChangeListener _neutronsListener;
     
     public RutherfordAtomControlPanel( RutherfordAtomModule module ) {
         super( module );
         
         _module = module;
-        RutherfordAtomModel atom = _module.getAtom();
+        _module = module;
+        
+        _gun = _module.getGun();
+        _gun.addObserver( this );
+        
+        _atom = _module.getAtom();
+        _atom.addObserver( this );
         
         JLabel alphaParticlePropertiesLabel = new JLabel( SimStrings.get( "label.alphaParticleProperties" ) );
         alphaParticlePropertiesLabel.setFont( RSConstants.TITLE_FONT );
         
-        // Clock (Energy) control
+        // Initial Speed control (labeled "Energy")
         {
-            double value = RSConstants.DEFAULT_CLOCK_STEP;
-            double min = RSConstants.MIN_CLOCK_STEP;
-            double max = RSConstants.MAX_CLOCK_STEP;
+            double value = _gun.getSpeed();
+            double min = _gun.getMinSpeed();
+            double max = _gun.getMaxSpeed();
             double tickSpacing = max - min;
             int tickDecimalPlaces = 0;
             int valueDecimalPlaces = 1;
-            String label = SimStrings.get( "label.energy" ); // labeled "Energy" !
+            String label = SimStrings.get( "label.energy" );
             String units = "";
             int columns = 3;
-            _clockStepControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
-            _clockStepControl.setBorder( BorderFactory.createEtchedBorder() );
-            _clockStepControl.setTextFieldEditable( false );
+            _initialSpeedControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+            _initialSpeedControl.setBorder( BorderFactory.createEtchedBorder() );
+            _initialSpeedControl.setTextFieldEditable( false );
 //            _clockStepControl.setTextFieldVisible( false );
-            _clockStepControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
-            _clockStepControl.addChangeListener( new ChangeListener() {
+            _initialSpeedControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
+            _initialSpeedListener = new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
-                    handleClockChange();
+                    handleInitialSpeedChange();
                 }
-            } );
+            };
+            _initialSpeedControl.addChangeListener( _initialSpeedListener );
         }
         
         JLabel atomPropertiesLabel = new JLabel( SimStrings.get( "label.atomProperties" ) );
@@ -58,9 +75,9 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel {
         
         // Number of protons
         {
-            int value = atom.getNumberOfProtons();
-            int min = RSConstants.MIN_PROTONS;
-            int max = RSConstants.MAX_PROTONS;
+            int value = _atom.getNumberOfProtons();
+            int min = _atom.getMinNumberOfProtons();
+            int max = _atom.getMaxNumberOfProtons();
             int tickSpacing = max - min;
             int tickDecimalPlaces = 0;
             int valueDecimalPlaces = 0;
@@ -69,18 +86,19 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel {
             int columns = 3;
             _protonsControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
             _protonsControl.setBorder( BorderFactory.createEtchedBorder() );
-            _protonsControl.addChangeListener( new ChangeListener() {
+            _protonsListener = new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
                     handleProtonsChange();
                 }
-            } );
+            };
+            _protonsControl.addChangeListener( _protonsListener );
         }
         
         // Number of neutrons
         {
-            int value = atom.getNumberOfNeutrons();
-            int min = RSConstants.MIN_NEUTRONS;
-            int max = RSConstants.MAX_NEUTRONS;
+            int value = _atom.getNumberOfNeutrons();
+            int min = _atom.getMinNumberOfNeutrons();
+            int max = _atom.getMaxNumberOfNeutrons();
             int tickSpacing = max - min;
             int tickDecimalPlaces = 0;
             int valueDecimalPlaces = 0;
@@ -89,17 +107,18 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel {
             int columns = 3;
             _neutronsControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
             _neutronsControl.setBorder( BorderFactory.createEtchedBorder() );
-            _neutronsControl.addChangeListener( new ChangeListener() {
+            _neutronsListener = new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
                     handleNeutronsChange();
                 }
-            } );
+            };
+            _neutronsControl.addChangeListener( _neutronsListener );
         }
         
         addVerticalSpace( 20 );
         addControlFullWidth( alphaParticlePropertiesLabel );
         addVerticalSpace( 20 );
-        addControlFullWidth( _clockStepControl );
+        addControlFullWidth( _initialSpeedControl );
         addVerticalSpace( 20 );
         addSeparator();
         addVerticalSpace( 20 );
@@ -111,8 +130,13 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel {
         addSeparator();
     }
     
+    public void cleanup() {
+        _gun.deleteObserver( this );
+        _atom.deleteObserver( this );
+    }
+    
     public void setClockStep( double clockStep ) {
-        _clockStepControl.setValue( clockStep );
+        _initialSpeedControl.setValue( clockStep );
     }
     
     public void setNumberOfProtons( int numberOfProtons ) {
@@ -123,23 +147,47 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel {
         _neutronsControl.setValue( numberOfNeutrons );
     }
 
-    private void handleClockChange() {
-        double dt = _clockStepControl.getValue();
-        getModule().setClockStep( dt );
+    private void handleInitialSpeedChange() {
+        double speed = _initialSpeedControl.getValue();
+        _gun.deleteObserver( this );
+        _gun.setSpeed( speed );
+        _gun.addObserver( this );
         _module.removeAllAlphaParticles();
     }
     
     private void handleProtonsChange() {
         int numberOfProtons = (int) _protonsControl.getValue();
-        RutherfordAtomModel atom = _module.getAtom();
-        atom.setNumberOfProtons( numberOfProtons );
+        _atom.deleteObserver( this );
+        _atom.setNumberOfProtons( numberOfProtons );
+        _atom.addObserver(  this );
         _module.removeAllAlphaParticles();
     }
 
     private void handleNeutronsChange() {
         int numberOfNeutrons = (int) _neutronsControl.getValue();
-        RutherfordAtomModel atom = _module.getAtom();
-        atom.setNumberOfNeutrons( numberOfNeutrons );
+        _atom.deleteObserver( this );
+        _atom.setNumberOfNeutrons( numberOfNeutrons );
+        _atom.addObserver( this );
         _module.removeAllAlphaParticles();
+    }
+
+    public void update( Observable o, Object arg ) {
+        if ( o == _gun && arg == Gun.PROPERTY_INITIAL_SPEED ) {
+            _initialSpeedControl.removeChangeListener( _initialSpeedListener );
+            _initialSpeedControl.setValue( _gun.getSpeed() );
+            _initialSpeedControl.addChangeListener( _initialSpeedListener );
+        }
+        else if ( o == _atom ) {
+            if ( arg == RutherfordAtom.PROPERTY_NUMBER_OF_PROTONS ) {
+                _protonsControl.removeChangeListener( _protonsListener );
+                _protonsControl.setValue(  _atom.getNumberOfProtons() );
+                _protonsControl.addChangeListener( _protonsListener );
+            }
+            else if ( arg == RutherfordAtom.PROPERTY_NUMBER_OF_NEUTRONS ) {
+                _neutronsControl.removeChangeListener( _neutronsListener );
+                _neutronsControl.setValue(  _atom.getNumberOfNeutrons() );
+                _neutronsControl.addChangeListener( _neutronsListener );
+            }
+        }
     }
 }

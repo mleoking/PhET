@@ -3,6 +3,7 @@
 package edu.colorado.phet.rutherfordscattering.model;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.Random;
@@ -10,9 +11,9 @@ import java.util.Random;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.event.GunFiredEvent;
 import edu.colorado.phet.rutherfordscattering.event.GunFiredListener;
+import edu.colorado.phet.rutherfordscattering.util.DoubleRange;
 
 /**
  * Gun is the model of a gun that can fire alpha particles.
@@ -31,9 +32,11 @@ public class Gun extends FixedObject implements ModelElement {
     public static final String PROPERTY_ENABLED = "enabled";
     public static final String PROPERTY_ORIENTATION = "orientation";
     public static final String PROPERTY_NOZZLE_WIDTH = "nozzleWidth";
-    public static final String PROPERTY_INTENSITY = "alphaParticlesIntensity";
+    public static final String PROPERTY_INTENSITY = "intensity";
+    public static final String PROPERTY_INITIAL_SPEED = "initialSpeed";
     
     private static final double DEFAULT_INTENSITY = 1; // 100%
+    private static final int DEFAULT_MAX_PARTICLES = 20;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -42,6 +45,11 @@ public class Gun extends FixedObject implements ModelElement {
     private boolean _enabled; // is the gun on or off?
     private double _nozzleWidth; // width of the beam
     private double _intensity; // intensity of the alpha particles, 0.0-1.0
+    private double _speed; // initial speed of alpha particles shot from the gun
+    final private double _defaultSpeed; // default speed
+    final private double _minSpeed, _maxSpeed;
+    final private Color _beamColor; // base color (no alpha) of the alpha particle beam
+    final private Dimension _boxSize; // size of the box that the gun is shooting across
     
     private int _maxParticles; // particles in the animation box when gun intensity is 100%
     private double _dtPerGunFired; // dt between each firing of the gun
@@ -59,13 +67,15 @@ public class Gun extends FixedObject implements ModelElement {
     
     /**
      * Constructor
+     * 
      * @param position
      * @param orientation radians
      * @param nozzleWidth
-     * @param minWavelength nm
-     * @param maxWavelength nm
+     * @param speedRange
+     * @param beamColor
+     * @param boxSize
      */
-    public Gun( Point2D position, double orientation, double nozzleWidth ) {
+    public Gun( Point2D position, double orientation, double nozzleWidth, DoubleRange speedRange, Color beamColor, Dimension boxSize ) {
         super( position, orientation );
         
         if ( nozzleWidth <= 0 ) {
@@ -74,12 +84,17 @@ public class Gun extends FixedObject implements ModelElement {
         
         _enabled = false;
         _nozzleWidth = nozzleWidth;
+        _defaultSpeed = _speed = speedRange.getDefault();
+        _minSpeed = speedRange.getMin();
+        _maxSpeed = speedRange.getMax();
+        _beamColor = beamColor;
+        _boxSize = new Dimension( boxSize );
         _intensity = DEFAULT_INTENSITY;
       
         _randomPosition = new Random();
         
         _dtSinceGunFired = 0;
-        setMaxParticles( 20 );
+        setMaxParticles( DEFAULT_MAX_PARTICLES );
         
         _listenerList = new EventListenerList();
         
@@ -130,29 +145,56 @@ public class Gun extends FixedObject implements ModelElement {
     }
     
     public void setMaxParticles( int maxParticles ) {
+        if ( maxParticles <= 0 ) {
+            throw new IllegalArgumentException( "invalid maxParticles: " + maxParticles );
+        }
         _maxParticles = maxParticles;
-        _dtPerGunFired = ( RSConstants.ANIMATION_BOX_SIZE.height / RSConstants.ALPHA_PARTICLE_INITIAL_SPEED ) / maxParticles;
+        _dtPerGunFired = ( _boxSize.height / _defaultSpeed ) / maxParticles;
     }
     
     public int getMaxParticles() {
         return _maxParticles;
     }
     
+    public void setSpeed( double speed ) {
+        if ( speed < _minSpeed || speed > _maxSpeed ) {
+            throw new IllegalArgumentException( "invalid speed: " + speed );
+        }
+        if ( speed != _speed ) {
+            _speed = speed;
+            notifyObservers( PROPERTY_INITIAL_SPEED );
+        }
+    }
+    
+    public double getSpeed() {
+        return _speed;
+    }
+    
+    public double getDefaultSpeed() {
+        return _defaultSpeed;
+    }
+    
+    public double getMinSpeed() {
+        return _minSpeed;
+    }
+    
+    public double getMaxSpeed() {
+        return _maxSpeed;
+    }
+    
     /**
      * Gets the color of the gun's beam.
+     * The alpha component of the color is based on the gun's intensity.
      * 
-     * @return Color
+     * @return Color, null if the gun is off
      */
     public Color getBeamColor() {
-        
         Color beamColor = null;
-        
         if ( _enabled ) {
-            Color c = RSConstants.ALPHA_PARTICLES_COLOR;
+            Color c = _beamColor;
             int a = (int) ( _intensity * 255 );
             beamColor = new Color( c.getRed(), c.getGreen(), c.getBlue(), a );
         }
-        
         return beamColor;
     }
     
@@ -220,7 +262,7 @@ public class Gun extends FixedObject implements ModelElement {
             // Direction of alpha particle is same as gun's orientation.
             double orientation = getOrientation();
             
-            double speed = RSConstants.ALPHA_PARTICLE_INITIAL_SPEED;
+            double speed = _speed;
 
             // Create the alpha particle
             AlphaParticle alphaParticle = new AlphaParticle( position, orientation, speed );

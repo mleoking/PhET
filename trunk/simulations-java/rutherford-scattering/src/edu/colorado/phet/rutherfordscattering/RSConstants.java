@@ -7,13 +7,10 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
 
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.rutherfordscattering.util.DoubleRange;
+import edu.colorado.phet.rutherfordscattering.util.IntegerRange;
 
 
 /**
@@ -58,11 +55,8 @@ public class RSConstants {
     // Clock
     //----------------------------------------------------------------------------
     
-    public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
-
-    public static final double MIN_CLOCK_STEP = 0.5;
-    public static final double MAX_CLOCK_STEP = 3.0;
-    public static final double DEFAULT_CLOCK_STEP = 2;
+    public static final int CLOCK_FRAME_RATE = 25; // frames per second
+    public static final double CLOCK_STEP = 1; // dt
     
     //----------------------------------------------------------------------------
     // Fonts
@@ -89,8 +83,8 @@ public class RSConstants {
     // Generic transparent color
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
     
-    // Color used for alpha particles
-    public static final Color ALPHA_PARTICLES_COLOR = new Color( 160, 160, 160 ); // gray
+    // Color used to represent beam of alpha particles coming out of gun
+    public static final Color BEAM_OF_ALPHA_PARTICLES_COLOR = new Color( 160, 160, 160 ); // gray
     
     // Color of the animation box
     public static final Color ANIMATION_BOX_COLOR = Color.BLACK;
@@ -116,17 +110,13 @@ public class RSConstants {
     public static final Cursor WAIT_CURSOR = new Cursor( Cursor.WAIT_CURSOR );
     
     //----------------------------------------------------------------------------
-    // Model
+    // Default state of the model
     //----------------------------------------------------------------------------
     
-    public static final double ALPHA_PARTICLE_INITIAL_SPEED = 5; // distance moved per dt
-    
-    public static final int MIN_PROTONS = 20;
-    public static final int MAX_PROTONS = 100;
-    public static final int DEFAULT_PROTONS = 79;
-    
-    public static final int MIN_NEUTRONS = 40;
-    public static final int MAX_NEUTRONS = 250;
-    public static final int DEFAULT_NEUTRONS = 118;
-    
+    public static final boolean CLOCK_PAUSED = false;
+    public static final boolean GUN_ENABLED = false;
+    public static final double GUN_INTENSITY = 1.0; // 0-1 (1=100%)
+    public static final DoubleRange INITIAL_SPEED_RANGE = new DoubleRange( 2.5, 15, 10, 1 );
+    public static final IntegerRange NUMBER_OF_PROTONS_RANGE = new IntegerRange( 20, 100, 79 );
+    public static final IntegerRange NUMBER_OF_NEUTRONS_RANGE = new IntegerRange( 40, 250, 118 );
 }

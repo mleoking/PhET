@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- change energy control so that it adjusts initial velocity of alpha particles (range=[2.5,15], default=10)
+- assert( b > 0 ) violation in RutherfordScattering.moveParticle
 - alpha particles suddenly disappear when they get to nucleus center with E=3, p=11, n=118 (verified in Mathematica)
 - don't create any alpha particles until done dragging sliders
 - performance issue with drawing alpha particles and traces on top of large plum pudding image
@@ -15,8 +15,7 @@ MEDIUM PRIORITY:
 - randomly place 79 electrons in PlumPuddingNode
 - implement dynamic generation of nucleus view in RutherfordAtomNode
 - make ModelViewTransform an instance, not a singleton, test for non 1:1 transforms
-- hide energy value on slider
-- control panels should observe model
+- hide value on energy slider
 
 LOW PRIORITY:
 - JNLP files
@@ -27,6 +26,10 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/6/07 - rename AbstractHydrogenAtom->AbstractAtom, PlumPuddingModel->PlumPuddingAtom, RutherfordAtomModel->RutherfordAtom
+3/6/07 - make control panels observers of model elements
+3/6/07 - change energy control so that it adjusts initial velocity of alpha particles (range=[2.5,15], default=10)
+3/6/07 - use a constant clock with immutable dt
 3/6/07 - change #neutrons range to 40-250
 3/6/07 - change #protons range to 20-100
 3/5/07 - set up Eclipse .jardec, .mf and ProGuard config files
