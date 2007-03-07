@@ -42,12 +42,12 @@ public class TestClock extends PhetApplication {
             super.add( p, new ParticleGraphic( p ), 10 );
         }
 
-        public void addModelElement( ModelElement modelElement ) {
+        public void addModelElement( edu.colorado.phet.common.model.ModelElement  modelElement ) {
             super.addModelElement( modelElement );
         }
     }
 
-    static class TestParticle extends Observable implements ModelElement {
+    static class TestParticle extends Observable implements edu.colorado.phet.common.model.ModelElement  {
         double x;
         double y;
 

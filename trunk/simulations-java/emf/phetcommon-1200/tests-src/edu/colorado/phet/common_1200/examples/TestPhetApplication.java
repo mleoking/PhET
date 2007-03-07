@@ -65,7 +65,7 @@ public class TestPhetApplication {
         }
     }
 
-    static class Photon extends SimpleObservable implements ModelElement {
+    static class Photon extends SimpleObservable implements edu.colorado.phet.common.model.ModelElement  {
         double x;
         double y;
 

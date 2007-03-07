@@ -11,9 +11,9 @@
 package edu.colorado.phet.waves.view;
 
 import edu.colorado.phet.common_1200.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common_1200.util.SimpleObserver;
 import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.emf.EmfConfig;
+import edu.colorado.phet.common.util.SimpleObserver;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

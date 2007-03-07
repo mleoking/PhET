@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.emf.view;
 
-import edu.colorado.phet.common_1200.util.SimpleObserver;
 import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.util.StripChart;
+import edu.colorado.phet.common.util.SimpleObserver;
 
 /**
  * This class acts as a receiver of messages from the model to add data to

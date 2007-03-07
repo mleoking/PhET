@@ -149,9 +149,10 @@ public class Electron extends Body {
         }
     }
 
-    public Vector2D getVelocity() {
+    public edu.colorado.phet.common.math.Vector2D getVelocity() {
 //    public Vector2D.Float getVelocity() {
-        return this.velocity;
+        return new edu.colorado.phet.common.math.Vector2D.Double(velocity.getX(),velocity.getY());
+//        return this.velocity;
     }
 
     public Point2D getStartPosition() {
@@ -313,8 +314,8 @@ public class Electron extends Body {
     }
 
 //    public Point2D getCM() {
-    public Point2D.Double getCM() {
-        return (Point2D.Double)getPosition();
+    public Point2D getCM() {
+        return getPosition();
     }
 
     public double getMomentOfInertia() {
