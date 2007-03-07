@@ -6,20 +6,19 @@
  */
 package edu.colorado.phet.microwave;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.ApplicationDescriptor;
-import edu.colorado.phet.coreadditions.ClientPhetLookAndFeel;
-import edu.colorado.phet.coreadditions.LecturePhetLookAndFeel;
-import edu.colorado.phet.coreadditions.MessageFormatter;
-import edu.colorado.phet.coreadditions.PhetLookAndFeel;
-import edu.colorado.phet.coreadditions.clock.DynamicClockModel;
-import edu.colorado.phet.coreadditions.clock.SwingTimerClock;
-import edu.colorado.phet.coreadditions.components.PhetFrame;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_microwaves.application.Module;
+import edu.colorado.phet.common_microwaves.application.PhetApplication;
+import edu.colorado.phet.common_microwaves.view.ApplicationDescriptor;
+import edu.colorado.phet.coreadditions_microwaves.ClientPhetLookAndFeel;
+import edu.colorado.phet.coreadditions_microwaves.LecturePhetLookAndFeel;
+import edu.colorado.phet.coreadditions_microwaves.MessageFormatter;
+import edu.colorado.phet.coreadditions_microwaves.PhetLookAndFeel;
+import edu.colorado.phet.coreadditions_microwaves.clock.DynamicClockModel;
+import edu.colorado.phet.coreadditions_microwaves.clock.SwingTimerClock;
+import edu.colorado.phet.coreadditions_microwaves.components.PhetFrame;
+import edu.colorado.phet.common_microwaves.view.util.SimStrings;
 
 import java.util.logging.Logger;
-import java.util.Locale;
 
 public class MicrowaveApplication {
 

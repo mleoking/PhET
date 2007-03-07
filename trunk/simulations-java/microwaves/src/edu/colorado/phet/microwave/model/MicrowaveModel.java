@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.microwave.model;
 
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.IClock;
-import edu.colorado.phet.coreadditions.collision.Box2D;
+import edu.colorado.phet.common_microwaves.math.Vector2D;
+import edu.colorado.phet.common_microwaves.model.BaseModel;
+import edu.colorado.phet.common_microwaves.model.IClock;
+import edu.colorado.phet.coreadditions_microwaves.collision.Box2D;
 import edu.colorado.phet.waves.model.FiniteWaveMedium;
 import edu.colorado.phet.waves.model.WaveMedium;
 

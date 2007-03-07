@@ -6,12 +6,11 @@
  */
 package edu.colorado.phet.waves.model;
 
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common_microwaves.math.Vector2D;
+import edu.colorado.phet.common_microwaves.model.ModelElement;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Observer;
 
 /**
  * This class represents a medium through which an arbitrary number of

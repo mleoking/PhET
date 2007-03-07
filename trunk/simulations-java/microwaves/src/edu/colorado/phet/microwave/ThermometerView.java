@@ -6,15 +6,11 @@
  */
 package edu.colorado.phet.microwave;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.ModelViewTransform2D;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.coreadditions.graphics.ImageGraphic;
+import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
+import edu.colorado.phet.common_microwaves.view.util.graphics.ImageLoader;
+import edu.colorado.phet.coreadditions_microwaves.graphics.ImageGraphic;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;

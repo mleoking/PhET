@@ -6,9 +6,8 @@
  */
 package edu.colorado.phet.microwave.view;
 
-import edu.colorado.phet.common.view.graphics.ModelViewTransform2D;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.coreadditions.TxObservingGraphic;
+import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
+import edu.colorado.phet.coreadditions_microwaves.TxObservingGraphic;
 import edu.colorado.phet.microwave.model.WaterMolecule;
 
 import java.awt.*;

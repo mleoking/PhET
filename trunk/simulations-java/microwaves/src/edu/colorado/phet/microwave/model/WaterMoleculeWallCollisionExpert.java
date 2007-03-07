@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.microwave.model;
 
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.coreadditions.Body;
-import edu.colorado.phet.coreadditions.Vector3D;
-import edu.colorado.phet.coreadditions.collision.Box2D;
+import edu.colorado.phet.common_microwaves.math.Vector2D;
+import edu.colorado.phet.coreadditions_microwaves.Body;
+import edu.colorado.phet.coreadditions_microwaves.Vector3D;
+import edu.colorado.phet.coreadditions_microwaves.collision.Box2D;
 
 import java.awt.geom.Point2D;
 
