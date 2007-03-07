@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.piccolo.HTMLGraphic;
 import edu.colorado.phet.theramp.common.LucidaSansFont;
+import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -22,7 +22,7 @@ import java.text.DecimalFormat;
 public class AngleGraphic extends PNode {
     private SurfaceGraphic surfaceGraphic;
     private PPath phetShapeGraphic;
-    private HTMLGraphic label;
+    private HTMLNode label;
 
     public AngleGraphic( SurfaceGraphic surfaceGraphic ) {
         super();
@@ -31,7 +31,7 @@ public class AngleGraphic extends PNode {
         phetShapeGraphic.setStroke( new BasicStroke( 2 ) );
         phetShapeGraphic.setStrokePaint( Color.black );
 //        phetShapeGraphic = new PhetShapeGraphic( getComponent(), null, new BasicStroke( 2 ), Color.black );
-        label = new HTMLGraphic( "test" );
+        label = new HTMLNode( "test" );
         label.setFont( new LucidaSansFont( 14));
 //        label = new ShadowHTMLGraphic( getComponent(), "test", new Font( "Lucida Sans", 0, 14 ), Color.black, 1, 1, Color.gray );
         addChild( phetShapeGraphic );
@@ -60,7 +60,7 @@ public class AngleGraphic extends PNode {
         label.setOffset( arc.getBounds().getMaxX(), arc.getBounds().getY() + arc.getBounds().getHeight() / 2 + 20 );
 //        label.setLocation( RectangleUtils.getRightCenter( phetShapeGraphic.getBoundsInAncestor( getRampWorld() ) ) );
 //        label.setLocation( label.getLocation().x, label.getLocation().y + surfaceGraphic.getImageHeight() + 5 );
-        label.setHtml( "" + getAngleMessage() );
+        label.setHTML( "" + getAngleMessage() );
 
     }
 

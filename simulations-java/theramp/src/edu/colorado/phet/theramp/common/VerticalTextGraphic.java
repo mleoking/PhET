@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.common;
 
-import edu.colorado.phet.piccolo.ShadowHTMLGraphic;
+import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;

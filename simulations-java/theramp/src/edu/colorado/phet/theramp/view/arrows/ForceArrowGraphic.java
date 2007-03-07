@@ -5,13 +5,13 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.graphics.Arrow;
-import edu.colorado.phet.piccolo.BoundGraphic;
-import edu.colorado.phet.piccolo.HTMLGraphic;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.view.BlockGraphic;
 import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.colorado.phet.theramp.view.RampWorld;
 import edu.colorado.phet.theramp.view.SurfaceGraphic;
+import edu.colorado.phet.piccolo.nodes.HTMLNode;
+import edu.colorado.phet.piccolo.nodes.BoundGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -32,7 +32,7 @@ public class ForceArrowGraphic extends PNode {
     private Color color;
     private int dy;
     private AbstractArrowSet.ForceComponent forceComponent;
-    private HTMLGraphic textGraphic;
+    private HTMLNode textGraphic;
     private PPath shapeGraphic;
 //    private final Font font = new Font( "Lucida Sans", Font.BOLD, 18 );
     private final Font font = RampFontSet.getFontSet().getForceArrowLabelFont();
@@ -76,9 +76,9 @@ public class ForceArrowGraphic extends PNode {
         this.color = baseColor;
         this.dy = dy;
         this.forceComponent = forceComponent;
-        textGraphic = new HTMLGraphic( name );
+        textGraphic = new HTMLNode( name );
         textGraphic.setFont( font );
-        textGraphic.setColor( Color.black );
+        textGraphic.setHTMLColor( Color.black );
 
         shapeGraphic = new PPath( null );
         shapeGraphic.setPaint( this.color );

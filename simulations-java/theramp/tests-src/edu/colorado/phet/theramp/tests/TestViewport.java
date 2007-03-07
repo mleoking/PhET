@@ -4,12 +4,12 @@ package edu.colorado.phet.theramp.tests;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.view.util.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import javax.swing.*;
@@ -43,7 +43,8 @@ public class TestViewport {
 //        apparatusPanel2.addGraphic( phetShapeGraphic );
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
-                baseModel.clockTicked( event );
+//                baseModel.clockTicked( event );
+                baseModel.update( event );
             }
         } );
         phetShapeGraphic.addTranslationListener( new TranslationListener() {
