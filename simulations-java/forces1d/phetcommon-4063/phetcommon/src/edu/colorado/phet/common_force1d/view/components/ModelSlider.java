@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:13536 $
+ * Date modified : $Date:2007-03-06 23:42:13 -0700 (Tue, 06 Mar 2007) $
  */
 package edu.colorado.phet.common_force1d.view.components;
 
@@ -31,7 +31,7 @@ import java.util.Set;
  * It also encapsulates a transform between view and model coordinates.
  *
  * @author Ron LeMaster
- * @version $Revision$
+ * @version $Revision:13536 $
  */
 public class ModelSlider extends JPanel {
     private JTextField textField;
@@ -402,7 +402,7 @@ public class ModelSlider extends JPanel {
         }
         if( value >= min && value <= max ) {
             String string = formatter.format( value );
-
+            string=string.replace( ',','.');//to handle multi-lingual
             double newValue = Double.parseDouble( string );
             if( this.value == newValue ) {
                 return;

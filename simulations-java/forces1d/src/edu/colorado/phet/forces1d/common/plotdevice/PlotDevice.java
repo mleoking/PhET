@@ -1043,6 +1043,7 @@ public class PlotDevice extends GraphicLayerSet {
 
         private void parseAndSetValue() {
             String text = getText();
+            text=text.replace( ',','.');//to handle multi-lingual
             double value = Double.parseDouble( text );
             plotDevice.setValue( value );//needs error handling.
 

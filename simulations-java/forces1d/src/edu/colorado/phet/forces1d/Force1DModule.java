@@ -46,6 +46,7 @@ public class Force1DModule extends Module {
     private Force1DLookAndFeel force1DLookAndFeel = new Force1DLookAndFeel();
     private int objectIndex;
     private IForceControl currentControlPanel;
+    private static final String VERSION = "1.01.15";
 
     public Force1DModule( AbstractClock clock, PhetLookAndFeel phetLookAndFeel ) throws IOException {
         this( clock, SimStrings.get( "Force1DModule.moduleName" ), phetLookAndFeel );
@@ -128,6 +129,7 @@ public class Force1DModule extends Module {
     }
 
     public static void main( String[] args ) throws IOException {
+        //        Locale.setDefault( Locale.ITALIAN );//for testing
         SimStrings.init( args, LOCALIZATION_BUNDLE_BASENAME );
         PhetLookAndFeel.setLookAndFeel();
         PhetLookAndFeel lookAndFeel = new PhetLookAndFeel();
@@ -139,9 +141,10 @@ public class Force1DModule extends Module {
 //        ApplicationModel model = new ApplicationModel( "Forces 1D", "Force1d applet", "1.0Alpha",
 //                                                       frameSetup, m, clock );
 //        model.setName( "force1d" );
-        String version = SimStrings.get( "Force1DModule.version" );
+//        String version = SimStrings.get( "Force1DModule.version" );
+        String version = VERSION;
 //        String version = "v1r13";
-        final PhetApplication phetApplication = new PhetApplication( args, SimStrings.get( "Force1DModule.title" ) + " - " + version,
+        final PhetApplication phetApplication = new PhetApplication( args, SimStrings.get( "Force1DModule.title" ) + " (" + version+")",
                                                                      SimStrings.get( "Force1DModule.description" ), version, clock, false, frameSetup );
 
         final Force1DModule module = new Force1DModule( clock, lookAndFeel );
