@@ -18,44 +18,46 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
 
-public class MoleculeSeparationPane {
-    
-    static PPath createMoleculePane( Dimension upperPaneSize, MolecularPaneState state ) {
-    PPath moleculePane = new PPath( new Rectangle2D.Double( 0, 0,
-                                                            upperPaneSize.getWidth(),
-                                                            upperPaneSize.getHeight() ) );
-    moleculePane.setPaint( MRConfig.MOLECULE_PANE_BACKGROUND );
-    state.moleculeLayer = new PNode();
-    state.moleculeLayer.setOffset( state.paneInsets.left, 0 );
-    moleculePane.addChild( state.moleculeLayer );
+public class MoleculeSeparationPane extends PPath {
+    private final MolecularPaneState molecularPaneState;
+    private final MRModule module;
 
-    // Axis: An arrow that shows separation of molecules and text label
-    // They are grouped in a single node so that they can be made visible or
-    // invisible as necessary
-    state.moleculePaneAxisNode = new PNode();
-    state.separationIndicatorArrow = new SeparationIndicatorArrow( Color.black );
-    state.moleculePaneAxisNode.addChild( state.separationIndicatorArrow );
-    PText siaLabel = new PText( SimStrings.get( "EnergyView.separation" ) );
-    siaLabel.setFont( MRConfig.LABEL_FONT );
-    siaLabel.rotate( -Math.PI / 2 );
-    siaLabel.setOffset( state.paneInsets.left / 2 - siaLabel.getFullBounds().getWidth() + 2,
-                        moleculePane.getFullBounds().getHeight() / 2 + siaLabel.getFullBounds().getHeight() / 2 );
-    state.moleculePaneAxisNode.addChild( siaLabel );
-    state.moleculePaneAxisNode.setVisible( false );
-    moleculePane.addChild( state.moleculePaneAxisNode );
+    public MoleculeSeparationPane(MRModule module, Dimension upperPaneSize, MolecularPaneState state ) {
+        super( new Rectangle2D.Double( 0, 0,
+               upperPaneSize.getWidth(),
+               upperPaneSize.getHeight() ) );
 
-    return moleculePane;
-}
+        this.module = module;
+        this.molecularPaneState  = state;
 
-    /**
+        this.setPaint( MRConfig.MOLECULE_PANE_BACKGROUND );
+        state.moleculeLayer = new PNode();
+        state.moleculeLayer.setOffset( state.paneInsets.left, 0 );
+        this.addChild( state.moleculeLayer );
+
+        // Axis: An arrow that shows separation of molecules and text label
+        // They are grouped in a single node so that they can be made visible or
+        // invisible as necessary
+        state.moleculePaneAxisNode = new PNode();
+        state.separationIndicatorArrow = new SeparationIndicatorArrow( Color.black );
+        state.moleculePaneAxisNode.addChild( state.separationIndicatorArrow );
+        PText siaLabel = new PText( SimStrings.get( "EnergyView.separation" ) );
+        siaLabel.setFont( MRConfig.LABEL_FONT );
+        siaLabel.rotate( -Math.PI / 2 );
+        siaLabel.setOffset( state.paneInsets.left / 2 - siaLabel.getFullBounds().getWidth() + 2,
+                            this.getFullBounds().getHeight() / 2 + siaLabel.getFullBounds().getHeight() / 2 );
+        state.moleculePaneAxisNode.addChild( siaLabel );
+        state.moleculePaneAxisNode.setVisible( false );
+
+        this.addChild( state.moleculePaneAxisNode );
+    }
+
+    /*
      * Updates the positions of the molecule graphics in the upper pane. This was originaly supposed
      * to be on all the modules. That's why it's embedded in this class. Since it is only in the
      * SimpleMRModule now, it should be refactored into its own class
-     * @param module
-     * @param molecularPaneState
-     * @param state
      */
-    public static void update( MRModule module, MolecularPaneState molecularPaneState, EnergyView.State state ) {
+    public void update( EnergyView.State state ) {
         if( molecularPaneState.selectedMolecule != null && molecularPaneState.selectedMoleculeGraphic != null && molecularPaneState.nearestToSelectedMoleculeGraphic != null ) {
 
             // Which side of the profile the molecules show up on depends on their type

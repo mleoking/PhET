@@ -69,6 +69,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     private volatile State state;
     private volatile MoleculeSeparationPane.MolecularPaneState molecularPaneState;
     private volatile MRModule module;
+    private volatile MoleculeSeparationPane moleculeSeparationPane;
 
     public EnergyView() {
     }
@@ -87,8 +88,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         MRModel model = module.getMRModel();
 
         // The pane that has the molecules
-        PPath moleculePane = MoleculeSeparationPane.createMoleculePane( upperPaneSize, molecularPaneState );
-        addChild( moleculePane );
+        moleculeSeparationPane = new MoleculeSeparationPane(module, upperPaneSize, molecularPaneState );
+        addChild( moleculeSeparationPane );
 
         // Add another pane on top of the molecule pane to display charts.
         // It's a reall hack, but this pane is made visible when another
@@ -174,7 +175,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     }
 
     public void update() {
-        MoleculeSeparationPane.update( module, molecularPaneState, state );
+        moleculeSeparationPane.update( state );
     }
 
     /*
