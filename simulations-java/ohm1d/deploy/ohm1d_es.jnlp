@@ -37,7 +37,7 @@ information.
         <jar href="ohm1d/Ohm1dStrings_es.jar"/>
         <jar href="common/CommonStrings_es.jar"/>
     </resources>
-    <application-desc main-class="phet.ohm1d.volt.Ohm1dModule">
+    <application-desc main-class="phet_ohm1d.ohm1d.volt.Ohm1dModule">
         <argument>user.language=es</argument>
     </application-desc>
 </jnlp>
