@@ -64,7 +64,7 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
             int columns = 3;
             _energyControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
             _energyControl.setBorder( BorderFactory.createEtchedBorder() );
-            _energyControl.setTextFieldEditable( false );
+            _energyControl.setTextFieldEditable( true );
             if ( !DEBUG_SHOW_ENERGY_VALUE ) {
                 _energyControl.setTextFieldVisible( false );
             }
