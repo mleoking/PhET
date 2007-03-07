@@ -72,6 +72,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     private final Color curveColor = MRConfig.POTENTIAL_ENERGY_COLOR;
     private final Insets curveAreaInsets = new Insets( 20, 30, 40, 10 );
 
+
     private static class State {
         Dimension upperPaneSize;
         Dimension curvePaneSize;
@@ -85,9 +86,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
         Dimension curveAreaSize;
         Font labelFont;
-        PNode moleculePaneAxisNode;
-        PNode moleculeLayer;
-        SeparationIndicatorArrow separationIndicatorArrow;
         MRModule module;
         PPath curvePane;
         EnergyLine energyLine;
@@ -95,7 +93,15 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         EnergyProfileGraphic energyProfileGraphic;
     }
 
+    private static class MolecularPaneState {
+
+        public PNode moleculeLayer;
+        public PNode moleculePaneAxisNode;
+        public SeparationIndicatorArrow separationIndicatorArrow;
+    }
+
     private volatile State state;
+    private volatile MolecularPaneState molecularPaneState;
 
     public EnergyView( MRModule module, int width, Dimension upperPaneSize ) {
         initialize( module, width, upperPaneSize );
@@ -103,6 +109,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
     private void initialize( MRModule module, int width, Dimension upperPaneSize ) {
         state = new State();
+        molecularPaneState = new MolecularPaneState();
 
         state.upperPaneSize = upperPaneSize;
         state.curvePaneSize = new Dimension( width, (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() )
@@ -113,10 +120,9 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
         // Set up the font for labels
         Font defaultFont = MRConfig.LABEL_FONT;
-        state.labelFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
 
         // The pane that has the molecules
-        PPath moleculePane = createMoleculePane();
+        PPath moleculePane = createMoleculePane( state.upperPaneSize, curveAreaInsets, moleculePaneBackgroundColor, molecularPaneState );
         addChild( moleculePane );
 
         // Add another pane on top of the molecule pane to display charts.
@@ -130,18 +136,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         state.upperPane.setStroke( null );
         state.upperPane.setVisible( false );
         addChild( state.upperPane );
-
-//        upperPane.addPropertyChangeListener( new PropertyChangeListener() {
-//
-//            public void propertyChange( PropertyChangeEvent evt ) {
-//                System.out.println( "upperPane = " + upperPane );
-//            }
-//        });
-//        module.getSimulationPanel().addComponentListener( new ComponentAdapter() {
-//            public void componentResized( ComponentEvent e ) {
-//                System.out.println( "upperPane = " + upperPane );
-//            }
-//        } );
 
         // The graphic that shows the reaction mechanics. It appears below the profile pane.
         PPath legendNode = new PPath( new Rectangle2D.Double( 0, 0,
@@ -183,10 +177,10 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         state.nearestToSelectedMolecule = null;
 
         if( state.selectedMoleculeGraphic != null ) {
-            state.moleculeLayer.removeChild( state.selectedMoleculeGraphic );
+            molecularPaneState.moleculeLayer.removeChild( state.selectedMoleculeGraphic );
         }
         if( state.nearestToSelectedMoleculeGraphic != null ) {
-            state.moleculeLayer.removeChild( state.nearestToSelectedMoleculeGraphic );
+            molecularPaneState.moleculeLayer.removeChild( state.nearestToSelectedMoleculeGraphic );
         }
         state.selectedMoleculeGraphic = null;
         state.nearestToSelectedMoleculeGraphic = null;
@@ -336,11 +330,14 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
      * todo: This pane should be a separate class, along with the update() method, below
      *
      * @return a PNode
+     * @param curveAreaInsets
+     * @param moleculePaneBackgroundColor
+     * @param state
      */
-    private PPath createMoleculePane() {
+    private static PPath createMoleculePane( Dimension upperPaneSize, Insets curveAreaInsets, Color moleculePaneBackgroundColor, MolecularPaneState state ) {
         PPath moleculePane = new PPath( new Rectangle2D.Double( 0, 0,
-                                                                state.upperPaneSize.getWidth(),
-                                                                state.upperPaneSize.getHeight() ) );
+                                                                upperPaneSize.getWidth(),
+                                                                upperPaneSize.getHeight() ) );
         moleculePane.setPaint( moleculePaneBackgroundColor );
         state.moleculeLayer = new PNode();
         state.moleculeLayer.setOffset( curveAreaInsets.left, 0 );
@@ -353,7 +350,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         state.separationIndicatorArrow = new SeparationIndicatorArrow( Color.black );
         state.moleculePaneAxisNode.addChild( state.separationIndicatorArrow );
         PText siaLabel = new PText( SimStrings.get( "EnergyView.separation" ) );
-        siaLabel.setFont( state.labelFont );
+        siaLabel.setFont( MRConfig.LABEL_FONT );
         siaLabel.rotate( -Math.PI / 2 );
         siaLabel.setOffset( curveAreaInsets.left / 2 - siaLabel.getFullBounds().getWidth() + 2,
                             moleculePane.getFullBounds().getHeight() / 2 + siaLabel.getFullBounds().getHeight() / 2 );
@@ -491,7 +488,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             }
 
             // Set the size of the separation indicator arrow
-            state.separationIndicatorArrow.setEndpoints( curveAreaInsets.left / 2 + 10, yMin,
+            molecularPaneState.separationIndicatorArrow.setEndpoints( curveAreaInsets.left / 2 + 10, yMin,
                                                    curveAreaInsets.left / 2 + 10, yMax );
 
             // set location of cursor
@@ -551,19 +548,19 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
             state.selectedMolecule = newTrackedMolecule;
             if( state.selectedMoleculeGraphic != null
-                && state.moleculeLayer.getChildrenReference().contains( state.selectedMoleculeGraphic ) ) {
-                state.moleculeLayer.removeChild( state.selectedMoleculeGraphic );
+                && molecularPaneState.moleculeLayer.getChildrenReference().contains( state.selectedMoleculeGraphic ) ) {
+                molecularPaneState.moleculeLayer.removeChild( state.selectedMoleculeGraphic );
             }
 
             if( newTrackedMolecule != null ) {
                 state.selectedMoleculeGraphic = new EnergyMoleculeGraphic( newTrackedMolecule.getFullMolecule(),
                                                                      state.module.getMRModel().getEnergyProfile() );
-                state.moleculeLayer.addChild( state.selectedMoleculeGraphic );
+                molecularPaneState.moleculeLayer.addChild( state.selectedMoleculeGraphic );
                 newTrackedMolecule.addObserver( EnergyView.this );
-                state.moleculePaneAxisNode.setVisible( true );
+                molecularPaneState.moleculePaneAxisNode.setVisible( true );
             }
             else {
-                state.moleculePaneAxisNode.setVisible( false );
+                molecularPaneState.moleculePaneAxisNode.setVisible( false );
 
             }
             state.cursor.setVisible( state.selectedMolecule != null );
@@ -577,11 +574,11 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
             state.nearestToSelectedMolecule = newClosestMolecule;
             if( state.nearestToSelectedMoleculeGraphic != null ) {
-                state.moleculeLayer.removeChild( state.nearestToSelectedMoleculeGraphic );
+                molecularPaneState.moleculeLayer.removeChild( state.nearestToSelectedMoleculeGraphic );
             }
             state.nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( newClosestMolecule.getFullMolecule(),
                                                                           state.module.getMRModel().getEnergyProfile() );
-            state.moleculeLayer.addChild( state.nearestToSelectedMoleculeGraphic );
+            molecularPaneState.moleculeLayer.addChild( state.nearestToSelectedMoleculeGraphic );
 
             newClosestMolecule.addObserver( EnergyView.this );
 
@@ -591,16 +588,16 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
         public void notifyEnergyProfileChanged( EnergyProfile profile ) {
             if( state.selectedMoleculeGraphic != null ) {
-                state.moleculeLayer.removeChild( state.selectedMoleculeGraphic );
+                molecularPaneState.moleculeLayer.removeChild( state.selectedMoleculeGraphic );
                 state.selectedMoleculeGraphic = new EnergyMoleculeGraphic( state.selectedMolecule.getFullMolecule(),
                                                                      profile );
-                state.moleculeLayer.addChild( state.selectedMoleculeGraphic );
+                molecularPaneState.moleculeLayer.addChild( state.selectedMoleculeGraphic );
             }
             if( state.nearestToSelectedMoleculeGraphic != null ) {
-                state.moleculeLayer.removeChild( state.nearestToSelectedMoleculeGraphic );
+                molecularPaneState.moleculeLayer.removeChild( state.nearestToSelectedMoleculeGraphic );
                 state.nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( state.nearestToSelectedMolecule.getFullMolecule(),
                                                                               profile );
-                state.moleculeLayer.addChild( state.nearestToSelectedMoleculeGraphic );
+                molecularPaneState.moleculeLayer.addChild( state.nearestToSelectedMoleculeGraphic );
             }
         }
     }
