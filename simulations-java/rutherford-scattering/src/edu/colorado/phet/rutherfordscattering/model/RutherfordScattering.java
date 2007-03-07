@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2007, University of Colorado */
 
 package edu.colorado.phet.rutherfordscattering.model;
 
@@ -22,9 +13,9 @@ import edu.colorado.phet.rutherfordscattering.RSConstants;
  * <p>
  * This algorithm was specified by Sam McKagan.
  * See the files doc/trajectories.pdf and doc/rutherford-scattering.pdf for details.
+ * (Those documents are not necessarily up to date.)
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class RutherfordScattering {
 
@@ -74,7 +65,7 @@ public class RutherfordScattering {
         double y = alphaParticle.getY();
         final double v = alphaParticle.getSpeed();
         final double v0 = alphaParticle.getInitialSpeed();
-        final double vd = RSConstants.INITIAL_SPEED_RANGE.getDefault();//XXX
+        final double vd = alphaParticle.getDefaultSpeed();
         
         // atom properties
         final int pd = atom.getDefaultNumberOfProtons();
