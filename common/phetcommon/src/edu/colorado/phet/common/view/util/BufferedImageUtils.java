@@ -29,7 +29,7 @@ public class BufferedImageUtils {
      * @return the resized image
      */
     public static BufferedImage rescaleYMaintainAspectRatio( BufferedImage im, int height ) {
-        if (im.getHeight( )==height){
+        if( im.getHeight() == height ) {
             return im;
         }
         double iny = im.getHeight();
@@ -43,7 +43,7 @@ public class BufferedImageUtils {
      * @return the resized image
      */
     public static BufferedImage rescaleXMaintainAspectRatio( BufferedImage im, int width ) {
-        if (im.getWidth()==width){
+        if( im.getWidth() == width ) {
             return im;
         }
         double inx = im.getWidth();
@@ -193,6 +193,16 @@ public class BufferedImageUtils {
             transparency = cm.getTransparency();
         }
         return transparency;
+    }
+
+    // This method returns a buffered image with the contents of an image
+    // Taken from The Java Developer's Almanac, 1.4
+    public static BufferedImage copyImage( BufferedImage image ) {
+        BufferedImage copy = new BufferedImage( image.getWidth( ), image.getHeight( ),image.getType() );
+        Graphics2D graphics2D = copy.createGraphics();
+        graphics2D.drawImage( image, 0, 0, null );
+        graphics2D.dispose();
+        return copy;
     }
 
     // This method returns a buffered image with the contents of an image
