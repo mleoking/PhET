@@ -49,10 +49,10 @@ public class PlumPuddingAtom extends AbstractAtom {
      * Moves an alpha particle.
      * The plum pudding atom has no influence on the alpha particle's movement.
      * 
-     * @param alphaParticle
      * @param dt
+     * @param alphaParticle
      */
-    public void moveAlphaParticle( AlphaParticle alphaParticle, double dt ) {
+    public void moveAlphaParticle( double dt, AlphaParticle alphaParticle ) {
         double speed = alphaParticle.getSpeed();
         double distance = speed * dt;
         double direction = alphaParticle.getOrientation();

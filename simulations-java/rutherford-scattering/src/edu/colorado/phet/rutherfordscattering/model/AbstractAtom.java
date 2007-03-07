@@ -36,8 +36,8 @@ public abstract class AbstractAtom extends FixedObject implements ModelElement {
     /**
      * Moves an alpha particle.
      * 
-     * @param alphaParticle
      * @param dt
+     * @param alphaParticle
      */
-    public abstract void moveAlphaParticle( AlphaParticle alphaParticle, double dt );
+    public abstract void moveAlphaParticle( double dt, AlphaParticle alphaParticle );
 }

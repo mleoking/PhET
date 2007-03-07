@@ -149,8 +149,8 @@ public class RutherfordAtom extends AbstractAtom {
      * @param alphaParticle
      * @param dt
      */
-    public void moveAlphaParticle( AlphaParticle alphaParticle, double dt ) {
-        RutherfordScattering.moveParticle( this, alphaParticle, dt, _boxSize );
+    public void moveAlphaParticle( double dt, AlphaParticle alphaParticle ) {
+        RutherfordScattering.moveParticle( dt, alphaParticle, this, _boxSize );
     }
     
     //----------------------------------------------------------------------------

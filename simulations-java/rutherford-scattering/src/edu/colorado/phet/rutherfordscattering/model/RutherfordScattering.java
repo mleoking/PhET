@@ -57,12 +57,12 @@ public class RutherfordScattering {
      * particles to jump discontinuously when they go above the y axis.
      * This is fixed by using Math.atan2 instead.
      *
-     * @param atom the atom
-     * @param alphaParticle the alpha particle
      * @param dt the time step
-     * @param D the constant D
+     * @param alphaParticle the alpha particle
+     * @param atom the atom
+     * @param boxSize the size of the box that alpha particles are moving in
      */
-    public static void moveParticle( RutherfordAtom atom, AlphaParticle alphaParticle, final double dt, Dimension boxSize ) {
+    public static void moveParticle( final double dt, AlphaParticle alphaParticle, RutherfordAtom atom, Dimension boxSize ) {
 
         assert( dt > 0 );
         assert( boxSize.getWidth() == boxSize.getHeight() ); // box must be square!
