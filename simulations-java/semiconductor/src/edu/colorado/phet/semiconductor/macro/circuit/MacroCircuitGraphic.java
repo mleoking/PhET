@@ -1,11 +1,11 @@
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import edu.colorado.phet.common.math.PhetVector;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.ShapeGraphic;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common_semiconductor.math.PhetVector;
+import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
+import edu.colorado.phet.common_semiconductor.view.graphics.ShapeGraphic;
+import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_semiconductor.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common_semiconductor.view.util.graphics.ImageLoader;
 import edu.colorado.phet.semiconductor.common.StretchedBufferedImage;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatteryListener;

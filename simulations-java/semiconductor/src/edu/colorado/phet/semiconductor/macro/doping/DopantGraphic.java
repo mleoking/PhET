@@ -1,9 +1,9 @@
 package edu.colorado.phet.semiconductor.macro.doping;
 
-import edu.colorado.phet.common.math.PhetVector;
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.bounds.Boundary;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_semiconductor.math.PhetVector;
+import edu.colorado.phet.common_semiconductor.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.common_semiconductor.view.graphics.bounds.Boundary;
+import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 

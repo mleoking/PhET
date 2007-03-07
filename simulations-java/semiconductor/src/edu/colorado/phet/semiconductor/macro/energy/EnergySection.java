@@ -1,10 +1,10 @@
 package edu.colorado.phet.semiconductor.macro.energy;
 
-import edu.colorado.phet.common.math.PhetVector;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_semiconductor.math.PhetVector;
+import edu.colorado.phet.common_semiconductor.model.ModelElement;
+import edu.colorado.phet.common_semiconductor.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
+import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.common.EnergySpaceRegion;
 import edu.colorado.phet.semiconductor.macro.BucketSection;
 import edu.colorado.phet.semiconductor.macro.EntryPoint;

@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.semiconductor.macro.energy;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common_semiconductor.model.ModelElement;
 import edu.colorado.phet.semiconductor.macro.doping.DopantType;
 import edu.colorado.phet.semiconductor.macro.energy.bands.*;
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.Entrance;

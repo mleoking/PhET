@@ -1,8 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.semiconductor.macro.energy.statemodels;
 
-import edu.colorado.phet.common.math.PhetVector;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common_semiconductor.math.PhetVector;
+import edu.colorado.phet.common_semiconductor.model.ModelElement;
 import edu.colorado.phet.semiconductor.macro.EntryPoint;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
