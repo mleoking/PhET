@@ -27,6 +27,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/7/07 - change v (velocity) to s (speed) throughout, we're dealing with a scalar quantity
 3/7/07 - add final modifier to immutable member data in model
 3/7/07 - add vd to AlphaParticle model so that it's accessible by RutherfordScattering
 3/7/07 - calculation of D in RutherfordScattering should have v0 in denomincator, error is design doc

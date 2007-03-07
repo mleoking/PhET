@@ -63,17 +63,17 @@ public class RutherfordScattering {
         // particle properties
         double x = alphaParticle.getX();
         double y = alphaParticle.getY();
-        final double v = alphaParticle.getSpeed();
-        final double v0 = alphaParticle.getInitialSpeed();
-        final double vd = alphaParticle.getDefaultSpeed();
+        final double s = alphaParticle.getSpeed();
+        final double s0 = alphaParticle.getInitialSpeed();
+        final double sd = alphaParticle.getDefaultSpeed();
         
         // atom properties
-        final int pd = atom.getDefaultNumberOfProtons();
         final int p = atom.getNumberOfProtons();
+        final int pd = atom.getDefaultNumberOfProtons();
         
         // Calculate D
         final double L = boxSize.getWidth();
-        final double D = ( L / 16 ) * ( p / (double)pd ) * ( ( vd * vd ) / ( v0 * v0 ) );
+        final double D = ( L / 16 ) * ( p / (double)pd ) * ( ( sd * sd ) / ( s0 * s0 ) );
         
         // Alpha particle's initial position, relative to the atom's center.
         double x0 = Math.abs( alphaParticle.getInitialPosition().getX() - atom.getX() );
@@ -109,16 +109,16 @@ public class RutherfordScattering {
 
         // new position (in Polar coordinates) and speed
         final double t1 = ( ( b * Math.cos( phi ) ) - ( ( D / 2 ) * Math.sin( phi ) ) );
-        final double phiNew = phi + ( ( b * b * v * dt ) / ( r * Math.sqrt( Math.pow( b, 4 ) + ( r * r * t1 * t1 ) ) ) );
+        final double phiNew = phi + ( ( b * b * s * dt ) / ( r * Math.sqrt( Math.pow( b, 4 ) + ( r * r * t1 * t1 ) ) ) );
         final double rNew = Math.abs( ( b * b ) / ( ( b * Math.sin( phiNew ) ) + ( ( D / 2 ) * ( Math.cos( phiNew ) - 1 ) ) ) );
-        final double vNew = v0 * Math.sqrt( 1 - ( D / rNew ) );
+        final double sNew = s0 * Math.sqrt( 1 - ( D / rNew ) );
         
         // convert new position to Cartesian coordinates
         double xNew = rNew * Math.sin( phiNew );
         double yNew = -rNew * Math.cos( phiNew );
         
         // Debugging output, in coordinates relative to atom's center
-        if ( DEBUG_OUTPUT_ENABLED && ( ( !( b > 0 ) ) || ( !( vNew > 0 ) ) ) ) {
+        if ( DEBUG_OUTPUT_ENABLED && ( ( !( b > 0 ) ) || ( !( sNew > 0 ) ) ) ) {
             System.out.println( "RutherfordScattering.moveParticle" );
             System.out.println( "  particle id=" + alphaParticle.getId() );
             System.out.println( "  constants:" );
@@ -127,21 +127,21 @@ public class RutherfordScattering {
             System.out.println( "    L=" + F.format( L ) );
             System.out.println( "    D=" + D );
             System.out.println( "    (x0,y0)=(" + F.format( x0 ) + "," + F.format( y0 ) + ")" );
-            System.out.println( "    v0=" + F.format( v0 ) );
-            System.out.println( "    vd=" + F.format( vd ) );
+            System.out.println( "    s0=" + F.format( s0 ) );
+            System.out.println( "    sd=" + F.format( sd ) );
             System.out.println( "    p=" + p );
             System.out.println( "    pd=" + pd );
             System.out.println( "  current state:" );
             System.out.println( "    (x,y)=(" + F.format( x ) + "," + F.format( y ) + ")" );
             System.out.println( "    (r,phi)=(" + F.format( r ) + "," + F.format( Math.toDegrees( phi ) ) + ")" );
-            System.out.println( "    v=" + F.format( v ) );
+            System.out.println( "    s=" + F.format( s ) );
             System.out.println( "  new state:" );
             System.out.println( "    (x,y)=(" + F.format( xNew ) + "," + F.format( yNew ) + ")" );
             System.out.println( "    (r,phi)=(" + F.format( rNew ) + "," + F.format( Math.toDegrees( phiNew ) ) + ")" );
-            System.out.println( "    v=" + vNew );
+            System.out.println( "    s=" + sNew );
         }
         assert ( b > 0 );
-        assert ( vNew > 0 );
+        assert ( sNew > 0 );
         
         // Adjust the sign of x.
         xNew *= sign;
@@ -154,7 +154,7 @@ public class RutherfordScattering {
         yNew += atom.getY();
         
         alphaParticle.setPosition( xNew, yNew );
-        alphaParticle.setSpeed( vNew );
+        alphaParticle.setSpeed( sNew );
         alphaParticle.setOrientation( phiNew );
     }
 }
