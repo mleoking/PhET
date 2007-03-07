@@ -17,7 +17,7 @@ MEDIUM PRIORITY:
 - make ModelViewTransform an instance, not a singleton, test for non 1:1 transforms
 
 LOW PRIORITY:
-- hide value on energy slider (set DEBUG_SHOW_INITIAL_SPEED_VALUE = false)
+- hide value on energy slider (set DEBUG_SHOW_ENERGY_VALUE = false)
 - JNLP files
 - Spanish translations
 - file level javadoc

@@ -25,8 +25,8 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
     // Class data
     //----------------------------------------------------------------------------
     
-    // shows the initial speed (aka "Energy") value, should be false for production code
-    private static final boolean DEBUG_SHOW_INITIAL_SPEED_VALUE = true;
+    // shows energy value, should be false for production code
+    private static final boolean DEBUG_SHOW_ENERGY_VALUE = true;
        
     //----------------------------------------------------------------------------
     // Instance data
@@ -35,8 +35,8 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
     private RutherfordAtomModule _module;
     private Gun _gun;
     private RutherfordAtom _atom;
-    private SliderControl _initialSpeedControl;
-    private ChangeListener _initialSpeedListener;
+    private SliderControl _energyControl;
+    private ChangeListener _energyListener;
     private SliderControl _protonsControl;
     private ChangeListener _protonsListener;
     private SliderControl _neutronsControl;
@@ -58,10 +58,11 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         _atom = _module.getAtom();
         _atom.addObserver( this );
         
+        // Alpha Particle Properties label
         JLabel alphaParticlePropertiesLabel = new JLabel( SimStrings.get( "label.alphaParticleProperties" ) );
         alphaParticlePropertiesLabel.setFont( RSConstants.TITLE_FONT );
         
-        // Initial Speed control (labeled "Energy")
+        // Energy
         {
             double value = _gun.getSpeed();
             double min = _gun.getMinSpeed();
@@ -72,21 +73,22 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
             String label = SimStrings.get( "label.energy" );
             String units = "";
             int columns = 3;
-            _initialSpeedControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
-            _initialSpeedControl.setBorder( BorderFactory.createEtchedBorder() );
-            _initialSpeedControl.setTextFieldEditable( false );
-            if ( !DEBUG_SHOW_INITIAL_SPEED_VALUE ) {
-                _initialSpeedControl.setTextFieldVisible( false );
+            _energyControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+            _energyControl.setBorder( BorderFactory.createEtchedBorder() );
+            _energyControl.setTextFieldEditable( false );
+            if ( !DEBUG_SHOW_ENERGY_VALUE ) {
+                _energyControl.setTextFieldVisible( false );
             }
-            _initialSpeedControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
-            _initialSpeedListener = new ChangeListener() {
+            _energyControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
+            _energyListener = new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
-                    handleInitialSpeedChange();
+                    handleEnergyChange();
                 }
             };
-            _initialSpeedControl.addChangeListener( _initialSpeedListener );
+            _energyControl.addChangeListener( _energyListener );
         }
         
+        // Atom Properties label
         JLabel atomPropertiesLabel = new JLabel( SimStrings.get( "label.atomProperties" ) );
         atomPropertiesLabel.setFont( RSConstants.TITLE_FONT );
         
@@ -135,7 +137,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         addVerticalSpace( 20 );
         addControlFullWidth( alphaParticlePropertiesLabel );
         addVerticalSpace( 20 );
-        addControlFullWidth( _initialSpeedControl );
+        addControlFullWidth( _energyControl );
         addVerticalSpace( 20 );
         addSeparator();
         addVerticalSpace( 20 );
@@ -156,8 +158,8 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
     // Event handlers
     //----------------------------------------------------------------------------
 
-    private void handleInitialSpeedChange() {
-        double speed = _initialSpeedControl.getValue();
+    private void handleEnergyChange() {
+        double speed = _energyControl.getValue();
         _gun.deleteObserver( this );
         _gun.setSpeed( speed );
         _gun.addObserver( this );
@@ -185,10 +187,10 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _gun && arg == Gun.PROPERTY_INITIAL_SPEED ) {
-            _initialSpeedControl.removeChangeListener( _initialSpeedListener );
-            _initialSpeedControl.setValue( _gun.getSpeed() );
-            _initialSpeedControl.addChangeListener( _initialSpeedListener );
+        if ( o == _gun && arg == Gun.PROPERTY_SPEED ) {
+            _energyControl.removeChangeListener( _energyListener );
+            _energyControl.setValue( _gun.getSpeed() );
+            _energyControl.addChangeListener( _energyListener );
         }
         else if ( o == _atom ) {
             if ( arg == RutherfordAtom.PROPERTY_NUMBER_OF_PROTONS ) {
