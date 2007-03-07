@@ -38,7 +38,7 @@ information.
 
     </resources>
 
-    <application-desc main-class="phet.ohm1d.volt.Ohm1dModule"> 
+    <application-desc main-class="phet_ohm1d.ohm1d.volt.Ohm1dModule"> 
         <!-- uncomment to specify user language
           <argument>user.language=test</argument>
         -->
