@@ -6,8 +6,6 @@
  */
 package edu.colorado.phet.sound;
 
-import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
 import edu.colorado.phet.sound.model.Wavefront;

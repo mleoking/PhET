@@ -6,11 +6,10 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.util.Translatable;
+import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationEvent;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

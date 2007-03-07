@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.sound.SoundConfig;
 
 import java.awt.*;

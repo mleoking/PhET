@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_sound.view.util.SimStrings;
 import edu.colorado.phet.sound.SoundModule;
 
 import javax.swing.*;

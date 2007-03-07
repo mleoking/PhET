@@ -6,17 +6,16 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common_sound.math.MathUtil;
+import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_sound.util.EventChannel;
 import edu.colorado.phet.sound.SoundConfig;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.geom.Point2D;
-import java.awt.*;
 import java.util.ArrayList;
 
 public class InteractiveSpeakerGraphic extends CompositePhetGraphic {

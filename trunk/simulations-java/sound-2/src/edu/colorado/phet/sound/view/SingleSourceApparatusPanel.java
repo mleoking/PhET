@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common_sound.util.SimpleObserver;
+import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
