@@ -17,8 +17,8 @@ public class RSModelViewManager extends ModelViewManager {
     public RSModelViewManager( Model model, AnimationBoxNode animationBoxNode ) {
         super( model );
         
-        // Particles are dynamically added to the middle layer of the animation box
-        PLayer middleLayer = animationBoxNode.getParticleLayer();
-        addNodeFactory( new AlphaParticleNodeFactory( middleLayer ) );
+        // Add particles to the animation box's particle layer
+        PLayer particleLayer = animationBoxNode.getParticleLayer();
+        addNodeFactory( new AlphaParticleNodeFactory( particleLayer ) );
     }
 }
