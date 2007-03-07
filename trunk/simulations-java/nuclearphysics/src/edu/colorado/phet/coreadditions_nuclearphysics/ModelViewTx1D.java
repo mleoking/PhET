@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Feb 26, 2004
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.coreadditions_nuclearphysics;
 
 public class ModelViewTx1D {
     private double modelMin;

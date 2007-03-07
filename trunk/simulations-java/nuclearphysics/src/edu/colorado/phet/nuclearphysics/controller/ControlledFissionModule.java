@@ -22,17 +22,14 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.coreadditions.TxGraphic;
+import edu.colorado.phet.coreadditions_nuclearphysics.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.AffineTransformOp;
 import java.util.*;
 import java.util.List;
 

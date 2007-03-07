@@ -13,16 +13,14 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.coreadditions.TxApparatusPanel;
-import edu.colorado.phet.coreadditions.TxGraphic;
+import edu.colorado.phet.coreadditions_nuclearphysics.TxApparatusPanel;
+import edu.colorado.phet.coreadditions_nuclearphysics.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.EventObject;

@@ -9,7 +9,6 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.coreadditions.GridBagUtil;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;

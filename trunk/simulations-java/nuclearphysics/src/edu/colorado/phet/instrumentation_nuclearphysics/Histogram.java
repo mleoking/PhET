@@ -5,7 +5,7 @@
  * Date: Jan 18, 2004
  * Time: 1:55:47 PM
  */
-package edu.colorado.phet.instrumentation;
+package edu.colorado.phet.instrumentation_nuclearphysics;
 
 import javax.swing.*;
 import java.awt.*;

@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Oct 6, 2004
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.coreadditions_nuclearphysics;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;

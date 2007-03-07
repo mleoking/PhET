@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Oct 5, 2004
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.coreadditions_nuclearphysics;
 
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;

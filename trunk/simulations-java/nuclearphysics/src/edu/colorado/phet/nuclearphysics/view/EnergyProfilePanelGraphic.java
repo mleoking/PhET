@@ -15,7 +15,7 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.coreadditions.TxGraphic;
+import edu.colorado.phet.coreadditions_nuclearphysics.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.Config;

@@ -1,4 +1,4 @@
-package edu.colorado.phet.instrumentation;
+package edu.colorado.phet.instrumentation_nuclearphysics;
 
 
 public abstract class AbstractGauge {

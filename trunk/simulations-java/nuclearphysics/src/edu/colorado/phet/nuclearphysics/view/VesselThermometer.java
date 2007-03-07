@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.instrumentation.Thermometer;
+import edu.colorado.phet.instrumentation_nuclearphysics.Thermometer;
 import edu.colorado.phet.nuclearphysics.model.Vessel;
 
 import java.awt.*;

@@ -12,8 +12,8 @@ package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.coreadditions.EventChannel;
-import edu.colorado.phet.coreadditions.ScalarDataRecorder;
+import edu.colorado.phet.coreadditions_nuclearphysics.EventChannel;
+import edu.colorado.phet.coreadditions_nuclearphysics.ScalarDataRecorder;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 

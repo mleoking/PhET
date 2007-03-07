@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Aug 26, 2003
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.coreadditions_nuclearphysics;
 
 import edu.colorado.phet.mechanics.Body;
 
