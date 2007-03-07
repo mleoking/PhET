@@ -1,12 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman.plots;
 
-import edu.colorado.phet.common.util.DefaultDecimalFormat;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.GraphicCriteria;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
+import edu.colorado.phet.common_movingman.util.DefaultDecimalFormat;
+import edu.colorado.phet.common_movingman.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicCriteria;
+import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.ShadowHTMLGraphic;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.HelpItem2;

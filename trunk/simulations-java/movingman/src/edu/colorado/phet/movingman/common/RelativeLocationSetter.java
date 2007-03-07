@@ -1,8 +1,8 @@
 package edu.colorado.phet.movingman.common;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphicListener;
+import edu.colorado.phet.common_movingman.view.util.RectangleUtils;
 
 import java.awt.*;
 

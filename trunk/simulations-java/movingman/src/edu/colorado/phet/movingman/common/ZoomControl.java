@@ -11,9 +11,9 @@
 
 package edu.colorado.phet.movingman.common;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common_movingman.view.ApparatusPanel;
+import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetImageGraphic;
 
 import javax.swing.*;
 import javax.swing.event.EventListenerList;

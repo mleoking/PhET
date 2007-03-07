@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.view.help.HelpItem3;
+import edu.colorado.phet.common_movingman.view.help.HelpItem3;
 
 /**
  * User: Sam Reid

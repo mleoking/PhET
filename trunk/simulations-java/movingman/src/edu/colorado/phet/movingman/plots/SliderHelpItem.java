@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman.plots;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.HelpItem2;
 import edu.colorado.phet.movingman.model.TimeListenerAdapter;

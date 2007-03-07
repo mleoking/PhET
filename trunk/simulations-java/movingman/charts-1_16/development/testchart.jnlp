@@ -35,5 +35,5 @@ information.
         <j2se version="1.4+"/>
         <jar href="chart/v1/testchart.jar"/>
     </resources>
-    <application-desc main-class="edu.colorado.phet.chart.test.DynamicChartTest"/>
+    <application-desc main-class="edu.colorado.phet.chart_movingman.test.DynamicChartTest"/>
 </jnlp>

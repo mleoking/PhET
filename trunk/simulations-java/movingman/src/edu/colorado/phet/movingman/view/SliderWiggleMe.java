@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman.view;
 
-import edu.colorado.phet.chart.controllers.ChartSlider;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.chart_movingman.controllers.ChartSlider;
+import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.Force1DWiggleMe;
 

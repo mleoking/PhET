@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman.view;
 
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common_movingman.view.util.ImageLoader;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

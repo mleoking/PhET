@@ -1,10 +1,10 @@
 /** Sam Reid*/
 package edu.colorado.phet.movingman.model;
 
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common_movingman.model.ModelElement;
+import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
+import edu.colorado.phet.common_movingman.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common_movingman.view.util.SwingUtils;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;

@@ -1,17 +1,17 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman.tests;
 
-import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.chart_movingman.Range2D;
+import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
+import edu.colorado.phet.common_movingman.model.clock.ClockTickEvent;
+import edu.colorado.phet.common_movingman.model.clock.ClockTickListener;
+import edu.colorado.phet.common_movingman.model.clock.SwingTimerClock;
+import edu.colorado.phet.common_movingman.view.ApparatusPanel2;
+import edu.colorado.phet.common_movingman.view.BasicGraphicsSetup;
+import edu.colorado.phet.common_movingman.view.PhetLookAndFeel;
+import edu.colorado.phet.common_movingman.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common_movingman.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.movingman.plotdevice.PlotDevice;
 
 import javax.swing.*;

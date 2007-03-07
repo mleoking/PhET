@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman.common;
 
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common_movingman.view.util.BufferedImageUtils;
+import edu.colorado.phet.common_movingman.view.util.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

@@ -1,11 +1,11 @@
 /** Sam Reid*/
 package edu.colorado.phet.movingman.view;
 
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_movingman.math.Vector2D;
+import edu.colorado.phet.common_movingman.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShadowTextGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.plots.MMPlotSuite;
 

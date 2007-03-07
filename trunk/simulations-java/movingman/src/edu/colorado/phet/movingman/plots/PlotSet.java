@@ -1,9 +1,9 @@
 /** Sam Reid*/
 package edu.colorado.phet.movingman.plots;
 
-import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.chart.controllers.VerticalChartSlider;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.chart_movingman.Range2D;
+import edu.colorado.phet.chart_movingman.controllers.VerticalChartSlider;
+import edu.colorado.phet.common_movingman.view.util.SimStrings;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.Man;

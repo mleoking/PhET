@@ -2,7 +2,7 @@
 package edu.colorado.phet.movingman.model;
 
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common_movingman.model.ModelElement;
 import edu.colorado.phet.movingman.MovingManModule;
 
 /**

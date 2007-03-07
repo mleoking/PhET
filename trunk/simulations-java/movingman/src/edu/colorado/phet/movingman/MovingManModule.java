@@ -1,16 +1,16 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.ContentPanel;
-import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.help.HelpPanel;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common_movingman.application.Module;
+import edu.colorado.phet.common_movingman.application.PhetApplication;
+import edu.colorado.phet.common_movingman.model.BaseModel;
+import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
+import edu.colorado.phet.common_movingman.view.ContentPanel;
+import edu.colorado.phet.common_movingman.view.PhetFrame;
+import edu.colorado.phet.common_movingman.view.help.HelpPanel;
+import edu.colorado.phet.common_movingman.view.util.ImageLoader;
+import edu.colorado.phet.common_movingman.view.util.SimStrings;
+import edu.colorado.phet.common_movingman.view.util.SwingUtils;
 import edu.colorado.phet.movingman.common.CircularBuffer;
 import edu.colorado.phet.movingman.common.LinearTransform1d;
 import edu.colorado.phet.movingman.misc.JEPFrame;

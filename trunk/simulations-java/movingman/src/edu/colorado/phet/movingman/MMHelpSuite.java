@@ -2,8 +2,8 @@
 package edu.colorado.phet.movingman;
 
 
-import edu.colorado.phet.common.view.help.HelpItem3;
-import edu.colorado.phet.common.view.help.PhetGraphicTarget;
+import edu.colorado.phet.common_movingman.view.help.HelpItem3;
+import edu.colorado.phet.common_movingman.view.help.PhetGraphicTarget;
 
 /**
  * User: Sam Reid
