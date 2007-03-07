@@ -112,7 +112,7 @@ public class CollisionTest {
                 sph.setSphereGraphic( sg );
                 addGraphic( sg, 1 );
             }
-            ModelElement me = new ModelElement() {
+            edu.colorado.phet.common.model.ModelElement  me = new edu.colorado.phet.common.model.ModelElement () {
                 public void stepInTime( double dt ) {
                     for( int i = 0; i < spheres.size(); i++ ) {
                         double vx = Math.random() * 2 - 1;

@@ -11,15 +11,15 @@ import java.util.ArrayList;
  * Time: 5:38:59 PM
  * To change this template use Options | File Templates.
  */
-public class CompositeModelElement extends SimpleObservable implements ModelElement {
+public class CompositeModelElement extends SimpleObservable implements edu.colorado.phet.common.model.ModelElement  {
     private ArrayList modelElements = new ArrayList();
 
-    public void addModelElement( ModelElement aps ) {
+    public void addModelElement( edu.colorado.phet.common.model.ModelElement aps ) {
         modelElements.add( aps );
     }
 
-    public ModelElement modelElementAt( int i ) {
-        return (ModelElement)modelElements.get( i );
+    public edu.colorado.phet.common.model.ModelElement  modelElementAt( int i ) {
+        return (edu.colorado.phet.common.model.ModelElement )modelElements.get( i );
     }
 
     public int numModelElements() {
@@ -33,7 +33,7 @@ public class CompositeModelElement extends SimpleObservable implements ModelElem
         notifyObservers();
     }
 
-    public void removeModelElement( ModelElement m ) {
+    public void removeModelElement( edu.colorado.phet.common.model.ModelElement  m ) {
         modelElements.remove( m );
     }
 

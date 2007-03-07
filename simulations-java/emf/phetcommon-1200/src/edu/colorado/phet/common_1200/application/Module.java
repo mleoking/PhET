@@ -87,7 +87,7 @@ public class Module {
         return name;
     }
 
-    protected void addModelElement( ModelElement modelElement ) {
+    protected void addModelElement( edu.colorado.phet.common.model.ModelElement  modelElement ) {
         getModel().addModelElement( modelElement );
     }
 
@@ -95,12 +95,12 @@ public class Module {
         getApparatusPanel().addGraphic( graphic, layer );
     }
 
-    protected void add( ModelElement modelElement, Graphic graphic, double layer ) {
+    protected void add( edu.colorado.phet.common.model.ModelElement  modelElement, Graphic graphic, double layer ) {
         this.addModelElement( modelElement );
         this.addGraphic( graphic, layer );
     }
 
-    protected void remove( ModelElement modelElement, Graphic graphic ) {
+    protected void remove( edu.colorado.phet.common.model.ModelElement  modelElement, Graphic graphic ) {
         getModel().removeModelElement( modelElement );
         getApparatusPanel().removeGraphic( graphic );
     }
