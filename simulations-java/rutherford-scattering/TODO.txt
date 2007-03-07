@@ -18,7 +18,6 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - hide value on energy slider (DEBUG_SHOW_ENERGY_VALUE = false)
 - disable debug output in RutherfordScattering (DEBUG_OUTPUT_ENABLED=false)
-- JNLP files
 - Spanish translations
 - file level javadoc
 - package level javadoc
@@ -27,6 +26,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/7/07 - create JNLP files
 3/7/07 - change v (velocity) to s (speed) throughout, we're dealing with a scalar quantity
 3/7/07 - add final modifier to immutable member data in model
 3/7/07 - add vd to AlphaParticle model so that it's accessible by RutherfordScattering
