@@ -106,7 +106,7 @@ public class PlumPuddingModule extends AbstractModule {
         _rootNode = new PNode();
         _canvas.addWorldChild( _rootNode );
         
-        //  Box of Hydrogen / Beam / Gun
+        //  Box of Hydrogen + Beam + Gun
         {
             // Parent node, used for layout
             _boxBeamGunParent = new PNode();
@@ -143,7 +143,7 @@ public class PlumPuddingModule extends AbstractModule {
         _zoomIndicatorNode = new ZoomIndicatorNode();
         
         // Atom
-        PlumPuddingNode atomNode = new PlumPuddingNode( atom );
+        PlumPuddingAtomNode atomNode = new PlumPuddingAtomNode( atom );
         _animationBoxNode.getAtomLayer().addChild(  atomNode  );
         
         // Alpha Particles tracer

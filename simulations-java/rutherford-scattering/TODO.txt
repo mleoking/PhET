@@ -5,12 +5,12 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- assert( b > 0 ) violation in RutherfordScattering.moveParticle
-- alpha particles suddenly disappear when they get to nucleus center with E=3, p=11, n=118 (verified in Mathematica)
+- RutherfordScattering fails when D > rNew
 - don't create any alpha particles until done dragging sliders
 - performance issue with drawing alpha particles and traces on top of large plum pudding image
 
 MEDIUM PRIORITY:
+- pass vd to RutherfordScattering instead of getting it from RSConstants
 - SliderControl text entry is broken (in other sims too?)
 - randomly place 79 electrons in PlumPuddingNode
 - implement dynamic generation of nucleus view in RutherfordAtomNode

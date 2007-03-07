@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PlumPuddingNode extends PhetPNode {
+public class PlumPuddingAtomNode extends PhetPNode {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -44,7 +44,7 @@ public class PlumPuddingNode extends PhetPNode {
      * Constructor.
      * @param atom
      */
-    public PlumPuddingNode( PlumPuddingAtom atom ) {
+    public PlumPuddingAtomNode( PlumPuddingAtom atom ) {
         super();
         
         setPickable( false );
