@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.coreadditions.Disk;
+import edu.colorado.phet.coreadditions_greenhouse.Disk;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

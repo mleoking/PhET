@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions.graphics.ImageGraphic;
-import edu.colorado.phet.coreadditions.graphics.ShapeGraphicType;
+import edu.colorado.phet.common_greenhouse.view.CompositeGraphic;
+import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
+import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
+import edu.colorado.phet.coreadditions_greenhouse.graphics.ShapeGraphicType;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;

@@ -6,14 +6,14 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.IClock;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.common.view.FlipperAffineTransformFactory;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_greenhouse.application.Module;
+import edu.colorado.phet.common_greenhouse.application.PhetApplication;
+import edu.colorado.phet.common_greenhouse.model.IClock;
+import edu.colorado.phet.common_greenhouse.model.ModelElement;
+import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
+import edu.colorado.phet.common_greenhouse.view.CompositeGraphic;
+import edu.colorado.phet.common_greenhouse.view.FlipperAffineTransformFactory;
+import edu.colorado.phet.common_greenhouse.view.util.SimStrings;
 import edu.colorado.phet.filter.BandpassFilter;
 import edu.colorado.phet.filter.Filter1D;
 import edu.colorado.phet.instrumentation.Thermometer;

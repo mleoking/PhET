@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.FlipperAffineTransformFactory;
+import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
+import edu.colorado.phet.common_greenhouse.view.FlipperAffineTransformFactory;
 
 import java.awt.geom.Rectangle2D;
 

@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common_greenhouse.model.ModelElement;
 
 import java.util.ArrayList;
 

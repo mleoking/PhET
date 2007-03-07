@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
 
 import java.awt.*;
 

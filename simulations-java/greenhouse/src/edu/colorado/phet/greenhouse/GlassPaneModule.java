@@ -6,12 +6,12 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.coreadditions.graphics.ImageGraphic;
+import edu.colorado.phet.common_greenhouse.application.PhetApplication;
+import edu.colorado.phet.common_greenhouse.model.ModelElement;
+import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
+import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
+import edu.colorado.phet.common_greenhouse.view.util.SimStrings;
+import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
