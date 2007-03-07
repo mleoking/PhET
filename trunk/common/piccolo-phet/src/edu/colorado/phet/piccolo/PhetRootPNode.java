@@ -200,7 +200,10 @@ public class PhetRootPNode extends PNode {
     public void globalToWorld( PDimension d ) {
         worldNode.globalToLocal( d );
     }
-
+    public void worldToScreen(Rectangle2D rectangle2D){
+        worldNode.localToGlobal( rectangle2D );
+        screenNode.globalToLocal( rectangle2D );
+    }
     public void worldToScreen( Point2D pt ) {
         worldNode.localToGlobal( pt );
         screenNode.globalToLocal( pt );
