@@ -1,19 +1,19 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman.plotdevice;
 
-import edu.colorado.phet.chart.BufferedChart;
-import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.chart.controllers.BufferedChartCursor;
-import edu.colorado.phet.chart.controllers.ChartCursor;
-import edu.colorado.phet.chart.controllers.ChartSlider;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.chart_movingman.BufferedChart;
+import edu.colorado.phet.chart_movingman.Chart;
+import edu.colorado.phet.chart_movingman.Range2D;
+import edu.colorado.phet.chart_movingman.controllers.BufferedChartCursor;
+import edu.colorado.phet.chart_movingman.controllers.ChartCursor;
+import edu.colorado.phet.chart_movingman.controllers.ChartSlider;
+import edu.colorado.phet.common_movingman.view.ApparatusPanel;
+import edu.colorado.phet.common_movingman.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_movingman.view.util.BufferedImageUtils;
+import edu.colorado.phet.common_movingman.view.util.ImageLoader;
+import edu.colorado.phet.common_movingman.view.util.SimStrings;
 import edu.colorado.phet.movingman.common.ZoomControl;
 import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;

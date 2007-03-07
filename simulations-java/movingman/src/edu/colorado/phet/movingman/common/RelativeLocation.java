@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman.common;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 
 /**
  * User: Sam Reid

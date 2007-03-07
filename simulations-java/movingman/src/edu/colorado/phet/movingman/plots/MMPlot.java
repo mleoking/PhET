@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman.plots;
 
-import edu.colorado.phet.chart.Range2D;
+import edu.colorado.phet.chart_movingman.Range2D;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.MMTimer;
 import edu.colorado.phet.movingman.model.Man;

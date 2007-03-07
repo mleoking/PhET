@@ -1,11 +1,11 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman.plots;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
+import edu.colorado.phet.common_movingman.model.clock.ClockTickEvent;
+import edu.colorado.phet.common_movingman.model.clock.ClockTickListener;
+import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
 

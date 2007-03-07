@@ -1,17 +1,17 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman.view;
 
-import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.model.CompositeModelElement;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.GraphicsSetup;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_movingman.math.ImmutableVector2D;
+import edu.colorado.phet.common_movingman.model.CompositeModelElement;
+import edu.colorado.phet.common_movingman.model.clock.ClockTickEvent;
+import edu.colorado.phet.common_movingman.model.clock.ClockTickListener;
+import edu.colorado.phet.common_movingman.view.ApparatusPanel2;
+import edu.colorado.phet.common_movingman.view.BasicGraphicsSetup;
+import edu.colorado.phet.common_movingman.view.GraphicsSetup;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.RepaintDebugGraphic;
+import edu.colorado.phet.common_movingman.view.util.SimStrings;
 import edu.colorado.phet.movingman.MMKeySuite;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.LinearTransform1d;

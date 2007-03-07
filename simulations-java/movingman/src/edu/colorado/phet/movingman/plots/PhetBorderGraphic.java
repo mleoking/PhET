@@ -1,10 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman.plots;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphicListener;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
 

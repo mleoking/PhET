@@ -1,13 +1,13 @@
 /** Sam Reid*/
 package edu.colorado.phet.movingman.common;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common_movingman.math.AbstractVector2D;
+import edu.colorado.phet.common_movingman.model.ModelElement;
+import edu.colorado.phet.common_movingman.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShadowTextGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_movingman.view.util.RectangleUtils;
 import edu.colorado.phet.movingman.MMFontManager;
 
 import java.awt.*;

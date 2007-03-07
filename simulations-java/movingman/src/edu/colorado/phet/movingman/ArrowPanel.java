@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
+import edu.colorado.phet.common_movingman.view.components.HorizontalLayoutPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

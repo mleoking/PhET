@@ -1,15 +1,15 @@
 package edu.colorado.phet.movingman.common;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
+import edu.colorado.phet.common_movingman.math.AbstractVector2D;
+import edu.colorado.phet.common_movingman.math.Vector2D;
+import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
+import edu.colorado.phet.common_movingman.model.clock.ClockTickEvent;
+import edu.colorado.phet.common_movingman.model.clock.ClockTickListener;
+import edu.colorado.phet.common_movingman.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_movingman.view.phetgraphics.ShadowHTMLGraphic;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

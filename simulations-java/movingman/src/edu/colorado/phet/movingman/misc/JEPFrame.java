@@ -1,8 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.movingman.misc;
 
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_movingman.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common_movingman.view.util.SimStrings;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.Mode;
 import edu.colorado.phet.movingman.plots.TimePoint;

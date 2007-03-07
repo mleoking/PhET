@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman.common;
 
-import edu.colorado.phet.common.math.Function;
+import edu.colorado.phet.common_movingman.math.Function;
 
 /**
  * User: Sam Reid
