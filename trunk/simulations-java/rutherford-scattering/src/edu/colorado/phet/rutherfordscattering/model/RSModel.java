@@ -153,7 +153,7 @@ public class RSModel extends Model implements GunFiredListener {
             Object[] alphaParticles = _alphaParticles.toArray(); // copy, this operation may delete from list
             for ( int i = 0; i < alphaParticles.length; i++ ) {
                 AlphaParticle alphaParticle = (AlphaParticle) alphaParticles[i];
-                _atom.moveAlphaParticle( alphaParticle, dt );
+                _atom.moveAlphaParticle( dt, alphaParticle );
             }
         }
     }
