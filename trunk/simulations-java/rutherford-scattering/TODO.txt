@@ -12,7 +12,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - pass vd to RutherfordScattering instead of getting it from RSConstants
 - SliderControl text entry is broken (in other sims too?)
-- randomly place 79 electrons in PlumPuddingNode
 - implement dynamic generation of nucleus view in RutherfordAtomNode
 - make ModelViewTransform an instance, not a singleton, test for non 1:1 transforms
 
@@ -28,6 +27,8 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/7/07 - randomly place 79 electrons in PlumPuddingNode
+3/7/07 - add dbug code to RutherfordScattering to verify that it fails when D>rNew
 3/6/07 - add debug flag to show/hide value on energy control
 3/6/07 - rename AbstractHydrogenAtom->AbstractAtom, PlumPuddingModel->PlumPuddingAtom, RutherfordAtomModel->RutherfordAtom
 3/6/07 - make control panels observers of model elements
