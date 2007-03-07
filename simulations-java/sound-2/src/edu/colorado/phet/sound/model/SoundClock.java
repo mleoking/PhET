@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.sound.model;
 
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common_sound.model.clock.SwingTimerClock;
 
 import java.util.ArrayList;
 

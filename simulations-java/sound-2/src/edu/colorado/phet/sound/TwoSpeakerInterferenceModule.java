@@ -6,12 +6,11 @@
  */
 package edu.colorado.phet.sound;
 
-import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.help.HelpItem;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_sound.application.PhetApplication;
+import edu.colorado.phet.common_sound.view.help.HelpItem;
+import edu.colorado.phet.common_sound.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common_sound.view.util.ImageLoader;
+import edu.colorado.phet.common_sound.view.util.SimStrings;
 import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;

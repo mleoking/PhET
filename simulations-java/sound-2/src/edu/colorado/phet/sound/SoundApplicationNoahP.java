@@ -6,11 +6,10 @@
  */
 package edu.colorado.phet.sound;
 
-import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common_sound.application.ApplicationModel;
+import edu.colorado.phet.common_sound.application.PhetApplication;
+import edu.colorado.phet.common_sound.model.clock.SwingTimerClock;
+import edu.colorado.phet.common_sound.view.util.FrameSetup;
 
 public class SoundApplicationNoahP extends PhetApplication {
 

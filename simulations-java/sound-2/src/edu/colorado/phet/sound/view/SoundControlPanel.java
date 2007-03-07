@@ -6,10 +6,9 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common_sound.application.Module;
+import edu.colorado.phet.common_sound.view.ControlPanel;
+import edu.colorado.phet.common_sound.view.util.SimStrings;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.SoundModule;
 import edu.colorado.phet.sound.model.SoundModel;

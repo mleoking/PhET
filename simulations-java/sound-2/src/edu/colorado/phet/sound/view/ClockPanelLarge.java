@@ -7,12 +7,11 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockStateListener;
-import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_sound.model.BaseModel;
+import edu.colorado.phet.common_sound.model.ModelElement;
+import edu.colorado.phet.common_sound.model.clock.AbstractClock;
+import edu.colorado.phet.common_sound.util.EventChannel;
+import edu.colorado.phet.common_sound.view.util.SimStrings;
 import edu.colorado.phet.sound.SoundConfig;
 
 import javax.swing.*;

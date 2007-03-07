@@ -6,8 +6,7 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.sound.SingleSourceMeasureModule;
 
 import javax.swing.*;
