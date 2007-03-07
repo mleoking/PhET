@@ -1,12 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.view.util.FrameSequence;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphicListener;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
+import edu.colorado.phet.common_force1d.view.util.FrameSequence;
+import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 

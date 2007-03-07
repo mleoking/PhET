@@ -1,12 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d.tests;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.phetcomponents.AffineTransformBuilder;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common_force1d.view.ApparatusPanel;
+import edu.colorado.phet.common_force1d.view.BasicGraphicsSetup;
+import edu.colorado.phet.common_force1d.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common_force1d.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common_force1d.view.phetcomponents.AffineTransformBuilder;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetImageGraphic;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;

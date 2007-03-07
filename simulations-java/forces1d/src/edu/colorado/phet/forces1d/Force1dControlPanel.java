@@ -1,10 +1,10 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d;
 
-import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.util.GraphicsState;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_force1d.view.components.ModelSlider;
+import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common_force1d.view.util.GraphicsState;
+import edu.colorado.phet.common_force1d.view.util.SimStrings;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;

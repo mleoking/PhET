@@ -1,13 +1,13 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d.common;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common_force1d.math.AbstractVector2D;
+import edu.colorado.phet.common_force1d.math.ImmutableVector2D;
+import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common_force1d.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;

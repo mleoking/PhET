@@ -1,16 +1,16 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d.tests.testphetcomponents;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.phetcomponents.PhetButton;
-import edu.colorado.phet.common.view.phetcomponents.PhetTextField;
-import edu.colorado.phet.common.view.phetcomponents.TitleGraphic;
+import edu.colorado.phet.common_force1d.model.BaseModel;
+import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
+import edu.colorado.phet.common_force1d.model.clock.ClockTickEvent;
+import edu.colorado.phet.common_force1d.model.clock.ClockTickListener;
+import edu.colorado.phet.common_force1d.model.clock.SwingTimerClock;
+import edu.colorado.phet.common_force1d.view.ApparatusPanel;
+import edu.colorado.phet.common_force1d.view.BasicGraphicsSetup;
+import edu.colorado.phet.common_force1d.view.phetcomponents.PhetButton;
+import edu.colorado.phet.common_force1d.view.phetcomponents.PhetTextField;
+import edu.colorado.phet.common_force1d.view.phetcomponents.TitleGraphic;
 
 import javax.swing.*;
 import java.awt.*;

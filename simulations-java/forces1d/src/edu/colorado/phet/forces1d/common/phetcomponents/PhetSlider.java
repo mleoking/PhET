@@ -1,12 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d.common.phetcomponents;
 
-import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.phetcomponents.AffineTransformBuilder;
-import edu.colorado.phet.common.view.phetgraphics.*;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common_force1d.math.ModelViewTransform1D;
+import edu.colorado.phet.common_force1d.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common_force1d.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common_force1d.view.phetcomponents.AffineTransformBuilder;
+import edu.colorado.phet.common_force1d.view.phetgraphics.*;
+import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -181,7 +181,7 @@ public class PhetSlider extends GraphicLayerSet {
 
     public class ThumbGraphic extends CompositePhetGraphic {
         private PhetGraphic thumbIcon;
-        private edu.colorado.phet.common.view.phetcomponents.AffineTransformBuilder transformBuilder;
+        private edu.colorado.phet.common_force1d.view.phetcomponents.AffineTransformBuilder transformBuilder;
 
         public ThumbGraphic( Component component ) {
             super( component );

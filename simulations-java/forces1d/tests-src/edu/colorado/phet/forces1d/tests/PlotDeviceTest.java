@@ -1,19 +1,19 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d.tests;
 
-import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.phetcomponents.PhetButton;
-import edu.colorado.phet.common.view.phetcomponents.PhetTextField;
-import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.force1d_tag_chart.Range2D;
+import edu.colorado.phet.common_force1d.model.BaseModel;
+import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
+import edu.colorado.phet.common_force1d.model.clock.ClockTickEvent;
+import edu.colorado.phet.common_force1d.model.clock.ClockTickListener;
+import edu.colorado.phet.common_force1d.model.clock.SwingTimerClock;
+import edu.colorado.phet.common_force1d.view.ApparatusPanel;
+import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
+import edu.colorado.phet.common_force1d.view.BasicGraphicsSetup;
+import edu.colorado.phet.common_force1d.view.phetcomponents.PhetButton;
+import edu.colorado.phet.common_force1d.view.phetcomponents.PhetTextField;
+import edu.colorado.phet.common_force1d.view.phetgraphics.RepaintDebugGraphic;
+import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
 import edu.colorado.phet.forces1d.common.TitleGraphic;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice2;
 

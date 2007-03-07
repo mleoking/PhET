@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
 

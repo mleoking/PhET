@@ -1,7 +1,7 @@
 package edu.colorado.phet.forces1d.common;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.HTMLGraphic;
 
 import java.awt.*;
 

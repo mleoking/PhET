@@ -1,7 +1,7 @@
 package edu.colorado.phet.forces1d.tests;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
+import edu.colorado.phet.common_force1d.view.ApparatusPanel;
+import edu.colorado.phet.common_force1d.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.forces1d.common.ShadowHTMLGraphic;
 
 import javax.swing.*;

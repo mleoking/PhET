@@ -1,8 +1,8 @@
 package edu.colorado.phet.forces1d.common.plotdevice;
 
-import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.force1d_tag_chart.Chart;
+import edu.colorado.phet.force1d_tag_chart.Range2D;
+import edu.colorado.phet.common_force1d.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.forces1d.common.phetcomponents.PhetTextField;
 
 import java.awt.*;

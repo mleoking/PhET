@@ -1,17 +1,17 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.util.QuickTimer;
-import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
-import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_force1d.application.Module;
+import edu.colorado.phet.common_force1d.application.PhetApplication;
+import edu.colorado.phet.common_force1d.model.BaseModel;
+import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
+import edu.colorado.phet.common_force1d.model.clock.ClockTickEvent;
+import edu.colorado.phet.common_force1d.model.clock.SwingTimerClock;
+import edu.colorado.phet.common_force1d.util.QuickTimer;
+import edu.colorado.phet.common_force1d.view.PhetFrame;
+import edu.colorado.phet.common_force1d.view.PhetLookAndFeel;
+import edu.colorado.phet.common_force1d.view.util.FrameSetup;
+import edu.colorado.phet.common_force1d.view.util.SimStrings;
 import edu.colorado.phet.forces1d.common.ColorDialog;
 import edu.colorado.phet.forces1d.common.plotdevice.DefaultPlaybackPanel;
 import edu.colorado.phet.forces1d.model.Force1DModel;

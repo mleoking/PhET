@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d.common;
 
-import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common_force1d.view.util.SwingUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
