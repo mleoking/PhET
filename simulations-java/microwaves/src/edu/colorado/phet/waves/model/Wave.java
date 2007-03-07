@@ -6,9 +6,7 @@
  */
 package edu.colorado.phet.waves.model;
 
-import edu.colorado.phet.common.model.ModelElement;
-
-import java.util.Observer;
+import edu.colorado.phet.common_microwaves.model.ModelElement;
 
 /**
  *

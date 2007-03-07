@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.microwave.model;
 
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common_microwaves.math.Vector2D;
+import edu.colorado.phet.common_microwaves.model.ModelElement;
 
 import java.awt.geom.Point2D;
 

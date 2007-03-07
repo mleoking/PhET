@@ -6,16 +6,16 @@
  */
 package edu.colorado.phet.microwave;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.coreadditions.chart.StripChartDelegate;
-import edu.colorado.phet.coreadditions.collision.Box2D;
+import edu.colorado.phet.common_microwaves.application.PhetApplication;
+import edu.colorado.phet.coreadditions_microwaves.chart.StripChartDelegate;
+import edu.colorado.phet.coreadditions_microwaves.collision.Box2D;
 import edu.colorado.phet.microwave.model.Microwave;
 import edu.colorado.phet.microwave.model.WaterMolecule;
 import edu.colorado.phet.microwave.view.DipoleStripChartSubject;
 import edu.colorado.phet.microwave.view.MicrowaveStripCharSubject;
 import edu.colorado.phet.microwave.view.WaterMoleculeGraphic;
-import edu.colorado.phet.util.StripChart;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.util_microwaves.StripChart;
+import edu.colorado.phet.common_microwaves.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.microwave.view;
 
-import edu.colorado.phet.coreadditions.chart.StripChartSubject;
+import edu.colorado.phet.coreadditions_microwaves.chart.StripChartSubject;
 import edu.colorado.phet.microwave.model.Microwave;
 
 public class MicrowaveStripCharSubject extends StripChartSubject {

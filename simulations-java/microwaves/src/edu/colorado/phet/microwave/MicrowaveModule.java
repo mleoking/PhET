@@ -6,15 +6,15 @@
  */
 package edu.colorado.phet.microwave;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.FlipperAffineTransformFactory;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.ModelViewTransform2D;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.coreadditions.BufferedApparatusPanel;
-import edu.colorado.phet.coreadditions.ModelViewTx1D;
-import edu.colorado.phet.coreadditions.collision.Box2D;
+import edu.colorado.phet.common_microwaves.application.Module;
+import edu.colorado.phet.common_microwaves.application.PhetApplication;
+import edu.colorado.phet.common_microwaves.view.FlipperAffineTransformFactory;
+import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
+import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
+import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
+import edu.colorado.phet.coreadditions_microwaves.BufferedApparatusPanel;
+import edu.colorado.phet.coreadditions_microwaves.ModelViewTx1D;
+import edu.colorado.phet.coreadditions_microwaves.collision.Box2D;
 import edu.colorado.phet.microwave.model.Microwave;
 import edu.colorado.phet.microwave.model.MicrowaveModel;
 import edu.colorado.phet.microwave.model.WaterMolecule;
@@ -23,7 +23,7 @@ import edu.colorado.phet.microwave.view.FieldVector;
 import edu.colorado.phet.microwave.view.MicrowaveControlPanel;
 import edu.colorado.phet.microwave.view.OvenGraphic;
 import edu.colorado.phet.waves.model.WaveMedium;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_microwaves.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.microwave.model;
 
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.coreadditions.CompositeBody;
+import edu.colorado.phet.common_microwaves.math.Vector2D;
+import edu.colorado.phet.coreadditions_microwaves.CompositeBody;
 
 public abstract class PolarBody extends CompositeBody {
     protected double dipoleOrientation;

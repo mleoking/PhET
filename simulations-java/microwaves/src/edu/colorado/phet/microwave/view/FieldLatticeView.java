@@ -6,12 +6,12 @@
  */
 package edu.colorado.phet.microwave.view;
 
-import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.graphics.ModelViewTransform2D;
-import edu.colorado.phet.coreadditions.TxObservingGraphic;
+import edu.colorado.phet.common_microwaves.math.MathUtil;
+import edu.colorado.phet.common_microwaves.math.Vector2D;
+import edu.colorado.phet.common_microwaves.view.ApparatusPanel;
+import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
+import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
+import edu.colorado.phet.coreadditions_microwaves.TxObservingGraphic;
 import edu.colorado.phet.microwave.MicrowaveConfig;
 import edu.colorado.phet.microwave.view.graphics.splines.CubicSpline;
 import edu.colorado.phet.waves.model.WaveMedium;
@@ -20,7 +20,6 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.util.Observable;
 
 public class FieldLatticeView extends TxObservingGraphic {

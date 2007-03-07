@@ -7,10 +7,10 @@
  */
 package edu.colorado.phet.microwave;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.coreadditions.collision.Box2D;
+import edu.colorado.phet.common_microwaves.application.PhetApplication;
+import edu.colorado.phet.coreadditions_microwaves.collision.Box2D;
 import edu.colorado.phet.microwave.model.MicrowaveModel;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_microwaves.view.util.SimStrings;
 
 public class StandingWaveModule extends MicrowaveModule {
 

@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.microwave;
 
-import edu.colorado.phet.common.math.MedianFilter;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common_microwaves.math.MedianFilter;
+import edu.colorado.phet.common_microwaves.model.ModelElement;
 import edu.colorado.phet.microwave.model.MicrowaveModel;
 import edu.colorado.phet.microwave.model.WaterMolecule;
 
