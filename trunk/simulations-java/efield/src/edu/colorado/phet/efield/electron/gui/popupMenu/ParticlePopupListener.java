@@ -2,18 +2,17 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui.popupMenu;
+package edu.colorado.phet.efield.electron.gui.popupMenu;
 
-import electron.gui.ParticlePanel;
-import electron.gui.mouse.ParticleSelector;
-import java.awt.Point;
+import edu.colorado.phet.efield.electron.gui.ParticlePanel;
+import edu.colorado.phet.efield.electron.gui.mouse.ParticleSelector;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Vector;
 import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 
-// Referenced classes of package electron.gui.popupMenu:
+// Referenced classes of package edu.colorado.phet.efield.electron.gui.popupMenu:
 //            MenuConstructor
 
 public class ParticlePopupListener
@@ -40,7 +39,7 @@ public class ParticlePopupListener
         {
             if(last != null)
                 last.getPopupMenu().setVisible(false);
-            phys2d.Particle particle = ps.selectAt(mouseevent.getPoint());
+            phys2d_efield.Particle particle = ps.selectAt(mouseevent.getPoint());
             if(particle != null)
             {
                 last = mc.getMenu(particle);

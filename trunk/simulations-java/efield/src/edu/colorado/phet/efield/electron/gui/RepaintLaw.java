@@ -2,11 +2,11 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui;
+package edu.colorado.phet.efield.electron.gui;
 
 import java.awt.Component;
-import phys2d.Law;
-import phys2d.System2D;
+import phys2d_efield.Law;
+import phys2d_efield.System2D;
 
 public class RepaintLaw
     implements Law

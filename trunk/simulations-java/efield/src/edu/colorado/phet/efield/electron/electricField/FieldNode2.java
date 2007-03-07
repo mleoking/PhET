@@ -1,29 +1,29 @@
-package electron.electricField;
+package edu.colorado.phet.efield.electron.electricField;
 
-import electron.core.ParticleContainer;
-import electron.core.RandomSystemFactory;
-import electron.gui.*;
-import electron.gui.addRemove.AddRemove;
-import electron.gui.addRemove.PanelAdapter;
-import electron.gui.addRemove.SystemAdapter;
-import electron.gui.media.MediaControl;
-import electron.gui.mouse.ParticleGrabber;
-import electron.gui.mouse.ParticleThrower;
-import electron.gui.popupMenu.MenuConstructor;
-import electron.gui.popupMenu.ParticlePopupListener;
-import electron.gui.vectorChooser.DefaultVectorPainter;
-import electron.gui.vectorChooser.VectorChooser;
-import electron.gui.vectorChooser.VectorPainter;
-import electron.laws.CoulombsLaw;
-import electron.laws.ForceLawAdapter;
-import electron.particleFactory.CustomizableParticleFactory;
-import electron.particleFactory.ShowParticlePropertyDialog;
-import electron.utils.ResourceLoader;
-import phet.view.util.SimStrings;
-import phys2d.DoublePoint;
-import phys2d.Particle;
-import phys2d.System2D;
-import phys2d.SystemRunner;
+import edu.colorado.phet.efield.electron.core.ParticleContainer;
+import edu.colorado.phet.efield.electron.core.RandomSystemFactory;
+import edu.colorado.phet.efield.electron.gui.*;
+import edu.colorado.phet.efield.electron.gui.addRemove.AddRemove;
+import edu.colorado.phet.efield.electron.gui.addRemove.PanelAdapter;
+import edu.colorado.phet.efield.electron.gui.addRemove.SystemAdapter;
+import edu.colorado.phet.efield.electron.gui.media.MediaControl;
+import edu.colorado.phet.efield.electron.gui.mouse.ParticleGrabber;
+import edu.colorado.phet.efield.electron.gui.mouse.ParticleThrower;
+import edu.colorado.phet.efield.electron.gui.popupMenu.MenuConstructor;
+import edu.colorado.phet.efield.electron.gui.popupMenu.ParticlePopupListener;
+import edu.colorado.phet.efield.electron.gui.vectorChooser.DefaultVectorPainter;
+import edu.colorado.phet.efield.electron.gui.vectorChooser.VectorChooser;
+import edu.colorado.phet.efield.electron.gui.vectorChooser.VectorPainter;
+import edu.colorado.phet.efield.electron.laws.CoulombsLaw;
+import edu.colorado.phet.efield.electron.laws.ForceLawAdapter;
+import edu.colorado.phet.efield.electron.particleFactory.CustomizableParticleFactory;
+import edu.colorado.phet.efield.electron.particleFactory.ShowParticlePropertyDialog;
+import edu.colorado.phet.efield.electron.utils.ResourceLoader;
+import phet.view.util_efield.SimStrings;
+import phys2d_efield.DoublePoint;
+import phys2d_efield.Particle;
+import phys2d_efield.System2D;
+import phys2d_efield.SystemRunner;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -32,7 +32,7 @@ import java.awt.image.BufferedImage;
 import java.util.Locale;
 import java.util.Vector;
 
-import util.ExitOnClose;
+import util_efield.ExitOnClose;
 
 public class FieldNode2 extends JApplet {
     // Localization

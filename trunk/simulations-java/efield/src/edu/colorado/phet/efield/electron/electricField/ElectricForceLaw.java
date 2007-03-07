@@ -1,11 +1,10 @@
-package electron.electricField;
+package edu.colorado.phet.efield.electron.electricField;
 
-import electron.gui.vectorChooser.VectorListener;
-import phet.view.util.SimStrings;
-import phys2d.DoublePoint;
-import phys2d.Law;
-import phys2d.Particle;
-import phys2d.System2D;
+import edu.colorado.phet.efield.electron.gui.vectorChooser.VectorListener;
+import phys2d_efield.DoublePoint;
+import phys2d_efield.Law;
+import phys2d_efield.Particle;
+import phys2d_efield.System2D;
 
 public class ElectricForceLaw implements Law, VectorListener, ElectricFieldSource {
     DoublePoint field;

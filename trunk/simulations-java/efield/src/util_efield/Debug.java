@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package util;
+package util_efield;
 
 import java.io.*;
 import java.util.*;

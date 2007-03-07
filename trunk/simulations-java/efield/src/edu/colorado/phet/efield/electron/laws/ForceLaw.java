@@ -2,10 +2,10 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.laws;
+package edu.colorado.phet.efield.electron.laws;
 
-import phys2d.DoublePoint;
-import phys2d.Particle;
+import phys2d_efield.DoublePoint;
+import phys2d_efield.Particle;
 
 public interface ForceLaw
 {

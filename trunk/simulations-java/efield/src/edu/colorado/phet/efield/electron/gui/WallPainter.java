@@ -2,11 +2,11 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui;
+package edu.colorado.phet.efield.electron.gui;
 
 import java.awt.*;
 
-// Referenced classes of package electron.gui:
+// Referenced classes of package edu.colorado.phet.efield.electron.gui:
 //            Painter
 
 public class WallPainter

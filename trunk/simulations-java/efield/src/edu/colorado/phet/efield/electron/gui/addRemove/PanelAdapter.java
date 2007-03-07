@@ -2,12 +2,12 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui.addRemove;
+package edu.colorado.phet.efield.electron.gui.addRemove;
 
-import electron.core.ParticleContainer;
-import electron.gui.ParticlePainter;
-import electron.gui.ParticlePanel;
-import phys2d.Particle;
+import edu.colorado.phet.efield.electron.core.ParticleContainer;
+import edu.colorado.phet.efield.electron.gui.ParticlePainter;
+import edu.colorado.phet.efield.electron.gui.ParticlePanel;
+import phys2d_efield.Particle;
 
 public class PanelAdapter
     implements ParticleContainer

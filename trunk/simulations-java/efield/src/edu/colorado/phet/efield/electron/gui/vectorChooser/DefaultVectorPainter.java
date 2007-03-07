@@ -2,11 +2,11 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui.vectorChooser;
+package edu.colorado.phet.efield.electron.gui.vectorChooser;
 
 import java.awt.*;
 
-// Referenced classes of package electron.gui.vectorChooser:
+// Referenced classes of package edu.colorado.phet.efield.electron.gui.vectorChooser:
 //            VectorPainter
 
 public class DefaultVectorPainter

@@ -2,9 +2,9 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.particleFactory;
+package edu.colorado.phet.efield.electron.particleFactory;
 
-import phys2d.Particle;
+import phys2d_efield.Particle;
 
 public interface ParticlePropertyListener
 {

@@ -2,9 +2,9 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package phys2d.propagators;
+package phys2d_efield.propagators;
 
-import phys2d.*;
+import phys2d_efield.*;
 
 public abstract class BoundsBounce
     implements Propagator

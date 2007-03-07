@@ -2,12 +2,12 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.laws;
+package edu.colorado.phet.efield.electron.laws;
 
-import electron.core.ParticleList;
-import phys2d.*;
+import edu.colorado.phet.efield.electron.core.ParticleList;
+import phys2d_efield.*;
 
-// Referenced classes of package electron.laws:
+// Referenced classes of package edu.colorado.phet.efield.electron.laws:
 //            ForceLaw
 
 public class ForceLawAdapter extends ParticleList

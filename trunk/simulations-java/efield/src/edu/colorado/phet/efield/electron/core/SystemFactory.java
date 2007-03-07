@@ -2,11 +2,11 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.core;
+package edu.colorado.phet.efield.electron.core;
 
-import electron.gui.ParticlePainter;
-import electron.gui.ParticlePanel;
-import phys2d.System2D;
+import edu.colorado.phet.efield.electron.gui.ParticlePainter;
+import edu.colorado.phet.efield.electron.gui.ParticlePanel;
+import phys2d_efield.System2D;
 
 public interface SystemFactory {
 

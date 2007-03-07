@@ -2,9 +2,9 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui.vectorChooser;
+package edu.colorado.phet.efield.electron.gui.vectorChooser;
 
-import phys2d.DoublePoint;
+import phys2d_efield.DoublePoint;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Vector;
 
-// Referenced classes of package electron.gui.vectorChooser:
+// Referenced classes of package edu.colorado.phet.efield.electron.gui.vectorChooser:
 //            VectorListener, VectorPainter
 
 public class VectorChooser extends JPanel

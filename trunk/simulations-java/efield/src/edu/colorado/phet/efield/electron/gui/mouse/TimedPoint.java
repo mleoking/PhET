@@ -2,9 +2,9 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui.mouse;
+package edu.colorado.phet.efield.electron.gui.mouse;
 
-import phys2d.DoublePoint;
+import phys2d_efield.DoublePoint;
 
 public class TimedPoint
 {

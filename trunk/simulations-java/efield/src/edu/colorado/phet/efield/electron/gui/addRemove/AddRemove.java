@@ -2,24 +2,24 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui.addRemove;
+package edu.colorado.phet.efield.electron.gui.addRemove;
 
-import electron.core.ParticleContainer;
-import electron.core.ParticleFactory;
-import electron.gui.ParticlePainter;
-import electron.gui.ParticlePanel;
-import electron.gui.media.Resettable;
-import phet.view.util.SimStrings;
+import edu.colorado.phet.efield.electron.core.ParticleContainer;
+import edu.colorado.phet.efield.electron.core.ParticleFactory;
+import edu.colorado.phet.efield.electron.gui.ParticlePainter;
+import edu.colorado.phet.efield.electron.gui.ParticlePanel;
+import edu.colorado.phet.efield.electron.gui.media.Resettable;
+import phet.view.util_efield.SimStrings;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 import javax.swing.*;
-import phys2d.Particle;
-import phys2d.System2D;
-import util.Debug;
+import phys2d_efield.Particle;
+import phys2d_efield.System2D;
+import util_efield.Debug;
 
-// Referenced classes of package electron.gui.addRemove:
+// Referenced classes of package edu.colorado.phet.efield.electron.gui.addRemove:
 //            SystemAdapter, PanelAdapter
 
 public class AddRemove

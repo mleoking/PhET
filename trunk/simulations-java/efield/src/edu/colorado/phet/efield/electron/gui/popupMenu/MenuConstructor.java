@@ -2,10 +2,10 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui.popupMenu;
+package edu.colorado.phet.efield.electron.gui.popupMenu;
 
 import javax.swing.JMenu;
-import phys2d.Particle;
+import phys2d_efield.Particle;
 
 public interface MenuConstructor
 {

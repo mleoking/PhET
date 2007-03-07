@@ -2,9 +2,9 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package phys2d;
+package phys2d_efield;
 
-import util.ThreadHelper;
+import util_efield.ThreadHelper;
 
 // Referenced classes of package phys2d:
 //            System2D

@@ -2,15 +2,15 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui.mouse;
+package edu.colorado.phet.efield.electron.gui.mouse;
 
-import electron.gui.ParticlePanel;
-import electron.utils.TruncatedSeries;
+import edu.colorado.phet.efield.electron.gui.ParticlePanel;
+import edu.colorado.phet.efield.electron.utils.TruncatedSeries;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
-import phys2d.*;
+import phys2d_efield.*;
 
-// Referenced classes of package electron.gui.mouse:
+// Referenced classes of package edu.colorado.phet.efield.electron.gui.mouse:
 //            ParticleGrabber, TimedPoint
 
 public class ParticleThrower extends ParticleGrabber

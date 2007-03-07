@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package phys2d.util;
+package phys2d_efield.util;
 
 import java.io.Serializable;
 

@@ -2,14 +2,14 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui.mouse;
+package edu.colorado.phet.efield.electron.gui.mouse;
 
-import electron.gui.ParticlePanel;
-import electron.gui.media.Resettable;
+import edu.colorado.phet.efield.electron.gui.ParticlePanel;
+import edu.colorado.phet.efield.electron.gui.media.Resettable;
 import java.awt.event.*;
-import phys2d.*;
+import phys2d_efield.*;
 
-// Referenced classes of package electron.gui.mouse:
+// Referenced classes of package edu.colorado.phet.efield.electron.gui.mouse:
 //            ParticleSelector
 
 public class ParticleGrabber

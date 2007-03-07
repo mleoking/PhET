@@ -2,16 +2,16 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package electron.gui;
+package edu.colorado.phet.efield.electron.gui;
 
-import phys2d.Particle;
-import phys2d.System2D;
+import phys2d_efield.Particle;
+import phys2d_efield.System2D;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
-// Referenced classes of package electron.gui:
+// Referenced classes of package edu.colorado.phet.efield.electron.gui:
 //            ParticlePainter, Painter
 
 public class ParticlePanel extends JPanel {
