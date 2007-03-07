@@ -33,7 +33,7 @@ public class Gun extends FixedObject implements ModelElement {
     public static final String PROPERTY_ORIENTATION = "orientation";
     public static final String PROPERTY_NOZZLE_WIDTH = "nozzleWidth";
     public static final String PROPERTY_INTENSITY = "intensity";
-    public static final String PROPERTY_INITIAL_SPEED = "initialSpeed";
+    public static final String PROPERTY_SPEED = "speed";
     
     private static final double DEFAULT_INTENSITY = 1; // 100%
     private static final int DEFAULT_MAX_PARTICLES = 20;
@@ -162,7 +162,7 @@ public class Gun extends FixedObject implements ModelElement {
         }
         if ( speed != _speed ) {
             _speed = speed;
-            notifyObservers( PROPERTY_INITIAL_SPEED );
+            notifyObservers( PROPERTY_SPEED );
         }
     }
     

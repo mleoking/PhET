@@ -23,8 +23,8 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
     // Class data
     //----------------------------------------------------------------------------
     
-    // shows the initial speed (aka "Energy") value, should be false for production code
-    private static final boolean DEBUG_SHOW_INITIAL_SPEED_VALUE = true;
+    // shows the energy value, should be false for production code
+    private static final boolean DEBUG_SHOW_ENERGY_VALUE = true;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -32,8 +32,8 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
     
     private PlumPuddingModule _module;
     private Gun _gun;
-    private SliderControl _initialSpeedControl;
-    private ChangeListener _initialSpeedListener;
+    private SliderControl _energyControl;
+    private ChangeListener _energyListener;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -42,15 +42,16 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
     public PlumPuddingControlPanel( PlumPuddingModule module ) {
         super( module );
         
-        JLabel titleLabel = new JLabel( SimStrings.get( "label.alphaParticleProperties" ) );
-        titleLabel.setFont( RSConstants.TITLE_FONT );
-        
         _module = module;
         
         _gun = _module.getGun();
         _gun.addObserver( this );
         
-        // Initial Speed control (labeled "Energy")
+        // Alpha Particle Properties label
+        JLabel titleLabel = new JLabel( SimStrings.get( "label.alphaParticleProperties" ) );
+        titleLabel.setFont( RSConstants.TITLE_FONT );
+        
+        // Energy control
         {
             double value = _gun.getSpeed();
             double min = _gun.getMinSpeed();
@@ -61,25 +62,25 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
             String label = SimStrings.get( "label.energy" );
             String units = "";
             int columns = 3;
-            _initialSpeedControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
-            _initialSpeedControl.setBorder( BorderFactory.createEtchedBorder() );
-            _initialSpeedControl.setTextFieldEditable( false );
-            if ( !DEBUG_SHOW_INITIAL_SPEED_VALUE ) {
-                _initialSpeedControl.setTextFieldVisible( false );
+            _energyControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+            _energyControl.setBorder( BorderFactory.createEtchedBorder() );
+            _energyControl.setTextFieldEditable( false );
+            if ( !DEBUG_SHOW_ENERGY_VALUE ) {
+                _energyControl.setTextFieldVisible( false );
             }
-            _initialSpeedControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
-            _initialSpeedListener = new ChangeListener() {
+            _energyControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
+            _energyListener = new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
-                    handleInitialSpeedChange();
+                    handleEnergyChange();
                 }
             };
-            _initialSpeedControl.addChangeListener( _initialSpeedListener );
+            _energyControl.addChangeListener( _energyListener );
         }
         
         addVerticalSpace( 20 );
         addControlFullWidth( titleLabel );
         addVerticalSpace( 20 );
-        addControlFullWidth( _initialSpeedControl );
+        addControlFullWidth( _energyControl );
     }
     
     public void cleanup() {
@@ -90,8 +91,8 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
     // Event handlers
     //----------------------------------------------------------------------------
     
-    private void handleInitialSpeedChange() {
-        double speed = _initialSpeedControl.getValue();
+    private void handleEnergyChange() {
+        double speed = _energyControl.getValue();
         _gun.deleteObserver( this );
         _gun.setSpeed( speed );
         _gun.addObserver( this );
@@ -103,10 +104,10 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _gun && arg == Gun.PROPERTY_INITIAL_SPEED ) {
-            _initialSpeedControl.removeChangeListener( _initialSpeedListener );
-            _initialSpeedControl.setValue( _gun.getSpeed() );
-            _initialSpeedControl.addChangeListener( _initialSpeedListener );
+        if ( o == _gun && arg == Gun.PROPERTY_SPEED ) {
+            _energyControl.removeChangeListener( _energyListener );
+            _energyControl.setValue( _gun.getSpeed() );
+            _energyControl.addChangeListener( _energyListener );
         }
     }
 }
