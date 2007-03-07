@@ -1,5 +1,4 @@
 -injars /Volumes/files/phet-workspace/jars/rutherfordscattering.jar
--injars /Volumes/files/phet-workspace/jfreechart/lib/junit.jar
 -outjars /Volumes/files/phet-workspace/jars/rutherfordscattering-pro.jar
 
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
@@ -10,6 +9,7 @@
 -dontoptimize
 -dontobfuscate
 -verbose
+-ignorewarnings
 
 
 # Keep - Applications. Keep all application classes that have a main method.

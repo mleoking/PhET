@@ -10,6 +10,7 @@
 -dontoptimize
 -dontobfuscate
 -verbose
+-ignorewarnings
 
 
 # Keep - Applications. Keep all application classes that have a main method.
