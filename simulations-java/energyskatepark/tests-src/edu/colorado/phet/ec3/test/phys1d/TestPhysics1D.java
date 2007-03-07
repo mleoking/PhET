@@ -288,7 +288,7 @@ public class TestPhysics1D extends JFrame {
         } );
         controlPanel.add( switchToLinear, gridBagConstraints );
 
-        controlFrame.setContentPane( controlPanel );
+        controlFrame.setContentPane( new JScrollPane(controlPanel) );
 
 //        JButton resetEnergyError = new JButton( "Reset Energy Error" );
 //        resetEnergyError.addActionListener( new ActionListener() {
