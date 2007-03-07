@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Sep 29, 2004
  */
-package edu.colorado.phet.instrumentation;
+package edu.colorado.phet.instrumentation_nuclearphysics;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;

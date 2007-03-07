@@ -8,12 +8,11 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.coreadditions_nuclearphysics;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
 
-import javax.swing.*;
 import javax.swing.Timer;
 import java.util.*;
 import java.awt.event.ActionListener;

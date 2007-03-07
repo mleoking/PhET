@@ -5,7 +5,7 @@
  * Time: 8:58:50 AM
  * To change this template use Options | File Templates.
  */
-package edu.colorado.phet.instrumentation;
+package edu.colorado.phet.instrumentation_nuclearphysics;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

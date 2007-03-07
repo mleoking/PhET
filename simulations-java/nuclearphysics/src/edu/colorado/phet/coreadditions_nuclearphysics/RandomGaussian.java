@@ -5,7 +5,7 @@
  * Date: Mar 1, 2004
  * Time: 3:13:41 PM
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.coreadditions_nuclearphysics;
 
 /**
  * See: http://www.taygeta.com/random/gaussian.html

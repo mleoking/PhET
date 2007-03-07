@@ -7,19 +7,11 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Uranium235;
-import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.view.*;
-import edu.colorado.phet.coreadditions.GridBagUtil;
+import edu.colorado.phet.coreadditions_nuclearphysics.GridBagUtil;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 
 /**
  * Constructor

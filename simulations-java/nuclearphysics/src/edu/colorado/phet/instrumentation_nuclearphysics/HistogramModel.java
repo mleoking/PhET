@@ -5,7 +5,7 @@
  * Date: Jan 18, 2004
  * Time: 1:16:17 PM
  */
-package edu.colorado.phet.instrumentation;
+package edu.colorado.phet.instrumentation_nuclearphysics;
 
 import java.util.ArrayList;
 import java.util.Iterator;

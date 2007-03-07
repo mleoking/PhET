@@ -11,14 +11,12 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.coreadditions.EventChannel;
+import edu.colorado.phet.coreadditions_nuclearphysics.EventChannel;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.RectangularShape;
-import java.awt.geom.Line2D;
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.List;

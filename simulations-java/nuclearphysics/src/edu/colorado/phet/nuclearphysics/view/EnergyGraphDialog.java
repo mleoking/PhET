@@ -10,15 +10,13 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.instrumentation.BarGauge;
+import edu.colorado.phet.instrumentation_nuclearphysics.BarGauge;
 import edu.colorado.phet.nuclearphysics.model.FissionListener;
 import edu.colorado.phet.nuclearphysics.model.FissionProducts;
 import edu.colorado.phet.nuclearphysics.model.Vessel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 

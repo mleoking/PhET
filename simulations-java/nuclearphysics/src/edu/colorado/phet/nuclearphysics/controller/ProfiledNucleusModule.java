@@ -11,7 +11,7 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.coreadditions.TxGraphic;
+import edu.colorado.phet.coreadditions_nuclearphysics.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.ProfileableNucleus;
 import edu.colorado.phet.nuclearphysics.view.EnergyProfileGraphic;

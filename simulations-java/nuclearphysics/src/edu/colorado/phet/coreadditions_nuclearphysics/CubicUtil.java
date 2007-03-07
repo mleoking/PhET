@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Mar 5, 2004
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.coreadditions_nuclearphysics;
 
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Point2D;
