@@ -21,6 +21,17 @@ import edu.colorado.phet.rutherfordscattering.util.IntegerRange;
 
 public class RutherfordAtomControlPanel extends AbstractControlPanel implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // shows the initial speed (aka "Energy") value, should be false for production code
+    private static final boolean DEBUG_SHOW_INITIAL_SPEED_VALUE = true;
+       
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+        
     private RutherfordAtomModule _module;
     private Gun _gun;
     private RutherfordAtom _atom;
@@ -30,6 +41,10 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
     private ChangeListener _protonsListener;
     private SliderControl _neutronsControl;
     private ChangeListener _neutronsListener;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public RutherfordAtomControlPanel( RutherfordAtomModule module ) {
         super( module );
@@ -60,7 +75,9 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
             _initialSpeedControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
             _initialSpeedControl.setBorder( BorderFactory.createEtchedBorder() );
             _initialSpeedControl.setTextFieldEditable( false );
-//            _clockStepControl.setTextFieldVisible( false );
+            if ( !DEBUG_SHOW_INITIAL_SPEED_VALUE ) {
+                _initialSpeedControl.setTextFieldVisible( false );
+            }
             _initialSpeedControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
             _initialSpeedListener = new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
@@ -135,17 +152,9 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         _atom.deleteObserver( this );
     }
     
-    public void setClockStep( double clockStep ) {
-        _initialSpeedControl.setValue( clockStep );
-    }
-    
-    public void setNumberOfProtons( int numberOfProtons ) {
-        _protonsControl.setValue( numberOfProtons );
-    }
-    
-    public void setNumberOfNeutrons( int numberOfNeutrons ) {
-        _neutronsControl.setValue( numberOfNeutrons );
-    }
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
 
     private void handleInitialSpeedChange() {
         double speed = _initialSpeedControl.getValue();
@@ -171,6 +180,10 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         _module.removeAllAlphaParticles();
     }
 
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
     public void update( Observable o, Object arg ) {
         if ( o == _gun && arg == Gun.PROPERTY_INITIAL_SPEED ) {
             _initialSpeedControl.removeChangeListener( _initialSpeedListener );

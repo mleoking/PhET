@@ -19,10 +19,25 @@ import edu.colorado.phet.rutherfordscattering.util.DoubleRange;
 
 public class PlumPuddingControlPanel extends AbstractControlPanel implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // shows the initial speed (aka "Energy") value, should be false for production code
+    private static final boolean DEBUG_SHOW_INITIAL_SPEED_VALUE = true;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private PlumPuddingModule _module;
     private Gun _gun;
     private SliderControl _initialSpeedControl;
     private ChangeListener _initialSpeedListener;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public PlumPuddingControlPanel( PlumPuddingModule module ) {
         super( module );
@@ -49,7 +64,9 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
             _initialSpeedControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
             _initialSpeedControl.setBorder( BorderFactory.createEtchedBorder() );
             _initialSpeedControl.setTextFieldEditable( false );
-//            _clockStepControl.setTextFieldVisible( false );
+            if ( !DEBUG_SHOW_INITIAL_SPEED_VALUE ) {
+                _initialSpeedControl.setTextFieldVisible( false );
+            }
             _initialSpeedControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
             _initialSpeedListener = new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
@@ -69,6 +86,10 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
         _gun.deleteObserver( this );
     }
     
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
+    
     private void handleInitialSpeedChange() {
         double speed = _initialSpeedControl.getValue();
         _gun.deleteObserver( this );
@@ -77,6 +98,10 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
         _module.removeAllAlphaParticles();
     }
 
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
     public void update( Observable o, Object arg ) {
         if ( o == _gun && arg == Gun.PROPERTY_INITIAL_SPEED ) {
             _initialSpeedControl.removeChangeListener( _initialSpeedListener );

@@ -15,17 +15,19 @@ MEDIUM PRIORITY:
 - randomly place 79 electrons in PlumPuddingNode
 - implement dynamic generation of nucleus view in RutherfordAtomNode
 - make ModelViewTransform an instance, not a singleton, test for non 1:1 transforms
-- hide value on energy slider
 
 LOW PRIORITY:
+- hide value on energy slider (set DEBUG_SHOW_INITIAL_SPEED_VALUE = false)
 - JNLP files
 - Spanish translations
 - file level javadoc
 - package level javadoc
+- fix ProGuard file so it's not using jfreechart/lib/junit.jar
 
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/6/07 - add debug flag to show/hide value on energy control
 3/6/07 - rename AbstractHydrogenAtom->AbstractAtom, PlumPuddingModel->PlumPuddingAtom, RutherfordAtomModel->RutherfordAtom
 3/6/07 - make control panels observers of model elements
 3/6/07 - change energy control so that it adjusts initial velocity of alpha particles (range=[2.5,15], default=10)
