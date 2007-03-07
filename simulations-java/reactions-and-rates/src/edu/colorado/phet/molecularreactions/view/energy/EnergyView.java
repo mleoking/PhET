@@ -71,14 +71,10 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
 
 
     public static class State {
-        Dimension upperPaneSize;
-        Dimension curvePaneSize;
-        Dimension curveAreaSize;
-
         Font labelFont;
         MRModule module;
         CurvePane curvePane;
-        PPath upperPane;
+        UpperEnergyPane upperPane;
     }
 
     private static class MolecularPaneState {
@@ -106,28 +102,24 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         state = new State();
         molecularPaneState = new MolecularPaneState();
 
-        state.upperPaneSize = upperPaneSize;
-        state.curvePaneSize = new Dimension( upperPaneSize.width, (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() )
-                                              - upperPaneSize.height
-                                              - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height );
+        
         state.module = module;
         MRModel model = module.getMRModel();
 
         // The pane that has the molecules
-        PPath moleculePane = createMoleculePane( state.upperPaneSize, curveAreaInsets, moleculePaneBackgroundColor, molecularPaneState );
+        PPath moleculePane = createMoleculePane( upperPaneSize, curveAreaInsets, moleculePaneBackgroundColor, molecularPaneState );
         addChild( moleculePane );
 
         // Add another pane on top of the molecule pane to display charts.
         // It's a reall hack, but this pane is made visible when another
-        state.upperPane = new PPath( new Rectangle2D.Double( 0, 0,
-                                                       upperPaneSize.getWidth(),
-                                                       upperPaneSize.getHeight() ) );
-        state.upperPane.setWidth( upperPaneSize.getWidth() );
-        state.upperPane.setHeight( upperPaneSize.getHeight() );
-        state.upperPane.setPaint( moleculePaneBackgroundColor );
-        state.upperPane.setStroke( null );
-        state.upperPane.setVisible( false );
+        state.upperPane = new UpperEnergyPane(upperPaneSize);
+
         addChild( state.upperPane );
+
+        // The pane that has the curve and cursor
+        state.curvePane = new CurvePane(module.getMRModel(), upperPaneSize, state);
+
+        addChild( state.curvePane );
 
         // The graphic that shows the reaction mechanics. It appears below the profile pane.
         PPath legendNode = new PPath( new Rectangle2D.Double( 0, 0,
@@ -135,7 +127,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                                                               MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height ) );
         legendNode.setPaint( MRConfig.ENERGY_PANE_BACKGROUND );
         legendNode.setStrokePaint( new Color( 0, 0, 0, 0 ) );
-        legendNode.setOffset( 0, upperPaneSize.getHeight() + state.curvePaneSize.getHeight() );
+        legendNode.setOffset( 0, upperPaneSize.getHeight() + state.curvePane.getSize().getHeight() );
         ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(),
                                                                MRConfig.ENERGY_PANE_TEXT_COLOR,
                                                                module.getMRModel() );
@@ -143,10 +135,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         reactionGraphic.setOffset( legendNode.getWidth() / 2, legendNode.getHeight() - 20 );
         addChild( legendNode );
 
-        // The pane that has the curve and cursor
-        state.curvePane = new CurvePane(module.getMRModel(), upperPaneSize, state);
 
-        addChild( state.curvePane );
 
         // Put a border around the energy view
         Rectangle2D bRect = new Rectangle2D.Double( 0, 0,
@@ -190,7 +179,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
      *
      */
     public Dimension getUpperPaneSize() {
-        return state.upperPaneSize;
+        return state.upperPane.getSize();
     }
 
     /*
@@ -361,8 +350,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
             double dr = currentOverlap / reactionOverlap * r;
 
             double dx = Math.max( ( edgeDist + separationAtFootOfHill ) * r, dr );
-            double xOffsetFromCenter = Math.min( state.curveAreaSize.getWidth() / 2 - xOffset, dx );
-            double x = state.curveAreaSize.getWidth() / 2 + ( xOffsetFromCenter * direction );
+            double xOffsetFromCenter = Math.min( state.curvePane.getCurveAreaSize().getWidth() / 2 - xOffset, dx );
+            double x = state.curvePane.getCurveAreaSize().getWidth() / 2 + ( xOffsetFromCenter * direction );
             double y = yOffset + maxSeparation / 2;
 
             // Do not allow the energy cursor to move beyond where it's
