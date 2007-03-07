@@ -41,7 +41,8 @@ public class EmfApplication {
         Logger logger = Logger.getLogger( "edu.colorado.phet.PhetLogger" );
 
         // Initialize simulation strings using resource bundle for the locale.
-        SimStrings.init( args, EmfConfig.localizedStringsPath );
+//        SimStrings.init( args, EmfConfig.localizedStringsPath );
+        SimStrings.setStrings( EmfConfig.localizedStringsPath );
 
         // Log a few message at different severity levels
         PhetLookAndFeel lookAndFeel = new ClientPhetLookAndFeel();
