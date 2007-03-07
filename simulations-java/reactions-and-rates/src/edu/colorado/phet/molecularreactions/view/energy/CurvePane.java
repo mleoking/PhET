@@ -23,7 +23,7 @@ public class CurvePane extends PPath {
     private volatile EnergyProfileGraphic energyProfileGraphic;
 
     private volatile EnergyLine energyLine;
-    private EnergyCursor cursor;
+    private EnergyCursor energyCursor;
 
     public CurvePane(final MRModule module, Dimension upperPaneSize, EnergyView.State state) {
 
@@ -67,16 +67,12 @@ public class CurvePane extends PPath {
         // Create the curve, and add a listener to the model that will update the curve if the
         // model's energy profile changes
         createCurve( model, curveLayer );
-        model.addListener( new MRModel.ModelListenerAdapter() {
-            public void notifyEnergyProfileChanged( EnergyProfile profile ) {
-                createCurve( model, curveLayer );
-            }
-        } );
+        model.addListener( new CurveCreatingModelListener( model, curveLayer ) );
 
         // Create the cursor
-        cursor = new EnergyCursor( curveAreaSize.getHeight(), 0, curveAreaSize.getWidth(), model );
-        cursor.setVisible( false );
-        cursorLayer.addChild( cursor );
+        energyCursor = new EnergyCursor( curveAreaSize.getHeight(), 0, curveAreaSize.getWidth(), model );
+        energyCursor.setVisible( false );
+        cursorLayer.addChild( energyCursor );
 
         // Add axes
         RegisterablePNode xAxis = new RegisterablePNode( new AxisNode( SimStrings.get( "EnergyView.ReactionCoordinate" ),
@@ -96,6 +92,7 @@ public class CurvePane extends PPath {
         yAxis.setRegistrationPoint( yAxis.getFullBounds().getWidth() / 2,
                                     -yAxis.getFullBounds().getHeight() / 2 );
         yAxis.setOffset( curveAreaInsets.left / 2, this.getFullBounds().getHeight() / 2 );
+        
         this.addChild( yAxis );
     }
 
@@ -116,7 +113,7 @@ public class CurvePane extends PPath {
     }
 
     public void setEnergyCursorOffset(double offset) {
-        cursor.setOffset( offset, 0 );
+        energyCursor.setOffset( offset, 0 );
     }
 
     private void createCurve( MRModel model, PNode curveLayer ) {
@@ -152,10 +149,24 @@ public class CurvePane extends PPath {
     }
 
     public void setManualControlEnabled( boolean manualControl ) {
-        cursor.setManualControlEnabled( manualControl );
+        energyCursor.setManualControlEnabled( manualControl );
     }
 
     public void setEnergyCursorVisible( boolean b ) {
-        cursor.setVisible( b );
+        energyCursor.setVisible( b );
+    }
+
+    private class CurveCreatingModelListener extends MRModel.ModelListenerAdapter {
+        private final MRModel model;
+        private final PNode curveLayer;
+
+        public CurveCreatingModelListener( MRModel model, PNode curveLayer ) {
+            this.model = model;
+            this.curveLayer = curveLayer;
+        }
+
+        public void notifyEnergyProfileChanged( EnergyProfile profile ) {
+            createCurve( model, curveLayer );
+        }
     }
 }
