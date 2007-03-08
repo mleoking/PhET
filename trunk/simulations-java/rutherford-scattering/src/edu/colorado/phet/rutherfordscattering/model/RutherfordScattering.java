@@ -144,26 +144,27 @@ public class RutherfordScattering {
             
             // Debugging output, in coordinates relative to atom's center
             if ( DEBUG_OUTPUT_ENABLED && error ) {
-                System.err.println( "RutherfordScattering.moveParticle" );
-                System.err.println( "  particle id=" + alphaParticle.getId() );
-                System.err.println( "  constants:" );
-                System.err.println( "    dt=" + F.format( dt ) );
-                System.err.println( "    b=" + b );
-                System.err.println( "    L=" + F.format( L ) );
-                System.err.println( "    D=" + D );
-                System.err.println( "    (x0,y0)=(" + F.format( x0 ) + "," + F.format( y0 ) + ")" );
-                System.err.println( "    s0=" + F.format( s0 ) );
-                System.err.println( "    sd=" + F.format( sd ) );
-                System.err.println( "    p=" + p );
-                System.err.println( "    pd=" + pd );
-                System.err.println( "  current state:" );
-                System.err.println( "    (x,y)=(" + F.format( x ) + "," + F.format( y ) + ")" );
-                System.err.println( "    (r,phi)=(" + F.format( r ) + "," + F.format( Math.toDegrees( phi ) ) + ")" );
-                System.err.println( "    s=" + F.format( s ) );
-                System.err.println( "  new state:" );
-                System.err.println( "    (x,y)=(" + F.format( xNew ) + "," + F.format( yNew ) + ")" );
-                System.err.println( "    (r,phi)=(" + F.format( rNew ) + "," + F.format( Math.toDegrees( phiNew ) ) + ")" );
-                System.err.println( "    s=" + sNew );
+                System.out.println( "DEBUG: RutherfordScattering.moveParticle [" );
+                System.out.println( "  particle id=" + alphaParticle.getId() );
+                System.out.println( "  constants:" );
+                System.out.println( "    dt=" + F.format( dt ) );
+                System.out.println( "    b=" + b );
+                System.out.println( "    L=" + F.format( L ) );
+                System.out.println( "    D=" + D );
+                System.out.println( "    (x0,y0)=(" + F.format( x0 ) + "," + F.format( y0 ) + ")" );
+                System.out.println( "    s0=" + F.format( s0 ) );
+                System.out.println( "    sd=" + F.format( sd ) );
+                System.out.println( "    p=" + p );
+                System.out.println( "    pd=" + pd );
+                System.out.println( "  current state:" );
+                System.out.println( "    (x,y)=(" + F.format( x ) + "," + F.format( y ) + ")" );
+                System.out.println( "    (r,phi)=(" + F.format( r ) + "," + F.format( Math.toDegrees( phi ) ) + ")" );
+                System.out.println( "    s=" + F.format( s ) );
+                System.out.println( "  new state:" );
+                System.out.println( "    (x,y)=(" + F.format( xNew ) + "," + F.format( yNew ) + ")" );
+                System.out.println( "    (r,phi)=(" + F.format( rNew ) + "," + F.format( Math.toDegrees( phiNew ) ) + ")" );
+                System.out.println( "    s=" + sNew );
+                System.out.println( "]" );
             }
         }
         

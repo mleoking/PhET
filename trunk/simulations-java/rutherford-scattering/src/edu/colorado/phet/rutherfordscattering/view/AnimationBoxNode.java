@@ -60,9 +60,9 @@ public class AnimationBoxNode extends PClip {
         return _topLayer;
     }
     
-    //XXX debug
-    protected void paint( PPaintContext paintContext ) {
-        System.out.println( "AnimationBoxNode.paint " + System.currentTimeMillis() );
-        super.paint( paintContext );
-    }
+//    //XXX debug
+//    protected void paint( PPaintContext paintContext ) {
+//        System.out.println( "AnimationBoxNode.paint " + System.currentTimeMillis() );
+//        super.paint( paintContext );
+//    }
 }
