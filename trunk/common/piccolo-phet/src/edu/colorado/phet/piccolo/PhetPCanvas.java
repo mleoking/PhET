@@ -33,6 +33,7 @@ public class PhetPCanvas extends PSwingCanvas {
     private TransformStrategy transformStrategy;
     private ComponentAdapter resizeAdapter;
     private PhetRootPNode phetRootNode;
+    private AffineTransform transform;
 
     public PhetPCanvas() {
         this( new ConstantTransformStrategy( new AffineTransform() ) );
@@ -154,6 +155,25 @@ public class PhetPCanvas extends PSwingCanvas {
 
     public void setDebugFullBounds( boolean debugFullBounds ) {
         PDebug.debugFullBounds = debugFullBounds;
+    }
+    
+    /**
+     * Gets the transform that was used for the most recent paintComponent call.
+     * 
+     * @return AffineTransform, null if paintComponent hasn't been called yet
+     */
+    public AffineTransform getTransform() {
+        return transform;
+    }
+    
+    /**
+     * Remembers the AffineTransform that was used to paint the canvas.
+     * 
+     * @param g
+     */
+    public void paintComponent( Graphics g ) {
+        transform = ( (Graphics2D) g ).getTransform();
+        super.paintComponent( g );
     }
 
     public void addActivity( PActivity activity ) {
