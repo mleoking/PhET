@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+- generalize and integrate Sam Reid's BufferedPNode solution, move some functionality into PhetPCanvas
 
 HIGH PRIORITY:
 - RutherfordScattering fails when D > rNew
@@ -10,6 +11,16 @@ HIGH PRIORITY:
 - AnimationBoxNode.paint gets called twice on clock steps that create/delete an alpha particle
 
 MEDIUM PRIORITY:
+- add "Show traces" control, default on
+- add "Reset All" button to both panels
+- add Legend to top of each control panel, with electron+neutron+proton
+- change #neutrons range to 20-150
+- get abstract
+- try L/8 instead of L/16
+- make XMIN bigger in scattering algorithm
+- make protons & neutrons (& electrons?) 25% smaller
+- increase min nucleus radius
+- increase electron speed 1.5x
 - implement dynamic generation of nucleus view in RutherfordAtomNode
 
 LOW PRIORITY:
@@ -20,6 +31,8 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/8/07 - reimplement PlumPuddingAtomNode as a BufferedPNode
+3/8/07 - generate Sam's node buffering solution into BufferedPNode
 ******** version 0.00.02 (13613)
 3/7/07 - handle algorithm failure gracefully in RutherfordScattering.moveParticle, don't assert or throw exception
 3/7/07 - package level javadoc
