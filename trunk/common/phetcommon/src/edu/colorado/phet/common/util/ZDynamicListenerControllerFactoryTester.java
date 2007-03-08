@@ -68,6 +68,16 @@ public class ZDynamicListenerControllerFactoryTester extends TestCase {
         c.equals( new Object() );
     }
 
+    public void testCanRetrieveListeners() {
+        MockListener mockListener = new MockListener();
+
+        DynamicListenerController c = DynamicListenerControllerFactory.newController( TestListener.class );
+
+        c.addListener( mockListener );
+
+        assertTrue(c.getAllListeners().contains(mockListener));
+    }
+
     public interface TestListener {
         void notifySumChanged(double newSum);
     }
