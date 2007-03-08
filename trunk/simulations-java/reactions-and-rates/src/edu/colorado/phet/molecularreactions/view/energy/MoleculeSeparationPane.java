@@ -14,6 +14,10 @@ import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -35,9 +39,7 @@ public class MoleculeSeparationPane extends PPath {
     private MoleculeSeparationPane.MoleculeGraphicController moleculeGraphicController;
 
     public MoleculeSeparationPane( final MRModule module, Dimension upperPaneSize, CurvePane curvePane ) {
-        super( new Rectangle2D.Double( 0, 0,
-                                       upperPaneSize.getWidth(),
-                                       upperPaneSize.getHeight() ) );
+        super( new Rectangle2D.Double( 0, 0, upperPaneSize.getWidth(), upperPaneSize.getHeight() ) );
 
         this.curvePane = curvePane;
 
@@ -69,6 +71,16 @@ public class MoleculeSeparationPane extends PPath {
         moleculeGraphicController = new MoleculeGraphicController( module );
 
         tracker.addSelectionStateListener( moleculeGraphicController );
+
+        tracker.addObserver( moleculeGraphicController );
+
+        module.getClock().addClockListener(
+            new ClockAdapter() {
+                public void clockTicked( ClockEvent clockEvent ) {
+                    update();
+                }
+            }
+        );
     }
 
     public MoleculeSelectionTracker getTracker() {
@@ -76,13 +88,12 @@ public class MoleculeSeparationPane extends PPath {
     }
 
     public void reset() {
-        super.reset();
-
         tracker.reset();
 
         removeSelectedMoleculeGraphic();
         removeNearestToSelectedMoleculeGraphic();
     }
+    
     private void removeNearestToSelectedMoleculeGraphic() {
         if( nearestToSelectedMoleculeGraphic != null ) {
             moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
@@ -102,33 +113,32 @@ public class MoleculeSeparationPane extends PPath {
     private void setNearestToSelectedGraphic( EnergyProfile newProfile ) {
         removeNearestToSelectedMoleculeGraphic();
 
-        nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( tracker.getNearestToSelectedMolecule().getFullMolecule(), newProfile );
-        moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
+        if (tracker.getNearestToSelectedMolecule() != null) {
+            nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( tracker.getNearestToSelectedMolecule().getFullMolecule(), newProfile );
+            moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
+        }
     }
 
     private void setSelectedGraphic( EnergyProfile newProfile ) {
         removeSelectedMoleculeGraphic();
 
-        selectedMoleculeGraphic = new EnergyMoleculeGraphic( tracker.getSelectedMolecule().getFullMolecule(), newProfile );
-        moleculeLayer.addChild( selectedMoleculeGraphic );
+        if (tracker.getSelectedMolecule() != null) {
+            selectedMoleculeGraphic = new EnergyMoleculeGraphic( tracker.getSelectedMolecule().getFullMolecule(), newProfile );
+            moleculeLayer.addChild( selectedMoleculeGraphic );
+        }
     }
 
     /*
      * Updates the positions of the molecule graphics in the upper pane.
      */
-    public void update( CurvePane curvePane ) {
-        if( tracker.isMoleculeSelected() ) {
-            moleculeGraphicController.update();
-        }
-        else if( selectedMoleculeGraphic != null ) {
-            selectedMoleculeGraphic.setOffset( 20, 20 );
-        }
-        else if( nearestToSelectedMoleculeGraphic != null ) {
-            nearestToSelectedMoleculeGraphic.setOffset( 20, 50 );
-        }
+    public void update() {
+        moleculeGraphicController.update();
+
+        // TODO: This doesn't belong here
+        curvePane.setEnergyCursorVisible( getTracker().getSelectedMolecule() != null );
     }
 
-    private class MoleculeGraphicController implements MoleculeSelectionTracker.MoleculeSelectionListener {
+    private class MoleculeGraphicController implements MoleculeSelectionTracker.MoleculeSelectionListener, SimpleObserver {
         private final MRModule module;
         private int direction;
         private double yMin, yMax;
@@ -162,6 +172,11 @@ public class MoleculeSeparationPane extends PPath {
         public void notifyFreeMoleculeChanged( SimpleMolecule oldFreeMolecule, SimpleMolecule newFreeMolecule ) {
             updateDirection();
             updatePositions();
+            updateGraphicPositions();
+        }
+
+        private void updateGraphicPositions( ) {
+            SimpleMolecule newFreeMolecule = tracker.getFreeMolecule();
 
             if (newFreeMolecule != null) {
                 if (selectedMoleculeGraphic != null && nearestToSelectedMoleculeGraphic != null) {
@@ -203,11 +218,13 @@ public class MoleculeSeparationPane extends PPath {
         public void update() {
             updateDirection();
             updatePositions();
+            updateGraphicPositions();
             updateSeparationArrow();
             updateEnergyCursor();
         }
 
         private void updateEnergyCursor() {
+            // TODO: This doesn't belong here
             // set location of cursor
             curvePane.setEnergyCursorOffset( midPoint.getX() );
         }
@@ -219,40 +236,38 @@ public class MoleculeSeparationPane extends PPath {
         }
 
         private void updateDirection() {
-            if ( tracker.isMoleculeSelected()) {
+            if( tracker.isTracking() ) {
                 SimpleMolecule freeMolecule  = tracker.getFreeMolecule(),
                                boundMolecule = tracker.getBoundMolecule();
 
-                if( freeMolecule != null && boundMolecule != null ) {
-                    // Figure out on which side of the centerline the molecules should appear
-                    // If the selected molecule is an A molecule and it's free, we're on the left
-                    if( tracker.getSelectedMolecule() instanceof MoleculeA && tracker.getSelectedMolecule() == freeMolecule ) {
-                        direction = -1;
-                    }
-                    // If the selected molecule is an A molecule and it's bound, we're on the right
-                    else if( tracker.getSelectedMolecule() instanceof MoleculeA && tracker.getSelectedMolecule() == boundMolecule ) {
-                        direction = 1;
-                    }
-                    // If the selected molecule is a C molecule and it's free, we're on the right
-                    else if( tracker.getSelectedMolecule() instanceof MoleculeC && tracker.getSelectedMolecule() == freeMolecule ) {
-                        direction = 1;
-                    }
-                    // If the selected molecule is a C molecule and it's bound, we're on the left
-                    else if( tracker.getSelectedMolecule() instanceof MoleculeC && tracker.getSelectedMolecule() == boundMolecule ) {
-                        direction = -1;
-                    }
-                    else {
-                        throw new RuntimeException( "internal error" );
-                    }
+                // Figure out on which side of the centerline the molecules should appear
+                // If the selected molecule is an A molecule and it's free, we're on the left
+                if( tracker.getSelectedMolecule() instanceof MoleculeA && tracker.getSelectedMolecule() == freeMolecule ) {
+                    direction = -1;
+                }
+                // If the selected molecule is an A molecule and it's bound, we're on the right
+                else if( tracker.getSelectedMolecule() instanceof MoleculeA && tracker.getSelectedMolecule() == boundMolecule ) {
+                    direction = 1;
+                }
+                // If the selected molecule is a C molecule and it's free, we're on the right
+                else if( tracker.getSelectedMolecule() instanceof MoleculeC && tracker.getSelectedMolecule() == freeMolecule ) {
+                    direction = 1;
+                }
+                // If the selected molecule is a C molecule and it's bound, we're on the left
+                else if( tracker.getSelectedMolecule() instanceof MoleculeC && tracker.getSelectedMolecule() == boundMolecule ) {
+                    direction = -1;
+                }
+                else {
+                    throw new RuntimeException( "internal error" );
                 }
             }
         }
 
         private void updatePositions() {
-            SimpleMolecule freeMolecule  = tracker.getFreeMolecule(),
-                           boundMolecule = tracker.getBoundMolecule();
+            if( tracker.isTracking() ) {
+                SimpleMolecule freeMolecule  = tracker.getFreeMolecule(),
+                               boundMolecule = tracker.getBoundMolecule();
 
-            if( freeMolecule != null && boundMolecule != null ) {
                 // Position the molecule graphics
                 double cmDist = tracker.getSelectedMolecule().getPosition().distance( tracker.getNearestToSelectedMolecule().getPosition() );
                 A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)module.getMRModel().getReaction();
@@ -295,6 +310,8 @@ public class MoleculeSeparationPane extends PPath {
 
                 yMin = midPoint.getY() - Math.min( cmDist, maxSeparation ) / 2;
                 yMax = midPoint.getY() + Math.min( cmDist, maxSeparation ) / 2;
+
+                System.out.println("Position being updated: " + yMin + ", " + yMax);
             }
         }
     }

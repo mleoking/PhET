@@ -27,8 +27,6 @@ public class EnergyViewsOptionsPanel extends JPanel {
                                     GridBagConstraints.NONE,
                                     new Insets( 0, 0, 0, 0 ), 0, 0 );
 
-        Insets insets = new Insets(0, 0, 0, 0);
-
         showSeparationView    = new JCheckBox( SimStrings.get("EnergyViewOptionsPanel.showSeparationView" ));
         showEnergyProfileView = new JCheckBox( SimStrings.get("EnergyViewOptionsPanel.showEnergyProfileView" ));
 
@@ -37,58 +35,18 @@ public class EnergyViewsOptionsPanel extends JPanel {
 
         showSeparationView.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                module.getEnergyView().setSeparationViewVisible( showSeparationView.isSelected() );
+                module.getEnergyView().setSeparationViewHidden( !showSeparationView.isSelected() );
+            }
+        } );
+
+        showEnergyProfileView.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                module.getEnergyView().setEnergyProfileVisible( showEnergyProfileView.isSelected() );
             }
         } );
 
         add(showSeparationView,    c);
         add(showEnergyProfileView, c);
-        /*
-
-
-            showBarChartBtn = new JRadioButton( SimStrings.get( "Control.showBarChart" ) );
-            showBarChartBtn.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    setEnergyViewChartOptions();
-                }
-            } );
-            chartOptionsBG.add( showBarChartBtn );
-
-            showPieChartBtn = new JRadioButton( SimStrings.get( "Control.showPieChart" ) );
-            showPieChartBtn.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    setEnergyViewChartOptions();
-                }
-            } );
-            chartOptionsBG.add( showPieChartBtn );
-
-            showStripChartBtn = new JRadioButton( SimStrings.get( "Control.showStripChart" ) );
-            showStripChartBtn.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    setEnergyViewChartOptions();
-                }
-            } );
-            chartOptionsBG.add( showStripChartBtn );
-
-            showNoneBtn = new JRadioButton( SimStrings.get( "Control.none" ) );
-            showNoneBtn.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    setEnergyViewChartOptions();
-                }
-            } );
-            showNoneBtn.setSelected( true );
-            chartOptionsBG.add( showNoneBtn );
-
-            gbc.gridy = 0;
-            chartOptionsPanel.add( showBarChartBtn, gbc );
-            gbc.gridx = 1;
-            chartOptionsPanel.add( showStripChartBtn, gbc );
-            gbc.gridx = 0;
-            gbc.gridy = 1;
-            chartOptionsPanel.add( showPieChartBtn, gbc );
-            gbc.gridx = 1;
-            chartOptionsPanel.add( showNoneBtn, gbc );
-         */
     }
 
     

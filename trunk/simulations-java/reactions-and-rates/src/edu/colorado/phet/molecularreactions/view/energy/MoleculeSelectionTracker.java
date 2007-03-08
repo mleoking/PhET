@@ -59,6 +59,16 @@ public class MoleculeSelectionTracker extends SimpleObservable {
         return selectedMolecule != null;
     }
 
+    public boolean isTracking() {
+        if (freeMolecule != null && boundMolecule != null) {
+            if (selectedMolecule != null && nearestToSelectedMolecule != null) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private MoleculeSelectionListener getSelectionListenerController() {
         return (MoleculeSelectionListener)listenerController;
     }

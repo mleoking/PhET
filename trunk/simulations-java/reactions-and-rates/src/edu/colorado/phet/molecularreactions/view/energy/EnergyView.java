@@ -49,10 +49,11 @@ import java.awt.geom.Rectangle2D;
  * |  .....................................  |
  * -------------------------------------------
  */
-public class EnergyView extends PNode implements SimpleObserver, Resetable {
+public class EnergyView extends PNode implements Resetable {
     private volatile MoleculeSeparationPane moleculeSeparationPane;
     private volatile UpperEnergyPane upperPane;
     private volatile CurvePane curvePane;
+    private PPath legendNode;
 
     public EnergyView() {
     }
@@ -64,23 +65,14 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     public void initialize( MRModule module, Dimension upperPaneSize ) {
         MRModel model = module.getMRModel();
 
-        // The pane that has the curve and cursor
-        curvePane = new CurvePane(module, upperPaneSize);
+        removeAllChildren();
 
-        addChild( curvePane );
-
-        // The pane that has the molecules
-        moleculeSeparationPane = new MoleculeSeparationPane(module, upperPaneSize, curvePane );
-        addChild( moleculeSeparationPane );
-
-        // Add another pane on top of the molecule pane to display charts.
-        // It's a reall hack, but this pane is made visible when another
-        upperPane = new UpperEnergyPane(upperPaneSize);
-
-        addChild( upperPane );
+        addCurvePane( module, upperPaneSize );
+        addMolecularSeparationPane( module, upperPaneSize );
+        addUpperPane( upperPaneSize );
 
         // The graphic that shows the reaction mechanics. It appears below the profile pane.
-        PPath legendNode = new PPath( new Rectangle2D.Double( 0, 0,
+        legendNode = new PPath( new Rectangle2D.Double( 0, 0,
                                                               MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.width,
                                                               MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height ) );
         legendNode.setPaint( MRConfig.ENERGY_PANE_BACKGROUND );
@@ -91,9 +83,8 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
                                                                module.getMRModel() );
         legendNode.addChild( reactionGraphic );
         reactionGraphic.setOffset( legendNode.getWidth() / 2, legendNode.getHeight() - 20 );
+
         addChild( legendNode );
-
-
 
         // Put a border around the energy view
         Rectangle2D bRect = new Rectangle2D.Double( 0, 0,
@@ -102,11 +93,28 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         PPath border = new PPath( bRect );
         border.setOffset( curvePane.getOffset() );
         addChild( border );
+    }
 
-        // Listen for changes in the selected molecule and the molecule closest to it
-        moleculeSeparationPane.getTracker().addObserver( this );
+    private void addMolecularSeparationPane( MRModule module, Dimension upperPaneSize ) {
+        // The pane that has the molecules
+        moleculeSeparationPane = new MoleculeSeparationPane(module, upperPaneSize, curvePane );
 
-        update();
+        addChild( moleculeSeparationPane );
+    }
+
+    private void addUpperPane( Dimension upperPaneSize ) {
+        // Add another pane on top of the molecule pane to display charts.
+        // It's a reall hack, but this pane is made visible when another
+        upperPane = new UpperEnergyPane(upperPaneSize);
+
+        addChild( upperPane );
+    }
+
+    private void addCurvePane( MRModule module, Dimension upperPaneSize ) {
+        // The pane that has the curve and cursor
+        curvePane = new CurvePane(module, upperPaneSize);
+
+        addChild( curvePane );
     }
 
     public void reset() {
@@ -131,12 +139,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         upperPane.setVisible( true );
     }
 
-    public void update() {
-        moleculeSeparationPane.update( curvePane );
-
-        curvePane.setEnergyCursorVisible( moleculeSeparationPane.getTracker().getSelectedMolecule() != null );
-    }
-
     /*
      * Removes a pNode from the upper pane
      *
@@ -153,8 +155,13 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         curvePane.setManualControlEnabled( manualControl );
     }
 
-    public void setSeparationViewVisible( boolean hide ) {
+    public void setSeparationViewHidden( boolean hide ) {
         upperPane.setVisible( hide );
+    }
+
+    public void setEnergyProfileVisible( boolean visible ) {
+        curvePane.setVisible( visible );
+        legendNode.setVisible( visible );
     }
 
     public void setProfileManipulable( boolean manipulable ) {
