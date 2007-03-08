@@ -1,4 +1,4 @@
-"To Do" list for "colorvision3" simulation
+"To Do" list for "colorvision" simulation
 
 HIGH:
 - redesign of "RGB Bulbs" module, lights shine on a piece of paper, person looks at the paper
@@ -19,7 +19,9 @@ LOW:
 
 
 DONE:
-3/7/07 - deep copy the branch of phetcommon (stable-working-while-sam-does-his-thing) that this sim requires
+3/7/07 - change project name to colorvision (was colorvision3), update JNLP and ProGuard files
+3/7/07 - refactor edu.colorado.phet.common to edu.colorado.phet.common_13364
+3/7/07 - deep copy the branch of phetcommon (stable-working-while-sam-does-his-thing, rev 13364) that this sim requires
 8/9/06 - add CommonStrings_es.properties to phetcommon, add to website JAR file using 'jar uf'
 7/27/06 - remove acute accents from Spanish JNLP file, causes problems with PhET installer and launcher
 9/27/05 - change JNLP files to assume that everything is in colorvision3.jar
