@@ -314,7 +314,7 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
         getApparatusPanel().addGraphic( virtualAmmeter, 30 );
     }
 
-    public ModelViewTransform2D getTransform() {
+    public ModelViewTransform2D getModelViewTransform2D() {
         return transform;
     }
 

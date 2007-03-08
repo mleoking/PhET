@@ -71,7 +71,7 @@ public class CircuitGraphic extends CompositeGraphic {
         this.circuit = module.getCircuit();
         particleSetGraphic = new ParticleSetGraphic( module );
 //        this.transform = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 10, 10 ), new Rectangle( 0, 0, 100, 100 ) );
-        this.transform = apparatusPanel.getTransform();
+        this.transform = apparatusPanel.getModelViewTransform2D();
 
         solderLayer = new CompositePhetGraphic( this.apparatusPanel );
         solderLayer.setVisible( true );
