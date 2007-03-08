@@ -12,7 +12,7 @@ information.
 <jnlp 
   spec="1.0+" 
   codebase="http://www.colorado.edu/physics/phet/simulations"
-  href="colorvision3/colorvision3.jnlp"> 
+  href="colorvision/colorvision.jnlp"> 
   <information> 
     <title>Color Vision</title> 
     <vendor>University of Colorado, Department of Physics</vendor> 
@@ -25,7 +25,7 @@ information.
   </information> 
   <resources> 
     <j2se version="1.4+"/> 
-    <jar href="colorvision3/colorvision3.jar"/>
+    <jar href="colorvision/colorvision.jar"/>
   </resources> 
-  <application-desc main-class="edu.colorado.phet.colorvision3.ColorVisionApplication"/> 
+  <application-desc main-class="edu.colorado.phet.colorvision.ColorVisionApplication"/> 
 </jnlp> 
