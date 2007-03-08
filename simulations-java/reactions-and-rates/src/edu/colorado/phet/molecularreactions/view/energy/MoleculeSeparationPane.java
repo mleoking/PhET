@@ -87,7 +87,7 @@ public class MoleculeSeparationPane extends PPath {
     }
 
     public void reset() {
-        update();
+        tracker.reset();
     }
     
     private void removeNearestToSelectedMoleculeGraphic() {
@@ -107,20 +107,26 @@ public class MoleculeSeparationPane extends PPath {
     }
 
     private void setNearestToSelectedGraphic( EnergyProfile newProfile ) {
-        removeNearestToSelectedMoleculeGraphic();
-
         if (tracker.getNearestToSelectedMolecule() != null) {
-            nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( tracker.getNearestToSelectedMolecule().getFullMolecule(), newProfile );
-            moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
+            if (nearestToSelectedMoleculeGraphic == null) {
+                nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( tracker.getNearestToSelectedMolecule().getFullMolecule(), newProfile );
+                moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
+            }
+        }
+        else {
+            removeNearestToSelectedMoleculeGraphic();
         }
     }
 
     private void setSelectedGraphic( EnergyProfile newProfile ) {
-        removeSelectedMoleculeGraphic();
-
         if (tracker.getSelectedMolecule() != null) {
-            selectedMoleculeGraphic = new EnergyMoleculeGraphic( tracker.getSelectedMolecule().getFullMolecule(), newProfile );
-            moleculeLayer.addChild( selectedMoleculeGraphic );
+            if (selectedMoleculeGraphic == null) {
+                selectedMoleculeGraphic = new EnergyMoleculeGraphic( tracker.getSelectedMolecule().getFullMolecule(), newProfile );
+                moleculeLayer.addChild( selectedMoleculeGraphic );
+            }
+        }
+        else {
+            removeSelectedMoleculeGraphic();
         }
     }
 
@@ -130,8 +136,18 @@ public class MoleculeSeparationPane extends PPath {
     public void update() {
         moleculeGraphicController.update();
 
+        updateEnergyCursorVisibility();
+
+        updateMoleculePaneAxis();
+    }
+
+    private void updateEnergyCursorVisibility() {
         // TODO: This doesn't belong here
         curvePane.setEnergyCursorVisible( getTracker().getSelectedMolecule() != null );
+    }
+
+    private void updateMoleculePaneAxis() {
+        moleculePaneAxisNode.setVisible( tracker.getSelectedMolecule() != null );
     }
 
     private class MoleculeGraphicController implements MoleculeSelectionTracker.MoleculeSelectionListener, SimpleObserver {
@@ -145,13 +161,11 @@ public class MoleculeSeparationPane extends PPath {
         }
 
         public void notifySelectionChanged( SimpleMolecule oldSelection, SimpleMolecule newSelection ) {
-            updateSelectedGraphic();
-
-            moleculePaneAxisNode.setVisible( newSelection != null );
+            removeSelectedMoleculeGraphic();
         }
 
         public void notifyNearestToSelectionChanged( SimpleMolecule oldNearest, SimpleMolecule newNearest ) {
-            updateNearestToSelectedGraphic();
+            removeNearestToSelectedMoleculeGraphic();
         }
 
         public void notifyEnergyProfileChanged( EnergyProfile newProfile ) {
@@ -161,6 +175,7 @@ public class MoleculeSeparationPane extends PPath {
         public void update() {
             updateDirection();
             updatePositions();
+            updateMoleculeGraphics();
             updateGraphicPositions();
             updateSeparationArrow();
             updateEnergyCursor();
