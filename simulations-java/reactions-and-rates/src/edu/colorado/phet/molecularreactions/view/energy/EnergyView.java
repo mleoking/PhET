@@ -1,13 +1,5 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.molecularreactions.view.energy;
 
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -56,17 +48,11 @@ import java.awt.geom.Rectangle2D;
  * |  .       legendPane                  .  |
  * |  .....................................  |
  * -------------------------------------------
- *
- * @author Ron LeMaster
- * @version $Revision$
  */
 public class EnergyView extends PNode implements SimpleObserver, Resetable {
-    private volatile MoleculeSeparationPane.MolecularPaneState molecularPaneState;
-    private volatile MRModule module;
     private volatile MoleculeSeparationPane moleculeSeparationPane;
     private volatile UpperEnergyPane upperPane;
     private volatile CurvePane curvePane;
-    private MoleculeSelectionTracker tracker;
 
     public EnergyView() {
     }
@@ -76,14 +62,15 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     }
 
     public void initialize( MRModule module, Dimension upperPaneSize ) {
-        molecularPaneState = new MoleculeSeparationPane.MolecularPaneState();
-
-        this.module = module;
-
         MRModel model = module.getMRModel();
 
+        // The pane that has the curve and cursor
+        curvePane = new CurvePane(module, upperPaneSize);
+
+        addChild( curvePane );
+
         // The pane that has the molecules
-        moleculeSeparationPane = new MoleculeSeparationPane(module, upperPaneSize, molecularPaneState );
+        moleculeSeparationPane = new MoleculeSeparationPane(module, upperPaneSize, curvePane );
         addChild( moleculeSeparationPane );
 
         // Add another pane on top of the molecule pane to display charts.
@@ -91,11 +78,6 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         upperPane = new UpperEnergyPane(upperPaneSize);
 
         addChild( upperPane );
-
-        // The pane that has the curve and cursor
-        curvePane = new CurvePane(module, upperPaneSize);
-
-        addChild( curvePane );
 
         // The graphic that shows the reaction mechanics. It appears below the profile pane.
         PPath legendNode = new PPath( new Rectangle2D.Double( 0, 0,
@@ -122,25 +104,13 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         addChild( border );
 
         // Listen for changes in the selected molecule and the molecule closest to it
-        tracker = new MoleculeSelectionTracker( molecularPaneState, module );
-
-        tracker.addObserver( this );
+        moleculeSeparationPane.getSelectionState().addObserver( this );
 
         update();
     }
 
     public void reset() {
-        molecularPaneState.selectedMolecule = null;
-        molecularPaneState.nearestToSelectedMolecule = null;
-
-        if( molecularPaneState.selectedMoleculeGraphic != null ) {
-            molecularPaneState.moleculeLayer.removeChild( molecularPaneState.selectedMoleculeGraphic );
-        }
-        if( molecularPaneState.nearestToSelectedMoleculeGraphic != null ) {
-            molecularPaneState.moleculeLayer.removeChild( molecularPaneState.nearestToSelectedMoleculeGraphic );
-        }
-        molecularPaneState.selectedMoleculeGraphic = null;
-        molecularPaneState.nearestToSelectedMoleculeGraphic = null;
+        moleculeSeparationPane.reset();
     }
 
     /*
@@ -164,7 +134,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     public void update() {
         moleculeSeparationPane.update( curvePane );
 
-        curvePane.setEnergyCursorVisible( molecularPaneState.selectedMolecule != null );
+        curvePane.setEnergyCursorVisible( moleculeSeparationPane.getSelectionState().getSelectedMolecule() != null );
     }
 
     /*
