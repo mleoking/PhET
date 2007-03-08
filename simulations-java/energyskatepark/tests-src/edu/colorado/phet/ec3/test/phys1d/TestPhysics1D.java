@@ -26,6 +26,9 @@ public class TestPhysics1D extends JFrame {
     private ParticleStage particleStage = new ParticleStage();
     private SplineLayer splineLayer = new SplineLayer( particleStage );
     private static final String VERSION = "1.05.07";
+    double totalONTrackError=0;
+    double totalOffTrackError=0;
+    private double normTerm=0;
 
     public TestPhysics1D() {
         super( "Test Physics 1D (" + VERSION + ")" );
@@ -35,7 +38,7 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setContentPane( pSwingCanvas );
 
-        ParametricFunction2D cubicSpline = new CubicSpline2D( new Point2D[]{
+        final ParametricFunction2D cubicSpline = new CubicSpline2D( new Point2D[]{
                 new Point2D.Double( 1 * 2, 0.5 * 2 ),
                 new Point2D.Double( 2 * 2, 1 * 2 ),
                 new Point2D.Double( 3 * 2, 0.5 * 2 ),
@@ -71,18 +74,25 @@ public class TestPhysics1D extends JFrame {
                 double e1 = particle.getTotalEnergy();
                 double offsetE1 = getOffsetEnergy();
 //                System.out.println( "energy = " + energy );
+                System.out.println("clockEvent = " + clockEvent.getSimulationTimeChange());
                 particle.stepInTime( clockEvent.getSimulationTimeChange() );
                 double e2 = particle.getTotalEnergy();
                 double offsetE2 = getOffsetEnergy();
-                double de = ( e2 - e1 ) / e1;
-                System.out.println( "ON TRACK: de=" + de + ", e1=" + e1 + ", e2=" + e2 );
+                double de = ( e2 - normTerm) / normTerm;
+//                System.out.println( "ON TRACK: de=" + de + ", e1=" + e1 + ", e2=" + e2 );
 
-                double offsetDE = ( offsetE2 - offsetE1 ) / offsetE1;
-                System.out.println( "OFF TRACK: de= " + offsetDE + ", e1=" + offsetE1 + ", e2=" + offsetE2 );
+                double offsetDE = ( offsetE2 - normTerm) / normTerm;
+//                System.out.println( "OFF TRACK: de= " + offsetDE + ", e1=" + offsetE1 + ", e2=" + offsetE2 );
+
+//                totalOffTrackError+=offsetDE;
+//                totalONTrackError+=de;
+                System.out.println("ontrack="+de+", \tofftrack="+offsetDE);
 //                System.out.println( "OFF TRACK: de=" + );
 
             }
         } );
+
+
         ccpFrame = new JFrame( "Clock Controls" );
         ccpFrame.setContentPane( new ClockControlPanel( clock ) );
         ccpFrame.pack();
@@ -126,6 +136,21 @@ public class TestPhysics1D extends JFrame {
                 particle1d.setUpdateStrategy( particle1d.createVerletOffset( splineLayer.getOffsetDistance() ) );
             }
         } );
+
+        JButton comp = new JButton("Reset eergy errors");
+        comp.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                totalOffTrackError=0;
+                totalONTrackError=0;
+
+                particle.switchToTrack(cubicSpline, 0.01,true);
+                normTerm=particle.getTotalEnergy();
+                System.out.println("normTerm = " + normTerm);
+//                enable
+            }
+        });
+        controlPanel.add(comp);
+
         controlPanel.add( verlet, gridBagConstraints );
         controlPanel.add( constantVel, gridBagConstraints );
         controlPanel.add( euler, gridBagConstraints );
@@ -304,6 +329,9 @@ public class TestPhysics1D extends JFrame {
     }
 
     private double getOffsetEnergy() {
+        if (particle.getParticle1D().getCubicSpline2D()==null){
+            return Double.NaN;
+        }
         double R = Math.abs( particle.getParticle1D().getRadiusOfCurvature() );//todo: should this be allowed to be negative?
         double L = splineLayer.getOffsetDistance();
         AbstractVector2D vec = particle.getParticle1D().getSideVector().getScaledInstance( L ).getAddedInstance( particle.getX(), particle.getY() );
