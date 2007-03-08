@@ -94,7 +94,7 @@ public class Particle {
     }
 
     public double getPotentialEnergy() {
-        return mass * g * y;
+        return -mass * g * y;
     }
 
     public double getGravity() {
