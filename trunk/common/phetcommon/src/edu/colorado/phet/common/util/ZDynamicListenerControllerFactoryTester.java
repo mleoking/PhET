@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 
 import java.util.Stack;
 
-public class ZDynamicListenerFactoryTester extends TestCase {
+public class ZDynamicListenerControllerFactoryTester extends TestCase {
     public void setUp() {
     }
 
@@ -14,7 +14,7 @@ public class ZDynamicListenerFactoryTester extends TestCase {
 
     public void testCannotCreateDynamicControllerForClass() {
         try {
-            DynamicListenerControllerFactory.newController( ZDynamicListenerFactoryTester.class );
+            DynamicListenerControllerFactory.newController( ZDynamicListenerControllerFactoryTester.class );
 
             fail();
         }
