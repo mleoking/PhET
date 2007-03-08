@@ -9,7 +9,7 @@ HIGH:
 - add MegaHelp, as provided by Aaron
 
 MEDIUM:
-- port to latest phetcommon
+- port to Piccolo and phetcommon trunk
 - phetcommon-based controls don't work while simulation is paused
 - background color on Windows
 
@@ -17,8 +17,10 @@ LOW:
 
 
 
+
 DONE:
-(8/9/06) - add CommonStrings_es.properties to phetcommon, add to website JAR file using 'jar uf'
-(7/27/06) - remove acute accents from Spanish JNLP file, causes problems with PhET installer and launcher
-(9/27/05) - change JNLP files to assume that everything is in colorvision3.jar
-(9/27/05) - migrate Spanish translations from "localization" project, fix language code (es, not sp)
+3/7/07 - deep copy the branch of phetcommon (stable-working-while-sam-does-his-thing) that this sim requires
+8/9/06 - add CommonStrings_es.properties to phetcommon, add to website JAR file using 'jar uf'
+7/27/06 - remove acute accents from Spanish JNLP file, causes problems with PhET installer and launcher
+9/27/05 - change JNLP files to assume that everything is in colorvision3.jar
+9/27/05 - migrate Spanish translations from "localization" project, fix language code (es, not sp)
