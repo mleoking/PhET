@@ -94,6 +94,9 @@ public class MoleculeSelectionTracker extends SimpleObservable {
         return listenerController.getAllListeners();
     }
 
+    public void reset() {        
+    }
+
     // This class keeps track of the selected, and nearest to selected molecules.
     private class SelectedMoleculeListener extends MRModel.ModelListenerAdapter implements SelectedMoleculeTracker.Listener {
         public void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule,
