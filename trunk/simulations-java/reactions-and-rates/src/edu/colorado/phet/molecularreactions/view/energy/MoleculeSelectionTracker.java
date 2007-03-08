@@ -14,7 +14,7 @@ import edu.colorado.phet.common.util.DynamicListenerControllerFactory;
 import java.util.Collection;
 
 public class MoleculeSelectionTracker extends SimpleObservable {
-    private final DynamicListenerController listenerController = DynamicListenerControllerFactory.newController( MoleculeSelectionStateListener.class );
+    private final DynamicListenerController listenerController = DynamicListenerControllerFactory.newController( MoleculeSelectionListener.class );
 
     private volatile SimpleMolecule boundMolecule;
     private volatile SimpleMolecule freeMolecule;
@@ -23,16 +23,14 @@ public class MoleculeSelectionTracker extends SimpleObservable {
     private volatile SimpleMolecule nearestToSelectedMolecule;
 
     public MoleculeSelectionTracker( MRModule module ) {
-        MRModel model = module.getMRModel();
-
         SelectedMoleculeListener moleculeListener = new SelectedMoleculeListener();
 
-        model.addListener( moleculeListener );
-        model.addSelectedMoleculeTrackerListener(
-                moleculeListener
-        );
+        MRModel model = module.getMRModel();
 
-        addObserver(new FreeBoundTrackingObserver() );
+        model.addListener( moleculeListener );
+        model.addSelectedMoleculeTrackerListener( moleculeListener );
+
+        addObserver( new FreeBoundTrackingObserver() );
     }
 
     public SimpleMolecule getBoundMolecule() {
@@ -52,113 +50,137 @@ public class MoleculeSelectionTracker extends SimpleObservable {
     }
 
     public void reset() {
-        selectedMolecule = null;
-        nearestToSelectedMolecule = null;
+        setFreeAndBoundMolecules( null, null );
+        setSelectedMolecule( null );
+        setNearestToSelectedMolecule( null );
     }
 
     public boolean isMoleculeSelected() {
         return selectedMolecule != null;
     }
 
-    private MoleculeSelectionStateListener getSelectionListenerController() {
-        return (MoleculeSelectionStateListener)listenerController;
+    private MoleculeSelectionListener getSelectionListenerController() {
+        return (MoleculeSelectionListener)listenerController;
     }
 
-    public void addSelectionStateListener(MoleculeSelectionStateListener listener) {
+    public void addSelectionStateListener( MoleculeSelectionListener listener ) {
         listenerController.addListener( listener );
     }
 
-    public void removeSelectionStateListener(MoleculeSelectionStateListener listener) {
+    public void removeSelectionStateListener( MoleculeSelectionListener listener ) {
         listenerController.removeListener( listener );
     }
 
-    public Collection getAllSelectionStateListeners(MoleculeSelectionStateListener listener) {
+    public Collection getAllSelectionStateListeners( MoleculeSelectionListener listener ) {
         return listenerController.getAllListeners();
+    }
+
+    private void setFreeAndBoundMolecules( SimpleMolecule newFreeMolecule, SimpleMolecule newBoundMolecule ) {
+        if( newFreeMolecule != freeMolecule ) {
+            SimpleMolecule oldFreeMolecule = freeMolecule;
+
+            freeMolecule = newFreeMolecule;
+
+            getSelectionListenerController().notifyFreeMoleculeChanged( oldFreeMolecule, freeMolecule );
+        }
+        if( newBoundMolecule != boundMolecule ) {
+            SimpleMolecule oldBoundMolecule = boundMolecule;
+
+            boundMolecule = newBoundMolecule;
+
+            getSelectionListenerController().notifyBoundMoleculeChanged( oldBoundMolecule, boundMolecule );
+        }
+    }
+
+    private void setNearestToSelectedMolecule( SimpleMolecule newMolecule ) {
+        if( nearestToSelectedMolecule != newMolecule ) {
+            if( nearestToSelectedMolecule != null ) {
+                nearestToSelectedMolecule.removeObserver( getController() );
+            }
+
+            nearestToSelectedMolecule = newMolecule;
+
+            if( newMolecule != null ) {
+                newMolecule.addObserver( getController() );
+            }
+
+            getSelectionListenerController().notifyNearestToSelectionChanged( nearestToSelectedMolecule, newMolecule );
+        }
+    }
+
+    private void setSelectedMolecule( SimpleMolecule newMolecule ) {
+        if( selectedMolecule != newMolecule ) {
+            if( selectedMolecule != null ) {
+                selectedMolecule.removeObserver( getController() );
+            }
+
+            selectedMolecule = newMolecule;
+
+            if( newMolecule != null ) {
+                newMolecule.addObserver( getController() );
+            }
+
+            getSelectionListenerController().notifySelectionChanged( selectedMolecule, newMolecule );
+        }
     }
 
     // This class keeps track of the free and bound molecule.
     private class FreeBoundTrackingObserver implements SimpleObserver {
         public void update() {
-            SimpleMolecule oldFreeMolecule  = freeMolecule;
-            SimpleMolecule oldBoundMolecule = boundMolecule;
+            SimpleMolecule newBoundMolecule = null;
+            SimpleMolecule newFreeMolecule = null;
 
-            boundMolecule = null;
-            freeMolecule  = null;
-
-            if (getSelectedMolecule() != null && getNearestToSelectedMolecule() != null) {
+            if( getSelectedMolecule() != null && getNearestToSelectedMolecule() != null ) {
                 if( getSelectedMolecule().isPartOfComposite() ) {
-                    boundMolecule = getSelectedMolecule();
+                    newBoundMolecule = getSelectedMolecule();
                     if( !getNearestToSelectedMolecule().isPartOfComposite() ) {
-                        freeMolecule = getNearestToSelectedMolecule();
+                        newFreeMolecule = getNearestToSelectedMolecule();
                     }
                 }
                 else if( getNearestToSelectedMolecule().isPartOfComposite() ) {
-                    boundMolecule = getNearestToSelectedMolecule();
+                    newBoundMolecule = getNearestToSelectedMolecule();
 
                     if( !getSelectedMolecule().isPartOfComposite() ) {
-                        freeMolecule = getSelectedMolecule();
+                        newFreeMolecule = getSelectedMolecule();
                     }
                 }
             }
 
-            if (oldFreeMolecule != freeMolecule) {
-                getSelectionListenerController().notifyFreeMoleculeChanged( oldFreeMolecule, freeMolecule );
-            }
-            if (oldBoundMolecule != boundMolecule) {
-                getSelectionListenerController().notifyBoundMoleculeChanged( oldBoundMolecule, boundMolecule );
-            }
+            setFreeAndBoundMolecules( newFreeMolecule, newBoundMolecule );
         }
     }
 
+    // This class keeps track of the selected, and nearest to selected molecules.
     private class SelectedMoleculeListener extends MRModel.ModelListenerAdapter implements SelectedMoleculeTracker.Listener {
         public void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule,
                                                  SimpleMolecule prevTrackedMolecule ) {
-            if( selectedMolecule != null ) {
-                selectedMolecule.removeObserver( getController() );
+            setSelectedMolecule( newTrackedMolecule );
 
-                getSelectionListenerController().notifyMoleculeUnselected( selectedMolecule );
-            }
-
-            selectedMolecule = newTrackedMolecule;
-
-            if ( newTrackedMolecule != null ) {                
-                newTrackedMolecule.addObserver( getController() );
-            }
-
-            getSelectionListenerController().notifyMoleculeSelected( selectedMolecule );
+            getController().update();
         }
 
         public void closestMoleculeChanged( SimpleMolecule newClosestMolecule, SimpleMolecule prevClosestMolecule ) {
-            if( nearestToSelectedMolecule != null ) {
-                nearestToSelectedMolecule.removeObserver( getController() );
-            }
+            setNearestToSelectedMolecule( newClosestMolecule );
 
-            nearestToSelectedMolecule = newClosestMolecule;
-
-            newClosestMolecule.addObserver( getController() );
-
-            getSelectionListenerController().notifyNearestToSelectedChanged( prevClosestMolecule, newClosestMolecule );
+            getController().update();
         }
-
 
         public void notifyEnergyProfileChanged( EnergyProfile newProfile ) {
             getSelectionListenerController().notifyEnergyProfileChanged( newProfile );
+
+            getController().update();
         }
     }
 
+    public interface MoleculeSelectionListener {
+        void notifySelectionChanged( SimpleMolecule oldSelection, SimpleMolecule newSelection );
 
+        void notifyNearestToSelectionChanged( SimpleMolecule oldNearest, SimpleMolecule newNearest );
 
-    public interface MoleculeSelectionStateListener {
-        void notifyMoleculeSelected(SimpleMolecule selectedMolecule);
+        void notifyFreeMoleculeChanged( SimpleMolecule oldFreeMolecule, SimpleMolecule newFreeMolecule );
 
-        void notifyMoleculeUnselected(SimpleMolecule selectedMolecule);
+        void notifyBoundMoleculeChanged( SimpleMolecule oldBoundMolecule, SimpleMolecule newBoundMolecule );
 
-        void notifyNearestToSelectedChanged(SimpleMolecule oldNearest, SimpleMolecule newNearest);
-
-        void notifyFreeMoleculeChanged(SimpleMolecule oldFreeMolecule, SimpleMolecule newFreeMolecule);
-
-        void notifyBoundMoleculeChanged(SimpleMolecule oldBoundMolecule, SimpleMolecule newBoundMolecule);
-
-        void notifyEnergyProfileChanged(EnergyProfile newProfile);
+        void notifyEnergyProfileChanged( EnergyProfile newProfile );
     }
 }

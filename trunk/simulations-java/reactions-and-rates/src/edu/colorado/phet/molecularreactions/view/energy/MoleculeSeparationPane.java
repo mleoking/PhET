@@ -80,16 +80,37 @@ public class MoleculeSeparationPane extends PPath {
 
         tracker.reset();
 
-        if( selectedMoleculeGraphic != null ) {
-            moleculeLayer.removeChild( selectedMoleculeGraphic );
-        }
-
+        removeSelectedMoleculeGraphic();
+        removeNearestToSelectedMoleculeGraphic();
+    }
+    private void removeNearestToSelectedMoleculeGraphic() {
         if( nearestToSelectedMoleculeGraphic != null ) {
             moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
-        }
 
-        selectedMoleculeGraphic = null;
-        nearestToSelectedMoleculeGraphic = null;
+            nearestToSelectedMoleculeGraphic = null;
+        }
+    }
+
+    private void removeSelectedMoleculeGraphic() {
+        if( selectedMoleculeGraphic != null ) {
+            moleculeLayer.removeChild( selectedMoleculeGraphic );
+
+            selectedMoleculeGraphic = null;
+        }
+    }
+
+    private void setNearestToSelectedGraphic( EnergyProfile newProfile ) {
+        removeNearestToSelectedMoleculeGraphic();
+
+        nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( tracker.getNearestToSelectedMolecule().getFullMolecule(), newProfile );
+        moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
+    }
+
+    private void setSelectedGraphic( EnergyProfile newProfile ) {
+        removeSelectedMoleculeGraphic();
+
+        selectedMoleculeGraphic = new EnergyMoleculeGraphic( tracker.getSelectedMolecule().getFullMolecule(), newProfile );
+        moleculeLayer.addChild( selectedMoleculeGraphic );
     }
 
     /*
@@ -107,7 +128,7 @@ public class MoleculeSeparationPane extends PPath {
         }
     }
 
-    private class MoleculeGraphicController implements MoleculeSelectionTracker.MoleculeSelectionStateListener {
+    private class MoleculeGraphicController implements MoleculeSelectionTracker.MoleculeSelectionListener {
         private final MRModule module;
         private int direction;
         private double yMin, yMax;
@@ -117,58 +138,51 @@ public class MoleculeSeparationPane extends PPath {
             this.module = module;
         }
 
-        public void notifyMoleculeSelected( SimpleMolecule selectedMolecule ) {
-            if( selectedMolecule != null ) {
-                selectedMoleculeGraphic = new EnergyMoleculeGraphic( selectedMolecule.getFullMolecule(),
-                                                                     module.getMRModel().getEnergyProfile() );
-                moleculeLayer.addChild( selectedMoleculeGraphic );
+        public void notifySelectionChanged( SimpleMolecule oldSelection, SimpleMolecule newSelection ) {
+            removeSelectedMoleculeGraphic();
+
+            if ( newSelection != null ) {
+                setSelectedGraphic( module.getMRModel().getEnergyProfile() );
+
                 moleculePaneAxisNode.setVisible( true );
             }
             else {
                 moleculePaneAxisNode.setVisible( false );
             }
-
-            updateDirection();
         }
 
-        public void notifyNearestToSelectedChanged( SimpleMolecule oldNearest, SimpleMolecule newNearest ) {
-            if( nearestToSelectedMoleculeGraphic != null ) {
-                moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
-            }
+        public void notifyNearestToSelectionChanged( SimpleMolecule oldNearest, SimpleMolecule newNearest ) {
+            removeNearestToSelectedMoleculeGraphic();
 
-            nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( newNearest,
-                                                                          module.getMRModel().getEnergyProfile() );
-
-            moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
-        }
-
-        public void notifyMoleculeUnselected( SimpleMolecule selectedMolecule ) {
-            if( selectedMoleculeGraphic != null && moleculeLayer.getChildrenReference().contains( selectedMoleculeGraphic ) ) {
-                moleculeLayer.removeChild( selectedMoleculeGraphic );
+            if (newNearest != null) {
+                setNearestToSelectedGraphic( module.getMRModel().getEnergyProfile() );
             }
         }
 
         public void notifyFreeMoleculeChanged( SimpleMolecule oldFreeMolecule, SimpleMolecule newFreeMolecule ) {
             updateDirection();
+            updatePositions();
 
-            if (selectedMoleculeGraphic != null && nearestToSelectedMoleculeGraphic != null) {
-                // Set locatation of molecules. Use the *direction* variable we set above
-                // to determine which graphic should be on top
-                if( newFreeMolecule instanceof MoleculeC && newFreeMolecule == tracker.getSelectedMolecule() ) {
-                    selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
-                    nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
-                }
-                else if( newFreeMolecule instanceof MoleculeC && newFreeMolecule == tracker.getNearestToSelectedMolecule() ) {
-                    selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
-                    nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
-                }
-                else if( newFreeMolecule instanceof MoleculeA && newFreeMolecule == tracker.getSelectedMolecule() ) {
-                    selectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
-                    nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
-                }
-                else if( newFreeMolecule instanceof MoleculeA && newFreeMolecule == tracker.getNearestToSelectedMolecule() ) {
-                    selectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
-                    nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
+            if (newFreeMolecule != null) {
+                if (selectedMoleculeGraphic != null && nearestToSelectedMoleculeGraphic != null) {
+                    // Set locatation of molecules. Use the *direction* variable we set above
+                    // to determine which graphic should be on top
+                    if( newFreeMolecule instanceof MoleculeC && newFreeMolecule == tracker.getSelectedMolecule() ) {
+                        selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
+                        nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
+                    }
+                    else if( newFreeMolecule instanceof MoleculeC && newFreeMolecule == tracker.getNearestToSelectedMolecule() ) {
+                        selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
+                        nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
+                    }
+                    else if( newFreeMolecule instanceof MoleculeA && newFreeMolecule == tracker.getSelectedMolecule() ) {
+                        selectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
+                        nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
+                    }
+                    else if( newFreeMolecule instanceof MoleculeA && newFreeMolecule == tracker.getNearestToSelectedMolecule() ) {
+                        selectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
+                        nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
+                    }
                 }
             }
         }
@@ -178,18 +192,12 @@ public class MoleculeSeparationPane extends PPath {
         }
 
         public void notifyEnergyProfileChanged( EnergyProfile newProfile ) {
-            if( selectedMoleculeGraphic != null ) {
-                moleculeLayer.removeChild( selectedMoleculeGraphic );
-                selectedMoleculeGraphic = new EnergyMoleculeGraphic( tracker.getSelectedMolecule().getFullMolecule(),
-                                                                     newProfile );
-                moleculeLayer.addChild( selectedMoleculeGraphic );
-            }
-            if( nearestToSelectedMoleculeGraphic != null ) {
-                moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
-                nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( tracker.getNearestToSelectedMolecule().getFullMolecule(),
-                                                                              newProfile );
-                moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
-            }
+            removeSelectedMoleculeGraphic();
+            removeNearestToSelectedMoleculeGraphic();
+
+            setSelectedGraphic( newProfile );
+
+            setNearestToSelectedGraphic( newProfile );
         }
 
         public void update() {
