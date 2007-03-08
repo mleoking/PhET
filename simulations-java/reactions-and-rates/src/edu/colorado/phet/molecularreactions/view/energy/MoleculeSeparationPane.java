@@ -15,7 +15,6 @@ import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 
@@ -88,10 +87,7 @@ public class MoleculeSeparationPane extends PPath {
     }
 
     public void reset() {
-        tracker.reset();
-
-        removeSelectedMoleculeGraphic();
-        removeNearestToSelectedMoleculeGraphic();
+        update();
     }
     
     private void removeNearestToSelectedMoleculeGraphic() {
@@ -149,30 +145,25 @@ public class MoleculeSeparationPane extends PPath {
         }
 
         public void notifySelectionChanged( SimpleMolecule oldSelection, SimpleMolecule newSelection ) {
-            removeSelectedMoleculeGraphic();
+            updateSelectedGraphic();
 
-            if ( newSelection != null ) {
-                setSelectedGraphic( module.getMRModel().getEnergyProfile() );
-
-                moleculePaneAxisNode.setVisible( true );
-            }
-            else {
-                moleculePaneAxisNode.setVisible( false );
-            }
+            moleculePaneAxisNode.setVisible( newSelection != null );
         }
 
         public void notifyNearestToSelectionChanged( SimpleMolecule oldNearest, SimpleMolecule newNearest ) {
-            removeNearestToSelectedMoleculeGraphic();
-
-            if (newNearest != null) {
-                setNearestToSelectedGraphic( module.getMRModel().getEnergyProfile() );
-            }
+            updateNearestToSelectedGraphic();
         }
 
-        public void notifyFreeMoleculeChanged( SimpleMolecule oldFreeMolecule, SimpleMolecule newFreeMolecule ) {
+        public void notifyEnergyProfileChanged( EnergyProfile newProfile ) {
+            updateMoleculeGraphics();
+        }
+
+        public void update() {
             updateDirection();
             updatePositions();
             updateGraphicPositions();
+            updateSeparationArrow();
+            updateEnergyCursor();
         }
 
         private void updateGraphicPositions( ) {
@@ -202,25 +193,17 @@ public class MoleculeSeparationPane extends PPath {
             }
         }
 
-        public void notifyBoundMoleculeChanged( SimpleMolecule oldBoundMolecule, SimpleMolecule newBoundMolecule ) {
-            updateDirection();
+        private void updateSelectedGraphic() {
+            setSelectedGraphic( module.getMRModel().getEnergyProfile() );
         }
 
-        public void notifyEnergyProfileChanged( EnergyProfile newProfile ) {
-            removeSelectedMoleculeGraphic();
-            removeNearestToSelectedMoleculeGraphic();
-
-            setSelectedGraphic( newProfile );
-
-            setNearestToSelectedGraphic( newProfile );
+        private void updateNearestToSelectedGraphic() {
+            setNearestToSelectedGraphic( module.getMRModel().getEnergyProfile() );
         }
 
-        public void update() {
-            updateDirection();
-            updatePositions();
-            updateGraphicPositions();
-            updateSeparationArrow();
-            updateEnergyCursor();
+        private void updateMoleculeGraphics() {
+            updateSelectedGraphic();
+            updateNearestToSelectedGraphic();
         }
 
         private void updateEnergyCursor() {
@@ -239,6 +222,9 @@ public class MoleculeSeparationPane extends PPath {
             if( tracker.isTracking() ) {
                 SimpleMolecule freeMolecule  = tracker.getFreeMolecule(),
                                boundMolecule = tracker.getBoundMolecule();
+
+                assert freeMolecule  != null;
+                assert boundMolecule != null;
 
                 // Figure out on which side of the centerline the molecules should appear
                 // If the selected molecule is an A molecule and it's free, we're on the left
@@ -300,6 +286,7 @@ public class MoleculeSeparationPane extends PPath {
 
                 // Do not allow the energy cursor to move beyond where it's
                 // energetically allowed.
+                //
                 // Note: This is a hack implemented because the physics of the
                 //       simulation are fudged.
                 double maxX = curvePane.getIntersectionWithHorizontal( x );
@@ -310,6 +297,9 @@ public class MoleculeSeparationPane extends PPath {
 
                 yMin = midPoint.getY() - Math.min( cmDist, maxSeparation ) / 2;
                 yMax = midPoint.getY() + Math.min( cmDist, maxSeparation ) / 2;
+            }
+            else {
+                System.out.println("Not tracking!");
             }
         }
     }
