@@ -36,7 +36,7 @@ public class PlumPuddingAtomModule extends AbstractModule {
     private Gun _gun;
     
     // View
-    private PhetPCanvas _canvas;
+    private BufferedPlumPuddingAtomNode.MyCanvas _canvas;
     private PNode _rootNode;
     private PNode _boxBeamGunParent;
     private BoxOfHydrogenNode _boxOfHydrogenNode;
@@ -97,7 +97,7 @@ public class PlumPuddingAtomModule extends AbstractModule {
 
         // Piccolo canvas
         {
-            _canvas = new PhetPCanvas( RSConstants.CANVAS_RENDERING_SIZE );
+            _canvas = new BufferedPlumPuddingAtomNode.MyCanvas( RSConstants.CANVAS_RENDERING_SIZE );
             _canvas.setBackground( RSConstants.CANVAS_BACKGROUND );
             setSimulationPanel( _canvas );
         }
@@ -143,8 +143,14 @@ public class PlumPuddingAtomModule extends AbstractModule {
         _zoomIndicatorNode = new ZoomIndicatorNode();
         
         // Atom
+//        PlumPuddingAtomNode atomNode = new PlumPuddingAtomNode( atom );
+//        _animationBoxNode.getAtomLayer().addChild(  atomNode  );
+                // Atom
         PlumPuddingAtomNode atomNode = new PlumPuddingAtomNode( atom );
-        _animationBoxNode.getAtomLayer().addChild(  atomNode  );
+        PNode myNode = new PNode();
+        _canvas.addScreenChild( myNode );
+        BufferedPlumPuddingAtomNode bufferedPlumPuddingAtomNode = new BufferedPlumPuddingAtomNode( atomNode, _canvas.getPhetRootNode(),_canvas,atom );
+        _animationBoxNode.getAtomLayer().addChild( bufferedPlumPuddingAtomNode );
         
         // Alpha Particles tracer
         {
