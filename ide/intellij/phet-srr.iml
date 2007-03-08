@@ -42,6 +42,8 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/cck3/phetcommon-cck/tests-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/cck3/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/cck3/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/colorvision/phetcommon-13364/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/colorvision/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/conductivity/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/conductivity/src-pc" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/efield/src" isTestSource="false" />
@@ -85,6 +87,8 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/reactions-and-rates/test" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/rotation/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/rotation/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/rutherford-scattering/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/rutherford-scattering/test-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/schrodinger/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/schrodinger/tests-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/semiconductor/src" isTestSource="false" />
@@ -94,6 +98,9 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound-2/phetcommon-5790/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound-2/phetcommon-5790/tests-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound-2/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound/phetcommon-5790/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound/phetcommon-5790/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/theramp/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/theramp/tests-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/theramp/theramp-timeseries/src" isTestSource="false" />
@@ -676,24 +683,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations-java/sound-2/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations-java/sound-2/phetcommon-5790/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="file://$MODULE_DIR$/../../simulations-java/theramp/data" />
         </CLASSES>
         <JAVADOC />
@@ -704,6 +693,51 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/../../simulations-java/efield/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/sound/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/sound/phetcommon-5790/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/rutherford-scattering/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/colorvision/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/colorvision/phetcommon-13364/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
