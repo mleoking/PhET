@@ -26,11 +26,11 @@ import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.colorvision.ColorVisionConfig;
 import edu.colorado.phet.colorvision.coreadditions.view.BellCurve;
-import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common_13364.math.MathUtil;
+import edu.colorado.phet.common_13364.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common_13364.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common_13364.view.util.ImageLoader;
+import edu.colorado.phet.common_13364.view.util.VisibleColor;
 
 /**
  * SpectrumSlider is a UI component, similar to a JSlider, for selecting a

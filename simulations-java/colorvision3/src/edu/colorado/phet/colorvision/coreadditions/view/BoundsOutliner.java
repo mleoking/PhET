@@ -13,7 +13,7 @@ package edu.colorado.phet.colorvision.coreadditions.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_13364.view.phetgraphics.PhetGraphic;
 
 /**
  * BoundsOutliner is a class used for debugging the bondaries of graphics components.

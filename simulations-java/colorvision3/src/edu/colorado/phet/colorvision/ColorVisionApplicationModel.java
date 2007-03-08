@@ -11,10 +11,10 @@
 
 package edu.colorado.phet.colorvision;
 
-import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common_13364.application.ApplicationModel;
+import edu.colorado.phet.common_13364.application.Module;
+import edu.colorado.phet.common_13364.model.clock.SwingTimerClock;
+import edu.colorado.phet.common_13364.view.util.FrameSetup;
 
 /**
  * ColorVisionApplicationModel is the application model for the PhET Color

@@ -16,8 +16,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.colorvision.ColorVisionConfig;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.PhetControlPanel;
+import edu.colorado.phet.common_13364.application.Module;
+import edu.colorado.phet.common_13364.view.PhetControlPanel;
 
 /**
  * RgbBulbsControlPanel is the control panel for the "RGB Bulbs" simulation module.

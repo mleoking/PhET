@@ -15,7 +15,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_13364.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * SpectrumSliderKnob is the knob on a SpectrumSlider.

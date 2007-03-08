@@ -15,9 +15,9 @@ import java.awt.Color;
 import java.util.Locale;
 
 import edu.colorado.phet.colorvision.coreadditions.view.BoundsOutliner;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common_13364.application.PhetApplication;
+import edu.colorado.phet.common_13364.view.util.FrameSetup;
+import edu.colorado.phet.common_13364.view.util.SimStrings;
 
 /**
  * ColorVisionApplication is the main application for the PhET Color Vision

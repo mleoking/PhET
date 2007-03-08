@@ -32,13 +32,13 @@ import edu.colorado.phet.colorvision.model.Spotlight;
 import edu.colorado.phet.colorvision.view.PersonGraphic;
 import edu.colorado.phet.colorvision.view.PhotonBeamGraphic;
 import edu.colorado.phet.colorvision.view.SpotlightGraphic;
-import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common_13364.application.ApplicationModel;
+import edu.colorado.phet.common_13364.application.Module;
+import edu.colorado.phet.common_13364.model.BaseModel;
+import edu.colorado.phet.common_13364.model.clock.AbstractClock;
+import edu.colorado.phet.common_13364.view.ApparatusPanel2;
+import edu.colorado.phet.common_13364.view.util.SimStrings;
+import edu.colorado.phet.common_13364.view.util.VisibleColor;
 
 /**
  * RgbBulbsModule implements the simulation module that demonstrates how color
