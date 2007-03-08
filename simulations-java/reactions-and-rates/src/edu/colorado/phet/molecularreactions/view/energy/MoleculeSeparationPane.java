@@ -20,7 +20,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
 
 public class MoleculeSeparationPane extends PPath {
-    private final MoleculeSelectionState selectionState;
+    private final MoleculeSelectionTracker tracker;
 
     private EnergyMoleculeGraphic selectedMoleculeGraphic;
     private EnergyMoleculeGraphic nearestToSelectedMoleculeGraphic;
@@ -64,21 +64,21 @@ public class MoleculeSeparationPane extends PPath {
 
         this.addChild( this.moleculePaneAxisNode );
 
-        selectionState = new MoleculeSelectionState( module );
+        tracker = new MoleculeSelectionTracker( module );
 
         moleculeGraphicController = new MoleculeGraphicController( module );
 
-        selectionState.addSelectionStateListener( moleculeGraphicController );
+        tracker.addSelectionStateListener( moleculeGraphicController );
     }
 
-    public MoleculeSelectionState getSelectionState() {
-        return selectionState;
+    public MoleculeSelectionTracker getTracker() {
+        return tracker;
     }
 
     public void reset() {
         super.reset();
 
-        selectionState.reset();
+        tracker.reset();
 
         if( selectedMoleculeGraphic != null ) {
             moleculeLayer.removeChild( selectedMoleculeGraphic );
@@ -96,7 +96,7 @@ public class MoleculeSeparationPane extends PPath {
      * Updates the positions of the molecule graphics in the upper pane.
      */
     public void update( CurvePane curvePane ) {
-        if( selectionState.isMoleculeSelected() ) {
+        if( tracker.isMoleculeSelected() ) {
             moleculeGraphicController.update();
         }
         else if( selectedMoleculeGraphic != null ) {
@@ -107,7 +107,7 @@ public class MoleculeSeparationPane extends PPath {
         }
     }
 
-    private class MoleculeGraphicController implements MoleculeSelectionState.MoleculeSelectionStateListener {
+    private class MoleculeGraphicController implements MoleculeSelectionTracker.MoleculeSelectionStateListener {
         private final MRModule module;
         private int direction;
         private double yMin, yMax;
@@ -154,19 +154,19 @@ public class MoleculeSeparationPane extends PPath {
             if (selectedMoleculeGraphic != null && nearestToSelectedMoleculeGraphic != null) {
                 // Set locatation of molecules. Use the *direction* variable we set above
                 // to determine which graphic should be on top
-                if( newFreeMolecule instanceof MoleculeC && newFreeMolecule == selectionState.getSelectedMolecule() ) {
+                if( newFreeMolecule instanceof MoleculeC && newFreeMolecule == tracker.getSelectedMolecule() ) {
                     selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
                     nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
                 }
-                else if( newFreeMolecule instanceof MoleculeC && newFreeMolecule == selectionState.getNearestToSelectedMolecule() ) {
+                else if( newFreeMolecule instanceof MoleculeC && newFreeMolecule == tracker.getNearestToSelectedMolecule() ) {
                     selectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
                     nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
                 }
-                else if( newFreeMolecule instanceof MoleculeA && newFreeMolecule == selectionState.getSelectedMolecule() ) {
+                else if( newFreeMolecule instanceof MoleculeA && newFreeMolecule == tracker.getSelectedMolecule() ) {
                     selectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
                     nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
                 }
-                else if( newFreeMolecule instanceof MoleculeA && newFreeMolecule == selectionState.getNearestToSelectedMolecule() ) {
+                else if( newFreeMolecule instanceof MoleculeA && newFreeMolecule == tracker.getNearestToSelectedMolecule() ) {
                     selectedMoleculeGraphic.setOffset( midPoint.getX(), yMin );
                     nearestToSelectedMoleculeGraphic.setOffset( midPoint.getX(), yMax );
                 }
@@ -180,13 +180,13 @@ public class MoleculeSeparationPane extends PPath {
         public void notifyEnergyProfileChanged( EnergyProfile newProfile ) {
             if( selectedMoleculeGraphic != null ) {
                 moleculeLayer.removeChild( selectedMoleculeGraphic );
-                selectedMoleculeGraphic = new EnergyMoleculeGraphic( selectionState.getSelectedMolecule().getFullMolecule(),
+                selectedMoleculeGraphic = new EnergyMoleculeGraphic( tracker.getSelectedMolecule().getFullMolecule(),
                                                                      newProfile );
                 moleculeLayer.addChild( selectedMoleculeGraphic );
             }
             if( nearestToSelectedMoleculeGraphic != null ) {
                 moleculeLayer.removeChild( nearestToSelectedMoleculeGraphic );
-                nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( selectionState.getNearestToSelectedMolecule().getFullMolecule(),
+                nearestToSelectedMoleculeGraphic = new EnergyMoleculeGraphic( tracker.getNearestToSelectedMolecule().getFullMolecule(),
                                                                               newProfile );
                 moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
             }
@@ -211,26 +211,26 @@ public class MoleculeSeparationPane extends PPath {
         }
 
         private void updateDirection() {
-            if (selectionState.isMoleculeSelected()) {
-                SimpleMolecule freeMolecule  = selectionState.getFreeMolecule(),
-                               boundMolecule = selectionState.getBoundMolecule();
+            if ( tracker.isMoleculeSelected()) {
+                SimpleMolecule freeMolecule  = tracker.getFreeMolecule(),
+                               boundMolecule = tracker.getBoundMolecule();
 
                 if( freeMolecule != null && boundMolecule != null ) {
                     // Figure out on which side of the centerline the molecules should appear
                     // If the selected molecule is an A molecule and it's free, we're on the left
-                    if( selectionState.getSelectedMolecule() instanceof MoleculeA && selectionState.getSelectedMolecule() == freeMolecule ) {
+                    if( tracker.getSelectedMolecule() instanceof MoleculeA && tracker.getSelectedMolecule() == freeMolecule ) {
                         direction = -1;
                     }
                     // If the selected molecule is an A molecule and it's bound, we're on the right
-                    else if( selectionState.getSelectedMolecule() instanceof MoleculeA && selectionState.getSelectedMolecule() == boundMolecule ) {
+                    else if( tracker.getSelectedMolecule() instanceof MoleculeA && tracker.getSelectedMolecule() == boundMolecule ) {
                         direction = 1;
                     }
                     // If the selected molecule is a C molecule and it's free, we're on the right
-                    else if( selectionState.getSelectedMolecule() instanceof MoleculeC && selectionState.getSelectedMolecule() == freeMolecule ) {
+                    else if( tracker.getSelectedMolecule() instanceof MoleculeC && tracker.getSelectedMolecule() == freeMolecule ) {
                         direction = 1;
                     }
                     // If the selected molecule is a C molecule and it's bound, we're on the left
-                    else if( selectionState.getSelectedMolecule() instanceof MoleculeC && selectionState.getSelectedMolecule() == boundMolecule ) {
+                    else if( tracker.getSelectedMolecule() instanceof MoleculeC && tracker.getSelectedMolecule() == boundMolecule ) {
                         direction = -1;
                     }
                     else {
@@ -241,12 +241,12 @@ public class MoleculeSeparationPane extends PPath {
         }
 
         private void updatePositions() {
-            SimpleMolecule freeMolecule  = selectionState.getFreeMolecule(),
-                           boundMolecule = selectionState.getBoundMolecule();
+            SimpleMolecule freeMolecule  = tracker.getFreeMolecule(),
+                           boundMolecule = tracker.getBoundMolecule();
 
             if( freeMolecule != null && boundMolecule != null ) {
                 // Position the molecule graphics
-                double cmDist = selectionState.getSelectedMolecule().getPosition().distance( selectionState.getNearestToSelectedMolecule().getPosition() );
+                double cmDist = tracker.getSelectedMolecule().getPosition().distance( tracker.getNearestToSelectedMolecule().getPosition() );
                 A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)module.getMRModel().getReaction();
                 double edgeDist = reaction.getDistanceToCollision( freeMolecule, boundMolecule.getParentComposite() );
 
@@ -260,7 +260,7 @@ public class MoleculeSeparationPane extends PPath {
                 double xOffset = 20;
 
                 // The distance between the molecule's CMs when they first come into contact
-                double separationAtFootOfHill = Math.min( selectionState.getSelectedMolecule().getRadius(), selectionState.getNearestToSelectedMolecule().getRadius() );
+                double separationAtFootOfHill = Math.min( tracker.getSelectedMolecule().getRadius(), tracker.getNearestToSelectedMolecule().getRadius() );
 
                 // Scale the actual inter-molecular distance to the scale of the energy profile
                 double r = ( reaction.getEnergyProfile().getThresholdWidth() / 2 ) / separationAtFootOfHill;

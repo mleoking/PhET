@@ -104,7 +104,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
         addChild( border );
 
         // Listen for changes in the selected molecule and the molecule closest to it
-        moleculeSeparationPane.getSelectionState().addObserver( this );
+        moleculeSeparationPane.getTracker().addObserver( this );
 
         update();
     }
@@ -134,7 +134,7 @@ public class EnergyView extends PNode implements SimpleObserver, Resetable {
     public void update() {
         moleculeSeparationPane.update( curvePane );
 
-        curvePane.setEnergyCursorVisible( moleculeSeparationPane.getSelectionState().getSelectedMolecule() != null );
+        curvePane.setEnergyCursorVisible( moleculeSeparationPane.getTracker().getSelectedMolecule() != null );
     }
 
     /*

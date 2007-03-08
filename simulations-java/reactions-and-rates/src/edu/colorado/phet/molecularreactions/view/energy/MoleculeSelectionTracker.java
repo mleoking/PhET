@@ -13,7 +13,7 @@ import edu.colorado.phet.common.util.DynamicListenerControllerFactory;
 
 import java.util.Collection;
 
-public class MoleculeSelectionState extends SimpleObservable {
+public class MoleculeSelectionTracker extends SimpleObservable {
     private final DynamicListenerController listenerController = DynamicListenerControllerFactory.newController( MoleculeSelectionStateListener.class );
 
     private volatile SimpleMolecule boundMolecule;
@@ -22,7 +22,7 @@ public class MoleculeSelectionState extends SimpleObservable {
     private volatile SimpleMolecule selectedMolecule;
     private volatile SimpleMolecule nearestToSelectedMolecule;
 
-    public MoleculeSelectionState( MRModule module ) {
+    public MoleculeSelectionTracker( MRModule module ) {
         MRModel model = module.getMRModel();
 
         SelectedMoleculeListener moleculeListener = new SelectedMoleculeListener();
