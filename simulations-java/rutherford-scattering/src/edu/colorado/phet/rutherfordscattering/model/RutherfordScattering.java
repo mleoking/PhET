@@ -111,37 +111,11 @@ public class RutherfordScattering {
         final double t1 = ( ( b * Math.cos( phi ) ) - ( ( D / 2 ) * Math.sin( phi ) ) );
         final double phiNew = phi + ( ( b * b * s * dt ) / ( r * Math.sqrt( Math.pow( b, 4 ) + ( r * r * t1 * t1 ) ) ) );
         final double rNew = Math.abs( ( b * b ) / ( ( b * Math.sin( phiNew ) ) + ( ( D / 2 ) * ( Math.cos( phiNew ) - 1 ) ) ) );
-        final double sNew = s0 * Math.sqrt( 1 - ( D / rNew ) );
+        double sNew = s0 * Math.sqrt( 1 - ( D / rNew ) );
         
         // convert new position to Cartesian coordinates
         double xNew = rNew * Math.sin( phiNew );
         double yNew = -rNew * Math.cos( phiNew );
-        
-        // Debugging output, in coordinates relative to atom's center
-        if ( DEBUG_OUTPUT_ENABLED && ( ( !( b > 0 ) ) || ( !( sNew > 0 ) ) ) ) {
-            System.out.println( "RutherfordScattering.moveParticle" );
-            System.out.println( "  particle id=" + alphaParticle.getId() );
-            System.out.println( "  constants:" );
-            System.out.println( "    dt=" + F.format( dt ) );
-            System.out.println( "    b=" + b );
-            System.out.println( "    L=" + F.format( L ) );
-            System.out.println( "    D=" + D );
-            System.out.println( "    (x0,y0)=(" + F.format( x0 ) + "," + F.format( y0 ) + ")" );
-            System.out.println( "    s0=" + F.format( s0 ) );
-            System.out.println( "    sd=" + F.format( sd ) );
-            System.out.println( "    p=" + p );
-            System.out.println( "    pd=" + pd );
-            System.out.println( "  current state:" );
-            System.out.println( "    (x,y)=(" + F.format( x ) + "," + F.format( y ) + ")" );
-            System.out.println( "    (r,phi)=(" + F.format( r ) + "," + F.format( Math.toDegrees( phi ) ) + ")" );
-            System.out.println( "    s=" + F.format( s ) );
-            System.out.println( "  new state:" );
-            System.out.println( "    (x,y)=(" + F.format( xNew ) + "," + F.format( yNew ) + ")" );
-            System.out.println( "    (r,phi)=(" + F.format( rNew ) + "," + F.format( Math.toDegrees( phiNew ) ) + ")" );
-            System.out.println( "    s=" + sNew );
-        }
-        assert ( b > 0 );
-        assert ( sNew > 0 );
         
         // Adjust the sign of x.
         xNew *= sign;
@@ -152,6 +126,46 @@ public class RutherfordScattering {
         // adjust for atom position
         xNew += atom.getX();
         yNew += atom.getY();
+        
+        // Handle algoritm failures gracefully.
+        {
+            boolean error = false;
+            
+            if ( !( b > 0 ) ) {
+                System.err.println( "ERROR: b=" + b );
+                error = true;
+            }
+            
+            if ( !( sNew > 0 ) ) {
+                System.err.println( "ERROR: newSpeed=" + sNew + ", reverting to " + s );
+                sNew = s;
+                error = true;
+            }
+            
+            // Debugging output, in coordinates relative to atom's center
+            if ( DEBUG_OUTPUT_ENABLED && error ) {
+                System.err.println( "RutherfordScattering.moveParticle" );
+                System.err.println( "  particle id=" + alphaParticle.getId() );
+                System.err.println( "  constants:" );
+                System.err.println( "    dt=" + F.format( dt ) );
+                System.err.println( "    b=" + b );
+                System.err.println( "    L=" + F.format( L ) );
+                System.err.println( "    D=" + D );
+                System.err.println( "    (x0,y0)=(" + F.format( x0 ) + "," + F.format( y0 ) + ")" );
+                System.err.println( "    s0=" + F.format( s0 ) );
+                System.err.println( "    sd=" + F.format( sd ) );
+                System.err.println( "    p=" + p );
+                System.err.println( "    pd=" + pd );
+                System.err.println( "  current state:" );
+                System.err.println( "    (x,y)=(" + F.format( x ) + "," + F.format( y ) + ")" );
+                System.err.println( "    (r,phi)=(" + F.format( r ) + "," + F.format( Math.toDegrees( phi ) ) + ")" );
+                System.err.println( "    s=" + F.format( s ) );
+                System.err.println( "  new state:" );
+                System.err.println( "    (x,y)=(" + F.format( xNew ) + "," + F.format( yNew ) + ")" );
+                System.err.println( "    (r,phi)=(" + F.format( rNew ) + "," + F.format( Math.toDegrees( phiNew ) ) + ")" );
+                System.err.println( "    s=" + sNew );
+            }
+        }
         
         alphaParticle.setPosition( xNew, yNew );
         alphaParticle.setSpeed( sNew );

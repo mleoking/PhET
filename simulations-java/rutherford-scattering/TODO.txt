@@ -20,6 +20,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/7/07 - handle algorithm failure gracefully in RutherfordScattering.moveParticle, don't assert or throw exception
 3/7/07 - package level javadoc
 3/7/07 - javadoc all classes and non-obvious methods
 3/7/07 - move number of electrons into plum pudding model
