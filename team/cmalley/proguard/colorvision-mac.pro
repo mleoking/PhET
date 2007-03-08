@@ -1,5 +1,5 @@
--injars /Volumes/files/phet-workspace/jars/colorvision3.jar
--outjars /Volumes/files/phet-workspace/jars/colorvision3-pro.jar
+-injars /Volumes/files/phet-workspace/jars/colorvision.jar
+-outjars /Volumes/files/phet-workspace/jars/colorvision-pro.jar
 
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/ui.jar
