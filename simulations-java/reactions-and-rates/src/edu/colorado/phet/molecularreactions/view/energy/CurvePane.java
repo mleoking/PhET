@@ -26,13 +26,12 @@ public class CurvePane extends PPath {
     private EnergyCursor energyCursor;
 
     public CurvePane(final MRModule module, Dimension upperPaneSize) {
-
         super( new Rectangle2D.Double( 0,
               0,
               upperPaneSize.width - 1,
               (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() )
-                                              - upperPaneSize.height
-                                              - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height
+                - upperPaneSize.height
+                - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height
         ));
 
         final MRModel model = module.getMRModel();
@@ -44,21 +43,23 @@ public class CurvePane extends PPath {
         curveAreaSize = new Dimension( (int)curvePaneSize.getWidth() - curveAreaInsets.left - curveAreaInsets.right,
                                        (int)curvePaneSize.getHeight() - curveAreaInsets.top - curveAreaInsets.bottom );
 
-        final PNode totalEnergyLineLayer = new PNode();
+        PNode totalEnergyLineLayer = new PNode();
         totalEnergyLineLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
-        final PNode curveLayer = new PNode();
+
+        PNode curveLayer = new PNode();
         curveLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
+
         PNode cursorLayer = new PNode();
         cursorLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
 
         // the -1 adjusts for a stroke width issue between this pane and the chart pane.
 
-        this.setOffset( 0, upperPaneSize.getHeight() );
-        this.setPaint( energyPaneBackgroundColor );
-        this.setStrokePaint( new Color( 0, 0, 0, 0 ) );
-        this.addChild( totalEnergyLineLayer );
-        this.addChild( curveLayer );
-        this.addChild( cursorLayer );
+        setOffset( 0, upperPaneSize.getHeight() );
+        setPaint( energyPaneBackgroundColor );
+        setStrokePaint( new Color( 0, 0, 0, 0 ) );
+        addChild( totalEnergyLineLayer );
+        addChild( curveLayer );
+        addChild( cursorLayer );
 
         // Create the line that shows total energy, and a legend for it
         energyLine = new EnergyLine( curveAreaSize, model, module.getClock() );
@@ -72,6 +73,7 @@ public class CurvePane extends PPath {
         // Create the cursor
         energyCursor = new EnergyCursor( curveAreaSize.getHeight(), 0, curveAreaSize.getWidth(), model );
         energyCursor.setVisible( false );
+
         cursorLayer.addChild( energyCursor );
 
         // Add axes
@@ -83,7 +85,7 @@ public class CurvePane extends PPath {
         xAxis.setRegistrationPoint( xAxis.getFullBounds().getWidth() / 2, 0 );
         xAxis.setOffset( this.getFullBounds().getWidth() / 2 + curveAreaInsets.left / 2,
                          this.getHeight() - 25 );
-        this.addChild( xAxis );
+        addChild( xAxis );
 
         RegisterablePNode yAxis = new RegisterablePNode( new AxisNode( "Energy", 200,
                                                                        MRConfig.ENERGY_PANE_TEXT_COLOR,
@@ -93,7 +95,12 @@ public class CurvePane extends PPath {
                                     -yAxis.getFullBounds().getHeight() / 2 );
         yAxis.setOffset( curveAreaInsets.left / 2, this.getFullBounds().getHeight() / 2 );
         
-        this.addChild( yAxis );
+        addChild( yAxis );
+    }
+
+
+    public void setVisible( boolean isVisible ) {
+        super.setVisible( isVisible );
     }
 
     public Dimension getSize() {
