@@ -310,8 +310,6 @@ public class MoleculeSeparationPane extends PPath {
 
                 yMin = midPoint.getY() - Math.min( cmDist, maxSeparation ) / 2;
                 yMax = midPoint.getY() + Math.min( cmDist, maxSeparation ) / 2;
-
-                System.out.println("Position being updated: " + yMin + ", " + yMax);
             }
         }
     }
