@@ -10,8 +10,8 @@ package edu.colorado.phet.rutherfordscattering;
  */
 public class RSVersion {
   
-    public static final String NUMBER = "sandbox";
-//    public static final String NUMBER = "0.00.01 (13476)";
+//    public static final String NUMBER = "sandbox";
+    public static final String NUMBER = "0.00.02 (13613)";
     
     /* This class is not intended for instantiation. */
     private RSVersion() {}

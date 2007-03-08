@@ -20,6 +20,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+******** version 0.00.02 (13613)
 3/7/07 - handle algorithm failure gracefully in RutherfordScattering.moveParticle, don't assert or throw exception
 3/7/07 - package level javadoc
 3/7/07 - javadoc all classes and non-obvious methods
@@ -43,6 +44,7 @@ DONE:
 3/6/07 - use a constant clock with immutable dt
 3/6/07 - change #neutrons range to 40-250
 3/6/07 - change #protons range to 20-100
+******** version 0.00.01 (13476)
 3/5/07 - set up Eclipse .jardec, .mf and ProGuard config files
 3/5/07 - jprofile, verify that 48% of time is spent drawing the plum pudding image
 3/5/07 - sync with phetcommon revision 13468
