@@ -25,7 +25,7 @@ public class TestPhysics1D extends JFrame {
     private Particle particle;
     private ParticleStage particleStage = new ParticleStage();
     private SplineLayer splineLayer = new SplineLayer( particleStage );
-    private static final String VERSION = "1.05.07";
+    private static final String VERSION = "1.05.08";
     double totalONTrackError=0;
     double totalOffTrackError=0;
     private double normTerm=0;
