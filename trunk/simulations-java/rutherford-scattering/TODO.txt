@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - RutherfordScattering fails when D > rNew
-- repaint performance issues with plum pudding panel
+- reduce cost of drawing plum pudding atom
 - AnimationBoxNode.paint gets called twice on clock steps that create/delete an alpha particle
 
 MEDIUM PRIORITY:
@@ -15,16 +15,18 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - hide value on energy slider (DEBUG_SHOW_ENERGY_VALUE = false)
 - disable debug output in RutherfordScattering (DEBUG_OUTPUT_ENABLED=false)
-- file level javadoc
 - package level javadoc
-- fix ProGuard file so it's not using jfreechart/lib/junit.jar
+
 
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/7/07 - javadoc all classes and non-obvious methods
+3/7/07 - move number of electrons into plum pudding model
 3/7/07 - don't create any alpha particles while sliders are being adjusted
 3/7/07 - make textfield editable for energy (will be hidden in production version)
 3/7/07 - make textfields editable for #protons and #neutrons
+2/7/07 - fix ProGuard config file so it's not using jfreechart/lib/junit.jar
 3/7/07 - Spanish translations
 3/7/07 - create JNLP files
 3/7/07 - change v (velocity) to s (speed) throughout, we're dealing with a scalar quantity

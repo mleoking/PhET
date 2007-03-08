@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.rutherfordscattering.view;
 
 import java.awt.Color;
@@ -26,7 +17,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
- * PlumPuddingNode is the visual representation of the "plum pudding" atom.
+ * PlumPuddingAtomNode is the visual representation of the "plum pudding" atom.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -39,14 +30,13 @@ public class PlumPuddingAtomNode extends PhetPNode {
     // set this to true to see how the electron location are chosen
     private static final boolean DEBUG_ELECTRONS = false;
     
-    private static final int NUMBER_OF_ELECTRONS = 79;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     /**
      * Constructor.
+     * 
      * @param atom
      */
     public PlumPuddingAtomNode( PlumPuddingAtom atom ) {
@@ -90,9 +80,10 @@ public class PlumPuddingAtomNode extends PhetPNode {
          * Draw NUMBER_OF_ELECTRONS chords through the center of the ellipse.
          * Randomly place 1 electron on each chord.
          */
-        final double deltaTheta = Math.toRadians( 360 ) / NUMBER_OF_ELECTRONS;
+        final int numberOfElectrons = atom.getNumberOfElectrons();
+        final double deltaTheta = Math.toRadians( 360 ) / numberOfElectrons;
         Random randomDistance = new Random( 11111 ); // use a seed to provide the same "good looking" result each time
-        for ( int i = 0; i < NUMBER_OF_ELECTRONS; i++ ) {
+        for ( int i = 0; i < numberOfElectrons; i++ ) {
             
             final double theta = theta0 + ( i * deltaTheta );
             

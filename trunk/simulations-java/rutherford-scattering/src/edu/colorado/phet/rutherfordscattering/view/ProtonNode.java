@@ -11,7 +11,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.rutherfordscattering.util.RoundGradientPaint;
 
 /**
- * 
  * ProtonNode is the visual representation of a proton.
  * A proton is red, and has a specular highlight with the light source coming from below.
  *

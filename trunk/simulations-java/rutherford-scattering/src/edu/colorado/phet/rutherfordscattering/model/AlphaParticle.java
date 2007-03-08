@@ -54,8 +54,9 @@ public class AlphaParticle extends MovingObject implements ModelElement {
     // ModelElement implementation
     //----------------------------------------------------------------------------
     
-    /** Do nothing */
-    public void stepInTime( double dt ) {}
+    public void stepInTime( double dt ) {
+        // do nothing -- alpha particle motion is handled in RSModel.clockTicked
+    }
     
     //----------------------------------------------------------------------------
     // Object overrides

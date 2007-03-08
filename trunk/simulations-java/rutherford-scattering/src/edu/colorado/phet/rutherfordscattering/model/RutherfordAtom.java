@@ -7,7 +7,14 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.rutherfordscattering.util.IntegerRange;
 
-
+/**
+ * RutherfordAtom is the model of the Rutherford atom.
+ * A single electron orbits the atom in the ground state.
+ * Interaction of alpha particles with the nucleus is described by
+ * the Rutherford Scattering algorithm.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class RutherfordAtom extends AbstractAtom {
 
     //----------------------------------------------------------------------------
@@ -50,6 +57,15 @@ public class RutherfordAtom extends AbstractAtom {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param position
+     * @param orientation
+     * @param numberOfProtonsRange
+     * @param numberOfNeutronsRange
+     * @param boxSize
+     */
     public RutherfordAtom( Point2D position, double orientation, IntegerRange numberOfProtonsRange, IntegerRange numberOfNeutronsRange, Dimension boxSize ) {
         super( position, orientation );
         

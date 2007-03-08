@@ -12,7 +12,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
-import edu.colorado.phet.rutherfordscattering.control.PlumPuddingControlPanel;
+import edu.colorado.phet.rutherfordscattering.control.PlumPuddingAtomControlPanel;
 import edu.colorado.phet.rutherfordscattering.help.RSWiggleMe;
 import edu.colorado.phet.rutherfordscattering.model.*;
 import edu.colorado.phet.rutherfordscattering.view.*;
@@ -21,11 +21,11 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- * PlumPuddingModule is the "Plum Pudding" module for this simulation.
+ * PlumPuddingAtomModule is the "Plum Pudding Atom" module for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PlumPuddingModule extends AbstractModule {
+public class PlumPuddingAtomModule extends AbstractModule {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -49,7 +49,7 @@ public class PlumPuddingModule extends AbstractModule {
     
     // Control panels
     private ClockControlPanel _clockControlPanel;
-    private PlumPuddingControlPanel _controlPanel;
+    private PlumPuddingAtomControlPanel _controlPanel;
     
     // Help
     private RSWiggleMe _wiggleMe;
@@ -59,7 +59,7 @@ public class PlumPuddingModule extends AbstractModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public PlumPuddingModule() {
+    public PlumPuddingAtomModule() {
         super( SimStrings.get( "PlumPuddingModule.title" ), new RSClock(), RSConstants.CLOCK_PAUSED );
 
         //----------------------------------------------------------------------------
@@ -176,7 +176,7 @@ public class PlumPuddingModule extends AbstractModule {
         setClockControlPanel( _clockControlPanel );
         
         // Control panel
-        _controlPanel = new PlumPuddingControlPanel( this );
+        _controlPanel = new PlumPuddingAtomControlPanel( this );
         setControlPanel( _controlPanel );
 
         //----------------------------------------------------------------------------

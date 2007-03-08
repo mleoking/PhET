@@ -18,7 +18,11 @@ import edu.colorado.phet.rutherfordscattering.module.RutherfordAtomModule;
 import edu.colorado.phet.rutherfordscattering.util.DoubleRange;
 import edu.colorado.phet.rutherfordscattering.util.IntegerRange;
 
-
+/**
+ * RutherfordAtomControlPanel is the control panel for the "Rutherford Atom" module.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class RutherfordAtomControlPanel extends AbstractControlPanel implements Observer {
 
     //----------------------------------------------------------------------------
@@ -46,6 +50,11 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param module
+     */
     public RutherfordAtomControlPanel( RutherfordAtomModule module ) {
         super( module );
         
@@ -136,6 +145,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
             _neutronsControl.addChangeListener( _neutronsListener );
         }
         
+        // Layout
         addVerticalSpace( 20 );
         addControlFullWidth( alphaParticlePropertiesLabel );
         addVerticalSpace( 20 );
@@ -151,6 +161,9 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         addSeparator();
     }
     
+    /**
+     * Call this before releasing all references to this object.
+     */
     public void cleanup() {
         _gun.deleteObserver( this );
         _atom.deleteObserver( this );
@@ -160,6 +173,9 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
     // Event handlers
     //----------------------------------------------------------------------------
 
+    /*
+     * Handles changes to the energy control.
+     */
     private void handleEnergyChange() {
         
         _module.removeAllAlphaParticles();
@@ -176,6 +192,9 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         }
     }
     
+    /*
+     * Handles changes to the "number of protons" control.
+     */
     private void handleProtonsChange() {
         
         _module.removeAllAlphaParticles();
@@ -192,6 +211,9 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         }
     }
 
+    /*
+     * Handles changes to the "number of neutrons" control.
+     */
     private void handleNeutronsChange() {
         
         _module.removeAllAlphaParticles();
@@ -212,6 +234,12 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
     // Observer implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the controls to match the model.
+     * 
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
         if ( o == _gun && arg == Gun.PROPERTY_SPEED ) {
             _energyControl.removeChangeListener( _energyListener );

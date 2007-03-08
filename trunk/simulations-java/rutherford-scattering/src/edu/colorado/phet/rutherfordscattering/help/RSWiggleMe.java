@@ -12,7 +12,7 @@ import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.umd.cs.piccolo.PCanvas;
 
 /**
- * HAWiggleMe encapsulates the "look" of wiggle me's for this simulation.
+ * RSWiggleMe encapsulates the "look" of wiggle me's for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
