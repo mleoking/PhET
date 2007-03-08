@@ -1,0 +1,47 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: March 1-7, 2007 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+  
+  Rutherford Scattering:
+  - started this simulation
+  - 80% done
+  - published version 0.00.01 and 0.00.02
+  - 21.5 hours so far, estimate 5-10 hours remaining
+  
+  SVN migration:
+  - upgrade to better SVN client (Subclipse 1.2.0)
+  - assist in cleaning up the SVN repository
+  - participate in discussion about consolidation of SVN directories
+  - participate in discussion about replacement of 3rd-party source with zip archives
+  - identify and restore JNLP and properties files that had extra newlines introduced
+  
+  Common:
+  - brief development meeting about version numbers and tagging
+  - fix ProGuard files broken by new phetcommon dependency
+
+  Optical Tweezers:
+  - no progress
+
+WHAT'S NEXT:
+  
+  - continue work on Rutherford Scattering, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/rutherford-scattering/TODO.txt?view=markup
+    
+  - continue work on Optical Tweezers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/optical-tweezers/TODO.txt?view=markup
+  
+  - combine Play & Pause clock buttons in my sims?
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  - July 16-20
+  - August 6-17
+  
+--
