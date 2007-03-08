@@ -5,7 +5,11 @@ package edu.colorado.phet.rutherfordscattering.util;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
-
+/**
+ * DebugUtils is a collection of static debugging utilities.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class DebugUtils {
 
     public static final DecimalFormat DOUBLE_FORMATTER = new DecimalFormat( "0.00" );

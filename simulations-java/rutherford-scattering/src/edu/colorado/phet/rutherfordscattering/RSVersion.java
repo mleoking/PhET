@@ -4,7 +4,7 @@ package edu.colorado.phet.rutherfordscattering;
 
 
 /**
- * Version contains version information.
+ * RSVersion contains version information.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

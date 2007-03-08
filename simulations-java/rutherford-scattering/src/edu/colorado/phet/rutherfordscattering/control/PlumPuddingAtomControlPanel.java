@@ -13,11 +13,15 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.model.Gun;
-import edu.colorado.phet.rutherfordscattering.module.PlumPuddingModule;
+import edu.colorado.phet.rutherfordscattering.module.PlumPuddingAtomModule;
 import edu.colorado.phet.rutherfordscattering.util.DoubleRange;
 
-
-public class PlumPuddingControlPanel extends AbstractControlPanel implements Observer {
+/**
+ * PlumPuddingAtomControlPanel is the control panel for the "Plum Pudding Atom" module.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -30,7 +34,7 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PlumPuddingModule _module;
+    private PlumPuddingAtomModule _module;
     private Gun _gun;
     private SliderControl _energyControl;
     private ChangeListener _energyListener;
@@ -39,7 +43,12 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PlumPuddingControlPanel( PlumPuddingModule module ) {
+    /**
+     * Constructor.
+     * 
+     * @param module
+     */
+    public PlumPuddingAtomControlPanel( PlumPuddingAtomModule module ) {
         super( module );
         
         _module = module;
@@ -82,12 +91,16 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
             _energyControl.addChangeListener( _energyListener );
         }
         
+        // Layout
         addVerticalSpace( 20 );
         addControlFullWidth( titleLabel );
         addVerticalSpace( 20 );
         addControlFullWidth( _energyControl );
     }
     
+    /**
+     * Call this before releasing all references to this object.
+     */
     public void cleanup() {
         _gun.deleteObserver( this );
     }
@@ -96,6 +109,9 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
     // Event handlers
     //----------------------------------------------------------------------------
     
+    /*
+     * Handles changes to the energy control.
+     */
     private void handleEnergyChange() {
         
         _module.removeAllAlphaParticles();
@@ -116,6 +132,12 @@ public class PlumPuddingControlPanel extends AbstractControlPanel implements Obs
     // Observer implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the controls to match the model.
+     * 
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
         if ( o == _gun && arg == Gun.PROPERTY_SPEED ) {
             _energyControl.removeChangeListener( _energyListener );

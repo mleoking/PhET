@@ -12,14 +12,18 @@ import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
-import edu.colorado.phet.rutherfordscattering.control.PlumPuddingControlPanel;
+import edu.colorado.phet.rutherfordscattering.control.PlumPuddingAtomControlPanel;
 import edu.colorado.phet.rutherfordscattering.control.RutherfordAtomControlPanel;
 import edu.colorado.phet.rutherfordscattering.help.RSWiggleMe;
 import edu.colorado.phet.rutherfordscattering.model.*;
 import edu.colorado.phet.rutherfordscattering.view.*;
 import edu.umd.cs.piccolo.PNode;
 
-
+/**
+ * RutherfordModule is the "Rutherford Atom" module.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class RutherfordAtomModule extends AbstractModule {
     
     //----------------------------------------------------------------------------
@@ -51,6 +55,9 @@ public class RutherfordAtomModule extends AbstractModule {
     // Constructors
     //----------------------------------------------------------------------------
 
+    /**
+     * Constructor.
+     */
     public RutherfordAtomModule() {
         super( SimStrings.get( "RutherfordAtomModule.title" ), new RSClock(), RSConstants.CLOCK_PAUSED );
 

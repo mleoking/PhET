@@ -5,9 +5,21 @@ package edu.colorado.phet.rutherfordscattering.model;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-
+/**
+ * PlumPuddingAtom is the model of the plum pudding atom.
+ * The plum pudding atom has no interaction with alpha particles.
+ * Alpha particles simply pass right through the atom.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class PlumPuddingAtom extends AbstractAtom {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final int NUMBER_OF_ELECTRONS = 79;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -41,6 +53,15 @@ public class PlumPuddingAtom extends AbstractAtom {
         return _radius;
     }
 
+    /**
+     * Gets the number of electrons.
+     * 
+     * @return int
+     */
+    public int getNumberOfElectrons() {
+        return NUMBER_OF_ELECTRONS;
+    }
+    
     //----------------------------------------------------------------------------
     // AbstractHydrogenAtom implementation
     //----------------------------------------------------------------------------

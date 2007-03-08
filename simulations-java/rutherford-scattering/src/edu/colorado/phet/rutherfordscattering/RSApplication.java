@@ -10,11 +10,11 @@ import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
-import edu.colorado.phet.rutherfordscattering.module.PlumPuddingModule;
+import edu.colorado.phet.rutherfordscattering.module.PlumPuddingAtomModule;
 import edu.colorado.phet.rutherfordscattering.module.RutherfordAtomModule;
 
 /**
- * RSApplication
+ * RSApplication is the main class for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -49,7 +49,7 @@ public class RSApplication extends PiccoloPhetApplication {
      * Initializes the modules.
      */
     private void initModules() {
-        addModule( new PlumPuddingModule() );
+        addModule( new PlumPuddingAtomModule() );
         addModule( new RutherfordAtomModule() );
     }
     
