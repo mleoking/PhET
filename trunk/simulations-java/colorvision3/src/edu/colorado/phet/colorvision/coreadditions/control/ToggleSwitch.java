@@ -20,8 +20,8 @@ import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.colorvision.coreadditions.view.BoundsOutliner;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common_13364.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common_13364.view.phetgraphics.PhetImageGraphic;
 
 /**
  * ToggleSwitch is an on/off switch.

@@ -19,9 +19,9 @@ import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.colorvision.coreadditions.view.BoundsOutliner;
 import edu.colorado.phet.colorvision.model.SolidBeam;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common_13364.util.SimpleObserver;
+import edu.colorado.phet.common_13364.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_13364.view.util.VisibleColor;
 
 /**
  * SolidBeamGraphic provides a graphic representation of a solid beam.

@@ -13,7 +13,7 @@ package edu.colorado.phet.colorvision.coreadditions.event;
 
 import java.util.EventObject;
 
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common_13364.view.util.VisibleColor;
 
 /**
  * VisibleColorChangeEvent occurs when a color changes in some way.

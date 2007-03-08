@@ -18,8 +18,8 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.colorvision.coreadditions.view.BoundsOutliner;
 import edu.colorado.phet.colorvision.model.Filter;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_13364.util.SimpleObserver;
+import edu.colorado.phet.common_13364.view.phetgraphics.PhetGraphic;
 
 /**
  * FilterGraphic is the UI component that represents a filter.
