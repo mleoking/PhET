@@ -139,6 +139,10 @@ public class MRModel extends PublishingModel {
         return selectedMoleculeTracker.getMoleculeTracked();
     }
 
+    public SimpleMolecule getNearestToMoleculeBeingTracked() {
+        return selectedMoleculeTracker.getClosestMolecule();
+    }
+
     public void addSelectedMoleculeTrackerListener( SelectedMoleculeTracker.Listener listener ) {
         selectedMoleculeTracker.addListener( listener );
     }
