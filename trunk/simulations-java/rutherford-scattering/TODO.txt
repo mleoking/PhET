@@ -15,12 +15,12 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - hide value on energy slider (DEBUG_SHOW_ENERGY_VALUE = false)
 - disable debug output in RutherfordScattering (DEBUG_OUTPUT_ENABLED=false)
-- package level javadoc
 
 
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/7/07 - package level javadoc
 3/7/07 - javadoc all classes and non-obvious methods
 3/7/07 - move number of electrons into plum pudding model
 3/7/07 - don't create any alpha particles while sliders are being adjusted
