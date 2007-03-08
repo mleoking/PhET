@@ -480,7 +480,7 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
     }
 
     public ModelViewTransform2D getTransform() {
-        return cckApparatusPanel.getTransform();
+        return cckApparatusPanel.getModelViewTransform2D();
     }
 
     public void applicationStarted() {
