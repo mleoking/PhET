@@ -23,8 +23,7 @@ public class RutherfordAtomNode extends PhetPNode implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double MAX_NUCLEUS_RADIUS = 35; // view coordinates
-    private static final double MIN_NUCLEUS_RADIUS = 10; // view coordinates
+    private static final double MIN_NUCLEUS_RADIUS = 20; // view coordinates
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -101,12 +100,11 @@ public class RutherfordAtomNode extends PhetPNode implements Observer {
      * Builds a new nucleus that matches the model.
      */
     private void updateNucleus() {
-        int protons = _atom.getNumberOfProtons();
-        int neutrons = _atom.getNumberOfNeutrons();
-        int min = _atom.getMinNumberOfProtons() + _atom.getMinNumberOfNeutrons();
-        int max = _atom.getMaxNumberOfProtons() + _atom.getMaxNumberOfNeutrons();
-        double m = ( protons + neutrons - min ) / (double)( max - min );
-        double radius = MIN_NUCLEUS_RADIUS + ( m * ( MAX_NUCLEUS_RADIUS - MIN_NUCLEUS_RADIUS ) );
+        int currentParticles = _atom.getNumberOfProtons() + _atom.getNumberOfNeutrons();
+        int minParticles = _atom.getMinNumberOfProtons() + _atom.getMinNumberOfNeutrons();
+        double C = MIN_NUCLEUS_RADIUS / Math.pow( minParticles, 1/3d );
+        double radius = C * Math.pow( currentParticles, 1/3d );
+        System.out.println( "particles=" + currentParticles + " radius=" + radius );
         assert( radius > 0 );
         _nucleusNode.setPathTo( new Ellipse2D.Double( -radius, -radius, 2 * radius, 2 * radius )  );
     }
