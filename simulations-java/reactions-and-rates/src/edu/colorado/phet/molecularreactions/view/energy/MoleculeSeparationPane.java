@@ -36,9 +36,13 @@ public class MoleculeSeparationPane extends PPath {
 
     private PNode moleculeLayer;
     private MoleculeSeparationPane.MoleculeGraphicController moleculeGraphicController;
+    private MRModule module;
+    private MoleculeSeparationPane.UpdatingClockListener updatingClockListener;
 
     public MoleculeSeparationPane( final MRModule module, Dimension upperPaneSize, CurvePane curvePane ) {
         super( new Rectangle2D.Double( 0, 0, upperPaneSize.getWidth(), upperPaneSize.getHeight() ) );
+
+        this.module = module;
 
         this.curvePane = curvePane;
 
@@ -71,13 +75,9 @@ public class MoleculeSeparationPane extends PPath {
 
         tracker.addSelectionStateListener( moleculeGraphicController );
 
-        module.getClock().addClockListener(
-            new ClockAdapter() {
-                public void clockTicked( ClockEvent clockEvent ) {
-                    update();
-                }
-            }
-        );
+        updatingClockListener = new UpdatingClockListener();
+
+        module.getClock().addClockListener(updatingClockListener);
     }
 
     public MoleculeSelectionTracker getTracker() {
@@ -86,6 +86,14 @@ public class MoleculeSeparationPane extends PPath {
 
     public void reset() {
         tracker.reset();
+    }
+
+    public void terminate() {
+        tracker.removeSelectionStateListener( moleculeGraphicController );
+
+        tracker.terminate();
+
+        module.getClock().removeClockListener(updatingClockListener);
     }
     
     private void removeNearestToSelectedMoleculeGraphic() {
@@ -314,6 +322,12 @@ public class MoleculeSeparationPane extends PPath {
             }
             else {
             }
+        }
+    }
+
+    private class UpdatingClockListener extends ClockAdapter {
+        public void clockTicked( ClockEvent clockEvent ) {
+            update();
         }
     }
 }

@@ -70,6 +70,7 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
             }
             closestMolecule = newClosestMolecule;
             listenerProxy.closestMoleculeChanged( closestMolecule, prevClosest );
+            listenerProxy.moleculeBeingTrackedChanged( moleculeTracked, moleculeTracked );
         }
     }
 

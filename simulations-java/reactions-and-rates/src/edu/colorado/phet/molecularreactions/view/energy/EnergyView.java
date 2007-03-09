@@ -96,6 +96,10 @@ public class EnergyView extends PNode implements Resetable {
     }
 
     private void addMolecularSeparationPane( MRModule module, Dimension upperPaneSize ) {
+        if (moleculeSeparationPane != null) {
+            moleculeSeparationPane.terminate();
+        }
+        
         // The pane that has the molecules
         moleculeSeparationPane = new MoleculeSeparationPane(module, upperPaneSize, curvePane );
 
