@@ -56,12 +56,16 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/energyskatepark/lookandfeels/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/energyskatepark/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/energyskatepark/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/faraday/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/fluorescent-lights/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/forces1d/charts-force1d-7-12-2005-added-localization/development/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/forces1d/phetcommon-4063/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/forces1d/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/fourier/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/greenhouse/common/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/greenhouse/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/hydrogen-atom/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/hydrogen-atom/test-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/ideal-gas/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/lasers/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/mazegame/src" isTestSource="false" />
@@ -83,6 +87,8 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/optical-tweezers/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/optical-tweezers/test-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/photoelectric/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/quantum-tunneling/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/quantum-tunneling/tests-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/reactions-and-rates/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/reactions-and-rates/test" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/rotation/src" isTestSource="false" />
@@ -93,11 +99,9 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/schrodinger/tests-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/semiconductor/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/semiconductor/src-pc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/shaper/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/signalcircuit/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/soluble-salts/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound-2/phetcommon-5790/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound-2/phetcommon-5790/tests-src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound-2/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound/phetcommon-5790/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound/phetcommon-5790/tests-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound/src" isTestSource="false" />
@@ -738,6 +742,51 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/../../simulations-java/colorvision/phetcommon-13364/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/faraday/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/fourier/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/hydrogen-atom/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/quantum-tunneling/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/shaper/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
