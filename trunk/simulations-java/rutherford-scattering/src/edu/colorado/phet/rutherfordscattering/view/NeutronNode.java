@@ -18,7 +18,7 @@ import edu.colorado.phet.rutherfordscattering.util.RoundGradientPaint;
  */
 public class NeutronNode extends SphericalNode {
 
-    private static final double DIAMETER = 11;
+    private static final double DIAMETER = 8.25;
     private static final Color COLOR = new Color( 128, 128, 128 );
     private static final Color HILITE_COLOR = new Color( 175, 175, 175 );
     private static final Paint ROUND_GRADIENT = new RoundGradientPaint( 0, DIAMETER/6, HILITE_COLOR, new Point2D.Double( DIAMETER/4, DIAMETER/4 ), COLOR );

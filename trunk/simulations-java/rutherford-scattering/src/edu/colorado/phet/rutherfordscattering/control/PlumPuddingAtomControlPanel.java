@@ -59,7 +59,7 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
         _gun.addObserver( this );
         
         // Legend
-        LegendPanel legendPanel = new LegendPanel();
+        LegendPanel legendPanel = new LegendPanel( 0.85 /* iconScale */ );
         
         // Alpha Particle Properties label
         JLabel titleLabel = new JLabel( SimStrings.get( "label.alphaParticleProperties" ) );

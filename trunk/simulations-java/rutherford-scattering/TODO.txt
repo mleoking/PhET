@@ -12,8 +12,6 @@ MEDIUM PRIORITY:
 - make subsections of control panels more distinct
 - get description from SM
 - try L/8 instead of L/16
-- make XMIN bigger in scattering algorithm
-- make protons & neutrons (& electrons?) 25% smaller
 - increase min nucleus radius
 - implement dynamic generation of nucleus view in RutherfordAtomNode
 
@@ -25,6 +23,9 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/9/07 - add icon scaling to Legend so that particle sizes match the play area
+3/9/07 - make protons, neutrons & electrons 25% smaller
+3/9/07 - change Energy range to [5,12]
 3/9/07 - constrain gun to keep alpha particles away from x0=0
 3/9/07 - reduce max radius of nucleus
 3/9/07 - reorganize RutherfordScattering.moveParticle to improve readability

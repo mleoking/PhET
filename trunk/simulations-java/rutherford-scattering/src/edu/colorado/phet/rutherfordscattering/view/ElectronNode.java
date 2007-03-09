@@ -18,7 +18,7 @@ import edu.colorado.phet.rutherfordscattering.util.RoundGradientPaint;
  */
 public class ElectronNode extends SphericalNode {
 
-    public static final double DIAMETER = 9;
+    public static final double DIAMETER = 6.75;
     
     private static final Color COLOR = new Color( 120, 120, 255 );
     
