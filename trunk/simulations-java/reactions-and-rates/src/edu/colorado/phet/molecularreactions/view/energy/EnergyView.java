@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.molecularreactions.view.energy;
 
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
@@ -54,6 +53,7 @@ public class EnergyView extends PNode implements Resetable {
     private volatile UpperEnergyPane upperPane;
     private volatile CurvePane curvePane;
     private PPath legendNode;
+    private MRModule module;
 
     public EnergyView() {
     }
@@ -63,6 +63,8 @@ public class EnergyView extends PNode implements Resetable {
     }
 
     public void initialize( MRModule module, Dimension upperPaneSize ) {
+        this.module = module;
+
         MRModel model = module.getMRModel();
 
         removeAllChildren();
@@ -70,22 +72,11 @@ public class EnergyView extends PNode implements Resetable {
         addCurvePane( module, upperPaneSize );
         addMolecularSeparationPane( module, upperPaneSize );
         addUpperPane( upperPaneSize );
+        addLegend( upperPaneSize, model, module );
+        addEnergyViewBorder();
+    }
 
-        // The graphic that shows the reaction mechanics. It appears below the profile pane.
-        legendNode = new PPath( new Rectangle2D.Double( 0, 0,
-                                                              MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.width,
-                                                              MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height ) );
-        legendNode.setPaint( MRConfig.ENERGY_PANE_BACKGROUND );
-        legendNode.setStrokePaint( new Color( 0, 0, 0, 0 ) );
-        legendNode.setOffset( 0, upperPaneSize.getHeight() + curvePane.getSize().getHeight() );
-        ReactionGraphic reactionGraphic = new ReactionGraphic( model.getReaction(),
-                                                               MRConfig.ENERGY_PANE_TEXT_COLOR,
-                                                               module.getMRModel() );
-        legendNode.addChild( reactionGraphic );
-        reactionGraphic.setOffset( legendNode.getWidth() / 2, legendNode.getHeight() - 20 );
-
-        addChild( legendNode );
-
+    private void addEnergyViewBorder() {
         // Put a border around the energy view
         Rectangle2D bRect = new Rectangle2D.Double( 0, 0,
                                                     curvePane.getFullBounds().getWidth(),
@@ -93,6 +84,23 @@ public class EnergyView extends PNode implements Resetable {
         PPath border = new PPath( bRect );
         border.setOffset( curvePane.getOffset() );
         addChild( border );
+    }
+
+    private void addLegend( Dimension upperPaneSize, MRModel mrModel, MRModule module ) {
+        // The graphic that shows the reaction mechanics. It appears below the profile pane.
+        legendNode = new PPath( new Rectangle2D.Double( 0, 0,
+                                                              MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.width,
+                                                              MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height ) );
+        legendNode.setPaint( MRConfig.ENERGY_PANE_BACKGROUND );
+        legendNode.setStrokePaint( new Color( 0, 0, 0, 0 ) );
+        legendNode.setOffset( 0, upperPaneSize.getHeight() + curvePane.getSize().getHeight() );
+        ReactionGraphic reactionGraphic = new ReactionGraphic( mrModel.getReaction(),
+                                                               MRConfig.ENERGY_PANE_TEXT_COLOR,
+                                                               module.getMRModel() );
+        legendNode.addChild( reactionGraphic );
+        reactionGraphic.setOffset( legendNode.getWidth() / 2, legendNode.getHeight() - 20 );
+
+        addChild( legendNode );
     }
 
     private void addMolecularSeparationPane( MRModule module, Dimension upperPaneSize ) {
@@ -115,6 +123,10 @@ public class EnergyView extends PNode implements Resetable {
     }
 
     private void addCurvePane( MRModule module, Dimension upperPaneSize ) {
+        if (curvePane != null) {
+            curvePane.terminate();
+        }
+        
         // The pane that has the curve and cursor
         curvePane = new CurvePane(module, upperPaneSize);
 
@@ -122,7 +134,9 @@ public class EnergyView extends PNode implements Resetable {
     }
 
     public void reset() {
-        moleculeSeparationPane.reset();
+        if (!isInitialized()) throw new InternalError();
+
+        initialize( module,  getUpperPaneSize() );
     }
 
     /*

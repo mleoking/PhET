@@ -24,6 +24,8 @@ public class CurvePane extends PPath {
 
     private volatile EnergyLine energyLine;
     private EnergyCursor energyCursor;
+    private MRModel mrModel;
+    private CurvePane.CurveCreatingModelListener curveCreatingModelListener;
 
     public CurvePane(final MRModule module, Dimension upperPaneSize) {
         super( new Rectangle2D.Double( 0,
@@ -34,7 +36,7 @@ public class CurvePane extends PPath {
                 - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height
         ));
 
-        final MRModel model = module.getMRModel();
+        mrModel = module.getMRModel();
 
         curvePaneSize = new Dimension( upperPaneSize.width, (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() )
                                               - upperPaneSize.height
@@ -62,16 +64,19 @@ public class CurvePane extends PPath {
         addChild( cursorLayer );
 
         // Create the line that shows total energy, and a legend for it
-        energyLine = new EnergyLine( curveAreaSize, model, module.getClock() );
+        energyLine = new EnergyLine( curveAreaSize, mrModel, module.getClock() );
         totalEnergyLineLayer.addChild( energyLine );
 
         // Create the curve, and add a listener to the model that will update the curve if the
         // model's energy profile changes
-        createCurve( model, curveLayer );
-        model.addListener( new CurveCreatingModelListener( model, curveLayer ) );
+        createCurve( mrModel, curveLayer );
+
+        curveCreatingModelListener = new CurveCreatingModelListener( mrModel, curveLayer );
+
+        mrModel.addListener( curveCreatingModelListener );
 
         // Create the cursor
-        energyCursor = new EnergyCursor( curveAreaSize.getHeight(), 0, curveAreaSize.getWidth(), model );
+        energyCursor = new EnergyCursor( curveAreaSize.getHeight(), 0, curveAreaSize.getWidth(), mrModel );
         energyCursor.setVisible( false );
 
         cursorLayer.addChild( energyCursor );
@@ -98,6 +103,9 @@ public class CurvePane extends PPath {
         addChild( yAxis );
     }
 
+    public void terminate() {
+        mrModel.removeListener( curveCreatingModelListener );
+    }
 
     public void setVisible( boolean isVisible ) {
         super.setVisible( isVisible );
