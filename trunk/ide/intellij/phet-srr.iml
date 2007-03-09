@@ -68,6 +68,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/hydrogen-atom/test-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/ideal-gas/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/lasers/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/lasers/test" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/mazegame/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/microwaves/collision/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/microwaves/common/src" isTestSource="false" />
