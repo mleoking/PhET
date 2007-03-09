@@ -14,8 +14,6 @@ LOW PRIORITY:
 - AnimationBoxNode.paint gets called twice on clock steps that create/delete an alpha particle
 
 
-DEFER UNTIL AFTER INTERVIEWS:
-
 DONE:
 ******** version 0.00.03 (13684)
 3/9/07 - show outline of nucleus while dragging sliders to preserve responsiveness
