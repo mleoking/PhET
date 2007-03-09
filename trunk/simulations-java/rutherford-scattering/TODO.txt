@@ -3,16 +3,13 @@
 ===============================================================================
 
 IN PROGRESS:
-- generalize and integrate Sam Reid's BufferedPNode solution, move some functionality into PhetPCanvas
 
 HIGH PRIORITY:
 - RutherfordScattering fails when D > rNew
-- reduce cost of drawing plum pudding atom
 - AnimationBoxNode.paint gets called twice on clock steps that create/delete an alpha particle
 
 MEDIUM PRIORITY:
 - add "Show traces" control, default on
-- add "Reset All" button to both panels
 - add Legend to top of each control panel, with electron+neutron+proton
 - change #neutrons range to 20-150
 - get abstract
@@ -31,6 +28,8 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/8/07 - make "Reset All" restore the default clock state
+3/8/07 - add "Reset All" button to all control panels
 3/8/07 - reimplement PlumPuddingAtomNode as a BufferedPNode
 3/8/07 - generate Sam's node buffering solution into BufferedPNode
 ******** version 0.00.02 (13613)

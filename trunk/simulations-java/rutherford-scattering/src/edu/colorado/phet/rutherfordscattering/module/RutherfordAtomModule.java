@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -222,6 +223,14 @@ public class RutherfordAtomModule extends AbstractModule {
      * Resets the module to its default state.
      */
     public void reset() {
+        
+        IClock clock = getClock();
+        if ( RSConstants.CLOCK_PAUSED ) {
+            clock.pause();
+        }
+        else {
+            clock.start();
+        }
         
         _gun.setEnabled( RSConstants.GUN_ENABLED );
         _gun.setIntensity( RSConstants.GUN_INTENSITY );

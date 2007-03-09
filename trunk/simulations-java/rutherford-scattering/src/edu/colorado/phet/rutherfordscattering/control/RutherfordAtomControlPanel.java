@@ -159,6 +159,8 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         addControlFullWidth( _neutronsControl );
         addVerticalSpace( 20 );
         addSeparator();
+        addVerticalSpace( 20 );
+        addResetButton();
     }
     
     /**

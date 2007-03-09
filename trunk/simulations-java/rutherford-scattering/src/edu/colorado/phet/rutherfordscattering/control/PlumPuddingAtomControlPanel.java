@@ -96,6 +96,10 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
         addControlFullWidth( titleLabel );
         addVerticalSpace( 20 );
         addControlFullWidth( _energyControl );
+        addVerticalSpace( 20 );
+        addSeparator();
+        addVerticalSpace( 20 );
+        addResetButton();
     }
     
     /**
