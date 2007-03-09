@@ -20,7 +20,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 
@@ -87,7 +86,7 @@ public class EnergyLine extends PNode {
     }
 
     public void update() {
-        double e = model.getAverageTotalEnergy();
+        double e = model.getTotalEnergy();
 
         double y = Math.max( bounds.getHeight() - ( e * scale ), 0 );
         line.setLine( 0, y, bounds.getWidth(), y );

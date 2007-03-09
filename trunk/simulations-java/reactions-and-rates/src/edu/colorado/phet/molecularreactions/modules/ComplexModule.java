@@ -87,7 +87,10 @@ public class ComplexModule extends MRModule {
         // Add the pump
         MRModel model = getMRModel();
 
-        model.setDefaultTemperature(MRConfig.DEFAULT_TEMPERATURE);
+        // Average total energy
+        model.setAverageTotal( true );
+
+        model.setDefaultTemperature( MRConfig.DEFAULT_TEMPERATURE );
 
         pumpGraphic = new PumpGraphic( this );
         // 15 is the wall thickness of the box graphic

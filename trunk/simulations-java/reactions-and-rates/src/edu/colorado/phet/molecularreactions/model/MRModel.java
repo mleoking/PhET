@@ -61,6 +61,7 @@ public class MRModel extends PublishingModel {
     // so it is conserved.
     private double dEnergy;
     private double defaultTemperature = MRConfig.DEFAULT_TEMPERATURE;
+    private boolean averageTotal;
 
     /**
      * Constructor
@@ -230,7 +231,7 @@ public class MRModel extends PublishingModel {
     }
 
     // TODO: Factor out common code from 'averaging' methods
-    public double getAverageKineticEnergy() {
+    public double getAverageKineticEnergyPerClass() {
         Map peMap    = new HashMap(),
             totalMap = new HashMap();
 
@@ -269,7 +270,7 @@ public class MRModel extends PublishingModel {
         return keTotal;
     }
 
-    public double getAveragePotentialEnergy() {
+    public double getAveragePotentialEnergyPerClass() {
         Map peMap    = new HashMap(),
             totalMap = new HashMap();
 
@@ -339,13 +340,31 @@ public class MRModel extends PublishingModel {
         }
     }
 
-    public double getAverageTotalEnergy() {
-        double e = getAverageKineticEnergy() +
-                   getAveragePotentialEnergy();
+    private double getAverageTotalEnergy() {
+        int wholeMoleculeCount = countWholeMolecules();
 
-        if (e == 0.0) return getDefaultTemperature();
+        if (wholeMoleculeCount != 0) {
+            return getTotalKineticEnergy() / wholeMoleculeCount;
+        }
 
-        return e;
+        return getDefaultTemperature();
+    }
+
+    public void setAverageTotal(boolean averageTotal) {
+        this.averageTotal = averageTotal;
+    }
+
+    public double getTotalEnergy() {
+        if (averageTotal) return getAverageTotalEnergy();
+
+        int wholeMoleculeCount = countWholeMolecules();
+
+        if (wholeMoleculeCount != 0) {
+            return getAverageKineticEnergyPerClass() +
+                   getAveragePotentialEnergyPerClass();
+        }
+
+        return getDefaultTemperature();
     }
 
     //--------------------------------------------------------------------------------------------------
