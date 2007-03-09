@@ -39,7 +39,7 @@ public class Gun extends FixedObject implements ModelElement {
     private static final double DEFAULT_INTENSITY = 1; // 100%
     private static final int DEFAULT_MAX_PARTICLES = 20;
     
-    private static final double Y_ABSOLUTE_MIN = 10;
+    private static final double Y0_MIN = 10;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -220,7 +220,7 @@ public class Gun extends FixedObject implements ModelElement {
     
     /*
      * Gets a random point along the gun's nozzle.
-     * This is based on the nozzle width, gun position, and gun orientation.
+     * Avoid points that are too "close" to the center of the nozzle.
      * 
      * @return Point2D
      */
@@ -230,14 +230,14 @@ public class Gun extends FixedObject implements ModelElement {
         
         // Start with the gun's origin at zero, gun pointing to the right
         double x = 1;
-        double y = ySign * ( Y_ABSOLUTE_MIN + ( _randomPosition.nextDouble() * ( ( _nozzleWidth / 2 ) - Y_ABSOLUTE_MIN ) ) );
-        if ( !(Math.abs( y ) >= Y_ABSOLUTE_MIN) ) {
+        double y = ySign * ( Y0_MIN + ( _randomPosition.nextDouble() * ( ( _nozzleWidth / 2 ) - Y0_MIN ) ) );
+        if ( !(Math.abs( y ) >= Y0_MIN) ) {
             System.out.println( "y=" + y );
             System.out.println( "ySign=" + ySign );
             System.out.println( "nozzleWidth=" + _nozzleWidth );
-            System.out.println( "Y_ABSOLUTE_MIN=" + Y_ABSOLUTE_MIN );
+            System.out.println( "Y_ABSOLUTE_MIN=" + Y0_MIN );
         }
-        assert( Math.abs( y ) >= Y_ABSOLUTE_MIN );
+        assert( Math.abs( y ) >= Y0_MIN );
 
         // Rotate by gun's orientation
         Point2D p = new Point2D.Double( x, y );
