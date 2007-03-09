@@ -152,7 +152,6 @@ public class RutherfordAtomModule extends AbstractModule {
             _alphaParticleTracesNode = new TracesNode( _model );
             _alphaParticleTracesNode.setBounds( 0, 0, _animationBoxNode.getWidth(), _animationBoxNode.getHeight() );
             _animationBoxNode.getTraceLayer().addChild( _alphaParticleTracesNode );
-            _alphaParticleTracesNode.setEnabled( true );
         }
 
         // Layering order on the canvas (back-to-front)
@@ -215,6 +214,10 @@ public class RutherfordAtomModule extends AbstractModule {
         _model.removeAllAlphaParticles();
     }
     
+    public TracesNode getTracesNode() {
+        return _alphaParticleTracesNode;
+    }
+    
     //----------------------------------------------------------------------------
     // AbstractModule implementation
     //----------------------------------------------------------------------------
@@ -238,6 +241,8 @@ public class RutherfordAtomModule extends AbstractModule {
         
         _atom.setNumberOfProtons( RSConstants.NUMBER_OF_PROTONS_RANGE.getDefault() );
         _atom.setNumberOfNeutrons( RSConstants.NUMBER_OF_NEUTRONS_RANGE.getDefault() );
+        
+        _controlPanel.setTracesEnabled( RSConstants.TRACES_ENABLED );
     }
     
     /*
