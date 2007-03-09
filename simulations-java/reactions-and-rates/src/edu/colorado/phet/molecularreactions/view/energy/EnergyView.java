@@ -52,8 +52,8 @@ public class EnergyView extends PNode implements Resetable {
     private volatile MoleculeSeparationPane moleculeSeparationPane;
     private volatile UpperEnergyPane upperPane;
     private volatile CurvePane curvePane;
-    private PPath legendNode;
-    private MRModule module;
+    private volatile PPath legendNode;
+    private volatile MRModule module;
 
     public EnergyView() {
     }
@@ -65,14 +65,12 @@ public class EnergyView extends PNode implements Resetable {
     public void initialize( MRModule module, Dimension upperPaneSize ) {
         this.module = module;
 
-        MRModel model = module.getMRModel();
-
         removeAllChildren();
 
         addCurvePane( module, upperPaneSize );
         addMolecularSeparationPane( module, upperPaneSize );
         addUpperPane( upperPaneSize );
-        addLegend( upperPaneSize, model, module );
+        addLegend( upperPaneSize, module );
         addEnergyViewBorder();
     }
 
@@ -86,7 +84,9 @@ public class EnergyView extends PNode implements Resetable {
         addChild( border );
     }
 
-    private void addLegend( Dimension upperPaneSize, MRModel mrModel, MRModule module ) {
+    private void addLegend( Dimension upperPaneSize, MRModule module ) {
+        MRModel mrModel = module.getMRModel();
+
         // The graphic that shows the reaction mechanics. It appears below the profile pane.
         legendNode = new PPath( new Rectangle2D.Double( 0, 0,
                                                               MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.width,
