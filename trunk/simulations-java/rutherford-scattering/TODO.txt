@@ -5,12 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- RutherfordScattering fails when D > rNew
-- scale of particles is wrong, can't fit them in nucleus
 
 MEDIUM PRIORITY:
-- (but with E=5, particles deflect before entering box)
-- implement dynamic generation of nucleus view in RutherfordAtomNode
 - get description from SM
 
 LOW PRIORITY:
@@ -22,6 +18,8 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/9/07 - show outline of nuclues while dragging sliders to preserve responsiveness
+3/9/07 - implement dynamic generation of nucleus view in RutherfordAtomNode
 3/9/07 - improve distribution of electrons in plum pudding by giving higher weight to values farther from the center
 3/9/07 - make nucleus radius proportional to cube root of #protons+neutrons
 3/9/07 - use L/8 instead of L/16 in RutherfordScattering.moveParticle
