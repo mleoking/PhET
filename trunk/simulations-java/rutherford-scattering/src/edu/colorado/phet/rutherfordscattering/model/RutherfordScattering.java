@@ -20,7 +20,10 @@ import edu.colorado.phet.rutherfordscattering.RSConstants;
 public class RutherfordScattering {
 
     // Reports algorithm failures
-    private static boolean REPORT_FAILURES_VERBOSE = true;
+    private static boolean REPORT_FAILURES_VERBOSE = false;
+    
+    // Move problem particles outside of the box so that they'll be remove
+    private static boolean CULL_PROBLEM_PARTICLES = true;
     
     // Formatter, for debug output
     private static final DecimalFormat F = new DecimalFormat( "0.00" );
@@ -128,7 +131,7 @@ public class RutherfordScattering {
 
         // new position (in Polar coordinates) and speed
         final double t1 = ( ( b * Math.cos( phi ) ) - ( ( D / 2 ) * Math.sin( phi ) ) );
-        final double phiNew = phi + ( ( b * b * s * dt ) / ( r * Math.sqrt( Math.pow( b, 4 ) + ( r * r * t1 * t1 ) ) ) );
+        double phiNew = phi + ( ( b * b * s * dt ) / ( r * Math.sqrt( Math.pow( b, 4 ) + ( r * r * t1 * t1 ) ) ) );
         final double rNew = Math.abs( ( b * b ) / ( ( b * Math.sin( phiNew ) ) + ( ( D / 2 ) * ( Math.cos( phiNew ) - 1 ) ) ) );
         double sNew = s0 * Math.sqrt( 1 - ( D / rNew ) );
         
@@ -179,9 +182,11 @@ public class RutherfordScattering {
         }
 
         // Move the problem particle outside the box
-        if ( error ) {
-            xNew = 1000 * L;
-            yNew = 1000 * L;
+        if ( error && CULL_PROBLEM_PARTICLES ) {
+            xNew = 10 * L;
+            yNew = 10 * L;
+            sNew = s;
+            phiNew = phi;
         }
 
         //-------------------------------------------------------------------------------
