@@ -125,11 +125,11 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
         }
         
         // Layout
-        final int vspace = 15;
+        final int panelSpacing = 20;
         addControlFullWidth( legendPanel );
-        addVerticalSpace( vspace );
+        addVerticalSpace( panelSpacing );
         addControlFullWidth( alphaParticlesPanel );
-        addVerticalSpace( vspace );
+        addVerticalSpace( panelSpacing );
         addResetButton();
     }
     
