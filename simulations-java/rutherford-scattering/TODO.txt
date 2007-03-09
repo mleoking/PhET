@@ -9,7 +9,7 @@ HIGH PRIORITY:
 - scale of particles is wrong, can't fit them in nucleus
 
 MEDIUM PRIORITY:
-- try L/8 instead of L/16 (but with E=5, particles deflect before entering box)
+- (but with E=5, particles deflect before entering box)
 - implement dynamic generation of nucleus view in RutherfordAtomNode
 - get description from SM
 
@@ -22,6 +22,8 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/9/07 - make nucleus radius proportional to cube root of #protons+neutrons
+3/9/07 - use L/8 instead of L/16 in RutherfordScattering.moveParticle
 3/9/07 - try to reproduce Sam McKagan's Mathematica test of RutherfordScattering
 3/9/07 - make SliderControl clamp textfield entry to min/max range
 3/9/07 - fiddle with min/max radius of nulceus so that particles never hit it
