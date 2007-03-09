@@ -57,29 +57,29 @@ public class WaveInterferenceApplication extends PiccoloPhetApplication {
     public static void main( final String[] args ) {
         SimStrings.init( args, LOCALIZATION_BUNDLE_BASENAME );
         new WaveIntereferenceLookAndFeel().initLookAndFeel();
-        if( Arrays.asList( args ).contains( "-smooth" ) ) {
-            doSmooth();
-        }
+//        if( Arrays.asList( args ).contains( "-smooth" ) ) {
+//            doSmooth();
+//        }
         new WaveInterferenceApplication( args ).startApplication();
     }
 
-    private static void doSmooth() {
-        try {
-            final String systemLookAndFeelClassName = SmoothLookAndFeelFactory.getSystemLookAndFeelClassName();
-            System.out.println( "systemLookAndFeelClassName = " + systemLookAndFeelClassName );
-            UIManager.setLookAndFeel( systemLookAndFeelClassName );
-        }
-        catch( ClassNotFoundException e ) {
-            e.printStackTrace();
-        }
-        catch( InstantiationException e ) {
-            e.printStackTrace();
-        }
-        catch( IllegalAccessException e ) {
-            e.printStackTrace();
-        }
-        catch( UnsupportedLookAndFeelException e ) {
-            e.printStackTrace();
-        }
-    }
+//    private static void doSmooth() {
+//        try {
+//            final String systemLookAndFeelClassName = SmoothLookAndFeelFactory.getSystemLookAndFeelClassName();
+//            System.out.println( "systemLookAndFeelClassName = " + systemLookAndFeelClassName );
+//            UIManager.setLookAndFeel( systemLookAndFeelClassName );
+//        }
+//        catch( ClassNotFoundException e ) {
+//            e.printStackTrace();
+//        }
+//        catch( InstantiationException e ) {
+//            e.printStackTrace();
+//        }
+//        catch( IllegalAccessException e ) {
+//            e.printStackTrace();
+//        }
+//        catch( UnsupportedLookAndFeelException e ) {
+//            e.printStackTrace();
+//        }
+//    }
 }
