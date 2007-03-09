@@ -5,6 +5,7 @@ package edu.colorado.phet.rutherfordscattering.model;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.util.IntegerRange;
 
 /**
@@ -25,13 +26,12 @@ public class RutherfordAtom extends AbstractAtom {
     public static final String PROPERTY_NUMBER_OF_NEUTRONS = "numberOfNeutrons";
     public static final String PROPERTY_ELECTRON_OFFSET = "electronOffset";
     
-    /* change in orbit angle per dt for ground state orbit */
-    private static final double ELECTRON_ANGLE_DELTA = Math.toRadians( 0.5 );
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
+    // angular speed, in radians per dt
+    private final double _angularSpeed;
     // default number of protons
     private final int _defaultNumberOfProtons;
     // default number of neutrons
@@ -62,14 +62,17 @@ public class RutherfordAtom extends AbstractAtom {
      * 
      * @param position
      * @param orientation
+     * @param angularSpeed in radians per dt
      * @param numberOfProtonsRange
      * @param numberOfNeutronsRange
      * @param boxSize
      */
-    public RutherfordAtom( Point2D position, double orientation, IntegerRange numberOfProtonsRange, IntegerRange numberOfNeutronsRange, Dimension boxSize ) {
+    public RutherfordAtom( Point2D position, double orientation, double angularSpeed, IntegerRange numberOfProtonsRange, IntegerRange numberOfNeutronsRange, Dimension boxSize ) {
         super( position, orientation );
         
         assert( boxSize.getWidth() == boxSize.getHeight() ); // must be square!
+        
+        _angularSpeed = angularSpeed;
         
         _defaultNumberOfProtons = _numberOfProtons = numberOfProtonsRange.getDefault();
         _minNumberOfProtons = numberOfProtonsRange.getMin();
@@ -181,7 +184,7 @@ public class RutherfordAtom extends AbstractAtom {
     public void stepInTime( double dt ) {
         
         // Advance the electron along its orbit
-        double deltaAngle = dt * ELECTRON_ANGLE_DELTA;
+        double deltaAngle = dt * _angularSpeed;
         _electronAngle -= deltaAngle; // clockwise
         
         // Convert to cartesian coordinates
