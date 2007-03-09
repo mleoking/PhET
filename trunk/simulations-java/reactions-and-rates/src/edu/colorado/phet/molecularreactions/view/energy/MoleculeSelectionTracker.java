@@ -15,14 +15,20 @@ public class MoleculeSelectionTracker {
     private final DynamicListenerController listenerController = DynamicListenerControllerFactory.newController( MoleculeSelectionListener.class );
 
     private MRModel mrModel;
+    private SelectedMoleculeListener moleculeListener;
 
     public MoleculeSelectionTracker( MRModule module ) {
-        SelectedMoleculeListener moleculeListener = new SelectedMoleculeListener();
+        moleculeListener = new SelectedMoleculeListener();
 
         mrModel = module.getMRModel();
 
         mrModel.addListener( moleculeListener );
         mrModel.addSelectedMoleculeTrackerListener( moleculeListener );
+    }
+
+    public void terminate() {
+        mrModel.removeListener( moleculeListener );
+        mrModel.removeSelectedMoleculeTrackerListener( moleculeListener );
     }
 
     public SimpleMolecule getBoundMolecule() {
