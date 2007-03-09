@@ -46,6 +46,7 @@ public class RutherfordAtomModule extends AbstractModule {
     private AnimationBoxNode _animationBoxNode;
     private ZoomIndicatorNode _zoomIndicatorNode;
     private TracesNode _alphaParticleTracesNode;
+    private RutherfordAtomNode _atomNode;
     private RSModelViewManager _modelViewManager;
     
     // Control panels
@@ -144,8 +145,8 @@ public class RutherfordAtomModule extends AbstractModule {
         _zoomIndicatorNode = new ZoomIndicatorNode();
         
         // Atom
-        RutherfordAtomNode atomNode = new RutherfordAtomNode( _atom );
-        _animationBoxNode.getAtomLayer().addChild(  atomNode  );
+        _atomNode = new RutherfordAtomNode( _atom );
+        _animationBoxNode.getAtomLayer().addChild(  _atomNode  );
         
         // Alpha Particles tracer
         {
@@ -216,6 +217,10 @@ public class RutherfordAtomModule extends AbstractModule {
     
     public TracesNode getTracesNode() {
         return _alphaParticleTracesNode;
+    }
+    
+    public RutherfordAtomNode getAtomNode() {
+        return _atomNode;
     }
     
     //----------------------------------------------------------------------------

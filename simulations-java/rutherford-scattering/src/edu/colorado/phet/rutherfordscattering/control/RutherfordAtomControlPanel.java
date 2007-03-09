@@ -6,7 +6,9 @@ import java.awt.GridBagConstraints;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -17,9 +19,8 @@ import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.model.Gun;
 import edu.colorado.phet.rutherfordscattering.model.RutherfordAtom;
 import edu.colorado.phet.rutherfordscattering.module.RutherfordAtomModule;
-import edu.colorado.phet.rutherfordscattering.util.DoubleRange;
-import edu.colorado.phet.rutherfordscattering.util.IntegerRange;
 import edu.colorado.phet.rutherfordscattering.view.LegendPanel;
+import edu.colorado.phet.rutherfordscattering.view.RutherfordAtomNode;
 
 /**
  * RutherfordAtomControlPanel is the control panel for the "Rutherford Atom" module.
@@ -42,6 +43,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
     private RutherfordAtomModule _module;
     private Gun _gun;
     private RutherfordAtom _atom;
+    private RutherfordAtomNode _atomNode;
     private SliderControl _energyControl;
     private ChangeListener _energyListener;
     private JCheckBox _tracesCheckBox;
@@ -70,6 +72,8 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         
         _atom = _module.getAtom();
         _atom.addObserver( this );
+        
+        _atomNode = _module.getAtomNode();
         
         // Legend
         LegendPanel legendPanel = new LegendPanel( 0.85 /* iconScale */, RSConstants.TITLE_FONT, RSConstants.CONTROL_FONT );
@@ -259,6 +263,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         
         _module.removeAllAlphaParticles();
         _gun.setRunning( false );
+        _atomNode.setOutlineModeEnabled( true );
         
         int numberOfProtons = (int) _protonsControl.getValue();
         _atom.deleteObserver( this );
@@ -266,8 +271,8 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         _atom.addObserver(  this );
         
         if ( !_protonsControl.isAdjusting() ) {
-            // restart the gun when slider is released
             _gun.setRunning(  true  );
+            _atomNode.setOutlineModeEnabled( false );
         }
     }
 
@@ -278,6 +283,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         
         _module.removeAllAlphaParticles();
         _gun.setRunning( false );
+        _atomNode.setOutlineModeEnabled( true );
         
         int numberOfNeutrons = (int) _neutronsControl.getValue();
         _atom.deleteObserver( this );
@@ -285,8 +291,8 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         _atom.addObserver( this );
         
         if ( !_neutronsControl.isAdjusting() ) {
-            // restart the gun when slider is released
             _gun.setRunning(  true  );
+            _atomNode.setOutlineModeEnabled( false );
         }
     }
 
