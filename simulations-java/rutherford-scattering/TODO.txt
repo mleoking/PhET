@@ -22,6 +22,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/9/07 - improve distribution of electrons in plum pudding by giving higher weight to values farther from the center
 3/9/07 - make nucleus radius proportional to cube root of #protons+neutrons
 3/9/07 - use L/8 instead of L/16 in RutherfordScattering.moveParticle
 3/9/07 - try to reproduce Sam McKagan's Mathematica test of RutherfordScattering

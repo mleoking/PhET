@@ -98,7 +98,7 @@ public class PlumPuddingAtomNode extends BufferedPNode {
          */
         final int numberOfElectrons = atom.getNumberOfElectrons();
         final double deltaTheta = Math.toRadians( 360 ) / numberOfElectrons;
-        Random randomDistance = new Random( 11111 ); // use a seed to provide the same "good looking" result each time
+        Random randomDistance = new Random();
         for ( int i = 0; i < numberOfElectrons; i++ ) {
 
             final double theta = theta0 + ( i * deltaTheta );
@@ -118,8 +118,8 @@ public class PlumPuddingAtomNode extends BufferedPNode {
             // convert to Polar coodinates
             final double r = Math.sqrt( ( x * x ) + ( y * y ) );
 
-            // pick a point on the chord
-            final double d = r * randomDistance.nextDouble();
+            // pick a point on the chord, giving higher weight to values farther from the center
+            final double d = r * Math.sqrt( randomDistance.nextDouble() );
             final double ex = d * Math.cos( theta );
             final double ey = d * Math.sin( theta );
 
