@@ -26,7 +26,7 @@ public class RutherfordScattering {
     private static final DecimalFormat F = new DecimalFormat( "0.00" );
     
     // algorithm fails for x=0, so use this min value
-    public static final double X_MIN = 0.00001;
+    public static final double X0_MIN = 0.00001;
     
     // Divisor for L used in the calculation of D.
     public static final double L_DIVISOR = 16;
@@ -86,7 +86,7 @@ public class RutherfordScattering {
         
         double x0 = Math.abs( alphaParticle.getInitialPosition().getX() - atom.getX() );
         if ( x0 == 0 ) {
-            x0 = X_MIN; // algorithm fails for x0 < X_MIN
+            x0 = X0_MIN; // algorithm fails for x0 < X0_MIN
         }
 
         double y0 = alphaParticle.getInitialPosition().getY() - atom.getY();
@@ -142,6 +142,7 @@ public class RutherfordScattering {
         }
         
         double yNew = -rNew * Math.cos( phiNew );
+        System.out.println( " y=" + y );//XXX
         yNew *= -1; // flip y sign from algorithm to model
         
         //-------------------------------------------------------------------------------
@@ -163,27 +164,27 @@ public class RutherfordScattering {
 
         // Debugging output, in coordinates relative to the atom's center
         if ( DEBUG_OUTPUT_ENABLED && error ) {
-            System.out.println( "DEBUG: RutherfordScattering.moveParticle [" );
-            System.out.println( "  particle id=" + alphaParticle.getId() );
-            System.out.println( "  constants:" );
-            System.out.println( "    dt=" + F.format( dt ) );
-            System.out.println( "    b=" + b );
-            System.out.println( "    L=" + F.format( L ) );
-            System.out.println( "    D=" + D );
-            System.out.println( "    (x0,y0)=(" + F.format( x0 ) + "," + F.format( y0 ) + ")" );
-            System.out.println( "    s0=" + F.format( s0 ) );
-            System.out.println( "    sd=" + F.format( sd ) );
-            System.out.println( "    p=" + p );
-            System.out.println( "    pd=" + pd );
-            System.out.println( "  current state:" );
-            System.out.println( "    (x,y)=(" + F.format( x ) + "," + F.format( y ) + ")" );
-            System.out.println( "    (r,phi)=(" + F.format( r ) + "," + F.format( Math.toDegrees( phi ) ) + ")" );
-            System.out.println( "    s=" + F.format( s ) );
-            System.out.println( "  new state:" );
-            System.out.println( "    (x,y)=(" + F.format( xNew ) + "," + F.format( yNew ) + ")" );
-            System.out.println( "    (r,phi)=(" + F.format( rNew ) + "," + F.format( Math.toDegrees( phiNew ) ) + ")" );
-            System.out.println( "    s=" + sNew );
-            System.out.println( "]" );
+            System.err.println( "DEBUG: RutherfordScattering.moveParticle [" );
+            System.err.println( "  particle id=" + alphaParticle.getId() );
+            System.err.println( "  constants:" );
+            System.err.println( "    dt=" + F.format( dt ) );
+            System.err.println( "    b=" + b );
+            System.err.println( "    L=" + F.format( L ) );
+            System.err.println( "    D=" + D );
+            System.err.println( "    (x0,y0)=(" + F.format( x0 ) + "," + F.format( y0 ) + ")" );
+            System.err.println( "    s0=" + F.format( s0 ) );
+            System.err.println( "    sd=" + F.format( sd ) );
+            System.err.println( "    p=" + p );
+            System.err.println( "    pd=" + pd );
+            System.err.println( "  current state:" );
+            System.err.println( "    (x,y)=(" + F.format( x ) + "," + F.format( y ) + ")" );
+            System.err.println( "    (r,phi)=(" + F.format( r ) + "," + F.format( Math.toDegrees( phi ) ) + ")" );
+            System.err.println( "    s=" + F.format( s ) );
+            System.err.println( "  new state:" );
+            System.err.println( "    (x,y)=(" + F.format( xNew ) + "," + F.format( yNew ) + ")" );
+            System.err.println( "    (r,phi)=(" + F.format( rNew ) + "," + F.format( Math.toDegrees( phiNew ) ) + ")" );
+            System.err.println( "    s=" + sNew );
+            System.err.println( "]" );
         }
 
         //-------------------------------------------------------------------------------
