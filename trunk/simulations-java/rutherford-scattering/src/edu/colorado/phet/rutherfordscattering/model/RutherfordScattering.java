@@ -20,8 +20,7 @@ import edu.colorado.phet.rutherfordscattering.RSConstants;
 public class RutherfordScattering {
 
     // Reports algorithm failures
-    public static boolean REPORT_FAILURES = true;
-    public static boolean REPORT_FAILURES_VERBOSE = true;
+    private static boolean REPORT_FAILURES_VERBOSE = true;
     
     // Formatter, for debug output
     private static final DecimalFormat F = new DecimalFormat( "0.00" );
@@ -143,59 +142,56 @@ public class RutherfordScattering {
         }
         
         double yNew = -rNew * Math.cos( phiNew );
-        yNew *= -1; // flip y sign from algorithm to model
         
         //-------------------------------------------------------------------------------
-        // report failures in the algorithm
+        // handle failures in the algorithm
         //-------------------------------------------------------------------------------
-        
-        if ( REPORT_FAILURES ) {
             
-            boolean error = false;
+        boolean error = false;
+        if ( !( b > 0 ) || !( sNew > 0 ) ) {
+            System.err.println( "ERROR: RutherfordScattering.moveParticle from " + "(x,y)=" + pointToString( x, y ) + " to " + "(xNew,yNew)=" + pointToString( xNew, yNew ) + " : " + "b=" + b + " newSpeed=" + sNew );
+            error = true;
+        }
 
-            if ( !( b > 0 ) ) {
-                System.err.println( "ERROR: RutherfordScattering.moveParticle at (x,y)=(" + F.format( x ) + "," + F.format( y ) + ") b=" + b );
-                error = true;
-            }
+        // Verbose debug output, in coordinates relative to the atom's center
+        if ( error && REPORT_FAILURES_VERBOSE ) {
+            System.err.println( "DEBUG: RutherfordScattering.moveParticle [" );
+            System.err.println( "  particle id=" + alphaParticle.getId() );
+            System.err.println( "  constants:" );
+            System.err.println( "    dt=" + dt );
+            System.err.println( "    b=" + b );
+            System.err.println( "    L=" + L );
+            System.err.println( "    D=" + D );
+            System.err.println( "    (x0,y0)=" + pointToString( x0, y0 ) );
+            System.err.println( "    s0=" + s0 );
+            System.err.println( "    sd=" + sd );
+            System.err.println( "    p=" + p );
+            System.err.println( "    pd=" + pd );
+            System.err.println( "  current state:" );
+            System.err.println( "    (x,y)=" + pointToString( x, y ) );
+            System.err.println( "    (r,phi)=" + pointToString( r, Math.toDegrees( phi ) ) );
+            System.err.println( "    s=" + s );
+            System.err.println( "  new state:" );
+            System.err.println( "    (xNew,yNew)=" + pointToString( xNew, yNew ) );
+            System.err.println( "    (rNew,phiNew)=" + pointToString( rNew, Math.toDegrees( phiNew ) ) );
+            System.err.println( "    sNew=" + sNew );
+            System.err.println( "]" );
+        }
 
-            if ( !( sNew > 0 ) ) {
-                System.err.println( "ERROR: RutherfordScattering.moveParticle at (x,y)=(" + F.format( x ) + "," + F.format( y ) + ") newSpeed=" + sNew );
-                error = true;
-            }
-
-            // Verbose debug output, in coordinates relative to the atom's center
-            if ( error && REPORT_FAILURES_VERBOSE ) {
-                System.err.println( "DEBUG: RutherfordScattering.moveParticle [" );
-                System.err.println( "  particle id=" + alphaParticle.getId() );
-                System.err.println( "  constants:" );
-                System.err.println( "    dt=" + F.format( dt ) );
-                System.err.println( "    b=" + b );
-                System.err.println( "    L=" + F.format( L ) );
-                System.err.println( "    D=" + D );
-                System.err.println( "    (x0,y0)=(" + F.format( x0 ) + "," + F.format( y0 ) + ")" );
-                System.err.println( "    s0=" + F.format( s0 ) );
-                System.err.println( "    sd=" + F.format( sd ) );
-                System.err.println( "    p=" + p );
-                System.err.println( "    pd=" + pd );
-                System.err.println( "  current state:" );
-                System.err.println( "    (x,y)=(" + F.format( x ) + "," + F.format( y ) + ")" );
-                System.err.println( "    (r,phi)=(" + F.format( r ) + "," + F.format( Math.toDegrees( phi ) ) + ")" );
-                System.err.println( "    s=" + F.format( s ) );
-                System.err.println( "  new state:" );
-                System.err.println( "    (x,y)=(" + F.format( xNew ) + "," + F.format( yNew ) + ")" );
-                System.err.println( "    (r,phi)=(" + F.format( rNew ) + "," + F.format( Math.toDegrees( phiNew ) ) + ")" );
-                System.err.println( "    s=" + sNew );
-                System.err.println( "]" );
-            }
+        // Move the problem particle outside the box
+        if ( error ) {
+            xNew = 1000 * L;
+            yNew = 1000 * L;
         }
 
         //-------------------------------------------------------------------------------
         // adjust position to be absolute
         //-------------------------------------------------------------------------------
-        
+
         xNew += atom.getX();
+        yNew *= -1; // flip y sign from algorithm to model
         yNew += atom.getY();
-        
+
         //-------------------------------------------------------------------------------
         // set the alpha particle's new properties
         //-------------------------------------------------------------------------------
@@ -203,5 +199,15 @@ public class RutherfordScattering {
         alphaParticle.setPosition( xNew, yNew );
         alphaParticle.setSpeed( sNew );
         alphaParticle.setOrientation( phiNew );
+    }
+    
+    /*
+     * Converts a point to a String.
+     * @param x
+     * @param y
+     * @return
+     */
+    private static String pointToString( double x, double y ) {
+        return "(" + F.format( x ) + "," + F.format( y ) + ")";
     }
 }
