@@ -21,6 +21,7 @@ public class RutherfordScattering {
 
     // Reports algorithm failures
     public static boolean REPORT_FAILURES = true;
+    public static boolean REPORT_FAILURES_VERBOSE = true;
     
     // Formatter, for debug output
     private static final DecimalFormat F = new DecimalFormat( "0.00" );
@@ -153,17 +154,17 @@ public class RutherfordScattering {
             boolean error = false;
 
             if ( !( b > 0 ) ) {
-                System.err.println( "ERROR: RutherfordScattering.moveParticle, b=" + b );
+                System.err.println( "ERROR: RutherfordScattering.moveParticle at (x,y)=(" + F.format( x ) + "," + F.format( y ) + ") b=" + b );
                 error = true;
             }
 
             if ( !( sNew > 0 ) ) {
-                System.err.println( "ERROR: RutherfordScattering.moveParticle, newSpeed=" + sNew );
+                System.err.println( "ERROR: RutherfordScattering.moveParticle at (x,y)=(" + F.format( x ) + "," + F.format( y ) + ") newSpeed=" + sNew );
                 error = true;
             }
 
-            // Debugging output, in coordinates relative to the atom's center
-            if ( error ) {
+            // Verbose debug output, in coordinates relative to the atom's center
+            if ( error && REPORT_FAILURES_VERBOSE ) {
                 System.err.println( "DEBUG: RutherfordScattering.moveParticle [" );
                 System.err.println( "  particle id=" + alphaParticle.getId() );
                 System.err.println( "  constants:" );

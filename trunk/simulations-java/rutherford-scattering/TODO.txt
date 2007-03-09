@@ -22,6 +22,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/9/07 - try to reproduce Sam McKagan's Mathematica test of RutherfordScattering
 3/9/07 - make SliderControl clamp textfield entry to min/max range
 3/9/07 - fiddle with min/max radius of nulceus so that particles never hit it
 3/9/07 - make subsections of control panels more distinct, use consistent fonts
