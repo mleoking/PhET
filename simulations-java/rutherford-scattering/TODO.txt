@@ -6,10 +6,10 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - RutherfordScattering fails when D > rNew
+- scale of particles is wrong, can't fit them in nucleus
 
 MEDIUM PRIORITY:
-- try L/8 instead of L/16
-- set min/max nucleus radius so that alpha particles never hit the nucleus
+- try L/8 instead of L/16 (but with E=5, particles deflect before entering box)
 - implement dynamic generation of nucleus view in RutherfordAtomNode
 - get description from SM
 
