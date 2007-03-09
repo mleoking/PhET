@@ -6,13 +6,12 @@ import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.model.SelectedMoleculeTracker;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
-import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.DynamicListenerController;
 import edu.colorado.phet.common.util.DynamicListenerControllerFactory;
 
 import java.util.Collection;
 
-public class MoleculeSelectionTracker extends SimpleObservable {
+public class MoleculeSelectionTracker {
     private final DynamicListenerController listenerController = DynamicListenerControllerFactory.newController( MoleculeSelectionListener.class );
 
     private MRModel mrModel;
@@ -90,7 +89,7 @@ public class MoleculeSelectionTracker extends SimpleObservable {
         listenerController.removeListener( listener );
     }
 
-    public Collection getAllSelectionStateListeners( MoleculeSelectionListener listener ) {
+    public Collection getAllSelectionStateListeners() {
         return listenerController.getAllListeners();
     }
 
@@ -101,28 +100,22 @@ public class MoleculeSelectionTracker extends SimpleObservable {
     private class SelectedMoleculeListener extends MRModel.ModelListenerAdapter implements SelectedMoleculeTracker.Listener {
         public void moleculeBeingTrackedChanged( SimpleMolecule newTrackedMolecule,
                                                  SimpleMolecule prevTrackedMolecule ) {
-            getSelectionListenerController().notifySelectionChanged( prevTrackedMolecule, newTrackedMolecule );
-
-            getController().update();
+            getSelectionListenerController().notifySelectedChanged( prevTrackedMolecule, newTrackedMolecule );
         }
 
-        public void closestMoleculeChanged( SimpleMolecule newClosestMolecule, SimpleMolecule prevClosestMolecule ) {
-            getSelectionListenerController().notifyNearestToSelectionChanged( prevClosestMolecule, newClosestMolecule );
-
-            getController().update();
+        public void closestMoleculeChanged( SimpleMolecule newClosestMolecule, SimpleMolecule prevClosestMolecule ) {            
+            getSelectionListenerController().notifyClosestChanged( prevClosestMolecule, newClosestMolecule );
         }
 
         public void notifyEnergyProfileChanged( EnergyProfile newProfile ) {
             getSelectionListenerController().notifyEnergyProfileChanged( newProfile );
-
-            getController().update();
         }
     }
 
     public interface MoleculeSelectionListener {
-        void notifySelectionChanged( SimpleMolecule oldSelection, SimpleMolecule newSelection );
+        void notifySelectedChanged( SimpleMolecule oldSelection, SimpleMolecule newSelection );
 
-        void notifyNearestToSelectionChanged( SimpleMolecule oldNearest, SimpleMolecule newNearest );
+        void notifyClosestChanged( SimpleMolecule oldNearest, SimpleMolecule newNearest );
 
         void notifyEnergyProfileChanged( EnergyProfile newProfile );
     }

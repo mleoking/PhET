@@ -71,8 +71,6 @@ public class MoleculeSeparationPane extends PPath {
 
         tracker.addSelectionStateListener( moleculeGraphicController );
 
-        tracker.addObserver( moleculeGraphicController );
-
         module.getClock().addClockListener(
             new ClockAdapter() {
                 public void clockTicked( ClockEvent clockEvent ) {
@@ -160,16 +158,17 @@ public class MoleculeSeparationPane extends PPath {
             this.module = module;
         }
 
-        public void notifySelectionChanged( SimpleMolecule oldSelection, SimpleMolecule newSelection ) {
+        public void notifySelectedChanged( SimpleMolecule oldSelection, SimpleMolecule newSelection ) {
             removeSelectedMoleculeGraphic();
         }
 
-        public void notifyNearestToSelectionChanged( SimpleMolecule oldNearest, SimpleMolecule newNearest ) {
+        public void notifyClosestChanged( SimpleMolecule oldNearest, SimpleMolecule newNearest ) {
             removeNearestToSelectedMoleculeGraphic();
         }
 
         public void notifyEnergyProfileChanged( EnergyProfile newProfile ) {
-            updateMoleculeGraphics();
+            setSelectedGraphic( newProfile );
+            setNearestToSelectedGraphic( newProfile );
         }
 
         public void update() {
@@ -222,7 +221,7 @@ public class MoleculeSeparationPane extends PPath {
         }
 
         private void updateEnergyCursor() {
-            // TODO: This doesn't belong here
+            // TODO: This doesn't belong here (depends on midPoint)
             // set location of cursor
             curvePane.setEnergyCursorOffset( midPoint.getX() );
         }
@@ -314,7 +313,6 @@ public class MoleculeSeparationPane extends PPath {
                 yMax = midPoint.getY() + Math.min( cmDist, maxSeparation ) / 2;
             }
             else {
-                System.out.println("Not tracking!");
             }
         }
     }
