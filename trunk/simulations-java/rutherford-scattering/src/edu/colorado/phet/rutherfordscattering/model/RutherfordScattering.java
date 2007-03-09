@@ -32,7 +32,7 @@ public class RutherfordScattering {
     public static final double X0_MIN = 0.00001;
     
     // Divisor for L used in the calculation of D.
-    public static final double L_DIVISOR = 16;
+    public static final double L_DIVISOR = 8;
     
     /* Not intended for instantiation */
     private RutherfordScattering() {}
