@@ -105,7 +105,7 @@ public class ThermometerGraphic extends PNode {
     }
 
     public void update() {
-        double energy = model.getAverageTotalEnergy() / 1.5;
+        double energy = model.getTotalEnergy() / 1.5;
 
         double modelValue = Math.min( energy, maxModelValue );
         double ke =  modelValue * fillHeightScale;
