@@ -118,5 +118,5 @@ public class RSConstants {
     public static final double GUN_INTENSITY = 1.0; // 0-1 (1=100%)
     public static final DoubleRange INITIAL_SPEED_RANGE = new DoubleRange( 2.5, 15, 10, 1 );
     public static final IntegerRange NUMBER_OF_PROTONS_RANGE = new IntegerRange( 20, 100, 79 );
-    public static final IntegerRange NUMBER_OF_NEUTRONS_RANGE = new IntegerRange( 40, 250, 118 );
+    public static final IntegerRange NUMBER_OF_NEUTRONS_RANGE = new IntegerRange( 20, 150, 118 );
 }
