@@ -34,17 +34,17 @@ public class TestWIAUI extends PhetApplication {
 
     public static void main( String[] args ) {
         new WaveIntereferenceLookAndFeel().initLookAndFeel();
-        try {
-            final String systemLookAndFeelClassName = smooth.SmoothLookAndFeelFactory.getSystemLookAndFeelClassName();
-            System.out.println( "systemLookAndFeelClassName = " + systemLookAndFeelClassName );
-            UIManager.setLookAndFeel( systemLookAndFeelClassName );
-            System.out.println( "UIManager.getLookAndFeel() = " + UIManager.getLookAndFeel() );
-            System.out.println( "new JLabel( \"Hello\").getUI() = " + new JLabel( "Hello" ).getUI() );
-            Class cx = Class.forName( systemLookAndFeelClassName, true, Thread.currentThread().
-                    getContextClassLoader() );
-            System.out.println( "cx = " + cx );
-            Object inst = cx.newInstance();
-            System.out.println( "inst = " + inst );
+
+//            final String systemLookAndFeelClassName = smooth.SmoothLookAndFeelFactory.getSystemLookAndFeelClassName();
+//            System.out.println( "systemLookAndFeelClassName = " + systemLookAndFeelClassName );
+//            UIManager.setLookAndFeel( systemLookAndFeelClassName );
+        System.out.println( "UIManager.getLookAndFeel() = " + UIManager.getLookAndFeel() );
+        System.out.println( "new JLabel( \"Hello\").getUI() = " + new JLabel( "Hello" ).getUI() );
+//            Class cx = Class.forName( systemLookAndFeelClassName, true, Thread.currentThread().
+//                    getContextClassLoader() );
+//            System.out.println( "cx = " + cx );
+//            Object inst = cx.newInstance();
+//            System.out.println( "inst = " + inst );
 
 //            ComponentUI ui = null;
 //            LookAndFeel multiLAF = UIManager.getLAFState().multiLookAndFeel;
@@ -56,32 +56,20 @@ public class TestWIAUI extends PhetApplication {
 //            if( ui == null ) {
 //                ui = getDefaults().getUI( target );
 //            }
-            JLabel target = new JLabel( "B" );
+        JLabel target = new JLabel( "B" );
 
-            ClassLoader cl = systemLookAndFeelClassName.getClass().getClassLoader();
-            ClassLoader uiClassLoader =
-                    ( cl != null ) ? (ClassLoader)cl : target.getClass().getClassLoader();
-            Class uiClass = UIManager.getDefaults().getUIClass( target.getUIClassID(), uiClassLoader );
-            System.out.println( "uiClass = " + uiClass );
+//            ClassLoader cl = systemLookAndFeelClassName.getClass().getClassLoader();
+//            ClassLoader uiClassLoader =
+//                    ( cl != null ) ? (ClassLoader)cl : target.getClass().getClassLoader();
+//            Class uiClass = UIManager.getDefaults().getUIClass( target.getUIClassID(), uiClassLoader );
+//            System.out.println( "uiClass = " + uiClass );
 
-            ComponentUI ui = UIManager.getUI( target );
-            UIDefaults def = UIManager.getDefaults();
-            System.out.println( "def = " + def.getClass().getName() );
-            System.out.println( "ui = " + ui );
+        ComponentUI ui = UIManager.getUI( target );
+        UIDefaults def = UIManager.getDefaults();
+        System.out.println( "def = " + def.getClass().getName() );
+        System.out.println( "ui = " + ui );
 
-        }
-        catch( ClassNotFoundException e ) {
-            e.printStackTrace();
-        }
-        catch( InstantiationException e ) {
-            e.printStackTrace();
-        }
-        catch( IllegalAccessException e ) {
-            e.printStackTrace();
-        }
-        catch( UnsupportedLookAndFeelException e ) {
-            e.printStackTrace();
-        }
+
         new TestWIAUI( args ).startApplication();
     }
 }
