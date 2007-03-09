@@ -11,14 +11,14 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - hide value on energy slider (DEBUG_SHOW_ENERGY_VALUE = false)
-- disable debug output in RutherfordScattering (DEBUG_OUTPUT_ENABLED=false)
 - AnimationBoxNode.paint gets called twice on clock steps that create/delete an alpha particle
 
 
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
-3/9/07 - show outline of nuclues while dragging sliders to preserve responsiveness
+******** version 0.00.03 (13613)
+3/9/07 - show outline of nucleus while dragging sliders to preserve responsiveness
 3/9/07 - implement dynamic generation of nucleus view in RutherfordAtomNode
 3/9/07 - improve distribution of electrons in plum pudding by giving higher weight to values farther from the center
 3/9/07 - make nucleus radius proportional to cube root of #protons+neutrons
