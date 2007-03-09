@@ -18,6 +18,7 @@ import edu.colorado.phet.rutherfordscattering.model.RutherfordAtom;
 import edu.colorado.phet.rutherfordscattering.module.RutherfordAtomModule;
 import edu.colorado.phet.rutherfordscattering.util.DoubleRange;
 import edu.colorado.phet.rutherfordscattering.util.IntegerRange;
+import edu.colorado.phet.rutherfordscattering.view.LegendPanel;
 
 /**
  * RutherfordAtomControlPanel is the control panel for the "Rutherford Atom" module.
@@ -68,6 +69,9 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         
         _atom = _module.getAtom();
         _atom.addObserver( this );
+        
+        // Legend
+        LegendPanel legendPanel = new LegendPanel();
         
         // Alpha Particle Properties label
         JLabel alphaParticlePropertiesLabel = new JLabel( SimStrings.get( "label.alphaParticleProperties" ) );
@@ -159,22 +163,27 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         }
         
         // Layout
-        addVerticalSpace( 20 );
-        addControlFullWidth( alphaParticlePropertiesLabel );
-        addVerticalSpace( 20 );
-        addControlFullWidth( _energyControl );
-        addVerticalSpace( 20 );
-        addControlFullWidth( _tracesCheckBox );
-        addVerticalSpace( 20 );
+        final int vspace = 10;
+        addVerticalSpace( vspace );
+        addControlFullWidth( legendPanel );
+        addVerticalSpace( vspace );
         addSeparator();
-        addVerticalSpace( 20 );
+        addVerticalSpace( vspace );
+        addControlFullWidth( alphaParticlePropertiesLabel );
+        addVerticalSpace( vspace );
+        addControlFullWidth( _energyControl );
+        addVerticalSpace( vspace );
+        addControlFullWidth( _tracesCheckBox );
+        addVerticalSpace( vspace );
+        addSeparator();
+        addVerticalSpace( vspace );
         addControlFullWidth( atomPropertiesLabel );
-        addVerticalSpace( 20 );
+        addVerticalSpace( vspace );
         addControlFullWidth( _protonsControl );
         addControlFullWidth( _neutronsControl );
-        addVerticalSpace( 20 );
+        addVerticalSpace( vspace );
         addSeparator();
-        addVerticalSpace( 20 );
+        addVerticalSpace( vspace );
         addResetButton();
     }
     

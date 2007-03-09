@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.model.Gun;
 import edu.colorado.phet.rutherfordscattering.module.PlumPuddingAtomModule;
+import edu.colorado.phet.rutherfordscattering.view.LegendPanel;
 
 /**
  * PlumPuddingAtomControlPanel is the control panel for the "Plum Pudding Atom" module.
@@ -56,6 +57,9 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
         
         _gun = _module.getGun();
         _gun.addObserver( this );
+        
+        // Legend
+        LegendPanel legendPanel = new LegendPanel();
         
         // Alpha Particle Properties label
         JLabel titleLabel = new JLabel( SimStrings.get( "label.alphaParticleProperties" ) );
@@ -104,15 +108,20 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
         }
         
         // Layout
-        addVerticalSpace( 20 );
-        addControlFullWidth( titleLabel );
-        addVerticalSpace( 20 );
-        addControlFullWidth( _energyControl );
-        addVerticalSpace( 20 );
-        addControlFullWidth( _tracesCheckBox );
-        addVerticalSpace( 20 );
+        final int vspace = 10;
+        addVerticalSpace( vspace );
+        addControlFullWidth( legendPanel );
+        addVerticalSpace( vspace );
         addSeparator();
-        addVerticalSpace( 20 );
+        addVerticalSpace( vspace );
+        addControlFullWidth( titleLabel );
+        addVerticalSpace( vspace );
+        addControlFullWidth( _energyControl );
+        addVerticalSpace( vspace );
+        addControlFullWidth( _tracesCheckBox );
+        addVerticalSpace( vspace );
+        addSeparator();
+        addVerticalSpace( vspace );
         addResetButton();
     }
     
