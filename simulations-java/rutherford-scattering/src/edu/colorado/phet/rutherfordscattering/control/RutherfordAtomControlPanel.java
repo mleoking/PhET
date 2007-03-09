@@ -71,7 +71,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         _atom.addObserver( this );
         
         // Legend
-        LegendPanel legendPanel = new LegendPanel();
+        LegendPanel legendPanel = new LegendPanel( 0.85 /* iconScale */ );
         
         // Alpha Particle Properties label
         JLabel alphaParticlePropertiesLabel = new JLabel( SimStrings.get( "label.alphaParticleProperties" ) );
