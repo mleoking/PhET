@@ -156,7 +156,6 @@ public class PlumPuddingAtomModule extends AbstractModule {
             _alphaParticleTracesNode = new TracesNode( _model );
             _alphaParticleTracesNode.setBounds( 0, 0, _animationBoxNode.getWidth(), _animationBoxNode.getHeight() );
             _animationBoxNode.getTraceLayer().addChild( _alphaParticleTracesNode );
-            _alphaParticleTracesNode.setEnabled( true );
         }
 
         // Layering order on the canvas (back-to-front)
@@ -215,6 +214,10 @@ public class PlumPuddingAtomModule extends AbstractModule {
         _model.removeAllAlphaParticles();
     }
     
+    public TracesNode getTracesNode() {
+        return _alphaParticleTracesNode;
+    }
+    
     //----------------------------------------------------------------------------
     // AbstractModule implementation
     //----------------------------------------------------------------------------
@@ -235,6 +238,8 @@ public class PlumPuddingAtomModule extends AbstractModule {
         _gun.setEnabled( RSConstants.GUN_ENABLED );
         _gun.setIntensity( RSConstants.GUN_INTENSITY );
         _gun.setSpeed( RSConstants.INITIAL_SPEED_RANGE.getDefault() );
+        
+        _controlPanel.setTracesEnabled( RSConstants.TRACES_ENABLED );
     }
     
     /*

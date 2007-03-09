@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -41,6 +42,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
     private RutherfordAtom _atom;
     private SliderControl _energyControl;
     private ChangeListener _energyListener;
+    private JCheckBox _tracesCheckBox;
     private SliderControl _protonsControl;
     private ChangeListener _protonsListener;
     private SliderControl _neutronsControl;
@@ -97,6 +99,17 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
             _energyControl.addChangeListener( _energyListener );
         }
         
+        // Traces checkbox
+        {
+            _tracesCheckBox = new JCheckBox( SimStrings.get( "label.showTraces" ) );
+            _tracesCheckBox.setSelected( _module.getTracesNode().isEnabled() );
+            _tracesCheckBox.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent event ) {
+                    handleTracesChanged();
+                }
+            } );
+        }
+        
         // Atom Properties label
         JLabel atomPropertiesLabel = new JLabel( SimStrings.get( "label.atomProperties" ) );
         atomPropertiesLabel.setFont( RSConstants.TITLE_FONT );
@@ -151,6 +164,8 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         addVerticalSpace( 20 );
         addControlFullWidth( _energyControl );
         addVerticalSpace( 20 );
+        addControlFullWidth( _tracesCheckBox );
+        addVerticalSpace( 20 );
         addSeparator();
         addVerticalSpace( 20 );
         addControlFullWidth( atomPropertiesLabel );
@@ -169,6 +184,14 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
     public void cleanup() {
         _gun.deleteObserver( this );
         _atom.deleteObserver( this );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors and mutators
+    //----------------------------------------------------------------------------
+    
+    public void setTracesEnabled( boolean enabled ) {
+        _tracesCheckBox.setSelected( enabled );
     }
     
     //----------------------------------------------------------------------------
@@ -192,6 +215,14 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
             // restart the gun when slider is released
             _gun.setRunning( true );
         }
+    }
+    
+    /*
+     * Handles changes to the "Show traces" checkbox.
+     */
+    private void handleTracesChanged() {
+        boolean enabled = _tracesCheckBox.isSelected();
+        _module.getTracesNode().setEnabled( enabled );
     }
     
     /*

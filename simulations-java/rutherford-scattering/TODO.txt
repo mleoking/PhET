@@ -9,7 +9,6 @@ HIGH PRIORITY:
 - AnimationBoxNode.paint gets called twice on clock steps that create/delete an alpha particle
 
 MEDIUM PRIORITY:
-- add "Show traces" control, default on
 - add Legend to top of each control panel, with electron+neutron+proton
 - get description from SM
 - try L/8 instead of L/16
@@ -26,6 +25,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/8/07 - add "Show traces" control, default on, support in Reset All
 3/8/07 - increase electron speed 1.5x, move constant to RSConstants
 3/8/07 - change #neutrons range to 20-150
 3/8/07 - make "Reset All" restore the default clock state

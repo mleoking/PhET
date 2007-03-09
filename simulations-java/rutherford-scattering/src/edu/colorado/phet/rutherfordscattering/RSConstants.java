@@ -114,6 +114,7 @@ public class RSConstants {
     //----------------------------------------------------------------------------
     
     public static final boolean CLOCK_PAUSED = false;
+    public static final boolean TRACES_ENABLED = true;
     public static final boolean GUN_ENABLED = false;
     public static final double GUN_INTENSITY = 1.0; // 0-1 (1=100%)
     public static final DoubleRange INITIAL_SPEED_RANGE = new DoubleRange( 2.5, 15, 10, 1 );

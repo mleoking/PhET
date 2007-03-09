@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -14,7 +15,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.model.Gun;
 import edu.colorado.phet.rutherfordscattering.module.PlumPuddingAtomModule;
-import edu.colorado.phet.rutherfordscattering.util.DoubleRange;
 
 /**
  * PlumPuddingAtomControlPanel is the control panel for the "Plum Pudding Atom" module.
@@ -38,6 +38,7 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
     private Gun _gun;
     private SliderControl _energyControl;
     private ChangeListener _energyListener;
+    private JCheckBox _tracesCheckBox;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -91,11 +92,24 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
             _energyControl.addChangeListener( _energyListener );
         }
         
+        // Traces checkbox
+        {
+            _tracesCheckBox = new JCheckBox( SimStrings.get( "label.showTraces" ) );
+            _tracesCheckBox.setSelected( _module.getTracesNode().isEnabled() );
+            _tracesCheckBox.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent event ) {
+                    handleTracesChanged();
+                }
+            } );
+        }
+        
         // Layout
         addVerticalSpace( 20 );
         addControlFullWidth( titleLabel );
         addVerticalSpace( 20 );
         addControlFullWidth( _energyControl );
+        addVerticalSpace( 20 );
+        addControlFullWidth( _tracesCheckBox );
         addVerticalSpace( 20 );
         addSeparator();
         addVerticalSpace( 20 );
@@ -107,6 +121,14 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
      */
     public void cleanup() {
         _gun.deleteObserver( this );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors and mutators
+    //----------------------------------------------------------------------------
+    
+    public void setTracesEnabled( boolean enabled ) {
+        _tracesCheckBox.setSelected( enabled );
     }
     
     //----------------------------------------------------------------------------
@@ -132,6 +154,14 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
         }
     }
 
+    /*
+     * Handles changes to the "Show traces" checkbox.
+     */
+    private void handleTracesChanged() {
+        boolean enabled = _tracesCheckBox.isSelected();
+        _module.getTracesNode().setEnabled( enabled );
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
