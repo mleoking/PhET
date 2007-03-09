@@ -86,6 +86,9 @@ public class MoleculeSeparationPane extends PPath {
 
     public void reset() {
         tracker.reset();
+
+        removeSelectedMoleculeGraphic();
+        removeNearestToSelectedMoleculeGraphic();
     }
 
     public void terminate() {
