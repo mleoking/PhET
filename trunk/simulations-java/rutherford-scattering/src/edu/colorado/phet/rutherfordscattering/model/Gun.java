@@ -20,6 +20,7 @@ import edu.colorado.phet.rutherfordscattering.util.DoubleRange;
  * It is located at a point in space with a specific orientation and it 
  * has a nozzle with a specific width.
  * The gun's local origin is at the center of its nozzle.
+ * When the orientation is zero, the gun points to the right.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
