@@ -2,15 +2,16 @@
 
 package edu.colorado.phet.rutherfordscattering.control;
 
+import java.awt.GridBagConstraints;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BorderFactory;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.model.Gun;
@@ -71,118 +72,135 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         _atom.addObserver( this );
         
         // Legend
-        LegendPanel legendPanel = new LegendPanel( 0.85 /* iconScale */ );
+        LegendPanel legendPanel = new LegendPanel( 0.85 /* iconScale */, RSConstants.TITLE_FONT, RSConstants.CONTROL_FONT );
         
-        // Alpha Particle Properties label
-        JLabel alphaParticlePropertiesLabel = new JLabel( SimStrings.get( "label.alphaParticleProperties" ) );
-        alphaParticlePropertiesLabel.setFont( RSConstants.TITLE_FONT );
-        
-        // Energy
+        // Alpha Particles panel
+        JPanel alphaParticlesPanel = new JPanel();
         {
-            double value = _gun.getSpeed();
-            double min = _gun.getMinSpeed();
-            double max = _gun.getMaxSpeed();
-            double tickSpacing = max - min;
-            int tickDecimalPlaces = 0;
-            int valueDecimalPlaces = 1;
-            String label = SimStrings.get( "label.energy" );
-            String units = "";
-            int columns = 3;
-            _energyControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
-            _energyControl.setBorder( BorderFactory.createEtchedBorder() );
-            _energyControl.setTextFieldEditable( true );
-            if ( !DEBUG_SHOW_ENERGY_VALUE ) {
-                _energyControl.setTextFieldVisible( false );
+            TitledBorder border = new TitledBorder( SimStrings.get( "label.alphaParticleProperties" ) );
+            border.setTitleFont( RSConstants.TITLE_FONT );
+            alphaParticlesPanel.setBorder( border );
+
+            // Energy control
+            {
+                double value = _gun.getSpeed();
+                double min = _gun.getMinSpeed();
+                double max = _gun.getMaxSpeed();
+                double tickSpacing = max - min;
+                int tickDecimalPlaces = 0;
+                int valueDecimalPlaces = 1;
+                String label = SimStrings.get( "label.energy" );
+                String units = "";
+                int columns = 3;
+                _energyControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+                _energyControl.setTextFieldEditable( true );
+                if ( !DEBUG_SHOW_ENERGY_VALUE ) {
+                    _energyControl.setTextFieldVisible( false );
+                }
+                _energyControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
+                _energyListener = new ChangeListener() {
+                    public void stateChanged( ChangeEvent event ) {
+                        _module.removeAllAlphaParticles();
+                        _gun.setRunning( false );
+                        if ( !_energyControl.isAdjusting() ) {
+                            handleEnergyChange();
+                            _gun.setRunning( true );
+                        }
+                    }
+                };
+                _energyControl.addChangeListener( _energyListener );
             }
-            _energyControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
-            _energyListener = new ChangeListener() {
-                public void stateChanged( ChangeEvent event ) {
-                    handleEnergyChange();
-                }
-            };
-            _energyControl.addChangeListener( _energyListener );
+
+            // Traces checkbox
+            {
+                _tracesCheckBox = new JCheckBox( SimStrings.get( "label.showTraces" ) );
+                _tracesCheckBox.setSelected( _module.getTracesNode().isEnabled() );
+                _tracesCheckBox.addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent event ) {
+                        handleTracesChanged();
+                    }
+                } );
+            }
+            
+            // Layout
+            EasyGridBagLayout layout = new EasyGridBagLayout( alphaParticlesPanel );
+            alphaParticlesPanel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.WEST );
+            int row = 0;
+            int col = 0;
+            layout.addComponent( _energyControl, row++, col );
+            layout.addFilledComponent( new JSeparator(), row++, col, GridBagConstraints.HORIZONTAL );
+            layout.addComponent( _tracesCheckBox, row++, col );
         }
         
-        // Traces checkbox
+        JPanel atomPanel = new JPanel();
         {
-            _tracesCheckBox = new JCheckBox( SimStrings.get( "label.showTraces" ) );
-            _tracesCheckBox.setSelected( _module.getTracesNode().isEnabled() );
-            _tracesCheckBox.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent event ) {
-                    handleTracesChanged();
-                }
-            } );
-        }
-        
-        // Atom Properties label
-        JLabel atomPropertiesLabel = new JLabel( SimStrings.get( "label.atomProperties" ) );
-        atomPropertiesLabel.setFont( RSConstants.TITLE_FONT );
-        
-        // Number of protons
-        {
-            int value = _atom.getNumberOfProtons();
-            int min = _atom.getMinNumberOfProtons();
-            int max = _atom.getMaxNumberOfProtons();
-            int tickSpacing = max - min;
-            int tickDecimalPlaces = 0;
-            int valueDecimalPlaces = 0;
-            String label = SimStrings.get( "label.numberOfProtons" );
-            String units = "";
-            int columns = 3;
-            _protonsControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
-            _protonsControl.setBorder( BorderFactory.createEtchedBorder() );
-            _protonsControl.setTextFieldEditable( true );
-            _protonsListener = new ChangeListener() {
-                public void stateChanged( ChangeEvent event ) {
-                    handleProtonsChange();
-                }
-            };
-            _protonsControl.addChangeListener( _protonsListener );
-        }
-        
-        // Number of neutrons
-        {
-            int value = _atom.getNumberOfNeutrons();
-            int min = _atom.getMinNumberOfNeutrons();
-            int max = _atom.getMaxNumberOfNeutrons();
-            int tickSpacing = max - min;
-            int tickDecimalPlaces = 0;
-            int valueDecimalPlaces = 0;
-            String label = SimStrings.get( "label.numberOfNeutrons" );
-            String units = "";
-            int columns = 3;
-            _neutronsControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
-            _neutronsControl.setBorder( BorderFactory.createEtchedBorder() );
-            _neutronsControl.setTextFieldEditable( true );
-            _neutronsListener = new ChangeListener() {
-                public void stateChanged( ChangeEvent event ) {
-                    handleNeutronsChange();
-                }
-            };
-            _neutronsControl.addChangeListener( _neutronsListener );
+            TitledBorder border = new TitledBorder( SimStrings.get( "label.atomProperties" ) );
+            border.setTitleFont( RSConstants.TITLE_FONT );
+            atomPanel.setBorder( border );
+
+            // Number of protons
+            {
+                int value = _atom.getNumberOfProtons();
+                int min = _atom.getMinNumberOfProtons();
+                int max = _atom.getMaxNumberOfProtons();
+                int tickSpacing = max - min;
+                int tickDecimalPlaces = 0;
+                int valueDecimalPlaces = 0;
+                String label = SimStrings.get( "label.numberOfProtons" );
+                String units = "";
+                int columns = 3;
+                _protonsControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+                _protonsControl.setTextFieldEditable( true );
+                _protonsListener = new ChangeListener() {
+
+                    public void stateChanged( ChangeEvent event ) {
+                        handleProtonsChange();
+                    }
+                };
+                _protonsControl.addChangeListener( _protonsListener );
+            }
+
+            // Number of neutrons
+            {
+                int value = _atom.getNumberOfNeutrons();
+                int min = _atom.getMinNumberOfNeutrons();
+                int max = _atom.getMaxNumberOfNeutrons();
+                int tickSpacing = max - min;
+                int tickDecimalPlaces = 0;
+                int valueDecimalPlaces = 0;
+                String label = SimStrings.get( "label.numberOfNeutrons" );
+                String units = "";
+                int columns = 3;
+                _neutronsControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+                _neutronsControl.setTextFieldEditable( true );
+                _neutronsListener = new ChangeListener() {
+
+                    public void stateChanged( ChangeEvent event ) {
+                        handleNeutronsChange();
+                    }
+                };
+                _neutronsControl.addChangeListener( _neutronsListener );
+            }
+            
+            // Layout
+            EasyGridBagLayout layout = new EasyGridBagLayout( atomPanel );
+            atomPanel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.WEST );
+            int row = 0;
+            int col = 0;
+            layout.addComponent( _protonsControl, row++, col );
+            layout.addFilledComponent( new JSeparator(), row++, col, GridBagConstraints.HORIZONTAL );
+            layout.addComponent( _neutronsControl, row++, col );
         }
         
         // Layout
-        final int vspace = 10;
-        addVerticalSpace( vspace );
+        final int vspace = 15;
         addControlFullWidth( legendPanel );
         addVerticalSpace( vspace );
-        addSeparator();
+        addControlFullWidth( alphaParticlesPanel );
         addVerticalSpace( vspace );
-        addControlFullWidth( alphaParticlePropertiesLabel );
-        addVerticalSpace( vspace );
-        addControlFullWidth( _energyControl );
-        addVerticalSpace( vspace );
-        addControlFullWidth( _tracesCheckBox );
-        addVerticalSpace( vspace );
-        addSeparator();
-        addVerticalSpace( vspace );
-        addControlFullWidth( atomPropertiesLabel );
-        addVerticalSpace( vspace );
-        addControlFullWidth( _protonsControl );
-        addControlFullWidth( _neutronsControl );
-        addVerticalSpace( vspace );
-        addSeparator();
+        addControlFullWidth(atomPanel );
         addVerticalSpace( vspace );
         addResetButton();
     }

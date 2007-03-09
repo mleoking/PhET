@@ -5,7 +5,6 @@ package edu.colorado.phet.rutherfordscattering.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
-import java.awt.Image;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -15,7 +14,6 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -33,58 +31,49 @@ public class LegendPanel extends JPanel {
     // Various things that I was asked to remove from the legend...
     private static final boolean SHOW_ALPHA_PARTICLES = false;
 
-    private static final Font FONT = RSConstants.CONTROL_FONT;
-    
     private static final Color TEXT_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Constructors data
     //----------------------------------------------------------------------------
-
-    /**
-     * Constructor.
-     */
-    public LegendPanel() {
-        this( 1 /* iconScale */ );
-    }
     
     /**
      * Constructor.
      */
-    public LegendPanel( double iconScale ) {
+    public LegendPanel( double iconScale, Font titleFont, Font labelFont ) {
         super();
 
         ElectronNode electronNode = new ElectronNode();
         electronNode.scale( iconScale );
         JLabel electronImage = toJLabel( electronNode );
         JLabel electronText = new JLabel( SimStrings.get( "label.electron" ) );
-        electronText.setFont( FONT );
+        electronText.setFont( labelFont );
         electronText.setForeground( TEXT_COLOR );
         
         ProtonNode protonNode = new ProtonNode();
         protonNode.scale( iconScale );
         JLabel protonImage = toJLabel( protonNode );
         JLabel protonText = new JLabel( SimStrings.get( "label.proton" ) );
-        protonText.setFont( FONT );
+        protonText.setFont( labelFont );
         protonText.setForeground( TEXT_COLOR );
         
         NeutronNode neutronNode = new NeutronNode();
         neutronNode.scale( iconScale );
         JLabel neutronImage = toJLabel( neutronNode );
         JLabel neutronText = new JLabel( SimStrings.get( "label.neutron" ) );
-        neutronText.setFont( FONT );
+        neutronText.setFont( labelFont );
         neutronText.setForeground( TEXT_COLOR );
         
         PImage alphaParticleNode = new PImage( AlphaParticleNode.createImage() );
         alphaParticleNode.scale( iconScale );
         JLabel alphaParticleImage = toJLabel( alphaParticleNode );
         JLabel alphaParticleText = new JLabel( SimStrings.get( "label.alphaParticle" ) );
-        alphaParticleText.setFont( FONT );
+        alphaParticleText.setFont( labelFont );
         alphaParticleText.setForeground( TEXT_COLOR );
 
         // Border
         TitledBorder titledBorder = new TitledBorder( SimStrings.get( "label.legend" ) );
-        titledBorder.setTitleFont( FONT );
+        titledBorder.setTitleFont( titleFont );
         setBorder( titledBorder );
 
         // Layout
