@@ -226,7 +226,7 @@ public class SliderControl extends JPanel {
             }
         }
         else {
-            warnUser();
+            Toolkit.getDefaultToolkit().beep();
             System.out.println( "SliderControl.setValue: invalid value for slider labeled \"" + _valueLabel.getText() + "\", " + "range is " + _min + " to " + _max + ", tried to set " + value );
             updateView(); // revert
         }
@@ -539,13 +539,6 @@ public class SliderControl extends JPanel {
         return new DecimalFormat( format );
     }
     
-    /*
-     * Produces an audible beep, used to indicate invalid text entry.
-     */
-    private void warnUser() {
-        Toolkit.getDefaultToolkit().beep();
-    }
-    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
@@ -576,7 +569,16 @@ public class SliderControl extends JPanel {
          */
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _valueTextField ) {
-                setValue( getTextFieldValue() );
+                double value = getTextFieldValue();
+                if ( value < _min ) {
+                    value = _min;
+                    Toolkit.getDefaultToolkit().beep();
+                }
+                else if ( value > _max ) {
+                    value = _max;
+                    Toolkit.getDefaultToolkit().beep();
+                }
+                setValue( value );
             }
         }
         
@@ -612,7 +614,7 @@ public class SliderControl extends JPanel {
                     setValue( getTextFieldValue() );
                 }
                 catch ( ParseException pe ) {
-                    warnUser();
+                    Toolkit.getDefaultToolkit().beep();
                     updateView(); // revert
                 }
             }
