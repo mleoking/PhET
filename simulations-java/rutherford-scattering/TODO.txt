@@ -17,7 +17,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
-******** version 0.00.03 (13682)
+******** version 0.00.03 (13684)
 3/9/07 - show outline of nucleus while dragging sliders to preserve responsiveness
 3/9/07 - implement dynamic generation of nucleus view in RutherfordAtomNode
 3/9/07 - improve distribution of electrons in plum pudding by giving higher weight to values farther from the center
