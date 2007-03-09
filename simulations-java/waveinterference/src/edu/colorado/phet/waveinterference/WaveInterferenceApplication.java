@@ -5,11 +5,9 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 import edu.colorado.phet.waveinterference.util.WIStrings;
-import smooth.SmoothLookAndFeelFactory;
 
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 
 /**
  * User: Sam Reid

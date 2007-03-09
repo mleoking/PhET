@@ -27,7 +27,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo/extras" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo/tests" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../contrib/smoothmetal-1.1/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/balloons/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/balloons/src-pc" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/batteryvoltage/src" isTestSource="false" />
