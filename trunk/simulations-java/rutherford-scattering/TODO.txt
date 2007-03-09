@@ -25,6 +25,9 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/9/07 - constrain gun to keep alpha particles away from x0=0
+3/9/07 - reduce max radius of nucleus
+3/9/07 - reorganize RutherfordScattering.moveParticle to improve readability
 3/8/07 - add missing SimStrings for title.confirm
 3/8/07 - add Legend to top of each control panel
 3/8/07 - add "Show traces" control, default on, support in Reset All

@@ -23,7 +23,7 @@ public class RutherfordAtomNode extends PhetPNode implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double MAX_NUCLEUS_RADIUS = 80; // view coordinates
+    private static final double MAX_NUCLEUS_RADIUS = 60; // view coordinates
     private static final double MIN_NUCLEUS_RADIUS = 10; // view coordinates
     
     //----------------------------------------------------------------------------
