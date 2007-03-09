@@ -41,18 +41,36 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
         model.addListener( this );
     }
 
-    private void setMoleculeTracked( SimpleMolecule moleculeTracked ) {
-        SimpleMolecule prevMolecule = this.moleculeTracked;
-        // If the previously tracked molecule is different than the one we are to
-        // track now, tell the previously tracked molecule that it is no longer
-        // selected
-        if( prevMolecule != null &&
-            prevMolecule != moleculeTracked &&
-            prevMolecule.getSelectionStatus() != Selectable.NOT_SELECTED ) {
-            prevMolecule.setSelectionStatus( Selectable.NOT_SELECTED );
+    private void setMoleculeTracked( SimpleMolecule newMoleculeTracked ) {
+        SimpleMolecule prevMolecule = moleculeTracked;
+
+        if (prevMolecule != newMoleculeTracked) {
+            // If the previously tracked molecule is different than the one we are to
+            // track now, tell the previously tracked molecule that it is no longer
+            // selected
+            if( prevMolecule != null &&
+                prevMolecule.getSelectionStatus() != Selectable.NOT_SELECTED ) {
+                prevMolecule.setSelectionStatus( Selectable.NOT_SELECTED );
+            }
+            moleculeTracked = newMoleculeTracked;
+            listenerProxy.moleculeBeingTrackedChanged( newMoleculeTracked, prevMolecule );
         }
-        this.moleculeTracked = moleculeTracked;
-        listenerProxy.moleculeBeingTrackedChanged( moleculeTracked, prevMolecule );
+    }
+
+    private void setClosestMolecule( SimpleMolecule newClosestMolecule ) {
+        SimpleMolecule prevClosest = closestMolecule;
+
+        if (prevClosest != newClosestMolecule) {
+            // If the previously tracked molecule is different than the one we are to
+            // track now, tell the previously tracked molecule that it is no longer
+            // selected
+            if( prevClosest != null &&
+                prevClosest.getSelectionStatus() != Selectable.NOT_SELECTED ) {
+                prevClosest.setSelectionStatus( Selectable.NOT_SELECTED );
+            }
+            closestMolecule = newClosestMolecule;
+            listenerProxy.closestMoleculeChanged( closestMolecule, prevClosest );
+        }
     }
 
     public SimpleMolecule getMoleculeTracked() {
@@ -71,46 +89,19 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
         if( moleculeTracked != null ) {
 
             // Determine which type of molecules are eligible to be "closest".
-            Class nearestMoleculeType = null;
-            if( moleculeTracked instanceof MoleculeA ) {
-                if( moleculeTracked.isPartOfComposite() ) {
-                    nearestMoleculeType = MoleculeC.class;
-                }
-                else {
-                    nearestMoleculeType = MoleculeB.class;
-                }
-            }
-            if( moleculeTracked instanceof MoleculeC ) {
-                if( moleculeTracked.isPartOfComposite() ) {
-                    nearestMoleculeType = MoleculeA.class;
-                }
-                else {
-                    nearestMoleculeType = MoleculeB.class;
-                }
-            }
-            if( moleculeTracked instanceof MoleculeB ) {
-                CompositeMolecule cm = (CompositeMolecule)moleculeTracked.getParentComposite();
-                AbstractMolecule[] components = cm.getComponentMolecules();
-                if( components[0] == moleculeTracked ) {
-                    nearestMoleculeType = components[1].getClass();
-                }
-                else {
-                    nearestMoleculeType = components[0].getClass();
-                }
-            }
+            Class nearestMoleculeType = getNearestMoleculeType();
 
             // Find the closest eligible molecule to the selected molecule
-            SimpleMolecule prevClosetMolecule = closestMolecule;
-            closestMolecule = null;
+            SimpleMolecule newClosestMolecule = null;
+
             double closestDistSq = Double.POSITIVE_INFINITY;
+
             for( int i = 0; i < modelElements.size(); i++ ) {
                 Object o = modelElements.get( i );
                 if( nearestMoleculeType.isInstance( o ) ) {
                     SimpleMolecule testMolecule = (SimpleMolecule)o;
                     if( moleculeTracked.isPartOfComposite() && !testMolecule.isPartOfComposite()
                         || !moleculeTracked.isPartOfComposite() && testMolecule.isPartOfComposite() ) {
-//                    if( moleculeTracked instanceof MoleculeA && testMolecule instanceof MoleculeB
-//                        || moleculeTracked instanceof MoleculeC && testMolecule instanceof MoleculeB ) {
 
                         // Make sure that the non-B molecule in the composite is not the same type as the
                         // non-composite
@@ -125,27 +116,49 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
                         double distSq = moleculeTracked.getPosition().distanceSq( testMolecule.getPosition() );
                         if( distSq < closestDistSq ) {
                             closestDistSq = distSq;
-                            closestMolecule = testMolecule;
+                            newClosestMolecule = testMolecule;
                         }
                     }
                 }
             }
 
-            if( closestMolecule != null && closestMolecule != prevClosetMolecule ) {
-                if( prevClosetMolecule != null ) {
-                    prevClosetMolecule.setSelectionStatus( Selectable.NOT_SELECTED );
-                }
-                closestMolecule.setSelectionStatus( Selectable.NEAREST_TO_SELECTED );
-                listenerProxy.closestMoleculeChanged( closestMolecule, prevClosetMolecule );
-                // Send this message, too, in case a reaction happened and the tracked molecule
-                // is now part of a composite, or vice versa
-                listenerProxy.moleculeBeingTrackedChanged( moleculeTracked, moleculeTracked );
-            }
+            setClosestMolecule( newClosestMolecule );
+        }
+        else {
+            setClosestMolecule( null );
+        }
+    }
 
-            if( !( closestMolecule instanceof MoleculeB || moleculeTracked instanceof MoleculeB ) ) {
-//                System.out.println( "SelectedMoleculeTracker.stepInTime" );
+    private Class getNearestMoleculeType() {
+        Class nearestMoleculeType = null;
+
+        if( moleculeTracked instanceof MoleculeA ) {
+            if( moleculeTracked.isPartOfComposite() ) {
+                nearestMoleculeType = MoleculeC.class;
+            }
+            else {
+                nearestMoleculeType = MoleculeB.class;
             }
         }
+        if( moleculeTracked instanceof MoleculeC ) {
+            if( moleculeTracked.isPartOfComposite() ) {
+                nearestMoleculeType = MoleculeA.class;
+            }
+            else {
+                nearestMoleculeType = MoleculeB.class;
+            }
+        }
+        if( moleculeTracked instanceof MoleculeB ) {
+            CompositeMolecule cm = (CompositeMolecule)moleculeTracked.getParentComposite();
+            AbstractMolecule[] components = cm.getComponentMolecules();
+            if( components[0] == moleculeTracked ) {
+                nearestMoleculeType = components[1].getClass();
+            }
+            else {
+                nearestMoleculeType = components[0].getClass();
+            }
+        }
+        return nearestMoleculeType;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -175,7 +188,7 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
 
         if( getMoleculeTracked() == molecule && molecule.getSelectionStatus() != Selectable.SELECTED ) {
             setMoleculeTracked( null );
-            closestMolecule = null;
+            setClosestMolecule( null );
         }
     }
 

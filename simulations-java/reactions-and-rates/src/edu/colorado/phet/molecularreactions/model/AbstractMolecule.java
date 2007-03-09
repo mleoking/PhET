@@ -203,6 +203,10 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
                               force.getY() / this.getMass() );
     }
 
+    public String toString() {
+        return getClass().getName() + hashCode();
+    }
+
     //--------------------------------------------------------------------------------------------------
     //  Abstract methods
     //--------------------------------------------------------------------------------------------------
