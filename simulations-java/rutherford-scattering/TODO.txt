@@ -9,7 +9,6 @@ HIGH PRIORITY:
 - AnimationBoxNode.paint gets called twice on clock steps that create/delete an alpha particle
 
 MEDIUM PRIORITY:
-- make subsections of control panels more distinct
 - get description from SM
 - try L/8 instead of L/16
 - increase min nucleus radius
@@ -23,6 +22,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
 
 DONE:
+3/9/07 - make subsections of control panels more distinct, use consistent fonts
 3/9/07 - add icon scaling to Legend so that particle sizes match the play area
 3/9/07 - make protons, neutrons & electrons 25% smaller
 3/9/07 - change Energy range to [5,12]
