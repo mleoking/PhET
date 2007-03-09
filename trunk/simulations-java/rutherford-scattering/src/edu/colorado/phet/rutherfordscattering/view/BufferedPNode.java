@@ -36,7 +36,9 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * by rebuilding the rescaled image of the managed node.
  * But it's probably not appropriate (or efficient) to use this node
  * if the managed node's children are changing frequently.
- * (3) The current implementation doesn't correctly account for view transforms (i.e. transfoms on PCameras)..
+ * <p>
+ * (3) The current implementation doesn't correctly account for 
+ * view transforms (i.e. transfoms on PCameras).
  * 
  * @author Sam Reid, Chris Malley
  */
