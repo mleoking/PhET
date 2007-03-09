@@ -223,6 +223,15 @@ public class PlumPuddingAtomModule extends AbstractModule {
      * Resets the module to its default state.
      */
     public void reset() {
+        
+        IClock clock = getClock();
+        if ( RSConstants.CLOCK_PAUSED ) {
+            clock.pause();
+        }
+        else {
+            clock.start();
+        }
+        
         _gun.setEnabled( RSConstants.GUN_ENABLED );
         _gun.setIntensity( RSConstants.GUN_INTENSITY );
         _gun.setSpeed( RSConstants.INITIAL_SPEED_RANGE.getDefault() );
