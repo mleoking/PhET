@@ -25,8 +25,11 @@ public class RutherfordScattering {
     // Formatter, for debug output
     private static final DecimalFormat F = new DecimalFormat( "0.00" );
     
-    // Value of x used when x==0 (this algorithm fails when x==0)
-    public static final double X_MIN = 0.01;
+    // algorithm fails for x=0, so use this min value
+    public static final double X_MIN = 0.00001;
+    
+    // Divisor for L used in the calculation of D.
+    public static final double L_DIVISOR = 16;
     
     /* Not intended for instantiation */
     private RutherfordScattering() {}
@@ -49,6 +52,10 @@ public class RutherfordScattering {
      * (5) Using "phi=arctan(-x,y)" as described in the spec causes
      * particles to jump discontinuously when they go above the y axis.
      * This is fixed by using Math.atan2 instead.
+     * (6) Depending on the parameters supplied, the algorithm will tend
+     * to fail as the alpha particle's horizontal position (x) gets closer
+     * to zero. So the Gun model is calibrated to fire alpha particles 
+     * with some min initial x value.
      *
      * @param dt the time step
      * @param alphaParticle the alpha particle
@@ -59,49 +66,61 @@ public class RutherfordScattering {
 
         assert( dt > 0 );
         assert( boxSize.getWidth() == boxSize.getHeight() ); // box must be square!
-
-        // particle properties
-        double x = alphaParticle.getX();
-        double y = alphaParticle.getY();
-        final double s = alphaParticle.getSpeed();
-        final double s0 = alphaParticle.getInitialSpeed();
-        final double sd = alphaParticle.getDefaultSpeed();
         
-        // atom properties
-        final int p = atom.getNumberOfProtons();
-        final int pd = atom.getDefaultNumberOfProtons();
+        //-------------------------------------------------------------------------------
+        // misc constants that we'll need
+        //-------------------------------------------------------------------------------
         
-        // Calculate D
         final double L = boxSize.getWidth();
-        final double D = ( L / 16 ) * ( p / (double)pd ) * ( ( sd * sd ) / ( s0 * s0 ) );
         
-        // Alpha particle's initial position, relative to the atom's center.
+        final int p = atom.getNumberOfProtons(); // protons in the atom's nucleus
+        final int pd = atom.getDefaultNumberOfProtons(); // default setting for the sim
+        
+        final double s = alphaParticle.getSpeed();  // particle's current speed
+        final double s0 = alphaParticle.getInitialSpeed(); // speed when it left the gun
+        final double sd = alphaParticle.getDefaultSpeed(); // default setting for the sim
+        
+        //-------------------------------------------------------------------------------
+        // (x0,y0) : the alpha particle's initial position, relative to the atom's center.
+        //-------------------------------------------------------------------------------
+        
         double x0 = Math.abs( alphaParticle.getInitialPosition().getX() - atom.getX() );
         if ( x0 == 0 ) {
-            x0 = X_MIN; // algorithm fails for x0=0
+            x0 = X_MIN; // algorithm fails for x0 < X_MIN
         }
-        assert( x0 > 0 );
+
         double y0 = alphaParticle.getInitialPosition().getY() - atom.getY();
         y0 *= -1; // flip y0 sign from model to algorithm
+        
+        //-------------------------------------------------------------------------------
+        // (x,y) : the alpha particle's current position, relative to the atom's center
+        //-------------------------------------------------------------------------------
+        
+        double x = alphaParticle.getX() - atom.getX();
+        boolean xWasNegative = false;
+        if ( x < 0 ) {
+            // This algorithm fails for x < 0, so adjust accordingly.
+            x *= -1;
+            xWasNegative = true;
+        }
+        assert ( x >= 0 );
 
+        double y = alphaParticle.getY() - atom.getY();
+        y *= -1; // flip y sign from model to algorithm
+
+        //-------------------------------------------------------------------------------
+        // calculate D
+        //-------------------------------------------------------------------------------
+        
+        final double D = ( L / L_DIVISOR ) * ( p / (double)pd ) * ( ( sd * sd ) / ( s0 * s0 ) );
+        
+        //-------------------------------------------------------------------------------
+        // calculate new alpha particle position, in Polar coordinates
+        //-------------------------------------------------------------------------------
+        
         // b, horizontal distance to atom's center at y == negative infinity
         final double b1 = Math.sqrt( ( x0 * x0 ) + ( y0 * y0 ) );
         final double b = 0.5 * ( x0 + Math.sqrt( ( -2 * D * b1 ) - ( 2 * D * y0 ) + ( x0 * x0 ) ) );
-
-        // adjust for atom position
-        x -= atom.getX();
-        y -= atom.getY();
-        
-        // This algorithm fails for x < 0, so adjust accordingly.
-        int sign = 1;
-        if ( x < 0 ) {
-            x *= -1;
-            sign = -1;
-        }
-        assert( x >= 0 );
-        
-        // flip y sign from model to algorithm
-        y *= -1;
         
         // convert current position to Polar coordinates, measured counterclockwise from the -y axis
         final double r = Math.sqrt( ( x * x ) + ( y * y ) );
@@ -113,61 +132,71 @@ public class RutherfordScattering {
         final double rNew = Math.abs( ( b * b ) / ( ( b * Math.sin( phiNew ) ) + ( ( D / 2 ) * ( Math.cos( phiNew ) - 1 ) ) ) );
         double sNew = s0 * Math.sqrt( 1 - ( D / rNew ) );
         
-        // convert new position to Cartesian coordinates
+        //-------------------------------------------------------------------------------
+        // convert to Cartesian coordinates
+        //-------------------------------------------------------------------------------
+        
         double xNew = rNew * Math.sin( phiNew );
+        if ( xWasNegative ) {
+            xNew *= -1; // restore the sign
+        }
+        
         double yNew = -rNew * Math.cos( phiNew );
+        yNew *= -1; // flip y sign from algorithm to model
         
-        // Adjust the sign of x.
-        xNew *= sign;
+        //-------------------------------------------------------------------------------
+        // detect failures in the algorithm
+        //-------------------------------------------------------------------------------
         
-        // flip y sign from algorithm to model
-        yNew *= -1;
+        boolean error = false;
+
+        if ( !( b > 0 ) ) {
+            System.err.println( "ERROR: RutherfordScattering.moveParticle, b=" + b );
+            error = true;
+        }
+
+        if ( !( sNew > 0 ) ) {
+            System.err.println( "ERROR: RutherfordScattering.moveParticle, newSpeed=" + sNew + ", reverting to " + s );
+            sNew = s;
+            error = true;
+        }
+
+        // Debugging output, in coordinates relative to the atom's center
+        if ( DEBUG_OUTPUT_ENABLED && error ) {
+            System.out.println( "DEBUG: RutherfordScattering.moveParticle [" );
+            System.out.println( "  particle id=" + alphaParticle.getId() );
+            System.out.println( "  constants:" );
+            System.out.println( "    dt=" + F.format( dt ) );
+            System.out.println( "    b=" + b );
+            System.out.println( "    L=" + F.format( L ) );
+            System.out.println( "    D=" + D );
+            System.out.println( "    (x0,y0)=(" + F.format( x0 ) + "," + F.format( y0 ) + ")" );
+            System.out.println( "    s0=" + F.format( s0 ) );
+            System.out.println( "    sd=" + F.format( sd ) );
+            System.out.println( "    p=" + p );
+            System.out.println( "    pd=" + pd );
+            System.out.println( "  current state:" );
+            System.out.println( "    (x,y)=(" + F.format( x ) + "," + F.format( y ) + ")" );
+            System.out.println( "    (r,phi)=(" + F.format( r ) + "," + F.format( Math.toDegrees( phi ) ) + ")" );
+            System.out.println( "    s=" + F.format( s ) );
+            System.out.println( "  new state:" );
+            System.out.println( "    (x,y)=(" + F.format( xNew ) + "," + F.format( yNew ) + ")" );
+            System.out.println( "    (r,phi)=(" + F.format( rNew ) + "," + F.format( Math.toDegrees( phiNew ) ) + ")" );
+            System.out.println( "    s=" + sNew );
+            System.out.println( "]" );
+        }
+
+        //-------------------------------------------------------------------------------
+        // adjust position to be absolute
+        //-------------------------------------------------------------------------------
         
-        // adjust for atom position
         xNew += atom.getX();
         yNew += atom.getY();
         
-        // Handle algoritm failures gracefully.
-        {
-            boolean error = false;
-            
-            if ( !( b > 0 ) ) {
-                System.err.println( "ERROR: b=" + b );
-                error = true;
-            }
-            
-            if ( !( sNew > 0 ) ) {
-                System.err.println( "ERROR: newSpeed=" + sNew + ", reverting to " + s );
-                sNew = s;
-                error = true;
-            }
-            
-            // Debugging output, in coordinates relative to atom's center
-            if ( DEBUG_OUTPUT_ENABLED && error ) {
-                System.out.println( "DEBUG: RutherfordScattering.moveParticle [" );
-                System.out.println( "  particle id=" + alphaParticle.getId() );
-                System.out.println( "  constants:" );
-                System.out.println( "    dt=" + F.format( dt ) );
-                System.out.println( "    b=" + b );
-                System.out.println( "    L=" + F.format( L ) );
-                System.out.println( "    D=" + D );
-                System.out.println( "    (x0,y0)=(" + F.format( x0 ) + "," + F.format( y0 ) + ")" );
-                System.out.println( "    s0=" + F.format( s0 ) );
-                System.out.println( "    sd=" + F.format( sd ) );
-                System.out.println( "    p=" + p );
-                System.out.println( "    pd=" + pd );
-                System.out.println( "  current state:" );
-                System.out.println( "    (x,y)=(" + F.format( x ) + "," + F.format( y ) + ")" );
-                System.out.println( "    (r,phi)=(" + F.format( r ) + "," + F.format( Math.toDegrees( phi ) ) + ")" );
-                System.out.println( "    s=" + F.format( s ) );
-                System.out.println( "  new state:" );
-                System.out.println( "    (x,y)=(" + F.format( xNew ) + "," + F.format( yNew ) + ")" );
-                System.out.println( "    (r,phi)=(" + F.format( rNew ) + "," + F.format( Math.toDegrees( phiNew ) ) + ")" );
-                System.out.println( "    s=" + sNew );
-                System.out.println( "]" );
-            }
-        }
-        
+        //-------------------------------------------------------------------------------
+        // set the alpha particle's new properties
+        //-------------------------------------------------------------------------------
+
         alphaParticle.setPosition( xNew, yNew );
         alphaParticle.setSpeed( sNew );
         alphaParticle.setOrientation( phiNew );

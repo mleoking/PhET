@@ -38,6 +38,8 @@ public class Gun extends FixedObject implements ModelElement {
     private static final double DEFAULT_INTENSITY = 1; // 100%
     private static final int DEFAULT_MAX_PARTICLES = 20;
     
+    private static final double Y_ABSOLUTE_MIN = 10;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -57,6 +59,7 @@ public class Gun extends FixedObject implements ModelElement {
     private double _dtSinceGunFired; // dt since the gun was last fired
     
     private Random _randomPosition; // random number generator for alpha particle positions
+    private Random _randomSign; // random number generator for +/- sign
     
     private EventListenerList _listenerList;
     
@@ -94,6 +97,7 @@ public class Gun extends FixedObject implements ModelElement {
         _intensity = DEFAULT_INTENSITY;
       
         _randomPosition = new Random();
+        _randomSign = new Random();
         
         _dtSinceGunFired = 0;
         setMaxParticles( DEFAULT_MAX_PARTICLES );
@@ -221,9 +225,18 @@ public class Gun extends FixedObject implements ModelElement {
      */
     private Point2D getRandomNozzlePoint() {
         
+        int ySign = _randomSign.nextBoolean() ? 1 : -1;
+        
         // Start with the gun's origin at zero, gun pointing to the right
         double x = 1;
-        double y = ( _randomPosition.nextDouble() * _nozzleWidth ) - ( _nozzleWidth / 2 );
+        double y = ySign * ( Y_ABSOLUTE_MIN + ( _randomPosition.nextDouble() * ( ( _nozzleWidth / 2 ) - Y_ABSOLUTE_MIN ) ) );
+        if ( !(Math.abs( y ) >= Y_ABSOLUTE_MIN) ) {
+            System.out.println( "y=" + y );
+            System.out.println( "ySign=" + ySign );
+            System.out.println( "nozzleWidth=" + _nozzleWidth );
+            System.out.println( "Y_ABSOLUTE_MIN=" + Y_ABSOLUTE_MIN );
+        }
+        assert( Math.abs( y ) >= Y_ABSOLUTE_MIN );
 
         // Rotate by gun's orientation
         Point2D p = new Point2D.Double( x, y );
