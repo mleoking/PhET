@@ -1,10 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.common.util;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.lang.reflect.*;
 
 /**
@@ -37,7 +34,7 @@ public class DynamicListenerControllerFactory {
     }
 
     private static class DynamicListenerControllerImpl implements DynamicListenerController, InvocationHandler {
-        private Collection listeners = new ArrayList();
+        private Collection listeners = new HashSet();
 
         private final Class listenerInterface;
 
