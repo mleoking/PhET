@@ -119,4 +119,5 @@ public class RSConstants {
     public static final DoubleRange INITIAL_SPEED_RANGE = new DoubleRange( 2.5, 15, 10, 1 );
     public static final IntegerRange NUMBER_OF_PROTONS_RANGE = new IntegerRange( 20, 100, 79 );
     public static final IntegerRange NUMBER_OF_NEUTRONS_RANGE = new IntegerRange( 20, 150, 118 );
+    public static final double ELECTRON_ANGULAR_SPEED = Math.toRadians( 0.75 ); // radians per dt
 }

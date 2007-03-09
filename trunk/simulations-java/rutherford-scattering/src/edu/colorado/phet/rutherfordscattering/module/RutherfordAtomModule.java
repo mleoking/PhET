@@ -86,7 +86,7 @@ public class RutherfordAtomModule extends AbstractModule {
         // Atom
         Point2D spaceCenter = space.getCenter();
         double radius = 0.95 * ( RSConstants.ANIMATION_BOX_SIZE.width / 2 );
-        _atom = new RutherfordAtom( spaceCenter, radius, 
+        _atom = new RutherfordAtom( spaceCenter, radius, RSConstants.ELECTRON_ANGULAR_SPEED,
                 RSConstants.NUMBER_OF_PROTONS_RANGE, RSConstants.NUMBER_OF_NEUTRONS_RANGE, RSConstants.ANIMATION_BOX_SIZE );
         
         // Model
