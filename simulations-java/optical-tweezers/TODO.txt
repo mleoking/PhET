@@ -47,6 +47,8 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+3/12/07 - add validation in Fluid model setters
+3/12/07 - bug fix in MovingObject.setSpeed
 3/12/07 - make FluidControlPanel observer of Fluid
 3/12/07 - move property ranges into Fluid model
 3/12/07 - use font in FluidControlPanel
