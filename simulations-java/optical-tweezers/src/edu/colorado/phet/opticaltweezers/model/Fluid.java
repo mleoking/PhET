@@ -34,7 +34,7 @@ public class Fluid extends MovableObject implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private double _width; // nm
+    private final double _width; // nm
     private double _viscosity; //XXX units?
     private double _temperature; //XXX units?
     
@@ -65,10 +65,6 @@ public class Fluid extends MovableObject implements ModelElement {
 
     public double getWidth() {
         return _width;
-    }
-    
-    private void setWidth( double width ) {
-        throw new UnsupportedOperationException( "width is immutable" );
     }
     
     public double getViscosity() {
