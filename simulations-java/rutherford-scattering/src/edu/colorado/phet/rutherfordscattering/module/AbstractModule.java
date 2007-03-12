@@ -57,16 +57,6 @@ public abstract class AbstractModule extends PiccoloModule {
         return PhetApplication.instance().getPhetFrame();
     }
     
-    /**
-     * Determines the visible bounds of the canvas in world coordinates.
-     */ 
-    public Dimension getWorldSize() {
-        Dimension2D dim = new PDimension( _canvas.getWidth(), _canvas.getHeight() );
-        _canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
-        Dimension worldSize = new Dimension( (int) dim.getWidth(), (int) dim.getHeight() );
-        return worldSize;
-    }
-    
     //----------------------------------------------------------------------------
     // Overrides
     //----------------------------------------------------------------------------
