@@ -1,4 +1,4 @@
-/* Copyright 2006, University of Colorado */
+/* Copyright 2007, University of Colorado */
 
 package edu.colorado.phet.opticaltweezers.control;
 
@@ -104,7 +104,7 @@ public class LaserPowerControl extends JPanel {
     }
     
     //----------------------------------------------------------------------------
-    // Mutators
+    // Accessors and mutators
     //----------------------------------------------------------------------------
     
     public void setWavelength( double wavelength ) {
@@ -147,7 +147,7 @@ public class LaserPowerControl extends JPanel {
     private int powerToIntensity( int power ) {
         assert( power >= _minPower );
         assert( power <= _maxPower );
-        return 100 * ( power - _minPower ) / ( _maxPower - _minPower );
+        return (int)( 100 * (double)( power - _minPower ) / (double)( _maxPower - _minPower ) );
     }
     
     private int intensityToPower( int intensity ) {
@@ -162,31 +162,33 @@ public class LaserPowerControl extends JPanel {
     
     /*
      * Updates the slider to match the text field.
-     * If the text field contains a bogus value, we warn the user and reset 
-     * the text field value.
      */
     private void updateSlider() {
-        boolean error = false;
-        
+
+        // Get the value from the textfield
         String s = _formattedTextField.getText();
+        int power = 0;
         try {
-            int power = Integer.parseInt( s );
-            if ( power >= _minPower && power <= _maxPower ) {
-                int intensity = powerToIntensity( power );
-                _intensitySlider.setValue( intensity );
-            }
-            else {
-                error = true;
-            }
+            power = Integer.parseInt( s );
         }
         catch ( NumberFormatException e ) {
-            error = true;
+            Toolkit.getDefaultToolkit().beep();
+            updateTextField(); // revert
         }
-        
-        if ( error ) {
-            warnUser( s );
-            updateTextField();
+
+        if ( power < _minPower ) {
+            Toolkit.getDefaultToolkit().beep();
+            power = _minPower;
         }
+        else if ( power > _maxPower ) {
+            Toolkit.getDefaultToolkit().beep();
+            power = _maxPower;
+        }
+        int intensity = powerToIntensity( power );
+        System.out.println( "LaserPowerControl.updateSlider power=" + power + " intensity=" + intensity );//XXX
+        _intensitySlider.removeChangeListener( _listener );
+        _intensitySlider.setValue( intensity );
+        _intensitySlider.addChangeListener( _listener );
     }
     
     /*
@@ -195,24 +197,9 @@ public class LaserPowerControl extends JPanel {
     private void updateTextField() {
         int intensity = _intensitySlider.getValue();
         int power = intensityToPower( intensity );
+        System.out.println( "LaserPowerControl.updateTextField intensity=" + intensity + " power=" + power );//XXX
         String s = "" + power;
         _formattedTextField.setText( s );
-    }
-    
-    /*
-     * Produces an audible beep and posts an error dialog
-     * indicating that the user's input was incorrect.
-     */
-    private void warnUser( String userInput ) {
-        Toolkit.getDefaultToolkit().beep();
-        Component parent = PhetApplication.instance().getPhetFrame();
-        String title = SimStrings.get( "title.error" );
-        String pattern = SimStrings.get( "message.badPowerInput" );
-        Object[] args = new Object[] { new Integer( _minPower ), new Integer( _maxPower ) };
-        String message = MessageFormat.format( pattern, args );
-        _formattedTextField.removeFocusListener( _listener ); // prevent circular validation
-        DialogUtils.showErrorDialog( parent, message, title );
-        _formattedTextField.addFocusListener( _listener );
     }
     
     //----------------------------------------------------------------------------
@@ -258,11 +245,15 @@ public class LaserPowerControl extends JPanel {
             if ( e.getSource() == _formattedTextField ) {
                 if ( e.getKeyCode() == KeyEvent.VK_UP ) {
                     final int value = _intensitySlider.getValue() + 1;
-                    setPower( value );
+                    if ( value <= _maxPower ) {
+                        setPower( value );
+                    }
                 }
                 else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
                     final int value = _intensitySlider.getValue() - 1;
-                    setPower( value );
+                    if ( value >= _minPower ) {
+                        setPower( value );
+                    }
                 }
             }
         }
@@ -297,13 +288,11 @@ public class LaserPowerControl extends JPanel {
          */
         public void focusLost( FocusEvent e ) {
             if ( e.getSource() == _formattedTextField ) {
-                String s = _formattedTextField.getText();
                 try {
                     _formattedTextField.commitEdit();
                     updateSlider();
                 }
                 catch ( ParseException pe ) {
-                    warnUser( s );
                     updateTextField(); // revert
                 }
             }

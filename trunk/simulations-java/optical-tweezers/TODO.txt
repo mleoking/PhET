@@ -3,12 +3,11 @@
 ===============================================================================
 
 IN PROGRESS:
-- fix problems with rulers
 - fix problems with power slider (eg, type in "85" and it gets set to "80")
-- straighten out lots of coordinate system transform problems
 
 HIGH PRIORITY:
-- no error dialog for power textfield input; if value is bad, beep and clamp to min/max
+- fix problems with rulers
+- straighten out lots of coordinate system transform problems
 - laser dragging is messed up at left boundary
 - position histogram
 - potential energy chart
@@ -45,6 +44,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+3/12/07 - no error dialog for power textfield input; if value is bad, beep and clamp to min/max
 3/12/07 - fix vertical lines in laser control, attach to ends of objective, not the control panel
 3/12/07 - move getWorldSize into AbstractModule
 3/12/07 - remove CVS keywords from headers, javadoc, and persistence
