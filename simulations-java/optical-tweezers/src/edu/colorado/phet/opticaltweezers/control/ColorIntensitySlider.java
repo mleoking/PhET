@@ -33,6 +33,9 @@ public class ColorIntensitySlider extends JPanel implements ChangeListener {
      */
     public static int VERTICAL = JSlider.VERTICAL;
 
+    private static int MIN = 0;
+    private static int MAX = 100;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -65,9 +68,9 @@ public class ColorIntensitySlider extends JPanel implements ChangeListener {
         // Slider
         _slider = new JSlider();
         _slider.setOrientation( orientation );
-        _slider.setMinimum( 0 );
-        _slider.setMaximum( 100 );
-        _slider.setValue( 0 );
+        _slider.setMinimum( MIN );
+        _slider.setMaximum( MAX );
+        _slider.setValue( MIN );
         _slider.setPreferredSize( size );
         _slider.addChangeListener( this );
 
@@ -106,6 +109,9 @@ public class ColorIntensitySlider extends JPanel implements ChangeListener {
      * @param value the value
      */
     public void setValue( int value ) {
+        if ( value < MIN || value > MAX ) {
+            throw new IllegalArgumentException( "value out of range: " + value );
+        }
         _slider.setValue( value );
     }
 
