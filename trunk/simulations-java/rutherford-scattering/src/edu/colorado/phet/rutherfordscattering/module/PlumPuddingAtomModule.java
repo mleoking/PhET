@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.rutherfordscattering.module;
 
-import java.awt.Dimension;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -247,7 +247,7 @@ public class PlumPuddingAtomModule extends AbstractModule {
      */
     protected void updateCanvasLayout() {
 
-        Dimension worldSize = getWorldSize();
+        Dimension2D worldSize = _canvas.getWorldSize();
 //        System.out.println( "HAModule.updateCanvasLayout worldSize=" + worldSize );//XXX
         if ( worldSize.getWidth() == 0 || worldSize.getHeight() == 0 ) {
             // canvas hasn't been sized, blow off layout

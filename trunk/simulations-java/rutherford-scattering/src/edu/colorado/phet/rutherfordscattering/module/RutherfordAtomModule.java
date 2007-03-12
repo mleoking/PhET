@@ -2,20 +2,16 @@
 
 package edu.colorado.phet.rutherfordscattering.module;
 
-import java.awt.Dimension;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Observable;
-import java.util.Observer;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
-import edu.colorado.phet.rutherfordscattering.control.PlumPuddingAtomControlPanel;
 import edu.colorado.phet.rutherfordscattering.control.RutherfordAtomControlPanel;
-import edu.colorado.phet.rutherfordscattering.help.RSWiggleMe;
 import edu.colorado.phet.rutherfordscattering.model.*;
 import edu.colorado.phet.rutherfordscattering.view.*;
 import edu.umd.cs.piccolo.PNode;
@@ -255,7 +251,7 @@ public class RutherfordAtomModule extends AbstractModule {
      */
     protected void updateCanvasLayout() {
 
-        Dimension worldSize = getWorldSize();
+        Dimension2D worldSize = _canvas.getWorldSize();
 //        System.out.println( "HAModule.updateCanvasLayout worldSize=" + worldSize );//XXX
         if ( worldSize.getWidth() == 0 || worldSize.getHeight() == 0 ) {
             // canvas hasn't been sized, blow off layout
