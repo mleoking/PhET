@@ -13,6 +13,7 @@ package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 
 import javax.swing.BorderFactory;
 import javax.swing.JSeparator;
@@ -20,6 +21,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.util.DoubleRange;
@@ -48,7 +50,8 @@ public class FluidControlPanel extends VerticalLayoutPanel {
         String units = SimStrings.get( "units.fluidSpeed" );
         int columns = 4; //XXX
         _speedControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
-
+        _speedControl.setTextFieldEditable( true );
+        
         value = viscosityRange.getDefault();
         min = viscosityRange.getMin();
         max = viscosityRange.getMax();
@@ -59,6 +62,7 @@ public class FluidControlPanel extends VerticalLayoutPanel {
         units = SimStrings.get( "units.fluidViscosity" );
         columns = 4; //XXX
         _viscosityControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+        _viscosityControl.setTextFieldEditable( true );
         
         value = temperatureRange.getDefault();
         min = temperatureRange.getMin();
@@ -70,12 +74,17 @@ public class FluidControlPanel extends VerticalLayoutPanel {
         units = SimStrings.get( "units.fluidTemperature" );
         columns = 4; //XXX
         _temperatureControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+        _temperatureControl.setTextFieldEditable( true );
         
-        add( _speedControl );
-        add( new JSeparator() );
-        add( _viscosityControl );
-        add( new JSeparator() );
-        add( _temperatureControl );
+        EasyGridBagLayout layout = new EasyGridBagLayout( this );
+        this.setLayout( layout );
+        int row = 0;
+        int column = 0;
+        layout.addComponent( _speedControl, row++, column );
+        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( _viscosityControl, row++, column );
+        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( _temperatureControl, row++, column );
         
         _speedControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
