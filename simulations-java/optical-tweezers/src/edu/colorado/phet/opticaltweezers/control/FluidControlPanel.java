@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.Color;
@@ -27,8 +18,19 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 
-
+/**
+ * FluidControlPanel is the panel used to control fluid properties.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // prints debugging output when either the control or model changes
+    private static final boolean DEBUG_OUTPUT = true;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -44,6 +46,12 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param fluid the fluid model that this panel controls and observes
+     * @param font
+     */
     public FluidControlPanel( Fluid fluid, Font font ) {
         super();
         
@@ -52,6 +60,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         
         setBorder( BorderFactory.createLineBorder( Color.BLACK ) );
         
+        // Speed control
         double value = fluid.getSpeed();
         double min = fluid.getSpeedRange().getMin();
         double max = fluid.getSpeedRange().getMax();
@@ -65,6 +74,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         _speedControl.setTextFieldEditable( true );
         _speedControl.setFont( font );
         
+        // Viscosity control
         value = fluid.getViscosity();
         min = fluid.getViscosityRange().getMin();
         max = fluid.getViscosityRange().getMax();
@@ -78,6 +88,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         _viscosityControl.setTextFieldEditable( true );
         _viscosityControl.setFont( font );
         
+        // Temperature control
         value = fluid.getTemperature();
         min = fluid.getTemperatureRange().getMin();
         max = fluid.getTemperatureRange().getMax();
@@ -91,6 +102,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         _temperatureControl.setTextFieldEditable( true );
         _temperatureControl.setFont( font );
         
+        // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         this.setLayout( layout );
         int row = 0;
@@ -108,6 +120,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         _viscosityControl.setSliderWidth( sliderWidth );
         _temperatureControl.setSliderWidth( sliderWidth );
         
+        // Listeners
         _speedControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 handleSpeedChange();
@@ -125,6 +138,9 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         } );
     }
     
+    /**
+     * Call this method before releasing all references to this object.
+     */
     public void cleanup() {
         _fluid.deleteObserver( this );
     }
@@ -133,25 +149,40 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
     // Event handlers
     //----------------------------------------------------------------------------
     
+    /*
+     * Handles changes to the speed control.
+     */
     private void handleSpeedChange() {
         double speed = _speedControl.getValue();
-        System.out.println( "FluidControlPanel.handleSpeedChange " + speed );//XXX
+        if ( DEBUG_OUTPUT ) {
+            System.out.println( "FluidControlPanel.handleSpeedChange " + speed );
+        }
         _fluid.deleteObserver( this );
         _fluid.setSpeed( speed );
         _fluid.addObserver( this );
     }
     
+    /*
+     * Handles changes to the viscosity control.
+     */
     private void handleViscosityChange() {
         double viscosity = _viscosityControl.getValue();
-        System.out.println( "FluidControlPanel.handleViscosityChange " + viscosity );//XXX
+        if ( DEBUG_OUTPUT ) {
+            System.out.println( "FluidControlPanel.handleViscosityChange " + viscosity );
+        }
         _fluid.deleteObserver( this );
         _fluid.setViscosity( viscosity );
         _fluid.addObserver( this );
     }
     
+    /*
+     * Handles changes to the temperature control.
+     */
     private void handleTemperatureChange() {
         double temperature = _temperatureControl.getValue();
-        System.out.println( "FluidControlPanel.handleTemperatureChange " + temperature );//XXX
+        if ( DEBUG_OUTPUT ) {
+            System.out.println( "FluidControlPanel.handleTemperatureChange " + temperature );
+        }
         _fluid.deleteObserver( this );
         _fluid.setTemperature( temperature );
         _fluid.addObserver( this );
@@ -161,9 +192,18 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
     // Observer implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the controls to match the model.
+     * 
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
-        System.out.println( "FluidControl.update" );//XXX
+        if ( DEBUG_OUTPUT ) {
+            System.out.println( "FluidControl.update" );
+        }
         if ( o == _fluid ) {
+            // resync everything if any property changes
             _speedControl.setValue( _fluid.getSpeed() );
             _viscosityControl.setValue( _fluid.getViscosity() );
             _temperatureControl.setValue( _fluid.getTemperature() );
