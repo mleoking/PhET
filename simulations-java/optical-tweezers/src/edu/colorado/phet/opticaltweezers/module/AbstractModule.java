@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.module;
 
 import javax.swing.JFrame;
@@ -24,7 +15,6 @@ import edu.colorado.phet.piccolo.PiccoloModule;
  * AbstractModule is the base class for all modules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public abstract class AbstractModule extends PiccoloModule {
     

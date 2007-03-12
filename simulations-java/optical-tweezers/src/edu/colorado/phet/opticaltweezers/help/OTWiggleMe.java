@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.help;
 
 import java.awt.BasicStroke;
@@ -24,7 +15,6 @@ import edu.umd.cs.piccolo.PCanvas;
  * OTWiggleMe encapsulates the "look" of wiggle mes for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class OTWiggleMe extends MotionHelpBalloon {
 

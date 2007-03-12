@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.defaults;
 
 
@@ -16,7 +7,6 @@ package edu.colorado.phet.opticaltweezers.defaults;
  * MotorsDefaults contains default settings for the "Molecular Motors" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class MotorsDefaults {
 

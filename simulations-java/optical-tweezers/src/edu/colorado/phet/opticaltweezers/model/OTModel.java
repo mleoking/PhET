@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.model;
 
 import edu.colorado.phet.common.model.ModelElement;
@@ -19,7 +10,6 @@ import edu.colorado.phet.common.model.clock.IClock;
  * OTModel is the model for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class OTModel extends Model {
     

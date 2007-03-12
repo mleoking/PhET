@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info - 
- * Filename : $Source$
- * Branch : $Name$ 
- * Modified by : $Author$ 
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2007, University of Colorado */
 
 package edu.colorado.phet.opticaltweezers.control;
 
@@ -26,7 +17,6 @@ import javax.swing.event.EventListenerList;
  * Intensity is a percentage, with a range of 0-100 inclusive.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class ColorIntensitySlider extends JPanel implements ChangeListener {
 

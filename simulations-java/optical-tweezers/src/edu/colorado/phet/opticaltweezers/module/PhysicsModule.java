@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.module;
 
 import java.awt.BasicStroke;
@@ -38,7 +29,6 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
-import edu.colorado.phet.piccolo.nodes.RulerNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -50,7 +40,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * PhysicsModule is the "Physics of Tweezers" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class PhysicsModule extends AbstractModule {
 

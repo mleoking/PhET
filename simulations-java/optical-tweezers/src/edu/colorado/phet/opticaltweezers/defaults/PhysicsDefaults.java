@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.defaults;
 
 import java.awt.geom.Point2D;
@@ -21,7 +12,6 @@ import edu.colorado.phet.opticaltweezers.util.IntegerRange;
  * PhysicsDefaults contains default settings for the "Physics of Tweezers" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class PhysicsDefaults {
 

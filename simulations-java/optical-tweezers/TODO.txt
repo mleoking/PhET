@@ -33,7 +33,6 @@ MEDIUM PRIORITY:
 - units and range for fluid temperature
 
 LOW PRIORITY:
-- remove CVS keywords from headers and javadoc
 - generalize LaserPowerControl
 - get requirements for "Fun With DNA" and "Molecular Motors" panels
 - save/load for first module's control panel
@@ -47,6 +46,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+3/12/07 - remove CVS keywords from headers, javadoc, and persistence
 3/12/07 - add validation in Fluid model setters
 3/12/07 - bug fix in MovingObject.setSpeed
 3/12/07 - make FluidControlPanel observer of Fluid

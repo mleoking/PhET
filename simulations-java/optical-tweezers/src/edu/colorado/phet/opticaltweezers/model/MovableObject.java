@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2007, University of Colorado */
 
 package edu.colorado.phet.opticaltweezers.model;
 
@@ -18,7 +9,6 @@ import java.awt.geom.Point2D;
  * MovableObject is an object that has mutable position, orientation and speed.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class MovableObject extends FixedObject {
 

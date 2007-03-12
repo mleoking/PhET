@@ -1,14 +1,5 @@
 /* Copyright 2006, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.view;
 
 import java.awt.BasicStroke;
@@ -26,7 +17,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * A cross is drawn to indicate the origin point.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class OriginNode extends PhetPNode {
 

@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2007, University of Colorado */
 
 package edu.colorado.phet.opticaltweezers.util;
 
@@ -28,7 +19,6 @@ import java.awt.image.WritableRaster;
  * Adapted from an example in Chapter 4 of "Java 2D Graphics" by Jonathan Knudsen.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class RoundGradientPaint implements Paint {
 

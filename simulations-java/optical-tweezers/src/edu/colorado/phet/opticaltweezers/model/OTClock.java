@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.model;
 
 import edu.colorado.phet.common.model.clock.SwingClock;
@@ -22,7 +13,6 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
  * regardless of when (in wall time) the ticks actually happen.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class OTClock extends SwingClock {
 
