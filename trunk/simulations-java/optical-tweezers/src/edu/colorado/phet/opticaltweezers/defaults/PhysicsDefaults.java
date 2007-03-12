@@ -29,7 +29,7 @@ public class PhysicsDefaults {
     public static final double LASER_ORIENTATION = Math.toRadians( -90 );
     public static final double LASER_WIDTH = 1000; // nm
     public static final int LASER_WAVELENGTH = 632; // nm
-    public static final IntegerRange LASER_POWER_RANGE = new IntegerRange( 0, 1000, 500 ); // mW
+    public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500, 0 ); // mW
     public static final boolean LASER_RUNNING = false;
     
     // Bead model

@@ -16,7 +16,7 @@ import java.util.Observer;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.control.LaserControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.util.IntegerRange;
+import edu.colorado.phet.opticaltweezers.util.DoubleRange;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.BoundedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
@@ -50,7 +50,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     private BeamOutNode _beamOutNode;
     private LaserControlPanel _controlPanel;
     
-    public LaserNode( PSwingCanvas canvas, Laser laser, ModelViewTransform modelViewTransform, IntegerRange powerRange, PNode dragBoundsNode ) {
+    public LaserNode( PSwingCanvas canvas, Laser laser, ModelViewTransform modelViewTransform, DoubleRange powerRange, PNode dragBoundsNode ) {
         super();
         
         _laser = laser;
@@ -168,14 +168,14 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     }
     
     private void handlePowerChange() {
-        int power = _laser.getPower();
+        double power = _laser.getPower();
         int alpha = powerToAlpha( power);
         _beamInNode.setAlpha( alpha );
         _beamOutNode.setAlpha( alpha );
     }
     
-    private int powerToAlpha( int power ) {
-        return (int)( MAX_ALPHA_CHANNEL * ( power - _controlPanel.getMinPower() ) / (double)( _controlPanel.getMaxPower() - _controlPanel.getMinPower() ) );
+    private int powerToAlpha( double power ) {
+        return (int)( MAX_ALPHA_CHANNEL * ( power - _controlPanel.getMinPower() ) / ( _controlPanel.getMaxPower() - _controlPanel.getMinPower() ) );
     }
     
     public void propertyChange( PropertyChangeEvent event ) {

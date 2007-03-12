@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- power should be double precision
 
 HIGH PRIORITY:
 - fix problems with rulers
@@ -44,6 +43,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+3/12/07 - laser power should be double precision
 3/12/07 - no error dialog for power textfield input; if value is bad, beep and clamp to min/max
 3/12/07 - fix vertical lines in laser control, attach to ends of objective, not the control panel
 3/12/07 - move getWorldSize into AbstractModule
