@@ -92,18 +92,4 @@ public abstract class AbstractModule extends PiccoloModule {
     public void removeClockListener( ClockListener listener ) {
         getClock().removeClockListener( listener );
     }
-    
-    //----------------------------------------------------------------------------
-    // Utilities
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Determines the visible bounds of the canvas in world coordinates.
-     */ 
-    public static final Dimension getWorldSize( PhetPCanvas canvas ) {
-        Dimension2D dim = new PDimension( canvas.getWidth(), canvas.getHeight() );
-        canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
-        Dimension worldSize = new Dimension( (int) dim.getWidth(), (int) dim.getHeight() );
-        return worldSize;
-    }
 }

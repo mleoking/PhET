@@ -4,7 +4,6 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -33,7 +32,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -255,7 +253,7 @@ public class PhysicsModule extends AbstractModule {
      */
     public void updateCanvasLayout() {
 
-        Dimension worldSize = getWorldSize( _canvas );
+        Dimension2D worldSize = _canvas.getWorldSize();
         System.out.println( "PhysicsModule.updateCanvasLayout worldSize=" + worldSize );//XXX
         if ( worldSize.getWidth() == 0 || worldSize.getHeight() == 0 ) {
             // canvas hasn't been sized, blow off layout
