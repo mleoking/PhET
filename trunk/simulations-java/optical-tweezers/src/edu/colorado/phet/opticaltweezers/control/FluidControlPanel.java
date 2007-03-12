@@ -162,6 +162,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
+        System.out.println( "FluidControl.update" );//XXX
         if ( o == _fluid ) {
             _speedControl.setValue( _fluid.getSpeed() );
             _viscosityControl.setValue( _fluid.getViscosity() );

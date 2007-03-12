@@ -83,7 +83,17 @@ public class Fluid extends MovableObject implements ModelElement {
         return _viscosity;
     }
 
+    public void setSpeed( double speed ) {
+        if ( speed < _speedRange.getMin() || speed > _speedRange.getMax() ) {
+            throw new IllegalArgumentException( "speed out of range: " + speed );
+        }
+        super.setSpeed( speed );
+    }
+    
     public void setViscosity( double viscosity ) {
+        if ( viscosity < _viscosityRange.getMin() || viscosity > _viscosityRange.getMax() ) {
+            throw new IllegalArgumentException( "viscosity out of range: " + viscosity );
+        }
         if ( viscosity != _viscosity ) {
             _viscosity = viscosity;
             notifyObservers( PROPERTY_VISCOSITY );
@@ -95,6 +105,9 @@ public class Fluid extends MovableObject implements ModelElement {
     }
 
     public void setTemperature( double temperature ) {
+        if ( temperature < _temperatureRange.getMin() || temperature > _temperatureRange.getMax() ) {
+            throw new IllegalArgumentException( "temperature out of range: " + temperature );
+        }
         if ( temperature != _temperature ) {
             _temperature = temperature;
             notifyObservers( PROPERTY_TEMPERATURE );
