@@ -30,8 +30,8 @@ public class Laser extends MovableObject implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private double _width; // nm
-    private int _wavelength; // nm
+    private final double _width; // nm
+    private final int _wavelength; // nm
     private int _power; // mW
     private boolean _running;
     
@@ -75,16 +75,8 @@ public class Laser extends MovableObject implements ModelElement {
         return _width;
     }
     
-    private void setWidth( double width ) {
-        throw new UnsupportedOperationException( "width is immutable" );
-    }
-    
     public double getWavelength() {
         return _wavelength;
-    }
-    
-    private void setWavelength( int wavelength ) {
-        throw new UnsupportedOperationException( "wavelength is immutable" );
     }
     
     public int getPower() {
