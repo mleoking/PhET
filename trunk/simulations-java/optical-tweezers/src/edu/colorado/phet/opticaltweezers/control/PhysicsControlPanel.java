@@ -245,13 +245,33 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Default state
         {
+            _speedControl.setSlowSelected( true );
+            _speedControl.setSlowSpeed( 0.5 );//XXX
+            _speedControl.setFastSpeed( 0.5 );//XXX
+            
+            _electricFieldCheckBox.setSelected( false );
+            _beadChargesCheckBox.setSelected( false );
             _allChargesRadioButton.setSelected( true );
-            _allChargesRadioButton.setEnabled( false );
+            _allChargesRadioButton.setEnabled( _beadChargesCheckBox.isSelected() );
             _excessChargesRadioButton.setEnabled( false );
+            _excessChargesRadioButton.setEnabled( _beadChargesCheckBox.isSelected() );
+            
+            _trapForceCheckBox.setSelected( false );
+            _horizontalTrapForceLabel.setEnabled( _trapForceCheckBox.isSelected() );
             _wholeBeadRadioButton.setSelected( true );
-            _wholeBeadRadioButton.setEnabled( false );
-            _halfBeadRadioButton.setEnabled( false );
+            _wholeBeadRadioButton.setEnabled( _trapForceCheckBox.isSelected() );
+            _halfBeadRadioButton.setSelected( false );
+            _halfBeadRadioButton.setEnabled( _trapForceCheckBox.isSelected() );
+            _fluidDragCheckBox.setSelected( false );
+            _brownianForceCheckBox.setSelected( false );
+
+            _rulerCheckBox.setSelected( false  );
+            _positionHistogramCheckBox.setSelected( false );
+            
             _advancedPanel.setVisible( false );
+            _fluidControlsCheckBox.setSelected( false );
+            _momemtumChangeCheckBox.setSelected( false );
+            _potentialChartCheckBox.setSelected( false );
         }
     }
     
