@@ -42,6 +42,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     
     private JButton _startStopButton;
     private LaserPowerControl _powerControl;
+    private ChangeListener _powerControlListener;
     
     private String _startString, _stopString;
     
@@ -75,12 +76,13 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         _powerControl = new LaserPowerControl( powerRange, label, units, columns, wavelength, POWER_SLIDER_SIZE, font );
         _powerControl.setLabelForeground( Color.WHITE );
         _powerControl.setUnitsForeground( Color.WHITE );
-        _powerControl.addChangeListener( new ChangeListener() {
+        _powerControlListener = new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 int power = _powerControl.getPower();
                 _laser.setPower( power );
             }
-        } );
+        };
+        _powerControl.addChangeListener( _powerControlListener );
         PSwing powerControlWrapper = new PSwing( canvas, _powerControl );
         
         // Panel background
@@ -144,7 +146,9 @@ public class LaserControlPanel extends PhetPNode implements Observer {
             }
             else if ( arg == Laser.PROPERTY_POWER ) {
                 double power = _laser.getPower();
+                _powerControl.removeChangeListener( _powerControlListener );
                 _powerControl.setPower( (int) power );
+                _powerControl.addChangeListener( _powerControlListener );
             }
         }
     }
