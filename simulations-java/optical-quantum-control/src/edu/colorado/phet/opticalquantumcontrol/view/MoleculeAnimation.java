@@ -28,9 +28,9 @@ import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.opticalquantumcontrol.ShaperConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
-import edu.colorado.phet.opticalquantumcontrol.module.ShaperModule;
+import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;
 
 
 /**
@@ -59,7 +59,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     // Instance data
     //----------------------------------------------------------------------------
 
-    private ShaperModule _module;
+    private OQCModule _module;
     private FourierSeries _userFourierSeries;
     private FourierSeries _outputFourierSeries;
     
@@ -96,7 +96,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
      * @param userFourierSeries
      * @param outputFourierSeries
      */
-    public MoleculeAnimation( Component component, ShaperModule module, 
+    public MoleculeAnimation( Component component, OQCModule module, 
             FourierSeries userFourierSeries, FourierSeries outputFourierSeries ) {
         super( component );
         
@@ -205,7 +205,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         // The read-out that shows how "close" we are to matching the output pulse.
         _closenessGraphic = new HTMLGraphic( component );
         _closenessGraphic.setColor( Color.BLACK );
-        _closenessGraphic.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
+        _closenessGraphic.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
         _closenessFormat = SimStrings.get( "closenessReadout" );
         Object[] args = { "-000" };
         String text = MessageFormat.format( _closenessFormat, args );
@@ -215,7 +215,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _closenessGraphic.setLocation( BACKGROUND_SIZE.width/2, BACKGROUND_SIZE.height - 5 );
         
         // explosion (Kaboom!)
-        _explosionGraphic = new PhetImageGraphic( component, ShaperConstants.KABOOM_IMAGE );
+        _explosionGraphic = new PhetImageGraphic( component, OQCConstants.KABOOM_IMAGE );
         _explosionGraphic.setRegistrationPoint( _explosionGraphic.getWidth()/2, 0 ); // top center
         _explosionGraphic.setLocation( _animationFrame.getLocation() );
         addGraphic( _explosionGraphic );
@@ -276,9 +276,9 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
      * @param index
      */
     public void setMolecule( int index ) {
-        String part1 = ShaperConstants.IMAGES_DIRECTORY + "molecule" + index + "_part1.png";
-        String part2 = ShaperConstants.IMAGES_DIRECTORY + "molecule" + index + "_part2.png";
-        String part3 = ShaperConstants.IMAGES_DIRECTORY + "molecule" + index + "_part3.png";
+        String part1 = OQCConstants.IMAGES_DIRECTORY + "molecule" + index + "_part1.png";
+        String part2 = OQCConstants.IMAGES_DIRECTORY + "molecule" + index + "_part2.png";
+        String part3 = OQCConstants.IMAGES_DIRECTORY + "molecule" + index + "_part3.png";
         _moleculePart1.setImageResourceName( part1 );
         _moleculePart2.setImageResourceName( part2 );
         _moleculePart3.setImageResourceName( part3 );
@@ -356,13 +356,13 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
             }
             else {
                 // Are we still visible in the apparatus panel?
-                if ( Math.abs( _moleculePart1.getX() ) > 2 * ShaperConstants.APP_FRAME_WIDTH && Math.abs( _moleculePart1.getY() ) > 2 * ShaperConstants.APP_FRAME_HEIGHT ) {
+                if ( Math.abs( _moleculePart1.getX() ) > 2 * OQCConstants.APP_FRAME_WIDTH && Math.abs( _moleculePart1.getY() ) > 2 * OQCConstants.APP_FRAME_HEIGHT ) {
                     _animationDone = true; // animation is done
                     gameOver();
                 }
             }
         }
-        else if ( _closeness >= ShaperConstants.CLOSENESS_MATCH ) {
+        else if ( _closeness >= OQCConstants.CLOSENESS_MATCH ) {
             /*
              * We're close enough to be considered a "match", so start the explosion.
              * Make the 3 parts of the molecule graphic move away from each other 
@@ -458,7 +458,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
                  * other views are updated before the molecule animation
                  * happens and the "you've won" dialog is shown.
                  */
-                if ( closeness >= ShaperConstants.CLOSENESS_MATCH ) {
+                if ( closeness >= OQCConstants.CLOSENESS_MATCH ) {
                     _userFourierSeries.removeObserver( this );
                     _userFourierSeries.notifyObservers();
                     _userFourierSeries.addObserver( this );

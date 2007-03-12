@@ -20,7 +20,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.opticalquantumcontrol.ShaperConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.charts.FourierSumPlot;
 import edu.colorado.phet.opticalquantumcontrol.charts.PulseChart;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
@@ -47,19 +47,19 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
     // Background parameters
     private static final int MIN_HEIGHT = 150;
     private static final Dimension BACKGROUND_SIZE = new Dimension( 535, 190 );
-    private static final Color BACKGROUND_COLOR = ShaperConstants.COMMON_GRAY;
+    private static final Color BACKGROUND_COLOR = OQCConstants.COMMON_GRAY;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new Font( OQCConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLACK;
     
     // Chart parameters
-    private static final double L = ShaperConstants.L; // do not change!
+    private static final double L = OQCConstants.L; // do not change!
     private static final double X_RANGE_START = ( L / 2 );
     private static final double X_RANGE_MIN = ( L / 4 );
     private static final double X_RANGE_MAX = ( 2 * L );
-    private static final double Y_RANGE_START = ShaperConstants.MAX_HARMONIC_AMPLITUDE;
-    private static final double Y_RANGE_MIN = ShaperConstants.MAX_HARMONIC_AMPLITUDE;
+    private static final double Y_RANGE_START = OQCConstants.MAX_HARMONIC_AMPLITUDE;
+    private static final double Y_RANGE_MIN = OQCConstants.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_RANGE_MAX = 12.0;
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 440, 135 );
@@ -68,7 +68,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
     private static final Stroke USER_SUM_STROKE = new BasicStroke( 1f );
     private static final Color USER_SUM_COLOR = Color.BLACK;
     private static final Stroke RANDOM_SUM_STROKE = new BasicStroke( 3f );
-    public static final Color RANDOM_SUM_COLOR = ShaperConstants.OUTPUT_PULSE_COLOR;
+    public static final Color RANDOM_SUM_COLOR = OQCConstants.OUTPUT_PULSE_COLOR;
     private static final double PIXELS_PER_POINT = 1;
     
     // Autoscaling
@@ -141,7 +141,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
             _outputSumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _outputFourierSeries );
             _outputSumPlot.setUseCosines( true );
             _outputSumPlot.setPeriod( L );
-            _outputSumPlot.setYScale( ShaperConstants.FOURIER_SUM_SCALE );
+            _outputSumPlot.setYScale( OQCConstants.FOURIER_SUM_SCALE );
             _outputSumPlot.setPixelsPerPoint( PIXELS_PER_POINT );
             _outputSumPlot.setStroke( RANDOM_SUM_STROKE );
             _outputSumPlot.setBorderColor( RANDOM_SUM_COLOR );
@@ -152,7 +152,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
             _userSumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _userFourierSeries );
             _userSumPlot.setUseCosines( true );
             _userSumPlot.setPeriod( L );
-            _userSumPlot.setYScale( ShaperConstants.FOURIER_SUM_SCALE );
+            _userSumPlot.setYScale( OQCConstants.FOURIER_SUM_SCALE );
             _userSumPlot.setPixelsPerPoint( PIXELS_PER_POINT );
             _userSumPlot.setStroke( USER_SUM_STROKE );
             _userSumPlot.setBorderColor( USER_SUM_COLOR );

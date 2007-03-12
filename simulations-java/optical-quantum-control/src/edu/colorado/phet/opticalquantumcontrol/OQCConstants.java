@@ -22,10 +22,10 @@ import java.awt.Cursor;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ShaperConstants {
+public class OQCConstants {
 
     /* Not intended for instantiation. */
-    private ShaperConstants() {}
+    private OQCConstants() {}
     
     //----------------------------------------------------------------------------
     // Debugging switches
@@ -44,7 +44,7 @@ public class ShaperConstants {
     // Localization
     //----------------------------------------------------------------------------
     
-    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/ShaperStrings";
+    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/OQCStrings";
 
     //----------------------------------------------------------------------------
     // Clock

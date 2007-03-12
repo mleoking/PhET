@@ -24,7 +24,7 @@ import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.opticalquantumcontrol.ShaperConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 
 
@@ -43,8 +43,8 @@ public class CheatPanel extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     private static final DecimalFormat CHEAT_FORMAT = new DecimalFormat( "0.00" );
-    private static final Font TITLE_FONT = new Font( ShaperConstants.FONT_NAME, Font.BOLD, 14 );
-    private static final Font VALUES_FONT = new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 12 );
+    private static final Font TITLE_FONT = new Font( OQCConstants.FONT_NAME, Font.BOLD, 14 );
+    private static final Font VALUES_FONT = new Font( OQCConstants.FONT_NAME, Font.PLAIN, 12 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -118,7 +118,7 @@ public class CheatPanel extends GraphicLayerSet implements SimpleObserver {
         }
         
         // Close button
-        PhetImageGraphic closeButton = new PhetImageGraphic( component, ShaperConstants.CLOSE_BUTTON_IMAGE );
+        PhetImageGraphic closeButton = new PhetImageGraphic( component, OQCConstants.CLOSE_BUTTON_IMAGE );
         closeButton.setLocation( 5, 5 );
         addGraphic( closeButton );
         closeButton.addMouseInputListener( new MouseInputAdapter() {

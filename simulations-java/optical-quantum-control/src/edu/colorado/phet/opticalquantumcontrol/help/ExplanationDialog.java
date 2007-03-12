@@ -20,7 +20,7 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.opticalquantumcontrol.ShaperConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 
 
 /**
@@ -70,7 +70,7 @@ public class ExplanationDialog extends JDialog {
         CompositePhetGraphic picture = new CompositePhetGraphic( apparatusPanel );
         {
             // The image
-            PhetImageGraphic image = new PhetImageGraphic( apparatusPanel, ShaperConstants.EXPLANATION_IMAGE );
+            PhetImageGraphic image = new PhetImageGraphic( apparatusPanel, OQCConstants.EXPLANATION_IMAGE );
             image.setLocation( 0, 0 );
             picture.addGraphic( image );
 

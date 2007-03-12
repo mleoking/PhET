@@ -17,12 +17,12 @@ import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.opticalquantumcontrol.ShaperConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.debug.BoundsDebugger;
 
 
 /**
- * AbstractModule is the base class for all Optical Pulse Shaper modules.
+ * AbstractModule is the base class for all modules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -77,10 +77,10 @@ public abstract class AbstractModule extends PhetGraphicsModule {
     public void setWaitCursorEnabled( boolean enabled ) {
         ApparatusPanel apparatusPanel = getApparatusPanel();
         if ( enabled ) {
-            apparatusPanel.setCursor( ShaperConstants.WAIT_CURSOR );
+            apparatusPanel.setCursor( OQCConstants.WAIT_CURSOR );
         }
         else {
-            apparatusPanel.setCursor( ShaperConstants.DEFAULT_CURSOR );
+            apparatusPanel.setCursor( OQCConstants.DEFAULT_CURSOR );
         }
     }
     

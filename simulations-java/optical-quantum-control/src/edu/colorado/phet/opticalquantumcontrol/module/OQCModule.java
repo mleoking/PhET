@@ -31,7 +31,7 @@ import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.opticalquantumcontrol.ShaperConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.enum.MoleculeEnum;
 import edu.colorado.phet.opticalquantumcontrol.help.HelpBubble;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
@@ -39,12 +39,12 @@ import edu.colorado.phet.opticalquantumcontrol.view.*;
 
 
 /**
- * ShaperModule is the sole module in this simulation.
+ * OQCModule is the sole module in this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ShaperModule extends AbstractModule implements ActionListener {
+public class OQCModule extends AbstractModule implements ActionListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -54,7 +54,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
     // Fourier Components
-    private static final int NUMBER_OF_HARMONICS = ShaperConstants.MAX_HARMONICS;
+    private static final int NUMBER_OF_HARMONICS = OQCConstants.MAX_HARMONICS;
     private static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
 
     //----------------------------------------------------------------------------
@@ -82,9 +82,9 @@ public class ShaperModule extends AbstractModule implements ActionListener {
      * 
      * @param clock the simulation clock
      */
-    public ShaperModule() {
+    public OQCModule() {
         
-        super( SimStrings.get( "ShaperModule.title" ), new SwingClock(  ShaperConstants.CLOCK_DELAY, ShaperConstants.CLOCK_STEP ) );
+        super( SimStrings.get( "OQCModule.title" ), new SwingClock(  OQCConstants.CLOCK_DELAY, OQCConstants.CLOCK_STEP ) );
 
         setLogoPanel( null );
         setHelpPanel( null );
@@ -154,7 +154,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
 
             HTMLGraphic inputMirrorLabel = new HTMLGraphic( apparatusPanel );
             inputMirrorLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            inputMirrorLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
+            inputMirrorLabel.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
             inputMirrorLabel.setColor( Color.BLACK );
             inputMirrorLabel.setHTML( SimStrings.get( "Mirror.label" ) );
             inputMirrorLabel.setLocation( 55, 15 );
@@ -170,7 +170,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
 
             HTMLGraphic outputMirrorLabel = new HTMLGraphic( apparatusPanel );
             outputMirrorLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            outputMirrorLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
+            outputMirrorLabel.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
             outputMirrorLabel.setColor( Color.BLACK );
             outputMirrorLabel.setHTML( SimStrings.get( "Mirror.label" ) );
             outputMirrorLabel.setLocation( 55, 655 );
@@ -194,7 +194,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
 
             HTMLGraphic gratingsLabel = new HTMLGraphic( apparatusPanel );
             gratingsLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            gratingsLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
+            gratingsLabel.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
             gratingsLabel.setColor( Color.LIGHT_GRAY );
             gratingsLabel.setHTML( SimStrings.get( "DiffractionGratings.label" ) );
             gratingsLabel.setLocation( 400, 325 );
@@ -248,7 +248,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         {
             HTMLGraphic maskLabel = new HTMLGraphic( apparatusPanel );
             maskLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            maskLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
+            maskLabel.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
             maskLabel.setColor( Color.LIGHT_GRAY );
             maskLabel.setHTML( SimStrings.get( "Mask.label" ) );
             maskLabel.setLocation( 10, 535 );
@@ -294,8 +294,8 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         HTMLGraphic instructions = new HTMLGraphic( apparatusPanel );
         instructions.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         instructions.setHTML( SimStrings.get( "instructions" ) );
-        instructions.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
-        instructions.setColor( ShaperConstants.OUTPUT_PULSE_COLOR );
+        instructions.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
+        instructions.setColor( OQCConstants.OUTPUT_PULSE_COLOR );
         instructions.setRegistrationPoint( 0, instructions.getHeight()/2 ); // left center
         instructions.setLocation( 790, 350 );
         instructions.setIgnoreMouse( true );
