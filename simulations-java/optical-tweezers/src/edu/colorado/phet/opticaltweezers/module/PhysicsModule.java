@@ -126,9 +126,9 @@ public class PhysicsModule extends AbstractModule {
         _fluid = new Fluid( PhysicsDefaults.FLUID_POSITION,
                 PhysicsDefaults.FLUID_ORIENTATION,
                 PhysicsDefaults.FLUID_WIDTH,
-                PhysicsDefaults.FLUID_SPEED_RANGE.getDefault(), 
-                PhysicsDefaults.FLUID_VISCOSITY_RANGE.getDefault(), 
-                PhysicsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
+                PhysicsDefaults.FLUID_SPEED_RANGE, 
+                PhysicsDefaults.FLUID_VISCOSITY_RANGE, 
+                PhysicsDefaults.FLUID_TEMPERATURE_RANGE );
 
         //----------------------------------------------------------------------------
         // View
@@ -204,10 +204,7 @@ public class PhysicsModule extends AbstractModule {
         setClockControlPanel( _clockControlPanel );
         
         // Fluid controls
-        _fluidControlPanel = new FluidControlPanel( OTConstants.PLAY_AREA_CONTROL_FONT,
-                PhysicsDefaults.FLUID_SPEED_RANGE,
-                PhysicsDefaults.FLUID_VISCOSITY_RANGE,
-                PhysicsDefaults.FLUID_TEMPERATURE_RANGE );
+        _fluidControlPanel = new FluidControlPanel( _fluid, OTConstants.PLAY_AREA_CONTROL_FONT );
         _fluidControlPanelWrapper = new PhetPNode( new PSwing( _canvas, _fluidControlPanel ) );
         
         // "Return Bead" button
@@ -387,29 +384,35 @@ public class PhysicsModule extends AbstractModule {
     
     public void reset() {
         
-        // Control panel
-        _controlPanel.setSlowSpeedSelected( PhysicsDefaults.SLOW_SPEED_SELECTED );
-        _controlPanel.setSlowSpeed( PhysicsDefaults.SLOW_SPEED );
-        _controlPanel.setFastSpeed( PhysicsDefaults.FAST_SPEED );
-        _controlPanel.setElectricFieldSelected( PhysicsDefaults.ELECTRIC_FIELD_SELECTED );
-        _controlPanel.setBeadChargesSelected( PhysicsDefaults.BEAD_CHARGES_SELECTED );
-        _controlPanel.setAllChargesSelected( PhysicsDefaults.ALL_BEAD_CHARGES_SELECTED );
-        _controlPanel.setTrapForceSelected( PhysicsDefaults.TRAP_FORCE_SELECTED );
-        _controlPanel.setWholeBeadSelected( PhysicsDefaults.WHOLE_BEAD_SELECTED );
-        _controlPanel.setFluidDragSelected( PhysicsDefaults.FLUID_DRAG_FORCE_SELECTED );
-        _controlPanel.setBrownianForceSelected( PhysicsDefaults.BROWNIAN_FORCE_SELECTED );
-        _controlPanel.setRulerSelected( PhysicsDefaults.RULER_SELECTED );
-        _controlPanel.setPositionHistogramSelected( PhysicsDefaults.POSITION_HISTOGRAM_SELECTED );
-        _controlPanel.setAdvancedVisible( PhysicsDefaults.ADVANCED_VISIBLE );
-        _controlPanel.setFluidControlSelected( PhysicsDefaults.FLUID_CONTROLS_SELECTED );
-        _controlPanel.setMomentumChangeSelected( PhysicsDefaults.MOMENTUM_CHANGE_MODEL_SELECTED );
-        _controlPanel.setPotentialChartSelected( PhysicsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
+        // Model
+        {
+            _fluid.setSpeed( PhysicsDefaults.FLUID_SPEED_RANGE.getDefault() );
+            _fluid.setViscosity( PhysicsDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
+            _fluid.setTemperature( PhysicsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
+        }
         
-        // Fluid controls
-        _fluidControlPanelWrapper.setVisible( PhysicsDefaults.FLUID_CONTROLS_SELECTED );
-        _fluidControlPanel.getSpeedControl().setValue( PhysicsDefaults.FLUID_SPEED_RANGE.getDefault() );
-        _fluidControlPanel.getViscosityControl().setValue( PhysicsDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
-        _fluidControlPanel.getTemperatureControl().setValue( PhysicsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
+        // Control panel settings that are view-related
+        {
+            _controlPanel.setSlowSpeedSelected( PhysicsDefaults.SLOW_SPEED_SELECTED );
+            _controlPanel.setSlowSpeed( PhysicsDefaults.SLOW_SPEED );
+            _controlPanel.setFastSpeed( PhysicsDefaults.FAST_SPEED );
+            _controlPanel.setElectricFieldSelected( PhysicsDefaults.ELECTRIC_FIELD_SELECTED );
+            _controlPanel.setBeadChargesSelected( PhysicsDefaults.BEAD_CHARGES_SELECTED );
+            _controlPanel.setAllChargesSelected( PhysicsDefaults.ALL_BEAD_CHARGES_SELECTED );
+            _controlPanel.setTrapForceSelected( PhysicsDefaults.TRAP_FORCE_SELECTED );
+            _controlPanel.setWholeBeadSelected( PhysicsDefaults.WHOLE_BEAD_SELECTED );
+            _controlPanel.setFluidDragSelected( PhysicsDefaults.FLUID_DRAG_FORCE_SELECTED );
+            _controlPanel.setBrownianForceSelected( PhysicsDefaults.BROWNIAN_FORCE_SELECTED );
+            _controlPanel.setRulerSelected( PhysicsDefaults.RULER_SELECTED );
+            _controlPanel.setPositionHistogramSelected( PhysicsDefaults.POSITION_HISTOGRAM_SELECTED );
+            _controlPanel.setAdvancedVisible( PhysicsDefaults.ADVANCED_VISIBLE );
+            _controlPanel.setFluidControlSelected( PhysicsDefaults.FLUID_CONTROLS_SELECTED );
+            _controlPanel.setMomentumChangeSelected( PhysicsDefaults.MOMENTUM_CHANGE_MODEL_SELECTED );
+            _controlPanel.setPotentialChartSelected( PhysicsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
+            
+            // Fluid controls
+            _fluidControlPanelWrapper.setVisible( PhysicsDefaults.FLUID_CONTROLS_SELECTED );
+        }
     }
 
     public void save( OTConfig appConfig ) {

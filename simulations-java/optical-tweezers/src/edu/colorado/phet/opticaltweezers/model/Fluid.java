@@ -14,6 +14,7 @@ package edu.colorado.phet.opticaltweezers.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.opticaltweezers.util.DoubleRange;
 
 /**
  * Fluid
@@ -34,6 +35,10 @@ public class Fluid extends MovableObject implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private final DoubleRange _speedRange;
+    private final DoubleRange _viscosityRange;
+    private final DoubleRange _temperatureRange;
+    
     private final double _width; // nm
     private double _viscosity; //XXX units?
     private double _temperature; //XXX units?
@@ -48,15 +53,22 @@ public class Fluid extends MovableObject implements ModelElement {
      * @param position position at the center of the fluid "stream"
      * @param orientation direction that the fluid stream flows in (radians)
      * @param width width of the fluid stream
-     * @param speed speed of the fluid stream
-     * @param viscosity
-     * @param temperature
+     * @param speedRange speed of the fluid stream
+     * @param viscosityRange
+     * @param temperatureRange
      */
-    public Fluid( Point2D position, double orientation, double width, double speed, double viscosity, double temperature ) {
-        super( position, orientation, speed );
+    public Fluid( Point2D position, double orientation, double width, 
+            DoubleRange speedRange, DoubleRange viscosityRange, DoubleRange temperatureRange ) {
+        super( position, orientation, speedRange.getDefault() );
+        
         _width = width;
-        _viscosity = viscosity;
-        _temperature = temperature;
+        
+        _speedRange = speedRange;
+        _viscosityRange = viscosityRange;
+        _temperatureRange = temperatureRange;
+        
+        _viscosity = viscosityRange.getDefault();
+        _temperature = temperatureRange.getDefault();
     }
     
     //----------------------------------------------------------------------------
@@ -87,6 +99,18 @@ public class Fluid extends MovableObject implements ModelElement {
             _temperature = temperature;
             notifyObservers( PROPERTY_TEMPERATURE );
         }
+    }
+    
+    public DoubleRange getSpeedRange() {
+        return _speedRange;
+    }
+
+    public DoubleRange getTemperatureRange() {
+        return _temperatureRange;
+    }
+    
+    public DoubleRange getViscosityRange() {
+        return _viscosityRange;
     }
     
     //----------------------------------------------------------------------------

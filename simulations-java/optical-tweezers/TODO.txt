@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+- fix vertical lines in laser control, attach to ends of objective, not the control panel
 - fix problems with rulers
 - fix problems with power slider (eg, type in "85" and it gets set to "80")
 - straighten out lots of coordinate system transform problems
@@ -10,7 +11,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - no error dialog for power textfield input; if value is bad, beep and clamp to min/max
 - laser dragging is messed up at left boundary
-- make FluidControlPanel observer of Fluid
 - position histogram
 - potential energy chart
 - E-field vectors
@@ -22,7 +22,6 @@ MEDIUM PRIORITY:
 - cursors that indicate direction when drag is horizontally or vertically constrained
 - get details of physical model
 - javadoc what I've done so far
-- use font in FluidControlPanel
 - wire up "Return Bead" button, visible only when bead is outside of canvas
 - check bead visibility when canvas is resized
 - check laser visibility when canvas is resized
@@ -48,6 +47,10 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+3/12/07 - make FluidControlPanel observer of Fluid
+3/12/07 - move property ranges into Fluid model
+3/12/07 - use font in FluidControlPanel
+3/12/07 - add SliderControl.setFont
 3/12/07 - enable textfield editing for fluid controls
 3/12/07 - get lastest SliderControl from rutherford-scattering
 3/12/07 - vertically align left edges of fluid controls
