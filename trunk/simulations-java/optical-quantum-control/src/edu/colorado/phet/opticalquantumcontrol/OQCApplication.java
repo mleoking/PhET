@@ -23,16 +23,16 @@ import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticalquantumcontrol.help.ExplanationDialog;
-import edu.colorado.phet.opticalquantumcontrol.module.ShaperModule;
+import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;
 
 
 /**
- * ShaperApplication is the main application.
+ * OQCApplication is the main application.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ShaperApplication extends PhetApplication {
+public class OQCApplication extends PhetApplication {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -43,7 +43,7 @@ public class ShaperApplication extends PhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ShaperModule _shaperModule;
+    private OQCModule _shaperModule;
     private JDialog _explanationDialog;
     
     //----------------------------------------------------------------------------
@@ -61,7 +61,7 @@ public class ShaperApplication extends PhetApplication {
      * @param useClockControlPanel
      * @param frameSetup
      */
-    public ShaperApplication( String[] args, 
+    public OQCApplication( String[] args, 
             String title, String description, String version, FrameSetup frameSetup )
     {
         super( args, title, description, version, frameSetup );
@@ -79,7 +79,7 @@ public class ShaperApplication extends PhetApplication {
      * @param clock
      */
     private void initModules() {
-        _shaperModule = new ShaperModule();
+        _shaperModule = new OQCModule();
         addModule( _shaperModule );
     }
     
@@ -131,20 +131,20 @@ public class ShaperApplication extends PhetApplication {
     public static void main( String[] args ) throws IOException {
 
         // Initialize localization.
-        SimStrings.init( args, ShaperConstants.LOCALIZATION_BUNDLE_BASENAME );
+        SimStrings.init( args, OQCConstants.LOCALIZATION_BUNDLE_BASENAME );
         
         // Title, etc.
-        String title = SimStrings.get( "ShaperApplication.title" );
-        String description = SimStrings.get( "ShaperApplication.description" );
+        String title = SimStrings.get( "OQCApplication.title" );
+        String description = SimStrings.get( "OQCApplication.description" );
         String version = Version.NUMBER;
         
         // Frame setup
-        int width = ShaperConstants.APP_FRAME_WIDTH;
-        int height = ShaperConstants.APP_FRAME_HEIGHT;
+        int width = OQCConstants.APP_FRAME_WIDTH;
+        int height = OQCConstants.APP_FRAME_HEIGHT;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
         
         // Create the application.
-        ShaperApplication app = new ShaperApplication( args, title, description, version, frameSetup );
+        OQCApplication app = new OQCApplication( args, title, description, version, frameSetup );
         
         // Start the application.
         app.startApplication();

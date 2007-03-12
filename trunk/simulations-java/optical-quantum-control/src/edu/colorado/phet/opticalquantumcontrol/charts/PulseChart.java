@@ -18,7 +18,7 @@ import java.text.NumberFormat;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
-import edu.colorado.phet.opticalquantumcontrol.ShaperConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 
 
 /**
@@ -36,7 +36,7 @@ public class PulseChart extends Chart {
     // Axis parameter
     private static final Color AXIS_COLOR = Color.BLACK;
     private static final Stroke AXIS_STROKE = new BasicStroke( 2f );
-    private static final Font AXIS_TITLE_FONT = new Font( ShaperConstants.FONT_NAME, Font.BOLD, 16 );
+    private static final Font AXIS_TITLE_FONT = new Font( OQCConstants.FONT_NAME, Font.BOLD, 16 );
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
     
     // Range labels
@@ -45,7 +45,7 @@ public class PulseChart extends Chart {
     
     // Tick Mark parameter
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final Font MAJOR_TICK_FONT = new Font( ShaperConstants.FONT_NAME, Font.BOLD, 12 );
+    private static final Font MAJOR_TICK_FONT = new Font( OQCConstants.FONT_NAME, Font.BOLD, 12 );
     private static final Color MAJOR_TICK_COLOR = Color.BLACK;
     private static final Stroke MINOR_TICK_STROKE = MAJOR_TICK_STROKE;
     private static final Font MINOR_TICK_FONT = MAJOR_TICK_FONT;
@@ -58,7 +58,7 @@ public class PulseChart extends Chart {
     private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
     
     // X axis
-    private static final double L = ShaperConstants.L; // do not change!
+    private static final double L = OQCConstants.L; // do not change!
     private static final double X_MAJOR_TICK_SPACING = ( L / 4 );
     private static final double X_MINOR_TICK_SPACING = ( L / 8 );
 
@@ -181,8 +181,8 @@ public class PulseChart extends Chart {
     public void autoscaleY( double maxY ) {
 
         // Range
-        if ( maxY < ShaperConstants.MAX_HARMONIC_AMPLITUDE ) {
-            maxY = ShaperConstants.MAX_HARMONIC_AMPLITUDE;
+        if ( maxY < OQCConstants.MAX_HARMONIC_AMPLITUDE ) {
+            maxY = OQCConstants.MAX_HARMONIC_AMPLITUDE;
         }
         Range2D range = getRange();
         range.setMaxY( maxY );

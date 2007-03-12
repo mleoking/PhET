@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.opticalquantumcontrol.ShaperConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 
 
@@ -38,8 +38,8 @@ public class LightRays extends CompositePhetGraphic implements SimpleObserver {
     private static final int WIDTH = 27;
     private static final int HEIGHT = 650;
     private static final int SPACING = 10;
-    private static final int MAX_ALPHA = ShaperConstants.MAX_LIGHT_ALPHA;
-    private static final int MIN_ALPHA = ShaperConstants.MIN_LIGHT_ALPHA;
+    private static final int MAX_ALPHA = OQCConstants.MAX_LIGHT_ALPHA;
+    private static final int MIN_ALPHA = OQCConstants.MIN_LIGHT_ALPHA;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -211,7 +211,7 @@ public class LightRays extends CompositePhetGraphic implements SimpleObserver {
             double amplitude = _fourierSeries.getHarmonic( i ).getAmplitude();
             int alpha = 0;
             if ( Math.abs( amplitude ) > 0 ) {
-                alpha = MIN_ALPHA + (int) Math.abs( ( MAX_ALPHA - MIN_ALPHA ) * amplitude / ShaperConstants.MAX_HARMONIC_AMPLITUDE );
+                alpha = MIN_ALPHA + (int) Math.abs( ( MAX_ALPHA - MIN_ALPHA ) * amplitude / OQCConstants.MAX_HARMONIC_AMPLITUDE );
             }
             Color color = HarmonicColors.getInstance().getColor( i );
             Color colorWithAlpha = new Color( color.getRed(), color.getGreen(), color.getBlue(), alpha );
@@ -227,7 +227,7 @@ public class LightRays extends CompositePhetGraphic implements SimpleObserver {
         // Adjust coherent (white) light beam
         int alpha = 0;
         if ( amplitudesSum > 0 ) {
-            alpha = MIN_ALPHA + (int) Math.abs( ( MAX_ALPHA - MIN_ALPHA ) * amplitudesSum / ( numberOfHarmonics * ShaperConstants.MAX_HARMONIC_AMPLITUDE ) );
+            alpha = MIN_ALPHA + (int) Math.abs( ( MAX_ALPHA - MIN_ALPHA ) * amplitudesSum / ( numberOfHarmonics * OQCConstants.MAX_HARMONIC_AMPLITUDE ) );
         }
         Color color = new Color( 255, 255, 255, alpha );
         _outputBeam.setColor( color );

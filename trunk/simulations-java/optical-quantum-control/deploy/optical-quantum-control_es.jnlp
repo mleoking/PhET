@@ -14,11 +14,11 @@ click on "Setup & Troubleshooting" for more
 information.
 
 -->
-<!-- JNLP File for PhET "Optical Pulse Shaper" simulation --> 
+<!-- JNLP File for PhET "Optical Quantum Control" simulation --> 
 <jnlp 
   spec="1.0+" 
   codebase="http://www.colorado.edu/physics/phet/simulations/"
-  href="shaper/shaper_es.jnlp"> 
+  href="optical-quantum-control/optical-quantum-control_es.jnlp"> 
   <information> 
     <title>Control îptico De Quantum</title> 
     <vendor>Universidad de Colorado, Departamento de la Fisica</vendor> 
@@ -29,9 +29,9 @@ information.
   </information> 
   <resources> 
     <j2se version="1.4+"/> 
-    <jar href="shaper/shaper.jar"/>
+    <jar href="optical-quantum-control/opticalquantumcontrol.jar"/>
   </resources> 
-  <application-desc main-class="edu.colorado.phet.shaper.ShaperApplication">
+  <application-desc main-class="edu.colorado.phet.opticalquantumcontrol.OQCApplication">
     <argument>user.language=es</argument>
   </application-desc> 
 </jnlp> 

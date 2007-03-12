@@ -19,7 +19,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.opticalquantumcontrol.ShaperConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.charts.FourierSumPlot;
 import edu.colorado.phet.opticalquantumcontrol.charts.PulseChart;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
@@ -45,18 +45,18 @@ public class InputPulseView extends GraphicLayerSet {
 
     // Background parameters
     private static final Dimension BACKGROUND_SIZE = new Dimension( 535, 190 );
-    private static final Color BACKGROUND_COLOR = ShaperConstants.COMMON_GRAY;
+    private static final Color BACKGROUND_COLOR = OQCConstants.COMMON_GRAY;
 
     // Title parameters
-    private static final Font TITLE_FONT = new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new Font( OQCConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLACK;
 
     // Chart parameters
-    private static final double L = ShaperConstants.L; // do not change!
+    private static final double L = OQCConstants.L; // do not change!
     private static final double X_RANGE_START = ( L / 2 );
     private static final double X_RANGE_MIN = ( L / 4 );
     private static final double X_RANGE_MAX = ( 2 * L );
-    private static final double Y_RANGE_START = ShaperConstants.MAX_HARMONIC_AMPLITUDE + ( 0.05 * ShaperConstants.MAX_HARMONIC_AMPLITUDE );
+    private static final double Y_RANGE_START = OQCConstants.MAX_HARMONIC_AMPLITUDE + ( 0.05 * OQCConstants.MAX_HARMONIC_AMPLITUDE );
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 440, 135 );
 
@@ -116,7 +116,7 @@ public class InputPulseView extends GraphicLayerSet {
         inputPlot.setStroke( WAVE_STROKE );
         inputPlot.setStrokeColor( WAVE_COLOR );
         inputPlot.setUseCosines( true );
-        inputPlot.setYScale( ShaperConstants.FOURIER_SUM_SCALE );
+        inputPlot.setYScale( OQCConstants.FOURIER_SUM_SCALE );
         chartGraphic.addDataSetGraphic( inputPlot );
 
         // Interactivity

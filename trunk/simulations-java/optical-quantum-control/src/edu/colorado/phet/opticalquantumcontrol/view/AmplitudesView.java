@@ -29,7 +29,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.opticalquantumcontrol.ShaperConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.charts.FlattenedChart;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 import edu.colorado.phet.opticalquantumcontrol.model.Harmonic;
@@ -62,14 +62,14 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new Font( OQCConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLACK;
     
     // Chart parameters
-    private static final double X_MIN = ShaperConstants.MIN_HARMONICS;
-    private static final double X_MAX = ShaperConstants.MAX_HARMONICS;
-    private static final double Y_MIN = -ShaperConstants.MAX_HARMONIC_AMPLITUDE;
-    private static final double Y_MAX = +ShaperConstants.MAX_HARMONIC_AMPLITUDE;
+    private static final double X_MIN = OQCConstants.MIN_HARMONICS;
+    private static final double X_MAX = OQCConstants.MAX_HARMONICS;
+    private static final double Y_MIN = -OQCConstants.MAX_HARMONIC_AMPLITUDE;
+    private static final double Y_MAX = +OQCConstants.MAX_HARMONIC_AMPLITUDE;
     private static final Range2D CHART_RANGE = new Range2D( X_MIN, Y_MIN, X_MAX, Y_MAX );
     private static final Dimension CHART_SIZE = new Dimension( 275, 200 );
     
@@ -191,8 +191,8 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
             
             _slidersGraphic.clear();
 
-            int totalSpace = ( ShaperConstants.MAX_HARMONICS + 1 ) * SLIDER_SPACING;
-            int barWidth = ( CHART_SIZE.width - totalSpace ) / ShaperConstants.MAX_HARMONICS;
+            int totalSpace = ( OQCConstants.MAX_HARMONICS + 1 ) * SLIDER_SPACING;
+            int barWidth = ( CHART_SIZE.width - totalSpace ) / OQCConstants.MAX_HARMONICS;
             double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / ( numberOfHarmonics - 1 );
 
             for ( int i = 0; i < numberOfHarmonics; i++ ) {

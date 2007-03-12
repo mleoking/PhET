@@ -14,7 +14,7 @@ package edu.colorado.phet.opticalquantumcontrol.view;
 import java.awt.Component;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.opticalquantumcontrol.ShaperConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 
 
 /**
@@ -31,6 +31,6 @@ public class MagnifyingGlass extends PhetImageGraphic {
      * @param component
      */
     public MagnifyingGlass( Component component ) {
-        super( component, ShaperConstants.MAGNIFYING_GLASS_IMAGE );
+        super( component, OQCConstants.MAGNIFYING_GLASS_IMAGE );
     }
 }

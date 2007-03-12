@@ -18,7 +18,7 @@ import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.LinePlot;
 import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.opticalquantumcontrol.ShaperConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 import edu.colorado.phet.opticalquantumcontrol.model.Harmonic;
 import edu.colorado.phet.opticalquantumcontrol.util.TrigCache;
@@ -74,7 +74,7 @@ public class FourierSumPlot extends LinePlot {
         _period = 1;
         _startX = 0;
         _pixelsPerPoint = 1.0;
-        _maxAmplitude = ShaperConstants.MAX_HARMONIC_AMPLITUDE;
+        _maxAmplitude = OQCConstants.MAX_HARMONIC_AMPLITUDE;
         _points = null;
         _useCosines = false;
         _yScale = 1;
