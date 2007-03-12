@@ -69,7 +69,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         _controlPanel = new LaserControlPanel( canvas, OTConstants.PLAY_AREA_CONTROL_FONT, objectiveWidth, laser, powerRange );
         
         // Lines connecting objective to control panel.
-        Line2D line = new Line2D.Double( 0, -CONTROL_PANEL_Y_OFFSET, 0, 0 );
+        Line2D line = new Line2D.Double( 0, 0, 0, CONTROL_PANEL_Y_OFFSET );
         PPath leftLineNode = new PPath( line );
         leftLineNode.setStroke( LINE_STROKE );
         leftLineNode.setStrokePaint( LINE_COLOR );
@@ -112,8 +112,8 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         // Control panel below beam
         _controlPanel.setOffset( -_controlPanel.getFullBounds().getWidth()/2, _beamInNode.getFullBounds().getHeight() );
         // Connecting lines
-        leftLineNode.setOffset( _controlPanel.getFullBounds().getX(), _controlPanel.getFullBounds().getY() );
-        rightLineNode.setOffset( _controlPanel.getFullBounds().getMaxX(), _controlPanel.getFullBounds().getY() );
+        leftLineNode.setOffset( objectiveNode.getFullBounds().getX(), 0 );
+        rightLineNode.setOffset( objectiveNode.getFullBounds().getMaxX(), 0 );
         // Handles
         leftHandleNode.setOffset( _controlPanel.getFullBounds().getX() - leftHandleNode.getFullBounds().getWidth() + 2, 
                 _controlPanel.getFullBounds().getY() + ( ( _controlPanel.getFullBounds().getHeight() - leftHandleNode.getFullBounds().getHeight() ) / 2 ) );

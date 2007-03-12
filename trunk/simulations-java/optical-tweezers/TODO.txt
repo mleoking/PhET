@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- fix vertical lines in laser control, attach to ends of objective, not the control panel
 - fix problems with rulers
 - fix problems with power slider (eg, type in "85" and it gets set to "80")
 - straighten out lots of coordinate system transform problems
@@ -35,7 +34,7 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - generalize LaserPowerControl
 - get requirements for "Fun With DNA" and "Molecular Motors" panels
-- save/load for first module's control panel
+- save/load
 - green control panel background ala design doc
 - package level javadoc
 - make laser danger sign look better
@@ -46,6 +45,8 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+3/12/07 - fix vertical lines in laser control, attach to ends of objective, not the control panel
+3/12/07 - move getWorldSize into AbstractModule
 3/12/07 - remove CVS keywords from headers, javadoc, and persistence
 3/12/07 - add validation in Fluid model setters
 3/12/07 - bug fix in MovingObject.setSpeed
