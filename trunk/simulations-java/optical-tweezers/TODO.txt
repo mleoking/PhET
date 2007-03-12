@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- fix problems with power slider (eg, type in "85" and it gets set to "80")
+- power should be double precision
 
 HIGH PRIORITY:
 - fix problems with rulers

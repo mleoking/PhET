@@ -33,8 +33,9 @@ public class LaserPowerControl extends JPanel {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private int _minPower, _maxPower;
+    private int _power;
     
     private JLabel _label;
     private ColorIntensitySlider _intensitySlider;
@@ -100,6 +101,7 @@ public class LaserPowerControl extends JPanel {
         layout.addComponent( _units, row, col++ );
         
         // Default state
+        _power = powerRange.getMin() - 1; // force an update
         setPower( powerRange.getDefault() );
     }
     
@@ -113,15 +115,20 @@ public class LaserPowerControl extends JPanel {
     }
     
     public void setPower( int power ) {
-        int intensity = powerToIntensity( power );
-        _intensitySlider.setValue( intensity );
-        updateTextField();
-        fireChangeEvent( new ChangeEvent( this ) );
+        if ( power < _minPower || power > _maxPower ) {
+            throw new IllegalArgumentException( "power out of range: " + power );
+        }
+        if ( power != _power ) {
+            _power = power;
+            int intensity = powerToIntensity( power );
+            _intensitySlider.setValue( intensity );
+            _formattedTextField.setText( String.valueOf( power ) );
+            fireChangeEvent( new ChangeEvent( this ) );
+        }
     }
     
     public int getPower() {
-        int intensity = _intensitySlider.getValue();
-        return intensityToPower( intensity );
+        return _power;
     }
     
     public int getMinPower() {
@@ -154,52 +161,6 @@ public class LaserPowerControl extends JPanel {
         assert( intensity >= 0 );
         assert( intensity <= 100 );
         return _minPower + (int)( ( intensity / 100.0 ) * ( _maxPower - _minPower ) );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Private
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Updates the slider to match the text field.
-     */
-    private void updateSlider() {
-
-        // Get the value from the textfield
-        String s = _formattedTextField.getText();
-        int power = 0;
-        try {
-            power = Integer.parseInt( s );
-        }
-        catch ( NumberFormatException e ) {
-            Toolkit.getDefaultToolkit().beep();
-            updateTextField(); // revert
-        }
-
-        if ( power < _minPower ) {
-            Toolkit.getDefaultToolkit().beep();
-            power = _minPower;
-        }
-        else if ( power > _maxPower ) {
-            Toolkit.getDefaultToolkit().beep();
-            power = _maxPower;
-        }
-        int intensity = powerToIntensity( power );
-        System.out.println( "LaserPowerControl.updateSlider power=" + power + " intensity=" + intensity );//XXX
-        _intensitySlider.removeChangeListener( _listener );
-        _intensitySlider.setValue( intensity );
-        _intensitySlider.addChangeListener( _listener );
-    }
-    
-    /*
-     * Updates the text field to match the slider value.
-     */
-    private void updateTextField() {
-        int intensity = _intensitySlider.getValue();
-        int power = intensityToPower( intensity );
-        System.out.println( "LaserPowerControl.updateTextField intensity=" + intensity + " power=" + power );//XXX
-        String s = "" + power;
-        _formattedTextField.setText( s );
     }
     
     //----------------------------------------------------------------------------
@@ -244,15 +205,17 @@ public class LaserPowerControl extends JPanel {
         public void keyPressed( KeyEvent e ) {
             if ( e.getSource() == _formattedTextField ) {
                 if ( e.getKeyCode() == KeyEvent.VK_UP ) {
-                    final int value = _intensitySlider.getValue() + 1;
-                    if ( value <= _maxPower ) {
-                        setPower( value );
+                    if ( _power < _maxPower ) {
+                        _intensitySlider.removeChangeListener( _listener );
+                        setPower( _power + 1 );
+                        _intensitySlider.addChangeListener( _listener );
                     }
                 }
                 else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
-                    final int value = _intensitySlider.getValue() - 1;
-                    if ( value >= _minPower ) {
-                        setPower( value );
+                    if ( _power > _minPower ) {
+                        _intensitySlider.removeChangeListener( _listener );
+                        setPower( _power - 1 );
+                        _intensitySlider.addChangeListener( _listener );
                     }
                 }
             }
@@ -261,16 +224,14 @@ public class LaserPowerControl extends JPanel {
         /* User pressed enter in text field. */
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _formattedTextField ) {
-                updateSlider();
-                fireChangeEvent( new ChangeEvent( _eventSource ) );
+                handleTextFieldChanged();
             }
         }
         
         /* Slider was moved. */
         public void stateChanged( ChangeEvent event ) {
             if ( event.getSource() == _intensitySlider ) {
-                updateTextField();
-                fireChangeEvent( new ChangeEvent( _eventSource ) );
+                handleSliderChanged();
             }
         }
 
@@ -290,12 +251,49 @@ public class LaserPowerControl extends JPanel {
             if ( e.getSource() == _formattedTextField ) {
                 try {
                     _formattedTextField.commitEdit();
-                    updateSlider();
+                    handleTextFieldChanged();
                 }
                 catch ( ParseException pe ) {
-                    updateTextField(); // revert
+                    Toolkit.getDefaultToolkit().beep();
+                    _formattedTextField.setText( String.valueOf( _power ) ); // revert
                 }
             }
         }
+    }
+    
+    private void handleTextFieldChanged() {
+        
+        // Get the value from the textfield
+        String s = _formattedTextField.getText();
+        int power = 0;
+        try {
+            power = Integer.parseInt( s );
+        }
+        catch ( NumberFormatException e ) {
+            Toolkit.getDefaultToolkit().beep();
+            _formattedTextField.setText( String.valueOf( _power ) ); // revert
+        }
+
+        if ( power < _minPower ) {
+            Toolkit.getDefaultToolkit().beep();
+            power = _minPower;
+        }
+        else if ( power > _maxPower ) {
+            Toolkit.getDefaultToolkit().beep();
+            power = _maxPower;
+        }
+        
+        // Set the power
+        _intensitySlider.removeChangeListener( _listener );
+        setPower( power );
+        _intensitySlider.addChangeListener( _listener );
+    }
+    
+    private void handleSliderChanged() {
+        int intensity = _intensitySlider.getValue();
+        int power = intensityToPower( intensity );
+        _intensitySlider.removeChangeListener( _listener );
+        setPower( power );
+        _intensitySlider.addChangeListener( _listener );
     }
 }
