@@ -9,7 +9,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - no error dialog for power textfield input; if value is bad, beep and clamp to min/max
-- laser dragging is messed up at boundaries, especially left edge
+- laser dragging is messed up at left boundary
 - make FluidControlPanel observer of Fluid
 - position histogram
 - potential energy chart
@@ -19,11 +19,9 @@ HIGH PRIORITY:
 - trap force on bead
 
 MEDIUM PRIORITY:
-- add handles to ends of laser control panel, make them draggable
 - cursors that indicate direction when drag is horizontally or vertically constrained
 - get details of physical model
 - javadoc what I've done so far
-- vertically align left edges of fluid controls
 - use font in FluidControlPanel
 - wire up "Return Bead" button, visible only when bead is outside of canvas
 - check bead visibility when canvas is resized
@@ -36,6 +34,7 @@ MEDIUM PRIORITY:
 - units and range for fluid temperature
 
 LOW PRIORITY:
+- remove CVS keywords from headers and javadoc
 - generalize LaserPowerControl
 - get requirements for "Fun With DNA" and "Molecular Motors" panels
 - save/load for first module's control panel
@@ -49,53 +48,56 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
-(2/23/07) - add ruler, lots of problems, no vertical drag
-(2/23/07) - add draggable handles to sides of laser control panel
-(2/23/07) - create HandleNode in piccolo-phet
-(2/23/07) - add vertical lines to connect objective to laser control panel
-(2/22/07) - work on piccolo-phet RulerNode
-(2/21/07) - remove drag handler from laser control panel, multiple PSwing-related problems
-(2/21/07) - change to BoundedDragHandler for bead and laser dragging
-(2/21/07) - create PhetPSwing so that wrapped JComponents aren't active when invisible
-(2/21/07) - contrain bead dragging with ConstrainedDragHandler for now
-(2/21/07) - make bead diameter mutable
-(2/21/07) - setPickable(false) on non-interactive nodes
-(2/21/07) - hook up laser power control to alpha channel of laser beam view
-(2/20/07) - add laser beam coming out of objective, no waist
-(2/20/07) - laser power text field entry and validation with error dialog
-(2/20/07) - make laser power slider range be 0-1000 mW
-(2/20/07) - make LaserControlPanel observer of Laser
-(2/20/07) - layout LaserControlPanel using Piccolo instead of JPanel
-(2/20/07) - set layout of laser objective, incoming beam, control panel
-(2/20/07) - fix initial positioning of Laser and Bead views
-(2/20/07) - make view nodes observers of their model elements
-(2/20/07) - remove glass slide from model, fluid model is sufficient
-(2/20/07) - change "flow velocity" to "flow speed" through, there is no direction control
-(2/14/07) - dynamically resize width of glass slide view to match play area width
-(2/14/07) - continue work on Laser view (objective, incoming beam, etc)
-(2/14/07) - use model to size/position view nodes
-(2/14/07) - create model-view transform for mapping between coordinate systems
-(2/14/07) - flesh out bits of model related to controls, positioning, sizing, etc.
-(2/6/07) - add warning sign to laser control panel
-(2/6/07) - toggle laser start/stop button
-(2/6/07) - settable font for LaserControlPanel
-(2/6/07) - define separate fonts in OTConstants for controls in control panel and play area
-(2/6/07) - first pass at Laser control panel
-(2/6/07) - fluid control panel
-(2/6/07) - add ad hoc view of bead (no connection to model, no drag constraints)
-(2/6/07) - add ad hoc view of glass slide (no connection to model)
-(2/5/07) - implement "reset all" for first module
-(2/5/07) - wire up first control panel to show/hide controls properly
-(2/5/07) - create a separate "default values" class for each module
-(2/5/07) - add all Swing components to first control panel, no wiring
-(2/5/07) - add entries in CVS modules and loginfo
-(2/5/07) - sim requires charts, add dependencies on jfreechart and jfreechart-phet
-(2/5/07) - remove speed slider from clock control panel
-(1/29/07) - set up ProGuard
-(1/29/07) - set up dev directory
-(1/29/07) - create JNLP files
-(1/29/07) - set up basic application framework (modules, control panels, clock controls, persistence, etc)
-(1/29/07) - set up project in CVS
+3/12/07 - enable textfield editing for fluid controls
+3/12/07 - get lastest SliderControl from rutherford-scattering
+3/12/07 - vertically align left edges of fluid controls
+2/23/07 - add ruler, lots of problems, no vertical drag
+2/23/07 - add draggable handles to sides of laser control panel
+2/23/07 - create HandleNode in piccolo-phet
+2/23/07 - add vertical lines to connect objective to laser control panel
+2/22/07 - work on piccolo-phet RulerNode
+2/21/07 - remove drag handler from laser control panel, multiple PSwing-related problems
+2/21/07 - change to BoundedDragHandler for bead and laser dragging
+2/21/07 - create PhetPSwing so that wrapped JComponents aren't active when invisible
+2/21/07 - contrain bead dragging with ConstrainedDragHandler for now
+2/21/07 - make bead diameter mutable
+2/21/07 - setPickable(false) on non-interactive nodes
+2/21/07 - hook up laser power control to alpha channel of laser beam view
+2/20/07 - add laser beam coming out of objective, no waist
+2/20/07 - laser power text field entry and validation with error dialog
+2/20/07 - make laser power slider range be 0-1000 mW
+2/20/07 - make LaserControlPanel observer of Laser
+2/20/07 - layout LaserControlPanel using Piccolo instead of JPanel
+2/20/07 - set layout of laser objective, incoming beam, control panel
+2/20/07 - fix initial positioning of Laser and Bead views
+2/20/07 - make view nodes observers of their model elements
+2/20/07 - remove glass slide from model, fluid model is sufficient
+2/20/07 - change "flow velocity" to "flow speed" through, there is no direction control
+2/14/07 - dynamically resize width of glass slide view to match play area width
+2/14/07 - continue work on Laser view objective, incoming beam, etc)
+2/14/07 - use model to size/position view nodes
+2/14/07 - create model-view transform for mapping between coordinate systems
+2/14/07 - flesh out bits of model related to controls, positioning, sizing, etc.
+2/6/07 - add warning sign to laser control panel
+2/6/07 - toggle laser start/stop button
+2/6/07 - settable font for LaserControlPanel
+2/6/07 - define separate fonts in OTConstants for controls in control panel and play area
+2/6/07 - first pass at Laser control panel
+2/6/07 - fluid control panel
+2/6/07 - add ad hoc view of bead (no connection to model, no drag constraints)
+2/6/07 - add ad hoc view of glass slide (no connection to model)
+2/5/07 - implement "reset all" for first module
+2/5/07 - wire up first control panel to show/hide controls properly
+2/5/07 - create a separate "default values" class for each module
+2/5/07 - add all Swing components to first control panel, no wiring
+2/5/07 - add entries in CVS modules and loginfo
+2/5/07 - sim requires charts, add dependencies on jfreechart and jfreechart-phet
+2/5/07 - remove speed slider from clock control panel
+1/29/07 - set up ProGuard
+1/29/07 - set up dev directory
+1/29/07 - create JNLP files
+1/29/07 - set up basic application framework (modules, control panels, clock controls, persistence, etc)
+1/29/07 - set up project in CVS
 
 REJECTED:
 

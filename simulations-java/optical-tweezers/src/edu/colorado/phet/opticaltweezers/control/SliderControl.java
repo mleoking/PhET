@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2007, University of Colorado */
 
 package edu.colorado.phet.opticaltweezers.control;
 
@@ -25,6 +16,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
@@ -38,7 +30,6 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
  * The default "look" is to have labels at the min and max tick marks.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class SliderControl extends JPanel {
 
@@ -62,7 +53,7 @@ public class SliderControl extends JPanel {
     private DecimalFormat _valueNumberFormat;
     private EventListenerList _listenerList; // notification of slider changes
     private boolean _notifyWhileDragging; // if true, fire ChangeEvents while the slider is dragged
-    private boolean _isDragging; // is the slider currently being dragged?
+    private boolean _isAdjusting; // is the slider being adjusted (dragged) ?
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -122,7 +113,7 @@ public class SliderControl extends JPanel {
         _valueNumberFormat = createFormat( valueDecimalPlaces );
 
         _notifyWhileDragging = true;
-        _isDragging = false;
+        _isAdjusting = false;
         
         _listenerList = new EventListenerList();
         
@@ -235,7 +226,7 @@ public class SliderControl extends JPanel {
             }
         }
         else {
-            warnUser();
+            Toolkit.getDefaultToolkit().beep();
             System.out.println( "SliderControl.setValue: invalid value for slider labeled \"" + _valueLabel.getText() + "\", " + "range is " + _min + " to " + _max + ", tried to set " + value );
             updateView(); // revert
         }
@@ -318,12 +309,21 @@ public class SliderControl extends JPanel {
     }
 
     /**
-     * Makes the text editable.
+     * Makes the text field editable.
      * 
      * @param editable
      */
-    public void setTextEditable( boolean editable ) {
+    public void setTextFieldEditable( boolean editable ) {
         _valueTextField.setEditable( editable );
+    }
+    
+    /**
+     * Changes visibility of text field.
+     * 
+     * @param visible true or false
+     */
+    public void setTextFieldVisible( boolean visible ) {
+        _valueTextField.setVisible( visible );
     }
     
     /**
@@ -332,8 +332,8 @@ public class SliderControl extends JPanel {
      * 
      * @return true or false
      */
-    public boolean isDragging() {
-        return _isDragging;
+    public boolean isAdjusting() {
+        return _isAdjusting;
     }
     
     /**
@@ -405,6 +405,19 @@ public class SliderControl extends JPanel {
      */
     protected double getMultiplier() {
         return _multiplier;
+    }
+    
+    /**
+     * Changes the label table to label only the min and max of the range.
+     * 
+     * @param minLabel
+     * @param maxLabel
+     */
+    public void setMinMaxLabels( String minLabel, String maxLabel ) {
+        Hashtable labelTable = new Hashtable();
+        labelTable.put( new Integer( _slider.getMinimum() ), new JLabel( minLabel ) );
+        labelTable.put( new Integer( _slider.getMaximum() ), new JLabel( maxLabel ) );
+        _slider.setLabelTable( labelTable );
     }
     
     //----------------------------------------------------------------------------
@@ -526,13 +539,6 @@ public class SliderControl extends JPanel {
         return new DecimalFormat( format );
     }
     
-    /*
-     * Produces an audible beep, used to indicate invalid text entry.
-     */
-    private void warnUser() {
-        Toolkit.getDefaultToolkit().beep();
-    }
-    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
@@ -563,7 +569,16 @@ public class SliderControl extends JPanel {
          */
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _valueTextField ) {
-                setValue( getTextFieldValue() );
+                double value = getTextFieldValue();
+                if ( value < _min ) {
+                    value = _min;
+                    Toolkit.getDefaultToolkit().beep();
+                }
+                else if ( value > _max ) {
+                    value = _max;
+                    Toolkit.getDefaultToolkit().beep();
+                }
+                setValue( value );
             }
         }
         
@@ -574,8 +589,8 @@ public class SliderControl extends JPanel {
          */
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() == _slider ) {
-                _isDragging = _slider.getValueIsAdjusting();
-                boolean notify = ( _notifyWhileDragging || !_isDragging );
+                _isAdjusting = _slider.getValueIsAdjusting();
+                boolean notify = ( _notifyWhileDragging || !_isAdjusting );
                 setValue( getSliderValue(), notify );
             }
         }
@@ -599,7 +614,7 @@ public class SliderControl extends JPanel {
                     setValue( getTextFieldValue() );
                 }
                 catch ( ParseException pe ) {
-                    warnUser();
+                    Toolkit.getDefaultToolkit().beep();
                     updateView(); // revert
                 }
             }
