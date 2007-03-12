@@ -23,7 +23,7 @@ public class Laser extends MovableObject implements ModelElement {
     
     private final double _width; // nm
     private final int _wavelength; // nm
-    private int _power; // mW
+    private double _power; // mW
     private boolean _running;
     
     //----------------------------------------------------------------------------
@@ -39,7 +39,7 @@ public class Laser extends MovableObject implements ModelElement {
      * @param wavelength wavelenght (nm)
      * @param power power (mW)
      */
-    public Laser( Point2D position, double orientation, double width, int wavelength, int power ) {
+    public Laser( Point2D position, double orientation, double width, int wavelength, double power ) {
         super( position, orientation, 0 /* speed */ );
         _width = width;
         _wavelength = wavelength;
@@ -70,11 +70,11 @@ public class Laser extends MovableObject implements ModelElement {
         return _wavelength;
     }
     
-    public int getPower() {
+    public double getPower() {
         return _power;
     }
     
-    public void setPower( int power ) {
+    public void setPower( double power ) {
         if ( power < 0 ) {
             throw new IllegalArgumentException( "power < 0: " + power );
         }

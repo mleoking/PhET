@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.util.IntegerRange;
+import edu.colorado.phet.opticaltweezers.util.DoubleRange;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
@@ -46,7 +46,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     
     private String _startString, _stopString;
     
-    public LaserControlPanel( PSwingCanvas canvas, Font font, double minPanelWidth, Laser laser, IntegerRange powerRange ) {
+    public LaserControlPanel( PSwingCanvas canvas, Font font, double minPanelWidth, Laser laser, DoubleRange powerRange ) {
         super();
         
         _laser = laser;
@@ -78,7 +78,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         _powerControl.setUnitsForeground( Color.WHITE );
         _powerControlListener = new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                int power = _powerControl.getPower();
+                double power = _powerControl.getPower();
                 _laser.setPower( power );
             }
         };
@@ -127,11 +127,11 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         _laser.deleteObserver( this );
     }
     
-    public int getMinPower() {
+    public double getMinPower() {
         return _powerControl.getMinPower();
     }
     
-    public int getMaxPower() {
+    public double getMaxPower() {
         return _powerControl.getMaxPower();
     }
     
