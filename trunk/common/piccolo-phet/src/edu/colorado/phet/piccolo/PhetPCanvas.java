@@ -10,19 +10,25 @@
  */
 package edu.colorado.phet.piccolo;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.activities.PActivity;
-import edu.umd.cs.piccolo.util.PDebug;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+
+import javax.swing.BorderFactory;
+
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.util.PDebug;
+import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * Piccolo canvas extension that provides support for maintenance of aspect ratio,
@@ -164,6 +170,26 @@ public class PhetPCanvas extends PSwingCanvas {
      */
     public AffineTransform getTransform() {
         return transform;
+    }
+    
+    /**
+     * Gets the size of the canvas is screen coordinates.
+     * 
+     * @return Dimension2D
+     */
+    public Dimension2D getScreenSize() {
+        return new PDimension( getWidth(), getHeight() );
+    }
+    
+    /**
+     * Gets the size of the canvas is world coordinates.
+     * 
+     * @return Dimension2D
+     */
+    public Dimension2D getWorldSize() {
+        Dimension2D dim = getScreenSize();
+        getPhetRootNode().screenToWorld( dim ); // modifies dim!
+        return dim;
     }
     
     /**
