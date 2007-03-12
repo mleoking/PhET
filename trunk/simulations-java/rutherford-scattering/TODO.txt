@@ -15,6 +15,7 @@ LOW PRIORITY:
 
 
 DONE:
+3/12/07 - bug fix in MovingObject.setSpeed
 ******** version 0.00.03 (13684)
 3/9/07 - show outline of nucleus while dragging sliders to preserve responsiveness
 3/9/07 - implement dynamic generation of nucleus view in RutherfordAtomNode
