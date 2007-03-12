@@ -250,23 +250,13 @@ public class PhysicsModule extends AbstractModule {
     // Canvas layout
     //----------------------------------------------------------------------------
     
-    /**
-     * Determines the visible bounds of the canvas in world coordinates.
-     */ 
-    public Dimension getWorldSize() {
-        Dimension2D dim = new PDimension( _canvas.getWidth(), _canvas.getHeight() );
-        _canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
-        Dimension worldSize = new Dimension( (int) dim.getWidth(), (int) dim.getHeight() );
-        return worldSize;
-    }
-    
     /*
      * Updates the layout of stuff on the canvas.
      */
     public void updateCanvasLayout() {
 
-        Dimension worldSize = getWorldSize();
-        System.out.println( "HAModule.updateCanvasLayout worldSize=" + worldSize );//XXX
+        Dimension worldSize = getWorldSize( _canvas );
+        System.out.println( "PhysicsModule.updateCanvasLayout worldSize=" + worldSize );//XXX
         if ( worldSize.getWidth() == 0 || worldSize.getHeight() == 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
@@ -329,8 +319,6 @@ public class PhysicsModule extends AbstractModule {
             initWiggleMe();
         }
     }
-    
-
     
     //----------------------------------------------------------------------------
     // Wiggle Me

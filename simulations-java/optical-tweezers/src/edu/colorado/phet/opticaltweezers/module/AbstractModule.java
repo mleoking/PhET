@@ -2,13 +2,18 @@
 
 package edu.colorado.phet.opticaltweezers.module;
 
+import java.awt.Dimension;
+import java.awt.geom.Dimension2D;
+
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -86,5 +91,19 @@ public abstract class AbstractModule extends PiccoloModule {
      */
     public void removeClockListener( ClockListener listener ) {
         getClock().removeClockListener( listener );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Determines the visible bounds of the canvas in world coordinates.
+     */ 
+    public static final Dimension getWorldSize( PhetPCanvas canvas ) {
+        Dimension2D dim = new PDimension( canvas.getWidth(), canvas.getHeight() );
+        canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
+        Dimension worldSize = new Dimension( (int) dim.getWidth(), (int) dim.getHeight() );
+        return worldSize;
     }
 }
