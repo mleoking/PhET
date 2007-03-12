@@ -1,5 +1,5 @@
--injars /Volumes/files/phet-workspace/jars/shaper.jar
--outjars /Volumes/files/phet-workspace/jars/shaper-pro.jar
+-injars /Volumes/files/phet-workspace/jars/opticalquantumcontrol.jar
+-outjars /Volumes/files/phet-workspace/jars/opticalquantumcontrol-pro.jar
 
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/ui.jar
@@ -13,7 +13,7 @@
 
 
 # Keep - Applications. Keep all application classes that have a main method.
--keepclasseswithmembers public class edu.colorado.phet.shaper.ShaperApplication {
+-keepclasseswithmembers public class edu.colorado.phet.opticalquantumcontrol.OQCApplication {
     public static void main(java.lang.String[]);
 }
 
