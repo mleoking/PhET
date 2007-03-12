@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.persistence;
 
 import java.beans.ExceptionListener;
@@ -37,7 +28,6 @@ import edu.colorado.phet.opticaltweezers.module.AbstractModule;
  * It works differently if the application was started with Web Start.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class OTPersistenceManager {
 

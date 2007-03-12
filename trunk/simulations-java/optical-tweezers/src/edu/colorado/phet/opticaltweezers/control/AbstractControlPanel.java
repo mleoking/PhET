@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.Font;
@@ -32,7 +23,6 @@ import edu.colorado.phet.opticaltweezers.util.CursorUtils;
  * AbstractControlPanel is the base class for all control panels.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public abstract class AbstractControlPanel extends ControlPanel {
 

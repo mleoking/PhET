@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.Dimension;
@@ -42,7 +33,6 @@ import edu.colorado.phet.opticaltweezers.model.OTClock;
  * It has control buttons (Play, Pause, Step, Restart) and a time display.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class OTClockControlPanel extends JPanel implements ClockListener {
     

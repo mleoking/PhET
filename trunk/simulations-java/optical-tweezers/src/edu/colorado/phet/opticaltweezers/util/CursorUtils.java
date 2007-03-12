@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.util;
 
 import java.awt.Cursor;
@@ -16,12 +7,10 @@ import java.awt.Cursor;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.PhetFrame;
 
-
 /**
  * CursorUtils is a collection of Cursor-related class methods.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class CursorUtils {
 

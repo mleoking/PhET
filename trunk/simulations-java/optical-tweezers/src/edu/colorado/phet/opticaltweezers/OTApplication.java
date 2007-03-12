@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers;
 
 import java.awt.event.ActionEvent;
@@ -37,7 +28,6 @@ import edu.colorado.phet.piccolo.PiccoloPhetApplication;
  * HAApplication
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class OTApplication extends PiccoloPhetApplication {
 
@@ -163,7 +153,6 @@ public class OTApplication extends PiccoloPhetApplication {
         
         GlobalConfig config = appConfig.getGlobalConfig();
         
-        config.setCvsTag( OTVersion.CVS_TAG );
         config.setVersionNumber( OTVersion.NUMBER );
     }
 

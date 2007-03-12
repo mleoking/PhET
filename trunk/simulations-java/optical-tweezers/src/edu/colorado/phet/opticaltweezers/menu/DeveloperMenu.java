@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.menu;
 
 import java.awt.Frame;
@@ -31,7 +22,6 @@ import edu.colorado.phet.opticaltweezers.dialog.DeveloperControlsDialog;
  * This menu is not localized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class DeveloperMenu extends JMenu implements ActionListener {
     

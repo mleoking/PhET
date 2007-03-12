@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2007, University of Colorado */
 
 package edu.colorado.phet.opticaltweezers.view;
 
@@ -24,7 +15,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * SphericalNode draws a sphere, with origin at the center of the sphere.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class SphericalNode extends PhetPNode {
     

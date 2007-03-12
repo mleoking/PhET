@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.module;
 
 import java.awt.Dimension;
@@ -40,7 +31,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  * MotorsModule is the "Molecular Motors" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class MotorsModule extends AbstractModule {
 

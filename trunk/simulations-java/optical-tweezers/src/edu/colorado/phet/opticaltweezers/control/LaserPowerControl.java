@@ -1,14 +1,5 @@
 /* Copyright 2006, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.*;
@@ -36,7 +27,6 @@ import edu.colorado.phet.opticaltweezers.util.IntegerRange;
  * It combines a ColorIntensitySlider and an editable text field.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class LaserPowerControl extends JPanel {
     

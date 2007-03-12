@@ -1,14 +1,5 @@
 /* Copyright 2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.opticaltweezers;
 
 import java.awt.Color;
@@ -25,7 +16,6 @@ import edu.colorado.phet.opticaltweezers.util.DoubleRange;
  * OTConstants is a collection of constants.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class OTConstants {
 

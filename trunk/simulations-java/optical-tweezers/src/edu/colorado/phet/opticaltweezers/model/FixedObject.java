@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2007, University of Colorado */
 
 package edu.colorado.phet.opticaltweezers.model;
 
@@ -20,7 +11,6 @@ import edu.colorado.phet.common.model.clock.ClockListener;
  * FixedObject is an object that has a fixed (immutable) position and orientation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class FixedObject extends OTObservable {
     
