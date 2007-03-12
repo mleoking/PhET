@@ -38,8 +38,8 @@ import edu.colorado.phet.opticaltweezers.model.OTClock;
 
 
 /**
- * HAClockControls is a custom clock control panel.
- * It has control buttons (Play, Pause, Step) and a time speed slider.
+ * OTClockControls is a custom clock control panel.
+ * It has control buttons (Play, Pause, Step, Restart) and a time display.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
