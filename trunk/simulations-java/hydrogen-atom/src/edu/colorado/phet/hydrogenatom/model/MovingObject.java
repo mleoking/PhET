@@ -98,7 +98,7 @@ public class MovingObject extends FixedObject {
      * @param speed
      */
     public void setSpeed( double speed ) {
-        if ( speed != speed ) {
+        if ( speed != _speed ) {
             _speed = speed;
             notifyObservers( PROPERTY_SPEED );
         }

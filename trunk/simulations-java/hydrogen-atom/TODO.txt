@@ -16,6 +16,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+3/12/07 - bug fix in MovingObject.setSpeed
 ***** CVS tag: hydrogenatom-1-01-00-2007-02-16
 (2/16/07) - add "Light controls" label at top of GunControlPanel
 (2/16/07) - hide alpha particles features in gun control panel (GunControlPanel.SHOW_ALPHA_PARTICLE_CONTROLS = false)
