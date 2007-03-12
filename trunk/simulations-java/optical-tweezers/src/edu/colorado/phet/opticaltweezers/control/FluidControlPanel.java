@@ -14,6 +14,8 @@ package edu.colorado.phet.opticaltweezers.control;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JSeparator;
@@ -23,58 +25,71 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.util.DoubleRange;
+import edu.colorado.phet.opticaltweezers.model.Fluid;
 
 
-public class FluidControlPanel extends VerticalLayoutPanel {
+public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private Fluid _fluid;
     
     private SliderControl _speedControl;
     private SliderControl _viscosityControl;
     private SliderControl _temperatureControl;
     
-    public FluidControlPanel( Font font, DoubleRange speedRange, DoubleRange viscosityRange, DoubleRange temperatureRange ) {
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    public FluidControlPanel( Fluid fluid, Font font ) {
         super();
         
-        //XXX Use font!
+        _fluid = fluid;
+        _fluid.addObserver( this );
         
         setBorder( BorderFactory.createLineBorder( Color.BLACK ) );
         
-        double value = speedRange.getDefault();
-        double min = speedRange.getMin();
-        double max = speedRange.getMax();
-        double tickSpacing = max-min; //XXX
-        int tickDecimalPlaces = 0; //XXX
-        int valueDecimalPlaces = speedRange.getSignificantDecimalPlaces();
+        double value = fluid.getSpeed();
+        double min = fluid.getSpeedRange().getMin();
+        double max = fluid.getSpeedRange().getMax();
+        double tickSpacing = max-min;
+        int tickDecimalPlaces = 0;
+        int valueDecimalPlaces = fluid.getSpeedRange().getSignificantDecimalPlaces();
         String label = SimStrings.get( "label.fluidSpeed" );
         String units = SimStrings.get( "units.fluidSpeed" );
-        int columns = 4; //XXX
+        int columns = 4;
         _speedControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
         _speedControl.setTextFieldEditable( true );
+        _speedControl.setFont( font );
         
-        value = viscosityRange.getDefault();
-        min = viscosityRange.getMin();
-        max = viscosityRange.getMax();
-        tickSpacing = max-min; //XXX
-        tickDecimalPlaces = 0; //XXX
-        valueDecimalPlaces = viscosityRange.getSignificantDecimalPlaces();
+        value = fluid.getViscosity();
+        min = fluid.getViscosityRange().getMin();
+        max = fluid.getViscosityRange().getMax();
+        tickSpacing = max-min;
+        tickDecimalPlaces = 0;
+        valueDecimalPlaces = fluid.getViscosityRange().getSignificantDecimalPlaces();
         label = SimStrings.get( "label.fluidViscosity" );
         units = SimStrings.get( "units.fluidViscosity" );
-        columns = 4; //XXX
+        columns = 4;
         _viscosityControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
         _viscosityControl.setTextFieldEditable( true );
+        _viscosityControl.setFont( font );
         
-        value = temperatureRange.getDefault();
-        min = temperatureRange.getMin();
-        max = temperatureRange.getMax();
-        tickSpacing = max-min; //XXX
-        tickDecimalPlaces = 0; //XXX
-        valueDecimalPlaces = temperatureRange.getSignificantDecimalPlaces();
+        value = fluid.getTemperature();
+        min = fluid.getTemperatureRange().getMin();
+        max = fluid.getTemperatureRange().getMax();
+        tickSpacing = max-min;
+        tickDecimalPlaces = 0;
+        valueDecimalPlaces = fluid.getTemperatureRange().getSignificantDecimalPlaces();
         label = SimStrings.get( "label.fluidTemperature" );
         units = SimStrings.get( "units.fluidTemperature" );
-        columns = 4; //XXX
+        columns = 4;
         _temperatureControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
         _temperatureControl.setTextFieldEditable( true );
+        _temperatureControl.setFont( font );
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         this.setLayout( layout );
@@ -85,6 +100,13 @@ public class FluidControlPanel extends VerticalLayoutPanel {
         layout.addComponent( _viscosityControl, row++, column );
         layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _temperatureControl, row++, column );
+        
+        // Adjust all sliders to be the same width
+        int sliderWidth = Math.max( (int) _speedControl.getPreferredSize().getWidth(), 
+                Math.max( (int) _viscosityControl.getPreferredSize().getWidth(), (int) _temperatureControl.getPreferredSize().getWidth() ) );
+        _speedControl.setSliderWidth( sliderWidth );
+        _viscosityControl.setSliderWidth( sliderWidth );
+        _temperatureControl.setSliderWidth( sliderWidth );
         
         _speedControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -103,30 +125,47 @@ public class FluidControlPanel extends VerticalLayoutPanel {
         } );
     }
     
-    public SliderControl getSpeedControl() {
-        return _speedControl;
-    }
-
-    public SliderControl getViscosityControl() {
-        return _viscosityControl;
+    public void cleanup() {
+        _fluid.deleteObserver( this );
     }
     
-    public SliderControl getTemperatureControl() {
-        return _temperatureControl;
-    }
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
     
     private void handleSpeedChange() {
-        System.out.println( "FluidControlPanel.handleSpeedChange " + _speedControl.getValue() );//XXX
-        //XXX update model
+        double speed = _speedControl.getValue();
+        System.out.println( "FluidControlPanel.handleSpeedChange " + speed );//XXX
+        _fluid.deleteObserver( this );
+        _fluid.setSpeed( speed );
+        _fluid.addObserver( this );
     }
     
     private void handleViscosityChange() {
-        System.out.println( "FluidControlPanel.handleViscosityChange " + _viscosityControl.getValue() );//XXX
-        //XXX update model
+        double viscosity = _viscosityControl.getValue();
+        System.out.println( "FluidControlPanel.handleViscosityChange " + viscosity );//XXX
+        _fluid.deleteObserver( this );
+        _fluid.setViscosity( viscosity );
+        _fluid.addObserver( this );
     }
     
     private void handleTemperatureChange() {
-        System.out.println( "FluidControlPanel.handleTemperatureChange " + _temperatureControl.getValue() );//XXX
-        //XXX update model
+        double temperature = _temperatureControl.getValue();
+        System.out.println( "FluidControlPanel.handleTemperatureChange " + temperature );//XXX
+        _fluid.deleteObserver( this );
+        _fluid.setTemperature( temperature );
+        _fluid.addObserver( this );
+    }
+
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    public void update( Observable o, Object arg ) {
+        if ( o == _fluid ) {
+            _speedControl.setValue( _fluid.getSpeed() );
+            _viscosityControl.setValue( _fluid.getViscosity() );
+            _temperatureControl.setValue( _fluid.getTemperature() );
+        }
     }
 }

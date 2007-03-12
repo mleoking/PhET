@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.control;
 
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -16,7 +14,6 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
@@ -37,6 +34,8 @@ public class SliderControl extends JPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private boolean _initialized;
+    
     // Model
     private double _value;
     private double _min, _max;
@@ -54,6 +53,7 @@ public class SliderControl extends JPanel {
     private EventListenerList _listenerList; // notification of slider changes
     private boolean _notifyWhileDragging; // if true, fire ChangeEvents while the slider is dragged
     private boolean _isAdjusting; // is the slider being adjusted (dragged) ?
+    private Font _font;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -171,6 +171,8 @@ public class SliderControl extends JPanel {
         _slider.addChangeListener( listener );
         
         setValue( value );
+        
+        _initialized = true;
     }
     
     /**
@@ -420,6 +422,33 @@ public class SliderControl extends JPanel {
         _slider.setLabelTable( labelTable );
     }
     
+    /**
+     * Sets the width of the slider.
+     * 
+     * @param width
+     */
+    public void setSliderWidth( int width ) {
+        Dimension currentSize = _slider.getPreferredSize();
+        _slider.setPreferredSize( new Dimension( width, currentSize.height ) );
+    }
+    
+    /**
+     * Sets the font for all components that are part of this control.
+     * 
+     * @param font
+     */
+    public void setFont( Font font ) {
+        super.setFont( font );
+        if ( _initialized ) {
+            _font = font;
+            _valueLabel.setFont( font );
+            _valueTextField.setFont( font );
+            _unitsLabel.setFont( font );
+            _slider.setFont( font );
+            updateTickLabels();
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Private methods
     //----------------------------------------------------------------------------
@@ -494,29 +523,46 @@ public class SliderControl extends JPanel {
      */
     private void updateTickLabels() {
         Hashtable labelTable = new Hashtable();
+        Font font = _font;
+        if ( font == null ) {
+            font = new JLabel().getFont();
+        }
+        JLabel label = null;
         if ( isInverted() ) {
             //  Major ticks
-            labelTable.put( new Integer( (int) ( _max * _multiplier ) ), new JLabel( _tickNumberFormat.format( _min ) ) );
-            labelTable.put( new Integer( (int) ( _min * _multiplier ) ), new JLabel( _tickNumberFormat.format( _max ) ) );
+            label = new JLabel( _tickNumberFormat.format( _min ) );
+            label.setFont( font );
+            labelTable.put( new Integer( (int) ( _max * _multiplier ) ), label );
+            label = new JLabel( _tickNumberFormat.format( _max ) );
+            label.setFont( font );
+            labelTable.put( new Integer( (int) ( _min * _multiplier ) ), label );
 
             // Minor ticks
             double value1 = _max - _tickSpacing;
             double value2 = _min + _tickSpacing;
             while ( value1 > _min ) {
-                labelTable.put( new Integer( (int) ( value2 * _multiplier ) ), new JLabel( _tickNumberFormat.format( value1 ) ) );
+                label = new JLabel( _tickNumberFormat.format( value1 ) );
+                label.setFont( font );
+                labelTable.put( new Integer( (int) ( value2 * _multiplier ) ), label );
                 value1 -= _tickSpacing;
                 value2 += _tickSpacing;
             }
         }
         else {
             //  Major ticks
-            labelTable.put( new Integer( (int) ( _max * _multiplier ) ), new JLabel( _tickNumberFormat.format( _max ) ) );
-            labelTable.put( new Integer( (int) ( _min * _multiplier ) ), new JLabel( _tickNumberFormat.format( _min ) ) );
+            label = new JLabel( _tickNumberFormat.format( _max ) );
+            label.setFont( font );
+            labelTable.put( new Integer( (int) ( _max * _multiplier ) ), label );
+            label = new JLabel( _tickNumberFormat.format( _min ) );
+            label.setFont( font );
+            labelTable.put( new Integer( (int) ( _min * _multiplier ) ), label );
 
             // Minor ticks
             double value = _min + _tickSpacing;
             while ( value < _max ) {
-                labelTable.put( new Integer( (int) ( value * _multiplier ) ), new JLabel( _tickNumberFormat.format( value ) ) );
+                label = new JLabel( _tickNumberFormat.format( value ) );
+                label.setFont( font );
+                labelTable.put( new Integer( (int) ( value * _multiplier ) ), label );
                 value += _tickSpacing;
             }
         }
