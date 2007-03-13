@@ -7,14 +7,12 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.common.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.opticaltweezers.model.Bead;
-import edu.colorado.phet.opticaltweezers.util.RoundGradientPaint;
 import edu.colorado.phet.piccolo.event.BoundedDragHandler;
-import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 
