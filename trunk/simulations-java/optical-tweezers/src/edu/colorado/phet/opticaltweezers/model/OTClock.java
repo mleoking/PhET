@@ -15,7 +15,7 @@ import edu.colorado.phet.opticaltweezers.util.DoubleRange;
  */
 public class OTClock extends SwingClock {
 
-    private DoubleRange _dtRange;
+    private final DoubleRange _dtRange;
     private double _dt;
     
     public OTClock( int framesPerSecond, DoubleRange dtRange ) {
