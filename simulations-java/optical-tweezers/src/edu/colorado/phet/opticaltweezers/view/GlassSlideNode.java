@@ -5,6 +5,7 @@ package edu.colorado.phet.opticaltweezers.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
@@ -74,9 +75,10 @@ public class GlassSlideNode extends PhetPNode implements Observer {
         return _centerNode.getGlobalFullBounds();
     }
     
-    public void setWorldWidth( double worldWidth ) {
+    public void setWorldSize( Dimension2D worldSize ) {
+        final double worldWidth = worldSize.getWidth();
         if ( worldWidth <= 0 ) {
-            throw new IllegalArgumentException( "canvasWidth must be > 0: " + worldWidth );
+            throw new IllegalArgumentException( "worldSize must have width > 0: " + worldWidth );
         }
         if ( worldWidth != _worldWidth ) {
             _worldWidth = worldWidth;

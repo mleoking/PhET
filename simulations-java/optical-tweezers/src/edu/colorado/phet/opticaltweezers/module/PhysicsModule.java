@@ -153,8 +153,11 @@ public class PhysicsModule extends AbstractModule {
         
         // Ruler
         _rulerDragBoundsNode = new PPath();
-        _rulerDragBoundsNode.setStroke( new BasicStroke() );//XXX
-        _rulerDragBoundsNode.setStrokePaint( Color.RED );//XXX
+        _rulerDragBoundsNode.setStroke( null );
+//        if ( DEBUG_DRAG_BOUNDS ) {
+//            _rulerDragBoundsNode.setStroke( new BasicStroke() );
+//            _rulerDragBoundsNode.setStrokePaint( Color.RED );
+//        }
         _rulerNode = new OTRulerNode( _laser,_modelWorldTransform, _rulerDragBoundsNode );
         _rulerNode.setVisible( PhysicsDefaults.RULER_SELECTED );
         
@@ -264,21 +267,16 @@ public class PhysicsModule extends AbstractModule {
 
         Dimension2D worldSize = _canvas.getWorldSize();
         System.out.println( "PhysicsModule.updateCanvasLayout worldSize=" + worldSize );//XXX
-        if ( worldSize.getWidth() == 0 || worldSize.getHeight() == 0 ) {
+        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
         }
         
-        // Glass Slide, width fills the canvas
-        _glassSlideNode.setWorldWidth( worldSize.getWidth() );
+        // Glass Slide width adjusts to fill the canvas.
+        _glassSlideNode.setWorldSize( worldSize );
         
-        // Ruler width fills the canvas. adjust drag bounds for vertical dragging
-        {
-            _rulerNode.setWorldWidth( worldSize.getWidth() );
-            Rectangle2D globalDragBounds = new Rectangle2D.Double( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
-            Rectangle2D localDragBounds = _rulerDragBoundsNode.globalToLocal( globalDragBounds );
-            _rulerDragBoundsNode.setPathTo( localDragBounds );
-        }
+        // Ruler width adjusts to fill the canvas.
+        _rulerNode.setWorldSize( worldSize );
         
         // Adjust drag bounds of bead, so it stays on the glass slide
         {
@@ -316,10 +314,10 @@ public class PhysicsModule extends AbstractModule {
         }
         
         // Fluid controls
-        _fluidControlPanelWrapper.setOffset( 10, 280 ); //XXX
+        _fluidControlPanelWrapper.setOffset( 10, 220 ); //XXX
         
         // "Return Bead" button
-        _returnBeadButtonWrapper.setOffset( 50, 230 );//XXX
+        _returnBeadButtonWrapper.setOffset( 50, 170 );//XXX
         //XXX determine if bead is no longer visible
 
         if ( HAS_WIGGLE_ME ) {
