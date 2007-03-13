@@ -33,7 +33,7 @@ public class ModelWorldTransform {
         
         _worldToModelTransform = new AffineTransform();
         _worldToModelTransform.translate( -xOffset, -yOffset );
-        _worldToModelTransform.scale( 1/scale, 1/scale );
+        _worldToModelTransform.scale( 1d/scale, 1d/scale );
         
         _pModelDistance = new Point2D.Double();
         _pWorldDistance = new Point2D.Double();
@@ -102,6 +102,6 @@ public class ModelWorldTransform {
     public double worldToModel( double distance ) {
         _pWorldDistance.setLocation( distance, 0 );
         worldToModel( _pWorldDistance, _pModelDistance );
-        return _pWorldDistance.getX();
+        return _pModelDistance.getX();
     }
 }

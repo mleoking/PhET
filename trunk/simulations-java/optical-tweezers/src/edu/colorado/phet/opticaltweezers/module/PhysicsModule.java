@@ -13,7 +13,6 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JButton;
 
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.control.FluidControlPanel;
@@ -64,11 +63,11 @@ public class PhysicsModule extends AbstractModule {
     private GlassSlideNode _glassSlideNode;
     private LaserNode _laserNode;
     private BeadNode _beadNode;
-    private ModelWorldTransform _modelViewTransform;
     private PPath _beadDragBoundsNode;
     private PPath _laserDragBoundsNode;
     private OTRulerNode _rulerNode;
     private PPath _rulerDragBoundsNode;
+    private ModelWorldTransform _modelWorldTransform;
     
     // Control
     private OTModelViewManager _modelViewManager;
@@ -137,26 +136,26 @@ public class PhysicsModule extends AbstractModule {
         _canvas.addWorldChild( _rootNode );
 
         // Model View transform
-        _modelViewTransform = new ModelWorldTransform( 0.5, 0, 0 );
+        _modelWorldTransform = new ModelWorldTransform( 0.5, 0, 0 );
         
         // Glass Slide
-        _glassSlideNode = new GlassSlideNode( _fluid, _modelViewTransform );
+        _glassSlideNode = new GlassSlideNode( _fluid, _modelWorldTransform );
         
         // Laser
         _laserDragBoundsNode = new PPath();
         _laserDragBoundsNode.setStroke( null );
-        _laserNode = new LaserNode( _canvas, _laser, _modelViewTransform, PhysicsDefaults.LASER_POWER_RANGE, _laserDragBoundsNode );
+        _laserNode = new LaserNode( _canvas, _laser, _modelWorldTransform, PhysicsDefaults.LASER_POWER_RANGE, _laserDragBoundsNode );
         
         // Bead
         _beadDragBoundsNode = new PPath();
         _beadDragBoundsNode.setStroke( null );
-        _beadNode = new BeadNode( _bead, _modelViewTransform, _beadDragBoundsNode );
+        _beadNode = new BeadNode( _bead, _modelWorldTransform, _beadDragBoundsNode );
         
         // Ruler
         _rulerDragBoundsNode = new PPath();
         _rulerDragBoundsNode.setStroke( new BasicStroke() );//XXX
         _rulerDragBoundsNode.setStrokePaint( Color.RED );//XXX
-        _rulerNode = new OTRulerNode( _laser,_modelViewTransform, _rulerDragBoundsNode );
+        _rulerNode = new OTRulerNode( _laser,_modelWorldTransform, _rulerDragBoundsNode );
         _rulerNode.setVisible( PhysicsDefaults.RULER_SELECTED );
         
         // Layering order on the canvas (back-to-front)
@@ -271,11 +270,11 @@ public class PhysicsModule extends AbstractModule {
         }
         
         // Glass Slide, width fills the canvas
-        _glassSlideNode.setCanvasWidth( worldSize.getWidth() );
+        _glassSlideNode.setWorldWidth( worldSize.getWidth() );
         
         // Ruler width fills the canvas. adjust drag bounds for vertical dragging
         {
-            _rulerNode.setCanvasWidth( worldSize.getWidth() );
+            _rulerNode.setWorldWidth( worldSize.getWidth() );
             Rectangle2D globalDragBounds = new Rectangle2D.Double( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
             Rectangle2D localDragBounds = _rulerDragBoundsNode.globalToLocal( globalDragBounds );
             _rulerDragBoundsNode.setPathTo( localDragBounds );
