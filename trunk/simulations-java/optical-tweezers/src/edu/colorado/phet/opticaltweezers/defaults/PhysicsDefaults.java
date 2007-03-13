@@ -27,7 +27,7 @@ public class PhysicsDefaults {
     // Laser model
     public static final Point2D LASER_POSITION = new Point2D.Double( 1200, 1200 ); // nm
     public static final double LASER_ORIENTATION = Math.toRadians( -90 );
-    public static final double LASER_WIDTH = 1000; // nm
+    public static final double LASER_DIAMETER = 1000; // nm
     public static final int LASER_WAVELENGTH = 632; // nm
     public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500, 0 ); // mW
     public static final boolean LASER_RUNNING = false;
@@ -40,7 +40,7 @@ public class PhysicsDefaults {
     // Fluid model
     public static final Point2D FLUID_POSITION = new Point2D.Double( 0, 600 ); // nm
     public static final double FLUID_ORIENTATION = Math.toRadians( 0 ); // left-to-right flow direction
-    public static final double FLUID_WIDTH = 950; // nm
+    public static final double FLUID_WIDTH = 1000; // nm
     public static final DoubleRange FLUID_SPEED_RANGE = new DoubleRange( 0, 100, 50, 1 ); //XXX units? range?
     public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 0, 100, 50, 1 ); //XXX units? range?
     public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 0, 100, 50, 1 ); //XXX units? range?

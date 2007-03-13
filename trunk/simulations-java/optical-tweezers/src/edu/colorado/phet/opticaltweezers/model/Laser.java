@@ -21,7 +21,7 @@ public class Laser extends MovableObject implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final double _width; // nm
+    private final double _diameter; // nm
     private final int _wavelength; // nm
     private double _power; // mW
     private boolean _running;
@@ -35,13 +35,13 @@ public class Laser extends MovableObject implements ModelElement {
      * 
      * @param position position of the laser's objective (nm)
      * @param orientation orientation of the beam (radians)
-     * @param width width of the laser beam, as it enters the objective (nm)
+     * @param diameter diameter of the laser beam, as it enters the objective (nm)
      * @param wavelength wavelenght (nm)
      * @param power power (mW)
      */
-    public Laser( Point2D position, double orientation, double width, int wavelength, double power ) {
+    public Laser( Point2D position, double orientation, double diameter, int wavelength, double power ) {
         super( position, orientation, 0 /* speed */ );
-        _width = width;
+        _diameter = diameter;
         _wavelength = wavelength;
         _power = power;
         _running = false;
@@ -62,8 +62,8 @@ public class Laser extends MovableObject implements ModelElement {
         return _running;
     }
     
-    public double getWidth() {
-        return _width;
+    public double getDiameter() {
+        return _diameter;
     }
     
     public double getWavelength() {

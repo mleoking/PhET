@@ -102,7 +102,7 @@ public class PhysicsModule extends AbstractModule {
         
         _laser = new Laser( PhysicsDefaults.LASER_POSITION, 
                 PhysicsDefaults.LASER_ORIENTATION, 
-                PhysicsDefaults.LASER_WIDTH, 
+                PhysicsDefaults.LASER_DIAMETER, 
                 PhysicsDefaults.LASER_WAVELENGTH, 
                 PhysicsDefaults.LASER_POWER_RANGE.getDefault() );
         
