@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- get description from SM
 
 LOW PRIORITY:
 - hide value on energy slider (DEBUG_SHOW_ENERGY_VALUE = false)
@@ -15,6 +14,7 @@ LOW PRIORITY:
 
 
 DONE:
+3/13/07 - add description to About dialog
 3/12/07 - move RoundGradientPaint to phetcommon
 3/12/07 - used PhetPCanvas.getWorldSize
 3/12/07 - bug fix in MovingObject.setSpeed
