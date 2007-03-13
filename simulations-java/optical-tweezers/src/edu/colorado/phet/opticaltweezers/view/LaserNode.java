@@ -155,11 +155,10 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     
     public void propertyChange( PropertyChangeEvent event ) {
         if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
-            double newX = _modelViewTransform.inverseTransform( getOffset().getX() );
-            Point2D p = _laser.getPositionRef();
-            double y = p.getY();
+            double xNew = _modelViewTransform.inverseTransform( getOffset().getX() );
+            double yOld = _laser.getPositionRef().getY();
             _laser.deleteObserver( this );
-            _laser.setPosition( newX, y );
+            _laser.setPosition( xNew, yOld );
             _laser.addObserver( this );
         }
     }
