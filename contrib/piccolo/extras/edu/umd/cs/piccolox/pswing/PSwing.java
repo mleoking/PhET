@@ -270,6 +270,10 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         g2.draw( rect );
     }
 
+    public void removeFromSwingWrapper() {
+        this.pSwingCanvas.getSwingWrapper().remove( component );
+    }
+
     /**
      * Renders to a buffered image, then draws that image to the
      * drawing surface associated with g2 (usually the screen).

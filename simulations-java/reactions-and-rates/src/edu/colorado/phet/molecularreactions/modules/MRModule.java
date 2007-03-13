@@ -109,16 +109,18 @@ public class MRModule extends Module {
         PNode upperPaneContents = null;
 
         if (energyView.isInitialized()) {
-            upperPaneContents = energyView.getUpperPaneContents();
+            upperPaneContents = energyView.getUpperPaneContent();
             canvas.removeWorldChild( energyView );
         }
 
         energyView.initialize( this, chartPaneSize );
         energyView.setOffset( simulationPaneInsets.left + spatialView.getFullBounds().getWidth() + simulationPaneInsets.left,
                               simulationPaneInsets.top );
+
         if( upperPaneContents != null ) {
-            energyView.addToUpperPane( upperPaneContents );
+            energyView.setUpperPaneContent( upperPaneContents );
         }
+        
         canvas.addWorldChild( energyView );
     }
 
@@ -127,9 +129,6 @@ public class MRModule extends Module {
         ( (MRModel)getModel() ).setInitialConditions();
         energyView.reset();
         getClock().start();
-    }
-
-    public void resetMolecules() {
     }
 
     protected SpatialView getSpatialView() {

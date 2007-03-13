@@ -145,7 +145,9 @@ public class PhetPCanvas extends PSwingCanvas {
      * @param graphic
      */
     public void removeWorldChild( PNode graphic ) {
-        phetRootNode.removeChild( graphic );
+        if (phetRootNode.getChildrenReference().contains(graphic)) {
+            phetRootNode.removeChild( graphic );
+        }
     }
 
     /*

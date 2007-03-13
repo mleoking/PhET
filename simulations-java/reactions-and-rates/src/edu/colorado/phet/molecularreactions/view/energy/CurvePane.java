@@ -45,11 +45,15 @@ public class CurvePane extends PPath {
         curveAreaSize = new Dimension( (int)curvePaneSize.getWidth() - curveAreaInsets.left - curveAreaInsets.right,
                                        (int)curvePaneSize.getHeight() - curveAreaInsets.top - curveAreaInsets.bottom );
 
+
+
         PNode totalEnergyLineLayer = new PNode();
         totalEnergyLineLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
 
         PNode curveLayer = new PNode();
         curveLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
+        curveLayer.setWidth(  curveAreaSize.getWidth() );
+        curveLayer.setHeight( curveAreaSize.getHeight() );
 
         PNode cursorLayer = new PNode();
         cursorLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
