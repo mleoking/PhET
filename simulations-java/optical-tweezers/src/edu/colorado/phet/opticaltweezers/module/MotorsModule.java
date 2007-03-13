@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.opticaltweezers.module;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -25,7 +24,6 @@ import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * MotorsModule is the "Molecular Motors" module.
@@ -35,43 +33,28 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class MotorsModule extends AbstractModule {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final boolean HAS_WIGGLE_ME = false;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
+    // Model
+    private OTModel _model;
+    
+    // View
     private PhetPCanvas _canvas;
     private PNode _rootNode;
 
-    // Control panels
+    // Control
+    private OTModelViewManager _modelViewManager;
     private MotorsControlPanel _controlPanel;
     private OTClockControlPanel _clockControlPanel;
-
-    private OTModel _model;
-    
-    private OTWiggleMe _wiggleMe;
-    private boolean _wiggleMeInitialized = false;
-    
-    private OTModelViewManager _modelViewManager;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     public MotorsModule() {
-        super( SimStrings.get( "MotorsModule.title" ), new OTClock(), !MotorsDefaults.CLOCK_RUNNING /* startsPaused */ );
+        super( SimStrings.get( "MotorsModule.title" ), MotorsDefaults.CLOCK, MotorsDefaults.CLOCK_PAUSED );
 
-        // hide the PhET logo
-        setLogoPanel( null );
-
-        // Fonts
-        int jComponentFontSize = SimStrings.getInt( "jcomponent.font.size", OTConstants.DEFAULT_FONT_SIZE );
-        Font jComponentFont = new Font( OTConstants.DEFAULT_FONT_NAME, OTConstants.DEFAULT_FONT_STYLE, jComponentFontSize );
-        
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
@@ -131,13 +114,7 @@ public class MotorsModule extends AbstractModule {
         // Help
         //----------------------------------------------------------------------------
 
-        HelpPane helpPane = getDefaultHelpPane();
-
-        HelpBalloon configureHelp = new HelpBalloon( helpPane, "help item", HelpBalloon.RIGHT_CENTER, 20 );
-        helpPane.add( configureHelp );
-        configureHelp.pointAt( 300, 300 );
-        
-        // See initWiggleMe for Wiggle Me initialization.
+        //XXX
 
         //----------------------------------------------------------------------------
         // Initialize the module state
@@ -164,23 +141,13 @@ public class MotorsModule extends AbstractModule {
     // Canvas layout
     //----------------------------------------------------------------------------
     
-    /**
-     * Determines the visible bounds of the canvas in world coordinates.
-     */ 
-    public Dimension getWorldSize() {
-        Dimension2D dim = new PDimension( _canvas.getWidth(), _canvas.getHeight() );
-        _canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
-        Dimension worldSize = new Dimension( (int) dim.getWidth(), (int) dim.getHeight() );
-        return worldSize;
-    }
-    
     /*
      * Updates the layout of stuff on the canvas.
      */
     public void updateCanvasLayout() {
 
-        Dimension worldSize = getWorldSize();
-//        System.out.println( "HAModule.updateCanvasLayout worldSize=" + worldSize );//XXX
+        Dimension2D worldSize = _canvas.getWorldSize();
+//        System.out.println( "MotorsModule.updateCanvasLayout worldSize=" + worldSize );//XXX
         if ( worldSize.getWidth() == 0 || worldSize.getHeight() == 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
@@ -188,45 +155,6 @@ public class MotorsModule extends AbstractModule {
         
         // reusable (x,y) coordinates, for setting offsets
         double x, y;
-
-        if ( HAS_WIGGLE_ME ) {
-            initWiggleMe();
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Wiggle Me
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Initializes a wiggle me that points to the gun on/off button.
-     */
-    private void initWiggleMe() {
-        if ( !_wiggleMeInitialized ) {
-            
-            // Create wiggle me, add to root node.
-            String wiggleMeString = SimStrings.get( "wiggleMe.XXX" );  
-            _wiggleMe = new OTWiggleMe( _canvas, wiggleMeString );
-            _rootNode.addChild( _wiggleMe );
-            
-            // Animate from the upper-left to some point
-            double x = 300;//XXX
-            double y = 300;//XXX
-            _wiggleMe.setOffset( 0, -100 );
-            _wiggleMe.animateTo( x, y );
-            
-            // Clicking on the canvas makes the wiggle me go away.
-            _canvas.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    _wiggleMe.setEnabled( false );
-                    _rootNode.removeChild( _wiggleMe );
-                    _canvas.removeInputEventListener( this );
-                    _wiggleMe = null;
-                }
-            } );
-            
-            _wiggleMeInitialized = true;
-        }
     }
     
     //----------------------------------------------------------------------------

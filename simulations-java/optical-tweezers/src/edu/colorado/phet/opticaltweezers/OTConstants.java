@@ -41,14 +41,6 @@ public class OTConstants {
     public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/OTStrings";
 
     //----------------------------------------------------------------------------
-    // Clock
-    //----------------------------------------------------------------------------
-    
-    public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
-    
-    public static final double DEFAULT_CLOCK_STEP = 1;
-    
-    //----------------------------------------------------------------------------
     // Fonts
     //----------------------------------------------------------------------------
 

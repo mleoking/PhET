@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.opticaltweezers.module;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -25,7 +24,6 @@ import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * DNAModule is the "Fun with DNA" module.
@@ -63,15 +61,8 @@ public class DNAModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public DNAModule() {
-        super( SimStrings.get( "DNAModule.title" ), new OTClock(), !DNADefaults.CLOCK_RUNNING /* startsPaused */ );
+        super( SimStrings.get( "DNAModule.title" ), DNADefaults.CLOCK, DNADefaults.CLOCK_PAUSED );
 
-        // hide the PhET logo
-        setLogoPanel( null );
-
-        // Fonts
-        int jComponentFontSize = SimStrings.getInt( "jcomponent.font.size", OTConstants.DEFAULT_FONT_SIZE );
-        Font jComponentFont = new Font( OTConstants.DEFAULT_FONT_NAME, OTConstants.DEFAULT_FONT_STYLE, jComponentFontSize );
-        
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
@@ -164,23 +155,13 @@ public class DNAModule extends AbstractModule {
     // Canvas layout
     //----------------------------------------------------------------------------
     
-    /**
-     * Determines the visible bounds of the canvas in world coordinates.
-     */ 
-    public Dimension getWorldSize() {
-        Dimension2D dim = new PDimension( _canvas.getWidth(), _canvas.getHeight() );
-        _canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
-        Dimension worldSize = new Dimension( (int) dim.getWidth(), (int) dim.getHeight() );
-        return worldSize;
-    }
-    
     /*
      * Updates the layout of stuff on the canvas.
      */
     public void updateCanvasLayout() {
 
-        Dimension worldSize = getWorldSize();
-//        System.out.println( "HAModule.updateCanvasLayout worldSize=" + worldSize );//XXX
+        Dimension2D worldSize = _canvas.getWorldSize();
+//        System.out.println( "DNAModule.updateCanvasLayout worldSize=" + worldSize );//XXX
         if ( worldSize.getWidth() == 0 || worldSize.getHeight() == 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
