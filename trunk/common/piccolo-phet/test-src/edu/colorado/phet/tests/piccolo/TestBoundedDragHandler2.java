@@ -33,6 +33,8 @@ public class TestBoundedDragHandler2 {
         SwingUtils.centerWindowOnScreen( frame );
 
         piccoloCanvas = new PCanvas();
+        piccoloCanvas.setPanEventHandler( null );
+        
         frame.setContentPane( piccoloCanvas );
 
         // Node that defines the drag bounds
@@ -55,11 +57,20 @@ public class TestBoundedDragHandler2 {
         piccoloCanvas.getLayer().addChild( cn );
         cn.setOffset( 100, 200 );
         
-        piccoloCanvas.getLayer().scale( 1 );
-
-        PBounds pathBounds = dragBoundsNode.getGlobalFullBounds();
-        System.out.println( "pathBounds[global] = " + pathBounds );
-        piccoloCanvas.setPanEventHandler( null );
+        // Red rectangle, constrained to vertical dragging
+        Rectangle2D rect = new Rectangle2D.Double( 0, 0, 200, 20 );
+        PPath pathNode = new PPath( rect );
+        pathNode.setPaint( Color.red );
+        pathNode.setOffset( 10, 350 );
+        piccoloCanvas.getLayer().addChild( pathNode );
+        Rectangle rectangleBounds2 = new Rectangle( 0, 0, 200, 200 );
+        PPath dragBoundsNode2 = new PPath( rectangleBounds2 );
+        dragBoundsNode2.setStroke( new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1, new float[]{8, 12}, 0 ) );
+        dragBoundsNode2.setStrokePaint( Color.black );
+        dragBoundsNode2.setOffset( pathNode.getFullBounds().getX(), pathNode.getFullBounds().getY() );
+        piccoloCanvas.getLayer().addChild( dragBoundsNode2 );
+        pathNode.addInputEventListener( new BoundedDragHandler( pathNode, dragBoundsNode2 ) );
+        pathNode.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
     }
 
     public static void main( String[] args ) throws IOException {
