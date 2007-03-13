@@ -156,7 +156,7 @@ public class PhysicsModule extends AbstractModule {
         _rulerDragBoundsNode = new PPath();
         _rulerDragBoundsNode.setStroke( new BasicStroke() );//XXX
         _rulerDragBoundsNode.setStrokePaint( Color.RED );//XXX
-        _rulerNode = new OTRulerNode( 600 /* width */, _laser,_modelViewTransform, _rulerDragBoundsNode );
+        _rulerNode = new OTRulerNode( _laser,_modelViewTransform, _rulerDragBoundsNode );
         _rulerNode.setVisible( PhysicsDefaults.RULER_SELECTED );
         
         // Layering order on the canvas (back-to-front)
