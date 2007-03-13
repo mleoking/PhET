@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - fix ruler vertical drag problem
-- laser dragging is messed up at left boundary
+- laser can be dragged too far to the left
 - position histogram
 - potential energy chart
 - E-field vectors
