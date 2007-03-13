@@ -13,7 +13,8 @@ import java.awt.geom.Point2D;
  */
 public class ModelViewTransform {
 
-    private AffineTransform _transform;
+    private AffineTransform _modelToViewTransform;
+    private AffineTransform _viewToModelTransform;
     private Point2D _pModelDistance, _pViewDistance; // reusable points for transforming distances
     
     /**
@@ -25,9 +26,13 @@ public class ModelViewTransform {
      */
     public ModelViewTransform( double scale, double xOffset, double yOffset ) {
         
-        _transform = new AffineTransform();
-        _transform.scale( scale, scale );
-        _transform.translate( xOffset, yOffset );
+        _modelToViewTransform = new AffineTransform();
+        _modelToViewTransform.scale( scale, scale );
+        _modelToViewTransform.translate( xOffset, yOffset );
+        
+        _viewToModelTransform = new AffineTransform();
+        _viewToModelTransform.translate( -xOffset, -yOffset );
+        _viewToModelTransform.scale( 1/scale, 1/scale );
         
         _pModelDistance = new Point2D.Double();
         _pViewDistance = new Point2D.Double();
@@ -51,7 +56,7 @@ public class ModelViewTransform {
      * @return point in view coordinates
      */
     public Point2D transform( Point2D pModel, Point2D pView ) {
-        return _transform.transform( pModel, pView );
+        return _modelToViewTransform.transform( pModel, pView );
     }
     
     /**
@@ -71,9 +76,8 @@ public class ModelViewTransform {
      * 
      * @param pModel point in model coordinates
      * @return point in view coordinates
-     * @throws NoninvertibleTransformException if the matrix cannot be inverted
      */
-    public Point2D inverseTransform( Point2D pView ) throws NoninvertibleTransformException {
+    public Point2D inverseTransform( Point2D pView ) {
         return inverseTransform( pView, null );
     }
     
@@ -83,10 +87,9 @@ public class ModelViewTransform {
      * @param pView point in view coordinates
      * @param pModel point in model coordinates, possibly null
      * @return point in view coordinates
-     * @throws NoninvertibleTransformException if the matrix cannot be inverted
      */
-    public Point2D inverseTransform( Point2D pView, Point2D pModel ) throws NoninvertibleTransformException {
-        return _transform.inverseTransform( pView, pModel );
+    public Point2D inverseTransform( Point2D pView, Point2D pModel ) {
+        return _viewToModelTransform.transform( pView, pModel );
     }
     
     /**
@@ -94,9 +97,8 @@ public class ModelViewTransform {
      * 
      * @param distance distance in viuew coordinates
      * @return distance in model coordinates
-     * @throws NoninvertibleTransformException if the matrix cannot be inverted
      */
-    public double inverseTransform( double distance ) throws NoninvertibleTransformException {
+    public double inverseTransform( double distance ) {
         _pViewDistance.setLocation( distance, 0 );
         inverseTransform( _pViewDistance, _pModelDistance );
         return _pViewDistance.getX();

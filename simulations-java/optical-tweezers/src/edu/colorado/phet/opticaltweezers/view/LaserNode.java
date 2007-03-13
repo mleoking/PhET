@@ -121,10 +121,6 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         rightHandleNode.setOffset( _controlPanel.getFullBounds().getMaxX() + rightHandleNode.getFullBounds().getWidth() - 2, 
                 _controlPanel.getFullBounds().getMaxY() - ( ( _controlPanel.getFullBounds().getHeight() - rightHandleNode.getFullBounds().getHeight() ) / 2 ) );
         
-        // Position the entire node at the laser's position
-        Point2D laserPosition = _modelViewTransform.transform( _laser.getPosition() );
-        setOffset( laserPosition.getX(), laserPosition.getY() );
-        
         // Put hand cursor on parts that are interactive
         objectiveNode.addInputEventListener( new CursorHandler() );
         leftHandleNode.addInputEventListener( new CursorHandler() );
@@ -140,9 +136,9 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         addPropertyChangeListener( this );
         
         // Default state
-        handleRunningChange();
-        handlePositionChange();
-        handlePowerChange();
+        updateRunning();
+        updatePosition();
+        updatePower();
     }
 
     public void cleanup() {
@@ -157,37 +153,9 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     // Property change handlers
     //----------------------------------------------------------------------------
     
-    private void handleRunningChange() {
-        _beamInNode.setVisible( _laser.isRunning() );
-        _beamOutNode.setVisible( _laser.isRunning() );
-    }
-    
-    private void handlePositionChange() {
-        Point2D laserPosition = _modelViewTransform.transform( _laser.getPosition() );
-        setOffset( laserPosition.getX(), laserPosition.getY() );
-    }
-    
-    private void handlePowerChange() {
-        double power = _laser.getPower();
-        int alpha = powerToAlpha( power);
-        _beamInNode.setAlpha( alpha );
-        _beamOutNode.setAlpha( alpha );
-    }
-    
-    private int powerToAlpha( double power ) {
-        return (int)( MAX_ALPHA_CHANNEL * ( power - _controlPanel.getMinPower() ) / ( _controlPanel.getMaxPower() - _controlPanel.getMinPower() ) );
-    }
-    
     public void propertyChange( PropertyChangeEvent event ) {
         if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
-            double newX = 0;
-            try {
-                newX = _modelViewTransform.inverseTransform( getOffset().getX() );
-            }
-            catch ( NoninvertibleTransformException e ) {
-                e.printStackTrace();
-                return;
-            }
+            double newX = _modelViewTransform.inverseTransform( getOffset().getX() );
             Point2D p = _laser.getPositionRef();
             double y = p.getY();
             _laser.deleteObserver( this );
@@ -203,15 +171,39 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     public void update( Observable o, Object arg ) {
         if ( o == _laser ) {
             if ( arg == Laser.PROPERTY_POSITION ) {
-                handlePositionChange();
-            }
-            else if ( arg == Laser.PROPERTY_RUNNING ) {
-                handleRunningChange();
+                updatePosition();
             }
             else if ( arg == Laser.PROPERTY_POWER ) {
-                handlePowerChange();
+                updatePower();
+            }
+            else if ( arg == Laser.PROPERTY_RUNNING ) {
+                updateRunning();
+            }
+            else if ( arg == null ) {
+                throw new IllegalArgumentException( "LaserNode.update, null arg" );
             }
             //XXX other properties?
         }
+    }
+    
+    private void updatePosition() {
+        Point2D laserPosition = _modelViewTransform.transform( _laser.getPosition() );
+        setOffset( laserPosition.getX(), laserPosition.getY() );
+    }
+    
+    private void updatePower() {
+        double power = _laser.getPower();
+        int alpha = powerToAlpha( power);
+        _beamInNode.setAlpha( alpha );
+        _beamOutNode.setAlpha( alpha );
+    }
+    
+    private void updateRunning() {
+        _beamInNode.setVisible( _laser.isRunning() );
+        _beamOutNode.setVisible( _laser.isRunning() );
+    }
+
+    private int powerToAlpha( double power ) {
+        return (int)( MAX_ALPHA_CHANNEL * ( power - _controlPanel.getMinPower() ) / ( _controlPanel.getMaxPower() - _controlPanel.getMinPower() ) );
     }
 }

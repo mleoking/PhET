@@ -157,6 +157,7 @@ public class PhysicsModule extends AbstractModule {
         _rulerDragBoundsNode.setStroke( new BasicStroke() );//XXX
         _rulerDragBoundsNode.setStrokePaint( Color.RED );//XXX
         _rulerNode = new OTRulerNode( 600 /* width */, _laser,_modelViewTransform, _rulerDragBoundsNode );
+        _rulerNode.setVisible( PhysicsDefaults.RULER_SELECTED );
         
         // Layering order on the canvas (back-to-front)
         {
@@ -229,11 +230,15 @@ public class PhysicsModule extends AbstractModule {
     }
    
     //----------------------------------------------------------------------------
-    // Accessors
+    // Mutators and accessors
     //----------------------------------------------------------------------------
     
     public OTClock getOTClock() {
         return _clock;
+    }
+    
+    public void setRulerVisible( boolean visible ) {
+        _rulerNode.setVisible( visible );
     }
     
     //----------------------------------------------------------------------------
