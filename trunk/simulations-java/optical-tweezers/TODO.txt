@@ -5,8 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- fix ruler vertical drag problem
-- laser can be dragged too far to the left
+- ruler can be dragged too far left, then pops back
+- laser can be dragged too far left, then pops back
 - position histogram
 - potential energy chart
 - E-field vectors
@@ -29,6 +29,7 @@ MEDIUM PRIORITY:
 - units and range for fluid temperature
 
 LOW PRIORITY:
+- units on ruler
 - get requirements for "Fun With DNA" and "Molecular Motors" panels
 - save/load
 - green control panel background ala design doc
@@ -59,6 +60,9 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/13/07 - update ruler drag bounds when laser moves
+3/13/07 - add setWorldSize to GlassSliderNode and OTRulerNode
+3/13/07 - add debug code to show drag bounds for draggable things
 3/13/07 - fix major bug in ModelWorldTransform
 3/13/07 - rename ModelViewTransform -> ModelWorldTransform
 3/13/07 - wire up ruler to checkbox
