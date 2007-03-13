@@ -16,6 +16,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+3/13/07 - simplfy ModelViewTransform, improve javadoc
 3/13/07 - change "photons and alpha particles" to "light" in About dialog description
 3/12/07 - move RoundGradientPaint to phetcommon
 3/12/07 - used PhetPCanvas.getWorldSize

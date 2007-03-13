@@ -19,10 +19,9 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 
 /**
  * ModelViewTransform is the transform between model coordinates 
- * and the view coordinates of the animation region.
- * <p>
- * NOTE! This has never been tested with anything other than
- * a 1:1 transform, and I doubt that it works.
+ * and the view coordinates of the AnimationBoxNode.
+ * The origin of the model coordinate system is at the bottom-center
+ * of the AnimationBoxNode.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -65,7 +64,6 @@ public class ModelViewTransform {
      */
     private static void initTransform() {
         _transform = new AffineTransform();
-        _transform.scale( 1, 1 );
         _transform.translate( HAConstants.ANIMATION_BOX_SIZE.width / 2, HAConstants.ANIMATION_BOX_SIZE.height );
     }
 }
