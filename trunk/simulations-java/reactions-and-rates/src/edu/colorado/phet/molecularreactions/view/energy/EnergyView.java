@@ -59,7 +59,7 @@ public class EnergyView extends PNode implements Resetable {
     private volatile PNodeViewableOption curvePaneCloser;
     private volatile PNodeViewableOption moleculeSeparationCloser;
 
-    private volatile PNode upperPaneContents;
+    private volatile PNode upperPaneContent;
 
     public EnergyView() {
     }
@@ -75,7 +75,8 @@ public class EnergyView extends PNode implements Resetable {
 
         addCurvePane( module, upperPaneSize );
         addUpperPane( upperPaneSize );
-        addMolecularSeparationPane( module, upperPaneSize );        
+        addMolecularSeparationPane( module, upperPaneSize );
+
         addLegend( upperPaneSize, module );
         addEnergyViewBorder();
     }
@@ -165,7 +166,16 @@ public class EnergyView extends PNode implements Resetable {
         clearUpperPaneContent();
 
         upperPane.addChild( pNode );
-        upperPaneContents = pNode;
+        upperPaneContent = pNode;
+
+        upperPaneContent.setVisible ( true );
+        moleculeSeparationPane.setVisible( false );
+
+        upperPane.setVisible( true );
+    }
+
+    public void clearUpperPaneContent() {
+        clearUpperPaneContent( getUpperPaneContent() );        
     }
 
     /*
@@ -173,9 +183,13 @@ public class EnergyView extends PNode implements Resetable {
      *
      * @param pNode
      */
-    public void clearUpperPaneContent() {
-        if( upperPane.getChildrenReference().contains( upperPaneContents ) ) {
-            upperPane.removeChild( upperPaneContents );
+    public void clearUpperPaneContent( PNode node ) {
+        if( node != null && upperPane.getChildrenReference().contains( node ) ) {
+            upperPane.removeChild( upperPaneContent );
+
+            upperPane.setVisible( false );
+
+            upperPaneContent = null;
         }
     }
 
@@ -188,6 +202,6 @@ public class EnergyView extends PNode implements Resetable {
     }
 
     public PNode getUpperPaneContent() {
-        return upperPaneContents;
+        return upperPaneContent;
     }
 }

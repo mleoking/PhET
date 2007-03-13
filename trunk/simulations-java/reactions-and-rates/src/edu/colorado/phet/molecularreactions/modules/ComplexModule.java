@@ -122,6 +122,8 @@ public class ComplexModule extends MRModule {
 
     private void setInitialConditions() {
         setStripChartVisible( false, null );
+        setBarChartVisible( false );
+        setPieChartVisible( false );
     }
 
     public void setPieChartVisible( boolean visible ) {
@@ -132,8 +134,8 @@ public class ComplexModule extends MRModule {
             pieChart = new MoleculePopulationsPieChartNode( this, bounds );
             getEnergyView().setUpperPaneContent( pieChart );
         }
-        else if( pieChart != null ) {
-            getEnergyView().clearUpperPaneContent( );
+        else {
+            getEnergyView().clearUpperPaneContent( pieChart );
         }
     }
 
@@ -145,9 +147,26 @@ public class ComplexModule extends MRModule {
             barChartNode.rescale();
             getEnergyView().setUpperPaneContent( barChartNode );
         }
-        else if( barChartNode != null ) {
-            getEnergyView().clearUpperPaneContent();
-            barChartNode = null;
+        else {
+            getEnergyView().clearUpperPaneContent( barChartNode );
+        }
+    }
+
+    /**
+     * Set visibility of the strip chart
+     *
+     * @param visible
+     */
+    public void setStripChartVisible( boolean visible ) {
+        if( visible ) {
+            if( firstTimeStripChartVisible ) {
+                stripChartNode.rescale();
+                firstTimeStripChartVisible = false;
+            }
+            getEnergyView().setUpperPaneContent( stripChartNode );
+        }
+        else {
+            getEnergyView().clearUpperPaneContent( stripChartNode );
         }
     }
 
@@ -165,24 +184,6 @@ public class ComplexModule extends MRModule {
      */
     protected void setFirstTimeStripChartVisible( boolean firstTimeStripChartVisible ) {
         this.firstTimeStripChartVisible = firstTimeStripChartVisible;
-    }
-
-    /**
-     * Set visibility of the strip chart
-     *
-     * @param visible
-     */
-    public void setStripChartVisible( boolean visible ) {
-        if( visible ) {
-            if( firstTimeStripChartVisible ) {
-                stripChartNode.rescale();
-                firstTimeStripChartVisible = false;
-            }
-            getEnergyView().setUpperPaneContent( stripChartNode );
-        }
-        else if( stripChartNode != null ) {
-            getEnergyView().clearUpperPaneContent();
-        }
     }
 
     /**
