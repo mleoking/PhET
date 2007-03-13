@@ -227,6 +227,14 @@ public class PhysicsModule extends AbstractModule {
         reset();
         updateCanvasLayout();
     }
+   
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public OTClock getOTClock() {
+        return _clock;
+    }
     
     //----------------------------------------------------------------------------
     // Module overrides

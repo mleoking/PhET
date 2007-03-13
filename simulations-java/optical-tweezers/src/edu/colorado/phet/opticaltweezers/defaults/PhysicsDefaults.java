@@ -21,8 +21,8 @@ public class PhysicsDefaults {
     // Clock
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
     public static final boolean CLOCK_PAUSED = false ;
-    public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( 1, 10, 5, 1 );
-    public static final OTClock CLOCK = new OTClock( CLOCK_FRAME_RATE, CLOCK_DT_RANGE.getDefault() );
+    public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( 1, 100, 1, 1 );
+    public static final OTClock CLOCK = new OTClock( CLOCK_FRAME_RATE, CLOCK_DT_RANGE );
     
     // Laser model
     public static final Point2D LASER_POSITION = new Point2D.Double( 1200, 1200 ); // nm

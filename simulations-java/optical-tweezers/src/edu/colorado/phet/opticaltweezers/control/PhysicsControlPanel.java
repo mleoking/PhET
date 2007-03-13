@@ -7,6 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -14,7 +16,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
 
 
@@ -32,8 +34,9 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     //----------------------------------------------------------------------------
     
     private PhysicsModule _module;
+    private OTClock _clock;
     
-    private JSlider _clockSpeedSlider;
+    private ClockSpeedSlider _clockSpeedSlider;
     
     private JCheckBox _electricFieldCheckBox;
     private JCheckBox _beadChargesCheckBox;
@@ -64,6 +67,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         super( module );
         
         _module = module;
+        _clock = _module.getOTClock();
 
         // Set the control panel's minimum width.
         String widthString = SimStrings.get( "width.controlPanel" );
@@ -78,22 +82,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             JLabel titleLabel = new JLabel( SimStrings.get( "label.simulationSpeed" ) );
             titleLabel.setFont( TITLE_FONT );
             
-            _clockSpeedSlider = new JSlider();
-            _clockSpeedSlider.setMinimum( 0 );
-            _clockSpeedSlider.setMaximum( 100  );
-            _clockSpeedSlider.setValue( 50 );
-            _clockSpeedSlider.setMajorTickSpacing( _clockSpeedSlider.getMaximum() - _clockSpeedSlider.getMinimum() );
-            _clockSpeedSlider.setPaintTicks( true );
-            _clockSpeedSlider.setPaintLabels( true );
-            
-            JLabel slowLabel = new JLabel( SimStrings.get( "label.slow" ) );
-            slowLabel.setFont( CONTROL_FONT );
-            JLabel fastLabel = new JLabel( SimStrings.get( "label.fast" ) );
-            fastLabel.setFont( CONTROL_FONT );
-            Hashtable labelTable = new Hashtable();
-            labelTable.put( new Integer( _clockSpeedSlider.getMinimum() ), slowLabel );
-            labelTable.put( new Integer( _clockSpeedSlider.getMaximum() ), fastLabel );
-            _clockSpeedSlider.setLabelTable( labelTable );
+            _clockSpeedSlider = new ClockSpeedSlider( _clock, CONTROL_FONT );
             
             EasyGridBagLayout layout = new EasyGridBagLayout( speedPanel );
             speedPanel.setLayout( layout );
@@ -269,7 +258,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Default state
         {
-            _clockSpeedSlider.setValue( ( _clockSpeedSlider.getMaximum() - _clockSpeedSlider.getMinimum() / 2 ) ); //XXX
+            _clockSpeedSlider.setSpeed( _clock.getDt() );
             
             _electricFieldCheckBox.setSelected( false );
             _beadChargesCheckBox.setSelected( false );
@@ -507,7 +496,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _wholeBeadRadioButton.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
         _halfBeadRadioButton.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
         
-        //XXX
+        _clock.setDt( _clockSpeedSlider.getSpeed() );
     }
 
     private void handleElectricFieldCheckBox() {
