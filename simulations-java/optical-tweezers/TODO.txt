@@ -42,6 +42,7 @@ LOW PRIORITY:
 DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
+3/12/07 - move RoundGradientPaint to phetcommon
 3/12/07 - move getWorldSize funtionality to PhetPCanvas
 3/12/07 - laser power should be double precision
 3/12/07 - no error dialog for power textfield input; if value is bad, beep and clamp to min/max
