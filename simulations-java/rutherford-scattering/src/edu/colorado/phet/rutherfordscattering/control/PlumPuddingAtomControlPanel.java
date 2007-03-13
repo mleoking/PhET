@@ -33,7 +33,7 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
     //----------------------------------------------------------------------------
     
     // shows the energy value, should be false for production code
-    private static final boolean DEBUG_SHOW_ENERGY_VALUE = true;
+    private static final boolean DEBUG_SHOW_ENERGY_VALUE = false;
     
     //----------------------------------------------------------------------------
     // Instance data

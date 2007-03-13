@@ -9,11 +9,11 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 
 LOW PRIORITY:
-- hide value on energy slider (DEBUG_SHOW_ENERGY_VALUE = false)
 - AnimationBoxNode.paint gets called twice on clock steps that create/delete an alpha particle
 
 
 DONE:
+3/13/07 - hide value on energy sliders in control panels (DEBUG_SHOW_ENERGY_VALUE = false)
 3/13/07 - simplfy ModelViewTransform, improve javadoc
 3/13/07 - add description to About dialog
 3/12/07 - move RoundGradientPaint to phetcommon
