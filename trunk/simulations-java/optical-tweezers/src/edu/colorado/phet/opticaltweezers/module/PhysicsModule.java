@@ -51,16 +51,16 @@ public class PhysicsModule extends AbstractModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private PhetPCanvas _canvas;
-    private PNode _rootNode;
-    
     // Model
+    private OTClock _clock;
     private OTModel _model;
     private Laser _laser;
     private Bead _bead;
     private Fluid _fluid;
     
     // View
+    private PhetPCanvas _canvas;
+    private PNode _rootNode;
     private GlassSlideNode _glassSlideNode;
     private LaserNode _laserNode;
     private BeadNode _beadNode;
@@ -87,18 +87,15 @@ public class PhysicsModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public PhysicsModule() {
-        super( SimStrings.get( "PhysicsModule.title" ), new OTClock(), !PhysicsDefaults.CLOCK_RUNNING /* startsPaused */ );
+        super( SimStrings.get( "PhysicsModule.title" ), PhysicsDefaults.CLOCK, PhysicsDefaults.CLOCK_PAUSED );
 
-        // hide the PhET logo
-        setLogoPanel( null );
-        
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
 
-        IClock clock = getClock();
+        _clock = (OTClock) getClock();
         
-        _model = new OTModel( clock );
+        _model = new OTModel( _clock );
         
         _laser = new Laser( PhysicsDefaults.LASER_POSITION, 
                 PhysicsDefaults.LASER_ORIENTATION, 
@@ -323,7 +320,7 @@ public class PhysicsModule extends AbstractModule {
     //----------------------------------------------------------------------------
     
     /*
-     * Initializes a wiggle me that points to the gun on/off button.
+     * Initializes a wiggle me
      */
     private void initWiggleMe() {
         if ( !_wiggleMeInitialized ) {
@@ -361,6 +358,24 @@ public class PhysicsModule extends AbstractModule {
         
         // Model
         {
+            // Clock
+            if ( PhysicsDefaults.CLOCK_PAUSED ) {
+                _clock.pause();
+            }
+            else {
+                _clock.start();
+            }
+            _clock.setDt( PhysicsDefaults.CLOCK_DT_RANGE.getDefault() );
+            
+            // Bead
+            _bead.setPosition( PhysicsDefaults.BEAD_POSITION );
+            _bead.setOrientation( PhysicsDefaults.BEAD_ORIENTATION );
+            
+            // Laser
+            _laser.setPosition( PhysicsDefaults.LASER_POSITION );
+            _laser.setPower( PhysicsDefaults.LASER_POWER_RANGE.getDefault() );
+            
+            // Fluid
             _fluid.setSpeed( PhysicsDefaults.FLUID_SPEED_RANGE.getDefault() );
             _fluid.setViscosity( PhysicsDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
             _fluid.setTemperature( PhysicsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
@@ -368,9 +383,7 @@ public class PhysicsModule extends AbstractModule {
         
         // Control panel settings that are view-related
         {
-            _controlPanel.setSlowSpeedSelected( PhysicsDefaults.SLOW_SPEED_SELECTED );
-            _controlPanel.setSlowSpeed( PhysicsDefaults.SLOW_SPEED );
-            _controlPanel.setFastSpeed( PhysicsDefaults.FAST_SPEED );
+            _controlPanel.setClockSpeed( PhysicsDefaults.CLOCK_DT_RANGE.getDefault() );
             _controlPanel.setElectricFieldSelected( PhysicsDefaults.ELECTRIC_FIELD_SELECTED );
             _controlPanel.setBeadChargesSelected( PhysicsDefaults.BEAD_CHARGES_SELECTED );
             _controlPanel.setAllChargesSelected( PhysicsDefaults.ALL_BEAD_CHARGES_SELECTED );

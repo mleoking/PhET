@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+
 - fix problems with rulers
 - straighten out coordinate system transform problems
 - laser dragging is messed up at left boundary
@@ -60,6 +61,10 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/13/07 - change clock stuff in *Defaults classes
+3/13/07 - delete SpeedControl class (complicated clock control)
+3/13/07 - change clock speed control to 1 slider
+3/13/07 - change laser "width" to "diameter"
 3/12/07 - move RoundGradientPaint to phetcommon
 3/12/07 - move getWorldSize funtionality to PhetPCanvas
 3/12/07 - laser power should be double precision

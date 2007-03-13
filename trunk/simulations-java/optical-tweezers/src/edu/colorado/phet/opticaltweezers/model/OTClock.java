@@ -16,17 +16,11 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
  */
 public class OTClock extends SwingClock {
 
-    /* Wall time between clock ticks (milliseconds) */
-    private static final int WALL_DT = ( 1000 / OTConstants.CLOCK_FRAME_RATE );
-    
-    /* Simulation time between clock ticks (units defined by the simulation) */
-    private static final double SIM_DT = OTConstants.DEFAULT_CLOCK_STEP;
-    
-    public OTClock() {
-        super( WALL_DT, new TimingStrategy.Constant( SIM_DT ) );
+    public OTClock( int framesPerSecond, double dt ) {
+        super( 1000 / framesPerSecond, dt );
     }
     
-    public void setSimulationTimeChange( final double dt ) {
+    public void setDt( final double dt ) {
         setTimingStrategy( new TimingStrategy.Constant( dt ) );
     }
 }

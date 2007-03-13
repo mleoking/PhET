@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -32,7 +33,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     private PhysicsModule _module;
     
-    private SpeedControl _speedControl;
+    private JSlider _clockSpeedSlider;
     
     private JCheckBox _electricFieldCheckBox;
     private JCheckBox _beadChargesCheckBox;
@@ -72,7 +73,37 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         }
         
         // Clock speed
-        _speedControl = new SpeedControl( TITLE_FONT, CONTROL_FONT );
+        JPanel speedPanel = new JPanel();
+        {
+            JLabel titleLabel = new JLabel( SimStrings.get( "label.simulationSpeed" ) );
+            titleLabel.setFont( TITLE_FONT );
+            
+            _clockSpeedSlider = new JSlider();
+            _clockSpeedSlider.setMinimum( 0 );
+            _clockSpeedSlider.setMaximum( 100  );
+            _clockSpeedSlider.setValue( 50 );
+            _clockSpeedSlider.setMajorTickSpacing( _clockSpeedSlider.getMaximum() - _clockSpeedSlider.getMinimum() );
+            _clockSpeedSlider.setPaintTicks( true );
+            _clockSpeedSlider.setPaintLabels( true );
+            
+            JLabel slowLabel = new JLabel( SimStrings.get( "label.slow" ) );
+            slowLabel.setFont( CONTROL_FONT );
+            JLabel fastLabel = new JLabel( SimStrings.get( "label.fast" ) );
+            fastLabel.setFont( CONTROL_FONT );
+            Hashtable labelTable = new Hashtable();
+            labelTable.put( new Integer( _clockSpeedSlider.getMinimum() ), slowLabel );
+            labelTable.put( new Integer( _clockSpeedSlider.getMaximum() ), fastLabel );
+            _clockSpeedSlider.setLabelTable( labelTable );
+            
+            EasyGridBagLayout layout = new EasyGridBagLayout( speedPanel );
+            speedPanel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.WEST );
+            layout.setFill( GridBagConstraints.HORIZONTAL );
+            int row = 0;
+            int column = 0;
+            layout.addComponent( titleLabel, row++, column );
+            layout.addComponent( _clockSpeedSlider, row++, column );
+        }
         
         // Fields and charged 
         JPanel fieldAndChargesPanel = new JPanel();
@@ -177,6 +208,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Fonts
         {
+            _clockSpeedSlider.setFont( CONTROL_FONT );
+            
             _electricFieldCheckBox.setFont( CONTROL_FONT );
             _beadChargesCheckBox.setFont( CONTROL_FONT );
             _allChargesRadioButton.setFont( CONTROL_FONT );
@@ -199,7 +232,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Layout
         {
-            addControlFullWidth( _speedControl );
+            addControlFullWidth( speedPanel );
             addSeparator();
             addControlFullWidth( fieldAndChargesPanel );
             addSeparator();
@@ -216,7 +249,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         // Listeners
         {
             EventListener listener = new EventListener();
-            _speedControl.addChangeListener( listener );
+            _clockSpeedSlider.addChangeListener( listener );
             _electricFieldCheckBox.addActionListener( listener );
             _beadChargesCheckBox.addActionListener( listener );
             _allChargesRadioButton.addActionListener( listener );
@@ -236,9 +269,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         // Default state
         {
-            _speedControl.setSlowSelected( true );
-            _speedControl.setSlowSpeed( 0.5 );//XXX
-            _speedControl.setFastSpeed( 0.5 );//XXX
+            _clockSpeedSlider.setValue( ( _clockSpeedSlider.getMaximum() - _clockSpeedSlider.getMinimum() / 2 ) ); //XXX
             
             _electricFieldCheckBox.setSelected( false );
             _beadChargesCheckBox.setSelected( false );
@@ -270,28 +301,12 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     // Mutators and accessors
     //----------------------------------------------------------------------------
     
-    public void setSlowSpeedSelected( boolean b ) {
-        _speedControl.setSlowSelected( b );
+    public void setClockSpeed( double dt ) {
+        //XXX
     }
     
-    public boolean isSpeedSlow() {
-        return _speedControl.isSlowSelected();
-    }
-    
-    public void setSlowSpeed( double speed ) {
-        _speedControl.setSlowSpeed( speed );
-    }
-    
-    public double getSlowSpeed() {
-        return _speedControl.getSlowSpeed();
-    }
-    
-    public void setFastSpeed( double speed ) {
-        _speedControl.setFastSpeed( speed );
-    }
-    
-    public double getFastSpeed() {
-        return _speedControl.getFastSpeed();
+    public double getClockSpeed() {
+        return 1;//XXX
     }
     
     public void setElectricFieldSelected( boolean b ) {
@@ -314,7 +329,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _allChargesRadioButton.setSelected( b );
     }
     
-    public boolean AllChargesSelected() {
+    public boolean isAllChargesSelected() {
         return _allChargesRadioButton.isSelected();
     }
     
@@ -469,7 +484,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
 
         public void stateChanged( ChangeEvent e ) {
             Object source = e.getSource();
-            if ( source == _speedControl ) {
+            if ( source == _clockSpeedSlider ) {
                 handleSpeedControl();
             }
         }
@@ -482,13 +497,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     private void handleSpeedControl() {
         
-        boolean isSlow = _speedControl.isSlowSelected();
-        
-        if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            String mode = ( isSlow ? "slow" : "fast" );
-            double speed = ( isSlow ? _speedControl.getSlowSpeed() : _speedControl.getFastSpeed() );
-            System.out.println( "PhysicsControlPanel.handleSpeedChange mode=" + mode + " speed=" + speed );
-        }
+        boolean isSlow = _clockSpeedSlider.getValue() < ( ( _clockSpeedSlider.getMaximum() - _clockSpeedSlider.getMinimum() ) / 2 );//XXX
         
         _electricFieldCheckBox.setEnabled( isSlow );
         _beadChargesCheckBox.setEnabled( isSlow );

@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.opticaltweezers.defaults;
 
+import edu.colorado.phet.opticaltweezers.model.OTClock;
+
 
 /**
  * DNADefaults contains default settings for the "Fun with DNA" module.
@@ -14,8 +16,8 @@ public class DNADefaults {
     private DNADefaults() {}
     
     // Clock
-    public static final boolean CLOCK_RUNNING = true ;
-    public static final boolean SLOW_SPEED_SELECTED = true;
-    public static final int SLOW_SPEED = 50; // range is 1-100
-    public static final int FAST_SPEED = 50; // range is 1-100
+    public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
+    public static final boolean CLOCK_PAUSED = false ;
+    public static final double CLOCK_DT = 1;
+    public static final OTClock CLOCK = new OTClock( CLOCK_FRAME_RATE, CLOCK_DT );
 }
