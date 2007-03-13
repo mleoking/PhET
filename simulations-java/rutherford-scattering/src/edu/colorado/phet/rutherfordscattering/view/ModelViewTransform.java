@@ -10,7 +10,7 @@ import edu.colorado.phet.rutherfordscattering.RSConstants;
 /**
  * ModelViewTransform is the transform between model coordinates 
  * and the view coordinates of the AnimationBoxNode.
- * The orgin of the model coordinate system is at the bottom-center
+ * The origin of the model coordinate system is at the bottom-center
  * of the AnimationBoxNode.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
