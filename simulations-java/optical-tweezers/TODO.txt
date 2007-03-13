@@ -60,6 +60,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/13/07 - rename ModelViewTransform -> ModelWorldTransform
 3/13/07 - wire up ruler to checkbox
 3/13/07 - change ModelViewTransform to use a separate xform for view->model
 3/13/07 - wire up ClockSpeedSlider to clock

@@ -26,10 +26,10 @@ public class BeadNode extends SphericalNode implements Observer {
     private static final Paint STROKE_PAINT = Color.BLACK;
     
     private Bead _bead;
-    private ModelViewTransform _modelViewTransform;
+    private ModelWorldTransform _modelViewTransform;
     private BoundedDragHandler _dragHandler;
     
-    public BeadNode( Bead bead, ModelViewTransform modelViewTransform, PNode dragBoundsNode ) {
+    public BeadNode( Bead bead, ModelWorldTransform modelViewTransform, PNode dragBoundsNode ) {
         super( true /* convertToImage */ );
         
         _bead = bead;
@@ -78,12 +78,12 @@ public class BeadNode extends SphericalNode implements Observer {
     //----------------------------------------------------------------------------
     
     private void handlePositionChange() {
-        Point2D position = _modelViewTransform.transform( _bead.getPositionRef() );
+        Point2D position = _modelViewTransform.modelToWorld( _bead.getPositionRef() );
         setOffset( position.getX(), position.getY() );
     }
     
     private void handleDiameterChange() {
-        final double diameter = _modelViewTransform.transform( _bead.getDiameter() );
+        final double diameter = _modelViewTransform.modelToWorld( _bead.getDiameter() );
         setDiameter( diameter );
         Paint paint = new RoundGradientPaint( 0, diameter/6, HILITE_COLOR, new Point2D.Double( diameter/4, diameter/4 ), PRIMARY_COLOR );
         setPaint( paint );

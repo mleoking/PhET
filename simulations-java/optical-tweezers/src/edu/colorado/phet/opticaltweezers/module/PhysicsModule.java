@@ -64,7 +64,7 @@ public class PhysicsModule extends AbstractModule {
     private GlassSlideNode _glassSlideNode;
     private LaserNode _laserNode;
     private BeadNode _beadNode;
-    private ModelViewTransform _modelViewTransform;
+    private ModelWorldTransform _modelViewTransform;
     private PPath _beadDragBoundsNode;
     private PPath _laserDragBoundsNode;
     private OTRulerNode _rulerNode;
@@ -137,7 +137,7 @@ public class PhysicsModule extends AbstractModule {
         _canvas.addWorldChild( _rootNode );
 
         // Model View transform
-        _modelViewTransform = new ModelViewTransform( 0.5, 0, 0 );
+        _modelViewTransform = new ModelWorldTransform( 0.5, 0, 0 );
         
         // Glass Slide
         _glassSlideNode = new GlassSlideNode( _fluid, _modelViewTransform );

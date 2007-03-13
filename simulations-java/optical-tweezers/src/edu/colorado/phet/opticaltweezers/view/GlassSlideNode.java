@@ -24,12 +24,12 @@ public class GlassSlideNode extends PhetPNode implements Observer {
     private static final Color CENTER_FILL_COLOR = new Color( 220, 239, 239 );
 
     private Fluid _fluid;
-    private ModelViewTransform _modelViewTransform;
+    private ModelWorldTransform _modelViewTransform;
     private double _canvasWidth;
     
     private PPath _topEdgeNode, _bottomEdgeNode, _centerNode;
     
-    public GlassSlideNode( Fluid fluid, ModelViewTransform modelViewTransform ) {
+    public GlassSlideNode( Fluid fluid, ModelWorldTransform modelViewTransform ) {
         super();
          
         setPickable( false );
@@ -93,8 +93,8 @@ public class GlassSlideNode extends PhetPNode implements Observer {
         // fluid flow must be left-to-right or right-to-left
         assert( _fluid.getOrientation() ==  Math.toRadians( 0 ) || _fluid.getOrientation() == Math.toRadians( 90 ) );
         
-        final double height = _modelViewTransform.transform( _fluid.getWidth() );
-        final double y = _modelViewTransform.transform( _fluid.getY() );
+        final double height = _modelViewTransform.modelToWorld( _fluid.getWidth() );
+        final double y = _modelViewTransform.modelToWorld( _fluid.getY() );
         
         // create each part with (0,0) at top right
         _topEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, EDGE_HEIGHT ) );

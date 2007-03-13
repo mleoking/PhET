@@ -23,9 +23,9 @@ public class OTRulerNode extends RulerNode implements Observer {
     private static final int FONT_SIZE = 12;
     
     private Laser _laser;
-    private ModelViewTransform _modelViewTransform;
+    private ModelWorldTransform _modelViewTransform;
     
-    public OTRulerNode( Laser laser, ModelViewTransform modelViewTransform, PNode dragBoundsNode ) {
+    public OTRulerNode( Laser laser, ModelWorldTransform modelViewTransform, PNode dragBoundsNode ) {
         super( DEFAULT_WIDTH, HEIGHT, null, SimStrings.get( "units.position" ), MINOR_TICKS_BETWEEN_MAJORS, FONT_SIZE );
         
         setUnits( "" );//XXX
@@ -51,14 +51,14 @@ public class OTRulerNode extends RulerNode implements Observer {
     public void setCanvasWidth( double canvasWidth ) {
         
         // Convert canvas width to model coordinates
-        double modelCanvasWidth = _modelViewTransform.inverseTransform( canvasWidth );
+        double modelCanvasWidth = _modelViewTransform.worldToModel( canvasWidth );
         
         int numMajorTicks = (int)( 3 * modelCanvasWidth / MAJOR_TICK_INTERVAL );
         if ( numMajorTicks % 2 == 0 ) {
             numMajorTicks++; // must be an odd number, with 0 at middle
         }
         
-        double viewDistance = ( numMajorTicks - 1 ) * _modelViewTransform.transform( MAJOR_TICK_INTERVAL );
+        double viewDistance = ( numMajorTicks - 1 ) * _modelViewTransform.modelToWorld( MAJOR_TICK_INTERVAL );
         setDistanceBetweenFirstAndLastTick( viewDistance );
         
         String[] majorTickLabels = new String[ numMajorTicks ];
@@ -79,7 +79,7 @@ public class OTRulerNode extends RulerNode implements Observer {
     }
     
     private void updatePosition() {
-        Point2D p = _modelViewTransform.transform( _laser.getPositionRef() );
+        Point2D p = _modelViewTransform.modelToWorld( _laser.getPositionRef() );
         setOffset( p.getX() - ( getFullBounds().getWidth() / 2 ), getOffset().getY() );
     }
 }
