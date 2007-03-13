@@ -291,11 +291,11 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     //----------------------------------------------------------------------------
     
     public void setClockSpeed( double dt ) {
-        //XXX
+        _clockSpeedSlider.setSpeed( dt );
     }
     
     public double getClockSpeed() {
-        return 1;//XXX
+        return _clockSpeedSlider.getSpeed();
     }
     
     public void setElectricFieldSelected( boolean b ) {
@@ -486,12 +486,14 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     private void handleSpeedControl() {
         
-        boolean isSlow = _clockSpeedSlider.getValue() < ( ( _clockSpeedSlider.getMaximum() - _clockSpeedSlider.getMinimum() ) / 2 );//XXX
+        boolean isSlow = _clockSpeedSlider.getValue() < ( ( _clockSpeedSlider.getMaximum() - _clockSpeedSlider.getMinimum() ) / 3 );//XXX
         
         _electricFieldCheckBox.setEnabled( isSlow );
         _beadChargesCheckBox.setEnabled( isSlow );
         _allChargesRadioButton.setEnabled( isSlow && _beadChargesCheckBox.isSelected() );
         _excessChargesRadioButton.setEnabled( isSlow && _beadChargesCheckBox.isSelected() );
+        
+        _trapForceCheckBox.setEnabled( isSlow );
         _horizontalTrapForceLabel.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
         _wholeBeadRadioButton.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
         _halfBeadRadioButton.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
