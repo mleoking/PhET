@@ -24,8 +24,8 @@ public class GlassSlideNode extends PhetPNode implements Observer {
     private static final Color CENTER_FILL_COLOR = new Color( 220, 239, 239 );
 
     private Fluid _fluid;
-    private ModelWorldTransform _modelViewTransform;
-    private double _canvasWidth;
+    private ModelWorldTransform _modelWorldTransform;
+    private double _worldWidth;
     
     private PPath _topEdgeNode, _bottomEdgeNode, _centerNode;
     
@@ -38,8 +38,8 @@ public class GlassSlideNode extends PhetPNode implements Observer {
         _fluid = fluid;
         _fluid.addObserver( this );
         
-        _modelViewTransform = modelViewTransform;
-        _canvasWidth = 1;
+        _modelWorldTransform = modelViewTransform;
+        _worldWidth = 1;
         
         _topEdgeNode = new PPath();
         _topEdgeNode.setStroke( EDGE_STROKE );
@@ -74,12 +74,12 @@ public class GlassSlideNode extends PhetPNode implements Observer {
         return _centerNode.getGlobalFullBounds();
     }
     
-    public void setCanvasWidth( double canvasWidth ) {
-        if ( canvasWidth <= 0 ) {
-            throw new IllegalArgumentException( "canvasWidth must be > 0: " + canvasWidth );
+    public void setWorldWidth( double worldWidth ) {
+        if ( worldWidth <= 0 ) {
+            throw new IllegalArgumentException( "canvasWidth must be > 0: " + worldWidth );
         }
-        if ( canvasWidth != _canvasWidth ) {
-            _canvasWidth = canvasWidth;
+        if ( worldWidth != _worldWidth ) {
+            _worldWidth = worldWidth;
             update();
         }
     }
@@ -93,13 +93,13 @@ public class GlassSlideNode extends PhetPNode implements Observer {
         // fluid flow must be left-to-right or right-to-left
         assert( _fluid.getOrientation() ==  Math.toRadians( 0 ) || _fluid.getOrientation() == Math.toRadians( 90 ) );
         
-        final double height = _modelViewTransform.modelToWorld( _fluid.getWidth() );
-        final double y = _modelViewTransform.modelToWorld( _fluid.getY() );
+        final double height = _modelWorldTransform.modelToWorld( _fluid.getWidth() );
+        final double y = _modelWorldTransform.modelToWorld( _fluid.getY() );
         
         // create each part with (0,0) at top right
-        _topEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, EDGE_HEIGHT ) );
-        _bottomEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, EDGE_HEIGHT ) );
-        _centerNode.setPathTo( new Rectangle2D.Double( 0, 0, _canvasWidth, height ) );
+        _topEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _worldWidth, EDGE_HEIGHT ) );
+        _bottomEdgeNode.setPathTo( new Rectangle2D.Double( 0, 0, _worldWidth, EDGE_HEIGHT ) );
+        _centerNode.setPathTo( new Rectangle2D.Double( 0, 0, _worldWidth, height ) );
         
         // translate parts so that (0,0) of the slide is at left center
         _topEdgeNode.setOffset( 0, -( height / 2 ) - EDGE_HEIGHT );

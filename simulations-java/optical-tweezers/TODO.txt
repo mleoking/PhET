@@ -5,8 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- fix problems with rulers
-- straighten out coordinate system transform problems
+- fix ruler vertical drag problem
 - laser dragging is messed up at left boundary
 - position histogram
 - potential energy chart
@@ -60,6 +59,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/13/07 - fix major bug in ModelWorldTransform
 3/13/07 - rename ModelViewTransform -> ModelWorldTransform
 3/13/07 - wire up ruler to checkbox
 3/13/07 - change ModelViewTransform to use a separate xform for view->model

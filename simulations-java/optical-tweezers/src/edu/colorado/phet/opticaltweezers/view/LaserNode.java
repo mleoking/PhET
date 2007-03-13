@@ -44,7 +44,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     private static final double OBJECTIVE_WIDTH_TO_OBJECTIVE_HEIGHT_RATIO = 12.0; // (objective width)/(objective height)
     
     private Laser _laser;
-    private ModelWorldTransform _modelViewTransform;
+    private ModelWorldTransform _modelWorldTransform;
     
     private BeamInNode _beamInNode;
     private BeamOutNode _beamOutNode;
@@ -56,9 +56,9 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         _laser = laser;
         _laser.addObserver( this );
         
-        _modelViewTransform = modelViewTransform;
+        _modelWorldTransform = modelViewTransform;
         
-        final double laserWidth = _modelViewTransform.modelToWorld( _laser.getDiameter() );
+        final double laserWidth = _modelWorldTransform.modelToWorld( _laser.getDiameter() );
         
         // Objective (lens) used to focus the laser beam
         double objectiveWidth = laserWidth / OBJECT_WIDTH_TO_BEAM_WIDTH_RATIO;
@@ -82,7 +82,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         _beamInNode = new BeamInNode( laserWidth, CONTROL_PANEL_Y_OFFSET, laser.getWavelength(), alpha );
         
         // Laser beam coming out of objective
-        double beamOutHeight = _modelViewTransform.modelToWorld( laser.getPositionRef().getY() ); // distance from top of canvas
+        double beamOutHeight = _modelWorldTransform.modelToWorld( laser.getPositionRef().getY() ); // distance from top of canvas
         _beamOutNode = new BeamOutNode( laserWidth, beamOutHeight, laser.getWavelength(), alpha );
         
         // Handles
@@ -155,10 +155,11 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     
     public void propertyChange( PropertyChangeEvent event ) {
         if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
-            double xNew = _modelViewTransform.worldToModel( getOffset().getX() );
-            double yOld = _laser.getPositionRef().getY();
+            double xView = getOffset().getX();
+            double xModel = _modelWorldTransform.worldToModel( xView );
+            double yModel = _laser.getPositionRef().getY();
             _laser.deleteObserver( this );
-            _laser.setPosition( xNew, yOld );
+            _laser.setPosition( xModel, yModel );
             _laser.addObserver( this );
         }
     }
@@ -186,7 +187,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     }
     
     private void updatePosition() {
-        Point2D laserPosition = _modelViewTransform.modelToWorld( _laser.getPosition() );
+        Point2D laserPosition = _modelWorldTransform.modelToWorld( _laser.getPosition() );
         setOffset( laserPosition.getX(), laserPosition.getY() );
     }
     
