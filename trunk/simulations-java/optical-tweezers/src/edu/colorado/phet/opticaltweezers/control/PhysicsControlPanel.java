@@ -6,9 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Hashtable;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -607,7 +604,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             System.out.println( "PhysicsControlPanel.handleRulerCheckBox " + selected );
         }
         
-        //XXX
+        _module.setRulerVisible( selected );
     }
     
     private void handlePositionHistogramCheckBox() {

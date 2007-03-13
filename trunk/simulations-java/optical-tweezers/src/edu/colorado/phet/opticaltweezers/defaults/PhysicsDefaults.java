@@ -53,7 +53,7 @@ public class PhysicsDefaults {
     public static final boolean WHOLE_BEAD_SELECTED = true;
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
     public static final boolean BROWNIAN_FORCE_SELECTED = false;
-    public static final boolean RULER_SELECTED = false;
+    public static final boolean RULER_SELECTED = true;
     public static final boolean POSITION_HISTOGRAM_SELECTED = false;
     public static final boolean ADVANCED_VISIBLE = false;
     public static final boolean FLUID_CONTROLS_SELECTED = false;

@@ -26,6 +26,7 @@ public class OTRulerNode extends RulerNode implements Observer {
     
     public OTRulerNode( double width, Laser laser, ModelViewTransform modelViewTransform, PNode dragBoundsNode ) {
         super( width, HEIGHT, null, SimStrings.get( "units.position" ), MINOR_TICKS_BETWEEN_MAJORS, FONT_SIZE );
+        
         setUnits( "" );//XXX
         
         _laser = laser;
@@ -49,16 +50,7 @@ public class OTRulerNode extends RulerNode implements Observer {
     public void setCanvasWidth( double canvasWidth ) {
         
         // Convert canvas width to model coordinates
-        double modelCanvasWidth = 0;
-        try {
-            modelCanvasWidth = _modelViewTransform.inverseTransform( canvasWidth );
-        }
-        catch ( NoninvertibleTransformException e ) {
-            setDistanceBetweenFirstAndLastTick( 100 );
-            setMajorTickLabels( null );
-            e.printStackTrace();
-            return;
-        }
+        double modelCanvasWidth = _modelViewTransform.inverseTransform( canvasWidth );
         
         int numMajorTicks = (int)( 3 * modelCanvasWidth / MAJOR_TICK_INTERVAL );
         if ( numMajorTicks % 2 == 0 ) {
