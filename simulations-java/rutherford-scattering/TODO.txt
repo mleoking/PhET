@@ -15,6 +15,7 @@ LOW PRIORITY:
 
 
 DONE:
+3/12/07 - move RoundGradientPaint to phetcommon
 3/12/07 - used PhetPCanvas.getWorldSize
 3/12/07 - bug fix in MovingObject.setSpeed
 ******** version 0.00.03 (13684)
