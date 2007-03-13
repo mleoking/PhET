@@ -16,6 +16,7 @@ import edu.umd.cs.piccolo.PNode;
 
 public class OTRulerNode extends RulerNode implements Observer {
     
+    private static final double DEFAULT_WIDTH = 600;
     private static final double HEIGHT = 40;
     private static final int MAJOR_TICK_INTERVAL = 100; // nm
     private static final int MINOR_TICKS_BETWEEN_MAJORS = 1; // 
@@ -24,8 +25,8 @@ public class OTRulerNode extends RulerNode implements Observer {
     private Laser _laser;
     private ModelViewTransform _modelViewTransform;
     
-    public OTRulerNode( double width, Laser laser, ModelViewTransform modelViewTransform, PNode dragBoundsNode ) {
-        super( width, HEIGHT, null, SimStrings.get( "units.position" ), MINOR_TICKS_BETWEEN_MAJORS, FONT_SIZE );
+    public OTRulerNode( Laser laser, ModelViewTransform modelViewTransform, PNode dragBoundsNode ) {
+        super( DEFAULT_WIDTH, HEIGHT, null, SimStrings.get( "units.position" ), MINOR_TICKS_BETWEEN_MAJORS, FONT_SIZE );
         
         setUnits( "" );//XXX
         
@@ -39,7 +40,7 @@ public class OTRulerNode extends RulerNode implements Observer {
 //        addInputEventListener( new BoundedDragHandler( this, dragBoundsNode ) );
 //        addInputEventListener( new PDragEventHandler() );//XXX
         
-        setCanvasWidth( width );
+        setCanvasWidth( DEFAULT_WIDTH );
         updatePosition();
     }
     
