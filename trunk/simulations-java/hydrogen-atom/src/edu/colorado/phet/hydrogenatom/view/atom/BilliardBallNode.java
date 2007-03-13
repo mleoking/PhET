@@ -17,8 +17,8 @@ import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.common.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.hydrogenatom.model.BilliardBallModel;
-import edu.colorado.phet.hydrogenatom.util.RoundGradientPaint;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.SphericalNode;
 import edu.umd.cs.piccolo.PNode;
