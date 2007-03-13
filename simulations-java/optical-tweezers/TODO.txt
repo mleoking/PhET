@@ -40,6 +40,24 @@ LOW PRIORITY:
 - rescale image files to minimize file size
 
 DEFER UNTIL AFTER INTERVIEWS:
+
+MODEL INFO NEEDED:
+- Brownian motion of bead
+- laser curvature
+- laser gradient
+- E-field
+- trap force (slide 7)
+- fluid drag force (slide 14)
+- charge on the bead
+- effect of temperature on Brownian motion
+- position histogram (slide 15)
+- stuff related to “Show change in momentum model” (shape of 2 rays of light, vectors, etc.)
+- units, ranges and default values for:
+   + fluid flow speed
+   + fluid viscosity
+   + fluid temperature
+   + clock dt
+
  
 DONE:
 3/12/07 - move RoundGradientPaint to phetcommon

@@ -58,7 +58,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         
         _modelViewTransform = modelViewTransform;
         
-        final double laserWidth = _modelViewTransform.transform( _laser.getWidth() );
+        final double laserWidth = _modelViewTransform.transform( _laser.getDiameter() );
         
         // Objective (lens) used to focus the laser beam
         double objectiveWidth = laserWidth / OBJECT_WIDTH_TO_BEAM_WIDTH_RATIO;
