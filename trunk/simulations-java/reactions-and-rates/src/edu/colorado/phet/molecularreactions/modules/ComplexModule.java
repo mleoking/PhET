@@ -13,31 +13,22 @@ package edu.colorado.phet.molecularreactions.modules;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.clock.StopwatchPanel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.PublishingModel;
 import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 import edu.colorado.phet.molecularreactions.view.PumpGraphic;
 import edu.colorado.phet.molecularreactions.view.SimpleMoleculeGraphic;
-import edu.colorado.phet.molecularreactions.view.InitialTemperaturePanel;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChartNode;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChartNode;
 import edu.colorado.phet.molecularreactions.view.charts.StripChartDialog;
 import edu.colorado.phet.molecularreactions.view.charts.StripChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.nodes.PhetPPath;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.event.PInputEventListener;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import java.awt.event.ComponentListener;
 import java.awt.geom.Rectangle2D;
-import java.awt.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 
 /**
  * ComplexModule
@@ -119,8 +110,6 @@ public class ComplexModule extends MRModule {
 
     public void activate() {
         super.activate();
-        // True marking of the selected molecule and its nearest neighbor
-//        SimpleMoleculeGraphic.setMarkSelectedMolecule( true );
     }
 
     public void reset() {
@@ -129,7 +118,6 @@ public class ComplexModule extends MRModule {
         controlPanel.reset();
         pumpGraphic.reset();
         resetStripChart();
-//        setStripChartRecording( true );
     }
 
     private void setInitialConditions() {
@@ -142,10 +130,10 @@ public class ComplexModule extends MRModule {
                                                                 getEnergyView().getUpperPaneSize().getWidth(),
                                                                 getEnergyView().getUpperPaneSize().getHeight() );
             pieChart = new MoleculePopulationsPieChartNode( this, bounds );
-            getEnergyView().addToUpperPane( pieChart );
+            getEnergyView().setUpperPaneContent( pieChart );
         }
         else if( pieChart != null ) {
-            getEnergyView().removeFromUpperPane( pieChart );
+            getEnergyView().clearUpperPaneContent( );
         }
     }
 
@@ -155,10 +143,10 @@ public class ComplexModule extends MRModule {
                                                                 getEnergyView().getUpperPaneSize(),
                                                                 (PhetPCanvas)getSimulationPanel() );
             barChartNode.rescale();
-            getEnergyView().addToUpperPane( barChartNode );
+            getEnergyView().setUpperPaneContent( barChartNode );
         }
         else if( barChartNode != null ) {
-            getEnergyView().removeFromUpperPane( barChartNode );
+            getEnergyView().clearUpperPaneContent();
             barChartNode = null;
         }
     }
@@ -190,11 +178,10 @@ public class ComplexModule extends MRModule {
                 stripChartNode.rescale();
                 firstTimeStripChartVisible = false;
             }
-            getEnergyView().addToUpperPane( stripChartNode );
+            getEnergyView().setUpperPaneContent( stripChartNode );
         }
         else if( stripChartNode != null ) {
-            getEnergyView().removeFromUpperPane( stripChartNode );
-//            stripChartNode = null;
+            getEnergyView().clearUpperPaneContent();
         }
     }
 

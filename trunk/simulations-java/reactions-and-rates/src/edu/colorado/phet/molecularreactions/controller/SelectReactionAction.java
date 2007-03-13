@@ -102,7 +102,7 @@ public class SelectReactionAction extends AbstractAction {
             // but it does
             module.getMRModel().setEnergyProfile( currentReaction.getEnergyProfile() );
 
-            module.resetMolecules();
+            module.reset();
 
             module.getMRModel().setEnergyProfile( currentReaction.getEnergyProfile() );
         }

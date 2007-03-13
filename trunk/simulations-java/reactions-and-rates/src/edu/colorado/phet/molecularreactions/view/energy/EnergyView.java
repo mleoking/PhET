@@ -6,6 +6,7 @@ import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.Resetable;
+import edu.colorado.phet.molecularreactions.util.PNodeViewableOption;
 import edu.colorado.phet.molecularreactions.view.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -54,6 +55,11 @@ public class EnergyView extends PNode implements Resetable {
     private volatile CurvePane curvePane;
     private volatile PPath legendNode;
     private volatile MRModule module;
+
+    private volatile PNodeViewableOption curvePaneCloser;
+    private volatile PNodeViewableOption moleculeSeparationCloser;
+
+    private volatile PNode upperPaneContents;
 
     public EnergyView() {
     }
@@ -106,17 +112,18 @@ public class EnergyView extends PNode implements Resetable {
     private void addMolecularSeparationPane( MRModule module, Dimension upperPaneSize ) {
         if (moleculeSeparationPane != null) {
             moleculeSeparationPane.terminate();
+            moleculeSeparationCloser.detach();
         }
         
         // The pane that has the molecules
-        moleculeSeparationPane = new MoleculeSeparationPane(module, upperPaneSize, curvePane );
+        moleculeSeparationPane = new MoleculeSeparationPane( module, upperPaneSize, curvePane );
 
         addChild( moleculeSeparationPane );
+
+        moleculeSeparationCloser = new PNodeViewableOption( moleculeSeparationPane, module.getCanvas() );
     }
 
     private void addUpperPane( Dimension upperPaneSize ) {
-        // Add another pane on top of the molecule pane to display charts.
-        // It's a reall hack, but this pane is made visible when another
         upperPane = new UpperEnergyPane(upperPaneSize);
 
         addChild( upperPane );
@@ -125,12 +132,15 @@ public class EnergyView extends PNode implements Resetable {
     private void addCurvePane( MRModule module, Dimension upperPaneSize ) {
         if (curvePane != null) {
             curvePane.terminate();
+            curvePaneCloser.detach();
         }
         
         // The pane that has the curve and cursor
         curvePane = new CurvePane(module, upperPaneSize);
 
         addChild( curvePane );
+
+        curvePaneCloser = new PNodeViewableOption( curvePane, module.getCanvas() );
     }
 
     public void reset() {
@@ -151,10 +161,11 @@ public class EnergyView extends PNode implements Resetable {
      *
      * @param pNode
      */
-    public void addToUpperPane( PNode pNode ) {
-        upperPane.removeAllChildren();
+    public void setUpperPaneContent( PNode pNode ) {
+        clearUpperPaneContent();
+
         upperPane.addChild( pNode );
-        upperPane.setVisible( true );
+        upperPaneContents = pNode;
     }
 
     /*
@@ -162,37 +173,21 @@ public class EnergyView extends PNode implements Resetable {
      *
      * @param pNode
      */
-    public void removeFromUpperPane( PNode pNode ) {
-        if( upperPane.getChildrenReference().contains( pNode ) ) {
-            upperPane.removeChild( pNode );
-            upperPane.setVisible( upperPane.getChildrenCount() != 0 );
+    public void clearUpperPaneContent() {
+        if( upperPane.getChildrenReference().contains( upperPaneContents ) ) {
+            upperPane.removeChild( upperPaneContents );
         }
     }
 
     public void setManualControl( boolean manualControl ) {
         curvePane.setManualControlEnabled( manualControl );
     }
-
-    public void setSeparationViewHidden( boolean hide ) {
-        upperPane.setVisible( hide );
-    }
-
-    public void setEnergyProfileVisible( boolean visible ) {
-        curvePane.setVisible( visible );
-        legendNode.setVisible( visible );
-    }
-
+    
     public void setProfileManipulable( boolean manipulable ) {
         curvePane.setProfileManipulable( manipulable );
     }
 
-    public PNode getUpperPaneContents() {
-        if (upperPane == null) return null;
-
-        if ( upperPane.getChildrenCount() == 0) {
-            return null;
-        }
-        
-        return upperPane.getChild( 0 );
+    public PNode getUpperPaneContent() {
+        return upperPaneContents;
     }
 }
