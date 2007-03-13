@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-
 - fix problems with rulers
 - straighten out coordinate system transform problems
 - laser dragging is messed up at left boundary
@@ -61,6 +60,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/13/07 - wire up ClockSpeedSlider to clock
+3/13/07 - encapsulate clock speed model-view mappings in ClockSpeedSlider
 3/13/07 - change clock stuff in *Defaults classes
 3/13/07 - delete SpeedControl class (complicated clock control)
 3/13/07 - change clock speed control to 1 slider

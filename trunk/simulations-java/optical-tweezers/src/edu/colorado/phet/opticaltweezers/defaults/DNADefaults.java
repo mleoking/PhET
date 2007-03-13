@@ -3,6 +3,7 @@
 package edu.colorado.phet.opticaltweezers.defaults;
 
 import edu.colorado.phet.opticaltweezers.model.OTClock;
+import edu.colorado.phet.opticaltweezers.util.DoubleRange;
 
 
 /**
@@ -18,6 +19,6 @@ public class DNADefaults {
     // Clock
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
     public static final boolean CLOCK_PAUSED = false ;
-    public static final double CLOCK_DT = 1;
-    public static final OTClock CLOCK = new OTClock( CLOCK_FRAME_RATE, CLOCK_DT );
+    public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( 1, 1, 1, 0 );
+    public static final OTClock CLOCK = new OTClock( CLOCK_FRAME_RATE, CLOCK_DT_RANGE );
 }

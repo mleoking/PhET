@@ -1,0 +1,61 @@
+/* Copyright 2007, University of Colorado */
+
+package edu.colorado.phet.opticaltweezers.control;
+
+import java.awt.Font;
+import java.util.Hashtable;
+
+import javax.swing.JLabel;
+import javax.swing.JSlider;
+
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.opticaltweezers.model.OTClock;
+
+
+public class ClockSpeedSlider extends JSlider {
+    
+    private OTClock _clock;
+    
+    public ClockSpeedSlider( OTClock clock, Font font ) {
+        super();
+        setFont( font );
+        
+        _clock = clock;
+        
+        setMinimum( 0 );
+        setMaximum( 100  );
+        setMajorTickSpacing( getMaximum() - getMinimum() );
+        setPaintTicks( true );
+        setPaintLabels( true );
+        
+        JLabel slowLabel = new JLabel( SimStrings.get( "label.slow" ) );
+        slowLabel.setFont( font );
+        JLabel fastLabel = new JLabel( SimStrings.get( "label.fast" ) );
+        fastLabel.setFont( font );
+        Hashtable labelTable = new Hashtable();
+        labelTable.put( new Integer( getMinimum() ), slowLabel );
+        labelTable.put( new Integer( getMaximum() ), fastLabel );
+        setLabelTable( labelTable );
+    }
+    
+    public void setSpeed( double dt ) {
+        // Convert from model to view coordinates
+        double valueModel = dt;
+        double minModel = _clock.getDtRange().getMin();
+        double maxModel = _clock.getDtRange().getMax();
+        int minView = getMinimum();
+        int maxView = getMaximum();
+        int valueView = minView + (int) ( ( maxView - minView ) * ( ( valueModel - minModel ) / ( maxModel - minModel ) ) );
+        setValue( valueView );
+    }
+    
+    public double getSpeed() {
+        // Convert from view to model coordinates
+        int valueView = getValue();
+        int minView = getMinimum();
+        int maxView = getMaximum();
+        double minModel = _clock.getDtRange().getMin();
+        double maxModel = _clock.getDtRange().getMax();
+        return minModel + ( ( maxModel - minModel ) * ( ( valueView - minView ) / (double)( maxView - minView ) ) );
+    }
+}
