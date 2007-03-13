@@ -74,8 +74,8 @@ public class EnergyView extends PNode implements Resetable {
         removeAllChildren();
 
         addCurvePane( module, upperPaneSize );
-        addMolecularSeparationPane( module, upperPaneSize );
         addUpperPane( upperPaneSize );
+        addMolecularSeparationPane( module, upperPaneSize );        
         addLegend( upperPaneSize, module );
         addEnergyViewBorder();
     }
