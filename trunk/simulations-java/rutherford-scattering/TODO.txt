@@ -13,6 +13,7 @@ LOW PRIORITY:
 
 
 DONE:
+3/14/07 - get version and credits from properties file
 3/13/07 - hide value on energy sliders in control panels (DEBUG_SHOW_ENERGY_VALUE = false)
 3/13/07 - simplfy ModelViewTransform, improve javadoc
 3/13/07 - add description to About dialog

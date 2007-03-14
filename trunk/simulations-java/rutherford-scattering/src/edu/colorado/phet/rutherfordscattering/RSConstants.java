@@ -46,10 +46,11 @@ public class RSConstants {
     public static final Dimension BEAM_SIZE = new Dimension( (int) ( .75 * BOX_OF_HYDROGEN_SIZE.width ), 75 );
     
     //----------------------------------------------------------------------------
-    // Localization
+    // Properties files
     //----------------------------------------------------------------------------
     
-    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/RSStrings";
+    public static final String SIM_PROPERTIES_NAME = "rutherfordscattering";
+    public static final String SIM_STRINGS_NAME = "localization/RSStrings";
 
     //----------------------------------------------------------------------------
     // Clock
