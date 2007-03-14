@@ -22,6 +22,7 @@ PHETCOMMON:
 
 
 DONE:
+3/14/07 - get version and credits from properties file
 3/12/07 - update JNLP files, thumbnail, ProGuard config
 3/12/07 - update SimStrings files
 3/12/07 - change "Shaper" class prefix to "OQC"

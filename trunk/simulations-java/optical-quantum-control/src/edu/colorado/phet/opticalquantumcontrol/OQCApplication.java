@@ -14,11 +14,13 @@ package edu.colorado.phet.opticalquantumcontrol;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Properties;
 
 import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -131,12 +133,15 @@ public class OQCApplication extends PhetApplication {
     public static void main( String[] args ) throws IOException {
 
         // Initialize localization.
-        SimStrings.init( args, OQCConstants.LOCALIZATION_BUNDLE_BASENAME );
+        SimStrings.init( args, OQCConstants.SIM_STRINGS_NAME );
+        
+        // Load simulation properties file
+        Properties simulationProperties = PropertiesLoader.loadProperties( OQCConstants.SIM_PROPERTIES_NAME );
         
         // Title, etc.
         String title = SimStrings.get( "OQCApplication.title" );
         String description = SimStrings.get( "OQCApplication.description" );
-        String version = Version.NUMBER;
+        String version = PhetApplication.getVersionString( simulationProperties );
         
         // Frame setup
         int width = OQCConstants.APP_FRAME_WIDTH;
@@ -145,6 +150,7 @@ public class OQCApplication extends PhetApplication {
         
         // Create the application.
         OQCApplication app = new OQCApplication( args, title, description, version, frameSetup );
+        app.setSimulationProperties( simulationProperties );
         
         // Start the application.
         app.startApplication();
