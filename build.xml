@@ -9,6 +9,13 @@
     <property name="phet.java-sim.url"  value="${phet.svn.url}/${simulations.java}"/>
     
     <property name="message.specify.sim.name" value="The name of the simulation must be specified." />
+    
+    <property name="jar.ant-contrib" value="${basedir}/build-tools/ant-contrib/ant-contrib-1.0b3.jar" />
+    <property name="jar.junit"       value="${basedir}/build-tools/junit3.8.2/junit.jar" />
+    
+    <property name="temp.dir"        value="${basedir}/temp/"    />
+    <property name="temp.junit"      value="${temp.dir}junit/"   />
+    <property name="temp.classes"    value="${temp.dir}classes/" />
 
     <!--  Set ant output directories.  -->
     <property name="ant.output" value="ant_output"/>
@@ -16,7 +23,7 @@
     <!-- Ant-Contrib tasks definition -->
     <taskdef resource="net/sf/antcontrib/antcontrib.properties">
         <classpath>
-            <pathelement location="${basedir}/build-tools/ant-contrib/ant-contrib-1.0b3.jar"/>
+            <pathelement location="${jar.ant-contrib}"/>
         </classpath>
     </taskdef>
     
@@ -37,6 +44,24 @@
             <isset property="sim.name"/>
             <then>
                 <echo message="Running all unit tests for ${sim.name}" />
+
+                <mkdir dir="${temp.junit}" />
+
+                <junit tempdir="${temp.junit}" >
+                    <classpath>
+                        <pathelement location="${jar.junit}"/>
+                    </classpath>
+                    
+                    <assertions>
+                        <enable/>
+                    </assertions>
+                    
+                    <batchtest fork="yes" todir="${temp.junit}">
+                        <fileset dir="${temp.classes}">
+                            <include name="${sim.name}/**/Z*Tester.class"/>
+                        </fileset>
+                    </batchtest>
+                </junit>
             </then>
             <else>
                 <echo message="${message.specify.sim.name}"/>
