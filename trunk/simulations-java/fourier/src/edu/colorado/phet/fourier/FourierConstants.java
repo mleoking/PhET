@@ -41,10 +41,11 @@ public class FourierConstants {
     public static final int APP_FRAME_HEIGHT = 768;
     
     //----------------------------------------------------------------------------
-    // Localization
+    // Properties files
     //----------------------------------------------------------------------------
     
-    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/FourierStrings";
+    public static final String SIM_PROPERTIES_NAME = "fourier";
+    public static final String SIM_STRINGS_NAME = "localization/FourierStrings";
 
     //----------------------------------------------------------------------------
     // Clock

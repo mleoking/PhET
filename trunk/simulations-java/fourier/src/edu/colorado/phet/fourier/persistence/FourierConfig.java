@@ -83,7 +83,6 @@ public class FourierConfig implements FourierSerializable {
     public class GlobalConfig implements FourierSerializable {
 
         private String versionNumber;
-        private String buildNumber;
 
         /* WORKAROUND:
          * There is a problem with XMLEncoding Colors (and Fonts) under JNLP.
@@ -98,14 +97,6 @@ public class FourierConfig implements FourierSerializable {
          * Zero-argument constructor for Java Bean compliance.
          */
         public GlobalConfig() {}
-        
-        public String getBuildNumber() {
-            return buildNumber;
-        }
-        
-        public void setBuildNumber( String buildNumber ) {
-            this.buildNumber = buildNumber;
-        }
         
         public String getVersionNumber() {
             return versionNumber;
