@@ -68,7 +68,7 @@ public class HAConstants {
     //----------------------------------------------------------------------------
     
     public static final String SIM_PROPERTIES_NAME = "hydrogenatom";
-    public static final String SIM_STRINGS_NAME = "localization/HAStrings";
+    public static final String SIM_STRINGS_NAME = "localization/hydrogenatom_strings";
 
     //----------------------------------------------------------------------------
     // Clock
@@ -137,7 +137,7 @@ public class HAConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String IMAGES_DIRECTORY = "images/";
+    public static final String IMAGES_DIRECTORY = "hydrogenatom/images/";
     
     public static final String IMAGE_ATOMIC_MODEL_PANEL = IMAGES_DIRECTORY + "atomicModelPanel.png";
     public static final String IMAGE_BILLIARD_BALL_BUTTON = IMAGES_DIRECTORY + "billiardBallButton.png";
