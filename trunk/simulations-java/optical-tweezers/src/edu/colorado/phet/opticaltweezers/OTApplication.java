@@ -156,7 +156,7 @@ public class OTApplication extends PiccoloPhetApplication {
         
         GlobalConfig config = appConfig.getGlobalConfig();
         
-        config.setVersionNumber( OTVersion.NUMBER );
+        config.setVersionNumber( getVersion() );
     }
 
     /**
