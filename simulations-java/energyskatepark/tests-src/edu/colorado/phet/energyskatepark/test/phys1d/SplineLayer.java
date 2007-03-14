@@ -31,11 +31,11 @@ public class SplineLayer extends PNode {
     }
 
     private void update() {
-        while( particleStage.numCubicSpline2Ds() < getChildrenCount() ) {
+        while( particleStage.getCubicSpline2DCount() < getChildrenCount() ) {
             removeChild( getChildrenCount() - 1 );
         }
-        while( particleStage.numCubicSpline2Ds() > getChildrenCount() ) {
-            addChild( new CubicSpline2DNode( (CubicSpline2D)particleStage.getCubicSpline2D( particleStage.numCubicSpline2Ds() - 1 ) ) );//todo other spline types
+        while( particleStage.getCubicSpline2DCount() > getChildrenCount() ) {
+            addChild( new CubicSpline2DNode( (CubicSpline2D)particleStage.getCubicSpline2D( particleStage.getCubicSpline2DCount() - 1 ) ) );//todo other spline types
         }
         for( int i = 0; i < getChildrenCount(); i++ ) {
             CubicSpline2DNode node = (CubicSpline2DNode)getChild( i );
