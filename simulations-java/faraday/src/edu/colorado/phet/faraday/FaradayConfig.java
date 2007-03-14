@@ -42,10 +42,11 @@ public class FaradayConfig {
     public static final int APP_FRAME_HEIGHT = 768;
     
     //----------------------------------------------------------------------------
-    // Localization
+    // Properties files
     //----------------------------------------------------------------------------
     
-    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/FaradayStrings";
+    public static final String SIM_PROPERTIES_NAME = "faraday";
+    public static final String SIM_STRINGS_NAME = "localization/FaradayStrings";
 
     //----------------------------------------------------------------------------
     // Clock parameters

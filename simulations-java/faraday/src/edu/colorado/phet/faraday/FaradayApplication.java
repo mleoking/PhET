@@ -12,8 +12,10 @@
 package edu.colorado.phet.faraday;
 
 import java.io.IOException;
+import java.util.Properties;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.control.menu.DeveloperMenu;
@@ -89,18 +91,22 @@ public class FaradayApplication extends PhetApplication {
     public static void main( String[] args ) throws IOException {
         
         // Initialize localization.
-        SimStrings.init( args, FaradayConfig.LOCALIZATION_BUNDLE_BASENAME );
+        SimStrings.init( args, FaradayConfig.SIM_STRINGS_NAME );
+        
+        // Load simulation properties file
+        Properties simulationProperties = PropertiesLoader.loadProperties( FaradayConfig.SIM_PROPERTIES_NAME );
 
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "FaradayApplication.title" );
         String description = SimStrings.get( "FaradayApplication.description" );
-        String version = Version.NUMBER;
+        String version = PhetApplication.getVersionString( simulationProperties );
         int width = FaradayConfig.APP_FRAME_WIDTH;
         int height = FaradayConfig.APP_FRAME_HEIGHT;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
 
         // Create the application.
         PhetApplication app = new FaradayApplication( args, title, description, version, frameSetup );
+        app.setSimulationProperties( simulationProperties );
         
         // Start the application.
         app.startApplication();
