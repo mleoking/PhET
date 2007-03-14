@@ -20,12 +20,78 @@
         </classpath>
     </taskdef>
     
-    <target name="build" description="Builds the specified simulation">
-        <echo message="Building ${sim.name}" />
+    <target name="_compile" description="Compiles the specified simulation">
     </target>
+    
+    <target name="_copy-resources" description="Copies resources from the specified simulation to the output directory">
+    </target>
+    
+    <target name="_onejar" description="Creates a single jar for the compiled classes &amp; data of the specified simulation">
+    </target>
+    
+    <target name="_proguard" description="Runs ProGuard on the specified simulation to trim the output size">
+    </target>
+    
+    <target name="test" description="Runs all unit tests for the specified simulation">
+        <if>
+            <isset property="sim.name"/>
+            <then>
+                <echo message="Running all unit tests for ${sim.name}" />
+            </then>
+            <else>
+                <echo message="${message.specify.sim.name}"/>
+            </else>
+        </if>
+    </target>
+    
+    <target name="build" description="Builds the specified simulation" depends="_compile, _copy-resources, _onejar, _proguard">
+        <if>
+            <isset property="sim.name"/>
+            <then>
+                <echo message="Building ${sim.name}" />
+            </then>
+            <else>
+                <echo message="${message.specify.sim.name}"/>
+            </else>
+        </if>
+    </target>
+    
+    <target name="deploy-dev" description="Deploys a development version of the specified simulation">
+        <if>
+            <isset property="sim.name"/>
+            <then>
+                <echo message="Deploying development version of ${sim.name}" />
+            </then>
+            <else>
+                <echo message="${message.specify.sim.name}"/>
+            </else>
+        </if>
+    </target>
+    
+    <target name="deploy-prod" description="Deploys a production version of the specified simulation">
+        <if>
+            <isset property="sim.name"/>
+            <then>
+                <echo message="Deploying production version of ${sim.name}" />
+            </then>
+            <else>
+                <echo message="${message.specify.sim.name}"/>
+            </else>
+        </if>
+    </target>    
 
-    <target name="build-all" description="Builds all PhET Simulations.">
+    <target name="build-all" description="Builds all PhET simulations">
         <foreach param="sim.name" target="build">
+            <path>
+                <dirset dir="${simulations.java}">
+                    <include name="*"/>
+                </dirset>
+            </path>
+        </foreach>
+    </target>
+    
+    <target name="test-all" description="Runs all unit tests in all PhET simulations">
+        <foreach param="sim.name" target="test">
             <path>
                 <dirset dir="${simulations.java}">
                     <include name="*"/>
