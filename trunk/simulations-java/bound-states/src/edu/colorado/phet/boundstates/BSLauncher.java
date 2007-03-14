@@ -38,7 +38,7 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 public class BSLauncher extends JFrame {
     
     public static void main( String args[] ) {
-        SimStrings.init( args, BSConstants.LOCALIZATION_BUNDLE_BASENAME );
+        SimStrings.init( args, BSConstants.SIM_STRINGS_NAME );
         BSLauncher launcher = new BSLauncher( args );
         SwingUtils.centerWindowOnScreen( launcher );
         launcher.show();

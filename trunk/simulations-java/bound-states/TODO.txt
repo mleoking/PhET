@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+3/14/07 - get version and credits from properties file
 1.02.00...
 (12/11/06) - change electric field range to [-1,+1]
 (11/29/06) - add workaround for selecting all text when a DoubleSpinner gains focus

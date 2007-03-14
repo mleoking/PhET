@@ -225,8 +225,7 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
         config.setApplicationClassName( this.getClass().getName() );
         
         // Version and build information
-        config.setVersionNumber( BSVersion.NUMBER );
-        config.setCvsTag( BSVersion.CVS_TAG );
+        config.setVersionNumber( getVersion() );
         
         // Color scheme
         config.setColorSchemeName( _colorsMenu.getColorSchemeName() );
