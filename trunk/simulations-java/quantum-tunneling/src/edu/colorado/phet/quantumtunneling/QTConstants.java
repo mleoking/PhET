@@ -48,7 +48,7 @@ public class QTConstants {
     //----------------------------------------------------------------------------
     
     public static final String SIM_PROPERTIES_NAME = "quantumtunneling";
-    public static final String SIM_STRINGS_NAME = "localization/QTStrings";
+    public static final String SIM_STRINGS_NAME = "localization/quantumtunneling_strings";
 
     //----------------------------------------------------------------------------
     // Clock
@@ -115,7 +115,7 @@ public class QTConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String IMAGES_DIRECTORY = "images/";
+    public static final String IMAGES_DIRECTORY = "quantumtunneling/images/";
     public static final String IMAGE_ARROW_L2R = IMAGES_DIRECTORY + "arrowL2R.png";
     public static final String IMAGE_ARROW_L2R_SELECTED = IMAGES_DIRECTORY + "arrowL2RSelected.png";
     public static final String IMAGE_ARROW_R2L = IMAGES_DIRECTORY + "arrowR2L.png";

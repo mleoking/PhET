@@ -17,6 +17,8 @@ LOW PRIORITY:
 
 
 DONE:
+3/14/07 - rename SimStrings files to have basename quantumtunneling_strings
+3/14/07 - move images to data/quantumtunneling/images to avoid namespace collisions
 3/14/07 - get version and credits from properties file
 (11/29/06) - add workaround for selecting all text when a DoubleSpinner gains focus
 (10/20/06) - add data/credits.html
