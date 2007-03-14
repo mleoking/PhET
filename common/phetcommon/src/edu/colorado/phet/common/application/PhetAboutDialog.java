@@ -16,9 +16,11 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.util.Properties;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
@@ -37,8 +39,7 @@ public class PhetAboutDialog extends JDialog {
     // Resource (file) that contains the PhET license, in plain text format.
     private static final String LICENSE_RESOURCE = "phet-license.txt";
     
-    // Resource (file) that contains the credits, in plain text or HTML format.
-    private static final String CREDITS_RESOURCE = "credits.html";
+    private PhetApplication phetApplication;
     
     /**
      * Constructs the dialog.
@@ -50,12 +51,14 @@ public class PhetAboutDialog extends JDialog {
         super( phetApplication.getPhetFrame() );
         
         setResizable( false );
+        
+        this.phetApplication = phetApplication;
 
         String title = SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + phetApplication.getTitle();
         setTitle( title );
         
         JPanel logoPanel = createLogoPanel();
-        JPanel infoPanel = createInfoPanel( phetApplication );
+        JPanel infoPanel = createInfoPanel();
         JPanel buttonPanel = createButtonPanel();
 
         VerticalLayoutPanel contentPanel = new VerticalLayoutPanel();
@@ -100,14 +103,30 @@ public class PhetAboutDialog extends JDialog {
     /*
      * Creates the panel that displays info specific to the simulation.
      */
-    private JPanel createInfoPanel( PhetApplication phetApplication ) {
+    private JPanel createInfoPanel() {
         
+        // Simulation title
         JLabel title = new JLabel( phetApplication.getTitle() );
         Font f = title.getFont();
         title.setFont( new Font( f.getFontName(), Font.BOLD, f.getSize() ) );
+        
+        // Simulation description (aka, abstract)
         JLabel description = new JLabel( phetApplication.getDescription() );
-        String versionString = SimStrings.get( "Common.About.Version" ) + " " + phetApplication.getVersion();
+        
+        // Simulation version
+        String versionString = SimStrings.get( "Common.About.Version" ) + " ";
+        Properties simulationProperties = phetApplication.getSimulationProperties();
+        if ( simulationProperties != null ) {
+            versionString += getVersionString( simulationProperties );
+        }
+        else {
+            // For older sims that don't have a properties file, 
+            // simply use the same version string that is shown in the PhetFrame's titlebar.
+            versionString += phetApplication.getVersion();
+        }
         JLabel version = new JLabel( versionString );
+
+        // Java runtime version
         String javaVersionString = SimStrings.get( "Common.About.JavaVersion" ) + " " + System.getProperty( "java.version" );
         JLabel javaVersion = new JLabel( javaVersionString );
         
@@ -158,7 +177,8 @@ public class PhetAboutDialog extends JDialog {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout( new FlowLayout() );
         buttonPanel.add( licenseButton );
-        if( resourceExists( CREDITS_RESOURCE ) ) {
+        Properties simulationProperties = phetApplication.getSimulationProperties();
+        if ( simulationProperties != null && simulationProperties.getProperty( PropertiesLoader.PROPERTY_ABOUT_CREDITS ) != null ) {
             buttonPanel.add( creditsButton );
         }
         buttonPanel.add( okButton );
@@ -184,7 +204,8 @@ public class PhetAboutDialog extends JDialog {
      * Displays credits in a message dialog.
      */
     protected void showCredits() {
-        String creditsString = readFile( CREDITS_RESOURCE );
+        Properties simulationProperties = phetApplication.getSimulationProperties();
+        String creditsString = simulationProperties.getProperty( PropertiesLoader.PROPERTY_ABOUT_CREDITS, "?" );
         JLabel credits = new JLabel( creditsString );
         showMessageDialog( credits, SimStrings.get( "Common.About.CreditsDialog.Title" ) );
     }
@@ -245,5 +266,20 @@ public class PhetAboutDialog extends JDialog {
     private static boolean resourceExists( String resourceName ) {
         URL url = Thread.currentThread().getContextClassLoader().getResource( resourceName );
         return ( url != null );
+    }
+
+    /**
+     * Gets the version string required for the About dialog.
+     * 
+     * @param simulationProperties
+     * @return String
+     */
+    private static String getVersionString( Properties simulationProperties ) {
+        assert( simulationProperties != null );
+        String major = simulationProperties.getProperty( PropertiesLoader.PROPERTY_VERSION_MAJOR, "?" );
+        String minor = simulationProperties.getProperty( PropertiesLoader.PROPERTY_VERSION_MINOR, "?" );
+        String dev = simulationProperties.getProperty( PropertiesLoader.PROPERTY_VERSION_DEV, "?" );
+        String revision = simulationProperties.getProperty( PropertiesLoader.PROPERTY_VERSION_REVISION, "?" );
+        return major + "." + minor + "." + dev + " (" + revision + ")";
     }
 }
