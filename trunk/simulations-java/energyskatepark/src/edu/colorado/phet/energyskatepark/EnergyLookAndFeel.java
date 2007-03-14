@@ -20,8 +20,8 @@ public class EnergyLookAndFeel {
     private final Color myGreen = new Color( 0.0f, 0.8f, 0.1f );
 //    private final Color lightBlue = new Color( 160, 220, 255 );
 
-//    private Color appliedForceColor = Color.yellow;
-//    private Color appliedForceColor = new Color( 180, 180, 12 );//my yellow
+    //    private Color appliedForceColor = Color.yellow;
+    //    private Color appliedForceColor = new Color( 180, 180, 12 );//my yellow
     //    private Color appliedForceColor = new Color( 215, 215, 40);//my yellow
     private Color appliedForceColor = new Color( 180, 180, 0 );//my yellow
     //    private Color appliedForceColor = new Color( 230,150,10);//my yellow

@@ -147,7 +147,7 @@ public class Body {
     public void setState( Body body ) {
         this.angularVelocity = body.angularVelocity;
 
-        setAttachmentPoint(body.attachmentPoint.x, body.attachmentPoint.y);
+        setAttachmentPoint( body.attachmentPoint.x, body.attachmentPoint.y );
 
         this.velocity.setComponents( body.velocity.getX(), body.velocity.getY() );
         this.acceleration.setComponents( body.acceleration.getX(), body.velocity.getY() );
@@ -167,7 +167,7 @@ public class Body {
     public Body copyState() {
         Body copy = new Body( width, height, potentialEnergyMetric, energySkateParkModel );
         copy.angularVelocity = this.angularVelocity;
-        copy.setAttachmentPoint(attachmentPoint.x, attachmentPoint.y);
+        copy.setAttachmentPoint( attachmentPoint.x, attachmentPoint.y );
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
         copy.acceleration.setComponents( acceleration.getX(), acceleration.getY() );
         copy.mass = mass;
@@ -230,10 +230,10 @@ public class Body {
             }
         }
 
-        if (!MathUtil.isApproxEqual(getPotentialEnergy(), orig.getPotentialEnergy(), POTENTIAL_ENERGY_EQUALITY_EPS)) {
+        if( !MathUtil.isApproxEqual( getPotentialEnergy(), orig.getPotentialEnergy(), POTENTIAL_ENERGY_EQUALITY_EPS ) ) {
             notifyPotentialEnergyChanged();
         }
-        
+
 //        System.out.println( "facingRight = " + facingRight + ", speed=" + getSpeed() );
         EnergyDebugger.stepFinished( this );
     }
@@ -319,7 +319,7 @@ public class Body {
         return velocity;
     }
 
-    private void setAttachmentPoint(double x, double y) {
+    private void setAttachmentPoint( double x, double y ) {
         attachmentPoint.x = x;
         attachmentPoint.y = y;
 
@@ -327,8 +327,8 @@ public class Body {
     }
 
     public void translate( double dx, double dy ) {
-        setAttachmentPoint(attachmentPoint.x + dx,
-                           attachmentPoint.y + dy);
+        setAttachmentPoint( attachmentPoint.x + dx,
+                            attachmentPoint.y + dy );
     }
 
     public double getEnergyDifferenceAbs( Body body ) {
@@ -354,7 +354,7 @@ public class Body {
     }
 
     public void setAttachmentPointPosition( double x, double y ) {
-        setAttachmentPoint(x, y);
+        setAttachmentPoint( x, y );
     }
 
     public boolean isUserControlled() {

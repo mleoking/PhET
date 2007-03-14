@@ -6,7 +6,7 @@
  * which increases performance.
  * @version 1.0
  * @author Alexandre David
- * 
+ *
  * @license GPL
  * @website http://jassistant.sourceforge.net/
  */

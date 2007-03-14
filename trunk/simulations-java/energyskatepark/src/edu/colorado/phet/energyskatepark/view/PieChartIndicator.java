@@ -112,7 +112,7 @@ public class PieChartIndicator extends PNode {
         pieChartNode.setArea( createPieRect() );
         pieChartNode.setPieValues( createPieValues() );
 
-        setVisible(bodyGraphic.getBody().getPotentialEnergy() >= 0);
+        setVisible( bodyGraphic.getBody().getPotentialEnergy() >= 0 );
     }
 
     public void setIgnoreThermal( boolean ignoreThermal ) {
