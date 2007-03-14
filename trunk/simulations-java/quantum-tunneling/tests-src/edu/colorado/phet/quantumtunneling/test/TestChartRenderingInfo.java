@@ -100,7 +100,7 @@ public class TestChartRenderingInfo extends ApplicationFrame {
     }
 
     public static void main( String args[] ) {
-        SimStrings.init( args, QTConstants.LOCALIZATION_BUNDLE_BASENAME );
+        SimStrings.init( args, QTConstants.SIM_STRINGS_NAME );
         
         TestChartRenderingInfo frame = new TestChartRenderingInfo( "ChartRenderingInfo test" );
         frame.pack();
