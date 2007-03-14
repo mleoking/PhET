@@ -24,9 +24,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:13739 $
+ * Date modified : $Date:2007-03-14 07:21:39 -0600 (Wed, 14 Mar 2007) $
  */
 package edu.colorado.phet.energyskatepark;
 
@@ -49,53 +49,53 @@ public class EnergySkateParkApplication extends PhetApplication {
     private EnergySkateParkModule module;
     public static double SIMULATION_TIME_DT = 0.03;
 
-    public EnergySkateParkApplication(String[] args) {
-        super(args, EnergySkateParkStrings.getString("energy.skate.park"), EnergySkateParkStrings.getString("energy.conservation"),
-                VERSION,
+    public EnergySkateParkApplication( String[] args ) {
+        super( args, EnergySkateParkStrings.getString( "energy.skate.park" ), EnergySkateParkStrings.getString( "energy.conservation" ),
+               VERSION,
 //               new EnergySkateParkDebugFrameSetup() );
-                new EnergySkateParkFrameSetup());
-        module = new EnergySkateParkModule("Module", new SwingClock(30, SIMULATION_TIME_DT), getPhetFrame());
-        setModules(new Module[]{module});
-        getPhetFrame().addMenu(new EnergySkateParkOptionsMenu());
-        getPhetFrame().addMenu(new EnergySkateParkTestMenu(this, args));
+new EnergySkateParkFrameSetup() );
+        module = new EnergySkateParkModule( "Module", new SwingClock( 30, SIMULATION_TIME_DT ), getPhetFrame() );
+        setModules( new Module[]{module} );
+        getPhetFrame().addMenu( new EnergySkateParkOptionsMenu() );
+        getPhetFrame().addMenu( new EnergySkateParkTestMenu( this, args ) );
 
-        JMenuItem saveItem = new JMenuItem("Save");
-        saveItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        JMenuItem saveItem = new JMenuItem( "Save" );
+        saveItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
                 try {
                     module.save();
                 }
-                catch (UnavailableServiceException e1) {
+                catch( UnavailableServiceException e1 ) {
                     e1.printStackTrace();
                 }
-                catch (IOException e1) {
+                catch( IOException e1 ) {
                     e1.printStackTrace();
                 }
             }
-        });
+        } );
 
-        JMenuItem openItem = new JMenuItem("Open");
-        openItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        JMenuItem openItem = new JMenuItem( "Open" );
+        openItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
                 try {
                     module.open();
                 }
-                catch (UnavailableServiceException e1) {
+                catch( UnavailableServiceException e1 ) {
                     e1.printStackTrace();
                 }
-                catch (IOException e1) {
+                catch( IOException e1 ) {
                     e1.printStackTrace();
                 }
-                catch (ClassNotFoundException e1) {
+                catch( ClassNotFoundException e1 ) {
                     e1.printStackTrace();
                 }
             }
-        });
-        getPhetFrame().addFileMenuItem(openItem);
-        getPhetFrame().addFileMenuItem(saveItem);
+        } );
+        getPhetFrame().addFileMenuItem( openItem );
+        getPhetFrame().addFileMenuItem( saveItem );
 
         getPhetFrame().addFileMenuSeparator();
-        getPhetFrame().addMenu(new LookAndFeelMenu());
+        getPhetFrame().addMenu( new LookAndFeelMenu() );
     }
 
     public EnergySkateParkModule getModule() {
@@ -106,51 +106,51 @@ public class EnergySkateParkApplication extends PhetApplication {
         super.startApplication();
         module.getPhetPCanvas().requestFocus();
         final EnergySkateParkSimulationPanel c = module.getEnergyConservationCanvas();
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-            public boolean dispatchKeyEvent(KeyEvent e) {
-                if (!c.hasFocus()) {
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher() {
+            public boolean dispatchKeyEvent( KeyEvent e ) {
+                if( !c.hasFocus() ) {
                     int id = e.getID();
-                    switch (id) {
+                    switch( id ) {
                         case KeyEvent.KEY_PRESSED:
-                            c.keyPressed(e);
+                            c.keyPressed( e );
                             break;
                         case KeyEvent.KEY_RELEASED:
-                            c.keyReleased(e);
+                            c.keyReleased( e );
                             break;
                         case KeyEvent.KEY_TYPED:
-                            c.keyTyped(e);
+                            c.keyTyped( e );
                             break;
                         default:
-                            System.out.println("unknown key event type");
+                            System.out.println( "unknown key event type" );
                             break;
                     }
                 }
                 return false;
             }
-        });
+        } );
     }
 
-    public static void mainESP(final String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
+    public static void mainESP( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                EnergySkateParkStrings.init(args, "localization/EnergySkateParkStrings");
+                EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
                 new EC3LookAndFeel().initLookAndFeel();
-                new EnergySkateParkApplication(args).start();
+                new EnergySkateParkApplication( args ).start();
             }
-        });
+        } );
     }
 
-    public static void main(final String[] args) {
-        mainESP(args);
+    public static void main( final String[] args ) {
+        mainESP( args );
     }
 
-    public static void mainTestPhysics1D(final String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
+    public static void mainTestPhysics1D( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new EC3LookAndFeel().initLookAndFeel();
-                TestPhysics1D.main(args);
+                TestPhysics1D.main( args );
             }
-        });
+        } );
     }
 
 }
