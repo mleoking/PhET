@@ -60,6 +60,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/14/07 - rename SimStrings files to have basename opticaltweezers_strings
+3/14/07 - move images to data/opticaltweezers/images to avoid namespace collisions
 3/14/07 - get version and credits from properties file
 3/13/07 - clean up stub modules
 3/13/07 - move VIEW_SIZE and MODEL_TO_VIEW_SCALE into defaults classes
