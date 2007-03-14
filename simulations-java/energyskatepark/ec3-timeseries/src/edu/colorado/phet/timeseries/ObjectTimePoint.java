@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+/* Copyright 2007, University of Colorado */
 package edu.colorado.phet.timeseries;
 
 /**

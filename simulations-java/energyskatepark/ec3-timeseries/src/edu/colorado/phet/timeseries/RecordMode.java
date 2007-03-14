@@ -2,8 +2,8 @@
 package edu.colorado.phet.timeseries;
 
 import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.ec3.EnergySkateParkApplication;
-import edu.colorado.phet.ec3.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 
 
 /**
