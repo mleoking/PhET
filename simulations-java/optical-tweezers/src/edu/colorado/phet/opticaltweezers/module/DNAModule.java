@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.opticaltweezers.module;
 
-import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Dimension2D;
@@ -13,17 +12,15 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.control.DNAControlPanel;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
-import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.model.OTModel;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
+import edu.colorado.phet.opticaltweezers.view.ModelViewTransform;
 import edu.colorado.phet.opticaltweezers.view.OTModelViewManager;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * DNAModule is the "Fun with DNA" module.
@@ -33,29 +30,22 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 public class DNAModule extends AbstractModule {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final boolean HAS_WIGGLE_ME = false;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
+    // Model
+    private OTModel _model;
+    
+    // View
     private PhetPCanvas _canvas;
     private PNode _rootNode;
+    private ModelViewTransform _modelViewTransform;
 
-    // Control panels
+    // Control
+    private OTModelViewManager _modelViewManager;
     private DNAControlPanel _controlPanel;
     private OTClockControlPanel _clockControlPanel;
 
-    private OTModel _model;
-    
-    private OTWiggleMe _wiggleMe;
-    private boolean _wiggleMeInitialized = false;
-    
-    private OTModelViewManager _modelViewManager;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -78,7 +68,7 @@ public class DNAModule extends AbstractModule {
 
         // Piccolo canvas
         {
-            _canvas = new PhetPCanvas( OTConstants.CANVAS_RENDERING_SIZE );
+            _canvas = new PhetPCanvas( DNADefaults.VIEW_SIZE );
             _canvas.setBackground( OTConstants.CANVAS_BACKGROUND );
             setSimulationPanel( _canvas );
 
@@ -94,6 +84,8 @@ public class DNAModule extends AbstractModule {
         _rootNode = new PNode();
         _canvas.addWorldChild( _rootNode );
 
+        // Model View transform
+        _modelViewTransform = new ModelViewTransform( DNADefaults.MODEL_TO_VIEW_SCALE );
         
         // Layering order on the canvas (back-to-front)
         {
@@ -101,15 +93,11 @@ public class DNAModule extends AbstractModule {
         }
         
         //----------------------------------------------------------------------------
-        // Model-View management
-        //----------------------------------------------------------------------------
-        
-        _modelViewManager = new OTModelViewManager( _model );
-        
-        //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
 
+        _modelViewManager = new OTModelViewManager( _model );
+        
         // Control Panel
         _controlPanel = new DNAControlPanel( this );
         setControlPanel( _controlPanel );
@@ -169,45 +157,6 @@ public class DNAModule extends AbstractModule {
         
         // reusable (x,y) coordinates, for setting offsets
         double x, y;
-
-        if ( HAS_WIGGLE_ME ) {
-            initWiggleMe();
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Wiggle Me
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Initializes a wiggle me that points to the gun on/off button.
-     */
-    private void initWiggleMe() {
-        if ( !_wiggleMeInitialized ) {
-            
-            // Create wiggle me, add to root node.
-            String wiggleMeString = SimStrings.get( "wiggleMe.XXX" );  
-            _wiggleMe = new OTWiggleMe( _canvas, wiggleMeString );
-            _rootNode.addChild( _wiggleMe );
-            
-            // Animate from the upper-left to some point
-            double x = 300;//XXX
-            double y = 300;//XXX
-            _wiggleMe.setOffset( 0, -100 );
-            _wiggleMe.animateTo( x, y );
-            
-            // Clicking on the canvas makes the wiggle me go away.
-            _canvas.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    _wiggleMe.setEnabled( false );
-                    _rootNode.removeChild( _wiggleMe );
-                    _canvas.removeInputEventListener( this );
-                    _wiggleMe = null;
-                }
-            } );
-            
-            _wiggleMeInitialized = true;
-        }
     }
     
     //----------------------------------------------------------------------------

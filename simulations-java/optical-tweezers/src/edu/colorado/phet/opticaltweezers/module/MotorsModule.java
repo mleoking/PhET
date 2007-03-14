@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.opticaltweezers.module;
 
-import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Dimension2D;
@@ -13,17 +12,13 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.control.MotorsControlPanel;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.MotorsDefaults;
-import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.model.OTModel;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
+import edu.colorado.phet.opticaltweezers.view.ModelViewTransform;
 import edu.colorado.phet.opticaltweezers.view.OTModelViewManager;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.help.HelpBalloon;
-import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * MotorsModule is the "Molecular Motors" module.
@@ -42,6 +37,7 @@ public class MotorsModule extends AbstractModule {
     // View
     private PhetPCanvas _canvas;
     private PNode _rootNode;
+    private ModelViewTransform _modelViewTransform;
 
     // Control
     private OTModelViewManager _modelViewManager;
@@ -70,7 +66,7 @@ public class MotorsModule extends AbstractModule {
 
         // Piccolo canvas
         {
-            _canvas = new PhetPCanvas( OTConstants.CANVAS_RENDERING_SIZE );
+            _canvas = new PhetPCanvas( MotorsDefaults.VIEW_SIZE );
             _canvas.setBackground( OTConstants.CANVAS_BACKGROUND );
             setSimulationPanel( _canvas );
 
@@ -86,6 +82,8 @@ public class MotorsModule extends AbstractModule {
         _rootNode = new PNode();
         _canvas.addWorldChild( _rootNode );
 
+        // Model View transform
+        _modelViewTransform = new ModelViewTransform( MotorsDefaults.MODEL_TO_VIEW_SCALE );
         
         // Layering order on the canvas (back-to-front)
         {
@@ -93,15 +91,11 @@ public class MotorsModule extends AbstractModule {
         }
         
         //----------------------------------------------------------------------------
-        // Model-View management
+        // Control
         //----------------------------------------------------------------------------
         
         _modelViewManager = new OTModelViewManager( _model );
         
-        //----------------------------------------------------------------------------
-        // Control
-        //----------------------------------------------------------------------------
-
         // Control Panel
         _controlPanel = new MotorsControlPanel( this );
         setControlPanel( _controlPanel );

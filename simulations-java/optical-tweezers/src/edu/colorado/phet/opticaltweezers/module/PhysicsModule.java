@@ -60,6 +60,7 @@ public class PhysicsModule extends AbstractModule {
     // View
     private PhetPCanvas _canvas;
     private PNode _rootNode;
+    private ModelViewTransform _modelViewTransform;
     private GlassSlideNode _glassSlideNode;
     private LaserNode _laserNode;
     private BeadNode _beadNode;
@@ -67,7 +68,6 @@ public class PhysicsModule extends AbstractModule {
     private PPath _laserDragBoundsNode;
     private OTRulerNode _rulerNode;
     private PPath _rulerDragBoundsNode;
-    private ModelWorldTransform _modelWorldTransform;
     
     // Control
     private OTModelViewManager _modelViewManager;
@@ -119,7 +119,7 @@ public class PhysicsModule extends AbstractModule {
 
         // Piccolo canvas
         {
-            _canvas = new PhetPCanvas( OTConstants.CANVAS_RENDERING_SIZE );
+            _canvas = new PhetPCanvas( PhysicsDefaults.VIEW_SIZE );
             _canvas.setBackground( OTConstants.CANVAS_BACKGROUND );
             setSimulationPanel( _canvas );
 
@@ -136,20 +136,20 @@ public class PhysicsModule extends AbstractModule {
         _canvas.addWorldChild( _rootNode );
 
         // Model View transform
-        _modelWorldTransform = new ModelWorldTransform( 0.5, 0, 0 );
+        _modelViewTransform = new ModelViewTransform( PhysicsDefaults.MODEL_TO_VIEW_SCALE );
         
         // Glass Slide
-        _glassSlideNode = new GlassSlideNode( _fluid, _modelWorldTransform );
+        _glassSlideNode = new GlassSlideNode( _fluid, _modelViewTransform );
         
         // Laser
         _laserDragBoundsNode = new PPath();
         _laserDragBoundsNode.setStroke( null );
-        _laserNode = new LaserNode( _canvas, _laser, _modelWorldTransform, PhysicsDefaults.LASER_POWER_RANGE, _laserDragBoundsNode );
+        _laserNode = new LaserNode( _canvas, _laser, _modelViewTransform, PhysicsDefaults.LASER_POWER_RANGE, _laserDragBoundsNode );
         
         // Bead
         _beadDragBoundsNode = new PPath();
         _beadDragBoundsNode.setStroke( null );
-        _beadNode = new BeadNode( _bead, _modelWorldTransform, _beadDragBoundsNode );
+        _beadNode = new BeadNode( _bead, _modelViewTransform, _beadDragBoundsNode );
         
         // Ruler
         _rulerDragBoundsNode = new PPath();
@@ -158,7 +158,7 @@ public class PhysicsModule extends AbstractModule {
 //            _rulerDragBoundsNode.setStroke( new BasicStroke() );
 //            _rulerDragBoundsNode.setStrokePaint( Color.RED );
 //        }
-        _rulerNode = new OTRulerNode( _laser,_modelWorldTransform, _rulerDragBoundsNode );
+        _rulerNode = new OTRulerNode( _laser,_modelViewTransform, _rulerDragBoundsNode );
         _rulerNode.setVisible( PhysicsDefaults.RULER_SELECTED );
         
         // Layering order on the canvas (back-to-front)
@@ -173,15 +173,11 @@ public class PhysicsModule extends AbstractModule {
         }
         
         //----------------------------------------------------------------------------
-        // Model-View management
-        //----------------------------------------------------------------------------
-        
-        _modelViewManager = new OTModelViewManager( _model );
-        
-        //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
 
+        _modelViewManager = new OTModelViewManager( _model );
+        
         // Control Panel
         _controlPanel = new PhysicsControlPanel( this );
         setControlPanel( _controlPanel );
