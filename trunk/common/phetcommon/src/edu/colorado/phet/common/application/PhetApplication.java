@@ -298,7 +298,12 @@ public class PhetApplication {
         String major = simulationProperties.getProperty( PropertiesLoader.PROPERTY_VERSION_MAJOR, "?" );
         String minor = simulationProperties.getProperty( PropertiesLoader.PROPERTY_VERSION_MINOR, "?" );
         String dev = simulationProperties.getProperty( PropertiesLoader.PROPERTY_VERSION_DEV, "?" );
-        return major + "." + minor + "." + dev;
+        String version = major + "." + minor;
+        if ( !dev.matches( "0*" ) ) {
+            // add dev number only if it's not zero
+            version += "." + dev;
+        }
+        return version;
     }
     
     //----------------------------------------------------------------
