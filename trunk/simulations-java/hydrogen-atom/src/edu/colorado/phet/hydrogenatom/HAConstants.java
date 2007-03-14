@@ -64,10 +64,11 @@ public class HAConstants {
     public static final Dimension SPECTROMETER_SIZE = new Dimension( 500, 210 );
     
     //----------------------------------------------------------------------------
-    // Localization
+    // Properties files
     //----------------------------------------------------------------------------
     
-    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/HAStrings";
+    public static final String SIM_PROPERTIES_NAME = "hydrogenatom";
+    public static final String SIM_STRINGS_NAME = "localization/HAStrings";
 
     //----------------------------------------------------------------------------
     // Clock

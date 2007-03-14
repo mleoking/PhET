@@ -16,11 +16,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
 
 import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.menu.HelpMenu;
@@ -217,12 +220,17 @@ public class HAApplication extends PiccoloPhetApplication {
                 laf.initLookAndFeel();
 
                 // Initialize localization.
-                SimStrings.init( args, HAConstants.LOCALIZATION_BUNDLE_BASENAME );
+                SimStrings.init( args, HAConstants.SIM_STRINGS_NAME );
 
-                // Title, etc.
+                // Load simulation properties file
+                Properties simulationProperties = PropertiesLoader.loadProperties( HAConstants.SIM_PROPERTIES_NAME );
+                
+                // Title & description
                 String title = SimStrings.get( "HAApplication.title" );
                 String description = SimStrings.get( "HAApplication.description" );
-                String version = HAVersion.NUMBER;
+
+                // Version
+                String version = PhetApplication.getVersionString( simulationProperties );
 
                 // Frame setup
                 int width = HAConstants.APP_FRAME_SIZE.width;
@@ -231,7 +239,8 @@ public class HAApplication extends PiccoloPhetApplication {
 
                 // Create the application.
                 HAApplication app = new HAApplication( args, title, description, version, frameSetup );
-
+                app.setSimulationProperties( simulationProperties );
+                
                 // Start the application.
                 app.startApplication();
             }
