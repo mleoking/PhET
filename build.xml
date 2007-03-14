@@ -7,6 +7,8 @@
     
     <property name="phet.flash-sim.url" value="${phet.svn.url}/${simulations.flash}"/>
     <property name="phet.java-sim.url"  value="${phet.svn.url}/${simulations.java}"/>
+    
+    <property name="message.specify.sim.name" value="The name of the simulation must be specified." />
 
     <!--  Set ant output directories.  -->
     <property name="ant.output" value="ant_output"/>
@@ -22,7 +24,6 @@
         <!--Not written yet-->
         <ant antfile="simulations-java/balloons/build.xml" target="Compile"/>
     </target>
-
     
     <target name="checkout" description="Checks out the specified simulation">
         <if>
@@ -36,7 +37,39 @@
                 </exec>
             </then>
             <else>
-                <echo message="The name of the simulation to checkout must be specified."/>
+                <echo message="${message.specify.sim.name}"/>
+            </else>
+        </if>
+    </target>
+    
+    <target name="update" description="Updates the specified simulation">
+        <if>
+            <isset property="sim.name"/>
+            <then>
+                <exec executable="svn">
+                    <arg value="up"/>
+                    <arg value="${phet.java-sim.url}${sim.name}"/>
+                    <arg value="${simulations.java}"/>
+                </exec>
+            </then>
+            <else>
+                <echo message="${message.specify.sim.name}"/>
+            </else>
+        </if>
+    </target>
+    
+    <target name="checkin" description="Updates the specified simulation">
+        <if>
+            <isset property="sim.name"/>
+            <then>
+                <exec executable="svn">
+                    <arg value="ci"/>
+                    <arg value="${phet.java-sim.url}${sim.name}"/>
+                    <arg value="${simulations.java}"/>
+                </exec>
+            </then>
+            <else>
+                <echo message="${message.specify.sim.name}"/>
             </else>
         </if>
     </target>
