@@ -12,9 +12,12 @@
 package edu.colorado.phet.boundstates;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -80,12 +83,17 @@ public class BSBandStructureApplication extends BSAbstractApplication {
                 laf.initLookAndFeel();
 
                 // Initialize localization.
-                SimStrings.init( args, BSConstants.LOCALIZATION_BUNDLE_BASENAME );
+                SimStrings.init( args, BSConstants.SIM_STRINGS_NAME );
 
-                // Title, etc.
+                // Load simulation properties file
+                Properties simulationProperties = PropertiesLoader.loadProperties( BSConstants.SIM_PROPERTIES_NAME );
+
+                // Title & description
                 String title = SimStrings.get( "BSBandStructureApplication.title" );
                 String description = SimStrings.get( "BSBandStructureApplication.description" );
-                String version = BSVersion.NUMBER;
+                
+                // Version
+                String version = PhetApplication.getVersionString( simulationProperties );
 
                 // Frame setup
                 int width = BSConstants.APP_FRAME_WIDTH;
@@ -94,7 +102,8 @@ public class BSBandStructureApplication extends BSAbstractApplication {
 
                 // Create the application.
                 BSAbstractApplication app = new BSBandStructureApplication( args, title, description, version, frameSetup );
-
+                app.setSimulationProperties( simulationProperties );
+                
                 // Start the application.
                 app.startApplication();
             }

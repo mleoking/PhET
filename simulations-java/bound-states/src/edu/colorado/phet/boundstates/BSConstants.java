@@ -39,10 +39,11 @@ public class BSConstants {
     public static final int APP_FRAME_HEIGHT = 768;
     
     //----------------------------------------------------------------------------
-    // Localization
+    // Properties files
     //----------------------------------------------------------------------------
     
-    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/BSStrings";
+    public static final String SIM_PROPERTIES_NAME = "boundstates";
+    public static final String SIM_STRINGS_NAME = "localization/BSStrings";
 
     //----------------------------------------------------------------------------
     // Clock

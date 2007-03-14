@@ -38,7 +38,6 @@ public class BSGlobalConfig implements BSSerializable {
     
     private String _applicationClassName;
     private String _versionNumber;
-    private String _cvsTag;
     private String _colorSchemeName;
     private BSColorSchemeConfig _colorScheme;
     private String _activeModuleId;
@@ -70,14 +69,6 @@ public class BSGlobalConfig implements BSSerializable {
     
     public void setVersionNumber( String versionNumber ) {
         _versionNumber = versionNumber;
-    }
-    
-    public String getCvsTag() {
-        return _cvsTag;
-    }
-    
-    public void setCvsTag( String buildNumber ) {
-        _cvsTag = buildNumber;
     }
 
     public BSColorSchemeConfig getColorScheme() {
