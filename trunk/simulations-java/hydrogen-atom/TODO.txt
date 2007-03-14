@@ -16,6 +16,8 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+3/14/07 - rename SimStrings files to have basename hydrogenatom_strings
+3/14/07 - move images to data/hydrogenatom/images to avoid namespace collisions
 3/14/07 - get version and credits from properties file
 3/13/07 - simplfy ModelViewTransform, improve javadoc
 3/13/07 - change "photons and alpha particles" to "light" in About dialog description
