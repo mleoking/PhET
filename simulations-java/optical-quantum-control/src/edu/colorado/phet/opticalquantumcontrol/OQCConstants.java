@@ -41,10 +41,11 @@ public class OQCConstants {
     public static final int APP_FRAME_HEIGHT = 768;
     
     //----------------------------------------------------------------------------
-    // Localization
+    // Properties files
     //----------------------------------------------------------------------------
     
-    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/OQCStrings";
+    public static final String SIM_PROPERTIES_NAME = "opticalquantumcontrol";
+    public static final String SIM_STRINGS_NAME = "localization/OQCStrings";
 
     //----------------------------------------------------------------------------
     // Clock
