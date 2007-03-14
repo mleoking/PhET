@@ -199,10 +199,10 @@ public class OTApplication extends PiccoloPhetApplication {
                 laf.initLookAndFeel();
 
                 // Initialize localization.
-                SimStrings.init( args, OTConstants.LOCALIZATION_BUNDLE_BASENAME );
+                SimStrings.init( args, OTConstants.SIM_STRINGS_NAME );
 
                 // Load simulation properties file
-                Properties simulationProperties = PropertiesLoader.loadProperties( "rutherfordscattering.properties" );
+                Properties simulationProperties = PropertiesLoader.loadProperties( OTConstants.SIM_PROPERTIES_NAME );
                 
                 // Title & description
                 String title = SimStrings.get( "OTApplication.title" );

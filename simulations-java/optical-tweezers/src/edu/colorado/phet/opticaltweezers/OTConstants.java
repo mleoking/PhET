@@ -33,10 +33,11 @@ public class OTConstants {
     public static final Dimension APP_FRAME_SIZE = new Dimension( 1024, 768 );
 
     //----------------------------------------------------------------------------
-    // Localization
+    // Properties files
     //----------------------------------------------------------------------------
     
-    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/OTStrings";
+    public static final String SIM_PROPERTIES_NAME = "opticaltweezers";
+    public static final String SIM_STRINGS_NAME = "localization/OTStrings";
 
     //----------------------------------------------------------------------------
     // Fonts
