@@ -28,7 +28,6 @@ public class QTGlobalConfig implements QTSerializable {
     //----------------------------------------------------------------------------
     
     private String _versionNumber;
-    private String _cvsTag;
     private String _colorSchemeName;
     private QTColorSchemeConfig _colorScheme;
 
@@ -51,14 +50,6 @@ public class QTGlobalConfig implements QTSerializable {
     
     public void setVersionNumber( String versionNumber ) {
         _versionNumber = versionNumber;
-    }
-    
-    public String getCvsTag() {
-        return _cvsTag;
-    }
-    
-    public void setCvsTag( String buildNumber ) {
-        _cvsTag = buildNumber;
     }
 
     public String getColorSchemeName() {

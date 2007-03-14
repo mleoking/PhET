@@ -14,11 +14,12 @@ package edu.colorado.phet.quantumtunneling;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Properties;
 
-import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.view.menu.HelpMenu;
@@ -183,8 +184,7 @@ public class QTApplication extends PhetApplication {
         
         QTGlobalConfig config = appConfig.getGlobalConfig();
         
-        config.setCvsTag( QTVersion.CVS_TAG );
-        config.setVersionNumber( QTVersion.NUMBER );
+        config.setVersionNumber( getVersion() );
         
         // Color scheme
         config.setColorSchemeName( _colorSchemeMenu.getColorSchemeName() );
@@ -224,12 +224,17 @@ public class QTApplication extends PhetApplication {
     public static void main( final String[] args ) throws IOException {
 
         // Initialize localization.
-        SimStrings.init( args, QTConstants.LOCALIZATION_BUNDLE_BASENAME );
+        SimStrings.init( args, QTConstants.SIM_STRINGS_NAME );
 
-        // Title, etc.
+        // Load simulation properties file
+        Properties simulationProperties = PropertiesLoader.loadProperties( QTConstants.SIM_PROPERTIES_NAME );
+        
+        // Title & description
         String title = SimStrings.get( "title.quantumTunneling" );
         String description = SimStrings.get( "QTApplication.description" );
-        String version = QTVersion.NUMBER;
+
+        // Version
+        String version = PhetApplication.getVersionString( simulationProperties );
 
         // Frame setup
         int width = QTConstants.APP_FRAME_WIDTH;
@@ -238,7 +243,8 @@ public class QTApplication extends PhetApplication {
 
         // Create the application.
         QTApplication app = new QTApplication( args, title, description, version, frameSetup );
-
+        app.setSimulationProperties( simulationProperties );
+        
         // Start the application.
         app.startApplication();
     }
