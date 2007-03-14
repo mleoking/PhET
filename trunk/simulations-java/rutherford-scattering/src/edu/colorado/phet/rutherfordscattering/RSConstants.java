@@ -50,7 +50,7 @@ public class RSConstants {
     //----------------------------------------------------------------------------
     
     public static final String SIM_PROPERTIES_NAME = "rutherfordscattering";
-    public static final String SIM_STRINGS_NAME = "localization/RSStrings";
+    public static final String SIM_STRINGS_NAME = "localization/rutherfordscattering_strings";
 
     //----------------------------------------------------------------------------
     // Clock
@@ -95,7 +95,7 @@ public class RSConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String IMAGES_DIRECTORY = "images/";
+    public static final String IMAGES_DIRECTORY = "rutherfordscattering/images/";
     
     public static final String IMAGE_GUN = IMAGES_DIRECTORY + "gun.png";
     public static final String IMAGE_GUN_ON_BUTTON = IMAGES_DIRECTORY + "gunOnButton.png";
