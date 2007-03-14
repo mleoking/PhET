@@ -45,7 +45,7 @@ public class OQCConstants {
     //----------------------------------------------------------------------------
     
     public static final String SIM_PROPERTIES_NAME = "opticalquantumcontrol";
-    public static final String SIM_STRINGS_NAME = "localization/OQCStrings";
+    public static final String SIM_STRINGS_NAME = "localization/opticalquantumcontrol_strings";
 
     //----------------------------------------------------------------------------
     // Clock
@@ -116,7 +116,7 @@ public class OQCConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String IMAGES_DIRECTORY = "images/";
+    public static final String IMAGES_DIRECTORY = "opticalquantumcontrol/images/";
     public static final String CLOSE_BUTTON_IMAGE = IMAGES_DIRECTORY + "closeButton.png";
     public static final String EXPLANATION_IMAGE = IMAGES_DIRECTORY + "explanation.jpg";
     public static final String KABOOM_IMAGE = IMAGES_DIRECTORY + "kaboom.png";
