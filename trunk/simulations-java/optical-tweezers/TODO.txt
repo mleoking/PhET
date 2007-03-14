@@ -60,6 +60,9 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/13/07 - clean up stub modules
+3/13/07 - move VIEW_SIZE and MODEL_TO_VIEW_SCALE into defaults classes
+3/13/07 - revert to ModelViewTransform terminology
 3/13/07 - update ruler drag bounds when laser moves
 3/13/07 - add setWorldSize to GlassSliderNode and OTRulerNode
 3/13/07 - add debug code to show drag bounds for draggable things

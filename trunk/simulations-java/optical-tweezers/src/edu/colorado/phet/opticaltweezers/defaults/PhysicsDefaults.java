@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.defaults;
 
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.opticaltweezers.model.OTClock;
@@ -17,6 +18,10 @@ public class PhysicsDefaults {
 
     /* Not intended for instantiation */
     private PhysicsDefaults() {}
+    
+    // Model-view transform
+    public static final Dimension VIEW_SIZE = new Dimension( 750, 750 );
+    public static final double MODEL_TO_VIEW_SCALE = 0.5;
     
     // Clock
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)

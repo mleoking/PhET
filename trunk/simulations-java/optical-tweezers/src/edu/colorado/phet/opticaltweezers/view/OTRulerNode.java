@@ -25,11 +25,11 @@ public class OTRulerNode extends RulerNode implements Observer {
     private static final int FONT_SIZE = 12;
     
     private Laser _laser;
-    private ModelWorldTransform _modelWorldTransform;
+    private ModelViewTransform _modelViewTransform;
     private PPath _dragBoundsNode;
     private Dimension2D _worldSize;
     
-    public OTRulerNode( Laser laser, ModelWorldTransform modelWorldTransform, PPath dragBoundsNode ) {
+    public OTRulerNode( Laser laser, ModelViewTransform modelWorldTransform, PPath dragBoundsNode ) {
         super( DEFAULT_WORLD_SIZE.getWidth(), HEIGHT, null, SimStrings.get( "units.position" ), MINOR_TICKS_BETWEEN_MAJORS, FONT_SIZE );
         
         setUnits( "" );//XXX
@@ -37,7 +37,7 @@ public class OTRulerNode extends RulerNode implements Observer {
         _laser = laser;
         _laser.addObserver( this );
         
-        _modelWorldTransform = modelWorldTransform;
+        _modelViewTransform = modelWorldTransform;
         _dragBoundsNode = dragBoundsNode;
         
         addInputEventListener( new CursorHandler() );
@@ -57,7 +57,7 @@ public class OTRulerNode extends RulerNode implements Observer {
         _worldSize.setSize( worldSize );
         
         // Convert canvas width to model coordinates
-        double modelCanvasWidth = _modelWorldTransform.worldToModel( worldSize.getWidth() );
+        double modelCanvasWidth = _modelViewTransform.viewToModel( worldSize.getWidth() );
         
         // Calculate the number of ticks on the ruler
         int numMajorTicks = (int)( 3 * modelCanvasWidth / MAJOR_TICK_INTERVAL );
@@ -66,7 +66,7 @@ public class OTRulerNode extends RulerNode implements Observer {
         }
         
         // Distance between first and last tick
-        double viewDistance = ( numMajorTicks - 1 ) * _modelWorldTransform.modelToWorld( MAJOR_TICK_INTERVAL );
+        double viewDistance = ( numMajorTicks - 1 ) * _modelViewTransform.modelToView( MAJOR_TICK_INTERVAL );
         setDistanceBetweenFirstAndLastTick( viewDistance );
         
         // Create the tick labels
@@ -92,7 +92,7 @@ public class OTRulerNode extends RulerNode implements Observer {
     
     private void updatePosition() {
         double xModel = _laser.getPositionRef().getX();
-        double xView = _modelWorldTransform.modelToWorld( xModel ) - ( getFullBounds().getWidth() / 2 );
+        double xView = _modelViewTransform.modelToView( xModel ) - ( getFullBounds().getWidth() / 2 );
         double yView = getOffset().getY();
         setOffset( xView, yView );
         updateDragBounds();

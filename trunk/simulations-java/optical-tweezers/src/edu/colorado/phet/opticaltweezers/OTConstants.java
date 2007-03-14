@@ -32,8 +32,6 @@ public class OTConstants {
     
     public static final Dimension APP_FRAME_SIZE = new Dimension( 1024, 768 );
 
-    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 750, 750 );
-   
     //----------------------------------------------------------------------------
     // Localization
     //----------------------------------------------------------------------------
