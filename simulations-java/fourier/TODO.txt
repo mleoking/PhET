@@ -53,6 +53,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+3/14/07 - get version and credits from properties file
 (2/19/07) - create ProGuard file
 (2/19/07) - add FourierSerializable marker interface so that ProGuard doesn't strip out persistence code
 (2/19/07) - change "Reset" to "Reset All"

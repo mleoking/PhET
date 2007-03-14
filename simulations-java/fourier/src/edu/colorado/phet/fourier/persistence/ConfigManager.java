@@ -32,7 +32,6 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierApplication;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.Version;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.view.HarmonicColors;
 
@@ -84,8 +83,7 @@ public class ConfigManager {
                 FourierConfig.GlobalConfig globalConfig = config.getGlobalConfig();
                 
                 // Version & build info
-                globalConfig.setVersionNumber( Version.NUMBER );
-                globalConfig.setBuildNumber( Version.BUILD );
+                globalConfig.setVersionNumber( _app.getVersion() );
 
                 // Harmonic colors
                 int[] r = new int[HarmonicColors.getInstance().getNumberOfColors()];
