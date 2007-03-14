@@ -1,35 +1,45 @@
-<project name="PhET Build Script" default="Build" basedir=".">
+<project name="PhET Build Script" default="build-all" basedir=".">
 
-    <property name="phet.svn.url" value="https://phet.svn.sourceforge.net/svnroot/phet/trunk/"/>
+    <property name="phet.svn.url"      value="https://phet.svn.sourceforge.net/svnroot/phet/trunk/"/>
     <property name="phet.java-sim.url" value="${phet.svn.url}/simulations-java/"/>
     <property name="simulations.flash" value="simulations-flash/"/>
-    <property name="simulations.java" value="simulations-java/"/>
+    <property name="simulations.java"  value="simulations-java/"/>
     
     <property name="phet.flash-sim.url" value="${phet.svn.url}/${simulations.flash}"/>
-    <property name="phet.java-sim.url" value="${phet.svn.url}/${simulations.java}"/>
+    <property name="phet.java-sim.url"  value="${phet.svn.url}/${simulations.java}"/>
 
     <!--  Set ant output directories.  -->
     <property name="ant.output" value="ant_output"/>
+    
+    <!-- Ant-Contrib tasks definition -->
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="${basedir}/build-tools/ant-contrib/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
 
-    <target name="Build" description="Builds all PhET Simulations">
+    <target name="build-all" description="Builds all PhET Simulations.">
         <!--Not written yet-->
         <ant antfile="simulations-java/balloons/build.xml" target="Compile"/>
     </target>
 
-    <target name="_checkout" description="checkout the specified simulation" if="sim.name">
-        <mkdir dir="${simulations.java}${sim.name}"/>
-        <exec executable="svn">
-            <arg value="co"/>
-            <arg value="${phet.java-sim.url}${sim.name}"/>
-            <arg value="${simulations.java}"/>
-        </exec>
+    
+    <target name="checkout" description="Checks out the specified simulation">
+        <if>
+            <isset property="sim.name"/>
+            <then>
+                <mkdir dir="${simulations.java}${sim.name}"/>
+                <exec executable="svn">
+                    <arg value="co"/>
+                    <arg value="${phet.java-sim.url}${sim.name}"/>
+                    <arg value="${simulations.java}"/>
+                </exec>
+            </then>
+            <else>
+                <echo message="The name of the simulation to checkout must be specified."/>
+            </else>
+        </if>
     </target>
-
-     <target name="checkout" depends="_checkout, checkout_err"/>
-
-    <target name="checkout_err" description="checkout the specified simulation" unless="sim.name">
-        <echo message="Need to specify -Dsim.name=..."/>
-    </target>
-
-
+    
+    
 </project>
