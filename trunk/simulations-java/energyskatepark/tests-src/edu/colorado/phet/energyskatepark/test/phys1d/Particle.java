@@ -36,8 +36,9 @@ public class Particle {
     }
 
     public Particle( ParticleStage particleStage ) {
-        particle1D = new Particle1D( particleStage.getCubicSpline2D( 0 ), true, g );
+        particle1D = new Particle1D( particleStage.getCubicSpline2DCount() > 0 ? particleStage.getCubicSpline2D( 0 ) : null, true, g );
         this.particleStage = particleStage;
+        setUpdateStrategy( particleStage.getCubicSpline2DCount() > 0 ? ( (UpdateStrategy)new Particle1DUpdate() ) : new FreeFall() );
     }
 
     public void stepInTime( double dt ) {
@@ -186,8 +187,8 @@ public class Particle {
     }
 
     public boolean[] getOrigAbove() {
-        boolean[] orig = new boolean[particleStage.numCubicSpline2Ds()];
-        for( int i = 0; i < particleStage.numCubicSpline2Ds(); i++ ) {
+        boolean[] orig = new boolean[particleStage.getCubicSpline2DCount()];
+        for( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
             orig[i] = isAboveSpline( i );
         }
         return orig;
@@ -228,7 +229,7 @@ public class Particle {
             double closestAlpha = 0;
             int closestIndex = -1;
 
-            for( int i = 0; i < particleStage.numCubicSpline2Ds(); i++ ) {
+            for( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
 //                System.out.println( "Checking spline[" + i + "]" );
                 ParametricFunction2D cubicSpline = particleStage.getCubicSpline2D( i );
                 double alpha = cubicSpline.getClosestPoint( newLoc );

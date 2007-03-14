@@ -7,6 +7,8 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
 import edu.colorado.phet.energyskatepark.model.spline.SplineSurface;
+import edu.colorado.phet.energyskatepark.test.phys1d.Particle;
+import edu.colorado.phet.energyskatepark.test.phys1d.ParticleStage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
@@ -23,6 +25,10 @@ import java.util.ArrayList;
  */
 
 public class Body {
+
+    private Particle particle;
+    private ParticleStage particleStage;
+
     private Point2D.Double attachmentPoint = new Point2D.Double();
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D.Double acceleration = new Vector2D.Double();
@@ -74,6 +80,9 @@ public class Body {
         cmRotation = Math.PI;
         mode = freeFall;
         storedTotalEnergy = getTotalEnergy();
+
+        particleStage = new ParticleStage();
+        particle = new Particle( particleStage );
     }
 
     public void setPotentialEnergyMetric( PotentialEnergyMetric potentialEnergyMetric ) {
@@ -199,6 +208,9 @@ public class Body {
 //        System.out.println( "getGravity() = " + getGravity() );
         Body orig = copyState();
 //        System.out.println( "getGravity() = " + getGravity() );
+
+        particle.stepInTime( dt );
+
         StateRecord collisionList = createCollisionState();
         stateRecordHistory.add( collisionList );
         if( stateRecordHistory.size() > 100 ) {
@@ -235,6 +247,10 @@ public class Body {
         }
 
 //        System.out.println( "facingRight = " + facingRight + ", speed=" + getSpeed() );
+
+        setAttachmentPointPosition( particle.getX(), particle.getY() );
+        setVelocity( particle.getVelocity() );
+
         EnergyDebugger.stepFinished( this );
     }
 

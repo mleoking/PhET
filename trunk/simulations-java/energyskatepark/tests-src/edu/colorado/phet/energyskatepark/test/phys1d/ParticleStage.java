@@ -24,15 +24,19 @@ public class ParticleStage {
         notifySplineAdded();
     }
 
-    public int numCubicSpline2Ds() {
-        return splines.size();
-    }
+//    public int numCubicSpline2Ds() {
+//        return splines.size();
+//    }
 
     public ParametricFunction2D getCubicSpline2D( int i ) {
         return (ParametricFunction2D)splines.get( i );
     }
 
     private ArrayList listeners = new ArrayList();
+
+    public int getCubicSpline2DCount() {
+        return splines.size();
+    }
 
     public static interface Listener {
         void splineAdded();
