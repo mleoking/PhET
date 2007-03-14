@@ -3,9 +3,12 @@
 package edu.colorado.phet.rutherfordscattering;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -90,12 +93,17 @@ public class RSApplication extends PiccoloPhetApplication {
                 laf.initLookAndFeel();
 
                 // Initialize localization.
-                SimStrings.init( args, RSConstants.LOCALIZATION_BUNDLE_BASENAME );
+                SimStrings.init( args, RSConstants.SIM_STRINGS_NAME );
 
-                // Title, etc.
+                // Load simulation properties file
+                Properties simulationProperties = PropertiesLoader.loadProperties( RSConstants.SIM_PROPERTIES_NAME );
+                
+                // Title & description
                 String title = SimStrings.get( "RSApplication.title" );
                 String description = SimStrings.get( "RSApplication.description" );
-                String version = RSVersion.NUMBER;
+                
+                // Version
+                String version = PhetApplication.getVersionString( simulationProperties );
 
                 // Frame setup
                 int width = RSConstants.APP_FRAME_SIZE.width;
@@ -104,7 +112,8 @@ public class RSApplication extends PiccoloPhetApplication {
 
                 // Create the application.
                 RSApplication app = new RSApplication( args, title, description, version, frameSetup );
-
+                app.setSimulationProperties( simulationProperties );
+                
                 // Start the application.
                 app.startApplication();
             }
