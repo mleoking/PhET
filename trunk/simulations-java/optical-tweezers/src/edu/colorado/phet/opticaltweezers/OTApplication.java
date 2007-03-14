@@ -5,10 +5,13 @@ package edu.colorado.phet.opticaltweezers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
 
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
@@ -190,7 +193,7 @@ public class OTApplication extends PiccoloPhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
 
             public void run() {
-
+                
                 // Initialize look-and-feel
                 PhetLookAndFeel laf = new PhetLookAndFeel();
                 laf.initLookAndFeel();
@@ -198,10 +201,15 @@ public class OTApplication extends PiccoloPhetApplication {
                 // Initialize localization.
                 SimStrings.init( args, OTConstants.LOCALIZATION_BUNDLE_BASENAME );
 
-                // Title, etc.
+                // Load simulation properties file
+                Properties simulationProperties = PropertiesLoader.loadProperties( "rutherfordscattering.properties" );
+                
+                // Title & description
                 String title = SimStrings.get( "OTApplication.title" );
                 String description = SimStrings.get( "OTApplication.description" );
-                String version = OTVersion.NUMBER;
+                
+                // Version
+                String version = PhetApplication.getVersionString( simulationProperties );
 
                 // Frame setup
                 int width = OTConstants.APP_FRAME_SIZE.width;
@@ -210,6 +218,7 @@ public class OTApplication extends PiccoloPhetApplication {
 
                 // Create the application.
                 OTApplication app = new OTApplication( args, title, description, version, frameSetup );
+                app.setSimulationProperties( simulationProperties );
 
                 // Start the application.
                 app.startApplication();
