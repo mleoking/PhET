@@ -15,14 +15,12 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * BoxOfHydrogenNode is the small "box of hydrogen" into which
- * the gun fires photons and alpha particles.  A "tiny box"
- * indicates the portion of the box of hydrogen that is shown
- * in the "exploded" view.
+ * BoxOfAtomsNode is the box of atoms into which the gun fires alpha particles.
+ * A "tiny box" indicates the portion of the box that is shown in the "exploded" view.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BoxOfHydrogenNode extends PNode {
+public class BoxOfAtomsNode extends PNode {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -40,12 +38,16 @@ public class BoxOfHydrogenNode extends PNode {
     private static final float BACK_OFFSET = 0.15f;
     
     private static final double Y_SPACING = 5;  // space between label and box
+
+    public static final Color TINY_BOX_FILL_COLOR = RSConstants.ANIMATION_BOX_COLOR;
+    public static final Color TINY_BOX_STROKE_COLOR = RSConstants.ANIMATION_BOX_STROKE_COLOR;
+    public static final Stroke TINY_BOX_STROKE = new BasicStroke( 2f );
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PNode _tinyBoxNode;
+    private PPath _tinyBoxNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -56,7 +58,7 @@ public class BoxOfHydrogenNode extends PNode {
      * @param boxSize
      * @param tinyBoxSize
      */
-    public BoxOfHydrogenNode( Dimension boxSize, Dimension tinyBoxSize ) {
+    public BoxOfAtomsNode( Dimension boxSize, Dimension tinyBoxSize ) {
         super();
         
         setPickable( false );
@@ -88,7 +90,10 @@ public class BoxOfHydrogenNode extends PNode {
         }
 
         // Tiny box
-        _tinyBoxNode = new AnimationBoxNode( tinyBoxSize );
+        _tinyBoxNode = new PPath( new Rectangle2D.Double( 0, 0, tinyBoxSize.width, tinyBoxSize.height ) );
+        _tinyBoxNode.setPaint( TINY_BOX_FILL_COLOR );
+        _tinyBoxNode.setStrokePaint( TINY_BOX_STROKE_COLOR );
+        _tinyBoxNode.setStroke( TINY_BOX_STROKE );
         
         // Label, origin in upper-left corner of bounds
         HTMLNode labelNode = new HTMLNode();

@@ -45,7 +45,7 @@ public class PlumPuddingAtomModule extends AbstractModule {
     private PhetPCanvas _canvas;
     private PNode _rootNode;
     private PNode _boxBeamGunParent;
-    private BoxOfHydrogenNode _boxOfHydrogenNode;
+    private BoxOfAtomsNode _boxOfAtomsNode;
     private BeamNode _beamNode;
     private GunNode _gunNode;
     private AnimationBoxNode _animationBoxNode;
@@ -112,32 +112,32 @@ public class PlumPuddingAtomModule extends AbstractModule {
         _rootNode = new PNode();
         _canvas.addWorldChild( _rootNode );
         
-        //  Box of Hydrogen + Beam + Gun
+        // Box + Beam + Gun
         {
             // Parent node, used for layout
             _boxBeamGunParent = new PNode();
 
-            _boxOfHydrogenNode = new BoxOfHydrogenNode( RSConstants.BOX_OF_HYDROGEN_SIZE, RSConstants.TINY_BOX_SIZE );
+            _boxOfAtomsNode = new BoxOfAtomsNode( RSConstants.BOX_OF_HYDROGEN_SIZE, RSConstants.TINY_BOX_SIZE );
             _beamNode = new BeamNode( RSConstants.BEAM_SIZE, _model.getGun() );
             _gunNode = new GunNode( _model.getGun() );
 
             // Layering order
             _boxBeamGunParent.addChild( _beamNode );
-            _boxBeamGunParent.addChild( _boxOfHydrogenNode );
+            _boxBeamGunParent.addChild( _boxOfAtomsNode );
             _boxBeamGunParent.addChild( _gunNode );
             
             // Positioning
             final double gunCenterOffset = 28;
-            final double boxWidth = _boxOfHydrogenNode.getFullBounds().getWidth();
+            final double boxWidth = _boxOfAtomsNode.getFullBounds().getWidth();
             final double gunWidth = _gunNode.getFullBounds().getWidth();
             if ( boxWidth > gunWidth ) {
-                _boxOfHydrogenNode.setOffset( 0, 0 );
-                _beamNode.setOffset( ( boxWidth - _beamNode.getFullBounds().getWidth() ) / 2, _boxOfHydrogenNode.getFullBounds().getMaxY() );
+                _boxOfAtomsNode.setOffset( 0, 0 );
+                _beamNode.setOffset( ( boxWidth - _beamNode.getFullBounds().getWidth() ) / 2, _boxOfAtomsNode.getFullBounds().getMaxY() );
                 _gunNode.setOffset( ( ( boxWidth - gunWidth ) / 2 ) + gunCenterOffset, _beamNode.getFullBounds().getMaxY() );
             }
             else {
-                _boxOfHydrogenNode.setOffset( ( ( gunWidth - boxWidth ) / 2 ) - gunCenterOffset, 0 );
-                _beamNode.setOffset( _boxOfHydrogenNode.getFullBounds().getX() + ( boxWidth - _beamNode.getFullBounds().getWidth() ) / 2, _boxOfHydrogenNode.getFullBounds().getMaxY() );
+                _boxOfAtomsNode.setOffset( ( ( gunWidth - boxWidth ) / 2 ) - gunCenterOffset, 0 );
+                _beamNode.setOffset( _boxOfAtomsNode.getFullBounds().getX() + ( boxWidth - _beamNode.getFullBounds().getWidth() ) / 2, _boxOfAtomsNode.getFullBounds().getMaxY() );
                 _gunNode.setOffset( 0, _beamNode.getFullBounds().getMaxY() );
             }
         }
@@ -151,11 +151,6 @@ public class PlumPuddingAtomModule extends AbstractModule {
         // Atom
         PlumPuddingAtomNode atomNode = new PlumPuddingAtomNode( _canvas, atom );
         _animationBoxNode.getAtomLayer().addChild(  atomNode  );
-                // Atom
-//        PlumPuddingAtomNode atomNode = new PlumPuddingAtomNode( _canvas, atom );
-////        BufferedPlumPuddingAtomNode bufferedPNode = new BufferedPlumPuddingAtomNode( atomNode, _canvas.getPhetRootNode(),_canvas,atom );//SR
-//        BufferedPNode bufferedPNode = new BufferedPNode( _canvas, atomNode ,atom );//SR
-//        _animationBoxNode.getAtomLayer().addChild( bufferedPNode );//SR
         
         // Alpha Particles tracer
         {
@@ -290,7 +285,7 @@ public class PlumPuddingAtomModule extends AbstractModule {
 
         // Zoom Indicator
         {
-            Rectangle2D tinyBoxBounds = _zoomIndicatorNode.globalToLocal( _boxOfHydrogenNode.getTinyBoxGlobalFullBounds() );
+            Rectangle2D tinyBoxBounds = _zoomIndicatorNode.globalToLocal( _boxOfAtomsNode.getTinyBoxGlobalFullBounds() );
             Rectangle2D bigBoxBounds = _zoomIndicatorNode.globalToLocal( _animationBoxNode.getGlobalFullBounds() );
             _zoomIndicatorNode.update( tinyBoxBounds, bigBoxBounds );
         }
