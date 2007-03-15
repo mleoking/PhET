@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - add dashed line for electron orbit
 - debug Reset All feature, clear model first
-- make fonts larger in control panels
 - check plum pudding performance
 
 MEDIUM PRIORITY:
@@ -17,6 +16,10 @@ LOW PRIORITY:
 
 
 DONE:
+3/15/07 - add a more prominent border around groups of controls
+3/15/07 - change RSConstants.CANVAS_RENDERING_SIZE to accommodate larger control panel
+3/15/07 - use bold font for control to make them slightly larger and more visible on projection screens
+3/15/07 - fix SliderControl and control panels so that control & title fonts can be changed easily
 3/15/07 - add alpha particles to legend
 3/15/07 - set traces "off" by default
 3/15/07 - change panel order, move wiggle me to Rutherford Atom panel

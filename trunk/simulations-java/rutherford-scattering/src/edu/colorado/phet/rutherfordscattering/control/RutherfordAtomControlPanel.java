@@ -76,13 +76,15 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         _atomNode = _module.getAtomNode();
         
         // Legend
-        LegendPanel legendPanel = new LegendPanel( 0.85 /* iconScale */, RSConstants.TITLE_FONT, RSConstants.CONTROL_FONT );
+        LegendPanel legendPanel = new LegendPanel( 0.85 /* iconScale */, 
+                RSConstants.TITLE_FONT, RSConstants.CONTROL_FONT, RSConstants.TITLED_BORDER_STYLE  );
         
         // Alpha Particles panel
         JPanel alphaParticlesPanel = new JPanel();
         {
             TitledBorder border = new TitledBorder( SimStrings.get( "label.alphaParticleProperties" ) );
             border.setTitleFont( RSConstants.TITLE_FONT );
+            border.setBorder( RSConstants.TITLED_BORDER_STYLE );
             alphaParticlesPanel.setBorder( border );
 
             // Energy control
@@ -97,6 +99,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
                 String units = "";
                 int columns = 3;
                 _energyControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+                _energyControl.setFont( RSConstants.CONTROL_FONT );
                 _energyControl.setTextFieldEditable( true );
                 if ( !DEBUG_SHOW_ENERGY_VALUE ) {
                     _energyControl.setTextFieldVisible( false );
@@ -118,6 +121,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
             // Traces checkbox
             {
                 _tracesCheckBox = new JCheckBox( SimStrings.get( "label.showTraces" ) );
+                _tracesCheckBox.setFont( RSConstants.CONTROL_FONT );
                 _tracesCheckBox.setSelected( _module.getTracesNode().isEnabled() );
                 _tracesCheckBox.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent event ) {
@@ -141,6 +145,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         {
             TitledBorder border = new TitledBorder( SimStrings.get( "label.atomProperties" ) );
             border.setTitleFont( RSConstants.TITLE_FONT );
+            border.setBorder( RSConstants.TITLED_BORDER_STYLE );
             atomPanel.setBorder( border );
 
             // Number of protons
@@ -155,6 +160,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
                 String units = "";
                 int columns = 3;
                 _protonsControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+                _protonsControl.setFont( RSConstants.CONTROL_FONT );
                 _protonsControl.setTextFieldEditable( true );
                 _protonsListener = new ChangeListener() {
 
@@ -177,6 +183,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
                 String units = "";
                 int columns = 3;
                 _neutronsControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+                _neutronsControl.setFont( RSConstants.CONTROL_FONT );
                 _neutronsControl.setTextFieldEditable( true );
                 _neutronsListener = new ChangeListener() {
 
@@ -206,7 +213,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         addVerticalSpace( panelSpacing );
         addControlFullWidth(atomPanel );
         addVerticalSpace( panelSpacing );
-        addResetButton();
+        addResetButton( RSConstants.CONTROL_FONT );
     }
     
     /**

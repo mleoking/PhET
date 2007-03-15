@@ -7,7 +7,9 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.border.Border;
 
 import edu.colorado.phet.rutherfordscattering.util.DoubleRange;
 import edu.colorado.phet.rutherfordscattering.util.IntegerRange;
@@ -33,7 +35,7 @@ public class RSConstants {
     
     public static final Dimension APP_FRAME_SIZE = new Dimension( 1024, 768 );
 
-    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 750, 750 );
+    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 800, 800 );
 
     // Animation box size, must be square!
     public static final Dimension ANIMATION_BOX_SIZE = new Dimension( 700, 700 );
@@ -69,8 +71,15 @@ public class RSConstants {
     public static final Font DEFAULT_FONT = new Font( DEFAULT_FONT_NAME, DEFAULT_FONT_STYLE, DEFAULT_FONT_SIZE );
     
     public static final Font TITLE_FONT = new Font( DEFAULT_FONT_NAME, Font.BOLD, 14 );
-    public static final Font CONTROL_FONT = new Font( DEFAULT_FONT_NAME, Font.PLAIN, 14 );
+    public static final Font CONTROL_FONT = new Font( DEFAULT_FONT_NAME, Font.BOLD, 14 );
     
+    //----------------------------------------------------------------------------
+    // Borders
+    //----------------------------------------------------------------------------
+    
+    // the border style to use for titled borders
+    public static final Border TITLED_BORDER_STYLE = BorderFactory.createLineBorder( Color.BLACK, 2 );
+
     //----------------------------------------------------------------------------
     // Paints
     //----------------------------------------------------------------------------
