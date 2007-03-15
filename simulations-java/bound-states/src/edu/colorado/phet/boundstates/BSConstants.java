@@ -43,7 +43,7 @@ public class BSConstants {
     //----------------------------------------------------------------------------
     
     public static final String SIM_PROPERTIES_NAME = "boundstates";
-    public static final String SIM_STRINGS_NAME = "localization/BSStrings";
+    public static final String SIM_STRINGS_NAME = "localization/boundstates_strings";
 
     //----------------------------------------------------------------------------
     // Clock
@@ -125,7 +125,8 @@ public class BSConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String IMAGES_DIRECTORY = "images/";
+    public static final String IMAGES_DIRECTORY = "boundstates/images/";
+    
     public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
     public static final String IMAGE_ZOOM_IN = IMAGES_DIRECTORY + "zoomIn.gif";
     public static final String IMAGE_ZOOM_OUT = IMAGES_DIRECTORY + "zoomOut.gif";
