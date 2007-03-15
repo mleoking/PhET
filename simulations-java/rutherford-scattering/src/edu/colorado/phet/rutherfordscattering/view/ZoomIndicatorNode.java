@@ -12,7 +12,7 @@ import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * ZoomIndicatorNode connects the "tiny box" in BoxOfHydrogenNode to the "big box" exploded view.
+ * ZoomIndicatorNode connects the "tiny box" in BoxOfAtomsNode to the "big box" AnimationBoxNode.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
