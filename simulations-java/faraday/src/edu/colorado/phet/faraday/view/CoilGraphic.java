@@ -20,7 +20,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.model.AbstractCoil;
 import edu.colorado.phet.faraday.model.Electron;
 import edu.colorado.phet.faraday.model.ElectronPathDescriptor;
@@ -703,7 +703,7 @@ public class CoilGraphic implements SimpleObserver {
     private double calculateElectronSpeed() {
         double currentAmplitude = _coilModel.getCurrentAmplitude();
         // Current below the threshold is effectively zero.
-        if ( Math.abs( currentAmplitude ) < FaradayConfig.CURRENT_AMPLITUDE_THRESHOLD ) {
+        if ( Math.abs( currentAmplitude ) < FaradayConstants.CURRENT_AMPLITUDE_THRESHOLD ) {
             currentAmplitude = 0;
         }
         return currentAmplitude;

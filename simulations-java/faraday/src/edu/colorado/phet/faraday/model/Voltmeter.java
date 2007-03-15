@@ -15,7 +15,7 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 
 
 /**
@@ -158,7 +158,7 @@ public class Voltmeter extends FaradayObservable implements ModelElement, Simple
         amplitude = MathUtil.clamp( -1, amplitude, +1 );
         
         // Absolute amplitude below the threshold is effectively zero.
-        if ( Math.abs( amplitude ) < FaradayConfig.CURRENT_AMPLITUDE_THRESHOLD ) {
+        if ( Math.abs( amplitude ) < FaradayConstants.CURRENT_AMPLITUDE_THRESHOLD ) {
             amplitude = 0;
         }
         

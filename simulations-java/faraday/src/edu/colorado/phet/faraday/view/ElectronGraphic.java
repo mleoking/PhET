@@ -22,7 +22,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.model.Electron;
 import edu.colorado.phet.faraday.model.ElectronPathDescriptor;
 
@@ -72,8 +72,8 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
         _electronModel.addObserver( this );
         
         try {
-            _foregroundImage = ImageLoader.loadBufferedImage( FaradayConfig.ELECTRON_FOREGROUND_IMAGE );
-            _backgroundImage = ImageLoader.loadBufferedImage( FaradayConfig.ELECTRON_BACKGROUND_IMAGE );
+            _foregroundImage = ImageLoader.loadBufferedImage( FaradayConstants.ELECTRON_FOREGROUND_IMAGE );
+            _backgroundImage = ImageLoader.loadBufferedImage( FaradayConstants.ELECTRON_BACKGROUND_IMAGE );
         }
         catch ( IOException e ) {
             // Bail if this happens.

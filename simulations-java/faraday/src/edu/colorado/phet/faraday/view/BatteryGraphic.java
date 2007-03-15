@@ -25,7 +25,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.control.FaradaySlider;
 import edu.colorado.phet.faraday.control.GraphicSlider;
 import edu.colorado.phet.faraday.model.Battery;
@@ -79,7 +79,7 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
         
         // Battery image
         {
-            _batteryGraphic = new PhetImageGraphic( component, FaradayConfig.BATTERY_IMAGE );
+            _batteryGraphic = new PhetImageGraphic( component, FaradayConstants.BATTERY_IMAGE );
             addGraphic( _batteryGraphic, BATTERY_LAYER );
  
             // Registration point at top center.

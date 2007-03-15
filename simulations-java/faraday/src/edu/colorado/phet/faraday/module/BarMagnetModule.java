@@ -20,7 +20,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.model.BarMagnet;
@@ -58,7 +58,7 @@ public class BarMagnetModule extends FaradayModule {
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
     // Bar Magnet
-    private static final double BAR_MAGNET_STRENGTH = 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX;
+    private static final double BAR_MAGNET_STRENGTH = 0.75 * FaradayConstants.BAR_MAGNET_STRENGTH_MAX;
     private static final double BAR_MAGNET_DIRECTION = 0.0; // radians
          
     //----------------------------------------------------------------------------
@@ -94,8 +94,8 @@ public class BarMagnetModule extends FaradayModule {
         
         // Bar Magnet
         _barMagnetModel = new BarMagnet();
-        _barMagnetModel.setMaxStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
-        _barMagnetModel.setMinStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MIN );
+        _barMagnetModel.setMaxStrength( FaradayConstants.BAR_MAGNET_STRENGTH_MAX );
+        _barMagnetModel.setMinStrength( FaradayConstants.BAR_MAGNET_STRENGTH_MIN );
         _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH );
         _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
         _barMagnetModel.setDirection( BAR_MAGNET_DIRECTION );
@@ -127,9 +127,9 @@ public class BarMagnetModule extends FaradayModule {
         apparatusPanel.addGraphic( _barMagnetGraphic, BAR_MAGNET_LAYER );
         
         // Grid
-        _gridGraphic = new CompassGridGraphic( apparatusPanel, _barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+        _gridGraphic = new CompassGridGraphic( apparatusPanel, _barMagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
         _gridGraphic.setRescalingEnabled( true );
-        _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
+        _gridGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
         _gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
         apparatusPanel.addChangeListener( _gridGraphic );
         apparatusPanel.addGraphic( _gridGraphic, COMPASS_GRID_LAYER );

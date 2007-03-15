@@ -26,7 +26,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.view.CoilGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
@@ -135,9 +135,9 @@ public class ElectromagnetPanel extends FaradayPanel {
 
             // Spinner, keyboard editing disabled.
             SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
-            spinnerModel.setMaximum( new Integer( FaradayConfig.ELECTROMAGNET_LOOPS_MAX ) );
-            spinnerModel.setMinimum( new Integer( FaradayConfig.ELECTROMAGNET_LOOPS_MIN ) );
-            spinnerModel.setValue( new Integer( FaradayConfig.ELECTROMAGNET_LOOPS_MIN ) );
+            spinnerModel.setMaximum( new Integer( FaradayConstants.ELECTROMAGNET_LOOPS_MAX ) );
+            spinnerModel.setMinimum( new Integer( FaradayConstants.ELECTROMAGNET_LOOPS_MIN ) );
+            spinnerModel.setValue( new Integer( FaradayConstants.ELECTROMAGNET_LOOPS_MIN ) );
             _loopsSpinner = new JSpinner( spinnerModel );
             JFormattedTextField tf = ( (JSpinner.DefaultEditor) _loopsSpinner.getEditor() ).getTextField();
             tf.setEditable( false );
@@ -167,15 +167,15 @@ public class ElectromagnetPanel extends FaradayPanel {
             // Radio buttons
             try {
                 // Radio buttons with text & icons.
-                ImageIcon batteryIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.BATTERY_ICON ) );
-                ImageIcon batteryIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.BATTERY_ICON_SELECTED ) );
+                ImageIcon batteryIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.BATTERY_ICON ) );
+                ImageIcon batteryIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.BATTERY_ICON_SELECTED ) );
                 _batteryRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.dc" ), batteryIcon );
                 _batteryRadioButton.setVerticalTextPosition( SwingConstants.BOTTOM );
                 _batteryRadioButton.setHorizontalTextPosition( SwingConstants.CENTER );
                 _batteryRadioButton.setSelectedIcon( batteryIconSelected );
                 
-                ImageIcon acIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.AC_POWER_SUPPLY_ICON ) );
-                ImageIcon acIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.AC_POWER_SUPPLY_ICON_SELECTED ) );
+                ImageIcon acIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.AC_POWER_SUPPLY_ICON ) );
+                ImageIcon acIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.AC_POWER_SUPPLY_ICON_SELECTED ) );
                 _acRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.ac" ), acIcon );
                 _acRadioButton.setVerticalTextPosition( SwingConstants.BOTTOM );
                 _acRadioButton.setHorizontalTextPosition( SwingConstants.CENTER );

@@ -17,7 +17,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.util.Vector2D;
 
 
@@ -35,7 +35,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     //----------------------------------------------------------------------------
     
     /**  Number of sample points above the center of the coil. */
-    public static final int SAMPLE_POINTS_ABOVE = FaradayConfig.PICKUP_SAMPLE_POINTS / 2;
+    public static final int SAMPLE_POINTS_ABOVE = FaradayConstants.PICKUP_SAMPLE_POINTS / 2;
     /**  Number of sample points below the center of the coil. */
     public static final int SAMPLE_POINTS_BELOW = SAMPLE_POINTS_ABOVE;
     
@@ -249,14 +249,14 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
             _emf = emf;
             
             // Current amplitude is proportional to emf amplitude.
-            double amplitude = MathUtil.clamp( -1,  emf / FaradayConfig.MAX_PICKUP_EMF, +1 );
+            double amplitude = MathUtil.clamp( -1,  emf / FaradayConstants.MAX_PICKUP_EMF, +1 );
             setCurrentAmplitude( amplitude ); // calls notifyObservers
         }
         
         // Keep track of the biggest emf seen by the pickup coil.
         if ( Math.abs( _emf ) > Math.abs( _biggestEmf ) ) {
             _biggestEmf = _emf;
-            if ( FaradayConfig.DEBUG_PICKUP_COIL_EMF ) {
+            if ( FaradayConstants.DEBUG_PICKUP_COIL_EMF ) {
                 System.out.println( "PickupCoil.updateEmf: biggestEmf=" + _biggestEmf );
             }
         }

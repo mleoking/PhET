@@ -12,7 +12,7 @@
 package edu.colorado.phet.faraday.model;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 
 
 /**
@@ -81,7 +81,7 @@ public class Turbine extends DipoleMagnet implements ModelElement {
         _maxRPM = maxRPM;
         
         // Pre-compute the maximum change in angle per clock tick.
-        double framesPerSecond = FaradayConfig.CLOCK_FRAME_RATE;
+        double framesPerSecond = FaradayConstants.CLOCK_FRAME_RATE;
         double framesPerMinute = 60 * framesPerSecond;
         _maxDelta = ( 2 * Math.PI ) * ( maxRPM / framesPerMinute );
     }

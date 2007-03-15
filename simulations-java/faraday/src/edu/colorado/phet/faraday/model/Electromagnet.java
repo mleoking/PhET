@@ -13,7 +13,7 @@ package edu.colorado.phet.faraday.model;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 
 
 /**
@@ -122,7 +122,7 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
         _sourceCoilModel.setCurrentAmplitude( _voltageSource.getAmplitude() );
         
         // Compute the electromagnet's emf amplitude.
-        double amplitude = ( _sourceCoilModel.getNumberOfLoops() / (double) FaradayConfig.ELECTROMAGNET_LOOPS_MAX ) * _voltageSource.getAmplitude();
+        double amplitude = ( _sourceCoilModel.getNumberOfLoops() / (double) FaradayConstants.ELECTROMAGNET_LOOPS_MAX ) * _voltageSource.getAmplitude();
         amplitude = MathUtil.clamp( -1, amplitude, 1 );
         
         // Flip the polarity

@@ -15,14 +15,13 @@ import java.awt.Dimension;
 
 
 /**
- * FaradayConfig contains global configuration values.
- * See FaradayStrings.properties for localized Strings.
+ * FaradayConstants contains global configuration values.
  * See modules for module-specific parameters.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class FaradayConfig {
+public class FaradayConstants {
    
     //----------------------------------------------------------------------------
     // Debugging switches
@@ -46,7 +45,7 @@ public class FaradayConfig {
     //----------------------------------------------------------------------------
     
     public static final String SIM_PROPERTIES_NAME = "faraday";
-    public static final String SIM_STRINGS_NAME = "localization/FaradayStrings";
+    public static final String SIM_STRINGS_NAME = "localization/faraday_strings";
 
     //----------------------------------------------------------------------------
     // Clock parameters
@@ -54,7 +53,7 @@ public class FaradayConfig {
     
     public static final double CLOCK_STEP = 1; // clock ticks
     public static final int CLOCK_FRAME_RATE = 25;  // frames per second
-    public static final int CLOCK_DELAY = ( 1000 / FaradayConfig.CLOCK_FRAME_RATE ); // milliseconds
+    public static final int CLOCK_DELAY = ( 1000 / FaradayConstants.CLOCK_FRAME_RATE ); // milliseconds
     public static final boolean CLOCK_TIME_STEP_IS_CONSTANT = true;
     public static final boolean CLOCK_ENABLE_CONTROLS = true;
     
@@ -62,7 +61,8 @@ public class FaradayConfig {
     // Images
     //----------------------------------------------------------------------------
     
-    private static final String IMAGES_DIRECTORY = "images/";
+    private static final String IMAGES_DIRECTORY = "faraday/images/";
+    
     public static final String AC_POWER_SUPPLY_IMAGE = IMAGES_DIRECTORY + "acPowerSupply.png";
     public static final String AC_POWER_SUPPLY_ICON = IMAGES_DIRECTORY + "acPowerSupply_icon.png";
     public static final String AC_POWER_SUPPLY_ICON_SELECTED = IMAGES_DIRECTORY + "acPowerSupply_icon_selected.png";
@@ -173,5 +173,5 @@ public class FaradayConfig {
     /**
      * This class is not intended for instantiation.
      */
-    private FaradayConfig() {}
+    private FaradayConstants() {}
 }

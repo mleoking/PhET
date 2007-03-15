@@ -23,7 +23,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.collision.CollisionDetector;
 import edu.colorado.phet.faraday.collision.ICollidable;
 import edu.colorado.phet.faraday.model.ACPowerSupply;
@@ -97,7 +97,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
          */
         
         // Graphic that represents the magnet's bounds.
-        if ( FaradayConfig.DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE ) {
+        if ( FaradayConstants.DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE ) {
             _modelShapeGraphic = new PhetShapeGraphic( component );
             _modelShapeGraphic.setBorderColor( Color.YELLOW );
             _modelShapeGraphic.setStroke( new BasicStroke( 1f ) );

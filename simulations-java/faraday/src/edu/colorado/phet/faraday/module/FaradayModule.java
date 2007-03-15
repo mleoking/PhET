@@ -18,7 +18,7 @@ import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
 import edu.colorado.phet.faraday.view.DebuggerGraphic;
 
@@ -56,7 +56,7 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
      * @param title the module title
      */
     public FaradayModule( String title ) {
-        super( title, new SwingClock( FaradayConfig.CLOCK_DELAY, FaradayConfig.CLOCK_STEP ) );
+        super( title, new SwingClock( FaradayConstants.CLOCK_DELAY, FaradayConstants.CLOCK_STEP ) );
         setLogoPanel( null );
     }
     

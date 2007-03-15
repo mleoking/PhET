@@ -19,7 +19,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
@@ -60,13 +60,13 @@ public class GeneratorModule extends FaradayModule {
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
     // Turbine
-    private static final double TURBINE_STRENGTH = 0.75 * FaradayConfig.TURBINE_STRENGTH_MAX;
+    private static final double TURBINE_STRENGTH = 0.75 * FaradayConstants.TURBINE_STRENGTH_MAX;
     private static final double TURBINE_DIRECTION = 0.0; // radians
     private static final double TURBINE_SPEED = 0.0;
     
     // Pickup Coil
     private static final int PICKUP_COIL_NUMBER_OF_LOOPS = 2;
-    private static final double PICKUP_COIL_LOOP_AREA = 0.75 * FaradayConfig.MAX_PICKUP_LOOP_AREA;
+    private static final double PICKUP_COIL_LOOP_AREA = 0.75 * FaradayConstants.MAX_PICKUP_LOOP_AREA;
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
     private static final double PICKUP_COIL_DISTANCE_EXPONENT = 2.0;
     
@@ -111,8 +111,8 @@ public class GeneratorModule extends FaradayModule {
         
         // Turbine
         _turbineModel = new Turbine();
-        _turbineModel.setMaxStrength( FaradayConfig.TURBINE_STRENGTH_MAX );
-        _turbineModel.setMinStrength( FaradayConfig.TURBINE_STRENGTH_MIN );
+        _turbineModel.setMaxStrength( FaradayConstants.TURBINE_STRENGTH_MAX );
+        _turbineModel.setMinStrength( FaradayConstants.TURBINE_STRENGTH_MIN );
         _turbineModel.setStrength( TURBINE_STRENGTH );
         _turbineModel.setLocation( TURBINE_LOCATION );
         _turbineModel.setDirection( TURBINE_DIRECTION );
@@ -177,9 +177,9 @@ public class GeneratorModule extends FaradayModule {
         apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
         
         // Grid
-        _gridGraphic = new CompassGridGraphic( apparatusPanel, _turbineModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+        _gridGraphic = new CompassGridGraphic( apparatusPanel, _turbineModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
         _gridGraphic.setRescalingEnabled( true );
-        _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
+        _gridGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
         _gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
         _gridGraphic.setVisible( false );
         apparatusPanel.addChangeListener( _gridGraphic );
@@ -223,7 +223,7 @@ public class GeneratorModule extends FaradayModule {
             controlPanel.addControlFullWidth( _pickupCoilPanel );
             
             // Scaling calibration
-            if ( FaradayConfig.DEBUG_ENABLE_SCALE_PANEL ) {
+            if ( FaradayConstants.DEBUG_ENABLE_SCALE_PANEL ) {
                 controlPanel.addVerticalSpace();
                 
                 ScalePanel scalePanel = new ScalePanel( _lightbulbModel, _voltmeterModel, _pickupCoilGraphic, null );

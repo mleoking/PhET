@@ -19,7 +19,7 @@ import java.awt.Shape;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 
 
 /**
@@ -74,12 +74,12 @@ public class FaradaySlider extends GraphicSlider {
         setTrack( track );
         
         // Knob
-        PhetGraphic knob = new PhetImageGraphic( component, FaradayConfig.SLIDER_KNOB_IMAGE );
+        PhetGraphic knob = new PhetImageGraphic( component, FaradayConstants.SLIDER_KNOB_IMAGE );
         knob.centerRegistrationPoint();
         setKnob( knob );
         
         // Knob Highlight
-        PhetGraphic knobHighlight = new PhetImageGraphic( component, FaradayConfig.SLIDER_KNOB_HIGHLIGHT_IMAGE );
+        PhetGraphic knobHighlight = new PhetImageGraphic( component, FaradayConstants.SLIDER_KNOB_HIGHLIGHT_IMAGE );
         knobHighlight.centerRegistrationPoint();
         setKnobHighlight( knobHighlight );
     }

@@ -26,7 +26,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.control.ControlPanelSlider;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
@@ -108,7 +108,7 @@ public class BarMagnetPanel extends FaradayPanel {
         {
             // Values are a percentage of the maximum.
             int max = 100;
-            int min = (int) ( 100.0 * FaradayConfig.BAR_MAGNET_STRENGTH_MIN / FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+            int min = (int) ( 100.0 * FaradayConstants.BAR_MAGNET_STRENGTH_MIN / FaradayConstants.BAR_MAGNET_STRENGTH_MAX );
             int range = max - min;
 
             // Slider
@@ -165,7 +165,7 @@ public class BarMagnetPanel extends FaradayPanel {
      * Updates the control panel to match the state of the things that it's controlling.
      */
     public void update() {
-        _strengthSlider.setValue( (int) ( 100.0 * _barMagnetModel.getStrength() / FaradayConfig.BAR_MAGNET_STRENGTH_MAX ) );
+        _strengthSlider.setValue( (int) ( 100.0 * _barMagnetModel.getStrength() / FaradayConstants.BAR_MAGNET_STRENGTH_MAX ) );
         _seeInsideCheckBox.setSelected( _barMagnetGraphic.isTransparencyEnabled() );
         _gridCheckBox.setSelected( _gridGraphic.isVisible() );
         _fieldMeterCheckBox.setSelected( _fieldMeterModel.isEnabled() );
@@ -272,7 +272,7 @@ public class BarMagnetPanel extends FaradayPanel {
                 // Read the value.
                 int percent = _strengthSlider.getValue();
                 // Update the model.
-                double strength = (  percent / 100.0 ) * FaradayConfig.BAR_MAGNET_STRENGTH_MAX ;
+                double strength = (  percent / 100.0 ) * FaradayConstants.BAR_MAGNET_STRENGTH_MAX ;
                 _barMagnetModel.setStrength( strength );
             }
             else {
