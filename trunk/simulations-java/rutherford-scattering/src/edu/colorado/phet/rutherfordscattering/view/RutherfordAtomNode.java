@@ -31,10 +31,10 @@ public class RutherfordAtomNode extends PhetPNode implements Observer {
     
     private static final double MIN_NUCLEUS_RADIUS = 20; // view coordinates
     
+    private static final Color NUCLEUS_OUTLINE_COLOR = Color.GRAY;
     private static final Stroke NUCLEUS_OUTLINE_STROKE = 
         new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {2,3}, 0 );
-    private static final Color NUCLEUS_OUTLINE_COLOR = Color.GRAY;
-    
+
     private static final Color ORBIT_COLOR = Color.GRAY;
     public static final Stroke ORBIT_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 );
