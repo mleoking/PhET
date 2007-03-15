@@ -5,6 +5,12 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add alpha particles to legend
+- set traces "off" by default
+- add dashed line for electron orbit
+- debug Reset All feature, clear model first
+- make fonts larger in control panels
+- check plum pudding performance
 
 MEDIUM PRIORITY:
 
@@ -13,6 +19,7 @@ LOW PRIORITY:
 
 
 DONE:
+3/14/07 - change panel order, move wiggle me to Rutherford Atom panel
 3/14/07 - rename SimStrings files to have basename rutherfordscattering_strings
 3/14/07 - move images to data/rutherfordscattering/images to avoid namespace collisions
 3/14/07 - get version and credits from properties file

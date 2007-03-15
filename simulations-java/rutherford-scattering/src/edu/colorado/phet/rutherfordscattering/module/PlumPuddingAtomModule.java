@@ -28,6 +28,12 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 public class PlumPuddingAtomModule extends AbstractModule {
     
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final boolean HAS_WIGGLE_ME = false;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
@@ -296,7 +302,7 @@ public class PlumPuddingAtomModule extends AbstractModule {
      * Initializes a wiggle me that points to the gun on/off button.
      */
     private void initWiggleMe() {
-        if ( !_wiggleMeInitialized ) {
+        if ( !_wiggleMeInitialized && HAS_WIGGLE_ME ) {
             
             // Create wiggle me, add to root node.
             String wiggleMeString = SimStrings.get( "wiggleMe.gun" );  

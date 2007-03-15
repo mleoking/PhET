@@ -52,8 +52,8 @@ public class RSApplication extends PiccoloPhetApplication {
      * Initializes the modules.
      */
     private void initModules() {
-        addModule( new PlumPuddingAtomModule() );
         addModule( new RutherfordAtomModule() );
+        addModule( new PlumPuddingAtomModule() );
     }
     
     /*
