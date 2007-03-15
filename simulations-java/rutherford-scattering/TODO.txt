@@ -14,7 +14,7 @@ LOW PRIORITY:
 
 
 DONE:
-******* version 0.00.04 (?)
+******* version 0.00.04 (13789)
 3/15/07 - move ModelViewManager framework to its own package, target for replacement
 3/15/07 - rename BoxOfHydrogenNode to BoxOfAtomsNode, reimplement tiny box
 3/15/07 - add dashed line for electron orbit
