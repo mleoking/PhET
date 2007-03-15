@@ -19,6 +19,9 @@ LOW:
 
 
 DONE:
+3/14/07 - rename ColorVisionConfig to ColorVisionConstants to be consistent with my other sims
+3/14/07 - rename SimStrings files to have basename colorvision_strings
+3/14/07 - move images to data/colorvision/images to avoid namespace collisions
 3/7/07 - change project name to colorvision (was colorvision3), update JNLP and ProGuard files
 3/7/07 - refactor edu.colorado.phet.common to edu.colorado.phet.common_13364
 3/7/07 - deep copy the branch of phetcommon (stable-working-while-sam-does-his-thing, rev 13364) that this sim requires

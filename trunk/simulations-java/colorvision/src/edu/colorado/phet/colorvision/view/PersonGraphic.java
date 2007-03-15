@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.colorvision.view;
 
-import edu.colorado.phet.colorvision.ColorVisionConfig;
+import edu.colorado.phet.colorvision.ColorVisionConstants;
 import edu.colorado.phet.colorvision.model.Person;
 import edu.colorado.phet.common_13364.util.SimpleObserver;
 import edu.colorado.phet.common_13364.view.ApparatusPanel;
@@ -70,11 +70,11 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
         _personModel = personModel;
 
         // Head background graphic
-        _headBackgroundGraphic = new PhetImageGraphic( apparatusPanel, ColorVisionConfig.HEAD_BACKGROUND_IMAGE );
+        _headBackgroundGraphic = new PhetImageGraphic( apparatusPanel, ColorVisionConstants.HEAD_BACKGROUND_IMAGE );
         this.addGraphic( _headBackgroundGraphic );
 
         // Head foreground graphic
-        _headForegroundGraphic = new PhetImageGraphic( apparatusPanel, ColorVisionConfig.HEAD_FOREGROUND_IMAGE );
+        _headForegroundGraphic = new PhetImageGraphic( apparatusPanel, ColorVisionConstants.HEAD_FOREGROUND_IMAGE );
         this.addGraphic( _headForegroundGraphic );
 
         // Thought Bubble graphic

@@ -24,7 +24,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.colorvision.ColorVisionConfig;
+import edu.colorado.phet.colorvision.ColorVisionConstants;
 import edu.colorado.phet.colorvision.coreadditions.view.BellCurve;
 import edu.colorado.phet.common_13364.math.MathUtil;
 import edu.colorado.phet.common_13364.view.graphics.DefaultInteractiveGraphic;
@@ -122,7 +122,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
         _listenerList = new EventListenerList();
 
         // Initialize graphical components.
-        _spectrum = new PhetImageGraphic( component, ColorVisionConfig.SPECTRUM_IMAGE );
+        _spectrum = new PhetImageGraphic( component, ColorVisionConstants.SPECTRUM_IMAGE );
         _knob = new SpectrumSliderKnob( component, DEFAULT_KNOB_SIZE, getRotationAngle() );
 
         // Initialize interactivity
@@ -324,7 +324,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
     public void setSpectrumSize( Dimension size ) {
 
         // Read a fresh copy of the image.
-        String resourceName = ColorVisionConfig.SPECTRUM_IMAGE;
+        String resourceName = ColorVisionConstants.SPECTRUM_IMAGE;
         BufferedImage image;
         try {
             image = ImageLoader.loadBufferedImage( resourceName );

@@ -22,7 +22,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.colorvision.ColorVisionConfig;
+import edu.colorado.phet.colorvision.ColorVisionConstants;
 import edu.colorado.phet.colorvision.SingleBulbModule;
 import edu.colorado.phet.common_13364.view.PhetControlPanel;
 import edu.colorado.phet.common_13364.view.util.SimStrings;
@@ -79,7 +79,7 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
         // Filler, to constrain panel width.
         JPanel fillerPanel = new JPanel();
         fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
-        fillerPanel.add( Box.createHorizontalStrut( ColorVisionConfig.CONTROL_PANEL_MIN_WIDTH ) );
+        fillerPanel.add( Box.createHorizontalStrut( ColorVisionConstants.CONTROL_PANEL_MIN_WIDTH ) );
 
         // Bulb Control panel
         JPanel bulbPanel = new JPanel();
