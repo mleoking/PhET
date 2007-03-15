@@ -22,7 +22,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.model.Voltmeter;
 
 /**
@@ -195,7 +195,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
             graphicLayerSet.setRenderingHints( hints );    
             
             // Meter body
-            PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.VOLTMETER_IMAGE );
+            PhetImageGraphic body = new PhetImageGraphic( component, FaradayConstants.VOLTMETER_IMAGE );
             graphicLayerSet.addGraphic( body, BODY_LAYER );
             
             // Title label
@@ -271,7 +271,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
             }
 
             // Resistor
-            PhetImageGraphic resistor = new PhetImageGraphic( component, FaradayConfig.RESISTOR_IMAGE );
+            PhetImageGraphic resistor = new PhetImageGraphic( component, FaradayConstants.RESISTOR_IMAGE );
             resistor.centerRegistrationPoint();
             resistor.setLocation( body.getWidth() / 2, body.getHeight() + 40 );
             graphicLayerSet.addGraphic( resistor, RESISTOR_LAYER );
@@ -281,11 +281,11 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
                 int xOffset = 53;
                 int yOffset = body.getHeight() - 52;
                 
-                PhetImageGraphic leftProbe = new PhetImageGraphic( component, FaradayConfig.VOLTMETER_PROBE_RED_IMAGE );
+                PhetImageGraphic leftProbe = new PhetImageGraphic( component, FaradayConstants.VOLTMETER_PROBE_RED_IMAGE );
                 leftProbe.setLocation( xOffset, yOffset );
                 graphicLayerSet.addGraphic( leftProbe, PROBE_LAYER );
                 
-                PhetImageGraphic rightProbe = new PhetImageGraphic( component, FaradayConfig.VOLTMETER_PROBE_BLACK_IMAGE );
+                PhetImageGraphic rightProbe = new PhetImageGraphic( component, FaradayConstants.VOLTMETER_PROBE_BLACK_IMAGE );
                 rightProbe.setLocation( xOffset + resistor.getWidth() + 2, leftProbe.getY() );
                 graphicLayerSet.addGraphic( rightProbe, PROBE_LAYER );
             }

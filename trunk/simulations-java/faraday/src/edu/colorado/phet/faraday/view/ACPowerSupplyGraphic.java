@@ -23,7 +23,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.control.FaradaySlider;
 import edu.colorado.phet.faraday.model.ACPowerSupply;
 
@@ -112,8 +112,8 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         {
             _maxAmplitudeSlider = new FaradaySlider( component, 100 /* track length */ );            
             
-            _maxAmplitudeSlider.setMinimum( (int) ( 100.0 * FaradayConfig.AC_MAXAMPLITUDE_MIN ) );
-            _maxAmplitudeSlider.setMaximum( (int) ( 100.0 * FaradayConfig.AC_MAXAMPLITUDE_MAX ) );
+            _maxAmplitudeSlider.setMinimum( (int) ( 100.0 * FaradayConstants.AC_MAXAMPLITUDE_MIN ) );
+            _maxAmplitudeSlider.setMaximum( (int) ( 100.0 * FaradayConstants.AC_MAXAMPLITUDE_MAX ) );
             _maxAmplitudeSlider.setValue( (int) ( 100.0 * _acPowerSupplyModel.getMaxAmplitude() ) );
             
             _maxAmplitudeSlider.centerRegistrationPoint();
@@ -141,8 +141,8 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         {
             _frequencySlider = new FaradaySlider( component, 100 /* track length */ );            
 
-            _frequencySlider.setMinimum( (int) ( 100.0 * FaradayConfig.AC_FREQUENCY_MIN ) );
-            _frequencySlider.setMaximum( (int) ( 100.0 * FaradayConfig.AC_FREQUENCY_MAX ) );
+            _frequencySlider.setMinimum( (int) ( 100.0 * FaradayConstants.AC_FREQUENCY_MIN ) );
+            _frequencySlider.setMaximum( (int) ( 100.0 * FaradayConstants.AC_FREQUENCY_MAX ) );
             _frequencySlider.setValue( (int) ( 100.0 * _acPowerSupplyModel.getFrequency() ) );
             
             _frequencySlider.centerRegistrationPoint();
@@ -162,7 +162,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         {
             _waveGraphic = new SineWaveGraphic( component, WAVE_VIEWPORT_SIZE );
             // Configure cycles so that minimum frequency shows 1 cycle.
-            _waveGraphic.setMaxCycles( FaradayConfig.AC_FREQUENCY_MAX / FaradayConfig.AC_FREQUENCY_MIN );
+            _waveGraphic.setMaxCycles( FaradayConstants.AC_FREQUENCY_MAX / FaradayConstants.AC_FREQUENCY_MIN );
             _waveGraphic.setLocation( WAVE_ORIGIN );
         }
         
@@ -450,7 +450,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             graphicLayerSet.setRenderingHints( hints );
             
             // AC panel
-            PhetImageGraphic panel = new PhetImageGraphic( component, FaradayConfig.AC_POWER_SUPPLY_IMAGE );
+            PhetImageGraphic panel = new PhetImageGraphic( component, FaradayConstants.AC_POWER_SUPPLY_IMAGE );
             graphicLayerSet.addGraphic( panel, PANEL_LAYER );
             
             // Title label

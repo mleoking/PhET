@@ -18,6 +18,9 @@ LOW PRIORITY:
 
 
 DONE:
+3/14/07 - rename FaradayConfig to FaradayConstants to be consistent with my other sims
+3/14/07 - rename SimStrings files to have basename faraday_strings
+3/14/07 - move images to data/faraday/images to avoid namespace collisions
 3/14/07 - get version and credits from properties file
 v1r4....
 (2/14/07) - recalibrate LIGHTBULB_SCALE, VOLTMETER_SCALE and ELECTRON_SPEED_SCALE in PickupCoilModule

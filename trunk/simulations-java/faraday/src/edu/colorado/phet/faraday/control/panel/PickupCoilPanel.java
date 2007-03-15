@@ -26,7 +26,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.control.ControlPanelSlider;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
@@ -111,13 +111,13 @@ public class PickupCoilPanel extends FaradayPanel {
             // Radio buttons
             try {
                 // Radio buttons with icons.
-                ImageIcon lightbulbIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.LIGHTBULB_ICON ) );
-                ImageIcon lightbulbIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.LIGHTBULB_ICON_SELECTED ) );
+                ImageIcon lightbulbIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.LIGHTBULB_ICON ) );
+                ImageIcon lightbulbIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.LIGHTBULB_ICON_SELECTED ) );
                 _lightbulbRadioButton = new JRadioButton( lightbulbIcon );
                 _lightbulbRadioButton.setSelectedIcon( lightbulbIconSelected );
                 
-                ImageIcon voltmeterIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.VOLTMETER_ICON ) );
-                ImageIcon voltmeterIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.VOLTMETER_ICON_SELECTED ) );
+                ImageIcon voltmeterIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.VOLTMETER_ICON ) );
+                ImageIcon voltmeterIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.VOLTMETER_ICON_SELECTED ) );
                 _voltmeterRadioButton = new JRadioButton( voltmeterIcon );
                 _voltmeterRadioButton.setSelectedIcon( voltmeterIconSelected );
                 
@@ -148,9 +148,9 @@ public class PickupCoilPanel extends FaradayPanel {
 
             // Spinner, keyboard editing disabled.
             SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
-            spinnerModel.setMaximum( new Integer( FaradayConfig.MAX_PICKUP_LOOPS ) );
-            spinnerModel.setMinimum( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
-            spinnerModel.setValue( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
+            spinnerModel.setMaximum( new Integer( FaradayConstants.MAX_PICKUP_LOOPS ) );
+            spinnerModel.setMinimum( new Integer( FaradayConstants.MIN_PICKUP_LOOPS ) );
+            spinnerModel.setValue( new Integer( FaradayConstants.MIN_PICKUP_LOOPS ) );
             _loopsSpinner = new JSpinner( spinnerModel );
             JFormattedTextField tf = ( (JSpinner.DefaultEditor) _loopsSpinner.getEditor() ).getTextField();
             tf.setEditable( false );
@@ -171,7 +171,7 @@ public class PickupCoilPanel extends FaradayPanel {
         {
             // Values are a percentage of the maximum.
             int max = 100;
-            int min = (int) ( 100.0 * FaradayConfig.MIN_PICKUP_LOOP_AREA / FaradayConfig.MAX_PICKUP_LOOP_AREA );
+            int min = (int) ( 100.0 * FaradayConstants.MIN_PICKUP_LOOP_AREA / FaradayConstants.MAX_PICKUP_LOOP_AREA );
             int range = max - min;
 
             // Slider
@@ -214,7 +214,7 @@ public class PickupCoilPanel extends FaradayPanel {
      */
     public void update() {
         _loopsSpinner.setValue( new Integer( _pickupCoilModel.getNumberOfLoops() ) );
-        _areaSlider.setValue( (int) ( 100.0 * _pickupCoilModel.getLoopArea() / FaradayConfig.MAX_PICKUP_LOOP_AREA ) );
+        _areaSlider.setValue( (int) ( 100.0 * _pickupCoilModel.getLoopArea() / FaradayConstants.MAX_PICKUP_LOOP_AREA ) );
         _lightbulbRadioButton.setSelected( _lightbulbModel.isEnabled() );
         _voltmeterRadioButton.setSelected( _voltmeterModel.isEnabled() );
         _electronsCheckBox.setSelected( _coilGraphic.isElectronAnimationEnabled() );
@@ -273,7 +273,7 @@ public class PickupCoilPanel extends FaradayPanel {
                 // Read the value.
                 int percent = _areaSlider.getValue();
                 // Update the model.
-                double area = ( percent / 100.0 ) * FaradayConfig.MAX_PICKUP_LOOP_AREA;
+                double area = ( percent / 100.0 ) * FaradayConstants.MAX_PICKUP_LOOP_AREA;
                 _pickupCoilModel.setLoopArea( area );
             }
             else if ( e.getSource() == _loopsSpinner ) {

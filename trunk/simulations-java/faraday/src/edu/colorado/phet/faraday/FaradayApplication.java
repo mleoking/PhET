@@ -73,7 +73,7 @@ public class FaradayApplication extends PhetApplication {
         getPhetFrame().addMenu( optionsMenu );
         
         // Developer menu
-        if ( FaradayConfig.DEBUG_ENABLE_DEVELOPER_MENU ) {
+        if ( FaradayConstants.DEBUG_ENABLE_DEVELOPER_MENU ) {
             DeveloperMenu developerMenu = new DeveloperMenu();
             getPhetFrame().addMenu( developerMenu );
         }
@@ -91,17 +91,17 @@ public class FaradayApplication extends PhetApplication {
     public static void main( String[] args ) throws IOException {
         
         // Initialize localization.
-        SimStrings.init( args, FaradayConfig.SIM_STRINGS_NAME );
+        SimStrings.init( args, FaradayConstants.SIM_STRINGS_NAME );
         
         // Load simulation properties file
-        Properties simulationProperties = PropertiesLoader.loadProperties( FaradayConfig.SIM_PROPERTIES_NAME );
+        Properties simulationProperties = PropertiesLoader.loadProperties( FaradayConstants.SIM_PROPERTIES_NAME );
 
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "FaradayApplication.title" );
         String description = SimStrings.get( "FaradayApplication.description" );
         String version = PhetApplication.getVersionString( simulationProperties );
-        int width = FaradayConfig.APP_FRAME_WIDTH;
-        int height = FaradayConfig.APP_FRAME_HEIGHT;
+        int width = FaradayConstants.APP_FRAME_WIDTH;
+        int height = FaradayConstants.APP_FRAME_HEIGHT;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
 
         // Create the application.

@@ -25,7 +25,7 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.FieldMeter;
 import edu.colorado.phet.faraday.util.Vector2D;
@@ -122,7 +122,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
         // Probe body, registration point at center of crosshairs.
-        PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.FIELD_METER_IMAGE );
+        PhetImageGraphic body = new PhetImageGraphic( component, FaradayConstants.FIELD_METER_IMAGE );
         body.setRegistrationPoint( CROSSHAIRS_LOCATION.x, CROSSHAIRS_LOCATION.y );
         addGraphic( body );
         

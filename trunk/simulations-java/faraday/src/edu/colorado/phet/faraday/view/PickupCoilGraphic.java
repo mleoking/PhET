@@ -23,7 +23,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.phetgraphics.*;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.collision.CollisionDetector;
 import edu.colorado.phet.faraday.collision.ICollidable;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
@@ -123,7 +123,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
         setDraggingEnabled( true );
         
         // Points on the coil where the magnetic field is sampled to compute flux.
-        if ( FaradayConfig.DEBUG_DRAW_PICKUP_SAMPLE_POINTS ) {
+        if ( FaradayConstants.DEBUG_DRAW_PICKUP_SAMPLE_POINTS ) {
             _samplePointsGraphic = new SamplePointsGraphic( component );           
             _foreground.addGraphic( _samplePointsGraphic );
         }

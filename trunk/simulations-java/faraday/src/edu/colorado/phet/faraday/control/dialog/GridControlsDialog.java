@@ -24,7 +24,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.control.panel.FaradayPanel;
 import edu.colorado.phet.faraday.module.ICompassGridModule;
 
@@ -138,8 +138,8 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
         {
             // Slider
             _spacingSlider = new JSlider();
-            _spacingSlider.setMinimum( FaradayConfig.GRID_SPACING_MIN );
-            _spacingSlider.setMaximum( FaradayConfig.GRID_SPACING_MAX );
+            _spacingSlider.setMinimum( FaradayConstants.GRID_SPACING_MIN );
+            _spacingSlider.setMaximum( FaradayConstants.GRID_SPACING_MAX );
             _spacingSlider.setValue( _xSpacing );
             _spacingSlider.setPreferredSize( FaradayPanel.SLIDER_SIZE );
             _spacingSlider.setMaximumSize( FaradayPanel.SLIDER_SIZE );
@@ -154,8 +154,8 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
         {
             // Slider
             _needleSizeSlider = new JSlider();
-            _needleSizeSlider.setMinimum( FaradayConfig.GRID_NEEDLE_WIDTH_MIN );
-            _needleSizeSlider.setMaximum( FaradayConfig.GRID_NEEDLE_WIDTH_MAX );
+            _needleSizeSlider.setMinimum( FaradayConstants.GRID_NEEDLE_WIDTH_MIN );
+            _needleSizeSlider.setMaximum( FaradayConstants.GRID_NEEDLE_WIDTH_MAX );
             _needleSizeSlider.setValue( _needleSize.width );
             _needleSizeSlider.setPreferredSize( FaradayPanel.SLIDER_SIZE );
             _needleSizeSlider.setMaximumSize( FaradayPanel.SLIDER_SIZE );
@@ -242,7 +242,7 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
     public void stateChanged( ChangeEvent e ) {
         int spacing = _spacingSlider.getValue();
         int needleWidth = _needleSizeSlider.getValue();
-        int needleHeight = (int) ( needleWidth / FaradayConfig.GRID_NEEDLE_ASPECT_RATIO );
+        int needleHeight = (int) ( needleWidth / FaradayConstants.GRID_NEEDLE_ASPECT_RATIO );
         Dimension needleSize = new Dimension( needleWidth, needleHeight );
         
         _gridSpacingValue.setText( String.valueOf( spacing ) );

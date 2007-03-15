@@ -20,7 +20,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
@@ -65,7 +65,7 @@ public class ElectromagnetModule extends FaradayModule {
     private static final double AC_FREQUENCY = 0.5;
     
     // Source Coil
-    private static final int ELECTROMAGNET_NUMBER_OF_LOOPS = FaradayConfig.ELECTROMAGNET_LOOPS_MAX;
+    private static final int ELECTROMAGNET_NUMBER_OF_LOOPS = FaradayConstants.ELECTROMAGNET_LOOPS_MAX;
     private static final double ELECTROMAGNET_LOOP_RADIUS = 50.0;  // Fixed loop radius
     private static final double ELECTROMAGNET_DIRECTION = 0.0; // radians
     
@@ -104,13 +104,13 @@ public class ElectromagnetModule extends FaradayModule {
      
         // Battery
         _batteryModel = new Battery();
-        _batteryModel.setMaxVoltage( FaradayConfig.BATTERY_VOLTAGE_MAX  );
+        _batteryModel.setMaxVoltage( FaradayConstants.BATTERY_VOLTAGE_MAX  );
         _batteryModel.setAmplitude( BATTERY_AMPLITUDE );
         _batteryModel.setEnabled( true );
         
         // AC Power Supply
         _acPowerSupplyModel = new ACPowerSupply();
-        _acPowerSupplyModel.setMaxVoltage( FaradayConfig.AC_VOLTAGE_MAX );
+        _acPowerSupplyModel.setMaxVoltage( FaradayConstants.AC_VOLTAGE_MAX );
         _acPowerSupplyModel.setMaxAmplitude( AC_MAX_AMPLITUDE );
         _acPowerSupplyModel.setFrequency( AC_FREQUENCY );
         _acPowerSupplyModel.setEnabled( false );
@@ -131,7 +131,7 @@ public class ElectromagnetModule extends FaradayModule {
             voltageSource = _acPowerSupplyModel;
         }
         _electromagnetModel = new Electromagnet( _sourceCoilModel, voltageSource );
-        _electromagnetModel.setMaxStrength( FaradayConfig.ELECTROMAGNET_STRENGTH_MAX );
+        _electromagnetModel.setMaxStrength( FaradayConstants.ELECTROMAGNET_STRENGTH_MAX );
         _electromagnetModel.setLocation( ELECTROMAGNET_LOCATION );
         _electromagnetModel.setDirection( ELECTROMAGNET_DIRECTION );
         // Do NOT set the strength! -- strength will be set based on the source coil model.
@@ -167,9 +167,9 @@ public class ElectromagnetModule extends FaradayModule {
         
         // Grid
         _gridGraphic = new CompassGridGraphic( apparatusPanel, 
-                _electromagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+                _electromagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
         _gridGraphic.setRescalingEnabled( true );
-        _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
+        _gridGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
         _gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
         apparatusPanel.addChangeListener( _gridGraphic );
         apparatusPanel.addGraphic( _gridGraphic, COMPASS_GRID_LAYER );
@@ -207,7 +207,7 @@ public class ElectromagnetModule extends FaradayModule {
             controlPanel.addControlFullWidth( _electromagnetPanel );
             
             // Scaling calibration
-            if ( FaradayConfig.DEBUG_ENABLE_SCALE_PANEL ) {
+            if ( FaradayConstants.DEBUG_ENABLE_SCALE_PANEL ) {
                 controlPanel.addVerticalSpace();
                 
                 ScalePanel scalePanel = new ScalePanel( null, null, null, _electromagnetGraphic );

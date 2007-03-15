@@ -25,7 +25,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.FieldMeter;
 import edu.colorado.phet.faraday.model.Turbine;
@@ -227,7 +227,7 @@ public class TurbinePanel extends FaradayPanel {
                 // Read the value.
                 int percent = _strengthSlider.getValue();
                 // Update the model.
-                double strength = (  percent / 100.0 ) * FaradayConfig.BAR_MAGNET_STRENGTH_MAX ;
+                double strength = (  percent / 100.0 ) * FaradayConstants.BAR_MAGNET_STRENGTH_MAX ;
                 _turbineModel.setStrength( strength );
                 // Update the label.
                 Object[] args = { new Integer( percent ) };

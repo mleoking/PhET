@@ -14,7 +14,7 @@ package edu.colorado.phet.faraday.model;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.FaradayConstants;
 
 
 /**
@@ -91,7 +91,7 @@ public class Lightbulb extends FaradayObservable implements SimpleObserver {
             intensity = MathUtil.clamp( 0, intensity, 1 );
             
             // Intensity below the threshold is effectively zero.
-            if ( intensity < FaradayConfig.CURRENT_AMPLITUDE_THRESHOLD ) {
+            if ( intensity < FaradayConstants.CURRENT_AMPLITUDE_THRESHOLD ) {
                 intensity = 0;
             }
         }
