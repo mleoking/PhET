@@ -29,7 +29,7 @@ public class LegendPanel extends JPanel {
     //----------------------------------------------------------------------------
 
     // Various things that I was asked to remove from the legend...
-    private static final boolean SHOW_ALPHA_PARTICLES = false;
+    private static final boolean SHOW_ALPHA_PARTICLES = true;
 
     private static final Color TEXT_COLOR = Color.BLACK;
     
