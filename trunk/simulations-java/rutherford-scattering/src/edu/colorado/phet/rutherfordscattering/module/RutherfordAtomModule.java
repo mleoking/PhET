@@ -16,6 +16,7 @@ import edu.colorado.phet.rutherfordscattering.control.RutherfordAtomControlPanel
 import edu.colorado.phet.rutherfordscattering.help.RSWiggleMe;
 import edu.colorado.phet.rutherfordscattering.model.*;
 import edu.colorado.phet.rutherfordscattering.view.*;
+import edu.colorado.phet.rutherfordscattering.view.manager.RSModelViewManager;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

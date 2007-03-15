@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.rutherfordscattering.view;
+package edu.colorado.phet.rutherfordscattering.view.manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
