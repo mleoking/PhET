@@ -1,11 +1,11 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.rutherfordscattering.factory;
+package edu.colorado.phet.rutherfordscattering.view.manager;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.rutherfordscattering.model.AlphaParticle;
 import edu.colorado.phet.rutherfordscattering.view.AlphaParticleNode;
-import edu.colorado.phet.rutherfordscattering.view.ModelViewManager.NodeFactory;
+import edu.colorado.phet.rutherfordscattering.view.manager.ModelViewManager.NodeFactory;
 import edu.umd.cs.piccolo.PNode;
 
 /**
