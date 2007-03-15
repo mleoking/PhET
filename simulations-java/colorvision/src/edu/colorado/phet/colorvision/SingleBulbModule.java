@@ -70,11 +70,11 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     private static final double HELP_LAYER = Double.MAX_VALUE;
 
     // Colors
-    private static Color APPARATUS_BACKGROUND = ColorVisionConfig.APPARATUS_BACKGROUND;
-    private static Color LABEL_COLOR = ColorVisionConfig.LABEL_COLOR;
+    private static Color APPARATUS_BACKGROUND = ColorVisionConstants.APPARATUS_BACKGROUND;
+    private static Color LABEL_COLOR = ColorVisionConstants.LABEL_COLOR;
 
     // Fonts
-    private static Font LABEL_FONT = ColorVisionConfig.LABEL_FONT;
+    private static Font LABEL_FONT = ColorVisionConstants.LABEL_FONT;
 
     // Locations of model components
     private static final double PERSON_X = 450;
@@ -274,7 +274,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
         apparatusPanel.addGraphic( _bulbPipe, BULB_PIPE_LAYER );
 
         // Filter on/off switch
-        _filterSwitch = new ToggleSwitch( apparatusPanel, ColorVisionConfig.SWITCH_ON_IMAGE, ColorVisionConfig.SWITCH_OFF_IMAGE );
+        _filterSwitch = new ToggleSwitch( apparatusPanel, ColorVisionConstants.SWITCH_ON_IMAGE, ColorVisionConstants.SWITCH_OFF_IMAGE );
         _filterSwitch.setLocation( FILTER_SWITCH_LOCATION );
         apparatusPanel.addGraphic( _filterSwitch, FILTER_SWITCH_LAYER );
 

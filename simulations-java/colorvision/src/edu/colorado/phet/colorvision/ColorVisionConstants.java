@@ -15,28 +15,27 @@ import java.awt.Color;
 import java.awt.Font;
 
 /**
- * ColorVisionConfig contains global configuration values for the Color Vision
- * application. See ColorVisionStrings.properties for localized Strings that are
- * visible to the user.
+ * ColorVisionConstants contains global configuration values for the Color Vision
+ * application. 
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ColorVisionConfig {
+public class ColorVisionConstants {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
 
     // Resource bundles
-    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/ColorVisionStrings";
+    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/colorvision_strings";
 
     // Clock constants
     public static final double TIME_STEP = 1;
     public static final int WAIT_TIME = 50;
 
     // Images
-    public static final String IMAGES_DIRECTORY = "images/";
+    public static final String IMAGES_DIRECTORY = "colorvision/images/";
     public static final String HEAD_BACKGROUND_IMAGE = IMAGES_DIRECTORY + "headBackground.png";
     public static final String HEAD_FOREGROUND_IMAGE = IMAGES_DIRECTORY + "headForeground.png";
     public static final String SPECTRUM_IMAGE = IMAGES_DIRECTORY + "spectrum.png";
@@ -63,5 +62,5 @@ public class ColorVisionConfig {
     /**
      * This class is not intended for instantiation.
      */
-    private ColorVisionConfig() {}
+    private ColorVisionConstants() {}
 }

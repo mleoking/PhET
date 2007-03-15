@@ -15,7 +15,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.colorvision.ColorVisionConfig;
+import edu.colorado.phet.colorvision.ColorVisionConstants;
 import edu.colorado.phet.colorvision.coreadditions.view.BoundsOutliner;
 import edu.colorado.phet.colorvision.model.Spotlight;
 import edu.colorado.phet.common_13364.util.SimpleObserver;
@@ -61,7 +61,7 @@ public class SpotlightGraphic extends PhetImageGraphic implements SimpleObserver
      * @param spotlightModel the associated spotlight model
      */
     public SpotlightGraphic( ApparatusPanel apparatus, Spotlight spotlightModel ) {
-        super( apparatus, ColorVisionConfig.SPOTLIGHT_IMAGE );
+        super( apparatus, ColorVisionConstants.SPOTLIGHT_IMAGE );
 
         // Save a reference to the model.
         _spotlightModel = spotlightModel;

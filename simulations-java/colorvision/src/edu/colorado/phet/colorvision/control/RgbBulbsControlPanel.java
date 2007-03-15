@@ -15,7 +15,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.colorvision.ColorVisionConfig;
+import edu.colorado.phet.colorvision.ColorVisionConstants;
 import edu.colorado.phet.common_13364.application.Module;
 import edu.colorado.phet.common_13364.view.PhetControlPanel;
 
@@ -40,7 +40,7 @@ public class RgbBulbsControlPanel extends PhetControlPanel {
 
         JPanel fillerPanel = new JPanel();
         fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
-        fillerPanel.add( Box.createHorizontalStrut( ColorVisionConfig.CONTROL_PANEL_MIN_WIDTH ) );
+        fillerPanel.add( Box.createHorizontalStrut( ColorVisionConstants.CONTROL_PANEL_MIN_WIDTH ) );
 
         // WORKAROUND: PhetControlPanel doesn't display anything unless we give it a dummy control pane.
         this.setControlPane( fillerPanel );
