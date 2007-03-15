@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add dashed line for electron orbit
 - check plum pudding performance
 
 MEDIUM PRIORITY:
@@ -15,6 +14,7 @@ LOW PRIORITY:
 
 
 DONE:
+3/15/07 - add dashed line for electron orbit
 3/15/07 - debug Reset All feature
 3/15/07 - add a more prominent border around groups of controls
 3/15/07 - change RSConstants.CANVAS_RENDERING_SIZE to accommodate larger control panel
