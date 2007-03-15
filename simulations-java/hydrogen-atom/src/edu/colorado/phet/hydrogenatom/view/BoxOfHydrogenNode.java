@@ -19,7 +19,6 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -59,11 +58,15 @@ public class BoxOfHydrogenNode extends PImage {
     
     private static final double Y_SPACING = 5;  // space between label and box
     
+    public static final Color TINY_BOX_FILL_COLOR = HAConstants.ANIMATION_BOX_COLOR;
+    public static final Color TINY_BOX_STROKE_COLOR = HAConstants.ANIMATION_BOX_STROKE_COLOR;
+    public static final Stroke TINY_BOX_STROKE = new BasicStroke( 2f );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PNode _tinyBoxNode;
+    private PPath _tinyBoxNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -106,7 +109,10 @@ public class BoxOfHydrogenNode extends PImage {
         }
 
         // Tiny box
-        _tinyBoxNode = new AnimationBoxNode( tinyBoxSize );
+        _tinyBoxNode = new PPath( new Rectangle2D.Double( 0, 0, tinyBoxSize.width, tinyBoxSize.height ) );
+        _tinyBoxNode.setPaint( TINY_BOX_FILL_COLOR );
+        _tinyBoxNode.setStrokePaint( TINY_BOX_STROKE_COLOR );
+        _tinyBoxNode.setStroke( TINY_BOX_STROKE );
         
         // Label, origin in upper-left corner of bounds
         HTMLNode labelNode = new HTMLNode();
