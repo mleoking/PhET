@@ -10,11 +10,15 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.control.RutherfordAtomControlPanel;
+import edu.colorado.phet.rutherfordscattering.help.RSWiggleMe;
 import edu.colorado.phet.rutherfordscattering.model.*;
 import edu.colorado.phet.rutherfordscattering.view.*;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * RutherfordModule is the "Rutherford Atom" module.
@@ -22,6 +26,12 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class RutherfordAtomModule extends AbstractModule {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final boolean HAS_WIGGLE_ME = true;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -48,6 +58,10 @@ public class RutherfordAtomModule extends AbstractModule {
     // Control panels
     private ClockControlPanel _clockControlPanel;
     private RutherfordAtomControlPanel _controlPanel;
+    
+    // Help
+    private RSWiggleMe _wiggleMe;
+    private boolean _wiggleMeInitialized = false;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -287,6 +301,47 @@ public class RutherfordAtomModule extends AbstractModule {
             Rectangle2D tinyBoxBounds = _zoomIndicatorNode.globalToLocal( _boxOfHydrogenNode.getTinyBoxGlobalFullBounds() );
             Rectangle2D bigBoxBounds = _zoomIndicatorNode.globalToLocal( _animationBoxNode.getGlobalFullBounds() );
             _zoomIndicatorNode.update( tinyBoxBounds, bigBoxBounds );
+        }
+        
+        initWiggleMe();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Wiggle Me
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Initializes a wiggle me that points to the gun on/off button.
+     */
+    private void initWiggleMe() {
+        if ( !_wiggleMeInitialized && HAS_WIGGLE_ME ) {
+            
+            // Create wiggle me, add to root node.
+            String wiggleMeString = SimStrings.get( "wiggleMe.gun" );  
+            _wiggleMe = new RSWiggleMe( _canvas, wiggleMeString );
+            _wiggleMe.setArrowTailPosition( MotionHelpBalloon.TOP_LEFT );
+            _wiggleMe.setArrowLength( 60 );
+            _rootNode.addChild( _wiggleMe );
+            
+            // Animate from the upper- right to the gun button position
+            PNode gunButtonNode = _gunNode.getButtonNode();
+            Rectangle2D bounds = _rootNode.globalToLocal( gunButtonNode.getGlobalFullBounds() );
+            final double x = bounds.getX() + ( bounds.getWidth() / 2 );
+            final double y = bounds.getMaxY();
+            _wiggleMe.setOffset( 400, -100 );
+            _wiggleMe.animateTo( x, y );
+            
+            // Clicking on the canvas makes the wiggle me go away.
+            _canvas.addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    _wiggleMe.setEnabled( false );
+                    _rootNode.removeChild( _wiggleMe );
+                    _canvas.removeInputEventListener( this );
+                    _wiggleMe = null;
+                }
+            } );
+            
+            _wiggleMeInitialized = true;
         }
     }
 }
