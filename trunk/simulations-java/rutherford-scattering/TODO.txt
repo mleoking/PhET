@@ -1,5 +1,5 @@
 ===============================================================================
-"To Do" list for "The Hydrogen Atom" simulation          $Revision$
+"To Do" list for "Rutherford Scattering" simulation
 ===============================================================================
 
 IN PROGRESS:
