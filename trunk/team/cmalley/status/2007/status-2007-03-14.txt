@@ -1,0 +1,58 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: March 8-14, 2007 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+  
+  Rutherford Scattering:
+  - completed all change requests from 3/8 status meeting
+  - completed all features
+  - published 0.00.03
+  - waiting for feedback
+  
+  Optical Tweezers:
+  - connected fluid control panel to model
+  - replaced complicated clock speed control with a single slider
+  - connected clock speed control to the clock
+  - added ruler
+  - debugged model-view transform
+  
+  Hydrogen Atom:
+  - updated abstract
+  - published 1.02 to PhET website
+  
+  Common:
+  - generalized BufferedPNode, moved to piccolo-phet
+  - added functionality to PhetPCanvas
+  - identified stuff in my sims that should be migrated to phetcommon
+  - moved RoundGradientPaint to phetcommon
+  - added support for simulation properties file
+  - moved version and credits features to simulation properties file
+  
+  My sims:
+  - added a properties file for each simulation
+  - added credits
+  - relocated all image files to avoid namespace collisions
+  - standardized all SimStrings (string translation) filenames
+  - renamed "shaper" to "optical-quantum-control"
+
+WHAT'S NEXT:
+  
+  - publish Rutherford Scattering 1.00 ?
+    
+  - continue work on Optical Tweezers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/optical-tweezers/TODO.txt?view=markup
+  
+  - combine Play & Pause clock buttons in my sims ?
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  - July 16-24
+  - August 6-17
+  
+--
