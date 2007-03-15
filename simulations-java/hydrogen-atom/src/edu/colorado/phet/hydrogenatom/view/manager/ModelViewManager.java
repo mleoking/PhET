@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.hydrogenatom.view;
+package edu.colorado.phet.hydrogenatom.view.manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;

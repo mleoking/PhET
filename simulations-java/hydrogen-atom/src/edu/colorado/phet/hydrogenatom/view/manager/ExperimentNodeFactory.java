@@ -9,13 +9,12 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.hydrogenatom.factory;
+package edu.colorado.phet.hydrogenatom.view.manager;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
 import edu.colorado.phet.hydrogenatom.model.ExperimentModel;
-import edu.colorado.phet.hydrogenatom.view.ModelViewManager.NodeFactory;
 import edu.colorado.phet.hydrogenatom.view.atom.ExperimentNode;
+import edu.colorado.phet.hydrogenatom.view.manager.ModelViewManager.NodeFactory;
 import edu.umd.cs.piccolo.PNode;
 
 /**
