@@ -1,23 +1,32 @@
-<project name="PhET Build Script" default="build-all" basedir=".">
-
+<project name="PhET Master Build Script" default="build-all" basedir=".">
+    <!--
+        NOTE: Targets prefixed with an underscore are meant only for internal 
+        use within the Ant build file. These targets do not have any 
+        dependencies set and should not be invoked by end-users.
+    -->
     <property name="phet.svn.url"      value="https://phet.svn.sourceforge.net/svnroot/phet/trunk/"/>
     <property name="phet.java-sim.url" value="${phet.svn.url}/simulations-java/"/>
     <property name="simulations.flash" value="simulations-flash/"/>
     <property name="simulations.java"  value="simulations-java/"/>
     
-    <property name="phet.flash-sim.url" value="${phet.svn.url}/${simulations.flash}"/>
-    <property name="phet.java-sim.url"  value="${phet.svn.url}/${simulations.java}"/>
+    <property name="dir.simulations.java"  value="${basedir}/${simulations.java}" />
+    <property name="dir.simulations.flash" value="${basedir}/${simulations.flash}" />
+    <property name="dir.phet.common" value="${basedir}/common/" />
+    <property name="dir.build-tools" value="${basedir}/build-tools/" />
+    
+    <property name="phet.flash-sim.url" value="${phet.svn.url}${simulations.flash}"/>
+    <property name="phet.java-sim.url"  value="${phet.svn.url}${simulations.java}"/>
     
     <property name="message.specify.sim.name" value="The name of the simulation must be specified." />
-    
-    <property name="dir.build-tools" value="${basedir}/build-tools/" />
     
     <property name="jar.ant-contrib" value="${dir.build-tools}ant-contrib/ant-contrib-1.0b3.jar" />
     <property name="jar.junit"       value="${dir.build-tools}junit3.8.2/junit.jar" />
     
-    <property name="temp.dir"        value="${basedir}/temp/"    />
-    <property name="temp.junit"      value="${temp.dir}junit/"   />
-    <property name="temp.classes"    value="${temp.dir}classes/" />
+    <property name="temp.dir"             value="${basedir}/ant_output/"    />
+    <property name="temp.dir.junit"       value="${temp.dir}junit/"   />
+    <property name="temp.dir.projects"    value="${temp.dir}projects/" />
+    
+    <property name="name.classes.dir" value="classes" />
 
     <!--  Set ant output directories.  -->
     <property name="ant.output" value="ant_output"/>
@@ -29,6 +38,17 @@
         </classpath>
     </taskdef>
     
+    <target name="_verify-sim-name-specified" description="Verifies that the simulation name has been specified" >
+        <if>
+            <not>
+                <isset property="sim.name"/>
+            </not>
+            <then>
+                <fail message="${message.specify.sim.name}"/>
+            </then>
+        </if>
+    </target>
+    
     <target name="_create-sim-name" description="Extracts the simulation name from the simulation directory" >
         <propertyregex
             property="sim.name"
@@ -38,90 +58,459 @@
             select="\1"
             casesensitive="false" >
         </propertyregex>
+        
+        <var name="param.directory.project" value="${dir.simulations.java}${sim.name}" />
     </target>
     
-    <target name="_compile" description="Compiles the specified simulation">
+    <target name="_load-build-properties" description="Loads the build properties for the specified project">
+        <!-- Internal task expects ${param.file.build.property} and ${param.project.name} to be defined -->
+        
+        <available file="${param.file.build.property}" property="build.properties.present"/>
+        
+        <if>
+            <isset property="build.properties.present"/>
+            <then>
+                <!-- The property file exists; load it -->
+                <property file="${param.file.build.property}"/>
+                
+                <if>
+                    <not>
+                        <and>
+                            <isset property="project.depends.data"/>
+                            <isset property="project.depends.source"/>
+                            <isset property="project.depends.lib"/>
+                            <isset property="project.mainclass"/>
+                            <isset property="project.name"/>
+                            <isset property="project.description"/>
+                            <isset property="project.screenshot"/> 
+                        </and>
+                    </not>
+                    <then>
+                        <fail message="A required property was not present in the build file: project.depends.data, project.depends.source, project.depends.lib, project.mainclass, project.name, project.description, project.screenshot" />
+                    </then>
+                </if>
+            </then>
+            <else>
+                <if>
+                    <or>
+                        <not>
+                            <isset property="param.ignore.failure" />
+                        </not>
+                        
+                        <isfalse value="param.ignore.failure" />
+                    </or>
+                            
+                    <then>
+                        <fail message="The project ${param.project.name} does not have a build.properties file." />
+                    </then>
+                </if>
+            </else>
+        </if>
     </target>
     
-    <target name="_copy-resources" description="Copies resources from the specified simulation to the output directory">
+    <target name="_load-sim-build-properties" description="Loads the build properties for the specified simulation">
+        <property name="file.property.build.sim" value="${dir.simulations.java}${sim.name}/build.properties" />
+        
+        <antcall target="_load-build-properties">
+            <param name="param.project.name"        value="${sim.name}" />
+            <param name="param.file.build.property" value="${file.property.build.sim}"/>
+        </antcall>
     </target>
     
-    <target name="_onejar" description="Creates a single jar for the compiled classes &amp; data of the specified simulation">
+    <target name="_sim-property-depends" description="Prepares to execute a task that depends on simulation build properties" depends="_create-sim-name, _verify-sim-name-specified, _load-sim-build-properties" />
+    
+    <target name="_find-dependency" description="Finds the specified dependency" >
+        <!-- TODO: This target needs to be refactored -->
+    
+        <!-- Internal task expects ${param.directory.project}, ${param.depends} -->
+        
+        <!-- 
+            On success, ${param.depends} will be updated with path to dependency
+        -->
+        
+        <var name="tmp.depends.name" value="" />
+        
+        <!-- For files (like JARs), we look only for their parent directories: -->
+        
+        <!-- Save the name into ${tmp.depends.name} -->
+        <propertyregex
+            property="tmp.depends.name"
+            override="true"
+            input="${param.depends}"
+            regexp="(.*[/\\]([^/\\.]+$)?)([^/\\]+\.\w+)?"
+            select="\3"
+            casesensitive="false" >
+        </propertyregex>
+        
+        <!-- Extract just the path: -->
+        <propertyregex
+            property="param.depends"
+            override="true"
+            input="${param.depends}"
+            regexp="(.*[/\\]([^/\\.]+$)?)([^/\\]+\.\w+)?"
+            select="\1"
+            casesensitive="false" >
+        </propertyregex>
+        
+        <var name="tmp.dependency.found" unset="true"/>
+        
+        <!-- Look into project build file directory -->
+        <available file="${param.directory.project}/${param.depends}" property="tmp.dependency.found" />
+        
+        <if>
+            <isset property="tmp.dependency.found"/>
+            
+            <then>
+                <echo message="Dependency ${param.depends} found in project directory" />
+                
+                <var name="param.depends" value="${param.directory.project}/${param.depends}"/>
+            </then>
+            <else>
+                <!-- Dependency not stored in project directory. Look into common area: -->
+                <available file="${dir.phet.common}${param.depends}" property="tmp.dependency.found" />
+                
+                <if>
+                    <isset property="tmp.dependency.found"/>
+                    <then>
+                        <echo message="Dependency ${param.depends} found in common directory" />
+                        
+                        <var name="param.depends" value="${dir.phet.common}${param.depends}"/>
+                    </then>
+                    <else>
+                        <!-- Dependency not stored in common directory. Look into simulations area: -->
+                        <available file="${dir.simulations.java}${param.depends}" property="tmp.dependency.found" />
+                        
+                        <if>
+                            <isset property="tmp.dependency.found"/>
+                            <then>
+                                <echo message="Dependency ${param.depends} found in simulations-java directory" />
+                                
+                                <var name="param.depends" value="${dir.simulations.java}${param.depends}"/>
+                            </then>
+                            <else>
+                                <fail message="Dependency ${param.depends} not found anywhere" />
+                            </else>
+                        </if>
+                    </else>
+                </if>
+            </else>
+        </if>        
+        
+        <!-- Tack the name onto the end, if any: -->
+        <var name="param.depends" value="${param.depends}${tmp.depends.name}" />
+        
+        <echo message="Final path to dependency: ${param.depends}" />
+    </target>
+    
+    <target name="_build-dependency-list" description="Incrementally builds a dependency list">
+        <!--
+             Expects @{param.depends} to be set to the current dependency; 
+             will incrementally update ${param.all.depends} with dependency.
+             The dependency list is comma delimited.
+        -->
+        <echo message="Iterating ${param.depends}" />
+        
+        <!-- Try to find the dependency: -->
+        <runtarget target="_find-dependency" />
+        
+        <!-- Incrementally build the dependency list: -->
+        <if>
+            <equals arg1="${param.all.depends}" arg2="" />
+            <then>
+                <var name="param.all.depends" value="${param.depends}" />
+            </then>
+            <else>
+                <var name="param.all.depends" value="${param.all.depends},${param.depends}" />
+            </else>
+        </if>
+    </target>
+    
+    <target name="_collect-all-dependencies" description="Collects all dependencies">
+        <!-- Expects ${param.directory.project} and ${param.project.depends} to be defined -->
+        <!-- On success, ${param.all.depends} contains all resolved dependencies -->
+        
+        <var name="param.all.depends" value="" />
+        
+        <for param="foreach.depends" list="${param.project.depends}" delimiter=":" trim="true">
+            <sequential>
+                <var name="param.depends" value="@{foreach.depends}" />
+                
+                <runtarget target="_build-dependency-list" />
+            </sequential>
+        </for>
+    </target>
+    
+    <target name="_build-non-existent-libraries" description="Builds any non-existent libraries" if="param.all.lib.depends">
+        <!-- Expects ${param.all.lib.depends} to exist -->
+        
+        <for param="foreach.lib.depends" list="${param.all.lib.depends}" delimiter="," trim="true">
+            <sequential>
+                <var name="tmp.lib.depends.pathname" value="@{foreach.lib.depends}" />
+                
+                <available file="${tmp.lib.depends.pathname}" property="tmp.lib.depends.is.directory" type="dir"/>
+                
+                <if>
+                    <!-- The user specified a directory as a library dependency --> 
+                    <isset property="tmp.lib.depends.is.directory" />
+                    <then>
+                        <!-- Extract the name of the directory -->
+                        <propertyregex
+                            property="tmp.lib.depends.name"
+                            override="true"
+                            input="${tmp.lib.depends.pathname}"
+                            regexp=".*[/\\]([^/\\]+)([/\\]?)"
+                            select="\1"
+                            casesensitive="false" >
+                        </propertyregex>
+                        
+                        <var name="tmp.lib.depends.pathname" value="${tmp.lib.depends.pathname}/${tmp.lib.depends.name}.jar" />
+                        
+                        <echo message="Directory specified as a library dependency. Assuming desired library is ${tmp.lib.depends.pathname}" />
+                    </then>
+                </if>
+                
+                <available file="${tmp.lib.depends.pathname}" property="tmp.lib.depends.exists" />
+                
+                <if>
+                    <not>
+                        <isset property="tmp.lib.depends.exists" />
+                    </not>
+                    <then>
+                        <echo message="Library ${tmp.lib.depends.pathname} does not exist. Building library..." />
+                        
+                        <!-- Extract the path -->
+                        <propertyregex
+                            property="tmp.lib.depends.path"
+                            override="true"
+                            input="${tmp.lib.depends.pathname}"
+                            regexp="(.*[/\\]([^/\\.]+$)?)([^/\\]+\.\w+)?"
+                            select="\1"
+                            casesensitive="false" >
+                        </propertyregex>
+                        
+                        <echo message="Looking for build file in ${tmp.lib.depends.path}" />
+                        
+                        <!-- Call the _build-project task: --> 
+                        <antcall target="_build-project" inheritAll="false">
+                            <!-- 
+                                Have to send override value here since we 
+                                don't want to change the value of this property 
+                            -->
+                            <param name="param.directory.project.override" value="${tmp.lib.depends.path}" />
+                        </antcall> 
+                    </then>
+                </if>                
+            </sequential>
+        </for>        
+    </target>
+    
+    <target name="_copy-all-resources" description="Copies all resources to the required directory" if="param.required.resource">
+        <!-- Internal task expects the following to be defined:
+        
+             ${param.required.resource}
+             ${param.project.name}
+        -->
+        
+        <for param="foreach.required.resource" list="${param.required.resource}" delimiter="," trim="true">
+            <sequential>
+                <if>
+                    <matches string="@{foreach.required.resource}" pattern=".+\.(jar|zip)"/>
+                    <then>
+                        <echo message="Resource @{foreach.required.resource} is an archive. Unzipping to ${temp.dir.projects}${param.project.name}/..." />
+                        
+                        <unzip src="@{foreach.required.resource}" dest="${temp.dir.projects}${param.project.name}/" />
+                    </then>
+                    <else>
+                        <available file="@{foreach.required.resource}" property="tmp.required.resource.is.directory" type="dir"/>
+                        
+                        <if>
+                            <isset property="tmp.required.resource.is.directory" />
+                            <then>
+                                <echo message="Resource @{foreach.required.resource} is a directory. Copying to ${temp.dir.projects}${param.project.name}/..." />
+                                
+                                <copy todir="${temp.dir.projects}${param.project.name}/">
+                                    <fileset dir="@{foreach.required.resource}"/>
+                                </copy>
+                            </then>
+                            <else>
+                                <echo message="Resource @{foreach.required.resource} is a file. Copying to ${temp.dir.projects}${param.project.name}/..." />
+                            
+                                <copy file="@{foreach.required.resource}" todir="${temp.dir.projects}${param.project.name}/" />
+                            </else>
+                        </if>
+                    </else>
+                </if>
+            </sequential>
+        </for>
+    </target>
+    
+    <target name="_build-project" description="Builds the specified project">
+        <!-- Internal task expects ${param.directory.project} to be defined -->
+        
+        <!-- Check to see if we have to override the param directory project property -->
+        <if>
+            <isset property="param.directory.project.override" />
+            <then>
+                <var name="param.directory.project" value="${param.directory.project.override}" />
+            </then>
+        </if>
+        
+        <echo message="Building project in ${param.directory.project}" />
+        
+        <!--
+            By convention, the property file is located in the root of the
+            project directory and is called 'build.properties'.
+        -->
+        
+        <property name="tmp.property.file" value="${param.directory.project}/build.properties" />
+        
+        <!-- Extract the project shortname from the directory name: -->
+        <propertyregex
+            property="tmp.project.shortname"
+            override="true"
+            input="${param.directory.project}"
+            regexp=".*[/\\]([^/\\]+)"
+            select="\1"
+            casesensitive="false" >
+        </propertyregex>
+        
+        <!-- Load all the properties associated with the project: -->
+        <var name="param.project.name"        value="${tmp.project.shortname}" />
+        <var name="param.file.build.property" value="${tmp.property.file}"/>                
+        <runtarget target="_load-build-properties" />
+                
+        <!-- Collect all source dependencies into ${param.all.source.depends}: -->
+        <var name="param.project.depends" value="${project.depends.source}" />
+        <runtarget target="_collect-all-dependencies" />
+        <var name="param.all.source.depends" value="${param.all.depends}" />
+
+        <!-- Collect all data dependencies into ${param.all.source.depends}: -->
+        <var name="param.project.depends" value="${project.depends.data}" />        
+        <runtarget target="_collect-all-dependencies" />        
+        <var name="param.all.data.depends" value="${param.all.depends}" />
+        
+        <!-- Collect all lib dependencies into ${param.all.source.depends}: -->
+        <var name="param.project.depends" value="${project.depends.lib}" />        
+        <runtarget target="_collect-all-dependencies" />        
+        <var name="param.all.lib.depends" value="${param.all.depends}" />
+        
+        <var name="param.all.depends" unset="true" />
+        
+        <echo message="All source dependencies: ${param.all.source.depends}" />
+        <echo message="All data dependencies:   ${param.all.data.depends}" />
+        <echo message="All lib dependencies:    ${param.all.lib.depends}" />
+        
+        <!-- Some libraries may not exist. Execute recursive build to create them: -->
+        <runtarget target="_build-non-existent-libraries" />
+        
+        <!-- 
+            At this point all libraries exist and can be added to the classpath.
+        -->
+        
+        <echo message="Copying all library resources..." />
+        <var name="param.required.resource" value="${param.all.lib.depends}" />
+        <runtarget target="_copy-all-resources" />
+        
+        <echo message="Copying all data resources..." />
+        <var name="param.required.resource" value="${param.all.data.depends}" />
+        <runtarget target="_copy-all-resources" />
+        
+        <echo message="Compiling all source files to ${temp.dir.projects}${param.project.name}" />
+        <mkdir dir="${temp.dir.projects}${param.project.name}" />
+        
+        <!-- Replace comma delimiters with colons (expected by javac) -->
+        <propertyregex
+            property="javac.param.all.source.depends"
+            override="true"
+            input="${param.all.source.depends}"
+            regexp=","
+            replace=":"
+            casesensitive="false" >
+        </propertyregex>
+        <propertyregex
+            property="javac.param.all.lib.depends"
+            override="true"
+            input="${param.all.lib.depends}"
+            regexp=","
+            replace=":"
+            casesensitive="false" >
+        </propertyregex>
+        
+        <!-- Compile the project! -->
+        <javac srcdir="${javac.param.all.source.depends}"
+               destdir="${temp.dir.projects}${param.project.name}/"
+               classpath="${javac.param.all.lib.depends}"
+               debug="on"
+               source="1.4"
+        />      
+        
+        
+        <!-- Delete the old manifest directory -->
+        <delete dir="${temp.dir.projects}${param.project.name}/META-INF" />
+        
+        <!-- Jar the output -->
+        <jar basedir="${temp.dir.projects}${param.project.name}" destfile="${param.directory.project}/${param.project.name}.jar" >
+            <manifest>
+                <attribute name="Manifest-Version" value="1.0" />
+                <attribute name="Built-By"         value="${user.name}"/>
+                <attribute name="Created-By"       value="PhET Master Build File" />
+                <attribute name="Main-Class"       value="${project.mainclass}" />
+            </manifest>
+        </jar>
     </target>
     
     <target name="_proguard" description="Runs ProGuard on the specified simulation to trim the output size">
     </target>
     
-    <target name="test" description="Runs all unit tests for the specified simulation" depends="_create-sim-name">
-        <if>
-            <isset property="sim.name"/>
-            <then>
-                <echo message="Running all unit tests for ${sim.name}" />
+    <target name="_make-jnlp" description="Creates a JNLP file for the specified simulation, for use with Java Webstart">
+        
+    </target>
+    
+    <target name="test" description="Runs all unit tests for the specified simulation" depends="_sim-property-depends">
+        <echo message="Running all unit tests for ${sim.name}" />
 
-                <mkdir dir="${temp.junit}" />
+        <mkdir dir="${temp.dir.junit}" />
 
-                <junit tempdir="${temp.junit}" >
-                    <classpath>
-                        <pathelement location="${jar.junit}"/>
-                    </classpath>
-                    
-                    <assertions>
-                        <enable/>
-                    </assertions>
-                    
-                    <batchtest fork="yes" todir="${temp.junit}">
-                        <fileset dir="${temp.classes}">
-                            <include name="${sim.name}/**/Z*Tester.class"/>
-                        </fileset>
-                    </batchtest>
-                </junit>
-            </then>
-            <else>
-                <echo message="${message.specify.sim.name}"/>
-            </else>
-        </if>
+        <junit tempdir="${temp.dir.junit}" >
+            <classpath>
+                <pathelement location="${jar.junit}"/>
+            </classpath>
+            
+            <assertions>
+                <enable/>
+            </assertions>
+            
+            <batchtest fork="yes" todir="${temp.dir.junit}">
+                <fileset dir="${temp.dir.projects}">
+                    <include name="${sim.name}/**/Z*Tester.class"/>
+                </fileset>
+            </batchtest>
+        </junit>
     </target>
     
-    <target name="build" description="Builds the specified simulation" depends="_create-sim-name, _compile, _copy-resources, _onejar, _proguard">
-        <if>
-            <isset property="sim.name"/>
-            <then>
-                <echo message="Building ${sim.name}" />
-            </then>
-            <else>
-                <echo message="${message.specify.sim.name}"/>
-            </else>
-        </if>
+    <target name="build" description="Builds the specified simulation" depends="clean, _sim-property-depends, _build-project">
     </target>
     
-    <target name="deploy-dev" description="Deploys a development version of the specified simulation">
-        <if>
-            <isset property="sim.name"/>
-            <then>
-                <echo message="Deploying development version of ${sim.name}" />
-            </then>
-            <else>
-                <echo message="${message.specify.sim.name}"/>
-            </else>
-        </if>
+    <target name="build-proguard" description="" depends="build, _proguard">
     </target>
     
-    <target name="deploy-prod" description="Deploys a production version of the specified simulation">
-        <if>
-            <isset property="sim.name"/>
-            <then>
-                <echo message="Deploying production version of ${sim.name}" />
-            </then>
-            <else>
-                <echo message="${message.specify.sim.name}"/>
-            </else>
-        </if>
+    <target name="clean" depends="_verify-sim-name-specified">
+        <echo message="Cleaning up ${temp.dir.projects}${sim.name}..." />
+        <delete dir="${temp.dir.projects}${sim.name}" />
+    </target>
+    
+    <target name="deploy-dev" description="Deploys a development version of the specified simulation" depends="_sim-property-depends">
+        
+    </target>
+    
+    <target name="deploy-prod" description="Deploys a production version of the specified simulation" depends="_sim-property-depends">
+
     </target>    
 
     <target name="build-all" description="Builds all PhET simulations">
         <foreach param="sim.path" target="build">
             <path>
-                <dirset dir="${simulations.java}">
+                <dirset dir="${dir.simulations.java}">
                     <include name="*"/>
                 </dirset>
             </path>
@@ -131,22 +520,26 @@
     <target name="test-all" description="Runs all unit tests in all PhET simulations">
         <foreach param="sim.path" target="test">
             <path>
-                <dirset dir="${simulations.java}">
+                <dirset dir="${dir.simulations.java}">
                     <include name="*"/>
                 </dirset>
             </path>
         </foreach>
     </target>
     
+    <target name="create" description="Creates a new simulation with the specified name">
+        
+    </target>
+    
     <target name="checkout" description="Checks out the specified simulation">
         <if>
             <isset property="sim.name"/>
             <then>
-                <mkdir dir="${simulations.java}${sim.name}"/>
+                <mkdir dir="${dir.simulations.java}${sim.name}"/>
                 <exec executable="svn">
                     <arg value="co"/>
                     <arg value="${phet.java-sim.url}${sim.name}"/>
-                    <arg value="${simulations.java}"/>
+                    <arg value="${dir.simulations.java}"/>
                 </exec>
             </then>
             <else>
@@ -162,7 +555,7 @@
                 <exec executable="svn">
                     <arg value="up"/>
                     <arg value="${phet.java-sim.url}${sim.name}"/>
-                    <arg value="${simulations.java}"/>
+                    <arg value="${dir.simulations.java}"/>
                 </exec>
             </then>
             <else>
@@ -178,7 +571,7 @@
                 <exec executable="svn">
                     <arg value="ci"/>
                     <arg value="${phet.java-sim.url}${sim.name}"/>
-                    <arg value="${simulations.java}"/>
+                    <arg value="${dir.simulations.java}"/>
                 </exec>
             </then>
             <else>
