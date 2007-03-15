@@ -274,7 +274,7 @@ public class RutherfordAtomModule extends AbstractModule {
         
         // margins and spacing
         final double xMargin = 40;
-        final double yMargin = 20;
+        final double yMargin = 40;
         final double xSpacing = 20;
         final double ySpacing = 10;
 

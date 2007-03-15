@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.rutherfordscattering.control;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.util.Observable;
 import java.util.Observer;
@@ -63,13 +64,15 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
         _gun.addObserver( this );
         
         // Legend
-        LegendPanel legendPanel = new LegendPanel( 0.85 /* iconScale */, RSConstants.TITLE_FONT, RSConstants.CONTROL_FONT );
+        LegendPanel legendPanel = new LegendPanel( 0.85 /* iconScale */, 
+                RSConstants.TITLE_FONT, RSConstants.CONTROL_FONT, RSConstants.TITLED_BORDER_STYLE );
 
         // Alpha Particles panel
         JPanel alphaParticlesPanel = new JPanel();
         {
             TitledBorder border = new TitledBorder( SimStrings.get( "label.alphaParticleProperties" ) );
             border.setTitleFont( RSConstants.TITLE_FONT );
+            border.setBorder( RSConstants.TITLED_BORDER_STYLE );
             alphaParticlesPanel.setBorder( border );
 
             // Energy control
@@ -84,6 +87,7 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
                 String units = "";
                 int columns = 3;
                 _energyControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
+                _energyControl.setFont( RSConstants.CONTROL_FONT );
                 _energyControl.setTextFieldEditable( true );
                 if ( !DEBUG_SHOW_ENERGY_VALUE ) {
                     _energyControl.setTextFieldVisible( false );
@@ -105,6 +109,7 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
             // Traces checkbox
             {
                 _tracesCheckBox = new JCheckBox( SimStrings.get( "label.showTraces" ) );
+                _tracesCheckBox.setFont( RSConstants.CONTROL_FONT );
                 _tracesCheckBox.setSelected( _module.getTracesNode().isEnabled() );
                 _tracesCheckBox.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent event ) {
@@ -130,7 +135,7 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
         addVerticalSpace( panelSpacing );
         addControlFullWidth( alphaParticlesPanel );
         addVerticalSpace( panelSpacing );
-        addResetButton();
+        addResetButton( RSConstants.CONTROL_FONT );
     }
     
     /**

@@ -10,6 +10,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
@@ -40,7 +41,7 @@ public class LegendPanel extends JPanel {
     /**
      * Constructor.
      */
-    public LegendPanel( double iconScale, Font titleFont, Font labelFont ) {
+    public LegendPanel( double iconScale, Font titleFont, Font labelFont, Border border ) {
         super();
 
         ElectronNode electronNode = new ElectronNode();
@@ -74,6 +75,7 @@ public class LegendPanel extends JPanel {
         // Border
         TitledBorder titledBorder = new TitledBorder( SimStrings.get( "label.legend" ) );
         titledBorder.setTitleFont( titleFont );
+        titledBorder.setBorder( border );
         setBorder( titledBorder );
 
         // Layout

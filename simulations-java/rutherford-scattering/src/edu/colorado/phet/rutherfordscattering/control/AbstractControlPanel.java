@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.rutherfordscattering.control;
 
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -76,8 +77,11 @@ public abstract class AbstractControlPanel extends ControlPanel {
      * Adds a Reset button to the control panel.
      * The button handler calls the module's reset method.
      */
-    public void addResetButton() {
+    public void addResetButton( Font font ) {
         _resetButton = new JButton( SimStrings.get( "button.resetAll" ) );
+        if ( font != null ) {
+            _resetButton.setFont( font );
+        }
         _resetButton.addActionListener( new ActionListener() { 
             public void actionPerformed( ActionEvent e ) {
                 Frame frame = PhetApplication.instance().getPhetFrame();
@@ -89,6 +93,10 @@ public abstract class AbstractControlPanel extends ControlPanel {
             }
         } );
         addControl( _resetButton );
+    }
+    
+    public void addResetButton() {
+        addResetButton( null /* font */ );
     }
     
     /**
