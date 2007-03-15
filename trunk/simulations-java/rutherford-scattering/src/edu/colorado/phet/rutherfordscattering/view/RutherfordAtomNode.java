@@ -35,6 +35,10 @@ public class RutherfordAtomNode extends PhetPNode implements Observer {
         new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {2,3}, 0 );
     private static final Color NUCLEUS_OUTLINE_COLOR = Color.GRAY;
     
+    private static final Color ORBIT_COLOR = Color.GRAY;
+    public static final Stroke ORBIT_STROKE = 
+        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -76,6 +80,11 @@ public class RutherfordAtomNode extends PhetPNode implements Observer {
         _nucleusOutlineNode.setStrokePaint( NUCLEUS_OUTLINE_COLOR );
         addChild( _nucleusOutlineNode );
         
+        Point2D o = _atom.getElectronOffsetRef();
+        double orbitRadius = Math.sqrt( ( o.getX() * o.getX() ) + ( o.getY() * o.getY() ) );
+        PNode electronOrbitNode = createOrbitNode( orbitRadius );
+        addChild( electronOrbitNode );
+        
         _electronNode = new ElectronNode();
         addChild( _electronNode );
         
@@ -90,6 +99,21 @@ public class RutherfordAtomNode extends PhetPNode implements Observer {
         
         updateNucleus();
         update( _atom, RutherfordAtom.PROPERTY_ELECTRON_OFFSET );
+    }
+    
+    /*
+     * Creates a node for an orbit with a specified radius.
+     * The origin is at the center of the node.
+     * 
+     * @param radius
+     */
+    private static PPath createOrbitNode( double radius ) {
+        Ellipse2D shape = new Ellipse2D.Double( -radius, -radius, 2 * radius, 2 * radius );
+        PPath orbitNode = new PPath();
+        orbitNode.setPathTo( shape );
+        orbitNode.setStroke( ORBIT_STROKE );
+        orbitNode.setStrokePaint( ORBIT_COLOR );
+        return orbitNode;
     }
     
     //----------------------------------------------------------------------------
