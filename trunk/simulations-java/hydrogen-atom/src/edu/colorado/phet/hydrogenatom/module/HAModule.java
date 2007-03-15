@@ -44,6 +44,7 @@ import edu.colorado.phet.hydrogenatom.model.*;
 import edu.colorado.phet.hydrogenatom.view.*;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendNode;
 import edu.colorado.phet.hydrogenatom.view.SpectrometerNode.SpectrometerSnapshotNode;
+import edu.colorado.phet.hydrogenatom.view.manager.HAModelViewManager;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.PiccoloModule;

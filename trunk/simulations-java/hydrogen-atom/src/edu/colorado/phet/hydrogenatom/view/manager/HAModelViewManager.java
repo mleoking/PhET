@@ -9,10 +9,10 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.hydrogenatom.view;
+package edu.colorado.phet.hydrogenatom.view.manager;
 
-import edu.colorado.phet.hydrogenatom.factory.*;
 import edu.colorado.phet.hydrogenatom.model.Model;
+import edu.colorado.phet.hydrogenatom.view.AnimationBoxNode;
 import edu.umd.cs.piccolo.PLayer;
 
 /**

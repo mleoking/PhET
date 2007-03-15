@@ -16,6 +16,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+3/15/07 - move ModelViewManager framework to its own package
 3/15/07 - eliminate dependency of BoxOfHydrogenNode on AnimationBoxNode, reimplement tiny box
 ***** 1.02.00 (13772)
 3/14/07 - rename SimStrings files to have basename hydrogenatom_strings
