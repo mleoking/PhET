@@ -14,6 +14,7 @@ LOW PRIORITY:
 
 
 DONE:
+3/15/07 - change thumbnail image
 ******* version 0.00.04 (13789)
 3/15/07 - move ModelViewManager framework to its own package, target for replacement
 3/15/07 - rename BoxOfHydrogenNode to BoxOfAtomsNode, reimplement tiny box
