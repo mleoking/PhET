@@ -1,9 +1,10 @@
 package edu.colorado.phet.energyskatepark;
 
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
 import edu.colorado.phet.energyskatepark.model.spline.CubicSpline;
-import edu.colorado.phet.energyskatepark.model.spline.SplineSurface;
-import edu.colorado.phet.energyskatepark.view.SplineGraphic;
+import edu.colorado.phet.energyskatepark.test.phys1d.CubicSpline2D;
+import edu.colorado.phet.energyskatepark.view.SplineNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -32,7 +33,7 @@ public class SplineToolbox extends PNode {
     private PNode draggableIcon;
     private PPath boundGraphic;
     private boolean created = false;
-    private SplineSurface createdSurface;
+    private EnergySkateParkSpline createdSurface;
 
     public SplineToolbox( final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, EnergySkateParkRootNode energySkateParkRootNode ) {
         this.energySkateParkRootNode = energySkateParkRootNode;
@@ -62,7 +63,7 @@ public class SplineToolbox extends PNode {
                 spline.addControlPoint( pt.getX(), pt.getY() );
                 spline.addControlPoint( pt.getX() + 1, pt.getY() );
 
-                createdSurface = new SplineSurface( spline );
+                createdSurface = new EnergySkateParkSpline( new CubicSpline2D( spline.getControlPoints() ) );
                 energySkateParkSimulationPanel.getEnergyConservationModel().addSplineSurface( createdSurface );
                 energySkateParkSimulationPanel.redrawAllGraphics();
                 energySkateParkSimulationPanel.getSplineGraphic( createdSurface ).processExternalStartDragEvent();
@@ -98,13 +99,13 @@ public class SplineToolbox extends PNode {
         draggableIcon.setOffset( boundGraphic.getFullBounds().getWidth() / 2 - draggableIcon.getFullBounds().getWidth() / 2, boundGraphic.getFullBounds().getHeight() / 2 );
     }
 
-    private SplineGraphic createSplineGraphic() {
-        SplineSurface surface = createSplineSurface();
+    private SplineNode createSplineGraphic() {
+        EnergySkateParkSpline surface = createSplineSurface();
 
-        final SplineGraphic splineGraphic = new SplineGraphic( energySkateParkSimulationPanel, surface );
-        splineGraphic.setControlPointsPickable( false );
-        splineGraphic.updateAll();
-        return splineGraphic;
+        final SplineNode splineNode = new SplineNode( energySkateParkSimulationPanel, surface,energySkateParkSimulationPanel );
+        splineNode.setControlPointsPickable( false );
+        splineNode.updateAll();
+        return splineNode;
     }
 
     public static class PNodeFacade extends PNode {
@@ -117,12 +118,13 @@ public class SplineToolbox extends PNode {
         }
     }
 
-    private SplineSurface createSplineSurface() {
+    private EnergySkateParkSpline createSplineSurface() {
         AbstractSpline spline = new CubicSpline( EnergySkateParkSimulationPanel.NUM_CUBIC_SPLINE_SEGMENTS );
         spline.addControlPoint( 0, 0 );
         spline.addControlPoint( 1, 0 );
         spline.addControlPoint( 2.0, 0 );
 
-        return new SplineSurface( spline );
+//        return new SplineSurface( spline );
+        return new EnergySkateParkSpline( new CubicSpline2D( spline.getControlPoints() ) );
     }
 }

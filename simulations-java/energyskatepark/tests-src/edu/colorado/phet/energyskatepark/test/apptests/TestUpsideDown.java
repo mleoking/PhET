@@ -3,8 +3,9 @@ package edu.colorado.phet.energyskatepark.test.apptests;
 import edu.colorado.phet.energyskatepark.EC3LookAndFeel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.spline.CubicSpline;
-import edu.colorado.phet.energyskatepark.model.spline.SplineSurface;
+import edu.colorado.phet.energyskatepark.test.phys1d.CubicSpline2D;
 
 /**
  * User: Sam Reid
@@ -36,6 +37,6 @@ public class TestUpsideDown {
         spline.addControlPoint( 12.098807750812382, 3.9589341322445595 );
         spline.addControlPoint( 11.10316012198109, 5.302291326059799 );
         spline.addControlPoint( 5.746260633054336, 5.366175482788927 );
-        energySkateParkApplication.getModule().getEnergySkateParkModel().addSplineSurface( new SplineSurface( spline ) );
+        energySkateParkApplication.getModule().getEnergySkateParkModel().addSplineSurface( new EnergySkateParkSpline( new CubicSpline2D( spline.getControlPoints() ) ) );
     }
 }

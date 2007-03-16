@@ -1,9 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.model;
 
-import edu.colorado.phet.energyskatepark.FloorSpline;
-import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
-import edu.colorado.phet.energyskatepark.model.spline.SplineSurface;
+import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
 
 import java.util.ArrayList;
 
@@ -18,8 +16,11 @@ public class EnergySkateParkModel {
     private double time = 0;
     private ArrayList history = new ArrayList();
     private ArrayList bodies = new ArrayList();
-    private ArrayList floors = new ArrayList();
-    private ArrayList splineSurfaces = new ArrayList();
+    //    private ArrayList floors = new ArrayList();
+    //    private ArrayList splineSurfaces = new ArrayList();
+    private ArrayList splines = new ArrayList();
+    private Floor floor;
+
     private double gravity = G_EARTH;
     private double zeroPointPotentialY;
     private ArrayList listeners = new ArrayList();
@@ -32,6 +33,8 @@ public class EnergySkateParkModel {
     public static final double G_MOON = -1.62;
     public static final double G_JUPITER = -25.95;
     private int maxNumHistoryPoints = 100;
+    private static boolean thermalLanding=true;
+
 
     public EnergySkateParkModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
@@ -53,8 +56,13 @@ public class EnergySkateParkModel {
         updateFloorState();
     }
 
+//    public int numSplineSurfaces() {
+//        return splineSurfaces.size();
+
+    //    }
+
     public int numSplineSurfaces() {
-        return splineSurfaces.size();
+        return splines.size();
     }
 
     public double getTime() {
@@ -100,8 +108,8 @@ public class EnergySkateParkModel {
     }
 
     public boolean isSplineUserControlled() {
-        for( int i = 0; i < splineSurfaces.size(); i++ ) {
-            SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
+        for( int i = 0; i < splines.size(); i++ ) {
+            EnergySkateParkSpline splineSurface = (EnergySkateParkSpline)splines.get( i );
             if( splineSurface.isUserControlled() ) {
                 return true;
             }
@@ -109,10 +117,10 @@ public class EnergySkateParkModel {
         return false;
     }
 
-    public void splineTranslated( SplineSurface splineGraphic, double dx, double dy ) {
+    public void splineTranslated( EnergySkateParkSpline spline, double dx, double dy ) {
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
-            if( body.isOnSpline( splineGraphic ) ) {
+            if( body.isOnSpline( spline ) ) {
                 body.translate( dx, dy );
                 body.notifyDoRepaint();
             }
@@ -124,7 +132,7 @@ public class EnergySkateParkModel {
     }
 
     public void removeAllSplineSurfaces() {
-        while( splineSurfaces.size() > 0 ) {
+        while( splines.size() > 0 ) {
             removeSplineSurface( splineSurfaceAt( 0 ) );
         }
     }
@@ -141,70 +149,88 @@ public class EnergySkateParkModel {
 
     public void updateFloorState() {
         int desiredNumFloors = Math.abs( getGravity() ) > 0 ? 1 : 0;
-        while( getNumFloorSplines() > desiredNumFloors ) {
-            removeFloorSpline();
+        if( desiredNumFloors == 1 ) {
+            floor = new Floor( this );
         }
-        while( getNumFloorSplines() < desiredNumFloors ) {
-            addFloorSpline();
+        else {
+            floor = null;
         }
-        while( getFloorCount() < desiredNumFloors ) {
-            addFloor( new Floor( this ) );
-        }
-        while( getFloorCount() > desiredNumFloors ) {
-            removeFloor( 0 );
-        }
-        if( getFloorCount() == 2 || getNumFloorSplines() == 2 ) {
-            System.out.println( "getFloorCount() = " + getFloorCount() );
-            System.out.println( "getNumFloorSplines() = " + getNumFloorSplines() );
-        }
+//        while( getNumFloorSplines() > desiredNumFloors ) {
+//            removeFloorSpline();
+//        }
+//        while( getNumFloorSplines() < desiredNumFloors ) {
+//            addFloorSpline();
+//        }
+//        while( getFloorCount() < desiredNumFloors ) {
+//            addFloor( new Floor( this ) );
+//        }
+//        while( getFloorCount() > desiredNumFloors ) {
+//            removeFloor( 0 );
+//        }
+//        if( getFloorCount() == 2 || getNumFloorSplines() == 2 ) {
+//            System.out.println( "getFloorCount() = " + getFloorCount() );
+//            System.out.println( "getNumFloorSplines() = " + getNumFloorSplines() );
+//        }
     }
 
-    private void removeFloors() {
-        while( floors.size() > 0 ) {
-            removeFloor( 0 );
-        }
+    public Floor getFloor() {
+        return floor;
     }
 
-    private void removeFloor( int i ) {
-        floors.remove( i );
+    public static boolean isThermalLanding() {
+        return thermalLanding;
     }
 
-    private void removeFloorSpline() {
-        for( int i = 0; i < splineSurfaces.size(); i++ ) {
-            SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
-            if( splineSurface.getSpline() instanceof FloorSpline ) {
-                removeSplineSurface( splineSurface );
-                i--;
-            }
-        }
+    public static void setThermalLanding( boolean selected ) {
+        thermalLanding=selected;
     }
 
-    public boolean hasFloor() {
-        return getFloorCount() > 0;
-    }
+//    private void removeFloors() {
+//        while( floors.size() > 0 ) {
+//            removeFloor( 0 );
+//        }
+//    }
 
-    public int getFloorCount() {
-        return floors.size();
-    }
+//    private void removeFloor( int i ) {
+//        floors.remove( i );
+//    }
 
-    private int getNumFloorSplines() {
-        int sum = 0;
-        for( int i = 0; i < splineSurfaces.size(); i++ ) {
-            SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
-            if( splineSurface.getSpline() instanceof FloorSpline ) {
-                sum++;
-            }
-        }
-        return sum;
-    }
+//    private void removeFloorSpline() {
+//        for( int i = 0; i < splines.size(); i++ ) {
+//            SplineSurface splineSurface = (SplineSurface)p.get( i );
+//            if( splineSurface.getSpline() instanceof FloorSpline ) {
+//                removeSplineSurface( splineSurface );
+//                i--;
+//            }
+//        }
+//    }
 
-    private boolean hasFloorSpline() {
-        return getNumFloorSplines() > 0;
-    }
+//    public boolean hasFloor() {
+//        return getFloorCount() > 0;
+//    }
+//
+//    public int getFloorCount() {
+//        return floors.size();
+//    }
 
-    private void addFloorSpline() {
-        addSplineSurface( new SplineSurface( new FloorSpline(), false ) );
-    }
+//    private int getNumFloorSplines() {
+//        int sum = 0;
+//        for( int i = 0; i < splines.size(); i++ ) {
+//            SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
+//            if( splineSurface.getSpline() instanceof FloorSpline ) {
+//                sum++;
+//            }
+//        }
+//        return sum;
+//    }
+//
+//    private boolean hasFloorSpline() {
+//        return getNumFloorSplines() > 0;
+//    }
+
+//    private void addFloorSpline() {
+//        addSplineSurface( new SplineSurface( new FloorSpline(), false ) );
+//    }
 
     static interface Listener {
         public void numBodiesChanged();
@@ -222,13 +248,13 @@ public class EnergySkateParkModel {
             Body body = (Body)bodies.get( i );
             copy.bodies.add( body.copyState() );
         }
-        for( int i = 0; i < floors.size(); i++ ) {
-            Floor floor = (Floor)floors.get( i );
-            copy.floors.add( floor.copyState() );
-        }
-        for( int i = 0; i < splineSurfaces.size(); i++ ) {
-            SplineSurface surface = splineSurfaceAt( i );
-            copy.splineSurfaces.add( surface.copy() );
+//        for( int i = 0; i < floors.size(); i++ ) {
+//            Floor floor = (Floor)floors.get( i );
+//            copy.floors.add( floor.copyState() );
+//        }
+        for( int i = 0; i < splines.size(); i++ ) {
+            EnergySkateParkSpline surface = splineSurfaceAt( i );
+            copy.splines.add( surface.copy() );
         }
         copy.history = new ArrayList( history );
         copy.time = time;
@@ -239,17 +265,17 @@ public class EnergySkateParkModel {
 
     public void setState( EnergySkateParkModel model ) {
         bodies.clear();
-        floors.clear();
-        splineSurfaces.clear();
+//        floors.clear();
+        splines.clear();
         for( int i = 0; i < model.bodies.size(); i++ ) {
             bodies.add( model.bodyAt( i ).copyState() );
         }
-        for( int i = 0; i < model.splineSurfaces.size(); i++ ) {
-            splineSurfaces.add( model.splineSurfaceAt( i ).copy() );
+        for( int i = 0; i < model.splines.size(); i++ ) {
+            splines.add( model.splineSurfaceAt( i ).copy() );
         }
-        for( int i = 0; i < model.floors.size(); i++ ) {
-            floors.add( model.floorAt( i ).copyState() );
-        }
+//        for( int i = 0; i < model.floors.size(); i++ ) {
+//            floors.add( model.floorAt( i ).copyState() );
+//        }
         this.history.clear();
         this.history.addAll( model.history );
         this.time = model.time;
@@ -260,45 +286,66 @@ public class EnergySkateParkModel {
             Body body = (Body)bodies.get( i );
             body.setPotentialEnergyMetric( getPotentialEnergyMetric() );
             if( body.isSplineMode() ) {
-                AbstractSpline spline = body.getSpline();
+                ParametricFunction2D spline = body.getSpline();
+                EnergySkateParkSpline esps = getEnergySkateParkSpline( spline );
                 if( !containsSpline( spline ) ) {
 //                    new RuntimeException( "Skater is on a track that the model doesn't currently know about" ).printStackTrace();
-                    AbstractSpline bestMatch = getBestSplineMatch( spline );
-                    if( bestMatch == null ) {
-                        System.out.println( "\"Skater is on a track that the model doesn't currently know about\" = " + "Skater is on a track that the model doesn't currently know about" );
-                    }
-                    else {
-                        body.stayInSplineModeNewSpline( bestMatch );
-                    }
+//                    EnergySkateParkSpline bestMatch = getBestSplineMatch( esps );
+//                    if( bestMatch == null ) {
+//                        System.out.println( "\"Skater is on a track that the model doesn't currently know about\" = " + "Skater is on a track that the model doesn't currently know about" );
+//                    }
+//                    else {
+                    body.stayInSplineModeNewSpline( esps );
+//                    }
                 }
             }
         }
         updateFloorState();
     }
 
-    private AbstractSpline getBestSplineMatch( AbstractSpline spline ) {
-        if( containsSpline( spline ) ) {
-            return spline;
-        }
-        else {
-            double bestScore = Double.POSITIVE_INFINITY;
-            AbstractSpline best = null;
-            for( int i = 0; i < splineSurfaces.size(); i++ ) {
-                SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
-                double score = spline.getDistance( splineSurface.getSpline() );
-                if( score < bestScore ) {
-                    bestScore = score;
-                    best = splineSurface.getSpline();
-                }
+    private EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D spline ) {
+        for( int i = 0; i < splines.size(); i++ ) {
+            EnergySkateParkSpline energySkateParkSpline = (EnergySkateParkSpline)splines.get( i );
+            if( energySkateParkSpline.getParametricFunction2D() == spline ) {
+                return energySkateParkSpline;
             }
-            return best;
         }
+        return null;
     }
 
-    private boolean containsSpline( AbstractSpline spline ) {
-        for( int i = 0; i < splineSurfaces.size(); i++ ) {
-            SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
-            if( splineSurface.contains( spline ) ) {
+    private boolean containsSpline( ParametricFunction2D spline ) {
+        for( int i = 0; i < splines.size(); i++ ) {
+            EnergySkateParkSpline energySkateParkSpline = (EnergySkateParkSpline)splines.get( i );
+            if( energySkateParkSpline.getParametricFunction2D() == spline ) {
+                return true;
+            }
+        }
+        return false;
+    }
+//
+//    private EnergySkateParkSpline getBestSplineMatch( EnergySkateParkSpline spline ) {
+//        if( containsSpline( spline ) ) {
+//            return spline;
+//        }
+//        else {
+//            double bestScore = Double.POSITIVE_INFINITY;
+//            AbstractSpline best = null;
+//            for( int i = 0; i < splines.size(); i++ ) {
+//                EnergySkateParkSpline splineSurface = (EnergySkateParkSpline)splines.get( i );
+//                double score = spline.getDistance( splineSurface.getSpline() );
+//                if( score < bestScore ) {
+//                    bestScore = score;
+//                    best = splineSurface.getSpline();
+//                }
+//            }
+//            return best;
+//        }
+//    }
+
+    private boolean containsSpline( EnergySkateParkSpline spline ) {
+        for( int i = 0; i < splines.size(); i++ ) {
+            EnergySkateParkSpline splineSurface = (EnergySkateParkSpline)splines.get( i );
+            if( splineSurface == spline ) {
                 return true;
             }
         }
@@ -328,31 +375,34 @@ public class EnergySkateParkModel {
             Body body = (Body)bodies.get( i );
             body.stepInTime( dt );
         }
-        for( int i = 0; i < floors.size(); i++ ) {
-            floorAt( i ).stepInTime( dt );
+        if( floor != null ) {
+            floor.stepInTime( dt );
         }
+//        for( int i = 0; i < floors.size(); i++ ) {
+//            floorAt( i ).stepInTime( dt );
+//        }
     }
 
     public ArrayList getAllSplines() {
         ArrayList list = new ArrayList();
-        for( int i = 0; i < splineSurfaces.size(); i++ ) {
-            SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
-            list.add( splineSurface.getSpline() );
+        for( int i = 0; i < splines.size(); i++ ) {
+            EnergySkateParkSpline splineSurface = (EnergySkateParkSpline)splines.get( i );
+            list.add( splineSurface );
 //            list.add( splineSurface.getBottom() );
         }
         return list;
     }
 
-    public SplineSurface splineSurfaceAt( int i ) {
-        return (SplineSurface)splineSurfaces.get( i );
+    public EnergySkateParkSpline splineSurfaceAt( int i ) {
+        return (EnergySkateParkSpline)splines.get( i );
     }
 
-    public Floor floorAt( int i ) {
-        return (Floor)floors.get( i );
-    }
+//    public Floor floorAt( int i ) {
+//        return (Floor)floors.get( i );
+//    }
 
-    public void addSplineSurface( SplineSurface splineSurface ) {
-        splineSurfaces.add( splineSurface );
+    public void addSplineSurface( EnergySkateParkSpline energySkateParkSpline ) {
+        splines.add( energySkateParkSpline );
     }
 
     public void addBody( Body body ) {
@@ -371,27 +421,27 @@ public class EnergySkateParkModel {
         return (Body)bodies.get( i );
     }
 
-    private void addFloor( Floor floor ) {
-        floors.add( floor );
-    }
+//    private void addFloor( Floor floor ) {
+//        floors.add( floor );
+//    }
 
     public double getGravity() {
         return gravity;
     }
 
-    public void removeSplineSurface( SplineSurface splineSurface ) {
+    public void removeSplineSurface( EnergySkateParkSpline splineSurface ) {
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
             if( body.isOnSpline( splineSurface ) ) {
                 body.setFreeFallMode();
             }
         }
-        notifyBodiesSplineRemoved( splineSurface.getSpline() );
+        notifyBodiesSplineRemoved( splineSurface );
 //        notifyBodiesSplineRemoved( splineSurface.getBottom() );
-        splineSurfaces.remove( splineSurface );
+        splines.remove( splineSurface );
     }
 
-    private void notifyBodiesSplineRemoved( AbstractSpline spline ) {
+    private void notifyBodiesSplineRemoved( EnergySkateParkSpline spline ) {
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
             body.splineRemoved( spline );
@@ -412,7 +462,7 @@ public class EnergySkateParkModel {
 
     public void reset() {
         bodies.clear();
-        splineSurfaces.clear();
+        splines.clear();
         history.clear();
         setGravity( G_EARTH );
         zeroPointPotentialY = initZeroPointPotentialY;

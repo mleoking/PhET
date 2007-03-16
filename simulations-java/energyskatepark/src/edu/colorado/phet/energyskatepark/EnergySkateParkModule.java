@@ -12,13 +12,15 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.energyskatepark.common.StringOutputStream;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.spline.CubicSpline;
-import edu.colorado.phet.energyskatepark.model.spline.SplineSurface;
 import edu.colorado.phet.energyskatepark.plots.BarGraphCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyPositionPlotCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyTimePlotCanvas;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkModuleBean;
-import edu.colorado.phet.energyskatepark.view.SplineGraphic;
+import edu.colorado.phet.energyskatepark.test.phys1d.ControlPointParametricFunction2D;
+import edu.colorado.phet.energyskatepark.test.phys1d.CubicSpline2D;
+import edu.colorado.phet.energyskatepark.view.SplineNode;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
@@ -177,11 +179,13 @@ public class EnergySkateParkModule extends PiccoloModule {
 
         PreFabSplines preFabSplines = new PreFabSplines();
         CubicSpline spline = preFabSplines.getParabolic();
+        ControlPointParametricFunction2D parametricFunction2D = new CubicSpline2D( spline.getControlPoints() );
 
-        SplineSurface surface = new SplineSurface( spline );
-        SplineGraphic splineGraphic = new SplineGraphic( energyCanvas, surface );
-        energyModel.addSplineSurface( surface );
-        energyCanvas.addSplineGraphic( splineGraphic );
+//        SplineSurface surface = new SplineSurface( spline );
+        EnergySkateParkSpline espspline = new EnergySkateParkSpline( parametricFunction2D );
+        SplineNode splineNode = new SplineNode( energyCanvas, espspline ,energyCanvas );
+//        energyModel.addSplineSurface( surface );
+        energyCanvas.addSplineGraphic( splineNode );
         energyCanvas.initPieGraphic();
         energyCanvas.removeAllAttachmentPointGraphics();
 

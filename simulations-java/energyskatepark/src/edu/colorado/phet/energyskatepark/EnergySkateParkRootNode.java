@@ -56,7 +56,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         this.module = module;
         this.simulationPanel = simulationPanel;
         EnergySkateParkModel ec3Model = getModel();
-        Floor floor = ec3Model.floorAt( 0 );
+        Floor floor = ec3Model.getFloor();
 
         simulationPanel.setBackground( SKY_COLOR );
 //        toolboxPlaceholder = new PNode();
@@ -193,7 +193,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         if( buses == null ) {
             try {
                 buses = new PNode();
-                Floor floor = getModel().floorAt( 0 );
+                Floor floor = getModel().getFloor();
                 BufferedImage newImage = ImageLoader.loadBufferedImage( "images/schoolbus200.gif" );
                 PImage schoolBus = new PImage( newImage );
                 double y = floor.getY() - schoolBus.getFullBounds().getHeight() + 10;
@@ -213,8 +213,8 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         }
     }
 
-    public void addSplineGraphic( SplineGraphic splineGraphic ) {
-        splineGraphics.addChild( splineGraphic );
+    public void addSplineGraphic( SplineNode splineNode ) {
+        splineGraphics.addChild( splineNode );
     }
 
     public void reset() {
@@ -246,16 +246,16 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         }
     }
 
-    public SplineGraphic splineGraphicAt( int i ) {
-        return (SplineGraphic)splineGraphics.getChildrenReference().get( i );
+    public SplineNode splineGraphicAt( int i ) {
+        return (SplineNode)splineGraphics.getChildrenReference().get( i );
     }
 
     public int numSplineGraphics() {
         return splineGraphics.getChildrenReference().size();
     }
 
-    public void removeSplineGraphic( SplineGraphic splineGraphic ) {
-        splineGraphics.removeChild( splineGraphic );
+    public void removeSplineGraphic( SplineNode splineNode ) {
+        splineGraphics.removeChild( splineNode );
     }
 
     public void updateGraphics() {
@@ -360,7 +360,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void updateSplines() {
         while( numSplineGraphics() < getModel().numSplineSurfaces() ) {
-            addSplineGraphic( new SplineGraphic( simulationPanel, getModel().splineSurfaceAt( 0 ) ) );
+            addSplineGraphic( new SplineNode( simulationPanel, getModel().splineSurfaceAt( 0 ) ,simulationPanel ) );
         }
         while( numSplineGraphics() > getModel().numSplineSurfaces() ) {
             removeSplineGraphic( splineGraphicAt( numSplineGraphics() - 1 ) );

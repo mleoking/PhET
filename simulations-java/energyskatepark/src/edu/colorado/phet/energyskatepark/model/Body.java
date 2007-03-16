@@ -6,7 +6,7 @@ import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
-import edu.colorado.phet.energyskatepark.model.spline.SplineSurface;
+import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.test.phys1d.Particle;
 import edu.colorado.phet.energyskatepark.test.phys1d.ParticleStage;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -51,9 +51,9 @@ public class Body {
     private double angularVelocity = 0;
     private double storedTotalEnergy = 0.0;
 
-    private FreeFall freeFall;
+//    private FreeFall freeFall;
     private UserControlled userMode;
-    private UpdateMode mode;
+//    private UpdateMode mode;
     private boolean freefall = true;
 
     private AbstractSpline lastFallSpline;
@@ -62,7 +62,7 @@ public class Body {
     private ArrayList listeners = new ArrayList();
     private EnergySkateParkModel energySkateParkModel;
 
-    private ArrayList stateRecordHistory = new ArrayList();
+    //    private ArrayList stateRecordHistory = new ArrayList();
     private boolean debugAnglesEnabled = false;
     private static final double POTENTIAL_ENERGY_EQUALITY_EPS = 1E-6;
 
@@ -73,12 +73,12 @@ public class Body {
     public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, EnergySkateParkModel energySkateParkModel ) {
         this.energySkateParkModel = energySkateParkModel;
         userMode = new UserControlled();
-        this.freeFall = new FreeFall( energySkateParkModel );
+//        this.freeFall = new FreeFall( energySkateParkModel );
         this.width = width;
         this.height = height;
         this.potentialEnergyMetric = potentialEnergyMetric;
         cmRotation = Math.PI;
-        mode = freeFall;
+//        mode = freeFall;
         storedTotalEnergy = getTotalEnergy();
 
         particleStage = new ParticleStage();
@@ -89,20 +89,28 @@ public class Body {
         this.potentialEnergyMetric = potentialEnergyMetric;
     }
 
-    public int getNumHistoryPoints() {
-        return stateRecordHistory.size();
+    public void stayInSplineModeNewSpline( EnergySkateParkSpline bestMatch ) {
+        particle.getParticle1D().setCubicSpline2D( bestMatch.getParametricFunction2D(), true );//todo: correct side
     }
 
-    public void clearCollisionHistory() {
-        stateRecordHistory.clear();
+    public void setFreeFallMode() {
+        particle.setFreeFall();
     }
 
-    public void stayInSplineModeNewSpline( AbstractSpline spline ) {
-        if( getMode() instanceof SplineMode ) {
-            SplineMode splineMode = (SplineMode)getMode();
-            splineMode.setSpline( spline );
-        }
-    }
+//    public int getNumHistoryPoints() {
+//        return stateRecordHistory.size();
+//    }
+
+//    public void clearCollisionHistory() {
+//        stateRecordHistory.clear();
+//    }
+
+//    public void stayInSplineModeNewSpline( AbstractSpline spline ) {
+//        if( getMode() instanceof SplineMode ) {
+//            SplineMode splineMode = (SplineMode)getMode();
+//            splineMode.setSpline( spline );
+//        }
+//    }
 
     public static class StateRecord {
         private ArrayList states = new ArrayList();
@@ -163,7 +171,7 @@ public class Body {
         this.mass = body.mass;
         this.attachmentPointRotation = body.attachmentPointRotation;
         this.cmRotation = body.cmRotation;
-        this.mode = body.mode.copy();
+//        this.mode = body.mode.copy();
         this.thermalEnergy = body.thermalEnergy;
         this.facingRight = body.facingRight;
         this.xThrust = body.xThrust;
@@ -182,7 +190,7 @@ public class Body {
         copy.mass = mass;
         copy.attachmentPointRotation = attachmentPointRotation;
         copy.cmRotation = cmRotation;
-        copy.mode = this.mode.copy();
+//        copy.mode = this.mode.copy();
         copy.thermalEnergy = this.thermalEnergy;
         copy.facingRight = facingRight;
         copy.xThrust = xThrust;
@@ -211,11 +219,11 @@ public class Body {
 
         particle.stepInTime( dt );
 
-        StateRecord collisionList = createCollisionState();
-        stateRecordHistory.add( collisionList );
-        if( stateRecordHistory.size() > 100 ) {
-            stateRecordHistory.remove( 0 );
-        }
+//        StateRecord collisionList = createCollisionState();
+//        stateRecordHistory.add( collisionList );
+//        if( stateRecordHistory.size() > 100 ) {
+//            stateRecordHistory.remove( 0 );
+//        }
         if( isUserControlled() ) {
             this.storedTotalEnergy = getTotalEnergy();
         }
@@ -223,11 +231,11 @@ public class Body {
         int NUM_STEPS_PER_UPDATE = 1;
         for( int i = 0; i < NUM_STEPS_PER_UPDATE; i++ ) {
             double ei = getTotalEnergy();
-            getMode().stepInTime( this, dt / NUM_STEPS_PER_UPDATE );
+//            getMode().stepInTime( this, dt / NUM_STEPS_PER_UPDATE );
             double ef = getTotalEnergy();
             double err = Math.abs( ef - ei );
             if( err > 1E-6 && !isUserControlled() ) {
-                System.out.println( "err=" + err + ", i=" + i + ", mode=" + getMode() );
+//                System.out.println( "err=" + err + ", i=" + i + ", mode=" + getMode() );
                 if( !recurse && debugging ) {
                     setState( orig );
                     recurse = true;
@@ -254,17 +262,17 @@ public class Body {
         EnergyDebugger.stepFinished( this );
     }
 
-    public StateRecord createCollisionState() {
-        StateRecord stateRecord = new StateRecord( copyState() );
-        ArrayList splines = energySkateParkModel.getAllSplines();
-        for( int i = 0; i < splines.size(); i++ ) {
-            AbstractSpline spline = (AbstractSpline)splines.get( i );
-            if( new SplineInteraction( energySkateParkModel ).isColliding( spline, this ) ) {
-                stateRecord.addCollisionSpline( spline, getTraversalState( spline ) );
-            }
-        }
-        return stateRecord;
-    }
+//    public StateRecord createCollisionState() {
+//        StateRecord stateRecord = new StateRecord( copyState() );
+//        ArrayList splines = energySkateParkModel.getAllSplines();
+//        for( int i = 0; i < splines.size(); i++ ) {
+//            AbstractSpline spline = (AbstractSpline)splines.get( i );
+//            if( new SplineInteraction( energySkateParkModel ).isColliding( spline, this ) ) {
+//                stateRecord.addCollisionSpline( spline, getTraversalState( spline ) );
+//            }
+//        }
+//        return stateRecord;
+//    }
 
     static class TraversalState {
         boolean top;
@@ -296,28 +304,28 @@ public class Body {
         }
     }
 
-    private TraversalState getTraversalState( AbstractSpline spline ) {
-        double x = spline.getDistAlongSpline( getCenterOfMass(), 0, spline.getLength(), 100 );
-//        System.out.println( "pt = " + pt );
-        Point2D point2D = spline.evaluateAnalytical( x );
+//    private TraversalState getTraversalState( AbstractSpline spline ) {
+//        double x = spline.getDistAlongSpline( getCenterOfMass(), 0, spline.getLength(), 100 );
+////        System.out.println( "pt = " + pt );
+//        Point2D point2D = spline.evaluateAnalytical( x );
+//
+//        Vector2D.Double cmVector = new Vector2D.Double( point2D, getCenterOfMass() );
+//        Vector2D.Double normal = new Vector2D.Double( spline.getUnitNormalVector( x ) );
+//        boolean top = normal.dot( cmVector ) >= 0;
+//        return new TraversalState( top, x, point2D, spline );
+//    }
 
-        Vector2D.Double cmVector = new Vector2D.Double( point2D, getCenterOfMass() );
-        Vector2D.Double normal = new Vector2D.Double( spline.getUnitNormalVector( x ) );
-        boolean top = normal.dot( cmVector ) >= 0;
-        return new TraversalState( top, x, point2D, spline );
-    }
+//    public StateRecord getCollisionStateFromEnd( int i ) {
+//        return (StateRecord)stateRecordHistory.get( stateRecordHistory.size() - 1 - i );
+//    }
+//
+//    public StateRecord getCollisionState() {
+//        return (StateRecord)stateRecordHistory.get( stateRecordHistory.size() - 1 );
+//    }
 
-    public StateRecord getCollisionStateFromEnd( int i ) {
-        return (StateRecord)stateRecordHistory.get( stateRecordHistory.size() - 1 - i );
-    }
-
-    public StateRecord getCollisionState() {
-        return (StateRecord)stateRecordHistory.get( stateRecordHistory.size() - 1 );
-    }
-
-    private UpdateMode getMode() {
-        return mode;
-    }
+//    private UpdateMode getMode() {
+//        return mode;
+//    }
 
     public double getY() {
         return getCenterOfMass().getY();
@@ -374,17 +382,22 @@ public class Body {
     }
 
     public boolean isUserControlled() {
-        return mode == userMode || getThrust().getMagnitude() > 0 || ( isSplineMode() && getSpline().isUserControlled() );
+        return particle.isUserMode();
+//        return mode == userMode || getThrust().getMagnitude() > 0;// || ( isSplineMode() && getSpline().isUserControlled() );
     }
 
     public void setUserControlled( boolean userControlled ) {
-        if( userControlled ) {
-            setMode( userMode );
-        }
-        else {
-            setAngularVelocity( 0.0 );
-            setMode( freeFall );
-        }
+        if (userControlled)
+        particle.setUserUpdateStrategy();
+        else
+        particle.setFreeFall();
+//        if( userControlled ) {
+//            setMode( userMode );
+//        }
+//        else {
+//            setAngularVelocity( 0.0 );
+//            setMode( freeFall );
+//        }
     }
 
     public double getMinY() {
@@ -411,35 +424,35 @@ public class Body {
         return mass;
     }
 
-    public void setSplineMode( EnergySkateParkModel model, AbstractSpline spline ) {
-        boolean same = false;
-        if( mode instanceof SplineMode ) {
-            SplineMode sm = (SplineMode)mode;
-            if( sm.getSpline() == spline ) {
-                same = true;
-            }
-        }
-        if( !same ) {
-            this.storedTotalEnergy = getTotalEnergy();
-            setMode( new SplineMode( model, spline ) );
-        }
-    }
+//    public void setSplineMode( EnergySkateParkModel model, AbstractSpline spline ) {
+//        boolean same = false;
+//        if( mode instanceof SplineMode ) {
+//            SplineMode sm = (SplineMode)mode;
+//            if( sm.getSpline() == spline ) {
+//                same = true;
+//            }
+//        }
+//        if( !same ) {
+//            this.storedTotalEnergy = getTotalEnergy();
+//            setMode( new SplineMode( model, spline ) );
+//        }
+//    }
 
-    private void setMode( UpdateMode mode ) {
-        if( this.mode != null ) {
-            this.mode.finish( this );
-        }
-        this.mode = mode;
-        mode.init( this );
-    }
+//    private void setMode( UpdateMode mode ) {
+//        if( this.mode != null ) {
+//            this.mode.finish( this );
+//        }
+//        this.mode = mode;
+//        mode.init( this );
+//    }
 
     public void setFreeFallRotationalVelocity( double dA ) {
         setAngularVelocity( dA );
     }
 
-    public void setFreeFallMode() {
-        setMode( freeFall );
-    }
+//    public void setFreeFallMode() {
+//        setMode( freeFall );
+//    }
 
     private void clampAngle() {
         while( attachmentPointRotation < 0 ) {
@@ -481,11 +494,12 @@ public class Body {
     }
 
     public boolean isFreeFallMode() {
-        return mode instanceof FreeFall;
+        return particle.isFreeFall();
+//        return mode instanceof FreeFall;
     }
 
     public boolean isSplineMode() {
-        return mode instanceof SplineMode;
+        return false;
     }
 
     public boolean isFacingRight() {
@@ -504,13 +518,14 @@ public class Body {
         return new ImmutableVector2D.Double( xThrust, yThrust );
     }
 
-    public void splineRemoved( AbstractSpline spline ) {
-        if( mode instanceof SplineMode ) {
-            SplineMode spm = (SplineMode)mode;
-            if( spm.getSpline() == spline ) {
-                setFreeFallMode();
-            }
-        }
+    public void splineRemoved( EnergySkateParkSpline spline ) {
+        //todo: implement
+//        if( mode instanceof SplineMode ) {
+//            SplineMode spm = (SplineMode)mode;
+//            if( spm.getSpline() == spline ) {
+//                setFreeFallMode();
+//            }
+//        }
     }
 
     public double getFrictionCoefficient() {
@@ -627,12 +642,13 @@ public class Body {
         }
     }
 
-    public boolean isOnSpline( SplineSurface splineSurface ) {
-        if( mode instanceof SplineMode ) {
-            SplineMode sm = (SplineMode)mode;
-            return splineSurface.contains( sm.getSpline() );
-        }
-        return false;
+    public boolean isOnSpline( EnergySkateParkSpline splineSurface ) {
+        return particle.isOnSpline( splineSurface.getParametricFunction2D() );
+//        if( mode instanceof SplineMode ) {
+//            SplineMode sm = (SplineMode)mode;
+//            return splineSurface.contains( sm.getSpline() );
+//        }
+//        return false;
     }
 
     public void notifyDoRepaint() {
@@ -699,14 +715,8 @@ public class Body {
         this.angularVelocity = angularVelocity;
     }
 
-    public AbstractSpline getSpline() {
-        if( mode instanceof SplineMode ) {
-            SplineMode splineMode = (SplineMode)mode;
-            return splineMode.getSpline();
-        }
-        else {
-            return null;
-        }
+    public ParametricFunction2D getSpline() {
+        return particle.getSpline();
     }
 
     public void setAcceleration( double ax, double ay ) {

@@ -1,5 +1,4 @@
-/* Copyright 2007, University of Colorado */
-package edu.colorado.phet.energyskatepark.test.isolatedtest;
+package edu.colorado.phet.energyskatepark.test;
 
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PCanvas;
@@ -12,47 +11,44 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * User: Sam Reid
- * Date: May 27, 2006
- * Time: 11:29:08 AM
- * Copyright (c) May 27, 2006 by Sam Reid
+ * Test case for getting coordinate systems correct.
+ *
+ * @author Sam Reid
  */
-
-public class TestTransform4 {
+public class TestTransform3 {
     private JFrame frame;
+    private static boolean invertY = false;
 
-    public TestTransform4() {
+    public TestTransform3() {
         frame = new JFrame();
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         final PCanvas pCanvas = new PCanvas();
-        final TestTransform4.WorldNode world = new TestTransform4.WorldNode( pCanvas, 10, 10 );
+        final WorldNode world = new WorldNode( pCanvas, 10, 10 );
         pCanvas.getLayer().addChild( world );
-        PPath ch = null;
+        /**
+         * Add some nodes so we can see the coordinate system.
+         */
         for( int i = 0; i <= 10; i++ ) {
             for( int j = 0; j <= 10; j++ ) {
                 PPath child = new PPath( new Rectangle2D.Double( 0, 0, 0.1, 0.1 ) );
-                if( i == 0 && j == 0 ) {
-                    ch = child;
-                }
                 child.setOffset( i, j );
                 child.setStroke( null );
                 child.setPaint( Color.blue );
                 world.addChild( child );
 
                 PText text = new PText( "" + i + ", " + j );
-                TestTransform4.ModelNode modelNode = new TestTransform4.ModelNode( text, 0.5 );
+                ModelNode modelNode = new ModelNode( text, 0.5 );
                 modelNode.setOffset( i, j );
                 world.addChild( modelNode );
             }
         }
+        /**Draw a rectangle in world coordinates*/
         PPath path = new PPath( new Rectangle2D.Double( 1, 2, 3, 4 ) );
         path.setStroke( new BasicStroke( 0.02f ) );
         world.addChild( path );
@@ -62,36 +58,25 @@ public class TestTransform4 {
         pCanvas.setPanEventHandler( null );
         pCanvas.setZoomEventHandler( null );
 
-        final PPath ch1 = ch;
-        pCanvas.addMouseListener( new MouseListener() {
-            public void mouseClicked( MouseEvent e ) {
-            }
-
-            public void mouseEntered( MouseEvent e ) {
-            }
-
-            public void mouseExited( MouseEvent e ) {
-            }
-
-            public void mousePressed( MouseEvent e ) {
-                System.out.println( "ch.getGlobalFullBounds() = " + ch1.getGlobalFullBounds() );
-                Dimension2D d2 = world.getMinDimension();
-                world.setMinDimension( d2.getWidth() / 2, d2.getHeight() / 2 );
-                pCanvas.repaint();
-            }
-
-            public void mouseReleased( MouseEvent e ) {
-            }
-        } );
         frame.setContentPane( pCanvas );
-
-
     }
 
+    public static void main( String[] args ) {
+        new TestTransform3().start();
+    }
+
+    private void start() {
+        frame.setVisible( true );
+    }
+
+    /**
+     * Node that is supposed to maintain aspect ratio when the screen resizes.
+     */
     static class WorldNode extends PNode {
         PCanvas pCanvas;
         private double minWidth;
         private double minHeight;
+
 
         public WorldNode( final PCanvas pCanvas, final double minWidth, final double minHeight ) {
             this.pCanvas = pCanvas;
@@ -123,25 +108,21 @@ public class TestTransform4 {
             System.out.println( "scale = " + scale );
             if( scale > 0 ) {
                 AffineTransform t = getTransformReference( true );
-                double scaleX = scale;
-                double scaleY = -scale;
-                t.setTransform( scaleX, t.getShearY(), t.getShearX(), scaleY, t.getTranslateX(), t.getTranslateY() + 600 );
+
+                if( invertY ) {
+                    t.setTransform( scale, t.getShearY(), t.getShearX(), -scale, t.getTranslateX(), t.getTranslateY() + 600 );
+                }
+                else {
+                    t.setTransform( scale, t.getShearY(), t.getShearX(), scale, t.getTranslateX(), t.getTranslateY() );
+                }
             }
         }
-        //todo: override setscale?  Or have a private hidden inner instance?  Or just assume this interface won't be abused.
-        //todo: these nodes should be stackable.
-
     }
 
-    public static void main( String[] args ) {
-        new TestTransform4().start();
-    }
-
-    private void start() {
-        frame.setVisible( true );
-    }
-
-    class ModelNode extends PhetPNode {
+    /**
+     * Utility class for maintaining aspect ratio for a node while setting its width.
+     */
+    static class ModelNode extends PhetPNode {
         private PNode node;
 
         public ModelNode( PNode node ) {

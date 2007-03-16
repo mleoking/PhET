@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark;
 
-import edu.colorado.phet.energyskatepark.model.SplineMode;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -19,11 +19,11 @@ public class EnergySkateParkOptionsMenu extends JMenu {
         super( "Options" );
         setMnemonic( 'o' );
 
-        final JRadioButtonMenuItem thermal = new JRadioButtonMenuItem( "Thermal Landing", SplineMode.isThermalLanding() );
+        final JRadioButtonMenuItem thermal = new JRadioButtonMenuItem( "Thermal Landing", EnergySkateParkModel.isThermalLanding() );
         thermal.setMnemonic( 't' );
         thermal.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                SplineMode.setThermalLanding( thermal.isSelected() );
+                EnergySkateParkModel.setThermalLanding( thermal.isSelected() );
             }
         } );
         add( thermal );

@@ -1,7 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view;
 
-import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -12,10 +12,10 @@ import edu.umd.cs.piccolo.PNode;
  */
 
 public class SplineMatch {
-    private SplineGraphic target;
+    private SplineNode target;
     private int index;
 
-    public SplineMatch( SplineGraphic target, int index ) {
+    public SplineMatch( SplineNode target, int index ) {
         this.target = target;
         this.index = index;
     }
@@ -24,12 +24,12 @@ public class SplineMatch {
         return target.getControlPointGraphic( index );
     }
 
-    public SplineGraphic getSplineGraphic() {
+    public SplineNode getSplineGraphic() {
         return target;
     }
 
-    public AbstractSpline getTopSplineMatch() {
-        return target.getSplineSurface().getSpline();
+    public EnergySkateParkSpline getTopSplineMatch() {
+        return target.getSplineSurface();
     }
 
     public boolean matchesBeginning() {
