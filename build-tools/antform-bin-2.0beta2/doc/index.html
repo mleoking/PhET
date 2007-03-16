@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+  <head>
+    <title>AntForm home</title>
+    <meta http-equiv="Content-Type"
+    content="text/html;charset=ISO-8859-1"></meta>
+    <link rel="stylesheet" href="style/style.css"
+    type="text/css" />
+  </head>
+  <body>
+    <table cellpadding="0" cellspacing="0" width="100%" border="0">
+      <tr>
+        <td colspan="2" valign="bottom">
+          <a href="http://antforms.sourceforge.net/">
+            <img border="0" src="images/logo.jpg" alt="logo" />
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" colspan="2" height="1">
+          <img src="images/pix.gif" width="100%" height="1"
+          alt="pix" />
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" align="center">
+          <table border="0" cellpadding="0" cellspacing="5">
+            <tr>
+              <td>
+                <table class="menu" width="200" border="0"
+                cellpadding="2" cellspacing="0" align="right">
+                <tr>
+	<th class="menuTitle">Main</th>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="index.html">About</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="installation.html">Installation</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="usageaf.html">Usage - AntForm</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="usageam.html">Usage - AntMenu</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="screenshots.html">Screenshots</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="download.html">Downloading</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="help.html">Getting help</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr><td class="spacer">&nbsp;</td></tr>
+<tr>
+	<th class="menuTitle">News</th>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="news.html">Recent</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr><td class="spacer">&nbsp;</td></tr>
+</table>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <table width="200" border="0" cellpadding="2"
+                cellspacing="0" align="right">
+                  <tr>
+                    <td align="left">
+						<a href="http://sourceforge.net/projects/antforms"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=128017&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+                      <a href="http://www.opensource.org/docs/definition.php"><img src="images/open_source_button.png" alt="open source" border="0" /></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+		      <a href="http://www.vim.org"><img border="0"                         src="images/vim_created.gif" alt="created with vim" /></a>
+                    </td>
+                  </tr>
+		  <tr>
+			  <td align="left"><a href="http://validator.w3.org/check?uri=referer"><img
+					src="images/valid-xhtml10.png" border="0"
+	  alt="Valid XHTML 1.0!" height="31" width="88" /></a></td>
+		  </tr>
+		  <tr>
+
+			  <td align="left"><a href="http://jigsaw.w3.org/css-validator/check/referer"><img
+					  style="border:0;width:88px;height:31px"
+					  src="images/vcss.png"  alt="Valid CSS!"/></a>
+			 </td>
+ 		</tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td width="100%" valign="top">
+          <table class="lowered" width="100%" border="0"
+          cellpadding="5" cellspacing="0" align="left">
+            <tr>
+              <td class="bordered"><h2>About AntForm/AntMenu</h2>
+<p>AntForm is a java tool designed to add interaction to Ant scripts through graphical forms.
+If you're new to Ant, start at the Ant site (see website: <a href="http://ant.apache.org/">http://ant.apache.org/</a>). Ant is used extensively used in the java world to automate system-level tasks, mostly (but not exclusively) as a software build system.</p>
+<h2>Why use AntForm?</h2>
+<p>Because automation can only be pushed so far until user input is required, the Ant developper will
+resort to prompting the user for certain property values at runtime. When the number of these properties 
+increases and certain property values become dependant on others, it makes sense to divide the input into
+a flow of forms. AntForm enables you to do this.</p>
+<p>In short, in keeping with the natural evolution of console-to-gui at the language level, 
+AntForm ushers in the <i>present-form</i> paradigm where a <i>read value</i> view existed before.</p>
+
+<p>The goal of the AntForm project is to provide a simple <b>GUI</b> that provides the following:</p>
+<ul>
+	<li>Input forms for modifying properties</li>
+	<li>Button-based menus that launch ant targets</li>
+</ul>
+
+<h2>What AntForm does</h2>
+<p>AntForm provides an Ant task (see <a href="usageaf.html">usage</a>) for
+setting property values through a Swing-based form. Properties are presented
+with a label on the left column and a widget field in the right column, one property
+per line. Each field component modifies an appointed Ant property when the form is
+submitted (i.e. the <code>ok</code> button clicked). Properties thus modified can
+be saved to a specified properties file and/or reused in other tasks. See <a href="screenshots.html#antform">screenshot</a></p>
+<h2>What AntMenu does</h2>
+<p>AntMenu provides an Ant task (see <a href="usageam.html">usage</a>) that sets
+up a menu in a single vertical column for launching other ant targets. Each link to
+an Ant target is enabled by a button. See <a href="screenshots.html#antmenu">screenshot</a></p>
+<h2>License</h2>
+<p>AntForm is Open-source software under the <a href="http://opensource.org/licenses/lgpl-license.php">LGPL license</a>.</p></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" height="30" valign="bottom" align="right">
+          <i>The AntForm Team - 
+          <a href="mailto:sardak@users.sourceforge.net">sardak@users.sourceforge.net</a>-
+          updated: 29/11/2006</i>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

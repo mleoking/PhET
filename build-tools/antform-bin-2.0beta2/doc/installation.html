@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+  <head>
+    <title>AntForm home</title>
+    <meta http-equiv="Content-Type"
+    content="text/html;charset=ISO-8859-1"></meta>
+    <link rel="stylesheet" href="style/style.css"
+    type="text/css" />
+  </head>
+  <body>
+    <table cellpadding="0" cellspacing="0" width="100%" border="0">
+      <tr>
+        <td colspan="2" valign="bottom">
+          <a href="http://antforms.sourceforge.net/">
+            <img border="0" src="images/logo.jpg" alt="logo" />
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" colspan="2" height="1">
+          <img src="images/pix.gif" width="100%" height="1"
+          alt="pix" />
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" align="center">
+          <table border="0" cellpadding="0" cellspacing="5">
+            <tr>
+              <td>
+                <table class="menu" width="200" border="0"
+                cellpadding="2" cellspacing="0" align="right">
+                <tr>
+	<th class="menuTitle">Main</th>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="index.html">About</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="installation.html">Installation</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="usageaf.html">Usage - AntForm</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="usageam.html">Usage - AntMenu</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="screenshots.html">Screenshots</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="download.html">Downloading</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="help.html">Getting help</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr><td class="spacer">&nbsp;</td></tr>
+<tr>
+	<th class="menuTitle">News</th>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="news.html">Recent</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr><td class="spacer">&nbsp;</td></tr>
+</table>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <table width="200" border="0" cellpadding="2"
+                cellspacing="0" align="right">
+                  <tr>
+                    <td align="left">
+						<a href="http://sourceforge.net/projects/antforms"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=128017&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+                      <a href="http://www.opensource.org/docs/definition.php"><img src="images/open_source_button.png" alt="open source" border="0" /></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+		      <a href="http://www.vim.org"><img border="0"                         src="images/vim_created.gif" alt="created with vim" /></a>
+                    </td>
+                  </tr>
+		  <tr>
+			  <td align="left"><a href="http://validator.w3.org/check?uri=referer"><img
+					src="images/valid-xhtml10.png" border="0"
+	  alt="Valid XHTML 1.0!" height="31" width="88" /></a></td>
+		  </tr>
+		  <tr>
+
+			  <td align="left"><a href="http://jigsaw.w3.org/css-validator/check/referer"><img
+					  style="border:0;width:88px;height:31px"
+					  src="images/vcss.png"  alt="Valid CSS!"/></a>
+			 </td>
+ 		</tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td width="100%" valign="top">
+          <table class="lowered" width="100%" border="0"
+          cellpadding="5" cellspacing="0" align="left">
+            <tr>
+              <td class="bordered"><h2>Installation</h2>
+<p>After <a href="download.html">downloading</a> the package, unzip it into a specific folder on your hard disk. Let's call this folder <code>AntForm_home</code> for what follows.</p>
+<p>In your Ant build file, create <code>taskdef</code> (<i>task definitions</i>) 
+with a classpath referring to your ${antForm_home}/lib/AntForm.jar file, unless this file is copied into the 
+base ${ant_home}/lib folder of your Ant distribution, in which case it doesn't need to be referenced through the
+<code>taskdef</code> classpath attribute. The task definitions should look like this:</p>
+<blockquote><pre>
+&lt;taskdef name="antform" classname="com.sardak.antform.AntForm" 
+            classpath="${antform.home}/lib/antform.jar"/&gt;
+&lt;taskdef name="antmenu" classname="com.sardak.antform.AntMenu" 
+            classpath="${antform.home}/lib/antform.jar"/&gt;
+</pre></blockquote>
+<p>
+	You can also use the provided taskdefs.properties:
+</p>
+<p>
+	<blockquote><pre>
+&lt;taskdef resource="com/sardak/antform/taskdefs.properties"
+            classpath="${antform.home}/lib/antform.jar"/&gt;
+	</pre></blockquote>
+</p>
+
+<p>You're ready to use the freshly-defined tasks in other ant targets. See <a href="usageaf.html">AntForm</a> and <a href="usageam.html">AntMenu</a> for more information on the specificities if the <code>antform</code> and <code>antmenu</code> tasks.</p>
+
+<h2>Samples</h2>
+<p>There's a sample and build file named test.xml in the root folder. If your
+<code>ant_home</code> and <code>path</code> environment variables are correctly
+set, you should be able to test the samples with the following command:</p>
+<blockquote><pre>
+	ant -f test.xml test testmenu testne spinners password wizard1
+</pre></blockquote>
+<p>Use <code>ant -f test.xml -p</code> to see a list of other tests. These tests
+use other properties or behavioural characteristics and will show you more of
+what AntForm/AntMenu can do.</p></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" height="30" valign="bottom" align="right">
+          <i>The AntForm Team - 
+          <a href="mailto:sardak@users.sourceforge.net">sardak@users.sourceforge.net</a>-
+          updated: 29/11/2006</i>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

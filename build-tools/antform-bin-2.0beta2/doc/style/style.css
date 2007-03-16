@@ -1,0 +1,78 @@
+body {
+	font-family: sans-serif;
+	font-size: 9pt;
+}
+a:link,a:visited {
+	color: #3070AA;
+	font-size: 9pt;
+	text-decoration: none;
+	font-weight: normal;
+}
+.menu {
+	border-style: solid;
+	border-width: 2px;
+	border-color: #005090;
+	background-color: #EFEFFF;
+}
+.menuTitle {
+	background-color: #005090;
+	color: #FFFFFF;
+	text-align: center;
+	font-weight: bold;
+}
+a.menuitem:link,a.menuitem:visited{
+	color: #003070;	
+}
+.blank {
+	background-color: #FFFFFF;
+}
+p {
+	font-size: 9pt;
+
+}
+pre {
+	width: 100%;
+	background-color: #F0F0F0;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #cccccc;
+}
+code {	
+
+}
+td {
+	font-size: 8pt;
+}
+th {
+	background-color: #005090;
+	color: #FFFFFF;
+	font-size: 10pt;
+	font-weight: bold;
+	text-align: left;
+}
+.bordered {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #cccccc;
+}
+li {	
+	font-size: 9pt;
+}
+h2 {
+	font-size: 12pt;
+	font-weight: bold;
+	width: 100%;
+	background-color:#EFEFFF; 
+	text-align: left;	
+}
+
+h3 {
+	font-size: 11pt;
+	font-weight: bold;
+}
+h4 {
+	font-size: 10pt;
+	font-weight: bold;
+}
+
+
