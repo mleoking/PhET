@@ -19,7 +19,7 @@ else
         ant $1
     else
         if [ $# = 2 ]; then
-            ant $1 -Dsim.name=$2
+            ant $1 -Dname.sim=$2
         else
             echo "Unknown command line arguments."
         fi
