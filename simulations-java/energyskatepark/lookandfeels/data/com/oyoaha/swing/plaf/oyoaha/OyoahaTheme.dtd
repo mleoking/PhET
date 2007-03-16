@@ -1,0 +1,7 @@
+<!ELEMENT OyoahaTheme (object)* >
+  <!ELEMENT object (name, data?, para*) >
+    <!ATTLIST object type (Object | Integer | byte | Long | Short | Double | Float | Boolean | String | Image | Icon | Font | Color | Insets | Dimension | Point | Rectangle) "Object" >
+    <!ELEMENT name (#CDATA) >
+    <!ELEMENT data (#CDATA) >
+    <!ELEMENT para (data?, para*)>
+      <!ATTLIST para type (instance | null | Object | Integer | byte | Long | Short | Double | Float | Boolean | String | Image | Icon | Font | Color | Insets | Dimension | Point | Rectangle ) "Object" >
