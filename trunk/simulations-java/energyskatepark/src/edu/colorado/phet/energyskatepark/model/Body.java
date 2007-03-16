@@ -51,9 +51,9 @@ public class Body {
     private double angularVelocity = 0;
     private double storedTotalEnergy = 0.0;
 
-//    private FreeFall freeFall;
-    private UserControlled userMode;
-//    private UpdateMode mode;
+    //    private FreeFall freeFall;
+    //    private UserControlled userMode;
+    //    private UpdateMode mode;
     private boolean freefall = true;
 
     private AbstractSpline lastFallSpline;
@@ -72,7 +72,7 @@ public class Body {
 
     public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, EnergySkateParkModel energySkateParkModel ) {
         this.energySkateParkModel = energySkateParkModel;
-        userMode = new UserControlled();
+//        userMode = new UserControlled();
 //        this.freeFall = new FreeFall( energySkateParkModel );
         this.width = width;
         this.height = height;
@@ -97,6 +97,33 @@ public class Body {
         particle.setFreeFall();
     }
 
+    public void setPosition( double x, double y ) {
+        particle.setPosition( x, y );
+    }
+
+    public void reset() {
+        setFreeFallMode();
+        setAttachmentPointRotation( 0.0 );
+        setCMRotation( getDefaultBodyAngle() );
+        setAttachmentPointPosition( getDefaultBodyPosition() );
+        resetMode();
+        setVelocity( 0, 0 );
+        setThermalEnergy( 0.0 );
+        setPosition( 3, 3 );
+        particle.setVelocity( 0, 0 );
+        particle.setGravity( -9.8 );
+    }
+
+
+    private Point2D getDefaultBodyPosition() {
+        return defaultBodyPosition;
+    }
+
+    private Point2D.Double defaultBodyPosition = new Point2D.Double( 4, 7.25 );
+
+    private double getDefaultBodyAngle() {
+        return Math.PI;
+    }
 //    public int getNumHistoryPoints() {
 //        return stateRecordHistory.size();
 //    }
@@ -387,10 +414,12 @@ public class Body {
     }
 
     public void setUserControlled( boolean userControlled ) {
-        if (userControlled)
-        particle.setUserUpdateStrategy();
-        else
-        particle.setFreeFall();
+        if( userControlled ) {
+            particle.setUserUpdateStrategy();
+        }
+        else {
+            particle.setFreeFall();
+        }
 //        if( userControlled ) {
 //            setMode( userMode );
 //        }

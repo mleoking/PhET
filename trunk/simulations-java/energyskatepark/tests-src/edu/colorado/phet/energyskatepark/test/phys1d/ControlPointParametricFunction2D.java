@@ -5,11 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Mar 16, 2007
- * Time: 12:09:59 PM
- * To change this template use File | Settings | File Templates.
+ * Author: Sam Reid
+ * Mar 16, 2007, 12:09:59 PM
  */
 public abstract class ControlPointParametricFunction2D extends ParametricFunction2D {
     private Point2D[] pts;

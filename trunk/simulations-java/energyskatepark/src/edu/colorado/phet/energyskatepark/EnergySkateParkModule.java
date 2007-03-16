@@ -58,7 +58,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
-    private Point2D.Double defaultBodyPosition = new Point2D.Double( 4, 7.25 );
+
     private JDialog energyPositionPlotFrame;
     private EnergyPositionPlotCanvas energyPositionCanvas;
     private PhetFrame phetFrame;
@@ -157,23 +157,16 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void resetSkater( Body body ) {
-        body.setFreeFallMode();
-        body.setAttachmentPointRotation( 0.0 );
-        body.setCMRotation( getDefaultBodyAngle() );
-        body.setAttachmentPointPosition( getDefaultBodyPosition() );
-        body.resetMode();
-        body.setVelocity( 0, 0 );
-        body.setThermalEnergy( 0.0 );
+
+        body.reset();
     }
 
-    private double getDefaultBodyAngle() {
-        return Math.PI;
-    }
 
     private void init() {
         final Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(),
                                     energyModel.getPotentialEnergyMetric(), getEnergySkateParkModel() );
-        body.setAttachmentPointPosition( getDefaultBodyPosition() );
+//        body.setAttachmentPointPosition( getDefaultBodyPosition() );
+        body.reset();
         energyModel.addBody( body );
         energyCanvas.getRootNode().updateGraphics();
 
@@ -192,9 +185,6 @@ public class EnergySkateParkModule extends PiccoloModule {
 //        energyCanvas.addAttachmentPointGraphic( body );
     }
 
-    private Point2D getDefaultBodyPosition() {
-        return defaultBodyPosition;
-    }
 
     public Object getModelState() {
         return energyModel.copyState();

@@ -46,6 +46,10 @@ public class Particle {
         update();
     }
 
+    public void setGravity( double g ) {
+        this.g = g;
+    }
+
     public boolean isFreeFall() {
         return updateStrategy instanceof FreeFall;
     }
