@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp
+    spec="1.0+"
+    codebase="http://www.colorado.edu/physics/phet/projects/cck/v3"
+    href="cck-vl.jnlp">
+    <information>
+        <title>Circuit Construction Kit</title>
+        <vendor>PhET(tm)</vendor>
+        <homepage href="http://www.colorado.edu/physics/phet/"/>
+        <description>The Circuit Construction Kit</description>
+        <description kind="short">The Circuit Construction Kit.</description>
+        <icon href="http://www.colorado.edu/physics/pion/phet/images/TitleSlide3.gif"/>
+        <icon kind="splash" href="http://www.colorado.edu/physics/pion/phet/images/TitleSlide3.gif"/>
+        <offline-allowed/>
+    </information>
+    <security>
+    </security>
+
+    <resources>
+        <j2se version="1.4+"/>
+        <jar href="cck.jar"/>
+        <jar href="lib/phetcommon.jar"/>
+        <jar href="lib/persistence.jar"/>
+
+        <jar href="../lib/Jama-1.0.1.jar"/>
+        <jar href="../lib/jnlp.jar"/>
+        <jar href="../lib/localJNLP.jar"/>
+        <jar href="../lib/xercesImpl.jar"/>
+        <jar href="../lib/castor-0.9.5.2-xml.jar"/>
+    </resources>
+
+    <application-desc main-class="edu.colorado.phet.cck.CCK2Module">
+        <argument>-virtuallab</argument>
+    </application-desc>
+</jnlp>
