@@ -4,6 +4,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.FloorSpline;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.spline.CubicSpline;
 import edu.colorado.phet.energyskatepark.model.spline.SplineSurface;
 
@@ -30,10 +31,10 @@ public class EnergySkateParkModuleBean {
             addBody( module.getEnergySkateParkModel().bodyAt( i ) );
         }
         for( int i = 0; i < module.getEnergySkateParkModel().numSplineSurfaces(); i++ ) {
-            SplineSurface splineSurface = module.getEnergySkateParkModel().splineSurfaceAt( i );
-            if( !( splineSurface.getSpline() instanceof FloorSpline ) ) {
-                addSplineSurface( splineSurface );
-            }
+            EnergySkateParkSpline splineSurface = module.getEnergySkateParkModel().splineSurfaceAt( i );
+//            if( !( splineSurface instanceof FloorSpline ) ) {
+                addSplineSurface( splineSurface );             //todo: handle floor
+//            }
         }
         this.gravity = module.getEnergySkateParkModel().getGravity();
     }
@@ -46,7 +47,7 @@ public class EnergySkateParkModuleBean {
         this.gravity = gravity;
     }
 
-    private void addSplineSurface( SplineSurface splineSurface ) {
+    private void addSplineSurface( EnergySkateParkSpline splineSurface ) {
         splines.add( new SplineElement( splineSurface ) );
     }
 
@@ -80,7 +81,7 @@ public class EnergySkateParkModuleBean {
 
         module.getEnergySkateParkModel().removeAllSplineSurfaces();
         for( int i = 0; i < splines.size(); i++ ) {
-            module.getEnergySkateParkModel().addSplineSurface( ( (SplineElement)splines.get( i ) ).toSplineSurface() );
+            module.getEnergySkateParkModel().addSplineSurface( ( (EnergySkateParkSpline)splines.get( i ) ) );
         }
         module.getEnergySkateParkModel().updateFloorState();
         module.getEnergySkateParkModel().setGravity( gravity );
@@ -218,9 +219,9 @@ public class EnergySkateParkModuleBean {
         public SplineElement() {
         }
 
-        public SplineElement( SplineSurface splineSurface ) {
-            controlPoints = splineSurface.getSpline().getControlPoints();
-            rollerCoaster = splineSurface.getSpline().isRollerCoasterMode();
+        public SplineElement( EnergySkateParkSpline splineSurface ) {
+            controlPoints = splineSurface.getControlPoints();
+            rollerCoaster = splineSurface.isRollerCoasterMode();
         }
 
         public Point2D[] getControlPoints() {

@@ -5,12 +5,15 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
 import edu.colorado.phet.energyskatepark.model.spline.CubicSpline;
-import edu.colorado.phet.energyskatepark.model.spline.SplineSurface;
+import edu.colorado.phet.energyskatepark.test.phys1d.ControlPointParametricFunction2D;
+import edu.colorado.phet.energyskatepark.test.phys1d.CubicSpline2D;
 import edu.colorado.phet.energyskatepark.view.BodyGraphic;
-import edu.colorado.phet.energyskatepark.view.SplineGraphic;
+import edu.colorado.phet.energyskatepark.view.SplineNode;
 import edu.colorado.phet.energyskatepark.view.SplineMatch;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkSplineEnvironment;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.event.PDebugKeyHandler;
 import edu.colorado.phet.piccolo.event.PanZoomWorldKeyHandler;
@@ -33,7 +36,7 @@ import java.util.Comparator;
  * Copyright (c) Sep 21, 2005 by Sam Reid
  */
 
-public class EnergySkateParkSimulationPanel extends PhetPCanvas {
+public class EnergySkateParkSimulationPanel extends PhetPCanvas implements EnergySkateParkSplineEnvironment {
     private EnergySkateParkModule ec3Module;
     private EnergySkateParkModel ec3Model;
     private MultiKeyHandler multiKeyHandler = new MultiKeyHandler();
@@ -184,8 +187,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
         }
     }
 
-    public void addSplineGraphic( SplineGraphic splineGraphic ) {
-        rootNode.addSplineGraphic( splineGraphic );
+    public void addSplineGraphic( SplineNode splineNode ) {
+        rootNode.addSplineGraphic( splineNode );
     }
 
     private void removeSkater() {
@@ -216,21 +219,21 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
         ec3Model.splineSurfaceAt( 0 ).printControlPointCode();
     }
 
-    public SplineMatch proposeMatch( SplineGraphic splineGraphic, final Point2D toMatch ) {
+    public SplineMatch proposeMatch( SplineNode splineNode, final Point2D toMatch ) {
         ArrayList matches = new ArrayList();
         for( int i = 0; i < numSplineGraphics(); i++ ) {
-            SplineGraphic target = splineGraphicAt( i );
+            SplineNode target = splineGraphicAt( i );
             PNode startNode = target.getControlPointGraphic( 0 );
             double dist = distance( toMatch, startNode );
 
-            if( dist < matchThresholdWorldCoordinates && ( splineGraphic != target ) ) {
+            if( dist < matchThresholdWorldCoordinates && ( splineNode != target ) ) {
                 SplineMatch match = new SplineMatch( target, 0 );
                 matches.add( match );
             }
 
             PNode endNode = target.getControlPointGraphic( target.numControlPointGraphics() - 1 );
             double distEnd = distance( toMatch, endNode );
-            if( distEnd < matchThresholdWorldCoordinates && splineGraphic != target ) {
+            if( distEnd < matchThresholdWorldCoordinates && splineNode != target ) {
                 SplineMatch match = new SplineMatch( target, target.numControlPointGraphics() - 1 );
                 matches.add( match );
             }
@@ -248,11 +251,15 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
         return (SplineMatch)matches.get( 0 );
     }
 
+    public void splineTranslated( EnergySkateParkSpline splineSurface, double dx, double dy ) {
+        getEnergyConservationModel().splineTranslated( splineSurface, dx, dy );
+    }
+
     private double distance( Point2D toMatch, PNode startNode ) {
         return startNode.getFullBounds().getCenter2D().distance( toMatch );
     }
 
-    private SplineGraphic splineGraphicAt( int i ) {
+    private SplineNode splineGraphicAt( int i ) {
         return rootNode.splineGraphicAt( i );
     }
 
@@ -260,14 +267,14 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
         return rootNode.numSplineGraphics();
     }
 
-    public void attach( SplineGraphic splineGraphic, int index, SplineMatch match ) {
+    public void attach( SplineNode splineNode, int index, SplineMatch match ) {
         //delete both of those, add one new parent.
-        removeSpline( splineGraphic );
+        removeSpline( splineNode );
         removeSpline( match.getSplineGraphic() );
 
         AbstractSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
-        AbstractSpline a = splineGraphic.getSplineSurface().getSpline();
-        AbstractSpline b = match.getTopSplineMatch();
+        ControlPointParametricFunction2D a = splineNode.getSplineSurface().getParametricFunction2D();
+        EnergySkateParkSpline b = match.getTopSplineMatch();
         if( index == 0 ) {
             for( int i = a.numControlPoints() - 1; i >= 0; i-- ) {
                 spline.addControlPoint( a.controlPointAt( i ) );
@@ -289,22 +296,23 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
             }
         }
 //        AbstractSpline reverse = spline.createReverseSpline();
-        SplineSurface surface = new SplineSurface( spline );
-        ec3Model.addSplineSurface( surface );
-        addSplineGraphic( new SplineGraphic( this, surface ) );
+//        SplineSurface surface = new SplineSurface( spline );
+        EnergySkateParkSpline energySkateParkSpline = new EnergySkateParkSpline( new CubicSpline2D( spline.getControlPoints() ) );
+        ec3Model.addSplineSurface( energySkateParkSpline );
+        addSplineGraphic( new SplineNode( this, energySkateParkSpline,this ) );
     }
 
-    private void removeSplineGraphic( SplineGraphic splineGraphic ) {
-        rootNode.removeSplineGraphic( splineGraphic );
+    private void removeSplineGraphic( SplineNode splineNode ) {
+        rootNode.removeSplineGraphic( splineNode );
     }
 
     public EnergySkateParkModel getEnergyConservationModel() {
         return ec3Model;
     }
 
-    public void removeSpline( SplineGraphic splineGraphic ) {
-        removeSplineGraphic( splineGraphic );
-        ec3Model.removeSplineSurface( splineGraphic.getSplineSurface() );
+    public void removeSpline( SplineNode splineNode ) {
+        removeSplineGraphic( splineNode );
+        ec3Model.removeSplineSurface( splineNode.getSplineSurface() );
     }
 
     public EnergySkateParkModule getEnergyConservationModule() {
@@ -320,7 +328,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
         multiKeyHandler.keyPressed( e );
         if( hasFocus() ) {
             if( e.getKeyCode() == KeyEvent.VK_P ) {
-                System.out.println( "spline.getSegmentPath().getLength() = " + ec3Model.splineSurfaceAt( 0 ).getLength() );
+                System.out.println( "spline.getSegmentPath().getLength() = " + ec3Model.splineSurfaceAt( 0 ).numControlPoints() );
                 printControlPoints();
             }
             else if( e.getKeyCode() == KeyEvent.VK_B ) {
@@ -410,14 +418,14 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas {
         attachmentPointGraphics.remove( o );
     }
 
-    public void dragSplineSurface( PInputEvent event, SplineSurface createdSurface ) {
-        SplineGraphic splineGraphic = getSplineGraphic( createdSurface );
+    public void dragSplineSurface( PInputEvent event, EnergySkateParkSpline createdSurface ) {
+        SplineNode splineNode = getSplineGraphic( createdSurface );
         PDimension delta = event.getCanvasDelta();
         rootNode.screenToWorld( delta );
-        splineGraphic.processExternalDragEvent( delta.width, delta.height );
+        splineNode.processExternalDragEvent( delta.width, delta.height );
     }
 
-    public SplineGraphic getSplineGraphic( SplineSurface createdSurface ) {
+    public SplineNode getSplineGraphic( EnergySkateParkSpline createdSurface ) {
         for( int i = 0; i < numSplineGraphics(); i++ ) {
             if( splineGraphicAt( i ).getSplineSurface() == createdSurface ) {
                 return splineGraphicAt( i );

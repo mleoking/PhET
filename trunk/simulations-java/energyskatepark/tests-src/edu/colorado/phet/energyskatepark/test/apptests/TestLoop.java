@@ -3,8 +3,10 @@ package edu.colorado.phet.energyskatepark.test.apptests;
 import edu.colorado.phet.energyskatepark.EC3LookAndFeel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.test.phys1d.CubicSpline2D;
 import edu.colorado.phet.energyskatepark.model.spline.CubicSpline;
 import edu.colorado.phet.energyskatepark.model.spline.SplineSurface;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 
 /**
  * User: Sam Reid
@@ -40,6 +42,6 @@ public class TestLoop {
         spline.addControlPoint( 11.60145654446832, 0.43431858330000445 );
         spline.addControlPoint( 13.62360305213442, 1.073160150591316 );
 
-        energySkateParkApplication.getModule().getEnergySkateParkModel().addSplineSurface( new SplineSurface( spline ) );
+        energySkateParkApplication.getModule().getEnergySkateParkModel().addSplineSurface( new EnergySkateParkSpline( new CubicSpline2D( spline.getControlPoints( )) ) );
     }
 }

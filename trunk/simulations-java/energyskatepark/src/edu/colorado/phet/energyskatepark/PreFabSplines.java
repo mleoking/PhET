@@ -90,7 +90,7 @@ public class PreFabSplines {
 //        AbstractSpline rev = spline.createReverseSpline();
 //
 //        ec3Model.addSpline( spline, rev );
-//        SplineGraphic splineGraphic = new SplineGraphic( this, spline, rev );
+//        SplineNode splineGraphic = new SplineNode( this, spline, rev );
 //        addSplineGraphic( splineGraphic );
 //    }
 
