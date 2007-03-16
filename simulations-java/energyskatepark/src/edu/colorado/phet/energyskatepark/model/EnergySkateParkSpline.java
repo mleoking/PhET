@@ -63,10 +63,11 @@ public class EnergySkateParkSpline {
     }
 
     public GeneralPath getInterpolationPath() {
-        if( generalPath == null ) {
-            generalPath = createInterpolationPath();
-        }
-        return generalPath;
+        return createInterpolationPath();//todo: buffering for this call?
+//        if( generalPath == null ) {
+//            generalPath = createInterpolationPath();
+//        }
+//        return generalPath;
     }
 
     private GeneralPath createInterpolationPath() {
