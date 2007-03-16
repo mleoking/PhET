@@ -12,20 +12,19 @@ import java.util.Arrays;
  * Copyright (c) Mar 4, 2007 by Sam Reid
  */
 
-public class LinearSpline2D extends ParametricFunction2D {
-    private Point2D[] points;//todo: could share with cubicspline2d
+public class LinearSpline2D extends ControlPointParametricFunction2D{
 
     public LinearSpline2D( Point2D[] points ) {
-        this.points = points;
+        super(points );
     }
 
     public String toStringSerialization() {
-        return "points=" + Arrays.asList( points );
+        return "points=" + Arrays.asList( getControlPoints( ));
     }
 
     public Point2D evaluate( double alpha ) {
 
-        int aIndex = (int)( alpha * ( points.length - 1 ) );
+        int aIndex = (int)( alpha * ( getControlPoints().length - 1 ) );
 
         if( alpha < 0 ) {//todo: this may break lots of things, may need an extrapolation
 //            alpha = 0;
@@ -33,14 +32,14 @@ public class LinearSpline2D extends ParametricFunction2D {
         }
         if( alpha > 1 - 1E-6 ) {
 //            alpha = 1 - 1E-6;
-            aIndex = points.length - 2;
+            aIndex = getControlPoints().length - 2;
         }
 
-        Point2D a = points[aIndex];
-        Point2D b = points[aIndex + 1];
+        Point2D a = getControlPoints()[aIndex];
+        Point2D b = getControlPoints()[aIndex + 1];
         Function.LinearFunction x = new Function.LinearFunction( aIndex, aIndex+1, a.getX(), b.getX() );
         Function.LinearFunction y = new Function.LinearFunction( aIndex, aIndex+1, a.getY(), b.getY() );
-        return new Point2D.Double( x.evaluate( alpha * ( points.length - 1 ) ), y.evaluate( alpha * ( points.length - 1 ) ) );
+        return new Point2D.Double( x.evaluate( alpha * ( getControlPoints().length - 1 ) ), y.evaluate( alpha * ( getControlPoints().length - 1 ) ) );
     }
 
     public static void main( String[] args ) {

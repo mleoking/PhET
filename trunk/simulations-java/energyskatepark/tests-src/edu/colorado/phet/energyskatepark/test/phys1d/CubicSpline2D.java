@@ -10,36 +10,50 @@ import java.util.ArrayList;
  * Copyright (c) Mar 3, 2007 by Sam Reid
  */
 
-public class CubicSpline2D extends ParametricFunction2D {
+public class CubicSpline2D extends ControlPointParametricFunction2D {
     private CubicSpline x;
     private CubicSpline y;
-    private Point2D[] pts;
+
     private ArrayList listeners = new ArrayList();
 
     public CubicSpline2D( Point2D[] pts ) {
-        this.pts = pts;
+        super( pts );
         update();
     }
 
     public void setControlPoints( Point2D[] pts ) {
-        this.pts = pts;
+        super.setControlPoints( pts );
         update();
     }
 
     public void translateControlPoint( int i, double dx, double dy ) {
-        setControlPoint( i, new Point2D.Double( pts[i].getX() + dx, pts[i].getY() + dy ) );
+        super.translateControlPoint( i, dx, dy );
+        update();
+    }
+
+    public void removeControlPoint( int index ) {
+        super.removeControlPoint( index );
+        update();
     }
 
     public Point2D getControlPoint( int i ) {
+        Point2D[] pts = getControlPoints();
         return new Point2D.Double( pts[i].getX(), pts[i].getY() );
     }
 
     public void setControlPoint( int i, Point2D pt ) {
-        pts[i] = new Point2D.Double( pt.getX(), pt.getY() );
+        super.setControlPoint( i, pt );
+        update();
+    }
+
+
+    public void translateControlPoints( double dx, double dy ) {
+        super.translateControlPoints( dx, dy );
         update();
     }
 
     private void update() {
+        Point2D[] pts = getControlPoints();
         double[] s = new double[pts.length];
         double[] x = new double[pts.length];
         double[] y = new double[pts.length];
@@ -54,11 +68,8 @@ public class CubicSpline2D extends ParametricFunction2D {
         notifyTrackChanged();
     }
 
-    public int getNumControlPoints() {
-        return pts.length;
-    }
-
     public String toStringSerialization() {
+        Point2D[] pts = getControlPoints();
         String a = "new Point2D.Double[]{";
         for( int i = 0; i < pts.length; i++ ) {
             a += "new Point2D.Double(" + pts[i].getX() + ", " + pts[i].getY() + ")";
@@ -84,13 +95,6 @@ public class CubicSpline2D extends ParametricFunction2D {
         }
     }
 
-    public Point2D[] getControlPoints() {
-        Point2D[] a = new Point2D[pts.length];
-        for( int i = 0; i < a.length; i++ ) {
-            a[i] = new Point2D.Double( pts[i].getX(), pts[i].getY() );
-        }
-        return a;
-    }
 
     public Point2D evaluate( double alpha ) {
         return new Point2D.Double( x.evaluate( alpha ), y.evaluate( alpha ) );

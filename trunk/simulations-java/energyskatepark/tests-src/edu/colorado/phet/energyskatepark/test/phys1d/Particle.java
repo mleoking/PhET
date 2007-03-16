@@ -102,6 +102,18 @@ public class Particle {
         return g;
     }
 
+    public boolean isOnSpline( ParametricFunction2D parametricFunction2D ) {
+        return updateStrategy instanceof Particle1DUpdate && particle1D.getCubicSpline2D() == parametricFunction2D;
+    }
+
+    public ParametricFunction2D getSpline() {
+        return ( updateStrategy instanceof Particle1DUpdate ) ? particle1D.getCubicSpline2D() : null;
+    }
+
+    public boolean isUserMode() {
+        return updateStrategy instanceof UserUpdateStrategy;//todo: or thrust!=0
+    }
+
     interface UpdateStrategy {
         void stepInTime( double dt );
     }
