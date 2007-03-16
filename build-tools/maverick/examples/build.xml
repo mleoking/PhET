@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="ssh" default="files" basedir=".">
+
+
+    <taskdef name="ssh"
+      classname="com.sshtools.ant.Ssh"
+      classpath="../lib/maverick-ant.jar"/>
+
+
+   <target name="files">
+
+       <ssh host="foo.bar.com"
+            username="lee"
+            password="********"
+            version="2">
+
+         <exec cmd="ls"/>
+
+         
+         <sftp action="mkdir"
+               remotedir="ant_rules"/>
+
+         <sftp action="put" remotedir="ant_rules" verbose="true">
+           <fileset dir="somejars">
+             <include name="*.jar"/>
+           </fileset>
+         </sftp>
+
+         
+         <sftp mode="666" action="chmod" remotedir="ant_rules"
+           verbose="true">
+           <fileset>
+             <include name="*.jar"/>
+           </fileset>
+         </sftp>
+
+         <exec cmd="tar -zcf archive.tar.gz ant_rules"/>
+
+         <exec cmd="passwd">
+            <read>password:</read>
+            <write>oldpass</write>
+            <read>password:</read>
+ 	    <write>newpass</write>
+ 	    <read>password:</read>
+	    <write>newpass</write>
+         </exec>
+         
+         <sftp action="get">
+           <filelist 
+              dir="."
+              files="archive.tar.gz"/> 
+         </sftp>
+
+         <sftp action="rmdir" remotedir="ant_rules"/>
+
+       </ssh>
+
+   </target>
+
+</project>
