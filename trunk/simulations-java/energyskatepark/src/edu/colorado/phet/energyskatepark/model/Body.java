@@ -3,8 +3,8 @@ package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
 import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.test.phys1d.Particle;
@@ -218,66 +218,19 @@ public class Body {
     boolean debugging = false;
 
     public void stepInTime( double dt ) {
-//        System.out.println( "getGravity() = " + getGravity() );
-        Body orig = copyState();
-//        System.out.println( "getGravity() = " + getGravity() );
-
+        Body orig=copyState();
         particle.stepInTime( dt );
-
-//        StateRecord collisionList = createCollisionState();
-//        stateRecordHistory.add( collisionList );
-//        if( stateRecordHistory.size() > 100 ) {
-//            stateRecordHistory.remove( 0 );
-//        }
-        if( isUserControlled() ) {
-            this.storedTotalEnergy = getTotalEnergy();
-        }
-        EnergyDebugger.stepStarted( this, dt );
-        int NUM_STEPS_PER_UPDATE = 1;
-        for( int i = 0; i < NUM_STEPS_PER_UPDATE; i++ ) {
-            double ei = getTotalEnergy();
-//            getMode().stepInTime( this, dt / NUM_STEPS_PER_UPDATE );
-            double ef = getTotalEnergy();
-            double err = Math.abs( ef - ei );
-            if( err > 1E-6 && !isUserControlled() ) {
-//                System.out.println( "err=" + err + ", i=" + i + ", mode=" + getMode() );
-                if( !recurse && debugging ) {
-                    setState( orig );
-                    recurse = true;
-                    stepInTime( dt );
-                    recurse = false;
-                }
-            }
-        }
+        setAttachmentPointPosition( particle.getX(), particle.getY() );
+        setVelocity( particle.getVelocity() );
         if( getSpeed() > 0.01 ) {
             if( !isFreeFallMode() && !isUserControlled() ) {
                 facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAttachmentPointRotation() ) ) > 0;
             }
         }
-
         if( !MathUtil.isApproxEqual( getPotentialEnergy(), orig.getPotentialEnergy(), POTENTIAL_ENERGY_EQUALITY_EPS ) ) {
             notifyPotentialEnergyChanged();
         }
-
-//        System.out.println( "facingRight = " + facingRight + ", speed=" + getSpeed() );
-
-        setAttachmentPointPosition( particle.getX(), particle.getY() );
-        setVelocity( particle.getVelocity() );
-
-        EnergyDebugger.stepFinished( this );
     }
-
-//    public StateRecord createCollisionState() {
-//        StateRecord stateRecord = new StateRecord( copyState() );
-//        ArrayList splines = energySkateParkModel.getAllSplines();
-//        for( int i = 0; i < splines.size(); i++ ) {
-//            AbstractSpline spline = (AbstractSpline)splines.get( i );
-//            if( new SplineInteraction( energySkateParkModel ).isColliding( spline, this ) ) {
-//                stateRecord.addCollisionSpline( spline, getTraversalState( spline ) );
-//            }
-//        }
-//        return stateRecord;
-//    }
 
     static class TraversalState {
         boolean top;
@@ -468,7 +421,7 @@ public class Body {
     }
 
     public void splineRemoved( EnergySkateParkSpline spline ) {
-        if (particle.getSpline()==spline.getParametricFunction2D()){
+        if( particle.getSpline() == spline.getParametricFunction2D() ) {
             particle.setFreeFall();
         }
     }
