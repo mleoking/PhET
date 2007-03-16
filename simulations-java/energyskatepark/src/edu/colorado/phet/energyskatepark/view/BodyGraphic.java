@@ -8,6 +8,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
@@ -150,7 +151,7 @@ public class BodyGraphic extends PNode {
         AbstractSpline bestSpline = null;
         ArrayList allSplines = getEnergySkateParkModel().getAllSplines();
         for( int i = 0; i < allSplines.size(); i++ ) {
-            double score = getGrabScore( (AbstractSpline)allSplines.get( i ), body );
+            double score = getGrabScore( (EnergySkateParkSpline)allSplines.get( i ), body );
             if( score < bestScore ) {
                 bestScore = score;
                 bestSpline = (AbstractSpline)allSplines.get( i );
@@ -163,11 +164,12 @@ public class BodyGraphic extends PNode {
         return energySkateParkModule.getEnergySkateParkModel();
     }
 
-    private double getGrabScore( AbstractSpline spline, Body body ) {
+    private double getGrabScore( EnergySkateParkSpline spline, Body body ) {
         Area feet = new Area( body.getFeetShape() );
         feet.add( new Area( AffineTransform.getTranslateInstance( 0, body.getFeetShape().getBounds2D().getHeight() ).createTransformedShape( body.getFeetShape() ) ) );
         feet.add( new Area( AffineTransform.getTranslateInstance( 0, body.getFeetShape().getBounds2D().getHeight() * 2 ).createTransformedShape( body.getFeetShape() ) ) );
-        Area splineArea = new Area( spline.getArea() );
+//        Area splineArea = new Area( spline.getArea() );
+        Area splineArea = new Area( );//todo: add area for spline? This may be handled by Particle physics implementation
         splineArea.intersect( feet );
         boolean collide = !splineArea.isEmpty();
         return collide ? 0 : Double.POSITIVE_INFINITY;

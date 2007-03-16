@@ -101,7 +101,7 @@ public class Body {
         resetMode();
         setVelocity( 0, 0 );
         setThermalEnergy( 0.0 );
-        setPosition( 3, 3 );
+        setPosition( 3, 6 );
         particle.setVelocity( 0, 0 );
         particle.setGravity( -9.8 );
     }
@@ -116,20 +116,6 @@ public class Body {
     private double getDefaultBodyAngle() {
         return Math.PI;
     }
-//    public int getNumHistoryPoints() {
-//        return stateRecordHistory.size();
-//    }
-
-//    public void clearCollisionHistory() {
-//        stateRecordHistory.clear();
-//    }
-
-//    public void stayInSplineModeNewSpline( AbstractSpline spline ) {
-//        if( getMode() instanceof SplineMode ) {
-//            SplineMode splineMode = (SplineMode)getMode();
-//            splineMode.setSpline( spline );
-//        }
-//    }
 
     public static class StateRecord {
         private ArrayList states = new ArrayList();
@@ -379,7 +365,6 @@ public class Body {
 
     public boolean isUserControlled() {
         return particle.isUserMode();
-//        return mode == userMode || getThrust().getMagnitude() > 0;// || ( isSplineMode() && getSpline().isUserControlled() );
     }
 
     public void setUserControlled( boolean userControlled ) {
@@ -389,13 +374,6 @@ public class Body {
         else {
             particle.setFreeFall();
         }
-//        if( userControlled ) {
-//            setMode( userMode );
-//        }
-//        else {
-//            setAngularVelocity( 0.0 );
-//            setMode( freeFall );
-//        }
     }
 
     public double getMinY() {
@@ -422,35 +400,9 @@ public class Body {
         return mass;
     }
 
-//    public void setSplineMode( EnergySkateParkModel model, AbstractSpline spline ) {
-//        boolean same = false;
-//        if( mode instanceof SplineMode ) {
-//            SplineMode sm = (SplineMode)mode;
-//            if( sm.getSpline() == spline ) {
-//                same = true;
-//            }
-//        }
-//        if( !same ) {
-//            this.storedTotalEnergy = getTotalEnergy();
-//            setMode( new SplineMode( model, spline ) );
-//        }
-//    }
-
-//    private void setMode( UpdateMode mode ) {
-//        if( this.mode != null ) {
-//            this.mode.finish( this );
-//        }
-//        this.mode = mode;
-//        mode.init( this );
-//    }
-
     public void setFreeFallRotationalVelocity( double dA ) {
         setAngularVelocity( dA );
     }
-
-//    public void setFreeFallMode() {
-//        setMode( freeFall );
-//    }
 
     private void clampAngle() {
         while( attachmentPointRotation < 0 ) {
@@ -493,7 +445,6 @@ public class Body {
 
     public boolean isFreeFallMode() {
         return particle.isFreeFall();
-//        return mode instanceof FreeFall;
     }
 
     public boolean isSplineMode() {
@@ -517,13 +468,9 @@ public class Body {
     }
 
     public void splineRemoved( EnergySkateParkSpline spline ) {
-        //todo: implement
-//        if( mode instanceof SplineMode ) {
-//            SplineMode spm = (SplineMode)mode;
-//            if( spm.getSpline() == spline ) {
-//                setFreeFallMode();
-//            }
-//        }
+        if (particle.getSpline()==spline.getParametricFunction2D()){
+            particle.setFreeFall();
+        }
     }
 
     public double getFrictionCoefficient() {
@@ -642,11 +589,6 @@ public class Body {
 
     public boolean isOnSpline( EnergySkateParkSpline splineSurface ) {
         return particle.isOnSpline( splineSurface.getParametricFunction2D() );
-//        if( mode instanceof SplineMode ) {
-//            SplineMode sm = (SplineMode)mode;
-//            return splineSurface.contains( sm.getSpline() );
-//        }
-//        return false;
     }
 
     public void notifyDoRepaint() {
