@@ -50,10 +50,6 @@ public class Body {
     private double thermalEnergy = 0;
     private double angularVelocity = 0;
     private double storedTotalEnergy = 0.0;
-
-    //    private FreeFall freeFall;
-    //    private UserControlled userMode;
-    //    private UpdateMode mode;
     private boolean freefall = true;
 
     private AbstractSpline lastFallSpline;
@@ -62,7 +58,6 @@ public class Body {
     private ArrayList listeners = new ArrayList();
     private EnergySkateParkModel energySkateParkModel;
 
-    //    private ArrayList stateRecordHistory = new ArrayList();
     private boolean debugAnglesEnabled = false;
     private static final double POTENTIAL_ENERGY_EQUALITY_EPS = 1E-6;
 
@@ -72,16 +67,13 @@ public class Body {
 
     public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, EnergySkateParkModel energySkateParkModel ) {
         this.energySkateParkModel = energySkateParkModel;
-//        userMode = new UserControlled();
-//        this.freeFall = new FreeFall( energySkateParkModel );
         this.width = width;
         this.height = height;
         this.potentialEnergyMetric = potentialEnergyMetric;
         cmRotation = Math.PI;
-//        mode = freeFall;
         storedTotalEnergy = getTotalEnergy();
 
-        particleStage = new ParticleStage();
+        particleStage = new EnergySkateParkSplineListAdapter( energySkateParkModel );
         particle = new Particle( particleStage );
     }
 
@@ -330,29 +322,6 @@ public class Body {
             return spline;
         }
     }
-
-//    private TraversalState getTraversalState( AbstractSpline spline ) {
-//        double x = spline.getDistAlongSpline( getCenterOfMass(), 0, spline.getLength(), 100 );
-////        System.out.println( "pt = " + pt );
-//        Point2D point2D = spline.evaluateAnalytical( x );
-//
-//        Vector2D.Double cmVector = new Vector2D.Double( point2D, getCenterOfMass() );
-//        Vector2D.Double normal = new Vector2D.Double( spline.getUnitNormalVector( x ) );
-//        boolean top = normal.dot( cmVector ) >= 0;
-//        return new TraversalState( top, x, point2D, spline );
-//    }
-
-//    public StateRecord getCollisionStateFromEnd( int i ) {
-//        return (StateRecord)stateRecordHistory.get( stateRecordHistory.size() - 1 - i );
-//    }
-//
-//    public StateRecord getCollisionState() {
-//        return (StateRecord)stateRecordHistory.get( stateRecordHistory.size() - 1 );
-//    }
-
-//    private UpdateMode getMode() {
-//        return mode;
-//    }
 
     public double getY() {
         return getCenterOfMass().getY();

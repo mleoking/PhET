@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
+import edu.colorado.phet.energyskatepark.test.phys1d.ParticleStage;
 
 import java.util.ArrayList;
 
@@ -16,9 +17,8 @@ public class EnergySkateParkModel {
     private double time = 0;
     private ArrayList history = new ArrayList();
     private ArrayList bodies = new ArrayList();
-    //    private ArrayList floors = new ArrayList();
-    //    private ArrayList splineSurfaces = new ArrayList();
     private ArrayList splines = new ArrayList();
+
     private Floor floor;
 
     private double gravity = G_EARTH;
@@ -55,11 +55,6 @@ public class EnergySkateParkModel {
         };
         updateFloorState();
     }
-
-//    public int numSplineSurfaces() {
-//        return splineSurfaces.size();
-
-    //    }
 
     public int numSplineSurfaces() {
         return splines.size();
@@ -342,15 +337,15 @@ public class EnergySkateParkModel {
 //        }
 //    }
 
-    private boolean containsSpline( EnergySkateParkSpline spline ) {
-        for( int i = 0; i < splines.size(); i++ ) {
-            EnergySkateParkSpline splineSurface = (EnergySkateParkSpline)splines.get( i );
-            if( splineSurface == spline ) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    private boolean containsSpline( EnergySkateParkSpline spline ) {
+//        for( int i = 0; i < splines.size(); i++ ) {
+//            EnergySkateParkSpline splineSurface = (EnergySkateParkSpline)splines.get( i );
+//            if( splineSurface == spline ) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     public double timeSinceLastHistory() {
         if( history.size() == 0 ) {
@@ -476,12 +471,16 @@ public class EnergySkateParkModel {
 
         public void gravityChanged() {
         }
+
+        public void splinesChanged() {
+        }
     }
 
     public static interface EnergyModelListener {
         void preStep( double dt );
 
         void gravityChanged();
+        void splinesChanged();
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {
