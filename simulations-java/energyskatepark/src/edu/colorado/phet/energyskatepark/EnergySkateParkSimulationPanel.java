@@ -273,7 +273,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         removeSpline( match.getSplineGraphic() );
 
         AbstractSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
-        ControlPointParametricFunction2D a = splineNode.getSplineSurface().getParametricFunction2D();
+        ControlPointParametricFunction2D a = splineNode.getSpline().getParametricFunction2D();
         EnergySkateParkSpline b = match.getTopSplineMatch();
         if( index == 0 ) {
             for( int i = a.numControlPoints() - 1; i >= 0; i-- ) {
@@ -312,7 +312,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
     public void removeSpline( SplineNode splineNode ) {
         removeSplineGraphic( splineNode );
-        ec3Model.removeSplineSurface( splineNode.getSplineSurface() );
+        ec3Model.removeSplineSurface( splineNode.getSpline() );
     }
 
     public EnergySkateParkModule getEnergyConservationModule() {
@@ -427,7 +427,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
     public SplineNode getSplineGraphic( EnergySkateParkSpline createdSurface ) {
         for( int i = 0; i < numSplineGraphics(); i++ ) {
-            if( splineGraphicAt( i ).getSplineSurface() == createdSurface ) {
+            if( splineGraphicAt( i ).getSpline() == createdSurface ) {
                 return splineGraphicAt( i );
             }
         }

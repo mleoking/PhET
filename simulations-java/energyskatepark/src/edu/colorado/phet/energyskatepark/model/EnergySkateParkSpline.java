@@ -9,18 +9,15 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Mar 16, 2007
- * Time: 11:30:06 AM
- * To change this template use File | Settings | File Templates.
+ * Author: Sam Reid
+ * Mar 16, 2007, 11:30:06 AM
  */
 public class EnergySkateParkSpline {
     private ControlPointParametricFunction2D parametricFunction2D;
     private boolean rollerCoaster;
     private boolean userControlled;
     private boolean interactive = true;
-    private GeneralPath generalPath;
+//    private GeneralPath generalPath;
 
     public EnergySkateParkSpline( ControlPointParametricFunction2D parametricFunction2D ) {
         this.parametricFunction2D = parametricFunction2D;
@@ -110,5 +107,9 @@ public class EnergySkateParkSpline {
 
     public void printControlPointCode() {
         System.out.println( "parametricFunction2D.toStringSerialization() = " + parametricFunction2D.toStringSerialization() );
+    }
+
+    public void setControlPointLocation( int index, Point2D pt ) {
+        parametricFunction2D.setControlPoint( index, pt );
     }
 }
