@@ -2,7 +2,6 @@
 package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
-import edu.colorado.phet.energyskatepark.test.phys1d.ParticleStage;
 
 import java.util.ArrayList;
 
@@ -33,7 +32,7 @@ public class EnergySkateParkModel {
     public static final double G_MOON = -1.62;
     public static final double G_JUPITER = -25.95;
     private int maxNumHistoryPoints = 100;
-    private static boolean thermalLanding=true;
+    private static boolean thermalLanding = true;
 
 
     public EnergySkateParkModel( double zeroPointPotentialY ) {
@@ -177,7 +176,7 @@ public class EnergySkateParkModel {
     }
 
     public static void setThermalLanding( boolean selected ) {
-        thermalLanding=selected;
+        thermalLanding = selected;
     }
 
 //    private void removeFloors() {
@@ -398,6 +397,14 @@ public class EnergySkateParkModel {
 
     public void addSplineSurface( EnergySkateParkSpline energySkateParkSpline ) {
         splines.add( energySkateParkSpline );
+        notifySplinesChanged();
+    }
+
+    private void notifySplinesChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+            energyModelListener.splinesChanged();
+        }
     }
 
     public void addBody( Body body ) {
@@ -434,6 +441,7 @@ public class EnergySkateParkModel {
         notifyBodiesSplineRemoved( splineSurface );
 //        notifyBodiesSplineRemoved( splineSurface.getBottom() );
         splines.remove( splineSurface );
+        notifySplinesChanged();
     }
 
     private void notifyBodiesSplineRemoved( EnergySkateParkSpline spline ) {
@@ -480,6 +488,7 @@ public class EnergySkateParkModel {
         void preStep( double dt );
 
         void gravityChanged();
+
         void splinesChanged();
     }
 

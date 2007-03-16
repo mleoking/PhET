@@ -26,4 +26,5 @@ public class EnergySkateParkSplineListAdapter extends ParticleStage {
             addCubicSpline2D( energySkateParkSpline.getParametricFunction2D() );
         }
     }
+    
 }
