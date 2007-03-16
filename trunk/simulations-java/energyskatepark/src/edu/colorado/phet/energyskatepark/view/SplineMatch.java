@@ -29,7 +29,7 @@ public class SplineMatch {
     }
 
     public EnergySkateParkSpline getTopSplineMatch() {
-        return target.getSplineSurface();
+        return target.getSpline();
     }
 
     public boolean matchesBeginning() {

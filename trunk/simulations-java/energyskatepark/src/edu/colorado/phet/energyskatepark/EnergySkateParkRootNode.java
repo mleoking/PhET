@@ -366,7 +366,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             removeSplineGraphic( splineGraphicAt( numSplineGraphics() - 1 ) );
         }
         for( int i = 0; i < getModel().numSplineSurfaces(); i++ ) {
-            splineGraphicAt( i ).setSplineSurface( getModel().splineSurfaceAt( i ) );
+            splineGraphicAt( i ).setSpline( getModel().splineSurfaceAt( i ) );
         }
     }
 
