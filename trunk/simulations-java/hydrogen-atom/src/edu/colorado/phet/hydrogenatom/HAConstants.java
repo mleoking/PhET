@@ -43,6 +43,12 @@ public class HAConstants {
     public static final boolean SHOW_ORIGIN_NODES = false; // set to true for debugging
     
     //----------------------------------------------------------------------------
+    // Application
+    //----------------------------------------------------------------------------
+    
+    private static final String PROJECT = "hydrogen-atom";
+    
+    //----------------------------------------------------------------------------
     // Dimensions
     //----------------------------------------------------------------------------
     
@@ -67,8 +73,8 @@ public class HAConstants {
     // Properties files
     //----------------------------------------------------------------------------
     
-    public static final String SIM_PROPERTIES_NAME = "hydrogenatom";
-    public static final String SIM_STRINGS_NAME = "localization/hydrogenatom_strings";
+    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
+    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
 
     //----------------------------------------------------------------------------
     // Clock
@@ -137,7 +143,7 @@ public class HAConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String IMAGES_DIRECTORY = "hydrogenatom/images/";
+    public static final String IMAGES_DIRECTORY = PROJECT + "/images/";
     
     public static final String IMAGE_ATOMIC_MODEL_PANEL = IMAGES_DIRECTORY + "atomicModelPanel.png";
     public static final String IMAGE_BILLIARD_BALL_BUTTON = IMAGES_DIRECTORY + "billiardBallButton.png";
