@@ -577,10 +577,13 @@
         
         <!-- Delete the old manifest directory -->
         <delete dir="${dir.temp.project}META-INF" />
-        
+
+        <!--Make sure there is a deploy directory-->
+        <echo message="Creating delopy directory: ${dir.project.deploy.local}"/>
+        <mkdir dir="${dir.project.deploy.local}" />
+
         <!-- Jar the output -->
         <echo message="Building jar from files in ${dir.temp.project}, to ${jar.project.deploy.local}"/>
-        
         <jar basedir="${dir.temp.project}" destfile="${jar.project.deploy.local}" >
             <manifest>
                 <attribute name="Manifest-Version" value="1.0" />
