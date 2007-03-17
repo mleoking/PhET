@@ -11,7 +11,7 @@ click on "Setup & Troubleshooting" for more
 information.
 -->
 <!-- Spanish (es) JNLP File for PhET "The Hydrogen Atom" simulation -->
-<jnlp>
+<jnlp
   spec="1.0+"
   codebase="http://phet-web.colorado.edu/simulations"
   href="hydrogen-atom/hydrogen-atom_es.jnlp">
