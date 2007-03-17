@@ -15,7 +15,7 @@ information.
 
 -->
 <!-- JNLP File for PhET "Optical Quantum Control" simulation --> 
-<jnlp>
+<jnlp
   spec="1.0+" 
   codebase="http://www.colorado.edu/physics/phet/simulations/"
   href="optical-quantum-control/optical-quantum-control_es.jnlp"> 
