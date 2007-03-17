@@ -11,16 +11,18 @@
 
 package edu.colorado.phet.common_13364.application;
 
-import edu.colorado.phet.common_13364.model.clock.ClockTickListener;
-import edu.colorado.phet.common_13364.view.ApplicationView;
-import edu.colorado.phet.common_13364.view.TabbedApparatusPanelContainer;
-import edu.colorado.phet.common_13364.view.util.SimStrings;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.Properties;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
+import edu.colorado.phet.common_13364.model.clock.ClockTickListener;
+import edu.colorado.phet.common_13364.util.PropertiesLoader;
+import edu.colorado.phet.common_13364.view.ApplicationView;
+import edu.colorado.phet.common_13364.view.TabbedApparatusPanelContainer;
 
 /**
  * The top-level class for all PhET applications.
@@ -33,6 +35,7 @@ public class PhetApplication {
     private ApplicationView view;
     private ApplicationModel applicationModel;
     private ModuleManager moduleManager = new ModuleManager();
+    private Properties simulationProperties;
 
     public PhetApplication( ApplicationModel descriptor ) {
         if( descriptor.getModules() == null ) {
@@ -198,4 +201,42 @@ public class PhetApplication {
         }
     }
 
+    /**
+     * Sets the simulation's properties.
+     * These are properties that do NOT require localization.
+     * 
+     * @param simulationProperties
+     */
+    public void setSimulationProperties( Properties simulationProperties ) {
+        this.simulationProperties = simulationProperties;
+    }
+    
+    /**
+     * Gets the simulation's properties.
+     * These are properties that do NOT require localization.
+     * 
+     * @return Properties, null if setSimulationProperties was not called
+     */
+    public Properties getSimulationProperties() {
+        return simulationProperties;
+    }
+    
+    /**
+     * Gets the version string in the proper format for displaying in the 
+     * title bar of the application's main frame.
+     * 
+     * @param simulationProperties
+     * @return
+     */
+    public static String getVersionString( Properties simulationProperties ) {
+        String major = simulationProperties.getProperty( PropertiesLoader.PROPERTY_VERSION_MAJOR, "?" );
+        String minor = simulationProperties.getProperty( PropertiesLoader.PROPERTY_VERSION_MINOR, "?" );
+        String dev = simulationProperties.getProperty( PropertiesLoader.PROPERTY_VERSION_DEV, "?" );
+        String version = major + "." + minor;
+        if ( !dev.matches( "0*" ) ) {
+            // add dev number only if it's not zero
+            version += "." + dev;
+        }
+        return version;
+    }
 }

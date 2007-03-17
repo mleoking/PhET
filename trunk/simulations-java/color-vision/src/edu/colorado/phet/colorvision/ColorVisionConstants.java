@@ -15,27 +15,28 @@ import java.awt.Color;
 import java.awt.Font;
 
 /**
- * ColorVisionConstants contains global configuration values for the Color Vision
- * application. 
+ * ColorVisionConstants contains global configuration constants.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class ColorVisionConstants {
 
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
+    /* Not intended for instantiation */
+    private ColorVisionConstants() {}
 
-    // Resource bundles
-    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/colorvision_strings";
+    private static final String PROJECT = "color-vision";
+    
+    // Properties files
+    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
+    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
 
     // Clock constants
     public static final double TIME_STEP = 1;
     public static final int WAIT_TIME = 50;
 
     // Images
-    public static final String IMAGES_DIRECTORY = "colorvision/images/";
+    public static final String IMAGES_DIRECTORY = PROJECT + "/images/";
     public static final String HEAD_BACKGROUND_IMAGE = IMAGES_DIRECTORY + "headBackground.png";
     public static final String HEAD_FOREGROUND_IMAGE = IMAGES_DIRECTORY + "headForeground.png";
     public static final String SPECTRUM_IMAGE = IMAGES_DIRECTORY + "spectrum.png";
@@ -54,13 +55,4 @@ public class ColorVisionConstants {
 
     // Fonts
     public static final Font LABEL_FONT = new Font( "SansSerif", Font.PLAIN, 18 );
-
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
-
-    /**
-     * This class is not intended for instantiation.
-     */
-    private ColorVisionConstants() {}
 }
