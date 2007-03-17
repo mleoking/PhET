@@ -1,9 +1,9 @@
--injars /Volumes/files/phet-workspace/jars/boundstates.jar
+-injars /Volumes/files/phet-workspace/jars/bound-states.jar
 -injars /Volumes/files/phet-workspace/jfreechart/lib/jcommon-1.0.0.jar
 -injars /Volumes/files/phet-workspace/jfreechart/lib/servlet.jar
 -injars /Volumes/files/phet-workspace/jfreechart/lib/junit.jar
 -injars /Volumes/files/phet-workspace/bound-states/lib/jnlp.jar
--outjars /Volumes/files/phet-workspace/jars/boundstates-pro.jar
+-outjars /Volumes/files/phet-workspace/jars/bound-states-proguard.jar
 
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/ui.jar

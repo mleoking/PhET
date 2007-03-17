@@ -1,5 +1,5 @@
--injars /Volumes/files/phet-workspace/jars/rutherfordscattering.jar
--outjars /Volumes/files/phet-workspace/jars/rutherfordscattering-pro.jar
+-injars /Volumes/files/phet-workspace/jars/rutherford-scattering.jar
+-outjars /Volumes/files/phet-workspace/jars/rutherford-scattering-proguard.jar
 
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/ui.jar

@@ -1,5 +1,5 @@
--injars /Volumes/files/phet-workspace/jars/hydrogenatom.jar
--outjars /Volumes/files/phet-workspace/jars/hydrogenatom-pro.jar
+-injars /Volumes/files/phet-workspace/jars/hydrogen-atom.jar
+-outjars /Volumes/files/phet-workspace/jars/hydrogen-atom-proguard.jar
 
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/ui.jar

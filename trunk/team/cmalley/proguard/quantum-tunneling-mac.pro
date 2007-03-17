@@ -1,9 +1,9 @@
--injars /Volumes/files/phet-workspace/jars/quantumtunneling.jar
+-injars /Volumes/files/phet-workspace/jars/quantum-tunneling.jar
 -injars /Volumes/files/phet-workspace/jfreechart/lib/jcommon-1.0.0.jar
 -injars /Volumes/files/phet-workspace/jfreechart/lib/servlet.jar
 -injars /Volumes/files/phet-workspace/jfreechart/lib/junit.jar
 -injars /Volumes/files/phet-workspace/quantum-tunneling/lib/jnlp.jar
--outjars /Volumes/files/phet-workspace/jars/quantumtunneling-pro.jar
+-outjars /Volumes/files/phet-workspace/jars/quantum-tunneling-proguard.jar
 
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/ui.jar

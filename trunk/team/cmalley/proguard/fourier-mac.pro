@@ -1,6 +1,6 @@
 -injars /Volumes/files/phet-workspace/jars/fourier.jar
 -injars /Volumes/files/phet-workspace/fourier/lib/jnlp.jar
--outjars /Volumes/files/phet-workspace/jars/fourier-pro.jar
+-outjars /Volumes/files/phet-workspace/jars/fourier-proguard.jar
 
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/ui.jar
