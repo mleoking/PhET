@@ -37,6 +37,8 @@ public class FourierConstants {
     // Application
     //----------------------------------------------------------------------------
     
+    private static final String PROJECT = "fourier";
+    
     public static final int APP_FRAME_WIDTH = 1024;
     public static final int APP_FRAME_HEIGHT = 768;
     
@@ -44,8 +46,8 @@ public class FourierConstants {
     // Properties files
     //----------------------------------------------------------------------------
     
-    public static final String SIM_PROPERTIES_NAME = "fourier";
-    public static final String SIM_STRINGS_NAME = "localization/fourier_strings";
+    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
+    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
 
     //----------------------------------------------------------------------------
     // Clock
@@ -97,7 +99,7 @@ public class FourierConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    private static final String IMAGES_DIRECTORY = "fourier/images/";
+    private static final String IMAGES_DIRECTORY = PROJECT + "/images/";
     public static final String MAXIMIZE_BUTTON_IMAGE = IMAGES_DIRECTORY + "maximizeButton.png";
     public static final String MINIMIZE_BUTTON_IMAGE = IMAGES_DIRECTORY + "minimizeButton.png";
     public static final String SOUND_MAX_IMAGE = IMAGES_DIRECTORY + "soundMax.png";
