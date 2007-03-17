@@ -37,6 +37,8 @@ public class OQCConstants {
     // Application
     //----------------------------------------------------------------------------
     
+    private static final String PROJECT = "optical-quantum-control";
+    
     public static final int APP_FRAME_WIDTH = 1024;
     public static final int APP_FRAME_HEIGHT = 768;
     
@@ -44,8 +46,8 @@ public class OQCConstants {
     // Properties files
     //----------------------------------------------------------------------------
     
-    public static final String SIM_PROPERTIES_NAME = "opticalquantumcontrol";
-    public static final String SIM_STRINGS_NAME = "localization/opticalquantumcontrol_strings";
+    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
+    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
 
     //----------------------------------------------------------------------------
     // Clock
@@ -116,7 +118,7 @@ public class OQCConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String IMAGES_DIRECTORY = "opticalquantumcontrol/images/";
+    public static final String IMAGES_DIRECTORY = PROJECT + "/images/";
     public static final String CLOSE_BUTTON_IMAGE = IMAGES_DIRECTORY + "closeButton.png";
     public static final String EXPLANATION_IMAGE = IMAGES_DIRECTORY + "explanation.jpg";
     public static final String KABOOM_IMAGE = IMAGES_DIRECTORY + "kaboom.png";
