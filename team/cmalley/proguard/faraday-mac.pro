@@ -1,5 +1,5 @@
 -injars /Volumes/files/phet-workspace/jars/faraday.jar
--outjars /Volumes/files/phet-workspace/jars/faraday-pro.jar
+-outjars /Volumes/files/phet-workspace/jars/faraday-proguard.jar
 
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/ui.jar

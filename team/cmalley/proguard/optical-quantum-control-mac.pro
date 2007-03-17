@@ -1,5 +1,5 @@
--injars /Volumes/files/phet-workspace/jars/opticalquantumcontrol.jar
--outjars /Volumes/files/phet-workspace/jars/opticalquantumcontrol-pro.jar
+-injars /Volumes/files/phet-workspace/jars/optical-quantum-control-proguard.jar
+-outjars /Volumes/files/phet-workspace/jars/optical-quantum-control-proguard.jar
 
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/ui.jar

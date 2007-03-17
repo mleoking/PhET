@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jardesc>
-    <jar path="/Volumes/files/phet-workspace/jars/boundstates.jar"/>
+    <jar path="/Volumes/files/phet-workspace/jars/bound-states.jar"/>
     <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/cmalley/eclipse/bound-states.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
     <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="true" saveManifest="false" generateManifest="false" manifestLocation="/cmalley/eclipse/bound-states.mf">
         <sealing sealJar="false">
