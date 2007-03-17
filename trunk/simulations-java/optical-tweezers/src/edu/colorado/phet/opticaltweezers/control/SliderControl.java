@@ -412,13 +412,21 @@ public class SliderControl extends JPanel {
     /**
      * Changes the label table to label only the min and max of the range.
      * 
-     * @param minLabel
-     * @param maxLabel
+     * @param minString
+     * @param maxString
      */
-    public void setMinMaxLabels( String minLabel, String maxLabel ) {
+    public void setMinMaxLabels( String minString, String maxString ) {
         Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( _slider.getMinimum() ), new JLabel( minLabel ) );
-        labelTable.put( new Integer( _slider.getMaximum() ), new JLabel( maxLabel ) );
+        Font font = _font;
+        if ( font == null ) {
+            font = new JLabel().getFont();
+        }
+        JLabel minLabel = new JLabel( minString );
+        minLabel.setFont( font  );
+        labelTable.put( new Integer( _slider.getMinimum() ), minLabel );
+        JLabel maxLabel = new JLabel( maxString );
+        maxLabel.setFont( font );
+        labelTable.put( new Integer( _slider.getMaximum() ), maxLabel );
         _slider.setLabelTable( labelTable );
     }
     
