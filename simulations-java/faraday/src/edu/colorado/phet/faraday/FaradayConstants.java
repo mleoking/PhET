@@ -37,6 +37,8 @@ public class FaradayConstants {
     // Application
     //----------------------------------------------------------------------------
     
+    private static final String PROJECT = "faraday";
+    
     public static final int APP_FRAME_WIDTH = 1024;
     public static final int APP_FRAME_HEIGHT = 768;
     
@@ -44,8 +46,8 @@ public class FaradayConstants {
     // Properties files
     //----------------------------------------------------------------------------
     
-    public static final String SIM_PROPERTIES_NAME = "faraday";
-    public static final String SIM_STRINGS_NAME = "localization/faraday_strings";
+    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
+    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
 
     //----------------------------------------------------------------------------
     // Clock parameters
@@ -61,7 +63,7 @@ public class FaradayConstants {
     // Images
     //----------------------------------------------------------------------------
     
-    private static final String IMAGES_DIRECTORY = "faraday/images/";
+    private static final String IMAGES_DIRECTORY = PROJECT + "/images/";
     
     public static final String AC_POWER_SUPPLY_IMAGE = IMAGES_DIRECTORY + "acPowerSupply.png";
     public static final String AC_POWER_SUPPLY_ICON = IMAGES_DIRECTORY + "acPowerSupply_icon.png";
