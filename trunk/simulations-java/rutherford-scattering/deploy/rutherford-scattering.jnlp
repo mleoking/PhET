@@ -24,7 +24,7 @@ information.
   </information>
   <resources>
     <j2se version="1.4+"/>
-    <jar href="rutherford-scattering/rutherfordscattering.jar"/>
+    <jar href="rutherford-scattering/rutherford-scattering.jar"/>
   </resources>
   <application-desc main-class="edu.colorado.phet.rutherfordscattering.RSApplication"/>
 </jnlp>
