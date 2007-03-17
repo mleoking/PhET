@@ -66,7 +66,7 @@ public class Particle1D {
 //        return norm.getInstanceOfMagnitude( sign );
 //    }
 //    
-    
+
     public AbstractVector2D getSideVector() {
         AbstractVector2D vector = getCubicSpline2D().getUnitNormalVector( alpha );
         double sign = isSplineTop() ? 1.0 : -1.0;
@@ -172,6 +172,10 @@ public class Particle1D {
 
     public boolean isSplineTop() {
         return splineTop;
+    }
+
+    public void setGravity( double g ) {
+        this.g = g;
     }
 
     public interface UpdateStrategy {
