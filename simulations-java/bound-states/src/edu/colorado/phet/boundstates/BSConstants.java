@@ -35,6 +35,8 @@ public class BSConstants {
     // Application
     //----------------------------------------------------------------------------
     
+    private static final String PROJECT = "bound-states";
+    
     public static final int APP_FRAME_WIDTH = 1024;
     public static final int APP_FRAME_HEIGHT = 768;
     
@@ -42,8 +44,8 @@ public class BSConstants {
     // Properties files
     //----------------------------------------------------------------------------
     
-    public static final String SIM_PROPERTIES_NAME = "boundstates";
-    public static final String SIM_STRINGS_NAME = "localization/boundstates_strings";
+    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
+    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
 
     //----------------------------------------------------------------------------
     // Clock
@@ -125,7 +127,7 @@ public class BSConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String IMAGES_DIRECTORY = "boundstates/images/";
+    public static final String IMAGES_DIRECTORY = PROJECT + "/images/";
     
     public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
     public static final String IMAGE_ZOOM_IN = IMAGES_DIRECTORY + "zoomIn.gif";
