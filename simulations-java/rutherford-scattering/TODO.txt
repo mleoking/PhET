@@ -5,15 +5,15 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- check plum pudding performance
 
 MEDIUM PRIORITY:
+- improve plum pudding performance
 
 LOW PRIORITY:
-- AnimationBoxNode.paint gets called twice on clock steps that create/delete an alpha particle
 
 
 DONE:
+******* version 1.00.00 (?)
 3/15/07 - change thumbnail image
 ******* version 0.00.04 (13789)
 3/15/07 - move ModelViewManager framework to its own package, target for replacement
