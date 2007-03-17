@@ -15,7 +15,7 @@ information.
 
 -->
 <!-- JNLP File for PhET "Quantum Tunneling" simulation --> 
-<jnlp 
+<jnlp>
   spec="1.0+" 
   codebase="http://www.colorado.edu/physics/phet/simulations/"
   href="quantum-tunneling/quantum-tunneling_es.jnlp"> 
