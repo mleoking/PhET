@@ -15,7 +15,7 @@ information.
 
 -->
 <!-- JNLP File for PhET Faraday's Law simulation --> 
-<jnlp>
+<jnlp
   spec="1.0+" 
   codebase="http://www.colorado.edu/physics/phet/simulations"
   href="faraday/faraday_es.jnlp"> 
