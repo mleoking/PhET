@@ -15,7 +15,7 @@ information.
 
 -->
 <!-- JNLP File for PhET "Optical Tweezers" simulation --> 
-<jnlp>
+<jnlp
   spec="1.0+" 
   codebase="http://phet-web.colorado.edu/simulations"
   href="optical-tweezers/optical-tweezers.jnlp"> 
