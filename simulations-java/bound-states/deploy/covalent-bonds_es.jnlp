@@ -15,7 +15,7 @@ information.
 
 -->
 <!-- Spanish (es) JNLP File for PhET "Double Wells and Covalent Bonds" simulation --> 
-<jnlp>
+<jnlp
   spec="1.0+" 
   codebase="http://www.colorado.edu/physics/phet/simulations/"
   href="bound-states/covalent-bonds_es.jnlp"> 
