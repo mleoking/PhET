@@ -48,6 +48,7 @@ public class Particle {
 
     public void setGravity( double g ) {
         this.g = g;
+        particle1D.setGravity(g);
     }
 
     public boolean isFreeFall() {
