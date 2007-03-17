@@ -12,10 +12,11 @@
 package edu.colorado.phet.colorvision;
 
 import java.awt.Color;
-import java.util.Locale;
+import java.util.Properties;
 
 import edu.colorado.phet.colorvision.coreadditions.view.BoundsOutliner;
 import edu.colorado.phet.common_13364.application.PhetApplication;
+import edu.colorado.phet.common_13364.util.PropertiesLoader;
 import edu.colorado.phet.common_13364.view.util.FrameSetup;
 import edu.colorado.phet.common_13364.view.util.SimStrings;
 
@@ -54,21 +55,25 @@ public class ColorVisionApplication extends PhetApplication {
         BoundsOutliner.setEnabled( BOUNDS_OUTLINE_ENABLED ); // DEBUG
 
         // Initialize localization.
-        SimStrings.init( args, ColorVisionConstants.LOCALIZATION_BUNDLE_BASENAME );
+        SimStrings.init( args, ColorVisionConstants.SIM_STRINGS_NAME );
 
+        // Load simulation properties file
+        Properties simulationProperties = PropertiesLoader.loadProperties( ColorVisionConstants.SIM_PROPERTIES_NAME );
+        
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "ColorVisionApplication.title" );
         String description = SimStrings.get( "ColorVisionApplication.description" );
-        String version = SimStrings.get( "ColorVisionApplication.version" );
+        String version = PhetApplication.getVersionString( simulationProperties );
         int width = ColorVisionConstants.APP_FRAME_WIDTH;
         int height = ColorVisionConstants.APP_FRAME_HEIGHT;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
 
         // Create the application model.
         ColorVisionApplicationModel appModel = new ColorVisionApplicationModel( title, description, version, frameSetup );
-
+        
         // Create and start the application.
         PhetApplication app = new ColorVisionApplication( appModel );
+        app.setSimulationProperties( simulationProperties );
         app.getApplicationView().getPhetFrame().setBackground( BACKGROUND );
         app.startApplication();
     }
