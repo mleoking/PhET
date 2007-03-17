@@ -15,7 +15,7 @@ information.
 
 -->
 <!-- JNLP File for PhET Color Vision simulation --> 
-<jnlp>
+<jnlp
   spec="1.0+" 
   codebase="http://www.colorado.edu/physics/phet/simulations"
   href="colorvision/colorvision_es.jnlp"> 
