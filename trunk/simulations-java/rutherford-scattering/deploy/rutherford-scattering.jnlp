@@ -10,7 +10,7 @@ click on "Setup & Troubleshooting" for more
 information.
 -->
 <!-- JNLP File for PhET "Rutherford Scattering" simulation -->
-<jnlp>
+<jnlp
   spec="1.0+"
   codebase="http://phet-web.colorado.edu/simulations"
   href="rutherford-scattering/rutherford-scattering.jnlp">
