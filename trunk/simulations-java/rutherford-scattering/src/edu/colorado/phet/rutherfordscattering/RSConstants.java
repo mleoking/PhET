@@ -26,8 +26,17 @@ public class RSConstants {
     private RSConstants() {}
     
     //----------------------------------------------------------------------------
-    // Debugging
+    // Project
     //----------------------------------------------------------------------------
+    
+    private static final String PROJECT = "rutherford-scattering";
+    
+    //----------------------------------------------------------------------------
+    // Properties files
+    //----------------------------------------------------------------------------
+    
+    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
+    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
     
     //----------------------------------------------------------------------------
     // Dimensions
@@ -47,13 +56,6 @@ public class RSConstants {
     
     public static final Dimension BEAM_SIZE = new Dimension( (int) ( .75 * BOX_OF_HYDROGEN_SIZE.width ), 75 );
     
-    //----------------------------------------------------------------------------
-    // Properties files
-    //----------------------------------------------------------------------------
-    
-    public static final String SIM_PROPERTIES_NAME = "rutherfordscattering";
-    public static final String SIM_STRINGS_NAME = "localization/rutherfordscattering_strings";
-
     //----------------------------------------------------------------------------
     // Clock
     //----------------------------------------------------------------------------
@@ -104,7 +106,7 @@ public class RSConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String IMAGES_DIRECTORY = "rutherfordscattering/images/";
+    public static final String IMAGES_DIRECTORY = PROJECT + "/images/";
     
     public static final String IMAGE_GUN = IMAGES_DIRECTORY + "gun.png";
     public static final String IMAGE_GUN_ON_BUTTON = IMAGES_DIRECTORY + "gunOnButton.png";
