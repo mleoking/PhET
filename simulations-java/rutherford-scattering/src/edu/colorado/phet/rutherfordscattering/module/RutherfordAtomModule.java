@@ -16,7 +16,6 @@ import edu.colorado.phet.rutherfordscattering.control.RutherfordAtomControlPanel
 import edu.colorado.phet.rutherfordscattering.help.RSWiggleMe;
 import edu.colorado.phet.rutherfordscattering.model.*;
 import edu.colorado.phet.rutherfordscattering.view.*;
-import edu.colorado.phet.rutherfordscattering.view.manager.RSModelViewManager;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -54,7 +53,6 @@ public class RutherfordAtomModule extends AbstractModule {
     private ZoomIndicatorNode _zoomIndicatorNode;
     private TracesNode _alphaParticleTracesNode;
     private RutherfordAtomNode _atomNode;
-    private RSModelViewManager _modelViewManager;
     
     // Control panels
     private ClockControlPanel _clockControlPanel;
@@ -150,7 +148,7 @@ public class RutherfordAtomModule extends AbstractModule {
         }
 
         // Animation box
-        _animationBoxNode = new AnimationBoxNode( RSConstants.ANIMATION_BOX_SIZE );
+        _animationBoxNode = new AnimationBoxNode( _model, RSConstants.ANIMATION_BOX_SIZE );
 
         // Zoom indicator
         _zoomIndicatorNode = new ZoomIndicatorNode();
@@ -172,12 +170,6 @@ public class RutherfordAtomModule extends AbstractModule {
             _rootNode.addChild( _animationBoxNode );
             _rootNode.addChild( _zoomIndicatorNode );
         }
-        
-        //----------------------------------------------------------------------------
-        // Model-View management
-        //----------------------------------------------------------------------------
-        
-        _modelViewManager = new RSModelViewManager( _model, _animationBoxNode );
         
         //----------------------------------------------------------------------------
         // Control
