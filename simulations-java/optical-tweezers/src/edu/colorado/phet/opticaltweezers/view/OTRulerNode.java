@@ -32,7 +32,7 @@ public class OTRulerNode extends RulerNode implements Observer {
     public OTRulerNode( Laser laser, ModelViewTransform modelWorldTransform, PPath dragBoundsNode ) {
         super( DEFAULT_WORLD_SIZE.getWidth(), HEIGHT, null, SimStrings.get( "units.position" ), MINOR_TICKS_BETWEEN_MAJORS, FONT_SIZE );
         
-        setUnits( "" );//XXX
+        setUnitsAssociatedMajorTickLabel( "0" );
         
         _laser = laser;
         _laser.addObserver( this );

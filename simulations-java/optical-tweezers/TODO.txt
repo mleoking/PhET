@@ -7,6 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - ruler can be dragged too far left, then pops back
 - laser can be dragged too far left, then pops back
+- change model coordinate system origin to be at center of laser's waist?
 - position histogram
 - potential energy chart
 - E-field vectors
@@ -29,7 +30,6 @@ MEDIUM PRIORITY:
 - get spec for "Show charge on bead" feature
 
 LOW PRIORITY:
-- units on ruler
 - get requirements for "Fun With DNA" and "Molecular Motors" panels
 - save/load
 - green control panel background ala design doc
@@ -60,6 +60,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/19/07 - add units to ruler
+3/19/07 - piccolo-phet: add feature to set units on RulerNode for a specific major lick label
 3/19/07 - set fluid speed range to [1,1000] microns/sec
 3/19/07 - add units labels for fluid speed and temperature
 3/14/07 - rename SimStrings files to have basename opticaltweezers_strings
