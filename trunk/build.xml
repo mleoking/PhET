@@ -113,7 +113,7 @@
             casesensitive="false" >
         </propertyregex>
         
-        <var name="dir.temp.project"              value="${dir.temp.projects}${dir.project.name}"                   />
+        <var name="dir.temp.project"              value="${dir.temp.projects}${dir.project.name}/"                  />
         <var name="dir.project.deploy.local"      value="${dir.project}deploy/"                                     />
         <var name="jnlp.name.project.deploy"      value="${dir.project.name}.jnlp"                                  />
         <var name="jar.name.project.deploy"       value="${dir.project.name}.jar"                                   />
@@ -641,12 +641,24 @@
     
     <target name="build" description="Builds the specified simulation" depends="clean, _sim-build-depends, _build-project" />
     
-    <target name="build-proguard" description="" depends="build, _proguard" />
+    <target name="build-proguard" description="Builds the specified simulation and runs ProGuard on the JAR to reduce file size" depends="build, _proguard" />
     
-    <target name="clean" depends="_sim-build-depends">
-        <echo message="Cleaning up ${dir.temp.projects}${dir.project.name}..." />
+    <target name="clean" description="Deletes all build file-generated files for the specified simulation" depends="_sim-build-depends">
+        <echo message="Cleaning up ${dir.temp.project}" />
         
-        <delete dir="${dir.temp.projects}${dir.project.name}" />
+        <delete dir="${dir.temp.project}" />
+    </target>
+    
+    <target name="run" description="Runs the specified simulation (does NOT build)" depends="_sim-build-depends">
+        <java jar="${jar.project.deploy.local}" fork="true" failonerror="true" maxmemory="128m">
+            <assertions>
+                <enable/>
+            </assertions>
+            
+            <classpath>
+                <pathelement location="${jar.project.deploy.local}"/>
+            </classpath>
+        </java>
     </target>
     
     <target name="_inc-sim-dev-version-number" description="Increments the development version number" >
