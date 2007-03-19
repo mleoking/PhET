@@ -607,9 +607,9 @@
                 <filter token="LIBRARY_JARS"        value="-libraryjars  &lt;java.home&gt;/lib/rt.jar"/>
             </filterset>
         </copy>
-        <echo message="Running ProGuard for config file ${dir.temp.project}/proguard.pro"/>
+        <echo message="Running ProGuard for config file ${dir.temp.project}proguard.pro"/>
     
-        <proguard configuration="${dir.temp.project}/proguard.pro"/>
+        <proguard configuration="${dir.temp.project}proguard.pro"/>
     </target>
     
     <target name="_cleanup-project-desc" if="project.description">
@@ -622,28 +622,27 @@
             property="project.description"
             override="true"
             input="${project.description}"
-            regexp="&(?![a-z]+;)"
-            replace="&amp;"
-            casesensitive="false" >
-        </propertyregex>
+            regexp="&amp;(?![a-z]+;)"
+            replace="&amp;amp;"
+            casesensitive="false" />
     
         <propertyregex
             property="project.description"
             override="true"
             input="${project.description}"
-            regexp="<"
-            replace="&lt;"
-            casesensitive="false" >
-        </propertyregex>
+            regexp="&lt;"
+            replace="&amp;lt;"
+            casesensitive="false" />
     
         <propertyregex
             property="project.description"
             override="true"
             input="${project.description}"
-            regexp=">"
-            replace="&gt;"
-            casesensitive="false" >
-        </propertyregex>
+            regexp="&gt;"
+            replace="&amp;gt;"
+            casesensitive="false" />
+        
+        <echo message="Cleaned up project description: ${project.description}" />
     </target>
     
     <target name="_make-jnlp" description="Creates a JNLP file for the specified simulation, for use with Java Webstart" depends="_cleanup-project-desc">
