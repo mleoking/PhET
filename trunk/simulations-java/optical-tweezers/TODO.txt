@@ -60,6 +60,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/19/07 - set fluid speed range to [1,1000] microns/sec
+3/19/07 - add units labels for fluid speed and temperature
 3/14/07 - rename SimStrings files to have basename opticaltweezers_strings
 3/14/07 - move images to data/opticaltweezers/images to avoid namespace collisions
 3/14/07 - get version and credits from properties file
