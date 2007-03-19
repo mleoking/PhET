@@ -60,6 +60,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/19/07 - clean up specialized ruler
 3/19/07 - add units to ruler
 3/19/07 - piccolo-phet: add feature to set units on RulerNode for a specific major lick label
 3/19/07 - set fluid speed range to [1,1000] microns/sec
