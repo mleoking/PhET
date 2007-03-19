@@ -80,9 +80,9 @@
             </not>
             <then>
                 <antform title="Enter Simulation Name" focus="OK" width="400" height="300">
-            <label>Please enter the name of the simulation with which to perform the operation. This is the name of the Subversion folder that the simulation is stored in.</label>
-            <textProperty label="Simulation Name: " property="name.sim" required="true" tooltip="The simulation name"/>            
-        </antform>
+                    <label>Please enter the name of the simulation with which to perform the operation. This is the name of the Subversion folder that the simulation is stored in.</label>
+                    <textProperty label="Simulation Name: " property="name.sim" required="true" tooltip="The simulation name"/>            
+                </antform>
             </then>
         </if>
     </target>
@@ -615,8 +615,9 @@
     <target name="_cleanup-project-desc" if="project.description">
         <!-- 
            Descriptions tend to include illegal characters; convert them to
-       valid HTML 
-    -->
+           valid HTML 
+        -->
+        
         <propertyregex
             property="project.description"
             override="true"
@@ -626,7 +627,7 @@
             casesensitive="false" >
         </propertyregex>
     
-    <propertyregex
+        <propertyregex
             property="project.description"
             override="true"
             input="${project.description}"
@@ -635,7 +636,7 @@
             casesensitive="false" >
         </propertyregex>
     
-    <propertyregex
+        <propertyregex
             property="project.description"
             override="true"
             input="${project.description}"
