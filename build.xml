@@ -827,13 +827,11 @@
             ${deploy.filter.exclude}    The exclude filter to use.
         
         -->
-        <ssh host="${deploy.host}"
-             username="${deploy.username}"
-             password="${deploy.password}"
-             version="2">
+        <ssh host="${deploy.host}" username="${deploy.username}" password="${deploy.password}" version="2">
          
             <sftp action="mkdir" remotedir="${deploy.dir}"/>
-            <sftp action="put" remotedir="${deploy.dir}" verbose="true">
+            
+            <sftp action="put"   remotedir="${deploy.dir}" verbose="true">
                 <fileset dir="${dir.project.deploy.local}" casesensitive="yes">
                     <include name="${deploy.filter.include}"/>
                     <exclude name="${deploy.filter.exclude}"/>
@@ -915,6 +913,11 @@
             <numberProperty        label="Minor Version: "        property="version.minor"          tooltip="The minor version of the simulation" min="0" max="50" step="1"/>            
             <numberProperty        label="Dev Version: "          property="version.dev"            tooltip="The dev version of the simulation"   min="0" max="50" step="1"/>
         </antform>
+        
+        <!-- Cleanup version numbers (truncate) -->
+        <propertyregex property="version.major" override="true" input="${version.major}" regexp="([^.]+)\..+" select="\1" casesensitive="false" />
+        <propertyregex property="version.minor" override="true" input="${version.minor}" regexp="([^.]+)\..+" select="\1" casesensitive="false" />
+        <propertyregex property="version.dev"   override="true" input="${version.dev}"   regexp="([^.]+)\..+" select="\1" casesensitive="false" />
         
         <!-- Copy screenshot into deployment directory, if it exists -->
         <available file="${project.screenshot}" property="project.screenshot.exists" type="file"/>
