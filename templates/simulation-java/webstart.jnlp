@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <!-- JNLP File for @PROJECT.NAME@ --> 
-
 <!--
     The following macros must be replaced:
 
@@ -17,24 +16,20 @@
 
     PROJECT.SCREENSHOT    The name of a file containing a screenshot of the application.
 -->
-<jnlp 
-  spec="1.0+" 
-  codebase="@PROJECT.DEPLOY.PATH@"
-  href="@JNLP.NAME@">
-  
-  <information> 
-  <title>@PROJECT.NAME@</title> 
-    <vendor>University of Colorado, Department of Physics</vendor> 
-    <description>@PROJECT.DESCRIPTION@</description> 
-    <description kind="short">The @PROJECT.NAME@ Simulation</description> 
-    <offline-allowed/>
-    <icon href="@PROJECT.SCREENSHOT@"/>    
-    <icon kind="splash" href="http://phet.colorado.edu/Design/Assets/images/Phet-Kavli-logo.jpg"/> 
-  </information>
-  <resources>
-    <j2se version="1.4+"/>
+<jnlp spec="1.0+" codebase="@PROJECT.DEPLOY.PATH@" href="@JNLP.NAME@">  
+    <information> 
+    <title>@PROJECT.NAME@</title> 
+        <vendor>University of Colorado, Department of Physics</vendor> 
+        <description>@PROJECT.DESCRIPTION@</description> 
+        <description kind="short">The @PROJECT.NAME@ Simulation</description> 
+        <offline-allowed/>
+        <icon href="@PROJECT.SCREENSHOT@"/>    
+        <icon kind="splash" href="http://phet.colorado.edu/Design/Assets/images/Phet-Kavli-logo.jpg"/> 
+    </information>
+    <resources>
+        <j2se version="1.4+"/>
 
-    <jar href="@PROJECT.JAR@" />
-  </resources>
+        <jar href="@PROJECT.JAR@" />
+    </resources>
 </jnlp>
 
