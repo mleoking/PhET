@@ -13,7 +13,7 @@ LOW PRIORITY:
 
 
 DONE:
-******* version 1.01.00 (?)
+******* version 1.01.00 (13861)
 3/19/07 - refactor ModelEvent/ModelListener to ParticleEvent/ParticleListener
 3/19/07 - flatten Model into RSModel to reduce complexity
 3/19/07 - remove ModelViewManager framework to improve performance
