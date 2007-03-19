@@ -874,15 +874,17 @@
         </foreach>
     </target>
     
-    <target name="create" description="Creates a new simulation with the specified name" depends="_create-sim-properties">
+    <target name="create" description="Creates or edits a simulation with the specified name" depends="_create-sim-properties">
         <!-- Create required directories -->
         <mkdir dir="${dir.project}" />
         <mkdir dir="${dir.project.deploy.local}" />
         
         <!-- Create standard directories -->
         <mkdir dir="${dir.project}data" />
-        <mkdir dir="${dir.project}src"  />
         <mkdir dir="${dir.project}data/${dir.project.name}" />
+        
+        <mkdir dir="${dir.project}src"  />
+        <mkdir dir="${dir.project}src/edu/colorado/phet/${dir.project.name}"  />        
         
         <!-- Load all property files, in case user is modifying existing simulation: -->
         <property file="${file.project.build.properties}" />
@@ -902,18 +904,25 @@
             <numberProperty        label="Dev Version: "          property="version.dev"            tooltip="The dev version of the simulation"   min="0" max="50" step="1"/>
         </antform>
         
-        <!-- Copy screenshot into deployment directory -->
-        <copy todir="${dir.project.deploy.local}" file="${project.screenshot}" failonerror="false"/>
+        <!-- Copy screenshot into deployment directory, if it exists -->
+        <available file="${project.screenshot}" property="project.screenshot.exists" type="file"/>
         
-        <!-- Drop path from screenshot pathname: -->
-        <propertyregex property="project.screenshot"
-            override="true"
-            input="${project.screenshot}"
-            regexp="(.*[/\\])?([^/\\]+)"
-            select="\2"
-            casesensitive="false" />
+        <if>
+            <isset property="project.screenshot.exists" />
+            <then>
+                <copy todir="${dir.project.deploy.local}" file="${project.screenshot}" failonerror="false"/>
                 
-        <echo message="Screenshot name is ${project.screenshot}" />
+                <!-- Drop path from screenshot pathname: -->
+                <propertyregex property="project.screenshot"
+                    override="true"
+                    input="${project.screenshot}"
+                    regexp="(.*[/\\])?([^/\\]+)"
+                    select="\2"
+                    casesensitive="false" />
+                
+                <echo message="Screenshot name is ${project.screenshot}" />
+            </then>
+        </if>
             
         <!-- Store all build properties in build properties file: -->
         <propertyfile file="${file.project.build.properties}">
@@ -922,8 +931,8 @@
             <entry key="project.depends.source"     value="${project.depends.source}"     />
             <entry key="project.depends.lib"        value="${project.depends.lib}"        />
             <entry key="project.depends.data"       value="${project.depends.data}"       />
-            <entry key="project.depends.mainclass"  value="${project.depends.mainclass}"  />
-            <entry key="project.depends.screenshot" value="${project.depends.screenshot}" />
+            <entry key="project.mainclass"          value="${project.mainclass}"  />
+            <entry key="project.screenshot"         value="${project.screenshot}" />
         </propertyfile>
         
         <!-- Store all sim properties in sim properties file: -->
