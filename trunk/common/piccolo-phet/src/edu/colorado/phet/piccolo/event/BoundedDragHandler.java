@@ -61,12 +61,13 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
             if( !boundingNode.getGlobalFullBounds().contains( dragNode.getGlobalFullBounds() ) ) {
                 double newX = pickedNode.getGlobalTranslation().getX();
                 double newY = pickedNode.getGlobalTranslation().getY();
+                double inset=1E-6;
                 if( pickedNode.getGlobalFullBounds().getX() < boundingNode.getFullBounds().getX() ) {
                     //let's take data and fit (to account for scale, rotation & shear)
                     double x0 = pickedNode.getGlobalTranslation().getX();
                     double y0 = pickedNode.getGlobalFullBounds().getMinX();
 
-                    pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX() - 1, pickedNode.getGlobalTranslation().getY() ) );
+                    pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX() - inset, pickedNode.getGlobalTranslation().getY() ) );
                     double x1 = pickedNode.getGlobalTranslation().getX();
                     double y1 = pickedNode.getGlobalFullBounds().getMinX();
 
@@ -78,7 +79,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                     double x0 = pickedNode.getGlobalTranslation().getY();
                     double y0 = pickedNode.getGlobalFullBounds().getMinY();
 
-                    pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX(), pickedNode.getGlobalTranslation().getY() - 1 ) );
+                    pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX(), pickedNode.getGlobalTranslation().getY() - inset ) );
                     double x1 = pickedNode.getGlobalTranslation().getY();
                     double y1 = pickedNode.getGlobalFullBounds().getMinY();
 
@@ -89,7 +90,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                     double x0 = pickedNode.getGlobalTranslation().getX();
                     double y0 = pickedNode.getGlobalFullBounds().getMaxX();
 
-                    pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX() - 1, pickedNode.getGlobalTranslation().getY() ) );
+                    pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX() - inset, pickedNode.getGlobalTranslation().getY() ) );
                     double x1 = pickedNode.getGlobalTranslation().getX();
                     double y1 = pickedNode.getGlobalFullBounds().getMaxX();
                     newX = fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMaxX() );
@@ -99,7 +100,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                     double x0 = pickedNode.getGlobalTranslation().getY();
                     double y0 = pickedNode.getGlobalFullBounds().getMaxY();
 
-                    pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX(), pickedNode.getGlobalTranslation().getY() - 1 ) );
+                    pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX(), pickedNode.getGlobalTranslation().getY() - inset ) );
                     double x1 = pickedNode.getGlobalTranslation().getY();
                     double y1 = pickedNode.getGlobalFullBounds().getMaxY();
                     newY = fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMaxY() );
