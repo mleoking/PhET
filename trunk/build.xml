@@ -21,13 +21,16 @@
     <property name="dir.temp.junit"         value="${dir.temp}junit/"      />
     <property name="dir.temp.projects"      value="${dir.temp}projects/"   />
     
-    <property name="file.template.jnlp"     value="${dir.templates.java}webstart.jnlp" />
-    <property name="file.template.proguard"     value="${dir.templates.java}proguard.pro" />
+    <property name="file.name.template.jnlp" value="webstart.jnlp" />
+    <property name="file.template.jnlp"      value="${dir.templates.java}${file.name.template.jnlp}" />
+    <property name="file.template.proguard"  value="${dir.templates.java}proguard.pro" />
     
-    <property name="host.dev.server"        value="spot.colorado.edu"     />
-    <property name="host.prod.server"       value="tigercat.colorado.edu" />
+    <property name="host.dev.server"        value="spot.colorado.edu" />
     <property name="dir.prefix.dev.server"  value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev/" />
-    <property name="dir.prefix.prod.server" value="tigercat.colorado.edu" />
+    <property name="url.prefix.dev.server"  value="http://www.colorado.edu/physics/phet/dev/" />
+    <property name="host.prod.server"       value="tigercat.colorado.edu" />
+    <property name="dir.prefix.prod.server" value="???" />
+    <property name="url.prefix.prod.server" value="http://phet.colorado.edu/simulations/" />
     
     
     <property name="phet.flash-sim.url"     value="${phet.svn.url}${simulations.flash}"/>
@@ -112,6 +115,7 @@
         
         <var name="dir.temp.project"              value="${dir.temp.projects}${dir.project.name}"                   />
         <var name="dir.project.deploy.local"      value="${dir.project}deploy/"                                     />
+        <var name="jnlp.name.project.deploy"      value="${dir.project.name}.jnlp"                                  />
         <var name="jar.name.project.deploy"       value="${dir.project.name}.jar"                                   />
         <var name="jar.name.project.deploy-pro"   value="${dir.project.name}-pro.jar"                               />
         <var name="jar.project.deploy.local"      value="${dir.project.deploy.local}${jar.name.project.deploy}"     />
@@ -612,51 +616,6 @@
         <proguard configuration="${dir.temp.project}proguard.pro"/>
     </target>
     
-    <target name="_cleanup-project-desc" if="project.description">
-        <!-- 
-           Descriptions tend to include illegal characters; convert them to
-           valid HTML 
-        -->
-        
-        <propertyregex
-            property="project.description"
-            override="true"
-            input="${project.description}"
-            regexp="&amp;(?![a-z]+;)"
-            replace="&amp;amp;"
-            casesensitive="false" />
-    
-        <propertyregex
-            property="project.description"
-            override="true"
-            input="${project.description}"
-            regexp="&lt;"
-            replace="&amp;lt;"
-            casesensitive="false" />
-    
-        <propertyregex
-            property="project.description"
-            override="true"
-            input="${project.description}"
-            regexp="&gt;"
-            replace="&amp;gt;"
-            casesensitive="false" />
-        
-        <echo message="Cleaned up project description: ${project.description}" />
-    </target>
-    
-    <target name="_make-jnlp" description="Creates a JNLP file for the specified simulation, for use with Java Webstart" depends="_cleanup-project-desc">
-        <copy todir="${dir.project.deploy.local}" overwrite="yes">
-            <fileset file="${file.template.jnlp}"/>
-            
-            <filterset>           
-                <filter token="PROJECT.NAME"        value="${project.name}"/>
-                <filter token="PROJECT.DESCRIPTION" value="${project.description}"/>
-                <filter token="PROJECT.JAR"         value="${dir.project.name}.jar"/>
-            </filterset>
-        </copy>
-    </target>
-    
     <target name="test" description="Runs all unit tests for the specified simulation" depends="_sim-build-depends, _build-project">
         <echo message="Running all unit tests for ${dir.project.name}" />
 
@@ -766,13 +725,91 @@
         </if>
     </target>
     
-    <target name="_deploy" description="Deploys to the specified location" depends="_read-username-and-password">
+    <target name="_cleanup-project-desc" description="Cleans up a project description" if="project.description">
+        <!-- 
+           Descriptions tend to include illegal characters; convert them to
+           valid HTML 
+        -->
+        
+        <propertyregex
+            property="project.description"
+            override="true"
+            input="${project.description}"
+            regexp="&amp;(?![a-z]+;)"
+            replace="&amp;amp;"
+            casesensitive="false" />
+    
+        <propertyregex
+            property="project.description"
+            override="true"
+            input="${project.description}"
+            regexp="&lt;"
+            replace="&amp;lt;"
+            casesensitive="false" />
+    
+        <propertyregex
+            property="project.description"
+            override="true"
+            input="${project.description}"
+            regexp="&gt;"
+            replace="&amp;gt;"
+            casesensitive="false" />
+        
+        <echo message="Cleaned up project description: ${project.description}" />
+    </target>
+    
+    <target name="_create-jnlp" description="Creates a JNLP file for the specified simulation, for use with Java Webstart" depends="_cleanup-project-desc">
+        <!--
+            Internal task expects the following to be defined:
+                ${project.name}
+                ${deploy.url}
+                ${jnlp.name.project.deploy}
+                ${project.description}
+                ${jar.name.project.deploy-pro}
+                ${project.screenshot}
+                
+            Template contains these macros that need replacing:
+            
+                $PROJECT.NAME$
+                $PROJECT.DEPLOY.PATH$
+                $JNLP.NAME$
+                $PROJECT.DESCRIPTION$
+                $PROJECT.JAR$
+                $PROJECT.SCREENSHOT$
+        -->
+        
+        <echo message="Copying template ${file.template.jnlp} to ${dir.project.deploy.local}" /> 
+        
+        <!-- Use the template JNLP file to create the JNLP for the current application: -->
+        <copy todir="${dir.project.deploy.local}" overwrite="yes">
+            <fileset file="${file.template.jnlp}"/>
+            
+            <filterset>           
+                <filter token="PROJECT.NAME"        value="${project.name}"                 />
+                <filter token="PROJECT.DEPLOY.PATH" value="${deploy.url}"                   />
+                <filter token="JNLP.NAME"           value="${jnlp.name.project.deploy}"     />
+                <filter token="PROJECT.DESCRIPTION" value="${project.description}"          />
+                <filter token="PROJECT.JAR"         value="${jar.name.project.deploy-pro}"  />
+                <filter token="PROJECT.SCREENSHOT"  value="${project.screenshot}"           />
+            </filterset>
+        </copy>
+        
+        <echo message="Renaming ${dir.project.deploy.local}${file.name.template.jnlp} to ${dir.project.deploy.local}${jnlp.name.project.deploy}" />
+        
+        <!-- Rename JNLP file from webstart.jnlp to [shortname].jnlp -->
+        <move file="${dir.project.deploy.local}${file.name.template.jnlp}" tofile="${dir.project.deploy.local}${jnlp.name.project.deploy}" />
+        
+        <echo message="Successfully created JNLP ${dir.project.deploy.local}${jnlp.name.project.deploy}" />
+    </target>
+    
+    <target name="_deploy-with-dynamic-jnlp" description="Deploys the simulation along with a dynamically created JNLP" depends="_read-username-and-password, _create-jnlp">
         <!--
         
             Internal deployment task expects the following properties to be defined:
         
             ${deploy.host}              The host
             ${deploy.dir}               The remote dir to create and deploy to.
+            ${deploy.url}               The URL of the deployment directory.
             ${dir.project.deploy.local} The local simulation deployment directory, from which files will be copied.
             ${deploy.filter.include}    The include filter to use.
             ${deploy.filter.exclude}    The exclude filter to use.
@@ -796,9 +833,10 @@
     <target name="deploy-dev" description="Deploys a development version of the specified simulation" depends="_sim-deploy-depends, _inc-sim-dev-version-number, _set-sim-revision-number, build-proguard, _load-sim-properties">
         <echo message="Deploying development version of ${dir.project.name}" />
         
-        <antcall target="_deploy" inheritAll="true">
+        <antcall target="_deploy-with-dynamic-jnlp" inheritAll="true">
             <param name="deploy.host"           value="${host.dev.server}" />
             <param name="deploy.dir"            value="${dir.prefix.dev.server}${dir.project.name}/${sim.version.major}.${sim.version.minor}.${sim.version.dev}" />
+            <param name="deploy.url"            value="${url.prefix.dev.server}${dir.project.name}/${sim.version.major}.${sim.version.minor}.${sim.version.dev}" />
             <param name="deploy.filter.include" value="**/*.*" />
             <param name="deploy.filter.exclude" value="**/.svn" />
         </antcall>
@@ -807,9 +845,10 @@
     <target name="deploy-prod" description="Deploys a production version of the specified simulation" depends="_sim-deploy-depends, deploy-dev, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _set-sim-revision-number, build-proguard, _load-sim-properties">
         <echo message="Deploying production version of ${dir.project.name}" />
         
-        <antcall target="_deploy" inheritAll="true">
+        <antcall target="_deploy-with-dynamic-jnlp" inheritAll="true">
             <param name="deploy.host"           value="${host.prod.server}" />
             <param name="deploy.dir"            value="${dir.prefix.prod.server}${dir.project.name}/${sim.version.major}.${sim.version.minor}" />
+            <param name="deploy.url"            value="${url.prefix.prod.server}${dir.project.name}/${sim.version.major}.${sim.version.minor}" />
             <param name="deploy.filter.include" value="**/*.*" />
             <param name="deploy.filter.exclude" value="**/.svn" />
         </antcall>
