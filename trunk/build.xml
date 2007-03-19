@@ -96,12 +96,16 @@
         <!-- Cleanup the dir.project property: -->
         <if>
             <!-- If there's no slash on the end... -->
-            <matches string="${dir.project}" pattern=".*[^/\\]" />
+            <not>
+                <matches string="${dir.project}" pattern=".*[/\\]" />
+            </not>
             <then>
                 <!-- Add it! -->
                 <var name="dir.project" value="${dir.project}/" />
             </then>
         </if>
+        
+        <echo message="Project directory = ${dir.project}" />
 
         <!-- Extract the project shortname from the directory name: -->
         <propertyregex
@@ -232,6 +236,8 @@
             casesensitive="false" >
         </propertyregex>
         
+        <echo message="Looking for dependency ${param.depends} (${tmp.depends.name}) in ${dir.project}${param.depends}" />
+        
         <var name="tmp.dependency.found" unset="true"/>
         
         <if>
@@ -241,17 +247,29 @@
                 
                 <!-- And the user specified a directory... -->
                 <equals arg1="${tmp.depends.name}" arg2="" />
-                
-                <!-- And the user did NOT tack on /deploy/ to the end of the directory... -->
-                <not>
-                    <matches string="${param.depends}" pattern=".+deploy([/\\]?)" />
-                </not>
             </and>
             <then>
-                <!-- Then tack on /deploy/ for him: -->
-                <var name="tmp.depends.name" value="/deploy/" />
+                <!-- Then strip off /deploy/: -->
+                <propertyregex
+                    property="param.depends"
+                    override="true"
+                    input="${param.depends}"
+                    regexp="(.+)deploy[/\\]?\Z"
+                    select="\1"
+                    casesensitive="false" />
+                    
+                <!-- Extract the name of the deepest directory: -->
+                <propertyregex
+                    property="tmp.lib.name"
+                    override="true"
+                    input="${param.depends}"
+                    regexp="((.*[/\\])?)([^/\\]+)([/\\]?)"
+                    select="\3"
+                    casesensitive="false" />
                 
-                <echo message="User specifying a library directory as a dependency. Adding /deploy/ to end of path." />
+                <var name="tmp.depends.name" value="/deploy/${tmp.lib.name}.jar" />
+                
+                <echo message="User specifying a library directory as a dependency. Searching for ${tmp.depends.name} in root ${param.depends}" />
             </then>
         </if>
         
@@ -267,6 +285,8 @@
                 <var name="param.depends" value="${dir.project}${param.depends}"/>
             </then>
             <else>
+                <echo message="Looking for dependency ${param.depends} (${tmp.depends.name}) in ${dir.phet.common}${param.depends}" />
+                
                 <!-- Dependency not stored in project directory. Look into common area: -->
                 <available file="${dir.phet.common}${param.depends}" property="tmp.dependency.found" />
                 
@@ -278,6 +298,8 @@
                         <var name="param.depends" value="${dir.phet.common}${param.depends}"/>
                     </then>
                     <else>
+                        <echo message="Looking for dependency ${param.depends} (${tmp.depends.name}) in ${dir.contrib}${param.depends}" />
+                        
                         <!-- Dependency not stored in common directory. Look into contrib: -->
                         <available file="${dir.contrib}${param.depends}" property="tmp.dependency.found" />
                         
@@ -289,6 +311,8 @@
                                 <var name="param.depends" value="${dir.contrib}${param.depends}"/>
                             </then>
                             <else>
+                                <echo message="Looking for dependency ${param.depends} (${tmp.depends.name}) in ${dir.simulations.java}${param.depends}" />
+                                
                                 <!-- Dependency not stored in contrib directory. Look into simulations area: -->
                                 <available file="${dir.simulations.java}${param.depends}" property="tmp.dependency.found" />
                                 
@@ -305,8 +329,6 @@
                                 </if>
                             </else>
                         </if>
-                        
-                        
                     </else>
                 </if>
             </else>
@@ -382,38 +404,6 @@
                     casesensitive="false" >
                 </propertyregex>
                 
-                <if>
-                    <!-- If the library name is not specified... -->
-                    <equals arg1="${tmp.lib.depends.name}" arg2="" />
-                    <then>
-                        <!-- The user specified a directory as a library dependency -->
-                        
-                        <!-- Strip off /deploy/, if it is specified. -->
-                        <propertyregex
-                            property="tmp.lib.depends.path"
-                            override="true"
-                            input="${tmp.lib.depends.path}"
-                            regexp="(.+)deploy[/\\]?\Z"
-                            select="\1"
-                            casesensitive="false" >
-                        </propertyregex>    
-                        
-                        <!-- Extract the name of the deepest directory: -->
-                        <propertyregex
-                            property="tmp.lib.depends.name"
-                            override="true"
-                            input="${tmp.lib.depends.path}"
-                            regexp=".*[/\\]([^/\\]+)"
-                            select="\1.jar"
-                            casesensitive="false" >
-                        </propertyregex>
-                        
-                        <echo message="Directory specified as a library dependency. Assuming desired library is ${tmp.lib.depends.name}" />
-                        
-                        <var name="tmp.lib.depends.pathname" value="${tmp.lib.depends.path}/deploy/${tmp.lib.depends.name}" />
-                    </then>
-                </if>          
-                
                 <!-- Check to see if the library exists -->
                 
                 <!-- Pretty printing (path cleanup) -->
@@ -452,7 +442,7 @@
                         
                         <!-- Call the _build-project task: --> 
                         <antcall target="_build-project" inheritAll="false">
-                            <param name="dir.project" value="${tmp.lib.depends.path}" />
+                            <param name="dir.project.override" value="${tmp.lib.depends.path}" />
                         </antcall>
                     </then>
                     <else>
@@ -503,26 +493,44 @@
         </for>
     </target>
     
-    <target name="_build-project" description="Builds the specified project" depends="_create-project-properties, _load-project-build-properties" if="dir.project">
-        <!-- Internal task expects ${dir.project} to be defined -->
+    <target name="_build-project" description="Builds the specified project" if="dir.project">
+        <!-- Internal task expects ${dir.project} or ${dir.project.override} to be defined -->
+        
+        <if>
+            <!--
+                This 'override' hack is necessary because Ant can't override 
+                properties specified via -D, like sim name.
+            -->
+            <isset property="dir.project.override" />
+            <then>
+                <var name="dir.project" value="${dir.project.override}" />
+            </then>
+        </if>
+        
+        <!-- These have to be invoked AFTER project override, so they can't be depends -->
+        <runtarget target="_create-project-properties"      />
+        <runtarget target="_load-project-build-properties"  />
         
         <echo message="Building project in ${dir.project}" />
                 
         <!-- Collect all source dependencies into ${param.all.source.depends}: -->
         <antcallback target="_collect-all-dependencies" return="param.all.depends">
             <param name="param.project.depends" value="${project.depends.source}" />
+            <param name="param.dependency.type" value="source" />
         </antcallback>               
         <var name="param.all.source.depends" value="${param.all.depends}" />
 
         <!-- Collect all data dependencies into ${param.all.source.depends}: -->
         <antcallback target="_collect-all-dependencies" return="param.all.depends">
             <param name="param.project.depends" value="${project.depends.data}" />
+            <param name="param.dependency.type" value="data" />
         </antcallback>               
         <var name="param.all.data.depends" value="${param.all.depends}" />
         
         <!-- Collect all lib dependencies into ${param.all.source.depends}: -->
         <antcallback target="_collect-all-dependencies" return="param.all.depends">
             <param name="param.project.depends" value="${project.depends.lib}" />
+            <param name="param.dependency.type" value="lib" />
         </antcallback>               
         <var name="param.all.lib.depends" value="${param.all.depends}" />
         
@@ -561,16 +569,17 @@
             input="${param.all.source.depends}"
             regexp=","
             replace=":"
-            casesensitive="false" >
-        </propertyregex>
+            defaultValue="${param.all.source.depends}"
+            casesensitive="false" />
+            
         <propertyregex
             property="javac.param.all.lib.depends"
             override="true"
             input="${param.all.lib.depends}"
             regexp=","
             replace=":"
-            casesensitive="false" >
-        </propertyregex>
+            defaultValue="${param.all.lib.depends}"
+            casesensitive="false" />
         
         <!-- Compile the project! -->
         <javac srcdir="${javac.param.all.source.depends}"
