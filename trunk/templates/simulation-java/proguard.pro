@@ -16,6 +16,7 @@
 -dontobfuscate
 -dontusemixedcaseclassnames
 -verbose
+-ignorewarnings
 #-dontshrink
 
 # Keep - Applications. Keep all application classes that have a main method.
