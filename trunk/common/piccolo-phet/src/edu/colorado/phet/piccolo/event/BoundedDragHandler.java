@@ -62,7 +62,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                 double newX = pickedNode.getGlobalTranslation().getX();
                 double newY = pickedNode.getGlobalTranslation().getY();
                 double inset=1E-6;
-                if( pickedNode.getGlobalFullBounds().getX() < boundingNode.getFullBounds().getX() ) {
+                if( pickedNode.getGlobalFullBounds().getX() < boundingNode.getGlobalFullBounds().getX() ) {
                     //let's take data and fit (to account for scale, rotation & shear)
                     double x0 = pickedNode.getGlobalTranslation().getX();
                     double y0 = pickedNode.getGlobalFullBounds().getMinX();
@@ -73,7 +73,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
 
                     newX = fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMinX() );
                 }
-                if( pickedNode.getGlobalFullBounds().getY() < boundingNode.getFullBounds().getY() ) {
+                if( pickedNode.getGlobalFullBounds().getY() < boundingNode.getGlobalFullBounds().getY() ) {
 
                     //let's take data and fit (to account for scale, rotation & shear)
                     double x0 = pickedNode.getGlobalTranslation().getY();
