@@ -113,7 +113,7 @@ public class EnergyView extends PNode implements Resetable {
     private void addMolecularSeparationPane( MRModule module, Dimension upperPaneSize ) {
         if (moleculeSeparationPane != null) {
             moleculeSeparationPane.terminate();
-            moleculeSeparationCloser.detach();
+            moleculeSeparationCloser.uninstall();
         }
         
         // The pane that has the molecules
@@ -121,7 +121,7 @@ public class EnergyView extends PNode implements Resetable {
 
         addChild( moleculeSeparationPane );
 
-        moleculeSeparationCloser = new PNodeViewableOption( moleculeSeparationPane, module.getCanvas() );
+        moleculeSeparationCloser = new PNodeViewableOption( moleculeSeparationPane, module.getCanvas(), "SeparationView.restoreViewName" );
     }
 
     private void addUpperPane( Dimension upperPaneSize ) {
@@ -133,7 +133,7 @@ public class EnergyView extends PNode implements Resetable {
     private void addCurvePane( MRModule module, Dimension upperPaneSize ) {
         if (curvePane != null) {
             curvePane.terminate();
-            curvePaneCloser.detach();
+            curvePaneCloser.uninstall();
         }
         
         // The pane that has the curve and cursor
@@ -141,7 +141,7 @@ public class EnergyView extends PNode implements Resetable {
 
         addChild( curvePane );
 
-        curvePaneCloser = new PNodeViewableOption( curvePane, module.getCanvas() );
+        curvePaneCloser = new PNodeViewableOption( curvePane, module.getCanvas(), "EnergyView.restoreViewName" );
     }
 
     public void reset() {

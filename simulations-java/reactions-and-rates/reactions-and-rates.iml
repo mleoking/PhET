@@ -7,42 +7,42 @@
         <attribute name="URI" value="/reactions-and-rates.jar" />
       </containerElement>
       <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
+        <attribute name="method" value="1" />
         <attribute name="URI" value="/gnujaxp.jar" />
         <url>jar://$MODULE_DIR$/../../contrib/jfreechart/lib/gnujaxp.jar!/</url>
       </containerElement>
       <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
+        <attribute name="method" value="1" />
         <attribute name="URI" value="/jcommon-1.0.0.jar" />
         <url>jar://$MODULE_DIR$/../../contrib/jfreechart/lib/jcommon-1.0.0.jar!/</url>
       </containerElement>
       <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
+        <attribute name="method" value="1" />
         <attribute name="URI" value="/jfreechart-1.0.0.jar" />
         <url>jar://$MODULE_DIR$/../../contrib/jfreechart/lib/jfreechart-1.0.0.jar!/</url>
       </containerElement>
       <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
+        <attribute name="method" value="1" />
         <attribute name="URI" value="/junit.jar" />
         <url>jar://$MODULE_DIR$/../../contrib/jfreechart/lib/junit.jar!/</url>
       </containerElement>
       <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
+        <attribute name="method" value="1" />
         <attribute name="URI" value="/servlet.jar" />
         <url>jar://$MODULE_DIR$/../../contrib/jfreechart/lib/servlet.jar!/</url>
       </containerElement>
       <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
+        <attribute name="method" value="1" />
         <attribute name="URI" value="/ant.jar" />
         <url>jar://$MODULE_DIR$/../../contrib/piccolo/lib/ant.jar!/</url>
       </containerElement>
       <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
+        <attribute name="method" value="1" />
         <attribute name="URI" value="/swt.jar" />
         <url>jar://$MODULE_DIR$/../../contrib/piccolo/lib/swt.jar!/</url>
       </containerElement>
       <containerElement type="library" level="module">
-        <attribute name="method" value="2" />
+        <attribute name="method" value="1" />
         <attribute name="URI" value="/commons-collections-3.2.jar" />
         <url>jar://$MODULE_DIR$/lib/commons-collections-3.2.jar!/</url>
       </containerElement>

@@ -5,6 +5,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 
 import javax.swing.*;
@@ -26,6 +27,8 @@ public class PNodeViewableOption {
     private final static ImageIcon CLOSE_IMAGE_ICON;
     private final static ImageIcon OPEN_IMAGE_ICON;
 
+    private static final boolean OLD_STYLE_RESTORE = true;
+
     private static final int PADDING = 2;
 
     private final PNode pnode;
@@ -34,6 +37,9 @@ public class PNodeViewableOption {
     private final JButton button;
 
     private final PSwing buttonNode;
+
+    private JButton restoreButton;
+    private PSwing restoreButtonNode;
 
     private final PhetPCanvas canvas;
 
@@ -54,57 +60,79 @@ public class PNodeViewableOption {
         OPEN_IMAGE_ICON  = open;
     }
 
+    public PNodeViewableOption( PNode pnode, PhetPCanvas canvas, String restoreButtonName ) {
+        this.pnode              = pnode;
+        this.button             = new JButton();
+        this.buttonNode         = new PSwing( canvas, button );
+        this.canvas             = canvas;
 
-    public PNodeViewableOption( PNode pnode, PhetPCanvas canvas ) {
-        this.pnode      = pnode;
-        this.button     = new JButton();
-        this.buttonNode = new PSwing( canvas, button );
-        this.canvas     = canvas;
-        
-        pnode.addChild( buttonNode );
+        initButton( pnode );
 
-        buttonNode.addPropertyChangeListener( new PropertyChangeListener() {
-            private volatile boolean propertyIsChanging = false;
-            
-            public void propertyChange( PropertyChangeEvent evt ) {
-                if (!propertyIsChanging) {
-                    propertyIsChanging = true;
-
-                    setButtonPosition();
-                }
-            }
-        });
-
-        button.addActionListener( new TogglingActionListener() );
+        if ( OLD_STYLE_RESTORE ) {
+            initRestoreButton( restoreButtonName, canvas, pnode );
+        }
 
         close();
         open();
+    }
+
+    private void initButton( PNode pnode ) {
+        pnode.addChild( buttonNode );
+        buttonNode.addPropertyChangeListener( new PositionSettingListener() );
+        button.addActionListener( new TogglingActionListener() );
+    }
+
+    private void initRestoreButton( String restoreButtonName, PhetPCanvas canvas, PNode pnode ) {
+        restoreButton = new JButton();
+
+        restoreButton.setText( SimStrings.get( restoreButtonName ) );
+
+        restoreButtonNode = new PSwing( canvas, restoreButton );
+
+        pnode.addChild( restoreButtonNode );
+
+        restoreButtonNode.addPropertyChangeListener( new PositionSettingListener() );
+        restoreButton.addActionListener( new TogglingActionListener() );
     }
 
     public boolean isClosed() {
         return isClosed;
     }
 
-    public void detach() {
-        if (pnode.getChildrenReference().contains(buttonNode)) {
-            pnode.removeChild( buttonNode );
-        }
+    public void uninstall() {
+        uninstallPSwing(buttonNode);
+        uninstallPSwing(restoreButtonNode);
+    }
 
-        buttonNode.removeFromSwingWrapper();
+    private void uninstallPSwing(PSwing node) {
+        if (node != null) {
+            if (pnode.getChildrenReference().contains(node)) {
+                pnode.removeChild(node);
+            }
+            node.removeFromSwingWrapper();
+        }
     }
 
     public void close() {
         if (isClosed()) return;
 
-        detach();
+        uninstall();
 
         savedChildren.clear();
         savedChildren.addAll(pnode.getChildrenReference());
 
         pnode.removeAllChildren();
-        pnode.addChild( buttonNode );
+        restoreButtonNodes();
 
         setClosedStatus( true );
+    }
+
+    private void restoreButtonNodes() {
+        pnode.addChild( buttonNode );
+
+        if (OLD_STYLE_RESTORE) {
+            pnode.addChild( restoreButtonNode );
+        }
     }
 
     public void open() {
@@ -112,7 +140,7 @@ public class PNodeViewableOption {
 
         pnode.removeAllChildren();
         pnode.addChildren( savedChildren );
-        pnode.addChild( buttonNode );
+        restoreButtonNodes();
 
         setClosedStatus( false );
     }
@@ -120,11 +148,17 @@ public class PNodeViewableOption {
     private void setClosedStatus(boolean closed) {
         this.isClosed = closed;
 
-        setButtonIcons();
+        if (OLD_STYLE_RESTORE) {
+            buttonNode.setVisible( !closed );
+            restoreButtonNode.setVisible( closed );
+        }
+
+        setButtonContent();
         setButtonPosition();
+        setRestoreButtonPosition();
     }
 
-    private void setButtonIcons() {
+    private void setButtonContent() {
         if (isClosed()) {
             setButtonIcon( OPEN_IMAGE_ICON );
         }
@@ -141,6 +175,11 @@ public class PNodeViewableOption {
         }
     }
 
+    private void setButtonPositions() {
+        setButtonPosition();
+        setRestoreButtonPosition();
+    }
+
     private void setButtonPosition() {
         PBounds bounds = pnode.getBounds();
 
@@ -149,8 +188,23 @@ public class PNodeViewableOption {
             bounds.getMinY() + PADDING
         );
 
-        if (buttonNode.getParent() != null && buttonNode.getChildrenReference().contains(buttonNode)) {
+        if (buttonNode.getParent() != null && buttonNode.getParent().getChildrenReference().contains(buttonNode)) {
             buttonNode.moveToFront();
+        }
+    }
+
+    private void setRestoreButtonPosition() {
+        if (OLD_STYLE_RESTORE) {
+            PBounds bounds = pnode.getBounds();
+
+            restoreButtonNode.setOffset(
+                bounds.getMinX() + PADDING,
+                bounds.getMaxY() - restoreButtonNode.getHeight() - PADDING
+            );
+
+            if (restoreButtonNode.getParent() != null && restoreButtonNode.getParent().getChildrenReference().contains(restoreButtonNode)) {
+                restoreButtonNode.moveToFront();
+            }
         }
     }
 
@@ -161,6 +215,23 @@ public class PNodeViewableOption {
             }
             else {
                 close();
+            }
+        }
+    }
+
+    private class PositionSettingListener implements PropertyChangeListener {
+        private volatile boolean propertyIsChanging = false;
+
+        public void propertyChange( PropertyChangeEvent evt ) {
+            if (!propertyIsChanging) {
+                propertyIsChanging = true;
+
+                try {
+                    setButtonPositions();
+                }
+                finally {
+                    propertyIsChanging = false;
+                }
             }
         }
     }
