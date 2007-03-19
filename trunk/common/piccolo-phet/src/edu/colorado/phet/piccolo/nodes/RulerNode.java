@@ -81,6 +81,7 @@ public class RulerNode extends PhetPNode {
     private Font majorTickFont;
     private String units;
     private Font unitsFont;
+    private String unitsMajorTickLabel; // units will be placed to the right of this tick label
     private int numMinorTicksBetweenMajors;
     private double majorTickHeight;
     private double minorTickHeight;
@@ -213,6 +214,17 @@ public class RulerNode extends PhetPNode {
         update();
     }
     
+    /**
+     * Sets the major tick label that the units will be placed next to.
+     * By default, the units are placed next to the left-most tick label.
+     * 
+     * @param majorTickLabel
+     */
+    public void setUnitsAssociatedMajorTickLabel( String majorTickLabel ) {
+        this.unitsMajorTickLabel = majorTickLabel;
+        update();
+    }
+    
     //----------------------------------------------------------------------------
     // PNode overrides
     //----------------------------------------------------------------------------
@@ -246,11 +258,12 @@ public class RulerNode extends PhetPNode {
             double distBetweenMajorReadings = distanceBetweenFirstAndLastTick / ( majorTickLabels.length - 1 );
             double distBetweenMinor = distBetweenMajorReadings / ( numMinorTicksBetweenMajors + 1 );
 
+            // Lay out tick marks from left to right
             for( int i = 0; i < majorTickLabels.length; i++ ) {
 
                 // Major tick label
-                String reading = majorTickLabels[i];
-                PText majorTickLabelNode = new PText( reading );
+                String majorTickLabel = majorTickLabels[i];
+                PText majorTickLabelNode = new PText( majorTickLabel );
                 majorTickLabelNode.setFont( majorTickFont );
                 double xVal = ( distBetweenMajorReadings * i ) + insetWidth;
                 double yVal = height / 2 - majorTickLabelNode.getFullBounds().getHeight() / 2;
@@ -273,18 +286,40 @@ public class RulerNode extends PhetPNode {
                     }
                 }
 
-                // Units to the right of first major tick label, 
-                if( i == 0 && units != null ) {
-                    PText unitsNode = new PText( units );
-                    unitsNode.setFont( unitsFont );
-                    parentNode.addChild( unitsNode );
-                    // To the right of first major tick label, baselines aligned
-                    unitsNode.setOffset( majorTickLabelNode.getOffset().getX() + majorTickLabelNode.getFullBounds().getWidth() + UNITS_SPACING, majorTickLabelNode.getOffset().getY() + ( majorTickLabelNode.getFullBounds().getHeight() - unitsNode.getFullBounds().getHeight() ) );
+                /* 
+                 * Units label.
+                 * If an associated major tick mark has been specified for the units label,
+                 * put the units to the right of that tick mark.
+                 * By default, place units to the right of the first (left-most) major tick label.
+                 */
+                if ( units != null ) {
+                    
+                    PText unitsNode = null;
+                    
+                    if ( unitsMajorTickLabel != null ) {
+                        if ( unitsMajorTickLabel.equals( majorTickLabel ) ) {
+                            unitsNode = new PText( units );
+                        }
+                    }
+                    else {
+                        if ( i == 0 ) {
+                            unitsNode = new PText( units );
+                        }
+                    }
+                    
+                    if ( unitsNode != null ) {
+                        unitsNode.setFont( unitsFont );
+                        parentNode.addChild( unitsNode );
+                        // To the right of the major tick label, baselines aligned
+                        double xOffset = majorTickLabelNode.getOffset().getX() + majorTickLabelNode.getFullBounds().getWidth() + UNITS_SPACING;
+                        double yOffset = majorTickLabelNode.getOffset().getY() + ( majorTickLabelNode.getFullBounds().getHeight() - unitsNode.getFullBounds().getHeight() );
+                        unitsNode.setOffset( xOffset, yOffset );
+                    }
                 }
             }
         }
     }
-
+    
     //----------------------------------------------------------------------------
     // Static utility methods
     //----------------------------------------------------------------------------

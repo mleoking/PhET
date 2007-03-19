@@ -54,7 +54,7 @@ public class TestRulerNode {
         String[] majorTickLabels;
         Font majorTickFont = new Font( "Lucida Sans", Font.PLAIN, 14 );
         String units = "nm";
-        Font unitsFont = new Font( "Lucida Sans", Font.BOLD, 16 );
+        Font unitsFont = new Font( "Lucida Sans", Font.PLAIN, 10 );
         int numMinorTicksBetweenMajors = 4;
         int majorTickHeight = 10;
         int minorTickHeight = 6;
@@ -70,6 +70,7 @@ public class TestRulerNode {
         pCanvas.getLayer().addChild( ruler1 );
         
         // Ruler that reads 0-20 nm.
+        // Units are placed next to "10" label.
         // This ruler is twice as long, but the tick spacing should be identical to ruler1 above.
         majorTickLabels = new String[21];
         for ( int i = 0; i < majorTickLabels.length; i++ ) {
@@ -78,6 +79,7 @@ public class TestRulerNode {
         RulerNode ruler2 = new RulerNode( 2 * distanceBetweenFirstAndLastTick, rulerInsetWidth, rulerHeight,
                 majorTickLabels, majorTickFont, units, unitsFont, 
                 numMinorTicksBetweenMajors, majorTickHeight, minorTickHeight );
+        ruler2.setUnitsAssociatedMajorTickLabel( "10" );
         pCanvas.getLayer().addChild( ruler2 );
         
         // Test the simplified constructor
