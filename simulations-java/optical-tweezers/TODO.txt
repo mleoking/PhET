@@ -16,17 +16,17 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - cursors that indicate direction when drag is horizontally or vertically constrained
-- get details of physical model
 - javadoc what I've done so far
 - wire up "Return Bead" button, visible only when bead is outside of canvas
 - check bead visibility when canvas is resized, enable/disable "Return Bead" button
 - check laser visibility when canvas is resized, move laser into visible area
-- units and range for slow speed
-- units and range for fast speed
-- change clock speed control?
-- units and range for flow speed
+- units and range for fast speed [realtime* 10^-2, realtime]
+- units and range for slow speed [realtime*140*10^-16, realtime*7*10^-16]
+- clock speed control
 - units and range for fluid viscosity
-- units and range for fluid temperature
+- range for fluid temperature
+- get spec for "Show change in momentum model" feature
+- get spec for "Show charge on bead" feature
 
 LOW PRIORITY:
 - units on ruler
