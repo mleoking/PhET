@@ -4,11 +4,15 @@ package edu.colorado.phet.rutherfordscattering.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.model.ModelElement;
+import javax.swing.event.EventListenerList;
+
+import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.rutherfordscattering.event.GunFiredEvent;
 import edu.colorado.phet.rutherfordscattering.event.GunFiredListener;
+import edu.colorado.phet.rutherfordscattering.event.ParticleEvent;
+import edu.colorado.phet.rutherfordscattering.event.ParticleListener;
 
 /**
  * RSModel is the model for this simulation.
@@ -19,7 +23,7 @@ import edu.colorado.phet.rutherfordscattering.event.GunFiredListener;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class RSModel extends Model implements GunFiredListener {
+public class RSModel extends ClockAdapter implements GunFiredListener {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -29,23 +33,26 @@ public class RSModel extends Model implements GunFiredListener {
     private Space _space;
     private AbstractAtom _atom;
     private ArrayList _alphaParticles; // array of AlphaParticle
+    private EventListenerList _listenerList;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public RSModel( IClock clock, Gun gun, Space space, AbstractAtom atom ) {
-        super( clock );
+        super();
+        
+        clock.addClockListener( this );
         
         _gun = gun;
         _gun.addGunFiredListener( this );
-        super.addModelElement( _gun );
         
         _space = space;
-        super.addModelElement( _space );
         
         _atom = atom;
+        
         _alphaParticles = new ArrayList();
+        _listenerList = new EventListenerList();
     }
     
     //----------------------------------------------------------------------------
@@ -68,52 +75,24 @@ public class RSModel extends Model implements GunFiredListener {
     // ModelElement management
     //----------------------------------------------------------------------------
     
-    /**
-     * Dynamically adds a model element.
+    /*
+     * Adds a particle.
      * 
-     * @param modelElement
+     * @param particle
      */
-    public void addModelElement( ModelElement modelElement ) {
-        if ( modelElement instanceof AlphaParticle ) {
-            _alphaParticles.add( modelElement );
-        }
-        else if ( modelElement instanceof AbstractAtom ) {
-            throw new IllegalArgumentException( "Atom must be added in constructor" );
-        }
-        else if ( modelElement instanceof Gun ) {
-            throw new IllegalArgumentException( "Gun must be added in constructor" );
-        }
-        else if ( modelElement instanceof Space ) {
-            throw new IllegalArgumentException( "Space must be added in constructor" );
-        }
-        else {
-            throw new IllegalArgumentException( "unsupported modelElement: " + modelElement.getClass().getName() );
-        }
-        super.addModelElement( modelElement );
+    private void addParticle( AlphaParticle particle ) {
+        _alphaParticles.add( particle );
+        fireParticleAdded( new ParticleEvent( this, particle ) );
     }
 
-    /**
-     * Dynamically removes a model element.
+    /*
+     * Removes a particle.
      * 
-     * @param modelElement
+     * @param particle
      */
-    public void removeModelElement( ModelElement modelElement ) {
-        if ( modelElement instanceof AlphaParticle ) {
-            _alphaParticles.remove( modelElement );
-        }
-        else if ( modelElement == _atom ) {
-            throw new IllegalArgumentException( "Atom cannot be removed" );
-        }
-        else if ( modelElement == _gun ) {
-            throw new IllegalArgumentException( "Gun cannot be removed" );
-        }
-        else if ( modelElement == _space ) {
-            throw new IllegalArgumentException( "Space cannot be removed" );
-        }
-        else {
-            throw new IllegalArgumentException( "unsupported modelElement: " + modelElement.getClass().getName() );
-        }
-        super.removeModelElement( modelElement );
+    private void removeParticle( AlphaParticle particle ) {
+        _alphaParticles.remove( particle );
+        fireParticleRemoved( new ParticleEvent( this, particle ) );
     }
     
     /**
@@ -123,7 +102,7 @@ public class RSModel extends Model implements GunFiredListener {
         if ( _alphaParticles.size() > 0 ) {
             Object[] alphaParticles = _alphaParticles.toArray(); // copy, this operation deletes from list
             for ( int i = 0; i < alphaParticles.length; i++ ) {
-                removeModelElement( (AlphaParticle) alphaParticles[i] );
+                removeParticle( (AlphaParticle) alphaParticles[i] );
             }
         }
     }
@@ -167,7 +146,7 @@ public class RSModel extends Model implements GunFiredListener {
             for ( int i = 0; i < alphaParticles.length; i++ ) {
                 AlphaParticle alphaParticle = (AlphaParticle) alphaParticles[i];
                 if ( !_space.contains( alphaParticle ) ) {
-                    removeModelElement( alphaParticle );
+                    removeParticle( alphaParticle );
                 }
             }
         }
@@ -182,6 +161,50 @@ public class RSModel extends Model implements GunFiredListener {
      * @param event
      */
     public void alphaParticleFired( GunFiredEvent event ) {
-        addModelElement( event.getAlphaParticle() );
+        addParticle( event.getAlphaParticle() );
+    }
+    
+    //----------------------------------------------------------------------------
+    // ParticleEvent notification
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Adds a ParticleListener.
+     * @param listener
+     */
+    public void addParticleListener( ParticleListener listener ) {
+        _listenerList.add( ParticleListener.class, listener );
+    }
+
+    /**
+     * Removes a ParticleListener.
+     * @param listener
+     */
+    public void removeParticleListener( ParticleListener listener ) {
+        _listenerList.remove( ParticleListener.class, listener );
+    }
+
+    /*
+     * Calls particleAdded for all ParticleListeners.
+     */
+    private void fireParticleAdded( ParticleEvent event ) {
+        Object[] listeners = _listenerList.getListenerList();
+        for( int i = 0; i < listeners.length; i += 2 ) {
+            if( listeners[i] == ParticleListener.class ) {
+                ( (ParticleListener)listeners[i + 1] ).particleAdded( event );
+            }
+        }
+    }
+    
+    /*
+     * Calls particleRemoved for all ParticleListeners.
+     */
+    private void fireParticleRemoved( ParticleEvent event ) {
+        Object[] listeners = _listenerList.getListenerList();
+        for( int i = 0; i < listeners.length; i += 2 ) {
+            if( listeners[i] == ParticleListener.class ) {
+                ( (ParticleListener)listeners[i + 1] ).particleRemoved( event );
+            }
+        }
     }
 }

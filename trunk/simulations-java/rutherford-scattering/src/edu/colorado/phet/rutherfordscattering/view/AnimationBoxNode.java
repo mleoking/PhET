@@ -4,10 +4,15 @@ package edu.colorado.phet.rutherfordscattering.view;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
 
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
+import edu.colorado.phet.rutherfordscattering.event.ParticleEvent;
+import edu.colorado.phet.rutherfordscattering.event.ParticleListener;
+import edu.colorado.phet.rutherfordscattering.model.AlphaParticle;
+import edu.colorado.phet.rutherfordscattering.model.RSModel;
 import edu.umd.cs.piccolo.PLayer;
-import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
@@ -15,18 +20,36 @@ import edu.umd.cs.piccolox.nodes.PClip;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class AnimationBoxNode extends PClip {
+public class AnimationBoxNode extends PClip implements ParticleListener {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     public static final Stroke STROKE = new BasicStroke( 2f );
     public static final Color STROKE_COLOR = Color.WHITE;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private PLayer _atomLayer; // layer containing atoms
     private PLayer _traceLayer; // layer containing traces of particle motion
     private PLayer _particleLayer; // layer containing particles
     private PLayer _topLayer; // layer containing things that must be in front of everything else
     
-    public AnimationBoxNode( Dimension size ) {
+    private RSModel _model;
+    private HashMap _particleMap; // maps AlphaParticle to AlphaParticleNode
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    public AnimationBoxNode( RSModel model, Dimension size ) {
         super();
+        
+        _model = model;
+        _model.addParticleListener( this );
         
         Shape clip = new Rectangle2D.Double( 0, 0, size.width, size.height );
         setPathTo( clip );
@@ -42,7 +65,17 @@ public class AnimationBoxNode extends PClip {
         addChild( _particleLayer );
         _topLayer = new PLayer();
         addChild( _topLayer);
+        
+        _particleMap = new HashMap();
     }
+    
+    public void cleanup() {
+        _model.removeParticleListener( this );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
     
     public PLayer getAtomLayer() {
         return _atomLayer;
@@ -60,9 +93,21 @@ public class AnimationBoxNode extends PClip {
         return _topLayer;
     }
     
-//    //XXX debug
-//    protected void paint( PPaintContext paintContext ) {
-//        System.out.println( "AnimationBoxNode.paint " + System.currentTimeMillis() );
-//        super.paint( paintContext );
-//    }
+    //----------------------------------------------------------------------------
+    // ParticleListener implementation
+    //----------------------------------------------------------------------------
+    
+    public void particleAdded( ParticleEvent event ) {
+        AlphaParticle particle = event.getParticle();
+        AlphaParticleNode node = new AlphaParticleNode( particle );
+        _particleMap.put( particle, node );
+        _particleLayer.addChild( node );
+    }
+
+    public void particleRemoved( ParticleEvent event ) {
+        AlphaParticle particle = event.getParticle();
+        AlphaParticleNode node = (AlphaParticleNode) _particleMap.get( particle );
+        _particleMap.remove( particle );
+        _particleLayer.removeChild( node );
+    }
 }

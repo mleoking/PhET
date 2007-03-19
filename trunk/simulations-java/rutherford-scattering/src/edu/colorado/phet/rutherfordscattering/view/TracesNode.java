@@ -12,10 +12,10 @@ import java.util.*;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.rutherfordscattering.event.ParticleEvent;
+import edu.colorado.phet.rutherfordscattering.event.ParticleListener;
 import edu.colorado.phet.rutherfordscattering.model.AlphaParticle;
-import edu.colorado.phet.rutherfordscattering.model.Model;
-import edu.colorado.phet.rutherfordscattering.model.Model.ModelEvent;
-import edu.colorado.phet.rutherfordscattering.model.Model.ModelListener;
+import edu.colorado.phet.rutherfordscattering.model.RSModel;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
@@ -35,17 +35,11 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TracesNode extends PhetPNode implements ModelListener, Observer {
+public class TracesNode extends PhetPNode implements ParticleListener, Observer {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    /*
-     * Determines whether traces persist when their corresponding alpha particles
-     * leave the model. WARNING! Setting this to true is prohibitively expensive.
-     */
-    private static final boolean TRACES_PERSIST = false;
     
     private static final Color TRACE_COLOR = Color.LIGHT_GRAY;
     private static final Stroke TRACE_STROKE = new BasicStroke( 1f );
@@ -54,7 +48,7 @@ public class TracesNode extends PhetPNode implements ModelListener, Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Model _model;
+    private RSModel _model;
     private HashMap _pathMap; // maps AlphaParticle to GeneralPath (view coordinates)
     private boolean _enabled;
     
@@ -67,13 +61,17 @@ public class TracesNode extends PhetPNode implements ModelListener, Observer {
      * 
      * @param model the model that we're listening to
      */
-    public TracesNode( Model model ) {
+    public TracesNode( RSModel model ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
         _model = model;
         _pathMap = new HashMap();
         _enabled = false;
+    }
+    
+    public void cleanup() {
+        _model.removeParticleListener( this );
     }
     
     //----------------------------------------------------------------------------
@@ -89,10 +87,10 @@ public class TracesNode extends PhetPNode implements ModelListener, Observer {
     public void setEnabled( boolean enabled ) {
         _enabled = enabled;
         if ( _enabled ) {
-            _model.addModelListener( this );
+            _model.addParticleListener( this );
         }
         else {
-            _model.removeModelListener( this );
+            _model.removeParticleListener( this );
             clear();
         }
         setVisible( enabled );
@@ -153,7 +151,7 @@ public class TracesNode extends PhetPNode implements ModelListener, Observer {
     }
     
     //----------------------------------------------------------------------------
-    // ModelListener implementation
+    // ParticleListener implementation
     //----------------------------------------------------------------------------
     
     /**
@@ -163,34 +161,25 @@ public class TracesNode extends PhetPNode implements ModelListener, Observer {
      * 
      * @param event
      */
-    public void modelElementAdded( ModelEvent event ) {
-        ModelElement modelElement = event.getModelElement();
-        if ( modelElement instanceof AlphaParticle ) {
-            AlphaParticle alphaParticle = (AlphaParticle) modelElement;
-            alphaParticle.addObserver( this );
-            Point2D p = ModelViewTransform.transform( alphaParticle.getPositionRef() );
-            GeneralPath path = new GeneralPath();
-            path.moveTo( (float)p.getX(), (float)p.getY() );
-            _pathMap.put( alphaParticle, path );
-            repaint();
-        }
+    public void particleAdded( ParticleEvent event ) {
+        AlphaParticle alphaParticle = event.getParticle();
+        alphaParticle.addObserver( this );
+        Point2D p = ModelViewTransform.transform( alphaParticle.getPositionRef() );
+        GeneralPath path = new GeneralPath();
+        path.moveTo( (float) p.getX(), (float) p.getY() );
+        _pathMap.put( alphaParticle, path );
+        repaint();
     }
 
     /**
      * When an AlphaParticle is removed from the model, this method
-     * stops observing the particle's motion and (depending on the value
-     * of TRACES_PERSIST) removes the particle's GeneralPath.
+     * stops observing the particle's motion and removes the particle's GeneralPath.
      */
-    public void modelElementRemoved( ModelEvent event ) {
-        ModelElement modelElement = event.getModelElement();
-        if ( modelElement instanceof AlphaParticle ) {
-            AlphaParticle alphaParticle = (AlphaParticle) modelElement;
-            alphaParticle.deleteObserver( this );
-            if ( !TRACES_PERSIST ) {
-                _pathMap.remove( alphaParticle );
-                repaint();
-            }
-        }
+    public void particleRemoved( ParticleEvent event ) {
+        AlphaParticle alphaParticle = event.getParticle();
+        alphaParticle.deleteObserver( this );
+        _pathMap.remove( alphaParticle );
+        repaint();
     }
 
     //----------------------------------------------------------------------------
