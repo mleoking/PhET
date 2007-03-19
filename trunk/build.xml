@@ -29,7 +29,7 @@
     <property name="dir.prefix.dev.server"      value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev/" />
     <property name="url.prefix.dev.server"      value="http://www.colorado.edu/physics/phet/dev/" />
     <property name="host.prod.server"           value="tigercat.colorado.edu" />
-    <property name="dir.prefix.prod.server"     value="???" />
+    <property name="dir.prefix.prod.server"     value="/web/htdocs/phet/simulations/" />
     <property name="url.prefix.prod.server"     value="http://phet.colorado.edu/simulations/" />
     
     
