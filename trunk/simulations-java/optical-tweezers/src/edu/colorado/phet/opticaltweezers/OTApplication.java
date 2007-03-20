@@ -11,6 +11,7 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.util.CommandLineUtils;
 import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
@@ -24,7 +25,6 @@ import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
 import edu.colorado.phet.opticaltweezers.persistence.GlobalConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTPersistenceManager;
-import edu.colorado.phet.opticaltweezers.util.ArgUtils;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 /**
@@ -132,7 +132,7 @@ public class OTApplication extends PiccoloPhetApplication {
         }
 
         // Developer menu
-        if ( ArgUtils.contains( args, DEVELOPER_ARG ) ) {
+        if ( CommandLineUtils.contains( args, DEVELOPER_ARG ) ) {
             DeveloperMenu developerMenu = new DeveloperMenu();
             getPhetFrame().addMenu( developerMenu );
         }

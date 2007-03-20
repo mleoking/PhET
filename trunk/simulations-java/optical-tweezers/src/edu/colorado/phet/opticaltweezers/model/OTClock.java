@@ -3,7 +3,7 @@ package edu.colorado.phet.opticaltweezers.model;
 
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.model.clock.TimingStrategy;
-import edu.colorado.phet.opticaltweezers.util.DoubleRange;
+import edu.colorado.phet.common.util.DoubleRange;
 
 
 /**

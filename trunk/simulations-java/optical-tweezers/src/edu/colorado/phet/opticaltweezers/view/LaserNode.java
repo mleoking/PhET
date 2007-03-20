@@ -13,10 +13,10 @@ import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.common.util.DoubleRange;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.control.LaserControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.util.DoubleRange;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.BoundedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
