@@ -457,6 +457,16 @@ public class SliderControl extends JPanel {
         }
     }
     
+    public void setTickNumberFormat( DecimalFormat format ) {
+        _tickNumberFormat = format;
+        updateTickLabels();
+    }
+    
+    public void setValueNumberFormat( DecimalFormat format ) {
+        _valueNumberFormat = format;
+        updateTextField();
+    }
+    
     //----------------------------------------------------------------------------
     // Private methods
     //----------------------------------------------------------------------------
