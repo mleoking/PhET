@@ -20,6 +20,9 @@ import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.LinePlot;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl;
+import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl.ZoomEvent;
+import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl.ZoomListener;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -30,12 +33,9 @@ import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
 import edu.colorado.phet.fourier.charts.GaussianWavePacketPlot;
 import edu.colorado.phet.fourier.charts.WavePacketXWidthPlot;
-import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.enum.Domain;
 import edu.colorado.phet.fourier.enum.Preset;
 import edu.colorado.phet.fourier.enum.WaveType;
-import edu.colorado.phet.fourier.event.ZoomEvent;
-import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 import edu.colorado.phet.fourier.model.Harmonic;
@@ -107,7 +107,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     private PhetShapeGraphic _backgroundGraphic;
     private PhetTextGraphic _titleGraphic;
     private PhetImageGraphic _minimizeButton;
-    private ZoomControl _horizontalZoomControl;
+    private PhetZoomControl _horizontalZoomControl;
     private D2CSumChart _chartGraphic;
     private FlattenedChart _flattenedChart;
     private D2CSumEquation _mathGraphic;
@@ -204,7 +204,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
 
         // Zoom controls
         {
-            _horizontalZoomControl = new ZoomControl( component, ZoomControl.HORIZONTAL );
+            _horizontalZoomControl = new PhetZoomControl( component, PhetZoomControl.HORIZONTAL );
             addGraphic( _horizontalZoomControl, CONTROLS_LAYER );
             _horizontalZoomControl.setLocation( 620, 50 );
         }
@@ -268,7 +268,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
      * 
      * @return the horizontal zoom control
      */
-    public ZoomControl getHorizontalZoomControl() {
+    public PhetZoomControl getHorizontalZoomControl() {
         return _horizontalZoomControl;
     }
 

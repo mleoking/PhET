@@ -18,6 +18,9 @@ import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.LabelTable;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl;
+import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl.ZoomEvent;
+import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl.ZoomListener;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -25,15 +28,12 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.HarmonicPlot;
-import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.enum.Domain;
 import edu.colorado.phet.fourier.enum.MathForm;
 import edu.colorado.phet.fourier.enum.Preset;
 import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
-import edu.colorado.phet.fourier.event.ZoomEvent;
-import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.view.HarmonicColors;
@@ -99,7 +99,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
     private PhetTextGraphic _titleGraphic;
     private PhetImageGraphic _minimizeButton;
     private DiscreteHarmonicsChart _chartGraphic;
-    private ZoomControl _horizontalZoomControl;
+    private PhetZoomControl _horizontalZoomControl;
     private HarmonicsEquation _mathGraphic;
     private ArrayList _harmonicPlots; // array of HarmonicPlot
 
@@ -164,7 +164,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
 
         // Zoom controls
         {
-            _horizontalZoomControl = new ZoomControl( component, ZoomControl.HORIZONTAL );
+            _horizontalZoomControl = new PhetZoomControl( component, PhetZoomControl.HORIZONTAL );
             addGraphic( _horizontalZoomControl, CONTROLS_LAYER );
             // Location is aligned with top-right edge of chart.
             int x = _chartGraphic.getX() + CHART_SIZE.width + 20;
@@ -255,7 +255,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
      * 
      * @return the horizontal zoom control
      */
-    public ZoomControl getHorizontalZoomControl() {
+    public PhetZoomControl getHorizontalZoomControl() {
         return _horizontalZoomControl;
     }
 

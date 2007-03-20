@@ -53,6 +53,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+3/20/07 - replace ZoomControl et. al. with PhetZoomControl from phetgraphics
 3/14/07 - rename SimStrings files to have basename fourier_strings
 3/14/07 - move images to data/fourier/images to avoid namespace collisions
 3/14/07 - get version and credits from properties file
