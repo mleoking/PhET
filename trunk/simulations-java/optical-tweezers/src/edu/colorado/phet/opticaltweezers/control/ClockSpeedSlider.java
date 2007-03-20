@@ -11,10 +11,22 @@ import javax.swing.JSlider;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 
-
+/**
+ * ClockSpeedSlider is the slider used to control the simulation clock speed.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ClockSpeedSlider extends JSlider {
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private OTClock _clock;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public ClockSpeedSlider( OTClock clock, Font font ) {
         super();
@@ -37,6 +49,10 @@ public class ClockSpeedSlider extends JSlider {
         labelTable.put( new Integer( getMaximum() ), fastLabel );
         setLabelTable( labelTable );
     }
+    
+    //----------------------------------------------------------------------------
+    // Mutators and accessors
+    //----------------------------------------------------------------------------
     
     public void setSpeed( double dt ) {
         // Convert from model to view coordinates

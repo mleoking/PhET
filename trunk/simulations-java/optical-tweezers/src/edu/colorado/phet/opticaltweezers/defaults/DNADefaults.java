@@ -9,7 +9,7 @@ import edu.colorado.phet.opticaltweezers.model.OTClock;
 
 
 /**
- * DNADefaults contains default settings for the "Fun with DNA" module.
+ * DNADefaults contains default settings for DNAModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
