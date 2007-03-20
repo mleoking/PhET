@@ -12,7 +12,7 @@
 package edu.colorado.phet.boundstates.module;
 
 import edu.colorado.phet.boundstates.control.ZoomControl.ZoomSpec;
-import edu.colorado.phet.boundstates.util.DoubleRange;
+import edu.colorado.phet.common.util.DoubleRange;
 
 /**
  * BSPotentialSpec is the specification of ranges and zoom levels for a potential type.

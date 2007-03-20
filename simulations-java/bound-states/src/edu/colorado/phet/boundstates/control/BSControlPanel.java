@@ -31,9 +31,9 @@ import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.module.BSAbstractModule;
 import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
-import edu.colorado.phet.boundstates.util.DoubleRange;
-import edu.colorado.phet.boundstates.util.IntegerRange;
 import edu.colorado.phet.boundstates.view.ViewLegend;
+import edu.colorado.phet.common.util.DoubleRange;
+import edu.colorado.phet.common.util.IntegerRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 

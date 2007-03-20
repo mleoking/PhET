@@ -22,7 +22,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
-import edu.colorado.phet.boundstates.util.DoubleRange;
+import edu.colorado.phet.common.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 
