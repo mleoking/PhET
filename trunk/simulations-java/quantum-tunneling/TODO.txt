@@ -17,6 +17,7 @@ LOW PRIORITY:
 
 
 DONE:
+3/20/07 - move ColorChooserFactory to phetcommon
 3/20/07 - move ArgUtils to phet.common.util.CommandLineUtils
 3/14/07 - rename SimStrings files to have basename quantumtunneling_strings
 3/14/07 - move images to data/quantumtunneling/images to avoid namespace collisions
