@@ -13,6 +13,7 @@ LOW PRIORITY:
 
 
 DONE:
+3/20/07 - remove DebugUtils and their single usage in AlphaParticles
 3/20/07 - move DoubleRange, IntegerRange to phetcommon
 ******* version 1.00.00 (13862)
 3/19/07 - rolled todays changes into 1.00
