@@ -5,8 +5,7 @@ package edu.colorado.phet.rutherfordscattering.model;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.rutherfordscattering.RSConstants;
-import edu.colorado.phet.rutherfordscattering.util.IntegerRange;
+import edu.colorado.phet.common.util.IntegerRange;
 
 /**
  * RutherfordAtom is the model of the Rutherford atom.
