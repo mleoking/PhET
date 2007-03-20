@@ -71,7 +71,7 @@ public class OTRulerNode extends RulerNode implements Observer {
         final double modelCanvasWidth = _modelViewTransform.viewToModel( _worldSize.getWidth() );
         
         // Make the ruler 3x the width of the canvas
-        final double modelRulerWidth = 1 * modelCanvasWidth;
+        final double modelRulerWidth = 3 * modelCanvasWidth;
         
         // Calculate the number of ticks on the ruler
         int numMajorTicks = (int)( modelRulerWidth / MAJOR_TICK_INTERVAL );
@@ -102,12 +102,10 @@ public class OTRulerNode extends RulerNode implements Observer {
         final double xModel = _laser.getPositionRef().getX();
         final double xView = _modelViewTransform.modelToView( xModel ) - ( getFullBounds().getWidth() / 2 );
         final double yView = getOffset().getY();
-        System.out.println( "OTRulerNode.updatePosition offset=(" + xView + "," + yView + ")" );//XXX
         setOffset( xView, yView );
 
         // adjust the drag bound for the new horizontal position
         Rectangle2D dragBounds = new Rectangle2D.Double( getFullBounds().getX(), 0, getFullBounds().getWidth(), _worldSize.getHeight() );
-        System.out.println( "OTRulerNode.updatePosition dragBounds=" + dragBounds );//XXX
         _dragBoundsNode.setPathTo( dragBounds );
     }
 
