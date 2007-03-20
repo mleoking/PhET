@@ -15,7 +15,7 @@ import java.awt.Component;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.fourier.MathStrings;
-import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enums.Domain;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 

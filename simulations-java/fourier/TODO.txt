@@ -53,6 +53,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+3/20/07 - rename packages that contained "enum" keyword, use "enums" instead
 3/20/07 - move ColorChooserFactory to phetcommon
 3/20/07 - replace ZoomControl et. al. with PhetZoomControl from phetgraphics
 3/14/07 - rename SimStrings files to have basename fourier_strings

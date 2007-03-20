@@ -18,7 +18,7 @@ import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.LinePlot;
 import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.fourier.enum.WaveType;
+import edu.colorado.phet.fourier.enums.WaveType;
 import edu.colorado.phet.fourier.util.TrigCache;
 
 

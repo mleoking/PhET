@@ -24,8 +24,8 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.enum.GameLevel;
-import edu.colorado.phet.fourier.enum.Preset;
+import edu.colorado.phet.fourier.enums.GameLevel;
+import edu.colorado.phet.fourier.enums.Preset;
 import edu.colorado.phet.fourier.model.FourierSeries;
 
 

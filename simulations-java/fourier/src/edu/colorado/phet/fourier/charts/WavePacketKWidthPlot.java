@@ -15,7 +15,7 @@ import java.awt.Component;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enums.Domain;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 

@@ -19,7 +19,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enums.Domain;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
