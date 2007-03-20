@@ -61,7 +61,7 @@ public class PhysicsModule extends AbstractModule {
     private PhetPCanvas _canvas;
     private PNode _rootNode;
     private ModelViewTransform _modelViewTransform;
-    private GlassSlideNode _glassSlideNode;
+    private FluidNode _fluidNode;
     private LaserNode _laserNode;
     private BeadNode _beadNode;
     private PPath _beadDragBoundsNode;
@@ -138,8 +138,8 @@ public class PhysicsModule extends AbstractModule {
         // Model View transform
         _modelViewTransform = new ModelViewTransform( PhysicsDefaults.MODEL_TO_VIEW_SCALE );
         
-        // Glass Slide
-        _glassSlideNode = new GlassSlideNode( _fluid, _modelViewTransform );
+        // Fluid
+        _fluidNode = new FluidNode( _fluid, _modelViewTransform );
         
         // Laser
         _laserDragBoundsNode = new PPath();
@@ -154,16 +154,12 @@ public class PhysicsModule extends AbstractModule {
         // Ruler
         _rulerDragBoundsNode = new PPath();
         _rulerDragBoundsNode.setStroke( null );
-//        if ( DEBUG_DRAG_BOUNDS ) {
-//            _rulerDragBoundsNode.setStroke( new BasicStroke() );
-//            _rulerDragBoundsNode.setStrokePaint( Color.RED );
-//        }
         _rulerNode = new OTRulerNode( _laser,_modelViewTransform, _rulerDragBoundsNode );
         _rulerNode.setVisible( PhysicsDefaults.RULER_SELECTED );
         
         // Layering order on the canvas (back-to-front)
         {
-            _rootNode.addChild( _glassSlideNode );
+            _rootNode.addChild( _fluidNode );
             _rootNode.addChild( _laserNode );
             _rootNode.addChild( _laserDragBoundsNode );
             _rootNode.addChild( _beadNode );
@@ -268,18 +264,18 @@ public class PhysicsModule extends AbstractModule {
             return;
         }
         
-        // Glass Slide width adjusts to fill the canvas.
-        _glassSlideNode.setWorldSize( worldSize );
+        // Fluid width adjusts to fill the canvas.
+        _fluidNode.setWorldSize( worldSize );
         
         // Ruler width adjusts to fill the canvas.
         _rulerNode.setWorldSize( worldSize );
         
-        // Adjust drag bounds of bead, so it stays on the glass slide
+        // Adjust drag bounds of bead, so it stays in the fluid
         {
             // This percentage of the bead must remain visible
             final double m = 0.15;
             
-            Rectangle2D sb = _glassSlideNode.getCenterGlobalBounds();
+            Rectangle2D sb = _fluidNode.getCenterGlobalBounds();
             Rectangle2D bb = _beadNode.getGlobalFullBounds();
             double x = sb.getX() - ( ( 1 - m ) * bb.getWidth() );
             double y = sb.getY();
@@ -295,7 +291,7 @@ public class PhysicsModule extends AbstractModule {
             // This percentage of the laser must remain visible
             final double m = 0.15;
             
-            Rectangle2D sb = _glassSlideNode.getCenterGlobalBounds();
+            Rectangle2D sb = _fluidNode.getCenterGlobalBounds();
             Rectangle2D lb = _laserNode.getGlobalFullBounds();
             double xAdjust = ( 1 - m ) * lb.getWidth();
             double x = -xAdjust;
