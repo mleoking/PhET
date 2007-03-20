@@ -75,6 +75,7 @@ public class Body {
 
         particleStage = new EnergySkateParkSplineListAdapter( energySkateParkModel );
         particle = new Particle( particleStage );
+        particle.getParticle1D().setReflect( false );
     }
 
     public void setPotentialEnergyMetric( PotentialEnergyMetric potentialEnergyMetric ) {

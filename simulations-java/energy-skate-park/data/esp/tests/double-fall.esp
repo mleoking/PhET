@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <java version="1.4.2_05" class="java.beans.XMLDecoder"> 
- <object class="edu.colorado.phet.ec3.serialization.EnergySkateParkModuleBean"> 
+ <object class="edu.colorado.phet.energyskatepark.serialization.EnergySkateParkModuleBean"> 
   <void property="bodies"> 
    <void method="add"> 
-    <object class="edu.colorado.phet.ec3.serialization.EnergySkateParkModuleBean$BodyElement"> 
+    <object class="edu.colorado.phet.energyskatepark.serialization.EnergySkateParkModuleBean$BodyElement"> 
      <void property="acceleration"> 
       <object class="java.awt.geom.Point2D$Double"> 
        <void method="setLocation"> 
@@ -42,7 +42,7 @@
   </void> 
   <void property="splines"> 
    <void method="add"> 
-    <object class="edu.colorado.phet.ec3.serialization.EnergySkateParkModuleBean$SplineElement"> 
+    <object class="edu.colorado.phet.energyskatepark.serialization.EnergySkateParkModuleBean$SplineElement"> 
      <void property="controlPoints"> 
       <array class="java.awt.geom.Point2D$Double" length="5"> 
        <void index="0"> 
