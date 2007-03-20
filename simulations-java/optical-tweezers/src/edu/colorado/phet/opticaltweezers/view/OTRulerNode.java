@@ -15,8 +15,20 @@ import edu.colorado.phet.piccolo.nodes.RulerNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
-
+/**
+ * OTRulerNode is a ruler that is specialized for this simulation.
+ * The ruler always fills the canvas, and the zero mark on the ruler 
+ * remains aligned with the horizontal position of the ruler.
+ * The ruler can be vertically dragged, but it's horizontal position
+ * is locked; the horizontal position only changes when the laser moves.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class OTRulerNode extends RulerNode implements Observer {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final Dimension2D DEFAULT_WORLD_SIZE = new PDimension( 600, 600 );
     private static final double HEIGHT = 40;
@@ -24,11 +36,26 @@ public class OTRulerNode extends RulerNode implements Observer {
     private static final int MINOR_TICKS_BETWEEN_MAJORS = 1;
     private static final int FONT_SIZE = 12;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private Laser _laser;
     private ModelViewTransform _modelViewTransform;
     private PPath _dragBoundsNode;
     private Dimension2D _worldSize;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructors.
+     * 
+     * @param laser
+     * @param modelWorldTransform
+     * @param dragBoundsNode
+     */
     public OTRulerNode( Laser laser, ModelViewTransform modelWorldTransform, PPath dragBoundsNode ) {
         super( DEFAULT_WORLD_SIZE.getWidth(), HEIGHT, null, SimStrings.get( "units.position" ), MINOR_TICKS_BETWEEN_MAJORS, FONT_SIZE );
         
@@ -48,15 +75,39 @@ public class OTRulerNode extends RulerNode implements Observer {
         updatePosition();
     }
     
+    /**
+     * Call this method before releasing all references to this object.
+     */
     public void cleanup() {
         _laser.deleteObserver( this );
     }
 
+    //----------------------------------------------------------------------------
+    // Mutators and accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the size of the PhetPCanvas' world node.
+     * This makes the ruler change it's width to fill the canvas,
+     * giving the appearance of an infinitely wide ruler.
+     * 
+     * @param worldSize
+     */
     public void setWorldSize( Dimension2D worldSize ) {
         _worldSize.setSize( worldSize );
         updateWidth();
     }
     
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the view to match the model.
+     * 
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
         if ( o == _laser ) {
             if ( arg == Laser.PROPERTY_POSITION ) {
@@ -65,6 +116,13 @@ public class OTRulerNode extends RulerNode implements Observer {
         }
     }
     
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the ruler width to fill the canvas.
+     */
     private void updateWidth() {
         
         // Convert canvas width to model coordinates
@@ -96,6 +154,10 @@ public class OTRulerNode extends RulerNode implements Observer {
         updatePosition();
     }
     
+    /*
+     * Updates the ruler position so that it's zero mark is horizontally aligned 
+     * with the laser's position. The ruler's vertical position is not changed.
+     */
     private void updatePosition() {
         
         // horizontally align the ruler's center with the laser
@@ -108,5 +170,4 @@ public class OTRulerNode extends RulerNode implements Observer {
         Rectangle2D dragBounds = new Rectangle2D.Double( getFullBounds().getX(), 0, getFullBounds().getWidth(), _worldSize.getHeight() );
         _dragBoundsNode.setPathTo( dragBounds );
     }
-
 }

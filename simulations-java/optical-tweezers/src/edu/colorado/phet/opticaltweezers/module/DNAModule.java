@@ -16,7 +16,6 @@ import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.model.OTModel;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.view.ModelViewTransform;
-import edu.colorado.phet.opticaltweezers.view.OTModelViewManager;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
@@ -42,7 +41,6 @@ public class DNAModule extends AbstractModule {
     private ModelViewTransform _modelViewTransform;
 
     // Control
-    private OTModelViewManager _modelViewManager;
     private DNAControlPanel _controlPanel;
     private OTClockControlPanel _clockControlPanel;
 
@@ -95,8 +93,6 @@ public class DNAModule extends AbstractModule {
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
-
-        _modelViewManager = new OTModelViewManager( _model );
         
         // Control Panel
         _controlPanel = new DNAControlPanel( this );

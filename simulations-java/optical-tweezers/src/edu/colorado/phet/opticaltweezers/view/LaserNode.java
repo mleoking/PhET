@@ -28,6 +28,10 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 public class LaserNode extends PhetPNode implements Observer, PropertyChangeListener {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final boolean DEBUG_SHOW_ORIGIN = false;
 
     private static final int MAX_ALPHA_CHANNEL = 180; // 0-255
@@ -43,6 +47,10 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     private static final double OBJECT_WIDTH_TO_BEAM_WIDTH_RATIO = 0.95; // (objective width)/(beam width)
     private static final double OBJECTIVE_WIDTH_TO_OBJECTIVE_HEIGHT_RATIO = 12.0; // (objective width)/(objective height)
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private Laser _laser;
     private ModelViewTransform _modelViewTransform;
     
@@ -50,6 +58,19 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     private BeamOutNode _beamOutNode;
     private LaserControlPanel _controlPanel;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * 
+     * @param canvas
+     * @param laser 
+     * @param modelViewTransform
+     * @param powerRange
+     * @param dragBoundsNode
+     */
     public LaserNode( PSwingCanvas canvas, Laser laser, ModelViewTransform modelViewTransform, DoubleRange powerRange, PNode dragBoundsNode ) {
         super();
         
@@ -141,6 +162,9 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         updatePower();
     }
 
+    /**
+     * Call this method before releasing all references to this object.
+     */
     public void cleanup() {
         _laser.deleteObserver( this );
     }
@@ -153,6 +177,9 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     // Property change handlers
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the laser model when this node is dragged.
+     */
     public void propertyChange( PropertyChangeEvent event ) {
         if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
             double xView = getOffset().getX();
@@ -168,6 +195,9 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     // Observer implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the view to match the model.
+     */
     public void update( Observable o, Object arg ) {
         if ( o == _laser ) {
             if ( arg == Laser.PROPERTY_POSITION ) {
@@ -186,11 +216,21 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         }
     }
     
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the position to match the model.
+     */
     private void updatePosition() {
         Point2D laserPosition = _modelViewTransform.modelToView( _laser.getPosition() );
         setOffset( laserPosition.getX(), laserPosition.getY() );
     }
     
+    /**
+     * Updates the power to match the model.
+     */
     private void updatePower() {
         double power = _laser.getPower();
         int alpha = powerToAlpha( power);
@@ -198,11 +238,24 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         _beamOutNode.setAlpha( alpha );
     }
     
+    /**
+     * Updates the beam's visibility to match the model.
+     */
     private void updateRunning() {
         _beamInNode.setVisible( _laser.isRunning() );
         _beamOutNode.setVisible( _laser.isRunning() );
     }
 
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Converts power to a color alpha component value.
+     * 
+     * @param power power in mW
+     * @return alpha component value
+     */
     private int powerToAlpha( double power ) {
         return (int)( MAX_ALPHA_CHANNEL * ( power - _controlPanel.getMinPower() ) / ( _controlPanel.getMaxPower() - _controlPanel.getMinPower() ) );
     }

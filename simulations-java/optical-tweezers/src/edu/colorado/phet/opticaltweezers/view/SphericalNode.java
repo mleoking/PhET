@@ -18,31 +18,21 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class SphericalNode extends PhetPNode {
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private PPath _pathNode;
     private PImage _imageNode;
     private boolean _convertToImage;
     
-    /*
-     * For use by subclass constructors.
-     * 
-     * @param convertToImage
-     */
-    protected SphericalNode( boolean convertToImage ) {
-        this( 1, null, null, null, convertToImage );
-    }
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     /**
-     * Constructs a spherical node with no stroke.
-     * @param diameter
-     * @param fillPaint
-     * @param convertToImage
-     */
-    public SphericalNode( double diameter, Paint fillPaint, boolean convertToImage ) {
-        this( diameter, fillPaint, null, null, convertToImage );
-    }
-       
-    /**
      * Constructor.
+     * 
      * @param diameter
      * @param fillPaint
      * @param stroke
@@ -71,45 +61,63 @@ public class SphericalNode extends PhetPNode {
     }
     
     /**
-     * Gets the diameter of the node.
-     * @return double
+     * Constructs a spherical node with no stroke.
+     * 
+     * @param diameter
+     * @param fillPaint
+     * @param convertToImage
      */
+    public SphericalNode( double diameter, Paint fillPaint, boolean convertToImage ) {
+        this( diameter, fillPaint, null, null, convertToImage );
+    }
+    
+    /*
+     * Convenience constructor, for use by subclass constructors.
+     * 
+     * @param convertToImage
+     */
+    protected SphericalNode( boolean convertToImage ) {
+        this( 1, null, null, null, convertToImage );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Mutators and accessors
+    //----------------------------------------------------------------------------
+    
     public double getDiameter() {
         return getFullBounds().getWidth();
     }
-    
+
     public void setDiameter( double diameter ) {
-        Shape shape = new Ellipse2D.Double( -diameter/2, -diameter/2, diameter, diameter );
+        Shape shape = new Ellipse2D.Double( -diameter / 2, -diameter / 2, diameter, diameter );
         _pathNode.setPathTo( shape );
-        if ( _convertToImage ) {
-            convertToImage();
-        }
+        update();
     }
-    
+
     public void setPaint( Paint paint ) {
         _pathNode.setPaint( paint );
-        if ( _convertToImage ) {
-            convertToImage();
-        }
+        update();
     }
-    
+
     public void setStroke( Stroke stroke ) {
         _pathNode.setStroke( stroke );
-        if ( _convertToImage ) {
-            convertToImage();
-        }
+        update();
     }
-    
+
     public void setStrokePaint( Paint paint ) {
         _pathNode.setStrokePaint( paint );
-        if ( _convertToImage ) {
-            convertToImage();
-        }
+        update();
     }
     
-    private void convertToImage() {
-        _imageNode.setImage( _pathNode.toImage() );
-        // Move origin to center
-        _imageNode.setOffset( -_imageNode.getFullBounds().getWidth() / 2, -_imageNode.getFullBounds().getHeight() / 2 );
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
+    private void update() {
+        if ( _convertToImage ) {
+            _imageNode.setImage( _pathNode.toImage() );
+            // Move origin to center
+            _imageNode.setOffset( -_imageNode.getFullBounds().getWidth() / 2, -_imageNode.getFullBounds().getHeight() / 2 );
+        }
     }
 }

@@ -18,9 +18,19 @@ import edu.colorado.phet.piccolo.nodes.ArrowNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * FluidNode is the visual representation of the fluid.
+ * The fluid is contained on a glass microscope slide that has a fixed height
+ * and infinite width.  The slide has top and bottom edges that have a fixed height.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class FluidNode extends PhetPNode implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     // properties of the "glass slide" that the fluid sits on
     public static final double EDGE_HEIGHT = 12; // pixels
     private static final Stroke EDGE_STROKE = new BasicStroke( 1f );
@@ -40,13 +50,29 @@ public class FluidNode extends PhetPNode implements Observer {
     private static final Paint VELOCITY_VECTOR_FILL_PAINT = EDGE_FILL_COLOR;
     private static final double VELOCITY_VECTOR_X_OFFSET = 30;
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private Fluid _fluid;
     private ModelViewTransform _modelViewTransform;
     private double _worldWidth;
     
+    // parts of the microscope slide
     private PPath _topEdgeNode, _bottomEdgeNode, _centerNode;
+    // parent node for all velocity vectors
     private PComposite _velocityVectorsParentNode;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * 
+     * @param fluid
+     * @param modelViewTransform
+     */
     public FluidNode( Fluid fluid, ModelViewTransform modelViewTransform ) {
         super();
          
@@ -81,9 +107,12 @@ public class FluidNode extends PhetPNode implements Observer {
         _centerNode.addChild( _velocityVectorsParentNode );
         
         updateSlide();
-        updateSpeedVectors();
+        updateVelocityVectors();
     }
     
+    /**
+     * Call this method before releasing all references to this object.
+     */
     public void cleanup() {
         _fluid.deleteObserver( this );
     }
@@ -92,10 +121,23 @@ public class FluidNode extends PhetPNode implements Observer {
     // Accessors and mutators
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the global full bounds of the center portion of
+     * the glass microscope slide, where the fluid lives.
+     * 
+     * @return Rectangle2D
+     */
     public Rectangle2D getCenterGlobalBounds() {
         return _centerNode.getGlobalFullBounds();
     }
     
+    /**
+     * Sets the size of the PhetPCanvas' world node.
+     * This makes the microscope slide change it's width to fill the canvas,
+     * giving the appearance of an infinitely wide fluid area.
+     * 
+     * @param worldSize
+     */
     public void setWorldSize( Dimension2D worldSize ) {
         final double worldWidth = worldSize.getWidth();
         if ( worldWidth <= 0 ) {
@@ -104,7 +146,19 @@ public class FluidNode extends PhetPNode implements Observer {
         if ( worldWidth != _worldWidth ) {
             _worldWidth = worldWidth;
             updateSlide();
-            updateSpeedVectors();
+            updateVelocityVectors();
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    public void update( Observable o, Object arg ) {
+        if ( o == _fluid ) {
+            if ( arg == Fluid.PROPERTY_SPEED ) {
+                updateVelocityVectors();
+            }
         }
     }
     
@@ -112,6 +166,9 @@ public class FluidNode extends PhetPNode implements Observer {
     // Updaters
     //----------------------------------------------------------------------------
     
+    /*
+     * Updates the microscope slide to match the model.
+     */
     private void updateSlide() {
         
         // fluid flow must be left-to-right or right-to-left
@@ -133,7 +190,10 @@ public class FluidNode extends PhetPNode implements Observer {
         setOffset( 0, y );
     }
     
-    private void updateSpeedVectors() {
+    /*
+     * Updates the fluid velocity vectors to match the model.
+     */
+    private void updateVelocityVectors() {
         
         _velocityVectorsParentNode.removeAllChildren();
         
@@ -156,24 +216,19 @@ public class FluidNode extends PhetPNode implements Observer {
         }
     }
     
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /*
+     * VelocityVectorNode draws a vector that represents the fluid velocity.
+     */
     private class VelocityVectorNode extends ArrowNode {
         public VelocityVectorNode( Point2D tailPosition, Point2D tipPosition ) {
             super( tailPosition, tipPosition, VELOCITY_VECTOR_HEAD_HEIGHT, VELOCITY_VECTOR_HEAD_WIDTH, VELOCITY_VECTOR_TAIL_WIDTH );
             setStroke( VELOCITY_VECTOR_STROKE );
             setStrokePaint( VELOCITY_VECTOR_STROKE_PAINT );
             setPaint( VELOCITY_VECTOR_FILL_PAINT );
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
-    
-    public void update( Observable o, Object arg ) {
-        if ( o == _fluid ) {
-            if ( arg == Fluid.PROPERTY_SPEED ) {
-                updateSpeedVectors();
-            }
         }
     }
 }

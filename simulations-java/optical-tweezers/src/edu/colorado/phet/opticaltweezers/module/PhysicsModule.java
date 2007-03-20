@@ -70,7 +70,6 @@ public class PhysicsModule extends AbstractModule {
     private PPath _rulerDragBoundsNode;
     
     // Control
-    private OTModelViewManager _modelViewManager;
     private PhysicsControlPanel _controlPanel;
     private OTClockControlPanel _clockControlPanel;
     private PhetPNode _returnBeadButtonWrapper;
@@ -172,8 +171,6 @@ public class PhysicsModule extends AbstractModule {
         // Control
         //----------------------------------------------------------------------------
 
-        _modelViewManager = new OTModelViewManager( _model );
-        
         // Control Panel
         _controlPanel = new PhysicsControlPanel( this );
         setControlPanel( _controlPanel );
