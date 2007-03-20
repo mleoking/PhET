@@ -24,6 +24,7 @@ import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.boundstates.BSAbstractApplication;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 
