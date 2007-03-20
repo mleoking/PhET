@@ -13,9 +13,6 @@ HIGH PRIORITY:
 - implement E-field model for slow mode
 - position histogram
 - potential energy chart
-- E-field vectors
-- charges on bead
-- trap force on bead
 
 MEDIUM PRIORITY:
 - make viscosity control logarithmic
