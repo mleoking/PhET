@@ -32,7 +32,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
-import edu.colorado.phet.opticalquantumcontrol.enum.MoleculeEnum;
+import edu.colorado.phet.opticalquantumcontrol.enums.MoleculeEnum;
 import edu.colorado.phet.opticalquantumcontrol.help.HelpBubble;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 import edu.colorado.phet.opticalquantumcontrol.view.*;

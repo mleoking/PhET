@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.opticalquantumcontrol.enum;
+package edu.colorado.phet.opticalquantumcontrol.enums;
 
 /**
  * Molecule
