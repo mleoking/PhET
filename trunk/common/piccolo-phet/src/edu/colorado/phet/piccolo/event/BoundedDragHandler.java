@@ -61,7 +61,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
             if( !boundingNode.getGlobalFullBounds().contains( dragNode.getGlobalFullBounds() ) ) {
                 double newX = pickedNode.getGlobalTranslation().getX();
                 double newY = pickedNode.getGlobalTranslation().getY();
-                double inset=1E-6;
+                double inset=1; //todo: not sure what purpose this servers, but should probably be put in the proper coordinate frame
                 if( pickedNode.getGlobalFullBounds().getX() < boundingNode.getGlobalFullBounds().getX() ) {
                     //let's take data and fit (to account for scale, rotation & shear)
                     double x0 = pickedNode.getGlobalTranslation().getX();
