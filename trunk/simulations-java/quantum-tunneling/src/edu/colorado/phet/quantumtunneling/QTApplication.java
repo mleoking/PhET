@@ -19,6 +19,7 @@ import java.util.Properties;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.util.CommandLineUtils;
 import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetFrameWorkaround;
@@ -33,7 +34,6 @@ import edu.colorado.phet.quantumtunneling.module.QTModule;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.persistence.QTGlobalConfig;
 import edu.colorado.phet.quantumtunneling.persistence.QTPersistenceManager;
-import edu.colorado.phet.quantumtunneling.util.ArgUtils;
 
 
 /**
@@ -147,7 +147,7 @@ public class QTApplication extends PhetApplication {
         }
    
         // Developer menu
-        if ( ArgUtils.contains( args, DEVELOPER_ARG ) ) {
+        if ( CommandLineUtils.contains( args, DEVELOPER_ARG ) ) {
             QTDeveloperMenu developerMenu = new QTDeveloperMenu( _module );
             getPhetFrame().addMenu( developerMenu );
         }
