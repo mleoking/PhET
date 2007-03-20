@@ -1,12 +1,12 @@
 package edu.colorado.phet.energyskatepark.serialization;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.FloorSpline;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.spline.CubicSpline;
 import edu.colorado.phet.energyskatepark.model.spline.SplineSurface;
+import edu.colorado.phet.energyskatepark.test.phys1d.CubicSpline2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class EnergySkateParkModuleBean {
         for( int i = 0; i < module.getEnergySkateParkModel().numSplineSurfaces(); i++ ) {
             EnergySkateParkSpline splineSurface = module.getEnergySkateParkModel().splineSurfaceAt( i );
 //            if( !( splineSurface instanceof FloorSpline ) ) {
-                addSplineSurface( splineSurface );             //todo: handle floor
+            addSplineSurface( splineSurface );             //todo: handle floor
 //            }
         }
         this.gravity = module.getEnergySkateParkModel().getGravity();
@@ -81,11 +81,13 @@ public class EnergySkateParkModuleBean {
 
         module.getEnergySkateParkModel().removeAllSplineSurfaces();
         for( int i = 0; i < splines.size(); i++ ) {
-            module.getEnergySkateParkModel().addSplineSurface( ( (EnergySkateParkSpline)splines.get( i ) ) );
+            SplineElement spline = (SplineElement)splines.get( i );
+            module.getEnergySkateParkModel().addSplineSurface( spline.toEnergySkateParkSpline() );
         }
         module.getEnergySkateParkModel().updateFloorState();
         module.getEnergySkateParkModel().setGravity( gravity );
     }
+
 
     public static class BodyElement {
         private Point2D.Double position;
@@ -241,6 +243,10 @@ public class EnergySkateParkModuleBean {
             SplineSurface splineSurface = new SplineSurface( top );
             splineSurface.getSpline().setRollerCoasterMode( rollerCoaster );
             return splineSurface;
+        }
+
+        public EnergySkateParkSpline toEnergySkateParkSpline() {
+            return new EnergySkateParkSpline( new CubicSpline2D( controlPoints ) );
         }
     }
 }
