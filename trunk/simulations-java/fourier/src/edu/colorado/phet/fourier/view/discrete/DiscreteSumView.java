@@ -21,17 +21,17 @@ import javax.swing.JCheckBox;
 import edu.colorado.phet.chart.*;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl;
+import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl.ZoomEvent;
+import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl.ZoomListener;
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
-import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.enum.Domain;
 import edu.colorado.phet.fourier.enum.MathForm;
 import edu.colorado.phet.fourier.enum.Preset;
 import edu.colorado.phet.fourier.enum.WaveType;
-import edu.colorado.phet.fourier.event.ZoomEvent;
-import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleEvent;
 import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleListener;
@@ -107,7 +107,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private FourierSumPlot _sumPlot;
     private LinePlot _presetPlot;
     private SinePlot _sineCosinePresetPlot;
-    private ZoomControl _horizontalZoomControl, _verticalZoomControl;
+    private PhetZoomControl _horizontalZoomControl, _verticalZoomControl;
     private JCheckBox _autoScaleCheckBox;
     private PhetGraphic _autoScaleGraphic;
     
@@ -189,7 +189,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         
         // Zoom controls
         {
-            _horizontalZoomControl = new ZoomControl( component, ZoomControl.HORIZONTAL );
+            _horizontalZoomControl = new PhetZoomControl( component, PhetZoomControl.HORIZONTAL );
             addGraphic( _horizontalZoomControl, CONTROLS_LAYER );
             // Location is aligned with top-right edge of chart.
             int x = _chartGraphic.getX() + CHART_SIZE.width + 20;
@@ -204,7 +204,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             _autoScaleGraphic.setLocation( _horizontalZoomControl.getX(), 
                     _chartGraphic.getY() + _chartGraphic.getHeight() - _autoScaleGraphic.getHeight() );
             
-            _verticalZoomControl = new ZoomControl( component, ZoomControl.VERTICAL );
+            _verticalZoomControl = new PhetZoomControl( component, PhetZoomControl.VERTICAL );
             addGraphic( _verticalZoomControl, CONTROLS_LAYER );
             // Just above the autoscale check box.
             _verticalZoomControl.setLocation( _horizontalZoomControl.getX(), 
@@ -301,7 +301,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
      * 
      * @return the horizontal zoom control
      */
-    public ZoomControl getHorizontalZoomControl() {
+    public PhetZoomControl getHorizontalZoomControl() {
         return _horizontalZoomControl;
     }
     
@@ -310,7 +310,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
      * 
      * @return the vertical zoom control
      */
-    public ZoomControl getVerticalZoomControl() {
+    public PhetZoomControl getVerticalZoomControl() {
         return _verticalZoomControl;
     }
     

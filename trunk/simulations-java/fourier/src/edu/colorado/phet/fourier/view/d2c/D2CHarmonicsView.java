@@ -16,17 +16,17 @@ import java.awt.*;
 import edu.colorado.phet.chart.DataSetGraphic;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl;
+import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl.ZoomEvent;
+import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl.ZoomListener;
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.charts.HarmonicPlot;
-import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.enum.Domain;
 import edu.colorado.phet.fourier.enum.MathForm;
 import edu.colorado.phet.fourier.enum.WaveType;
-import edu.colorado.phet.fourier.event.ZoomEvent;
-import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.view.HarmonicsEquation;
@@ -92,7 +92,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
     private PhetShapeGraphic _backgroundGraphic;
     private PhetTextGraphic _titleGraphic;
     private PhetImageGraphic _minimizeButton;
-    private ZoomControl _horizontalZoomControl;
+    private PhetZoomControl _horizontalZoomControl;
     private D2CHarmonicsChart _chartGraphic;
     private HarmonicsEquation _mathGraphic;
     private Domain _domain;
@@ -174,7 +174,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         
         // Zoom controls
         {
-            _horizontalZoomControl = new ZoomControl( component, ZoomControl.HORIZONTAL );
+            _horizontalZoomControl = new PhetZoomControl( component, PhetZoomControl.HORIZONTAL );
             addGraphic( _horizontalZoomControl, CONTROLS_LAYER );
             _horizontalZoomControl.setLocation( 620, 50 );
         }
@@ -239,7 +239,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
      * 
      * @return the horizontal zoom control
      */
-    public ZoomControl getHorizontalZoomControl() {
+    public PhetZoomControl getHorizontalZoomControl() {
         return _horizontalZoomControl;
     }
     
