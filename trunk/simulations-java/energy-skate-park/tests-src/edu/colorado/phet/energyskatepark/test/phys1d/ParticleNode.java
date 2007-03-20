@@ -33,11 +33,12 @@ public class ParticleNode extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 particle.setPosition( event.getPositionRelativeTo( ParticleNode.this ) );
-                particle.setUserUpdateStrategy();
+                particle.setUserControlled( true );
                 particle.setVelocity( 0, 0 );
             }
 
             public void mouseReleased( PInputEvent event ) {
+                particle.setUserControlled( false );
                 particle.setFreeFall();
             }
         } );

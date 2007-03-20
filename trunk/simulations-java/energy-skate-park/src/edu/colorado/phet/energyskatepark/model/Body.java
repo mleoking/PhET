@@ -3,8 +3,8 @@ package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
 import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.test.phys1d.Particle;
@@ -222,20 +222,26 @@ public class Body {
     boolean debugging = false;
 
     public void stepInTime( double dt ) {
-        Body orig=copyState();
+        Body orig = copyState();
         particle.stepInTime( dt );
+
+        updateStateFromParticle();
+
+        if( !MathUtil.isApproxEqual( getPotentialEnergy(), orig.getPotentialEnergy(), POTENTIAL_ENERGY_EQUALITY_EPS ) ) {
+            notifyPotentialEnergyChanged();
+        }
+    }
+
+    private void updateStateFromParticle() {
         setAttachmentPointPosition( particle.getX(), particle.getY() );
-        setVelocity( particle.getVelocity() );
+        this.velocity = particle.getVelocity();
         if( getSpeed() > 0.01 ) {
             if( !isFreeFallMode() && !isUserControlled() ) {
                 facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAttachmentPointRotation() ) ) > 0;
             }
         }
-        if( !MathUtil.isApproxEqual( getPotentialEnergy(), orig.getPotentialEnergy(), POTENTIAL_ENERGY_EQUALITY_EPS ) ) {
-            notifyPotentialEnergyChanged();
-        }
-        attachmentPointRotation=particle.getAngle()-Math.PI/2;
-        
+
+        attachmentPointRotation = particle.getAngle() - Math.PI / 2;
     }
 
     static class TraversalState {
@@ -292,8 +298,10 @@ public class Body {
     }
 
     public void translate( double dx, double dy ) {
-        setAttachmentPoint( attachmentPoint.x + dx,
-                            attachmentPoint.y + dy );
+//        setAttachmentPoint( attachmentPoint.x + dx,
+//                            attachmentPoint.y + dy );
+        particle.translate( dx, dy );
+        notifyPotentialEnergyChanged();
     }
 
     public double getEnergyDifferenceAbs( Body body ) {
@@ -305,7 +313,8 @@ public class Body {
     }
 
     public void setVelocity( double vx, double vy ) {
-        velocity.setComponents( vx, vy );
+        particle.setVelocity( vx, vy );
+        updateStateFromParticle();
     }
 
     public void setState( AbstractVector2D acceleration, AbstractVector2D velocity, Point2D newPosition ) {
@@ -323,16 +332,11 @@ public class Body {
     }
 
     public boolean isUserControlled() {
-        return particle.isUserMode();
+        return particle.isUserControlled();
     }
 
     public void setUserControlled( boolean userControlled ) {
-        if( userControlled ) {
-            particle.setUserUpdateStrategy();
-        }
-        else {
-            particle.setFreeFall();
-        }
+        particle.setUserControlled( userControlled );
     }
 
     public double getMinY() {
