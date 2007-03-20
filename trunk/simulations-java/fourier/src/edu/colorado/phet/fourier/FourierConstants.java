@@ -12,7 +12,8 @@
 package edu.colorado.phet.fourier;
 
 import java.awt.Cursor;
-import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.math.TrigCache;
 
 
 /**
@@ -41,6 +42,8 @@ public class FourierConstants {
     
     public static final int APP_FRAME_WIDTH = 1024;
     public static final int APP_FRAME_HEIGHT = 768;
+    
+    public static final TrigCache TRIG_CACHE = new TrigCache( 360 );
     
     //----------------------------------------------------------------------------
     // Properties files
