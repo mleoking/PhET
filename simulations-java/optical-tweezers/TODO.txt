@@ -5,7 +5,14 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- set viscosity range to [1E-12,1E-2] Pa*s, default=1E-3
+- make viscosity control logarithmic
 - change model coordinate system origin to be at center of laser's waist?
+- implement laser beam shape
+- implement laser beam gradient
+- implement force model for fast mode
+- implement bead motion model
+- implement E-field model for slow mode
 - position histogram
 - potential energy chart
 - E-field vectors
@@ -58,6 +65,9 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/20/07 - set viscosity range to [1E-12,1E-2] Pa*s, default=1E-3
+3/20/07 - use scientific notation to format numbers in viscosity control
+3/20/07 - add feature to set number formats for SliderControl
 3/20/07 - add units label for fluid viscosity
 3/20/07 - add velocity vectors to FluidNode
 3/20/07 - change model property Fluid.width to Fluid.height

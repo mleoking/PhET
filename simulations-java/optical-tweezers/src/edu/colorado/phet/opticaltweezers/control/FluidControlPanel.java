@@ -5,6 +5,7 @@ package edu.colorado.phet.opticaltweezers.control;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -83,10 +84,12 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         valueDecimalPlaces = fluid.getViscosityRange().getSignificantDecimalPlaces();
         label = SimStrings.get( "label.fluidViscosity" );
         units = SimStrings.get( "units.fluidViscosity" );
-        columns = 4;
+        columns = 13;
         _viscosityControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
         _viscosityControl.setTextFieldEditable( true );
         _viscosityControl.setFont( font );
+        _viscosityControl.setTickNumberFormat( new DecimalFormat( "0E0" ) );
+        _viscosityControl.setValueNumberFormat( new DecimalFormat( "0.0E0" ) );
         
         // Temperature control
         value = fluid.getTemperature();
