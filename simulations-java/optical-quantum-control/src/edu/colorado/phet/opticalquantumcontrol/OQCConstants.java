@@ -14,6 +14,8 @@ package edu.colorado.phet.opticalquantumcontrol;
 import java.awt.Color;
 import java.awt.Cursor;
 
+import edu.colorado.phet.common.math.TrigCache;
+
 
 /**
  * ShaperConstants constains various constants.
@@ -41,6 +43,8 @@ public class OQCConstants {
     
     public static final int APP_FRAME_WIDTH = 1024;
     public static final int APP_FRAME_HEIGHT = 768;
+    
+    public static final TrigCache TRIG_CACHE = new TrigCache( 360 );
     
     //----------------------------------------------------------------------------
     // Properties files

@@ -22,6 +22,7 @@ PHETCOMMON:
 
 
 DONE:
+3/20/07 - move TrigCache to phetcommon, convert to an instance instead of static methods
 3/20/07 - rename packages that contained "enum" keyword, use "enums" instead
 3/14/07 - rename SimStrings files to have basename opticalquantumcontrol_strings
 3/14/07 - move images to data/opticalquantumcontrol/images to avoid namespace collisions

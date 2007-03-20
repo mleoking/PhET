@@ -18,10 +18,10 @@ import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.LinePlot;
 import edu.colorado.phet.chart.Range2D;
+import edu.colorado.phet.common.math.TrigCache;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 import edu.colorado.phet.opticalquantumcontrol.model.Harmonic;
-import edu.colorado.phet.opticalquantumcontrol.util.TrigCache;
 
 
 /**
@@ -258,10 +258,10 @@ public class FourierSumPlot extends LinePlot {
                     final double angle = startAngle + ( pointIndex * deltaAngle );
                     double radians;
                     if ( _useCosines ) {
-                        radians = TrigCache.cos( angle );
+                        radians = OQCConstants.TRIG_CACHE.cos( angle );
                     }
                     else {
-                        radians = TrigCache.sin( angle );
+                        radians = OQCConstants.TRIG_CACHE.sin( angle );
                     }
 
                     final double x = _points[ pointIndex ].getX();
