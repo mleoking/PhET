@@ -24,6 +24,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.hydrogenatom.HAConstants;
