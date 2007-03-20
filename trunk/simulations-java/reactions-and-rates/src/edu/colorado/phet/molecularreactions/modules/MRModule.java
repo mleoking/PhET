@@ -84,14 +84,6 @@ public class MRModule extends Module {
         // Create energy view
         createEnergyView( chartPaneSize );
 
-        // Create a listener that will adjust the layout when the frame changes size
-        canvas.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                updateCanvasLayout();
-            }
-        } );
-        updateCanvasLayout();
-
         // Add an agent that will make the clock's time step smaller when it's
         // being single stepped.
         getClock().addClockListener( new ClockAdapter() {
@@ -106,22 +98,14 @@ public class MRModule extends Module {
     }
 
     private void createEnergyView( Dimension chartPaneSize ) {
-        PNode upperPaneContents = null;
+        if (!energyView.isInitialized()) {
+            energyView.initialize( this, chartPaneSize );
 
-        if (energyView.isInitialized()) {
-            upperPaneContents = energyView.getUpperPaneContent();
-            canvas.removeWorldChild( energyView );
+            energyView.setOffset( simulationPaneInsets.left + spatialView.getFullBounds().getWidth() + simulationPaneInsets.left,
+                                  simulationPaneInsets.top );
+
+            canvas.addWorldChild( energyView );
         }
-
-        energyView.initialize( this, chartPaneSize );
-        energyView.setOffset( simulationPaneInsets.left + spatialView.getFullBounds().getWidth() + simulationPaneInsets.left,
-                              simulationPaneInsets.top );
-
-        if( upperPaneContents != null ) {
-            energyView.setUpperPaneContent( upperPaneContents );
-        }
-        
-        canvas.addWorldChild( energyView );
     }
 
     public void reset() {
@@ -154,22 +138,6 @@ public class MRModule extends Module {
 
     public void setGraphicTypeVisible( boolean visible ) {
         spatialView.setGraphicTypeVisible( visible );
-    }
-
-
-    /**
-     * Updates the canvas layout.
-     */
-    protected void updateCanvasLayout() {
-        Dimension worldSize = getWorldSize( canvas );
-        if( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
-            // canvas hasn't been sized, skip layout
-            return;
-        }
-
-        // Layout nodes on the canvas ...
-        double energyViewWidth = worldSize.getWidth() - spatialView.getFullBounds().getWidth() - simulationPaneInsets.right * 2 - simulationPaneInsets.left;
-        createEnergyView( new Dimension( (int)energyViewWidth, chartPaneHeight ) );
     }
 
     /*

@@ -69,6 +69,8 @@ public class EnergyView extends PNode implements Resetable {
     }
 
     public void initialize( MRModule module, Dimension upperPaneSize ) {
+        if (isInitialized()) return;
+        
         this.module = module;
 
         removeAllChildren();
@@ -96,7 +98,7 @@ public class EnergyView extends PNode implements Resetable {
 
         // The graphic that shows the reaction mechanics. It appears below the profile pane.
         legendNode = new PPath( new Rectangle2D.Double( 0, 0,
-                                                              MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.width,
+                                                                     MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.width,
                                                               MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height ) );
         legendNode.setPaint( MRConfig.ENERGY_PANE_BACKGROUND );
         legendNode.setStrokePaint( new Color( 0, 0, 0, 0 ) );
@@ -245,6 +247,10 @@ public class EnergyView extends PNode implements Resetable {
 
             upperPaneContent = null;
         }
+    }
+
+    public void setEnergyLineLabel( String propertyName ) {
+        curvePane.setEnergyLineLabel( propertyName );
     }
 
     public void setManualControl( boolean manualControl ) {

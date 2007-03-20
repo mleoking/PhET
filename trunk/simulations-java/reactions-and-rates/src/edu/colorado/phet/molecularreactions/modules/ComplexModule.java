@@ -70,6 +70,8 @@ public class ComplexModule extends MRModule {
 
         getEnergyView().setUpperPaneClosable( false );
 
+        getEnergyView().setEnergyLineLabel( "EnergyView.Legend.totalAverageEnergy" );
+
         // Create the strip chart
         stripChartNode = new StripChartNode( this, MRConfig.CHART_PANE_SIZE );
 //        setStripChartRecording( true );
@@ -212,10 +214,6 @@ public class ComplexModule extends MRModule {
 
     public void setStopwatchVisible( boolean visible ) {
         stopwatchAdapter.setVisible( visible );
-    }
-
-    protected void updateCanvasLayout() {
-        super.updateCanvasLayout();
     }
 
     protected void addMovableStopwatch( double x, double y ) {
