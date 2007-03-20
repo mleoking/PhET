@@ -27,7 +27,7 @@ import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.ClosedPathPlot;
 import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.charts.WavePacketKWidthPlot;
-import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enums.Domain;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 

@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.enum;
+package edu.colorado.phet.fourier.enums;
 
 import java.awt.geom.Point2D;
 

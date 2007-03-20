@@ -18,7 +18,7 @@ import java.awt.RenderingHints;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.SinePlot;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.fourier.enum.WaveType;
+import edu.colorado.phet.fourier.enums.WaveType;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeEvent;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeListener;
 import edu.colorado.phet.fourier.model.Harmonic;

@@ -28,8 +28,8 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.MathStrings;
-import edu.colorado.phet.fourier.enum.Domain;
-import edu.colorado.phet.fourier.enum.MathForm;
+import edu.colorado.phet.fourier.enums.Domain;
+import edu.colorado.phet.fourier.enums.MathForm;
 import edu.colorado.phet.fourier.model.FourierSeries;
 
 

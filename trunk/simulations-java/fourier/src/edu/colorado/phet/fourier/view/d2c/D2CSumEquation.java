@@ -21,8 +21,8 @@ import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
-import edu.colorado.phet.fourier.enum.Domain;
-import edu.colorado.phet.fourier.enum.WaveType;
+import edu.colorado.phet.fourier.enums.Domain;
+import edu.colorado.phet.fourier.enums.WaveType;
 
 
 /**
