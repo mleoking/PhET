@@ -101,4 +101,8 @@ public class EnergyLine extends PNode {
     public void setLegendVisible( boolean visible ) {
         this.totalEnergyLegend.setVisible( visible );
     }
+
+    public void setLabel( String propertyName ) {
+        totalEnergyLegend.setText( SimStrings.get( propertyName ) );
+    }
 }

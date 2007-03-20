@@ -131,6 +131,10 @@ public class CurvePane extends PPath {
         return curveColor;
     }
 
+    public void setEnergyLineLabel( String propertyName ) {
+        energyLine.setLabel( propertyName );
+    }
+
     public void setEnergyCursorOffset(double offset) {
         energyCursor.setOffset( offset, 0 );
     }
