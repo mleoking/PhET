@@ -5,7 +5,6 @@ package edu.colorado.phet.rutherfordscattering.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.rutherfordscattering.util.DebugUtils;
 
 /**
  * AlphaParticle is the model of an alpha particle.
@@ -56,17 +55,5 @@ public class AlphaParticle extends MovingObject implements ModelElement {
     
     public void stepInTime( double dt ) {
         // do nothing -- alpha particle motion is handled in RSModel.clockTicked
-    }
-    
-    //----------------------------------------------------------------------------
-    // Object overrides
-    //----------------------------------------------------------------------------
-    
-    public String toString() {
-        String s = "Photon ";
-        s += ( "id=" + getId() + " " );
-        s += ( "position=" + DebugUtils.format( getPositionRef() ) + " " );
-        s += ( "orientation=" + DebugUtils.format( Math.toDegrees( getOrientation() ) ) + " " );
-        return s;
     }
 }
