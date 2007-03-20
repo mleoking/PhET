@@ -201,10 +201,11 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), ec3Model.getPotentialEnergyMetric(), ec3Model );
         ec3Module.resetSkater( body );
         ec3Model.addBody( body );
+        updateGraphics();
+    }
 
-        //todo is this code deprecated?
-        BodyGraphic bodyGraphic = new BodyGraphic( ec3Module, body );
-        addBodyGraphic( bodyGraphic );
+    private void updateGraphics() {
+        rootNode.updateGraphics();
     }
 
     public void addBodyGraphic( BodyGraphic bodyGraphic ) {
@@ -363,7 +364,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     public void redrawAllGraphics() {
-        rootNode.updateGraphics();
+        updateGraphics();
     }
 
     public boolean isMeasuringTapeVisible() {

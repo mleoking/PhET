@@ -117,6 +117,10 @@ public class Body {
         return Math.PI;
     }
 
+    public Particle getParticle() {
+        return particle;
+    }
+
     public static class StateRecord {
         private ArrayList states = new ArrayList();
         private Body body;
@@ -230,6 +234,8 @@ public class Body {
         if( !MathUtil.isApproxEqual( getPotentialEnergy(), orig.getPotentialEnergy(), POTENTIAL_ENERGY_EQUALITY_EPS ) ) {
             notifyPotentialEnergyChanged();
         }
+        attachmentPointRotation=particle.getAngle()-Math.PI/2;
+        
     }
 
     static class TraversalState {

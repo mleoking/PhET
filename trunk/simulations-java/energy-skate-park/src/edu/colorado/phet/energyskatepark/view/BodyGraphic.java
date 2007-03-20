@@ -6,6 +6,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.test.phys1d.ParticleImageNode;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
@@ -47,6 +48,8 @@ public class BodyGraphic extends PNode {
 
     private PPath feetDebugger;
     private boolean debugFeet = false;
+
+//    private ParticleImageNode particleImageNode;
 
     public BodyGraphic( final EnergySkateParkModule ec3Module, final Body body ) {
         this.energySkateParkModule = ec3Module;
@@ -99,6 +102,7 @@ public class BodyGraphic extends PNode {
                 if( b.getMinX() < 0 && delta.getWidth() < 0 ) {
                     okToTranslate = false;
                 }
+                okToTranslate=true;
                 if( okToTranslate ) {
                     getBody().translate( delta.getWidth(), delta.getHeight() );
                     updateDragAngle();
@@ -123,7 +127,7 @@ public class BodyGraphic extends PNode {
                 getBody().setVelocity( 0, 0 );
             }
         } );
-
+//        particleImageNode=new ParticleImageNode( body.getParticle());
         update();
     }
 
@@ -204,17 +208,21 @@ public class BodyGraphic extends PNode {
 //        centerDebugger.setPathTo( new Rectangle2D.Double( body.getAttachPoint().getX(), body.getAttachPoint().getY(), 0.1, 0.1 ) );
         centerDebugger.setPathTo( new Rectangle2D.Double( body.getCenterOfMass().getX(), body.getCenterOfMass().getY(), 0.1, 0.1 ) );
         feetDebugger.setPathTo( body.getFeetShape() );
+        
+//        particleImageNode.update();
+//        System.out.println( "particleImageNode.getGlobalFullBounds() = " + particleImageNode.getGlobalFullBounds() );
 //        invalidateFullBounds();
     }
 
     public static AffineTransform createTransform( Body body, AffineTransform bodyTransform, double objWidth, double objHeight, int imageWidth, int imageHeight ) {
         AffineTransform t = new AffineTransform();
         t.concatenate( bodyTransform );
-        t.translate( -objWidth / 2, 0 );
+//        t.translate( -objWidth / 2, 0 );
+        t.translate( -objWidth / 2, -objHeight);
         t.translate( 0, -AbstractSpline.SPLINE_THICKNESS / 2.0 );
         t.scale( objWidth / imageWidth, objHeight / imageHeight );
 
-        if( body.isFacingRight() ) {
+        if( !body.isFacingRight() ) {
             t.concatenate( AffineTransform.getScaleInstance( -1, 1 ) );
             t.translate( -imageWidth * 3 / 2.0, 0 );
         }
