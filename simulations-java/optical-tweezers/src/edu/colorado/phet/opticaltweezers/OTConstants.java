@@ -9,7 +9,7 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 
-import edu.colorado.phet.opticaltweezers.util.DoubleRange;
+import edu.colorado.phet.common.util.DoubleRange;
 
 
 /**

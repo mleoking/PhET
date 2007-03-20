@@ -5,7 +5,7 @@ package edu.colorado.phet.opticaltweezers.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.opticaltweezers.util.DoubleRange;
+import edu.colorado.phet.common.util.DoubleRange;
 
 /**
  * Fluid
