@@ -23,6 +23,7 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.util.CommandLineUtils;
 import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
@@ -33,7 +34,6 @@ import edu.colorado.phet.hydrogenatom.dialog.TransitionsDialog;
 import edu.colorado.phet.hydrogenatom.menu.DeveloperMenu;
 import edu.colorado.phet.hydrogenatom.menu.OptionsMenu;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
-import edu.colorado.phet.hydrogenatom.util.ArgUtils;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendDialog;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
@@ -109,7 +109,7 @@ public class HAApplication extends PiccoloPhetApplication {
         }
 
         // Developer menu
-        if ( ArgUtils.contains( args, DEVELOPER_ARG ) ) {
+        if ( CommandLineUtils.contains( args, DEVELOPER_ARG ) ) {
             DeveloperMenu developerMenu = new DeveloperMenu( _module );
             getPhetFrame().addMenu( developerMenu );
         }
