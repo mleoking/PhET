@@ -53,27 +53,6 @@ public class StripChart implements Resetable {
     private boolean recording;
     private double t0;
 
-    /**
-     * @param title
-     * @param seriesNames
-     * @param xAxisLabel
-     * @param yAxisLabel
-     * @param orienation
-     * @param xAxisRange
-     * @param minY
-     * @param maxY
-     */
-    public StripChart( String title,
-                       String[] seriesNames,
-                       String xAxisLabel,
-                       String yAxisLabel,
-                       PlotOrientation orienation,
-                       double xAxisRange,
-                       double minY,
-                       double maxY ) {
-        this( title, seriesNames, xAxisLabel, yAxisLabel, orienation, xAxisRange, minY, maxY, 1 );
-    }
-
 
     /**
      * @param title

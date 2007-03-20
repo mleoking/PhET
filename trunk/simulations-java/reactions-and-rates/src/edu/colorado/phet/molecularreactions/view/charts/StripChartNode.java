@@ -14,6 +14,8 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.Resetable;
@@ -82,16 +84,8 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         } );
 
         // Add a rescale button
-        JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale" ) );
-        rescaleBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                stripChart.rescale();
-            }
-        } );
-        PSwing rescaleNode = new PSwing( stripChartCanvas, rescaleBtn );
-        rescaleNode.setOffset( 10,
-                               chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() );
-        stripChartCanvas.addScreenChild( rescaleNode );
+        addRescale( stripChartCanvas, chartPanel );
+
         stripChartCanvas.setOpaque( true );
 
         stripChartCanvas.addScreenChild( scrollBarNode );
@@ -119,6 +113,41 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         scrollBar.setEnabled( !module.getClock().isRunning() );
 
         this.addChild( stripChartCanvas.getPhetRootNode() );
+    }
+
+    private void addRescale( PhetPCanvas stripChartCanvas, ChartPanel chartPanel ) {
+//        ApparatusPanel ap = new ApparatusPanel();
+//
+//        PhetZoomControl zc = new PhetZoomControl( ap, PhetZoomControl.VERTICAL );
+//        zc.setLocation( 0, 0 );
+//
+//        ap.setBounds( 0, 0, zc.getWidth(), zc.getHeight() );
+//        ap.setBorder( BorderFactory.createEmptyBorder() );
+//        ap.addGraphic( zc );
+//
+//
+//
+//        PSwing zoomNode = new PSwing( stripChartCanvas, ap );
+//
+//        zoomNode.setOffset( 10,
+//                            chartPanel.getPreferredSize().getHeight() - zoomNode.getFullBounds().getHeight() );
+//
+//        zoomNode.setPickable( true );
+//        zoomNode.moveToFront();
+//
+//        stripChartCanvas.addScreenChild( zoomNode );
+        
+
+        JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale" ) );
+        rescaleBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                stripChart.rescale();
+            }
+        } );
+        PSwing rescaleNode = new PSwing( stripChartCanvas, rescaleBtn );
+        rescaleNode.setOffset( 10,
+                               chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() );
+        stripChartCanvas.addScreenChild( rescaleNode );
     }
 
     /**
