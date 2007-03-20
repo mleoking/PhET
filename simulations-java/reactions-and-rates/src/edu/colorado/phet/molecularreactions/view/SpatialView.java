@@ -44,13 +44,14 @@ public class SpatialView extends PNode {
     private PNode topLayer = new PNode();
     private ModelElementGraphicManager megm;
     private ThermometerGraphic thermometerGraphic;
+    private MRModel model;
 
     /**
      * @param module
      * @param size
      */
     public SpatialView( MRModule module, Dimension size ) {
-        MRModel model = module.getMRModel();
+        model = module.getMRModel();
         PSwingCanvas pSwingCanvas = (PSwingCanvas)module.getSimulationPanel();
         PPath canvas = new PPath( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ), new BasicStroke( 1 ) );
         canvas.setPaint( background );
@@ -100,6 +101,20 @@ public class SpatialView extends PNode {
 
     public PNode getTopLayer() {
         return topLayer;
+    }
+
+    public boolean isTemperatureBeingAdjusted() {
+        boolean adjusting = false;
+
+        java.util.List graphics = megm.getGraphicsForModelElementClass( TemperatureControl.class );
+
+        if (graphics.size() == 1) {
+            TemperatureControlGraphic graphic = (TemperatureControlGraphic)graphics.get(0);
+
+            adjusting = graphic.isTemperatureBeingAdjusted();
+        }
+
+        return adjusting;
     }
 
     public void setThermometerPosition( double x, double y ) {

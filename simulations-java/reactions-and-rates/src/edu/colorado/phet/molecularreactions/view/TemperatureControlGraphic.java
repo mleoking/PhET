@@ -44,6 +44,7 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
     private PImage flamesGraphic;
     private PImage iceGraphic;
     private double stoveOffsetY = 25;
+    private volatile boolean adjustmentInProgress = false;
 
     public TemperatureControlGraphic( PSwingCanvas canvas, TemperatureControl tempCtrl ) {
         this.canvas = canvas;
@@ -105,6 +106,13 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
         stoveSlider.setPreferredSize( new Dimension( 100, 60 ) );
         stoveSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
+                if (stoveSlider.getValueIsAdjusting()) {
+                    adjustmentInProgress = true;
+                }
+                else {
+                    adjustmentInProgress = false;
+                }
+
                 temperatureControl.setSetting( stoveSlider.getValue() );
             }
         } );
@@ -139,6 +147,10 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
         sliderNode.setOffset( stoveGraphic.getWidth() + 5, 0 );
 
         return sliderNode;
+    }
+
+    public boolean isTemperatureBeingAdjusted() {
+        return adjustmentInProgress;
     }
 
     //--------------------------------------------------------------------------------------------------

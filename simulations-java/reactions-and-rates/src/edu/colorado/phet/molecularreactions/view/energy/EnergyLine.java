@@ -16,6 +16,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -40,14 +41,18 @@ public class EnergyLine extends PNode {
     private MRModel model;
     private double scale;
     private PText totalEnergyLegend;
+    private MRModule module;
+    private double curEnergy;
 
     /**
      * @param bounds The bounds within which this line is to be drawn
-     * @param model
+     * @param module The module.
+     * @param clock The clock.
      */
-    public EnergyLine( Dimension bounds, MRModel model, IClock clock ) {
+    public EnergyLine( Dimension bounds, MRModule module, IClock clock ) {
+        this.module = module;
         this.bounds = bounds;
-        this.model = model;
+        this.model = module.getMRModel();
 
         line = new Line2D.Double();
         lineNode = new PPath( line );
@@ -79,6 +84,8 @@ public class EnergyLine extends PNode {
 
         setChildrenPickable( false );
         setPickable( false );
+
+        curEnergy = model.getTotalEnergy();
     }
     
     public double getEnergyLineY() {
@@ -86,16 +93,16 @@ public class EnergyLine extends PNode {
     }
 
     public void update() {
-        double e = model.getTotalEnergy();
+        if (module.isTemperatureBeingAdjusted()) {
+            curEnergy = model.getTotalEnergy();
+        }
 
-        double y = Math.max( bounds.getHeight() - ( e * scale ), 0 );
+        double y = Math.max( bounds.getHeight() - ( curEnergy * scale ), 0 );        
         line.setLine( 0, y, bounds.getWidth(), y );
         lineNode.setPathTo( line );
 
         totalEnergyLegend.setOffset( line.getX2() - totalEnergyLegend.getFullBounds().getWidth(),
                                      y + 5 );
-
-
     }
 
     public void setLegendVisible( boolean visible ) {

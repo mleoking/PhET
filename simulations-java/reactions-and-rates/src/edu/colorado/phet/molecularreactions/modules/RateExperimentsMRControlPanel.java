@@ -81,8 +81,6 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
     public void reset() {
         experimentSetupPanel.reset();        
         optionsPanel.reset();
-//        optionsPanel.setDefaultSelection( ChartOptionsPanel.STRIP_CHART_OPTION );
-        // This negates the call in setDefaultSelection that will start the strip chart
         setExperimentRunning( false );
     }
 
@@ -90,4 +88,13 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
         getMoleculeInstanceControlPanel().setCountersEditable( running );
     }
 
+    public boolean isTemperatureBeingAdjusted() {
+        boolean adjusting = super.isTemperatureBeingAdjusted();
+
+        if (!adjusting) {
+            adjusting = experimentSetupPanel.isTemperatureBeingAdjusted();
+        }
+
+        return adjusting;
+    }
 }

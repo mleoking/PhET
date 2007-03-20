@@ -44,6 +44,10 @@ abstract public class MRControlPanel extends JPanel implements Resetable {
         init();
     }
 
+    public boolean isTemperatureBeingAdjusted() {
+        return false;
+    }
+
     private void init() {
         Component strut = Box.createHorizontalStrut( MRConfig.CONTROL_PANEL_WIDTH );        
         add( strut );

@@ -235,7 +235,9 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
         while( keyIt.hasNext() ) {
             ModelElement modelElement = (ModelElement)keyIt.next();
             if( modelElementClass.isInstance( modelElement )) {
-                graphics.add( modelElement );
+                GraphicRecord record = (GraphicRecord)modelElementToGraphicMap.get( modelElement );
+
+                graphics.add( record.getGraphic() );
             }
         }
         return graphics;
