@@ -16,7 +16,11 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
 
-
+/**
+ * PhysicsControlPanel is the control panel for PhysicsModule.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class PhysicsControlPanel extends AbstractControlPanel {
 
     //----------------------------------------------------------------------------
@@ -60,6 +64,11 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param module
+     */
     public PhysicsControlPanel( PhysicsModule module ) {
         super( module );
         

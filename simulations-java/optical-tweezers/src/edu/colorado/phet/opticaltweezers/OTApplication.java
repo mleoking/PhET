@@ -28,7 +28,7 @@ import edu.colorado.phet.opticaltweezers.persistence.OTPersistenceManager;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 /**
- * HAApplication
+ * OTApplication is the main application for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

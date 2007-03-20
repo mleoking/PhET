@@ -10,7 +10,7 @@ import edu.colorado.phet.opticaltweezers.model.OTClock;
 
 
 /**
- * PhysicsDefaults contains default settings for the "Physics of Tweezers" module.
+ * PhysicsDefaults contains default settings for PhysicsModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -58,7 +58,7 @@ public class PhysicsDefaults {
     public static final boolean WHOLE_BEAD_SELECTED = true;
     public static final boolean FLUID_DRAG_FORCE_SELECTED = false;
     public static final boolean BROWNIAN_FORCE_SELECTED = false;
-    public static final boolean RULER_SELECTED = true;
+    public static final boolean RULER_SELECTED = false;
     public static final boolean POSITION_HISTOGRAM_SELECTED = false;
     public static final boolean ADVANCED_VISIBLE = false;
     public static final boolean FLUID_CONTROLS_SELECTED = false;

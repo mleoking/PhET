@@ -9,7 +9,7 @@ import edu.colorado.phet.opticaltweezers.model.OTClock;
 
 
 /**
- * MotorsDefaults contains default settings for the "Molecular Motors" module.
+ * MotorsDefaults contains default settings for MotorsModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

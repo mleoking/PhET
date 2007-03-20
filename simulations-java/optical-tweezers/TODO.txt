@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- set viscosity range to [1E-12,1E-2] Pa*s, default=1E-3
+- add power range to laser model
 - make viscosity control logarithmic
 - change model coordinate system origin to be at center of laser's waist?
 - implement laser beam shape
@@ -16,7 +16,6 @@ HIGH PRIORITY:
 - position histogram
 - potential energy chart
 - E-field vectors
-- fluid flow vectors
 - charges on bead
 - trap force on bead
 
@@ -65,6 +64,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/20/07 - set ruler off by default
 3/20/07 - set viscosity range to [1E-12,1E-2] Pa*s, default=1E-3
 3/20/07 - use scientific notation to format numbers in viscosity control
 3/20/07 - add feature to set number formats for SliderControl

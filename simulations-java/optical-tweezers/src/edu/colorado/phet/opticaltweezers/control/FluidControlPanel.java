@@ -84,7 +84,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         valueDecimalPlaces = fluid.getViscosityRange().getSignificantDecimalPlaces();
         label = SimStrings.get( "label.fluidViscosity" );
         units = SimStrings.get( "units.fluidViscosity" );
-        columns = 13;
+        columns = 6;
         _viscosityControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
         _viscosityControl.setTextFieldEditable( true );
         _viscosityControl.setFont( font );

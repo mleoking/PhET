@@ -13,7 +13,7 @@ import edu.colorado.phet.common.util.DoubleRange;
 
 
 /**
- * OTConstants is a collection of constants.
+ * OTConstants is a collection of constants that configure global properties.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

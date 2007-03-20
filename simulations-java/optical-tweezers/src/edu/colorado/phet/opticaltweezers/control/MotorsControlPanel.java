@@ -5,11 +5,28 @@ package edu.colorado.phet.opticaltweezers.control;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.module.MotorsModule;
 
-
+/**
+ * MotorsControlPanel is the control panel for MotorsModule.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class MotorsControlPanel extends AbstractControlPanel {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private MotorsModule _module;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * 
+     * @param module
+     */
     public MotorsControlPanel( MotorsModule module ) {
         super( module );
 

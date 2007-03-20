@@ -24,9 +24,17 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
-
+/**
+ * LaserControlPanel is the panel used to control laser properties. 
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class LaserControlPanel extends PhetPNode implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final int X_MARGIN = 10;
     private static final int Y_MARGIN = 10;
     private static final int X_SPACING = 20; // horizontal spacing between components, in pixels
@@ -38,6 +46,10 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     private static final Dimension POWER_SLIDER_SIZE = new Dimension( 150, 25 );
     private static final int POWER_VALUE_DIGITS = 4;
         
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private Laser _laser;
     
     private JButton _startStopButton;
@@ -46,6 +58,19 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     
     private String _startString, _stopString;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * 
+     * @param canvas
+     * @param font
+     * @param minPanelWidth
+     * @param laser
+     * @param powerRange
+     */
     public LaserControlPanel( PSwingCanvas canvas, Font font, double minPanelWidth, Laser laser, DoubleRange powerRange ) {
         super();
         
@@ -126,6 +151,10 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     public void cleanup() {
         _laser.deleteObserver( this );
     }
+    
+    //----------------------------------------------------------------------------
+    // Mutators and accessors
+    //----------------------------------------------------------------------------
     
     public double getMinPower() {
         return _powerControl.getMinPower();
