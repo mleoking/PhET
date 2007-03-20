@@ -33,7 +33,7 @@ import edu.colorado.phet.boundstates.control.DoubleSpinner;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
-import edu.colorado.phet.boundstates.util.DialogUtils;
+import edu.colorado.phet.common.util.DialogUtils;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 
