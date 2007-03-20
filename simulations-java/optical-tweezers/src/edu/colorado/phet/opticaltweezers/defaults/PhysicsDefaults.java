@@ -45,7 +45,7 @@ public class PhysicsDefaults {
     // Fluid model
     public static final Point2D FLUID_POSITION = new Point2D.Double( 0, 600 ); // nm
     public static final double FLUID_ORIENTATION = Math.toRadians( 0 ); // left-to-right flow direction
-    public static final double FLUID_WIDTH = 1000; // nm
+    public static final double FLUID_HEIGHT = 1000; // nm
     public static final DoubleRange FLUID_SPEED_RANGE = new DoubleRange( 1, 1000, 500, 0 ); // microns/sec, min must be >0
     public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 0, 100, 50, 0 ); //XXX units? range?
     public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 0, 100, 50, 0 ); //XXX units? range?

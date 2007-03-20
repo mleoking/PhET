@@ -29,7 +29,7 @@ public class Fluid extends MovableObject implements ModelElement {
     private final DoubleRange _viscosityRange;
     private final DoubleRange _temperatureRange;
     
-    private final double _width; // nm
+    private final double _height; // nm
     private double _viscosity; //XXX units?
     private double _temperature; //XXX units?
     
@@ -42,16 +42,16 @@ public class Fluid extends MovableObject implements ModelElement {
      * 
      * @param position position at the center of the fluid "stream"
      * @param orientation direction that the fluid stream flows in (radians)
-     * @param width width of the fluid stream
+     * @param height height of the fluid stream
      * @param speedRange speed of the fluid stream
      * @param viscosityRange
      * @param temperatureRange
      */
-    public Fluid( Point2D position, double orientation, double width, 
+    public Fluid( Point2D position, double orientation, double height, 
             DoubleRange speedRange, DoubleRange viscosityRange, DoubleRange temperatureRange ) {
         super( position, orientation, speedRange.getDefault() );
         
-        _width = width;
+        _height = height;
         
         _speedRange = speedRange;
         _viscosityRange = viscosityRange;
@@ -65,8 +65,8 @@ public class Fluid extends MovableObject implements ModelElement {
     // Mutators and accessors
     //----------------------------------------------------------------------------
 
-    public double getWidth() {
-        return _width;
+    public double getHeight() {
+        return _height;
     }
     
     public double getViscosity() {

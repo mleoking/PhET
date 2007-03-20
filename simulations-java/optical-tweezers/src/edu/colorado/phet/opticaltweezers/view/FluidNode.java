@@ -4,31 +4,48 @@ package edu.colorado.phet.opticaltweezers.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.piccolo.nodes.ArrowNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 public class FluidNode extends PhetPNode implements Observer {
 
+    // properties of the "glass slide" that the fluid sits on
     public static final double EDGE_HEIGHT = 12; // pixels
     private static final Stroke EDGE_STROKE = new BasicStroke( 1f );
     private static final Color EDGE_STROKE_COLOR = Color.BLACK;
     private static final Color EDGE_FILL_COLOR = new Color( 176, 218, 200 );
-    
     private static final Color CENTER_FILL_COLOR = new Color( 220, 239, 239 );
+    
+    // properties of the fluid velocity vectors
+    private static final int NUMBER_OF_VELOCITY_VECTORS = 10;
+    private static final double VELOCITY_VECTOR_HEAD_HEIGHT = 20;
+    private static final double VELOCITY_VECTOR_HEAD_WIDTH = 20;
+    private static final double VELOCITY_VECTOR_TAIL_WIDTH = 10;
+    private static final double VELOCITY_VECTOR_MIN_LENGTH = VELOCITY_VECTOR_HEAD_HEIGHT + 5;
+    private static final double VELOCITY_VECTOR_MAX_LENGTH = 5 * VELOCITY_VECTOR_MIN_LENGTH;
+    private static final Stroke VELOCITY_VECTOR_STROKE = new BasicStroke( 1f );
+    private static final Paint VELOCITY_VECTOR_STROKE_PAINT = Color.black;
+    private static final Paint VELOCITY_VECTOR_FILL_PAINT = EDGE_FILL_COLOR;
+    private static final double VELOCITY_VECTOR_X_OFFSET = 30;
 
     private Fluid _fluid;
     private ModelViewTransform _modelViewTransform;
     private double _worldWidth;
     
     private PPath _topEdgeNode, _bottomEdgeNode, _centerNode;
+    private PComposite _velocityVectorsParentNode;
     
     public FluidNode( Fluid fluid, ModelViewTransform modelViewTransform ) {
         super();
@@ -56,11 +73,15 @@ public class FluidNode extends PhetPNode implements Observer {
         _centerNode.setStroke( null );
         _centerNode.setPaint( CENTER_FILL_COLOR );
         
+        _velocityVectorsParentNode = new PComposite();
+        
         addChild( _centerNode );
         addChild( _topEdgeNode );
         addChild( _bottomEdgeNode );
+        _centerNode.addChild( _velocityVectorsParentNode );
         
-        update();
+        updateSlide();
+        updateSpeedVectors();
     }
     
     public void cleanup() {
@@ -82,7 +103,8 @@ public class FluidNode extends PhetPNode implements Observer {
         }
         if ( worldWidth != _worldWidth ) {
             _worldWidth = worldWidth;
-            update();
+            updateSlide();
+            updateSpeedVectors();
         }
     }
     
@@ -90,12 +112,12 @@ public class FluidNode extends PhetPNode implements Observer {
     // Updaters
     //----------------------------------------------------------------------------
     
-    private void update() {
+    private void updateSlide() {
         
         // fluid flow must be left-to-right or right-to-left
-        assert( _fluid.getOrientation() ==  Math.toRadians( 0 ) || _fluid.getOrientation() == Math.toRadians( 90 ) );
+        assert( _fluid.getOrientation() ==  Math.toRadians( 0 ) || _fluid.getOrientation() == Math.toRadians( 180 ) );
         
-        final double height = _modelViewTransform.modelToView( _fluid.getWidth() );
+        final double height = _modelViewTransform.modelToView( _fluid.getHeight() );
         final double y = _modelViewTransform.modelToView( _fluid.getY() );
         
         // create each part with (0,0) at top right
@@ -111,11 +133,47 @@ public class FluidNode extends PhetPNode implements Observer {
         setOffset( 0, y );
     }
     
+    private void updateSpeedVectors() {
+        
+        _velocityVectorsParentNode.removeAllChildren();
+        
+        double speed = _fluid.getSpeed();
+        double minSpeed = _fluid.getSpeedRange().getMin();
+        double maxSpeed = _fluid.getSpeedRange().getMax();
+        double arrowScale = ( speed - minSpeed ) / ( maxSpeed - minSpeed );
+        double arrowLength = VELOCITY_VECTOR_MIN_LENGTH +  ( arrowScale * ( VELOCITY_VECTOR_MAX_LENGTH - VELOCITY_VECTOR_MIN_LENGTH ) );
+        Point2D tailPosition = new Point2D.Double( 0, 0 );
+        Point2D tipPosition = new Point2D.Double( arrowLength, 0 );
+        final double fluidHeight = _modelViewTransform.modelToView( _fluid.getHeight() );
+        
+        for ( int i = 0; i < NUMBER_OF_VELOCITY_VECTORS; i++ ) {
+            VelocityVectorNode vectorNode = new VelocityVectorNode( tailPosition, tipPosition );
+            double x = VELOCITY_VECTOR_X_OFFSET;
+            double y = ( i * fluidHeight / NUMBER_OF_VELOCITY_VECTORS ) + 
+                ( ( fluidHeight / NUMBER_OF_VELOCITY_VECTORS ) - vectorNode.getFullBounds().getHeight() );
+            vectorNode.setOffset( x, y );
+            _velocityVectorsParentNode.addChild( vectorNode );
+        }
+    }
+    
+    private class VelocityVectorNode extends ArrowNode {
+        public VelocityVectorNode( Point2D tailPosition, Point2D tipPosition ) {
+            super( tailPosition, tipPosition, VELOCITY_VECTOR_HEAD_HEIGHT, VELOCITY_VECTOR_HEAD_WIDTH, VELOCITY_VECTOR_TAIL_WIDTH );
+            setStroke( VELOCITY_VECTOR_STROKE );
+            setStrokePaint( VELOCITY_VECTOR_STROKE_PAINT );
+            setPaint( VELOCITY_VECTOR_FILL_PAINT );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        //XXX
+        if ( o == _fluid ) {
+            if ( arg == Fluid.PROPERTY_SPEED ) {
+                updateSpeedVectors();
+            }
+        }
     }
 }
