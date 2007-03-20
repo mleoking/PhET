@@ -8,7 +8,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.DoubleRange;
 
 /**
- * Fluid
+ * Fluid is the model of fluid that contains the glass bead.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

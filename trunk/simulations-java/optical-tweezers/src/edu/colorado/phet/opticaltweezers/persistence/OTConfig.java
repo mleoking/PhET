@@ -3,7 +3,7 @@
 package edu.colorado.phet.opticaltweezers.persistence;
 
 /**
- * QTConfig describes a configuration of this simulation.
+ * OTConfig describes a configuration of this simulation.
  * It encapsulates all of the settings that the user can change.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

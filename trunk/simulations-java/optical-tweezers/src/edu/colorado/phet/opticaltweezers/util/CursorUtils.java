@@ -8,7 +8,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.PhetFrame;
 
 /**
- * CursorUtils is a collection of Cursor-related class methods.
+ * CursorUtils is a collection of Cursor-related utilities.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

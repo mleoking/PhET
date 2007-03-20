@@ -15,14 +15,26 @@ import edu.colorado.phet.common.util.DoubleRange;
  */
 public class OTClock extends SwingClock {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final DoubleRange _dtRange;
     private double _dt;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public OTClock( int framesPerSecond, DoubleRange dtRange ) {
         super( 1000 / framesPerSecond, dtRange.getDefault() );
         _dtRange = dtRange;
         _dt = dtRange.getDefault();
     }
+    
+    //----------------------------------------------------------------------------
+    // Mutators and accessors
+    //----------------------------------------------------------------------------
     
     public DoubleRange getDtRange() {
         return _dtRange;

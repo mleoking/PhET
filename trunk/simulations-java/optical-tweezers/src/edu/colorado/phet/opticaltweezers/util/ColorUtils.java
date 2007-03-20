@@ -4,6 +4,11 @@ package edu.colorado.phet.opticaltweezers.util;
 
 import java.awt.Color;
 
+/**
+ * ColorUtils is a collection of color utilities.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ColorUtils {
 
     private ColorUtils() {}
