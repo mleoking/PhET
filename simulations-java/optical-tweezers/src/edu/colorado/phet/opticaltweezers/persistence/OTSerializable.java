@@ -5,7 +5,7 @@ package edu.colorado.phet.opticaltweezers.persistence;
 import java.io.Serializable;
 
 /**
- * QTSerializable is a marker interface for serializable objects
+ * OTPersistenceManager is a marker interface for serializable objects
  * that are specific to this simulation's persistence feature.
  * <p>
  * This interface's main purpose is to inform ProGuard about

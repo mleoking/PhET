@@ -6,7 +6,11 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.model.ModelElement;
 
-
+/**
+ * Bead is the model of a glass bead, the dialectric particle in this experiement.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class Bead extends MovableObject implements ModelElement {
 
     //----------------------------------------------------------------------------

@@ -7,7 +7,11 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.DoubleRange;
 
-
+/**
+ * Laser is the model of the laser.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class Laser extends MovableObject implements ModelElement {
 
     //----------------------------------------------------------------------------

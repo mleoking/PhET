@@ -3,7 +3,7 @@
 package edu.colorado.phet.opticaltweezers.persistence;
 
 /**
- * OTGlobalConfig is a JavaBean-compliant data structure that stores
+ * GlobalConfig is a JavaBean-compliant data structure that stores
  * global configuration information.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

@@ -21,7 +21,7 @@ import edu.colorado.phet.opticaltweezers.module.AbstractModule;
 
 
 /**
- * ConfigManager manages the application's configuration.
+ * OTPersistenceManager manages the application's configuration.
  * It saves/loads configurations to/from files as XML-encoded objects.
  * It handles the user interface for selecting the file to save/load,
  * including any error dialogs.
