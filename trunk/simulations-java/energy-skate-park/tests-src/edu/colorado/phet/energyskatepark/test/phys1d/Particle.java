@@ -246,7 +246,7 @@ public class Particle {
             double closestAlpha = 0;
             int closestIndex = -1;
 
-            System.out.println( "particleStage = " + particleStage.toStringSerialization() );
+//            System.out.println( "particleStage = " + particleStage.toStringSerialization() );
             for( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
 //                System.out.println( "Checking spline[" + i + "]" );
                 ParametricFunction2D cubicSpline = particleStage.getCubicSpline2D( i );
