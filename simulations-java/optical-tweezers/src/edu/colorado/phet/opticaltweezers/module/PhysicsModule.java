@@ -99,7 +99,7 @@ public class PhysicsModule extends AbstractModule {
                 PhysicsDefaults.LASER_ORIENTATION, 
                 PhysicsDefaults.LASER_DIAMETER, 
                 PhysicsDefaults.LASER_WAVELENGTH, 
-                PhysicsDefaults.LASER_POWER_RANGE.getDefault() );
+                PhysicsDefaults.LASER_POWER_RANGE );
         
         _bead = new Bead( PhysicsDefaults.BEAD_POSITION, 
                 PhysicsDefaults.BEAD_ORIENTATION, 
@@ -143,7 +143,7 @@ public class PhysicsModule extends AbstractModule {
         // Laser
         _laserDragBoundsNode = new PPath();
         _laserDragBoundsNode.setStroke( null );
-        _laserNode = new LaserNode( _canvas, _laser, _modelViewTransform, PhysicsDefaults.LASER_POWER_RANGE, _laserDragBoundsNode );
+        _laserNode = new LaserNode( _canvas, _laser, _modelViewTransform, _laserDragBoundsNode );
         
         // Bead
         _beadDragBoundsNode = new PPath();

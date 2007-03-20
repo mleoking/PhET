@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add power range to laser model
 - make viscosity control logarithmic
 - change model coordinate system origin to be at center of laser's waist?
 - implement laser beam shape
@@ -64,6 +63,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/20/07 - add power range to laser model
 3/20/07 - javadoc what I've done so far
 3/20/07 - remove ModelViewManager framework, not necessary, too complicated
 3/20/07 - set ruler off by default

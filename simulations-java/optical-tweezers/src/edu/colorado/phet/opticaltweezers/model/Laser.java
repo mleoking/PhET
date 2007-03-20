@@ -25,10 +25,11 @@ public class Laser extends MovableObject implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private boolean _running;
     private final double _diameter; // nm
     private final int _wavelength; // nm
     private double _power; // mW
-    private boolean _running;
+    private final DoubleRange _powerRange; // mW
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -43,12 +44,14 @@ public class Laser extends MovableObject implements ModelElement {
      * @param wavelength wavelenght (nm)
      * @param power power (mW)
      */
-    public Laser( Point2D position, double orientation, double diameter, int wavelength, double power ) {
+    public Laser( Point2D position, double orientation, double diameter, int wavelength, DoubleRange powerRange ) {
         super( position, orientation, 0 /* speed */ );
+        
+        _running = false;
         _diameter = diameter;
         _wavelength = wavelength;
-        _power = power;
-        _running = false;
+        _power = powerRange.getDefault();
+        _powerRange = new DoubleRange( powerRange );
     }
     
     //----------------------------------------------------------------------------
@@ -79,13 +82,17 @@ public class Laser extends MovableObject implements ModelElement {
     }
     
     public void setPower( double power ) {
-        if ( power < 0 ) {
-            throw new IllegalArgumentException( "power < 0: " + power );
+        if ( power < _powerRange.getMin() || power > _powerRange.getMax() ) {
+            throw new IllegalArgumentException( "power out of range: " + power );
         }
         if ( power != _power ) {
             _power = power;
             notifyObservers( PROPERTY_POWER );
         }
+    }
+    
+    public DoubleRange getPowerRange() {
+        return _powerRange;
     }
     
     //----------------------------------------------------------------------------
