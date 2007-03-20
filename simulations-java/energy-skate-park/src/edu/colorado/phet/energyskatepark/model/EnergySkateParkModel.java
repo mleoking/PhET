@@ -149,22 +149,10 @@ public class EnergySkateParkModel {
         else {
             floor = null;
         }
-//        while( getNumFloorSplines() > desiredNumFloors ) {
-//            removeFloorSpline();
-//        }
-//        while( getNumFloorSplines() < desiredNumFloors ) {
-//            addFloorSpline();
-//        }
-//        while( getFloorCount() < desiredNumFloors ) {
-//            addFloor( new Floor( this ) );
-//        }
-//        while( getFloorCount() > desiredNumFloors ) {
-//            removeFloor( 0 );
-//        }
-//        if( getFloorCount() == 2 || getNumFloorSplines() == 2 ) {
-//            System.out.println( "getFloorCount() = " + getFloorCount() );
-//            System.out.println( "getNumFloorSplines() = " + getNumFloorSplines() );
-//        }
+        for( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+            energyModelListener.floorChanged();
+        }
     }
 
     public Floor getFloor() {
@@ -178,53 +166,6 @@ public class EnergySkateParkModel {
     public static void setThermalLanding( boolean selected ) {
         thermalLanding = selected;
     }
-
-//    private void removeFloors() {
-//        while( floors.size() > 0 ) {
-//            removeFloor( 0 );
-//        }
-//    }
-
-//    private void removeFloor( int i ) {
-//        floors.remove( i );
-//    }
-
-//    private void removeFloorSpline() {
-//        for( int i = 0; i < splines.size(); i++ ) {
-//            SplineSurface splineSurface = (SplineSurface)p.get( i );
-//            if( splineSurface.getSpline() instanceof FloorSpline ) {
-//                removeSplineSurface( splineSurface );
-//                i--;
-//            }
-//        }
-//    }
-
-//    public boolean hasFloor() {
-//        return getFloorCount() > 0;
-//    }
-//
-//    public int getFloorCount() {
-//        return floors.size();
-//    }
-
-//    private int getNumFloorSplines() {
-//        int sum = 0;
-//        for( int i = 0; i < splines.size(); i++ ) {
-//            SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
-//            if( splineSurface.getSpline() instanceof FloorSpline ) {
-//                sum++;
-//            }
-//        }
-//        return sum;
-//    }
-//
-//    private boolean hasFloorSpline() {
-//        return getNumFloorSplines() > 0;
-//    }
-
-//    private void addFloorSpline() {
-//        addSplineSurface( new SplineSurface( new FloorSpline(), false ) );
-//    }
 
     static interface Listener {
         public void numBodiesChanged();
@@ -242,10 +183,7 @@ public class EnergySkateParkModel {
             Body body = (Body)bodies.get( i );
             copy.bodies.add( body.copyState() );
         }
-//        for( int i = 0; i < floors.size(); i++ ) {
-//            Floor floor = (Floor)floors.get( i );
-//            copy.floors.add( floor.copyState() );
-//        }
+        copy.floor = this.floor == null ? null : this.floor.copyState();
         for( int i = 0; i < splines.size(); i++ ) {
             EnergySkateParkSpline surface = splineSurfaceAt( i );
             copy.splines.add( surface.copy() );
@@ -259,7 +197,6 @@ public class EnergySkateParkModel {
 
     public void setState( EnergySkateParkModel model ) {
         bodies.clear();
-//        floors.clear();
         splines.clear();
         for( int i = 0; i < model.bodies.size(); i++ ) {
             bodies.add( model.bodyAt( i ).copyState() );
@@ -267,9 +204,7 @@ public class EnergySkateParkModel {
         for( int i = 0; i < model.splines.size(); i++ ) {
             splines.add( model.splineSurfaceAt( i ).copy() );
         }
-//        for( int i = 0; i < model.floors.size(); i++ ) {
-//            floors.add( model.floorAt( i ).copyState() );
-//        }
+        this.floor=model.floor==null?null:model.floor.copyState();
         this.history.clear();
         this.history.addAll( model.history );
         this.time = model.time;
@@ -369,12 +304,6 @@ public class EnergySkateParkModel {
             Body body = (Body)bodies.get( i );
             body.stepInTime( dt );
         }
-        if( floor != null ) {
-            floor.stepInTime( dt );
-        }
-//        for( int i = 0; i < floors.size(); i++ ) {
-//            floorAt( i ).stepInTime( dt );
-//        }
     }
 
     public ArrayList getAllSplines() {
@@ -382,7 +311,6 @@ public class EnergySkateParkModel {
         for( int i = 0; i < splines.size(); i++ ) {
             EnergySkateParkSpline splineSurface = (EnergySkateParkSpline)splines.get( i );
             list.add( splineSurface );
-//            list.add( splineSurface.getBottom() );
         }
         return list;
     }
@@ -390,10 +318,6 @@ public class EnergySkateParkModel {
     public EnergySkateParkSpline splineSurfaceAt( int i ) {
         return (EnergySkateParkSpline)splines.get( i );
     }
-
-//    public Floor floorAt( int i ) {
-//        return (Floor)floors.get( i );
-//    }
 
     public void addSplineSurface( EnergySkateParkSpline energySkateParkSpline ) {
         splines.add( energySkateParkSpline );
@@ -423,10 +347,6 @@ public class EnergySkateParkModel {
         return (Body)bodies.get( i );
     }
 
-//    private void addFloor( Floor floor ) {
-//        floors.add( floor );
-//    }
-
     public double getGravity() {
         return gravity;
     }
@@ -439,7 +359,6 @@ public class EnergySkateParkModel {
             }
         }
         notifyBodiesSplineRemoved( splineSurface );
-//        notifyBodiesSplineRemoved( splineSurface.getBottom() );
         splines.remove( splineSurface );
         notifySplinesChanged();
     }
@@ -482,6 +401,10 @@ public class EnergySkateParkModel {
 
         public void splinesChanged() {
         }
+
+        public void floorChanged() {
+
+        }
     }
 
     public static interface EnergyModelListener {
@@ -490,6 +413,8 @@ public class EnergySkateParkModel {
         void gravityChanged();
 
         void splinesChanged();
+
+        void floorChanged();
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {

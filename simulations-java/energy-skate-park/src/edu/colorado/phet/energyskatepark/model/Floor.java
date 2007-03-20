@@ -5,6 +5,10 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
+import edu.colorado.phet.energyskatepark.test.phys1d.LinearSpline2D;
+import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
+
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -33,30 +37,11 @@ public class Floor {
         return copy;
     }
 
-    public void stepInTime( double dt ) {
-        for( int i = 0; i < model.numBodies(); i++ ) {
-            Body b = model.bodyAt( i );
-            stepInTime( b, dt );
-        }
-    }
-
-    private void stepInTime( Body b, double dt ) {
-        if( b.getMinY() < y && !b.isSplineMode() ) {
-            double origEnergy = b.getTotalEnergy();
-            double overshoot = b.getMinY() - y;
-            b.setAttachmentPointPosition( b.getX(), b.getY() - overshoot );
-            AbstractVector2D scaledInstance = new ImmutableVector2D.Double( b.getVelocity().getX(), Math.abs( b.getVelocity().getY() ) );
-            b.setVelocity( scaledInstance );
-            new EnergyConserver().fixEnergy( b, origEnergy );//todo add friction to floor
-        }
-    }
-
     public double getY() {
         return y;
     }
 
-    public Vector2D getNormal() {
-        return normal;
+    public ParametricFunction2D getParametricFunction2D() {
+        return new LinearSpline2D( new Point2D[]{new Point2D.Double( -100, y ), new Point2D.Double( 200, y )} );
     }
-
 }
