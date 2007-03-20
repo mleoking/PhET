@@ -18,8 +18,8 @@ import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.LinePlot;
 import edu.colorado.phet.chart.Range2D;
+import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.enums.WaveType;
-import edu.colorado.phet.fourier.util.TrigCache;
 
 
 /**
@@ -239,10 +239,10 @@ public class GaussianWavePacketPlot extends LinePlot {
                  */
                 double y = 0;
                 if ( _waveType == WaveType.SINES ) {
-                    y = Math.exp( -( x * x ) / ( 2 * ( _dx * _dx ) ) ) * TrigCache.sin( _k0 * x );
+                    y = Math.exp( -( x * x ) / ( 2 * ( _dx * _dx ) ) ) * FourierConstants.TRIG_CACHE.sin( _k0 * x );
                 }
                 else {
-                    y = Math.exp( -( x * x ) / ( 2 * ( _dx * _dx ) ) ) * TrigCache.cos( _k0 * x );
+                    y = Math.exp( -( x * x ) / ( 2 * ( _dx * _dx ) ) ) * FourierConstants.TRIG_CACHE.cos( _k0 * x );
                 }
                 
                 // point
