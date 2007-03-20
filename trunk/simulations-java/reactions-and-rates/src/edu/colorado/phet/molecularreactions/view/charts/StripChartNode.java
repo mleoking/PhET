@@ -16,8 +16,10 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
+import edu.colorado.phet.molecularreactions.modules.SimpleModule;
 import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.util.StripChart;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -65,7 +67,9 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         scrollBar.addAdjustmentListener( new StripChartAdjuster( stripChart ) );
 
         // Set sizes and locations of the chart and the scrollbar
-        scrollBar.setPreferredSize( new Dimension( (int)( size.getWidth() - scrollBarInsets.left - scrollBarInsets.right ), 15 ) );
+        Dimension scrollBarDim = new Dimension( (int)( size.getWidth() - scrollBarInsets.left - scrollBarInsets.right ), 15 );
+
+        scrollBar.setPreferredSize( scrollBarDim );
         final PSwing scrollBarNode = new PSwing( stripChartCanvas, scrollBar );
         scrollBarNode.setPaint( new Color( 0, 0, 0, 0 ) );
         scrollBarNode.setOffset( scrollBarInsets.left,
@@ -82,6 +86,9 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
                 stripChartNode.repaint();
             }
         } );
+
+        scrollBar.setVisible( true );
+        scrollBar.setEnabled( true );
 
         // Add a rescale button
         addRescale( stripChartCanvas, chartPanel );
@@ -101,7 +108,7 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         // The scroll bar should only be enabled when the clock is paused
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockStarted( ClockEvent clockEvent ) {
-                scrollBar.setEnabled( false );
+                //scrollBar.setEnabled( false );
                 scrollBarNode.repaint();
             }
 
@@ -110,44 +117,44 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
                 scrollBarNode.repaint();
             }
         } );
-        scrollBar.setEnabled( !module.getClock().isRunning() );
+        //scrollBar.setEnabled( !module.getClock().isRunning() );
 
         this.addChild( stripChartCanvas.getPhetRootNode() );
     }
 
     private void addRescale( PhetPCanvas stripChartCanvas, ChartPanel chartPanel ) {
-//        ApparatusPanel ap = new ApparatusPanel();
-//
-//        PhetZoomControl zc = new PhetZoomControl( ap, PhetZoomControl.VERTICAL );
-//        zc.setLocation( 0, 0 );
-//
-//        ap.setBounds( 0, 0, zc.getWidth(), zc.getHeight() );
-//        ap.setBorder( BorderFactory.createEmptyBorder() );
-//        ap.addGraphic( zc );
-//
-//
-//
-//        PSwing zoomNode = new PSwing( stripChartCanvas, ap );
-//
-//        zoomNode.setOffset( 10,
-//                            chartPanel.getPreferredSize().getHeight() - zoomNode.getFullBounds().getHeight() );
-//
-//        zoomNode.setPickable( true );
-//        zoomNode.moveToFront();
-//
-//        stripChartCanvas.addScreenChild( zoomNode );
+        ApparatusPanel ap = new ApparatusPanel();
+
+        PhetZoomControl zc = new PhetZoomControl( ap, PhetZoomControl.VERTICAL );
+        zc.setLocation( 0, 0 );
+
+        ap.setBounds( 0, 0, zc.getWidth(), zc.getHeight() );
+        ap.setBorder( BorderFactory.createEmptyBorder() );
+        ap.addGraphic( zc );
+
+
+
+        PSwing zoomNode = new PSwing( stripChartCanvas, ap );
+
+        zoomNode.setOffset( 10,
+                            chartPanel.getPreferredSize().getHeight() - zoomNode.getFullBounds().getHeight() );
+
+        zoomNode.setPickable( true );
+        zoomNode.moveToFront();
+
+        stripChartCanvas.addScreenChild( zoomNode );
         
 
-        JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale" ) );
-        rescaleBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                stripChart.rescale();
-            }
-        } );
-        PSwing rescaleNode = new PSwing( stripChartCanvas, rescaleBtn );
-        rescaleNode.setOffset( 10,
-                               chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() );
-        stripChartCanvas.addScreenChild( rescaleNode );
+//        JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale" ) );
+//        rescaleBtn.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                stripChart.rescale();
+//            }
+//        } );
+//        PSwing rescaleNode = new PSwing( stripChartCanvas, rescaleBtn );
+//        rescaleNode.setOffset( 10,
+//                               chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() );
+//        stripChartCanvas.addScreenChild( rescaleNode );
     }
 
     /**
@@ -173,5 +180,23 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
 
     public void rescale() {
         stripChart.rescale();
+    }
+
+    public static void main(String[] args) {
+        SimpleModule module = new SimpleModule();
+
+        StripChartNode node = new StripChartNode(module, new Dimension(300, 300));
+
+        PhetPCanvas canvas = new PhetPCanvas();
+
+        canvas.addScreenChild( node );
+
+        JFrame frame = new JFrame();
+
+        frame.setSize( 400, 200 );
+        frame.getContentPane().add( canvas );
+        frame.pack();
+        frame.setVisible( true );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );        
     }
 }
