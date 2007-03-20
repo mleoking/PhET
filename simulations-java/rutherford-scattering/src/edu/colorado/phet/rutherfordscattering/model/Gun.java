@@ -11,9 +11,9 @@ import java.util.Random;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.DoubleRange;
 import edu.colorado.phet.rutherfordscattering.event.GunFiredEvent;
 import edu.colorado.phet.rutherfordscattering.event.GunFiredListener;
-import edu.colorado.phet.rutherfordscattering.util.DoubleRange;
 
 /**
  * Gun is the model of a gun that can fire alpha particles.
