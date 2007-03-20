@@ -18,8 +18,8 @@ import org.jfree.data.Range;
 import edu.colorado.phet.boundstates.control.ZoomControl.ZoomSpec;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.util.AxisSpec;
-import edu.colorado.phet.boundstates.util.DoubleRange;
-import edu.colorado.phet.boundstates.util.IntegerRange;
+import edu.colorado.phet.common.util.DoubleRange;
+import edu.colorado.phet.common.util.IntegerRange;
 
 /**
  * BSManyWellsSpec contains the information needed to set up the "Many Wells" module.
