@@ -16,7 +16,6 @@ import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.model.OTModel;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.view.ModelViewTransform;
-import edu.colorado.phet.opticaltweezers.view.OTModelViewManager;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
@@ -40,7 +39,6 @@ public class MotorsModule extends AbstractModule {
     private ModelViewTransform _modelViewTransform;
 
     // Control
-    private OTModelViewManager _modelViewManager;
     private MotorsControlPanel _controlPanel;
     private OTClockControlPanel _clockControlPanel;
     
@@ -93,8 +91,6 @@ public class MotorsModule extends AbstractModule {
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
-        
-        _modelViewManager = new OTModelViewManager( _model );
         
         // Control Panel
         _controlPanel = new MotorsControlPanel( this );

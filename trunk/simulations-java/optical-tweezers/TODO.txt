@@ -21,7 +21,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - cursors that indicate direction when drag is horizontally or vertically constrained
-- javadoc what I've done so far
 - wire up "Return Bead" button, visible only when bead is outside of canvas
 - check bead visibility when canvas is resized, enable/disable "Return Bead" button
 - check laser visibility when canvas is resized, move laser into visible area
@@ -37,6 +36,7 @@ LOW PRIORITY:
 - get requirements for "Fun With DNA" and "Molecular Motors" panels
 - save/load
 - green control panel background ala design doc
+- javadoc
 - package level javadoc
 - make laser danger sign look better
 - combine Play & Pause clock buttons ?
@@ -64,6 +64,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/20/07 - javadoc what I've done so far
+3/20/07 - remove ModelViewManager framework, not necessary, too complicated
 3/20/07 - set ruler off by default
 3/20/07 - set viscosity range to [1E-12,1E-2] Pa*s, default=1E-3
 3/20/07 - use scientific notation to format numbers in viscosity control

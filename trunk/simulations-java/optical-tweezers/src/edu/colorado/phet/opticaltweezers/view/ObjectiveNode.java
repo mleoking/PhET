@@ -9,13 +9,31 @@ import java.awt.geom.Ellipse2D;
 
 import edu.umd.cs.piccolo.nodes.PPath;
 
-
+/**
+ * ObjectiveNode is the visual representation of the microscope objective (lens).
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ObjectiveNode extends PPath {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final Color FILL_COLOR = new Color( 217, 240, 255, 100 ); // transparent light blue
     private static final Color STROKE_COLOR = Color.BLACK;
     private static final Stroke STROKE = new BasicStroke( 1f );
     
+    //----------------------------------------------------------------------------
+    // Constructor
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * 
+     * @param width width in view coordinates
+     * @param height height in view coordinates
+     */
     public ObjectiveNode( double width, double height ) {
         super();
         

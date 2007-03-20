@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 
 /**
- * ModelViewTransform provides the transform between model and view coordinate systems.
+ * ModelViewTransform provides the transforms between model and view coordinate systems.
  * In this simulation, all nodes are children of PhetPCanvas' worldNode.
  * So the view coordinates are in the coordinate system of the worldNode.
  *
@@ -16,9 +16,18 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
  */
 public class ModelViewTransform {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private AffineTransform _modelToViewTransform;
     private AffineTransform _viewToModelTransform;
+    
     private Point2D _pModelDistance, _pViewDistance; // reusable points for transforming distances
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     /**
      * Constructor.
@@ -49,6 +58,10 @@ public class ModelViewTransform {
         _pModelDistance = new Point2D.Double();
         _pViewDistance = new Point2D.Double();
     }
+    
+    //----------------------------------------------------------------------------
+    // Model-to-view transforms
+    //----------------------------------------------------------------------------
     
     /**
      * Maps a point from model to view coordinates.
@@ -82,6 +95,10 @@ public class ModelViewTransform {
         modelToView( _pModelDistance, _pViewDistance );
         return _pViewDistance.getX();
     }
+    
+    //----------------------------------------------------------------------------
+    // View-to-model transforms
+    //----------------------------------------------------------------------------
     
     /**
      * Maps a point from view to model coordinates.
