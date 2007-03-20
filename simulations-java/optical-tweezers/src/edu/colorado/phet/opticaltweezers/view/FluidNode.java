@@ -15,7 +15,7 @@ import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 
-public class GlassSlideNode extends PhetPNode implements Observer {
+public class FluidNode extends PhetPNode implements Observer {
 
     public static final double EDGE_HEIGHT = 12; // pixels
     private static final Stroke EDGE_STROKE = new BasicStroke( 1f );
@@ -30,7 +30,7 @@ public class GlassSlideNode extends PhetPNode implements Observer {
     
     private PPath _topEdgeNode, _bottomEdgeNode, _centerNode;
     
-    public GlassSlideNode( Fluid fluid, ModelViewTransform modelViewTransform ) {
+    public FluidNode( Fluid fluid, ModelViewTransform modelViewTransform ) {
         super();
          
         setPickable( false );
