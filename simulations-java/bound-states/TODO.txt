@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+3/20/07 - use DialogUtils in phetcommon
 3/20/07 - move ColorChooserFactory to phetcommon
 3/20/07 - move DoubleRange, IntegerRange, ArgUtils to phetcommon
 3/14/07 - rename SimStrings files to have basename boundstates_strings

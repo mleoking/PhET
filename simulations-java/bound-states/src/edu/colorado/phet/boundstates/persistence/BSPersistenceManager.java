@@ -24,7 +24,7 @@ import javax.swing.JOptionPane;
 
 import edu.colorado.phet.boundstates.BSAbstractApplication;
 import edu.colorado.phet.boundstates.module.BSAbstractModule;
-import edu.colorado.phet.boundstates.util.DialogUtils;
+import edu.colorado.phet.common.util.DialogUtils;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 
