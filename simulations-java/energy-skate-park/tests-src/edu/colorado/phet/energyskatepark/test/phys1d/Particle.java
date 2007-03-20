@@ -30,6 +30,7 @@ public class Particle {
     private ParticleStage particleStage;
     private boolean convertNormalVelocityToThermalOnLanding = false;
     private double angle = 0.0;
+    private boolean userControlled = false;
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
         this( new ParticleStage( parametricFunction2D ) );
@@ -42,13 +43,15 @@ public class Particle {
     }
 
     public void stepInTime( double dt ) {
-        updateStrategy.stepInTime( dt );
-        update();
+        if( !userControlled ) {
+            updateStrategy.stepInTime( dt );
+            update();
+        }
     }
 
     public void setGravity( double g ) {
         this.g = g;
-        particle1D.setGravity(g);
+        particle1D.setGravity( g );
     }
 
     public boolean isFreeFall() {
@@ -115,8 +118,12 @@ public class Particle {
         return ( updateStrategy instanceof Particle1DUpdate ) ? particle1D.getCubicSpline2D() : null;
     }
 
-    public boolean isUserMode() {
-        return updateStrategy instanceof UserUpdateStrategy;//todo: or thrust!=0
+    public boolean isUserControlled() {
+        return userControlled;
+    }
+
+    public void translate( double dx, double dy ) {
+        setPosition( x + dx, y + dy );
     }
 
     interface UpdateStrategy {
@@ -335,10 +342,10 @@ public class Particle {
         return a.dot( v ) > 0;
     }
 
-    class UserUpdateStrategy implements UpdateStrategy {
-        public void stepInTime( double dt ) {
-        }
-    }
+//    class UserUpdateStrategy implements UpdateStrategy {
+//        public void stepInTime( double dt ) {
+//        }
+//    }
 
     public void setFreeFall() {
         setUpdateStrategy( new FreeFall() );
@@ -379,8 +386,9 @@ public class Particle {
         return Math.sqrt( vx * vx + vy * vy );
     }
 
-    public void setUserUpdateStrategy() {
-        setUpdateStrategy( new UserUpdateStrategy() );
+    public void setUserControlled( boolean userControlled ) {
+        this.userControlled = userControlled;
+//        setUpdateStrategy( new UserUpdateStrategy() );
     }
 
     public void setUpdateStrategy( UpdateStrategy updateStrategy ) {
