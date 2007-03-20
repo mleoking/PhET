@@ -22,6 +22,7 @@ PHETCOMMON:
 
 
 DONE:
+3/20/07 - rename packages that contained "enum" keyword, use "enums" instead
 3/14/07 - rename SimStrings files to have basename opticalquantumcontrol_strings
 3/14/07 - move images to data/opticalquantumcontrol/images to avoid namespace collisions
 3/14/07 - get version and credits from properties file
