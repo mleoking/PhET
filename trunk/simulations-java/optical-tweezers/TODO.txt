@@ -58,6 +58,9 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/20/07 - add units label for fluid viscosity
+3/20/07 - add velocity vectors to FluidNode
+3/20/07 - change model property Fluid.width to Fluid.height
 3/20/07 - rename GlassSlideNode to FluidNode
 3/20/07 - move DoubleRange, IntegerRange to phetcommon
 3/19/07 - debug phet.piccolo.BoundedDragHandler with Sam Reid
