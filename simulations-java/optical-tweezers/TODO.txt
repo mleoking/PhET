@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- make viscosity control logarithmic
 - change model coordinate system origin to be at center of laser's waist?
 - implement laser beam shape
 - implement laser beam gradient
@@ -19,6 +18,7 @@ HIGH PRIORITY:
 - trap force on bead
 
 MEDIUM PRIORITY:
+- make viscosity control logarithmic
 - cursors that indicate direction when drag is horizontally or vertically constrained
 - wire up "Return Bead" button, visible only when bead is outside of canvas
 - check bead visibility when canvas is resized, enable/disable "Return Bead" button
