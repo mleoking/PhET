@@ -45,6 +45,7 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
     private String strutsImageFile = baseImagePath + "struts.png";
     private Point2D pivotPt;
     private double scale;
+    private volatile boolean temperatureBeingAdjusted = false;
 
 
     public LauncherGraphic( Launcher launcher ) {
@@ -111,6 +112,10 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
         node.translate( 0, d );
     }
 
+    public boolean isTemperatureBeingAdjusted() {
+        return temperatureBeingAdjusted;
+    }
+
     /**
      * Mouse handler
      */
@@ -128,12 +133,16 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
                 else if( launcher.getMovementType() == Launcher.ONE_DIMENSIONAL ) {
                     PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
                 }
+
+                temperatureBeingAdjusted = true;
             }
         }
 
         public void mouseExited( PInputEvent event ) {
             if( launcher.isEnabled() ) {
                 PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+
+                temperatureBeingAdjusted = false;
             }
         }
 

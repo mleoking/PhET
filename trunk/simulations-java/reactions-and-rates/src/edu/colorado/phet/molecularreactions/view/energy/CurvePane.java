@@ -1,18 +1,18 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.molecularreactions.view.energy;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.model.EnergyProfile;
+import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.modules.MRModule;
+import edu.colorado.phet.molecularreactions.view.AxisNode;
+import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.molecularreactions.model.MRModel;
-import edu.colorado.phet.molecularreactions.model.EnergyProfile;
-import edu.colorado.phet.molecularreactions.view.AxisNode;
-import edu.colorado.phet.molecularreactions.MRConfig;
-import edu.colorado.phet.molecularreactions.modules.MRModule;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
-import edu.colorado.phet.common.view.util.SimStrings;
 
-import java.awt.geom.Rectangle2D;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public class CurvePane extends PPath {
     private final Color energyPaneBackgroundColor = MRConfig.ENERGY_PANE_BACKGROUND;
@@ -68,7 +68,7 @@ public class CurvePane extends PPath {
         addChild( cursorLayer );
 
         // Create the line that shows total energy, and a legend for it
-        energyLine = new EnergyLine( curveAreaSize, mrModel, module.getClock() );
+        energyLine = new EnergyLine( curveAreaSize, module, module.getClock() );
         totalEnergyLineLayer.addChild( energyLine );
 
         // Create the curve, and add a listener to the model that will update the curve if the

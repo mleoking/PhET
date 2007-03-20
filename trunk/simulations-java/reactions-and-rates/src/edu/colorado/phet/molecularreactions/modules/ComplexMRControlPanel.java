@@ -13,9 +13,9 @@ package edu.colorado.phet.molecularreactions.modules;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
+import edu.colorado.phet.molecularreactions.view.InitialTemperaturePanel;
 import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
 import edu.colorado.phet.molecularreactions.view.ReactionChooserComboBox;
-import edu.colorado.phet.molecularreactions.view.InitialTemperaturePanel;
 import edu.colorado.phet.molecularreactions.view.charts.ChartOptionsPanel;
 
 import javax.swing.*;
@@ -35,6 +35,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
     private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
     private ChartOptionsPanel optionsPanel;
     private JButton resetBtn;
+    private static InitialTemperaturePanel initialTemperaturePanel;
 
     /**
      *
@@ -108,7 +109,9 @@ public class ComplexMRControlPanel extends MRControlPanel {
         c.gridwidth  = GridBagConstraints.REMAINDER;
         c.gridheight = GridBagConstraints.REMAINDER;
 
-        reactionSelectionPanel.add(new InitialTemperaturePanel(module.getMRModel()), c);
+        initialTemperaturePanel = new InitialTemperaturePanel(module.getMRModel());
+
+        reactionSelectionPanel.add( initialTemperaturePanel, c);
 
         return reactionSelectionPanel;
     }
@@ -119,5 +122,15 @@ public class ComplexMRControlPanel extends MRControlPanel {
 
     public void reset() {
         optionsPanel.reset();
+    }
+
+    public boolean isTemperatureBeingAdjusted() {
+        boolean adjusting = super.isTemperatureBeingAdjusted();
+
+        if (!adjusting) {
+            adjusting = initialTemperaturePanel.isTemperatureBeingAdjusted();
+        }
+
+        return adjusting;
     }
 }

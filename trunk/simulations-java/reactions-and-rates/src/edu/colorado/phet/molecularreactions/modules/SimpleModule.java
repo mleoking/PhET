@@ -14,29 +14,21 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
-import edu.colorado.phet.molecularreactions.controller.ManualControlAction;
-import edu.colorado.phet.molecularreactions.controller.RunAction;
 import edu.colorado.phet.molecularreactions.model.*;
-import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.LauncherGraphic;
 import edu.colorado.phet.molecularreactions.view.LauncherLoadPanel;
 import edu.colorado.phet.molecularreactions.view.SimpleMoleculeGraphic;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
-import edu.colorado.phet.piccolo.help.WiggleMe;
-import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PInputEventListener;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * SimpleMRModule
@@ -97,6 +89,16 @@ public class SimpleModule extends MRModule {
         // Create a wiggle-me
         createWiggleMe();
 
+    }
+
+   public boolean isTemperatureBeingAdjusted() {
+        boolean adjusting = super.isTemperatureBeingAdjusted();
+
+        if (!adjusting) {
+            adjusting = launcherGraphic.isTemperatureBeingAdjusted();
+        }
+
+        return adjusting;
     }
 
     public void activate() {

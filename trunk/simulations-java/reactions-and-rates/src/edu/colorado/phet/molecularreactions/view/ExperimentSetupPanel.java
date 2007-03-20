@@ -313,4 +313,8 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
             //panel.setInitialConditionsEditable( false );
         }
     }
+    
+    public boolean isTemperatureBeingAdjusted() {
+        return initialTemperaturePanel.isTemperatureBeingAdjusted();
+    }
 }
