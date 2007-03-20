@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- ruler can be dragged too far left, then pops back
-- laser can be dragged too far left, then pops back
 - change model coordinate system origin to be at center of laser's waist?
 - position histogram
 - potential energy chart
@@ -60,6 +58,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/19/07 - debug phet.piccolo.BoundedDragHandler with Sam Reid
 3/19/07 - test application to isolate drag problem with ruler and laser apparatus
 3/19/07 - clean up specialized ruler
 3/19/07 - add units to ruler
