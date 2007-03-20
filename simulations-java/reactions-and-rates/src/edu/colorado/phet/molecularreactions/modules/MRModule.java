@@ -37,7 +37,7 @@ public class MRModule extends Module {
 
     private Dimension canvasSize = MRConfig.SIMULATION_PANEL_SIZE;
     private SpatialView spatialView;
-    private EnergyView energyView = new EnergyView();
+    protected EnergyView energyView = new EnergyView();
     private Dimension spatialViewSize = MRConfig.SPATIAL_VIEW_SIZE;
     private MRModel mrModel;
 

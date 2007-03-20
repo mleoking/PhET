@@ -111,17 +111,56 @@ public class EnergyView extends PNode implements Resetable {
     }
 
     private void addMolecularSeparationPane( MRModule module, Dimension upperPaneSize ) {
+        removeUpperPaneCloser();
+
         if (moleculeSeparationPane != null) {
             moleculeSeparationPane.terminate();
-            moleculeSeparationCloser.uninstall();
         }
-        
+
         // The pane that has the molecules
         moleculeSeparationPane = new MoleculeSeparationPane( module, upperPaneSize, curvePane );
 
         addChild( moleculeSeparationPane );
 
-        moleculeSeparationCloser = new PNodeViewableOption( moleculeSeparationPane, module.getCanvas(), "SeparationView.restoreViewName" );
+        addUpperPaneCloser();
+    }
+
+    private void removeMolecularSeparationPane() {
+         removeUpperPaneCloser();
+
+        if (moleculeSeparationPane != null) {
+            if (getChildrenReference().contains( moleculeSeparationPane )) {
+                removeChild( moleculeSeparationPane );
+            }
+            
+            moleculeSeparationPane.terminate();
+            moleculeSeparationPane = null;
+        }
+
+        addUpperPaneCloser();
+    }
+
+    private volatile boolean moleculeSeparationCloseable = true;
+
+    public void setUpperPaneClosable(boolean closeable) {
+        this.moleculeSeparationCloseable = closeable;
+
+        if (!closeable) {
+            removeUpperPaneCloser();
+        }
+    }
+
+    private void addUpperPaneCloser() {
+        if ( moleculeSeparationCloseable && moleculeSeparationCloser == null) {
+            moleculeSeparationCloser = new PNodeViewableOption( moleculeSeparationPane, module.getCanvas(), "SeparationView.restoreViewName" );
+        }
+    }
+
+    private void removeUpperPaneCloser() {
+        if (moleculeSeparationCloser != null) {
+            moleculeSeparationCloser.uninstall();
+            moleculeSeparationCloser = null;
+        }
     }
 
     private void addUpperPane( Dimension upperPaneSize ) {
@@ -131,17 +170,31 @@ public class EnergyView extends PNode implements Resetable {
     }
 
     private void addCurvePane( MRModule module, Dimension upperPaneSize ) {
+        disableCurvePaneCloser();
+
         if (curvePane != null) {
             curvePane.terminate();
-            curvePaneCloser.uninstall();
         }
-        
+
         // The pane that has the curve and cursor
         curvePane = new CurvePane(module, upperPaneSize);
 
         addChild( curvePane );
 
-        curvePaneCloser = new PNodeViewableOption( curvePane, module.getCanvas(), "EnergyView.restoreViewName" );
+        enableCurvePaneCloser( module );
+    }
+
+    private void enableCurvePaneCloser( MRModule module ) {
+        if (curvePaneCloser == null) {
+            curvePaneCloser = new PNodeViewableOption( curvePane, module.getCanvas(), "EnergyView.restoreViewName" );
+        }
+    }
+
+    private void disableCurvePaneCloser() {
+        if (curvePaneCloser != null) {
+            curvePaneCloser.uninstall();
+            curvePaneCloser = null;
+        }
     }
 
     public void reset() {
@@ -169,13 +222,12 @@ public class EnergyView extends PNode implements Resetable {
         upperPaneContent = pNode;
 
         upperPaneContent.setVisible ( true );
-        moleculeSeparationPane.setVisible( false );
 
         upperPane.setVisible( true );
     }
 
     public void clearUpperPaneContent() {
-        clearUpperPaneContent( getUpperPaneContent() );        
+        clearUpperPaneContent( getUpperPaneContent() );
     }
 
     /*
@@ -184,6 +236,8 @@ public class EnergyView extends PNode implements Resetable {
      * @param pNode
      */
     public void clearUpperPaneContent( PNode node ) {
+        removeMolecularSeparationPane();
+        
         if( node != null && upperPane.getChildrenReference().contains( node ) ) {
             upperPane.removeChild( upperPaneContent );
 

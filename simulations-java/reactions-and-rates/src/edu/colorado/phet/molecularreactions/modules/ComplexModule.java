@@ -68,6 +68,8 @@ public class ComplexModule extends MRModule {
 
         addMovableStopwatch(29.0, 453.0 );
 
+        getEnergyView().setUpperPaneClosable( false );
+
         // Create the strip chart
         stripChartNode = new StripChartNode( this, MRConfig.CHART_PANE_SIZE );
 //        setStripChartRecording( true );
