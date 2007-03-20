@@ -1,3 +1,4 @@
+package edu.colorado.phet.opticaltweezers.test;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -40,7 +41,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class TestDragProblem extends JFrame {
     
-    public static final boolean USE_WORLD_CHILD = true;
+    private static final boolean USE_WORLD_CHILD = true;
 
     private static final Dimension FRAME_SIZE = new Dimension( 1024, 768 ); // screen coordinates
     private static final Dimension WORLD_SIZE = new Dimension( 750, 750 ); // world coordinates
