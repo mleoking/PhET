@@ -168,6 +168,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 //        body.setAttachmentPointPosition( getDefaultBodyPosition() );
         body.reset();
         energyModel.addBody( body );
+        body.showControls();
         energyCanvas.getRootNode().updateGraphics();
 
         PreFabSplines preFabSplines = new PreFabSplines();
