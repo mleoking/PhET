@@ -407,6 +407,8 @@
                 
                 <echo message="Looking for library ${tmp.lib.depends.pathname}" />
                 
+                <var name="tmp.lib.depends.exists" unset="true" />
+                
                 <available file="${tmp.lib.depends.pathname}" property="tmp.lib.depends.exists" />
                 
                 <if>
