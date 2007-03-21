@@ -46,7 +46,7 @@ public abstract class AbstractModule extends PiccoloModule {
     /**
      * Resets the module to its initial state.
      */
-    public abstract void reset();
+    public abstract void resetAll();
     
     /**
      * Saves the module's configuration by writing it to a provided configuration object.

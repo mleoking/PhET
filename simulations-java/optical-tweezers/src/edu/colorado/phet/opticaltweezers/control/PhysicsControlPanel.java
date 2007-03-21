@@ -58,7 +58,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     private Box _advancedPanel;
     private JCheckBox _fluidControlsCheckBox;
     private JCheckBox _momemtumChangeCheckBox;
-    private JCheckBox _potentialChartCheckBox;
+    private JCheckBox _potentialEnergyChartCheckBox;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -180,12 +180,12 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _advancedButton = new JButton( SimStrings.get( "label.showAdvanced" ) );
             _fluidControlsCheckBox = new JCheckBox( SimStrings.get( "label.controlFluidFlow" ) );
             _momemtumChangeCheckBox = new JCheckBox( SimStrings.get( "label.showMomentumChange" ) );
-            _potentialChartCheckBox = new JCheckBox( SimStrings.get( "label.showPotentialChart" ) );
+            _potentialEnergyChartCheckBox = new JCheckBox( SimStrings.get( "label.showPotentialEnergyChart" ) );
             
             _advancedPanel = new Box( BoxLayout.Y_AXIS );
             _advancedPanel.add( _fluidControlsCheckBox );
             _advancedPanel.add( _momemtumChangeCheckBox );
-            _advancedPanel.add( _potentialChartCheckBox );
+            _advancedPanel.add( _potentialEnergyChartCheckBox );
             
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -222,7 +222,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _advancedButton.setFont( CONTROL_FONT );
             _fluidControlsCheckBox.setFont( CONTROL_FONT );
             _momemtumChangeCheckBox.setFont( CONTROL_FONT );
-            _potentialChartCheckBox.setFont( CONTROL_FONT );
+            _potentialEnergyChartCheckBox.setFont( CONTROL_FONT );
         }
         
         // Layout
@@ -259,7 +259,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _advancedButton.addActionListener( listener );
             _fluidControlsCheckBox.addActionListener( listener );
             _momemtumChangeCheckBox.addActionListener( listener );
-            _potentialChartCheckBox.addActionListener( listener );
+            _potentialEnergyChartCheckBox.addActionListener( listener );
         }
         
         // Default state
@@ -288,7 +288,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _advancedPanel.setVisible( false );
             _fluidControlsCheckBox.setSelected( false );
             _momemtumChangeCheckBox.setSelected( false );
-            _potentialChartCheckBox.setSelected( false );
+            _potentialEnergyChartCheckBox.setSelected( false );
         }
     }
     
@@ -415,11 +415,11 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     }
     
     public void setPotentialChartSelected( boolean b ) {
-        _potentialChartCheckBox.setSelected( b );
+        _potentialEnergyChartCheckBox.setSelected( b );
     }
     
     public boolean isPotentialChartSelected() {
-        return _potentialChartCheckBox.isSelected();
+        return _potentialEnergyChartCheckBox.isSelected();
     }
     
     //----------------------------------------------------------------------------
@@ -472,8 +472,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             else if ( source == _momemtumChangeCheckBox ) {
                 handleMomentumChangeCheckBox();
             }
-            else if ( source == _potentialChartCheckBox ) {
-                handlePotentialChartCheckBox();
+            else if ( source == _potentialEnergyChartCheckBox ) {
+                handlePotentialEnergyChartCheckBox();
             }
         }
 
@@ -664,14 +664,14 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         //XXX
     }
     
-    private void handlePotentialChartCheckBox() {
+    private void handlePotentialEnergyChartCheckBox() {
         
-        final boolean selected = _potentialChartCheckBox.isSelected();
+        final boolean selected = _potentialEnergyChartCheckBox.isSelected();
         
         if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handlePotentialChartCheckBox " + selected );
+            System.out.println( "PhysicsControlPanel.handlePotentialEnergyChartCheckBox " + selected );
         }
         
-        //XXX
+        _module.setPotentialEnergyChartVisible( selected );
     }
 }

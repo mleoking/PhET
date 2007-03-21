@@ -60,6 +60,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/21/07 - add potential energy chart, wire to control panel, no data or connection to model
 3/20/07 - add power range to laser model
 3/20/07 - javadoc what I've done so far
 3/20/07 - remove ModelViewManager framework, not necessary, too complicated

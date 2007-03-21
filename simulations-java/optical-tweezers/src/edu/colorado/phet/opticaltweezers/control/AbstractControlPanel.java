@@ -94,7 +94,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
                 int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
                 if ( option == JOptionPane.YES_OPTION ) {
                     CursorUtils.setWaitCursorEnabled( true );
-                    _module.reset();
+                    _module.resetAll();
                     CursorUtils.setWaitCursorEnabled( false );
                 }
             }
