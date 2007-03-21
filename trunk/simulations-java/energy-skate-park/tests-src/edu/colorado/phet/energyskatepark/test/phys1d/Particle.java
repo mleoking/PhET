@@ -29,8 +29,8 @@ public class Particle {
     private UpdateStrategy updateStrategy = new Particle1DUpdate();
     private ParticleStage particleStage;
     private boolean convertNormalVelocityToThermalOnLanding = false;
-//    private double angle = 0.0;
-    private double angle = Math.PI/2;
+    //    private double angle = 0.0;
+    private double angle = Math.PI / 2;
     private boolean userControlled = false;
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
@@ -236,6 +236,7 @@ public class Particle {
     class FreeFall implements UpdateStrategy {
 
         public void stepInTime( double dt ) {
+            double origEnergy = getTotalEnergy();
             boolean[] origAbove = getOrigAbove();
 //            System.out.println( "stepping freefall, origAbove=" + origAbove );
 
@@ -245,6 +246,12 @@ public class Particle {
 
             y += vy * dt + 0.5 * g * dt * dt;
             x += vx * dt;
+
+            double dE = getTotalEnergy() - origEnergy;
+            System.out.println( "FreeFall dE[0]= " + Math.abs( dE ));
+            double dH = dE / (getMass() * getGravity());
+            y+=dH;
+            System.out.println( "FreeFall dE[1]= " + Math.abs( getTotalEnergy( )-origEnergy) );
 
             Point2D newLoc = new Point2D.Double( x, y );
 
@@ -280,7 +287,6 @@ public class Particle {
             }
 
             if( closestDist < 0.2 ) {//this number was determined heuristically for a set of tests (free parameter)
-//            if( closestDist < 0.1 ) {//this number was determined heuristically for a set of tests (free parameter)
                 ParametricFunction2D cubicSpline = closestTrack;
                 double alpha = closestAlpha;
                 AbstractVector2D parallel = cubicSpline.getUnitParallelVector( alpha );
