@@ -61,6 +61,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/21/07 - hook up "Return Bead" button so that it returns the bead to the button's position
+3/21/07 - hook up BeadNode so that dragging updates the model
 3/21/07 - use red foreground color for all unimplemented controls
 3/21/07 - add controls and stuff above position histogram
 3/21/07 - restructure scenegraph for charts
