@@ -11,8 +11,8 @@ HIGH PRIORITY:
 - implement force model for fast mode
 - implement bead motion model
 - implement E-field model for slow mode
-- position histogram
-- potential energy chart
+- connect position histogram to model
+- connect potential energy chart to model
 
 MEDIUM PRIORITY:
 - make viscosity control logarithmic
@@ -58,6 +58,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+********* version 0.00.01 (?)
 3/21/07 - if laser is outside the canvas bounds, move it to the center
 3/21/07 - flash the "Return Bead" button when it's visible
 3/21/07 - center "Return Bead" button on the canvas
