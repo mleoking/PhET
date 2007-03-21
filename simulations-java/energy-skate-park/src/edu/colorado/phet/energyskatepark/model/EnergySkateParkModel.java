@@ -318,7 +318,7 @@ public class EnergySkateParkModel {
     public void addBody( Body body ) {
         bodies.add( body );
         if( bodies.size() == 1 ) {//The zero point potential now occurs at the center of mass of the skater.
-            zeroPointPotentialY = body.getShape().getBounds2D().getHeight() / 2;
+            zeroPointPotentialY = 0;
             initZeroPointPotentialY = zeroPointPotentialY;
         }
     }
