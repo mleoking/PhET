@@ -291,7 +291,7 @@ public class Particle {
                 if( crossed && ( alpha > 0.0 && alpha < 1.0 ) ) {
                     double ptLineDist = pointSegmentDistance( cubicSpline.evaluate( alpha ), new Line2D.Double( origLoc, newLoc ) );
 //                    double ptLineDist = new Line2D.Double( origLoc, newLoc ).ptLineDist( cubicSpline.evaluate( alpha ) );
-                    System.out.println( "crossed spline[" + i + "] at alpha=" + alpha + ", ptLineDist=" + ptLineDist );
+//                    System.out.println( "crossed spline[" + i + "] at alpha=" + alpha + ", ptLineDist=" + ptLineDist );
                     if( ptLineDist < closestDist ) {
                         closestDist = ptLineDist;
                         closestTrack = cubicSpline;
@@ -313,14 +313,14 @@ public class Particle {
                 AbstractVector2D newVelocity = parallelVelocity.getSubtractedInstance( newNormalVelocity );
 
                 double testVal = Math.abs( newNormalVelocity.getMagnitude() / newVelocity.getMagnitude() );
-                System.out.println( "testv = " + testVal );
+//                System.out.println( "testv = " + testVal );
                 boolean bounce = testVal >= stickiness;
 
                 double newAlpha = cubicSpline.getClosestPoint( newLoc );
 
                 //make sure the velocity is toward the track to enable switching to track (otherwise over a tight curve, the particle doesn't leave the track when N~0)
                 boolean velocityTowardTrack = isVelocityTowardTrack( origLoc, cubicSpline, newAlpha );
-                System.out.println( "velocityTowardTrack = " + velocityTowardTrack );
+//                System.out.println( "velocityTowardTrack = " + velocityTowardTrack );
                 if( bounce || !velocityTowardTrack ) {
                     double energyBeforeBounce = getTotalEnergy();
                     setVelocity( newVelocity );
@@ -331,11 +331,11 @@ public class Particle {
                     double energyAfterBounce = getTotalEnergy();
                     thermalEnergy += ( energyBeforeBounce - energyAfterBounce );
 
-                    System.out.println( "bounced" );
+//                    System.out.println( "bounced" );
                 }
                 else {
                     switchToTrack( cubicSpline, newAlpha, origAbove[closestIndex] );
-                    System.out.println( "grabbed track" );
+//                    System.out.println( "grabbed track" );
                 }
             }
         }
