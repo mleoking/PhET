@@ -178,6 +178,10 @@ public class StripChart implements Resetable {
         plot.getRangeAxis().setRange( minY, maxY );
     }
 
+    public Range getYRange() {
+        return plot.getRangeAxis().getRange();
+    }
+
     /**
      * Get the maximum x value in the strip chart buffer
      *

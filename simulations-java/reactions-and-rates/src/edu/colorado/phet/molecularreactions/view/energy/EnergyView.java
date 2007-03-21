@@ -138,22 +138,10 @@ public class EnergyView extends PNode implements Resetable {
             moleculeSeparationPane.terminate();
             moleculeSeparationPane = null;
         }
-
-        addUpperPaneCloser();
-    }
-
-    private volatile boolean moleculeSeparationCloseable = true;
-
-    public void setUpperPaneClosable(boolean closeable) {
-        this.moleculeSeparationCloseable = closeable;
-
-        if (!closeable) {
-            removeUpperPaneCloser();
-        }
     }
 
     private void addUpperPaneCloser() {
-        if ( moleculeSeparationCloseable && moleculeSeparationCloser == null) {
+        if ( moleculeSeparationCloser == null) {
             moleculeSeparationCloser = new PNodeViewableOption( moleculeSeparationPane, module.getCanvas(), "SeparationView.restoreViewName" );
         }
     }

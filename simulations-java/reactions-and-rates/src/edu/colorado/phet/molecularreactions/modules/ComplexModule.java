@@ -68,8 +68,6 @@ public class ComplexModule extends MRModule {
 
         addMovableStopwatch(29.0, 453.0 );
 
-        getEnergyView().setUpperPaneClosable( false );
-
         getEnergyView().setEnergyLineLabel( "EnergyView.Legend.totalAverageEnergy" );
 
         // Create the strip chart
@@ -106,6 +104,16 @@ public class ComplexModule extends MRModule {
                 }
             }
         });
+    }
+
+    public boolean isTemperatureBeingAdjusted() {
+        boolean adjusting = super.isTemperatureBeingAdjusted();
+
+        if (!adjusting && controlPanel != null) {            
+            adjusting = ((MRControlPanel)controlPanel).isTemperatureBeingAdjusted();
+        }
+
+        return adjusting;
     }
 
     protected MRControlPanel createControlPanel() {

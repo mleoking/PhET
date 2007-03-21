@@ -1,22 +1,12 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.molecularreactions.view.charts;
 
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.modules.SimpleModule;
@@ -26,6 +16,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartPanel;
+import org.jfree.data.Range;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,6 +34,7 @@ import java.awt.event.*;
 public class StripChartNode extends PNode implements Resetable, Rescaleable {
     private MoleculePopulationsStripChart stripChart;
     private IClock clock;
+    private static final double ZOOM_SCALE_FACTOR = 2.0;
 
     public StripChartNode( MRModule module, Dimension size ) {
         PhetPCanvas stripChartCanvas = new PhetPCanvas();
@@ -70,7 +62,7 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         Dimension scrollBarDim = new Dimension( (int)( size.getWidth() - scrollBarInsets.left - scrollBarInsets.right ), 15 );
 
         scrollBar.setPreferredSize( scrollBarDim );
-        final PSwing scrollBarNode = new PSwing( stripChartCanvas, scrollBar );
+        final PSwing scrollBarNode = new PSwing( module.getCanvas(), scrollBar );
         scrollBarNode.setPaint( new Color( 0, 0, 0, 0 ) );
         scrollBarNode.setOffset( scrollBarInsets.left,
                                  size.getHeight() - scrollBarNode.getFullBounds().getHeight() - scrollBarInsets.bottom );
@@ -91,7 +83,7 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         scrollBar.setEnabled( true );
 
         // Add a rescale button
-        addRescale( stripChartCanvas, chartPanel );
+        addZoomControl( stripChartCanvas, chartPanel );
 
         stripChartCanvas.setOpaque( true );
 
@@ -122,7 +114,7 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         this.addChild( stripChartCanvas.getPhetRootNode() );
     }
 
-    private void addRescale( PhetPCanvas stripChartCanvas, ChartPanel chartPanel ) {
+    private void addZoomControl( PhetPCanvas stripChartCanvas, ChartPanel chartPanel ) {
         ApparatusPanel ap = new ApparatusPanel();
 
         PhetZoomControl zc = new PhetZoomControl( ap, PhetZoomControl.VERTICAL );
@@ -131,8 +123,6 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         ap.setBounds( 0, 0, zc.getWidth(), zc.getHeight() );
         ap.setBorder( BorderFactory.createEmptyBorder() );
         ap.addGraphic( zc );
-
-
 
         PSwing zoomNode = new PSwing( stripChartCanvas, ap );
 
@@ -143,21 +133,11 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         zoomNode.moveToFront();
 
         stripChartCanvas.addScreenChild( zoomNode );
-        
 
-//        JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale" ) );
-//        rescaleBtn.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                stripChart.rescale();
-//            }
-//        } );
-//        PSwing rescaleNode = new PSwing( stripChartCanvas, rescaleBtn );
-//        rescaleNode.setOffset( 10,
-//                               chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() );
-//        stripChartCanvas.addScreenChild( rescaleNode );
+        zc.addZoomListener( new ChartRescalingZoomListener() );
     }
 
-    /**
+    /*
      * Starts and stops recording
      */
     public void setRecording( boolean recording ) {
@@ -182,21 +162,29 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         stripChart.rescale();
     }
 
-    public static void main(String[] args) {
-        SimpleModule module = new SimpleModule();
+    private class ChartRescalingZoomListener implements PhetZoomControl.ZoomListener {
+        private static final int MIN_NUM_MOLECULES = 2;
 
-        StripChartNode node = new StripChartNode(module, new Dimension(300, 300));
+        public void zoomPerformed( PhetZoomControl.ZoomEvent event ) {
+            int type = event.getZoomType();
 
-        PhetPCanvas canvas = new PhetPCanvas();
+            Range plotRange = stripChart.getYRange();
 
-        canvas.addScreenChild( node );
+            double newMax = plotRange.getLength();
 
-        JFrame frame = new JFrame();
+            if (type == PhetZoomControl.ZoomEvent.VERTICAL_ZOOM_OUT) {
+                newMax *= ZOOM_SCALE_FACTOR;
+            }
+            else if (type == PhetZoomControl.ZoomEvent.VERTICAL_ZOOM_IN) {
+                newMax /= ZOOM_SCALE_FACTOR;
 
-        frame.setSize( 400, 200 );
-        frame.getContentPane().add( canvas );
-        frame.pack();
-        frame.setVisible( true );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );        
+                if (newMax < MIN_NUM_MOLECULES ) {
+                    newMax = MIN_NUM_MOLECULES;
+                }
+            }
+
+            stripChart.setYRange( 0, (int)newMax );
+            repaint();
+        }
     }
 }
