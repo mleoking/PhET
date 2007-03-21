@@ -92,6 +92,10 @@ public class PotentialEnergyPlot extends XYPlot implements Observer {
         _yAxis.setRange( range );
     }
     
+    public void clearData() {
+        _series.clear();
+    }
+    
     public void update( Observable o, Object arg ) {
         //XXX
     }
