@@ -1,28 +1,28 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.molecularreactions.util;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.io.IOException;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Adds an open/close button that makes the specified node's children visible/invisible.
  */
 public class PNodeViewableOption {
-    private static final String CLOSE_BUTTON_RESOURCE = "minimizeButton.png";
-    private static final String OPEN_BUTTON_RESOURCE  = "maximizeButton.png";
+    private static final String CLOSE_BUTTON_RESOURCE = "images/buttons/minimizeButton.png";
+    private static final String OPEN_BUTTON_RESOURCE  = "images/buttons/maximizeButton.png";
 
     private final static ImageIcon CLOSE_IMAGE_ICON;
     private final static ImageIcon OPEN_IMAGE_ICON;
@@ -31,7 +31,7 @@ public class PNodeViewableOption {
 
     private static final int PADDING = 2;
 
-    private final PNode pnode;
+    private final PNode parent;
     private final List savedChildren = new ArrayList();
 
     private final JButton button;
@@ -60,24 +60,24 @@ public class PNodeViewableOption {
         OPEN_IMAGE_ICON  = open;
     }
 
-    public PNodeViewableOption( PNode pnode, PhetPCanvas canvas, String restoreButtonName ) {
-        this.pnode              = pnode;
-        this.button             = new JButton();
-        this.buttonNode         = new PSwing( canvas, button );
-        this.canvas             = canvas;
+    public PNodeViewableOption( PNode parent, PhetPCanvas canvas, String restoreButtonName ) {
+        this.parent     = parent;
+        this.button     = new JButton();
+        this.buttonNode = new PSwing( canvas, button );
+        this.canvas     = canvas;
 
-        initButton( pnode );
+        initButton( parent );
 
         if ( OLD_STYLE_RESTORE ) {
-            initRestoreButton( restoreButtonName, canvas, pnode );
+            initRestoreButton( restoreButtonName, canvas, parent );
         }
 
         close();
         open();
     }
 
-    private void initButton( PNode pnode ) {
-        pnode.addChild( buttonNode );
+    private void initButton( PNode parent ) {
+        parent.addChild( buttonNode );
         buttonNode.addPropertyChangeListener( new PositionSettingListener() );
         button.addActionListener( new TogglingActionListener() );
     }
@@ -106,8 +106,8 @@ public class PNodeViewableOption {
 
     private void uninstallPSwing(PSwing node) {
         if (node != null) {
-            if (pnode.getChildrenReference().contains(node)) {
-                pnode.removeChild(node);
+            if ( parent.getChildrenReference().contains(node)) {
+                parent.removeChild(node);
             }
             node.removeFromSwingWrapper();
         }
@@ -119,27 +119,27 @@ public class PNodeViewableOption {
         uninstall();
 
         savedChildren.clear();
-        savedChildren.addAll(pnode.getChildrenReference());
+        savedChildren.addAll( parent.getChildrenReference());
 
-        pnode.removeAllChildren();
+        parent.removeAllChildren();
         restoreButtonNodes();
 
         setClosedStatus( true );
     }
 
     private void restoreButtonNodes() {
-        pnode.addChild( buttonNode );
+        parent.addChild( buttonNode );
 
         if (OLD_STYLE_RESTORE) {
-            pnode.addChild( restoreButtonNode );
+            parent.addChild( restoreButtonNode );
         }
     }
 
     public void open() {
         if (!isClosed()) return;
 
-        pnode.removeAllChildren();
-        pnode.addChildren( savedChildren );
+        parent.removeAllChildren();
+        parent.addChildren( savedChildren );
         restoreButtonNodes();
 
         setClosedStatus( false );
@@ -181,7 +181,7 @@ public class PNodeViewableOption {
     }
 
     private void setButtonPosition() {
-        PBounds bounds = pnode.getBounds();
+        PBounds bounds = parent.getBounds();
 
         buttonNode.setOffset(
             bounds.getMaxX() - buttonNode.getWidth() - PADDING,
@@ -195,7 +195,7 @@ public class PNodeViewableOption {
 
     private void setRestoreButtonPosition() {
         if (OLD_STYLE_RESTORE) {
-            PBounds bounds = pnode.getBounds();
+            PBounds bounds = parent.getBounds();
 
             restoreButtonNode.setOffset(
                 bounds.getMinX() + PADDING,
