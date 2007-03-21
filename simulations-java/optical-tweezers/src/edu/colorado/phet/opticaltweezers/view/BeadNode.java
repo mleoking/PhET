@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -21,7 +23,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeadNode extends SphericalNode implements Observer {
+public class BeadNode extends SphericalNode implements Observer, PropertyChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -40,6 +42,7 @@ public class BeadNode extends SphericalNode implements Observer {
     private Bead _bead;
     private ModelViewTransform _modelViewTransform;
     private BoundedDragHandler _dragHandler;
+    private Point2D _pModel; // reusable point
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -59,6 +62,7 @@ public class BeadNode extends SphericalNode implements Observer {
         _bead.addObserver( this );
         
         _modelViewTransform = modelViewTransform;
+        _pModel = new Point2D.Double();
         
         setStroke( STROKE );
         setStrokePaint( STROKE_PAINT );
@@ -67,6 +71,9 @@ public class BeadNode extends SphericalNode implements Observer {
         
         _dragHandler = new BoundedDragHandler( this, dragBoundsNode );
         addInputEventListener( _dragHandler  );
+        
+        // Update the model when this node is dragged.
+        addPropertyChangeListener( this );
         
         // Default state
         updateDiameter();
@@ -83,6 +90,23 @@ public class BeadNode extends SphericalNode implements Observer {
     //----------------------------------------------------------------------------
     // Accessors and mutators
     //----------------------------------------------------------------------------
+    
+    //----------------------------------------------------------------------------
+    // Property change handlers
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the laser model when this node is dragged.
+     */
+    public void propertyChange( PropertyChangeEvent event ) {
+        if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
+            Point2D pView = getOffset();
+            _modelViewTransform.viewToModel( pView, _pModel );
+            _bead.deleteObserver( this );
+            _bead.setPosition( _pModel );
+            _bead.addObserver( this );
+        }
+    }
     
     //----------------------------------------------------------------------------
     // Observer implementation

@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JButton;
@@ -443,5 +444,10 @@ public class PhysicsModule extends AbstractModule {
     private void handleReturnBeadButton() {
         //XXX
         System.out.println( "handleReturnBeadButton" );//XXX
+        Rectangle2D b = _returnBeadButtonWrapper.getFullBounds().getBounds();
+        double x = b.getX() + ( b.getWidth() / 2 );
+        double y = b.getY() + ( b.getHeight() / 2 );
+        Point2D p = _modelViewTransform.viewToModel( x, y );
+        _bead.setPosition( p );
     }
 }

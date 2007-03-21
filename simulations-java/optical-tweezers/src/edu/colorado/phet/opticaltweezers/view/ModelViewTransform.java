@@ -73,6 +73,10 @@ public class ModelViewTransform {
         return modelToView( pModel, null );
     }
     
+    public Point2D modelToView( double x, double y ) {
+        return modelToView( new Point2D.Double( x, y ) );
+    }
+    
     /**
      * Maps a point from model to view coordinates.
      * 
@@ -108,6 +112,10 @@ public class ModelViewTransform {
      */
     public Point2D viewToModel( Point2D pView ) {
         return viewToModel( pView, null );
+    }
+    
+    public Point2D viewToModel( double x, double y ) {
+        return viewToModel( new Point2D.Double( x, y ) );
     }
     
     /**
