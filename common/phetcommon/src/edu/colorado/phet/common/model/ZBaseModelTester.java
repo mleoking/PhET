@@ -3,8 +3,8 @@ package edu.colorado.phet.common.model;
 
 import junit.framework.TestCase;
 
-import java.util.List;
 import java.io.Serializable;
+import java.util.List;
 
 public class ZBaseModelTester extends TestCase {
     private volatile BaseModel model;
@@ -54,6 +54,13 @@ public class ZBaseModelTester extends TestCase {
 
         assertFalse( selection.contains( element1 ) );
         assertFalse( selection.contains( element3 ) );
+    }
+
+    public void testCanSelectForAnyOfTwo() {
+        List selection = model.selectForAny( new Class[]{Serializable.class, TestModelElement1.class} );
+
+        assertTrue( selection.contains(element1) );
+        assertTrue( selection.contains(element2) );
     }
 
     public static class TestModelElement1 implements ModelElement {
