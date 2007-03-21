@@ -13,9 +13,7 @@ import javax.swing.JButton;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChart;
-import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
-import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyPlot;
+import edu.colorado.phet.opticaltweezers.charts.*;
 import edu.colorado.phet.opticaltweezers.control.FluidControlPanel;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.control.PhysicsControlPanel;
@@ -69,6 +67,7 @@ public class PhysicsModule extends AbstractModule {
     private PPath _laserDragBoundsNode;
     private OTRulerNode _rulerNode;
     private PPath _rulerDragBoundsNode;
+    private PositionHistogramChartNode _positionHistogramChartNode;
     private PotentialEnergyChartNode _potentialEnergyChartNode;
     
     // Control
@@ -158,6 +157,12 @@ public class PhysicsModule extends AbstractModule {
         _rulerNode = new OTRulerNode( _laser,_modelViewTransform, _rulerDragBoundsNode );
         _rulerNode.setVisible( PhysicsDefaults.RULER_SELECTED );
         
+        // Position Histogram chart
+        PositionHistogramPlot positionHistogramPlot = new PositionHistogramPlot();
+        PositionHistogramChart positionHistogramChart = new PositionHistogramChart( positionHistogramPlot );
+        _positionHistogramChartNode = new PositionHistogramChartNode( positionHistogramChart );
+        _positionHistogramChartNode.setVisible( PhysicsDefaults.POSITION_HISTOGRAM_SELECTED );
+        
         // Potential Energy chart
         PotentialEnergyPlot potentialEnergyPlot = new PotentialEnergyPlot();
         PotentialEnergyChart potentialEnergyChart = new PotentialEnergyChart( potentialEnergyPlot );
@@ -212,6 +217,7 @@ public class PhysicsModule extends AbstractModule {
         _rootNode.addChild( _laserDragBoundsNode );
         _rootNode.addChild( _beadNode );
         _rootNode.addChild( _beadDragBoundsNode );
+        _rootNode.addChild( _positionHistogramChartNode );
         _rootNode.addChild( _potentialEnergyChartNode );
         _rootNode.addChild( _rulerNode );
         _rootNode.addChild( _rulerDragBoundsNode );
@@ -236,6 +242,10 @@ public class PhysicsModule extends AbstractModule {
     
     public void setRulerVisible( boolean visible ) {
         _rulerNode.setVisible( visible );
+    }
+    
+    public void setPositionHistogramChartVisible( boolean visible ) {
+        _positionHistogramChartNode.setVisible( visible );
     }
     
     public void setPotentialEnergyChartVisible( boolean visible ) {
@@ -277,9 +287,14 @@ public class PhysicsModule extends AbstractModule {
         // Ruler width adjusts to fill the canvas.
         _rulerNode.setWorldSize( worldSize );
         
-        // Potential chart resizes to fill the canvas.
-        _potentialEnergyChartNode.setBounds( 0, 0, worldSize.getWidth(), 250 );
+        // Position Histogram chart resizes to fill the canvas.
+        _positionHistogramChartNode.setBounds( 0, 0, worldSize.getWidth(), 250 );
+        _positionHistogramChartNode.updateChartRenderingInfo();
         
+        // Potential Energy chart resizes to fill the canvas.
+        _potentialEnergyChartNode.setBounds( 0, 0, worldSize.getWidth(), 250 );
+        _potentialEnergyChartNode.updateChartRenderingInfo();
+
         // Adjust drag bounds of bead, so it stays in the fluid
         {
             // This percentage of the bead must remain visible

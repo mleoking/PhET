@@ -60,6 +60,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/21/07 - make visibility of potential chart take prescendence over position histogram
+3/21/07 - add position histogram, wire to control panel, no buttons, no data or connection to model
 3/21/07 - add potential energy chart, wire to control panel, no data or connection to model
 3/20/07 - add power range to laser model
 3/20/07 - javadoc what I've done so far

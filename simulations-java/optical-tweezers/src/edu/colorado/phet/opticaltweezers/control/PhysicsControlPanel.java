@@ -617,14 +617,10 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     }
     
     private void handlePositionHistogramCheckBox() {
-        
-        final boolean selected = _positionHistogramCheckBox.isSelected();
-        
         if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handlePositionHistogramCheckBox " + selected );
+            System.out.println( "PhysicsControlPanel.handlePositionHistogramCheckBox " + _positionHistogramCheckBox.isSelected() );
         }
-        
-        //XXX
+        handleChartsVisibility();
     }
     
     private void handleAdvancedButton() {
@@ -665,13 +661,20 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     }
     
     private void handlePotentialEnergyChartCheckBox() {
-        
-        final boolean selected = _potentialEnergyChartCheckBox.isSelected();
-        
         if ( PRINT_DEBUG_EVENT_HANDLERS ) {
-            System.out.println( "PhysicsControlPanel.handlePotentialEnergyChartCheckBox " + selected );
+            System.out.println( "PhysicsControlPanel.handlePotentialEnergyChartCheckBox " + _potentialEnergyChartCheckBox.isSelected() );
         }
-        
-        _module.setPotentialEnergyChartVisible( selected );
+        handleChartsVisibility();
+    }
+    
+    /*
+     * The two charts (Postion Histogram and Potential Energy) both occupy the same space 
+     * on the screen and are not moveable. The Potential Energy chart is given precedence,
+     * and displaying it hides the other chart.  I consider this to be a bad user interface
+     * design, and a huge hack.  But this is what was requested. 
+     */
+    private void handleChartsVisibility() {
+        _module.setPotentialEnergyChartVisible( _potentialEnergyChartCheckBox.isSelected() );
+        _module.setPositionHistogramChartVisible( !_potentialEnergyChartCheckBox.isSelected() && _positionHistogramCheckBox.isSelected() );
     }
 }
