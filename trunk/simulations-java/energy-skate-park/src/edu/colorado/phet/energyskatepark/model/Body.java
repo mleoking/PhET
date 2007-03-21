@@ -5,12 +5,16 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
 import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.test.phys1d.Particle;
 import edu.colorado.phet.energyskatepark.test.phys1d.ParticleStage;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import javax.swing.*;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -78,6 +82,22 @@ public class Body {
         particle.getParticle1D().setReflect( false );
 
         storedTotalEnergy = getTotalEnergy();
+
+//        showControls();
+    }
+
+    public void showControls() {
+        JFrame controls=new JFrame( );
+        final ModelSlider stickiness=new ModelSlider( "Stickiness","",0,1,particle.getStickiness());
+        stickiness.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                particle.setStickiness( stickiness.getValue() );
+            }
+        } );
+
+        controls.setContentPane( stickiness );
+        controls.pack();
+        controls.setVisible( true );
     }
 
     public void setPotentialEnergyMetric( PotentialEnergyMetric potentialEnergyMetric ) {
