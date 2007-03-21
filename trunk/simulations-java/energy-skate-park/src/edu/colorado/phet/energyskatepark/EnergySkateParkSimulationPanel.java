@@ -252,10 +252,6 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         return (SplineMatch)matches.get( 0 );
     }
 
-    public void splineTranslated( EnergySkateParkSpline splineSurface, double dx, double dy ) {
-        getEnergyConservationModel().splineTranslated( splineSurface, dx, dy );
-    }
-
     private double distance( Point2D toMatch, PNode startNode ) {
         return startNode.getFullBounds().getCenter2D().distance( toMatch );
     }

@@ -211,7 +211,6 @@ public class SplineNode extends PNode {
     }
 
     private void translateAll( double dx, double dy ) {
-        ec3Canvas.splineTranslated( getSpline(), dx, dy );
         spline.translate( dx, dy );
         for( int i = 0; i < initDragSpline.length; i++ ) {
             initDragSpline[i].x += dx;

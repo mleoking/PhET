@@ -3,10 +3,7 @@ package edu.colorado.phet.lookandfeels;
 import java.io.File;
 
 /**
- * User: Sam Reid
- * Date: Feb 18, 2007
- * Time: 4:15:33 PM
- * Copyright (c) Feb 18, 2007 by Sam Reid
+ * Utility function for reading theme names for oyoaha (not used during simulation runtime.
  */
 
 public class ReadNames {

@@ -29,7 +29,8 @@ public class Particle {
     private UpdateStrategy updateStrategy = new Particle1DUpdate();
     private ParticleStage particleStage;
     private boolean convertNormalVelocityToThermalOnLanding = false;
-    private double angle = 0.0;
+//    private double angle = 0.0;
+    private double angle = Math.PI/2;
     private boolean userControlled = false;
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
