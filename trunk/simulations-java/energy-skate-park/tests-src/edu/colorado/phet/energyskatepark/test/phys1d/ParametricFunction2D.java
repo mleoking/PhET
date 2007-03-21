@@ -204,6 +204,8 @@ public abstract class ParametricFunction2D {
 
         double metricDelta = getMetricDelta( alpha0, guess );
         double epsilon = 1E-6;
+//        double epsilon = 1E-10;
+
         int count = 0;
         while( Math.abs( metricDelta - ds ) > epsilon ) {
             if( metricDelta > ds ) {
@@ -225,12 +227,18 @@ public abstract class ParametricFunction2D {
     }
 
     public AbstractVector2D getUnitParallelVector( double alpha ) {
-        double epsilon = 1E-4;
+//        double epsilon = 1E-4;
+        double epsilon = 1E-8;
 //        double epsilon = 1E-6;
         double a0 = alpha - epsilon / 2;
         double a1 = alpha + epsilon / 2;
 //        System.out.println( "a0 = " + a0 +", a1="+a1);
-        return new Vector2D.Double( evaluate( a0 ), evaluate( a1 ) ).getNormalizedInstance();
+
+        Vector2D.Double vector = new Vector2D.Double( evaluate( a0 ), evaluate( a1 ) );
+        if (vector.getMagnitude()==0){
+            throw new RuntimeException( "unit parallel vector failed: alpha="+alpha+", eval="+evaluate( alpha ));
+        }
+        return vector.getNormalizedInstance();
     }
 
     public AbstractVector2D getUnitNormalVector( double alpha ) {
