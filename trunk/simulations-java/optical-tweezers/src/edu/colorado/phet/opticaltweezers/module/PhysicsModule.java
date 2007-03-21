@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.module;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -24,8 +25,6 @@ import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.view.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.piccolo.help.HelpBalloon;
-import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -187,6 +186,7 @@ public class PhysicsModule extends AbstractModule {
         
         // "Return Bead" button
         JButton returnBeadButton = new JButton( SimStrings.get( "label.returnBead" ) );
+        returnBeadButton.setForeground( Color.RED );//XXX
         returnBeadButton.setFont( OTConstants.PLAY_AREA_CONTROL_FONT );
         returnBeadButton.setOpaque( false );
         returnBeadButton.addActionListener( new ActionListener() {
