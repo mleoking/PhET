@@ -16,7 +16,5 @@ public interface EnergySkateParkSplineEnvironment {
 
     SplineMatch proposeMatch( SplineNode splineNode, Point2D toMatch );
 
-    void splineTranslated( EnergySkateParkSpline splineSurface, double dx, double dy );
-
     void attach( SplineNode splineNode, int index, SplineMatch match );
 }

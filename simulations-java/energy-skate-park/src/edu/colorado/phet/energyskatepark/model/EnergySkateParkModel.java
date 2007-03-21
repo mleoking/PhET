@@ -111,16 +111,6 @@ public class EnergySkateParkModel {
         return false;
     }
 
-    public void splineTranslated( EnergySkateParkSpline spline, double dx, double dy ) {
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
-            if( body.isOnSpline( spline ) ) {
-                body.translate( dx, dy );
-                body.notifyDoRepaint();
-            }
-        }
-    }
-
     public PotentialEnergyMetric getPotentialEnergyMetric() {
         return potentialEnergyMetric;
     }
