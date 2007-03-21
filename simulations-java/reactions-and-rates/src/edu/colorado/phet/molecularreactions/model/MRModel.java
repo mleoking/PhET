@@ -331,7 +331,7 @@ public class MRModel extends PublishingModel {
      * Removes all molecules and bonds from the model
      */
     public void removeAllMolecules() {
-        List modelElements = selectFor(new Class[]{AbstractMolecule.class, Bond.class, ProvisionalBond.class});
+        List modelElements = selectForAny(new Class[]{AbstractMolecule.class, Bond.class, ProvisionalBond.class});
 
         for( int i = modelElements.size() - 1; i >= 0; i-- ) {
             ModelElement me = (ModelElement)modelElements.get( i );
