@@ -240,6 +240,10 @@ public class PhysicsModule extends AbstractModule {
         return _clock;
     }
     
+    public void setFluidControlsVisible( boolean visible ) {
+        _fluidControlPanelWrapper.setVisible( visible );
+    }
+    
     public void setRulerVisible( boolean visible ) {
         _rulerNode.setVisible( visible );
     }
@@ -436,14 +440,6 @@ public class PhysicsModule extends AbstractModule {
 
     public void load( OTConfig appConfig ) {
         // TODO Auto-generated method stub
-    }
-    
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    public void setFluidControlsVisible( boolean visible ) {
-        _fluidControlPanelWrapper.setVisible( visible );
     }
     
     //----------------------------------------------------------------------------
