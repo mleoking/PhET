@@ -160,7 +160,7 @@ public class PhysicsModule extends AbstractModule {
         // Position Histogram chart
         PositionHistogramPlot positionHistogramPlot = new PositionHistogramPlot();
         PositionHistogramChart positionHistogramChart = new PositionHistogramChart( positionHistogramPlot );
-        _positionHistogramChartNode = new PositionHistogramChartNode( positionHistogramChart );
+        _positionHistogramChartNode = new PositionHistogramChartNode( _canvas, positionHistogramChart, _laser, _bead, _clock );
         _positionHistogramChartNode.setVisible( PhysicsDefaults.POSITION_HISTOGRAM_SELECTED );
         
         // Potential Energy chart
@@ -200,12 +200,6 @@ public class PhysicsModule extends AbstractModule {
         // Help
         //----------------------------------------------------------------------------
 
-        HelpPane helpPane = getDefaultHelpPane();
-
-        HelpBalloon configureHelp = new HelpBalloon( helpPane, "help item", HelpBalloon.RIGHT_CENTER, 20 );
-        helpPane.add( configureHelp );
-        configureHelp.pointAt( 300, 300 );
-        
         // See initWiggleMe for Wiggle Me initialization.
 
         //----------------------------------------------------------------------------
@@ -261,12 +255,12 @@ public class PhysicsModule extends AbstractModule {
     //----------------------------------------------------------------------------
     
     /**
-     * Indicates that this module has help.
+     * Indicates whether this module has help.
      * 
      * @return true
      */
     public boolean hasHelp() {
-        return true;
+        return false;
     }
     
     //----------------------------------------------------------------------------
@@ -292,11 +286,11 @@ public class PhysicsModule extends AbstractModule {
         _rulerNode.setWorldSize( worldSize );
         
         // Position Histogram chart resizes to fill the canvas.
-        _positionHistogramChartNode.setBounds( 0, 0, worldSize.getWidth(), 250 );
+        _positionHistogramChartNode.setChartSize( worldSize.getWidth(), 200 );
         _positionHistogramChartNode.updateChartRenderingInfo();
         
         // Potential Energy chart resizes to fill the canvas.
-        _potentialEnergyChartNode.setBounds( 0, 0, worldSize.getWidth(), 250 );
+        _potentialEnergyChartNode.setChartSize( worldSize.getWidth(), 250 );
         _potentialEnergyChartNode.updateChartRenderingInfo();
 
         // Adjust drag bounds of bead, so it stays in the fluid
