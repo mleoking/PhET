@@ -32,7 +32,6 @@
     <property name="dir.prefix.prod.server"     value="/web/htdocs/phet/simulations/" />
     <property name="url.prefix.prod.server"     value="http://phet.colorado.edu/simulations/" />
     
-    
     <property name="phet.flash-sim.url"         value="${phet.svn.url}${simulations.flash}"/>
     <property name="phet.java-sim.url"          value="${phet.svn.url}${simulations.java}" />
     
@@ -97,7 +96,7 @@
         <if>
             <!-- If there's no slash on the end... -->
             <not>
-                <matches string="${dir.project}" pattern=".*[/\\]" />
+                <matches string="${dir.project}" pattern=".*[/\\]\Z" />
             </not>
             <then>
                 <!-- Add it! -->
@@ -139,6 +138,8 @@
         
         <available file="${file.project.build.properties}" property="build.properties.present"/>
         
+        <echo message="Looking for build properties in ${file.project.build.properties}" />
+        
         <if>
             <isset property="build.properties.present"/>
             <then>
@@ -163,19 +164,7 @@
                 </if>
             </then>
             <else>
-                <if>
-                    <or>
-                        <not>
-                            <isset property="param.ignore.failure" />
-                        </not>
-                        
-                        <isfalse value="param.ignore.failure" />
-                    </or>
-                            
-                    <then>
-                        <fail message="The project ${dir.project.name} does not have a build.properties file." />
-                    </then>
-                </if>
+                <fail message="The project ${dir.project.name} does not have a build.properties file." />
             </else>
         </if>
     </target>
@@ -342,7 +331,7 @@
     
     <target name="_inc-build-dependency-list" description="Incrementally builds a dependency list">
         <!--
-             Expects @{param.depends} to be set to the current dependency; 
+             Expects ${param.depends} to be set to the current dependency; 
              will incrementally update ${param.all.depends} with dependency.
              The dependency list is comma delimited.
         -->
