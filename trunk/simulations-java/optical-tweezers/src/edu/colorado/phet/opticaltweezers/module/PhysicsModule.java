@@ -3,6 +3,7 @@
 package edu.colorado.phet.opticaltweezers.module;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -10,6 +11,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 
@@ -27,6 +30,7 @@ import edu.colorado.phet.opticaltweezers.view.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -73,7 +77,7 @@ public class PhysicsModule extends AbstractModule {
     // Control
     private PhysicsControlPanel _controlPanel;
     private OTClockControlPanel _clockControlPanel;
-    private PhetPNode _returnBeadButtonWrapper;
+    private PSwing _returnBeadButtonWrapper;
     private FluidControlPanel _fluidControlPanel;
     private PhetPNode _fluidControlPanelWrapper;
     
@@ -150,6 +154,13 @@ public class PhysicsModule extends AbstractModule {
         _beadDragBoundsNode = new PPath();
         _beadDragBoundsNode.setStroke( null );
         _beadNode = new BeadNode( _bead, _modelViewTransform, _beadDragBoundsNode );
+        _beadNode.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent event ) {
+                if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
+                   updateReturnBeadButtonVisibility();
+                }
+            }
+        });
         
         // Ruler
         _rulerDragBoundsNode = new PPath();
@@ -187,15 +198,37 @@ public class PhysicsModule extends AbstractModule {
         
         // "Return Bead" button
         JButton returnBeadButton = new JButton( SimStrings.get( "label.returnBead" ) );
-        returnBeadButton.setForeground( Color.RED );//XXX
-        returnBeadButton.setFont( OTConstants.PLAY_AREA_CONTROL_FONT );
+        Font font = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 18 );
+        returnBeadButton.setFont( font );
         returnBeadButton.setOpaque( false );
         returnBeadButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleReturnBeadButton();
             }
         } );
-        _returnBeadButtonWrapper = new PhetPNode( new PSwing( _canvas, returnBeadButton ) );
+        _returnBeadButtonWrapper = new PSwing( _canvas, returnBeadButton );
+        
+        // Activity that flashes the bead whenever it's visible
+        // If the button is made visible, flash it's text red for 10 seconds.
+        long duration = -1; // forever
+        long step = 500; // every 1/2 second
+        long startTime = System.currentTimeMillis(); // now
+        PActivity flash = new PActivity( duration, step, startTime ) {
+            boolean fRed = true;
+            protected void activityStep( long elapsedTime ) {
+                if ( _returnBeadButtonWrapper.getVisible() ) {
+                    super.activityStep( elapsedTime );
+                    if ( fRed ) {
+                        _returnBeadButtonWrapper.getComponent().setForeground( Color.RED );
+                    }
+                    else {
+                        _returnBeadButtonWrapper.getComponent().setForeground( Color.BLACK );
+                    }
+                    fRed = !fRed;
+                }
+            }
+        };
+        _canvas.getRoot().addActivity( flash );
         
         //----------------------------------------------------------------------------
         // Help
@@ -273,6 +306,11 @@ public class PhysicsModule extends AbstractModule {
      */
     public void updateCanvasLayout() {
 
+        double x = 0;
+        double y = 0;
+        double w = 0;
+        double h = 0;
+        
         Dimension2D worldSize = _canvas.getWorldSize();
         System.out.println( "PhysicsModule.updateCanvasLayout worldSize=" + worldSize );//XXX
         if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
@@ -301,13 +339,26 @@ public class PhysicsModule extends AbstractModule {
             
             Rectangle2D sb = _fluidNode.getCenterGlobalBounds();
             Rectangle2D bb = _beadNode.getGlobalFullBounds();
-            double x = sb.getX() - ( ( 1 - m ) * bb.getWidth() );
-            double y = sb.getY();
-            double w = sb.getWidth() + ( 2 * ( 1 - m ) * bb.getWidth() );
-            double h = sb.getHeight();
+            x = sb.getX() - ( ( 1 - m ) * bb.getWidth() );
+            y = sb.getY();
+            w = sb.getWidth() + ( 2 * ( 1 - m ) * bb.getWidth() );
+            h = sb.getHeight();
+            x -= 500;//XXX test Return Bead button
+            w += 1000;//XXX test Return Bead button
             Rectangle2D globalDragBounds = new Rectangle2D.Double( x, y, w, h );
             Rectangle2D localDragBounds = _beadDragBoundsNode.globalToLocal( globalDragBounds );
             _beadDragBoundsNode.setPathTo( localDragBounds );
+        }
+        
+        // "Return Bead" button
+        {
+            // center on canvas
+            x = ( worldSize.getWidth() - _returnBeadButtonWrapper.getFullBounds().getWidth() ) / 2;
+            y = ( worldSize.getHeight() - _returnBeadButtonWrapper.getFullBounds().getHeight() ) / 2;
+            _returnBeadButtonWrapper.setOffset( x, y );
+            
+            // If the bead is outside the bounds of the canvas, make the "Return Bead" button visible.
+            updateReturnBeadButtonVisibility();
         }
         
         // Adjust drag bounds of laser, so it stays in canvas
@@ -318,10 +369,10 @@ public class PhysicsModule extends AbstractModule {
             Rectangle2D sb = _fluidNode.getCenterGlobalBounds();
             Rectangle2D lb = _laserNode.getGlobalFullBounds();
             double xAdjust = ( 1 - m ) * lb.getWidth();
-            double x = -xAdjust;
-            double y = lb.getY();
-            double w = sb.getWidth() + ( 2 * xAdjust );
-            double h = lb.getHeight();
+            x = -xAdjust;
+            y = lb.getY();
+            w = sb.getWidth() + ( 2 * xAdjust );
+            h = lb.getHeight();
             Rectangle2D globalDragBounds = new Rectangle2D.Double( x, y, w, h );
             Rectangle2D localDragBounds = _laserDragBoundsNode.globalToLocal( globalDragBounds );
             _laserDragBoundsNode.setPathTo( localDragBounds );
@@ -332,10 +383,6 @@ public class PhysicsModule extends AbstractModule {
         // Fluid controls
         _fluidControlPanelWrapper.setOffset( 10, 220 ); //XXX
         
-        // "Return Bead" button
-        _returnBeadButtonWrapper.setOffset( 50, 170 );//XXX
-        //XXX determine if bead is no longer visible
-
         if ( HAS_WIGGLE_ME ) {
             initWiggleMe();
         }
@@ -442,12 +489,26 @@ public class PhysicsModule extends AbstractModule {
     //----------------------------------------------------------------------------
     
     private void handleReturnBeadButton() {
-        //XXX
         System.out.println( "handleReturnBeadButton" );//XXX
         Rectangle2D b = _returnBeadButtonWrapper.getFullBounds().getBounds();
         double x = b.getX() + ( b.getWidth() / 2 );
         double y = b.getY() + ( b.getHeight() / 2 );
         Point2D p = _modelViewTransform.viewToModel( x, y );
         _bead.setPosition( p );
+        _returnBeadButtonWrapper.setVisible( false );
+        _returnBeadButtonWrapper.setPickable( false );
+        _returnBeadButtonWrapper.setChildrenPickable( false );
+    }
+    
+    private void updateReturnBeadButtonVisibility() {
+        
+        Dimension2D worldSize = _canvas.getWorldSize();
+        Rectangle2D worldBounds = new Rectangle2D.Double( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
+        Rectangle2D beadBounds = _beadNode.getFullBounds();
+        
+        //XXX using intersects is a little dodgy since the bead is a circle
+        _returnBeadButtonWrapper.setVisible( !worldBounds.intersects( beadBounds ) );
+        _returnBeadButtonWrapper.setPickable( _returnBeadButtonWrapper.getVisible() );
+        _returnBeadButtonWrapper.setChildrenPickable( _returnBeadButtonWrapper.getVisible() );
     }
 }
