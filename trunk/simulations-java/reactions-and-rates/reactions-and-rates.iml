@@ -68,13 +68,15 @@
     </content>
     <content url="file://$MODULE_DIR$/../../common/phetcommon/data">
       <sourceFolder url="file://$MODULE_DIR$/../../common/phetcommon/data" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../common/phetcommon/data/images/buttons" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../common/phetcommon/src">
       <sourceFolder url="file://$MODULE_DIR$/../../common/phetcommon/src" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../common/phetgraphics/data">
       <sourceFolder url="file://$MODULE_DIR$/../../common/phetgraphics/data" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../common/phetgraphics/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../common/phetgraphics/src" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../common/piccolo-phet/data">
       <sourceFolder url="file://$MODULE_DIR$/../../common/piccolo-phet/data" isTestSource="false" />
