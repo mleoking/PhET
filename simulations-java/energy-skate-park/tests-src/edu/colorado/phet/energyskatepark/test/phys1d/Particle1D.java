@@ -24,7 +24,7 @@ public class Particle1D {
 
     private double g;// meters/s/s
     private double mass = 1.0;//kg
-    private double totalDE = 0;
+//    private double totalDE = 0;
 
     private ArrayList listeners = new ArrayList();
     private boolean splineTop = true;
@@ -56,16 +56,13 @@ public class Particle1D {
         return cubicSpline.evaluate( alpha ).getY();
     }
 
+    private double getY( double alpha ) {
+        return cubicSpline.evaluate( alpha ).getY();
+    }
+
     public void setAlpha( double alpha ) {
         this.alpha = alpha;
     }
-
-//    public AbstractVector2D getSideVector( ParametricFunction2D cubicSpline, double alpha, boolean top ) {
-//        AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
-//        double sign = top ? 1.0 : -1.0;
-//        return norm.getInstanceOfMagnitude( sign );
-//    }
-//    
 
     public AbstractVector2D getSideVector() {
         AbstractVector2D vector = getCubicSpline2D().getUnitNormalVector( alpha );
@@ -75,15 +72,18 @@ public class Particle1D {
 
     public void stepInTime( double dt ) {
         double initEnergy = getEnergy();
+        double initAlpha = alpha;
+        double initVelocity = velocity;
+//        int N = 100;//todo determine this free parameter
         int N = 10;//todo determine this free parameter
-//            int N=4;
         for( int i = 0; i < N; i++ ) {
             updateStrategy.stepInTime( dt / N );
         }
 
-        totalDE += getNormalizedEnergyDiff( initEnergy );
-
-//        fixEnergy( initEnergy );
+//        totalDE += getNormalizedEnergyDiff( initEnergy );
+//        System.out.println( "Particle1D[0]: dE=" + ( getEnergy() - initEnergy ) );
+        fixEnergy( initAlpha, initVelocity, initEnergy );
+//        System.out.println( "Particle1D[1]: dE=" + ( getEnergy() - initEnergy ) );
 //        double dEFix = getNormalizedEnergyDiff( initEnergy );
 //            System.out.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE + ", RC=" + getRadiusOfCurvature() );
 
@@ -129,6 +129,10 @@ public class Particle1D {
         return new Euler();
     }
 
+    public double getEnergy( double alpha, double velocity ) {
+        return 0.5 * mass * velocity * velocity - mass * g * getY( alpha );
+    }
+
     public double getEnergy() {
         return 0.5 * mass * velocity * velocity - mass * g * getY();
     }
@@ -141,9 +145,9 @@ public class Particle1D {
         return alpha;
     }
 
-    public void resetEnergyError() {
-        totalDE = 0.0;
-    }
+//    public void resetEnergyError() {
+////        totalDE = 0.0;
+//    }
 
     public AbstractVector2D getVelocity2D() {
         return cubicSpline.getUnitParallelVector( alpha ).getInstanceOfMagnitude( velocity );
@@ -199,52 +203,77 @@ public class Particle1D {
         }
     }
 
-    private void fixEnergy( final double initEnergy ) {
-        int count = 0;
-
-        if( Math.abs( velocity ) > 1 ) {
-            for( int i = 0; i < 1; i++ ) {
-                double dE = getNormalizedEnergyDiff( initEnergy ) * Math.abs( initEnergy );
-                double dv = dE / mass / velocity;
-                velocity += dv;
-            }
-        }
-
-//            while( getNormalizedEnergyDiff( initEnergy ) < -1E-6 ) {
-//                velocity *= 1.001;
-//                System.out.println( "getNormalizedEnergyDiff( ) = " + getNormalizedEnergyDiff( initEnergy ) );
-//                count++;
-//                if( count > 1000 ) {
-//                    break;
-//                }
-//            }
-//
-//            while( getNormalizedEnergyDiff( initEnergy ) > 1E-6 ) {
-//                velocity *= 0.999;
-//                System.out.println( "reducing energy...getNormalizedEnergyDiff( ) = " + getNormalizedEnergyDiff( initEnergy ) );
-//                count++;
-//                if( count > 1000 ) {
-//                    break;
-//                }
-//            }
-
-//            double dE=finalEnergy-initEnergy;
-//            System.out.println( "dE = " + dE );
-//            double arg = 2.0 / mass * ( initEnergy + mass * g * getY() );
-//            if( arg > 0 ) {
-//                double deltaV = Math.abs( Math.sqrt( arg ) - velocity );
-//                velocity+=deltaV;
-////                if( finalEnergy > initEnergy ) {
-////                    velocity = ( Math.abs( velocity ) + deltaV ) * MathUtil.getSign( velocity );
-////                }
-////                else {
-////                    velocity = ( Math.abs( velocity ) - deltaV ) * MathUtil.getSign( velocity );
-////                }
-//            }
+    private double getScore( double alpha0, double v0, double e0, double alpha1, double v1, double e1 ) {
+//        double a = 0.01;
+//        double b = 0.1;
+//        double a = 0.0;
+//        double b = 0.0;
+        double a = 0.01;
+        double b = 1.0;
+        return a * Math.pow( alpha1 - alpha0, 2 ) + b * Math.pow( v1 - v0, 2 ) + Math.pow( e1 - e0, 2 );
     }
 
-    private double getNormalizedEnergyDiff( double initEnergy ) {
-        return ( getEnergy() - initEnergy ) / Math.abs( initEnergy );
+    private void fixEnergy( double alpha0, double v0, final double e0 ) {
+//        gradientDescentSearch( alpha0, v0, e0 );
+
+        if( getEnergy() > e0 ) {//gained energy
+//            System.out.println( "Gained energy..." );
+            for( int i = 0; i < 100; i++ ) {
+//                System.out.println( "dE="+(getEnergy( )-e0) );
+                double dv = ( getEnergy() - e0 ) / ( mass * velocity );
+                velocity -= dv*0.9;
+            }
+            if ((getEnergy( )-e0)>1E-8){
+                //couldn't fix with velocity
+                //try position
+                System.out.println( "couldn't fix with velocity: dE="+(getEnergy( )-e0) );
+            }
+
+        }
+        else {
+            System.out.println( "lost energy..., speeding up" );
+
+            for( int i = 0; i < 10; i++ ) {
+                System.out.println( "dE=" + ( getEnergy() - e0 ) );
+                double dv = ( getEnergy() - e0 ) / ( mass * velocity );
+                velocity += dv;
+            }
+            System.out.println( "dE=" + ( getEnergy() - e0 ) );
+        }
+    }
+
+    private void gradientDescentSearch( double alpha0, double v0, double e0 ) {
+        double initScore = getScore( alpha0, v0, e0, alpha, velocity, getEnergy() );
+//        System.out.println( "initScore = " + initScore );//try to minimize score
+        double dAlpha = 1E-6;
+        double dV = 1E-6;
+        double learningRate = 1E-3;
+        double learningRateV = learningRate;
+//        System.out.println( "Start score: = " + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
+        double startScore = getScore( alpha0, v0, e0, alpha, velocity, getEnergy() );
+        for( int i = 0; i < 100; i++ ) {
+
+//            System.out.println( "Start score: = " + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
+            double gradx = ( getScore( alpha0, v0, e0, alpha + dAlpha / 2, velocity, getEnergy( alpha + dAlpha / 2, velocity ) ) - getScore( alpha0, v0, e0, alpha - dAlpha / 2, velocity, getEnergy( alpha - dAlpha / 2, velocity ) ) ) / dAlpha;
+            alpha -= learningRate * gradx;
+//            System.out.println( "After X Step: = " + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
+
+            double gradV = ( getScore( alpha0, v0, e0, alpha, velocity + dV / 2, getEnergy( alpha, velocity + dV / 2 ) ) - getScore( alpha0, v0, e0, alpha, velocity - dV / 2, getEnergy( alpha, velocity - dV / 2 ) ) ) / dV;
+            velocity -= learningRateV * gradV;
+
+//            System.out.println( "After V Step: = " + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
+            double score = getScore( alpha0, v0, e0, alpha, velocity, getEnergy() );
+            if( score > startScore ) {
+                System.out.println( "Score climbed, ending search" );
+            }
+            if( Math.abs( getEnergy() - e0 ) < 1E-6 ) {
+                System.out.println( "Finished search, score=" + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
+                break;
+            }
+            if( i % 100 == 0 ) {
+//                System.out.println( "Searching i="+i+", score=" + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
+            }
+        }
     }
 
     double getRadiusOfCurvature() {
