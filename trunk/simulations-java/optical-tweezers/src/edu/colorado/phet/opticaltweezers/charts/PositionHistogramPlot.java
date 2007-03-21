@@ -21,11 +21,11 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 
 
-public class PotentialEnergyPlot extends XYPlot implements Observer {
+public class PositionHistogramPlot extends XYPlot implements Observer {
 
-    private static final String SERIES_KEY = "positionPotentialEnergySeries";
+    private static final String SERIES_KEY = "positionFrequencySeries";
     private static final Color BACKGROUND_COLOR = new Color( 0, 0, 0, 0 ); // transparent
-    private static final Color PLOT_COLOR = new Color( 178, 25, 205 ); // purple
+    private static final Color PLOT_COLOR = Color.BLACK; //XXX
     private static final Stroke PLOT_STROKE = new BasicStroke( 1f );
     private static final Color GRIDLINES_COLOR = Color.BLACK;
     private static final Font AXIS_LABEL_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.PLAIN, 14 );
@@ -35,12 +35,12 @@ public class PotentialEnergyPlot extends XYPlot implements Observer {
     private XYSeries _series;
     private NumberAxis _xAxis, _yAxis;
     
-    public PotentialEnergyPlot() {
+    public PositionHistogramPlot() {
         super();
         
         // axis labels
-        String positonLabel = SimStrings.get( "axis.position" );
-        String potentialLabel = SimStrings.get( "axis.potentialEnergy" );
+        String positonLabel = "";
+        String frequencyLabel = "";
         
         // Series & dataset
         _series = new XYSeries( SERIES_KEY, false /* autoSort */);
@@ -64,7 +64,7 @@ public class PotentialEnergyPlot extends XYPlot implements Observer {
         _xAxis.setAxisLinePaint( AXIS_COLOR );
         
         _yAxis = new NumberAxis();
-        _yAxis.setLabel( potentialLabel );
+        _yAxis.setLabel( frequencyLabel );
         _yAxis.setLabelFont( AXIS_LABEL_FONT );
         _yAxis.setTickLabelsVisible( false );
         _yAxis.setTickMarksVisible( false );
@@ -88,7 +88,7 @@ public class PotentialEnergyPlot extends XYPlot implements Observer {
         _xAxis.setRange( range );
     }
     
-    public void setPotentialRange( Range range ) {
+    public void setFrequencyRange( Range range ) {
         _yAxis.setRange( range );
     }
     
