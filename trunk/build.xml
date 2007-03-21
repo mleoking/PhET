@@ -449,7 +449,19 @@
         
              ${param.required.resource}
              ${dir.temp.project}
+             
+        Optionally, the following may be defined:
+        
+             ${param.exclude.filter}
         -->
+        <if>
+            <not>
+                <isset property="param.exclude.filter" />
+            </not>
+            <then>
+                <var name="param.exclude.filter" value="Nicro$oft" />
+            </then>
+        </if>
         
         <for param="foreach.required.resource" list="${param.required.resource}" delimiter="," trim="true">
             <sequential>
@@ -469,7 +481,10 @@
                                 <echo message="Required resource @{foreach.required.resource} is a directory. Copying to ${dir.temp.project}" />
                                 
                                 <copy todir="${dir.temp.project}">
-                                    <fileset dir="@{foreach.required.resource}"/>
+                                    <fileset dir="@{foreach.required.resource}">
+                                        <exclude name="**/${param.exclude.filter}"/>
+                                        <exclude name="**/.svn"/>
+                                    </fileset>
                                 </copy>
                             </then>
                             <else>
@@ -538,6 +553,13 @@
             At this point all libraries exist and can be added to the classpath.
         -->
         <mkdir dir="${dir.temp.project}" />
+
+        <!-- Copy all non-java files in the source directories (this is usually desired) -->
+        <echo message="Copying all non-source resources in source directories to ${dir.temp.project}" />
+        <antcall target="_copy-all-resources">
+            <param name="param.required.resource" value="${param.all.source.depends}" />
+            <param name="param.exclude.filter"    value="*.java" />
+        </antcall>
         
         <!-- Copy all library resources -->
         <echo message="Copying all library resources to ${dir.temp.project}" />
@@ -584,7 +606,7 @@
         <delete dir="${dir.temp.project}META-INF" />
 
         <!--Make sure there is a deploy directory-->
-        <echo message="Creating delopy directory: ${dir.project.deploy.local}"/>
+        <echo message="Creating deploy directory: ${dir.project.deploy.local}"/>
         <mkdir dir="${dir.project.deploy.local}" />
 
         <!-- Jar the output -->
