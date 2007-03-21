@@ -2,13 +2,11 @@
 package edu.colorado.phet.energyskatepark.view.bargraphs;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkSimulationPanel;
+import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
 import edu.umd.cs.piccolo.PNode;
@@ -79,6 +77,11 @@ public class BarGraphSet extends PNode {
         } );
         max.setBackground( Color.green );
         maximizeButton = new PSwing( energySkateParkSimulationPanel, max );
+        energySkateParkSimulationPanel.getEnergyConservationModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter(){
+            public void stepFinished() {
+                update();
+            }
+        } );
     }
 
     private Font getTitleFont() {
@@ -244,11 +247,6 @@ public class BarGraphSet extends PNode {
                                                               (int)barChartHeight, dx, dy, accessor.getColor(), new Font( "Lucida Sans", Font.BOLD, 14 ) );
             addBarGraphic( barGraphic );
         }
-        addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent clockEvent ) {
-                update();
-            }
-        } );
         addChild( titleGraphic );
         addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
@@ -267,7 +265,4 @@ public class BarGraphSet extends PNode {
         }
     }
 
-    protected void addClockListener( ClockListener ClockListener ) {
-        rampPanel.getEnergyConservationModule().getClock().addClockListener( ClockListener );
-    }
 }
