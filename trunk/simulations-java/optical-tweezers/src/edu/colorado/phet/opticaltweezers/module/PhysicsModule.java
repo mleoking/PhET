@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.opticaltweezers.module;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -15,6 +13,9 @@ import javax.swing.JButton;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChart;
+import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
+import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyPlot;
 import edu.colorado.phet.opticaltweezers.control.FluidControlPanel;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.control.PhysicsControlPanel;
@@ -68,6 +69,7 @@ public class PhysicsModule extends AbstractModule {
     private PPath _laserDragBoundsNode;
     private OTRulerNode _rulerNode;
     private PPath _rulerDragBoundsNode;
+    private PotentialEnergyChartNode _potentialEnergyChartNode;
     
     // Control
     private PhysicsControlPanel _controlPanel;
@@ -156,16 +158,11 @@ public class PhysicsModule extends AbstractModule {
         _rulerNode = new OTRulerNode( _laser,_modelViewTransform, _rulerDragBoundsNode );
         _rulerNode.setVisible( PhysicsDefaults.RULER_SELECTED );
         
-        // Layering order on the canvas (back-to-front)
-        {
-            _rootNode.addChild( _fluidNode );
-            _rootNode.addChild( _laserNode );
-            _rootNode.addChild( _laserDragBoundsNode );
-            _rootNode.addChild( _beadNode );
-            _rootNode.addChild( _beadDragBoundsNode );
-            _rootNode.addChild( _rulerNode );
-            _rootNode.addChild( _rulerDragBoundsNode );
-        }
+        // Potential Energy chart
+        PotentialEnergyPlot potentialEnergyPlot = new PotentialEnergyPlot();
+        PotentialEnergyChart potentialEnergyChart = new PotentialEnergyChart( potentialEnergyPlot );
+        _potentialEnergyChartNode = new PotentialEnergyChartNode( potentialEnergyChart );
+        _potentialEnergyChartNode.setVisible( PhysicsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
         
         //----------------------------------------------------------------------------
         // Control
@@ -194,12 +191,6 @@ public class PhysicsModule extends AbstractModule {
         } );
         _returnBeadButtonWrapper = new PhetPNode( new PSwing( _canvas, returnBeadButton ) );
         
-        // Layering of controls on the canvas (back-to-front)
-        {
-            _rootNode.addChild( _fluidControlPanelWrapper );
-            _rootNode.addChild( _returnBeadButtonWrapper );
-        }
-
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
@@ -213,10 +204,25 @@ public class PhysicsModule extends AbstractModule {
         // See initWiggleMe for Wiggle Me initialization.
 
         //----------------------------------------------------------------------------
+        // Layering order of nodes on the canvas
+        //----------------------------------------------------------------------------
+
+        _rootNode.addChild( _fluidNode );
+        _rootNode.addChild( _laserNode );
+        _rootNode.addChild( _laserDragBoundsNode );
+        _rootNode.addChild( _beadNode );
+        _rootNode.addChild( _beadDragBoundsNode );
+        _rootNode.addChild( _potentialEnergyChartNode );
+        _rootNode.addChild( _rulerNode );
+        _rootNode.addChild( _rulerDragBoundsNode );
+        _rootNode.addChild( _fluidControlPanelWrapper );
+        _rootNode.addChild( _returnBeadButtonWrapper );
+
+        //----------------------------------------------------------------------------
         // Initialize the module state
         //----------------------------------------------------------------------------
 
-        reset();
+        resetAll();
         updateCanvasLayout();
     }
    
@@ -230,6 +236,10 @@ public class PhysicsModule extends AbstractModule {
     
     public void setRulerVisible( boolean visible ) {
         _rulerNode.setVisible( visible );
+    }
+    
+    public void setPotentialEnergyChartVisible( boolean visible ) {
+        _potentialEnergyChartNode.setVisible( visible );
     }
     
     //----------------------------------------------------------------------------
@@ -266,6 +276,9 @@ public class PhysicsModule extends AbstractModule {
         
         // Ruler width adjusts to fill the canvas.
         _rulerNode.setWorldSize( worldSize );
+        
+        // Potential chart resizes to fill the canvas.
+        _potentialEnergyChartNode.setBounds( 0, 0, worldSize.getWidth(), 250 );
         
         // Adjust drag bounds of bead, so it stays in the fluid
         {
@@ -353,7 +366,7 @@ public class PhysicsModule extends AbstractModule {
     // AbstractModule implementation
     //----------------------------------------------------------------------------
     
-    public void reset() {
+    public void resetAll() {
         
         // Model
         {

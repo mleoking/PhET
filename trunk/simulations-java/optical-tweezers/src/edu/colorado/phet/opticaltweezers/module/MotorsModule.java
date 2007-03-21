@@ -110,7 +110,7 @@ public class MotorsModule extends AbstractModule {
         // Initialize the module state
         //----------------------------------------------------------------------------
 
-        reset();
+        resetAll();
         updateCanvasLayout();
     }
     
@@ -151,7 +151,7 @@ public class MotorsModule extends AbstractModule {
     // AbstractModule implementation
     //----------------------------------------------------------------------------
     
-    public void reset() {
+    public void resetAll() {
         // TODO Auto-generated method stub
     }
 

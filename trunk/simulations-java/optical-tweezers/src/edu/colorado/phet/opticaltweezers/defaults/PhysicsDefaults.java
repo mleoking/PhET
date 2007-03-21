@@ -35,7 +35,7 @@ public class PhysicsDefaults {
     public static final double LASER_DIAMETER = 1000; // nm
     public static final int LASER_WAVELENGTH = 632; // nm
     public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500, 0 ); // mW
-    public static final boolean LASER_RUNNING = false;
+    public static final boolean LASER_RUNNING = true;
     
     // Bead model
     public static final Point2D BEAD_POSITION = new Point2D.Double( 1200, 800 ); // nm
