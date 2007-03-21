@@ -32,6 +32,7 @@ public class Particle {
     //    private double angle = 0.0;
     private double angle = Math.PI / 2;
     private boolean userControlled = false;
+    private double thermalEnergy = 0.0;
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
         this( new ParticleStage( parametricFunction2D ) );
@@ -45,7 +46,13 @@ public class Particle {
 
     public void stepInTime( double dt ) {
         if( !userControlled ) {
+            double origEnergy = getTotalEnergy();
             updateStrategy.stepInTime( dt );
+            double finalEnergy = getTotalEnergy();
+            double dE = finalEnergy - origEnergy;
+            if( Math.abs( dE ) > 1E-10 ) {
+                System.out.println( "Particle.stepInTime: de = " + dE );
+            }
             update();
         }
     }
@@ -100,7 +107,7 @@ public class Particle {
     }
 
     public double getThermalEnergy() {
-        return 0;//todo: add thermal energy
+        return thermalEnergy;
     }
 
     public double getPotentialEnergy() {
@@ -125,6 +132,14 @@ public class Particle {
 
     public void translate( double dx, double dy ) {
         setPosition( x + dx, y + dy );
+    }
+
+    public void resetThermalEnergy() {
+        this.thermalEnergy = 0.0;
+    }
+
+    public void setMass( double mass ) {
+        this.mass = mass;
     }
 
     interface UpdateStrategy {
@@ -248,10 +263,10 @@ public class Particle {
             x += vx * dt;
 
             double dE = getTotalEnergy() - origEnergy;
-            System.out.println( "FreeFall dE[0]= " + Math.abs( dE ));
-            double dH = dE / (getMass() * getGravity());
-            y+=dH;
-            System.out.println( "FreeFall dE[1]= " + Math.abs( getTotalEnergy( )-origEnergy) );
+//            System.out.println( "FreeFall dE[0]= " + Math.abs( dE ) );
+            double dH = dE / ( getMass() * getGravity() );
+            y += dH;
+//            System.out.println( "FreeFall dE[1]= " + Math.abs( getTotalEnergy() - origEnergy ) );
 
             Point2D newLoc = new Point2D.Double( x, y );
 
@@ -307,9 +322,15 @@ public class Particle {
                 boolean velocityTowardTrack = isVelocityTowardTrack( origLoc, cubicSpline, newAlpha );
                 System.out.println( "velocityTowardTrack = " + velocityTowardTrack );
                 if( bounce || !velocityTowardTrack ) {
+                    double energyBeforeBounce = getTotalEnergy();
                     setVelocity( newVelocity );
+
                     //set the position to be just on top of the spline
                     offsetOnSpline( cubicSpline, newAlpha, origAbove[closestIndex] );
+
+                    double energyAfterBounce = getTotalEnergy();
+                    thermalEnergy += ( energyBeforeBounce - energyAfterBounce );
+
                     System.out.println( "bounced" );
                 }
                 else {

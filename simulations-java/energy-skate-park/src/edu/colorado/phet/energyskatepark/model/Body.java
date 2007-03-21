@@ -32,7 +32,7 @@ public class Body {
     private Point2D.Double attachmentPoint = new Point2D.Double();
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D.Double acceleration = new Vector2D.Double();
-    private double mass = 75.0;
+    //    private double mass = 75.0;
     private double attachmentPointRotation = 0;
 
     private boolean facingRight;
@@ -47,7 +47,7 @@ public class Body {
     private double height;
     private PotentialEnergyMetric potentialEnergyMetric;
     private double cmRotation = 0;
-    private double thermalEnergy = 0;
+    //    private double thermalEnergy = 0;
     private double angularVelocity = 0;
     private double storedTotalEnergy = 0.0;
     private boolean freefall = true;
@@ -74,6 +74,7 @@ public class Body {
 
         particleStage = new EnergySkateParkSplineListAdapter( energySkateParkModel );
         particle = new Particle( particleStage );
+        particle.setMass( 75.0 );
         particle.getParticle1D().setReflect( false );
 
         storedTotalEnergy = getTotalEnergy();
@@ -102,7 +103,7 @@ public class Body {
         setAttachmentPointPosition( getDefaultBodyPosition() );
         resetMode();
         setVelocity( 0, 0 );
-        setThermalEnergy( 0.0 );
+//        setThermalEnergy( 0.0 );
         setPosition( 3, 6 );
         particle.setVelocity( 0, 0 );
         particle.setGravity( -9.8 );
@@ -179,11 +180,11 @@ public class Body {
 
         this.velocity.setComponents( body.velocity.getX(), body.velocity.getY() );
         this.acceleration.setComponents( body.acceleration.getX(), body.velocity.getY() );
-        this.mass = body.mass;
+//        this.mass = body.mass;
         this.attachmentPointRotation = body.attachmentPointRotation;
         this.cmRotation = body.cmRotation;
 //        this.mode = body.mode.copy();
-        this.thermalEnergy = body.thermalEnergy;
+//        this.thermalEnergy = body.thermalEnergy;
         this.facingRight = body.facingRight;
         this.xThrust = body.xThrust;
         this.yThrust = body.yThrust;
@@ -198,11 +199,11 @@ public class Body {
         copy.setAttachmentPoint( attachmentPoint.x, attachmentPoint.y );
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
         copy.acceleration.setComponents( acceleration.getX(), acceleration.getY() );
-        copy.mass = mass;
+//        copy.mass = mass;
         copy.attachmentPointRotation = attachmentPointRotation;
         copy.cmRotation = cmRotation;
 //        copy.mode = this.mode.copy();
-        copy.thermalEnergy = this.thermalEnergy;
+//        copy.thermalEnergy = this.thermalEnergy;
         copy.facingRight = facingRight;
         copy.xThrust = xThrust;
         copy.yThrust = yThrust;
@@ -327,7 +328,8 @@ public class Body {
     }
 
     public void setMass( double value ) {
-        this.mass = value;
+//        this.mass = value;
+        particle.setMass( value );
     }
 
     public void setAttachmentPointPosition( double x, double y ) {
@@ -363,7 +365,7 @@ public class Body {
     }
 
     public double getMass() {
-        return mass;
+        return particle.getMass();
     }
 
     public void setFreeFallRotationalVelocity( double dA ) {
@@ -573,7 +575,7 @@ public class Body {
     }
 
     public double getThermalEnergy() {
-        return thermalEnergy;
+        return particle.getThermalEnergy();
     }
 
     public double getGravity() {
@@ -581,16 +583,16 @@ public class Body {
     }
 
     public void clearHeat() {
-        thermalEnergy = 0.0;
+        particle.resetThermalEnergy();
     }
 
-    public void setThermalEnergy( double thermalEnergy ) {
-        this.thermalEnergy = thermalEnergy;
-    }
-
-    public void addThermalEnergy( double dThermalEnergy ) {
-        thermalEnergy += dThermalEnergy;
-    }
+//    public void setThermalEnergy( double thermalEnergy ) {
+//        this.thermalEnergy = thermalEnergy;
+//    }
+//
+//    public void addThermalEnergy( double dThermalEnergy ) {
+//        thermalEnergy += dThermalEnergy;
+//    }
 
     public double getPotentialEnergy() {
         return potentialEnergyMetric.getPotentialEnergy( this );
