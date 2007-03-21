@@ -71,11 +71,11 @@ public class TestPhysics1D extends JFrame {
 
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 double e1 = particle.getTotalEnergy();
-                System.out.println( "clockEvent = " + clockEvent.getSimulationTimeChange() );
+//                System.out.println( "clockEvent = " + clockEvent.getSimulationTimeChange() );
                 particle.stepInTime( clockEvent.getSimulationTimeChange() );
                 double e2 = particle.getTotalEnergy();
                 double relativeEnergyError = ( e2 - e1 ) / normTerm;
-                System.out.println( "relativeEnergyError =" + relativeEnergyError );
+//                System.out.println( "relativeEnergyError =" + relativeEnergyError );
             }
         } );
 
