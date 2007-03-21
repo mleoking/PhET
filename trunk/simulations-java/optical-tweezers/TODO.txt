@@ -16,6 +16,7 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - make viscosity control logarithmic
+- text entry for viscosity control, scientific notation?
 - cursors that indicate direction when drag is horizontally or vertically constrained
 - wire up "Return Bead" button, visible only when bead is outside of canvas
 - check bead visibility when canvas is resized, enable/disable "Return Bead" button
@@ -60,6 +61,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/21/07 - use red foreground color for all unimplemented controls
 3/21/07 - add controls and stuff above position histogram
 3/21/07 - restructure scenegraph for charts
 3/21/07 - make visibility of potential chart take prescendence over position histogram

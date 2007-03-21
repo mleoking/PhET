@@ -3,6 +3,7 @@
 package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -289,6 +290,22 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _fluidControlsCheckBox.setSelected( false );
             _momemtumChangeCheckBox.setSelected( false );
             _potentialEnergyChartCheckBox.setSelected( false );
+        }
+        
+        //XXX use red foreground for controls that aren't implemented
+        {
+            Color fg = Color.RED;
+            _electricFieldCheckBox.setForeground( fg );
+            _beadChargesCheckBox.setForeground( fg );
+            _allChargesRadioButton.setForeground( fg );
+            _excessChargesRadioButton.setForeground( fg );
+            _trapForceCheckBox.setForeground( fg );
+            _horizontalTrapForceLabel.setForeground( fg );
+            _wholeBeadRadioButton.setForeground( fg );
+            _halfBeadRadioButton.setForeground( fg );
+            _fluidDragCheckBox.setForeground( fg );
+            _brownianForceCheckBox.setForeground( fg );
+            _momemtumChangeCheckBox.setForeground( fg );
         }
     }
     
