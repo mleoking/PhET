@@ -157,16 +157,6 @@ public class EnergySkateParkModel {
         thermalLanding = selected;
     }
 
-    static interface Listener {
-        public void numBodiesChanged();
-
-        public void numFloorsChanged();
-
-        public void numSplinesChanged();
-
-        public void paramChanged();
-    }
-
     public EnergySkateParkModel copyState() {
         EnergySkateParkModel copy = new EnergySkateParkModel( zeroPointPotentialY );
         for( int i = 0; i < bodies.size(); i++ ) {
@@ -294,6 +284,10 @@ public class EnergySkateParkModel {
             Body body = (Body)bodies.get( i );
             body.stepInTime( dt );
         }
+        for( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+            energyModelListener.stepFinished();
+        }
     }
 
     public ArrayList getAllSplines() {
@@ -393,7 +387,9 @@ public class EnergySkateParkModel {
         }
 
         public void floorChanged() {
+        }
 
+        public void stepFinished() {
         }
     }
 
@@ -405,6 +401,8 @@ public class EnergySkateParkModel {
         void splinesChanged();
 
         void floorChanged();
+
+        void stepFinished();
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {

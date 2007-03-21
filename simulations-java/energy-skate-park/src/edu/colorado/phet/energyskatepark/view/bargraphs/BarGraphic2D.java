@@ -21,7 +21,7 @@ public class BarGraphic2D extends PNode {
     private int width;
     private int y;
     private VerticalTextGraphic label;
-    private PPath rectangle3DGraphic;
+    private PPath rectanglePath;
     public double labelHeight;
     private double labelWidth;
 
@@ -32,15 +32,15 @@ public class BarGraphic2D extends PNode {
         this.y = y;
         this.width = width;
 
-        rectangle3DGraphic = new PPath( null );
-        rectangle3DGraphic.setPaint( color );
-        rectangle3DGraphic.setStroke( new BasicStroke( 1 ) );
-        rectangle3DGraphic.setStrokePaint( Color.black );
+        rectanglePath = new PPath( null );
+        rectanglePath.setPaint( color );
+        rectanglePath.setStroke( new BasicStroke( 1 ) );
+        rectanglePath.setStrokePaint( Color.black );
 
 //        Color textColor = new Color( 240, 225, 255 );
 //        label = new VerticalTextGraphic( barFont, text, Color.black, textColor );
         label = new VerticalTextGraphic( barFont, text, color, Color.black );
-        addChild( rectangle3DGraphic );
+        addChild( rectanglePath );
 
         addChild( label );
 //        label.setOffset( label.getOffset().getX(),label.getHeight()+5);
@@ -56,7 +56,7 @@ public class BarGraphic2D extends PNode {
 //        label.setOffset( rect.x + 2 - labelWidth, (int)( 5 + y + labelHeight ) );
         label.setOffset( rect.x + 2 - labelWidth, (int)( y + label.getFullBounds().getHeight() + 14 ) );
 //        label.setOffset( rect.x + 7 - labelWidth, (int)( y + labelHeight ) );
-        rectangle3DGraphic.setPathTo( rect );
+        rectanglePath.setPathTo( rect );
     }
 
     public void setValue( double value ) {
@@ -64,10 +64,10 @@ public class BarGraphic2D extends PNode {
         if( value != this.value ) {
             this.value = value;
             if( value < 0 ) {
-                rectangle3DGraphic.setOffset( 0, -computeHeight() );//a big hack to make negative values work.
+                rectanglePath.setOffset( 0, -computeHeight() );//a big hack to make negative values work.
             }
             else {
-                rectangle3DGraphic.setOffset( 0, 0 );
+                rectanglePath.setOffset( 0, 0 );
             }
             this.value = Math.abs( value );
             updateBar();

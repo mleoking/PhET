@@ -71,11 +71,12 @@ public class Body {
         this.height = height;
         this.potentialEnergyMetric = potentialEnergyMetric;
         cmRotation = Math.PI;
-        storedTotalEnergy = getTotalEnergy();
 
         particleStage = new EnergySkateParkSplineListAdapter( energySkateParkModel );
         particle = new Particle( particleStage );
         particle.getParticle1D().setReflect( false );
+
+        storedTotalEnergy = getTotalEnergy();
     }
 
     public void setPotentialEnergyMetric( PotentialEnergyMetric potentialEnergyMetric ) {
@@ -284,7 +285,8 @@ public class Body {
     }
 
     public Point2D getCenterOfMass() {
-        return getTransform().transform( new Point2D.Double( width / 2, height / 2 ), null );
+        return particle.getPosition();
+//        return getTransform().transform( new Point2D.Double( width / 2, height / 2 ), null );
     }
 
     public AbstractVector2D getVelocity() {
@@ -643,9 +645,11 @@ public class Body {
         void doRepaint();
 
         void potentialEnergyChanged();
+
+        void stepFinished();
     }
 
-    public static abstract class ListenerAdapter implements Listener {
+    public static class ListenerAdapter implements Listener {
         public void thrustChanged() {
 
         }
@@ -656,6 +660,9 @@ public class Body {
 
         public void potentialEnergyChanged() {
 
+        }
+
+        public void stepFinished() {
         }
     }
 
