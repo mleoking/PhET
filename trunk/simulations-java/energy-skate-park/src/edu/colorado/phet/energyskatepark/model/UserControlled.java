@@ -17,7 +17,7 @@ public class UserControlled implements UpdateMode {
 
     public void stepInTime( Body body, double dt ) {
         double deltaThermal = 500;
-        body.setThermalEnergy( Math.max( body.getThermalEnergy() - deltaThermal, 0.0 ) );
+//        body.setThermalEnergy( Math.max( body.getThermalEnergy() - deltaThermal, 0.0 ) );
     }
 
     public void init( Body body ) {
@@ -30,7 +30,7 @@ public class UserControlled implements UpdateMode {
     }
 
     public void finish( Body body ) {
-        body.setThermalEnergy( 0.0 );
+//        body.setThermalEnergy( 0.0 );
     }
 
 }
