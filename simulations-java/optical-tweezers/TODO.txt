@@ -18,7 +18,6 @@ MEDIUM PRIORITY:
 - make viscosity control logarithmic
 - text entry for viscosity control, scientific notation?
 - cursors that indicate direction when drag is horizontally or vertically constrained
-- check laser visibility when canvas is resized, move laser into visible area
 - units and range for fast speed [realtime* 10^-2, realtime]
 - units and range for slow speed [realtime*140*10^-16, realtime*7*10^-16]
 - clock speed control
@@ -59,7 +58,9 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/21/07 - if laser is outside the canvas bounds, move it to the center
 3/21/07 - flash the "Return Bead" button when it's visible
+3/21/07 - center "Return Bead" button on the canvas
 3/21/07 - properly set visibility of "Return Bead" button
 3/21/07 - hook up "Return Bead" button so that it returns the bead to the button's position
 3/21/07 - hook up BeadNode so that dragging updates the model

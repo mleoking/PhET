@@ -377,7 +377,14 @@ public class PhysicsModule extends AbstractModule {
             Rectangle2D localDragBounds = _laserDragBoundsNode.globalToLocal( globalDragBounds );
             _laserDragBoundsNode.setPathTo( localDragBounds );
             
-            //XXX if laser is not visible, move it onto canvas?
+            // If laser is not visible, move it to center of canvas
+            Rectangle2D worldBounds = new Rectangle2D.Double( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
+            Rectangle2D laserBounds = _laserNode.getFullBounds();
+            if ( !worldBounds.intersects( laserBounds ) ) {
+                double xModel = _modelViewTransform.viewToModel( worldSize.getWidth() / 2 );
+                double yModel = _laser.getPositionRef().getY();
+                _laser.setPosition( xModel, yModel );
+            }
         }
         
         // Fluid controls
