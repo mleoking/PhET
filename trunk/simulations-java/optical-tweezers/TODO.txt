@@ -58,7 +58,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
-********* version 0.00.01 (?)
+********* version 0.00.01 (13958)
 3/21/07 - if laser is outside the canvas bounds, move it to the center
 3/21/07 - flash the "Return Bead" button when it's visible
 3/21/07 - center "Return Bead" button on the canvas
