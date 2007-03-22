@@ -16,7 +16,6 @@ HIGH PRIORITY:
 - bug: ruler is not quite aligned with bead
 - fluid viscosity slider is brain damaged
 - use laser wavelength of 1064 nm in model (but use "red" in view)
-- add bead mass to model (4.40E-15 g)
 - change model coordinate system origin to be at center of laser's waist?
 - implement laser beam shape
 - implement laser beam gradient

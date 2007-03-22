@@ -40,7 +40,6 @@ public class Bead extends MovableObject implements ModelElement {
         }
         _diameter = diameter;
         _density = density;
-        System.out.println( "Bead density=" + density + " mass=" + getMass() );//XXX
     }
     
     //----------------------------------------------------------------------------
