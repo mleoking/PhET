@@ -41,6 +41,7 @@ public class PhysicsDefaults {
     public static final Point2D BEAD_POSITION = new Point2D.Double( 1200, 800 ); // nm
     public static final double BEAD_ORIENTATION = Math.toRadians( 0 );
     public static final double BEAD_DIAMETER = 200; // nm
+    public static final double BEAD_DENSITY = 1.05E-21; // g/nm^3, polystyrene
     
     // Fluid model
     public static final Point2D FLUID_POSITION = new Point2D.Double( 0, 600 ); // nm

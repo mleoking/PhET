@@ -24,23 +24,34 @@ public class Bead extends MovableObject implements ModelElement {
     //----------------------------------------------------------------------------
     
     private double _diameter; // nm
+    private final double _density; // g/nm^3
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Bead( Point2D position, double orientation, double diameter ) {
+    public Bead( Point2D position, double orientation, double diameter, double density ) {
         super( position, orientation, 0 /* speed */ );
         if ( diameter <= 0 ) {
             throw new IllegalArgumentException( "diameter must be > 0: " + diameter );
         }
+        if ( density <= 0 ) {
+            throw new IllegalArgumentException( "density must be > 0: " + density );   
+        }
         _diameter = diameter;
+        _density = density;
+        System.out.println( "Bead density=" + density + " mass=" + getMass() );//XXX
     }
     
     //----------------------------------------------------------------------------
     // Mutators and accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the diameter.
+     * 
+     * @param diameter diameter in nm
+     */
     public void setDiameter( double diameter ) {
         if ( diameter <= 0 ) {
             throw new IllegalArgumentException( "diameter must be > 0" );
@@ -51,10 +62,26 @@ public class Bead extends MovableObject implements ModelElement {
         }
     }
     
+    /**
+     * Gets the diameter.
+     * 
+     * @return diameter in nm
+     */
     public double getDiameter() {
         return _diameter;
     }
-
+    
+    /**
+     * Gets the mass.
+     * 
+     * @return mass, in grams (g)
+     */
+    public double getMass() {
+        double radius = ( _diameter / 2 );
+        double volume = ( 4. / 3. ) * Math.PI * ( radius * radius * radius );
+        return volume * _density;
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
