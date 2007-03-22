@@ -50,9 +50,7 @@ public class Body {
     private double height;
     private PotentialEnergyMetric potentialEnergyMetric;
     private double cmRotation = 0;
-    //    private double thermalEnergy = 0;
     private double angularVelocity = 0;
-    private double storedTotalEnergy = 0.0;
     private boolean freefall = true;
 
     private AbstractSpline lastFallSpline;
@@ -62,7 +60,6 @@ public class Body {
     private EnergySkateParkModel energySkateParkModel;
 
     private boolean debugAnglesEnabled = false;
-    private static final double POTENTIAL_ENERGY_EQUALITY_EPS = 1E-6;
 
     public Body( EnergySkateParkModel model ) {
         this( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), model.getPotentialEnergyMetric(), model );
@@ -79,10 +76,6 @@ public class Body {
         particle = new Particle( particleStage );
         particle.setMass( 75.0 );
         particle.getParticle1D().setReflect( false );
-
-        storedTotalEnergy = getTotalEnergy();
-
-//        showControls();
     }
 
     public void showControls() {
@@ -194,22 +187,16 @@ public class Body {
 
     public void setState( Body body ) {
         this.angularVelocity = body.angularVelocity;
-
         setAttachmentPoint( body.attachmentPoint.x, body.attachmentPoint.y );
-
         this.velocity.setComponents( body.velocity.getX(), body.velocity.getY() );
         this.acceleration.setComponents( body.acceleration.getX(), body.velocity.getY() );
-//        this.mass = body.mass;
         this.attachmentPointRotation = body.attachmentPointRotation;
         this.cmRotation = body.cmRotation;
-//        this.mode = body.mode.copy();
-//        this.thermalEnergy = body.thermalEnergy;
         this.facingRight = body.facingRight;
         this.xThrust = body.xThrust;
         this.yThrust = body.yThrust;
         this.coefficientOfRestitution = body.coefficientOfRestitution;
         this.potentialEnergyMetric = body.potentialEnergyMetric.copy();
-        this.storedTotalEnergy = body.storedTotalEnergy;
     }
 
     public Body copyState() {
@@ -218,30 +205,19 @@ public class Body {
         copy.setAttachmentPoint( attachmentPoint.x, attachmentPoint.y );
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
         copy.acceleration.setComponents( acceleration.getX(), acceleration.getY() );
-//        copy.mass = mass;
         copy.attachmentPointRotation = attachmentPointRotation;
         copy.cmRotation = cmRotation;
-//        copy.mode = this.mode.copy();
-//        copy.thermalEnergy = this.thermalEnergy;
         copy.facingRight = facingRight;
         copy.xThrust = xThrust;
         copy.yThrust = yThrust;
         copy.coefficientOfRestitution = coefficientOfRestitution;
         copy.potentialEnergyMetric = potentialEnergyMetric.copy();
-        copy.storedTotalEnergy = this.storedTotalEnergy;
         return copy;
     }
 
     public static PDimension createDefaultBodyRect() {
         return new PDimension( 1.3, 1.8 );
     }
-
-    public double getStoredTotalEnergy() {
-        return storedTotalEnergy;
-    }
-
-    boolean recurse = false;
-    boolean debugging = false;
 
     public void stepInTime( double dt ) {
         Body orig = copyState();
@@ -306,7 +282,6 @@ public class Body {
 
     public Point2D getCenterOfMass() {
         return particle.getPosition();
-//        return getTransform().transform( new Point2D.Double( width / 2, height / 2 ), null );
     }
 
     public AbstractVector2D getVelocity() {
@@ -386,15 +361,6 @@ public class Body {
         setAngularVelocity( dA );
     }
 
-//    private void clampAngle() {
-//        while( attachmentPointRotation < 0 ) {
-//            attachmentPointRotation += Math.PI * 2;
-//        }
-//        while( attachmentPointRotation > Math.PI * 2 ) {
-//            attachmentPointRotation -= Math.PI * 2;
-//        }
-//    }
-
     public void setAttachmentPointRotation( double attachmentPointRotation ) {
         this.attachmentPointRotation = attachmentPointRotation;
         debugAngles();
@@ -419,11 +385,6 @@ public class Body {
     public double getAttachmentPointRotation() {
         return attachmentPointRotation;
     }
-
-//    public void rotateAboutAttachmentPoint( double dA ) {
-//        attachmentPointRotation += dA;
-////        clampAngle();
-//    }
 
     public boolean isFreeFallMode() {
         return particle.isFreeFall();
@@ -525,60 +486,13 @@ public class Body {
         return cmRotation;
     }
 
-//    public void convertToFreefall() {
-//        if( !freefall ) {
-//            this.freefall = true;
-//            if( cmRotation != 0 ) {
-//                System.out.println( "cmRotation = " + cmRotation );
-//                cmRotation = 0;
-//            }
-//            Point2D center = getCenterOfMass();
-//            double attachmentPointRotation = getAttachmentPointRotation();
-//            setAttachmentPointRotation( 0 );
-//            setCMRotation( attachmentPointRotation );
-//            Point2D tempCenter = getCenterOfMass();
-//            translate( -( tempCenter.getX() - center.getX() ), -( tempCenter.getY() - center.getY() ) );
-//            Point2D newCenter = getCenterOfMass();
-//            if( newCenter.distance( center ) > 1E-6 ) {
-//                System.out.println( "newCenter.distance( center ) = " + newCenter.distance( center ) );
-//            }
-//        }
-//    }
-
     public boolean isFreeFallFrame() {
         return freefall;
     }
-//
-//    public void convertToSpline() {
-//        if( freefall ) {
-//            if( attachmentPointRotation != 0 ) {
-//                System.out.println( "attachmentPointRotation = " + attachmentPointRotation );
-//                attachmentPointRotation = 0;
-//            }
-//            freefall = false;
-//            Point2D center = getCenterOfMass();
-//            double origCMRotation = getCMRotation();
-//            setCMRotation( 0 );
-//            setAttachmentPointRotation( origCMRotation );
-//            Point2D tempCenter = getCenterOfMass();
-//            translate( -( tempCenter.getX() - center.getX() ), -( tempCenter.getY() - center.getY() ) );
-//            Point2D newCenter = getCenterOfMass();
-//            if( newCenter.distance( center ) > 1E-6 ) {
-//                System.out.println( "newCenter.distance( center ) = " + newCenter.distance( center ) );
-//            }
-//        }
-//    }
 
     public boolean isOnSpline( EnergySkateParkSpline splineSurface ) {
         return particle.isOnSpline( splineSurface.getParametricFunction2D() );
     }
-
-//    public void notifyDoRepaint() {
-//        for( int i = 0; i < listeners.size(); i++ ) {
-//            Listener listener = (Listener)listeners.get( i );
-//            listener.doRepaint();
-//        }
-//    }
 
     public double getMechanicalEnergy() {
         return getKineticEnergy() + potentialEnergyMetric.getPotentialEnergy( this );
@@ -599,14 +513,6 @@ public class Body {
     public void clearHeat() {
         particle.resetThermalEnergy();
     }
-
-//    public void setThermalEnergy( double thermalEnergy ) {
-//        this.thermalEnergy = thermalEnergy;
-//    }
-//
-//    public void addThermalEnergy( double dThermalEnergy ) {
-//        thermalEnergy += dThermalEnergy;
-//    }
 
     public double getPotentialEnergy() {
         return potentialEnergyMetric.getPotentialEnergy( this );
@@ -644,16 +550,6 @@ public class Body {
     public void setAcceleration( double ax, double ay ) {
         acceleration.setComponents( ax, ay );
     }
-
-//    public void convertToFreefall( boolean freeFrame ) {
-//        this.freefall = !freeFrame;//to ensure the code is called...? awkward!
-//        if( freeFrame ) {
-//            convertToFreefall();
-//        }
-//        else {
-//            convertToSpline();
-//        }
-//    }
 
     public static interface Listener {
         void thrustChanged();
