@@ -100,7 +100,7 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         _measurementsLabel.setFont( LABEL_FONT );
         _measurementsLabel.setTextPaint( LABEL_COLOR );
         
-        _titleLabel = new PText( SimStrings.get( "label.positionMeasurements" ) );
+        _titleLabel = new PText( SimStrings.get( "title.positionHistogram" ) );
         _titleLabel.setFont( TITLE_FONT );
         _titleLabel.setTextPaint( TITLE_COLOR );
         
