@@ -72,6 +72,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/22/07 - increase font size for controls on the play area (14->16)
 3/22/07 - show whichever chart was selected last, close the other one
 3/22/07 - add 9 minor-ticks between each major tick on ruler
 ********* version 0.00.01 (13958)
