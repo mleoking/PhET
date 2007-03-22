@@ -30,8 +30,8 @@ public class Fluid extends MovableObject implements ModelElement {
     private final DoubleRange _temperatureRange;
     
     private final double _height; // nm
-    private double _viscosity; //XXX units?
-    private double _temperature; //XXX units?
+    private double _viscosity; //Pa*s
+    private double _temperature; // Kelvin
     
     //----------------------------------------------------------------------------
     // Constructors
