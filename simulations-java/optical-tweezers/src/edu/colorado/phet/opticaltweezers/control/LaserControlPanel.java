@@ -98,7 +98,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         String label = SimStrings.get( "label.power" );
         String units = SimStrings.get( "units.power" );
         int columns = POWER_VALUE_DIGITS;
-        double wavelength = _laser.getWavelength();
+        double wavelength = laser.getVisibleWavelength();
         _powerControl = new LaserPowerControl( powerRange, label, units, columns, wavelength, POWER_SLIDER_SIZE, font );
         _powerControl.setLabelForeground( Color.WHITE );
         _powerControl.setUnitsForeground( Color.WHITE );

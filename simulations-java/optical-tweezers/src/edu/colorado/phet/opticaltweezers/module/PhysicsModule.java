@@ -104,6 +104,7 @@ public class PhysicsModule extends AbstractModule {
                 PhysicsDefaults.LASER_ORIENTATION, 
                 PhysicsDefaults.LASER_DIAMETER, 
                 PhysicsDefaults.LASER_WAVELENGTH, 
+                PhysicsDefaults.LASER_VISIBLE_WAVELENGTH,
                 PhysicsDefaults.LASER_POWER_RANGE );
         
         _bead = new Bead( PhysicsDefaults.BEAD_POSITION, 

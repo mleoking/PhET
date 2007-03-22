@@ -100,11 +100,11 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         
         // Laser beam coming into objective
         final int alpha = powerToAlpha( _laser.getPower() );
-        _beamInNode = new BeamInNode( laserWidth, CONTROL_PANEL_Y_OFFSET, laser.getWavelength(), alpha );
+        _beamInNode = new BeamInNode( laserWidth, CONTROL_PANEL_Y_OFFSET, laser.getVisibleWavelength(), alpha );
         
         // Laser beam coming out of objective
         double beamOutHeight = _modelViewTransform.modelToView( laser.getPositionRef().getY() ); // distance from top of canvas
-        _beamOutNode = new BeamOutNode( laserWidth, beamOutHeight, laser.getWavelength(), alpha );
+        _beamOutNode = new BeamOutNode( laserWidth, beamOutHeight, laser.getVisibleWavelength(), alpha );
         
         // Handles
         double handleHeight = 0.8 * _controlPanel.getFullBounds().getHeight();
