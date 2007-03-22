@@ -20,7 +20,7 @@ public class Particle1D {
     private ParametricFunction2D cubicSpline;
 
     //    private UpdateStrategy updateStrategy = new Verlet();
-//    private UpdateStrategy updateStrategy = new Euler();
+    //    private UpdateStrategy updateStrategy = new Euler();
     private UpdateStrategy updateStrategy = new RK4();
 
     private double g;// meters/s/s
@@ -76,7 +76,7 @@ public class Particle1D {
         double initAlpha = alpha;
         double initVelocity = velocity;
 //        int N = 100;//todo determine this free parameter
-        int N = 10;//todo determine this free parameter
+        int N = 10000;//todo determine this free parameter
         for( int i = 0; i < N; i++ ) {
             updateStrategy.stepInTime( dt / N );
         }
@@ -402,19 +402,17 @@ public class Particle1D {
     public class RK4 implements UpdateStrategy {
 
         public void stepInTime( double dt ) {
-            double alph[] = new double[]{alpha, velocity};
+            double state[] = new double[]{alpha, velocity};
             edu.colorado.phet.energyskatepark.model.RK4.Diff diffy = new edu.colorado.phet.energyskatepark.model.RK4.Diff() {
-                public void f( double t, double y[], double F[] ) {
-                    F[0] = y[1];
+                public void f( double t, double state[], double F[] ) {
+                    F[0] = state[1];
                     double parallelForce = cubicSpline.getUnitParallelVector( alpha ).dot( getNetForce() );
                     F[1] = parallelForce / mass;
                 }
             };
-            edu.colorado.phet.energyskatepark.model.RK4.rk4( 0, alph, dt, diffy );
-            alpha = alph[0];
-            velocity = alph[1];
-//            body.setAttachmentPointPosition( x[0], alph[0] );
-//            body.setVelocity( x[1], alph[1] );
+            edu.colorado.phet.energyskatepark.model.RK4.rk4( 0, state, dt, diffy );
+            alpha = state[0];
+            velocity = state[1];
         }
     }
 
