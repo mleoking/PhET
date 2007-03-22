@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.piccolo.event.BoundedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.piccolo.nodes.FineCrosshairNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -34,6 +35,10 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
     private static final Color HILITE_COLOR = new Color( 255, 255, 0, ALPHA );
     private static final Stroke STROKE = new BasicStroke( 0.5f );
     private static final Paint STROKE_PAINT = Color.BLACK;
+    
+    private static final double CROSSHAIRS_SIZE = 15;
+    private static final Stroke CROSSHAIRS_STROKE = new BasicStroke( 1f );
+    private static final Color CROSSHAIRS_COLOR = new Color( 0, 0, 0, 80 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -66,6 +71,9 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
         
         setStroke( STROKE );
         setStrokePaint( STROKE_PAINT );
+        
+        // faint crosshair at the bead's center
+        addChild( new FineCrosshairNode( CROSSHAIRS_SIZE, CROSSHAIRS_STROKE, CROSSHAIRS_COLOR  ) );
         
         addInputEventListener( new CursorHandler() );
         
