@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- put fluid controls in a separate dialog, initial position in fluid
 - make fluid velocity control go to zero, but model go to some very small non-zero value
 - what do fluid velocity vectors look like as they go to zero?
 - add close button to upper-right corner of charts
@@ -12,7 +13,6 @@ HIGH PRIORITY:
 - change start/stop button on laser control panel
 - optical trap force control should be enabled in fast speed
 - add a faint cross-hair at center of bead
-- show whichever chart was selected last
 - bug: ruler is not quite aligned with bead
 - fluid viscosity slider is brain damaged
 - font on fluid controls is hard to read
@@ -72,6 +72,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/22/07 - show whichever chart was selected last, close the other one
 3/22/07 - add 9 minor-ticks between each major tick on ruler
 ********* version 0.00.01 (13958)
 3/21/07 - if laser is outside the canvas bounds, move it to the center
