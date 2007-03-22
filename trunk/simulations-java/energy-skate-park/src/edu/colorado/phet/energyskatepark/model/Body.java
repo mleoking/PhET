@@ -36,7 +36,6 @@ public class Body {
     private Point2D.Double attachmentPoint = new Point2D.Double();
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D.Double acceleration = new Vector2D.Double();
-    //    private double mass = 75.0;
     private double attachmentPointRotation = 0;
 
     private boolean facingRight;
@@ -249,9 +248,9 @@ public class Body {
         particle.stepInTime( dt );
 
         updateStateFromParticle();
-
-        if( !MathUtil.isApproxEqual( getPotentialEnergy(), orig.getPotentialEnergy(), POTENTIAL_ENERGY_EQUALITY_EPS ) ) {
-            notifyPotentialEnergyChanged();
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.stepFinished();
         }
     }
 
@@ -317,15 +316,10 @@ public class Body {
     private void setAttachmentPoint( double x, double y ) {
         attachmentPoint.x = x;
         attachmentPoint.y = y;
-
-        notifyPotentialEnergyChanged();
     }
 
     public void translate( double dx, double dy ) {
-//        setAttachmentPoint( attachmentPoint.x + dx,
-//                            attachmentPoint.y + dy );
         particle.translate( dx, dy );
-        notifyPotentialEnergyChanged();
     }
 
     public double getEnergyDifferenceAbs( Body body ) {
@@ -392,14 +386,14 @@ public class Body {
         setAngularVelocity( dA );
     }
 
-    private void clampAngle() {
-        while( attachmentPointRotation < 0 ) {
-            attachmentPointRotation += Math.PI * 2;
-        }
-        while( attachmentPointRotation > Math.PI * 2 ) {
-            attachmentPointRotation -= Math.PI * 2;
-        }
-    }
+//    private void clampAngle() {
+//        while( attachmentPointRotation < 0 ) {
+//            attachmentPointRotation += Math.PI * 2;
+//        }
+//        while( attachmentPointRotation > Math.PI * 2 ) {
+//            attachmentPointRotation -= Math.PI * 2;
+//        }
+//    }
 
     public void setAttachmentPointRotation( double attachmentPointRotation ) {
         this.attachmentPointRotation = attachmentPointRotation;
@@ -426,10 +420,10 @@ public class Body {
         return attachmentPointRotation;
     }
 
-    public void rotateAboutAttachmentPoint( double dA ) {
-        attachmentPointRotation += dA;
-        clampAngle();
-    }
+//    public void rotateAboutAttachmentPoint( double dA ) {
+//        attachmentPointRotation += dA;
+////        clampAngle();
+//    }
 
     public boolean isFreeFallMode() {
         return particle.isFreeFall();
@@ -531,60 +525,60 @@ public class Body {
         return cmRotation;
     }
 
-    public void convertToFreefall() {
-        if( !freefall ) {
-            this.freefall = true;
-            if( cmRotation != 0 ) {
-                System.out.println( "cmRotation = " + cmRotation );
-                cmRotation = 0;
-            }
-            Point2D center = getCenterOfMass();
-            double attachmentPointRotation = getAttachmentPointRotation();
-            setAttachmentPointRotation( 0 );
-            setCMRotation( attachmentPointRotation );
-            Point2D tempCenter = getCenterOfMass();
-            translate( -( tempCenter.getX() - center.getX() ), -( tempCenter.getY() - center.getY() ) );
-            Point2D newCenter = getCenterOfMass();
-            if( newCenter.distance( center ) > 1E-6 ) {
-                System.out.println( "newCenter.distance( center ) = " + newCenter.distance( center ) );
-            }
-        }
-    }
+//    public void convertToFreefall() {
+//        if( !freefall ) {
+//            this.freefall = true;
+//            if( cmRotation != 0 ) {
+//                System.out.println( "cmRotation = " + cmRotation );
+//                cmRotation = 0;
+//            }
+//            Point2D center = getCenterOfMass();
+//            double attachmentPointRotation = getAttachmentPointRotation();
+//            setAttachmentPointRotation( 0 );
+//            setCMRotation( attachmentPointRotation );
+//            Point2D tempCenter = getCenterOfMass();
+//            translate( -( tempCenter.getX() - center.getX() ), -( tempCenter.getY() - center.getY() ) );
+//            Point2D newCenter = getCenterOfMass();
+//            if( newCenter.distance( center ) > 1E-6 ) {
+//                System.out.println( "newCenter.distance( center ) = " + newCenter.distance( center ) );
+//            }
+//        }
+//    }
 
     public boolean isFreeFallFrame() {
         return freefall;
     }
-
-    public void convertToSpline() {
-        if( freefall ) {
-            if( attachmentPointRotation != 0 ) {
-                System.out.println( "attachmentPointRotation = " + attachmentPointRotation );
-                attachmentPointRotation = 0;
-            }
-            freefall = false;
-            Point2D center = getCenterOfMass();
-            double origCMRotation = getCMRotation();
-            setCMRotation( 0 );
-            setAttachmentPointRotation( origCMRotation );
-            Point2D tempCenter = getCenterOfMass();
-            translate( -( tempCenter.getX() - center.getX() ), -( tempCenter.getY() - center.getY() ) );
-            Point2D newCenter = getCenterOfMass();
-            if( newCenter.distance( center ) > 1E-6 ) {
-                System.out.println( "newCenter.distance( center ) = " + newCenter.distance( center ) );
-            }
-        }
-    }
+//
+//    public void convertToSpline() {
+//        if( freefall ) {
+//            if( attachmentPointRotation != 0 ) {
+//                System.out.println( "attachmentPointRotation = " + attachmentPointRotation );
+//                attachmentPointRotation = 0;
+//            }
+//            freefall = false;
+//            Point2D center = getCenterOfMass();
+//            double origCMRotation = getCMRotation();
+//            setCMRotation( 0 );
+//            setAttachmentPointRotation( origCMRotation );
+//            Point2D tempCenter = getCenterOfMass();
+//            translate( -( tempCenter.getX() - center.getX() ), -( tempCenter.getY() - center.getY() ) );
+//            Point2D newCenter = getCenterOfMass();
+//            if( newCenter.distance( center ) > 1E-6 ) {
+//                System.out.println( "newCenter.distance( center ) = " + newCenter.distance( center ) );
+//            }
+//        }
+//    }
 
     public boolean isOnSpline( EnergySkateParkSpline splineSurface ) {
         return particle.isOnSpline( splineSurface.getParametricFunction2D() );
     }
 
-    public void notifyDoRepaint() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.doRepaint();
-        }
-    }
+//    public void notifyDoRepaint() {
+//        for( int i = 0; i < listeners.size(); i++ ) {
+//            Listener listener = (Listener)listeners.get( i );
+//            listener.doRepaint();
+//        }
+//    }
 
     public double getMechanicalEnergy() {
         return getKineticEnergy() + potentialEnergyMetric.getPotentialEnergy( this );
@@ -651,22 +645,20 @@ public class Body {
         acceleration.setComponents( ax, ay );
     }
 
-    public void convertToFreefall( boolean freeFrame ) {
-        this.freefall = !freeFrame;//to ensure the code is called...? awkward!
-        if( freeFrame ) {
-            convertToFreefall();
-        }
-        else {
-            convertToSpline();
-        }
-    }
+//    public void convertToFreefall( boolean freeFrame ) {
+//        this.freefall = !freeFrame;//to ensure the code is called...? awkward!
+//        if( freeFrame ) {
+//            convertToFreefall();
+//        }
+//        else {
+//            convertToSpline();
+//        }
+//    }
 
     public static interface Listener {
         void thrustChanged();
 
         void doRepaint();
-
-        void potentialEnergyChanged();
 
         void stepFinished();
     }
@@ -677,10 +669,6 @@ public class Body {
         }
 
         public void doRepaint() {
-
-        }
-
-        public void potentialEnergyChanged() {
 
         }
 
@@ -699,10 +687,4 @@ public class Body {
         }
     }
 
-    protected void notifyPotentialEnergyChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.potentialEnergyChanged();
-        }
-    }
 }

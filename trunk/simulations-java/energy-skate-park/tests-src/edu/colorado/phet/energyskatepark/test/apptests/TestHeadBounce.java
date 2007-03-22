@@ -26,7 +26,7 @@ public class TestHeadBounce {
 
     private void start() {
         energySkateParkApplication.startApplication();
-        energySkateParkApplication.getModule().getEnergySkateParkModel().bodyAt( 0 ).convertToFreefall();
+//        energySkateParkApplication.getModule().getEnergySkateParkModel().bodyAt( 0 ).convertToFreefall();
         energySkateParkApplication.getModule().getEnergySkateParkModel().bodyAt( 0 ).setCMRotation( 0 );
         energySkateParkApplication.getModule().getEnergySkateParkModel().bodyAt( 0 ).setAttachmentPointPosition( 5, 8 );
     }
