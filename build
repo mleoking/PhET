@@ -1,14 +1,15 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 OLD_DIR=`pwd`
 
 ROOT_DIR=`dirname $0`
 
 ANT_HOME=$ROOT_DIR/build-tools/apache-ant-1.7.0
+ANT_OPTS=-Xmx640m
 
 PATH=$ANT_HOME/bin:$PATH
 
-export ANT_HOME PATH
+export ANT_HOME PATH ANT_OPTS
 
 cd $ROOT_DIR
 
@@ -27,4 +28,5 @@ else
 fi
 
 cd $OLD_DIR
+
 
