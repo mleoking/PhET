@@ -20,7 +20,8 @@ public class Particle1D {
     private ParametricFunction2D cubicSpline;
 
     //    private UpdateStrategy updateStrategy = new Verlet();
-    private UpdateStrategy updateStrategy = new Euler();
+//    private UpdateStrategy updateStrategy = new Euler();
+    private UpdateStrategy updateStrategy = new RK4();
 
     private double g;// meters/s/s
     private double mass = 1.0;//kg
@@ -145,10 +146,6 @@ public class Particle1D {
         return alpha;
     }
 
-//    public void resetEnergyError() {
-////        totalDE = 0.0;
-//    }
-
     public AbstractVector2D getVelocity2D() {
         return cubicSpline.getUnitParallelVector( alpha ).getInstanceOfMagnitude( velocity );
     }
@@ -208,8 +205,8 @@ public class Particle1D {
 //        double b = 0.1;
 //        double a = 0.0;
 //        double b = 0.0;
-        double a = 0.01;
-        double b = 1.0;
+        double a = 0.1;
+        double b = 1;
         return a * Math.pow( alpha1 - alpha0, 2 ) + b * Math.pow( v1 - v0, 2 ) + Math.pow( e1 - e0, 2 );
     }
 
@@ -217,6 +214,12 @@ public class Particle1D {
 //        gradientDescentSearch( alpha0, v0, e0 );
 
 //        fixEnergyVelocity( e0 );
+//        testFixEnergy(alpha0,v0,e0);
+    }
+
+    private void testFixEnergy( double alpha0, double v0, double e0 ) {
+        double dE = getEnergy() - e0;
+
     }
 
     private void fixEnergyVelocity( double e0 ) {
@@ -251,11 +254,13 @@ public class Particle1D {
 //        System.out.println( "initScore = " + initScore );//try to minimize score
         double dAlpha = 1E-6;
         double dV = 1E-6;
-        double learningRate = 1E-3;
+        double learningRate = 1E-2;
         double learningRateV = learningRate;
-//        System.out.println( "Start score: = " + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
+        System.out.println( "Start score: = " + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
         double startScore = getScore( alpha0, v0, e0, alpha, velocity, getEnergy() );
-        for( int i = 0; i < 100; i++ ) {
+        double prevScore = startScore;
+        int climbcount = 0;
+        for( int i = 0; i < 500; i++ ) {
 
 //            System.out.println( "Start score: = " + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
             double gradx = ( getScore( alpha0, v0, e0, alpha + dAlpha / 2, velocity, getEnergy( alpha + dAlpha / 2, velocity ) ) - getScore( alpha0, v0, e0, alpha - dAlpha / 2, velocity, getEnergy( alpha - dAlpha / 2, velocity ) ) ) / dAlpha;
@@ -264,24 +269,42 @@ public class Particle1D {
             if( Math.abs( da ) > 1 ) {
                 System.out.println( "da = " + da );
             }
+            da = maxAbs( da, 0.01 );
             alpha -= da;
 //            System.out.println( "After X Step: = " + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
 
             double gradV = ( getScore( alpha0, v0, e0, alpha, velocity + dV / 2, getEnergy( alpha, velocity + dV / 2 ) ) - getScore( alpha0, v0, e0, alpha, velocity - dV / 2, getEnergy( alpha, velocity - dV / 2 ) ) ) / dV;
-            velocity -= learningRateV * gradV;
+            double dv = learningRateV * gradV;
+            dv = maxAbs( dv, 0.01 );
+            velocity -= dv;
 
 //            System.out.println( "After V Step: = " + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
             double score = getScore( alpha0, v0, e0, alpha, velocity, getEnergy() );
-            if( score > startScore ) {
-                System.out.println( "Score climbed, ending search" );
+            if( score > prevScore ) {
+                System.out.println( "Score climbed: " + climbcount );
+                climbcount++;
+                if( climbcount > 50 ) {
+                    System.out.println( "Climbcount>50" );
+                    break;
+                }
             }
-            if( Math.abs( getEnergy() - e0 ) < 1E-6 ) {
-                System.out.println( "Finished search, score=" + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
-                break;
+//            if( Math.abs( getEnergy() - e0 ) < 1E-6 ) {
+//                System.out.println( "Finished search, score=" + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
+//                break;
+//            }
+            if( i % 1 == 0 ) {
+                System.out.println( "Searching i=" + i + ", score=" + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
             }
-            if( i % 100 == 0 ) {
-//                System.out.println( "Searching i="+i+", score=" + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
-            }
+            prevScore = score;
+        }
+    }
+
+    double maxAbs( double variable, double magnitude ) {
+        if( Math.abs( variable ) > Math.abs( magnitude ) ) {
+            return Math.abs( magnitude ) * MathUtil.getSign( variable );
+        }
+        else {
+            return variable;
         }
     }
 
@@ -373,6 +396,25 @@ public class Particle1D {
             velocity += a * dt;
 
             handleBoundary();
+        }
+    }
+
+    public class RK4 implements UpdateStrategy {
+
+        public void stepInTime( double dt ) {
+            double alph[] = new double[]{alpha, velocity};
+            edu.colorado.phet.energyskatepark.model.RK4.Diff diffy = new edu.colorado.phet.energyskatepark.model.RK4.Diff() {
+                public void f( double t, double y[], double F[] ) {
+                    F[0] = y[1];
+                    double parallelForce = cubicSpline.getUnitParallelVector( alpha ).dot( getNetForce() );
+                    F[1] = parallelForce / mass;
+                }
+            };
+            edu.colorado.phet.energyskatepark.model.RK4.rk4( 0, alph, dt, diffy );
+            alpha = alph[0];
+            velocity = alph[1];
+//            body.setAttachmentPointPosition( x[0], alph[0] );
+//            body.setVelocity( x[1], alph[1] );
         }
     }
 
