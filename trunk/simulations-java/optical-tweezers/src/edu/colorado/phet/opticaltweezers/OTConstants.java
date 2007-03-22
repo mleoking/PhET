@@ -80,10 +80,10 @@ public class OTConstants {
     //----------------------------------------------------------------------------
 
     public static final String IMAGES_DIRECTORY = PROJECT + "/images/";
-    
     public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
+    public static final String IMAGE_CLOSE_BUTTON = IMAGES_DIRECTORY + "closeButton.png";
     public static final String IMAGE_LASER_SIGN = IMAGES_DIRECTORY + "laserDangerSign.png";
- 
+    
     //----------------------------------------------------------------------------
     // Cursors
     //----------------------------------------------------------------------------
