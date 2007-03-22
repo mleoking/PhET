@@ -30,6 +30,7 @@ public class Particle1D {
     private ArrayList listeners = new ArrayList();
     private boolean splineTop = true;
     private boolean reflect = true;
+    private double zeroPointPotentialY=0.0;
 
     public Particle1D( ParametricFunction2D cubicSpline, boolean splineTop ) {
         this( cubicSpline, splineTop, 9.8 );
@@ -191,6 +192,10 @@ public class Particle1D {
 
     public void setMass( double mass ) {
         this.mass=mass;
+    }
+
+    public void setZeroPointPotentialY( double zeroPointPotentialY ) {
+        this.zeroPointPotentialY=zeroPointPotentialY;
     }
 
     public interface UpdateStrategy {
