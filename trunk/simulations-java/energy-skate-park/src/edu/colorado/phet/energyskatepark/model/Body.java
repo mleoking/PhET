@@ -56,8 +56,6 @@ public class Body {
     private ArrayList listeners = new ArrayList();
     private EnergySkateParkModel energySkateParkModel;
 
-    private boolean debugAnglesEnabled = false;
-
     public Body( EnergySkateParkModel model ) {
         this( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(),  model );
     }
@@ -102,7 +100,6 @@ public class Body {
     public void reset() {
         setFreeFallMode();
         setAttachmentPointRotation( 0.0 );
-//        setCMRotation( getDefaultBodyAngle() );
         setAttachmentPointPosition( getDefaultBodyPosition() );
         resetMode();
         setVelocity( 0, 0 );
