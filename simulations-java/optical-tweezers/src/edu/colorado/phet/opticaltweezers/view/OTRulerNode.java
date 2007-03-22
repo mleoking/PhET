@@ -33,7 +33,7 @@ public class OTRulerNode extends RulerNode implements Observer {
     private static final Dimension2D DEFAULT_WORLD_SIZE = new PDimension( 600, 600 );
     private static final double HEIGHT = 40;
     private static final int MAJOR_TICK_INTERVAL = 100; // nm, model coordinates
-    private static final int MINOR_TICKS_BETWEEN_MAJORS = 1;
+    private static final int MINOR_TICKS_BETWEEN_MAJORS = 9;
     private static final int FONT_SIZE = 12;
     
     //----------------------------------------------------------------------------
