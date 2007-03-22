@@ -75,8 +75,7 @@ public class Particle1D {
         double initEnergy = getEnergy();
         double initAlpha = alpha;
         double initVelocity = velocity;
-//        int N = 100;//todo determine this free parameter
-        int N = 30;//todo determine this free parameter
+        int N = 10;//todo determine this free parameter
         for( int i = 0; i < N; i++ ) {
             updateStrategy.stepInTime( dt / N );
         }
@@ -208,24 +207,11 @@ public class Particle1D {
         }
     }
 
-    private double getScore( double alpha0, double v0, double e0, double alpha1, double v1, double e1 ) {
-//        double a = 0.01;
-//        double b = 0.1;
-//        double a = 0.0;
-//        double b = 0.0;
-        double a = 0.1;
-        double b = 1;
-        return a * Math.pow( alpha1 - alpha0, 2 ) + b * Math.pow( v1 - v0, 2 ) + Math.pow( e1 - e0, 2 );
-    }
-
     private void fixEnergy( double alpha0, double v0, final double e0 ) {
-//        gradientDescentSearch( alpha0, v0, e0 );
-
-//        fixEnergyVelocity( e0 );
-        testFixEnergy( alpha0, v0, e0 );
+        fixEnergyHeuristic( alpha0, v0, e0 );
     }
 
-    private void testFixEnergy( double alpha0, double v0, double e0 ) {
+    private void fixEnergyHeuristic( double alpha0, double v0, double e0 ) {
         double dE = getEnergy() - e0;
         if( Math.abs( dE ) < 1E-6 ) {
             //small enough
@@ -270,7 +256,7 @@ public class Particle1D {
         else {
             System.out.println( "Energy too low" );
             //increasing the kinetic energy
-            //what should the velocity be..?
+            //Choose the exact velocity in the same direction as current velocity to ensure total energy conserved.
             double vSq = Math.abs( 2 / mass * ( e0 - getPotentialEnergy() ) );
             double v = Math.sqrt( vSq );
 //            this.velocity = Math.sqrt( Math.abs( 2 * dE / mass ) ) * MathUtil.getSign( velocity );
@@ -303,103 +289,13 @@ public class Particle1D {
             if( Math.abs( e - e0 ) <= Math.abs( bestDE ) ) {
                 bestDE = e - e0;
                 bestAlpha = proposedAlpha;
-            }
+            }//continue to find best value closest to proposed alpha, even if several values give dE=0.0
         }
         System.out.println( "After " + numSteps + " steps, origAlpha=" + alpha0 + ", stepAlpha=" + alpha + ", bestAlpha=" + bestAlpha + ", dE=" + bestDE );
         return bestAlpha;
     }
 
-    private void fixEnergyVelocity( double e0 ) {
-        if( getEnergy() > e0 ) {//gained energy
-//            System.out.println( "Gained energy..." );
-            for( int i = 0; i < 100; i++ ) {
-//                System.out.println( "dE="+(getEnergy( )-e0) );
-                double dv = ( getEnergy() - e0 ) / ( mass * velocity );
-                velocity -= dv;
-            }
-            if( ( getEnergy() - e0 ) > 1E-8 ) {
-                //couldn't fix with velocity
-                //try position
-                System.out.println( "couldn't fix with velocity: dE=" + ( getEnergy() - e0 ) );
-            }
-
-        }
-        else {
-            System.out.println( "lost energy..., speeding up" );
-
-            for( int i = 0; i < 10; i++ ) {
-                System.out.println( "dE=" + ( getEnergy() - e0 ) );
-                double dv = ( getEnergy() - e0 ) / ( mass * velocity );
-                velocity += dv;
-            }
-            System.out.println( "dE=" + ( getEnergy() - e0 ) );
-        }
-    }
-
-    private void gradientDescentSearch( double alpha0, double v0, double e0 ) {
-        double initScore = getScore( alpha0, v0, e0, alpha, velocity, getEnergy() );
-//        System.out.println( "initScore = " + initScore );//try to minimize score
-        double dAlpha = 1E-6;
-        double dV = 1E-6;
-        double learningRate = 1E-2;
-        double learningRateV = learningRate;
-        System.out.println( "Start score: = " + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
-        double startScore = getScore( alpha0, v0, e0, alpha, velocity, getEnergy() );
-        double prevScore = startScore;
-        int climbcount = 0;
-        for( int i = 0; i < 500; i++ ) {
-
-//            System.out.println( "Start score: = " + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
-            double gradx = ( getScore( alpha0, v0, e0, alpha + dAlpha / 2, velocity, getEnergy( alpha + dAlpha / 2, velocity ) ) - getScore( alpha0, v0, e0, alpha - dAlpha / 2, velocity, getEnergy( alpha - dAlpha / 2, velocity ) ) ) / dAlpha;
-
-            double da = learningRate * gradx;
-            if( Math.abs( da ) > 1 ) {
-                System.out.println( "da = " + da );
-            }
-            da = maxAbs( da, 0.01 );
-            alpha -= da;
-//            System.out.println( "After X Step: = " + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
-
-            double gradV = ( getScore( alpha0, v0, e0, alpha, velocity + dV / 2, getEnergy( alpha, velocity + dV / 2 ) ) - getScore( alpha0, v0, e0, alpha, velocity - dV / 2, getEnergy( alpha, velocity - dV / 2 ) ) ) / dV;
-            double dv = learningRateV * gradV;
-            dv = maxAbs( dv, 0.01 );
-            velocity -= dv;
-
-//            System.out.println( "After V Step: = " + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
-            double score = getScore( alpha0, v0, e0, alpha, velocity, getEnergy() );
-            if( score > prevScore ) {
-                System.out.println( "Score climbed: " + climbcount );
-                climbcount++;
-                if( climbcount > 50 ) {
-                    System.out.println( "Climbcount>50" );
-                    break;
-                }
-            }
-//            if( Math.abs( getEnergy() - e0 ) < 1E-6 ) {
-//                System.out.println( "Finished search, score=" + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
-//                break;
-//            }
-            if( i % 1 == 0 ) {
-                System.out.println( "Searching i=" + i + ", score=" + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
-            }
-            prevScore = score;
-        }
-    }
-
-    double maxAbs( double variable, double magnitude ) {
-        if( Math.abs( variable ) > Math.abs( magnitude ) ) {
-            return Math.abs( magnitude ) * MathUtil.getSign( variable );
-        }
-        else {
-            return variable;
-        }
-    }
-
     double getRadiusOfCurvature() {
-//        double epsilon = 0.001;
-        //        double curvatureAlpha = ( cubicSpline.getAngle( alpha - epsilon ) - cubicSpline.getAngle( alpha + epsilon ) ) / epsilon;
-//        return 1.0 / curvatureAlpha;
-
         double epsilon = 0.001;
         double a0 = alpha + cubicSpline.getFractionalDistance( alpha, -epsilon / 2.0 );
         double a1 = alpha + cubicSpline.getFractionalDistance( alpha, epsilon / 2.0 );
