@@ -47,7 +47,15 @@ public class PSwingCanvas extends PCanvas {
         return swingWrapper;
     }
 
-    static class SwingWrapper extends JComponent {
+    public void addPSwing( PSwing pSwing ) {
+        swingWrapper.add( pSwing.getComponent() );
+    }
+
+    public void removePSwing( PSwing pSwing ) {
+        swingWrapper.remove( pSwing.getComponent() );
+    }
+
+    private static class SwingWrapper extends JComponent {
         private PSwingCanvas pSwingCanvas;
 
         public SwingWrapper( PSwingCanvas pSwingCanvas ) {
