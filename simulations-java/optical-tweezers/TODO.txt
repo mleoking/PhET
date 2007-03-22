@@ -8,7 +8,6 @@ HIGH PRIORITY:
 - put fluid controls in a separate dialog, initial position in fluid
 - add close button to upper-right corner of charts
 - add close button to upper-right corner of fluid controls
-- optical trap force control should be enabled in fast speed
 - add a faint cross-hair at center of bead
 - bug: ruler is not quite aligned with bead
 - fluid viscosity slider is brain damaged
@@ -68,6 +67,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/22/07 - optical trap force control should be enabled in fast speed
 3/22/07 - make fluid vectors disappear when speed=0
 3/22/07 - change min fluid velocity to 0
 3/22/07 - use double precision for laser wavelength
