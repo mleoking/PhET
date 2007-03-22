@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - bug: ruler is not quite aligned with bead
-- fluid viscosity slider is brain damaged
+- bug: fluid viscosity slider is brain damaged
 - change model coordinate system origin to be at center of laser's waist?
 - implement laser beam shape
 - implement laser beam gradient
@@ -25,8 +25,6 @@ MEDIUM PRIORITY:
 - units and range for fast speed [realtime* 10^-2, realtime]
 - units and range for slow speed [realtime*140*10^-16, realtime*7*10^-16]
 - clock speed control
-- units and range for fluid viscosity
-- range for fluid temperature
 - get spec for "Show change in momentum model" feature
 - get spec for "Show charge on bead" feature
 
@@ -36,13 +34,15 @@ LOW PRIORITY:
 - add close button to ruler?
 - get requirements for "Fun With DNA" and "Molecular Motors" panels
 - save/load
-- green control panel background ala design doc
 - javadoc
 - package level javadoc
 - make laser danger sign look better
 - combine Play & Pause clock buttons ?
+
+CLEANUP:
 - setPickable(false) on non-interactive nodes
 - rescale image files to minimize file size
+- disable all debug output
 
 DEFER UNTIL AFTER INTERVIEWS:
 
