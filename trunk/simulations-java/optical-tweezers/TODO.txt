@@ -10,12 +10,10 @@ HIGH PRIORITY:
 - what do fluid velocity vectors look like as they go to zero?
 - add close button to upper-right corner of charts
 - add close button to upper-right corner of fluid controls
-- change start/stop button on laser control panel
 - optical trap force control should be enabled in fast speed
 - add a faint cross-hair at center of bead
 - bug: ruler is not quite aligned with bead
 - fluid viscosity slider is brain damaged
-- use laser wavelength of 1064 nm in model (but use "red" in view)
 - change model coordinate system origin to be at center of laser's waist?
 - implement laser beam shape
 - implement laser beam gradient
@@ -39,6 +37,7 @@ MEDIUM PRIORITY:
 - get spec for "Show charge on bead" feature
 
 LOW PRIORITY:
+- change start/stop button on laser control panel
 - add close button to ruler?
 - get requirements for "Fun With DNA" and "Molecular Motors" panels
 - save/load
@@ -71,6 +70,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/22/07 - use double precision for laser wavelength
+3/22/07 - use laser wavelength of 1064 nm (IR) in model, but use 632 (visible red) in view
 3/22/07 - set fluid temperature range to 50-350 Kelvin
 3/22/07 - add density to the bead model, calculate mass based on diameter and density
 3/22/07 - increase font size for controls on the play area (14->16)

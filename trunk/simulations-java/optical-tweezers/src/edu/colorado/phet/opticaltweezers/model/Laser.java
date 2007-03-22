@@ -27,7 +27,8 @@ public class Laser extends MovableObject implements ModelElement {
     
     private boolean _running;
     private final double _diameter; // nm
-    private final int _wavelength; // nm
+    private final double _wavelength; // nm
+    private final double _visibleWavelength; // nm
     private double _power; // mW
     private final DoubleRange _powerRange; // mW
     
@@ -41,15 +42,17 @@ public class Laser extends MovableObject implements ModelElement {
      * @param position position of the laser's objective (nm)
      * @param orientation orientation of the beam (radians)
      * @param diameter diameter of the laser beam, as it enters the objective (nm)
-     * @param wavelength wavelenght (nm)
+     * @param wavelength wavelength (nm)
+     * @param visibleWavelength wavelength (nm) to use in views, since actual wavelength is likely IR
      * @param power power (mW)
      */
-    public Laser( Point2D position, double orientation, double diameter, int wavelength, DoubleRange powerRange ) {
+    public Laser( Point2D position, double orientation, double diameter, double wavelength, double visibleWavelength, DoubleRange powerRange ) {
         super( position, orientation, 0 /* speed */ );
         
         _running = false;
         _diameter = diameter;
         _wavelength = wavelength;
+        _visibleWavelength = visibleWavelength;
         _power = powerRange.getDefault();
         _powerRange = new DoubleRange( powerRange );
     }
@@ -75,6 +78,10 @@ public class Laser extends MovableObject implements ModelElement {
     
     public double getWavelength() {
         return _wavelength;
+    }
+    
+    public double getVisibleWavelength() {
+        return _visibleWavelength;
     }
     
     public double getPower() {

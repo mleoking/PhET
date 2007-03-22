@@ -33,7 +33,8 @@ public class PhysicsDefaults {
     public static final Point2D LASER_POSITION = new Point2D.Double( 1200, 1200 ); // nm
     public static final double LASER_ORIENTATION = Math.toRadians( -90 );
     public static final double LASER_DIAMETER = 1000; // nm
-    public static final int LASER_WAVELENGTH = 632; // nm
+    public static final double LASER_WAVELENGTH = 1064; // nm, invisible IR
+    public static final double LASER_VISIBLE_WAVELENGTH = 632; // nm, to be used by view components
     public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500, 0 ); // mW
     public static final boolean LASER_RUNNING = true;
     
