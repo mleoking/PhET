@@ -233,18 +233,38 @@ public class Particle1D {
         if( getEnergy() > e0 ) {
             System.out.println( "Energy too high" );
             //can we reduce the velocity enough?
-            //amount we could reduce the energy if we deleted all the kinetic energy:
-            double deKE = getKineticEnergy();
-            if( Math.abs( deKE ) > Math.abs( dE ) ) {
-                System.out.println( "Could fix all energy by changing velocity." );
-                for( int i = 0; i < 100; i++ ) {
-                    double dv = ( getEnergy() - e0 ) / ( mass * velocity );
-                    velocity -= dv;
-                }
+            if( Math.abs( getKineticEnergy() ) > Math.abs( dE ) ) {//amount we could reduce the energy if we deleted all the kinetic energy:
+                System.out.println( "Could fix all energy by changing velocity." );//todo: maybe should only do this if all velocity is not converted
+                correctEnergyReduceVelocity( e0 );
                 System.out.println( "changed velocity: dE=" + ( getEnergy() - e0 ) );
+                if( !MathUtil.isApproxEqual( e0, getEnergy(), 1E-8 ) ) {
+                    new RuntimeException( "Energy error[0]" ).printStackTrace();
+                }
             }
             else {
-                System.out.println( "Not enough KE to fix with velocity alone" );
+                System.out.println( "Not enough KE to fix with velocity alone: normal:" + getCubicSpline2D().getUnitNormalVector( alpha ) );
+                System.out.println( "changed position alpha: dE=" + ( getEnergy() - e0 ) );
+                //search for a place between alpha and alpha0 with a better energy
+
+                int numRecursiveSearches = 10;
+                double bestAlpha = ( alpha + alpha0 ) / 2.0;
+                double da = ( alpha - alpha0 ) / 2;
+                for( int i = 0; i < numRecursiveSearches; i++ ) {
+                    int numSteps = 10;
+                    bestAlpha = searchAlpha( bestAlpha - da, bestAlpha + da, e0, numSteps );
+                    da = ( ( bestAlpha - da ) - ( bestAlpha + da ) ) / numSteps;
+                }
+
+                this.alpha = bestAlpha;
+                System.out.println( "changed position alpha: dE=" + ( getEnergy() - e0 ) );
+                if( !MathUtil.isApproxEqual( e0, getEnergy(), 1E-8 ) ) {
+                    if( Math.abs( getKineticEnergy() ) > Math.abs( dE ) ) {//amount we could reduce the energy if we deleted all the kinetic energy:
+                        System.out.println( "Fixed position some, still need to fix velocity as well." );//todo: maybe should only do this if all velocity is not converted
+                        correctEnergyReduceVelocity( e0 );
+                    }
+                    System.out.println( "Changed position & Velocity and still had energy error" );
+                    new RuntimeException( "Energy error[1]" ).printStackTrace();
+                }
             }
         }
         else {
@@ -252,12 +272,41 @@ public class Particle1D {
             //increasing the kinetic energy
             //what should the velocity be..?
             double vSq = Math.abs( 2 / mass * ( e0 - getPotentialEnergy() ) );
-            double v=Math.sqrt( vSq );
+            double v = Math.sqrt( vSq );
 //            this.velocity = Math.sqrt( Math.abs( 2 * dE / mass ) ) * MathUtil.getSign( velocity );
             this.velocity = v * MathUtil.getSign( velocity );
             System.out.println( "Set velocity to match energy, when energy was low: " );
             System.out.println( "INC changed velocity: dE=" + ( getEnergy() - e0 ) );
+            if( !MathUtil.isApproxEqual( e0, getEnergy(), 1E-8 ) ) {
+                new RuntimeException( "Energy error[2]" ).printStackTrace();
+            }
         }
+    }
+
+    private void correctEnergyReduceVelocity( double e0 ) {
+        for( int i = 0; i < 100; i++ ) {
+            double dv = ( getEnergy() - e0 ) / ( mass * velocity );
+            velocity -= dv;
+            if( MathUtil.isApproxEqual( e0, getEnergy(), 1E-8 ) ) {
+                break;
+            }
+        }
+    }
+
+    private double searchAlpha( double alpha0, double alpha1, double e0, int numSteps ) {
+        double da = ( alpha1 - alpha0 ) / numSteps;
+        double bestAlpha = ( alpha1 - alpha0 ) / 2;
+        double bestDE = getEnergy( bestAlpha, velocity );
+        for( int i = 0; i < numSteps; i++ ) {
+            double proposedAlpha = alpha0 + da * i;
+            double e = getEnergy( proposedAlpha, velocity );
+            if( Math.abs( e - e0 ) <= Math.abs( bestDE ) ) {
+                bestDE = e - e0;
+                bestAlpha = proposedAlpha;
+            }
+        }
+        System.out.println( "After " + numSteps + " steps, origAlpha=" + alpha0 + ", stepAlpha=" + alpha + ", bestAlpha=" + bestAlpha + ", dE=" + bestDE );
+        return bestAlpha;
     }
 
     private void fixEnergyVelocity( double e0 ) {
