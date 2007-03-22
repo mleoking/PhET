@@ -24,6 +24,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.control.CloseButtonNode;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -58,11 +59,11 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
     private PText _titleLabel;
     private PSwing _startStopButtonWrapper;
     private PSwing _clearButtonWrapper;
-    
     private JButton _startStopButton;
     private String _startString;
     private String _stopString;
     private String _measurementsString;
+    private CloseButtonNode _closeButtonNode;
     
     public PositionHistogramChartNode( PSwingCanvas canvas, PositionHistogramChart chart, Laser laser, Bead bead, IClock clock ) {
         super();
@@ -111,7 +112,7 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         _startStopButton.setForeground( LABEL_COLOR );
         _startStopButton.addActionListener( new ActionListener() { 
             public void actionPerformed( ActionEvent event ) {
-                handleStartStopButton();
+                setRunning( !_isRunning );
             }
         } );
         _startStopButtonWrapper = new PSwing( canvas, _startStopButton );
@@ -122,10 +123,12 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         clearButton.setForeground( LABEL_COLOR );
         clearButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                handleClearButton();
+                clearMeasurements();
             }
         });
         _clearButtonWrapper = new PSwing( canvas, clearButton );
+        
+        _closeButtonNode = new CloseButtonNode( canvas );
         
         _chartWrapper = new JFreeChartNode( _chart );
 
@@ -135,6 +138,7 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         addChild( _titleLabel );
         addChild( _startStopButtonWrapper );
         addChild( _clearButtonWrapper );
+        addChild( _closeButtonNode );
         addChild( _chartWrapper );
         addChild( _borderNode );
         
@@ -168,6 +172,14 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         _chartWrapper.updateChartRenderingInfo();
     }
     
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        if ( !visible ) {
+            clearMeasurements();
+            setRunning( false );
+        }
+    }
+    
     /**
      * Gets the bounds of the associated chart's plot.
      * The bounds are in the node's local coordinates.
@@ -190,25 +202,24 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
     }
     
     /*
-     * Handles pressing of the start/stop button.
+     * Sets the running state of the chart.
      */
-    private void handleStartStopButton() {
+    private void setRunning( boolean isRunning ) {
+        _isRunning = isRunning;
         if ( _isRunning ) {
-            _isRunning = false;
-            _clock.removeClockListener( _clockListener );
-            _startStopButton.setText( _startString );
-        }
-        else {
-            _isRunning = true;
             _clock.addClockListener( _clockListener );
             _startStopButton.setText( _stopString );
+        }
+        else {
+            _clock.removeClockListener( _clockListener );
+            _startStopButton.setText( _startString );
         }
     }
     
     /*
-     * Handles pressing of the clear button.
+     * Clears all measurements from the chart.
      */
-    private void handleClearButton() {
+    private void clearMeasurements() {
         _chart.clearData();
         setNumberOfMeasurements( 0 );
     }
@@ -254,27 +265,32 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         double w = 0;
         double h = 0;
         
-        // left edge, vertically centered
+        // measurements display: left edge, vertically centered
         x = horizMargin;
         y = ( maxHeight - _measurementsLabel.getFullBounds().getHeight() ) / 2;
         _measurementsLabel.setOffset( x, y );
         
-        // vertically and horizontally centered
+        // title: vertically and horizontally centered
         x = ( maxWidth - _titleLabel.getFullBounds().getWidth() ) / 2;
         y = ( maxHeight - _titleLabel.getFullBounds().getHeight() ) / 2;
         _titleLabel.setOffset( x, y );
         
-        // right edge, vertically centered
-        x = maxWidth - horizMargin - _clearButtonWrapper.getFullBounds().getWidth();
+        // close button: right edge, vertically centered
+        x = maxWidth - horizMargin - _closeButtonNode.getFullBounds().getWidth();
+        y = ( maxHeight - _closeButtonNode.getFullBounds().getHeight() ) / 2;
+        _closeButtonNode.setOffset( x, y );
+        
+        // clear button: right edge, vertically centered
+        x = _closeButtonNode.getOffset().getX() - buttonSpacing - _clearButtonWrapper.getFullBounds().getWidth();
         y = ( maxHeight - _clearButtonWrapper.getFullBounds().getHeight() ) / 2;
         _clearButtonWrapper.setOffset( x, y );
         
-        // to left of Clear button, vertically centered
+        // start/stop button: to left of Clear button, vertically centered
         x = _clearButtonWrapper.getOffset().getX() - buttonSpacing - _startStopButtonWrapper.getFullBounds().getWidth();
         y = ( maxHeight - _startStopButtonWrapper.getFullBounds().getHeight() ) / 2;
         _startStopButtonWrapper.setOffset( x, y );
         
-        // below all of the controls
+        // chart: below all of the controls
         x = 0;
         y = maxHeight;
         _chartWrapper.setOffset( x, y );
@@ -292,5 +308,13 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         w = maxWidth;
         h = maxHeight + _chartWrapper.getFullBounds().getHeight();
         _borderNode.setPathTo( new Rectangle2D.Double( x, y, w, h ) );
+    }
+    
+    public void addCloseListener( ActionListener listener ) {
+        _closeButtonNode.addActionListener( listener );
+    }
+    
+    public void removeCloseListener( ActionListener listener ) {
+        _closeButtonNode.removeActionListener( listener );
     }
 }

@@ -175,12 +175,24 @@ public class PhysicsModule extends AbstractModule {
         PositionHistogramChart positionHistogramChart = new PositionHistogramChart( positionHistogramPlot );
         _positionHistogramChartNode = new PositionHistogramChartNode( _canvas, positionHistogramChart, _laser, _bead, _clock );
         _positionHistogramChartNode.setVisible( PhysicsDefaults.POSITION_HISTOGRAM_SELECTED );
+        _positionHistogramChartNode.addCloseListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                _positionHistogramChartNode.setVisible( false );
+                _controlPanel.setPositionHistogramSelected( false );
+            }
+        });
         
         // Potential Energy chart
         PotentialEnergyPlot potentialEnergyPlot = new PotentialEnergyPlot();
         PotentialEnergyChart potentialEnergyChart = new PotentialEnergyChart( potentialEnergyPlot );
-        _potentialEnergyChartNode = new PotentialEnergyChartNode( potentialEnergyChart );
+        _potentialEnergyChartNode = new PotentialEnergyChartNode( _canvas, potentialEnergyChart );
         _potentialEnergyChartNode.setVisible( PhysicsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
+        _potentialEnergyChartNode.addCloseListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                _potentialEnergyChartNode.setVisible( false );
+                _controlPanel.setPotentialChartSelected( false );
+            }
+        });
         
         //----------------------------------------------------------------------------
         // Control
