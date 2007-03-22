@@ -6,13 +6,11 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - make fluid velocity control go to zero, but model go to some very small non-zero value
-- what doi fluid velocity vectors look like as they go to zero?
+- what do fluid velocity vectors look like as they go to zero?
 - add close button to upper-right corner of charts
 - add close button to upper-right corner of fluid controls
-- add close button to ruler
 - change start/stop button on laser control panel
 - optical trap force control should be enabled in fast speed
-- add 9 minor-ticks between each major tick on ruler
 - add a faint cross-hair at center of bead
 - show whichever chart was selected last
 - bug: ruler is not quite aligned with bead
@@ -42,6 +40,7 @@ MEDIUM PRIORITY:
 - get spec for "Show charge on bead" feature
 
 LOW PRIORITY:
+- add close button to ruler?
 - get requirements for "Fun With DNA" and "Molecular Motors" panels
 - save/load
 - green control panel background ala design doc
@@ -73,6 +72,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/22/07 - add 9 minor-ticks between each major tick on ruler
 ********* version 0.00.01 (13958)
 3/21/07 - if laser is outside the canvas bounds, move it to the center
 3/21/07 - flash the "Return Bead" button when it's visible
