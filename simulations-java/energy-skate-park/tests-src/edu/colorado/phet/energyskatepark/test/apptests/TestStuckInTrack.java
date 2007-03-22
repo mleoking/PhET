@@ -27,6 +27,6 @@ public class TestStuckInTrack {
     private void start() {
         energySkateParkApplication.startApplication();
         energySkateParkApplication.getModule().getEnergySkateParkModel().splineSurfaceAt( 1 ).translate( 1.2, -1.8 );
-        energySkateParkApplication.getModule().getEnergySkateParkModel().bodyAt( 0 ).setCMRotation( Math.PI / 2 );
+//        energySkateParkApplication.getModule().getEnergySkateParkModel().bodyAt( 0 ).setCMRotation( Math.PI / 2 );
     }
 }

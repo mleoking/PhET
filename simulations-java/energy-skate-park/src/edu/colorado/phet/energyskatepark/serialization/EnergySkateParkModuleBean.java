@@ -94,7 +94,7 @@ public class EnergySkateParkModuleBean {
         private Point2D.Double velocity;
         private Point2D.Double acceleration;
 
-        private double cmRotation;
+//        private double cmRotation;
         private double angularVelocity;
         private double frictionCoefficient;
         private double mass;
@@ -109,7 +109,7 @@ public class EnergySkateParkModuleBean {
             position = body.getPosition();
             velocity = new Point2D.Double( body.getVelocity().getX(), body.getVelocity().getY() );
             acceleration = new Point2D.Double( body.getAcceleration().getX(), body.getAcceleration().getY() );
-            cmRotation = body.getCMRotation();
+//            cmRotation = body.getCMRotation();
             angularVelocity = body.getAngularVelocity();
             frictionCoefficient = body.getFrictionCoefficient();
             mass = body.getMass();
@@ -128,7 +128,7 @@ public class EnergySkateParkModuleBean {
             body.setMass( mass );
 //            body.setThermalEnergy( thermalEnergy );
 //            body.convertToFreefall( freeFrame );
-            body.setCMRotation( cmRotation );
+//            body.setCMRotation( cmRotation );
             body.setAttachmentPointRotation( attachmentPointRotation );
         }
 
@@ -148,13 +148,13 @@ public class EnergySkateParkModuleBean {
             this.attachmentPointRotation = attachmentPointRotation;
         }
 
-        public double getCmRotation() {
-            return cmRotation;
-        }
-
-        public void setCmRotation( double cmRotation ) {
-            this.cmRotation = cmRotation;
-        }
+//        public double getCmRotation() {
+//            return cmRotation;
+//        }
+//
+//        public void setCmRotation( double cmRotation ) {
+//            this.cmRotation = cmRotation;
+//        }
 
         public double getAngularVelocity() {
             return angularVelocity;

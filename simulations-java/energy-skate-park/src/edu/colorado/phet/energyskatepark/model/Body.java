@@ -47,8 +47,6 @@ public class Body {
 
     private double width;
     private double height;
-//    private PotentialEnergyMetric potentialEnergyMetric;
-    private double cmRotation = 0;
     private double angularVelocity = 0;
     private boolean freefall = true;
 
@@ -68,9 +66,6 @@ public class Body {
         this.energySkateParkModel = energySkateParkModel;
         this.width = width;
         this.height = height;
-//        this.potentialEnergyMetric = potentialEnergyMetric;
-        cmRotation = Math.PI;
-
         particleStage = new EnergySkateParkSplineListAdapter( energySkateParkModel );
         particle = new Particle( particleStage );
         particle.setMass( 75.0 );
@@ -92,10 +87,6 @@ public class Body {
         controls.setVisible( true );
     }
 
-//    public void setPotentialEnergyMetric( PotentialEnergyMetric potentialEnergyMetric ) {
-//        this.potentialEnergyMetric = potentialEnergyMetric;
-//    }
-
     public void stayInSplineModeNewSpline( EnergySkateParkSpline bestMatch ) {
         particle.getParticle1D().setCubicSpline2D( bestMatch.getParametricFunction2D(), true );//todo: correct side
     }
@@ -111,7 +102,7 @@ public class Body {
     public void reset() {
         setFreeFallMode();
         setAttachmentPointRotation( 0.0 );
-        setCMRotation( getDefaultBodyAngle() );
+//        setCMRotation( getDefaultBodyAngle() );
         setAttachmentPointPosition( getDefaultBodyPosition() );
         resetMode();
         setVelocity( 0, 0 );
@@ -126,10 +117,6 @@ public class Body {
     }
 
     private Point2D.Double defaultBodyPosition = new Point2D.Double( 4, 7.25 );
-
-    private double getDefaultBodyAngle() {
-        return Math.PI;
-    }
 
     public Particle getParticle() {
         return particle;
@@ -195,12 +182,10 @@ public class Body {
         this.velocity.setComponents( body.velocity.getX(), body.velocity.getY() );
         this.acceleration.setComponents( body.acceleration.getX(), body.velocity.getY() );
         this.attachmentPointRotation = body.attachmentPointRotation;
-        this.cmRotation = body.cmRotation;
         this.facingRight = body.facingRight;
         this.xThrust = body.xThrust;
         this.yThrust = body.yThrust;
         this.coefficientOfRestitution = body.coefficientOfRestitution;
-//        this.potentialEnergyMetric = body.potentialEnergyMetric.copy();
     }
 
     public Body copyState() {
@@ -210,12 +195,10 @@ public class Body {
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
         copy.acceleration.setComponents( acceleration.getX(), acceleration.getY() );
         copy.attachmentPointRotation = attachmentPointRotation;
-        copy.cmRotation = cmRotation;
         copy.facingRight = facingRight;
         copy.xThrust = xThrust;
         copy.yThrust = yThrust;
         copy.coefficientOfRestitution = coefficientOfRestitution;
-//        copy.potentialEnergyMetric = potentialEnergyMetric.copy();
         return copy;
     }
 
@@ -321,7 +304,6 @@ public class Body {
     }
 
     public void setMass( double value ) {
-//        this.mass = value;
         particle.setMass( value );
     }
 
@@ -367,7 +349,6 @@ public class Body {
 
     public void setAttachmentPointRotation( double attachmentPointRotation ) {
         this.attachmentPointRotation = attachmentPointRotation;
-        debugAngles();
     }
 
     public double getSpeed() {
@@ -461,7 +442,7 @@ public class Body {
         double dy = getHeight();
         transform.translate( attachmentPoint.x - getWidth() / 2, attachmentPoint.y - dy );
         transform.rotate( attachmentPointRotation, getWidth() / 2, dy );
-        transform.rotate( cmRotation, getWidth() / 2, getHeight() / 2 );
+        transform.rotate( Math.PI, getWidth() / 2, getHeight() / 2 );
         return transform;
     }
 
@@ -471,23 +452,6 @@ public class Body {
 
     public double getWidth() {
         return width;
-    }
-
-    public void setCMRotation( double angle ) {
-        this.cmRotation = angle;
-        debugAngles();
-    }
-
-    private void debugAngles() {
-        if( debugAnglesEnabled ) {
-            if( cmRotation != 0 && attachmentPointRotation != 0 ) {
-                throw new RuntimeException( "angles inconsistent" );
-            }
-        }
-    }
-
-    public double getCMRotation() {
-        return cmRotation;
     }
 
     public boolean isFreeFallFrame() {

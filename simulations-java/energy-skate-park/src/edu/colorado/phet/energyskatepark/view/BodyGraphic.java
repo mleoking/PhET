@@ -146,7 +146,7 @@ public class BodyGraphic extends PNode {
             else {
                 offsetAngle = -Math.PI / 2;
             }
-            body.setCMRotation( unitNormal.getAngle() + offsetAngle );
+//            body.setCMRotation( unitNormal.getAngle() + offsetAngle );
         }
     }
 
