@@ -33,6 +33,7 @@ public class Particle {
     private double angle = Math.PI / 2;
     private boolean userControlled = false;
     private double thermalEnergy = 0.0;
+    private double zeroPointPotentialY;
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
         this( new ParticleStage( parametricFunction2D ) );
@@ -50,7 +51,7 @@ public class Particle {
             updateStrategy.stepInTime( dt );
             double finalEnergy = getTotalEnergy();
             double dE = finalEnergy - origEnergy;
-            if( Math.abs( dE ) > 1E-10 ) {
+            if( Math.abs( dE ) > 1E-6 ) {
                 System.out.println( "Particle.stepInTime: de = " + dE );
             }
             update();
@@ -111,7 +112,7 @@ public class Particle {
     }
 
     public double getPotentialEnergy() {
-        return -mass * g * y;
+        return -mass * g * ( y - zeroPointPotentialY );//todo: should particle1d know about this as well?
     }
 
     public double getGravity() {
@@ -140,6 +141,10 @@ public class Particle {
 
     public void setMass( double mass ) {
         this.mass = mass;
+    }
+
+    public void setZeroPointPotentialY( double zeroPointPotentialY ) {
+        this.zeroPointPotentialY = zeroPointPotentialY;
     }
 
     interface UpdateStrategy {
