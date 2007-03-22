@@ -26,6 +26,7 @@ HIGH PRIORITY:
 - connect potential energy chart to model
 
 MEDIUM PRIORITY:
+- careful! fluid speed is in microns (1E-6 m), everything else is in nm (1E-9 m)
 - make viscosity control logarithmic
 - text entry for viscosity control, scientific notation?
 - cursors that indicate direction when drag is horizontally or vertically constrained
@@ -70,6 +71,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/22/07 - set fluid temperature range to 50-350 Kelvin
 3/22/07 - add density to the bead model, calculate mass based on diameter and density
 3/22/07 - increase font size for controls on the play area (14->16)
 3/22/07 - show whichever chart was selected last, close the other one
