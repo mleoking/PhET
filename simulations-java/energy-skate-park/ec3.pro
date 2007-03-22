@@ -8,7 +8,7 @@
 -injars '..\..\contrib\liquidlnf-2.9.1-src\lib\laf-plugin.jar'
 -outjars ant_output\jars\ec3-pro.jar
 
--libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'
+-libraryjars 'C:\j2sdk1.4.2_13\jre\lib\rt.jar'
 
 -dontoptimize
 -dontobfuscate
