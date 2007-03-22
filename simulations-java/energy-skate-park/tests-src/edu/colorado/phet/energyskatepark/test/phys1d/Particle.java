@@ -141,6 +141,7 @@ public class Particle {
 
     public void setMass( double mass ) {
         this.mass = mass;
+        particle1D.setMass(mass);
     }
 
     public void setZeroPointPotentialY( double zeroPointPotentialY ) {

@@ -189,6 +189,10 @@ public class Particle1D {
         this.g = g;
     }
 
+    public void setMass( double mass ) {
+        this.mass=mass;
+    }
+
     public interface UpdateStrategy {
         void stepInTime( double dt );
     }
