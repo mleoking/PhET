@@ -205,12 +205,10 @@ public class Particle {
         AbstractVector2D vel = particle1D.getVelocity2D();
         vx = vel.getX();
         vy = vel.getY();
-//        angle = getSideVector( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() ).getAngle();
         angle = particle1D.getSideVector().getAngle();
     }
 
     private void switchToFreeFall() {
-
         setVelocity( particle1D.getVelocity2D() );
         setFreeFall();
         //todo: update location so it's guaranteed on the right side of the spline?
@@ -369,11 +367,6 @@ public class Particle {
         Vector2D.Double a = new Vector2D.Double( parametricFunction2D.evaluate( alpha ), loc );
         return a.dot( v ) > 0;
     }
-
-//    class UserUpdateStrategy implements UpdateStrategy {
-//        public void stepInTime( double dt ) {
-//        }
-//    }
 
     public void setFreeFall() {
         setUpdateStrategy( new FreeFall() );

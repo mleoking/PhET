@@ -216,17 +216,21 @@ public class Particle1D {
     private void fixEnergy( double alpha0, double v0, final double e0 ) {
 //        gradientDescentSearch( alpha0, v0, e0 );
 
+//        fixEnergyVelocity( e0 );
+    }
+
+    private void fixEnergyVelocity( double e0 ) {
         if( getEnergy() > e0 ) {//gained energy
 //            System.out.println( "Gained energy..." );
             for( int i = 0; i < 100; i++ ) {
 //                System.out.println( "dE="+(getEnergy( )-e0) );
                 double dv = ( getEnergy() - e0 ) / ( mass * velocity );
-                velocity -= dv*0.9;
+                velocity -= dv;
             }
-            if ((getEnergy( )-e0)>1E-8){
+            if( ( getEnergy() - e0 ) > 1E-8 ) {
                 //couldn't fix with velocity
                 //try position
-                System.out.println( "couldn't fix with velocity: dE="+(getEnergy( )-e0) );
+                System.out.println( "couldn't fix with velocity: dE=" + ( getEnergy() - e0 ) );
             }
 
         }
@@ -255,7 +259,12 @@ public class Particle1D {
 
 //            System.out.println( "Start score: = " + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
             double gradx = ( getScore( alpha0, v0, e0, alpha + dAlpha / 2, velocity, getEnergy( alpha + dAlpha / 2, velocity ) ) - getScore( alpha0, v0, e0, alpha - dAlpha / 2, velocity, getEnergy( alpha - dAlpha / 2, velocity ) ) ) / dAlpha;
-            alpha -= learningRate * gradx;
+
+            double da = learningRate * gradx;
+            if( Math.abs( da ) > 1 ) {
+                System.out.println( "da = " + da );
+            }
+            alpha -= da;
 //            System.out.println( "After X Step: = " + getScore( alpha0, v0, e0, alpha, velocity, getEnergy() ) );
 
             double gradV = ( getScore( alpha0, v0, e0, alpha, velocity + dV / 2, getEnergy( alpha, velocity + dV / 2 ) ) - getScore( alpha0, v0, e0, alpha, velocity - dV / 2, getEnergy( alpha, velocity - dV / 2 ) ) ) / dV;
