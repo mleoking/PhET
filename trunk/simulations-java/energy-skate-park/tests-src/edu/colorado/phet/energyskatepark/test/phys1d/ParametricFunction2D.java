@@ -203,7 +203,7 @@ public abstract class ParametricFunction2D {
         double guess = ( upperBound + lowerBound ) / 2.0;
 
         double metricDelta = getMetricDelta( alpha0, guess );
-        double epsilon = 1E-6;
+        double epsilon = 1E-8;
 //        double epsilon = 1E-10;
 
         int count = 0;

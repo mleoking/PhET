@@ -20,8 +20,8 @@ public class Particle1D {
     private ParametricFunction2D cubicSpline;
 
     //    private UpdateStrategy updateStrategy = new Verlet();
-    //    private UpdateStrategy updateStrategy = new Euler();
-    private UpdateStrategy updateStrategy = new RK4();
+    private UpdateStrategy updateStrategy = new Euler();
+//    private UpdateStrategy updateStrategy = new RK4();
 
     private double g;// meters/s/s
     private double mass = 1.0;//kg
@@ -76,7 +76,7 @@ public class Particle1D {
         double initAlpha = alpha;
         double initVelocity = velocity;
 //        int N = 100;//todo determine this free parameter
-        int N = 10000;//todo determine this free parameter
+        int N = 30;//todo determine this free parameter
         for( int i = 0; i < N; i++ ) {
             updateStrategy.stepInTime( dt / N );
         }
@@ -135,7 +135,15 @@ public class Particle1D {
     }
 
     public double getEnergy() {
-        return 0.5 * mass * velocity * velocity - mass * g * getY();
+        return getKineticEnergy() + getPotentialEnergy();
+    }
+
+    private double getPotentialEnergy() {
+        return -mass * g * getY();
+    }
+
+    private double getKineticEnergy() {
+        return 0.5 * mass * velocity * velocity;
     }
 
     public UpdateStrategy createVerletOffset( double L ) {
@@ -214,12 +222,42 @@ public class Particle1D {
 //        gradientDescentSearch( alpha0, v0, e0 );
 
 //        fixEnergyVelocity( e0 );
-//        testFixEnergy(alpha0,v0,e0);
+        testFixEnergy( alpha0, v0, e0 );
     }
 
     private void testFixEnergy( double alpha0, double v0, double e0 ) {
         double dE = getEnergy() - e0;
-
+        if( Math.abs( dE ) < 1E-6 ) {
+            //small enough
+        }
+        if( getEnergy() > e0 ) {
+            System.out.println( "Energy too high" );
+            //can we reduce the velocity enough?
+            //amount we could reduce the energy if we deleted all the kinetic energy:
+            double deKE = getKineticEnergy();
+            if( Math.abs( deKE ) > Math.abs( dE ) ) {
+                System.out.println( "Could fix all energy by changing velocity." );
+                for( int i = 0; i < 100; i++ ) {
+                    double dv = ( getEnergy() - e0 ) / ( mass * velocity );
+                    velocity -= dv;
+                }
+                System.out.println( "changed velocity: dE=" + ( getEnergy() - e0 ) );
+            }
+            else {
+                System.out.println( "Not enough KE to fix with velocity alone" );
+            }
+        }
+        else {
+            System.out.println( "Energy too low" );
+            //increasing the kinetic energy
+            //what should the velocity be..?
+            double vSq = Math.abs( 2 / mass * ( e0 - getPotentialEnergy() ) );
+            double v=Math.sqrt( vSq );
+//            this.velocity = Math.sqrt( Math.abs( 2 * dE / mass ) ) * MathUtil.getSign( velocity );
+            this.velocity = v * MathUtil.getSign( velocity );
+            System.out.println( "Set velocity to match energy, when energy was low: " );
+            System.out.println( "INC changed velocity: dE=" + ( getEnergy() - e0 ) );
+        }
     }
 
     private void fixEnergyVelocity( double e0 ) {
@@ -413,6 +451,8 @@ public class Particle1D {
             edu.colorado.phet.energyskatepark.model.RK4.rk4( 0, state, dt, diffy );
             alpha = state[0];
             velocity = state[1];
+
+            handleBoundary();
         }
     }
 
