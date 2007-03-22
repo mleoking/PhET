@@ -43,8 +43,8 @@ public class FluidNode extends PhetPNode implements Observer {
     private static final double VELOCITY_VECTOR_HEAD_HEIGHT = 20;
     private static final double VELOCITY_VECTOR_HEAD_WIDTH = 20;
     private static final double VELOCITY_VECTOR_TAIL_WIDTH = 10;
-    private static final double VELOCITY_VECTOR_MIN_LENGTH = VELOCITY_VECTOR_HEAD_HEIGHT + 5;
-    private static final double VELOCITY_VECTOR_MAX_LENGTH = 5 * VELOCITY_VECTOR_MIN_LENGTH;
+    private static final double VELOCITY_VECTOR_MIN_TAIL_LENGTH = 2;
+    private static final double VELOCITY_VECTOR_MAX_TAIL_LENGTH = 125;
     private static final Stroke VELOCITY_VECTOR_STROKE = new BasicStroke( 1f );
     private static final Paint VELOCITY_VECTOR_STROKE_PAINT = Color.black;
     private static final Paint VELOCITY_VECTOR_FILL_PAINT = EDGE_FILL_COLOR;
@@ -196,23 +196,26 @@ public class FluidNode extends PhetPNode implements Observer {
     private void updateVelocityVectors() {
         
         _velocityVectorsParentNode.removeAllChildren();
-        
+
         double speed = _fluid.getSpeed();
-        double minSpeed = _fluid.getSpeedRange().getMin();
-        double maxSpeed = _fluid.getSpeedRange().getMax();
-        double arrowScale = ( speed - minSpeed ) / ( maxSpeed - minSpeed );
-        double arrowLength = VELOCITY_VECTOR_MIN_LENGTH +  ( arrowScale * ( VELOCITY_VECTOR_MAX_LENGTH - VELOCITY_VECTOR_MIN_LENGTH ) );
-        Point2D tailPosition = new Point2D.Double( 0, 0 );
-        Point2D tipPosition = new Point2D.Double( arrowLength, 0 );
-        final double fluidHeight = _modelViewTransform.modelToView( _fluid.getHeight() );
-        
-        for ( int i = 0; i < NUMBER_OF_VELOCITY_VECTORS; i++ ) {
-            VelocityVectorNode vectorNode = new VelocityVectorNode( tailPosition, tipPosition );
-            double x = VELOCITY_VECTOR_X_OFFSET;
-            double y = ( i * fluidHeight / NUMBER_OF_VELOCITY_VECTORS ) + 
-                ( ( fluidHeight / NUMBER_OF_VELOCITY_VECTORS ) - vectorNode.getFullBounds().getHeight() );
-            vectorNode.setOffset( x, y );
-            _velocityVectorsParentNode.addChild( vectorNode );
+        if ( speed > 0 ) {
+            
+            double minSpeed = _fluid.getSpeedRange().getMin();
+            double maxSpeed = _fluid.getSpeedRange().getMax();
+            double tailScale = ( speed - minSpeed ) / ( maxSpeed - minSpeed );
+            double tailLength = VELOCITY_VECTOR_MIN_TAIL_LENGTH + ( tailScale * ( VELOCITY_VECTOR_MAX_TAIL_LENGTH - VELOCITY_VECTOR_MIN_TAIL_LENGTH ) );
+            double arrowLength = tailLength + VELOCITY_VECTOR_HEAD_HEIGHT;
+            Point2D tailPosition = new Point2D.Double( 0, 0 );
+            Point2D tipPosition = new Point2D.Double( arrowLength, 0 );
+            final double fluidHeight = _modelViewTransform.modelToView( _fluid.getHeight() );
+
+            for ( int i = 0; i < NUMBER_OF_VELOCITY_VECTORS; i++ ) {
+                VelocityVectorNode vectorNode = new VelocityVectorNode( tailPosition, tipPosition );
+                double x = VELOCITY_VECTOR_X_OFFSET;
+                double y = ( i * fluidHeight / NUMBER_OF_VELOCITY_VECTORS ) + ( ( fluidHeight / NUMBER_OF_VELOCITY_VECTORS ) - vectorNode.getFullBounds().getHeight() );
+                vectorNode.setOffset( x, y );
+                _velocityVectorsParentNode.addChild( vectorNode );
+            }
         }
     }
     
