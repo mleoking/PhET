@@ -108,7 +108,8 @@ public class PhysicsModule extends AbstractModule {
         
         _bead = new Bead( PhysicsDefaults.BEAD_POSITION, 
                 PhysicsDefaults.BEAD_ORIENTATION, 
-                PhysicsDefaults.BEAD_DIAMETER );
+                PhysicsDefaults.BEAD_DIAMETER,
+                PhysicsDefaults.BEAD_DENSITY );
         
         _fluid = new Fluid( PhysicsDefaults.FLUID_POSITION,
                 PhysicsDefaults.FLUID_ORIENTATION,

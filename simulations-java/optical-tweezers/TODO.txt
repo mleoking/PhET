@@ -15,7 +15,6 @@ HIGH PRIORITY:
 - add a faint cross-hair at center of bead
 - bug: ruler is not quite aligned with bead
 - fluid viscosity slider is brain damaged
-- font on fluid controls is hard to read
 - use laser wavelength of 1064 nm in model (but use "red" in view)
 - add bead mass to model (4.40E-15 g)
 - change model coordinate system origin to be at center of laser's waist?
@@ -72,6 +71,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/22/07 - add density to the bead model, calculate mass based on diameter and density
 3/22/07 - increase font size for controls on the play area (14->16)
 3/22/07 - show whichever chart was selected last, close the other one
 3/22/07 - add 9 minor-ticks between each major tick on ruler
