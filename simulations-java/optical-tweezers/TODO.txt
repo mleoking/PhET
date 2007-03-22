@@ -5,6 +5,21 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- make fluid velocity control go to zero, but model go to some very small non-zero value
+- what doi fluid velocity vectors look like as they go to zero?
+- add close button to upper-right corner of charts
+- add close button to upper-right corner of fluid controls
+- add close button to ruler
+- change start/stop button on laser control panel
+- optical trap force control should be enabled in fast speed
+- add 9 minor-ticks between each major tick on ruler
+- add a faint cross-hair at center of bead
+- show whichever chart was selected last
+- bug: ruler is not quite aligned with bead
+- fluid viscosity slider is brain damaged
+- font on fluid controls is hard to read
+- use laser wavelength of 1064 nm in model (but use "red" in view)
+- add bead mass to model (4.40E-15 g)
 - change model coordinate system origin to be at center of laser's waist?
 - implement laser beam shape
 - implement laser beam gradient
