@@ -147,6 +147,7 @@ public class Particle {
 
     public void setZeroPointPotentialY( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
+        particle1D.setZeroPointPotentialY( zeroPointPotentialY );
     }
 
     interface UpdateStrategy {
@@ -269,6 +270,7 @@ public class Particle {
 
             double dE = getTotalEnergy() - origEnergy;
 //            System.out.println( "FreeFall dE[0]= " + Math.abs( dE ) );
+            //todo test for mass * gravity >0 before fixing energy
             double dH = dE / ( getMass() * getGravity() );
             y += dH;
 //            System.out.println( "FreeFall dE[1]= " + Math.abs( getTotalEnergy() - origEnergy ) );
@@ -339,8 +341,20 @@ public class Particle {
 //                    System.out.println( "bounced" );
                 }
                 else {
+                    //grab the track
+                    double dE0 = getTotalEnergy() - origEnergy;
                     switchToTrack( cubicSpline, newAlpha, origAbove[closestIndex] );
-//                    System.out.println( "grabbed track" );
+                    double dE1 = getTotalEnergy() - origEnergy;
+
+//                    if( dE1 > 0 ) {
+//                        particle1D.correctEnergyReduceVelocity( origEnergy );//todo: test to make sure this is legal (i.e. ke>de)
+//                    }
+//                    else {
+//                        particle1D.correctEnergyWithVelocity( origEnergy );
+//                    }
+//                    updateStateFrom1D();
+                    double dE2 = getTotalEnergy() - origEnergy;
+                    System.out.println( "dE0 = " + dE0 + ", de1=" + dE1 + ", de2=" + dE2 );
                 }
             }
         }
@@ -359,7 +373,6 @@ public class Particle {
         Point2D finalPosition = norm.getInstanceOfMagnitude( 1.0E-3 * sign ).getDestination( splineLoc );//todo: determine this free parameter
         setPosition( finalPosition );
     }
-
 
     private void setVelocity( AbstractVector2D velocity ) {
         setVelocity( velocity.getX(), velocity.getY() );
