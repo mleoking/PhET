@@ -4,6 +4,7 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
@@ -12,6 +13,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
@@ -280,7 +282,8 @@ public class PhysicsModule extends AbstractModule {
             }
         }
         else {
-            _fluidControlDialog = new FluidControlDialog( getFrame(), OTConstants.CONTROL_PANEL_CONTROL_FONT, _fluid );
+            JFrame parentFrame = getFrame();
+            _fluidControlDialog = new FluidControlDialog( parentFrame, OTConstants.CONTROL_PANEL_CONTROL_FONT, _fluid );
             _fluidControlDialog.addWindowListener( new WindowAdapter() {
                 // called when the close button in the dialog's window dressing is clicked
                 public void windowClosing( WindowEvent e ) {
@@ -292,6 +295,9 @@ public class PhysicsModule extends AbstractModule {
                     _controlPanel.setFluidControlSelected( false ); 
                 }
             });
+            // Position a the left-center of the main frame
+            Point p = parentFrame.getLocationOnScreen();
+            _fluidControlDialog.setLocation( (int)p.getX() + 10, (int)p.getY() + ( ( parentFrame.getHeight() - _fluidControlDialog.getHeight() ) / 2 ) );
             _fluidControlDialog.show();
         }
     }
