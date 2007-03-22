@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- make fluid dialog initially appear in the left-center of the main frame
 - bug: ruler is not quite aligned with bead
 - fluid viscosity slider is brain damaged
 - change model coordinate system origin to be at center of laser's waist?
@@ -66,6 +65,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/22/07 - make fluid dialog appear at left-center of the main frame
 3/22/07 - move fluid control to a separate dialog
 3/22/07 - add a faint cross-hair at center of bead
 3/22/07 - add close button to upper-right corner of charts
