@@ -395,7 +395,7 @@ public class Particle1D {
 
         public void stepInTime( double dt ) {
             Vector2D netForce = getNetForce();
-            double a = cubicSpline.getUnitParallelVector( alpha ).dot( netForce );
+            double a = cubicSpline.getUnitParallelVector( alpha ).dot( netForce )/mass;
             alpha += cubicSpline.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
             velocity += a * dt;
 

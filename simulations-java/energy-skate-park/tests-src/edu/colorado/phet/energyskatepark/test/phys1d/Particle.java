@@ -43,6 +43,7 @@ public class Particle {
         particle1D = new Particle1D( particleStage.getCubicSpline2DCount() > 0 ? particleStage.getCubicSpline2D( 0 ) : null, true, g );
         this.particleStage = particleStage;
         setUpdateStrategy( particleStage.getCubicSpline2DCount() > 0 ? ( (UpdateStrategy)new Particle1DUpdate() ) : new FreeFall() );
+        setMass( 1.0 );//ensures particle1d has synchronized mass
     }
 
     public void stepInTime( double dt ) {
@@ -141,7 +142,7 @@ public class Particle {
 
     public void setMass( double mass ) {
         this.mass = mass;
-        particle1D.setMass(mass);
+        particle1D.setMass( mass );
     }
 
     public void setZeroPointPotentialY( double zeroPointPotentialY ) {
