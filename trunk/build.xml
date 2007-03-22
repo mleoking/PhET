@@ -600,6 +600,9 @@
                classpath="${javac.param.all.lib.depends}"
                debug="on"
                source="1.4"
+               fork="true"
+               memoryInitialSize="128m"
+               memoryMaximumSize="512m"
         />
         
         <!-- Delete the old manifest directory -->
