@@ -290,6 +290,8 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _fluidControlsCheckBox.setSelected( false );
             _momemtumChangeCheckBox.setSelected( false );
             _potentialEnergyChartCheckBox.setSelected( false );
+            
+            handleSpeedControl(); // enable & disable controls based on clock speed
         }
         
         //XXX use red foreground for controls that aren't implemented
@@ -516,7 +518,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _allChargesRadioButton.setEnabled( isSlow && _beadChargesCheckBox.isSelected() );
         _excessChargesRadioButton.setEnabled( isSlow && _beadChargesCheckBox.isSelected() );
         
-        _trapForceCheckBox.setEnabled( isSlow );
         _horizontalTrapForceLabel.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
         _wholeBeadRadioButton.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
         _halfBeadRadioButton.setEnabled( isSlow && _trapForceCheckBox.isSelected() );
