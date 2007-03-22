@@ -163,9 +163,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
 
     private void init() {
-        final Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(),
-                                    energyModel.getPotentialEnergyMetric(), getEnergySkateParkModel() );
-//        body.setAttachmentPointPosition( getDefaultBodyPosition() );
+        final Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), getEnergySkateParkModel() );
         body.reset();
         energyModel.addBody( body );
         body.showControls();
@@ -177,7 +175,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
 //        SplineSurface surface = new SplineSurface( spline );
         EnergySkateParkSpline espspline = new EnergySkateParkSpline( parametricFunction2D );
-        SplineNode splineNode = new SplineNode( energyCanvas, espspline ,energyCanvas );
+        SplineNode splineNode = new SplineNode( energyCanvas, espspline, energyCanvas );
 //        energyModel.addSplineSurface( surface );
         energyCanvas.addSplineGraphic( splineNode );
         energyCanvas.initPieGraphic();

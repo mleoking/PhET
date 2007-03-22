@@ -3,7 +3,6 @@ package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
@@ -48,7 +47,7 @@ public class Body {
 
     private double width;
     private double height;
-    private PotentialEnergyMetric potentialEnergyMetric;
+//    private PotentialEnergyMetric potentialEnergyMetric;
     private double cmRotation = 0;
     private double angularVelocity = 0;
     private boolean freefall = true;
@@ -62,25 +61,26 @@ public class Body {
     private boolean debugAnglesEnabled = false;
 
     public Body( EnergySkateParkModel model ) {
-        this( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), model.getPotentialEnergyMetric(), model );
+        this( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(),  model );
     }
 
-    public Body( double width, double height, PotentialEnergyMetric potentialEnergyMetric, EnergySkateParkModel energySkateParkModel ) {
+    public Body( double width, double height, EnergySkateParkModel energySkateParkModel ) {
         this.energySkateParkModel = energySkateParkModel;
         this.width = width;
         this.height = height;
-        this.potentialEnergyMetric = potentialEnergyMetric;
+//        this.potentialEnergyMetric = potentialEnergyMetric;
         cmRotation = Math.PI;
 
         particleStage = new EnergySkateParkSplineListAdapter( energySkateParkModel );
         particle = new Particle( particleStage );
         particle.setMass( 75.0 );
         particle.getParticle1D().setReflect( false );
+        setGravityState( energySkateParkModel.getGravity(), energySkateParkModel.getZeroPointPotentialY() );
     }
 
     public void showControls() {
         JFrame controls=new JFrame( );
-        final ModelSlider stickiness=new ModelSlider( "Stickiness","",0,1,particle.getStickiness());
+        final ModelSlider stickiness=new ModelSlider( "Stickiness","",0,5,particle.getStickiness());
         stickiness.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 particle.setStickiness( stickiness.getValue() );
@@ -92,9 +92,9 @@ public class Body {
         controls.setVisible( true );
     }
 
-    public void setPotentialEnergyMetric( PotentialEnergyMetric potentialEnergyMetric ) {
-        this.potentialEnergyMetric = potentialEnergyMetric;
-    }
+//    public void setPotentialEnergyMetric( PotentialEnergyMetric potentialEnergyMetric ) {
+//        this.potentialEnergyMetric = potentialEnergyMetric;
+//    }
 
     public void stayInSplineModeNewSpline( EnergySkateParkSpline bestMatch ) {
         particle.getParticle1D().setCubicSpline2D( bestMatch.getParametricFunction2D(), true );//todo: correct side
@@ -115,7 +115,6 @@ public class Body {
         setAttachmentPointPosition( getDefaultBodyPosition() );
         resetMode();
         setVelocity( 0, 0 );
-//        setThermalEnergy( 0.0 );
         setPosition( 3, 6 );
         particle.setVelocity( 0, 0 );
         particle.setGravity( -9.8 );
@@ -134,6 +133,11 @@ public class Body {
 
     public Particle getParticle() {
         return particle;
+    }
+
+    public void setGravityState( double gravity, double zeroPointPotentialY ) {
+        particle.setGravity( gravity );
+        particle.setZeroPointPotentialY(zeroPointPotentialY);
     }
 
     public static class StateRecord {
@@ -196,11 +200,11 @@ public class Body {
         this.xThrust = body.xThrust;
         this.yThrust = body.yThrust;
         this.coefficientOfRestitution = body.coefficientOfRestitution;
-        this.potentialEnergyMetric = body.potentialEnergyMetric.copy();
+//        this.potentialEnergyMetric = body.potentialEnergyMetric.copy();
     }
 
     public Body copyState() {
-        Body copy = new Body( width, height, potentialEnergyMetric, energySkateParkModel );
+        Body copy = new Body( width, height, energySkateParkModel );
         copy.angularVelocity = this.angularVelocity;
         copy.setAttachmentPoint( attachmentPoint.x, attachmentPoint.y );
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
@@ -211,7 +215,7 @@ public class Body {
         copy.xThrust = xThrust;
         copy.yThrust = yThrust;
         copy.coefficientOfRestitution = coefficientOfRestitution;
-        copy.potentialEnergyMetric = potentialEnergyMetric.copy();
+//        copy.potentialEnergyMetric = potentialEnergyMetric.copy();
         return copy;
     }
 
@@ -495,7 +499,7 @@ public class Body {
     }
 
     public double getMechanicalEnergy() {
-        return getKineticEnergy() + potentialEnergyMetric.getPotentialEnergy( this );
+        return getKineticEnergy() + getPotentialEnergy( );
     }
 
     public double getTotalEnergy() {
@@ -507,7 +511,7 @@ public class Body {
     }
 
     public double getGravity() {
-        return potentialEnergyMetric.getGravity();
+        return particle.getGravity();
     }
 
     public void clearHeat() {
@@ -515,7 +519,7 @@ public class Body {
     }
 
     public double getPotentialEnergy() {
-        return potentialEnergyMetric.getPotentialEnergy( this );
+        return particle.getPotentialEnergy();
     }
 
     public AbstractVector2D getGravityForce() {

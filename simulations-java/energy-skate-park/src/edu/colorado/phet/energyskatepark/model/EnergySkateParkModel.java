@@ -25,7 +25,7 @@ public class EnergySkateParkModel {
     private ArrayList listeners = new ArrayList();
     private boolean recordPath = false;
     private double initZeroPointPotentialY;
-    private PotentialEnergyMetric potentialEnergyMetric;
+//    private PotentialEnergyMetric potentialEnergyMetric;
 
     public static final double G_SPACE = 0.0;
     public static final double G_EARTH = -9.81;
@@ -38,20 +38,20 @@ public class EnergySkateParkModel {
     public EnergySkateParkModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
         this.initZeroPointPotentialY = zeroPointPotentialY;
-        potentialEnergyMetric = new PotentialEnergyMetric() {
-            public double getPotentialEnergy( Body body ) {
-                double h = EnergySkateParkModel.this.zeroPointPotentialY - body.getCenterOfMass().getY();
-                return body.getMass() * gravity * h;
-            }
-
-            public double getGravity() {
-                return gravity;
-            }
-
-            public PotentialEnergyMetric copy() {
-                return this;
-            }
-        };
+//        potentialEnergyMetric = new PotentialEnergyMetric() {
+//            public double getPotentialEnergy( Body body ) {
+//                double h = EnergySkateParkModel.this.zeroPointPotentialY - body.getCenterOfMass().getY();
+//                return body.getMass() * gravity * h;
+//            }
+//
+//            public double getGravity() {
+//                return gravity;
+//            }
+//
+//            public PotentialEnergyMetric copy() {
+//                return this;
+//            }
+//        };
         updateFloorState();
     }
 
@@ -93,6 +93,10 @@ public class EnergySkateParkModel {
                 EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
                 energyModelListener.gravityChanged();
             }
+            for( int i = 0; i < bodies.size(); i++ ) {
+                Body body = (Body)bodies.get( i );
+                body.setGravityState( getGravity(), getZeroPointPotentialY() );
+            }
             updateFloorState();
         }
     }
@@ -111,9 +115,9 @@ public class EnergySkateParkModel {
         return false;
     }
 
-    public PotentialEnergyMetric getPotentialEnergyMetric() {
-        return potentialEnergyMetric;
-    }
+//    public PotentialEnergyMetric getPotentialEnergyMetric() {
+//        return potentialEnergyMetric;
+//    }
 
     public void removeAllSplineSurfaces() {
         while( splines.size() > 0 ) {
@@ -193,7 +197,8 @@ public class EnergySkateParkModel {
         //todo: some model objects are not getting copied over correctly, body's spline strategy could refer to different splines
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
-            body.setPotentialEnergyMetric( getPotentialEnergyMetric() );
+            body.setGravityState(gravity,zeroPointPotentialY);
+//            body.setPotentialEnergyMetric( getPotentialEnergyMetric() );
             if( body.isSplineMode() ) {
                 ParametricFunction2D spline = body.getSpline();
                 EnergySkateParkSpline esps = getEnergySkateParkSpline( spline );
@@ -360,6 +365,10 @@ public class EnergySkateParkModel {
 
     public void setZeroPointPotentialY( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body)bodies.get( i );
+            body.setGravityState( getGravity(), zeroPointPotentialY );
+        }
     }
 
     public void translateZeroPointPotentialY( double dy ) {

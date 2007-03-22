@@ -82,7 +82,10 @@ public class Particle1D {
 
 //        totalDE += getNormalizedEnergyDiff( initEnergy );
 //        System.out.println( "Particle1D[0]: dE=" + ( getEnergy() - initEnergy ) );
+
+
         fixEnergy( initAlpha, initVelocity, initEnergy );
+
 //        System.out.println( "Particle1D[1]: dE=" + ( getEnergy() - initEnergy ) );
 //        double dEFix = getNormalizedEnergyDiff( initEnergy );
 //            System.out.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE + ", RC=" + getRadiusOfCurvature() );
@@ -217,19 +220,19 @@ public class Particle1D {
             //small enough
         }
         if( getEnergy() > e0 ) {
-            System.out.println( "Energy too high" );
+            verboseDebug( "Energy too high" );
             //can we reduce the velocity enough?
             if( Math.abs( getKineticEnergy() ) > Math.abs( dE ) ) {//amount we could reduce the energy if we deleted all the kinetic energy:
-                System.out.println( "Could fix all energy by changing velocity." );//todo: maybe should only do this if all velocity is not converted
+                verboseDebug( "Could fix all energy by changing velocity." );//todo: maybe should only do this if all velocity is not converted
                 correctEnergyReduceVelocity( e0 );
-                System.out.println( "changed velocity: dE=" + ( getEnergy() - e0 ) );
+                verboseDebug( "changed velocity: dE=" + ( getEnergy() - e0 ) );
                 if( !MathUtil.isApproxEqual( e0, getEnergy(), 1E-8 ) ) {
                     new RuntimeException( "Energy error[0]" ).printStackTrace();
                 }
             }
             else {
-                System.out.println( "Not enough KE to fix with velocity alone: normal:" + getCubicSpline2D().getUnitNormalVector( alpha ) );
-                System.out.println( "changed position alpha: dE=" + ( getEnergy() - e0 ) );
+                verboseDebug( "Not enough KE to fix with velocity alone: normal:" + getCubicSpline2D().getUnitNormalVector( alpha ) );
+                verboseDebug( "changed position alpha: dE=" + ( getEnergy() - e0 ) );
                 //search for a place between alpha and alpha0 with a better energy
 
                 int numRecursiveSearches = 10;
@@ -242,30 +245,44 @@ public class Particle1D {
                 }
 
                 this.alpha = bestAlpha;
-                System.out.println( "changed position alpha: dE=" + ( getEnergy() - e0 ) );
+                verboseDebug( "changed position alpha: dE=" + ( getEnergy() - e0 ) );
                 if( !MathUtil.isApproxEqual( e0, getEnergy(), 1E-8 ) ) {
                     if( Math.abs( getKineticEnergy() ) > Math.abs( dE ) ) {//amount we could reduce the energy if we deleted all the kinetic energy:
-                        System.out.println( "Fixed position some, still need to fix velocity as well." );//todo: maybe should only do this if all velocity is not converted
+                        verboseDebug( "Fixed position some, still need to fix velocity as well." );//todo: maybe should only do this if all velocity is not converted
                         correctEnergyReduceVelocity( e0 );
+                        if( !MathUtil.isApproxEqual( e0, getEnergy(), 1E-8 ) ) {
+                            System.out.println( "Changed position & Velocity and still had energy error" );
+                            new RuntimeException( "Energy error[123]" ).printStackTrace();
+                        }
                     }
-                    System.out.println( "Changed position & Velocity and still had energy error" );
-                    new RuntimeException( "Energy error[1]" ).printStackTrace();
+                    else {
+                        System.out.println( "Changed position, wanted to change velocity, but didn't have enough to fix it..." );
+                        new RuntimeException( "Energy error[456]" ).printStackTrace();
+                    }
                 }
             }
         }
         else {
-            System.out.println( "Energy too low" );
+            verboseDebug( "Energy too low" );
             //increasing the kinetic energy
             //Choose the exact velocity in the same direction as current velocity to ensure total energy conserved.
             double vSq = Math.abs( 2 / mass * ( e0 - getPotentialEnergy() ) );
             double v = Math.sqrt( vSq );
 //            this.velocity = Math.sqrt( Math.abs( 2 * dE / mass ) ) * MathUtil.getSign( velocity );
             this.velocity = v * MathUtil.getSign( velocity );
-            System.out.println( "Set velocity to match energy, when energy was low: " );
-            System.out.println( "INC changed velocity: dE=" + ( getEnergy() - e0 ) );
+            verboseDebug( "Set velocity to match energy, when energy was low: " );
+            verboseDebug( "INC changed velocity: dE=" + ( getEnergy() - e0 ) );
             if( !MathUtil.isApproxEqual( e0, getEnergy(), 1E-8 ) ) {
                 new RuntimeException( "Energy error[2]" ).printStackTrace();
             }
+        }
+    }
+
+    boolean verbose = false;
+
+    private void verboseDebug( String text ) {
+        if( verbose ) {
+            System.out.println( text );
         }
     }
 
@@ -291,7 +308,7 @@ public class Particle1D {
                 bestAlpha = proposedAlpha;
             }//continue to find best value closest to proposed alpha, even if several values give dE=0.0
         }
-        System.out.println( "After " + numSteps + " steps, origAlpha=" + alpha0 + ", stepAlpha=" + alpha + ", bestAlpha=" + bestAlpha + ", dE=" + bestDE );
+        verboseDebug( "After " + numSteps + " steps, origAlpha=" + alpha0 + ", stepAlpha=" + alpha + ", bestAlpha=" + bestAlpha + ", dE=" + bestDE );
         return bestAlpha;
     }
 
