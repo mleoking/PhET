@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- put fluid controls in a separate dialog, initial position in fluid
+- make fluid dialog initially appear in the left-center of the main frame
 - bug: ruler is not quite aligned with bead
 - fluid viscosity slider is brain damaged
 - change model coordinate system origin to be at center of laser's waist?
@@ -21,7 +21,7 @@ MEDIUM PRIORITY:
 - use proper plot type for PositionHistogramPlot
 - careful! fluid speed is in microns (1E-6 m), everything else is in nm (1E-9 m)
 - make viscosity control logarithmic
-- text entry for viscosity control, scientific notation?
+- accept multiple formats for entry of viscosity value (1E-10, 1e-10, 0.0001)
 - cursors that indicate direction when drag is horizontally or vertically constrained
 - units and range for fast speed [realtime* 10^-2, realtime]
 - units and range for slow speed [realtime*140*10^-16, realtime*7*10^-16]
@@ -66,6 +66,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/22/07 - move fluid control to a separate dialog
 3/22/07 - add a faint cross-hair at center of bead
 3/22/07 - add close button to upper-right corner of charts
 3/22/07 - optical trap force control should be enabled in fast speed

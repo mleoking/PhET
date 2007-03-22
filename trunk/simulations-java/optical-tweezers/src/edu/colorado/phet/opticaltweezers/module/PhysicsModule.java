@@ -4,10 +4,7 @@ package edu.colorado.phet.opticaltweezers.module;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -19,16 +16,15 @@ import javax.swing.JButton;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.charts.*;
-import edu.colorado.phet.opticaltweezers.control.FluidControlPanel;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.control.PhysicsControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
+import edu.colorado.phet.opticaltweezers.dialog.FluidControlDialog;
 import edu.colorado.phet.opticaltweezers.help.OTWiggleMe;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.view.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -78,8 +74,7 @@ public class PhysicsModule extends AbstractModule {
     private PhysicsControlPanel _controlPanel;
     private OTClockControlPanel _clockControlPanel;
     private PSwing _returnBeadButtonWrapper;
-    private FluidControlPanel _fluidControlPanel;
-    private PhetPNode _fluidControlPanelWrapper;
+    private FluidControlDialog _fluidControlDialog;
     
     // Help
     private OTWiggleMe _wiggleMe;
@@ -206,10 +201,6 @@ public class PhysicsModule extends AbstractModule {
         _clockControlPanel = new OTClockControlPanel( (OTClock) getClock() );
         setClockControlPanel( _clockControlPanel );
         
-        // Fluid controls
-        _fluidControlPanel = new FluidControlPanel( _fluid, OTConstants.PLAY_AREA_CONTROL_FONT );
-        _fluidControlPanelWrapper = new PhetPNode( new PSwing( _canvas, _fluidControlPanel ) );
-        
         // "Return Bead" button
         JButton returnBeadButton = new JButton( SimStrings.get( "label.returnBead" ) );
         Font font = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 18 );
@@ -263,7 +254,6 @@ public class PhysicsModule extends AbstractModule {
         _rootNode.addChild( _potentialEnergyChartNode );
         _rootNode.addChild( _rulerNode );
         _rootNode.addChild( _rulerDragBoundsNode );
-        _rootNode.addChild( _fluidControlPanelWrapper );
         _rootNode.addChild( _returnBeadButtonWrapper );
 
         //----------------------------------------------------------------------------
@@ -283,7 +273,27 @@ public class PhysicsModule extends AbstractModule {
     }
     
     public void setFluidControlsVisible( boolean visible ) {
-        _fluidControlPanelWrapper.setVisible( visible );
+        if ( !visible ) {
+            if ( _fluidControlDialog != null ) {
+                _fluidControlDialog.dispose();
+                _fluidControlDialog = null;
+            }
+        }
+        else {
+            _fluidControlDialog = new FluidControlDialog( getFrame(), OTConstants.CONTROL_PANEL_CONTROL_FONT, _fluid );
+            _fluidControlDialog.addWindowListener( new WindowAdapter() {
+                // called when the close button in the dialog's window dressing is clicked
+                public void windowClosing( WindowEvent e ) {
+                    _fluidControlDialog.dispose();
+                }
+                // called by JDialog.dispose
+                public void windowClosed( WindowEvent e ) {
+                    _fluidControlDialog = null;
+                    _controlPanel.setFluidControlSelected( false ); 
+                }
+            });
+            _fluidControlDialog.show();
+        }
     }
     
     public void setRulerVisible( boolean visible ) {
@@ -401,9 +411,6 @@ public class PhysicsModule extends AbstractModule {
             }
         }
         
-        // Fluid controls
-        _fluidControlPanelWrapper.setOffset( 10, 220 ); //XXX
-        
         if ( HAS_WIGGLE_ME ) {
             initWiggleMe();
         }
@@ -493,7 +500,7 @@ public class PhysicsModule extends AbstractModule {
             _controlPanel.setPotentialChartSelected( PhysicsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
             
             // Fluid controls
-            _fluidControlPanelWrapper.setVisible( PhysicsDefaults.FLUID_CONTROLS_SELECTED );
+            setFluidControlsVisible( PhysicsDefaults.FLUID_CONTROLS_SELECTED );
         }
     }
 
