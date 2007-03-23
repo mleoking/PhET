@@ -65,13 +65,12 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     /**
      * Constructor.
      * 
-     * @param canvas
      * @param font
      * @param minPanelWidth
      * @param laser
      * @param powerRange
      */
-    public LaserControlPanel( PSwingCanvas canvas, Font font, double minPanelWidth, Laser laser, DoubleRange powerRange ) {
+    public LaserControlPanel( Laser laser, Font font, double minPanelWidth ) {
         super();
         
         _laser = laser;
@@ -92,9 +91,10 @@ public class LaserControlPanel extends PhetPNode implements Observer {
                 _startStopButton.setText( _laser.isRunning() ? _stopString : _startString );
             }
         } );
-        PSwing startStopButtonWrapper = new PSwing( canvas, _startStopButton );
+        PSwing startStopButtonWrapper = new PSwing( _startStopButton );
         
         // Power control
+        DoubleRange powerRange = _laser.getPowerRange();
         String label = SimStrings.get( "label.power" );
         String units = SimStrings.get( "units.power" );
         int columns = POWER_VALUE_DIGITS;
@@ -109,7 +109,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
             }
         };
         _powerControl.addChangeListener( _powerControlListener );
-        PSwing powerControlWrapper = new PSwing( canvas, _powerControl );
+        PSwing powerControlWrapper = new PSwing( _powerControl );
         
         // Panel background
         double xMargin = X_MARGIN;
