@@ -4,6 +4,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Author: Sam Reid
@@ -20,7 +21,7 @@ public class TestEmbeddedPSwingCanvas {
         embeddedCanvas = new PSwingCanvas();
         button = new PSwing( new JButton( "Button" ) );
         embeddedCanvas.getLayer().addChild( button );
-//        embeddedCanvas.setPreferredSize( new Dimension( 400,400) );
+        embeddedCanvas.setPreferredSize( new Dimension( 400,400) );//one way to solve this problem
         embeddedCanvas.setPanEventHandler( null );
         embeddedCanvas.setZoomEventHandler( null );
 
