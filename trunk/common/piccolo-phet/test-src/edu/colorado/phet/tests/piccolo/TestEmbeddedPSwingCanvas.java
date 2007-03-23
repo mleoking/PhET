@@ -11,13 +11,22 @@ import javax.swing.*;
  */
 public class TestEmbeddedPSwingCanvas {
     private JFrame frame;
+    private PSwingCanvas embeddedCanvas;
+    private PSwingCanvas outerCanvas;
+    private PSwing button;
+    private PSwing embeddedPSwing;
 
     public TestEmbeddedPSwingCanvas() {
-        PSwingCanvas embeddedCanvas = new PSwingCanvas();
-        embeddedCanvas.getLayer().addChild( new PSwing( new JButton( "Button" ) ) );
+        embeddedCanvas = new PSwingCanvas();
+        button = new PSwing( new JButton( "Button" ) );
+        embeddedCanvas.getLayer().addChild( button );
+//        embeddedCanvas.setPreferredSize( new Dimension( 400,400) );
+        embeddedCanvas.setPanEventHandler( null );
+        embeddedCanvas.setZoomEventHandler( null );
 
-        PSwingCanvas outerCanvas = new PSwingCanvas();
-        outerCanvas.getLayer().addChild( new PSwing( embeddedCanvas ) );
+        outerCanvas = new PSwingCanvas();
+        embeddedPSwing = new PSwing( embeddedCanvas );
+        outerCanvas.getLayer().addChild( embeddedPSwing );
 
         frame = new JFrame( "Test Embedded PSwingCanvas" );
         frame.setContentPane( outerCanvas );
