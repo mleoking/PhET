@@ -147,7 +147,7 @@ public class PhysicsModule extends AbstractModule {
         // Laser
         _laserDragBoundsNode = new PPath();
         _laserDragBoundsNode.setStroke( null );
-        _laserNode = new LaserNode( _canvas, _laser, _modelViewTransform, _laserDragBoundsNode );
+        _laserNode = new LaserNode( _laser, _modelViewTransform, _laserDragBoundsNode );
         
         // Bead
         _beadDragBoundsNode = new PPath();
@@ -213,7 +213,7 @@ public class PhysicsModule extends AbstractModule {
                 handleReturnBeadButton();
             }
         } );
-        _returnBeadButtonWrapper = new PSwing( _canvas, returnBeadButton );
+        _returnBeadButtonWrapper = new PSwing( returnBeadButton );
         
         // Activity that flashes the bead whenever it's visible
         // If the button is made visible, flash it's text red for 10 seconds.

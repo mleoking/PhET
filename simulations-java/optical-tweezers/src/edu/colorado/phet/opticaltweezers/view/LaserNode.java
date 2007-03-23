@@ -65,13 +65,11 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     /**
      * Constructor.
      * 
-     * @param canvas
      * @param laser 
      * @param modelViewTransform
-     * @param powerRange
      * @param dragBoundsNode
      */
-    public LaserNode( PSwingCanvas canvas, Laser laser, ModelViewTransform modelViewTransform, PNode dragBoundsNode ) {
+    public LaserNode( Laser laser, ModelViewTransform modelViewTransform, PNode dragBoundsNode ) {
         super();
         
         _laser = laser;
@@ -87,7 +85,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         ObjectiveNode objectiveNode = new ObjectiveNode( objectiveWidth, objectiveHeight );
         
         // Control panel
-        _controlPanel = new LaserControlPanel( canvas, OTConstants.PLAY_AREA_CONTROL_FONT, objectiveWidth, laser, _laser.getPowerRange() );
+        _controlPanel = new LaserControlPanel( laser, OTConstants.PLAY_AREA_CONTROL_FONT, objectiveWidth );
         
         // Lines connecting objective to control panel.
         Line2D line = new Line2D.Double( 0, 0, 0, CONTROL_PANEL_Y_OFFSET );
