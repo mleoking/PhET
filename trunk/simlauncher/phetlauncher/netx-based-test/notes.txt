@@ -1,3 +1,0 @@
-How to stop an application from exiting while in the same jvm?
-Alternatively, is there a safe, reliable way to start a new jvm?
-What about security?
