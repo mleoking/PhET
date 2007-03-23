@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /*
   This message was sent to Sun on August 27, 1999
@@ -308,7 +309,9 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * Remove from the SwingWrapper; throws an exception if no canvas is associated with this PSwing.
      */
     public void removeFromSwingWrapper() {
-        this.canvas.getSwingWrapper().remove( component );
+        if( canvas != null && Arrays.asList( this.canvas.getSwingWrapper().getComponents() ).contains( component ) ) {
+            this.canvas.getSwingWrapper().remove( component );
+        }
     }
 
     /**
