@@ -1,8 +1,0 @@
-\contentsline {chapter}{\numberline {1}Introduction}{5}{chapter.1}
-\contentsline {section}{\numberline {1.1}About \unhbox \voidb@x \hbox {XML}}{5}{section.1.1}
-\contentsline {section}{\numberline {1.2}About \unhbox \voidb@x \hbox {NanoXML}}{6}{section.1.2}
-\contentsline {section}{\numberline {1.3}\unhbox \voidb@x \hbox {NanoXML} 2}{6}{section.1.3}
-\contentsline {chapter}{\numberline {2}Retrieving Data From An \unhbox \voidb@x \hbox {XML} Datasource}{7}{chapter.2}
-\contentsline {section}{\numberline {2.1}A Very Simple Example}{7}{section.2.1}
-\contentsline {section}{\numberline {2.2}Analyzing The Data}{8}{section.2.2}
-\contentsline {section}{\numberline {2.3}Generating \unhbox \voidb@x \hbox {XML}}{9}{section.2.3}

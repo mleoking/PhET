@@ -1,2 +1,0 @@
-New in 0.01
-Test application for Phet Launcher
