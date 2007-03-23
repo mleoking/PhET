@@ -17,6 +17,8 @@ HIGH PRIORITY:
 - connect potential energy chart to model
 
 MEDIUM PRIORITY:
+- vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
+- try to make laser control panel draggable
 - use proper plot type for PositionHistogramPlot
 - careful! fluid speed is in microns (1E-6 m), everything else is in nm (1E-9 m)
 - make viscosity control logarithmic
@@ -30,7 +32,6 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - migrate CloseButtonNode to common, reuse phetcommon/data/images/buttons/closeButton.png
-- change start/stop button on laser control panel
 - add close button to ruler?
 - get requirements for "Fun With DNA" and "Molecular Motors" panels
 - save/load
