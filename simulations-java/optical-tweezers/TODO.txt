@@ -66,6 +66,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/23/07 - implement laser profile model, create test program to show scale problems
+3/23/07 - change default fluid speed to 0
 3/23/07 - convert to new PSwing interface that doesn't require canvas in constructor
 3/22/07 - make fluid dialog appear at left-center of the main frame
 3/22/07 - move fluid control to a separate dialog
