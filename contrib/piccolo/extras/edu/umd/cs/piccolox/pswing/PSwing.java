@@ -478,10 +478,10 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
             listenToNode( p );
 
             PNode parent = p;
-            System.out.println( "parent = " + parent.getClass() );
+//            System.out.println( "parent = " + parent.getClass() );
             if( parent instanceof PLayer ) {
                 PLayer player = (PLayer)parent;
-                System.out.println( "Found player: with " + player.getCameraCount() + " cameras" );
+//                System.out.println( "Found player: with " + player.getCameraCount() + " cameras" );
                 for( int i = 0; i < player.getCameraCount(); i++ ) {
                     PCamera cam = player.getCamera( i );
                     if( cam.getComponent() instanceof PSwingCanvas ) {
