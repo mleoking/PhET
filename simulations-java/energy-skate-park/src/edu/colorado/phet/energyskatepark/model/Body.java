@@ -33,10 +33,6 @@ public class Body {
     private ParticleStage particleStage;
 
     private Point2D.Double defaultBodyPosition = new Point2D.Double( 4, 7.25 );
-//    private Point2D.Double attachmentPoint = new Point2D.Double();
-//    private Vector2D velocity = new Vector2D.Double();
-//    private Vector2D.Double acceleration = new Vector2D.Double();
-//    private double attachmentPointRotation = 0;
 
     private boolean facingRight;
 
@@ -49,10 +45,6 @@ public class Body {
     private double width;
     private double height;
     private double angularVelocity = 0;
-    private boolean freefall = true;
-
-    private AbstractSpline lastFallSpline;
-    private long lastFallTime;
 
     private ArrayList listeners = new ArrayList();
     private EnergySkateParkModel energySkateParkModel;
@@ -100,8 +92,7 @@ public class Body {
 
     public void reset() {
         setFreeFallMode();
-//        setAttachmentPointRotation( 0.0 );
-        setAttachmentPointPosition( getDefaultBodyPosition() );
+        setPosition( getDefaultBodyPosition() );
         resetMode();
         setVelocity( 0, 0 );
         setPosition( 3, 6 );
@@ -109,12 +100,9 @@ public class Body {
         particle.setGravity( -9.8 );
     }
 
-
     private Point2D getDefaultBodyPosition() {
         return defaultBodyPosition;
     }
-
-
 
     public Particle getParticle() {
         return particle;
@@ -176,8 +164,6 @@ public class Body {
 
     public void setState( Body body ) {
         this.angularVelocity = body.angularVelocity;
-//        this.acceleration.setComponents( body.acceleration.getX(), body.acceleration.getY() );
-//        this.attachmentPointRotation = body.attachmentPointRotation;
         this.facingRight = body.facingRight;
         this.xThrust = body.xThrust;
         this.yThrust = body.yThrust;
@@ -187,8 +173,6 @@ public class Body {
     public Body copyState() {
         Body copy = new Body( width, height, energySkateParkModel );
         copy.angularVelocity = this.angularVelocity;
-//        copy.acceleration.setComponents( acceleration.getX(), acceleration.getY() );
-//        copy.attachmentPointRotation = attachmentPointRotation;
         copy.facingRight = facingRight;
         copy.xThrust = xThrust;
         copy.yThrust = yThrust;
@@ -212,15 +196,11 @@ public class Body {
     }
 
     private void updateStateFromParticle() {
-//        setAttachmentPointPosition( particle.getX(), particle.getY() );
-//        this.velocity = particle.getVelocity();
         if( getSpeed() > 0.01 ) {
             if( !isFreeFallMode() && !isUserControlled() ) {
                 facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getRotation() ) ) > 0;
             }
         }
-
-//        attachmentPointRotation = particle.getAngle() - Math.PI / 2;
     }
 
     static class TraversalState {
@@ -286,19 +266,8 @@ public class Body {
         updateStateFromParticle();
     }
 
-//    public void setState( AbstractVector2D acceleration, AbstractVector2D velocity, Point2D newPosition ) {
-////        this.acceleration.setComponents( acceleration.getX(), acceleration.getY() );
-//        setVelocity( velocity );
-//        setAttachmentPointPosition( newPosition );
-//    }
-
     public void setMass( double value ) {
         particle.setMass( value );
-    }
-
-    public void setAttachmentPointPosition( double x, double y ) {
-        particle.setPosition( x,y);
-//        setAttachmentPoint( x, y );
     }
 
     public boolean isUserControlled() {
@@ -325,10 +294,6 @@ public class Body {
         return particle.getPosition();
     }
 
-//    public AbstractVector2D getAcceleration() {
-//        return acceleration;
-//    }
-
     public double getMass() {
         return particle.getMass();
     }
@@ -337,16 +302,12 @@ public class Body {
         setAngularVelocity( dA );
     }
 
-//    public void setAttachmentPointRotation( double attachmentPointRotation ) {
-//        this.attachmentPointRotation = attachmentPointRotation;
-//    }
-
     public double getSpeed() {
         return getVelocity().getMagnitude();
     }
 
-    public void setAttachmentPointPosition( Point2D point2D ) {
-        setAttachmentPointPosition( point2D.getX(), point2D.getY() );
+    public void setPosition( Point2D point2D ) {
+        setPosition( point2D.getX(), point2D.getY() );
     }
 
     public AbstractVector2D getPositionVector() {
@@ -407,10 +368,6 @@ public class Body {
         this.coefficientOfRestitution = coefficientOfRestitution;
     }
 
-//    public Point2D.Double getAttachPoint() {
-//        return new Point2D.Double( attachmentPoint.getX(), attachmentPoint.getY() );
-//    }
-
     public Shape getReducedShape( double fractionalSize ) {
         double scale = ( 1.0 - fractionalSize ) / 2.0;
         double dw = width * scale;
@@ -444,10 +401,6 @@ public class Body {
         return width;
     }
 
-    public boolean isFreeFallFrame() {
-        return freefall;
-    }
-
     public boolean isOnSpline( EnergySkateParkSpline splineSurface ) {
         return particle.isOnSpline( splineSurface.getParametricFunction2D() );
     }
@@ -476,19 +429,6 @@ public class Body {
         return particle.getPotentialEnergy();
     }
 
-    public void setLastFallTime( AbstractSpline spline, long time ) {
-        this.lastFallSpline = spline;
-        this.lastFallTime = time;
-    }
-
-    public AbstractSpline getLastFallSpline() {
-        return lastFallSpline;
-    }
-
-    public long getLastFallTime() {
-        return lastFallTime;
-    }
-
     public double getAngularVelocity() {
         return angularVelocity;
     }
@@ -500,10 +440,6 @@ public class Body {
     public ParametricFunction2D getSpline() {
         return particle.getSpline();
     }
-
-//    public void setAcceleration( double ax, double ay ) {
-//        acceleration.setComponents( ax, ay );
-//    }
 
     public static interface Listener {
         void thrustChanged();

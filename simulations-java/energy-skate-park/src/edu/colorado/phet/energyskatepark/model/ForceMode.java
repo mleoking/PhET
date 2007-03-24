@@ -55,7 +55,7 @@
 //        };
 //        RK4.rk4( 0, x, dt, diffx );
 //
-//        body.setAttachmentPointPosition( x[0], y[0] );
+//        body.setPosition( x[0], y[0] );
 //        body.setVelocity( x[1], y[1] );
 //    }
 //

@@ -119,7 +119,7 @@ public class EnergySkateParkModuleBean {
         }
 
         public void apply( Body body ) {
-            body.setAttachmentPointPosition( position );
+            body.setPosition( position );
             body.setVelocity( velocity.x, velocity.y );
 //            body.setAcceleration( acceleration.x, acceleration.y );
 
