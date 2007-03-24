@@ -4,7 +4,7 @@ package edu.colorado.phet.energyskatepark;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.energyskatepark.view.BodyGraphic;
+import edu.colorado.phet.energyskatepark.view.SkaterNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
@@ -25,8 +25,8 @@ public class AutoPan {
                 //set center on player.
                 EnergySkateParkRootNode rootNode = energyCanvas.getRootNode();
                 if( rootNode.numBodyGraphics() > 0 ) {
-                    BodyGraphic bodyGraphic = rootNode.bodyGraphicAt( 0 );
-                    PBounds bodyBounds = bodyGraphic.getGlobalFullBounds();
+                    SkaterNode skaterNode = rootNode.bodyGraphicAt( 0 );
+                    PBounds bodyBounds = skaterNode.getGlobalFullBounds();
                     rootNode.globalToLocal( bodyBounds );
                     rootNode.translateWorld( -bodyBounds.getX() + energyCanvas.getWidth() / 2, -bodyBounds.getY() + energyCanvas.getHeight() / 2 );
                 }

@@ -210,7 +210,7 @@ public class CompassGraphic extends CompositePhetGraphic
     //----------------------------------------------------------------------------
     
     /**
-     * BodyGraphic creates a the compass body from a bunch of static graphic components.
+     * SkaterNode creates a the compass body from a bunch of static graphic components.
      *
      * @author Chris Malley (cmalley@pixelzoom.com)
      * @version $Revision$
