@@ -32,7 +32,7 @@ public class Body {
     private Particle particle;
     private ParticleStage particleStage;
 
-    private Point2D.Double attachmentPoint = new Point2D.Double();
+//    private Point2D.Double attachmentPoint = new Point2D.Double();
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D.Double acceleration = new Vector2D.Double();
     private double attachmentPointRotation = 0;
@@ -175,7 +175,7 @@ public class Body {
 
     public void setState( Body body ) {
         this.angularVelocity = body.angularVelocity;
-        setAttachmentPoint( body.attachmentPoint.x, body.attachmentPoint.y );
+//        setAttachmentPoint( body.attachmentPoint.x, body.attachmentPoint.y );
         this.velocity.setComponents( body.velocity.getX(), body.velocity.getY() );
         this.acceleration.setComponents( body.acceleration.getX(), body.velocity.getY() );
         this.attachmentPointRotation = body.attachmentPointRotation;
@@ -188,7 +188,7 @@ public class Body {
     public Body copyState() {
         Body copy = new Body( width, height, energySkateParkModel );
         copy.angularVelocity = this.angularVelocity;
-        copy.setAttachmentPoint( attachmentPoint.x, attachmentPoint.y );
+//        copy.setAttachmentPoint( attachmentPoint.x, attachmentPoint.y );
         copy.velocity.setComponents( velocity.getX(), velocity.getY() );
         copy.acceleration.setComponents( acceleration.getX(), acceleration.getY() );
         copy.attachmentPointRotation = attachmentPointRotation;
@@ -272,10 +272,10 @@ public class Body {
         return velocity;
     }
 
-    private void setAttachmentPoint( double x, double y ) {
-        attachmentPoint.x = x;
-        attachmentPoint.y = y;
-    }
+//    private void setAttachmentPoint( double x, double y ) {
+//        attachmentPoint.x = x;
+//        attachmentPoint.y = y;
+//    }
 
     public void translate( double dx, double dy ) {
         particle.translate( dx, dy );
@@ -305,7 +305,8 @@ public class Body {
     }
 
     public void setAttachmentPointPosition( double x, double y ) {
-        setAttachmentPoint( x, y );
+        particle.setPosition( x,y);
+//        setAttachmentPoint( x, y );
     }
 
     public boolean isUserControlled() {
@@ -328,8 +329,9 @@ public class Body {
         return height;
     }
 
-    public Point2D.Double getPosition() {
-        return new Point2D.Double( attachmentPoint.getX(), attachmentPoint.getY() );
+    public Point2D getPosition() {
+        return particle.getPosition();
+//        return new Point2D.Double( attachmentPoint.getX(), attachmentPoint.getY() );
     }
 
     public AbstractVector2D getAcceleration() {
@@ -414,9 +416,9 @@ public class Body {
         this.coefficientOfRestitution = coefficientOfRestitution;
     }
 
-    public Point2D.Double getAttachPoint() {
-        return new Point2D.Double( attachmentPoint.getX(), attachmentPoint.getY() );
-    }
+//    public Point2D.Double getAttachPoint() {
+//        return new Point2D.Double( attachmentPoint.getX(), attachmentPoint.getY() );
+//    }
 
     public Shape getReducedShape( double fractionalSize ) {
         double scale = ( 1.0 - fractionalSize ) / 2.0;
@@ -437,7 +439,7 @@ public class Body {
     public AffineTransform getTransform() {
         AffineTransform transform = new AffineTransform();
         double dy = getHeight();
-        transform.translate( attachmentPoint.x - getWidth() / 2, attachmentPoint.y - dy );
+        transform.translate( getPosition().getX()- getWidth() / 2, getPosition().getY()- dy );
         transform.rotate( attachmentPointRotation, getWidth() / 2, dy );
         transform.rotate( Math.PI, getWidth() / 2, getHeight() / 2 );
         return transform;

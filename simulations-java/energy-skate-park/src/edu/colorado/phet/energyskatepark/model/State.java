@@ -19,7 +19,7 @@ public class State {
         return body;
     }
 
-    public Point2D.Double getPosition() {
+    public Point2D getPosition() {
         return body.getPosition();
     }
 
