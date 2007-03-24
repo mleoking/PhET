@@ -212,7 +212,7 @@ public class Body {
     }
 
     private void updateStateFromParticle() {
-        setAttachmentPointPosition( particle.getX(), particle.getY() );
+//        setAttachmentPointPosition( particle.getX(), particle.getY() );
 //        this.velocity = particle.getVelocity();
         if( getSpeed() > 0.01 ) {
             if( !isFreeFallMode() && !isUserControlled() ) {
