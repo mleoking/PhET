@@ -93,7 +93,7 @@ public class Body {
     public void reset() {
         setFreeFallMode();
         setPosition( getDefaultBodyPosition() );
-        resetMode();
+        setAngularVelocity( 0.0 );
         setVelocity( 0, 0 );
         setPosition( 3, 6 );
         particle.setVelocity( 0, 0 );
@@ -368,13 +368,6 @@ public class Body {
         this.coefficientOfRestitution = coefficientOfRestitution;
     }
 
-    public Shape getReducedShape( double fractionalSize ) {
-        double scale = ( 1.0 - fractionalSize ) / 2.0;
-        double dw = width * scale;
-        double dh = height * scale;
-        return getTransform().createTransformedShape( new Rectangle2D.Double( dw, dh, width - 2 * dw, height - 2 * dh ) );
-    }
-
     public Shape getFeetShape() {
         double feetFraction = 0.6;
         return getTransform().createTransformedShape( new Rectangle2D.Double( 0, height * ( 1 - feetFraction ), width, height * feetFraction ) );
@@ -391,10 +384,6 @@ public class Body {
         transform.rotate( getRotation(), getWidth() / 2, dy );
         transform.rotate( Math.PI, getWidth() / 2, getHeight() / 2 );
         return transform;
-    }
-
-    public void resetMode() {
-        setAngularVelocity( 0.0 );
     }
 
     public double getWidth() {
