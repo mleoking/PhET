@@ -71,7 +71,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     public EnergySkateParkModule( String name, IClock clock, PhetFrame phetFrame ) {
         super( name, clock );
         this.phetFrame = phetFrame;
-        energyModel = new EnergySkateParkModel( floorY + 10 );
+        energyModel = new EnergySkateParkModel( floorY );
         setModel( new BaseModel() );
 
         energyTimeSeriesModel = new EC3TimeSeriesModel( this );
