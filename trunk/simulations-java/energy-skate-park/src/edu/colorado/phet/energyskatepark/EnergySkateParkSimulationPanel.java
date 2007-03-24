@@ -170,7 +170,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
             Body body = ec3Model.bodyAt( 0 );
             double xThrust = 0.0;
             double yThrust = 0.0;
-            int thrustValue = 1000;
+            int thrustValue = 15;
             if( multiKeyHandler.isPressed( KeyEvent.VK_RIGHT ) ) {
                 xThrust = thrustValue;
             }
