@@ -20,7 +20,6 @@ import edu.colorado.phet.energyskatepark.plots.EnergyTimePlotCanvas;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkModuleBean;
 import edu.colorado.phet.energyskatepark.test.phys1d.ControlPointParametricFunction2D;
 import edu.colorado.phet.energyskatepark.test.phys1d.CubicSpline2D;
-import edu.colorado.phet.energyskatepark.view.SplineNode;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
@@ -143,11 +142,9 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyTimeSeriesModel.setLiveMode();
         energyTimePlotCanvas.reset();
         init();
-//        energyModel.addFloorSpline();
         energyTimeSeriesModel.startLiveMode();
         barGraphCanvas.reset();
     }
-
 
     public void resetSkater() {
         if( getEnergySkateParkModel().numBodies() > 0 ) {
@@ -157,10 +154,8 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void resetSkater( Body body ) {
-
         body.reset();
     }
-
 
     private void init() {
         final Body body = new Body( getEnergySkateParkModel() );
@@ -173,15 +168,10 @@ public class EnergySkateParkModule extends PiccoloModule {
         CubicSpline spline = preFabSplines.getParabolic();
         ControlPointParametricFunction2D parametricFunction2D = new CubicSpline2D( spline.getControlPoints() );
 
-//        SplineSurface surface = new SplineSurface( spline );
         EnergySkateParkSpline espspline = new EnergySkateParkSpline( parametricFunction2D );
-        SplineNode splineNode = new SplineNode( energyCanvas, espspline, energyCanvas );
-//        energyModel.addSplineSurface( surface );
-        energyCanvas.addSplineGraphic( splineNode );
+        energyModel.addSplineSurface( espspline );
         energyCanvas.initPieGraphic();
         energyCanvas.removeAllAttachmentPointGraphics();
-
-//        energyCanvas.addAttachmentPointGraphic( body );
     }
 
 

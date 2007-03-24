@@ -1,3 +1,8 @@
+1. When new track is attached & skater is on-track, skater falls through.
+2. Add friction
+3. Bar graphs don't update continuously when on-track
+
+
 #################################################################
 Remaining Work
 #######################################

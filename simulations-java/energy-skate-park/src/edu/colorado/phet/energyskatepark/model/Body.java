@@ -5,15 +5,13 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
 import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.test.phys1d.Particle;
 import edu.colorado.phet.energyskatepark.test.phys1d.ParticleStage;
-import edu.umd.cs.piccolo.util.PDimension;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -44,7 +42,7 @@ public class Body {
     private EnergySkateParkModel energySkateParkModel;
 
     public Body( EnergySkateParkModel model ) {
-        this( 1.3,1.8,  model );
+        this( 1.3, 1.8, model );
     }
 
     public Body( double width, double height, EnergySkateParkModel energySkateParkModel ) {
@@ -55,12 +53,13 @@ public class Body {
         particle = new Particle( particleStage );
         particle.setMass( 75.0 );
         particle.getParticle1D().setReflect( false );
+        particle.setStickiness( 0.5 );
         setGravityState( energySkateParkModel.getGravity(), energySkateParkModel.getZeroPointPotentialY() );
     }
 
     public void showControls() {
-        JFrame controls=new JFrame( );
-        final ModelSlider stickiness=new ModelSlider( "Stickiness","",0,5,particle.getStickiness());
+        JFrame controls = new JFrame();
+        final ModelSlider stickiness = new ModelSlider( "Stickiness", "", 0, 5, particle.getStickiness() );
         stickiness.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 particle.setStickiness( stickiness.getValue() );
@@ -100,7 +99,7 @@ public class Body {
 
     public void setGravityState( double gravity, double zeroPointPotentialY ) {
         particle.setGravity( gravity );
-        particle.setZeroPointPotentialY(zeroPointPotentialY);
+        particle.setZeroPointPotentialY( zeroPointPotentialY );
     }
 
     public void setState( Body body ) {
@@ -222,7 +221,7 @@ public class Body {
     }
 
     public double getRotation() {
-        return particle.getAngle()-Math.PI/2;//todo remove math.pi?
+        return particle.getAngle() - Math.PI / 2;//todo remove math.pi?
     }
 
     public boolean isFreeFallMode() {
@@ -238,7 +237,7 @@ public class Body {
     }
 
     public void setThrust( double xThrust, double yThrust ) {
-        particle.setThrust(xThrust,yThrust);
+        particle.setThrust( xThrust, yThrust );
     }
 
     public AbstractVector2D getThrust() {
@@ -279,7 +278,7 @@ public class Body {
     public AffineTransform getTransform() {
         AffineTransform transform = new AffineTransform();
         double dy = getHeight();
-        transform.translate( getPosition().getX()- getWidth() / 2, getPosition().getY()- dy );
+        transform.translate( getPosition().getX() - getWidth() / 2, getPosition().getY() - dy );
         transform.rotate( getRotation(), getWidth() / 2, dy );
         transform.rotate( Math.PI, getWidth() / 2, getHeight() / 2 );
         return transform;
@@ -294,7 +293,7 @@ public class Body {
     }
 
     public double getMechanicalEnergy() {
-        return getKineticEnergy() + getPotentialEnergy( );
+        return getKineticEnergy() + getPotentialEnergy();
     }
 
     public double getTotalEnergy() {

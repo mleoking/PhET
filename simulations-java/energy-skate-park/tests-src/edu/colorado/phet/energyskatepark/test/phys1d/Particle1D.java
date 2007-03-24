@@ -19,18 +19,15 @@ public class Particle1D {
 
     private ParametricFunction2D cubicSpline;
 
-    //    private UpdateStrategy updateStrategy = new Verlet();
     private UpdateStrategy updateStrategy = new Euler();
-//    private UpdateStrategy updateStrategy = new RK4();
 
     private double g;// meters/s/s
     private double mass = 1.0;//kg
-//    private double totalDE = 0;
 
     private ArrayList listeners = new ArrayList();
     private boolean splineTop = true;
     private boolean reflect = true;
-    private double zeroPointPotentialY=0.0;
+    private double zeroPointPotentialY = 0.0;
 
     public Particle1D( ParametricFunction2D cubicSpline, boolean splineTop ) {
         this( cubicSpline, splineTop, 9.8 );
@@ -142,7 +139,7 @@ public class Particle1D {
     }
 
     private double getPotentialEnergy() {
-        return -mass * g * getY();
+        return -mass * g * ( getY() - zeroPointPotentialY );
     }
 
     private double getKineticEnergy() {
@@ -191,11 +188,11 @@ public class Particle1D {
     }
 
     public void setMass( double mass ) {
-        this.mass=mass;
+        this.mass = mass;
     }
 
     public void setZeroPointPotentialY( double zeroPointPotentialY ) {
-        this.zeroPointPotentialY=zeroPointPotentialY;
+        this.zeroPointPotentialY = zeroPointPotentialY;
     }
 
     public interface UpdateStrategy {
@@ -400,7 +397,7 @@ public class Particle1D {
 
         public void stepInTime( double dt ) {
             Vector2D netForce = getNetForce();
-            double a = cubicSpline.getUnitParallelVector( alpha ).dot( netForce )/mass;
+            double a = cubicSpline.getUnitParallelVector( alpha ).dot( netForce ) / mass;
             alpha += cubicSpline.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
             velocity += a * dt;
 
