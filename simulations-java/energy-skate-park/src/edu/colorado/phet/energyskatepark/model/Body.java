@@ -28,16 +28,10 @@ import java.util.ArrayList;
  */
 
 public class Body {
-
     private Particle particle;
     private ParticleStage particleStage;
 
-    private Point2D.Double defaultBodyPosition = new Point2D.Double( 4, 7.25 );
-
     private boolean facingRight;
-
-//    private double xThrust = 0.0;
-//    private double yThrust = 0.0;
 
     private double frictionCoefficient = 0.0;
     private double coefficientOfRestitution = 1.0;
@@ -50,7 +44,7 @@ public class Body {
     private EnergySkateParkModel energySkateParkModel;
 
     public Body( EnergySkateParkModel model ) {
-        this( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(),  model );
+        this( 1.3,1.8,  model );
     }
 
     public Body( double width, double height, EnergySkateParkModel energySkateParkModel ) {
@@ -92,16 +86,12 @@ public class Body {
 
     public void reset() {
         setFreeFallMode();
-        setPosition( getDefaultBodyPosition() );
+        setPosition( new Point2D.Double( 4, 7.25 ) );
         setAngularVelocity( 0.0 );
         setVelocity( 0, 0 );
         setPosition( 3, 6 );
         particle.setVelocity( 0, 0 );
         particle.setGravity( -9.8 );
-    }
-
-    private Point2D getDefaultBodyPosition() {
-        return defaultBodyPosition;
     }
 
     public Particle getParticle() {
@@ -113,60 +103,9 @@ public class Body {
         particle.setZeroPointPotentialY(zeroPointPotentialY);
     }
 
-    public static class StateRecord {
-        private ArrayList states = new ArrayList();
-        private Body body;
-
-        public StateRecord( Body body ) {
-            this.body = body;
-        }
-
-        public void addCollisionSpline( AbstractSpline spline, TraversalState top ) {
-            states.add( top );
-        }
-
-        public boolean containsSpline( AbstractSpline spline ) {
-            for( int i = 0; i < states.size(); i++ ) {
-                TraversalState traversalState = (TraversalState)states.get( i );
-                if( traversalState.getSpline() == spline ) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public Body getBody() {
-            return body;
-        }
-
-        public AbstractSpline getSpline( int i ) {
-            return getTraversalState( i ).getSpline();
-        }
-
-        public TraversalState getTraversalState( int i ) {
-            return (TraversalState)states.get( i );
-        }
-
-        public int getSplineCount() {
-            return states.size();
-        }
-
-        public TraversalState getTraversalState( AbstractSpline spline ) {
-            for( int i = 0; i < states.size(); i++ ) {
-                TraversalState traversalState = getTraversalState( i );
-                if( traversalState.getSpline() == spline ) {
-                    return traversalState;
-                }
-            }
-            return null;
-        }
-    }
-
     public void setState( Body body ) {
         this.angularVelocity = body.angularVelocity;
         this.facingRight = body.facingRight;
-//        this.xThrust = body.xThrust;
-//        this.yThrust = body.yThrust;
         this.coefficientOfRestitution = body.coefficientOfRestitution;
     }
 
@@ -174,14 +113,8 @@ public class Body {
         Body copy = new Body( width, height, energySkateParkModel );
         copy.angularVelocity = this.angularVelocity;
         copy.facingRight = facingRight;
-//        copy.xThrust = xThrust;
-//        copy.yThrust = yThrust;
         copy.coefficientOfRestitution = coefficientOfRestitution;
         return copy;
-    }
-
-    public static PDimension createDefaultBodyRect() {
-        return new PDimension( 1.3, 1.8 );
     }
 
     public void stepInTime( double dt ) {
@@ -200,36 +133,6 @@ public class Body {
             if( !isFreeFallMode() && !isUserControlled() ) {
                 facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getRotation() ) ) > 0;
             }
-        }
-    }
-
-    static class TraversalState {
-        boolean top;
-        double scalarAlongSpline;
-        Point2D closestSplineLocation;
-        private AbstractSpline spline;
-
-        public TraversalState( boolean top, double scalarAlongSpline, Point2D closestSplineLocation, AbstractSpline spline ) {
-            this.top = top;
-            this.scalarAlongSpline = scalarAlongSpline;
-            this.closestSplineLocation = closestSplineLocation;
-            this.spline = spline;
-        }
-
-        public boolean isTop() {
-            return top;
-        }
-
-        public double getScalarAlongSpline() {
-            return scalarAlongSpline;
-        }
-
-        public Point2D getClosestSplineLocation() {
-            return closestSplineLocation;
-        }
-
-        public AbstractSpline getSpline() {
-            return spline;
         }
     }
 

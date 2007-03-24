@@ -163,7 +163,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
 
     private void init() {
-        final Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), getEnergySkateParkModel() );
+        final Body body = new Body( getEnergySkateParkModel() );
         body.reset();
         energyModel.addBody( body );
         body.showControls();

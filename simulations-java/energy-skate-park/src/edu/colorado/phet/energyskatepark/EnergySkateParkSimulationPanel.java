@@ -198,7 +198,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     private void addSkater() {
-        Body body = new Body( Body.createDefaultBodyRect().getWidth(), Body.createDefaultBodyRect().getHeight(), ec3Model );
+        Body body = new Body( ec3Model );
         ec3Module.resetSkater( body );
         ec3Model.addBody( body );
         updateGraphics();
