@@ -36,8 +36,8 @@ public class Body {
 
     private boolean facingRight;
 
-    private double xThrust = 0.0;
-    private double yThrust = 0.0;
+//    private double xThrust = 0.0;
+//    private double yThrust = 0.0;
 
     private double frictionCoefficient = 0.0;
     private double coefficientOfRestitution = 1.0;
@@ -165,8 +165,8 @@ public class Body {
     public void setState( Body body ) {
         this.angularVelocity = body.angularVelocity;
         this.facingRight = body.facingRight;
-        this.xThrust = body.xThrust;
-        this.yThrust = body.yThrust;
+//        this.xThrust = body.xThrust;
+//        this.yThrust = body.yThrust;
         this.coefficientOfRestitution = body.coefficientOfRestitution;
     }
 
@@ -174,8 +174,8 @@ public class Body {
         Body copy = new Body( width, height, energySkateParkModel );
         copy.angularVelocity = this.angularVelocity;
         copy.facingRight = facingRight;
-        copy.xThrust = xThrust;
-        copy.yThrust = yThrust;
+//        copy.xThrust = xThrust;
+//        copy.yThrust = yThrust;
         copy.coefficientOfRestitution = coefficientOfRestitution;
         return copy;
     }
@@ -335,15 +335,11 @@ public class Body {
     }
 
     public void setThrust( double xThrust, double yThrust ) {
-        if( this.xThrust != xThrust || this.yThrust != yThrust ) {
-            this.xThrust = xThrust;
-            this.yThrust = yThrust;
-            notifyThrustChanged();
-        }
+        particle.setThrust(xThrust,yThrust);
     }
 
     public AbstractVector2D getThrust() {
-        return new ImmutableVector2D.Double( xThrust, yThrust );
+        return particle.getThrust();
     }
 
     public void splineRemoved( EnergySkateParkSpline spline ) {

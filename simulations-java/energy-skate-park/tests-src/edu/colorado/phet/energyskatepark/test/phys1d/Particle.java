@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark.test.phys1d;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Line2D;
@@ -34,6 +35,8 @@ public class Particle {
     private boolean userControlled = false;
     private double thermalEnergy = 0.0;
     private double zeroPointPotentialY;
+    private double xThrust = 0;
+    private double yThrust = 0;
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
         this( new ParticleStage( parametricFunction2D ) );
@@ -150,6 +153,15 @@ public class Particle {
         particle1D.setZeroPointPotentialY( zeroPointPotentialY );
     }
 
+    public AbstractVector2D getThrust() {
+        return new ImmutableVector2D.Double( xThrust, yThrust );
+    }
+
+    public void setThrust( double xThrust, double yThrust ) {
+        this.xThrust = xThrust;
+        this.yThrust = yThrust;
+    }
+
     interface UpdateStrategy {
         void stepInTime( double dt );
     }
@@ -157,8 +169,6 @@ public class Particle {
     public double getMass() {
         return mass;
     }
-
-//    DebugFrame debugFrame = new DebugFrame( "debug outsideCircle" );
 
     class Particle1DUpdate implements UpdateStrategy {
         public void stepInTime( double dt ) {
@@ -261,18 +271,22 @@ public class Particle {
             boolean[] origAbove = getOrigAbove();
 //            System.out.println( "stepping freefall, origAbove=" + origAbove );
 
+            double ay = g + yThrust;
+            double ax = 0 + xThrust;
             Point2D origLoc = new Point2D.Double( x, y );
-            vy += g * dt;
-            vx += 0;
+            vy += ay * dt;
+            vx += ax * dt;
 
-            y += vy * dt + 0.5 * g * dt * dt;
-            x += vx * dt;
+            y += vy * dt + 0.5 * ay * dt * dt;
+            x += vx * dt + 0.5 * ax * dt * dt;
 
             double dE = getTotalEnergy() - origEnergy;
 //            System.out.println( "FreeFall dE[0]= " + Math.abs( dE ) );
             //todo test for mass * gravity >0 before fixing energy
-            double dH = dE / ( getMass() * getGravity() );
-            y += dH;
+            if( getMass() * getGravity() > 1E-6 &&xThrust!=0&&yThrust!=0) {
+                double dH = dE / ( getMass() * getGravity() );
+                y += dH;
+            }
 //            System.out.println( "FreeFall dE[1]= " + Math.abs( getTotalEnergy() - origEnergy ) );
 
             Point2D newLoc = new Point2D.Double( x, y );
