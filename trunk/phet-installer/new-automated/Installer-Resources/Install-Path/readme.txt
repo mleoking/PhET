@@ -1,0 +1,1 @@
+Mac Note: Many of our simulations are written in Java, and require Mac OS 10.2 or higher. Some simulations run slowly on the Mac Java Virtual Machine, and some do not run at all, due to differences in the Mac implementation of Java.
