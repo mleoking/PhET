@@ -37,7 +37,7 @@ import java.util.ArrayList;
  * Copyright (c) Sep 21, 2005 by Sam Reid
  */
 
-public class BodyGraphic extends PNode {
+public class SkaterNode extends PNode {
     private Body body;
     private EnergySkateParkModule energySkateParkModule;
     private PPath boundsDebugPPath;
@@ -52,7 +52,7 @@ public class BodyGraphic extends PNode {
     private BufferedImage jetPackImage;
     private BufferedImage skaterImage;
 
-    public BodyGraphic( final EnergySkateParkModule ec3Module, final Body body ) {
+    public SkaterNode( final EnergySkateParkModule ec3Module, final Body body ) {
         this.energySkateParkModule = ec3Module;
         this.body = body;
         boundsDebugPPath = new PPath( new Rectangle2D.Double( 0, 0, body.getWidth(), body.getHeight() ) );
@@ -94,7 +94,7 @@ public class BodyGraphic extends PNode {
         } );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                PDimension delta = event.getDeltaRelativeTo( BodyGraphic.this );
+                PDimension delta = event.getDeltaRelativeTo( SkaterNode.this );
                 boolean okToTranslate = true;
                 if( getBody().getShape().getBounds2D().getMinY() < 0 && delta.getHeight() < 0 ) {
                     okToTranslate = false;

@@ -21,19 +21,19 @@ import java.awt.geom.Point2D;
 public class PieChartIndicator extends PNode {
     private PieChartNode pieChartNode;
     private EnergySkateParkModule module;
-    private BodyGraphic bodyGraphic;
+    private SkaterNode skaterNode;
     private double dy = 25;
     private boolean ignoreThermal;
 
-    public PieChartIndicator( EnergySkateParkModule module, BodyGraphic bodyGraphic ) {
+    public PieChartIndicator( EnergySkateParkModule module, SkaterNode skaterNode ) {
         this.module = module;
-        this.bodyGraphic = bodyGraphic;
+        this.skaterNode = skaterNode;
         pieChartNode = new PieChartNode( createPieValues(), createPieRect() );
         addChild( pieChartNode );
         setPickable( false );
         setChildrenPickable( false );
 
-//        final Body body = bodyGraphic.getBody();
+//        final Body body = skaterNode.getBody();
 //
 //        body.addListener(new Body.ListenerAdapter() {
 //            public void potentialEnergyChanged() {
@@ -43,11 +43,11 @@ public class PieChartIndicator extends PNode {
     }
 
     private Rectangle createPieRect() {
-        if( getModel().containsBody( bodyGraphic.getBody() ) ) {
-            Body body = bodyGraphic.getBody();
+        if( getModel().containsBody( skaterNode.getBody() ) ) {
+            Body body = skaterNode.getBody();
 
 //            Point2D.Double pt = new Point2D.Double( 0, 0 );
-            PBounds gfb = bodyGraphic.getGlobalFullBounds();
+            PBounds gfb = skaterNode.getGlobalFullBounds();
             Point2D pt = new Point2D.Double( gfb.getCenterX(), gfb.getY() - dy );
             globalToLocal( pt );
 //            Point2D pt=gfb.getOrigin();
@@ -112,7 +112,7 @@ public class PieChartIndicator extends PNode {
         pieChartNode.setArea( createPieRect() );
         pieChartNode.setPieValues( createPieValues() );
 
-        setVisible( bodyGraphic.getBody().getPotentialEnergy() >= 0 );
+        setVisible( skaterNode.getBody().getPotentialEnergy() >= 0 );
     }
 
     public void setIgnoreThermal( boolean ignoreThermal ) {

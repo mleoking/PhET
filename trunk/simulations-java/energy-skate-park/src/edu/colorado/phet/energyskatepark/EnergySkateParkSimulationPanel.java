@@ -10,7 +10,7 @@ import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
 import edu.colorado.phet.energyskatepark.model.spline.CubicSpline;
 import edu.colorado.phet.energyskatepark.test.phys1d.ControlPointParametricFunction2D;
 import edu.colorado.phet.energyskatepark.test.phys1d.CubicSpline2D;
-import edu.colorado.phet.energyskatepark.view.BodyGraphic;
+import edu.colorado.phet.energyskatepark.view.SkaterNode;
 import edu.colorado.phet.energyskatepark.view.SplineNode;
 import edu.colorado.phet.energyskatepark.view.SplineMatch;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSplineEnvironment;
@@ -208,8 +208,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         rootNode.updateGraphics();
     }
 
-    public void addBodyGraphic( BodyGraphic bodyGraphic ) {
-        rootNode.addBodyGraphic( bodyGraphic );
+    public void addBodyGraphic( SkaterNode skaterNode ) {
+        rootNode.addBodyGraphic( skaterNode );
     }
 
     private void toggleBox() {

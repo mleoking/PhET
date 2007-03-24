@@ -22,12 +22,12 @@ import java.awt.event.ActionListener;
 
 public class OffscreenManIndicator extends PhetPNode {
     private PSwingCanvas canvas;
-    private BodyGraphic bodyNode;
+    private SkaterNode bodyNode;
     private EnergySkateParkModule module;
     private PSwing buttonNode;
     private ConnectorGraphic connectorGraphic;
 
-    public OffscreenManIndicator( PSwingCanvas canvas, final EnergySkateParkModule ec3Module, BodyGraphic body ) {
+    public OffscreenManIndicator( PSwingCanvas canvas, final EnergySkateParkModule ec3Module, SkaterNode body ) {
         this.canvas = canvas;
         this.bodyNode = body;
         this.module = ec3Module;
@@ -41,7 +41,7 @@ public class OffscreenManIndicator extends PhetPNode {
         addChild( buttonNode );
     }
 
-    public void setBodyGraphic( BodyGraphic body ) {
+    public void setBodyGraphic( SkaterNode body ) {
         this.bodyNode = body;
         update();
     }

@@ -226,19 +226,19 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 //        resetDefaults();//needs MVC update before this will work.
     }
 
-    public void addBodyGraphic( BodyGraphic bodyGraphic ) {
-        bodyGraphics.addChild( bodyGraphic );
+    public void addBodyGraphic( SkaterNode skaterNode ) {
+        bodyGraphics.addChild( skaterNode );
         if( bodyGraphics.getChildrenCount() == 1 ) {
-            offscreenManIndicator.setBodyGraphic( bodyGraphic );
+            offscreenManIndicator.setBodyGraphic( skaterNode );
         }
     }
 
     public void toggleBox() {
         if( bodyGraphics.getChildrenReference().size() > 0 ) {
-            boolean state = ( (BodyGraphic)bodyGraphics.getChildrenReference().get( 0 ) ).isBoxVisible();
+            boolean state = ( (SkaterNode)bodyGraphics.getChildrenReference().get( 0 ) ).isBoxVisible();
             for( int i = 0; i < bodyGraphics.getChildrenReference().size(); i++ ) {
-                BodyGraphic bodyGraphic = (BodyGraphic)bodyGraphics.getChildrenReference().get( i );
-                bodyGraphic.setBoxVisible( !state );
+                SkaterNode skaterNode = (SkaterNode)bodyGraphics.getChildrenReference().get( i );
+                skaterNode.setBoxVisible( !state );
             }
         }
     }
@@ -309,7 +309,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void updateBodies() {
         while( numBodyGraphics() < getModel().numBodies() ) {
-            addBodyGraphic( new BodyGraphic( module, getModel().bodyAt( 0 ) ) );
+            addBodyGraphic( new SkaterNode( module, getModel().bodyAt( 0 ) ) );
         }
         while( numBodyGraphics() > getModel().numBodies() ) {
             removeBodyGraphic( bodyGraphicAt( numBodyGraphics() - 1 ) );
@@ -331,16 +331,16 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         }
     }
 
-    private void removeBodyGraphic( BodyGraphic bodyGraphic ) {
-        bodyGraphics.removeChild( bodyGraphic );
+    private void removeBodyGraphic( SkaterNode skaterNode ) {
+        bodyGraphics.removeChild( skaterNode );
     }
 
     public int numBodyGraphics() {
         return bodyGraphics.getChildrenCount();
     }
 
-    public BodyGraphic bodyGraphicAt( int i ) {
-        return (BodyGraphic)bodyGraphics.getChild( i );
+    public SkaterNode bodyGraphicAt( int i ) {
+        return (SkaterNode)bodyGraphics.getChild( i );
     }
 
     public boolean isMeasuringTapeVisible() {
