@@ -1,10 +1,6 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.model;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
 import edu.colorado.phet.energyskatepark.test.phys1d.LinearSpline2D;
 import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
 
@@ -19,11 +15,10 @@ import java.awt.geom.Point2D;
 
 public class Floor {
     private double y;
-    private Vector2D normal = new Vector2D.Double( 0, 1 );
     private EnergySkateParkModel model;
 
     public Floor( EnergySkateParkModel model ) {
-        this( model, -AbstractSpline.SPLINE_THICKNESS );
+        this( model, 0 );
     }
 
     public Floor( EnergySkateParkModel model, double y ) {
@@ -32,9 +27,7 @@ public class Floor {
     }
 
     public Floor copyState() {
-        Floor copy = new Floor( model, y );
-        copy.normal.setComponents( normal.getX(), normal.getY() );
-        return copy;
+        return new Floor( model, y );
     }
 
     public double getY() {

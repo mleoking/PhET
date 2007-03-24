@@ -483,10 +483,6 @@ public class Body {
         return particle.getPotentialEnergy();
     }
 
-    public AbstractVector2D getGravityForce() {
-        return new ImmutableVector2D.Double( 0, getGravity() * getMass() );
-    }
-
     public void setLastFallTime( AbstractSpline spline, long time ) {
         this.lastFallSpline = spline;
         this.lastFallTime = time;
