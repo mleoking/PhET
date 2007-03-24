@@ -83,16 +83,13 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addWorldChild( jetPackGraphics );
         addWorldChild( bodyGraphics );
 
-//        addWorldChild( historyGraphics );
         addScreenChild( historyGraphics );
-//        addWorldChild( historyReadouts );
         addScreenChild( historyReadouts );
 
         addScreenChild( measuringTape );
         addScreenChild( pieCharts );
         addScreenChild( pauseIndicator );
         addScreenChild( legend );
-//        addWorldChild( toolboxPlaceholder );
         addScreenChild( zeroPointPotentialGraphic );
         addScreenChild( offscreenManIndicator );
         addWorldChild( gridNode );
@@ -259,19 +256,13 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public void updateGraphics() {
-//        updateFloorGraphics();
         updateSplines();
         updateBodies();
-        updateJetPacks();
         updateHistory();
         updatePieChart();
         updateZeroPotential();
         offscreenManIndicator.update();
     }
-
-//    private void updateFloorGraphics() {
-//        floorGraphic.setVisible( module.getEnergySkateParkModel().hasFloor() );
-//    }
 
     private void updateZeroPotential() {
         zeroPointPotentialGraphic.setZeroPointPotential( getModel().getZeroPointPotentialY() );
@@ -326,36 +317,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         for( int i = 0; i < getModel().numBodies(); i++ ) {
             bodyGraphicAt( i ).setBody( getModel().bodyAt( i ) );
         }
-    }
-
-    private void updateJetPacks() {
-        while( numJetPackGraphics() < getModel().numBodies() ) {
-            addJetPackGraphic( new JetPackGraphic( module, getModel().bodyAt( 0 ) ) );
-        }
-        while( numJetPackGraphics() > getModel().numBodies() ) {
-            removeJetPackGraphic( jetPackGraphicAt( numJetPackGraphics() - 1 ) );
-        }
-        for( int i = 0; i < getModel().numBodies(); i++ ) {
-            jetPackGraphicAt( i ).setBody( getModel().bodyAt( i ) );
-        }
-    }
-
-    private int numJetPackGraphics() {
-        return jetPackGraphics.getChildrenCount();
-    }
-
-    private JetPackGraphic jetPackGraphicAt( int i ) {
-        return (JetPackGraphic)jetPackGraphics.getChild( i );
-    }
-
-    private void removeJetPackGraphic( PNode bodyGraphic ) {
-        jetPackGraphics.removeChild( bodyGraphic );
-    }
-
-    private void addJetPackGraphic( PNode jetPackGraphic ) {
-        jetPackGraphics.addChild( jetPackGraphic );
-        int[] x = {1, 2, 3};
-        String[] s = {",", "b"};
     }
 
     private void updateSplines() {
@@ -426,8 +387,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         pauseIndicator.relayout();
         double insetX = 10;
         double insetY = 10;
-//        legend.setOffset( getEC3Panel().getWidth() - legend.getFullBounds().getWidth() - insetX, insetY );
-//        legend.setOffset( getSimulationPanel().getWidth() - legend.getFullBounds().getWidth() - insetX, getSimulationPanel().getHeight() - legend.getFullBounds().getHeight() - insetY );
         legend.setOffset( getSimulationPanel().getWidth() - legend.getFullBounds().getWidth() - insetX, insetY );
         if( panZoomControls != null ) {
             panZoomControls.setOffset( getSimulationPanel().getWidth() - panZoomControls.getFullBounds().getWidth() - insetX, getSimulationPanel().getHeight() - panZoomControls.getFullBounds().getHeight() - insetY );
