@@ -6,11 +6,11 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.test.phys1d.ParticleImageNode;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -41,15 +41,16 @@ public class BodyGraphic extends PNode {
     private Body body;
     private EnergySkateParkModule energySkateParkModule;
     private PPath boundsDebugPPath;
-    private PImage pImage;
+    private PImage skaterImageNode;
 
     private PPath centerDebugger;
-    protected boolean debugCenter = false;
+    protected boolean debugCenter = true;
 
     private PPath feetDebugger;
     private boolean debugFeet = false;
-
-//    private ParticleImageNode particleImageNode;
+    private PNode jetPackNode;
+    private BufferedImage jetPackImage;
+    private BufferedImage skaterImage;
 
     public BodyGraphic( final EnergySkateParkModule ec3Module, final Body body ) {
         this.energySkateParkModule = ec3Module;
@@ -57,10 +58,15 @@ public class BodyGraphic extends PNode {
         boundsDebugPPath = new PPath( new Rectangle2D.Double( 0, 0, body.getWidth(), body.getHeight() ) );
         boundsDebugPPath.setStroke( null );
         boundsDebugPPath.setPaint( new Color( 0, 0, 255, 128 ) );
+
         try {
-            BufferedImage image = ImageLoader.loadBufferedImage( "images/skater3.png" );
-            pImage = new PImage( image );
-            addChild( pImage );
+            jetPackImage = ImageLoader.loadBufferedImage( "images/rocket5.png" );
+            jetPackNode = new PhetPNode( new PImage( jetPackImage ) );
+            addChild( jetPackNode );
+
+            skaterImage = ImageLoader.loadBufferedImage( "images/skater3.png" );
+            skaterImageNode = new PImage( skaterImage );
+            addChild( skaterImageNode );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -102,7 +108,7 @@ public class BodyGraphic extends PNode {
                 if( b.getMinX() < 0 && delta.getWidth() < 0 ) {
                     okToTranslate = false;
                 }
-                okToTranslate=true;
+                okToTranslate = true;
                 if( okToTranslate ) {
                     getBody().translate( delta.getWidth(), delta.getHeight() );
                     updateDragAngle();
@@ -172,15 +178,14 @@ public class BodyGraphic extends PNode {
         Area feet = new Area( body.getFeetShape() );
         feet.add( new Area( AffineTransform.getTranslateInstance( 0, body.getFeetShape().getBounds2D().getHeight() ).createTransformedShape( body.getFeetShape() ) ) );
         feet.add( new Area( AffineTransform.getTranslateInstance( 0, body.getFeetShape().getBounds2D().getHeight() * 2 ).createTransformedShape( body.getFeetShape() ) ) );
-//        Area splineArea = new Area( spline.getArea() );
-        Area splineArea = new Area( );//todo: add area for spline? This may be handled by Particle physics implementation
+        Area splineArea = new Area();//todo: add area for spline? This may be handled by Particle physics implementation
         splineArea.intersect( feet );
         boolean collide = !splineArea.isEmpty();
         return collide ? 0 : Double.POSITIVE_INFINITY;
     }
 
     protected void setImage( Image image ) {
-        pImage.setImage( image );
+        skaterImageNode.setImage( image );
         update();
     }
 
@@ -197,59 +202,33 @@ public class BodyGraphic extends PNode {
         this.body = body;
     }
 
-    public PImage getpImage() {
-        return pImage;
-    }
-
     public void update() {
         boundsDebugPPath.setPathTo( body.getShape() );
+        updateSkaterTransform();
 
-        pImage.setTransform( createSkaterTransform() );
-//        centerDebugger.setPathTo( new Rectangle2D.Double( body.getAttachPoint().getX(), body.getAttachPoint().getY(), 0.1, 0.1 ) );
+        jetPackNode.setVisible( body.getThrust().getMagnitude() > 0 );
+        updateJetPackTransform();
         centerDebugger.setPathTo( new Rectangle2D.Double( body.getCenterOfMass().getX(), body.getCenterOfMass().getY(), 0.1, 0.1 ) );
         feetDebugger.setPathTo( body.getFeetShape() );
-        
-//        particleImageNode.update();
-//        System.out.println( "particleImageNode.getGlobalFullBounds() = " + particleImageNode.getGlobalFullBounds() );
-//        invalidateFullBounds();
+    }
+    private void updateJetPackTransform() {
+        jetPackNode.setTransform( new AffineTransform() );
+        jetPackNode.setOffset( skaterImageNode.getFullBounds().getCenter2D());
+        jetPackNode.transformBy( AffineTransform.getScaleInstance( 2 * body.getWidth() / skaterImage.getWidth(), -2 * body.getHeight() / skaterImage.getHeight() ) );
+        jetPackNode.translate( -jetPackImage.getWidth()/2,-jetPackImage.getHeight( )/2);
+        jetPackNode.rotateAboutPoint( -body.getThrust().getAngle()+Math.PI/2,jetPackImage.getWidth()/2,jetPackImage.getHeight( )/2);
     }
 
-    public static AffineTransform createTransform( Body body, AffineTransform bodyTransform, double objWidth, double objHeight, int imageWidth, int imageHeight ) {
-        AffineTransform t = new AffineTransform();
-        t.concatenate( bodyTransform );
-//        t.translate( -objWidth / 2, 0 );
-        t.translate( -objWidth / 2, -objHeight);
-        t.translate( 0, -AbstractSpline.SPLINE_THICKNESS / 2.0 );
-        t.scale( objWidth / imageWidth, objHeight / imageHeight );
-
-        if( !body.isFacingRight() ) {
-            t.concatenate( AffineTransform.getScaleInstance( -1, 1 ) );
-            t.translate( -imageWidth * 3 / 2.0, 0 );
-        }
-        else {
-//            t.concatenate( AffineTransform.getScaleInstance( -1, 1 ) );
-            t.translate( imageWidth / 2, 0 );
-        }
-        return t;
+    private void updateSkaterTransform() {
+        skaterImageNode.setTransform( new AffineTransform() );
+        skaterImageNode.setOffset( body.getX(), body.getY() );
+        skaterImageNode.transformBy( AffineTransform.getScaleInstance( body.getWidth() / skaterImage.getWidth(), -body.getHeight() / skaterImage.getHeight() ) );
+        skaterImageNode.rotate( -body.getRotation() );
+        skaterImageNode.translate( -skaterImage.getWidth() / 2, -skaterImage.getHeight() );
     }
 
     public boolean isFacingRight() {
         return body.isFacingRight();
-    }
-
-    public AffineTransform createSkaterTransform() {
-        return createTransform( body, body.getTransform(), getBodyModelWidth(),
-                                getBodyModelHeight(),
-                                pImage.getImage().getWidth( null ),
-                                pImage.getImage().getHeight( null ) );
-    }
-
-    public double getBodyModelHeight() {
-        return body.getHeight();
-    }
-
-    public double getBodyModelWidth() {
-        return body.getWidth();
     }
 
     public boolean isBoxVisible() {

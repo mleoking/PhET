@@ -108,20 +108,20 @@ public class EnergySkateParkModuleBean {
         public BodyElement( Body body ) {
             position = new Point2D.Double( body.getPosition().getX(),body.getPosition().getY( ));
             velocity = new Point2D.Double( body.getVelocity().getX(), body.getVelocity().getY() );
-            acceleration = new Point2D.Double( body.getAcceleration().getX(), body.getAcceleration().getY() );
+//            acceleration = new Point2D.Double( body.getAcceleration().getX(), body.getAcceleration().getY() );
 //            cmRotation = body.getCMRotation();
             angularVelocity = body.getAngularVelocity();
             frictionCoefficient = body.getFrictionCoefficient();
             mass = body.getMass();
             thermalEnergy = body.getThermalEnergy();
             freeFrame = body.isFreeFallMode();
-            this.attachmentPointRotation = body.getAttachmentPointRotation();
+            this.attachmentPointRotation = body.getRotation();
         }
 
         public void apply( Body body ) {
             body.setAttachmentPointPosition( position );
             body.setVelocity( velocity.x, velocity.y );
-            body.setAcceleration( acceleration.x, acceleration.y );
+//            body.setAcceleration( acceleration.x, acceleration.y );
 
             body.setAngularVelocity( angularVelocity );
             body.setFrictionCoefficient( frictionCoefficient );
@@ -129,7 +129,7 @@ public class EnergySkateParkModuleBean {
 //            body.setThermalEnergy( thermalEnergy );
 //            body.convertToFreefall( freeFrame );
 //            body.setCMRotation( cmRotation );
-            body.setAttachmentPointRotation( attachmentPointRotation );
+//            body.setAttachmentPointRotation( attachmentPointRotation );
         }
 
         public boolean isFreeFrame() {
