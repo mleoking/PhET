@@ -106,7 +106,7 @@ public class EnergySkateParkModuleBean {
         }
 
         public BodyElement( Body body ) {
-            position = body.getPosition();
+            position = new Point2D.Double( body.getPosition().getX(),body.getPosition().getY( ));
             velocity = new Point2D.Double( body.getVelocity().getX(), body.getVelocity().getY() );
             acceleration = new Point2D.Double( body.getAcceleration().getX(), body.getAcceleration().getY() );
 //            cmRotation = body.getCMRotation();

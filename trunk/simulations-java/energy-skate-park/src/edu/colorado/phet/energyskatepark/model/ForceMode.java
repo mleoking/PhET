@@ -37,7 +37,7 @@ public class ForceMode implements UpdateMode, Derivable {
     }
 
     private void updateRK4( final Body body, double dt ) {
-        double y[] = new double[]{body.getAttachPoint().getY(), body.getVelocity().getY()};
+        double y[] = new double[]{body.getPosition().getY(), body.getVelocity().getY()};
         RK4.Diff diffy = new RK4.Diff() {
             public void f( double t, double y[], double F[] ) {
                 F[0] = y[1];
@@ -46,7 +46,7 @@ public class ForceMode implements UpdateMode, Derivable {
         };
         RK4.rk4( 0, y, dt, diffy );
 
-        double x[] = new double[]{body.getAttachPoint().getX(), body.getVelocity().getX()};
+        double x[] = new double[]{body.getPosition().getX(), body.getVelocity().getX()};
         RK4.Diff diffx = new RK4.Diff() {
             public void f( double t, double x[], double F[] ) {
                 F[0] = x[1];

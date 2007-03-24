@@ -38,7 +38,7 @@ public class AttachmentPointNode extends PhetPNode {
     }
 
     private void update() {
-        Point2D attachPoint2D = body.getAttachPoint();
+        Point2D attachPoint2D = body.getPosition();
         ec3Canvas.getPhetRootNode().worldToScreen( attachPoint2D );
         setOffset( attachPoint2D );
     }
