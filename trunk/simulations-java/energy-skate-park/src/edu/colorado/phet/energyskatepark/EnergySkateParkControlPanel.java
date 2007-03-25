@@ -188,7 +188,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         } );
 //        module.getClock().addClockListener( new ClockAdapter() {
 //            public void clockTicked( ClockEvent event ) {
-//                EnergyConservationModel model = module.getEnergyConservationModel();
+//                EnergyConservationModel model = module.getEnergySkateParkModel();
 //                for( int i = 0; i < model.numBodies(); i++ ) {
 //                    Body b = model.bodyAt( i );
 //                    b.setMass( mass.getValue() );

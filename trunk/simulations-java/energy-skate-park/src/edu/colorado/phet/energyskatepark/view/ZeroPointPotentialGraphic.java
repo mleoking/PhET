@@ -47,7 +47,7 @@ public class ZeroPointPotentialGraphic extends PhetPNode {
                 double dy = event.getCanvasDelta().getHeight();
                 PDimension dim = new PDimension( 0, dy );
                 canvas.getPhetRootNode().screenToWorld( dim );
-                canvas.getEnergyConservationModel().translateZeroPointPotentialY( dim.getHeight() );
+                canvas.getEnergySkateParkModel().translateZeroPointPotentialY( dim.getHeight() );
             }
         } );
         addInputEventListener( new CursorHandler() );

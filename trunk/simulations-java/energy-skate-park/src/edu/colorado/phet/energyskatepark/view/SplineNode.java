@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
 import edu.colorado.phet.piccolo.event.CursorHandler;
@@ -77,6 +78,9 @@ public class SplineNode extends PNode {
         splinePath.addInputEventListener( this.dragHandler );
         splinePath.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         splinePath.addInputEventListener( new PopupMenuHandler( parent, new PathPopupMenu( ec3Canvas ) ) );
+    }
+    public ParametricFunction2D getParametricFunction2D(){
+        return spline.getParametricFunction2D();
     }
 
     private BasicStroke getTrackStroke( float thickness ) {

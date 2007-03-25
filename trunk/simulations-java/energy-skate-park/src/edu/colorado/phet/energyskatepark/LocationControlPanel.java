@@ -72,7 +72,7 @@ public class LocationControlPanel extends VerticalLayoutPanel {
                 planet.apply( module );
                 matched = true;
             }
-//            planetButtons[i].setSelected( module.getEnergyConservationModel().getGravity() == planet.getGravity() );
+//            planetButtons[i].setSelected( module.getEnergySkateParkModel().getGravity() == planet.getGravity() );
             boolean match = module.getEnergySkateParkModel().getGravity() == planet.getGravity();
             planetButtons[i].setSelected( match );
         }

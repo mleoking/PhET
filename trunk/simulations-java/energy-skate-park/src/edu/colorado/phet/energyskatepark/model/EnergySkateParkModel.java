@@ -25,7 +25,6 @@ public class EnergySkateParkModel {
     private ArrayList listeners = new ArrayList();
     private boolean recordPath = false;
     private double initZeroPointPotentialY;
-//    private PotentialEnergyMetric potentialEnergyMetric;
 
     public static final double G_SPACE = 0.0;
     public static final double G_EARTH = -9.81;
@@ -34,24 +33,9 @@ public class EnergySkateParkModel {
     private int maxNumHistoryPoints = 100;
     private static boolean thermalLanding = true;
 
-
     public EnergySkateParkModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
         this.initZeroPointPotentialY = zeroPointPotentialY;
-//        potentialEnergyMetric = new PotentialEnergyMetric() {
-//            public double getPotentialEnergy( Body body ) {
-//                double h = EnergySkateParkModel.this.zeroPointPotentialY - body.getCenterOfMass().getY();
-//                return body.getMass() * gravity * h;
-//            }
-//
-//            public double getGravity() {
-//                return gravity;
-//            }
-//
-//            public PotentialEnergyMetric copy() {
-//                return this;
-//            }
-//        };
         updateFloorState();
     }
 
@@ -114,10 +98,6 @@ public class EnergySkateParkModel {
         }
         return false;
     }
-
-//    public PotentialEnergyMetric getPotentialEnergyMetric() {
-//        return potentialEnergyMetric;
-//    }
 
     public void removeAllSplineSurfaces() {
         while( splines.size() > 0 ) {
@@ -198,7 +178,6 @@ public class EnergySkateParkModel {
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
             body.setGravityState(gravity,zeroPointPotentialY);
-//            body.setPotentialEnergyMetric( getPotentialEnergyMetric() );
             if( body.isSplineMode() ) {
                 ParametricFunction2D spline = body.getSpline();
                 EnergySkateParkSpline esps = getEnergySkateParkSpline( spline );
@@ -209,7 +188,7 @@ public class EnergySkateParkModel {
 //                        System.out.println( "\"Skater is on a track that the model doesn't currently know about\" = " + "Skater is on a track that the model doesn't currently know about" );
 //                    }
 //                    else {
-                    body.stayInSplineModeNewSpline( esps );
+                    body.stayInSplineModeNewSpline( esps,true );//todo: determine side of spline
 //                    }
                 }
             }
@@ -236,35 +215,6 @@ public class EnergySkateParkModel {
         }
         return false;
     }
-//
-//    private EnergySkateParkSpline getBestSplineMatch( EnergySkateParkSpline spline ) {
-//        if( containsSpline( spline ) ) {
-//            return spline;
-//        }
-//        else {
-//            double bestScore = Double.POSITIVE_INFINITY;
-//            AbstractSpline best = null;
-//            for( int i = 0; i < splines.size(); i++ ) {
-//                EnergySkateParkSpline splineSurface = (EnergySkateParkSpline)splines.get( i );
-//                double score = spline.getDistance( splineSurface.getSpline() );
-//                if( score < bestScore ) {
-//                    bestScore = score;
-//                    best = splineSurface.getSpline();
-//                }
-//            }
-//            return best;
-//        }
-//    }
-
-//    private boolean containsSpline( EnergySkateParkSpline spline ) {
-//        for( int i = 0; i < splines.size(); i++ ) {
-//            EnergySkateParkSpline splineSurface = (EnergySkateParkSpline)splines.get( i );
-//            if( splineSurface == spline ) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 
     public double timeSinceLastHistory() {
         if( history.size() == 0 ) {

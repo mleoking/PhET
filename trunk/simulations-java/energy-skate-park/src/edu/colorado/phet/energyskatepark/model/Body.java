@@ -71,7 +71,7 @@ public class Body {
         controls.setVisible( true );
     }
 
-    public void stayInSplineModeNewSpline( EnergySkateParkSpline bestMatch ) {
+    public void stayInSplineModeNewSpline( EnergySkateParkSpline bestMatch,boolean top ) {
         particle.getParticle1D().setCubicSpline2D( bestMatch.getParametricFunction2D(), true );//todo: correct side
     }
 

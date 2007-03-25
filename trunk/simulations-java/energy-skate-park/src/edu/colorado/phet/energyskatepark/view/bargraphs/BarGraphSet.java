@@ -6,7 +6,6 @@ import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkSimulationPanel;
-import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
 import edu.umd.cs.piccolo.PNode;
@@ -77,7 +76,7 @@ public class BarGraphSet extends PNode {
         } );
         max.setBackground( Color.green );
         maximizeButton = new PSwing( energySkateParkSimulationPanel, max );
-        energySkateParkSimulationPanel.getEnergyConservationModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter(){
+        energySkateParkSimulationPanel.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter(){
             public void stepFinished() {
                 update();
             }
