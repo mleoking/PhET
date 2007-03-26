@@ -131,7 +131,6 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     // Instance data
     //----------------------------------------------------------------------------
 
-    private PSwingCanvas _canvas;
     private Dimension _size;
     private Font _font;
     private double _minWavelength, _maxWavelength;
@@ -164,19 +163,17 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     /**
      * Constructor.
      * 
-     * @param canvas
      * @param size 
      * @param font
      * @param minWavelength
      * @param maxWavelength
      */
-    public SpectrometerNode( PSwingCanvas canvas, Dimension size, String title, Font font, double minWavelength, double maxWavelength ) {
+    public SpectrometerNode( Dimension size, String title, Font font, double minWavelength, double maxWavelength ) {
 
         if ( minWavelength >= VisibleColor.MIN_WAVELENGTH || maxWavelength <= VisibleColor.MAX_WAVELENGTH ) {
             throw new IllegalArgumentException( "requries a spectrum the contains UV, IR and visible wavelengths" );
         }
         
-        _canvas = canvas;
         _size = new Dimension( size.width, size.height );
         _font = font;
         _minWavelength = minWavelength;
@@ -220,7 +217,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
         }
 
         // Close button
-        _closeButton = new CloseButtonNode( canvas );
+        _closeButton = new CloseButtonNode();
         _closeButton.setOffset( size.getWidth() - _closeButton.getFullBounds().getWidth() - CLOSE_BUTTON_X_MARGIN, CLOSE_BUTTON_Y_MARGIN );
         
         // Button panel, centered below the black rectangle.
@@ -446,7 +443,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
      * @param title
      */
     public SpectrometerSnapshotNode getSnapshot( String title ) {
-        return new SpectrometerSnapshotNode( this, title, _canvas );
+        return new SpectrometerSnapshotNode( this, title );
     }
     
     /**
@@ -703,9 +700,8 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
          * 
          * @param spectrometerNode
          * @param title
-         * @param canvas
          */
-        protected SpectrometerSnapshotNode( SpectrometerNode spectrometerNode, String title, PSwingCanvas canvas ) {
+        protected SpectrometerSnapshotNode( SpectrometerNode spectrometerNode, String title ) {
             super();
 
             // Background panel
@@ -741,7 +737,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             PImage staticNode = new PImage( parentNode.toImage() );
 
             // Close button
-            _closeButton = new CloseButtonNode( canvas );
+            _closeButton = new CloseButtonNode();
             _closeButton.setOffset( pfb.getMaxX() - _closeButton.getFullBounds().getWidth() - CLOSE_BUTTON_X_MARGIN, pfb.getY() + CLOSE_BUTTON_Y_MARGIN );
 
             // Node layering order

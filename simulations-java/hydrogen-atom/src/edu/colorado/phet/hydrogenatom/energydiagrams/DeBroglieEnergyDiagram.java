@@ -28,7 +28,7 @@ public class DeBroglieEnergyDiagram extends BohrEnergyDiagram {
      * @param canvas
      * @param clock
      */
-    public DeBroglieEnergyDiagram( PSwingCanvas canvas, IClock clock ) {
-        super( canvas, clock );
+    public DeBroglieEnergyDiagram( IClock clock ) {
+        super( clock );
     }
 }

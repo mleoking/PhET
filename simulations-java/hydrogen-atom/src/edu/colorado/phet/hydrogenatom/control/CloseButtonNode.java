@@ -38,9 +38,9 @@ public class CloseButtonNode extends PhetPNode {
 
     private JButton _closeButton;
     
-    public CloseButtonNode( PSwingCanvas canvas ) {
+    public CloseButtonNode() {
         _closeButton = new CloseButton();
-        PSwing closeButtonWrapper = new PSwing(_closeButton );
+        PSwing closeButtonWrapper = new PSwing( _closeButton );
         closeButtonWrapper.addInputEventListener( new CursorHandler() );
         addChild( closeButtonWrapper );
     }

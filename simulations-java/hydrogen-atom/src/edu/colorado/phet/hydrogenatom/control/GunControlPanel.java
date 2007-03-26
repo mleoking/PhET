@@ -97,7 +97,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
     /**
      * Constructor.
      */
-    public GunControlPanel( PSwingCanvas canvas, Gun gun, TracesNode tracesNode ) {
+    public GunControlPanel( Gun gun, TracesNode tracesNode ) {
         super();
         
         _gun = gun;
@@ -115,13 +115,12 @@ public class GunControlPanel extends PhetPNode implements Observer {
         lightControlsLabel.setFont( labelFont );
         PSwing lightControlsLabelWrapper = new PSwing(lightControlsLabel );
         
-        _gunTypeControl = new GunTypeControl( canvas, font );
+        _gunTypeControl = new GunTypeControl( font );
         
         _lightControls = new PhetPNode();
         _lightTypeControl = new LightTypeControl( font );
         _lightIntensityControl = new IntensityControl( INTENSITY_CONTROL_SIZE, font );
-        _wavelengthControl = new GunWavelengthControl( canvas,
-                _gun.getMinWavelength(), _gun.getMaxWavelength(),
+        _wavelengthControl = new GunWavelengthControl( _gun.getMinWavelength(), _gun.getMaxWavelength(),
                 HAConstants.UV_TRACK_COLOR, HAConstants.UV_LABEL_COLOR,
                 HAConstants.IR_TRACK_COLOR, HAConstants.IR_LABEL_COLOR );
         _transitionMarksControl = new TransitionMarksControl( font );

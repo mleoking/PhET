@@ -67,8 +67,8 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
      * 
      * @param canvas
      */
-    public SolarSystemEnergyDiagram( PSwingCanvas canvas ) {
-        super( 0 /* numberOfStates */, canvas );
+    public SolarSystemEnergyDiagram() {
+        super( 0 /* numberOfStates */ );
     }
     
     /**

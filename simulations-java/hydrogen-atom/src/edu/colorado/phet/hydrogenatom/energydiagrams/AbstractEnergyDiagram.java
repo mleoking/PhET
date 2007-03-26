@@ -127,7 +127,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
      * @param numberOfStates
      * @param canvas
      */
-    public AbstractEnergyDiagram( int numberOfStates, PSwingCanvas canvas ) {
+    public AbstractEnergyDiagram( int numberOfStates ) {
         super();
         
         setPickable( false );
@@ -141,7 +141,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         
         // Title bar, with title & close button
         PText titleNode = new PText( SimStrings.get( "title.energyDiagram" ) );
-        _closeButton = new CloseButtonNode( canvas );
+        _closeButton = new CloseButtonNode();
         PPath titleBarNode = new PPath();
         titleBarNode.addChild( titleNode );
         titleBarNode.addChild( _closeButton );

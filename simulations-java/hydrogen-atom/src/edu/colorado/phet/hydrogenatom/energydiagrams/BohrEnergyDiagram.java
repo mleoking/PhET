@@ -67,8 +67,8 @@ public class BohrEnergyDiagram extends AbstractEnergyDiagram implements Observer
      * @param canvas
      * @param clock
      */
-    public BohrEnergyDiagram( PSwingCanvas canvas, IClock clock ) {
-        super( BohrModel.getNumberOfStates(), canvas );
+    public BohrEnergyDiagram( IClock clock ) {
+        super( BohrModel.getNumberOfStates() );
         
         assert( BohrModel.getGroundState() == 1 ); // n=1 must be ground state
         assert( BohrModel.getNumberOfStates() == 6 ); // 6 states

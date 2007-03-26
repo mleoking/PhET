@@ -81,8 +81,8 @@ public class SchrodingerEnergyDiagram extends AbstractEnergyDiagram implements O
      * @param canvas
      * @param clock
      */
-    public SchrodingerEnergyDiagram( PSwingCanvas canvas, IClock clock ) {
-        super( SchrodingerModel.getNumberOfStates(), canvas );
+    public SchrodingerEnergyDiagram( IClock clock ) {
+        super( SchrodingerModel.getNumberOfStates() );
         
         assert( SchrodingerModel.getGroundState() == 1 ); // n=1 must be ground state
         assert( SchrodingerModel.getNumberOfStates() == 6 ); // 6 states
