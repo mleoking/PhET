@@ -81,7 +81,7 @@ public class MriApplication extends PiccoloPhetApplication {
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                SimStrings.getInstance().initYoda( args, MriConfig.STRINGS_BUNDLE_NAME );
+                SimStrings.getInstance().init( args, MriConfig.STRINGS_BUNDLE_NAME );
 
                 // Set the look and feel. Make the fonts a bit stronger
                 PhetLookAndFeel.setLookAndFeel();

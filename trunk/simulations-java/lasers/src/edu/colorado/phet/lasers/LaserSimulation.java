@@ -159,7 +159,7 @@ public class LaserSimulation extends PhetApplication {
      * @param args
      */
     public static void main( String[] args ) {
-        SimStrings.getInstance().initYoda( args, LaserConfig.localizedStringsPath );
+        SimStrings.getInstance().init( args, LaserConfig.localizedStringsPath );
 
         String arch = System.getProperty( "os.name", "" );
 

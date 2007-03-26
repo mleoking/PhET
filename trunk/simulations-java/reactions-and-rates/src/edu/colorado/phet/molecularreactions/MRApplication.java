@@ -47,7 +47,7 @@ public class MRApplication extends PiccoloPhetApplication {
             public void run() {
 
                 // Standard initializations
-                SimStrings.getInstance().initYoda( args, MRConfig.LOCALIZATION_BUNDLE );
+                SimStrings.getInstance().init( args, MRConfig.LOCALIZATION_BUNDLE );
                 PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
                 phetLookAndFeel.setFont( MRConfig.CONTROL_FONT );
                 phetLookAndFeel.setTitledBorderFont( MRConfig.CONTROL_FONT );

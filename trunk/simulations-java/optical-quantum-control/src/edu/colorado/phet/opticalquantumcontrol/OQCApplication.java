@@ -133,7 +133,7 @@ public class OQCApplication extends PhetApplication {
     public static void main( String[] args ) throws IOException {
 
         // Initialize localization.
-        SimStrings.getInstance().initYoda( args, OQCConstants.SIM_STRINGS_NAME );
+        SimStrings.getInstance().init( args, OQCConstants.SIM_STRINGS_NAME );
         
         // Load simulation properties file
         Properties simulationProperties = PropertiesLoader.loadProperties( OQCConstants.SIM_PROPERTIES_NAME );

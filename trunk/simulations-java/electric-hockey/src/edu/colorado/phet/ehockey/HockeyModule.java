@@ -35,7 +35,7 @@ public class HockeyModule extends JApplet implements Runnable {
         if( isApplet ) {
             String applicationLocale = Toolkit.getProperty( "javaws.locale", null );
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-                SimStrings.setLocale( new Locale( applicationLocale ) );
+                SimStrings.getInstance().setLocale( new Locale( applicationLocale ) );
             }
             SimStrings.setStrings( HockeyConfig.localizedStringPath );
         }
@@ -93,7 +93,7 @@ public class HockeyModule extends JApplet implements Runnable {
     }
 
     public static void main( String[] args ) {
-        SimStrings.getInstance().initYoda( args, HockeyConfig.localizedStringPath );
+        SimStrings.getInstance().init( args, HockeyConfig.localizedStringPath );
 
         isApplet = false;
 

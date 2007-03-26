@@ -85,7 +85,7 @@ public class BalloonApplet extends JApplet implements IHelp {
         if( isApplet ) {
             String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-                SimStrings.setLocale( new Locale( applicationLocale ) );
+                SimStrings.getInstance().setLocale( new Locale( applicationLocale ) );
             }
             SimStrings.setStrings( BalloonsConfig.localizedStringsPath );
         }
@@ -311,7 +311,7 @@ public class BalloonApplet extends JApplet implements IHelp {
     }
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException {
-        SimStrings.getInstance().initYoda( args, BalloonsConfig.localizedStringsPath );
+        SimStrings.getInstance().init( args, BalloonsConfig.localizedStringsPath );
 
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
         isApplet = false;

@@ -37,7 +37,7 @@ public class SimStrings_Balloons {
         // Get the default locale from property javaws.locale.
         String applicationLocale = System.getProperty( "javaws.locale" );
         if ( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            SimStrings.setLocale( new Locale( applicationLocale ) );
+            SimStrings.getInstance().setLocale( new Locale( applicationLocale ) );
         }
 
         // Override default locale using "user.language=" command line argument.
@@ -45,7 +45,7 @@ public class SimStrings_Balloons {
         for ( int i = 0; i < args.length; i++ ) {
             if ( args[i].startsWith( argsKey ) ) {
                 String locale = args[i].substring( argsKey.length(), args[i].length() );
-                SimStrings.setLocale( new Locale( locale ) );
+                SimStrings.getInstance().setLocale( new Locale( locale ) );
                 break;
             }
         }

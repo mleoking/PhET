@@ -99,7 +99,7 @@ public class PhotoelectricApplication extends PhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new PhetLookAndFeel().initLookAndFeel();
-                SimStrings.getInstance().initYoda( args, resourceBundleName );
+                SimStrings.getInstance().init( args, resourceBundleName );
                 new PhotoelectricApplication( args ).startApplication();
             }
         } );

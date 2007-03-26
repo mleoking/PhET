@@ -224,7 +224,7 @@ public class QTApplication extends PhetApplication {
     public static void main( final String[] args ) throws IOException {
 
         // Initialize localization.
-        SimStrings.getInstance().initYoda( args, QTConstants.SIM_STRINGS_NAME );
+        SimStrings.getInstance().init( args, QTConstants.SIM_STRINGS_NAME );
 
         // Load simulation properties file
         Properties simulationProperties = PropertiesLoader.loadProperties( QTConstants.SIM_PROPERTIES_NAME );

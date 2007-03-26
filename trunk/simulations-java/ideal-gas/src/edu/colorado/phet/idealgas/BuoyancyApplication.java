@@ -96,7 +96,7 @@ public class BuoyancyApplication extends PhetApplication {
             e.printStackTrace();
         }
 
-        SimStrings.getInstance().initYoda( args, IdealGasConfig.localizedStringsPath );
+        SimStrings.getInstance().init( args, IdealGasConfig.localizedStringsPath );
         new BuoyancyApplication( args ).startApplication();
     }
 }
