@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+3/27/07 - remove canvas argument from all ancestor nodes of PSwing in scenegraph
 3/20/07 - use DialogUtils in phetcommon
 3/20/07 - move ColorChooserFactory to phetcommon
 3/20/07 - move DoubleRange, IntegerRange, ArgUtils to phetcommon
