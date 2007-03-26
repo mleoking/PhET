@@ -75,7 +75,7 @@ public abstract class Module {
         this.name = name;
         this.clock = clock;
         setModel( new BaseModel() );
-        SimStrings.setStrings( "localization/CommonStrings" );
+        SimStrings.getInstance().init( "localization/CommonStrings" );
 
         this.modulePanel = new ModulePanel();
         setClockControlPanel( new ClockControlPanel( clock ) );
