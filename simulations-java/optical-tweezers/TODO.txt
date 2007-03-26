@@ -3,12 +3,13 @@
 ===============================================================================
 
 IN PROGRESS:
+- implement laser beam shape
+- change diameter to radius for bead and laser properties
 
 HIGH PRIORITY:
 - bug: ruler is not quite aligned with bead
 - bug: fluid viscosity slider is brain damaged
 - change model coordinate system origin to be at center of laser's waist?
-- implement laser beam shape
 - implement laser beam gradient
 - implement force model for fast mode
 - implement bead motion model
@@ -66,6 +67,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/26/07 - add beam shape model to Laser
+3/26/07 - add size and layout dependencies to PhysicsDefaults
 3/26/07 - add zr scaling factor to model of laser beam shape
 3/23/07 - implement laser profile model, create test program to show scale problems
 3/23/07 - change default fluid speed to 0

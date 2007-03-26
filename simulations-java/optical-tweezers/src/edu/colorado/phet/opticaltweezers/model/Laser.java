@@ -26,11 +26,15 @@ public class Laser extends MovableObject implements ModelElement {
     //----------------------------------------------------------------------------
     
     private boolean _running;
-    private final double _diameter; // nm
+    private final double _diameterAtObjective; // nm
+    private final double _diameterAtWaist; // nm
+    private final double _distanceFromObjectiveToWaist;
+    private final double _distanceFromObjectiveToControlPanel; // nm
     private final double _wavelength; // nm
     private final double _visibleWavelength; // nm
     private double _power; // mW
     private final DoubleRange _powerRange; // mW
+    private final double _zrScale;  // scaling factor for zr term, constrains the width of the beam shape
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -41,20 +45,30 @@ public class Laser extends MovableObject implements ModelElement {
      * 
      * @param position position of the laser's objective (nm)
      * @param orientation orientation of the beam (radians)
-     * @param diameter diameter of the laser beam, as it enters the objective (nm)
+     * @param diameterAtObjective diameter of the beam at the objective (nm)
+     * @param diameterAtWaist diameter at the waist of the beam (nm)
+     * @param distanceFromObjectiveToWaist distance from the objective to the waist (nm)
+     * @param distanceFromObjectiveToControlPanel distance from objective to control panel (nm)
      * @param wavelength wavelength (nm)
      * @param visibleWavelength wavelength (nm) to use in views, since actual wavelength is likely IR
      * @param power power (mW)
      */
-    public Laser( Point2D position, double orientation, double diameter, double wavelength, double visibleWavelength, DoubleRange powerRange ) {
+    public Laser( Point2D position, double orientation, 
+            double diameterAtObjective, double diameterAtWaist, double distanceFromObjectiveToWaist, double distanceFromObjectiveToControlPanel,
+            double wavelength, double visibleWavelength, DoubleRange powerRange ) {
         super( position, orientation, 0 /* speed */ );
         
         _running = false;
-        _diameter = diameter;
+        _diameterAtObjective = diameterAtObjective;
+        _diameterAtWaist = diameterAtWaist;
+        _distanceFromObjectiveToWaist = distanceFromObjectiveToWaist;
+        _distanceFromObjectiveToControlPanel = distanceFromObjectiveToControlPanel;
         _wavelength = wavelength;
         _visibleWavelength = visibleWavelength;
         _power = powerRange.getDefault();
         _powerRange = new DoubleRange( powerRange );
+        
+        _zrScale = getBeamRadiusAt( _distanceFromObjectiveToWaist, _diameterAtWaist / 2, _wavelength, 1 ) / ( _diameterAtObjective / 2 );
     }
     
     //----------------------------------------------------------------------------
@@ -72,8 +86,20 @@ public class Laser extends MovableObject implements ModelElement {
         return _running;
     }
     
-    public double getDiameter() {
-        return _diameter;
+    public double getDiameterAtObjective() {
+        return _diameterAtObjective;
+    }
+    
+    public double getDiameterAtWaist() {
+        return _diameterAtWaist;
+    }
+
+    public double getDistanceFromObjectiveToWaist() {
+        return _distanceFromObjectiveToWaist;
+    }
+    
+    public double getDistanceFromObjectiveToControlPanel() {
+        return _distanceFromObjectiveToControlPanel;
     }
     
     public double getWavelength() {
@@ -100,6 +126,38 @@ public class Laser extends MovableObject implements ModelElement {
     
     public DoubleRange getPowerRange() {
         return _powerRange;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Beam shape
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Gets the beam radius at a specified distance from the center of the waist.
+     * The center of the waist is at (0,0).  If we draw a line through the center
+     * of the waist, in the direction that the beam is pointing, then z is a 
+     * distance on this line.
+     * 
+     * @param z vertical distance from the center of the waist (nm)
+     */
+    public double getBeamRadiusAt( double z ) {
+        return getBeamRadiusAt( z, _diameterAtWaist/2, _wavelength, _zrScale );
+    }
+    
+    /*
+     * Gets the beam radius at a specified distance from the waist.
+     * Calculation assumes that (0,0) is at the center of the waist.
+     * 
+     * @param z distance from waist
+     * @param r0 radius at waist
+     * @param wavelength
+     * @param zrScale
+     */
+    private static double getBeamRadiusAt( double z, double r0, double wavelength, double zrScale ) {
+        double zAbs = Math.abs( z );
+        double zr = zrScale * Math.PI * r0 * r0 / wavelength;
+        double rz = r0 * Math.sqrt(  1 + ( ( zAbs / zr ) * ( zAbs / zr )  ) );
+        return rz;
     }
     
     //----------------------------------------------------------------------------
