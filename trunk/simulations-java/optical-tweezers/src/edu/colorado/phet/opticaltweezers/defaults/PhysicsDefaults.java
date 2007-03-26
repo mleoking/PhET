@@ -51,7 +51,7 @@ public class PhysicsDefaults {
     public static final boolean LASER_RUNNING = true;
     
     // Bead model, local origin at center
-    public static final Point2D BEAD_POSITION = new Point2D.Double( LASER_POSITION.getX(), FLUID_POSITION.getY() ); // nm
+    public static final Point2D BEAD_POSITION = new Point2D.Double( LASER_POSITION.getX(), LASER_POSITION.getY() ); // nm
     public static final double BEAD_ORIENTATION = Math.toRadians( 0 );
     public static final double BEAD_DIAMETER = 200; // nm
     public static final double BEAD_DENSITY = 1.05E-21; // g/nm^3, polystyrene
