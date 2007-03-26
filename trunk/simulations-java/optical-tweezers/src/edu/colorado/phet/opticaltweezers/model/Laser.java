@@ -9,6 +9,7 @@ import edu.colorado.phet.common.util.DoubleRange;
 
 /**
  * Laser is the model of the laser.
+ * Position indicates where the center of the waist is located.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
