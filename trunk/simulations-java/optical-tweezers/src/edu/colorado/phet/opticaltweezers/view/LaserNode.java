@@ -6,14 +6,12 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
-import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.common.util.DoubleRange;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.control.LaserControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Laser;
@@ -23,9 +21,13 @@ import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.HandleNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
-
+/**
+ * LaserNode is the visual representation of the laser.
+ * The laser view consists of a beam, microscope objective (lens) and control panel.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class LaserNode extends PhetPNode implements Observer, PropertyChangeListener {
 
     //----------------------------------------------------------------------------
@@ -36,12 +38,10 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
 
     private static final int MAX_ALPHA_CHANNEL = 180; // 0-255
     
-    private static final double CONTROL_PANEL_Y_OFFSET = 50; // pixels, from the center of the objective
-    
     private static final Stroke LINE_STROKE = new BasicStroke();
     private static final Color LINE_COLOR = Color.BLACK;
     
-    private static final double HANDLE_WIDTH = 25;
+    private static final double HANDLE_WIDTH = 25; // view coordinates
     private static final Color HANDLE_COLOR = Color.LIGHT_GRAY;
     
     private static final double OBJECT_WIDTH_TO_BEAM_WIDTH_RATIO = 0.95; // (objective width)/(beam width)
@@ -77,7 +77,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         
         _modelViewTransform = modelViewTransform;
         
-        final double laserWidth = _modelViewTransform.modelToView( _laser.getDiameter() );
+        final double laserWidth = _modelViewTransform.modelToView( _laser.getDiameterAtObjective() );
         
         // Objective (lens) used to focus the laser beam
         double objectiveWidth = laserWidth / OBJECT_WIDTH_TO_BEAM_WIDTH_RATIO;
@@ -86,9 +86,10 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         
         // Control panel
         _controlPanel = new LaserControlPanel( laser, OTConstants.PLAY_AREA_CONTROL_FONT, objectiveWidth );
+        final double controlPanelYOffset = modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToControlPanel() );
         
         // Lines connecting objective to control panel.
-        Line2D line = new Line2D.Double( 0, 0, 0, CONTROL_PANEL_Y_OFFSET );
+        Line2D line = new Line2D.Double( 0, 0, 0, controlPanelYOffset );
         PPath leftLineNode = new PPath( line );
         leftLineNode.setStroke( LINE_STROKE );
         leftLineNode.setStrokePaint( LINE_COLOR );
@@ -98,7 +99,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         
         // Laser beam coming into objective
         final int alpha = powerToAlpha( _laser.getPower() );
-        _beamInNode = new BeamInNode( laserWidth, CONTROL_PANEL_Y_OFFSET, laser.getVisibleWavelength(), alpha );
+        _beamInNode = new BeamInNode( laserWidth, controlPanelYOffset, laser.getVisibleWavelength(), alpha );
         
         // Laser beam coming out of objective
         double beamOutHeight = _modelViewTransform.modelToView( laser.getPositionRef().getY() ); // distance from top of canvas

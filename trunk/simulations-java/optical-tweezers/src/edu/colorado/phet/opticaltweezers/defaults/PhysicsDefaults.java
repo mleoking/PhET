@@ -29,29 +29,33 @@ public class PhysicsDefaults {
     public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( 1, 100, 1, 1 );
     public static final OTClock CLOCK = new OTClock( CLOCK_FRAME_RATE, CLOCK_DT_RANGE );
     
-    // Laser model
-    public static final Point2D LASER_POSITION = new Point2D.Double( 1200, 1200 ); // nm
-    public static final double LASER_ORIENTATION = Math.toRadians( -90 );
-    public static final double LASER_DIAMETER = 1000; // nm
-    public static final double LASER_WAVELENGTH = 1064; // nm, invisible IR
-    public static final double LASER_VISIBLE_WAVELENGTH = 632; // nm, to be used by view components
-    public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500, 0 ); // mW
-    public static final boolean LASER_RUNNING = true;
-    
-    // Bead model
-    public static final Point2D BEAD_POSITION = new Point2D.Double( 1200, 800 ); // nm
-    public static final double BEAD_ORIENTATION = Math.toRadians( 0 );
-    public static final double BEAD_DIAMETER = 200; // nm
-    public static final double BEAD_DENSITY = 1.05E-21; // g/nm^3, polystyrene
-    
-    // Fluid model
-    public static final Point2D FLUID_POSITION = new Point2D.Double( 0, 600 ); // nm
-    public static final double FLUID_ORIENTATION = Math.toRadians( 0 ); // left-to-right flow direction
+    // Fluid model, local origin at fluid's center
     public static final double FLUID_HEIGHT = 1000; // nm
+    private static final double FLUID_Y_OFFSET = 100; // nm
+    public static final Point2D FLUID_POSITION = new Point2D.Double( 0, FLUID_Y_OFFSET + ( FLUID_HEIGHT /2 ) ); // nm
+    public static final double FLUID_ORIENTATION = Math.toRadians( 0 ); // left-to-right flow direction
     public static final DoubleRange FLUID_SPEED_RANGE = new DoubleRange( 0, 1000, 0, 0 ); // microns/sec, min must be >0
     public static final DoubleRange FLUID_VISCOSITY_RANGE = new DoubleRange( 1E-12, 1E-2, 1E-3, 5 ); // Pa*s
     public static final DoubleRange FLUID_TEMPERATURE_RANGE = new DoubleRange( 50, 350, 200, 0 ); // Kelvin
     
+    // Laser model, local origin at center of objective
+    public static final double LASER_DIAMETER_AT_OBJECTIVE = 1000; // nm
+    public static final double LASER_DIAMETER_AT_WAIST = 500; // nm
+    public static final double LASER_DISTANCE_FROM_OBJECTIVE_TO_WAIST = 600; // nm
+    public static final double LASER_DISTANCE_FROM_OBJECTIVE_TO_CONTROL_PANEL = FLUID_Y_OFFSET; // nm
+    public static final double LASER_WAVELENGTH = 1064; // nm, invisible IR
+    public static final double LASER_VISIBLE_WAVELENGTH = 632; // nm, to be used by view components
+    public static final Point2D LASER_POSITION = new Point2D.Double( 1200, FLUID_POSITION.getY() + LASER_DISTANCE_FROM_OBJECTIVE_TO_WAIST ); // nm
+    public static final double LASER_ORIENTATION = Math.toRadians( -90 );
+    public static final DoubleRange LASER_POWER_RANGE = new DoubleRange( 0, 1000, 500, 0 ); // mW
+    public static final boolean LASER_RUNNING = true;
+    
+    // Bead model, local origin at center
+    public static final Point2D BEAD_POSITION = new Point2D.Double( LASER_POSITION.getX(), FLUID_POSITION.getY() ); // nm
+    public static final double BEAD_ORIENTATION = Math.toRadians( 0 );
+    public static final double BEAD_DIAMETER = 200; // nm
+    public static final double BEAD_DENSITY = 1.05E-21; // g/nm^3, polystyrene
+
     // Control panel settings
     public static final boolean ELECTRIC_FIELD_SELECTED = false;
     public static final boolean BEAD_CHARGES_SELECTED = false;

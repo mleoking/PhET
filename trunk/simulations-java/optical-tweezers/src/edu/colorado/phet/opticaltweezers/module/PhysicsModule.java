@@ -54,9 +54,9 @@ public class PhysicsModule extends AbstractModule {
     // Model
     private OTClock _clock;
     private OTModel _model;
+    private Fluid _fluid;
     private Laser _laser;
     private Bead _bead;
-    private Fluid _fluid;
     
     // View
     private PhetPCanvas _canvas;
@@ -97,10 +97,20 @@ public class PhysicsModule extends AbstractModule {
         
         _model = new OTModel( _clock );
         
+        _fluid = new Fluid( PhysicsDefaults.FLUID_POSITION,
+                PhysicsDefaults.FLUID_ORIENTATION,
+                PhysicsDefaults.FLUID_HEIGHT,
+                PhysicsDefaults.FLUID_SPEED_RANGE, 
+                PhysicsDefaults.FLUID_VISCOSITY_RANGE, 
+                PhysicsDefaults.FLUID_TEMPERATURE_RANGE );
+        
         _laser = new Laser( PhysicsDefaults.LASER_POSITION, 
                 PhysicsDefaults.LASER_ORIENTATION, 
-                PhysicsDefaults.LASER_DIAMETER, 
-                PhysicsDefaults.LASER_WAVELENGTH, 
+                PhysicsDefaults.LASER_DIAMETER_AT_OBJECTIVE, 
+                PhysicsDefaults.LASER_DIAMETER_AT_WAIST,
+                PhysicsDefaults.LASER_DISTANCE_FROM_OBJECTIVE_TO_WAIST,
+                PhysicsDefaults.LASER_DISTANCE_FROM_OBJECTIVE_TO_CONTROL_PANEL,
+                PhysicsDefaults.LASER_WAVELENGTH,
                 PhysicsDefaults.LASER_VISIBLE_WAVELENGTH,
                 PhysicsDefaults.LASER_POWER_RANGE );
         
@@ -108,13 +118,6 @@ public class PhysicsModule extends AbstractModule {
                 PhysicsDefaults.BEAD_ORIENTATION, 
                 PhysicsDefaults.BEAD_DIAMETER,
                 PhysicsDefaults.BEAD_DENSITY );
-        
-        _fluid = new Fluid( PhysicsDefaults.FLUID_POSITION,
-                PhysicsDefaults.FLUID_ORIENTATION,
-                PhysicsDefaults.FLUID_HEIGHT,
-                PhysicsDefaults.FLUID_SPEED_RANGE, 
-                PhysicsDefaults.FLUID_VISCOSITY_RANGE, 
-                PhysicsDefaults.FLUID_TEMPERATURE_RANGE );
 
         //----------------------------------------------------------------------------
         // View
