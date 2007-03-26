@@ -22,13 +22,4 @@ public class SaveDGPanel {
 //        origVersion( dgPlotPanel, parentFrame );
     }
 
-    private void origVersion( DGPlotPanel dgPlotPanel, Frame parentFrame ) {
-        Image copy = dgPlotPanel.getLayer().toImage();
-        BufferedImage c2 = new BufferedImage( copy.getWidth( null ), copy.getHeight( null ), BufferedImage.TYPE_INT_RGB );//trim the south part.
-        c2.createGraphics().drawImage( copy, new AffineTransform(), null );
-        SavedGraph savedGraph = new SavedGraph( MessageFormat.format( QWIStrings.getResourceBundle().getString( "energy.vs.position.save.0" ), new Object[]{new Integer( saveCount )} ), c2, parentFrame );
-        savedGraph.setVisible( true );
-        saveCount++;
-    }
-
 }

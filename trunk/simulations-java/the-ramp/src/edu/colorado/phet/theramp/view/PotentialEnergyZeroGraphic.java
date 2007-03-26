@@ -70,7 +70,7 @@ public class PotentialEnergyZeroGraphic extends PNode {
 
     private void updateLabel() {
         String str = new DecimalFormat( "0.0" ).format( rampPhysicalModel.getZeroPointY() );
-        label.setText( MessageFormat.format( TheRampStrings.getResourceBundle().getString( "h.0.0.y.0" ), new Object[]{str} ) );
+        label.setText( MessageFormat.format( TheRampStrings.getString( "h.0.0.y.0" ), new Object[]{str} ) );
 //        label.setText( "y=0.0" );
     }
 

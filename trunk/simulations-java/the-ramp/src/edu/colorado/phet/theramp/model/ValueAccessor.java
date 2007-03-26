@@ -143,20 +143,20 @@ public abstract class ValueAccessor {
 
     public static abstract class EnergyAccessor extends ValueAccessor {
         public EnergyAccessor( String name, Color color ) {
-            super( name, name, joules, joulesAbbreviation, color, MessageFormat.format( TheRampStrings.getResourceBundle().getString( "0.energy" ), new Object[]{name} ) );
+            super( name, name, joules, joulesAbbreviation, color, MessageFormat.format( TheRampStrings.getString( "0.energy" ), new Object[]{name} ) );
         }
     }
 
     public static abstract class WorkAccessor extends ValueAccessor {
         public WorkAccessor( String name, Color color, String subText ) {
-            super( name, MessageFormat.format( TheRampStrings.getResourceBundle().getString( "w.sub.0.sub" ), new Object[]{subText} ), joules, joulesAbbreviation, color, MessageFormat.format( TheRampStrings.getResourceBundle().getString( "0.work" ), new Object[]{name} ) );
+            super( name, MessageFormat.format( TheRampStrings.getString( "w.sub.0.sub" ), new Object[]{subText} ), joules, joulesAbbreviation, color, MessageFormat.format( TheRampStrings.getString( "0.work" ), new Object[]{name} ) );
         }
     }
 
     public static abstract class ParallelForceAccessor extends ValueAccessor {
 
         protected ParallelForceAccessor( String name, Color color, String subText ) {
-            super( name, MessageFormat.format( TheRampStrings.getResourceBundle().getString( "f.sub.0.sub" ), new Object[]{subText} ), TheRampStrings.getString( "newtons" ), TheRampStrings.getString( "n" ), color, name );
+            super( name, MessageFormat.format( TheRampStrings.getString( "f.sub.0.sub" ), new Object[]{subText} ), TheRampStrings.getString( "newtons" ), TheRampStrings.getString( "n" ), color, name );
         }
 
     }

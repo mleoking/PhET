@@ -269,7 +269,7 @@ public class SurfaceGraphic extends PNode {
         heightExtentGraphic.setVisible( ramp.getHeight() > 0.4 );
         double height = ramp.getHeight();
         String heightStr = new DecimalFormat( "0.0" ).format( height );
-        heightReadoutGraphic.setText( MessageFormat.format( TheRampStrings.getResourceBundle().getString( "h.0.m" ), new Object[]{heightStr} ) );
+        heightReadoutGraphic.setText( MessageFormat.format( TheRampStrings.getString( "h.0.m" ), new Object[]{heightStr} ) );
 
         rampTickSetGraphic.update();
         angleGraphic.update();

@@ -191,7 +191,7 @@ public class TimePlotSuitePNode extends PhetPNode {
         }
 
 
-        JButton maximize = new JButton( MessageFormat.format( TheRampStrings.getResourceBundle().getString( "0.graph" ), new Object[]{name} ) );
+        JButton maximize = new JButton( MessageFormat.format( TheRampStrings.getString( "0.graph" ), new Object[]{name} ) );
         maximize.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
         minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
         maximize.addActionListener( new ActionListener() {

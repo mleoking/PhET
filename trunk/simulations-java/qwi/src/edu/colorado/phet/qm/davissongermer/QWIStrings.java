@@ -18,10 +18,6 @@ public class QWIStrings {
         return SimStrings.get( s );
     }
 
-    public static ResourceBundle getResourceBundle() {
-        return ResourceBundle.getBundle( bundleName, SimStrings.getLocalizedLocale() );
-    }
-
     public static void init( String[] args ) {
         SimStrings.getInstance().init( args, bundleName );
     }
