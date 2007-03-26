@@ -23,6 +23,6 @@ public class QWIStrings {
     }
 
     public static void init( String[] args ) {
-        SimStrings.getInstance().initYoda( args, bundleName );
+        SimStrings.getInstance().init( args, bundleName );
     }
 }

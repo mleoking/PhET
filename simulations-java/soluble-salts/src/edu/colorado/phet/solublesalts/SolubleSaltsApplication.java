@@ -101,7 +101,7 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
             }
         }
 
-        SimStrings.getInstance().initYoda( args, SolubleSaltsConfig.STRINGS_BUNDLE_NAME );
+        SimStrings.getInstance().init( args, SolubleSaltsConfig.STRINGS_BUNDLE_NAME );
 
 
         Color blueBackground = new Color( 230, 250, 255 );

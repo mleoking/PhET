@@ -48,11 +48,11 @@ public class SimStrings {
      * @param args       the commandline arguments that were passed to main
      * @param bundleName the base name of the resource bundle containing localized strings
      */
-    public static void initYoda( String[] args, String bundleName ) {
+    public void init( String[] args, String bundleName ) {
         // Get the default locale from property javaws.locale.
         String applicationLocale = System.getProperty( "javaws.locale" );
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            SimStrings.setLocale( new Locale( applicationLocale ) );
+            getInstance().setLocale( new Locale( applicationLocale ) );
         }
 
         // Override default locale using "user.language=" command line argument.
@@ -60,7 +60,7 @@ public class SimStrings {
         for( int i = 0; i < args.length; i++ ) {
             if( args[i].startsWith( argsKey ) ) {
                 String locale = args[i].substring( argsKey.length(), args[i].length() );
-                SimStrings.setLocale( new Locale( locale ) );
+                getInstance().setLocale( new Locale( locale ) );
                 break;
             }
         }
@@ -70,7 +70,7 @@ public class SimStrings {
     }
 
     // TODO: make this private after all simulation use init
-    public static void setLocale( Locale locale ) {
+    public void setLocale( Locale locale ) {
         INSTANCE.localizedLocale = locale;
         // Reload all existing string resources with the new locale
         Vector priorPaths = INSTANCE.stringsPaths;

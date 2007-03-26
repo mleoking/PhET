@@ -86,7 +86,7 @@ public class IdealGasApplication extends PhetApplication {
         catch( UnsupportedLookAndFeelException e ) {
             e.printStackTrace();
         }
-        SimStrings.getInstance().initYoda( args, IdealGasConfig.localizedStringsPath );
+        SimStrings.getInstance().init( args, IdealGasConfig.localizedStringsPath );
         new IdealGasApplication( args );
     }
 }

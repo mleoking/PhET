@@ -83,7 +83,7 @@ public class BSBandStructureApplication extends BSAbstractApplication {
                 laf.initLookAndFeel();
 
                 // Initialize localization.
-                SimStrings.getInstance().initYoda( args, BSConstants.SIM_STRINGS_NAME );
+                SimStrings.getInstance().init( args, BSConstants.SIM_STRINGS_NAME );
 
                 // Load simulation properties file
                 Properties simulationProperties = PropertiesLoader.loadProperties( BSConstants.SIM_PROPERTIES_NAME );

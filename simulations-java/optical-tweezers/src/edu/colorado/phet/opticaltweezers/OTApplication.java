@@ -199,7 +199,7 @@ public class OTApplication extends PiccoloPhetApplication {
                 laf.initLookAndFeel();
 
                 // Initialize localization.
-                SimStrings.getInstance().initYoda( args, OTConstants.SIM_STRINGS_NAME );
+                SimStrings.getInstance().init( args, OTConstants.SIM_STRINGS_NAME );
 
                 // Load simulation properties file
                 Properties simulationProperties = PropertiesLoader.loadProperties( OTConstants.SIM_PROPERTIES_NAME );

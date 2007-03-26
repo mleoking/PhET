@@ -15,7 +15,7 @@ public class TheRampStrings {
     private static String bundleName = "localization/TheRampStrings";
 
     public static void init( String[]args ) {
-        SimStrings.getInstance().initYoda( args, bundleName );
+        SimStrings.getInstance().init( args, bundleName );
     }
 
     public static String getString( String s ) {

@@ -60,7 +60,7 @@ public class SignalApplet extends JApplet {
     }
 
     public static void main( String[] args ) {
-        SimStrings.getInstance().initYoda( args, localizedStringsPath );
+        SimStrings.getInstance().init( args, localizedStringsPath );
         
         SignalApplet.applet = false;
         JFrame f = new JFrame( SimStrings.get( "SignalCircuitApplication.title" ));

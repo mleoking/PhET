@@ -99,7 +99,7 @@ public class TestChartRenderingInfo extends ApplicationFrame {
     }
 
     public static void main( String args[] ) {
-        SimStrings.getInstance().initYoda( args, QTConstants.SIM_STRINGS_NAME );
+        SimStrings.getInstance().init( args, QTConstants.SIM_STRINGS_NAME );
         
         TestChartRenderingInfo frame = new TestChartRenderingInfo( "ChartRenderingInfo test" );
         frame.pack();

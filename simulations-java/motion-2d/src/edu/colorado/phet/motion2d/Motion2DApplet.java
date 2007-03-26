@@ -23,7 +23,7 @@ public class Motion2DApplet extends JApplet {
     public void init() {
         String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            SimStrings.setLocale( new Locale( applicationLocale ) );
+            SimStrings.getInstance().setLocale( new Locale( applicationLocale ) );
         }
         SimStrings.setStrings( Motion2DApplication.localizedStringsPath );
 

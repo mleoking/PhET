@@ -14,7 +14,7 @@ import java.text.MessageFormat;
 
 public class TestIL8N {
     public static void main( String[] args ) {
-        SimStrings.getInstance().initYoda( args, "LabelsBundle" );
+        SimStrings.getInstance().init( args, "LabelsBundle" );
         String units = "cm";
         String hello = MessageFormat.format( SimStrings.get( "hello.0" ), new Object[]{units} );
         System.out.println( "hello = " + hello );

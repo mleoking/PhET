@@ -53,7 +53,7 @@ public class WaveInterferenceApplication extends PiccoloPhetApplication {
 //    }
 
     public static void main( final String[] args ) {
-        SimStrings.getInstance().initYoda( args, LOCALIZATION_BUNDLE_BASENAME );
+        SimStrings.getInstance().init( args, LOCALIZATION_BUNDLE_BASENAME );
         new WaveIntereferenceLookAndFeel().initLookAndFeel();
 //        if( Arrays.asList( args ).contains( "-smooth" ) ) {
 //            doSmooth();
