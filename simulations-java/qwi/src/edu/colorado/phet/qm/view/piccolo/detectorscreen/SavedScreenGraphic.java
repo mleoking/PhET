@@ -53,7 +53,7 @@ public class SavedScreenGraphic extends PNode {
             BufferedImage closeImage = ImageLoader.loadBufferedImage( "images/x-14.jpg" );
             JButton closeButton = new JButton( new ImageIcon( closeImage ) );
             closeButton.setMargin( m );
-            PSwing button = new PSwing( QWIPanel, closeButton );
+            PSwing button = new PSwing(closeButton );
             addChild( button );
             button.setOffset( -button.getWidth() - 2, 0 );
             closeButton.addActionListener( new ActionListener() {

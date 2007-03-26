@@ -33,11 +33,9 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SpectrumImageFactory;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -746,7 +744,7 @@ public class WavelengthControl extends PhetPNode {
             _unitsLabel.setOpaque( false );
             
             // Piccolo wrapper
-            _pswing = new PSwing( canvas, panel );
+            _pswing = new PSwing(panel );
             addChild( _pswing );
         }
         

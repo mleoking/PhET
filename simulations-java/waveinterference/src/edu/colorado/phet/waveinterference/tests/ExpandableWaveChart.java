@@ -60,8 +60,8 @@ public class ExpandableWaveChart extends PNode {
             }
         } );
         addChild( waveChartGraphic );
-        expandPSwing = new PSwing( pSwingCanvas, expand );
-        collapsePSwing = new PSwing( pSwingCanvas, collapse );
+        expandPSwing = new PSwing(expand );
+        collapsePSwing = new PSwing(collapse );
 //        addChild( new PSwing( pSwingCanvas, collapse ) );
         addChild( waveChartGraphic );
         this.waveChartGraphic = waveChartGraphic;

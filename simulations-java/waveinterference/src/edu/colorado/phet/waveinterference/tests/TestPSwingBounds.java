@@ -28,7 +28,7 @@ public class TestPSwingBounds extends Module {
         PSwingCanvas panel = new PSwingCanvas();
         setSimulationPanel( panel );
         TestJComponent child = new TestJComponent();
-        pswing = new PSwing( panel, child );
+        pswing = new PSwing(child );
         panel.getLayer().addChild( pswing );
     }
 

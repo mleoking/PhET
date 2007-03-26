@@ -28,7 +28,7 @@ public class SpeakerControlPanelPNode extends PNode {
 
         SpeakerControlPanel speakerControlPanel = new SpeakerControlPanel( oscillator );
 //        addChild( new PSwing( pSwingCanvas, speakerControlPanel ) );
-        PSwing speakerControlPSwing = new PSwing( pSwingCanvas, new ShinyPanel( speakerControlPanel ) );
+        PSwing speakerControlPSwing = new PSwing(new ShinyPanel( speakerControlPanel ) );
         ResizeHandler.getInstance().setResizable( pSwingCanvas, speakerControlPSwing, 0.9 );
         addChild( speakerControlPSwing );
 

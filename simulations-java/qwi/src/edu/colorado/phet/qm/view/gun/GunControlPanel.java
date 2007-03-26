@@ -27,7 +27,7 @@ public class GunControlPanel extends VerticalLayoutPanel {
     public GunControlPanel( QWIPanel QWIPanel ) {
         setOpaque( false );
         shinyPanel = new ShinyGunControlPanel( this );
-        gunControlPSwing = new PSwing( QWIPanel, shinyPanel );
+        gunControlPSwing = new PSwing(shinyPanel );
         titleLabel = new JLabel( QWIStrings.getString( "gun.controls" ) ) {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D)g;

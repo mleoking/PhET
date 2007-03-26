@@ -9,7 +9,6 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
-import edu.colorado.phet.molecularreactions.modules.SimpleModule;
 import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.util.StripChart;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -62,7 +61,7 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         Dimension scrollBarDim = new Dimension( (int)( size.getWidth() - scrollBarInsets.left - scrollBarInsets.right ), 15 );
 
         scrollBar.setPreferredSize( scrollBarDim );
-        final PSwing scrollBarNode = new PSwing( module.getCanvas(), scrollBar );
+        final PSwing scrollBarNode = new PSwing(scrollBar );
         scrollBarNode.setPaint( new Color( 0, 0, 0, 0 ) );
         scrollBarNode.setOffset( scrollBarInsets.left,
                                  size.getHeight() - scrollBarNode.getFullBounds().getHeight() - scrollBarInsets.bottom );
@@ -70,7 +69,7 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         chartPanel.setPreferredSize( new Dimension( size.width,
                                                     size.height - (int)scrollBarNode.getFullBounds().getHeight() - scrollBarInsets.bottom - scrollBarInsets.top ) );
 
-        final PNode stripChartNode = new PSwing( stripChartCanvas, chartPanel );
+        final PNode stripChartNode = new PSwing(chartPanel );
         stripChartCanvas.addScreenChild( stripChartNode );
         scrollBar.addAdjustmentListener( new AdjustmentListener() {
             public void adjustmentValueChanged( AdjustmentEvent e ) {
@@ -124,7 +123,7 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         ap.setBorder( BorderFactory.createEmptyBorder() );
         ap.addGraphic( zc );
 
-        PSwing zoomNode = new PSwing( stripChartCanvas, ap );
+        PSwing zoomNode = new PSwing(ap );
 
         zoomNode.setOffset( 10,
                             chartPanel.getPreferredSize().getHeight() - zoomNode.getFullBounds().getHeight() );

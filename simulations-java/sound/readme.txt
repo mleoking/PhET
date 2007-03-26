@@ -1,0 +1,1 @@
+This directory contained source files for an abandoned approach to sound wave graphics generation.

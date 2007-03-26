@@ -25,7 +25,6 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.view.particle.*;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -182,7 +181,7 @@ public class LegendPanel extends JPanel {
             setPickable( false );
             setChildrenPickable( false );
             LegendPanel panel = new LegendPanel();
-            PSwing pswing = new PSwing( canvas, panel );
+            PSwing pswing = new PSwing(panel );
             addChild( pswing );
         }
     }

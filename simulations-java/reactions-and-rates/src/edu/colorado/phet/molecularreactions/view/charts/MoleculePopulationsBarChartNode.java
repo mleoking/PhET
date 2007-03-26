@@ -49,7 +49,7 @@ public class MoleculePopulationsBarChartNode extends PNode implements Rescaleabl
         Insets barChartInsets = new Insets( 0, 10, 0,0);
         barChartPanel.setPreferredSize( new Dimension( (int)size.getWidth() - barChartInsets.left + barChartInsets.right,
                                                        (int)( size.getHeight() - 40 ) ) );
-        PSwing barChartPSwing = new PSwing( phetPCanvas, barChartPanel );
+        PSwing barChartPSwing = new PSwing(barChartPanel );
         barChartPSwing.setOffset( barChartInsets.left,0 );
 
         this.addChild( barChartPSwing );
@@ -90,7 +90,7 @@ public class MoleculePopulationsBarChartNode extends PNode implements Rescaleabl
                 barChart.rescale();
             }
         } );
-        PSwing rescaleNode = new PSwing( phetPCanvas, rescaleBtn );
+        PSwing rescaleNode = new PSwing(rescaleBtn );
         rescaleNode.setOffset( 5,
                                getFullBounds().getHeight() - rescaleNode.getFullBounds().getHeight() - 10);
         addChild( rescaleNode );

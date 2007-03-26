@@ -79,7 +79,7 @@ public class BarGraphSet extends PNode {
         } );
         max.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
         max.setBackground( EarthGraphic.earthGreen );
-        maximizeButton = new PSwing( rampPanel, max );
+        maximizeButton = new PSwing(max );
     }
 
     public void setBarChartHeight( double baselineY ) {
@@ -111,7 +111,7 @@ public class BarGraphSet extends PNode {
                 }
             } );
             minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
-            minButNode = new PSwing( rampPanel, minBut );
+            minButNode = new PSwing(minBut );
             minButNode.setOffset( 5, topY + 10 );
             addChild( minButNode );
         }

@@ -68,7 +68,7 @@ public abstract class AbstractFloatingChart extends PhetPNode {
                     close();
                 }
             } );
-            closeButtonPSwing = new PSwing( pSwingCanvas, closeButton );
+            closeButtonPSwing = new PSwing(closeButton );
             PropertyChangeListener listener = new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     updateCloseButtonLocation();

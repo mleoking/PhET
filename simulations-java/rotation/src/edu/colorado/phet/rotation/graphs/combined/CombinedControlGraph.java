@@ -71,7 +71,7 @@ public class CombinedControlGraph extends PNode {
                     plot.remove( subplot[i1] );
                 }
             } );
-            PSwing pSwing = new PSwing( pSwingCanvas, closeButton );
+            PSwing pSwing = new PSwing(closeButton );
             addCloseButton( pSwing );
         }
     }

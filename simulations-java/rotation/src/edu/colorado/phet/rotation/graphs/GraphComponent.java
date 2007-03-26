@@ -53,7 +53,7 @@ public class GraphComponent extends PNode {
                 setMinimized( true );
             }
         } );
-        closeButton = new PSwing( pSwingCanvas, minimizeButton );
+        closeButton = new PSwing(minimizeButton );
         closeButton.addInputEventListener( new CursorHandler() );
 
         graphChild.addChild( closeButton );
@@ -72,7 +72,7 @@ public class GraphComponent extends PNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        PSwing maxButton = new PSwing( pSwingCanvas, maximizeButton );
+        PSwing maxButton = new PSwing(maximizeButton );
         maxButton.addInputEventListener( new CursorHandler() );
         stubChild.addChild( maxButton );
 

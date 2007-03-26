@@ -36,7 +36,7 @@ public class TestPlatformNode {
                 platformNode.setAngle( modelSlider.getValue() );
             }
         } );
-        PSwing pSwing = new PSwing( phetPCanvas, modelSlider );
+        PSwing pSwing = new PSwing(modelSlider );
         phetPCanvas.addScreenChild( pSwing );
         pSwing.setOffset( 0, platformNode.getFullBounds().getMaxY() );
         frame.setContentPane( phetPCanvas );

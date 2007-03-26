@@ -2,6 +2,7 @@
 package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.PhetAboutDialog;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
@@ -26,7 +27,9 @@ public class TravoltageApplication extends PhetApplication {
 
     public void showAboutDialog() {
         if( dialog == null ) {
-            dialog = new TravoltageAboutDialog( this );
+            //dialog = new TravoltageAboutDialog( this );
+            dialog = new PhetAboutDialog(this);
+            
             SwingUtils.centerWindowOnScreen( dialog );
         }
         dialog.show();

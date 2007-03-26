@@ -23,7 +23,7 @@ public class TestPSwingJSlider {
 
         JComponent c2 = new JScrollBar();
         c2.setPreferredSize(new Dimension( c2.getPreferredSize().width,400));
-        pCanvas.getLayer().addChild( new PSwing( pCanvas, c2 ) );
+        pCanvas.getLayer().addChild( new PSwing(c2 ) );
         pCanvas.setPanEventHandler( null );
     }
 

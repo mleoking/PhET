@@ -84,7 +84,7 @@ public class IntensityReaderDecorator extends PhetPNode {
             }
         } );
 
-        buttonPSwing = new PSwing( pSwingCanvas, close );
+        buttonPSwing = new PSwing(close );
         addChild( intensityReader );
         addChild( buttonPSwing );
         intensityReader.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {

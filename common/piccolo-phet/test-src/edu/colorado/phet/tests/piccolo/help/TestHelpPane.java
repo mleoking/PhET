@@ -154,7 +154,7 @@ public class TestHelpPane extends PhetApplication {
             screenPanel.setLayout( new BorderLayout() );
             screenPanel.add( screenButton1, BorderLayout.NORTH );
             screenPanel.add( screenButton2, BorderLayout.SOUTH );
-            final PSwing screenPSwing = new PSwing( canvas, screenPanel );
+            final PSwing screenPSwing = new PSwing(screenPanel );
             screenPSwing.setOffset( 50, 450 );
             canvas.addScreenChild( screenPSwing );
             
@@ -169,7 +169,7 @@ public class TestHelpPane extends PhetApplication {
             worldPanel.setLayout( new BorderLayout() );
             worldPanel.add( worldButton1, BorderLayout.NORTH );
             worldPanel.add( worldButton2, BorderLayout.SOUTH );
-            final PSwing worldPSwing = new PSwing( canvas, worldPanel );
+            final PSwing worldPSwing = new PSwing(worldPanel );
             worldPSwing.setOffset( 850, 800 );
             canvas.addWorldChild( worldPSwing );
             

@@ -143,7 +143,7 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
         stovePanel.add( stoveSlider );
 
 
-        PSwing sliderNode = new PSwing( canvas, stovePanel );
+        PSwing sliderNode = new PSwing(stovePanel );
         sliderNode.setOffset( stoveGraphic.getWidth() + 5, 0 );
 
         return sliderNode;

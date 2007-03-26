@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4" relativePaths="true" type="JAVA_MODULE">
+  <component name="ModuleRootManager" />
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../common">
+      <sourceFolder url="file://$MODULE_DIR$/../../common/charts/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/charts/test-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/collision/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/controls/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/jfreechart-phet/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/jfreechart-phet/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/mechanics/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/phetcommon/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/phetcommon/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/phetgraphics/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/phetgraphics/test-location/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/phetgraphics/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/piccolo-phet/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/piccolo-phet/test-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/quantum/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/service-manager/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../common/service-manager/tests-src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../contrib/piccolo">
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo/examples" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo/extras" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../contrib/piccolo/tests" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../simulations-java">
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/balloons/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/balloons/src-pc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/battery-voltage/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/battery-voltage/src-pc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/bernoulli/common/src-hp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/bernoulli/common/src-hpa" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/bernoulli/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/bound-states/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/bound-states/test-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/cck/mna-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/cck/phetcommon-cck/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/cck/phetcommon-cck/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/cck/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/cck/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/color-vision/phetcommon-13364/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/color-vision/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/conductivity/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/conductivity/src-pc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/efield/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/electric-hockey/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/energy-skate-park/ec3-timeseries/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/energy-skate-park/lookandfeels/data" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/energy-skate-park/lookandfeels/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/energy-skate-park/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/energy-skate-park/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/faraday/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/fluorescent-lights/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/fluorescent-lights/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/forces-1d/charts-force1d-7-12-2005-added-localization/development/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/forces-1d/charts-force1d-7-12-2005-added-localization/development/test-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/forces-1d/phetcommon-4063/phetcommon/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/forces-1d/phetcommon-4063/phetcommon/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/forces-1d/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/forces-1d/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/fourier/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/greenhouse/common/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/greenhouse/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/hydrogen-atom/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/hydrogen-atom/test-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/ideal-gas/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/ideal-gas/temp" isTestSource="false" packagePrefix="edu.colorado.phet.idealgas.graphics" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/lasers/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/lasers/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/maze-game/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/microwaves/collision/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/microwaves/common/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/microwaves/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/microwaves/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/motion-2d/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/moving-man/charts-1_16/development/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/moving-man/charts-1_16/development/test-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/moving-man/phetcommon-1_16/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/moving-man/phetcommon-1_16/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/moving-man/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/moving-man/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/mri/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/nuclear-physics/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/ohm-1d/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/ohm-1d/src-pc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/optical-quantum-control/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/optical-tweezers/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/optical-tweezers/test-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/photoelectric/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/quantum-tunneling/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/quantum-tunneling/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/qwi/docs/1dsplitoperator" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/qwi/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/qwi/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/radio-waves/phetcommon-1200/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/radio-waves/phetcommon-1200/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/radio-waves/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/reactions-and-rates/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/reactions-and-rates/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/rotation/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/rotation/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/rutherford-scattering/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/rutherford-scattering/test-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/semiconductor/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/semiconductor/src-pc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/signal-circuit/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/soluble-salts/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound/phetcommon-5790/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound/phetcommon-5790/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound/temp" isTestSource="false" packagePrefix="edu.colorado.phet.sound.graphics" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/the-ramp/proguard3.3.2/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/the-ramp/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/the-ramp/tests-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/the-ramp/theramp-timeseries/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/the-ramp/theramp-timeseries/tests-src/edu/colorado/phet/timeseries/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/travoltage/jade_0.6.1_a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/travoltage/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/travoltage/test-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/waveinterference/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/waveinterference/tests-src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/jdom-0.8/jdom.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/jfreechart/lib/gnujaxp.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/jfreechart/lib/jfreechart-1.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/jfreechart/lib/jcommon-1.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/jfreechart/lib/servlet.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/JSci/classes/jsci-astro.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/JSci/classes/jsci-xtra.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/JSci/classes/jsci-instr.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/JSci/classes/jsci-mathmlimpl.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/JSci/classes/jsci-wavelet.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/JSci/classes/jsci-bio.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/JSci/classes/jsci-beans.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/JSci/classes/jsci-sci.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/JSci/classes/jsci-core.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/junit-3.8.1/junit.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/liquidlnf-2.9.1-src/lib/laf-plugin.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/piccolo/lib/swt.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../simulations-java/cck/lib/grabbag.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../simulations-java/cck/lib/Jama-1.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../simulations-java/cck/lib/smoothmetal.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../simulations-java/cck/lib/nanoxml-2.2.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/javaws-1_2-dev/jnlp.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../simulations-java/reactions-and-rates/lib/commons-collections-3.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../simulations-java/moving-man/lib/jep-2.24.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/rutherford-scattering/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/bound-states/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/qwi/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/conductivity/data-pc" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/balloons/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/forces-1d/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/semiconductor/data-pc" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/radio-waves/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/optical-tweezers/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/quantum-tunneling/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/lost-in-space/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/reactions-and-rates/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/waveinterference/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/bernoulli/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/microwaves/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/battery-voltage/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/nuclear-physics/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/greenhouse/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/color-vision/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/cck/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/mri/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/photoelectric/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/soluble-salts/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/the-ramp/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/sound/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/bernoulli/data-hp" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/faraday/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/signal-circuit/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/semiconductor/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/moving-man/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/fluorescent-lights/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/fourier/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/travoltage/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/conductivity/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/distance-ladder/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/ideal-gas/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/ohm-1d/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/motion-2d/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/maze-game/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/energy-skate-park/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/efield/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/hydrogen-atom/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/electric-hockey/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/rotation/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/optical-quantum-control/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-java/lasers/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../common/quantum/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../common/charts/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../common/phetgraphics/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../common/piccolo-phet/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../common/controls/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../common/phetcommon/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntryProperties />
+  </component>
+</module>
+

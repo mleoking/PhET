@@ -201,21 +201,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      *
      * @param component The swing component to be wrapped
      */
-    public PSwing( JComponent component ) {
-        this( null, component );
-    }
-
-    /**
-     * Constructs a new visual component wrapper for the Swing component
-     * and adds the Swing component to the SwingWrapper component of
-     * the PCanvas
-     *
-     * @param canvas    The PSwingCanvas to which the Swing component will
-     *                  be added
-     * @param component The swing component to be wrapped
-     * @deprecated PSwingCanvas is no longer required to construct a PSwing
-     */
-    public PSwing( PSwingCanvas canvas, JComponent component ) {
+    public PSwing(JComponent component) {
         this.component = component;
         component.putClientProperty( PSWING_PROPERTY, this );
         init( component );

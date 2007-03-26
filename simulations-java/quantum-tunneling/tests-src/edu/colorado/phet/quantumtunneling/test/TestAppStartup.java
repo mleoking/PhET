@@ -134,7 +134,7 @@ public class TestAppStartup extends PhetApplication {
                 // PSwing button
                 JButton jButton = new JButton( "Press Me" );
                 jButton.setOpaque( false );
-                _pButton = new PSwing( _canvas, jButton );
+                _pButton = new PSwing(jButton );
                 parentNode.addChild( _pButton );
                 jButton.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {

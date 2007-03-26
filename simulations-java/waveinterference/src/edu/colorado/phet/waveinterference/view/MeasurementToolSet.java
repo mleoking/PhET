@@ -40,7 +40,7 @@ public class MeasurementToolSet extends PhetPNode {
         addChild( measuringTape );
 
         stopwatchDecorator = new StopwatchPanelDectorator( clock, timeScale, timeUnits );
-        pswing = new PSwing( pSwingCanvas, stopwatchDecorator );
+        pswing = new PSwing(stopwatchDecorator );
         stopwatchGraphic = new PhetPNode( pswing );
         stopwatchGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         stopwatchGraphic.addInputEventListener( new PDragEventHandler() );

@@ -143,7 +143,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( thisSideUpWrapper );
 //        addScaleTest();
         SoundWaveGraphicRadioControl soundWaveGraphicRadioControl = new SoundWaveGraphicRadioControl( soundWaveGraphic );
-        final PSwing pSwing = new PSwing( this, new ShinyPanel( soundWaveGraphicRadioControl ) );
+        final PSwing pSwing = new PSwing(new ShinyPanel( soundWaveGraphicRadioControl ) );
         addScreenChild( pSwing );
 
         getLatticeScreenCoordinates().addListener( new LatticeScreenCoordinates.Listener() {

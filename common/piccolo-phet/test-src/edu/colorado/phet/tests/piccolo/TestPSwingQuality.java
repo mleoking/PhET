@@ -51,13 +51,13 @@ public class TestPSwingQuality extends JFrame {
         
         PSwingCanvas canvas = new PSwingCanvas();
         
-        PNode opaqueNode = new PSwing( canvas, opaquePanel );
+        PNode opaqueNode = new PSwing(opaquePanel );
         canvas.getLayer().addChild( opaqueNode );
         
-        PNode transparentNode = new PSwing( canvas, transparentPanel );
+        PNode transparentNode = new PSwing(transparentPanel );
         canvas.getLayer().addChild( transparentNode );
 
-        PNode backgroundNode = new PSwing( canvas, backgroundPanel );
+        PNode backgroundNode = new PSwing(backgroundPanel );
         canvas.getLayer().addChild( backgroundNode );
         
         opaqueNode.setOffset( 50, 50 );

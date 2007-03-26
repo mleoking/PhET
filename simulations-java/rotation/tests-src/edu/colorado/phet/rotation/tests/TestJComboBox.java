@@ -27,7 +27,7 @@ public class TestJComboBox {
         JComboBox jComboBox2 = new JComboBox( new String[]{"cat", "dog", "squirrel", "anteater"} );
         panel.add( jComboBox1, gridBagConstraints );
         panel.add( jComboBox2, gridBagConstraints );
-        PSwing pSwing = new PSwing( pCanvas, panel );
+        PSwing pSwing = new PSwing(panel );
         pSwing.setOffset( 200, 200 );
         pSwing.scale( 2.0 );
         pCanvas.getLayer().addChild( pSwing );

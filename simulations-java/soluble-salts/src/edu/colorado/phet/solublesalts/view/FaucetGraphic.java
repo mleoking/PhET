@@ -144,7 +144,7 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
         } );
 
         flowSlider.setPreferredSize( new Dimension( (int)faucetImage.getWidth() / 2, 15 ) );
-        PSwing pSwing = new PSwing( pSwingCanvas, flowSlider );
+        PSwing pSwing = new PSwing(flowSlider );
         pSwing.setOffset( 22, 35 );
         pSwing.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseEntered( PInputEvent event ) {

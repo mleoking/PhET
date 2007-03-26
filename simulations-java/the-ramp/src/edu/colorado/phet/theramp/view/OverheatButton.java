@@ -42,7 +42,7 @@ public class OverheatButton extends PNode {
                 rampPanel.getRampModule().clearHeat();
             }
         } );
-        PSwing buttonGraphic = new PSwing( rampPanel, overheat );
+        PSwing buttonGraphic = new PSwing(overheat );
         buttonGraphic.setOffset( 0, shadowHTMLGraphic.getHeight() );
         addChild( buttonGraphic );
         module.getModel().addModelElement( new ModelElement() {

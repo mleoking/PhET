@@ -37,7 +37,7 @@ public class OffscreenManIndicator extends PhetPNode {
                 ec3Module.resetSkater();
             }
         } );
-        buttonNode = ( new PSwing( canvas, bringBackSkater ) );
+        buttonNode = ( new PSwing(bringBackSkater ) );
         addChild( buttonNode );
     }
 

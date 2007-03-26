@@ -271,7 +271,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             layout.addComponent( _startStopButton, row, col++ );
             layout.addComponent( _resetButton, row, col++ );
             layout.addComponent( _snapshotButton, row, col );
-            _buttonPanelWrapper = new PSwing( canvas, buttonPanel );
+            _buttonPanelWrapper = new PSwing(buttonPanel );
             _buttonPanelWrapper.addInputEventListener( new CursorHandler() );
             PBounds fb = _buttonPanelWrapper.getFullBounds();
             _buttonPanelWrapper.setOffset( size.getWidth() / 2 - fb.getWidth() / 2, size.getHeight() - fb.getHeight() - BUTTON_PANEL_Y_MARGIN );

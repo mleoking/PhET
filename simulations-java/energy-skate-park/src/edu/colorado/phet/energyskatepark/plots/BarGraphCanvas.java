@@ -39,7 +39,7 @@ public class BarGraphCanvas extends PSwingCanvas {
                 module.clearHeat();
             }
         } );
-        clearHeatButton = new PSwing( this, removeHeatButton );
+        clearHeatButton = new PSwing(removeHeatButton );
         getLayer().addChild( clearHeatButton );
 
         setPanEventHandler( null );
@@ -52,7 +52,7 @@ public class BarGraphCanvas extends PSwingCanvas {
         } );
 
         barGraphZoomPanel = new BarGraphZoomPanel( energyBarGraphSet );
-        barGraphPSwing = new PSwing( this, barGraphZoomPanel );
+        barGraphPSwing = new PSwing(barGraphZoomPanel );
         getLayer().addChild( barGraphPSwing );
         updateLayout();
     }

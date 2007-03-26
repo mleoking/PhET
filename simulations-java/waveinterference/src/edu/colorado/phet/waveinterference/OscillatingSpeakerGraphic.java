@@ -34,7 +34,7 @@ public class OscillatingSpeakerGraphic extends ImageOscillatorPNode {
         foreground = PImageFactory.create( "images/speaker-front.png" );
         addChild( foreground );
 
-        PSwing pswing = new PSwing( pSwingCanvas, new ShinyPanel( oscillatorOnOffControlPanel ) );
+        PSwing pswing = new PSwing(new ShinyPanel( oscillatorOnOffControlPanel ) );
         addChild( pswing );
         update();
 

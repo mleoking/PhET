@@ -28,7 +28,7 @@ public class TimeSeriesGraphSetNode extends PNode {
         setBounds( 0, 0, 800, 600 );
         graphSetNode = new GraphSetNode( graphSetModel );
         TimeSeriesControlPanel timeSeriesControlPanel = new TimeSeriesControlPanel( timeSeriesModel );
-        timeSeriesControlPanelNode = new PSwing( pSwingCanvas, timeSeriesControlPanel );
+        timeSeriesControlPanelNode = new PSwing(timeSeriesControlPanel );
 
         addChild( graphSetNode );
         addChild( timeSeriesControlPanelNode );

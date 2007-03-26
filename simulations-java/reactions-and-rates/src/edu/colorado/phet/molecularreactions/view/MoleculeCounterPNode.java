@@ -41,7 +41,7 @@ public class MoleculeCounterPNode extends PNode {
 
         MoleculeCountSpinner moleculeCounter = new MoleculeCountSpinner( moleculeClass, model, MRConfig.MAX_MOLECULE_CNT );
         moleculeCounter.setBorder( null );
-        PSwing readout = new PSwing( canvas, moleculeCounter );
+        PSwing readout = new PSwing(moleculeCounter );
         readout.setOffset( 10, 23 );
         addChild( readout );
 
@@ -61,7 +61,7 @@ public class MoleculeCounterPNode extends PNode {
         }
         JLabel label = new JLabel( s );
         label.setHorizontalAlignment( SwingConstants.CENTER );
-        PSwing labelPSwing = new PSwing( canvas, label );
+        PSwing labelPSwing = new PSwing(label );
         labelPSwing.setOffset( 25, 3 );
         PPath labelBackground = new PPath( new RoundRectangle2D.Double( 5, 3, 40, 15, 5, 5 ) );
         labelBackground.setPaint( Color.white );

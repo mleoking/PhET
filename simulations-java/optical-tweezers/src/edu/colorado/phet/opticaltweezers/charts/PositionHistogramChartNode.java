@@ -115,7 +115,7 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
                 setRunning( !_isRunning );
             }
         } );
-        _startStopButtonWrapper = new PSwing( canvas, _startStopButton );
+        _startStopButtonWrapper = new PSwing(_startStopButton );
         
         JButton clearButton = new JButton( SimStrings.get( "button.clear" ) );
         clearButton.setOpaque( false );
@@ -126,7 +126,7 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
                 clearMeasurements();
             }
         });
-        _clearButtonWrapper = new PSwing( canvas, clearButton );
+        _clearButtonWrapper = new PSwing(clearButton );
         
         _closeButtonNode = new CloseButtonNode( canvas );
         

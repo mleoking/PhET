@@ -97,7 +97,7 @@ public class TestDynamicJFreeChartNode {
             }
         } );
         panel.add( clear );
-        pSwing = new PSwing( phetPCanvas, panel );
+        pSwing = new PSwing(panel );
         phetPCanvas.addScreenChild( pSwing );
 
         timer = new Timer( 30, new ActionListener() {

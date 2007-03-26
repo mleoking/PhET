@@ -76,7 +76,7 @@ public class PauseIndicator extends PNode {
                 module.getTimeSeriesModel().startLiveMode();
             }
         } );
-        PSwing pSwing = new PSwing( canvas, record );
+        PSwing pSwing = new PSwing(record );
         pSwing.setOffset( text.getFullBounds().getMaxX() + 5, text.getFullBounds().getY() );
         addChild( pSwing );
 

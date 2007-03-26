@@ -25,7 +25,7 @@ public class SingleParticleSchrodingerPanel extends QWIPanel {
         getSchrodingerScreenNode().setGunControlPanel( abstractGun.getGunControlPanel() );
         ImagePComboBox comboBox = abstractGun.getComboBox();
 
-        PSwing pSwing = new PSwing( this, comboBox );
+        PSwing pSwing = new PSwing(comboBox );
         comboBox.setEnvironment( pSwing, this );
         getSchrodingerScreenNode().setGunTypeChooserGraphic( pSwing );
 
