@@ -44,7 +44,7 @@ public class TravoltageApplication extends PhetApplication {
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                SimStrings.init( args, "localization/TravoltageStrings" );
+                SimStrings.getInstance().initYoda( args, "localization/TravoltageStrings" );
                 new TravoltageLookAndFeel().initLookAndFeel();
                 new TravoltageApplication( args ).startApplication();
             }

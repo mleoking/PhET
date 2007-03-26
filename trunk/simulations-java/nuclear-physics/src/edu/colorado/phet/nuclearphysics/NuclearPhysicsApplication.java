@@ -83,7 +83,7 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
      * @param args
      */
     public static void main( final String[] args ) {
-        SimStrings.init( args, localizedStringsPath );
+        SimStrings.getInstance().initYoda( args, localizedStringsPath );
 
         // Initialize the look and feel
         phetLookAndFeel = new PhetLookAndFeel();

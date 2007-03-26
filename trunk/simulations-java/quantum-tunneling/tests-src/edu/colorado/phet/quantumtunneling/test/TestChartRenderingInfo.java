@@ -26,7 +26,6 @@ import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
@@ -100,7 +99,7 @@ public class TestChartRenderingInfo extends ApplicationFrame {
     }
 
     public static void main( String args[] ) {
-        SimStrings.init( args, QTConstants.SIM_STRINGS_NAME );
+        SimStrings.getInstance().initYoda( args, QTConstants.SIM_STRINGS_NAME );
         
         TestChartRenderingInfo frame = new TestChartRenderingInfo( "ChartRenderingInfo test" );
         frame.pack();

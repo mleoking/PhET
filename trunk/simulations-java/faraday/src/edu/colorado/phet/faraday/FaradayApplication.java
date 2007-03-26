@@ -91,7 +91,7 @@ public class FaradayApplication extends PhetApplication {
     public static void main( String[] args ) throws IOException {
         
         // Initialize localization.
-        SimStrings.init( args, FaradayConstants.SIM_STRINGS_NAME );
+        SimStrings.getInstance().initYoda( args, FaradayConstants.SIM_STRINGS_NAME );
         
         // Load simulation properties file
         Properties simulationProperties = PropertiesLoader.loadProperties( FaradayConstants.SIM_PROPERTIES_NAME );

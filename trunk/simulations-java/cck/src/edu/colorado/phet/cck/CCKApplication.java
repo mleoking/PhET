@@ -152,7 +152,7 @@ public class CCKApplication extends PiccoloPhetApplication {
     public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
-                SimStrings.init( args, CCKApplication.localizedStringsPath );
+                SimStrings.getInstance().initYoda( args, CCKApplication.localizedStringsPath );
                 new CCKPhetLookAndFeel().initLookAndFeel();
                 try {
                     CCKApplication cckApplication = new CCKApplication( args );

@@ -9,8 +9,6 @@ package edu.colorado.phet.idealgas;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
-import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -98,7 +96,7 @@ public class BuoyancyApplication extends PhetApplication {
             e.printStackTrace();
         }
 
-        SimStrings.init( args, IdealGasConfig.localizedStringsPath );
+        SimStrings.getInstance().initYoda( args, IdealGasConfig.localizedStringsPath );
         new BuoyancyApplication( args ).startApplication();
     }
 }

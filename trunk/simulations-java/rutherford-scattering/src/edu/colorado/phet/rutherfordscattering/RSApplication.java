@@ -93,7 +93,7 @@ public class RSApplication extends PiccoloPhetApplication {
                 laf.initLookAndFeel();
 
                 // Initialize localization.
-                SimStrings.init( args, RSConstants.SIM_STRINGS_NAME );
+                SimStrings.getInstance().initYoda( args, RSConstants.SIM_STRINGS_NAME );
 
                 // Load simulation properties file
                 Properties simulationProperties = PropertiesLoader.loadProperties( RSConstants.SIM_PROPERTIES_NAME );

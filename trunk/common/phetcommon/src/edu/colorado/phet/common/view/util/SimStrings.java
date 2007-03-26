@@ -27,12 +27,19 @@ import java.util.Vector;
  */
 public class SimStrings {
 
-    private static Vector localizedStrings;
-    private static Vector stringsPaths;
-    private static Locale localizedLocale;
+    private Vector localizedStrings;
+    private Vector stringsPaths;
+    private Locale localizedLocale;
+
+    private static SimStrings INSTANCE = new SimStrings();
+
 
     static {
-        SimStrings.setStrings( "localization/CommonStrings" );
+        INSTANCE.setStrings( "localization/CommonStrings" );
+    }
+
+    public static SimStrings getInstance() {
+        return INSTANCE;
     }
 
     /**
@@ -41,7 +48,7 @@ public class SimStrings {
      * @param args       the commandline arguments that were passed to main
      * @param bundleName the base name of the resource bundle containing localized strings
      */
-    public static void init( String[] args, String bundleName ) {
+    public static void initYoda( String[] args, String bundleName ) {
         // Get the default locale from property javaws.locale.
         String applicationLocale = System.getProperty( "javaws.locale" );
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
@@ -64,11 +71,11 @@ public class SimStrings {
 
     // TODO: make this private after all simulation use init
     public static void setLocale( Locale locale ) {
-        localizedLocale = locale;
+        INSTANCE.localizedLocale = locale;
         // Reload all existing string resources with the new locale
-        Vector priorPaths = stringsPaths;
-        stringsPaths = null;
-        localizedStrings = null;
+        Vector priorPaths = INSTANCE.stringsPaths;
+        INSTANCE.stringsPaths = null;
+        INSTANCE.localizedStrings = null;
         if( priorPaths != null ) {
             for( Iterator i = priorPaths.iterator(); i.hasNext(); ) {
                 String path = (String)i.next();
@@ -79,21 +86,21 @@ public class SimStrings {
 
     // TODO: make this private after all simulation use init
     public static void setStrings( String stringsPath ) {
-        if( localizedStrings == null ) {
-            localizedStrings = new Vector();
-            stringsPaths = new Vector();
+        if( INSTANCE.localizedStrings == null ) {
+            INSTANCE.localizedStrings = new Vector();
+            INSTANCE.stringsPaths = new Vector();
         }
-        if( stringsPaths.contains( stringsPath ) ) {
+        if( INSTANCE.stringsPaths.contains( stringsPath ) ) {
             return;
         }
         try {
-            if( localizedLocale == null ) {
-                localizedLocale = Locale.getDefault();
+            if( INSTANCE.localizedLocale == null ) {
+                INSTANCE.localizedLocale = Locale.getDefault();
             }
-            ResourceBundle rb = ResourceBundle.getBundle( stringsPath, localizedLocale );
+            ResourceBundle rb = ResourceBundle.getBundle( stringsPath, INSTANCE.localizedLocale );
             if( rb != null ) {
-                localizedStrings.add( rb );
-                stringsPaths.add( stringsPath );
+                INSTANCE.localizedStrings.add( rb );
+                INSTANCE.stringsPaths.add( stringsPath );
             }
         }
         catch( Exception x ) {
@@ -102,7 +109,7 @@ public class SimStrings {
     }
 
     public static Locale getLocalizedLocale() {
-        return localizedLocale;
+        return INSTANCE.localizedLocale;
     }
 
     /**
@@ -112,14 +119,14 @@ public class SimStrings {
      * @return String
      */
     public static String get( String key ) {
-        if( localizedStrings == null ) {
+        if( INSTANCE.localizedStrings == null ) {
 
             throw new RuntimeException( "Strings not initialized" );
         }
 
         String value = null;
 
-        for( Iterator i = localizedStrings.iterator(); value == null && i.hasNext(); ) {
+        for( Iterator i = INSTANCE.localizedStrings.iterator(); value == null && i.hasNext(); ) {
             try {
                 ResourceBundle rb = (ResourceBundle)i.next();
 

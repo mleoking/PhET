@@ -16,7 +16,6 @@ import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
-import edu.colorado.phet.photoelectric.controller.BeamControlModeAction;
 import edu.colorado.phet.photoelectric.controller.BeamControl;
 
 import javax.swing.*;
@@ -100,7 +99,7 @@ public class PhotoelectricApplication extends PhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new PhetLookAndFeel().initLookAndFeel();
-                SimStrings.init( args, resourceBundleName );
+                SimStrings.getInstance().initYoda( args, resourceBundleName );
                 new PhotoelectricApplication( args ).startApplication();
             }
         } );
