@@ -16,6 +16,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+3/27/07 - remove canvas argument from all ancestor nodes of PSwing in scenegraph
 3/20/07 - move ColorChooserFactory to phetcommon
 3/20/07 - move ArgUtils to phet.common.util.CommandLineUtils
 3/15/07 - move ModelViewManager framework to its own package

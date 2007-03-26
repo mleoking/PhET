@@ -88,11 +88,9 @@ public class GunWavelengthControl extends WavelengthControl {
 
     /**
      * Constructor.
-     * 
-     * @param wavelengthControl
      */
-    public GunWavelengthControl( PSwingCanvas canvas, double minWavelength, double maxWavelength, Color uvTrackColor, Color uvLabelColor, Color irTrackColor, Color irLabelColor ) {
-        super( canvas, TRACK_WIDTH, TRACK_HEIGHT, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
+    public GunWavelengthControl( double minWavelength, double maxWavelength, Color uvTrackColor, Color uvLabelColor, Color irTrackColor, Color irLabelColor ) {
+        super( TRACK_WIDTH, TRACK_HEIGHT, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
 
         /* 
          * Change the cursor color, so that it doesn't obscure the transition marks.

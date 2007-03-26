@@ -176,12 +176,12 @@ public class LegendPanel extends JPanel {
      */
     public static class LegendNode extends PhetPNode {
 
-        public LegendNode( PSwingCanvas canvas ) {
+        public LegendNode() {
             super();
             setPickable( false );
             setChildrenPickable( false );
             LegendPanel panel = new LegendPanel();
-            PSwing pswing = new PSwing(panel );
+            PSwing pswing = new PSwing( panel );
             addChild( pswing );
         }
     }

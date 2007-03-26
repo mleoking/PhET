@@ -89,8 +89,6 @@ public class WavelengthControl extends PhetPNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    // needed for wrapping Swing components with PSwing
-    private PSwingCanvas _canvas;
     // control's range, in nanometers
     private double _minWavelength, _maxWavelength;
     // colors used to represent UV and IR wavelengths
@@ -119,12 +117,11 @@ public class WavelengthControl extends PhetPNode {
     /**
      * Creates a wavelength control for the visible spectrum.
      * 
-     * @param canvas used by PSwing to wrap Swing components
      * @param trackWidth
      * @param trackHeight
      */
-    public WavelengthControl( PSwingCanvas canvas, int trackWidth, int trackHeight ) {
-        this( canvas, trackWidth, trackHeight,
+    public WavelengthControl( int trackWidth, int trackHeight ) {
+        this( trackWidth, trackHeight,
                 VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, 
                 UV_TRACK_COLOR, UV_LABEL_COLOR,
                 IR_TRACK_COLOR, IR_LABEL_COLOR );
@@ -134,15 +131,14 @@ public class WavelengthControl extends PhetPNode {
      * Creates a wavelength control for a specified range of wavelengths.
      * Default colors are used for UV and IR ranges.
      * 
-     * @param canvas used by PSwing to wrap Swing components
      * @param trackWidth
      * @param trackHeight
      * @param minWavelength minimum wavelength, in nanometers
      * @param maxWavelength maximum wavelength, in nanometers
      */
-    public WavelengthControl( PSwingCanvas canvas, int trackWidth, int trackHeight,
+    public WavelengthControl( int trackWidth, int trackHeight,
             double minWavelength, double maxWavelength ) {
-        this( canvas, trackWidth, trackHeight,
+        this( trackWidth, trackHeight,
                 minWavelength, maxWavelength, 
                 UV_TRACK_COLOR, UV_LABEL_COLOR,
                 IR_TRACK_COLOR, IR_LABEL_COLOR );
@@ -152,7 +148,6 @@ public class WavelengthControl extends PhetPNode {
      * Creates a wavelength control for a specified range of wavelengths.
      * Specified colors are used for UV and IR ranges.
      * 
-     * @param canvas used by PSwing to wrap Swing components
      * @param trackWidth
      * @param trackHeight
      * @param minWavelength minimum wavelength, in nanometers
@@ -164,7 +159,7 @@ public class WavelengthControl extends PhetPNode {
      * @throws IllegalArgumentException if minWavelength >= maxWavelength
      * @throws UnsupportedOperationException if the entire visible spectrum is not included in wavelength range
      */
-    public WavelengthControl( PSwingCanvas canvas, int trackWidth, int trackHeight,
+    public WavelengthControl( int trackWidth, int trackHeight,
             double minWavelength, double maxWavelength, 
             Color uvTrackColor, Color uvLabelColor, 
             Color irTrackColor, Color irLabelColor ) {
@@ -177,7 +172,6 @@ public class WavelengthControl extends PhetPNode {
             throw new UnsupportedOperationException( "entire visible spectrum must be shown" );
         }
             
-        _canvas = canvas;
         _minWavelength = minWavelength;
         _maxWavelength = maxWavelength;
         _wavelength = _minWavelength - 1; // any value outside the range
@@ -187,7 +181,7 @@ public class WavelengthControl extends PhetPNode {
         
         _knob = new Knob( KNOB_SIZE.width, KNOB_SIZE.height );
         _track = new Track( trackWidth, trackHeight, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
-        _valueDisplay = new ValueDisplay( _canvas );
+        _valueDisplay = new ValueDisplay();
         _cursor = new Cursor( CURSOR_WIDTH, _track.getFullBounds().getHeight() );
         
         /* 
@@ -679,7 +673,7 @@ public class WavelengthControl extends PhetPNode {
         private PSwing _pswing;
         
         /* Constructor */
-        public ValueDisplay( PSwingCanvas canvas ) {
+        public ValueDisplay() {
             super();
             
             /* units label, appears to the right of the text field */
@@ -744,7 +738,7 @@ public class WavelengthControl extends PhetPNode {
             _unitsLabel.setOpaque( false );
             
             // Piccolo wrapper
-            _pswing = new PSwing(panel );
+            _pswing = new PSwing( panel );
             addChild( _pswing );
         }
         

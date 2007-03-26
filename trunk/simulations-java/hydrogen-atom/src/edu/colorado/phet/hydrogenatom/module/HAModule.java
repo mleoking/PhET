@@ -246,7 +246,7 @@ public class HAModule extends PiccoloModule {
         }
 
         // Gun control panel
-        _gunControlPanel = new GunControlPanel( _canvas, _model.getGun(), _alphaParticleTracesNode );
+        _gunControlPanel = new GunControlPanel( _model.getGun(), _alphaParticleTracesNode );
 
         // deBroglie view control
         {
@@ -283,7 +283,7 @@ public class HAModule extends PiccoloModule {
 
             // Spectrometer
             String title = SimStrings.get( "label.photonsEmitted" );
-            _spectrometerNode = new SpectrometerNode( _canvas, HAConstants.SPECTROMETER_SIZE, title, _spectrometerFont, HAConstants.SPECTROMETER_MIN_WAVELENGTH, HAConstants.SPECTROMETER_MAX_WAVELENGTH );
+            _spectrometerNode = new SpectrometerNode( HAConstants.SPECTROMETER_SIZE, title, _spectrometerFont, HAConstants.SPECTROMETER_MIN_WAVELENGTH, HAConstants.SPECTROMETER_MAX_WAVELENGTH );
             _spectrometerNode.addCloseListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     _spectrometerCheckBox.setSelected( false );
@@ -318,10 +318,10 @@ public class HAModule extends PiccoloModule {
             _energyDiagramCheckBoxNode.addInputEventListener( new CursorHandler() );
 
             // diagrams
-            _solarSystemEnergyDiagram = new SolarSystemEnergyDiagram( _canvas );
-            _bohrEnergyDiagram = new BohrEnergyDiagram( _canvas, getClock() );
-            _deBroglieEnergyDiagram = new DeBroglieEnergyDiagram( _canvas, getClock() );
-            _schrodingerEnergyDiagram = new SchrodingerEnergyDiagram( _canvas, getClock() );
+            _solarSystemEnergyDiagram = new SolarSystemEnergyDiagram();
+            _bohrEnergyDiagram = new BohrEnergyDiagram( getClock() );
+            _deBroglieEnergyDiagram = new DeBroglieEnergyDiagram( getClock() );
+            _schrodingerEnergyDiagram = new SchrodingerEnergyDiagram( getClock() );
             
             ActionListener closeListener = new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
@@ -345,7 +345,7 @@ public class HAModule extends PiccoloModule {
         _notToScaleLabel = new NotToScaleNode();
         
         // Legend
-        _legendNode = new LegendNode( _canvas );
+        _legendNode = new LegendNode();
 
         // Layering order on the canvas (back-to-front)
         {

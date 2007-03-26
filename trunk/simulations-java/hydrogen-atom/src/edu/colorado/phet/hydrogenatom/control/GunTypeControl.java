@@ -61,10 +61,9 @@ public class GunTypeControl extends PhetPNode {
     /**
      * Constructor.
      * 
-     * @param canvas used to put Piccolo wrapper around Swing components
      * @param font
      */
-    public GunTypeControl( PSwingCanvas canvas, Font font ) {
+    public GunTypeControl( Font font ) {
         super();
         
         _listenerList = new EventListenerList();
@@ -106,7 +105,7 @@ public class GunTypeControl extends PhetPNode {
         layout.addComponent( alphaParticleControl, row, col );
         
         // Piccolo wrapper for panel
-        PSwing pswing = new PSwing(panel );
+        PSwing pswing = new PSwing( panel );
         addChild( pswing );
         
         // Fonts
