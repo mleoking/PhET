@@ -75,7 +75,7 @@ public class ObjectSelectionPanel extends JPanel {
     private String getIconText( final RampObject imageElement ) {
 //        char muChar = '\u00F6';
         char muChar = '\u03BC';
-        return MessageFormat.format( TheRampStrings.getResourceBundle().getString( "html.0.br.1.kg.2.3.html" ), new Object[]{imageElement.getName(), new Double( imageElement.getMass() ), new Character( muChar ), new Double( imageElement.getStaticFriction() )} );
+        return MessageFormat.format( TheRampStrings.getString( "html.0.br.1.kg.2.3.html" ), new Object[]{imageElement.getName(), new Double( imageElement.getMass() ), new Character( muChar ), new Double( imageElement.getStaticFriction() )} );
 //        return "<html>HELLO<sub>2</html>";
 //        return imageElement.getName() + " (" + imageElement.getMass() + " kg)";
     }

@@ -106,11 +106,11 @@ public class IntensityReader extends PComposite {
         if( simpleWavefunctionGraphic.getWavefunction().containsLocation( cellLocation.x, cellLocation.y ) ) {
             Complex value = simpleWavefunctionGraphic.getWavefunction().valueAt( cellLocation.x, cellLocation.y );
 //        readout.setText( "Location=" + location + ", bounds=" + simpleWavefunctionGraphic.getFullBounds() );
-            readout.setText( MessageFormat.format( QWIStrings.getResourceBundle().getString( "magnitude.0" ), new Object[]{new DecimalFormat( "0.00" ).format( value.abs() )} ) );
+            readout.setText( MessageFormat.format( QWIStrings.getString( "magnitude.0" ), new Object[]{new DecimalFormat( "0.00" ).format( value.abs() )} ) );
             stripChartJFCNode.addValue( time++, value.abs() );
         }
         else {
-            readout.setText( MessageFormat.format( QWIStrings.getResourceBundle().getString( "location.0" ), new Object[]{cellLocation} ) );
+            readout.setText( MessageFormat.format( QWIStrings.getString( "location.0" ), new Object[]{cellLocation} ) );
         }
 
 //        textBackground.setPathTo( new Rectangle2D.Double( 0,0,readout.getFullBounds().getWidth(), readout.getFullBounds().getHeight() ) );

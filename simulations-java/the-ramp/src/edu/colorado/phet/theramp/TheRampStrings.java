@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
  * Copyright (c) Aug 21, 2006 by Sam Reid
  */
 
-public class TheRampStrings {
+public class TheRampStrings {     
     private static String bundleName = "localization/TheRampStrings";
 
     public static void init( String[]args ) {
@@ -22,7 +22,4 @@ public class TheRampStrings {
         return SimStrings.get( s );
     }
 
-    public static ResourceBundle getResourceBundle() {
-        return ResourceBundle.getBundle( bundleName, SimStrings.getLocalizedLocale() );
-    }
 }

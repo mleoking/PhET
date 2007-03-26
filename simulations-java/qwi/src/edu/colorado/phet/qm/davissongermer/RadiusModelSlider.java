@@ -22,7 +22,7 @@ public class RadiusModelSlider extends ModelSlider {
         setModelTicks( new double[]{0.05, ( 0.5 + 0.25 ) / 2.0, 0.25} );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                System.out.println( MessageFormat.format( QWIStrings.getResourceBundle().getString( "getvalue.scale.0" ), new Object[]{new Double( getValue() / scale )} ) );
+                System.out.println( MessageFormat.format( QWIStrings.getString( "getvalue.scale.0" ), new Object[]{new Double( getValue() / scale )} ) );
 
                 dgModel.setFractionalRadius( getValue() / scale );
             }

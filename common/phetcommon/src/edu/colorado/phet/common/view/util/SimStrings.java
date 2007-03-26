@@ -112,10 +112,6 @@ public class SimStrings {
         }
     }
 
-    public static Locale getLocalizedLocale() {
-        return INSTANCE.localizedLocale;
-    }
-
     /**
      * Gets a string value from the localization resource file.
      * If key's value is null, then key is returned.
