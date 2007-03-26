@@ -38,7 +38,6 @@ import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * GunControlPanel
@@ -105,7 +104,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _transitionMarksControlVisible = false;
         
         // Font
-        int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
+        int fontSize = SimStrings.getInstance().getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
         
         PImage panel = PImageFactory.create( HAConstants.IMAGE_GUN_PANEL );

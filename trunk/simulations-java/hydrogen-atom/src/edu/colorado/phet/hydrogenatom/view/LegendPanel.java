@@ -26,7 +26,6 @@ import edu.colorado.phet.hydrogenatom.view.particle.*;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * LegendPanel identifies each of the icon images used in this sim.
@@ -65,7 +64,7 @@ public class LegendPanel extends JPanel {
     public LegendPanel() {
         super();
 
-        int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
+        int fontSize = SimStrings.getInstance().getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
 
         JLabel photonImage = toJLabel( PhotonNode.createPhotonImage( HAConstants.PHOTON_ICON_WAVELENGTH ) );

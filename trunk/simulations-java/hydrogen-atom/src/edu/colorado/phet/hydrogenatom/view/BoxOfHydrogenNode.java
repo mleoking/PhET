@@ -118,7 +118,7 @@ public class BoxOfHydrogenNode extends PImage {
         HTMLNode labelNode = new HTMLNode();
         labelNode.setHTML( SimStrings.getInstance().getString( "label.boxOfHydrogen" ) );
         labelNode.setHTMLColor( HAConstants.CANVAS_LABELS_COLOR );
-        int fontSize = SimStrings.getInt( "boxOfHydrogen.font.size", DEFAULT_FONT_SIZE );
+        int fontSize = SimStrings.getInstance().getInt( "boxOfHydrogen.font.size", DEFAULT_FONT_SIZE );
         Font labelFont = new Font( FONT_NAME, FONT_STYLE, fontSize );
         labelNode.setFont( labelFont );
         

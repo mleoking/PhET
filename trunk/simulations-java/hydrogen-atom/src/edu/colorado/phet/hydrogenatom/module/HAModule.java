@@ -132,9 +132,9 @@ public class HAModule extends PiccoloModule {
         setLogoPanel( null );
 
         // Fonts
-        int jComponentFontSize = SimStrings.getInt( "jcomponent.font.size", HAConstants.DEFAULT_FONT_SIZE );
+        int jComponentFontSize = SimStrings.getInstance().getInt( "jcomponent.font.size", HAConstants.DEFAULT_FONT_SIZE );
         Font jComponentFont = new Font( HAConstants.DEFAULT_FONT_NAME, HAConstants.DEFAULT_FONT_STYLE, jComponentFontSize );
-        int spectrometerFontSize = SimStrings.getInt( "spectrometer.font.size", HAConstants.DEFAULT_FONT_SIZE );
+        int spectrometerFontSize = SimStrings.getInstance().getInt( "spectrometer.font.size", HAConstants.DEFAULT_FONT_SIZE );
         _spectrometerFont = new Font( HAConstants.DEFAULT_FONT_NAME, HAConstants.DEFAULT_FONT_STYLE, spectrometerFontSize );
         
         //----------------------------------------------------------------------------

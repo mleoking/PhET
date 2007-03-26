@@ -152,7 +152,7 @@ public class SimStrings {
      * @param defaultValue
      * @return int
      */
-    public static int getInt( String key, int defaultValue ) {
+    public int getInt( String key, int defaultValue ) {
         String s = getInstance().getString( key );
         int value = 0;
         try {

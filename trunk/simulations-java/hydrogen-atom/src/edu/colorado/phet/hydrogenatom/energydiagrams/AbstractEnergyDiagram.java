@@ -30,7 +30,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PClip;
 import edu.umd.cs.piccolox.nodes.PComposite;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * AbstractEnergyDiagram is the base class for all energy diagrams.
@@ -133,10 +132,10 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         setPickable( false );
         
         // Fonts
-        int axisFontSize = SimStrings.getInt( AXIS_FONT_SIZE_RESOURCE, HAConstants.DEFAULT_FONT_SIZE );
+        int axisFontSize = SimStrings.getInstance().getInt( AXIS_FONT_SIZE_RESOURCE, HAConstants.DEFAULT_FONT_SIZE );
         Font axisFont = new Font( HAConstants.DEFAULT_FONT_NAME, HAConstants.DEFAULT_FONT_STYLE, axisFontSize );
         
-        int titleFontSize = SimStrings.getInt( TITLE_FONT_SIZE_RESOURCE, HAConstants.DEFAULT_FONT_SIZE );
+        int titleFontSize = SimStrings.getInstance().getInt( TITLE_FONT_SIZE_RESOURCE, HAConstants.DEFAULT_FONT_SIZE );
         Font titleFont = new Font( HAConstants.DEFAULT_FONT_NAME, HAConstants.DEFAULT_FONT_STYLE, titleFontSize );
         
         // Title bar, with title & close button
