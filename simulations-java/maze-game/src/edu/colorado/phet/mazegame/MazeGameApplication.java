@@ -31,7 +31,7 @@ public class MazeGameApplication {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
                     new PhetLookAndFeel().initLookAndFeel();
-                    SimStrings.init( args, localizedStringsPath );
+                    SimStrings.getInstance().initYoda( args, localizedStringsPath );
 
                     JFrame f = new JFrame( "Maze Game (" + version + ")" );
                     MazeGameApplet mg = new MazeGameApplet();

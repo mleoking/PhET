@@ -16,7 +16,6 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 import edu.colorado.phet.solublesalts.control.OptionsMenu;
@@ -102,7 +101,7 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
             }
         }
 
-        SimStrings.init( args, SolubleSaltsConfig.STRINGS_BUNDLE_NAME );
+        SimStrings.getInstance().initYoda( args, SolubleSaltsConfig.STRINGS_BUNDLE_NAME );
 
 
         Color blueBackground = new Color( 230, 250, 255 );

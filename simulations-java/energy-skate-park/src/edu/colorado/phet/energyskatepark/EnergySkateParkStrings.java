@@ -11,7 +11,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 public class EnergySkateParkStrings {
     public static void init( String[] args, String bundlename ) {
-        SimStrings.init( args, bundlename );
+        SimStrings.getInstance().initYoda( args, bundlename );
     }
 
     public static String getString( String s ) {

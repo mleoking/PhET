@@ -220,7 +220,7 @@ public class HAApplication extends PiccoloPhetApplication {
                 laf.initLookAndFeel();
 
                 // Initialize localization.
-                SimStrings.init( args, HAConstants.SIM_STRINGS_NAME );
+                SimStrings.getInstance().initYoda( args, HAConstants.SIM_STRINGS_NAME );
 
                 // Load simulation properties file
                 Properties simulationProperties = PropertiesLoader.loadProperties( HAConstants.SIM_PROPERTIES_NAME );

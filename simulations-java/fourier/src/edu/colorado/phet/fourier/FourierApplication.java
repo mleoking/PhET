@@ -148,7 +148,7 @@ public class FourierApplication extends PhetApplication {
     public static void main( String[] args ) throws IOException {
 
         // Initialize localization.
-        SimStrings.init( args, FourierConstants.SIM_STRINGS_NAME );
+        SimStrings.getInstance().initYoda( args, FourierConstants.SIM_STRINGS_NAME );
         
         // Load simulation properties file
         Properties simulationProperties = PropertiesLoader.loadProperties( FourierConstants.SIM_PROPERTIES_NAME );

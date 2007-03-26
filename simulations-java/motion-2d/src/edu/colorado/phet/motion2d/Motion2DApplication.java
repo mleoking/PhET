@@ -29,7 +29,7 @@ public class Motion2DApplication {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
 
-                    SimStrings.init( args, localizedStringsPath );
+                    SimStrings.getInstance().initYoda( args, localizedStringsPath );
                     new Motion2DLookAndFeel().initLookAndFeel();
 
                     Motion2DApplet ja = new Motion2DApplet();

@@ -103,7 +103,7 @@ public class DischargeLampsApp extends PhetApplication {
                 PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
                 phetLookAndFeel.initLookAndFeel();
                 // Tell SimStrings where the simulations-specific strings are
-                SimStrings.init( args, DischargeLampsConfig.localizedStringsPath );
+                SimStrings.getInstance().initYoda( args, DischargeLampsConfig.localizedStringsPath );
                 SimStrings.setStrings( LaserConfig.localizedStringsPath );
 
                 DischargeLampsApp app = new DischargeLampsApp( args );

@@ -93,7 +93,7 @@ public class HockeyModule extends JApplet implements Runnable {
     }
 
     public static void main( String[] args ) {
-        SimStrings.init( args, HockeyConfig.localizedStringPath );
+        SimStrings.getInstance().initYoda( args, HockeyConfig.localizedStringPath );
 
         isApplet = false;
 

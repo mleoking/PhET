@@ -311,7 +311,7 @@ public class BalloonApplet extends JApplet implements IHelp {
     }
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException {
-        SimStrings.init( args, BalloonsConfig.localizedStringsPath );
+        SimStrings.getInstance().initYoda( args, BalloonsConfig.localizedStringsPath );
 
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
         isApplet = false;
