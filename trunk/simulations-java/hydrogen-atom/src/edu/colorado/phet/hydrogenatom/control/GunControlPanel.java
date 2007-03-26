@@ -110,7 +110,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
         
         PImage panel = PImageFactory.create( HAConstants.IMAGE_GUN_PANEL );
         
-        JLabel lightControlsLabel = new JLabel( SimStrings.get( "label.lightControls" ) );
+        JLabel lightControlsLabel = new JLabel( SimStrings.getInstance().getString( "label.lightControls" ) );
         Font labelFont = new Font( FONT_NAME, FONT_STYLE, fontSize+2 );
         lightControlsLabel.setFont( labelFont );
         PSwing lightControlsLabelWrapper = new PSwing(lightControlsLabel );

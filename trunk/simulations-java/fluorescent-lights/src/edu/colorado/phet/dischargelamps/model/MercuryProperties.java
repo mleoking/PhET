@@ -59,6 +59,6 @@ public class MercuryProperties extends DischargeLampElementProperties {
      *
      */
     public MercuryProperties() {
-        super( SimStrings.get( "Element.mercury" ), energyLevels, teA );
+        super( SimStrings.getInstance().getString( "Element.mercury" ), energyLevels, teA );
     }
 }

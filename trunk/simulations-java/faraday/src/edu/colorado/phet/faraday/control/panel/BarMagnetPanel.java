@@ -99,7 +99,7 @@ public class BarMagnetPanel extends FaradayPanel {
         
         // Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
-        String title = SimStrings.get( "BarMagnetPanel.title" );
+        String title = SimStrings.getInstance().getString( "BarMagnetPanel.title" );
         TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
         titleBorder.setTitleFont( getTitleFont() );
         setBorder( titleBorder );
@@ -112,7 +112,7 @@ public class BarMagnetPanel extends FaradayPanel {
             int range = max - min;
 
             // Slider
-            String format = SimStrings.get( "BarMagnetPanel.strength" );
+            String format = SimStrings.getInstance().getString( "BarMagnetPanel.strength" );
             _strengthSlider = new ControlPanelSlider( format );
             _strengthSlider.setMaximum( max );
             _strengthSlider.setMinimum( min );
@@ -123,19 +123,19 @@ public class BarMagnetPanel extends FaradayPanel {
         }
 
         //  Flip Polarity button
-        _flipPolarityButton = new JButton( SimStrings.get( "BarMagnetPanel.flipPolarity" ) );
+        _flipPolarityButton = new JButton( SimStrings.getInstance().getString( "BarMagnetPanel.flipPolarity" ) );
 
         // Magnet transparency on/off
-        _seeInsideCheckBox = new JCheckBox( SimStrings.get( "BarMagnetPanel.seeInside" ) );
+        _seeInsideCheckBox = new JCheckBox( SimStrings.getInstance().getString( "BarMagnetPanel.seeInside" ) );
 
         // Compass Grid on/off
-        _gridCheckBox = new JCheckBox( SimStrings.get( "BarMagnetPanel.showGrid" ) );
+        _gridCheckBox = new JCheckBox( SimStrings.getInstance().getString( "BarMagnetPanel.showGrid" ) );
         
         // Field Meter on/off
-        _fieldMeterCheckBox = new JCheckBox( SimStrings.get( "BarMagnetPanel.showFieldMeter" ) );
+        _fieldMeterCheckBox = new JCheckBox( SimStrings.getInstance().getString( "BarMagnetPanel.showFieldMeter" ) );
 
         // Compass on/off
-        _compassCheckBox = new JCheckBox( SimStrings.get( "BarMagnetPanel.showCompass" ) );
+        _compassCheckBox = new JCheckBox( SimStrings.getInstance().getString( "BarMagnetPanel.showCompass" ) );
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );

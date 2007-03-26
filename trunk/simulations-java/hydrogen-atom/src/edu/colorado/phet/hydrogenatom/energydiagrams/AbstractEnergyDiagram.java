@@ -140,7 +140,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         Font titleFont = new Font( HAConstants.DEFAULT_FONT_NAME, HAConstants.DEFAULT_FONT_STYLE, titleFontSize );
         
         // Title bar, with title & close button
-        PText titleNode = new PText( SimStrings.get( "title.energyDiagram" ) );
+        PText titleNode = new PText( SimStrings.getInstance().getString( "title.energyDiagram" ) );
         _closeButton = new CloseButtonNode();
         PPath titleBarNode = new PPath();
         titleBarNode.addChild( titleNode );
@@ -358,7 +358,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         arrowNode.setStroke( null );
         
         // Label -- origin at lower-left after rotating
-        PText labelNode = new PText( SimStrings.get( "label.energyDiagram.yAxis" ) );
+        PText labelNode = new PText( SimStrings.getInstance().getString( "label.energyDiagram.yAxis" ) );
         labelNode.setFont( font );
         labelNode.setTextPaint( AXIS_LABEL_COLOR );
         labelNode.rotate( Math.toRadians( -90 ) ); 

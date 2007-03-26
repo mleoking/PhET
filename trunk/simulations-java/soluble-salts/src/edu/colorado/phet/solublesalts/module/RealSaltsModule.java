@@ -29,7 +29,7 @@ public class RealSaltsModule extends SolubleSaltsModule {
      * @param clock
      */
     public RealSaltsModule( IClock clock ) {
-        super( SimStrings.get( "Module.title" ),
+        super( SimStrings.getInstance().getString( "Module.title" ),
                clock,
                new SolubleSaltsConfig.Calibration( 1.5E-16 / 500,
                                                    1E-16,

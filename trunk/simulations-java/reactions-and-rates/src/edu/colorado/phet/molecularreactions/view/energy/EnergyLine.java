@@ -65,7 +65,7 @@ public class EnergyLine extends PNode {
 
         Font defaultFont = MRConfig.LABEL_FONT;
         Font labelFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
-        totalEnergyLegend = new PText( SimStrings.get( "EnergyView.Legend.totalEnergy" ) );
+        totalEnergyLegend = new PText( SimStrings.getInstance().getString( "EnergyView.Legend.totalEnergy" ) );
         totalEnergyLegend.setFont( labelFont );
         totalEnergyLegend.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
         addChild( totalEnergyLegend );
@@ -110,6 +110,6 @@ public class EnergyLine extends PNode {
     }
 
     public void setLabel( String propertyName ) {
-        totalEnergyLegend.setText( SimStrings.get( propertyName ) );
+        totalEnergyLegend.setText( SimStrings.getInstance().getString( propertyName ) );
     }
 }

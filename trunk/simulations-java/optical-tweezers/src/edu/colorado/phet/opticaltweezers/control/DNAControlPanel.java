@@ -33,7 +33,7 @@ public class DNAControlPanel extends AbstractControlPanel {
         _module = module;
 
         // Set the control panel's minimum width.
-        String widthString = SimStrings.get( "width.controlPanel" );
+        String widthString = SimStrings.getInstance().getString( "width.controlPanel" );
         if ( widthString != null ) {
             int width = Integer.parseInt( widthString );
             setMinumumWidth( width );

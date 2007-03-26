@@ -196,7 +196,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             addGraphic( dangerThresholdIndicator );
 
             // Text annotations
-            String lasingStr = SimStrings.get( "PowerMeter.Lasing" );
+            String lasingStr = SimStrings.getInstance().getString( "PowerMeter.Lasing" );
             Font font = new Font( "Lucida Sans", Font.BOLD, 12 );
             PhetTextGraphic lasingAnnotation = new PhetTextGraphic();
             lasingAnnotation.setComponent( component );
@@ -208,7 +208,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
                                           (int)background.getHeight() + 15 );
             addGraphic( lasingAnnotation );
 
-            String dangerStr = SimStrings.get("PowerMeter.Danger");
+            String dangerStr = SimStrings.getInstance().getString("PowerMeter.Danger");
             PhetTextGraphic dangerAnnotation = new PhetTextGraphic();
             dangerAnnotation.setComponent( component );
             dangerAnnotation.setFont( font );

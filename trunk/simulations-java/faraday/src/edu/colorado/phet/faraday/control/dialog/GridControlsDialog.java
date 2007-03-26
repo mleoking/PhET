@@ -63,7 +63,7 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
         super( app.getPhetFrame() );
         _app = app;
         
-        super.setTitle( SimStrings.get( "GridControlsDialog.title" ) );
+        super.setTitle( SimStrings.getInstance().getString( "GridControlsDialog.title" ) );
         super.setModal( false );
         super.setResizable( false );
         
@@ -128,13 +128,13 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
     private JPanel createInputPanel() {
         
         // Warning panel
-        JLabel warningMessage = new JLabel( SimStrings.get( "GridControlsDialog.warning" ) );
+        JLabel warningMessage = new JLabel( SimStrings.getInstance().getString( "GridControlsDialog.warning" ) );
         JPanel warningPanel = new JPanel();
         warningPanel.setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
         warningPanel.add( warningMessage );
         
         // Grid spacing
-        JLabel spacingLabel = new JLabel( SimStrings.get( "GridControlsDialog.spacing" ) );
+        JLabel spacingLabel = new JLabel( SimStrings.getInstance().getString( "GridControlsDialog.spacing" ) );
         {
             // Slider
             _spacingSlider = new JSlider();
@@ -150,7 +150,7 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
         }
         
         // Needle size
-        JLabel needleSizeLabel = new JLabel( SimStrings.get( "GridControlsDialog.needleSize" ) );
+        JLabel needleSizeLabel = new JLabel( SimStrings.getInstance().getString( "GridControlsDialog.needleSize" ) );
         {
             // Slider
             _needleSizeSlider = new JSlider();
@@ -204,10 +204,10 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
      */
     private JPanel createActionsPanel()
     {   
-      _okButton = new JButton( SimStrings.get( "GridControlsDialog.ok" ) );
+      _okButton = new JButton( SimStrings.getInstance().getString( "GridControlsDialog.ok" ) );
       _okButton.addActionListener( this );
       
-      _cancelButton = new JButton( SimStrings.get( "GridControlsDialog.cancel" ) );
+      _cancelButton = new JButton( SimStrings.getInstance().getString( "GridControlsDialog.cancel" ) );
       _cancelButton.addActionListener( this );
       
       JPanel innerPanel = new JPanel( new GridLayout(1,2,10,0) );

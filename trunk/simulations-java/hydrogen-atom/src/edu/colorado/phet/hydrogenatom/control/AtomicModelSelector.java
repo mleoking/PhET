@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
@@ -119,46 +118,46 @@ public class AtomicModelSelector extends PhetPNode {
         PImage panel = PImageFactory.create( HAConstants.IMAGE_ATOMIC_MODEL_PANEL );
         
         // Labels
-        HTMLNode atomicModelLabel = new HTMLNode( SimStrings.get( "label.atomicModel" ) );
+        HTMLNode atomicModelLabel = new HTMLNode( SimStrings.getInstance().getString( "label.atomicModel" ) );
         atomicModelLabel.setFont( titleFont );
         atomicModelLabel.setHTMLColor( TITLE_COLOR );
         widthNodes.add( atomicModelLabel );
         heightNodes.add( atomicModelLabel );
         
-        PText classicalLabel = new PText( SimStrings.get( "label.classical" ) );
+        PText classicalLabel = new PText( SimStrings.getInstance().getString( "label.classical" ) );
         classicalLabel.setFont( continuumFont );
         classicalLabel.setTextPaint( CONTINUUM_QUANTUM_COLOR ); // yes, this is correct
         
-        PText quantumLabel = new PText( SimStrings.get( "label.quantum" ) );
+        PText quantumLabel = new PText( SimStrings.getInstance().getString( "label.quantum" ) );
         quantumLabel.setFont( continuumFont );
         quantumLabel.setTextPaint( CONTINUUM_CLASSICAL_COLOR ); // yes, this is correct
         
-        _billiardBallLabel = new HTMLNode( SimStrings.get( "button.billiardBall" ) );
+        _billiardBallLabel = new HTMLNode( SimStrings.getInstance().getString( "button.billiardBall" ) );
         _billiardBallLabel.setFont( buttonFont );
         widthNodes.add( _billiardBallLabel );
         heightNodes.add( _billiardBallLabel );
 
-        _plumPuddingLabel = new HTMLNode( SimStrings.get( "button.plumPudding" ) );
+        _plumPuddingLabel = new HTMLNode( SimStrings.getInstance().getString( "button.plumPudding" ) );
         _plumPuddingLabel.setFont( buttonFont );
         widthNodes.add( _plumPuddingLabel );
         heightNodes.add( _plumPuddingLabel );
         
-        _solarSystemLabel = new HTMLNode( SimStrings.get( "button.solarSystem" ) );
+        _solarSystemLabel = new HTMLNode( SimStrings.getInstance().getString( "button.solarSystem" ) );
         _solarSystemLabel.setFont( buttonFont );
         widthNodes.add( _solarSystemLabel );
         heightNodes.add( _solarSystemLabel );
         
-        _bohrLabel = new HTMLNode( SimStrings.get( "button.bohr" ) );
+        _bohrLabel = new HTMLNode( SimStrings.getInstance().getString( "button.bohr" ) );
         _bohrLabel.setFont( buttonFont );
         widthNodes.add( _bohrLabel );
         heightNodes.add( _bohrLabel );
         
-        _deBroglieLabel = new HTMLNode( SimStrings.get( "button.deBroglie" ) );
+        _deBroglieLabel = new HTMLNode( SimStrings.getInstance().getString( "button.deBroglie" ) );
         _deBroglieLabel.setFont( buttonFont );
         widthNodes.add( _deBroglieLabel );
         heightNodes.add( _deBroglieLabel );
         
-        _schrodingerLabel = new HTMLNode( SimStrings.get( "button.schrodinger" ) );
+        _schrodingerLabel = new HTMLNode( SimStrings.getInstance().getString( "button.schrodinger" ) );
         _schrodingerLabel.setFont( buttonFont );
         widthNodes.add( _schrodingerLabel );
         heightNodes.add( _schrodingerLabel );
@@ -460,7 +459,7 @@ public class AtomicModelSelector extends PhetPNode {
             resourceName = "label.schrodinger";
         }
         
-        String name = SimStrings.get( resourceName );
+        String name = SimStrings.getInstance().getString( resourceName );
         if ( name.indexOf( "<html>" ) != -1 ) {
             System.err.println( "WARNING: SimStrings resource " + resourceName + " should not contain HTML!" );
         }

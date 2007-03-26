@@ -42,7 +42,7 @@ public class SystemRunnerControl {
                 updateSystem();
             }
         } );
-        dtSlider.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "SystemRunnerControl.TimeIncrementSlider" ) ) );
+        dtSlider.setBorder( BorderFactory.createTitledBorder( SimStrings.getInstance().getString( "SystemRunnerControl.TimeIncrementSlider" ) ) );
         panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
 
         this.waitTimeSlider = new JSlider( 0, 100, 50 );
@@ -52,7 +52,7 @@ public class SystemRunnerControl {
                 updateSystem();
             }
         } );
-        waitTimeSlider.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "SystemRunnerControl.WaitTimeSlider" ) ) );
+        waitTimeSlider.setBorder( BorderFactory.createTitledBorder( SimStrings.getInstance().getString( "SystemRunnerControl.WaitTimeSlider" ) ) );
         panel.add( dtSlider );
         panel.add( dtField );
         panel.add( waitTimeSlider );

@@ -67,7 +67,7 @@ public class InteractiveVoltmeter extends CompositeGraphic {
                 }
             }
         } );
-        final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( SimStrings.get( "InteractiveVoltmeter.VerticalLeadsCheckBox" ) );
+        final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( SimStrings.getInstance().getString( "InteractiveVoltmeter.VerticalLeadsCheckBox" ) );
         jcbmi.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setLeadsVertical( jcbmi.isSelected() );

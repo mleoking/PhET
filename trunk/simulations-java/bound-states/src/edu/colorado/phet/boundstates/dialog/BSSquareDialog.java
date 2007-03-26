@@ -53,7 +53,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
      * Constructor.
      */
     public BSSquareDialog( Frame parent, BSSquarePotential potential, BSPotentialSpec potentialSpec, boolean offsetControlSupported ) {
-        super( parent, SimStrings.get( "BSSquareDialog.title" ), potential );
+        super( parent, SimStrings.getInstance().getString( "BSSquareDialog.title" ), potential );
         JPanel inputPanel = createInputPanel( potentialSpec, offsetControlSupported );
         createUI( inputPanel );
         updateControls();
@@ -66,8 +66,8 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
      */
     protected JPanel createInputPanel( BSPotentialSpec potentialSpec, boolean offsetControlSupported ) {
         
-        String positionUnits = SimStrings.get( "units.position" );
-        String energyUnits = SimStrings.get( "units.energy" );
+        String positionUnits = SimStrings.getInstance().getString( "units.position" );
+        String energyUnits = SimStrings.getInstance().getString( "units.energy" );
  
         // Offset
         {
@@ -79,7 +79,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
             int tickDecimalPlaces = offsetRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String offsetLabel = SimStrings.get( "label.wellOffset" );
+            String offsetLabel = SimStrings.getInstance().getString( "label.wellOffset" );
             _offsetSlider = new SliderControl( value, min, max,
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
                     offsetLabel, energyUnits, columns, SLIDER_INSETS );
@@ -97,7 +97,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
             int tickDecimalPlaces = heightRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String heightLabel = SimStrings.get( "label.wellHeight" );
+            String heightLabel = SimStrings.getInstance().getString( "label.wellHeight" );
             _heightSlider = new SliderControl( value, min, max,
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
                     heightLabel, energyUnits, columns, SLIDER_INSETS );
@@ -115,7 +115,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
             int tickDecimalPlaces = widthRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String widthLabel = SimStrings.get( "label.wellWidth" );
+            String widthLabel = SimStrings.getInstance().getString( "label.wellWidth" );
             _widthSlider = new SliderControl( value, min, max,
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
                     widthLabel, positionUnits, columns, SLIDER_INSETS );
@@ -133,7 +133,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
             int tickDecimalPlaces = separationRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String spacingLabel = SimStrings.get( "label.wellSeparation" );
+            String spacingLabel = SimStrings.getInstance().getString( "label.wellSeparation" );
             _separationSlider = new SliderControl( value, min, max,
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
                     spacingLabel, positionUnits, columns, SLIDER_INSETS );

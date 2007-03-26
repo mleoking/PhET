@@ -52,7 +52,7 @@ public class HydrogenProperties extends DischargeLampElementProperties {
      *
      */
     public HydrogenProperties() {
-        super( SimStrings.get( "Element.hydrogen" ), energyLevels, teA );
+        super( SimStrings.getInstance().getString( "Element.hydrogen" ), energyLevels, teA );
     }
 }
 

@@ -17,7 +17,6 @@ import java.util.Observer;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -91,7 +90,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
         super();
         
         // Labels
-        String waveFunctionLabel = SimStrings.get( "axis.waveFunction" );
+        String waveFunctionLabel = SimStrings.getInstance().getString( "axis.waveFunction" );
         
         int index = 0;
         

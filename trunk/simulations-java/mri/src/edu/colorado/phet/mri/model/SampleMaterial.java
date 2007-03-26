@@ -24,14 +24,14 @@ public class SampleMaterial {
     // Class fields and methods
     //----------------------------------------------------------------
     // Gyromagnetic ratios, in MHz/Tesla (from http://www.cis.rit.edu/htbooks/mri/chap-3/chap-3.htm#3.3)
-    public static final SampleMaterial HYDROGEN = new SampleMaterial( SimStrings.get( "SampleMaterial.hydrogen" ), 42.58E6 );
-    public static final SampleMaterial UBIDUBIUM = new SampleMaterial( SimStrings.get( "SampleMaterial.ubidubium" ), 14 );
-    public static final SampleMaterial NITROGEN = new SampleMaterial( SimStrings.get( "SampleMaterial.nitrogen" ), 3.08E6 );
-    public static final SampleMaterial SODIUM = new SampleMaterial( SimStrings.get( "SampleMaterial.sodium" ), 11.27E6 );
-    public static final SampleMaterial CARBON_13 = new SampleMaterial( SimStrings.get( "SampleMaterial.carbon-13" ), 10.71E6 );
-    public static final SampleMaterial OXYGEN = new SampleMaterial( SimStrings.get( "SampleMaterial.oxygen" ), 5.772E6 );
-    public static final SampleMaterial SULFUR = new SampleMaterial( SimStrings.get( "SampleMaterial.sulfur" ), 3.2654E6 );
-    public static final SampleMaterial UNKNOWN = new SampleMaterial( SimStrings.get( "SampleMaterial.???" ), 12.089E6 ); // Cu
+    public static final SampleMaterial HYDROGEN = new SampleMaterial( SimStrings.getInstance().getString( "SampleMaterial.hydrogen" ), 42.58E6 );
+    public static final SampleMaterial UBIDUBIUM = new SampleMaterial( SimStrings.getInstance().getString( "SampleMaterial.ubidubium" ), 14 );
+    public static final SampleMaterial NITROGEN = new SampleMaterial( SimStrings.getInstance().getString( "SampleMaterial.nitrogen" ), 3.08E6 );
+    public static final SampleMaterial SODIUM = new SampleMaterial( SimStrings.getInstance().getString( "SampleMaterial.sodium" ), 11.27E6 );
+    public static final SampleMaterial CARBON_13 = new SampleMaterial( SimStrings.getInstance().getString( "SampleMaterial.carbon-13" ), 10.71E6 );
+    public static final SampleMaterial OXYGEN = new SampleMaterial( SimStrings.getInstance().getString( "SampleMaterial.oxygen" ), 5.772E6 );
+    public static final SampleMaterial SULFUR = new SampleMaterial( SimStrings.getInstance().getString( "SampleMaterial.sulfur" ), 3.2654E6 );
+    public static final SampleMaterial UNKNOWN = new SampleMaterial( SimStrings.getInstance().getString( "SampleMaterial.???" ), 12.089E6 ); // Cu
 
     public static final SampleMaterial[] INSTANCES = new SampleMaterial[]{
             HYDROGEN,

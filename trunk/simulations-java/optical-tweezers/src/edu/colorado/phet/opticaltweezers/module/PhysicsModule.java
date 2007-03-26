@@ -87,7 +87,7 @@ public class PhysicsModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public PhysicsModule() {
-        super( SimStrings.get( "PhysicsModule.title" ), PhysicsDefaults.CLOCK, PhysicsDefaults.CLOCK_PAUSED );
+        super( SimStrings.getInstance().getString( "PhysicsModule.title" ), PhysicsDefaults.CLOCK, PhysicsDefaults.CLOCK_PAUSED );
 
         //----------------------------------------------------------------------------
         // Model
@@ -207,7 +207,7 @@ public class PhysicsModule extends AbstractModule {
         setClockControlPanel( _clockControlPanel );
         
         // "Return Bead" button
-        JButton returnBeadButton = new JButton( SimStrings.get( "label.returnBead" ) );
+        JButton returnBeadButton = new JButton( SimStrings.getInstance().getString( "label.returnBead" ) );
         Font font = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 18 );
         returnBeadButton.setFont( font );
         returnBeadButton.setOpaque( false );
@@ -436,7 +436,7 @@ public class PhysicsModule extends AbstractModule {
         if ( !_wiggleMeInitialized ) {
             
             // Create wiggle me, add to root node.
-            String wiggleMeString = SimStrings.get( "wiggleMe.XXX" );  
+            String wiggleMeString = SimStrings.getInstance().getString( "wiggleMe.XXX" );
             _wiggleMe = new OTWiggleMe( _canvas, wiggleMeString );
             _rootNode.addChild( _wiggleMe );
             

@@ -51,7 +51,7 @@ public class WavePacketCenterSlider extends AbstractFourierSlider {
      * Sole constructor.
      */
     public WavePacketCenterSlider() {
-        super( SimStrings.get( "WavePacketCenterSlider.format.space" ) );
+        super( SimStrings.getInstance().getString( "WavePacketCenterSlider.format.space" ) );
         
         // Range is 900 to 1500, which will be mapped to 9pi to 15pi.
         getSlider().setMinimum( 9 * MULTIPLIER );

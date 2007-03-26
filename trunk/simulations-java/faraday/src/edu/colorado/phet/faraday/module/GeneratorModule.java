@@ -99,7 +99,7 @@ public class GeneratorModule extends FaradayModule {
      */
     public GeneratorModule() {
 
-        super( SimStrings.get( "GeneratorModule.title" ) );
+        super( SimStrings.getInstance().getString( "GeneratorModule.title" ) );
 
         //----------------------------------------------------------------------------
         // Model
@@ -321,7 +321,7 @@ public class GeneratorModule extends FaradayModule {
             _turbineSpeed = turbineModel.getSpeed();
             turbineModel.addObserver( this );
             
-            setText( SimStrings.get( "GeneratorModule.wiggleMe" ) );
+            setText( SimStrings.getInstance().getString( "GeneratorModule.wiggleMe" ) );
             addArrow( WiggleMeGraphic.MIDDLE_LEFT, new Vector2D( -80, 0 ) );
             setRange( 25, 0 );
             setCycleDuration( 10 );

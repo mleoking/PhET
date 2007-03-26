@@ -35,7 +35,7 @@ public class NmrModule extends AbstractMriModule {
     // Class fields and methods
     //----------------------------------------------------------------
 
-    private static String name = SimStrings.get( "Module.NmrTitle" );
+    private static String name = SimStrings.getInstance().getString( "Module.NmrTitle" );
 
     //----------------------------------------------------------------
     // Instance methods and fields
@@ -95,7 +95,7 @@ public class NmrModule extends AbstractMriModule {
 //        final WiggleMe wiggleMe = new WiggleMe( SimStrings.get( "Application.WiggleMe" ),
 //                                                (int)radiowaveSourceLocation.getX() - 100,
 //                                                (int)radiowaveSourceLocation.getY() );
-        final MotionHelpBalloon wiggleMe = new MotionHelpBalloon( getPhetPCanvas(), SimStrings.get( "Application.WiggleMe" ) );
+        final MotionHelpBalloon wiggleMe = new MotionHelpBalloon( getPhetPCanvas(), SimStrings.getInstance().getString( "Application.WiggleMe" ) );
         wiggleMe.setOffset( 50, 100 );
         wiggleMe.setBalloonFillPaint( new Color( 255, 255, 100 ) );
         wiggleMe.setBalloonVisible( true );

@@ -361,25 +361,25 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         if ( hasHelp() ) {
             HelpPane helpPane = getDefaultHelpPane();
             
-            HelpBalloon restartHelp = new HelpBalloon( helpPane, SimStrings.get( "help.restart" ), HelpBalloon.BOTTOM_LEFT, 80 );
+            HelpBalloon restartHelp = new HelpBalloon( helpPane, SimStrings.getInstance().getString( "help.restart" ), HelpBalloon.BOTTOM_LEFT, 80 );
             helpPane.add(  restartHelp );
             restartHelp.pointAt( _clockControls.getRestartComponent() );
             
-            HelpBalloon clockSpeedHelp = new HelpBalloon( helpPane, SimStrings.get( "help.clockSpeed" ), HelpBalloon.BOTTOM_RIGHT, 80 );
+            HelpBalloon clockSpeedHelp = new HelpBalloon( helpPane, SimStrings.getInstance().getString( "help.clockSpeed" ), HelpBalloon.BOTTOM_RIGHT, 80 );
             helpPane.add(  clockSpeedHelp );
             clockSpeedHelp.pointAt( _clockControls.getClockIndexComponent() );
             
             if ( _magnifyingGlass != null ) {
-                HelpBalloon magnifyingGlassHelp = new HelpBalloon( helpPane, SimStrings.get( "help.magnifyingGlass" ), HelpBalloon.RIGHT_CENTER, 20 );
+                HelpBalloon magnifyingGlassHelp = new HelpBalloon( helpPane, SimStrings.getInstance().getString( "help.magnifyingGlass" ), HelpBalloon.RIGHT_CENTER, 20 );
                 helpPane.add( magnifyingGlassHelp );
                 magnifyingGlassHelp.pointAt( _magnifyingGlass.getPartsNode(), _canvas );
             }
             
-            HelpBalloon zoomHelp = new HelpBalloon( helpPane, SimStrings.get( "help.zoom" ), HelpBalloon.RIGHT_CENTER, 20 );
+            HelpBalloon zoomHelp = new HelpBalloon( helpPane, SimStrings.getInstance().getString( "help.zoom" ), HelpBalloon.RIGHT_CENTER, 20 );
             helpPane.add( zoomHelp );
             zoomHelp.pointAt( _energyZoomControlNode, _canvas );
             
-            _dragHandleHelp = new HelpBalloon( helpPane, SimStrings.get( "help.dragHandle" ), HelpBalloon.RIGHT_CENTER, 20 );
+            _dragHandleHelp = new HelpBalloon( helpPane, SimStrings.getInstance().getString( "help.dragHandle" ), HelpBalloon.RIGHT_CENTER, 20 );
             helpPane.add( _dragHandleHelp );
         }
 
@@ -781,7 +781,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private void addWiggleMe() {
         if ( _wiggleMe == null ) {
             // Wiggle Me that points at the eigenstates
-            String wiggleMeString = SimStrings.get( "wiggleMe.eigenstates" );
+            String wiggleMeString = SimStrings.getInstance().getString( "wiggleMe.eigenstates" );
             _wiggleMe = new BSWiggleMe( _canvas, wiggleMeString );
             _parentNode.addChild( _wiggleMe );
             _wiggleMe.setOffset( 250, -50 );

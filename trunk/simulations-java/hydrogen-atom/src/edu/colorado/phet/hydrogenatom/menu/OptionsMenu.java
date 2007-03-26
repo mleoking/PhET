@@ -26,8 +26,8 @@ import edu.colorado.phet.hydrogenatom.module.HAModule;
 public class OptionsMenu extends JMenu {
     
     public OptionsMenu( HAModule module ) {
-        super( SimStrings.get( "menu.options" ) );
-        setMnemonic( SimStrings.get( "menu.options.mnemonic" ).charAt( 0 ) );
+        super( SimStrings.getInstance().getString( "menu.options" ) );
+        setMnemonic( SimStrings.getInstance().getString( "menu.options.mnemonic" ).charAt( 0 ) );
         
         if ( HAConstants.DEBROGLIE_VIEW_IN_MENUBAR ) {
             DeBroglieViewMenu deBroglieViewMenu = new DeBroglieViewMenu( module );

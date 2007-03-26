@@ -30,7 +30,7 @@ public class ConfigurableElementProperties extends DischargeLampElementPropertie
     private double meanStateLifetime = DischargeLampAtom.DEFAULT_STATE_LIFETIME;
 
     public ConfigurableElementProperties( int numEnergyLevels, DischargeLampModel model ) {
-        super( SimStrings.get( "Element.configurable" ), energyLevels,
+        super( SimStrings.getInstance().getString( "Element.configurable" ), energyLevels,
                new ConfigurableAtomEnergyEmissionStrategy(),
                new EqualLikelihoodAbsorptionStrategy(),
                DischargeLampAtom.DEFAULT_STATE_LIFETIME );

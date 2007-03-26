@@ -160,7 +160,7 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
             {
                 // Format the text
                 Object[] args = { new Double( Math.abs(voltage) ) };
-                String text = MessageFormat.format( SimStrings.get( "BatteryGraphic.voltage" ), args );
+                String text = MessageFormat.format( SimStrings.getInstance().getString( "BatteryGraphic.voltage" ), args );
                 _amplitudeValue.setText( text );
 
                 // Move the voltage label to the positive end of the battery

@@ -56,7 +56,7 @@ public class ComplexModule extends MRModule {
      *
      */
     public ComplexModule() {
-        this( SimStrings.get( "Module.complexModuleTitle" ) );
+        this( SimStrings.getInstance().getString( "Module.complexModuleTitle" ) );
     }
 
     /**

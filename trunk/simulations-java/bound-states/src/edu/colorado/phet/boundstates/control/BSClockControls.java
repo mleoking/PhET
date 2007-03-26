@@ -76,11 +76,11 @@ public class BSClockControls extends JPanel implements ClockListener {
         _clock.addClockListener( this );
         
         // Labels
-        String restartLabel = SimStrings.get( "button.restart" );
-        String playLabel = SimStrings.get( "button.play" );
-        String pauseLabel = SimStrings.get( "button.pause" );
-        String stepLabel = SimStrings.get( "button.step" );
-        String timeUnitsLabel = SimStrings.get( "units.time" );
+        String restartLabel = SimStrings.getInstance().getString( "button.restart" );
+        String playLabel = SimStrings.getInstance().getString( "button.play" );
+        String pauseLabel = SimStrings.getInstance().getString( "button.pause" );
+        String stepLabel = SimStrings.getInstance().getString( "button.step" );
+        String timeUnitsLabel = SimStrings.getInstance().getString( "units.time" );
         
         // Icons
         Icon restartIcon = null;
@@ -132,8 +132,8 @@ public class BSClockControls extends JPanel implements ClockListener {
             _clockIndexSlider.setValue( BSConstants.DEFAULT_CLOCK_INDEX );
             
             // Label the min "normal", the max "fast".
-            String normalString = SimStrings.get( "label.clockSpeed.normal" );
-            String fastString = SimStrings.get( "label.clockSpeed.fast" );
+            String normalString = SimStrings.getInstance().getString( "label.clockSpeed.normal" );
+            String fastString = SimStrings.getInstance().getString( "label.clockSpeed.fast" );
             Hashtable labelTable = new Hashtable();
             labelTable.put( new Integer( _clockIndexSlider.getMinimum() ), new JLabel( normalString ) );
             labelTable.put( new Integer( _clockIndexSlider.getMaximum() ), new JLabel( fastString ) );

@@ -317,8 +317,8 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
 
             // Tell the user they won.
             JFrame frame = PhetApplication.instance().getPhetFrame();
-            String title = SimStrings.get( "WinDialog.title" );
-            String message = SimStrings.get( "WinDialog.message" );
+            String title = SimStrings.getInstance().getString( "WinDialog.title" );
+            String message = SimStrings.getInstance().getString( "WinDialog.message" );
             JOptionPane.showMessageDialog( frame, message, title, JOptionPane.PLAIN_MESSAGE );
 
             // Start a new game.

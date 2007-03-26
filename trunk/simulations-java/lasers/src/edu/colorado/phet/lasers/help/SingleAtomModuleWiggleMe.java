@@ -43,7 +43,7 @@ public class SingleAtomModuleWiggleMe extends CompositePhetGraphic {
     public SingleAtomModuleWiggleMe( Component component, Point2D location, int wiggleWidth ) {
         super( component );
         this.wiggleWidth = wiggleWidth;
-        text = new String( SimStrings.get( "WiggleMeText" ) );
+        text = new String( SimStrings.getInstance().getString( "WiggleMeText" ) );
         x0 = (int)location.getX();
         y0 = (int)location.getY();
         PhetTextGraphic textGraphic = new PhetTextGraphic( component, font, text, color );

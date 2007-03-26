@@ -107,24 +107,24 @@ public class CompositeGraphPanel extends JPanel {
         // Add the graph panels themselves
         GraphPanel currentVsVoltagePanel = new GraphPanel( module.getClock() );
         currentVsVoltagePanel.setGraph( new CurrentVsVoltageGraph( currentVsVoltagePanel, model ), graphInsets );
-        addGraph( SimStrings.get( "GraphTitle.CurrentVsVoltage" ),
+        addGraph( SimStrings.getInstance().getString( "GraphTitle.CurrentVsVoltage" ),
                   currentVsVoltagePanel,
-                  SimStrings.get( "Voltage" ),
-                  SimStrings.get( "Current" ) );
+                  SimStrings.getInstance().getString( "Voltage" ),
+                  SimStrings.getInstance().getString( "Current" ) );
 
         GraphPanel currentVsIntensityPanel = new GraphPanel( module.getClock() );
         currentVsIntensityPanel.setGraph( new CurrentVsIntensityGraph( currentVsIntensityPanel, model ), graphInsets );
-        addGraph( SimStrings.get( "GraphTitle.CurrentVsIntensity" ),
+        addGraph( SimStrings.getInstance().getString( "GraphTitle.CurrentVsIntensity" ),
                   currentVsIntensityPanel,
-                  SimStrings.get( "GraphLabel.Intensity" ),
-                  SimStrings.get( "GraphLabel.Current" ) );
+                  SimStrings.getInstance().getString( "GraphLabel.Intensity" ),
+                  SimStrings.getInstance().getString( "GraphLabel.Current" ) );
 
         GraphPanel energyVsFreqPanel = new GraphPanel( module.getClock() );
         energyVsFreqPanel.setGraph( new EnergyVsFrequencyGraph( currentVsIntensityPanel, model ), graphInsets );
-        addGraph( SimStrings.get( "GraphTitle.EnergyVsFrequency" ),
+        addGraph( SimStrings.getInstance().getString( "GraphTitle.EnergyVsFrequency" ),
                   energyVsFreqPanel,
-                  SimStrings.get( "GraphLabel.Frequency" ),
-                  SimStrings.get( "GraphLabel.Energy" ) );
+                  SimStrings.getInstance().getString( "GraphLabel.Frequency" ),
+                  SimStrings.getInstance().getString( "GraphLabel.Energy" ) );
 
         setBorder( new TitledBorder( "Graphs" ) );
     }

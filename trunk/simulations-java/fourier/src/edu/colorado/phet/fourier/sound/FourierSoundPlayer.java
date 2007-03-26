@@ -222,7 +222,7 @@ public class FourierSoundPlayer implements Runnable {
             }
             catch ( IOException ioe ) {
                 _soundEnabled = false; // cause the sound thread to exit
-                String message = SimStrings.get( "sound.error.io" );
+                String message = SimStrings.getInstance().getString( "sound.error.io" );
                 notifySoundErrorListeners( ioe, message );
             }
         }

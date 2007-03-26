@@ -47,7 +47,7 @@ public class BSAsymmetricWidthHandle extends BSPotentialHandle {
         int significantDecimalPlaces = potentialSpec.getWidthRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
         setValueNumberFormat( numberFormat );
-        setValuePattern( SimStrings.get( "drag.width" ) );
+        setValuePattern( SimStrings.getInstance().getString( "drag.width" ) );
         
         updateDragBounds();
     }

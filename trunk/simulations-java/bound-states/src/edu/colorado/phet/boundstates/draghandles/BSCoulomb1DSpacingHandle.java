@@ -53,7 +53,7 @@ public class BSCoulomb1DSpacingHandle extends BSPotentialHandle {
         int significantDecimalPlaces = potentialSpec.getSpacingRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
         setValueNumberFormat( numberFormat );
-        setValuePattern( SimStrings.get( "drag.spacing" ) );
+        setValuePattern( SimStrings.getInstance().getString( "drag.spacing" ) );
         
         updateDragBounds();
     }

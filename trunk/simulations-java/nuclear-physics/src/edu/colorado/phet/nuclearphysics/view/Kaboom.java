@@ -13,7 +13,6 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +26,7 @@ import java.awt.geom.Point2D;
 public class Kaboom extends PhetGraphic implements ModelElement {
     private static long waitTime = 100;
     private static Font kaboomFont = new Font( "Lucinda Sans", Font.BOLD, 18 );
-    private static String kaboomStr = SimStrings.get( "Kaboom.KaboomText" );
+    private static String kaboomStr = SimStrings.getInstance().getString( "Kaboom.KaboomText" );
     private static AffineTransform kaboomStrTx;
 
     private static Color[] colors = new Color[PhysicalPanel.backgroundColor.getBlue()];

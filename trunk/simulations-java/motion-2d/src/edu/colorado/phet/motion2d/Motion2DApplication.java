@@ -35,7 +35,7 @@ public class Motion2DApplication {
                     Motion2DApplet ja = new Motion2DApplet();
                     ja.init();
 
-                    JFrame f = new JFrame( SimStrings.get( "Motion2dApplication.title" ) + " (" + version + ")" );
+                    JFrame f = new JFrame( SimStrings.getInstance().getString( "Motion2dApplication.title" ) + " (" + version + ")" );
 
                     f.setContentPane( ja );
 

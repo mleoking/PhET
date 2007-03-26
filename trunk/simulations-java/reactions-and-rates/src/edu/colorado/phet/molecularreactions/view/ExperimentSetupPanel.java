@@ -107,11 +107,11 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
 //                                                                   Math.PI * 2 );
 
         // Create the controls
-        JLabel topLineLbl = new JLabel( SimStrings.get( "ExperimentSetup.topLine" ) );
-        JLabel numALbl = new JLabel( SimStrings.get( "ExperimentSetup.numA" ) );
-        JLabel numBCLbl = new JLabel( SimStrings.get( "ExperimentSetup.numBC" ) );
-        JLabel numABLbl = new JLabel( SimStrings.get( "ExperimentSetup.numAB" ) );
-        JLabel numCLbl = new JLabel( SimStrings.get( "ExperimentSetup.numC" ) );
+        JLabel topLineLbl = new JLabel( SimStrings.getInstance().getString( "ExperimentSetup.topLine" ) );
+        JLabel numALbl = new JLabel( SimStrings.getInstance().getString( "ExperimentSetup.numA" ) );
+        JLabel numBCLbl = new JLabel( SimStrings.getInstance().getString( "ExperimentSetup.numBC" ) );
+        JLabel numABLbl = new JLabel( SimStrings.getInstance().getString( "ExperimentSetup.numAB" ) );
+        JLabel numCLbl = new JLabel( SimStrings.getInstance().getString( "ExperimentSetup.numC" ) );
 
         // Make the text fields for the number of molecules
         int maxMolecules = MRConfig.MAX_MOLECULE_CNT;
@@ -121,7 +121,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         numCTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
 
 
-        JButton resetBtn = new JButton( SimStrings.get( "ExperimentSet.clear" ) );
+        JButton resetBtn = new JButton( SimStrings.getInstance().getString( "ExperimentSet.clear" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 reset();
@@ -132,7 +132,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         JButton goButton = new JButton( new StartExperimentAction( module, this ) );
 
         // Add a border
-        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ExperimentSetup.title" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "ExperimentSetup.title" ) ) );
 
         // Lay out the controls
         GridBagConstraints c = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
@@ -150,7 +150,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         c.gridx = 0;
         c.gridwidth = 4;
         c.anchor = GridBagConstraints.WEST;
-        add( new JLabel( SimStrings.get( "Control.selectReaction" ) ), c );
+        add( new JLabel( SimStrings.getInstance().getString( "Control.selectReaction" ) ), c );
         c.anchor = GridBagConstraints.CENTER;
         add( new ReactionChooserComboBox( module ), c );
 
@@ -296,7 +296,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
 
 
         public StartExperimentAction( RateExperimentsModule module, ExperimentSetupPanel panel ) {
-            super( SimStrings.get( "ExperimentSetup.go" ) );
+            super( SimStrings.getInstance().getString( "ExperimentSetup.go" ) );
             this.module = module;
             this.panel = panel;
         }

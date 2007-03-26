@@ -85,7 +85,7 @@ public class PNodeViewableOption {
     private void initRestoreButton( String restoreButtonName, PhetPCanvas canvas, PNode pnode ) {
         restoreButton = new JButton();
 
-        restoreButton.setText( SimStrings.get( restoreButtonName ) );
+        restoreButton.setText( SimStrings.getInstance().getString( restoreButtonName ) );
 
         restoreButtonNode = new PSwing(restoreButton );
 

@@ -123,7 +123,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
         addGraphic( lightSpigot, SPIGOT_LAYER );
         
         // Title
-        String title = SimStrings.get( "OutputPulseView.title" );
+        String title = SimStrings.getInstance().getString( "OutputPulseView.title" );
         _titleGraphic = new HTMLGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         _titleGraphic.setRegistrationPoint( _titleGraphic.getWidth()/2, 0 );
         _titleGraphic.setLocation( BACKGROUND_SIZE.width / 2, 5 );

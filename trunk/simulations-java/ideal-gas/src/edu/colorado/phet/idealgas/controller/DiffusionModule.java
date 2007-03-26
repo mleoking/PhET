@@ -15,7 +15,6 @@ import edu.colorado.phet.collision_idealgas.VerticalBarrier;
 import edu.colorado.phet.collision_idealgas.VerticalWallFixupStrategy;
 import edu.colorado.phet.collision_idealgas.Wall;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.*;
@@ -53,8 +52,8 @@ public class DiffusionModule extends AdvancedModule {
         ControlPanel controlPanel = new ControlPanel( this );
         setControlPanel( controlPanel );
         controlPanel.add( new AdvancedIdealGasControlPanel( this,
-                                                            SimStrings.get( "AdvancedModule.Particle_Type_A" ),
-                                                            SimStrings.get( "AdvancedModule.Particle_Type_A" ) ));
+                                                            SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_A" ),
+                                                            SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_A" ) ));
 
         createWalls( box );
 
@@ -80,11 +79,11 @@ public class DiffusionModule extends AdvancedModule {
         } );
 
         // Add the particle counters
-        addParticleCounters( SimStrings.get( "AdvancedModule.Particle_Type_A" ),
-                             SimStrings.get( "AdvancedModule.Particle_Type_A" ) );
+        addParticleCounters( SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_A" ),
+                             SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_A" ) );
 
         // Change title of control under the pump
-        setPumpSelectorPanelTitle( SimStrings.get( "IdealGasControlPanel.Pump_Particles"));
+        setPumpSelectorPanelTitle( SimStrings.getInstance().getString( "IdealGasControlPanel.Pump_Particles"));
 
         // Remove the mannequin graphic and the box door
         getApparatusPanel().removeGraphic( getPusher() );

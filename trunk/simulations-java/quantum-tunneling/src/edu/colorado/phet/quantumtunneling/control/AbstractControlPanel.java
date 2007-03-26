@@ -87,11 +87,11 @@ public abstract class AbstractControlPanel extends ControlPanel {
      * The button handler calls the module's reset method.
      */
     public void addResetButton() {
-        _resetButton = new JButton( SimStrings.get( "button.reset" ) );
+        _resetButton = new JButton( SimStrings.getInstance().getString( "button.reset" ) );
         _resetButton.addActionListener( new ActionListener() { 
             public void actionPerformed( ActionEvent e ) {
                 Frame frame = PhetApplication.instance().getPhetFrame();
-                String message = SimStrings.get( "message.reset" );
+                String message = SimStrings.getInstance().getString( "message.reset" );
                 int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
                 if ( option == JOptionPane.YES_OPTION ) {
                     CursorUtils.setWaitCursorEnabled( true );

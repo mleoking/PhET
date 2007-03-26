@@ -30,7 +30,7 @@ public class GrabBagButton extends JButton {
     private JFrame dialog;
 
     public GrabBagButton( ICCKModule module ) {
-        super( SimStrings.get( "GrabBagButton.ButtonTitle" ) );
+        super( SimStrings.getInstance().getString( "GrabBagButton.ButtonTitle" ) );
 //        setOpaque( false );
 
         try {
@@ -46,12 +46,12 @@ public class GrabBagButton extends JButton {
             }
         } );
         bag = new GrabBag();
-        dialog = new JFrame( SimStrings.get( "GrabBagButton.DialogTitle" ) );
+        dialog = new JFrame( SimStrings.getInstance().getString( "GrabBagButton.DialogTitle" ) );
         VerticalLayoutPanel contentPane = new VerticalLayoutPanel();
         contentPane.setAnchor( GridBagConstraints.CENTER );
         contentPane.setFill( GridBagConstraints.NONE );
 
-        JLabel click = new JLabel( SimStrings.get( "GrabBagButton.Help" ) );
+        JLabel click = new JLabel( SimStrings.getInstance().getString( "GrabBagButton.Help" ) );
         contentPane.add( click );
         JLabel empty = new JLabel( " " );
         contentPane.add( empty );

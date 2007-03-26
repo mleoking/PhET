@@ -7,12 +7,8 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.nuclearphysics.view.EnergyGraphDialog;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -39,7 +35,7 @@ public class ControlledChainReactionControlPanel extends JPanel {
         this.module = module;
 
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "MultipleNucleusFissionControlPanel.ControlBorder" ) );
+        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.getInstance().getString( "MultipleNucleusFissionControlPanel.ControlBorder" ) );
         this.setBorder( titledBorder );
 
         //
@@ -52,7 +48,7 @@ public class ControlledChainReactionControlPanel extends JPanel {
         // Create the controls
 
         // Check box to show/ hide energy graphs
-        final JCheckBox energyGraphCB = new JCheckBox( SimStrings.get( "ControlledFissionControlPanel.EnergyGraphControl" ) );
+        final JCheckBox energyGraphCB = new JCheckBox( SimStrings.getInstance().getString( "ControlledFissionControlPanel.EnergyGraphControl" ) );
         energyGraphCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setEnergyGraphsVisible( energyGraphCB.isSelected() );
@@ -67,8 +63,8 @@ public class ControlledChainReactionControlPanel extends JPanel {
         } );
 
         // fire and reset buttons
-        final JButton fireNeutronBtn = new JButton( SimStrings.get( "ControlledFissionControlPanel.FireButton" ) );
-        final JButton resetBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.ResetButton" ) );
+        final JButton fireNeutronBtn = new JButton( SimStrings.getInstance().getString( "ControlledFissionControlPanel.FireButton" ) );
+        final JButton resetBtn = new JButton( SimStrings.getInstance().getString( "MultipleNucleusFissionControlPanel.ResetButton" ) );
         resetBtn.setEnabled( false );
         fireNeutronBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

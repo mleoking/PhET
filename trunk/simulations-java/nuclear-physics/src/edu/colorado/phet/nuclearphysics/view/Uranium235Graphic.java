@@ -13,7 +13,6 @@ import edu.colorado.phet.nuclearphysics.model.Uranium235;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.Random;
@@ -66,11 +65,11 @@ public class Uranium235Graphic extends NucleusGraphic {
             g.setColor( NucleusLabelColors.getColor( this.getClass() ));
             g.setFont( isotopeFont );
             FontMetrics fm = g.getFontMetrics();
-            g.drawString( SimStrings.get( "Uranium235Graphic.Number" ), -fm.stringWidth( SimStrings.get( "Uranium235Graphic.Number" ) ), 0 );
+            g.drawString( SimStrings.getInstance().getString( "Uranium235Graphic.Number" ), -fm.stringWidth( SimStrings.getInstance().getString( "Uranium235Graphic.Number" ) ), 0 );
 
             int dy = fm.getHeight() * 3 / 4;
             g.setFont( elementFont );
-            g.drawString( SimStrings.get( "Uranium235Graphic.Symbol" ), 0, dy );
+            g.drawString( SimStrings.getInstance().getString( "Uranium235Graphic.Symbol" ), 0, dy );
             g.setTransform( orgTx );
         }
     }

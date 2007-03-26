@@ -95,17 +95,17 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         _controlsBackgroundNode.setPaint( _chart.getBackgroundPaint() );
         _controlsBackgroundNode.setStroke( null );
 
-        _measurementsString = SimStrings.get( "label.measurements" );
+        _measurementsString = SimStrings.getInstance().getString( "label.measurements" );
         _measurementsLabel = new PText();
         _measurementsLabel.setFont( LABEL_FONT );
         _measurementsLabel.setTextPaint( LABEL_COLOR );
 
-        _titleLabel = new PText( SimStrings.get( "title.positionHistogram" ) );
+        _titleLabel = new PText( SimStrings.getInstance().getString( "title.positionHistogram" ) );
         _titleLabel.setFont( TITLE_FONT );
         _titleLabel.setTextPaint( TITLE_COLOR );
 
-        _startString = SimStrings.get( "button.start" );
-        _stopString = SimStrings.get( "button.stop" );
+        _startString = SimStrings.getInstance().getString( "button.start" );
+        _stopString = SimStrings.getInstance().getString( "button.stop" );
         _startStopButton = new JButton( _isRunning ? _stopString : _startString );
         _startStopButton.setOpaque( false );
         _startStopButton.setFont( LABEL_FONT );
@@ -118,7 +118,7 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         } );
         _startStopButtonWrapper = new PSwing( _startStopButton );
 
-        JButton clearButton = new JButton( SimStrings.get( "button.clear" ) );
+        JButton clearButton = new JButton( SimStrings.getInstance().getString( "button.clear" ) );
         clearButton.setOpaque( false );
         clearButton.setFont( LABEL_FONT );
         clearButton.setForeground( LABEL_COLOR );

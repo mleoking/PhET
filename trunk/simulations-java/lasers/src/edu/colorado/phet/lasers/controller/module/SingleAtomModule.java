@@ -55,7 +55,7 @@ public class SingleAtomModule extends BaseLaserModule {
     private BeamControl seedBeamControl;
 
     public SingleAtomModule( IClock clock ) {
-        super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), clock );
+        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock );
         init();
     }
 

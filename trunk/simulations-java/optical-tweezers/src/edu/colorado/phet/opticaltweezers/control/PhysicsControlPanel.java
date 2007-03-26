@@ -77,7 +77,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _clock = _module.getOTClock();
 
         // Set the control panel's minimum width.
-        String widthString = SimStrings.get( "width.controlPanel" );
+        String widthString = SimStrings.getInstance().getString( "width.controlPanel" );
         if ( widthString != null ) {
             int width = Integer.parseInt( widthString );
             setMinumumWidth( width );
@@ -86,7 +86,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         // Clock speed
         JPanel speedPanel = new JPanel();
         {
-            JLabel titleLabel = new JLabel( SimStrings.get( "label.simulationSpeed" ) );
+            JLabel titleLabel = new JLabel( SimStrings.getInstance().getString( "label.simulationSpeed" ) );
             titleLabel.setFont( TITLE_FONT );
             
             _clockSpeedSlider = new ClockSpeedSlider( _clock, CONTROL_FONT );
@@ -104,13 +104,13 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         // Fields and charged 
         JPanel fieldAndChargesPanel = new JPanel();
         {
-            JLabel titleLabel = new JLabel( SimStrings.get( "label.fieldsAndCharges" ) );
+            JLabel titleLabel = new JLabel( SimStrings.getInstance().getString( "label.fieldsAndCharges" ) );
             titleLabel.setFont( TITLE_FONT );
             
-            _electricFieldCheckBox = new JCheckBox( SimStrings.get( "label.showElectricField" ) );
-            _beadChargesCheckBox = new JCheckBox( SimStrings.get( "label.showBeadCharges" ) );
-            _allChargesRadioButton = new JRadioButton( SimStrings.get( "label.allCharges" ) );
-            _excessChargesRadioButton = new JRadioButton( SimStrings.get( "label.excessCharges" ) );
+            _electricFieldCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showElectricField" ) );
+            _beadChargesCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showBeadCharges" ) );
+            _allChargesRadioButton = new JRadioButton( SimStrings.getInstance().getString( "label.allCharges" ) );
+            _excessChargesRadioButton = new JRadioButton( SimStrings.getInstance().getString( "label.excessCharges" ) );
             ButtonGroup bg = new ButtonGroup();
             bg.add( _allChargesRadioButton );
             bg.add( _excessChargesRadioButton );
@@ -135,17 +135,17 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         // Forces on bead 
         JPanel forcesPanel = new JPanel();
         {
-            JLabel titleLabel = new JLabel( SimStrings.get( "label.forcesOnBead" ) );
+            JLabel titleLabel = new JLabel( SimStrings.getInstance().getString( "label.forcesOnBead" ) );
             titleLabel.setFont( TITLE_FONT );
             
-            _trapForceCheckBox = new JCheckBox( SimStrings.get( "label.showTrapForce" ) );
-            _fluidDragCheckBox = new JCheckBox( SimStrings.get( "label.showFluidDrag" ) );
-            _brownianForceCheckBox = new JCheckBox( SimStrings.get( "label.showBrownianForce" ) );
+            _trapForceCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showTrapForce" ) );
+            _fluidDragCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showFluidDrag" ) );
+            _brownianForceCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showBrownianForce" ) );
 
-            _horizontalTrapForceLabel = new JLabel( SimStrings.get( "label.horizontalTrapForce" ) );
+            _horizontalTrapForceLabel = new JLabel( SimStrings.getInstance().getString( "label.horizontalTrapForce" ) );
             _horizontalTrapForceLabel.setFont( CONTROL_FONT );
-            _wholeBeadRadioButton = new JRadioButton( SimStrings.get( "label.wholeBead" ) );
-            _halfBeadRadioButton = new JRadioButton( SimStrings.get( "label.halfBead" ) );
+            _wholeBeadRadioButton = new JRadioButton( SimStrings.getInstance().getString( "label.wholeBead" ) );
+            _halfBeadRadioButton = new JRadioButton( SimStrings.getInstance().getString( "label.halfBead" ) );
             ButtonGroup bg = new ButtonGroup();
             bg.add( _wholeBeadRadioButton );
             bg.add( _halfBeadRadioButton );
@@ -170,18 +170,18 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         }
         
         // Ruler
-        _rulerCheckBox = new JCheckBox( SimStrings.get( "label.showRuler" ) );
+        _rulerCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showRuler" ) );
         
         // Histogram
-        _positionHistogramCheckBox = new JCheckBox( SimStrings.get( "label.showPositionHistogram" ) );
+        _positionHistogramCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showPositionHistogram" ) );
         
         // Advanced features
         JPanel advancedPanel = new JPanel();
         {
-            _advancedButton = new JButton( SimStrings.get( "label.showAdvanced" ) );
-            _fluidControlsCheckBox = new JCheckBox( SimStrings.get( "label.controlFluidFlow" ) );
-            _momemtumChangeCheckBox = new JCheckBox( SimStrings.get( "label.showMomentumChange" ) );
-            _potentialEnergyChartCheckBox = new JCheckBox( SimStrings.get( "label.showPotentialEnergyChart" ) );
+            _advancedButton = new JButton( SimStrings.getInstance().getString( "label.showAdvanced" ) );
+            _fluidControlsCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.controlFluidFlow" ) );
+            _momemtumChangeCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showMomentumChange" ) );
+            _potentialEnergyChartCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showPotentialEnergyChart" ) );
             
             _advancedPanel = new Box( BoxLayout.Y_AXIS );
             _advancedPanel.add( _fluidControlsCheckBox );
@@ -655,10 +655,10 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         _advancedPanel.setVisible( !_advancedPanel.isVisible() );
         if ( _advancedPanel.isVisible() ) {
-            _advancedButton.setText( SimStrings.get( "label.hideAdvanced" ) );
+            _advancedButton.setText( SimStrings.getInstance().getString( "label.hideAdvanced" ) );
         }
         else {
-            _advancedButton.setText( SimStrings.get( "label.showAdvanced" ) );
+            _advancedButton.setText( SimStrings.getInstance().getString( "label.showAdvanced" ) );
         }
     }
     

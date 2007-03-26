@@ -72,7 +72,7 @@ public class AWTSplashWindow extends Window {
         setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
 
         // UI components
-        String labelString = MessageFormat.format( SimStrings.get( "PhetApplication.StartupDialog.message" ), new Object[]{title} );
+        String labelString = MessageFormat.format( SimStrings.getInstance().getString( "PhetApplication.StartupDialog.message" ), new Object[]{title} );
         BufferedImage image = getLogoImage();
         Component imageComponent = new ImageComponent( image ) {
             public void paint( Graphics g ) {

@@ -46,7 +46,7 @@ public class BSHilitedEquation extends BSAbstractWaveFunctionEquation {
     public BSHilitedEquation() {
         super();
         _xform = new AffineTransform();
-        _superpositionString = SimStrings.get( "label.equation.superposition" );
+        _superpositionString = SimStrings.getInstance().getString( "label.equation.superposition" );
     }
     
     //----------------------------------------------------------------------------

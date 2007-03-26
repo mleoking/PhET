@@ -34,7 +34,7 @@ public class MriLegend extends JPanel {
 
     public MriLegend() {
         super( new GridBagLayout() );
-        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ControlPanel.Legend" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "ControlPanel.Legend" ) ) );
 
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.EAST,
@@ -91,7 +91,7 @@ public class MriLegend extends JPanel {
         add( new JLabel( atomIcon ), gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        add( new JLabel( SimStrings.get( "ControlPanel.Atom" ) ), gbc );
+        add( new JLabel( SimStrings.getInstance().getString( "ControlPanel.Atom" ) ), gbc );
 
         gbc.gridx = 0;
         gbc.gridy++;
@@ -99,6 +99,6 @@ public class MriLegend extends JPanel {
         add( new JLabel( arrowIcon ), gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        add( new JLabel( SimStrings.get( "ControlPanel.MagneticField" ) ), gbc );
+        add( new JLabel( SimStrings.getInstance().getString( "ControlPanel.MagneticField" ) ), gbc );
     }
 }

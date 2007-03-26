@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 
 public class ToolboxColorMenuItem extends JMenuItem {
     public ToolboxColorMenuItem( final PhetApplication application, final ICCKModule cck ) {
-        super( SimStrings.get( "OptionsMenu.ToolboxcolorMenuItem" ) );
+        super( SimStrings.getInstance().getString( "OptionsMenu.ToolboxcolorMenuItem" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ColorDialog.Listener listy = new ColorDialog.Listener() {
@@ -35,7 +35,7 @@ public class ToolboxColorMenuItem extends JMenuItem {
                         cck.setToolboxBackgroundColor( color );
                     }
                 };
-                ColorDialog.showDialog( SimStrings.get( "OptionsMenu.ToolboxColorDialogTitle" ),
+                ColorDialog.showDialog( SimStrings.getInstance().getString( "OptionsMenu.ToolboxColorDialogTitle" ),
                                         application.getPhetFrame(), cck.getToolboxBackgroundColor(), listy );
             }
         } );

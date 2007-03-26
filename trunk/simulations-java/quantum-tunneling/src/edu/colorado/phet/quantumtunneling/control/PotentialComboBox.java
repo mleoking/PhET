@@ -80,10 +80,10 @@ public class PotentialComboBox extends JComboBox {
         ImageIcon singleBarrierIcon = createSingleBarrierIcon( _potentialColor );
         ImageIcon doubleBarrierIcon = createDoubleBarrierIcon( _potentialColor );
 
-        PotentialChoice constantItem = new PotentialChoice( PotentialType.CONSTANT, SimStrings.get( "choice.potential.constant" ), constantIcon );
-        PotentialChoice stepItem = new PotentialChoice( PotentialType.STEP, SimStrings.get( "choice.potential.step" ), stepIcon );
-        PotentialChoice singleBarrierItem = new PotentialChoice( PotentialType.SINGLE_BARRIER, SimStrings.get( "choice.potential.barrier" ), singleBarrierIcon );
-        PotentialChoice doubleBarrierItem = new PotentialChoice( PotentialType.DOUBLE_BARRIER, SimStrings.get( "choice.potential.double" ), doubleBarrierIcon );
+        PotentialChoice constantItem = new PotentialChoice( PotentialType.CONSTANT, SimStrings.getInstance().getString( "choice.potential.constant" ), constantIcon );
+        PotentialChoice stepItem = new PotentialChoice( PotentialType.STEP, SimStrings.getInstance().getString( "choice.potential.step" ), stepIcon );
+        PotentialChoice singleBarrierItem = new PotentialChoice( PotentialType.SINGLE_BARRIER, SimStrings.getInstance().getString( "choice.potential.barrier" ), singleBarrierIcon );
+        PotentialChoice doubleBarrierItem = new PotentialChoice( PotentialType.DOUBLE_BARRIER, SimStrings.getInstance().getString( "choice.potential.double" ), doubleBarrierIcon );
 
         _choices.add( constantItem );
         _choices.add( stepItem );

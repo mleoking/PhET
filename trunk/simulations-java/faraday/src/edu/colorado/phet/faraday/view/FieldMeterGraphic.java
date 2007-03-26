@@ -12,11 +12,8 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-
-import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
@@ -26,7 +23,6 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConstants;
-import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.FieldMeter;
 import edu.colorado.phet.faraday.util.Vector2D;
 
@@ -127,7 +123,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         addGraphic( body );
         
         // Title text, registration point at bottom center.
-        String titleString = SimStrings.get( "FieldMeter.title" );
+        String titleString = SimStrings.getInstance().getString( "FieldMeter.title" );
         PhetTextGraphic titleText = new PhetTextGraphic( component, TITLE_FONT, titleString, TITLE_COLOR, 0, 0 );
         int width = titleText.getBounds().width;
         int height = titleText.getBounds().height;

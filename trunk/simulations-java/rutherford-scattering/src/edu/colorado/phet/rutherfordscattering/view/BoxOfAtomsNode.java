@@ -10,9 +10,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * BoxOfAtomsNode is the box of atoms into which the gun fires alpha particles.
@@ -97,7 +95,7 @@ public class BoxOfAtomsNode extends PNode {
         
         // Label, origin in upper-left corner of bounds
         HTMLNode labelNode = new HTMLNode();
-        labelNode.setHTML( SimStrings.get( "label.boxOfHydrogen" ) );
+        labelNode.setHTML( SimStrings.getInstance().getString( "label.boxOfHydrogen" ) );
         labelNode.setHTMLColor( RSConstants.CANVAS_LABELS_COLOR );
         labelNode.setFont( RSConstants.DEFAULT_FONT );
         

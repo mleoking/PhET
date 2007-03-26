@@ -82,19 +82,19 @@ public class Motion2DPanel extends JPanel
         buttonFlag = SHOW_NEITHER;
         setBackground( Color.yellow );
 
-        btnLabel = new JLabel( SimStrings.get( "Motion2DPanel.VelocityAccelerationLabel" ) );
+        btnLabel = new JLabel( SimStrings.getInstance().getString( "Motion2DPanel.VelocityAccelerationLabel" ) );
         btnLabel.setBackground( Color.yellow );
-        vButton = new JRadioButton( SimStrings.get( "Motion2DPanel.ShowVelocityRadioButton" ), false );
-        aButton = new JRadioButton( SimStrings.get( "Motion2DPanel.ShowAccelerationRadioButton" ), false );
-        bothButton = new JRadioButton( SimStrings.get( "Motion2DPanel.ShowBothRadioButton" ), true );
-        neitherButton = new JRadioButton( SimStrings.get( "Motion2DPanel.ShowNeitherRadioButton" ), false );
+        vButton = new JRadioButton( SimStrings.getInstance().getString( "Motion2DPanel.ShowVelocityRadioButton" ), false );
+        aButton = new JRadioButton( SimStrings.getInstance().getString( "Motion2DPanel.ShowAccelerationRadioButton" ), false );
+        bothButton = new JRadioButton( SimStrings.getInstance().getString( "Motion2DPanel.ShowBothRadioButton" ), true );
+        neitherButton = new JRadioButton( SimStrings.getInstance().getString( "Motion2DPanel.ShowNeitherRadioButton" ), false );
         buttonGroup = new ButtonGroup();
         setup( vButton );
         setup( aButton );
         setup( bothButton );
         setup( neitherButton );
 //        hideMouseButton = new JButton( SimStrings.get( "Motion2DPanel.ShowMouseCursorButton" );
-        moreButton = new JButton( SimStrings.get( "Motion2DPanel.MoreControlsButton" ) );
+        moreButton = new JButton( SimStrings.getInstance().getString( "Motion2DPanel.MoreControlsButton" ) );
 
         northPanel.add( btnLabel );
         northPanel.add( vButton );
@@ -135,7 +135,7 @@ public class Motion2DPanel extends JPanel
 
         Point pt = new Point( 20, yNow );
         wiggleMe = new WiggleMe( this, pt, new Vector2D.Double( 0, 1 ), 20, 5,
-                                 SimStrings.get( "Motion2DPanel.WiggleMeText" ) );
+                                 SimStrings.getInstance().getString( "Motion2DPanel.WiggleMeText" ) );
 //        pt = new Point( (int)( xNow - wiggleMe.getWidth() ), yNow );
 
         wiggleMe.setCenter( pt );

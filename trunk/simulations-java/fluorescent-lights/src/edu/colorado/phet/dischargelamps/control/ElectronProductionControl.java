@@ -111,12 +111,12 @@ public class ElectronProductionControl extends JPanel {
 
     private JComponent createModeSelectorControl() {
         // Radio buttons to choose between single-shot and continuous modes
-        continuousModeRB = new JRadioButton( new AbstractAction( SimStrings.get( "Controls.Continuous" ) ) {
+        continuousModeRB = new JRadioButton( new AbstractAction( SimStrings.getInstance().getString( "Controls.Continuous" ) ) {
             public void actionPerformed( ActionEvent e ) {
                 setProductionMode( ElectronProductionControl.CONTINUOUS );
             }
         } );
-        singleShotModeRB = new JRadioButton( new AbstractAction( SimStrings.get( "Controls.Single" ) ) {
+        singleShotModeRB = new JRadioButton( new AbstractAction( SimStrings.getInstance().getString( "Controls.Single" ) ) {
             public void actionPerformed( ActionEvent e ) {
                 setProductionMode( ElectronProductionControl.SINGLE_SHOT );
             }
@@ -146,7 +146,7 @@ new Insets( 0, 0, 0, 0 ), 0, 0 );
     }
 
     private JComponent createFireElectronBtn() {
-        final JButton singleShotBtn = new JButton( SimStrings.get( "Controls.FireElectron" ) );
+        final JButton singleShotBtn = new JButton( SimStrings.getInstance().getString( "Controls.FireElectron" ) );
         singleShotBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.addModelElement( new ElectronPulser( model, maxCurrent / 2 * currentDisplayFactor ) );
@@ -179,7 +179,7 @@ new Insets( 0, 0, 0, 0 ), 0, 0 );
                     model.setCurrent( value * maxCurrent / 100, currentDisplayFactor );
                 }
                 catch( NumberFormatException nfe ) {
-                    JOptionPane.showMessageDialog( PhetUtilities.getPhetFrame(), SimStrings.get( "Message.notPctFormat"));
+                    JOptionPane.showMessageDialog( PhetUtilities.getPhetFrame(), SimStrings.getInstance().getString( "Message.notPctFormat"));
                 }
             }
         } );
@@ -229,7 +229,7 @@ new Insets( 0, 0, 0, 0 ), 0, 0 );
                 GridBagConstraints.NONE,
                 new Insets( 3, 0, 3, 0 ), 0, 0 );
 
-        JLabel title = new JLabel( SimStrings.get( "Controls.ElectronProduction" ) );
+        JLabel title = new JLabel( SimStrings.getInstance().getString( "Controls.ElectronProduction" ) );
         Font defaultFont = title.getFont();
         Font newFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() );
         title.setFont( newFont );

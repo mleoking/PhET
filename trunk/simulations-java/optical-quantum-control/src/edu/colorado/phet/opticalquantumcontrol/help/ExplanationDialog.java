@@ -60,7 +60,7 @@ public class ExplanationDialog extends JDialog {
      */
     public ExplanationDialog( Frame owner ) {
         super( owner, false /* nonmodal */ );
-        setTitle( SimStrings.get( "ExplanationDialog.title" ) );
+        setTitle( SimStrings.getInstance().getString( "ExplanationDialog.title" ) );
         setResizable( false );
         
         ApparatusPanel apparatusPanel = new ApparatusPanel();
@@ -75,19 +75,19 @@ public class ExplanationDialog extends JDialog {
             picture.addGraphic( image );
 
             // Mask bubble
-            HelpBubble maskBubble = new HelpBubble( apparatusPanel, SimStrings.get( "ExplanationDialog.mask" ) );
+            HelpBubble maskBubble = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "ExplanationDialog.mask" ) );
             maskBubble.setColors( BUBBLE_TEXT_COLOR, BUBBLE_COLOR, BUBBLE_ARROW_COLOR );
             maskBubble.pointAt( new Point( 100, 175 ), HelpBubble.LEFT_CENTER, 40 );
             picture.addGraphic( maskBubble );
 
             // Mirror bubble
-            HelpBubble mirrorBubble = new HelpBubble( apparatusPanel, SimStrings.get( "ExplanationDialog.mirror" ) );
+            HelpBubble mirrorBubble = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "ExplanationDialog.mirror" ) );
             mirrorBubble.setColors( BUBBLE_TEXT_COLOR, BUBBLE_COLOR, BUBBLE_ARROW_COLOR );
             mirrorBubble.pointAt( new Point( 605, 205 ), HelpBubble.RIGHT_CENTER, 50 );
             picture.addGraphic( mirrorBubble );
 
             // Diffraction Grating bubble
-            HelpBubble gratingBubble = new HelpBubble( apparatusPanel, SimStrings.get( "ExplanationDialog.grating" ) );
+            HelpBubble gratingBubble = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "ExplanationDialog.grating" ) );
             gratingBubble.setColors( BUBBLE_TEXT_COLOR, BUBBLE_COLOR, BUBBLE_ARROW_COLOR );
             gratingBubble.pointAt( new Point( 320, 420 ), HelpBubble.RIGHT_BOTTOM, 40 );
             picture.addGraphic( gratingBubble );
@@ -95,7 +95,7 @@ public class ExplanationDialog extends JDialog {
         
         // Text explanation
         int fontSize = DEFAULT_TEXT_SIZE;
-        String sFontSize = SimStrings.get( "ExplanationDialog.fontSize" ); // you can control font size in SimStrings file!
+        String sFontSize = SimStrings.getInstance().getString( "ExplanationDialog.fontSize" ); // you can control font size in SimStrings file!
         if ( sFontSize != null ) {
             try {
                 fontSize = Integer.parseInt( sFontSize );
@@ -108,7 +108,7 @@ public class ExplanationDialog extends JDialog {
         text.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         text.setFont( new Font( "Lucida Sans", Font.PLAIN, fontSize ) );
         text.setColor( TEXT_COLOR );
-        text.setHTML( SimStrings.get( "ExplanationDialog.text" ) );
+        text.setHTML( SimStrings.getInstance().getString( "ExplanationDialog.text" ) );
         
         // Layout
         picture.setRegistrationPoint( picture.getWidth()/2, 0 ); // top center

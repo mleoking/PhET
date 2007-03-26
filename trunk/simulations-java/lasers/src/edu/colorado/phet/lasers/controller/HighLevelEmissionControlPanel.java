@@ -30,7 +30,7 @@ import java.awt.event.ActionListener;
 public class HighLevelEmissionControlPanel extends JPanel {
 
     public HighLevelEmissionControlPanel( final BaseLaserModule module ) {
-        final JCheckBox displayHighLevelEmissionsCB = new JCheckBox( SimStrings.get( "OptionsControlPanel.DisplayUpperStatePhotons" ) );
+        final JCheckBox displayHighLevelEmissionsCB = new JCheckBox( SimStrings.getInstance().getString( "OptionsControlPanel.DisplayUpperStatePhotons" ) );
         displayHighLevelEmissionsCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setDisplayHighLevelEmissions( displayHighLevelEmissionsCB.isSelected() );

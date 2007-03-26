@@ -15,7 +15,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Rectangle;
-import java.text.MessageFormat;
 
 import javax.swing.event.ChangeListener;
 
@@ -166,7 +165,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
             _rpmValue.setLocation( 0, 10 );
             _rpmValue.setIgnoreMouse( !TURBINE_IS_DRAGGABLE );
 
-            String unitsString = SimStrings.get( "TurbineGraphic.rpm" );
+            String unitsString = SimStrings.getInstance().getString( "TurbineGraphic.rpm" );
             PhetTextGraphic rpmUnits = new PhetTextGraphic( component, RPM_UNITS_FONT, unitsString, RPM_COLOR );
             addGraphic( rpmUnits, RPM_LAYER );
             rpmUnits.centerRegistrationPoint();

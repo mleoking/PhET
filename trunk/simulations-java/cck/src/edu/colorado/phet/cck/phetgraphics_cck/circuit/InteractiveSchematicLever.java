@@ -36,7 +36,7 @@ public class InteractiveSchematicLever extends DefaultInteractiveGraphic impleme
         BufferedImage image = null;
         try {
             image = ImageLoader.loadBufferedImage( "images/hand40.gif" );
-            rotate = Toolkit.getDefaultToolkit().createCustomCursor( image, new Point(), SimStrings.get( "InteractiveSchematicLever.CursorName" ) );
+            rotate = Toolkit.getDefaultToolkit().createCustomCursor( image, new Point(), SimStrings.getInstance().getString( "InteractiveSchematicLever.CursorName" ) );
         }
         catch( IOException e ) {
             throw new RuntimeException( e );

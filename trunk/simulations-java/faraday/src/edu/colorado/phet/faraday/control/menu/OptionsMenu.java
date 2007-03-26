@@ -48,15 +48,15 @@ public class OptionsMenu extends JMenu {
      */
     public OptionsMenu( FaradayApplication application ) {
         
-        super( SimStrings.get( "Menubar.options" ) );
+        super( SimStrings.getInstance().getString( "Menubar.options" ) );
         
         _application = application;
         
-        setMnemonic( SimStrings.get( "Menubar.options.mnemonic" ).charAt( 0 ) );
+        setMnemonic( SimStrings.getInstance().getString( "Menubar.options.mnemonic" ).charAt( 0 ) );
 
         // Background Color menu item
-        JMenuItem backgroundColorMenuItem = new JMenuItem( SimStrings.get( "Menubar.backgroundColor" ) );
-        backgroundColorMenuItem.setMnemonic( SimStrings.get( "Menubar.backgroundColor.mnemonic" ).charAt( 0 ) );
+        JMenuItem backgroundColorMenuItem = new JMenuItem( SimStrings.getInstance().getString( "Menubar.backgroundColor" ) );
+        backgroundColorMenuItem.setMnemonic( SimStrings.getInstance().getString( "Menubar.backgroundColor.mnemonic" ).charAt( 0 ) );
         backgroundColorMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleBackgroundColorMenuItem();
@@ -65,8 +65,8 @@ public class OptionsMenu extends JMenu {
         add( backgroundColorMenuItem );
 
         // Grid Controls dialog
-        JMenuItem gridControlsMenuItem = new JMenuItem( SimStrings.get( "Menubar.gridControls" ) );
-        gridControlsMenuItem.setMnemonic( SimStrings.get( "Menubar.gridControls.mnemonic" ).charAt( 0 ) );
+        JMenuItem gridControlsMenuItem = new JMenuItem( SimStrings.getInstance().getString( "Menubar.gridControls" ) );
+        gridControlsMenuItem.setMnemonic( SimStrings.getInstance().getString( "Menubar.gridControls.mnemonic" ).charAt( 0 ) );
         gridControlsMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleGridControlsMenuItem();

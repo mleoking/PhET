@@ -56,7 +56,7 @@ public class InputTemperatureControlPanel extends JPanel {
         final JSpinner tempSpinner = new JSpinner( new SpinnerNumberModel( IdealGasModel.DEFAULT_ENERGY / IdealGasConfig.TEMPERATURE_SCALE_FACTOR / hackConst,
                                                                            50, maxTemperature, 1 ) );
         tempSpinner.setEnabled( false );
-        final JCheckBox tempLbl = new JCheckBox( SimStrings.get( "AdvancedControlPanel.Particle_Temperature" ), false );
+        final JCheckBox tempLbl = new JCheckBox( SimStrings.getInstance().getString( "AdvancedControlPanel.Particle_Temperature" ), false );
         tempLbl.addActionListener( new ActionListener() {
             Pump.PumpingEnergyStrategy orgEnergyStrategy = module.getPumpingEnergyStrategy();
             Pump.PumpingEnergyStrategy energyStrategy = null;

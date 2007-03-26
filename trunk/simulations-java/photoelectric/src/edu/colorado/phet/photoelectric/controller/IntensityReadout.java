@@ -16,7 +16,6 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantum.model.Beam;
-import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
 
 import javax.swing.*;
@@ -85,7 +84,7 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
             this.beam.setPhotonsPerSecond( photonsPerSecond );
         }
         catch( NumberFormatException e1 ) {
-            JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), SimStrings.get( "Intensity.message" ) );
+            JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), SimStrings.getInstance().getString( "Intensity.message" ) );
             readout.setText( format.format( beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond() ) );
         }
     }

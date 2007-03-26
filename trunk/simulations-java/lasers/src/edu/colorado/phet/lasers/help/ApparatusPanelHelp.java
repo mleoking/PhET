@@ -36,7 +36,7 @@ public class ApparatusPanelHelp extends HelpManager {
 
         Point2D reflectivityHILoc = new Point2D.Double( 300, 300 );
         reflectivityHI = new HelpItem( component,
-                                       SimStrings.get( "Help.reflectivitySlider" ),
+                                       SimStrings.getInstance().getString( "Help.reflectivitySlider" ),
                                        reflectivityHILoc );
         reflectivityHI.setForegroundColor( helpColor );
 

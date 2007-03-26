@@ -104,7 +104,7 @@ public class VirtualAmmeterNode extends PhetPNode {
             double current = branch.getCurrent();
             DecimalFormat df = new DecimalFormat( "0.00" );
             String amps = df.format( Math.abs( current ) );
-            targetReadoutToolNode.setText( amps + " " + SimStrings.get( "VirtualAmmeter.Amps" ) );
+            targetReadoutToolNode.setText( amps + " " + SimStrings.getInstance().getString( "VirtualAmmeter.Amps" ) );
         }
         else {
             resetText();
@@ -113,8 +113,8 @@ public class VirtualAmmeterNode extends PhetPNode {
 
     private void resetText() {
         String[] text = new String[]{
-                SimStrings.get( "VirtualAmmeter.HelpString1" ),
-                SimStrings.get( "VirtualAmmeter.HelpString2" )
+                SimStrings.getInstance().getString( "VirtualAmmeter.HelpString1" ),
+                SimStrings.getInstance().getString( "VirtualAmmeter.HelpString2" )
         };
         targetReadoutToolNode.setText( text );
     }

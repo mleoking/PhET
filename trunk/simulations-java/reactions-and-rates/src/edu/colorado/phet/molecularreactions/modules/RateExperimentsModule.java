@@ -27,7 +27,7 @@ public class RateExperimentsModule extends ComplexModule {
      *
      */
     public RateExperimentsModule() {
-        super( SimStrings.get( "Module.RateExperimentsModuleTitle" ) );
+        super( SimStrings.getInstance().getString( "Module.RateExperimentsModuleTitle" ) );
     }
 
     protected MRControlPanel createControlPanel() {

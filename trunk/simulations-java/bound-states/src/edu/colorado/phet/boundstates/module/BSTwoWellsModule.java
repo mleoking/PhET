@@ -23,7 +23,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 public class BSTwoWellsModule extends BSAbstractModule {
 
     public BSTwoWellsModule() {
-        super( SimStrings.get( "BSTwoWellsModule.title" ), new BSTwoWellsSpec() );
+        super( SimStrings.getInstance().getString( "BSTwoWellsModule.title" ), new BSTwoWellsSpec() );
         getClock().start();
     }
 }

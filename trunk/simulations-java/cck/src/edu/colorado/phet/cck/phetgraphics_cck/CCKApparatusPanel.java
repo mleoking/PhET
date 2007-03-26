@@ -125,8 +125,8 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
                 String percent = propagator.getPercentString();
                 if( !percent.equals( propagator.getDecimalFormat().format( 100 ) ) && propagator.getTimeScalingPercentValue() < 95 ) {
                     if( !module.getParameters().hideAllElectrons() ) {
-                        module.getTimescaleGraphic().setText( SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached1" )
-                                                              + " " + percent + SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached2" ) );
+                        module.getTimescaleGraphic().setText( SimStrings.getInstance().getString( "ConstantDensityPropagator.SpeedLimitReached1" )
+                                                              + " " + percent + SimStrings.getInstance().getString( "ConstantDensityPropagator.SpeedLimitReached2" ) );
                         module.getTimescaleGraphic().setVisible( true );
                     }
                 }
@@ -223,7 +223,7 @@ public class CCKApparatusPanel extends RectangleRepaintApparatusPanel {
         Point pt = transform.modelToView( rect.getX(), rect.getY() + rect.getHeight() );
         pt.translate( -130, 5 );
         wiggleMe = new WiggleMe( getApparatusPanel(), pt, new ImmutableVector2D.Double( 0, 1 ), 10, .025,
-                                 SimStrings.get( "CCK3Module.GrabAWire" ) );
+                                 SimStrings.getInstance().getString( "CCK3Module.GrabAWire" ) );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 Rectangle2D rect = toolbox.getBounds2D();

@@ -68,9 +68,9 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         clock.addClockListener( this );
 
         // Button labels
-        playString = SimStrings.get( "Common.ClockControlPanel.Play" );
-        pauseString = SimStrings.get( "Common.ClockControlPanel.Pause" );
-        String stepString = SimStrings.get( "Common.ClockControlPanel.Step" );
+        playString = SimStrings.getInstance().getString( "Common.ClockControlPanel.Play" );
+        pauseString = SimStrings.getInstance().getString( "Common.ClockControlPanel.Pause" );
+        String stepString = SimStrings.getInstance().getString( "Common.ClockControlPanel.Step" );
         
         // Button icons
         BufferedImage playU = loadImage( IMAGE_PLAY );

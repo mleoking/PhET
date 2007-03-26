@@ -73,7 +73,7 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
     public ExpandSumDialog( Frame parentFrame, FourierSeries fourierSeries ) {
         super( parentFrame );
         
-        setTitle( SimStrings.get( "ExpandSumDialog.title" ) );
+        setTitle( SimStrings.getInstance().getString( "ExpandSumDialog.title" ) );
         setModal( false );
         setResizable( false );
         setLocationRelativeTo( parentFrame );
@@ -138,7 +138,7 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
      */
     private JPanel createActionsPanel() {
 
-        _closeButton = new JButton( SimStrings.get( "ExpandSumDialog.close" ) );
+        _closeButton = new JButton( SimStrings.getInstance().getString( "ExpandSumDialog.close" ) );
 
         JPanel innerPanel = new JPanel( new GridLayout( 1, 1, 10, 0 ) );
         innerPanel.add( _closeButton );

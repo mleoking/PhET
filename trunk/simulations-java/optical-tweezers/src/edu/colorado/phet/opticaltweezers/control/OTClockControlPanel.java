@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.opticaltweezers.control;
 
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -10,13 +9,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Hashtable;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
@@ -24,8 +19,6 @@ import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.defaults.GlobalDefaults;
-import edu.colorado.phet.opticaltweezers.model.OTClock;
 
 
 /**
@@ -76,11 +69,11 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
         _clock.addClockListener( this );
         
         // Labels
-        String restartLabel = SimStrings.get( "button.restart" );
-        String playLabel = SimStrings.get( "Common.ClockControlPanel.Play" );
-        String pauseLabel = SimStrings.get( "Common.ClockControlPanel.Pause" );
-        String stepLabel = SimStrings.get( "Common.ClockControlPanel.Step" );
-        String timeUnitsLabel = SimStrings.get( "units.time" );
+        String restartLabel = SimStrings.getInstance().getString( "button.restart" );
+        String playLabel = SimStrings.getInstance().getString( "Common.ClockControlPanel.Play" );
+        String pauseLabel = SimStrings.getInstance().getString( "Common.ClockControlPanel.Pause" );
+        String stepLabel = SimStrings.getInstance().getString( "Common.ClockControlPanel.Step" );
+        String timeUnitsLabel = SimStrings.getInstance().getString( "units.time" );
         
         // Icons
         Icon restartIcon = null;

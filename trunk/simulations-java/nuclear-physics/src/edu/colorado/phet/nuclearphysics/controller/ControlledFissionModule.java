@@ -21,7 +21,6 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions_nuclearphysics.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
@@ -118,7 +117,7 @@ public class ControlledFissionModule extends ChainReactionModule {
      * @param clock
      */
     public ControlledFissionModule( IClock clock ) {
-        super( SimStrings.get( "ModuleTitle.ControlledReaction" ), clock );
+        super( SimStrings.getInstance().getString( "ModuleTitle.ControlledReaction" ), clock );
     }
 
 

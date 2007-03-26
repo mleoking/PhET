@@ -100,7 +100,7 @@ public class PickupCoilModule extends FaradayModule {
      */
     public PickupCoilModule() {
 
-        super( SimStrings.get( "PickupCoilModule.title" ) );
+        super( SimStrings.getInstance().getString( "PickupCoilModule.title" ) );
         
         //----------------------------------------------------------------------------
         // Model
@@ -339,7 +339,7 @@ public class PickupCoilModule extends FaradayModule {
             _pickupCoilLocation = pickupCoilModel.getLocation();
             pickupCoilModel.addObserver( this );
             
-            setText( SimStrings.get( "PickupCoilModule.wiggleMe" ) );
+            setText( SimStrings.getInstance().getString( "PickupCoilModule.wiggleMe" ) );
             addArrow( WiggleMeGraphic.BOTTOM_CENTER, new Vector2D( 0, 75 ) );
             addArrow( WiggleMeGraphic.MIDDLE_RIGHT, new Vector2D( 75, 0 ) );
             setRange( 20, 10 );

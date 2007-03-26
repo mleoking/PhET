@@ -189,7 +189,7 @@ public class PumpGraphic extends PNode implements Resetable {
             } );
             updateIcons();
 
-            setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.moleculeType" ) ) );
+            setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "Control.moleculeType" ) ) );
             setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
 
             ButtonGroup bg = new ButtonGroup();

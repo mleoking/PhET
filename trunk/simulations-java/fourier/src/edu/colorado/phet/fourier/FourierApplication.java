@@ -110,16 +110,16 @@ public class FourierApplication extends PhetApplication {
         
         // File menu
         {
-            JMenuItem saveItem = new JMenuItem( SimStrings.get( "FileMenu.save" ) );
-            saveItem.setMnemonic( SimStrings.get( "FileMenu.save.mnemonic" ).charAt(0) );
+            JMenuItem saveItem = new JMenuItem( SimStrings.getInstance().getString( "FileMenu.save" ) );
+            saveItem.setMnemonic( SimStrings.getInstance().getString( "FileMenu.save.mnemonic" ).charAt(0) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.save();
                 }
             } );
             
-            JMenuItem loadItem = new JMenuItem( SimStrings.get( "FileMenu.load" ) );
-            loadItem.setMnemonic( SimStrings.get( "FileMenu.load.mnemonic" ).charAt(0) );
+            JMenuItem loadItem = new JMenuItem( SimStrings.getInstance().getString( "FileMenu.load" ) );
+            loadItem.setMnemonic( SimStrings.getInstance().getString( "FileMenu.load.mnemonic" ).charAt(0) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.load();
@@ -154,8 +154,8 @@ public class FourierApplication extends PhetApplication {
         Properties simulationProperties = PropertiesLoader.loadProperties( FourierConstants.SIM_PROPERTIES_NAME );
         
         // Title, etc.
-        String title = SimStrings.get( "FourierApplication.title" );
-        String description = SimStrings.get( "FourierApplication.description" );
+        String title = SimStrings.getInstance().getString( "FourierApplication.title" );
+        String description = SimStrings.getInstance().getString( "FourierApplication.description" );
         String version = PhetApplication.getVersionString( simulationProperties );
         
         // Frame setup

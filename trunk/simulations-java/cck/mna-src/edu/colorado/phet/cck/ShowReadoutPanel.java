@@ -23,8 +23,8 @@ public class ShowReadoutPanel extends JPanel {
 
     public ShowReadoutPanel( final ICCKModule module ) {
         this.module = module;
-        showValues = new JButton( SimStrings.get( "CCK3ControlPanel.ShowValuesCheckBox" ) );
-        hideValues = new JButton( SimStrings.get( "CCK3ControlPanel.HideValuesCheckBox" ) );
+        showValues = new JButton( SimStrings.getInstance().getString( "CCK3ControlPanel.ShowValuesCheckBox" ) );
+        hideValues = new JButton( SimStrings.getInstance().getString( "CCK3ControlPanel.HideValuesCheckBox" ) );
         add( showValues );
         add( hideValues );
 

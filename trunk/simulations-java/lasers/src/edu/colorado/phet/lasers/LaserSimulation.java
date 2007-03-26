@@ -56,8 +56,8 @@ public class LaserSimulation extends PhetApplication {
 
     public LaserSimulation( String[] args ) {
         super( args,
-               SimStrings.get( "LasersApplication.title" ),
-               SimStrings.get( "LasersApplication.description" ),
+               SimStrings.getInstance().getString( "LasersApplication.title" ),
+               SimStrings.getInstance().getString( "LasersApplication.description" ),
                LaserConfig.VERSION,
                new FrameSetup.CenteredWithSize( 1024, 750 ) );
 
@@ -76,7 +76,7 @@ public class LaserSimulation extends PhetApplication {
         setModules( modules );
 
         for( int i = 0; i < modules.length; i++ ) {
-            JButton photoBtn = new JButton( SimStrings.get( "LaserPhotoButtonLabel" ) );
+            JButton photoBtn = new JButton( SimStrings.getInstance().getString( "LaserPhotoButtonLabel" ) );
             photoBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( photoDlg == null ) {

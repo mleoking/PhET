@@ -69,37 +69,37 @@ public class LegendPanel extends JPanel {
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
 
         JLabel photonImage = toJLabel( PhotonNode.createPhotonImage( HAConstants.PHOTON_ICON_WAVELENGTH ) );
-        JLabel photonText = new JLabel( SimStrings.get( "label.photon" ) );
+        JLabel photonText = new JLabel( SimStrings.getInstance().getString( "label.photon" ) );
         photonText.setFont( font );
         photonText.setForeground( LABEL_COLOR );
 
         JLabel uvPhotonImage = toJLabel( PhotonNode.createPhotonImage( VisibleColor.MIN_WAVELENGTH - 1 ) );
-        JLabel uvPhotonText = new JLabel( SimStrings.get( "label.uvPhoton" ) );
+        JLabel uvPhotonText = new JLabel( SimStrings.getInstance().getString( "label.uvPhoton" ) );
         uvPhotonText.setFont( font );
         uvPhotonText.setForeground( LABEL_COLOR );
 
         JLabel irPhotonImage = toJLabel( PhotonNode.createPhotonImage( VisibleColor.MAX_WAVELENGTH + 1 ) );
-        JLabel irPhotonText = new JLabel( SimStrings.get( "label.irPhoton" ) );
+        JLabel irPhotonText = new JLabel( SimStrings.getInstance().getString( "label.irPhoton" ) );
         irPhotonText.setFont( font );
         irPhotonText.setForeground( LABEL_COLOR );
 
         JLabel alphaParticleImage = toJLabel( AlphaParticleNode.createImage() );
-        JLabel alphaParticleText = new JLabel( SimStrings.get( "label.alphaParticle" ) );
+        JLabel alphaParticleText = new JLabel( SimStrings.getInstance().getString( "label.alphaParticle" ) );
         alphaParticleText.setFont( font );
         alphaParticleText.setForeground( LABEL_COLOR );
 
         JLabel neutronImage = toJLabel( new NeutronNode() );
-        JLabel neutronText = new JLabel( SimStrings.get( "label.neutron" ) );
+        JLabel neutronText = new JLabel( SimStrings.getInstance().getString( "label.neutron" ) );
         neutronText.setFont( font );
         neutronText.setForeground( LABEL_COLOR );
 
         JLabel protonImage = toJLabel( new ProtonNode() );
-        JLabel protonText = new JLabel( SimStrings.get( "label.proton" ) );
+        JLabel protonText = new JLabel( SimStrings.getInstance().getString( "label.proton" ) );
         protonText.setFont( font );
         protonText.setForeground( LABEL_COLOR );
 
         JLabel electronImage = toJLabel( new ElectronNode() );
-        JLabel electronText = new JLabel( SimStrings.get( "label.electron" ) );
+        JLabel electronText = new JLabel( SimStrings.getInstance().getString( "label.electron" ) );
         electronText.setFont( font );
         electronText.setForeground( LABEL_COLOR );
 
@@ -108,7 +108,7 @@ public class LegendPanel extends JPanel {
         {
             EmptyBorder emptyBorder = new EmptyBorder( new Insets( 5, 5, 5, 5 ) );
             LineBorder lineBorder = new LineBorder( LABEL_COLOR, 1 );
-            TitledBorder titledBorder = new TitledBorder( lineBorder, SimStrings.get( "label.legend" ) );
+            TitledBorder titledBorder = new TitledBorder( lineBorder, SimStrings.getInstance().getString( "label.legend" ) );
             titledBorder.setTitleFont( font );
             titledBorder.setTitleColor( LABEL_COLOR );
             border = new CompoundBorder( emptyBorder, titledBorder );
@@ -217,7 +217,7 @@ public class LegendPanel extends JPanel {
         }
 
         private JPanel createActionsPanel() {
-            JButton closeButton = new JButton( SimStrings.get( "button.close" ) );
+            JButton closeButton = new JButton( SimStrings.getInstance().getString( "button.close" ) );
             closeButton.addActionListener( new ActionListener() {
 
                 public void actionPerformed( ActionEvent event ) {

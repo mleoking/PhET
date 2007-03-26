@@ -2,8 +2,6 @@ package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 
-import java.util.ResourceBundle;
-
 /**
  * User: Sam Reid
  * Date: Aug 21, 2006
@@ -15,7 +13,7 @@ public class QWIStrings {
     private static String bundleName = "localization/QWIStrings";
 
     public static String getString( String s ) {
-        return SimStrings.get( s );
+        return SimStrings.getInstance().getString( s );
     }
 
     public static void init( String[] args ) {

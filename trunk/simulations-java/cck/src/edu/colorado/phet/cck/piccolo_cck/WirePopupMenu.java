@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 
 public class WirePopupMenu extends JPopupMenu {
     public WirePopupMenu( final CCKModel model, final Branch branch ) {
-        JMenuItem item = new JMenuItem( SimStrings.get( "InteractiveBranchGraphic.RemoveMenuItem" ) );
+        JMenuItem item = new JMenuItem( SimStrings.getInstance().getString( "InteractiveBranchGraphic.RemoveMenuItem" ) );
         item.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.getCircuit().removeBranch( branch );

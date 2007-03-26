@@ -150,7 +150,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
         addGraphic( _backgroundGraphic, BACKGROUND_LAYER );
 
         // Title
-        String title = SimStrings.get( "D2CSumView.title" );
+        String title = SimStrings.getInstance().getString( "D2CSumView.title" );
         _titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         _titleGraphic.centerRegistrationPoint();
         _titleGraphic.rotate( -( Math.PI / 2 ) );

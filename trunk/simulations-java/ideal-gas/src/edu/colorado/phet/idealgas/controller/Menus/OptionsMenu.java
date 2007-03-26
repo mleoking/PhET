@@ -59,7 +59,7 @@ public class OptionsMenu extends JMenu {
 
     private class AdvancedPanelsMI extends JCheckBoxMenuItem {
         public AdvancedPanelsMI() {
-            super( SimStrings.get("OptionsMenu.Advanced_panels"), false );
+            super( SimStrings.getInstance().getString("OptionsMenu.Advanced_panels"), false );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( AdvancedPanelsMI.this.isSelected() ) {
@@ -77,7 +77,7 @@ public class OptionsMenu extends JMenu {
 
     private class MoleculeInteractionsMI extends JCheckBoxMenuItem {
         public MoleculeInteractionsMI() {
-            super( SimStrings.get( "MeasurementControlPanel.Molecules_interact" ), true );
+            super( SimStrings.getInstance().getString( "MeasurementControlPanel.Molecules_interact" ), true );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     SphereSphereExpert.setIgnoreGasMoleculeInteractions( !MoleculeInteractionsMI.this.isSelected() );
@@ -88,7 +88,7 @@ public class OptionsMenu extends JMenu {
 
     private class AddHeatFromFloorMI extends JCheckBoxMenuItem {
         public AddHeatFromFloorMI() {
-            super( SimStrings.get( "OptionsMenu.Add_remove_heat_from_floor_only"), false );
+            super( SimStrings.getInstance().getString( "OptionsMenu.Add_remove_heat_from_floor_only"), false );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     IdealGasConfig.HEAT_ONLY_FROM_FLOOR = isSelected();

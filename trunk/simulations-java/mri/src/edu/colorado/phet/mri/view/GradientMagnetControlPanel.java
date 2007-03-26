@@ -28,13 +28,13 @@ public class GradientMagnetControlPanel extends JPanel {
 
     public GradientMagnetControlPanel( GradientElectromagnet horizontalMagnet, GradientElectromagnet verticalMagnet ) {
         super( new GridLayout( 2, 1 ) );
-        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ControlPanel.GradientMagnets" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "ControlPanel.GradientMagnets" ) ) );
 //        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(),
 //                                                     SimStrings.get( "ControlPanel.GradientMagnets" ) ) );
         GradientMagnetControl horizontalControl = new GradientMagnetControl( horizontalMagnet,
-                                                                             SimStrings.get( "ControlPanel.Horizontal" ) );
+                                                                             SimStrings.getInstance().getString( "ControlPanel.Horizontal" ) );
         GradientMagnetControl verticalControl = new GradientMagnetControl( verticalMagnet,
-                                                                           SimStrings.get( "ControlPanel.Vertical" ) );
+                                                                           SimStrings.getInstance().getString( "ControlPanel.Vertical" ) );
         add( horizontalControl );
         add( verticalControl );
     }

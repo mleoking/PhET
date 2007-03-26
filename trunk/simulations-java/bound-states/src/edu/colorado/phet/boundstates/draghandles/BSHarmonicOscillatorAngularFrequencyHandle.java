@@ -57,7 +57,7 @@ public class BSHarmonicOscillatorAngularFrequencyHandle extends BSPotentialHandl
         int significantDecimalPlaces = potentialSpec.getAngularFrequencyRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
         setValueNumberFormat( numberFormat );
-        setValuePattern( SimStrings.get( "drag.angularFrequency" ) );
+        setValuePattern( SimStrings.getInstance().getString( "drag.angularFrequency" ) );
         
         updateDragBounds();
     }

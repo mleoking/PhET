@@ -86,7 +86,7 @@ public class CurvePane extends PPath {
         cursorLayer.addChild( energyCursor );
 
         // Add axes
-        RegisterablePNode xAxis = new RegisterablePNode( new AxisNode( SimStrings.get( "EnergyView.ReactionCoordinate" ),
+        RegisterablePNode xAxis = new RegisterablePNode( new AxisNode( SimStrings.getInstance().getString( "EnergyView.ReactionCoordinate" ),
                                                                        200,
                                                                        MRConfig.ENERGY_PANE_TEXT_COLOR,
                                                                        AxisNode.HORIZONTAL,

@@ -39,8 +39,8 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
      * @param args
      */
     public NuclearPhysicsApplication( String[] args ) {
-        super( args, SimStrings.get( "NuclearPhysicsApplication.title" ),
-               SimStrings.get( "NuclearPhysicsApplication.description" ),
+        super( args, SimStrings.getInstance().getString( "NuclearPhysicsApplication.title" ),
+               SimStrings.getInstance().getString( "NuclearPhysicsApplication.description" ),
                Config.version,
                new FrameSetup.CenteredWithSize( 1024, 768 ) );
 

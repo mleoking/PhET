@@ -50,7 +50,7 @@ public class ReactionChooserPanel extends JPanel implements MRModel.ModelListene
         this.module = module;
         module.getMRModel().addListener( this );
 
-        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ExperimentSetup.reactionSelector" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "ExperimentSetup.reactionSelector" ) ) );
 
         ButtonGroup bg = new ButtonGroup();
         defaultRB = new JRadioButton();
@@ -79,7 +79,7 @@ public class ReactionChooserPanel extends JPanel implements MRModel.ModelListene
         iconBC.addMouseListener( new MoleculeIconMouseAdapter( r2RB ) );
         JLabel iconAB = new JLabel( ReactionSelectorIcons.getIcon( Profiles.R3 ) );
         iconAB.addMouseListener( new MoleculeIconMouseAdapter( r3RB ) );
-        JLabel designYourOwnLbl = new JLabel( SimStrings.get( "ExperimentSetup.designYourOwn" ) );
+        JLabel designYourOwnLbl = new JLabel( SimStrings.getInstance().getString( "ExperimentSetup.designYourOwn" ) );
         designYourOwnLbl.addMouseListener( new MoleculeIconMouseAdapter( designYourOwnRB ) );
 
         setLayout( new GridBagLayout() );

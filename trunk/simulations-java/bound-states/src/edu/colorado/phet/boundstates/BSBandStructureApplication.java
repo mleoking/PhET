@@ -89,8 +89,8 @@ public class BSBandStructureApplication extends BSAbstractApplication {
                 Properties simulationProperties = PropertiesLoader.loadProperties( BSConstants.SIM_PROPERTIES_NAME );
 
                 // Title & description
-                String title = SimStrings.get( "BSBandStructureApplication.title" );
-                String description = SimStrings.get( "BSBandStructureApplication.description" );
+                String title = SimStrings.getInstance().getString( "BSBandStructureApplication.title" );
+                String description = SimStrings.getInstance().getString( "BSBandStructureApplication.description" );
                 
                 // Version
                 String version = PhetApplication.getVersionString( simulationProperties );

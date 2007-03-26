@@ -36,7 +36,7 @@ public class SplashWindow extends JDialog {
         getRootPane().setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
 
         // Splash message
-        String labelFormat = SimStrings.get( "PhetApplication.StartupDialog.message" );
+        String labelFormat = SimStrings.getInstance().getString( "PhetApplication.StartupDialog.message" );
         Object[] args = {title};
         String labelString = MessageFormat.format( labelFormat, args );
         JLabel label = new JLabel( labelString );

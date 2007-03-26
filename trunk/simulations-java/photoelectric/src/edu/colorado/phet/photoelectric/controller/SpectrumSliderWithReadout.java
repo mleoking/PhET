@@ -138,7 +138,7 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
             }
             catch( NumberFormatException e1 ) {
                 JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
-                                               SimStrings.get( "Wavelength.message" ) );
+                                               SimStrings.getInstance().getString( "Wavelength.message" ) );
                 setText( beam.getWavelength() );
             }
         }

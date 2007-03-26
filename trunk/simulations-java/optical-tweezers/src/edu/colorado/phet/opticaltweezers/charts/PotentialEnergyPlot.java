@@ -39,8 +39,8 @@ public class PotentialEnergyPlot extends XYPlot implements Observer {
         super();
         
         // axis labels
-        String positonLabel = SimStrings.get( "axis.position" );
-        String potentialLabel = SimStrings.get( "axis.potentialEnergy" );
+        String positonLabel = SimStrings.getInstance().getString( "axis.position" );
+        String potentialLabel = SimStrings.getInstance().getString( "axis.potentialEnergy" );
         
         // Series & dataset
         _series = new XYSeries( SERIES_KEY, false /* autoSort */);

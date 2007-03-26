@@ -286,7 +286,7 @@ public class ModulePanel extends JPanel {
 
         if( buttonDlg == null ) {
             buttonDlg = new JDialog();
-            buttonDlg.setTitle( SimStrings.get( "Common.BasicPhetPanel.Title" ) );
+            buttonDlg.setTitle( SimStrings.getInstance().getString( "Common.BasicPhetPanel.Title" ) );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
             ImageIcon logo = new ImageIcon( getClass().getClassLoader().getResource( PhetLookAndFeel.PHET_LOGO_120x50 ) );
             JButton logoButton = new JButton( logo );
@@ -297,7 +297,7 @@ public class ModulePanel extends JPanel {
                     buttonDlg.setVisible( false );
                 }
             } );
-            logoButton.setToolTipText( SimStrings.get( "Common.BasicPhetPanel.LogoToolTip" ) );
+            logoButton.setToolTipText( SimStrings.getInstance().getString( "Common.BasicPhetPanel.LogoToolTip" ) );
             buttonDlg.getContentPane().setLayout( new FlowLayout( FlowLayout.CENTER ) );
             buttonDlg.getContentPane().add( logoButton );
             Rectangle thisBounds = this.getBounds();

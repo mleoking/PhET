@@ -13,7 +13,6 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
 
@@ -127,7 +126,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             _maxAmplitudeValue = new PhetTextGraphic2( component, VALUE_FONT, "", VALUE_COLOR );
             _maxAmplitudeValue.setLocation( 45, 57 );
             
-            _amplitudeFormat = SimStrings.get( "ACPowerSupplyGraphic.amplitude.format" );
+            _amplitudeFormat = SimStrings.getInstance().getString( "ACPowerSupplyGraphic.amplitude.format" );
         }
         
         // Amplitude value  (debug)
@@ -155,7 +154,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             _frequencyValue = new PhetTextGraphic2( component, VALUE_FONT, " ", VALUE_COLOR );
             _frequencyValue.setLocation( 210, 193 );
             
-            _frequencyFormat = SimStrings.get( "ACPowerSupplyGraphic.frequency.format" );
+            _frequencyFormat = SimStrings.getInstance().getString( "ACPowerSupplyGraphic.frequency.format" );
         }
         
         // Sine Wave
@@ -455,7 +454,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             
             // Title label
             {
-                String s = SimStrings.get( "ACPowerSupplyGraphic.title" );
+                String s = SimStrings.getInstance().getString( "ACPowerSupplyGraphic.title" );
                 PhetTextGraphic title = new PhetTextGraphic( component, TITLE_FONT, s, TITLE_COLOR );
                 graphicLayerSet.addGraphic( title, TITLE_LAYER );
                 title.centerRegistrationPoint();

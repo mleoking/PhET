@@ -54,7 +54,7 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
         // Options
         optionsPanel = new ChartOptionsPanel( module );
 
-        JButton emptyBoxButton = new JButton( SimStrings.get("Control.emptyBox") );
+        JButton emptyBoxButton = new JButton( SimStrings.getInstance().getString("Control.emptyBox") );
         emptyBoxButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.emptyBox();
@@ -62,7 +62,7 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
         } );
 
         // Reset button
-        JButton resetBtn = new JButton( SimStrings.get( "Control.reset" ) );
+        JButton resetBtn = new JButton( SimStrings.getInstance().getString( "Control.reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();

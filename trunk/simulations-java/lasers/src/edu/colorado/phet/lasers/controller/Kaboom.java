@@ -138,7 +138,7 @@ public class Kaboom implements ModelElement {
         ap.addGraphic( flames, tileLayer - .5 );
 
         // Add the message to the user
-        labelMessage = new JLabel( SimStrings.get( "Kaboom.message" ) );
+        labelMessage = new JLabel( SimStrings.getInstance().getString( "Kaboom.message" ) );
         labelMessage.setFont( new Font( "Lucida sans", Font.BOLD, 24 ) );
         labelMessage.setForeground( Color.red );
         labelMessage.setLocation( -20, 10 );

@@ -37,13 +37,13 @@ public class FadingMagnetControl extends SliderControl {
                MIN_FIELD,
                MriConfig.MAX_FADING_COIL_FIELD,
                0.5, 1, 2,
-               SimStrings.get( "ControlPanel.MagneticField" ) + ":",
-               SimStrings.get( "ControlPanel.Tesla" ),
+               SimStrings.getInstance().getString( "ControlPanel.MagneticField" ) + ":",
+               SimStrings.getInstance().getString( "ControlPanel.Tesla" ),
                5,
                new Insets( 0, 0, 0, 0 )
         );
         setTextEditable( true );
-        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ControlPanel.MainMagnet" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "ControlPanel.MainMagnet" ) ) );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateMagnets( model, MIN_FIELD );

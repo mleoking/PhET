@@ -56,10 +56,10 @@ public class ToolPanel extends JPanel {
     public ToolPanel( final IdealGasModule module ) {
         setLayout( new GridBagLayout() );
 
-        setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Tools_and_options" ) ) );
+        setBorder( new TitledBorder( SimStrings.getInstance().getString( "IdealGasControlPanel.Tools_and_options" ) ) );
 
-        button = new ToggleButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools_on" ),
-                                   SimStrings.get( "IdealGasControlPanel.Measurement_Tools_off" ) ) {
+        button = new ToggleButton( SimStrings.getInstance().getString( "IdealGasControlPanel.Measurement_Tools_on" ),
+                                   SimStrings.getInstance().getString( "IdealGasControlPanel.Measurement_Tools_off" ) ) {
             public void onAction() {
                 toolsPanel.setVisible( true );
                 module.getControlPanel().revalidate();
@@ -89,8 +89,8 @@ public class ToolPanel extends JPanel {
         topLevelGbc.fill = GridBagConstraints.HORIZONTAL;
         add( toolsPanel, topLevelGbc );
 
-        ToggleButton advButton = new ToggleButton( SimStrings.get( "IdealGasControlPanel.MoreOptions" ),
-                                                   SimStrings.get( "IdealGasControlPanel.FewerOptions" ) ) {
+        ToggleButton advButton = new ToggleButton( SimStrings.getInstance().getString( "IdealGasControlPanel.MoreOptions" ),
+                                                   SimStrings.getInstance().getString( "IdealGasControlPanel.FewerOptions" ) ) {
             public void onAction() {
                 advToolPanel.setVisible( true );
                 module.getControlPanel().revalidate();

@@ -81,7 +81,7 @@ public class CheatPanel extends GraphicLayerSet implements SimpleObserver {
         titleGraphic.setIgnoreMouse( true );
         titleGraphic.setColor( Color.BLACK );
         titleGraphic.setFont( TITLE_FONT );
-        titleGraphic.setHTML( SimStrings.get( "CheatDialog.label" ) );
+        titleGraphic.setHTML( SimStrings.getInstance().getString( "CheatDialog.label" ) );
         titleGraphic.setLocation( 35, 5 );
         addGraphic( titleGraphic );
         

@@ -33,8 +33,8 @@ public class WiggleMeGraphic extends CompositePhetGraphic {
         this.model = model;
 
         PhetMultiLineTextGraphic textGraphic = new PhetMultiLineTextGraphic( component, font,
-                                                                             new String[]{SimStrings.get( "WiggleMe.Pump_the" ),
-                                                                                          SimStrings.get( "WiggleMe.handle!" )}, color );
+                                                                             new String[]{SimStrings.getInstance().getString( "WiggleMe.Pump_the" ),
+                                                                                          SimStrings.getInstance().getString( "WiggleMe.handle!" )}, color );
         addGraphic( textGraphic, 0 );
         Arrow arrow = new Arrow( new Point2D.Double( 0,0 ),
                                  new Point2D.Double( 15, 12 ), 6, 6, 2, 100, false );

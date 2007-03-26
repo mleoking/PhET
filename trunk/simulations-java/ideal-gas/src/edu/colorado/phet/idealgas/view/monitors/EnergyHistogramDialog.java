@@ -70,11 +70,11 @@ public class EnergyHistogramDialog extends JDialog {
     private JLabel lightSpeciesSpeedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
     private JLabel outOfRangeIndicatorLegend1 = new JLabel( outOfRangeIndicator );
     private JLabel outOfRangeIndicatorLegend2 = new JLabel(
-            new String( " - ").concat( SimStrings.get( "EnergyHistorgramDialog.OutOfRangeIndicatorLegend")));
+            new String( " - ").concat( SimStrings.getInstance().getString( "EnergyHistorgramDialog.OutOfRangeIndicatorLegend")));
     private Font outOfRangeIndicatorFont;
     private String[] speedDetailsLegends = new String[] {
-        SimStrings.get( "EnergyHistorgramDialog.Heavy_Speed_label" ),
-        SimStrings.get( "EnergyHistorgramDialog.Light_Speed_label" )
+        SimStrings.getInstance().getString( "EnergyHistorgramDialog.Heavy_Speed_label" ),
+        SimStrings.getInstance().getString( "EnergyHistorgramDialog.Light_Speed_label" )
     };
 
 
@@ -85,7 +85,7 @@ public class EnergyHistogramDialog extends JDialog {
     public EnergyHistogramDialog( Frame owner, IdealGasModel model ) {
         super( owner );
         this.model = model;
-        this.setTitle( SimStrings.get( "EnergyHistorgramDialog.Title" ) );
+        this.setTitle( SimStrings.getInstance().getString( "EnergyHistorgramDialog.Title" ) );
         this.setResizable( false );
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
@@ -152,10 +152,10 @@ public class EnergyHistogramDialog extends JDialog {
         heavySpeedYLabel.setVisible( showDetails );
         lightSpeedYLabel.setVisible( showDetails );
         if( showDetails ) {
-            detailsBtn.setText( SimStrings.get( "EnergyHistorgramDialog.Fewer_Details" ) );
+            detailsBtn.setText( SimStrings.getInstance().getString( "EnergyHistorgramDialog.Fewer_Details" ) );
         }
         else {
-            detailsBtn.setText( SimStrings.get( "EnergyHistorgramDialog.More_Details" ) );
+            detailsBtn.setText( SimStrings.getInstance().getString( "EnergyHistorgramDialog.More_Details" ) );
         }
         pack();
         repaint();
@@ -206,7 +206,7 @@ public class EnergyHistogramDialog extends JDialog {
         gbc.gridy++;
         gbc.gridwidth = 1;
         gbc.insets = xAxisTitleInsets;
-        contentPane.add( new JLabel( SimStrings.get( "EnergyHistorgramDialog.Energy_Distribution" ) ), gbc );
+        contentPane.add( new JLabel( SimStrings.getInstance().getString( "EnergyHistorgramDialog.Energy_Distribution" ) ), gbc );
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = 2;
         gbc.insets = outOfBoundsAnnunciatorInsets;
@@ -224,7 +224,7 @@ public class EnergyHistogramDialog extends JDialog {
         contentPane.add( new RotatedTextLabel(), gbc );
         gbc.gridy++;
         gbc.insets = xAxisTitleInsets;
-        contentPane.add( new JLabel( SimStrings.get( "EnergyHistorgramDialog.Speed_Distribution" ) ), gbc );
+        contentPane.add( new JLabel( SimStrings.getInstance().getString( "EnergyHistorgramDialog.Speed_Distribution" ) ), gbc );
         gbc.gridx = 2;
         gbc.insets = outOfBoundsAnnunciatorInsets;
         speedOutOfRangeIndicator.setForeground( Color.red );

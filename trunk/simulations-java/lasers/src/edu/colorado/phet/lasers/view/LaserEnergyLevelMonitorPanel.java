@@ -129,10 +129,10 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         Font font = dummyLabel.getFont();
         String header = null;
         if( module instanceof MultipleAtomModule ) {
-            header = SimStrings.get( "EnergyMonitorPanel.header.plural" );
+            header = SimStrings.getInstance().getString( "EnergyMonitorPanel.header.plural" );
         }
         else {
-            header = SimStrings.get( "EnergyMonitorPanel.header.singular" );
+            header = SimStrings.getInstance().getString( "EnergyMonitorPanel.header.singular" );
         }
         PhetTextGraphic headingText = new PhetTextGraphic( this, font,
                                                            header,

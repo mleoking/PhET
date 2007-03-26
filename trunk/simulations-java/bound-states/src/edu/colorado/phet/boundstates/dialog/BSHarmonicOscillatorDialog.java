@@ -51,7 +51,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
      * Constructor.
      */
     public BSHarmonicOscillatorDialog( Frame parent, BSHarmonicOscillatorPotential potential, BSPotentialSpec potentialSpec ) {
-        super( parent, SimStrings.get( "BSHarmonicOscillatorDialog.title" ), potential );
+        super( parent, SimStrings.getInstance().getString( "BSHarmonicOscillatorDialog.title" ), potential );
         JPanel inputPanel = createInputPanel( potentialSpec );
         createUI( inputPanel );
         updateControls();
@@ -68,8 +68,8 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
      */
     protected JPanel createInputPanel( BSPotentialSpec potentialSpec ) {
         
-        String angularFrequencyUnits = SimStrings.get( "units.angularFrequency" );
-        String energyUnits = SimStrings.get( "units.energy" );
+        String angularFrequencyUnits = SimStrings.getInstance().getString( "units.angularFrequency" );
+        String energyUnits = SimStrings.getInstance().getString( "units.energy" );
 
         // Offset
         {
@@ -81,7 +81,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
             int tickDecimalPlaces = offsetRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String offsetLabel = SimStrings.get( "label.wellOffset" );
+            String offsetLabel = SimStrings.getInstance().getString( "label.wellOffset" );
             _offsetSlider = new SliderControl( value, min, max, 
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
                     offsetLabel, energyUnits, columns, SLIDER_INSETS );
@@ -99,7 +99,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
             int tickDecimalPlaces = angularFrequencyRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String angularFrequencyLabel = SimStrings.get( "label.wellAngularFrequency" );
+            String angularFrequencyLabel = SimStrings.getInstance().getString( "label.wellAngularFrequency" );
             _angularFrequencySlider = new SliderControl( value, min, max, 
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
                     angularFrequencyLabel, angularFrequencyUnits, columns, SLIDER_INSETS );

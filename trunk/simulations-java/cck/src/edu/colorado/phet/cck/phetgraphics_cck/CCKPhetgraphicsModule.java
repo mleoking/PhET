@@ -74,7 +74,7 @@ public class CCKPhetgraphicsModule extends Module implements ICCKModule {
     private PNode stopwatch;
 
     public CCKPhetgraphicsModule( String[] args ) throws IOException {
-        super( SimStrings.get( "ModuleTitle.CCK3Module" ) );
+        super( SimStrings.getInstance().getString( "ModuleTitle.CCK3Module" ) );
         this.parameters = new CCKParameters( this, args );
         setModel( new BaseModel() );
         model = new CCKModelPhetgraphics();

@@ -41,20 +41,20 @@ public class DischargeLampsApp extends PhetApplication {
      * @param args
      */
     public DischargeLampsApp( String[] args ) {
-        super( args, SimStrings.get( "DischargeLampsApplication.title" ),
-               SimStrings.get( "DischargeLampsApplication.title" ),
+        super( args, SimStrings.getInstance().getString( "DischargeLampsApplication.title" ),
+               SimStrings.getInstance().getString( "DischargeLampsApplication.title" ),
                DischargeLampsConfig.version,
                frameSetup );
 
         // Determine the resolution of the screen
-        DischargeLampModule singleAtomModule = new SingleAtomModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
+        DischargeLampModule singleAtomModule = new SingleAtomModule( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ),
                                                                      new SwingClock( 1000 / DischargeLampsConfig.FPS, DischargeLampsConfig.DT ) );
 
         // Set the energy rep strategy for the AtomGraphics
         AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.GrayScaleStrategy() );
 
         double maxSpeed = 0.1;
-        DischargeLampModule multipleAtomModule = new MultipleAtomModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
+        DischargeLampModule multipleAtomModule = new MultipleAtomModule( SimStrings.getInstance().getString( "ModuleTitle.MultipleAtomModule" ),
                                                                          new SwingClock( 1000 / DischargeLampsConfig.FPS, DischargeLampsConfig.DT ),
                                                                          30,
                                                                          maxSpeed );

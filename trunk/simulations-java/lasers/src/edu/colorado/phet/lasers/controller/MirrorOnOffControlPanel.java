@@ -30,7 +30,7 @@ public class MirrorOnOffControlPanel extends JPanel {
 
     public MirrorOnOffControlPanel( final BaseLaserModule module ) {
 
-        final String addMirrorsStr = SimStrings.get( "LaserControlPanel.AddMirrorsCheckBox" );
+        final String addMirrorsStr = SimStrings.getInstance().getString( "LaserControlPanel.AddMirrorsCheckBox" );
         final JCheckBox mirrorCB = new JCheckBox( addMirrorsStr );
         mirrorCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

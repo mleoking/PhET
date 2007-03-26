@@ -78,8 +78,8 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         // Create the text
         PhetMultiLineTextGraphic textGraphic = new PhetMultiLineTextGraphic( elmp,
                                                                              DischargeLampsConfig.DEFAULT_CONTROL_FONT,
-                                                                             new String[]{SimStrings.get( "Misc.energyAt" ),
-                                                                                     SimStrings.get( "Misc.collision" )},
+                                                                             new String[]{SimStrings.getInstance().getString( "Misc.energyAt" ),
+                                                                                     SimStrings.getInstance().getString( "Misc.collision" )},
                                                                              Color.black );
         textGraphic.setLocation( (int)electronGraphic.getBounds().getMaxX() + 5, -8 );
         addGraphic( textGraphic );

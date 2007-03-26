@@ -90,7 +90,7 @@ public class TurbinePanel extends FaradayPanel {
         
         // Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
-        String title = SimStrings.get( "TurbinePanel.title" );
+        String title = SimStrings.getInstance().getString( "TurbinePanel.title" );
         TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
         titleBorder.setTitleFont( getTitleFont() );
         setBorder( titleBorder );
@@ -129,13 +129,13 @@ public class TurbinePanel extends FaradayPanel {
         }
 
         // Compass Grid on/off
-        _gridCheckBox = new JCheckBox( SimStrings.get( "TurbinePanel.showGrid" ) );
+        _gridCheckBox = new JCheckBox( SimStrings.getInstance().getString( "TurbinePanel.showGrid" ) );
         
         // Field Meter on/off
-        _fieldMeterCheckBox = new JCheckBox( SimStrings.get( "BarMagnetPanel.showFieldMeter" ) );
+        _fieldMeterCheckBox = new JCheckBox( SimStrings.getInstance().getString( "BarMagnetPanel.showFieldMeter" ) );
         
         // Compass on/off
-        _compassCheckBox = new JCheckBox( SimStrings.get( "TurbinePanel.showCompass" ) );
+        _compassCheckBox = new JCheckBox( SimStrings.getInstance().getString( "TurbinePanel.showCompass" ) );
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -231,7 +231,7 @@ public class TurbinePanel extends FaradayPanel {
                 _turbineModel.setStrength( strength );
                 // Update the label.
                 Object[] args = { new Integer( percent ) };
-                String text = MessageFormat.format( SimStrings.get( "TurbinePanel.strength" ), args );
+                String text = MessageFormat.format( SimStrings.getInstance().getString( "TurbinePanel.strength" ), args );
                 _strengthValue.setText( text );
             }
             else {

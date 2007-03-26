@@ -66,7 +66,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
         this.setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new DefaultGridBagConstraints();
         gbc.anchor = GridBagConstraints.NORTH;
-        this.add( new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.sliderLabel" ), JLabel.CENTER ), gbc );
+        this.add( new JLabel( SimStrings.getInstance().getString( "EnergyLevelMonitorPanel.sliderLabel" ), JLabel.CENTER ), gbc );
 
         this.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

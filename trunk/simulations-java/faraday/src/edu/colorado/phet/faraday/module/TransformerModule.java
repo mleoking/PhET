@@ -110,7 +110,7 @@ public class TransformerModule extends FaradayModule {
      */
     public TransformerModule() {
 
-        super( SimStrings.get( "TransformerModule.title" ) );
+        super( SimStrings.getInstance().getString( "TransformerModule.title" ) );
 
         //----------------------------------------------------------------------------
         // Model
@@ -388,7 +388,7 @@ public class TransformerModule extends FaradayModule {
             
             _count = 0;
             
-            setText( SimStrings.get( "TransformerModule.challenge" ), null, Color.RED );
+            setText( SimStrings.getInstance().getString( "TransformerModule.challenge" ), null, Color.RED );
             setRange( 20, 20 );
             setEnabled( true );
         }

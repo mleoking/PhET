@@ -89,8 +89,8 @@ public class BSCovalentBondsApplication extends BSAbstractApplication {
                 Properties simulationProperties = PropertiesLoader.loadProperties( BSConstants.SIM_PROPERTIES_NAME );
 
                 // Title & description
-                String title = SimStrings.get( "BSCovalentBondsApplication.title" );
-                String description = SimStrings.get( "BSCovalentBondsApplication.description" );
+                String title = SimStrings.getInstance().getString( "BSCovalentBondsApplication.title" );
+                String description = SimStrings.getInstance().getString( "BSCovalentBondsApplication.description" );
 
                 // Version
                 String version = PhetApplication.getVersionString( simulationProperties );

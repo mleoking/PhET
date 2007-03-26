@@ -51,7 +51,7 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
         SpinnerModel cationSpinnerModel = new SpinnerNumberModel( 1, 1, 3, 1 );
         final JSpinner cationChargeSpinner = new JSpinner( cationSpinnerModel );
 
-        JLabel cationLabel = new JLabel( SimStrings.get( "ControlLabels.CationCharge") + ": " );
+        JLabel cationLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.CationCharge") + ": " );
         JSpinner.NumberEditor cationNumberEditor = new JSpinner.NumberEditor( cationChargeSpinner, "+#" );
         cationChargeSpinner.setEditor( cationNumberEditor );
         cationChargeSpinner.addChangeListener( new ChangeListener() {
@@ -65,7 +65,7 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
             }
         } );
 
-        JLabel anionLabel = new JLabel( SimStrings.get( "ControlLabels.AnionCharge") + ": " );
+        JLabel anionLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.AnionCharge") + ": " );
         SpinnerModel anionSpinnerModel = new SpinnerNumberModel( -1, -3, -1, 1 );
         final JSpinner anionChargeSpinner = new JSpinner( anionSpinnerModel );
         anionSpinnerModel.addChangeListener( new ChangeListener() {

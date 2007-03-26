@@ -28,8 +28,8 @@ import java.awt.event.ActionListener;
  * @version $Revision$
  */
 public class TumorSelector extends JPanel {
-    private static String unselectedStr = SimStrings.get( "ControlPanel.AddTumor" );
-    private static String selectedStr = SimStrings.get( "ControlPanel.RemoveTumor" );
+    private static String unselectedStr = SimStrings.getInstance().getString( "ControlPanel.AddTumor" );
+    private static String selectedStr = SimStrings.getInstance().getString( "ControlPanel.RemoveTumor" );
 
     private Tumor tumor;
 

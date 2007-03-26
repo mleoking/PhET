@@ -24,14 +24,14 @@ import java.awt.*;
  */
 public class SpeciesMonitorDialog extends JDialog {
     private String[] speciesPanelTitles = new String[]{
-        SimStrings.get( "IdealGasMonitorPanel.Heavy_species" ),
-        SimStrings.get( "IdealGasMonitorPanel.Light_species" )
+        SimStrings.getInstance().getString( "IdealGasMonitorPanel.Heavy_species" ),
+        SimStrings.getInstance().getString( "IdealGasMonitorPanel.Light_species" )
     };
     private GasSpeciesMonitorPanel heavySpeciesPanel;
     private GasSpeciesMonitorPanel lightSpeciesPanel;
 
     public SpeciesMonitorDialog( PhetFrame phetFrame, IdealGasModel idealGasModel ) {
-        super( phetFrame, SimStrings.get( "GasSpeciesMonitorPanel.Title" ), false );
+        super( phetFrame, SimStrings.getInstance().getString( "GasSpeciesMonitorPanel.Title" ), false );
         this.setResizable( false );
 
         JPanel speciesPanel = new JPanel( new GridLayout( 2, 1 ) );

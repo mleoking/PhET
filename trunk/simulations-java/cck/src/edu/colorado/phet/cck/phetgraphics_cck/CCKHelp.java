@@ -51,7 +51,7 @@ public class CCKHelp {
         Font helpFont = new Font( "Lucida Sans", Font.BOLD, 16 );
 
         ToolboxTarget toolboxTarget = new ToolboxTarget();
-        myToolboxHelpItem = new PositionedHelpItem( SimStrings.get( "CCKHelp.ToolboxHelp" ),
+        myToolboxHelpItem = new PositionedHelpItem( SimStrings.getInstance().getString( "CCKHelp.ToolboxHelp" ),
                                                     toolboxTarget, helpFont, getApparatusPanel() );
         observer = new SimpleObserver() {
             public void update() {
@@ -61,10 +61,10 @@ public class CCKHelp {
         toolbox.addObserver( observer );
         myToolboxHelpItem.changed();
         JunctionTarget jt = new JunctionTarget();
-        junctionHelpItem = new PositionedHelpItem( SimStrings.get( "CCKHelp.JunctionHelp" ),
+        junctionHelpItem = new PositionedHelpItem( SimStrings.getInstance().getString( "CCKHelp.JunctionHelp" ),
                                                    jt, helpFont, getApparatusPanel() );
         ComponentTarget ct = new ComponentTarget();
-        componentHelpItem = new PositionedHelpItem( SimStrings.get( "CCKHelp.ComponentHelp" ),
+        componentHelpItem = new PositionedHelpItem( SimStrings.getInstance().getString( "CCKHelp.ComponentHelp" ),
                                                     ct, helpFont, getApparatusPanel() );
 
         getApparatusPanel().addGraphic( myToolboxHelpItem, Double.POSITIVE_INFINITY );

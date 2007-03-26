@@ -52,13 +52,13 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
     private static Color axisColor = new Color( 100, 100, 100 );
     private static Stroke axisStroke = new BasicStroke( 1f );
     private static Color backgroundColor = new Color( 255, 255, 255 );
-    private static String xAxisLabel = SimStrings.get( "PotentialProfilePanel.XAxisLabel" );
+    private static String xAxisLabel = SimStrings.getInstance().getString( "PotentialProfilePanel.XAxisLabel" );
     private static String[] totalEnergyyAxisLabels = new String[]{
-            SimStrings.get( "PotentialProfilePanel.YAxisLabel1" ),
-            SimStrings.get( "PotentialProfilePanel.YAxisLabel2" )};
+            SimStrings.getInstance().getString( "PotentialProfilePanel.YAxisLabel1" ),
+            SimStrings.getInstance().getString( "PotentialProfilePanel.YAxisLabel2" )};
     private static String[] potentialEnergyyAxisLabels = new String[]{
-            SimStrings.get( "PotentialProfilePanel.YAxisLabel3" ),
-            SimStrings.get( "PotentialProfilePanel.YAxisLabel4" )};
+            SimStrings.getInstance().getString( "PotentialProfilePanel.YAxisLabel3" ),
+            SimStrings.getInstance().getString( "PotentialProfilePanel.YAxisLabel4" )};
     private static String originLabel = "0";
     private static Font axisLabelFont;
     private static Font legendFont;

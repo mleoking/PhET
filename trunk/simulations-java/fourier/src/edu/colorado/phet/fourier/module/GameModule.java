@@ -91,7 +91,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
      */
     public GameModule() {
         
-        super( SimStrings.get( "GameModule.title" ) );
+        super( SimStrings.getInstance().getString( "GameModule.title" ) );
 
         getModulePanel().addComponentListener( new ModuleVisibleListener() );
         
@@ -135,7 +135,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         apparatusPanel.addGraphic( _harmonicsView, HARMONICS_LAYER );
         
         // Harmonics view (minimized)
-        _harmonicsMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "GameHarmonicsView.title" ) );
+        _harmonicsMinimizedView = new MinimizedView( apparatusPanel, SimStrings.getInstance().getString( "GameHarmonicsView.title" ) );
         apparatusPanel.addGraphic( _harmonicsMinimizedView, HARMONICS_CLOSED_LAYER );
         
         // Sum view
@@ -143,7 +143,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         apparatusPanel.addGraphic( _sumView, SUM_LAYER );
         
         // Sum view (minimized)
-        _sumMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "GameSumView.title" ) );
+        _sumMinimizedView = new MinimizedView( apparatusPanel, SimStrings.getInstance().getString( "GameSumView.title" ) );
         apparatusPanel.addGraphic( _sumMinimizedView, SUM_CLOSED_LAYER );
         
         //----------------------------------------------------------------------------
@@ -210,11 +210,11 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         //----------------------------------------------------------------------------
         
         // Help Items
-        HelpBubble slidersToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "GameModule.help.sliders" ) );
+        HelpBubble slidersToolHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "GameModule.help.sliders" ) );
         slidersToolHelp.pointAt( new Point( 252, 117 ), HelpBubble.TOP_CENTER, 30 );
         addHelpItem( slidersToolHelp );
         
-        HelpBubble textfieldsToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "GameModule.help.textfields" ) );
+        HelpBubble textfieldsToolHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "GameModule.help.textfields" ) );
         textfieldsToolHelp.pointAt( new Point( 205, 44 ), HelpBubble.TOP_CENTER, 15 );
         addHelpItem( textfieldsToolHelp );
    
@@ -295,8 +295,8 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         public void componentShown( ComponentEvent event ) {
             if ( ! _instructionsHaveBeenDisplayed  ) {
                 _instructionsHaveBeenDisplayed = true;
-                String message = SimStrings.get( "GameInstructionsDialog.message" );
-                String title = SimStrings.get( "GameInstructionsDialog.title" );
+                String message = SimStrings.getInstance().getString( "GameInstructionsDialog.message" );
+                String title = SimStrings.getInstance().getString( "GameInstructionsDialog.title" );
                 JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(), message, title, JOptionPane.PLAIN_MESSAGE );
             }
         }

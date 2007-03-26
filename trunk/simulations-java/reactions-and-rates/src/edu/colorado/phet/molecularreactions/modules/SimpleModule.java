@@ -52,7 +52,7 @@ public class SimpleModule extends MRModule {
      *
      */
     public SimpleModule() {
-        super( SimStrings.get( "Module.simpleModuleTitle" ), MRConfig.MOLECULE_SEPARATION_PANE_SIZE );
+        super( SimStrings.getInstance().getString( "Module.simpleModuleTitle" ), MRConfig.MOLECULE_SEPARATION_PANE_SIZE );
 
         // Set up the model
         MRModel model = getThisModel();
@@ -225,7 +225,7 @@ public class SimpleModule extends MRModule {
      */
     private void createWiggleMe() {
         final PhetPCanvas pCanvas = (PhetPCanvas)getSimulationPanel();
-        final MotionHelpBalloon wiggleMe = new MotionHelpBalloon( pCanvas, SimStrings.get( "Application.wiggleMe" ) );
+        final MotionHelpBalloon wiggleMe = new MotionHelpBalloon( pCanvas, SimStrings.getInstance().getString( "Application.wiggleMe" ) );
         wiggleMe.setOffset( 0, 0 );
         wiggleMe.setBalloonFillPaint( new Color( 255, 255, 100 ) );
         wiggleMe.setBalloonVisible( true );

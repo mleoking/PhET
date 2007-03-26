@@ -35,7 +35,7 @@ public class HeadModule extends AbstractMriModule {
     // Class fields and methods
     //----------------------------------------------------------------
 
-    private static String name = SimStrings.get( "Module.MriTitle" );
+    private static String name = SimStrings.getInstance().getString( "Module.MriTitle" );
 
     //----------------------------------------------------------------
     // Instance methods and fields

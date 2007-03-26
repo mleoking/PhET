@@ -29,7 +29,7 @@ public class JunctionSplitter {
     }
 
     public JMenuItem toJMenuItem() {
-        JMenuItem item = new JMenuItem( SimStrings.get( "JunctionSplitter.SplitMenuItem" ) );
+        JMenuItem item = new JMenuItem( SimStrings.getInstance().getString( "JunctionSplitter.SplitMenuItem" ) );
         item.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getModel().addModelElement( new ModelElement() {

@@ -11,11 +11,9 @@
 package edu.colorado.phet.photoelectric.model;
 
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.dischargelamps.model.DefaultEnergyEmissionStrategy;
 import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
 import edu.colorado.phet.dischargelamps.model.LevelSpecificEnergyEmissionStrategy;
-import edu.colorado.phet.quantum.model.EnergyEmissionStrategy;
 
 /**
  * Sodium
@@ -27,7 +25,7 @@ import edu.colorado.phet.quantum.model.EnergyEmissionStrategy;
  * @version $Revision$
  */
 public class Sodium extends DischargeLampElementProperties {
-    private static final String NAME = SimStrings.get( "Element.Sodium" );
+    private static final String NAME = SimStrings.getInstance().getString( "Element.Sodium" );
     private static final double[] ENERGY_LEVELS = new double[]{
             -5.14
             - 3.03

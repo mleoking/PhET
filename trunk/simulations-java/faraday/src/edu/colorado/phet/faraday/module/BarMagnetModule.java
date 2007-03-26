@@ -82,7 +82,7 @@ public class BarMagnetModule extends FaradayModule {
      */
     public BarMagnetModule() {
         
-        super( SimStrings.get( "BarMagnetModule.title" ) );
+        super( SimStrings.getInstance().getString( "BarMagnetModule.title" ) );
         
         //----------------------------------------------------------------------------
         // Model
@@ -253,7 +253,7 @@ public class BarMagnetModule extends FaradayModule {
             _compassLocation = compassModel.getLocation();
             compassModel.addObserver( this );
             
-            setText( SimStrings.get( "BarMagnetModule.wiggleMe" ) );
+            setText( SimStrings.getInstance().getString( "BarMagnetModule.wiggleMe" ) );
             addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -40, 50 ) );
             addArrow( WiggleMeGraphic.BOTTOM_RIGHT, new Vector2D( 40, 50 ) );
             setRange( 20, 10 );

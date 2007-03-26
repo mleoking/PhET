@@ -32,14 +32,14 @@ public class HelpMenu extends JMenu implements ModuleObserver {
     private JMenuItem onscreenHelp;
 
     public HelpMenu( final PhetApplication phetApplication ) {
-        super( SimStrings.get( "Common.HelpMenu.Title" ) );
-        this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
+        super( SimStrings.getInstance().getString( "Common.HelpMenu.Title" ) );
+        this.setMnemonic( SimStrings.getInstance().getString( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
         phetApplication.addModuleObserver( this );
 
         //----------------------------------------------------------------------
         // "Help" menu item
-        onscreenHelp = new JCheckBoxMenuItem( SimStrings.get( "Common.HelpMenu.Help" ) );
-        onscreenHelp.setMnemonic( SimStrings.get( "Common.HelpMenu.HelpMnemonic" ).charAt( 0 ) );
+        onscreenHelp = new JCheckBoxMenuItem( SimStrings.getInstance().getString( "Common.HelpMenu.Help" ) );
+        onscreenHelp.setMnemonic( SimStrings.getInstance().getString( "Common.HelpMenu.HelpMnemonic" ).charAt( 0 ) );
         onscreenHelp.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 phetApplication.getActiveModule().setHelpEnabled( onscreenHelp.isSelected() );
@@ -50,8 +50,8 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
         //----------------------------------------------------------------------
         // "MegaHelp" menu item
-        final JMenuItem megaHelpItem = new JMenuItem( SimStrings.get( "Common.HelpMenu.MegaHelp" ) );
-        megaHelpItem.setMnemonic( SimStrings.get( "Common.HelpMenu.MegaHelpMnemonic" ).charAt( 0 ) );
+        final JMenuItem megaHelpItem = new JMenuItem( SimStrings.getInstance().getString( "Common.HelpMenu.MegaHelp" ) );
+        megaHelpItem.setMnemonic( SimStrings.getInstance().getString( "Common.HelpMenu.MegaHelpMnemonic" ).charAt( 0 ) );
         megaHelpItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( phetApplication.getActiveModule().hasMegaHelp() ) {
@@ -83,8 +83,8 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
         //----------------------------------------------------------------------
         // "About" menu item
-        final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
-        about.setMnemonic( SimStrings.get( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
+        final JMenuItem about = new JMenuItem( SimStrings.getInstance().getString( "Common.HelpMenu.About" ) );
+        about.setMnemonic( SimStrings.getInstance().getString( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 phetApplication.showAboutDialog();

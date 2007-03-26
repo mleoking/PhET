@@ -32,7 +32,7 @@ public class MonitorPanel extends ApparatusPanel {
     protected int numGroundLevel;
     protected int numMiddleLevel;
     protected int numHighLevel;
-    private String yAxisLabel = SimStrings.get( "MonitorPanel.YAxislabel" );
+    private String yAxisLabel = SimStrings.getInstance().getString( "MonitorPanel.YAxislabel" );
 
 
     protected MonitorPanel() {

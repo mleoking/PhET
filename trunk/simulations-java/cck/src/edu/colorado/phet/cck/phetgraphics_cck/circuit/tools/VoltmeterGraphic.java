@@ -202,7 +202,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
         private Point ctr;
         double relX = -35;
         double relY = -73;
-        private final String UNKNOWN_VOLTS = SimStrings.get( "VoltmeterGraphic.UnknownVolts" );
+        private final String UNKNOWN_VOLTS = SimStrings.getInstance().getString( "VoltmeterGraphic.UnknownVolts" );
         private String voltageString = UNKNOWN_VOLTS;
         private DecimalFormat voltFormatter;
 
@@ -257,7 +257,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
                 if( Double.parseDouble( voltageString ) == 0 ) {
                     voltageString = voltFormatter.format( 0 );
                 }
-                textGraphic.setText( voltageString + " " + SimStrings.get( "VoltmeterGraphic.VoltAbrev" ) );
+                textGraphic.setText( voltageString + " " + SimStrings.getInstance().getString( "VoltmeterGraphic.VoltAbrev" ) );
             }
         }
 

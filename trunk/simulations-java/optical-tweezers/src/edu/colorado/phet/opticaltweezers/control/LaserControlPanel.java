@@ -22,7 +22,6 @@ import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * LaserControlPanel is the panel used to control laser properties. 
@@ -80,8 +79,8 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         PNode signNode = PImageFactory.create( OTConstants.IMAGE_LASER_SIGN );
         
         // Start/Stop button
-        _startString = SimStrings.get( "label.startLaser" );
-        _stopString = SimStrings.get( "label.stopLaser" );
+        _startString = SimStrings.getInstance().getString( "label.startLaser" );
+        _stopString = SimStrings.getInstance().getString( "label.stopLaser" );
         _startStopButton = new JButton( _laser.isRunning() ? _stopString : _startString );
         _startStopButton.setOpaque( false );
         _startStopButton.setFont( font );
@@ -95,8 +94,8 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         
         // Power control
         DoubleRange powerRange = _laser.getPowerRange();
-        String label = SimStrings.get( "label.power" );
-        String units = SimStrings.get( "units.power" );
+        String label = SimStrings.getInstance().getString( "label.power" );
+        String units = SimStrings.getInstance().getString( "units.power" );
         int columns = POWER_VALUE_DIGITS;
         double wavelength = laser.getVisibleWavelength();
         _powerControl = new LaserPowerControl( powerRange, label, units, columns, wavelength, POWER_SLIDER_SIZE, font );

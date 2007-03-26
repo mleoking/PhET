@@ -32,7 +32,7 @@ public class BSPositionAxis extends NumberAxis {
         
         setRange( BSConstants.POSITION_VIEW_RANGE );
         
-        String label = SimStrings.get( "axis.position" ) + " (" + SimStrings.get( "units.position" ) + ")";
+        String label = SimStrings.getInstance().getString( "axis.position" ) + " (" + SimStrings.getInstance().getString( "units.position" ) + ")";
         setLabel( label );
         setLabelFont( BSConstants.AXIS_LABEL_FONT );
         setTickLabelFont( BSConstants.AXIS_TICK_LABEL_FONT );

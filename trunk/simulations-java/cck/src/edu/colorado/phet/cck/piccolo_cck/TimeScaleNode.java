@@ -45,8 +45,8 @@ public class TimeScaleNode extends PhetPNode {
                 if( percent.equals( "1" ) ) {
                     percent = "< 1";
                 }
-                setText( SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached1" )
-                         + " " + percent + SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached2" ) );
+                setText( SimStrings.getInstance().getString( "ConstantDensityPropagator.SpeedLimitReached1" )
+                         + " " + percent + SimStrings.getInstance().getString( "ConstantDensityPropagator.SpeedLimitReached2" ) );
                 setVisible( true );
             }
             else {

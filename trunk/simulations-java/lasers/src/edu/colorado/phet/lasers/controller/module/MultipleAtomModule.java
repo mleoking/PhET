@@ -51,7 +51,7 @@ public class MultipleAtomModule extends BaseLaserModule {
      *
      */
     public MultipleAtomModule( IClock clock ) {
-        super( SimStrings.get( "ModuleTitle.MultipleAtomModule" ), clock );
+        super( SimStrings.getInstance().getString( "ModuleTitle.MultipleAtomModule" ), clock );
 
         // Set the size of the cavity
         Tube cavity = getCavity();

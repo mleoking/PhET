@@ -68,8 +68,8 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         double tickSpacing = max-min;
         int tickDecimalPlaces = 0;
         int valueDecimalPlaces = fluid.getSpeedRange().getSignificantDecimalPlaces();
-        String label = SimStrings.get( "label.fluidSpeed" );
-        String units = SimStrings.get( "units.fluidSpeed" );
+        String label = SimStrings.getInstance().getString( "label.fluidSpeed" );
+        String units = SimStrings.getInstance().getString( "units.fluidSpeed" );
         int columns = 4;
         _speedControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
         _speedControl.setTextFieldEditable( true );
@@ -82,8 +82,8 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         tickSpacing = max-min;
         tickDecimalPlaces = 0;
         valueDecimalPlaces = fluid.getViscosityRange().getSignificantDecimalPlaces();
-        label = SimStrings.get( "label.fluidViscosity" );
-        units = SimStrings.get( "units.fluidViscosity" );
+        label = SimStrings.getInstance().getString( "label.fluidViscosity" );
+        units = SimStrings.getInstance().getString( "units.fluidViscosity" );
         columns = 6;
         _viscosityControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
         _viscosityControl.setTextFieldEditable( true );
@@ -98,8 +98,8 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         tickSpacing = max-min;
         tickDecimalPlaces = 0;
         valueDecimalPlaces = fluid.getTemperatureRange().getSignificantDecimalPlaces();
-        label = SimStrings.get( "label.fluidTemperature" );
-        units = SimStrings.get( "units.fluidTemperature" );
+        label = SimStrings.getInstance().getString( "label.fluidTemperature" );
+        units = SimStrings.getInstance().getString( "units.fluidTemperature" );
         columns = 4;
         _temperatureControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
         _temperatureControl.setTextFieldEditable( true );

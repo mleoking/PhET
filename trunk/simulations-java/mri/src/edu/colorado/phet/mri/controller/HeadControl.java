@@ -29,9 +29,9 @@ public class HeadControl extends JPanel {
 
     public HeadControl( final HeadModule module ) {
         super( new GridBagLayout() );
-        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ControlPanel.Head" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "ControlPanel.Head" ) ) );
         TumorSelector tumorSelector = new TumorSelector( module.getHead(), module.getModel() );
-        final JCheckBox showHideCB = new JCheckBox( SimStrings.get( "ControlPanel.ShowHead" ) );
+        final JCheckBox showHideCB = new JCheckBox( SimStrings.getInstance().getString( "ControlPanel.ShowHead" ) );
         showHideCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getHeadGraphic().setVisible( showHideCB.isSelected() );
@@ -39,7 +39,7 @@ public class HeadControl extends JPanel {
         } );
         showHideCB.setSelected( true );
 
-        final JCheckBox showAtomsCB = new JCheckBox( SimStrings.get( "ControlPanel.ShowAtoms" ) );
+        final JCheckBox showAtomsCB = new JCheckBox( SimStrings.getInstance().getString( "ControlPanel.ShowAtoms" ) );
         showAtomsCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setDipolesVisible( showAtomsCB.isSelected() );
@@ -47,7 +47,7 @@ public class HeadControl extends JPanel {
         } );
         showAtomsCB.setSelected( true );
 
-        final JCheckBox showFieldCB = new JCheckBox( SimStrings.get( "ControlPanel.ShowFieldArrows" ) );
+        final JCheckBox showFieldCB = new JCheckBox( SimStrings.getInstance().getString( "ControlPanel.ShowFieldArrows" ) );
         showFieldCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setFieldArrowsVisible( showFieldCB.isSelected() );

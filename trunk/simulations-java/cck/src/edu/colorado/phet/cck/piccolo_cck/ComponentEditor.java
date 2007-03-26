@@ -66,7 +66,7 @@ public abstract class ComponentEditor extends JDialog {
                 doChange( slider.getValue() );
             }
         } );
-        JButton done = new JButton( SimStrings.get( "ComponentEditor.DoneButton" ) );
+        JButton done = new JButton( SimStrings.getInstance().getString( "ComponentEditor.DoneButton" ) );
         done.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean ok = slider.testCommit();
@@ -148,12 +148,12 @@ public abstract class ComponentEditor extends JDialog {
 
     public static class BatteryEditor extends ComponentEditor {
         public BatteryEditor( ICCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
-            super( module, SimStrings.get( "ComponentEditor.BatteryVoltageTitle" ), element, parent,
-                   SimStrings.get( "ComponentEditor.BatteryVoltageName" ),
-                   SimStrings.get( "ComponentEditor.BatteryVoltageUnits" ), 0, 100, element.getVoltageDrop(), circuit );
+            super( module, SimStrings.getInstance().getString( "ComponentEditor.BatteryVoltageTitle" ), element, parent,
+                   SimStrings.getInstance().getString( "ComponentEditor.BatteryVoltageName" ),
+                   SimStrings.getInstance().getString( "ComponentEditor.BatteryVoltageUnits" ), 0, 100, element.getVoltageDrop(), circuit );
 //                   SimStrings.get( "ComponentEditor.BatteryVoltageUnits" ), 0, element.getVoltageDrop() > 100 ? 100000 : 100, element.getVoltageDrop(), circuit );
             if( module.getParameters().hugeRangeOnBatteries() ) {
-                final JCheckBox hugeRange = new JCheckBox( SimStrings.get( "ComponentEditor.MoreVoltsCheckBox" ), false );
+                final JCheckBox hugeRange = new JCheckBox( SimStrings.getInstance().getString( "ComponentEditor.MoreVoltsCheckBox" ), false );
                 hugeRange.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         setHugeRange( hugeRange.isSelected() );
@@ -204,9 +204,9 @@ public abstract class ComponentEditor extends JDialog {
 
     public static class ResistorEditor extends ComponentEditor {
         public ResistorEditor( ICCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
-            super( module, SimStrings.get( "ComponentEditor.ResistorResistanceTitle" ),
-                   element, parent, SimStrings.get( "ComponentEditor.ResistorResistanceName" ),
-                   SimStrings.get( "ComponentEditor.ResistorResistanceUnits" ), 0, 100, element.getResistance(), circuit );
+            super( module, SimStrings.getInstance().getString( "ComponentEditor.ResistorResistanceTitle" ),
+                   element, parent, SimStrings.getInstance().getString( "ComponentEditor.ResistorResistanceName" ),
+                   SimStrings.getInstance().getString( "ComponentEditor.ResistorResistanceUnits" ), 0, 100, element.getResistance(), circuit );
         }
 
         protected void doChange( double value ) {
@@ -221,9 +221,9 @@ public abstract class ComponentEditor extends JDialog {
 
     public static class BulbResistanceEditor extends ComponentEditor {
         public BulbResistanceEditor( ICCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
-            super( module, SimStrings.get( "ComponentEditor.BulbResistanceTitle" ),
-                   element, parent, SimStrings.get( "ComponentEditor.BulbResistanceName" ),
-                   SimStrings.get( "ComponentEditor.BulbResistanceTitle" ), 0, 100, element.getResistance(), circuit );
+            super( module, SimStrings.getInstance().getString( "ComponentEditor.BulbResistanceTitle" ),
+                   element, parent, SimStrings.getInstance().getString( "ComponentEditor.BulbResistanceName" ),
+                   SimStrings.getInstance().getString( "ComponentEditor.BulbResistanceTitle" ), 0, 100, element.getResistance(), circuit );
         }
 
         protected void doChange( double value ) {
@@ -240,9 +240,9 @@ public abstract class ComponentEditor extends JDialog {
         private Battery battery;
 
         public BatteryResistanceEditor( ICCKModule module, Battery element, Component parent, Circuit circuit ) {
-            super( module, SimStrings.get( "ComponentEditor.BatteryResistanceTitle" ),
-                   element, parent, SimStrings.get( "ComponentEditor.BatteryResistanceName" ),
-                   SimStrings.get( "ComponentEditor.BatteryResistanceUnits" ), 0, 9, element.getInteralResistance(), circuit );
+            super( module, SimStrings.getInstance().getString( "ComponentEditor.BatteryResistanceTitle" ),
+                   element, parent, SimStrings.getInstance().getString( "ComponentEditor.BatteryResistanceName" ),
+                   SimStrings.getInstance().getString( "ComponentEditor.BatteryResistanceUnits" ), 0, 9, element.getInteralResistance(), circuit );
             this.battery = element;
         }
 

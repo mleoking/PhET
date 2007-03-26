@@ -84,7 +84,7 @@ public class MoleculePopulationsBarChartNode extends PNode implements Rescaleabl
                           y - mCNode.getFullBounds().getHeight() / 2 );
 
         // Add a rescale button
-        JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale"));
+        JButton rescaleBtn = new JButton( SimStrings.getInstance().getString( "StripChart.rescale"));
         rescaleBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 barChart.rescale();

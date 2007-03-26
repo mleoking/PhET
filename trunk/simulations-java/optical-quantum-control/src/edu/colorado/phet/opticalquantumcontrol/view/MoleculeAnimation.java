@@ -206,7 +206,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _closenessGraphic = new HTMLGraphic( component );
         _closenessGraphic.setColor( Color.BLACK );
         _closenessGraphic.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
-        _closenessFormat = SimStrings.get( "closenessReadout" );
+        _closenessFormat = SimStrings.getInstance().getString( "closenessReadout" );
         Object[] args = { "-000" };
         String text = MessageFormat.format( _closenessFormat, args );
         _closenessGraphic.setHTML( text );
@@ -405,8 +405,8 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
 
         // Tell the user they won.
         JFrame frame = PhetApplication.instance().getPhetFrame();
-        String title = SimStrings.get( "WinDialog.title" );
-        String message = SimStrings.get( "WinDialog.message" );
+        String title = SimStrings.getInstance().getString( "WinDialog.title" );
+        String message = SimStrings.getInstance().getString( "WinDialog.message" );
         JOptionPane.showMessageDialog( frame, message, title, JOptionPane.PLAIN_MESSAGE );
 
         // Start a new "game".

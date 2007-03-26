@@ -36,7 +36,7 @@ public class AWTSplashScreen extends Window {
             }
         } );
         setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
-        labelString = MessageFormat.format( SimStrings.get( "PhetApplication.StartupDialog.message" ), new Object[]{title} );
+        labelString = MessageFormat.format( SimStrings.getInstance().getString( "PhetApplication.StartupDialog.message" ), new Object[]{title} );
         imageComponent = new ImageComponent( image ) {
             public void paint( Graphics g ) {
                 super.paint( g );

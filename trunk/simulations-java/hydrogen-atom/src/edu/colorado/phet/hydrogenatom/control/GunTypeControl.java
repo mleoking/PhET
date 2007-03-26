@@ -77,12 +77,12 @@ public class GunTypeControl extends PhetPNode {
         Icon alphaParticleIcon = new ImageIcon( alphaParticleImage );
         
         // Photons radio button
-        RadioButtonWithIcon photonsControl = new RadioButtonWithIcon( SimStrings.get( "button.photons" ), photonIcon );
+        RadioButtonWithIcon photonsControl = new RadioButtonWithIcon( SimStrings.getInstance().getString( "button.photons" ), photonIcon );
         _photonsButton = photonsControl.getRadioButton();
         _photonsButton.setHorizontalTextPosition( SwingConstants.RIGHT );
         
         // Alpha Particles radio button
-        RadioButtonWithIcon alphaParticleControl = new RadioButtonWithIcon( SimStrings.get( "button.alphaParticles" ), alphaParticleIcon );
+        RadioButtonWithIcon alphaParticleControl = new RadioButtonWithIcon( SimStrings.getInstance().getString( "button.alphaParticles" ), alphaParticleIcon );
         _alphaParticlesButton = alphaParticleControl.getRadioButton();
         _alphaParticlesButton.setHorizontalTextPosition( SwingConstants.RIGHT );
         

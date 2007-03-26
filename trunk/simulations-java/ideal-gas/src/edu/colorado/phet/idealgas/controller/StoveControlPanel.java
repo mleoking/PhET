@@ -42,9 +42,9 @@ public class StoveControlPanel extends GraphicLayerSet {
         stoveSlider.setMinorTickSpacing( 10 );
         stoveSlider.setSnapToTicks( true );
         Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( -40 ), new JLabel( SimStrings.get( "Common.Remove" ) ) );
-        labelTable.put( new Integer( 0 ), new JLabel( SimStrings.get( "Common.0" ) ) );
-        labelTable.put( new Integer( 40 ), new JLabel( SimStrings.get( "Common.Add" ) ) );
+        labelTable.put( new Integer( -40 ), new JLabel( SimStrings.getInstance().getString( "Common.Remove" ) ) );
+        labelTable.put( new Integer( 0 ), new JLabel( SimStrings.getInstance().getString( "Common.0" ) ) );
+        labelTable.put( new Integer( 40 ), new JLabel( SimStrings.getInstance().getString( "Common.Add" ) ) );
         stoveSlider.setLabelTable( labelTable );
         stoveSlider.setPaintTicks( true );
         stoveSlider.setSnapToTicks( true );
@@ -64,7 +64,7 @@ public class StoveControlPanel extends GraphicLayerSet {
         Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
                                                             new Color( 40, 20, 255 ),
                                                             Color.black ),
-                                          SimStrings.get( "IdealGasControlPanel.Heat_Control" ) );
+                                          SimStrings.getInstance().getString( "IdealGasControlPanel.Heat_Control" ) );
         stovePanel.setBorder( border );
         stovePanel.setPreferredSize( new Dimension( 115, 85 ) );
         Color background = new Color( 240, 230, 255 );

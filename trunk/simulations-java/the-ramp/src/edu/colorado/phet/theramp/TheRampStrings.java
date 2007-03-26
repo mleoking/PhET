@@ -2,8 +2,6 @@ package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 
-import java.util.ResourceBundle;
-
 /**
  * User: Sam Reid
  * Date: Aug 21, 2006
@@ -19,7 +17,7 @@ public class TheRampStrings {
     }
 
     public static String getString( String s ) {
-        return SimStrings.get( s );
+        return SimStrings.getInstance().getString( s );
     }
 
 }

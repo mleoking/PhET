@@ -9,7 +9,6 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision_idealgas.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.*;
@@ -39,7 +38,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
      * @param clock
      */
     public RigidHollowSphereModule( SimulationClock clock ) {
-        super( clock, SimStrings.get( "ModuleTitle.RigidHollowSphere" ) );
+        super( clock, SimStrings.getInstance().getString( "ModuleTitle.RigidHollowSphere" ) );
         double xOrigin = 200;
         double yOrigin = 250;
         double xDiag = 434;
@@ -72,7 +71,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
 
         // Add controls to the control panel that are specific to this module
         JPanel controlPanel = new JPanel( new GridBagLayout() );
-        controlPanel.setBorder( new TitledBorder( SimStrings.get( "RigidHollowSphereControlPanel.controlsTitle" ) ) );
+        controlPanel.setBorder( new TitledBorder( SimStrings.getInstance().getString( "RigidHollowSphereControlPanel.controlsTitle" ) ) );
         GridBagConstraints gbc = null;
         Insets insets = new Insets( 0, 0, 0, 0 );
         gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,

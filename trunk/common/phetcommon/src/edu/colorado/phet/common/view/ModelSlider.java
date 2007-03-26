@@ -375,11 +375,11 @@ public class ModelSlider extends JPanel {
             return true;
         }
         catch( IllegalValueException ive ) {
-            String outofrange = SimStrings.get( "Common.ModelSlider.OutOfRange" );
-            String minimum = SimStrings.get( "Common.ModelSlider.Minimum" );
-            String maximum = SimStrings.get( "Common.ModelSlider.Maximum" );
-            String youentered = SimStrings.get( "Common.ModelSlider.YouEntered" );
-            String description = SimStrings.get( "Common.ModelSlider.Description" );
+            String outofrange = SimStrings.getInstance().getString( "Common.ModelSlider.OutOfRange" );
+            String minimum = SimStrings.getInstance().getString( "Common.ModelSlider.Minimum" );
+            String maximum = SimStrings.getInstance().getString( "Common.ModelSlider.Maximum" );
+            String youentered = SimStrings.getInstance().getString( "Common.ModelSlider.YouEntered" );
+            String description = SimStrings.getInstance().getString( "Common.ModelSlider.Description" );
             JOptionPane.showMessageDialog( this, outofrange + ".\n" + minimum + "= " + ive.getMin()
                                                  + ", " + maximum + "=" + ive.getMax() + "\n" + youentered + ": "
                                                  + ive.getValue(), description, JOptionPane.ERROR_MESSAGE );

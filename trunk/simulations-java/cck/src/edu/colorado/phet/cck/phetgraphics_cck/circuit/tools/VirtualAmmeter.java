@@ -71,7 +71,7 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
                     double current = branch.getCurrent();
                     DecimalFormat df = circuitGraphic.getModule().getDecimalFormat();
                     String amps = df.format( Math.abs( current ) );
-                    trt.setText( amps + " " + SimStrings.get( "VirtualAmmeter.Amps" ) );
+                    trt.setText( amps + " " + SimStrings.getInstance().getString( "VirtualAmmeter.Amps" ) );
                     return;
                 }
             }
@@ -81,8 +81,8 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
 
     private void resetText() {
         String[] text = new String[]{
-                SimStrings.get( "VirtualAmmeter.HelpString1" ),
-                SimStrings.get( "VirtualAmmeter.HelpString2" )
+                SimStrings.getInstance().getString( "VirtualAmmeter.HelpString1" ),
+                SimStrings.getInstance().getString( "VirtualAmmeter.HelpString2" )
         };
         trt.setText( text );
     }

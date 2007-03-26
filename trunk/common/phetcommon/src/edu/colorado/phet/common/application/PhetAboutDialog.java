@@ -54,7 +54,7 @@ public class PhetAboutDialog extends JDialog {
         
         this.phetApplication = phetApplication;
 
-        String title = SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + phetApplication.getTitle();
+        String title = SimStrings.getInstance().getString( "Common.HelpMenu.AboutTitle" ) + " " + phetApplication.getTitle();
         setTitle( title );
         
         JPanel logoPanel = createLogoPanel();
@@ -90,7 +90,7 @@ public class PhetAboutDialog extends JDialog {
             logoLabel = new JLabel(); // fallback to a blank label
         }
         
-        JLabel copyrightLabel = new JLabel( SimStrings.get( "Common.About.Copyright" ) );
+        JLabel copyrightLabel = new JLabel( SimStrings.getInstance().getString( "Common.About.Copyright" ) );
         
         HorizontalLayoutPanel logoPanel = new HorizontalLayoutPanel();
         logoPanel.setInsets( new Insets( 10, 10, 10, 10 ) ); // top,left,bottom,right
@@ -114,7 +114,7 @@ public class PhetAboutDialog extends JDialog {
         JLabel description = new JLabel( phetApplication.getDescription() );
         
         // Simulation version
-        String versionString = SimStrings.get( "Common.About.Version" ) + " ";
+        String versionString = SimStrings.getInstance().getString( "Common.About.Version" ) + " ";
         Properties simulationProperties = phetApplication.getSimulationProperties();
         if ( simulationProperties != null ) {
             versionString += getVersionString( simulationProperties );
@@ -127,7 +127,7 @@ public class PhetAboutDialog extends JDialog {
         JLabel version = new JLabel( versionString );
 
         // Java runtime version
-        String javaVersionString = SimStrings.get( "Common.About.JavaVersion" ) + " " + System.getProperty( "java.version" );
+        String javaVersionString = SimStrings.getInstance().getString( "Common.About.JavaVersion" ) + " " + System.getProperty( "java.version" );
         JLabel javaVersion = new JLabel( javaVersionString );
         
         int xMargin = 10;
@@ -152,21 +152,21 @@ public class PhetAboutDialog extends JDialog {
      */
     private JPanel createButtonPanel() {
         
-        JButton licenseButton = new JButton( SimStrings.get( "Common.About.LicenseButton" ) );
+        JButton licenseButton = new JButton( SimStrings.getInstance().getString( "Common.About.LicenseButton" ) );
         licenseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 showLicenseInfo();
             }
         } );
 
-        JButton creditsButton = new JButton(SimStrings.get( "Common.About.CreditsButton" ) );
+        JButton creditsButton = new JButton(SimStrings.getInstance().getString( "Common.About.CreditsButton" ) );
         creditsButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 showCredits();
             }
         } );
         
-        JButton okButton = new JButton( SimStrings.get( "Common.About.OKButton" ) );
+        JButton okButton = new JButton( SimStrings.getInstance().getString( "Common.About.OKButton" ) );
         getRootPane().setDefaultButton( okButton );
         okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -197,7 +197,7 @@ public class PhetAboutDialog extends JDialog {
         phetLicense.setWrapStyleWord( true );
         phetLicense.setEditable( false );
         phetLicense.setOpaque( false );
-        showMessageDialog( phetLicense, SimStrings.get( "Common.About.LicenseDialog.Title" ) );
+        showMessageDialog( phetLicense, SimStrings.getInstance().getString( "Common.About.LicenseDialog.Title" ) );
     }
 
     /*
@@ -207,7 +207,7 @@ public class PhetAboutDialog extends JDialog {
         Properties simulationProperties = phetApplication.getSimulationProperties();
         String creditsString = simulationProperties.getProperty( PropertiesLoader.PROPERTY_ABOUT_CREDITS, "?" );
         JLabel credits = new JLabel( creditsString );
-        showMessageDialog( credits, SimStrings.get( "Common.About.CreditsDialog.Title" ) );
+        showMessageDialog( credits, SimStrings.getInstance().getString( "Common.About.CreditsDialog.Title" ) );
     }
     
     /*

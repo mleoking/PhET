@@ -46,15 +46,15 @@ public class OptionsMenu extends JMenu {
      */
     public OptionsMenu( FourierApplication application ) {
         
-        super( SimStrings.get( "Menubar.options" ) );
+        super( SimStrings.getInstance().getString( "Menubar.options" ) );
         
         _application = application;
         
-        setMnemonic( SimStrings.get( "Menubar.options.mnemonic" ).charAt( 0 ) );
+        setMnemonic( SimStrings.getInstance().getString( "Menubar.options.mnemonic" ).charAt( 0 ) );
 
         // Background Color menu item
-        JMenuItem backgroundColorMenuItem = new JMenuItem( SimStrings.get( "Menubar.harmonicColors" ) );
-        backgroundColorMenuItem.setMnemonic( SimStrings.get( "Menubar.harmonicColors.mnemonic" ).charAt( 0 ) );
+        JMenuItem backgroundColorMenuItem = new JMenuItem( SimStrings.getInstance().getString( "Menubar.harmonicColors" ) );
+        backgroundColorMenuItem.setMnemonic( SimStrings.getInstance().getString( "Menubar.harmonicColors.mnemonic" ).charAt( 0 ) );
         backgroundColorMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleHarmonicColorsMenuItem();

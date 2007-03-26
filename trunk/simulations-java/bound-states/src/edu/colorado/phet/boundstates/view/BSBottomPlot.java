@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.boundstates.view;
 
-import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -26,9 +25,6 @@ import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.model.*;
-import edu.colorado.phet.boundstates.model.BSWaveFunctionCache.Item;
-import edu.colorado.phet.boundstates.util.Complex;
-import edu.colorado.phet.boundstates.util.MutableComplex;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -115,9 +111,9 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         super();
         
         // Labels
-        _waveFunctionLabel = SimStrings.get( "axis.waveFunction" );
-        _probabilityDensityLabel = SimStrings.get( "axis.probabilityDensity" );
-        _averageProbabilityDensityLabel = SimStrings.get( "axis.averageProbabilityDensity" );
+        _waveFunctionLabel = SimStrings.getInstance().getString( "axis.waveFunction" );
+        _probabilityDensityLabel = SimStrings.getInstance().getString( "axis.probabilityDensity" );
+        _averageProbabilityDensityLabel = SimStrings.getInstance().getString( "axis.averageProbabilityDensity" );
         
         int index = 0;
         

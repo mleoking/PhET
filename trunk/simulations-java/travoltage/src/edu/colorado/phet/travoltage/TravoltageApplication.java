@@ -21,7 +21,7 @@ public class TravoltageApplication extends PhetApplication {
     private JDialog dialog;
 
     public TravoltageApplication( String[] args ) {
-        super( args, SimStrings.get( "TravoltageApplication.title" ), SimStrings.get( "TravoltageApplication.description" ), VERSION, new TravoltageFrameSetup() );
+        super( args, SimStrings.getInstance().getString( "TravoltageApplication.title" ), SimStrings.getInstance().getString( "TravoltageApplication.description" ), VERSION, new TravoltageFrameSetup() );
         addModule( new TravoltageModule() );
     }
 

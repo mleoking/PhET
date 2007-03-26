@@ -29,10 +29,10 @@ import java.awt.*;
  * @version $Revision$
  */
 public class MoleculePopulationsBarChart extends BarChart implements Rescaleable {
-    static String title = SimStrings.get( "StripChart.title" );
+    static String title = SimStrings.getInstance().getString( "StripChart.title" );
     static String[] seriesNames = new String[]{"A", "BC", "AB", "C"};
     static String xAxisLabel = "";
-    static String yAxisLabel = SimStrings.get( "StripChart.num" );
+    static String yAxisLabel = SimStrings.getInstance().getString( "StripChart.num" );
     static PlotOrientation orienation = PlotOrientation.VERTICAL;
     private MoleculeCounter counterA;
     private MoleculeCounter counterAB;

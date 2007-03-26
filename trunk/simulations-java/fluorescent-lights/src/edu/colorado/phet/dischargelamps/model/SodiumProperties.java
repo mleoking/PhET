@@ -44,6 +44,6 @@ public class SodiumProperties extends DischargeLampElementProperties {
     };
 
     public SodiumProperties() {
-        super( SimStrings.get( "Element.sodium" ), energyLevels, teA );
+        super( SimStrings.getInstance().getString( "Element.sodium" ), energyLevels, teA );
     }
 }
