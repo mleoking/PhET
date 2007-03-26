@@ -42,7 +42,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
      */
     public AbstractControlPanel( AbstractModule module ) {
         super();
-        setMinimumWidth( SimStrings.getInt( "width.controlPanel", 200 ) );
+        setMinimumWidth( SimStrings.getInstance().getInt( "width.controlPanel", 200 ) );
         setInsets( new Insets( 0, 3, 0, 3 ) );
         _module = module;
     }

@@ -45,7 +45,7 @@ public class NotToScaleNode extends HTMLNode {
         setPickable( false );
         setChildrenPickable( false );
         
-        int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
+        int fontSize = SimStrings.getInstance().getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
         
         setHTML( SimStrings.getInstance().getString( "label.notToScale" ) );

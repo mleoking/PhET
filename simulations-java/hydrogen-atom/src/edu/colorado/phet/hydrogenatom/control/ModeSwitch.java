@@ -78,9 +78,9 @@ public class ModeSwitch extends PhetPNode {
         super();
         
         // Font size 
-        int bigFontSize = SimStrings.getInt( "modeSwitch.big.font.size", HAConstants.DEFAULT_FONT_SIZE );
+        int bigFontSize = SimStrings.getInstance().getInt( "modeSwitch.big.font.size", HAConstants.DEFAULT_FONT_SIZE );
         Font bigFont = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, bigFontSize );
-        int smallFontSize = SimStrings.getInt( "modeSwitch.small.font.size", HAConstants.DEFAULT_FONT_SIZE );
+        int smallFontSize = SimStrings.getInstance().getInt( "modeSwitch.small.font.size", HAConstants.DEFAULT_FONT_SIZE );
         Font smallFont = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN, smallFontSize );
         
         PImage panel = PImageFactory.create( HAConstants.IMAGE_MODE_PANEL );
