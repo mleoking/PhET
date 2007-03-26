@@ -27,7 +27,7 @@ public class PotentialEnergyChartNode extends PhetPNode {
         _chartWrapper = new JFreeChartNode( chart );
         addChild( _chartWrapper );
         
-        _closeButtonNode = new CloseButtonNode( canvas );
+        _closeButtonNode = new CloseButtonNode();
         addChild( _closeButtonNode );
         
         setPickable( false );

@@ -67,6 +67,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/26/07 - remove canvas argument from all nodes in the scenegraph
 3/26/07 - add beam shape model to Laser
 3/26/07 - add size and layout dependencies to PhysicsDefaults
 3/26/07 - add zr scaling factor to model of laser beam shape
