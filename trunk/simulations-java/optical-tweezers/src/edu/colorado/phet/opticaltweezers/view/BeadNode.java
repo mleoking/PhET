@@ -33,7 +33,7 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
     private static final int ALPHA = 200;
     private static final Color PRIMARY_COLOR = new Color( 200, 200, 0, ALPHA );
     private static final Color HILITE_COLOR = new Color( 255, 255, 0, ALPHA );
-    private static final Stroke STROKE = new BasicStroke( 0.5f );
+    private static final Stroke STROKE = null;
     private static final Paint STROKE_PAINT = Color.BLACK;
     
     private static final double CROSSHAIRS_SIZE = 15;

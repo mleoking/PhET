@@ -16,12 +16,12 @@ HIGH PRIORITY:
 - connect potential energy chart to model
 
 MEDIUM PRIORITY:
-- converting bead to image crops right & bottom pixels
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - try to make laser control panel draggable
 - use proper plot type for PositionHistogramPlot
 - careful! fluid speed is in microns (1E-6 m), everything else is in nm (1E-9 m)
-- make viscosity control logarithmic
+- careful! Mike's laser intensity model uses mJ for power, everything else is in mW
+- make viscosity control logarithimic
 - accept multiple formats for entry of viscosity value (1E-10, 1e-10, 0.0001)
 - cursors that indicate direction when drag is horizontally or vertically constrained
 - units and range for fast speed [realtime* 10^-2, realtime]
@@ -66,6 +66,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/26/07 - converting bead to image crops right & bottom pixels, remove stroke
 3/26/07 - add debug crosshair at laser's origin
 3/26/07 - make laser's local origin be at the center of its waist
 3/26/07 - remove canvas argument from all nodes in the scenegraph
