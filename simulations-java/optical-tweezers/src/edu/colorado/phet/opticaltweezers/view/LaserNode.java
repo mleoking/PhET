@@ -18,9 +18,11 @@ import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.BoundedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.piccolo.nodes.FineCrosshairNode;
 import edu.colorado.phet.piccolo.nodes.HandleNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * LaserNode is the visual representation of the laser.
@@ -34,7 +36,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean DEBUG_SHOW_ORIGIN = false;
+    private static final boolean DEBUG_SHOW_ORIGIN = true;
 
     private static final int MAX_ALPHA_CHANNEL = 180; // 0-255
     
@@ -101,8 +103,8 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         final int alpha = powerToAlpha( _laser.getPower() );
         _beamInNode = new BeamInNode( laserWidth, controlPanelYOffset, laser.getVisibleWavelength(), alpha );
         
-        // Laser beam coming out of objective
-        double beamOutHeight = _modelViewTransform.modelToView( laser.getPositionRef().getY() ); // distance from top of canvas
+        // Laser beam coming out of objective, height is the distance of objective from top of canvas
+        double beamOutHeight = _modelViewTransform.modelToView( laser.getPositionRef().getY() + _laser.getDistanceFromObjectiveToWaist() );
         _beamOutNode = new BeamOutNode( laserWidth, beamOutHeight, laser.getVisibleWavelength(), alpha );
         
         // Handles
@@ -120,20 +122,21 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         addChild( rightHandleNode );
         addChild( _controlPanel );
         if ( DEBUG_SHOW_ORIGIN ) {
-            addChild( new OriginNode( Color.RED ) );
+            addChild( new FineCrosshairNode( new PDimension( 20, 20), new BasicStroke(1f), Color.BLACK ) );
         }
         
-        // Center of objective at (0,0)
-        objectiveNode.setOffset( -objectiveNode.getFullBounds().getWidth()/2, -objectiveNode.getFullBounds().getHeight()/2 );
-        // Beam below objective
-        _beamInNode.setOffset( -_beamInNode.getFullBounds().getWidth()/2, 0 );
+        final double distanceFromObjectiveToWaist = _modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToWaist() );
         // Beam above objective
-        _beamOutNode.setOffset( -_beamOutNode.getFullBounds().getWidth()/2, -_beamOutNode.getFullBounds().getHeight() );
+        _beamOutNode.setOffset( -_beamOutNode.getFullBounds().getWidth()/2, -distanceFromObjectiveToWaist );
+        // Objective below beam
+        objectiveNode.setOffset( 0, distanceFromObjectiveToWaist );
+        // Beam below objective
+        _beamInNode.setOffset( -_beamInNode.getFullBounds().getWidth()/2, objectiveNode.getOffset().getY() );
         // Control panel below beam
-        _controlPanel.setOffset( -_controlPanel.getFullBounds().getWidth()/2, _beamInNode.getFullBounds().getHeight() );
+        _controlPanel.setOffset( -_controlPanel.getFullBounds().getWidth()/2, _beamInNode.getFullBounds().getMaxY() );
         // Connecting lines
-        leftLineNode.setOffset( objectiveNode.getFullBounds().getX(), 0 );
-        rightLineNode.setOffset( objectiveNode.getFullBounds().getMaxX(), 0 );
+        leftLineNode.setOffset( objectiveNode.getFullBounds().getX(), objectiveNode.getOffset().getY() );
+        rightLineNode.setOffset( objectiveNode.getFullBounds().getMaxX(), objectiveNode.getOffset().getY() );
         // Handles
         leftHandleNode.setOffset( _controlPanel.getFullBounds().getX() - leftHandleNode.getFullBounds().getWidth() + 2, 
                 _controlPanel.getFullBounds().getY() + ( ( _controlPanel.getFullBounds().getHeight() - leftHandleNode.getFullBounds().getHeight() ) / 2 ) );

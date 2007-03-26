@@ -4,12 +4,10 @@
 
 IN PROGRESS:
 - implement laser beam shape
-- change diameter to radius for bead and laser properties
 
 HIGH PRIORITY:
 - bug: ruler is not quite aligned with bead
 - bug: fluid viscosity slider is brain damaged
-- change model coordinate system origin to be at center of laser's waist?
 - implement laser beam gradient
 - implement force model for fast mode
 - implement bead motion model
@@ -18,6 +16,7 @@ HIGH PRIORITY:
 - connect potential energy chart to model
 
 MEDIUM PRIORITY:
+- converting bead to image crops right & bottom pixels
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - try to make laser control panel draggable
 - use proper plot type for PositionHistogramPlot
@@ -67,6 +66,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/26/07 - add debug crosshair at laser's origin
+3/26/07 - make laser's local origin be at the center of its waist
 3/26/07 - remove canvas argument from all nodes in the scenegraph
 3/26/07 - add beam shape model to Laser
 3/26/07 - add size and layout dependencies to PhysicsDefaults
@@ -204,6 +205,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+3/26/07 - change diameter to radius for bead and laser properties (using diameter makes layout clearer)
 3/12/07 - generalize LaserPowerControl (probably not generally useful)
 
 ===============================================================================
