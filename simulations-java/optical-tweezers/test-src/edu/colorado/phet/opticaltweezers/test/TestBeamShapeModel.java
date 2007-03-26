@@ -29,7 +29,8 @@ public class TestBeamShapeModel extends JFrame {
     private static final Dimension2D PLAY_AREA_SIZE = new PDimension( 2*950, 2*750 );
     private static final Dimension2D FLUID_SIZE = new PDimension( PLAY_AREA_SIZE.getWidth(), 1000 );
     private static final double FLUID_Y_OFFSET = 100;
-    private static final double BEAM_WAIST_RADIUS = 250;
+    private static final double BEAM_RADIUS_AT_OBJECTIVE = 500;
+    private static final double BEAM_RADIUS_AT_WAIST = 250;
     private static final double BEAM_HEIGHT = ( 2 * FLUID_Y_OFFSET ) + FLUID_SIZE.getHeight();
     private static final double BEAM_WAVELENGTH = 1064;
     private static final double BEAD_DIAMETER = 200;
@@ -65,11 +66,11 @@ public class TestBeamShapeModel extends JFrame {
         fluidNode.setPaint( new Color( 0, 0, 255, 20 ) );
         rootNode.addChild( fluidNode );
         
-        BeamNode beamNode = new BeamNode( BEAM_WAIST_RADIUS, BEAM_HEIGHT, BEAM_WAVELENGTH );
+        BeamNode beamNode = new BeamNode( BEAM_RADIUS_AT_OBJECTIVE, BEAM_RADIUS_AT_WAIST, BEAM_HEIGHT, BEAM_WAVELENGTH );
         beamNode.setOffset( PLAY_AREA_SIZE.getWidth()/2, FLUID_Y_OFFSET + FLUID_SIZE.getHeight()/2 );
         rootNode.addChild( beamNode );
         
-        System.out.println( "beam width = " + beamNode.getFullBounds().getWidth() );
+        System.out.println( "beam size = " + beamNode.getFullBounds().getWidth() + "x" + BEAM_HEIGHT );
         
         PPath objectiveNode = new PPath( new Ellipse2D.Double( 0, 0, beamNode.getFullBounds().getWidth() / 0.95, OBJECTIVE_HEIGHT ) );
         objectiveNode.setOffset( 
@@ -113,18 +114,26 @@ public class TestBeamShapeModel extends JFrame {
     
     private class BeamNode extends PPath {
         
-        private double _waistRadius;
+        private double _radiusAtObjective;
+        private double _radiusAtWaist;
         private double _wavelength;
+        private double _height;
+        private double _zrScale;
         
-        public BeamNode( double waistRadius, double height, double wavelength ) {
+        public BeamNode( double radiusAtObjective, double radiusAtWaist, double height, double wavelength ) {
             super();
-            _waistRadius = waistRadius;
+            _radiusAtObjective = radiusAtObjective;
+            _radiusAtWaist = radiusAtWaist;
             _wavelength = wavelength;
+            _height = height;
+            
+            // Scaling factor for zr term, constrains the width of the beam profile.
+            _zrScale = getBeamRadiusAt( _height/2, _radiusAtWaist, _wavelength, 1 ) / _radiusAtObjective;
             
             int numberOfPoints = (int)height/2;
             Point2D[] points = new Point2D.Double[ numberOfPoints ];
             for ( int z = 0; z < points.length; z++ ) {
-                double x = getBeamRadiusAt( z, _waistRadius, _wavelength );
+                double x = getBeamRadiusAt( z, _radiusAtWaist, _wavelength, _zrScale );
                 points[z] = new Point2D.Double( x, z );
             }
             
@@ -159,8 +168,8 @@ public class TestBeamShapeModel extends JFrame {
             setPaint( null );
         }
         
-        private double getBeamRadiusAt( double z, double w0, double wavelength ) {
-            double zr = Math.PI * w0 * w0 / _wavelength;
+        private double getBeamRadiusAt( double z, double w0, double wavelength, double scale ) {
+            double zr = scale * Math.PI * w0 * w0 / wavelength;
             double wz = w0 * Math.sqrt(  1 + ( ( z / zr ) * ( z / zr )  ) );
             return wz;
         }

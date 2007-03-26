@@ -66,6 +66,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/26/07 - add zr scaling factor to model of laser beam shape
 3/23/07 - implement laser profile model, create test program to show scale problems
 3/23/07 - change default fluid speed to 0
 3/23/07 - convert to new PSwing interface that doesn't require canvas in constructor
