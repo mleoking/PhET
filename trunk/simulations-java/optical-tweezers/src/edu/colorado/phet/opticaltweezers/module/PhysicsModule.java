@@ -173,7 +173,7 @@ public class PhysicsModule extends AbstractModule {
         // Position Histogram chart
         PositionHistogramPlot positionHistogramPlot = new PositionHistogramPlot();
         PositionHistogramChart positionHistogramChart = new PositionHistogramChart( positionHistogramPlot );
-        _positionHistogramChartNode = new PositionHistogramChartNode( _canvas, positionHistogramChart, _laser, _bead, _clock );
+        _positionHistogramChartNode = new PositionHistogramChartNode( positionHistogramChart, _laser, _bead, _clock );
         _positionHistogramChartNode.setVisible( PhysicsDefaults.POSITION_HISTOGRAM_SELECTED );
         _positionHistogramChartNode.addCloseListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {

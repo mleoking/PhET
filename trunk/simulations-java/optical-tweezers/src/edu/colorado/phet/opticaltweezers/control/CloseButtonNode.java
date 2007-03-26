@@ -25,7 +25,6 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * CloseButtonNode is a node that displays a close button.
@@ -37,23 +36,24 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 public class CloseButtonNode extends PhetPNode {
 
     private JButton _closeButton;
-    
-    public CloseButtonNode( PSwingCanvas canvas ) {
+
+    public CloseButtonNode() {
         _closeButton = new CloseButton();
-        PSwing closeButtonWrapper = new PSwing(_closeButton );
+        PSwing closeButtonWrapper = new PSwing( _closeButton );
         closeButtonWrapper.addInputEventListener( new CursorHandler() );
         addChild( closeButtonWrapper );
     }
-    
+
     public void addActionListener( ActionListener listener ) {
         _closeButton.addActionListener( listener );
     }
-    
+
     public void removeActionListener( ActionListener listener ) {
         _closeButton.removeActionListener( listener );
     }
-    
+
     public static class CloseButton extends JButton {
+
         public CloseButton() {
             super();
             try {
