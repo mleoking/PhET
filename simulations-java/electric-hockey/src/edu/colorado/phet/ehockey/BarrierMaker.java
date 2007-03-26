@@ -33,7 +33,7 @@ public class BarrierMaker extends JFrame {
 
 
     public static void main( String[] args ) {
-        SimStrings.setStrings( HockeyConfig.localizedStringPath );
+        SimStrings.getInstance().addStrings( HockeyConfig.localizedStringPath );
         BarrierMaker barriers1 = new BarrierMaker();
     }
 }//end of public class

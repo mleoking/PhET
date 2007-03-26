@@ -9,13 +9,11 @@ package edu.colorado.phet.idealgas;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
-import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
-import edu.colorado.phet.idealgas.view.IdealGasLandF;
 import edu.colorado.phet.idealgas.model.SimulationClock;
+import edu.colorado.phet.idealgas.view.IdealGasLandF;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,7 +59,7 @@ public class DiffusionApplication extends PhetApplication {
             e.printStackTrace();
         }
 
-        SimStrings.setStrings( IdealGasConfig.localizedStringsPath );
+        SimStrings.getInstance().addStrings( IdealGasConfig.localizedStringsPath );
         new DiffusionApplication( args ).startApplication();
     }
 }

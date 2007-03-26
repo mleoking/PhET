@@ -25,7 +25,7 @@ public class Motion2DApplet extends JApplet {
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
             SimStrings.getInstance().setLocale( new Locale( applicationLocale ) );
         }
-        SimStrings.setStrings( Motion2DApplication.localizedStringsPath );
+        SimStrings.getInstance().addStrings( Motion2DApplication.localizedStringsPath );
 
         try {
             ballImage = ImageLoaderSolo.loadBufferedImage( "ballsmall2.gif" );

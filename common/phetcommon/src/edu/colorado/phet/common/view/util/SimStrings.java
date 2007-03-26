@@ -35,11 +35,15 @@ public class SimStrings {
 
 
     static {
-        INSTANCE.setStrings( "localization/CommonStrings" );
+        INSTANCE.addStrings( "localization/CommonStrings" );
     }
 
     public static SimStrings getInstance() {
         return INSTANCE;
+    }
+
+    public void init( String bundleName ) {
+        init(new String[0], bundleName);
     }
 
     /**
@@ -66,7 +70,7 @@ public class SimStrings {
         }
 
         // Initialize simulation strings using resource bundle for the locale.
-        SimStrings.setStrings( bundleName );
+        SimStrings.getInstance().addStrings( bundleName );
     }
 
     // TODO: make this private after all simulation use init
@@ -79,13 +83,13 @@ public class SimStrings {
         if( priorPaths != null ) {
             for( Iterator i = priorPaths.iterator(); i.hasNext(); ) {
                 String path = (String)i.next();
-                setStrings( path );
+                addStrings( path );
             }
         }
     }
 
     // TODO: make this private after all simulation use init
-    public static void setStrings( String stringsPath ) {
+    public void addStrings( String stringsPath ) {
         if( INSTANCE.localizedStrings == null ) {
             INSTANCE.localizedStrings = new Vector();
             INSTANCE.stringsPaths = new Vector();

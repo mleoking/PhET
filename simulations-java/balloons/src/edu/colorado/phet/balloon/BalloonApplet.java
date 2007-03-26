@@ -21,7 +21,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Random;
 
 
@@ -81,14 +80,8 @@ public class BalloonApplet extends JApplet implements IHelp {
         minusPainter.paintAt( 84, 167, g2 );
     }
 
-    public void init() {
-        if( isApplet ) {
-            String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
-            if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-                SimStrings.getInstance().setLocale( new Locale( applicationLocale ) );
-            }
-            SimStrings.setStrings( BalloonsConfig.localizedStringsPath );
-        }
+    public void init(String[] args) {
+        SimStrings.getInstance().init( args, BalloonsConfig.localizedStringsPath );
 
         plusPainter.setPaint( PlusPainter.NONE );
         minusPainter.setPaint( MinusPainter.NONE );
@@ -311,12 +304,10 @@ public class BalloonApplet extends JApplet implements IHelp {
     }
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException {
-        SimStrings.getInstance().init( args, BalloonsConfig.localizedStringsPath );
-
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
         isApplet = false;
         BalloonApplet ba = new BalloonApplet();
-        ba.init();
+        ba.init(args);
         JFrame jf = new JFrame( SimStrings.get( "balloons.frame.title" ) + " (" + VERSION + ")" );
         jf.addWindowListener( new Exit() );
         jf.setContentPane( ba );

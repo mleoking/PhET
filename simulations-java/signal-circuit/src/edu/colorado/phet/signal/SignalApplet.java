@@ -41,7 +41,7 @@ public class SignalApplet extends JApplet {
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
                 Locale.setDefault( new Locale( applicationLocale ) );
             }
-            SimStrings.setStrings( localizedStringsPath );
+            SimStrings.getInstance().addStrings( localizedStringsPath );
         }
 
         Signal s = new Signal( width, height, applet );

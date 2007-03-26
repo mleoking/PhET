@@ -37,7 +37,7 @@ public class HockeyModule extends JApplet implements Runnable {
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
                 SimStrings.getInstance().setLocale( new Locale( applicationLocale ) );
             }
-            SimStrings.setStrings( HockeyConfig.localizedStringPath );
+            SimStrings.getInstance().addStrings( HockeyConfig.localizedStringPath );
         }
 
         barrierList = new BarrierList( this );
