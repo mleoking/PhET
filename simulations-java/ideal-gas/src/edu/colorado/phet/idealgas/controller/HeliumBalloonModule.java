@@ -13,7 +13,6 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision_idealgas.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Command;
-import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
@@ -41,7 +40,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
     private int defaultGravity = IdealGasConfig.MAX_GRAVITY / 2;
 
     public HeliumBalloonModule( SimulationClock clock ) {
-        super( clock, SimStrings.get( "ModuleTitle.HeliumBalloon" ) );
+        super( clock, SimStrings.getInstance().getString( "ModuleTitle.HeliumBalloon" ) );
 
         // So we'll get events sent by parent classes
         this.addResetListener( this );
@@ -67,7 +66,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
 
         // Set up the control panel
         JPanel controlPanel = new JPanel( new GridBagLayout() );
-        controlPanel.setBorder( new TitledBorder( SimStrings.get( "HeliumBalloonControlPanel.controlsTitle" ) ) );
+        controlPanel.setBorder( new TitledBorder( SimStrings.getInstance().getString( "HeliumBalloonControlPanel.controlsTitle" ) ) );
 
         GridBagConstraints gbc = null;
         Insets insets = new Insets( 0, 0, 0, 0 );
@@ -187,7 +186,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
 
-            JLabel label = new JLabel( SimStrings.get( "MeasurementControlPanel.Number_of_particles" ) );
+            JLabel label = new JLabel( SimStrings.getInstance().getString( "MeasurementControlPanel.Number_of_particles" ) );
             this.add( label, gbc );
             // Set up the spinner for controlling the number of particles in
             // the hollow sphere

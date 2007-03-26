@@ -23,7 +23,7 @@ import edu.colorado.phet.quantum.model.EnergyEmissionStrategy;
  * @version $Revision$
  */
 public class Magnesium extends DischargeLampElementProperties {
-    private static final String NAME = SimStrings.get( "Element.Magnesium" );
+    private static final String NAME = SimStrings.getInstance().getString( "Element.Magnesium" );
     private static final double[] ENERGY_LEVELS = new double[]{-13.6};
     private static final EnergyEmissionStrategy ENERGY_EMISSION_STRATEGY = new DefaultEnergyEmissionStrategy();
     private static final double WORK_FUNCTION = 3.7;

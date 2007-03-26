@@ -97,8 +97,8 @@ public class FaradayApplication extends PhetApplication {
         Properties simulationProperties = PropertiesLoader.loadProperties( FaradayConstants.SIM_PROPERTIES_NAME );
 
         // Get stuff needed to initialize the application model.
-        String title = SimStrings.get( "FaradayApplication.title" );
-        String description = SimStrings.get( "FaradayApplication.description" );
+        String title = SimStrings.getInstance().getString( "FaradayApplication.title" );
+        String description = SimStrings.getInstance().getString( "FaradayApplication.description" );
         String version = PhetApplication.getVersionString( simulationProperties );
         int width = FaradayConstants.APP_FRAME_WIDTH;
         int height = FaradayConstants.APP_FRAME_HEIGHT;

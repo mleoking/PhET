@@ -136,27 +136,27 @@ public class ReadoutNode extends PhetPNode {
         cur = abs( cur );
         vol = abs( vol );
 
-        String text = res + " " + SimStrings.get( "ReadoutGraphic.Ohms" );  //, " + cur + " " + SimStrings.get( "ReadoutGraphic.Amps" );
+        String text = res + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Ohms" );  //, " + cur + " " + SimStrings.get( "ReadoutGraphic.Amps" );
         return new String[]{text};
     }
 
     private String[] getInductorText( Inductor inductor ) {
-        return new String[]{formatter.format( inductor.getInductance() ) + " " + SimStrings.get( "ReadoutGraphic.Henries" )};
+        return new String[]{formatter.format( inductor.getInductance() ) + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Henries" )};
     }
 
     private String[] getCapacitorText( Capacitor capacitor ) {
-        return new String[]{formatter.format( capacitor.getCapacitance() ) + " " + SimStrings.get( "ReadoutGraphic.Farads" )};
+        return new String[]{formatter.format( capacitor.getCapacitance() ) + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Farads" )};
     }
 
     private String[] getBatteryText() {
         boolean internal = module.isInternalResistanceOn();
         double volts = Math.abs( branch.getVoltageDrop() );
         String vol = formatter.format( volts );
-        String str = "" + vol + " " + SimStrings.get( "ReadoutGraphic.Volts" );
+        String str = "" + vol + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Volts" );
         ArrayList text = new ArrayList();
         text.add( str );
         if( internal ) {
-            String s2 = formatter.format( branch.getResistance() ) + " " + SimStrings.get( "ReadoutGraphic.Ohms" );
+            String s2 = formatter.format( branch.getResistance() ) + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Ohms" );
             text.add( s2 );
         }
         return (String[])text.toArray( new String[0] );

@@ -29,8 +29,8 @@ public class GPLAboutPanel extends JPanel {
     public GPLAboutPanel( final PhetApplication phetApplication ) {
         this.phetApplication = phetApplication;
         setLayout( new BorderLayout() );
-        String javaVersion = SimStrings.get( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
-        final String msg = phetApplication.getTitle() + "\n\n" + phetApplication.getDescription() + "\n\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + phetApplication.getVersion() + "\n\n" + javaVersion + "\n";
+        String javaVersion = SimStrings.getInstance().getString( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
+        final String msg = phetApplication.getTitle() + "\n\n" + phetApplication.getDescription() + "\n\n" + SimStrings.getInstance().getString( "Common.HelpMenu.VersionLabel" ) + ": " + phetApplication.getVersion() + "\n\n" + javaVersion + "\n";
         JTextArea info = new JTextArea() {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D)g;

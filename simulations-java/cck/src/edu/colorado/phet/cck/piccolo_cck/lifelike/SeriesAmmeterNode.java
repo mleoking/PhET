@@ -35,7 +35,7 @@ public class SeriesAmmeterNode extends ComponentNode {
     private Stroke stroke = new BasicStroke( (float)( 5 * SCALE ) );
     private Font font = new Font( "Lucida Sans", Font.BOLD, 17 );
     private Shape shape;
-    private String text = SimStrings.get( "SeriesAmmeterGraphic.Ammeter" );
+    private String text = SimStrings.getInstance().getString( "SeriesAmmeterGraphic.Ammeter" );
     private String fixedMessage;
     private SimpleObserver simpleObserver;
     private CircuitSolutionListener circuitSolutionListener;
@@ -67,7 +67,7 @@ public class SeriesAmmeterNode extends ComponentNode {
             public void circuitSolverFinished() {
                 DecimalFormat df = new DecimalFormat( "0.00" );
                 String form = df.format( Math.abs( component.getCurrent() ) );
-                text = "" + form + " " + SimStrings.get( "SeriesAmmeterGraphic.Amps" );
+                text = "" + form + " " + SimStrings.getInstance().getString( "SeriesAmmeterGraphic.Amps" );
                 changed();
             }
         };

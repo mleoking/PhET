@@ -59,7 +59,7 @@ public class FaradayControlPanel extends ControlPanel {
         _module = module;
         
         // Set the control panel's minimum width.
-        String widthString = SimStrings.get( "ControlPanel.width" );
+        String widthString = SimStrings.getInstance().getString( "ControlPanel.width" );
         int width = Integer.parseInt( widthString );
         setMinumumWidth( width );
     }
@@ -105,7 +105,7 @@ public class FaradayControlPanel extends ControlPanel {
      * The button handler calls the module's reset method.
      */
     public void addResetButton() {
-        JButton resetButton = new JButton( SimStrings.get( "Reset.button" ) );
+        JButton resetButton = new JButton( SimStrings.getInstance().getString( "Reset.button" ) );
         resetButton.addActionListener( new ActionListener() { 
             public void actionPerformed( ActionEvent e ) {
                 _module.reset();

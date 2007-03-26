@@ -27,7 +27,7 @@ import java.awt.event.ActionEvent;
 public class SlowMotionCheckBox extends JCheckBox {
 
     public SlowMotionCheckBox( final Clock clock ) {
-        super( new AbstractAction( SimStrings.get( "Controls.SlowMotion" ) ) {
+        super( new AbstractAction( SimStrings.getInstance().getString( "Controls.SlowMotion" ) ) {
             public void actionPerformed( ActionEvent e ) {
                 JCheckBox cb = (JCheckBox)e.getSource();
                 if( cb.isSelected() ) {

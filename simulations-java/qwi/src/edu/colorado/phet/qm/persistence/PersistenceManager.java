@@ -65,7 +65,7 @@ public class PersistenceManager {
             }
         }
         catch( Exception e ) {
-            showError( SimStrings.get( "Save.error.message" ), e );
+            showError( SimStrings.getInstance().getString( "Save.error.message" ), e );
         }
     }
 
@@ -148,7 +148,7 @@ public class PersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if( errors == 0 ) {
-                    showError( SimStrings.get( "Save.error.encode" ), e );
+                    showError( SimStrings.getInstance().getString( "Save.error.encode" ), e );
                     errors++;
                 }
             }
@@ -189,7 +189,7 @@ public class PersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if( errors == 0 ) {
-                    showError( SimStrings.get( "Load.error.decode" ), e );
+                    showError( SimStrings.getInstance().getString( "Load.error.decode" ), e );
                     errors++;
                 }
             }
@@ -219,7 +219,7 @@ public class PersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if( errors == 0 ) {
-                    showError( SimStrings.get( "Save.error.encode" ), e );
+                    showError( SimStrings.getInstance().getString( "Save.error.encode" ), e );
                     errors++;
                 }
             }
@@ -227,7 +227,7 @@ public class PersistenceManager {
         encoder.writeObject( object );
         encoder.close();
         if( object == null ) {
-            throw new Exception( SimStrings.get( "XML encoding failed" ) );
+            throw new Exception( SimStrings.getInstance().getString( "XML encoding failed" ) );
         }
 
         // Convert to a byte input stream.
@@ -278,7 +278,7 @@ public class PersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if( errors == 0 ) {
-                    showError( SimStrings.get( "Load.error.decode" ), e );
+                    showError( SimStrings.getInstance().getString( "Load.error.decode" ), e );
                     errors++;
                 }
             }

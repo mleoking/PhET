@@ -49,7 +49,7 @@ public class DNAModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public DNAModule() {
-        super( SimStrings.get( "DNAModule.title" ), DNADefaults.CLOCK, DNADefaults.CLOCK_PAUSED );
+        super( SimStrings.getInstance().getString( "DNAModule.title" ), DNADefaults.CLOCK, DNADefaults.CLOCK_PAUSED );
 
         //----------------------------------------------------------------------------
         // Model

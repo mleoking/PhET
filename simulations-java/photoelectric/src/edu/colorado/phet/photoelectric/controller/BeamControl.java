@@ -33,7 +33,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.event.ContainerAdapter;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.HashMap;
@@ -77,8 +76,8 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
     private static Map MODE_TO_SLIDER_TITLE = new HashMap();
 
     static {
-        MODE_TO_SLIDER_TITLE.put( INTENSITY, SimStrings.get( "BeamControl.intensity" ) );
-        MODE_TO_SLIDER_TITLE.put( RATE, SimStrings.get( "BeamControl.photonRate" ) );
+        MODE_TO_SLIDER_TITLE.put( INTENSITY, SimStrings.getInstance().getString( "BeamControl.intensity" ) );
+        MODE_TO_SLIDER_TITLE.put( RATE, SimStrings.getInstance().getString( "BeamControl.photonRate" ) );
     }
 
     //--------------------------------------------------------------------------------------------------

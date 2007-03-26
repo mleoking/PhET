@@ -55,7 +55,7 @@ public class MoleculePopulationsPieChartNode extends PNode {
         pieChart.setOffset( -bounds.getWidth() / 6, 0 );
 
         // Title
-        PText title = new PText( SimStrings.get( "StripChart.title"));
+        PText title = new PText( SimStrings.getInstance().getString( "StripChart.title"));
         title.setFont( MRConfig.CHART_TITLE_FONT );
         addChild( title );
         double x = bounds.getWidth() - title.getFullBounds().getWidth() - 20;

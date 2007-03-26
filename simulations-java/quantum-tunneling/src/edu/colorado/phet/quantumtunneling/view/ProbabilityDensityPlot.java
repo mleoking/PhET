@@ -40,7 +40,7 @@ public class ProbabilityDensityPlot extends QTXYPlot {
         super();
         
         // Labels (localized)
-        String probabilityDensityLabel = SimStrings.get( "axis.probabilityDensity" );
+        String probabilityDensityLabel = SimStrings.getInstance().getString( "axis.probabilityDensity" );
         
         // Dataset
         XYSeriesCollection data = new XYSeriesCollection();

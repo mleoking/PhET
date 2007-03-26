@@ -99,8 +99,8 @@ public class RSApplication extends PiccoloPhetApplication {
                 Properties simulationProperties = PropertiesLoader.loadProperties( RSConstants.SIM_PROPERTIES_NAME );
                 
                 // Title & description
-                String title = SimStrings.get( "RSApplication.title" );
-                String description = SimStrings.get( "RSApplication.description" );
+                String title = SimStrings.getInstance().getString( "RSApplication.title" );
+                String description = SimStrings.getInstance().getString( "RSApplication.description" );
                 
                 // Version
                 String version = PhetApplication.getVersionString( simulationProperties );

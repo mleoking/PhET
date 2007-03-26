@@ -35,19 +35,19 @@ public class SizeControlPanel extends VerticalLayoutPanel {
         zoom.setPreferredSize( new Dimension( 50, zoom.getPreferredSize().height ) );
 
         ButtonGroup zoomGroup = new ButtonGroup();
-        JRadioButton small = new JRadioButton( SimStrings.get( "CCK3ControlPanel.SmallRadioButton" ) );
+        JRadioButton small = new JRadioButton( SimStrings.getInstance().getString( "CCK3ControlPanel.SmallRadioButton" ) );
         small.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 zoom( 2 );
             }
         } );
-        JRadioButton medium = new JRadioButton( SimStrings.get( "CCK3ControlPanel.MediumRadioButton" ) );
+        JRadioButton medium = new JRadioButton( SimStrings.getInstance().getString( "CCK3ControlPanel.MediumRadioButton" ) );
         medium.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 zoom( 1 );
             }
         } );
-        JRadioButton large = new JRadioButton( SimStrings.get( "CCK3ControlPanel.LargeRadioButton" ) );
+        JRadioButton large = new JRadioButton( SimStrings.getInstance().getString( "CCK3ControlPanel.LargeRadioButton" ) );
         large.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 zoom( .5 );
@@ -60,7 +60,7 @@ public class SizeControlPanel extends VerticalLayoutPanel {
         this.add( large );
         this.add( medium );
         this.add( small );
-        setBorder( new CCKControlPanel.CCKTitledBorder( SimStrings.get( "CCK3ControlPanel.SizePanelBorder" ) ) );
+        setBorder( new CCKControlPanel.CCKTitledBorder( SimStrings.getInstance().getString( "CCK3ControlPanel.SizePanelBorder" ) ) );
 
 //        return addBorder( SimStrings.get( "CCK3ControlPanel.SizePanelBorder" ), this );
     }

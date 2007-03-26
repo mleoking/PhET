@@ -15,7 +15,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.LightSpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.idealgas.model.GasMolecule;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -37,7 +36,7 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
 
 
     public SpeciesSelectionPanel( final IdealGasModule module ) {
-        this( module, new String[]{SimStrings.get( "Common.Heavy_Species" ), SimStrings.get( "Common.Light_Species" )} );
+        this( module, new String[]{SimStrings.getInstance().getString( "Common.Heavy_Species" ), SimStrings.getInstance().getString( "Common.Light_Species" )} );
     }
 
     public SpeciesSelectionPanel( final IdealGasModule module, final String[] speciesNames ) {

@@ -53,7 +53,7 @@ public class BSSquareSeparationHandle extends BSPotentialHandle {
         int significantDecimalPlaces = potentialSpec.getSeparationRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
         setValueNumberFormat( numberFormat );
-        setValuePattern( SimStrings.get( "drag.separation" ) );
+        setValuePattern( SimStrings.getInstance().getString( "drag.separation" ) );
         
         updateDragBounds();
     }

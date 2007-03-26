@@ -99,7 +99,7 @@ public class QTControlPanel extends AbstractControlPanel {
         _module = module;
         
         // Set the control panel's minimum width.
-        String widthString = SimStrings.get( "width.controlPanel" );
+        String widthString = SimStrings.getInstance().getString( "width.controlPanel" );
         if ( widthString != null ) {
             int width = Integer.parseInt( widthString );
             setMinumumWidth( width );
@@ -109,13 +109,13 @@ public class QTControlPanel extends AbstractControlPanel {
         JPanel energyPanel = new JPanel();
         {
             // Potential label
-            JLabel label = new JLabel( SimStrings.get( "label.potential" ) );
+            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.potential" ) );
 
             // Potential combo box 
             _potentialComboBox = new PotentialComboBox();
 
             // Show values
-            _showValuesCheckBox = new JCheckBox( SimStrings.get( "label.showValues" ) );
+            _showValuesCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showValues" ) );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -133,7 +133,7 @@ public class QTControlPanel extends AbstractControlPanel {
         // Probability
         JPanel probabilityPanel = new JPanel();
         {
-            _rtpCheckBox = new JCheckBox( SimStrings.get( "label.rtProbability" ) );
+            _rtpCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.rtProbability" ) );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -149,11 +149,11 @@ public class QTControlPanel extends AbstractControlPanel {
         // Wave Function View 
         JPanel viewPanel = new JPanel();
         {
-            JLabel label = new JLabel( SimStrings.get( "label.view" ) );
-            _realCheckBox = new JCheckBox( SimStrings.get( "choice.view.real" ) );
-            _imaginaryCheckBox = new JCheckBox( SimStrings.get( "choice.view.imaginary" ) );
-            _magnitudeCheckBox = new JCheckBox( SimStrings.get( "choice.view.magnitude" ) );
-            _phaseCheckBox = new JCheckBox( SimStrings.get( "choice.view.phase" ) );
+            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.view" ) );
+            _realCheckBox = new JCheckBox( SimStrings.getInstance().getString( "choice.view.real" ) );
+            _imaginaryCheckBox = new JCheckBox( SimStrings.getInstance().getString( "choice.view.imaginary" ) );
+            _magnitudeCheckBox = new JCheckBox( SimStrings.getInstance().getString( "choice.view.magnitude" ) );
+            _phaseCheckBox = new JCheckBox( SimStrings.getInstance().getString( "choice.view.phase" ) );
             
             // Real
             JPanel realPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
@@ -205,7 +205,7 @@ public class QTControlPanel extends AbstractControlPanel {
         // Direction
         JPanel directionPanel = new JPanel();
         {
-            JLabel label = new JLabel( SimStrings.get( "label.direction" ) );
+            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.direction" ) );
             
             try {
                 // Pretty icons to indicate direction
@@ -251,9 +251,9 @@ public class QTControlPanel extends AbstractControlPanel {
         // Wave function form
         JPanel formPanel = new JPanel();
         {
-            JLabel label = new JLabel( SimStrings.get( "label.wave" ) );
-            _wavePacketRadioButton = new JRadioButton( SimStrings.get( "choice.wave.packet" ) );
-            _planeWaveRadioButton = new JRadioButton( SimStrings.get( "choice.wave.plane" ) );
+            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.wave" ) );
+            _wavePacketRadioButton = new JRadioButton( SimStrings.getInstance().getString( "choice.wave.packet" ) );
+            _planeWaveRadioButton = new JRadioButton( SimStrings.getInstance().getString( "choice.wave.plane" ) );
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( _wavePacketRadioButton );
             buttonGroup.add( _planeWaveRadioButton );
@@ -274,14 +274,14 @@ public class QTControlPanel extends AbstractControlPanel {
         // Wave packet properties
         _propertiesPanel = new JPanel();
         {
-            JLabel label = new JLabel( SimStrings.get( "label.packetProperties" ) );
+            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.packetProperties" ) );
         
             _widthSlider = new SliderControl( 
                     QTConstants.MIN_PACKET_WIDTH, QTConstants.MAX_PACKET_WIDTH,
                     WIDTH_TICK_SPACING,
                     WIDTH_TICK_PRECISION,
                     WIDTH_LABEL_PRECISION,
-                    SimStrings.get( "label.packetWidth" ) + " {0} " + SimStrings.get( "units.position" ), 
+                    SimStrings.getInstance().getString( "label.packetWidth" ) + " {0} " + SimStrings.getInstance().getString( "units.position" ),
                     new Insets( 5, 0, 0, 0 ) );
             _widthSlider.setInverted( true );
             
@@ -290,7 +290,7 @@ public class QTControlPanel extends AbstractControlPanel {
                     CENTER_TICK_SPACING,
                     CENTER_TICK_PRECISION,
                     CENTER_LABEL_PRECISION,
-                    SimStrings.get( "label.packetCenter" ) + " {0} " + SimStrings.get( "units.position" ),
+                    SimStrings.getInstance().getString( "label.packetCenter" ) + " {0} " + SimStrings.getInstance().getString( "units.position" ),
                     new Insets( 0, 0, 0, 0 ) );
             
             // Layout
@@ -309,10 +309,10 @@ public class QTControlPanel extends AbstractControlPanel {
         // Incident/Reflected view
         _irPanel = new JPanel();
         {
-            JLabel label = new JLabel( SimStrings.get( "label.ir" ) );
+            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.ir" ) );
             
-            _sumRadioButton = new JRadioButton( SimStrings.get( "choice.ir.sum" ) );
-            _separateRadioButton = new JRadioButton( SimStrings.get( "choice.ir.separate" ) );
+            _sumRadioButton = new JRadioButton( SimStrings.getInstance().getString( "choice.ir.sum" ) );
+            _separateRadioButton = new JRadioButton( SimStrings.getInstance().getString( "choice.ir.separate" ) );
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( _sumRadioButton );
             buttonGroup.add( _separateRadioButton );

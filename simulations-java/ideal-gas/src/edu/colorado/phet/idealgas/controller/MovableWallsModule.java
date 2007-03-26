@@ -12,7 +12,6 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision_idealgas.*;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -103,8 +102,8 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         ControlPanel controlPanel = new ControlPanel( this );
         setControlPanel( controlPanel );
         controlPanel.add( new AdvancedIdealGasControlPanel( this,
-                                                            SimStrings.get( "AdvancedModule.Particle_Type_A" ),
-                                                            SimStrings.get( "AdvancedModule.Particle_Type_B" ) ) );
+                                                            SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_A" ),
+                                                            SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_B" ) ) );
 
         //----------------------------------------------------------------
         // View
@@ -114,7 +113,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         createCurveAdjuster();
 
         // Set the time units on the stopwatch
-        getStopwatchPanel().setTimeUnits( SimStrings.get( "MovableWallsModule.StopwatchTimeUnits" ) );
+        getStopwatchPanel().setTimeUnits( SimStrings.getInstance().getString( "MovableWallsModule.StopwatchTimeUnits" ) );
 
         // Remove the Wiggle-me
         getApparatusPanel().removeGraphic( wiggleMeGraphic );
@@ -127,8 +126,8 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         getApparatusPanel().removeGraphic( getBoxDoorGraphic() );
 
         // Add counters for the number of particles on either side of the vertical wall
-        addParticleCounters( SimStrings.get( "AdvancedModule.Particle_Type_A" ),
-                             SimStrings.get( "AdvancedModule.Particle_Type_B" ) );
+        addParticleCounters( SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_A" ),
+                             SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_B" ) );
 
         JButton testButton = new JButton( "Test" );
 //        getControlPanel().add( testButton);

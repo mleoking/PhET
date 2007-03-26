@@ -12,20 +12,15 @@
 package edu.colorado.phet.opticalquantumcontrol.view;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
@@ -117,7 +112,7 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
         addGraphic( backgroundGraphic, BACKGROUND_LAYER );
         
         // Title
-        String title = SimStrings.get( "AmplitudesView.title" );
+        String title = SimStrings.getInstance().getString( "AmplitudesView.title" );
         HTMLGraphic titleGraphic = new HTMLGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         titleGraphic.setRegistrationPoint( titleGraphic.getWidth()/2, 0 ); // top center
         titleGraphic.rotate( -( Math.PI / 2 ) );

@@ -49,7 +49,7 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
      * Constructor.
      */
     public BSCoulomb3DDialog( Frame parent, BSCoulomb3DPotential potential, BSPotentialSpec potentialSpec ) {
-        super( parent, SimStrings.get( "BSCoulomb3DDialog.title" ), potential );
+        super( parent, SimStrings.getInstance().getString( "BSCoulomb3DDialog.title" ), potential );
         JPanel inputPanel = createInputPanel( potentialSpec );
         createUI( inputPanel );
         updateControls();
@@ -62,7 +62,7 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
      */
     protected JPanel createInputPanel( BSPotentialSpec potentialSpec ) {
         
-        String energyUnits = SimStrings.get( "units.energy" );
+        String energyUnits = SimStrings.getInstance().getString( "units.energy" );
 
         // Offset
         {
@@ -74,7 +74,7 @@ public class BSCoulomb3DDialog extends BSAbstractConfigureDialog implements Chan
             int tickDecimalPlaces = offsetRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String offsetLabel = SimStrings.get( "label.wellOffset" );
+            String offsetLabel = SimStrings.getInstance().getString( "label.wellOffset" );
             _offsetSlider = new SliderControl( value, min, max, 
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
                     offsetLabel, energyUnits, columns, SLIDER_INSETS );

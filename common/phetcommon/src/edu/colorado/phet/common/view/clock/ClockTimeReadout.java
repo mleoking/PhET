@@ -35,7 +35,7 @@ public class ClockTimeReadout extends JPanel {
         Font clockFont = clockTF.getFont();
         clockTF.setFont( new Font( clockFont.getName(), Font.BOLD, 16 ) );
 
-        add( new JLabel( SimStrings.get( "Common.ClockTimeReadout.RunningTime" ) + ": " ) );
+        add( new JLabel( SimStrings.getInstance().getString( "Common.ClockTimeReadout.RunningTime" ) + ": " ) );
         clockTF.setEditable( false );
         add( clockTF );
         clockFormat.setMaximumFractionDigits( 1 );

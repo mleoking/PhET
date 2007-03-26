@@ -223,7 +223,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
         // Button panel, centered below the black rectangle.
         {
             // Start/Stop button
-            String s = _isRunning ? SimStrings.get( "button.spectrometer.stop" ) : SimStrings.get( "button.spectrometer.start" );
+            String s = _isRunning ? SimStrings.getInstance().getString( "button.spectrometer.stop" ) : SimStrings.getInstance().getString( "button.spectrometer.start" );
             _startStopButton = new JButton( s );
             _startStopButton.setFont( font );
             _startStopButton.addActionListener( new ActionListener() {
@@ -238,7 +238,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             } );
 
             // Reset button
-            _resetButton = new JButton( SimStrings.get( "button.spectrometer.reset" ) );
+            _resetButton = new JButton( SimStrings.getInstance().getString( "button.spectrometer.reset" ) );
             _resetButton.setFont( font );
             _resetButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
@@ -507,7 +507,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
      */
     public void start() {
         _isRunning = true;
-        _startStopButton.setText( SimStrings.get( "button.spectrometer.stop" ) );
+        _startStopButton.setText( SimStrings.getInstance().getString( "button.spectrometer.stop" ) );
     }
     
     /**
@@ -516,7 +516,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
      */
     public void stop() {
         _isRunning = false;
-        _startStopButton.setText( SimStrings.get( "button.spectrometer.start" ) );
+        _startStopButton.setText( SimStrings.getInstance().getString( "button.spectrometer.start" ) );
     }
     
     /**

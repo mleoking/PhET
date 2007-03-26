@@ -97,7 +97,7 @@ public class InputPulseView extends GraphicLayerSet {
         addGraphic( lightSpigot, SPIGOT_LAYER );
 
         // Title
-        String title = SimStrings.get( "InputPulseView.title" );
+        String title = SimStrings.getInstance().getString( "InputPulseView.title" );
         HTMLGraphic titleGraphic = new HTMLGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         titleGraphic.setRegistrationPoint( titleGraphic.getWidth()/2, 0 );
         titleGraphic.setLocation( BACKGROUND_SIZE.width / 2, 5 );

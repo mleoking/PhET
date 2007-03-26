@@ -94,21 +94,21 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
         _gameManager.getRandomFourierSeries().addObserver( this );
         
         // Set the control panel's minimum width.
-        String widthString = SimStrings.get( "GameControlPanel.width" );
+        String widthString = SimStrings.getInstance().getString( "GameControlPanel.width" );
         int width = Integer.parseInt( widthString );
         setMinumumWidth( width );
         
         // Game controls panel
-        FourierTitledPanel gameControlsPanel = new FourierTitledPanel( SimStrings.get( "GameControlPanel.gameControls" ) );
+        FourierTitledPanel gameControlsPanel = new FourierTitledPanel( SimStrings.getInstance().getString( "GameControlPanel.gameControls" ) );
         {
             // Level
             {
                 // Label
-                String label = SimStrings.get( "GameControlPanel.level" );
+                String label = SimStrings.getInstance().getString( "GameControlPanel.level" );
 
                 // Choices
                 _levelChoices = new ArrayList();
-                _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL1, "1 (" + SimStrings.get( "GameControlPanel.level.easiest") + ")" ) );
+                _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL1, "1 (" + SimStrings.getInstance().getString( "GameControlPanel.level.easiest") + ")" ) );
                 _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL2, "2" ) );
                 _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL3, "3" ) );
                 _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL4, "4" ) );
@@ -117,8 +117,8 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
                 _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL7, "7" ) );
                 _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL8, "8" ) );
                 _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL9, "9" ) );
-                _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL10, "10 ( " + SimStrings.get( "GameControlPanel.level.hardest") + ")" ) );
-                _levelChoices.add( new FourierComboBox.Choice( GameLevel.PRESET, SimStrings.get( "GameControlPanel.level.preset" ) ) );
+                _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL10, "10 ( " + SimStrings.getInstance().getString( "GameControlPanel.level.hardest") + ")" ) );
+                _levelChoices.add( new FourierComboBox.Choice( GameLevel.PRESET, SimStrings.getInstance().getString( "GameControlPanel.level.preset" ) ) );
 
                 // Levels combo box
                 _levelComboBox = new FourierComboBox( label, _levelChoices );
@@ -128,15 +128,15 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
             // Preset
             {
                 // Label
-                String label = SimStrings.get( "GameControlPanel.preset" );
+                String label = SimStrings.getInstance().getString( "GameControlPanel.preset" );
 
                 // Choices
                 _presetChoices = new ArrayList();
-                _presetChoices.add( new FourierComboBox.Choice( Preset.SINE_COSINE, SimStrings.get( "preset.sine" ) ) );
-                _presetChoices.add( new FourierComboBox.Choice( Preset.TRIANGLE, SimStrings.get( "preset.triangle" ) ) );
-                _presetChoices.add( new FourierComboBox.Choice( Preset.SQUARE, SimStrings.get( "preset.square" ) ) );
-                _presetChoices.add( new FourierComboBox.Choice( Preset.SAWTOOTH, SimStrings.get( "preset.sawtooth" ) ) );
-                _presetChoices.add( new FourierComboBox.Choice( Preset.WAVE_PACKET, SimStrings.get( "preset.wavePacket" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.SINE_COSINE, SimStrings.getInstance().getString( "preset.sine" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.TRIANGLE, SimStrings.getInstance().getString( "preset.triangle" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.SQUARE, SimStrings.getInstance().getString( "preset.square" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.SAWTOOTH, SimStrings.getInstance().getString( "preset.sawtooth" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.WAVE_PACKET, SimStrings.getInstance().getString( "preset.wavePacket" ) ) );
 
                 // Presets combo box
                 _presetComboBox = new FourierComboBox( label, _presetChoices );
@@ -144,7 +144,7 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
             }
             
             // New Game button
-            _newGameButton = new JButton( SimStrings.get( "GameControlPanel.newGame" ) );
+            _newGameButton = new JButton( SimStrings.getInstance().getString( "GameControlPanel.newGame" ) );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -162,7 +162,7 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
         }
         
         // Hints panel
-        FourierTitledPanel hintsPanel = new FourierTitledPanel( SimStrings.get( "GameControlPanel.hints" ) );
+        FourierTitledPanel hintsPanel = new FourierTitledPanel( SimStrings.getInstance().getString( "GameControlPanel.hints" ) );
         {
             // Hint button
             _hintButton = new JButton();
@@ -255,7 +255,7 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
     private void resetHints() {
         _hintLevel = 0;
         _hintText.setText( "" );
-        _hintButton.setText( SimStrings.get( "GameControlPanel.hintButton0" ) );
+        _hintButton.setText( SimStrings.getInstance().getString( "GameControlPanel.hintButton0" ) );
         _hintButton.setEnabled( true );
     }
     
@@ -372,16 +372,16 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
              */
             String string = null;
             if ( numberOfNonZeroHarmonics == 1 ) {
-                string = SimStrings.get( "GameControlPanel.hint0.singular" );
+                string = SimStrings.getInstance().getString( "GameControlPanel.hint0.singular" );
             }
             else {
-                String format = SimStrings.get( "GameControlPanel.hint0.plural" );
+                String format = SimStrings.getInstance().getString( "GameControlPanel.hint0.plural" );
                 Object[] args = { new Integer( numberOfNonZeroHarmonics ) };
                 string = MessageFormat.format( format, args );
             }
             String html = "<html>" + string + "<br>" + subString0 + "</html>";
             _hintText.setText( html );
-            _hintButton.setText( SimStrings.get( "GameControlPanel.hintButton1" ) );
+            _hintButton.setText( SimStrings.getInstance().getString( "GameControlPanel.hintButton1" ) );
         }
         else if ( _hintLevel == 1 ) {
             /*
@@ -389,14 +389,14 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
              */
             String html = "<html>";
             if ( numberOfNonZeroHarmonics == 1 ) {
-                html += SimStrings.get( "GameControlPanel.hint1.singular" );
+                html += SimStrings.getInstance().getString( "GameControlPanel.hint1.singular" );
             }
             else {
-                html += SimStrings.get( "GameControlPanel.hint1.plural" );
+                html += SimStrings.getInstance().getString( "GameControlPanel.hint1.plural" );
             }
             html += "<br>" + subString1 + "</html>";
             _hintText.setText( html );
-            _hintButton.setText( SimStrings.get( "GameControlPanel.hintButton2" ) );
+            _hintButton.setText( SimStrings.getInstance().getString( "GameControlPanel.hintButton2" ) );
         }
         else {
             /*
@@ -404,10 +404,10 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
              */
             String html = "<html>";
             if ( numberOfNonZeroHarmonics == 1 ) {
-                html += SimStrings.get( "GameControlPanel.hint2.singular" );
+                html += SimStrings.getInstance().getString( "GameControlPanel.hint2.singular" );
             }
             else {
-                html += SimStrings.get( "GameControlPanel.hint2.plural" );
+                html += SimStrings.getInstance().getString( "GameControlPanel.hint2.plural" );
             }
             html += "<br>" + subString2 + "</html>";
             _hintText.setText( html );

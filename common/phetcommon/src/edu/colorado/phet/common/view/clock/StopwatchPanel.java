@@ -123,13 +123,13 @@ public class StopwatchPanel extends JPanel {
         this.timeFormat = timeFormat;
 
         // Start/Stop button
-        startString = SimStrings.get( "Common.StopwatchPanel.start" );
-        stopString = SimStrings.get( "Common.StopwatchPanel.stop" );
+        startString = SimStrings.getInstance().getString( "Common.StopwatchPanel.start" );
+        stopString = SimStrings.getInstance().getString( "Common.StopwatchPanel.stop" );
         startStopButton = new JButton( startString );
         SwingUtils.fixButtonOpacity( startStopButton );
 
         // Reset button
-        resetButton = new JButton( SimStrings.get( "Common.StopwatchPanel.reset" ) );
+        resetButton = new JButton( SimStrings.getInstance().getString( "Common.StopwatchPanel.reset" ) );
         SwingUtils.fixButtonOpacity( resetButton );
 
         // Time readout

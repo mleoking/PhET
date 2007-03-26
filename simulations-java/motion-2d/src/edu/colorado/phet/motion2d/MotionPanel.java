@@ -38,11 +38,11 @@ public class MotionPanel extends JPanel implements ActionListener //, Runnable
         motionOn = false;
         setBackground( Color.orange );
 
-        constAIRadBtn = new JRadioButton( SimStrings.get( "MotionPanel.LinearAccIRadioButton" ), false );
-        constAIIRadBtn = new JRadioButton( SimStrings.get( "MotionPanel.LinearAccIIRadioButton" ), false );
-        sHMRadBtn = new JRadioButton( SimStrings.get( "MotionPanel.SimpleHarmonicRadioButton" ), false );
-        circularRadBtn = new JRadioButton( SimStrings.get( "MotionPanel.CircularRadioButton" ), false );
-        stopRadBtn = new JRadioButton( SimStrings.get( "MotionPanel.StopRadioButton" ), true );
+        constAIRadBtn = new JRadioButton( SimStrings.getInstance().getString( "MotionPanel.LinearAccIRadioButton" ), false );
+        constAIIRadBtn = new JRadioButton( SimStrings.getInstance().getString( "MotionPanel.LinearAccIIRadioButton" ), false );
+        sHMRadBtn = new JRadioButton( SimStrings.getInstance().getString( "MotionPanel.SimpleHarmonicRadioButton" ), false );
+        circularRadBtn = new JRadioButton( SimStrings.getInstance().getString( "MotionPanel.CircularRadioButton" ), false );
+        stopRadBtn = new JRadioButton( SimStrings.getInstance().getString( "MotionPanel.StopRadioButton" ), true );
 
         constAIRadBtn.setBackground( Color.orange );
         constAIIRadBtn.setBackground( Color.orange );

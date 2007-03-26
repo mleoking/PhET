@@ -28,7 +28,7 @@ public class BFieldGraphicPanel extends JPanel {
 
     public BFieldGraphicPanel( MriModel model ) {
         final BFieldArrowGraphic fieldGraphic = new BFieldArrowGraphic( model, 0 );
-        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "ControlPanel.FieldArrowTitle" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "ControlPanel.FieldArrowTitle" ) ) );
         add( fieldGraphic );
     }
 }

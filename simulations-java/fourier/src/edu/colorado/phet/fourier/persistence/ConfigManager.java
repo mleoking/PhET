@@ -111,7 +111,7 @@ public class ConfigManager {
             }
         }
         catch ( Exception e ) {
-            showError( SimStrings.get( "Save.error.message" ), e );
+            showError( SimStrings.getInstance().getString( "Save.error.message" ), e );
         }
     }
     
@@ -131,7 +131,7 @@ public class ConfigManager {
             }
         }
         catch ( Exception e ) {
-            showError( SimStrings.get( "Load.error.message" ), e );
+            showError( SimStrings.getInstance().getString( "Load.error.message" ), e );
         }
         if ( object == null ) {
             return;
@@ -139,7 +139,7 @@ public class ConfigManager {
         
         // Verify the object's type
         if ( !( object instanceof FourierConfig ) ) {
-            showError( SimStrings.get( "Load.error.message" ), SimStrings.get( "Load.error.contents" ) );
+            showError( SimStrings.getInstance().getString( "Load.error.message" ), SimStrings.getInstance().getString( "Load.error.contents" ) );
             return;
         }
         
@@ -179,7 +179,7 @@ public class ConfigManager {
         
         // Choose the file to save.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( SimStrings.get( "Save.title" ) );
+        fileChooser.setDialogTitle( SimStrings.getInstance().getString( "Save.title" ) );
         int rval = fileChooser.showSaveDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -191,8 +191,8 @@ public class ConfigManager {
 
         // If the file exists, confirm overwrite.
         if ( selectedFile.exists() ) {
-            String title = SimStrings.get( "Save.confirm.title" );
-            String message = SimStrings.get( "Save.confirm.message" );
+            String title = SimStrings.getInstance().getString( "Save.confirm.title" );
+            String message = SimStrings.getInstance().getString( "Save.confirm.message" );
             int reply = JOptionPane.showConfirmDialog( frame, message, title, JOptionPane.YES_NO_OPTION );
             if ( reply != JOptionPane.YES_OPTION ) {
                 return;
@@ -209,7 +209,7 @@ public class ConfigManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.get( "Save.error.encode" ), e );
+                    showError( SimStrings.getInstance().getString( "Save.error.encode" ), e );
                     errors++;
                 }
             }      
@@ -226,7 +226,7 @@ public class ConfigManager {
         
         // Choose the file to load.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( SimStrings.get( "Load.title" ) );
+        fileChooser.setDialogTitle( SimStrings.getInstance().getString( "Load.title" ) );
         int rval = fileChooser.showOpenDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -245,7 +245,7 @@ public class ConfigManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.get( "Load.error.decode" ), e );
+                    showError( SimStrings.getInstance().getString( "Load.error.decode" ), e );
                     errors++;
                 }
             }      
@@ -253,7 +253,7 @@ public class ConfigManager {
         object = decoder.readObject();
         decoder.close();
         if ( object == null ) {
-            throw new Exception( SimStrings.get( "Load.error.contents" ) );
+            throw new Exception( SimStrings.getInstance().getString( "Load.error.contents" ) );
         }
 
         return object;
@@ -274,7 +274,7 @@ public class ConfigManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.get( "Save.error.encode" ), e );
+                    showError( SimStrings.getInstance().getString( "Save.error.encode" ), e );
                     errors++;
                 }
             }
@@ -282,7 +282,7 @@ public class ConfigManager {
         encoder.writeObject( object );
         encoder.close();
         if ( object == null ) {
-            throw new Exception( SimStrings.get( "XML encoding failed" ) );
+            throw new Exception( SimStrings.getInstance().getString( "XML encoding failed" ) );
         }
         
         // Convert to a byte input stream.
@@ -332,7 +332,7 @@ public class ConfigManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.get( "Load.error.decode" ), e );
+                    showError( SimStrings.getInstance().getString( "Load.error.decode" ), e );
                     errors++;
                 }
             }
@@ -340,7 +340,7 @@ public class ConfigManager {
         object = decoder.readObject();
         decoder.close();
         if ( object == null ) {
-            throw new Exception( SimStrings.get( "Load.error.contents" ) );
+            throw new Exception( SimStrings.getInstance().getString( "Load.error.contents" ) );
         }
         
         return object;
@@ -375,7 +375,7 @@ public class ConfigManager {
      */
     public void showError( String format, String errorMessage ) {
         JFrame frame = _app.getPhetFrame();
-        String title = SimStrings.get( "error.title" );
+        String title = SimStrings.getInstance().getString( "error.title" );
         Object[] args = { errorMessage };
         String message = MessageFormat.format( format, args );
         JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );

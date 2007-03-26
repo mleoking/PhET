@@ -161,7 +161,7 @@ public class MonitorPanel extends PhetPCanvas {
 
     private class EnergyAxis extends PNode {
         public EnergyAxis() {
-            PText axisLabel = new PText( SimStrings.get( "Misc.Energy" ) );
+            PText axisLabel = new PText( SimStrings.getInstance().getString( "Misc.Energy" ) );
             axisLabel.rotate( -Math.PI / 2 );
             addChild( axisLabel );
             Arrow arrow = new Arrow( new Point2D.Double( 10, 40 ),

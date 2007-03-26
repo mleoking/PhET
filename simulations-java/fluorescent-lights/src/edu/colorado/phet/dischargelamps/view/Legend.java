@@ -13,7 +13,6 @@ package edu.colorado.phet.dischargelamps.view;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
@@ -42,7 +41,7 @@ public class Legend extends JPanel {
 
     public Legend() {
         super( new GridBagLayout() );
-        setBorder( new TitledBorder( SimStrings.get( "Legend.title" ) ));
+        setBorder( new TitledBorder( SimStrings.getInstance().getString( "Legend.title" ) ));
         createIcons();
         layoutPanel();
     }
@@ -61,11 +60,11 @@ public class Legend extends JPanel {
                                                               new Insets( 0, 0, 5, 10 ),
                                                               0, 0 );
         add( new JLabel( atomIcon ), iconGbc );
-        add( new JLabel( SimStrings.get( "Legend.atom" ) ), labelGbc );
+        add( new JLabel( SimStrings.getInstance().getString( "Legend.atom" ) ), labelGbc );
         add( new JLabel( electronIcon ), iconGbc );
-        add( new JLabel( SimStrings.get( "Legend.electron" ) ), labelGbc );
+        add( new JLabel( SimStrings.getInstance().getString( "Legend.electron" ) ), labelGbc );
         add( new JLabel( photonIcon ), iconGbc );
-        add( new JLabel( SimStrings.get( "Legend.photon" ) ), labelGbc );
+        add( new JLabel( SimStrings.getInstance().getString( "Legend.photon" ) ), labelGbc );
     }
 
     private void createIcons() {

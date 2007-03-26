@@ -52,7 +52,7 @@ public class PhotoelectricControlPanel {
         //----------------------------------------------------------------
         {
             JPanel targetControlPnl = new JPanel( new GridBagLayout() );
-            targetControlPnl.setBorder( new TitledBorder( SimStrings.get( "Target" ) ) );
+            targetControlPnl.setBorder( new TitledBorder( SimStrings.getInstance().getString( "Target" ) ) );
             controlPanel.addFullWidth( targetControlPnl );
 
             // Put the targetMaterials in the desired order. Sodium should be at the top, and the "mystery material",
@@ -93,7 +93,7 @@ public class PhotoelectricControlPanel {
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
 
-            final JCheckBox electronModelCB = new JCheckBox( SimStrings.get( "ControlPanel.SimpleMode" ) );
+            final JCheckBox electronModelCB = new JCheckBox( SimStrings.getInstance().getString( "ControlPanel.SimpleMode" ) );
             electronModelCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( electronModelCB.isSelected() ) {

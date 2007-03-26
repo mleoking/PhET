@@ -20,10 +20,8 @@ import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
-import edu.colorado.phet.solublesalts.model.salt.*;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
-import edu.colorado.phet.solublesalts.util.ScientificNotation;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -33,7 +31,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -75,7 +72,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         final SolubleSaltsModel model = (SolubleSaltsModel)module.getModel();
 
         JPanel saltPanel = new JPanel( new GridBagLayout() );
-        saltPanel.setBorder( BorderFactory.createTitledBorder( new EtchedBorder(), SimStrings.get( "ControlLabels.Salt" ) ) );
+        saltPanel.setBorder( BorderFactory.createTitledBorder( new EtchedBorder(), SimStrings.getInstance().getString( "ControlLabels.Salt" ) ) );
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                          1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
@@ -88,7 +85,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         makeDebugControls( model );
 
         // Reset button
-        JButton resetBtn = new JButton( SimStrings.get("ControlLabels.reset" ));
+        JButton resetBtn = new JButton( SimStrings.getInstance().getString("ControlLabels.reset" ));
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getModule().reset();
@@ -276,12 +273,12 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         public WaterLevelReadout( Vessel vessel ) {
             super( new GridBagLayout() );
 
-            setBorder( BorderFactory.createTitledBorder( new EtchedBorder(), SimStrings.get( "ControlLabels.Water" ) ));
+            setBorder( BorderFactory.createTitledBorder( new EtchedBorder(), SimStrings.getInstance().getString( "ControlLabels.Water" ) ));
             vessel.addChangeListener( this );
 
             GridBagConstraints gbc = new DefaultGridBagConstraints();
             gbc.insets = new Insets( 0, 5, 0, 5 );
-            JLabel waterVolumeLabel = new JLabel( SimStrings.get( "ControlLabels.Volume" ) + ":", JLabel.RIGHT );
+            JLabel waterVolumeLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.Volume" ) + ":", JLabel.RIGHT );
             add( waterVolumeLabel, gbc );
 
             readout = new JTextField( 6 );
@@ -291,7 +288,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
             gbc.gridx++;
             add( readout, gbc );
 
-            JLabel units = new JLabel( SimStrings.get("ControlLabels.liters") + " (L)");
+            JLabel units = new JLabel( SimStrings.getInstance().getString("ControlLabels.liters") + " (L)");
             gbc.gridx++;
             add( units, gbc );
         }

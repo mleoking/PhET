@@ -107,7 +107,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
      */
     public DiscreteModule() {
         
-        super( SimStrings.get( "DiscreteModule.title" ) );
+        super( SimStrings.getInstance().getString( "DiscreteModule.title" ) );
 
         //----------------------------------------------------------------------------
         // Model
@@ -141,7 +141,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         apparatusPanel.addGraphic( _harmonicsView, HARMONICS_LAYER );
         
         // Harmonics view (minimized)
-        _harmonicsMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "DiscreteHarmonicsView.title" ) );
+        _harmonicsMinimizedView = new MinimizedView( apparatusPanel, SimStrings.getInstance().getString( "DiscreteHarmonicsView.title" ) );
         apparatusPanel.addGraphic( _harmonicsMinimizedView, HARMONICS_CLOSED_LAYER );
         
         // Sum view
@@ -149,7 +149,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         apparatusPanel.addGraphic( _sumView, SUM_LAYER );
         
         // Sum view (minimized)
-        _sumMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "DiscreteSumView.title" ) );
+        _sumMinimizedView = new MinimizedView( apparatusPanel, SimStrings.getInstance().getString( "DiscreteSumView.title" ) );
         apparatusPanel.addGraphic( _sumMinimizedView, SUM_CLOSED_LAYER );
         
         // Wavelength Tool
@@ -256,29 +256,29 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         wiggleMe.setEnabled( true );
         
         // Help Items
-        HelpBubble slidersToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.sliders" ) );
+        HelpBubble slidersToolHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "DiscreteModule.help.sliders" ) );
         slidersToolHelp.pointAt( new Point( 94, 117 ), HelpBubble.TOP_LEFT, 30 );
         addHelpItem( slidersToolHelp );
         
-        HelpBubble textfieldsToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.textfields" ) );
+        HelpBubble textfieldsToolHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "DiscreteModule.help.textfields" ) );
         textfieldsToolHelp.pointAt( new Point( 94, 44 ), HelpBubble.TOP_LEFT, 15 );
         addHelpItem( textfieldsToolHelp );
         
-        HelpBubble harmonicsMinimizeButtonHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.minimize" ) );
+        HelpBubble harmonicsMinimizeButtonHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "DiscreteModule.help.minimize" ) );
         harmonicsMinimizeButtonHelp.pointAt( _harmonicsView.getMinimizeButton(), HelpBubble.LEFT_CENTER, 15 );
         addHelpItem( harmonicsMinimizeButtonHelp );
         
-        HelpBubble wavelengthToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.wavelengthTool" ) );
+        HelpBubble wavelengthToolHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "DiscreteModule.help.wavelengthTool" ) );
         wavelengthToolHelp.pointAt( _wavelengthTool, HelpBubble.TOP_CENTER, 15 );
         wavelengthToolHelp.setVisible( false );
         addHelpItem( wavelengthToolHelp );
           
-        HelpBubble periodToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.periodTool" ) );
+        HelpBubble periodToolHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "DiscreteModule.help.periodTool" ) );
         periodToolHelp.pointAt( _periodTool, HelpBubble.TOP_CENTER, 15 );
         periodToolHelp.setVisible( false );
         addHelpItem( periodToolHelp );
         
-        HelpBubble periodDisplayHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.periodDisplay" ) );
+        HelpBubble periodDisplayHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "DiscreteModule.help.periodDisplay" ) );
         periodDisplayHelp.pointAt( _periodDisplay, HelpBubble.RIGHT_CENTER, 15 );
         periodDisplayHelp.setVisible( false );
         addHelpItem( periodDisplayHelp );
@@ -501,7 +501,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         public ThisWiggleMeGraphic( Component component, IClock clock ) {
             super( component, clock );
 
-            setText( SimStrings.get( "DiscreteModule.wiggleMe" ), WIGGLE_ME_COLOR );
+            setText( SimStrings.getInstance().getString( "DiscreteModule.wiggleMe" ), WIGGLE_ME_COLOR );
             addArrow( WiggleMeGraphic.TOP_CENTER, new Vector2D( 0, -30 ), WIGGLE_ME_COLOR );
             setRange( 0, 10 );
             setCycleDuration( 5 );

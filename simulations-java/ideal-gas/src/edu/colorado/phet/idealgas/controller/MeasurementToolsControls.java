@@ -35,7 +35,7 @@ public class MeasurementToolsControls {
 
     static public class PressureSliceControl extends JCheckBox {
         PressureSliceControl( final IdealGasModule module ) {
-            super( SimStrings.get( "MeasurementControlPanel.Measure_pressure_in_layer" ) );
+            super( SimStrings.getInstance().getString( "MeasurementControlPanel.Measure_pressure_in_layer" ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setPressureSliceEnabled( isSelected() );
@@ -46,7 +46,7 @@ public class MeasurementToolsControls {
 
     static public class RulerControl extends JCheckBox {
         RulerControl( final IdealGasModule module ) {
-            super( SimStrings.get( "MeasurementControlPanel.Display_ruler" ) );
+            super( SimStrings.getInstance().getString( "MeasurementControlPanel.Display_ruler" ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setRulerEnabed( isSelected() );
@@ -57,7 +57,7 @@ public class MeasurementToolsControls {
 
     static public class HistogramControlPanel extends JCheckBox {
         HistogramControlPanel( final IdealGasModule module ) {
-            super( SimStrings.get( "MeasurementControlPanel.Display_energy_histograms" ) );
+            super( SimStrings.getInstance().getString( "MeasurementControlPanel.Display_energy_histograms" ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     WindowListener windowListener = new WindowAdapter() {
@@ -76,7 +76,7 @@ public class MeasurementToolsControls {
 
     static public class CmLinesControl extends JCheckBox {
         CmLinesControl( final IdealGasModule module ) {
-            super( SimStrings.get( "IdealGasControlPanel.Show_CM_lines" ) );
+            super( SimStrings.getInstance().getString( "IdealGasControlPanel.Show_CM_lines" ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     module.setCmLinesOn( isSelected() );
@@ -87,7 +87,7 @@ public class MeasurementToolsControls {
 
     static public class SpeciesMonitorControl extends JCheckBox {
         SpeciesMonitorControl( final IdealGasModule module ) {
-            super( SimStrings.get( "MeasurementControlPanel.Show_species_information" ) );
+            super( SimStrings.getInstance().getString( "MeasurementControlPanel.Show_species_information" ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     WindowListener windowListener = new WindowAdapter() {
@@ -104,7 +104,7 @@ public class MeasurementToolsControls {
 
     static public class StopwatchControl extends JCheckBox {
         StopwatchControl( final IdealGasModule module ) {
-            super( SimStrings.get( "MeasurementControlPanel.Stopwatch" ), false );
+            super( SimStrings.getInstance().getString( "MeasurementControlPanel.Stopwatch" ), false );
             addActionListener( new ActionListener() {
                 PhetFrame frame = PhetApplication.instance().getPhetFrame();
 
@@ -118,7 +118,7 @@ public class MeasurementToolsControls {
 
     static public class ParticleInteractionControl extends JCheckBox {
         ParticleInteractionControl( final IdealGasModel model ) {
-            super( SimStrings.get( "MeasurementControlPanel.Molecules-interact" ), true );
+            super( SimStrings.getInstance().getString( "MeasurementControlPanel.Molecules-interact" ), true );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.enableParticleParticleInteractions( isSelected() );
@@ -133,7 +133,7 @@ public class MeasurementToolsControls {
 
     static public class PressureSliceControlMI extends JCheckBoxMenuItem {
         PressureSliceControlMI( final IdealGasModule module ) {
-            super( SimStrings.get( "MeasurementControlPanel.Measure_pressure_in_layer" ) );
+            super( SimStrings.getInstance().getString( "MeasurementControlPanel.Measure_pressure_in_layer" ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setPressureSliceEnabled( isSelected() );
@@ -144,7 +144,7 @@ public class MeasurementToolsControls {
 
     static public class RulerControlMI extends JCheckBoxMenuItem {
         RulerControlMI( final IdealGasModule module ) {
-            super( SimStrings.get( "MeasurementControlPanel.Display_ruler" ) );
+            super( SimStrings.getInstance().getString( "MeasurementControlPanel.Display_ruler" ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setRulerEnabed( isSelected() );
@@ -155,7 +155,7 @@ public class MeasurementToolsControls {
 
     static public class HistogramControlPanelMI extends JCheckBoxMenuItem {
         HistogramControlPanelMI( final IdealGasModule module ) {
-            super( SimStrings.get( "MeasurementControlPanel.Display_energy_histograms" ) );
+            super( SimStrings.getInstance().getString( "MeasurementControlPanel.Display_energy_histograms" ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     WindowListener windowListener = new WindowAdapter() {
@@ -172,7 +172,7 @@ public class MeasurementToolsControls {
 
     static public class CmLinesControlMI extends JCheckBoxMenuItem {
         CmLinesControlMI( final IdealGasModule module ) {
-            super( SimStrings.get( "IdealGasControlPanel.Show_CM_lines" ) );
+            super( SimStrings.getInstance().getString( "IdealGasControlPanel.Show_CM_lines" ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     module.setCmLinesOn( isSelected() );
@@ -183,7 +183,7 @@ public class MeasurementToolsControls {
 
     static public class SpeciesMonitorControlMI extends JCheckBoxMenuItem {
         SpeciesMonitorControlMI( final IdealGasModule module ) {
-            super( SimStrings.get( "MeasurementControlPanel.Show_species_information" ) );
+            super( SimStrings.getInstance().getString( "MeasurementControlPanel.Show_species_information" ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     WindowListener windowListener = new WindowAdapter() {
@@ -200,7 +200,7 @@ public class MeasurementToolsControls {
 
     static public class StopwatchControlMI extends JCheckBoxMenuItem {
         StopwatchControlMI( final IdealGasModule module ) {
-            super( SimStrings.get( "MeasurementControlPanel.Stopwatch" ), false );
+            super( SimStrings.getInstance().getString( "MeasurementControlPanel.Stopwatch" ), false );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setStopwatchEnabled( isSelected() );
@@ -211,7 +211,7 @@ public class MeasurementToolsControls {
 
     static public class ParticleInteractionMI extends JCheckBoxMenuItem {
         ParticleInteractionMI( final IdealGasModel model ) {
-            super( SimStrings.get( "MeasurementControlPanel.Molecules-interact" ), true );
+            super( SimStrings.getInstance().getString( "MeasurementControlPanel.Molecules-interact" ), true );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.enableParticleParticleInteractions( isSelected() );

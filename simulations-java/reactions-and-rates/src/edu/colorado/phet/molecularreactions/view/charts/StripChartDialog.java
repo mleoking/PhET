@@ -65,7 +65,7 @@ public class StripChartDialog extends JDialog implements Resetable {
         stripChartCanvas.addScreenChild( stripChartNode );
 
         // Add a rescale button
-        JButton rescaleBtn = new JButton( SimStrings.get( "StripChart.rescale" ) );
+        JButton rescaleBtn = new JButton( SimStrings.getInstance().getString( "StripChart.rescale" ) );
         rescaleBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 stripChart.rescale();

@@ -104,16 +104,16 @@ public class OTApplication extends PiccoloPhetApplication {
         
         // File menu
         {
-            JMenuItem saveItem = new JMenuItem( SimStrings.get( "menu.file.save" ) );
-            saveItem.setMnemonic( SimStrings.get( "menu.file.save.mnemonic" ).charAt(0) );
+            JMenuItem saveItem = new JMenuItem( SimStrings.getInstance().getString( "menu.file.save" ) );
+            saveItem.setMnemonic( SimStrings.getInstance().getString( "menu.file.save.mnemonic" ).charAt(0) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.save();
                 }
             } );
             
-            JMenuItem loadItem = new JMenuItem( SimStrings.get( "menu.file.load" ) );
-            loadItem.setMnemonic( SimStrings.get( "menu.file.load.mnemonic" ).charAt(0) );
+            JMenuItem loadItem = new JMenuItem( SimStrings.getInstance().getString( "menu.file.load" ) );
+            loadItem.setMnemonic( SimStrings.getInstance().getString( "menu.file.load.mnemonic" ).charAt(0) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.load();
@@ -205,8 +205,8 @@ public class OTApplication extends PiccoloPhetApplication {
                 Properties simulationProperties = PropertiesLoader.loadProperties( OTConstants.SIM_PROPERTIES_NAME );
                 
                 // Title & description
-                String title = SimStrings.get( "OTApplication.title" );
-                String description = SimStrings.get( "OTApplication.description" );
+                String title = SimStrings.getInstance().getString( "OTApplication.title" );
+                String description = SimStrings.getInstance().getString( "OTApplication.description" );
                 
                 // Version
                 String version = PhetApplication.getVersionString( simulationProperties );

@@ -64,7 +64,7 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
     public HarmonicColorsDialog( PhetApplication app ) {
         super( app.getPhetFrame() );
         _app = app;
-        super.setTitle( SimStrings.get( "HarmonicColorsDialog.title" ) );
+        super.setTitle( SimStrings.getInstance().getString( "HarmonicColorsDialog.title" ) );
         super.setModal( false );
         super.setResizable( false );
         
@@ -96,7 +96,7 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
      */
     private JPanel createInputPanel() {
         
-        String editString = SimStrings.get( "HarmonicColorsDialog.edit" );
+        String editString = SimStrings.getInstance().getString( "HarmonicColorsDialog.edit" );
         Stroke colorBarStroke = new BasicStroke( 1f );
         
         JPanel inputPanel = new JPanel();
@@ -149,14 +149,14 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
      */
     private JPanel createActionsPanel() {
 
-        _okButton = new JButton( SimStrings.get( "HarmonicColorsDialog.ok" ) );
+        _okButton = new JButton( SimStrings.getInstance().getString( "HarmonicColorsDialog.ok" ) );
         _okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
             }
         });
 
-        _cancelButton = new JButton( SimStrings.get( "HarmonicColorsDialog.cancel" ) );
+        _cancelButton = new JButton( SimStrings.getInstance().getString( "HarmonicColorsDialog.cancel" ) );
         _cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 restoreColors();
@@ -182,7 +182,7 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
     private void editColor( int order ) {
         _editIndex = order;
         Object[] args = { new Integer( order + 1 ) };
-        String format = SimStrings.get( "HarmonicColors.colorChooser.title" );
+        String format = SimStrings.getInstance().getString( "HarmonicColors.colorChooser.title" );
         String title = MessageFormat.format( format, args );
         Component parent = _app.getPhetFrame();
         Color initialColor = HarmonicColors.getInstance().getColor( order );

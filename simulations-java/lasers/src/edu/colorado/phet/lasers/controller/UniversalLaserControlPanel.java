@@ -68,7 +68,7 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
                                                          1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         gbc.anchor = GridBagConstraints.NORTHWEST;
-        ViewUtils.setBorder( optionsPanel, SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) );
+        ViewUtils.setBorder( optionsPanel, SimStrings.getInstance().getString( "LaserControlPanel.OptionsBorderTitle" ) );
         gbc.anchor = GridBagConstraints.CENTER;
 
         // Add the options for mirror on/off
@@ -102,11 +102,11 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
 
         // Reset button
         gbc.fill = GridBagConstraints.NONE;
-        JButton resetBtn = new JButton( SimStrings.get( "LaserControlPanel.Reset" ) );
+        JButton resetBtn = new JButton( SimStrings.getInstance().getString( "LaserControlPanel.Reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 int choice = JOptionPane.showConfirmDialog( PhetApplication.instance().getPhetFrame(),
-                                                            SimStrings.get( "ResetAll.confirmationMessage") );
+                                                            SimStrings.getInstance().getString( "ResetAll.confirmationMessage") );
                 if( choice == JOptionPane.OK_OPTION ) {
                     module.reset();
                 }
@@ -165,12 +165,12 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         BasicOptionsPanel( boolean threeEnergyLevels ) {
             GridBagConstraints gbc;
 
-            twoLevelsRB = new JRadioButton( new AbstractAction( SimStrings.get( "LaserControlPanel.TwoLevelsRadioButton" ) ) {
+            twoLevelsRB = new JRadioButton( new AbstractAction( SimStrings.getInstance().getString( "LaserControlPanel.TwoLevelsRadioButton" ) ) {
                 public void actionPerformed( ActionEvent e ) {
                     setThreeEnergyLevels( false );
                 }
             } );
-            threeLevelsRB = new JRadioButton( new AbstractAction( SimStrings.get( "LaserControlPanel.ThreeLevelsRadioButton" ) ) {
+            threeLevelsRB = new JRadioButton( new AbstractAction( SimStrings.getInstance().getString( "LaserControlPanel.ThreeLevelsRadioButton" ) ) {
                 public void actionPerformed( ActionEvent e ) {
                     setThreeEnergyLevels( true );
                 }
@@ -189,7 +189,7 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
                                           GridBagConstraints.HORIZONTAL,
                                           new Insets( 0, 0, 0, 0 ),
                                           0, 0 );
-            ViewUtils.setBorder( this, SimStrings.get( "LaserControlPanel.EnergyLevelsBorderTitle" ) );
+            ViewUtils.setBorder( this, SimStrings.getInstance().getString( "LaserControlPanel.EnergyLevelsBorderTitle" ) );
 
             this.add( energyButtonPanel, gbc );
 

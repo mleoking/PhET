@@ -12,6 +12,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 public class WIStrings {
     public static String getString( String s ) {
-        return SimStrings.get( s );
+        return SimStrings.getInstance().getString( s );
     }
 }

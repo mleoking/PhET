@@ -118,7 +118,7 @@ public class SimStrings {
      * @param key
      * @return String
      */
-    public static String get( String key ) {
+    public String getString( String key ) {
         if( INSTANCE.localizedStrings == null ) {
 
             throw new RuntimeException( "Strings not initialized" );
@@ -153,7 +153,7 @@ public class SimStrings {
      * @return int
      */
     public static int getInt( String key, int defaultValue ) {
-        String s = get( key );
+        String s = getInstance().getString( key );
         int value = 0;
         try {
             value = Integer.parseInt( s );
@@ -173,7 +173,7 @@ public class SimStrings {
      * @return double
      */
     public static double getDouble( String key, double defaultValue ) {
-        String s = get( key );
+        String s = getInstance().getString( key );
         double value = 0;
         try {
             value = Double.parseDouble( s );
@@ -192,6 +192,6 @@ public class SimStrings {
      * @return char
      */
     public static char getChar( String key ) {
-        return get( key ).charAt( 0 );
+        return getInstance().getString( key ).charAt( 0 );
     }
 }

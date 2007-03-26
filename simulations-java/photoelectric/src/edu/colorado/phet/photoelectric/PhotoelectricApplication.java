@@ -35,7 +35,7 @@ public class PhotoelectricApplication extends PhetApplication {
     //----------------------------------------------------------------
 
     static private String resourceBundleName = "localization/PhotoelectricStrings";
-    static private String description = SimStrings.get( "PhotoelectricApplication.description" );
+    static private String description = SimStrings.getInstance().getString( "PhotoelectricApplication.description" );
     static private String version = "1.02";
     static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 680 );
 
@@ -51,8 +51,8 @@ public class PhotoelectricApplication extends PhetApplication {
 
     public PhotoelectricApplication( String[] args ) {
         super( args,
-               SimStrings.get( "PhotoelectricApplication.title" ),
-               SimStrings.get( "PhotoelectricApplication.description" ),
+               SimStrings.getInstance().getString( "PhotoelectricApplication.title" ),
+               SimStrings.getInstance().getString( "PhotoelectricApplication.description" ),
                PhotoelectricConfig.VERSION,
                frameSetup );
 
@@ -60,13 +60,13 @@ public class PhotoelectricApplication extends PhetApplication {
         getPhetFrame().setResizable( false );
 
         // Get a reference to the Options menu. The module will need it
-        optionsMenu = new JMenu( SimStrings.get( "Menu.Options" ) );
+        optionsMenu = new JMenu( SimStrings.getInstance().getString( "Menu.Options" ) );
 
         final PhotoelectricModule photoelectricModule = new PhotoelectricModule( this );
         setModules( new Module[]{photoelectricModule} );
 
         // Add an option to show photons
-        final JCheckBoxMenuItem photonMI = new JCheckBoxMenuItem( SimStrings.get( "Menu.PhotonView" ) );
+        final JCheckBoxMenuItem photonMI = new JCheckBoxMenuItem( SimStrings.getInstance().getString( "Menu.PhotonView" ) );
         photonMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 photoelectricModule.setPhotonViewEnabled( photonMI.isSelected() );
@@ -74,7 +74,7 @@ public class PhotoelectricApplication extends PhetApplication {
         } );
         optionsMenu.add( photonMI );
 
-        final JCheckBoxMenuItem beamRateMI = new JCheckBoxMenuItem( SimStrings.get( "Options.photonsPerSecond" ) );
+        final JCheckBoxMenuItem beamRateMI = new JCheckBoxMenuItem( SimStrings.getInstance().getString( "Options.photonsPerSecond" ) );
         beamRateMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( beamRateMI.isSelected() ) {

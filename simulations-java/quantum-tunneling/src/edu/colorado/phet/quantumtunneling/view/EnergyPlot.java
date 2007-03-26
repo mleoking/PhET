@@ -72,9 +72,9 @@ public class EnergyPlot extends QTXYPlot implements Observer {
         super();
         
         // Labels (localized)
-        String energyLabel = SimStrings.get( "axis.energy" ) + " (" + SimStrings.get( "units.energy" ) + ")";
-        String potentialEnergyLabel = SimStrings.get( "legend.potentialEnergy" );
-        String totalEnergyLabel = SimStrings.get( "legend.totalEnergy" );
+        String energyLabel = SimStrings.getInstance().getString( "axis.energy" ) + " (" + SimStrings.getInstance().getString( "units.energy" ) + ")";
+        String potentialEnergyLabel = SimStrings.getInstance().getString( "legend.potentialEnergy" );
+        String totalEnergyLabel = SimStrings.getInstance().getString( "legend.totalEnergy" );
         
         int dataSetIndex = 0;
         

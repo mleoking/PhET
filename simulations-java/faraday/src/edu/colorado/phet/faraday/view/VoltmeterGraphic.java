@@ -200,7 +200,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
             
             // Title label
             {
-                String s = SimStrings.get( "VoltmeterGraphic.title" );
+                String s = SimStrings.getInstance().getString( "VoltmeterGraphic.title" );
                 PhetTextGraphic title = new PhetTextGraphic( component, TITLE_FONT, s, TITLE_COLOR );
                 title.centerRegistrationPoint();
                 title.setLocation( body.getWidth() / 2, body.getHeight() + 3 );

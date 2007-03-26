@@ -135,7 +135,7 @@ public class ReadoutGraphic implements Graphic {
         vol = abs( vol );
 
 //        String text = "R=" + res + " I=" + cur;
-        String text = res + " " + SimStrings.get( "ReadoutGraphic.Ohms" );  //, " + cur + " " + SimStrings.get( "ReadoutGraphic.Amps" );
+        String text = res + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Ohms" );  //, " + cur + " " + SimStrings.get( "ReadoutGraphic.Amps" );
         return new String[]{text};
     }
 
@@ -176,11 +176,11 @@ public class ReadoutGraphic implements Graphic {
             boolean internal = super.module.isInternalResistanceOn();
             double volts = Math.abs( branch.getVoltageDrop() );
             String vol = super.formatter.format( volts );
-            String str = "" + vol + " " + SimStrings.get( "ReadoutGraphic.Volts" );
+            String str = "" + vol + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Volts" );
             ArrayList text = new ArrayList();
             text.add( str );
             if( internal ) {
-                String s2 = super.formatter.format( branch.getResistance() ) + " " + SimStrings.get( "ReadoutGraphic.Ohms" );
+                String s2 = super.formatter.format( branch.getResistance() ) + " " + SimStrings.getInstance().getString( "ReadoutGraphic.Ohms" );
                 text.add( s2 );
             }
             String[] out = (String[])text.toArray( new String[0] );

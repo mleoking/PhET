@@ -18,7 +18,6 @@ import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.nuclearphysics.model.Uranium235;
 import edu.colorado.phet.nuclearphysics.model.Uranium238;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;
-import edu.colorado.phet.nuclearphysics.model.Neutron;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -128,7 +127,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         // Buttons
         //--------------------------------------------------------------------------------------------------
 
-        resetBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.ResetButton" ) );
+        resetBtn = new JButton( SimStrings.getInstance().getString( "MultipleNucleusFissionControlPanel.ResetButton" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.stop();
@@ -171,7 +170,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         add( numU238Slider, gbc );
         gbc.gridy++;
         gbc.gridwidth = 1;
-        add( new JLabel( SimStrings.get( "MultipleNucleusFissionControlPanel.FissionPercentLabel" ), JLabel.RIGHT ), gbc );
+        add( new JLabel( SimStrings.getInstance().getString( "MultipleNucleusFissionControlPanel.FissionPercentLabel" ), JLabel.RIGHT ), gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
         add( percentFissionedTF, gbc );
@@ -181,7 +180,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         add( resetBtn, gbc );
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "MultipleNucleusFissionControlPanel.ControlBorder" ) );
+        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.getInstance().getString( "MultipleNucleusFissionControlPanel.ControlBorder" ) );
         this.setBorder( titledBorder );
     }
 
@@ -252,7 +251,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
             addNucleusSliders();
             numU235Slider.setValue( module.getU235Nuclei().size() );
             JOptionPane.showMessageDialog( MultipleNucleusFissionControlPanel.this,
-                                           SimStrings.get( "MultipleNucleusFissionControlPanel.NucleusPlacementFailed" ) );
+                                           SimStrings.getInstance().getString( "MultipleNucleusFissionControlPanel.NucleusPlacementFailed" ) );
         }
     }
 
@@ -271,7 +270,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
             addNucleusSliders();
             numU238Slider.setValue( module.getU238Nuclei().size() );
             JOptionPane.showMessageDialog( MultipleNucleusFissionControlPanel.this,
-                                           SimStrings.get( "MultipleNucleusFissionControlPanel.NucleusPlacementFailed" ) );
+                                           SimStrings.getInstance().getString( "MultipleNucleusFissionControlPanel.NucleusPlacementFailed" ) );
         }
     }
 

@@ -112,16 +112,16 @@ public class QTApplication extends PhetApplication {
         
         // File menu
         {
-            JMenuItem saveItem = new JMenuItem( SimStrings.get( "menu.file.save" ) );
-            saveItem.setMnemonic( SimStrings.get( "menu.file.save.mnemonic" ).charAt(0) );
+            JMenuItem saveItem = new JMenuItem( SimStrings.getInstance().getString( "menu.file.save" ) );
+            saveItem.setMnemonic( SimStrings.getInstance().getString( "menu.file.save.mnemonic" ).charAt(0) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.save();
                 }
             } );
             
-            JMenuItem loadItem = new JMenuItem( SimStrings.get( "menu.file.load" ) );
-            loadItem.setMnemonic( SimStrings.get( "menu.file.load.mnemonic" ).charAt(0) );
+            JMenuItem loadItem = new JMenuItem( SimStrings.getInstance().getString( "menu.file.load" ) );
+            loadItem.setMnemonic( SimStrings.getInstance().getString( "menu.file.load.mnemonic" ).charAt(0) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.load();
@@ -230,8 +230,8 @@ public class QTApplication extends PhetApplication {
         Properties simulationProperties = PropertiesLoader.loadProperties( QTConstants.SIM_PROPERTIES_NAME );
         
         // Title & description
-        String title = SimStrings.get( "title.quantumTunneling" );
-        String description = SimStrings.get( "QTApplication.description" );
+        String title = SimStrings.getInstance().getString( "title.quantumTunneling" );
+        String description = SimStrings.getInstance().getString( "QTApplication.description" );
 
         // Version
         String version = PhetApplication.getVersionString( simulationProperties );

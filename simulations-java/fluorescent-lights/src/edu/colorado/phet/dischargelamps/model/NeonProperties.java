@@ -70,7 +70,7 @@ public class NeonProperties extends DischargeLampElementProperties {
      *
      */
     public NeonProperties() {
-        super( SimStrings.get( "Element.neon" ), energyLevels, teA );
+        super( SimStrings.getInstance().getString( "Element.neon" ), energyLevels, teA );
     }
 }
 

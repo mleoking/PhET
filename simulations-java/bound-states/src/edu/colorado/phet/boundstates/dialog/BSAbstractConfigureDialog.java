@@ -119,7 +119,7 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
      */
     protected JPanel createActionsPanel() {
 
-        JButton closeButton = new JButton( SimStrings.get( "button.close" ) );
+        JButton closeButton = new JButton( SimStrings.getInstance().getString( "button.close" ) );
         closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 dispose();

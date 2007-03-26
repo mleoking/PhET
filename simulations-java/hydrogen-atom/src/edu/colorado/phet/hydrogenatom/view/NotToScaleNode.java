@@ -15,7 +15,6 @@ import java.awt.Font;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 
 /**
@@ -49,7 +48,7 @@ public class NotToScaleNode extends HTMLNode {
         int fontSize = SimStrings.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
         
-        setHTML( SimStrings.get( "label.notToScale" ) );
+        setHTML( SimStrings.getInstance().getString( "label.notToScale" ) );
         setHTMLColor( HAConstants.CANVAS_LABELS_COLOR );
         setFont( font );
     }

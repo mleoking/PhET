@@ -14,7 +14,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 public class OptionsMenu extends JMenu {
     
     public OptionsMenu() {
-        super( SimStrings.get( "menu.options" ) );
-        setMnemonic( SimStrings.get( "menu.options.mnemonic" ).charAt( 0 ) );
+        super( SimStrings.getInstance().getString( "menu.options" ) );
+        setMnemonic( SimStrings.getInstance().getString( "menu.options.mnemonic" ).charAt( 0 ) );
     }
 }

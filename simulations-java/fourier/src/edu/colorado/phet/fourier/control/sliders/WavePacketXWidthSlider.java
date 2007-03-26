@@ -18,7 +18,6 @@ import java.util.Hashtable;
 import javax.swing.JLabel;
 
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.MathStrings;
 
 
 /**
@@ -62,7 +61,7 @@ public class WavePacketXWidthSlider extends AbstractFourierSlider {
      * Sole constructor.
      */
     public WavePacketXWidthSlider() {
-        super( SimStrings.get( "WavePacketXWidthSlider.format.space" ) );
+        super( SimStrings.getInstance().getString( "WavePacketXWidthSlider.format.space" ) );
         
         getSlider().setMinimum( (int)( MIN_WIDTH * MULTIPLIER) );
         getSlider().setMaximum( (int)( MAX_WIDTH * MULTIPLIER ) );

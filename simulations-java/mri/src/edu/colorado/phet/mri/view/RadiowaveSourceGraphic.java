@@ -87,7 +87,7 @@ public class RadiowaveSourceGraphic extends PNode {
 
         // Frequency control
         Insets controlInsets = new Insets( 5, 5, 5, 5 );
-        final ModelSlider freqCtrl = new ModelSlider( SimStrings.get( "Misc.Frequency" ),
+        final ModelSlider freqCtrl = new ModelSlider( SimStrings.getInstance().getString( "Misc.Frequency" ),
                                                       "MHz",
                                                       MriConfig.MIN_FEQUENCY,
                                                       MriConfig.MAX_FEQUENCY,
@@ -125,7 +125,7 @@ public class RadiowaveSourceGraphic extends PNode {
         }
 
         // Power control
-        final ModelSlider powerCtrl = new ModelSlider( SimStrings.get( "Misc.Power" ),
+        final ModelSlider powerCtrl = new ModelSlider( SimStrings.getInstance().getString( "Misc.Power" ),
                                                        "%",
                                                        0,
                                                        MriConfig.MAX_POWER,
@@ -156,7 +156,7 @@ public class RadiowaveSourceGraphic extends PNode {
         addChild( emRepPSwing );
 
         // Label
-        PText title = new PText( SimStrings.get( "Misc.RadiowaveSourceLabel" ) );
+        PText title = new PText( SimStrings.getInstance().getString( "Misc.RadiowaveSourceLabel" ) );
         title.setPaint( new Color( 0, 0, 0, 0 ) );
         title.setTextPaint( Color.white );
         title.setFont( font );

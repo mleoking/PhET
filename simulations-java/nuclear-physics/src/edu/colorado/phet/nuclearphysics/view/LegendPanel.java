@@ -97,7 +97,7 @@ public class LegendPanel extends JPanel {
         ImageIcon csIcon = createIcon( cs );
 
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-        this.setBorder( BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "NuclearPhysicsControlPanel.LegendBorder" ) ) );
+        this.setBorder( BorderFactory.createTitledBorder( baseBorder, SimStrings.getInstance().getString( "NuclearPhysicsControlPanel.LegendBorder" ) ) );
         GridBagConstraints iconGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
                                                              GridBagConstraints.EAST,
                                                              GridBagConstraints.BOTH,
@@ -108,42 +108,42 @@ public class LegendPanel extends JPanel {
                                                              new Insets( 4, 5, 4, 5 ), 0, 0 );
         if( allModelClasses || modelClasses.contains( NEUTRON ) ) {
             add( new JLabel( neutronImg, SwingConstants.RIGHT ), iconGbc );
-            add( new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.NeutronLabel" ), SwingConstants.LEFT ), textGbc );
+            add( new JLabel( SimStrings.getInstance().getString( "NuclearPhysicsControlPanel.NeutronLabel" ), SwingConstants.LEFT ), textGbc );
         }
         if( allModelClasses || modelClasses.contains( PROTON ) ) {
             add( new JLabel( protonImg, SwingConstants.RIGHT ), iconGbc );
-            add( new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.ProtonLabel" ), SwingConstants.LEFT ), textGbc );
+            add( new JLabel( SimStrings.getInstance().getString( "NuclearPhysicsControlPanel.ProtonLabel" ), SwingConstants.LEFT ), textGbc );
         }
         if( allModelClasses || modelClasses.contains( ALPHA_PARTICLE ) ) {
             add( new JLabel( alphaParticleImg, SwingConstants.RIGHT ), iconGbc );
-            add( new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.AlphaParticleLabel" ), SwingConstants.LEFT ), textGbc );
+            add( new JLabel( SimStrings.getInstance().getString( "NuclearPhysicsControlPanel.AlphaParticleLabel" ), SwingConstants.LEFT ), textGbc );
         }
         if( allModelClasses || modelClasses.contains( U235 ) ) {
             add( new JLabel( u235Icon, SwingConstants.RIGHT ), iconGbc );
-            add( new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.Uranium235Label" ), SwingConstants.LEFT ), textGbc );
+            add( new JLabel( SimStrings.getInstance().getString( "NuclearPhysicsControlPanel.Uranium235Label" ), SwingConstants.LEFT ), textGbc );
         }
         if( allModelClasses || modelClasses.contains( U238 ) ) {
             add( new JLabel( u238Icon, SwingConstants.RIGHT ), iconGbc );
-            add( new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.Uranium238Label" ), SwingConstants.LEFT ), textGbc );
+            add( new JLabel( SimStrings.getInstance().getString( "NuclearPhysicsControlPanel.Uranium238Label" ), SwingConstants.LEFT ), textGbc );
         }
         if( allModelClasses || modelClasses.contains( U239 ) ) {
             add( new JLabel( u239Icon, SwingConstants.RIGHT ), iconGbc );
-            add( new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.Uranium239Label" ), SwingConstants.LEFT ), textGbc );
+            add( new JLabel( SimStrings.getInstance().getString( "NuclearPhysicsControlPanel.Uranium239Label" ), SwingConstants.LEFT ), textGbc );
         }
         if( allModelClasses || modelClasses.contains( Po210 ) ) {
             add( new JLabel( po210Icon, SwingConstants.RIGHT ), iconGbc );
-            add( new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.Polonium211Label" ), SwingConstants.LEFT ), textGbc );
+            add( new JLabel( SimStrings.getInstance().getString( "NuclearPhysicsControlPanel.Polonium211Label" ), SwingConstants.LEFT ), textGbc );
         }
         if( allModelClasses || modelClasses.contains( Pb206 ) ) {
             add( new JLabel( pb206Icon, SwingConstants.RIGHT ), iconGbc );
-            add( new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.Lead207Label" ), SwingConstants.LEFT ), textGbc );
+            add( new JLabel( SimStrings.getInstance().getString( "NuclearPhysicsControlPanel.Lead207Label" ), SwingConstants.LEFT ), textGbc );
         }
         if( allModelClasses || modelClasses.contains( DAUGHTER_NUCLEI ) ) {
             JPanel jp = new JPanel( new GridLayout( 1,2));
             jp.add( new JLabel( ruIcon, SwingConstants.RIGHT ) );
             jp.add( new JLabel( csIcon, SwingConstants.RIGHT ) );
             add( jp, iconGbc );
-            add( new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.DaughterNucleiLabel" ), SwingConstants.LEFT ), textGbc );
+            add( new JLabel( SimStrings.getInstance().getString( "NuclearPhysicsControlPanel.DaughterNucleiLabel" ), SwingConstants.LEFT ), textGbc );
         }
     }
 

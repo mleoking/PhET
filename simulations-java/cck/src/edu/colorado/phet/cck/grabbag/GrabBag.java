@@ -34,13 +34,13 @@ Dog = infinite
 //        add( new GrabBagItem( getClass().getClassLoader().getResource( "hand.gif" ), SimStrings.get( "GrabBag.Hand" ), Math.pow( 10, 6 ), 1 ) );
 //        add( new GrabBagItem( getClass().getClassLoader().getResource( "dog.gif" ), SimStrings.get( "GrabBag.Dog" ), Math.pow( 10, 9 ), 2.5 ) );
 
-        add( new GrabBagItem( "dollarbill.gif", SimStrings.get( "GrabBag.DollarBill" ), Math.pow( 10, 9 ), 1 * SCALE ) );
-        add( new GrabBagItem( "paperclip.gif", SimStrings.get( "GrabBag.PaperClip" ), CCKModel.MIN_RESISTANCE, .7 * SCALE ) );
-        add( new GrabBagItem( "penny.gif", SimStrings.get( "GrabBag.Penny" ), CCKModel.MIN_RESISTANCE, .6 * SCALE ) );
-        add( new GrabBagItem( "eraser.gif", SimStrings.get( "GrabBag.Eraser" ), Math.pow( 10, 9 ), .7 * SCALE ) );
-        add( new GrabBagItem( "pencil.gif", SimStrings.get( "GrabBag.PencilLead" ), 3000, 3.5 * SCALE ) );
-        add( new GrabBagItem( "hand.gif", SimStrings.get( "GrabBag.Hand" ), Math.pow( 10, 6 ), 1 * SCALE ) );
-        add( new GrabBagItem( "dog.gif", SimStrings.get( "GrabBag.Dog" ), Math.pow( 10, 9 ), 2.5 * SCALE ) );
+        add( new GrabBagItem( "dollarbill.gif", SimStrings.getInstance().getString( "GrabBag.DollarBill" ), Math.pow( 10, 9 ), 1 * SCALE ) );
+        add( new GrabBagItem( "paperclip.gif", SimStrings.getInstance().getString( "GrabBag.PaperClip" ), CCKModel.MIN_RESISTANCE, .7 * SCALE ) );
+        add( new GrabBagItem( "penny.gif", SimStrings.getInstance().getString( "GrabBag.Penny" ), CCKModel.MIN_RESISTANCE, .6 * SCALE ) );
+        add( new GrabBagItem( "eraser.gif", SimStrings.getInstance().getString( "GrabBag.Eraser" ), Math.pow( 10, 9 ), .7 * SCALE ) );
+        add( new GrabBagItem( "pencil.gif", SimStrings.getInstance().getString( "GrabBag.PencilLead" ), 3000, 3.5 * SCALE ) );
+        add( new GrabBagItem( "hand.gif", SimStrings.getInstance().getString( "GrabBag.Hand" ), Math.pow( 10, 6 ), 1 * SCALE ) );
+        add( new GrabBagItem( "dog.gif", SimStrings.getInstance().getString( "GrabBag.Dog" ), Math.pow( 10, 9 ), 2.5 * SCALE ) );
     }
 
     private void add( GrabBagItem grabBagItem ) {

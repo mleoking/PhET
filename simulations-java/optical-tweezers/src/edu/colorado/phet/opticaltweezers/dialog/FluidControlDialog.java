@@ -39,11 +39,11 @@ public class FluidControlDialog extends JDialog {
         assert( owner != null );
         setResizable( false );
         setModal( false );
-        setTitle( SimStrings.get( "title.fluidControlDialog" ) );
+        setTitle( SimStrings.getInstance().getString( "title.fluidControlDialog" ) );
         
         _fluidControlPanel = new FluidControlPanel( fluid, font ); 
         
-        _closeButton = new JButton( SimStrings.get( "button.close" ) );
+        _closeButton = new JButton( SimStrings.getInstance().getString( "button.close" ) );
         _closeButton.setFont( font );
         _closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {

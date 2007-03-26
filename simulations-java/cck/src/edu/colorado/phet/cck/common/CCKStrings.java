@@ -12,7 +12,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 public class CCKStrings {
     public static String getString( String s ) {
-        return SimStrings.get( s );
+        return SimStrings.getInstance().getString( s );
     }
 
     public static String toHTML( String key ) {

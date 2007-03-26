@@ -33,7 +33,7 @@ public class ConfigurableSaltModule extends SolubleSaltsModule {
      * @param clock
      */
     public ConfigurableSaltModule( IClock clock ) {
-        super( SimStrings.get( "Module.configurableSalt" ),
+        super( SimStrings.getInstance().getString( "Module.configurableSalt" ),
                clock,
                new SolubleSaltsConfig.Calibration( 1.5E-16 / 500,
                                                    1E-16,

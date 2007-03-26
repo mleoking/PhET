@@ -13,7 +13,6 @@ package edu.colorado.phet.solublesalts.control;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
-import edu.colorado.phet.solublesalts.model.Drain;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
@@ -45,24 +44,24 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
     static private HashMap ionClassToName = new HashMap();
 
     static {
-        ionClassToName.put( ConfigurableCation.class, SimStrings.get("Ion.cation" ));
-        ionClassToName.put( Sodium.class, SimStrings.get("Ion.sodium" ));
-        ionClassToName.put( Lead.class, SimStrings.get("Ion.lead" ));
-        ionClassToName.put( Chromium.class, SimStrings.get("Ion.chromium" ));
-        ionClassToName.put( Copper.class, SimStrings.get("Ion.copper" ));
-        ionClassToName.put( Silver.class, SimStrings.get("Ion.silver" ));
-        ionClassToName.put( Thallium.class, SimStrings.get("Ion.thallium" ));
-        ionClassToName.put( Strontium.class, SimStrings.get("Ion.strontium" ));
-        ionClassToName.put( Mercury.class, SimStrings.get("Ion.mercury" ));
+        ionClassToName.put( ConfigurableCation.class, SimStrings.getInstance().getString("Ion.cation" ));
+        ionClassToName.put( Sodium.class, SimStrings.getInstance().getString("Ion.sodium" ));
+        ionClassToName.put( Lead.class, SimStrings.getInstance().getString("Ion.lead" ));
+        ionClassToName.put( Chromium.class, SimStrings.getInstance().getString("Ion.chromium" ));
+        ionClassToName.put( Copper.class, SimStrings.getInstance().getString("Ion.copper" ));
+        ionClassToName.put( Silver.class, SimStrings.getInstance().getString("Ion.silver" ));
+        ionClassToName.put( Thallium.class, SimStrings.getInstance().getString("Ion.thallium" ));
+        ionClassToName.put( Strontium.class, SimStrings.getInstance().getString("Ion.strontium" ));
+        ionClassToName.put( Mercury.class, SimStrings.getInstance().getString("Ion.mercury" ));
 
-        ionClassToName.put( ConfigurableAnion.class, SimStrings.get("Ion.anion" ));
-        ionClassToName.put( Phosphate.class, SimStrings.get("Ion.phosphate" ));
-        ionClassToName.put( Bromine.class, SimStrings.get("Ion.bromide" ));
-        ionClassToName.put( Arsenate.class, SimStrings.get("Ion.aresenate" ));
-        ionClassToName.put( Sulfur.class, SimStrings.get("Ion.sulfide" ));
-        ionClassToName.put( Chlorine.class, SimStrings.get("Ion.chloride" ));
-        ionClassToName.put( Iodide.class, SimStrings.get("Ion.iodide" ));
-        ionClassToName.put( Hydroxide.class, SimStrings.get("Ion.hydroxide" ));
+        ionClassToName.put( ConfigurableAnion.class, SimStrings.getInstance().getString("Ion.anion" ));
+        ionClassToName.put( Phosphate.class, SimStrings.getInstance().getString("Ion.phosphate" ));
+        ionClassToName.put( Bromine.class, SimStrings.getInstance().getString("Ion.bromide" ));
+        ionClassToName.put( Arsenate.class, SimStrings.getInstance().getString("Ion.aresenate" ));
+        ionClassToName.put( Sulfur.class, SimStrings.getInstance().getString("Ion.sulfide" ));
+        ionClassToName.put( Chlorine.class, SimStrings.getInstance().getString("Ion.chloride" ));
+        ionClassToName.put( Iodide.class, SimStrings.getInstance().getString("Ion.iodide" ));
+        ionClassToName.put( Hydroxide.class, SimStrings.getInstance().getString("Ion.hydroxide" ));
     }
 
     //----------------------------------------------------------------
@@ -160,10 +159,10 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         } );
 
         // Make labels for the columns
-        ionsLabel = new JLabel( SimStrings.get( "ControlLabels.Ions" ));
-        totalNumLabel = new JLabel( SimStrings.get("ControlLabels.Total" ));
-        freeNumLabel = new JLabel( SimStrings.get("ControlLabels.Free") );
-        boundNumLabel = new JLabel( SimStrings.get("ControlLabels.Bound") );
+        ionsLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.Ions" ));
+        totalNumLabel = new JLabel( SimStrings.getInstance().getString("ControlLabels.Total" ));
+        freeNumLabel = new JLabel( SimStrings.getInstance().getString("ControlLabels.Free") );
+        boundNumLabel = new JLabel( SimStrings.getInstance().getString("ControlLabels.Bound") );
 
         layoutPanel();
 //        layoutPanel2();

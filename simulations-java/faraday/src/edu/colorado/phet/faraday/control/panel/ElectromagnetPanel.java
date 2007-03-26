@@ -111,27 +111,27 @@ public class ElectromagnetPanel extends FaradayPanel {
         
         // Title
         Border border = BorderFactory.createLineBorder( Color.BLACK, 2 );
-        String title = SimStrings.get( "ElectromagnetPanel.title" );
+        String title = SimStrings.getInstance().getString( "ElectromagnetPanel.title" );
         TitledBorder titledBorder = BorderFactory.createTitledBorder( border, title );
         titledBorder.setTitleFont( getTitleFont() );
         setBorder( titledBorder );
         
         // Compass Grid on/off
-        _gridCheckBox = new JCheckBox( SimStrings.get( "ElectromagnetPanel.showGrid" ) );
+        _gridCheckBox = new JCheckBox( SimStrings.getInstance().getString( "ElectromagnetPanel.showGrid" ) );
         
         // Field Meter on/off
-        _fieldMeterCheckBox = new JCheckBox( SimStrings.get( "ElectromagnetPanel.showFieldMeter" ) );
+        _fieldMeterCheckBox = new JCheckBox( SimStrings.getInstance().getString( "ElectromagnetPanel.showFieldMeter" ) );
 
         // Compass on/off
-        _compassCheckBox = new JCheckBox( SimStrings.get( "ElectromagnetPanel.showCompass" ) );
+        _compassCheckBox = new JCheckBox( SimStrings.getInstance().getString( "ElectromagnetPanel.showCompass" ) );
 
         // Electrons on/off
-        _electronsCheckBox = new JCheckBox( SimStrings.get( "ElectromagnetPanel.showElectrons" ) );
+        _electronsCheckBox = new JCheckBox( SimStrings.getInstance().getString( "ElectromagnetPanel.showElectrons" ) );
         
         // Number of loops
         JPanel loopsPanel = new JPanel();
         {
-            JLabel loopsLabel = new JLabel( SimStrings.get( "ElectromagnetPanel.numberOfLoops" ) );
+            JLabel loopsLabel = new JLabel( SimStrings.getInstance().getString( "ElectromagnetPanel.numberOfLoops" ) );
 
             // Spinner, keyboard editing disabled.
             SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
@@ -157,7 +157,7 @@ public class ElectromagnetPanel extends FaradayPanel {
         JPanel sourcePanel = new JPanel();
         {
             // Title
-            TitledBorder indicatorBorder = new TitledBorder( SimStrings.get( "ElectromagnetPanel.currentSource" ) );
+            TitledBorder indicatorBorder = new TitledBorder( SimStrings.getInstance().getString( "ElectromagnetPanel.currentSource" ) );
             sourcePanel.setBorder( indicatorBorder );
 
             // Layout
@@ -169,14 +169,14 @@ public class ElectromagnetPanel extends FaradayPanel {
                 // Radio buttons with text & icons.
                 ImageIcon batteryIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.BATTERY_ICON ) );
                 ImageIcon batteryIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.BATTERY_ICON_SELECTED ) );
-                _batteryRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.dc" ), batteryIcon );
+                _batteryRadioButton = new JRadioButton( SimStrings.getInstance().getString( "ElectromagnetPanel.dc" ), batteryIcon );
                 _batteryRadioButton.setVerticalTextPosition( SwingConstants.BOTTOM );
                 _batteryRadioButton.setHorizontalTextPosition( SwingConstants.CENTER );
                 _batteryRadioButton.setSelectedIcon( batteryIconSelected );
                 
                 ImageIcon acIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.AC_POWER_SUPPLY_ICON ) );
                 ImageIcon acIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.AC_POWER_SUPPLY_ICON_SELECTED ) );
-                _acRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.ac" ), acIcon );
+                _acRadioButton = new JRadioButton( SimStrings.getInstance().getString( "ElectromagnetPanel.ac" ), acIcon );
                 _acRadioButton.setVerticalTextPosition( SwingConstants.BOTTOM );
                 _acRadioButton.setHorizontalTextPosition( SwingConstants.CENTER );
                 _acRadioButton.setSelectedIcon( acIconSelected );
@@ -187,8 +187,8 @@ public class ElectromagnetPanel extends FaradayPanel {
             }
             catch ( IOException ioe ) {  /* Fallback... */
                 // Radio buttons with text.
-                _batteryRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.dc" ) );
-                _acRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.ac" ) );
+                _batteryRadioButton = new JRadioButton( SimStrings.getInstance().getString( "ElectromagnetPanel.dc" ) );
+                _acRadioButton = new JRadioButton( SimStrings.getInstance().getString( "ElectromagnetPanel.ac" ) );
                 // Vertical layout
                 layout.addAnchoredComponent( _batteryRadioButton, 0, 0, GridBagConstraints.WEST );
                 layout.addAnchoredComponent( _acRadioButton, 1, 0, GridBagConstraints.WEST );

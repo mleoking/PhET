@@ -92,7 +92,7 @@ public class ElectromagnetModule extends FaradayModule {
      */
     public ElectromagnetModule() {
 
-        super( SimStrings.get( "ElectromagnetModule.title" ) );
+        super( SimStrings.getInstance().getString( "ElectromagnetModule.title" ) );
 
         //----------------------------------------------------------------------------
         // Model
@@ -323,7 +323,7 @@ public class ElectromagnetModule extends FaradayModule {
             _electromagnetLocation = _electromagnetModel.getLocation();
             _electromagnetModel.addObserver( this );
             
-            setText( SimStrings.get( "ElectromagnetModule.wiggleMe" ) );
+            setText( SimStrings.getInstance().getString( "ElectromagnetModule.wiggleMe" ) );
             addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -50, 50 ) );
             setRange( 25, 0 );
             setCycleDuration( 5 );

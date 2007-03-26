@@ -38,7 +38,7 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
     private Stroke stroke = new BasicStroke( 5 );
     private Font font = new Font( "Lucida Sans", Font.BOLD, 17 );
     private Shape shape;
-    private String text = SimStrings.get( "SeriesAmmeterGraphic.Ammeter" );
+    private String text = SimStrings.getInstance().getString( "SeriesAmmeterGraphic.Ammeter" );
     private String fixedMessage;
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
@@ -80,7 +80,7 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
             public void circuitSolverFinished() {
                 DecimalFormat df = module.getDecimalFormat();
                 String form = df.format( Math.abs( component.getCurrent() ) );
-                text = "" + form + " " + SimStrings.get( "SeriesAmmeterGraphic.Amps" );
+                text = "" + form + " " + SimStrings.getInstance().getString( "SeriesAmmeterGraphic.Amps" );
                 changed();
             }
         };

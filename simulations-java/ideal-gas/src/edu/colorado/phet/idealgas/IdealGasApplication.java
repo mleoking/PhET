@@ -25,8 +25,8 @@ public class IdealGasApplication extends PhetApplication {
 
     public IdealGasApplication( String[] args ) {
         super( args,
-               SimStrings.get( "IdealGasApplication.title" ),
-               SimStrings.get( "IdealGasApplication.description" ),
+               SimStrings.getInstance().getString( "IdealGasApplication.title" ),
+               SimStrings.getInstance().getString( "IdealGasApplication.description" ),
                IdealGasConfig.VERSION,
 //               new SwingClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true ),
 //               true,

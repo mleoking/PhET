@@ -28,7 +28,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 public class PositionAxis extends NumberAxis {
 
     public PositionAxis() {
-        String label = SimStrings.get( "axis.position" ) + " (" + SimStrings.get( "units.position" ) + ")";
+        String label = SimStrings.getInstance().getString( "axis.position" ) + " (" + SimStrings.getInstance().getString( "units.position" ) + ")";
         setLabel( label );
         setLabelFont( QTConstants.AXIS_LABEL_FONT );
         setRange( QTConstants.POSITION_RANGE );

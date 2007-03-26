@@ -16,7 +16,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 
 import javax.swing.event.ChangeEvent;
@@ -89,16 +88,16 @@ public class ModeSwitch extends PhetPNode {
         _switchDownNode = new PhetPNode( PImageFactory.create( HAConstants.IMAGE_MODE_SWITCH_DOWN ) );
         
         if ( EXPERIMENT_IS_AT_TOP ) {
-            _topTitleNode = new PText( SimStrings.get( "label.experiment" ) );
-            _topSubtitleNode = new PText( SimStrings.get( "label.whatReallyHappens" ) );
-            _bottomTitleNode = new PText( SimStrings.get( "label.prediction" ) );
-            _bottomSubtitleNode = new PText( SimStrings.get( "label.whatTheModelPredicts" ) );
+            _topTitleNode = new PText( SimStrings.getInstance().getString( "label.experiment" ) );
+            _topSubtitleNode = new PText( SimStrings.getInstance().getString( "label.whatReallyHappens" ) );
+            _bottomTitleNode = new PText( SimStrings.getInstance().getString( "label.prediction" ) );
+            _bottomSubtitleNode = new PText( SimStrings.getInstance().getString( "label.whatTheModelPredicts" ) );
         }
         else {
-            _topTitleNode = new PText( SimStrings.get( "label.prediction") );
-            _topSubtitleNode = new PText( SimStrings.get( "label.whatTheModelPredicts") );
-            _bottomTitleNode = new PText( SimStrings.get( "label.experiment") );
-            _bottomSubtitleNode = new PText( SimStrings.get( "label.whatReallyHappens") );
+            _topTitleNode = new PText( SimStrings.getInstance().getString( "label.prediction") );
+            _topSubtitleNode = new PText( SimStrings.getInstance().getString( "label.whatTheModelPredicts") );
+            _bottomTitleNode = new PText( SimStrings.getInstance().getString( "label.experiment") );
+            _bottomSubtitleNode = new PText( SimStrings.getInstance().getString( "label.whatReallyHappens") );
         }
         _topTitleNode.setFont( bigFont );
         _topSubtitleNode.setFont( smallFont );

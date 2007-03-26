@@ -28,7 +28,7 @@ public class TransitionMarksControl extends JCheckBox {
 
     public TransitionMarksControl( Font font ) {
         super();
-        setText( SimStrings.get( "label.transitionMarks" ) );
+        setText( SimStrings.getInstance().getString( "label.transitionMarks" ) );
         setFont( font );
         setOpaque( false );
     }

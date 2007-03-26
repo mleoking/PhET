@@ -6,20 +6,15 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.AffineTransform;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +34,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     private Point gunMuzzelLocation = new Point( -240, 0);
 
     public SingleNucleusFissionModule( IClock clock ) {
-        super( SimStrings.get( "ModuleTitle.SingleNucleusFissionModule" ), clock, EnergyProfileGraphic.POTENTIAL_ENERGY );
+        super( SimStrings.getInstance().getString( "ModuleTitle.SingleNucleusFissionModule" ), clock, EnergyProfileGraphic.POTENTIAL_ENERGY );
     }
 
     protected void init() {
@@ -292,10 +287,10 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     }
 
     protected String getPotentialEnergyLegend() {
-        return SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy" );
+        return SimStrings.getInstance().getString( "PotentialProfilePanel.legend.PotentialEnergy" );
     }
 
     protected String getTotalEnergyLegend() {
-        return SimStrings.get( "PotentialProfilePanel.legend.TotalEnergy" );
+        return SimStrings.getInstance().getString( "PotentialProfilePanel.legend.TotalEnergy" );
     }
 }

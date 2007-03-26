@@ -61,7 +61,7 @@ public class DetectorGraphic extends PNode implements SimpleObserver {
         bezelPNode.setStroke( new BasicStroke( 3 ) );
         bezelPNode.setPaint( new Color( 150, 150, 150 ) );
 
-        PText label = new PText( SimStrings.get( "Misc.Detector" ) );
+        PText label = new PText( SimStrings.getInstance().getString( "Misc.Detector" ) );
         label.setFont( font );
         label.setTextPaint( Color.white );
         label.rotate( -Math.PI / 2 );

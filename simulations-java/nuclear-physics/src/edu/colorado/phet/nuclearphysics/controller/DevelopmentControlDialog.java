@@ -61,7 +61,7 @@ public class DevelopmentControlDialog extends JDialog {
                     module.setNumControlRods( ( (Integer)controlRodSpinner.getValue() ).intValue() );
                 }
             } );
-            jp.add( new JLabel( SimStrings.get( "AdvancedControls.NumRods" ) ), jpGbc );
+            jp.add( new JLabel( SimStrings.getInstance().getString( "AdvancedControls.NumRods" ) ), jpGbc );
             jpGbc.gridx = 1;
             jp.add( controlRodSpinner, jpGbc );
 
@@ -74,13 +74,13 @@ public class DevelopmentControlDialog extends JDialog {
             } );
             jpGbc.gridy = 1;
             jpGbc.gridx = 0;
-            jp.add( new JLabel( SimStrings.get( "AdvancedControls.NumNeutrons" ) ), jpGbc );
+            jp.add( new JLabel( SimStrings.getInstance().getString( "AdvancedControls.NumNeutrons" ) ), jpGbc );
             jpGbc.gridx = 1;
             jp.add( numNeutronsSpinner, jpGbc );
             add( jp, gbc );
 
             // Slider for U235 absorption probability
-            final ModelSlider u235absorptionSlider = new ModelSlider( SimStrings.get( "AdvancedControls.U235prob" ), 0, 1, 1 );
+            final ModelSlider u235absorptionSlider = new ModelSlider( SimStrings.getInstance().getString( "AdvancedControls.U235prob" ), 0, 1, 1 );
             u235absorptionSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     module.setU235AbsorptionProbability( u235absorptionSlider.getModelValue() );
@@ -92,7 +92,7 @@ public class DevelopmentControlDialog extends JDialog {
             add( u235absorptionSlider, gbc );
 
             // Slider for U238 absorption probability
-            final ModelSlider u238AbsorptionSlider = new ModelSlider( SimStrings.get( "AdvancedControls.U238prob" ), 0, 1, .5 );
+            final ModelSlider u238AbsorptionSlider = new ModelSlider( SimStrings.getInstance().getString( "AdvancedControls.U238prob" ), 0, 1, .5 );
             u238AbsorptionSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     module.setU238AbsorptionProbability( u238AbsorptionSlider.getModelValue() );
@@ -118,7 +118,7 @@ public class DevelopmentControlDialog extends JDialog {
             add( rodAbsoprtionSlider, gbc );
 
             // Control for the spacing between nuclei
-            final ModelSlider nucleusSpacingSlider = new ModelSlider( SimStrings.get( "AdvancedControls.NucSpacing" ),
+            final ModelSlider nucleusSpacingSlider = new ModelSlider( SimStrings.getInstance().getString( "AdvancedControls.NucSpacing" ),
                                                                       1, 3, 2.5 );
             nucleusSpacingSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -146,7 +146,7 @@ public class DevelopmentControlDialog extends JDialog {
             add( fissionDelayslider, gbc );
 
             // Slider to control how often neutrons are injected
-            final ModelSlider neutronInjectionSlider = new ModelSlider( SimStrings.get( "AdvancedControls.NeutronInjection" ),
+            final ModelSlider neutronInjectionSlider = new ModelSlider( SimStrings.getInstance().getString( "AdvancedControls.NeutronInjection" ),
                                                                         1, 30, 30 );
             neutronInjectionSlider.setMajorTickSpacing( 5 );
             neutronInjectionSlider.setPaintLabels( true );
@@ -154,7 +154,7 @@ public class DevelopmentControlDialog extends JDialog {
 //            add( neutronInjectionSlider, gbc );
 
             // Check box to slow the clock
-            final JCheckBox slowMotionCB = new JCheckBox( SimStrings.get( "AdvancedControls.SlowMotion" ) );
+            final JCheckBox slowMotionCB = new JCheckBox( SimStrings.getInstance().getString( "AdvancedControls.SlowMotion" ) );
             slowMotionCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setSlowMotion( slowMotionCB.isSelected() );

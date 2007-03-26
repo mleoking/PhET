@@ -45,11 +45,11 @@ public class PumpBeamViewPanel extends JPanel {
         this.module = module;
         JPanel pumpViewPanel = this;
         Border pumpPanelBorder = BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(),
-                                                                   SimStrings.get( "WaveViewControlPanel.pumpPanelTitle" ) );
+                                                                   SimStrings.getInstance().getString( "WaveViewControlPanel.pumpPanelTitle" ) );
         pumpViewPanel.setBorder( pumpPanelBorder );
         pumpPhotonBG = new ButtonGroup();
-        pumpPhotonViewRB = new JRadioButton( SimStrings.get( "WaveViewControlPanel.photonView" ) );
-        pumpCurtainViewRB = new JRadioButton( SimStrings.get( "WaveViewControlPanel.curtainView" ) );
+        pumpPhotonViewRB = new JRadioButton( SimStrings.getInstance().getString( "WaveViewControlPanel.photonView" ) );
+        pumpCurtainViewRB = new JRadioButton( SimStrings.getInstance().getString( "WaveViewControlPanel.curtainView" ) );
         pumpPhotonBG.add( pumpPhotonViewRB );
         pumpPhotonBG.add( pumpCurtainViewRB );
 

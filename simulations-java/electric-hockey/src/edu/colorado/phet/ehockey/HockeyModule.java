@@ -97,7 +97,7 @@ public class HockeyModule extends JApplet implements Runnable {
 
         isApplet = false;
 
-        JFrame frame = new JFrame( SimStrings.get( "HockeyApplication.Title" ) );
+        JFrame frame = new JFrame( SimStrings.getInstance().getString( "HockeyApplication.Title" ) );
         HockeyModule hockeyModule = new HockeyModule();
         frame.setContentPane( hockeyModule );
         frame.setSize( 800, 750 );

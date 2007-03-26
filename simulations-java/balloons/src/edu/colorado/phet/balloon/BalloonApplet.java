@@ -161,12 +161,12 @@ public class BalloonApplet extends JApplet implements IHelp {
         panel.add( painterPanel, BorderLayout.CENTER );
         panel.add( controlPanel, BorderLayout.SOUTH );
 
-        JCheckBox chargedBalloonBtn = new JCheckBox( SimStrings.get( "BalloonApplet.IgnoreInitialBalloonCharge" ), true );
-        JRadioButton showAllCharges = new JRadioButton( SimStrings.get( "BalloonApplet.ShowAllCharges" ) );
+        JCheckBox chargedBalloonBtn = new JCheckBox( SimStrings.getInstance().getString( "BalloonApplet.IgnoreInitialBalloonCharge" ), true );
+        JRadioButton showAllCharges = new JRadioButton( SimStrings.getInstance().getString( "BalloonApplet.ShowAllCharges" ) );
         showAllCharges.addActionListener( new ShowAll( plusPainter, minusPainter ) );
-        JRadioButton showNoCharges = new JRadioButton( SimStrings.get( "BalloonApplet.ShowNoCharges" ) );
+        JRadioButton showNoCharges = new JRadioButton( SimStrings.getInstance().getString( "BalloonApplet.ShowNoCharges" ) );
         showNoCharges.addActionListener( new ShowNone( plusPainter, minusPainter ) );
-        JRadioButton showDiff = new JRadioButton( SimStrings.get( "BalloonApplet.ShowChargeDifferences" ) );
+        JRadioButton showDiff = new JRadioButton( SimStrings.getInstance().getString( "BalloonApplet.ShowChargeDifferences" ) );
         showDiff.addActionListener( new ShowDiff( plusPainter, minusPainter ) );
 
         ButtonGroup bg = new ButtonGroup();
@@ -186,8 +186,8 @@ public class BalloonApplet extends JApplet implements IHelp {
         buttonPanel.add( showAllCharges );
         buttonPanel.add( showNoCharges );
         buttonPanel.add( showDiff );
-        buttonPanel.setBorder( PhetLookAndFeel.createSmoothBorder( SimStrings.get( "BalloonApplet.ChargeDisplay" ) ) );
-        JButton resetBtn = new JButton( SimStrings.get( "BalloonApplet.Reset" ) );
+        buttonPanel.setBorder( PhetLookAndFeel.createSmoothBorder( SimStrings.getInstance().getString( "BalloonApplet.ChargeDisplay" ) ) );
+        JButton resetBtn = new JButton( SimStrings.getInstance().getString( "BalloonApplet.Reset" ) );
         controlPanel.add( resetBtn );
         controlPanel.add( buttonPanel );
 
@@ -211,7 +211,7 @@ public class BalloonApplet extends JApplet implements IHelp {
         twoBtn.add( chargedBalloonBtn );
         controlPanel.add( twoBtn );
 
-        JCheckBox showWall = new JCheckBox( SimStrings.get( "BalloonApplet.Wall" ), true );
+        JCheckBox showWall = new JCheckBox( SimStrings.getInstance().getString( "BalloonApplet.Wall" ), true );
         controlPanel.add( showWall );
 
         HelpPanel helpPanel = new HelpPanel( this );
@@ -308,7 +308,7 @@ public class BalloonApplet extends JApplet implements IHelp {
         isApplet = false;
         BalloonApplet ba = new BalloonApplet();
         ba.init(args);
-        JFrame jf = new JFrame( SimStrings.get( "balloons.frame.title" ) + " (" + VERSION + ")" );
+        JFrame jf = new JFrame( SimStrings.getInstance().getString( "balloons.frame.title" ) + " (" + VERSION + ")" );
         jf.addWindowListener( new Exit() );
         jf.setContentPane( ba );
         jf.setSize( PANEL_WIDTH, PANEL_HEIGHT + ba.controlPanel.getPreferredSize().height + 10 );

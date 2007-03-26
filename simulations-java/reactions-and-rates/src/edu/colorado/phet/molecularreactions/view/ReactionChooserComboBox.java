@@ -80,7 +80,7 @@ public class ReactionChooserComboBox extends JComboBox implements MRModel.ModelL
         r1Item = ReactionSelectorIcons.getIcon( Profiles.R1 );
         r2Item = ReactionSelectorIcons.getIcon( Profiles.R2 );
         r3Item = ReactionSelectorIcons.getIcon( Profiles.R3 );
-        designYourOwnItem = SimStrings.get( "ExperimentSetup.designYourOwn" );
+        designYourOwnItem = SimStrings.getInstance().getString( "ExperimentSetup.designYourOwn" );
 
         addItem( defaultItem );
         addItem( r1Item );

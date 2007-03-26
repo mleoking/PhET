@@ -88,7 +88,7 @@ public class AlphaDecayControlPanel extends JPanel {
 //        } );
 
 
-        JButton resetBtn = new JButton( SimStrings.get( "AlphaDecayControlPanel.ResetButton" ) );
+        JButton resetBtn = new JButton( SimStrings.getInstance().getString( "AlphaDecayControlPanel.ResetButton" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.stop();
@@ -108,7 +108,7 @@ public class AlphaDecayControlPanel extends JPanel {
                                                          GridBagConstraints.EAST,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 5, 5, 5, 5 ),0,0 );
-        add( new JLabel( SimStrings.get( "AlphaDecayControlPanel.RunningTimeLabel" ) ), gbc );
+        add( new JLabel( SimStrings.getInstance().getString( "AlphaDecayControlPanel.RunningTimeLabel" ) ), gbc );
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
@@ -167,7 +167,7 @@ public class AlphaDecayControlPanel extends JPanel {
 //            e.printStackTrace();
 //        }
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "AlphaDecayControlPanel.ControlBorder" ) );
+        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.getInstance().getString( "AlphaDecayControlPanel.ControlBorder" ) );
         this.setBorder( titledBorder );
     }
 
@@ -212,7 +212,7 @@ public class AlphaDecayControlPanel extends JPanel {
                 final double runningTime = module.getClock().getSimulationTime() - startTime;
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        timerTF.setText( formatter.format( new Double( runningTime ) ) + SimStrings.get( "AlphaDecayControlPanel.TimeUnits" ) );
+                        timerTF.setText( formatter.format( new Double( runningTime ) ) + SimStrings.getInstance().getString( "AlphaDecayControlPanel.TimeUnits" ) );
                         AlphaDecayControlPanel.this.repaint();
                     }
                 } );

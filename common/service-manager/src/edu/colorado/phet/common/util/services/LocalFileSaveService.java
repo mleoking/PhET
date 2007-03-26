@@ -55,7 +55,7 @@ public class LocalFileSaveService implements FileSaveService {
                 f.createNewFile();
             }
             else {
-                String message = SimStrings.get( "Save.confirm.message" );
+                String message = SimStrings.getInstance().getString( "Save.confirm.message" );
                 int reply = DialogUtils.showConfirmDialog( owner, message, JOptionPane.YES_NO_CANCEL_OPTION );
                 if( reply != JOptionPane.YES_OPTION ) {
                     return null;

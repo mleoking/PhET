@@ -50,7 +50,7 @@ public class ParticleArena extends JPanel
         barrierColor = new Color( 50, 50, 250 );
         raisedBevel = BorderFactory.createRaisedBevelBorder();
         loweredBevel = BorderFactory.createLoweredBevelBorder();
-        compound2 = BorderFactory.createTitledBorder( raisedBevel, SimStrings.get( "ParticleArena.ArenaBorder" ), TitledBorder.CENTER, TitledBorder.ABOVE_BOTTOM );
+        compound2 = BorderFactory.createTitledBorder( raisedBevel, SimStrings.getInstance().getString( "ParticleArena.ArenaBorder" ), TitledBorder.CENTER, TitledBorder.ABOVE_BOTTOM );
         setBorder( compound2 );
         //setBorder(BorderFactory.createLineBorder(Color.red));
         /*
@@ -286,27 +286,27 @@ public class ParticleArena extends JPanel
             g.drawImage( mazeGUI1.splat, collisionX - 15, collisionY - 15, this );
             g.setColor( Color.red );
             g.setFont( arenaFont );
-            g.drawString( SimStrings.get( "ParticleArena.CollisionText" ), MazeGameApplet.fullWidth / 2, 7 * MazeGameApplet.fullHeight / 16 );
+            g.drawString( SimStrings.getInstance().getString( "ParticleArena.CollisionText" ), MazeGameApplet.fullWidth / 2, 7 * MazeGameApplet.fullHeight / 16 );
         }
 
         //Draw Goal indicator
         if( goalDetected && !collisionDetected ) {
             g.setColor( Color.blue );
             g.setFont( arenaFont );
-            g.drawString( SimStrings.get( "ParticleArena.GoalText" ), MazeGameApplet.fullWidth / 10, 11 * MazeGameApplet.fullHeight / 32 );
+            g.drawString( SimStrings.getInstance().getString( "ParticleArena.GoalText" ), MazeGameApplet.fullWidth / 10, 11 * MazeGameApplet.fullHeight / 32 );
         }
 
         if( goalDetected && collisionDetected ) //
         {
             g.setColor( Color.red );
             g.setFont( arenaFont );
-            g.drawString( SimStrings.get( "ParticleArena.NoGoalText" ), MazeGameApplet.fullWidth / 12, 11 * MazeGameApplet.fullHeight / 32 );
+            g.drawString( SimStrings.getInstance().getString( "ParticleArena.NoGoalText" ), MazeGameApplet.fullWidth / 12, 11 * MazeGameApplet.fullHeight / 32 );
         }
 
         //Draw goal
         g.fillOval( goalX - radius, goalY - radius, 2 * radius, 2 * radius );
         g.setFont( new Font( "serif", Font.BOLD, 15 ) );
-        g.drawString( SimStrings.get( "ParticleArena.FinishText" ), goalX - 2 * radius, goalY + 25 );
+        g.drawString( SimStrings.getInstance().getString( "ParticleArena.FinishText" ), goalX - 2 * radius, goalY + 25 );
 
         //draw particle
         //myParticle.paint(g);

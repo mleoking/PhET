@@ -82,7 +82,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         // Alpha Particles panel
         JPanel alphaParticlesPanel = new JPanel();
         {
-            TitledBorder border = new TitledBorder( SimStrings.get( "label.alphaParticleProperties" ) );
+            TitledBorder border = new TitledBorder( SimStrings.getInstance().getString( "label.alphaParticleProperties" ) );
             border.setTitleFont( RSConstants.TITLE_FONT );
             border.setBorder( RSConstants.TITLED_BORDER_STYLE );
             alphaParticlesPanel.setBorder( border );
@@ -95,7 +95,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
                 double tickSpacing = max - min;
                 int tickDecimalPlaces = 0;
                 int valueDecimalPlaces = 1;
-                String label = SimStrings.get( "label.energy" );
+                String label = SimStrings.getInstance().getString( "label.energy" );
                 String units = "";
                 int columns = 3;
                 _energyControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
@@ -104,7 +104,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
                 if ( !DEBUG_SHOW_ENERGY_VALUE ) {
                     _energyControl.setTextFieldVisible( false );
                 }
-                _energyControl.setMinMaxLabels( SimStrings.get( "label.minEnergy" ), SimStrings.get( "label.maxEnergy" ) );
+                _energyControl.setMinMaxLabels( SimStrings.getInstance().getString( "label.minEnergy" ), SimStrings.getInstance().getString( "label.maxEnergy" ) );
                 _energyListener = new ChangeListener() {
                     public void stateChanged( ChangeEvent event ) {
                         _module.removeAllAlphaParticles();
@@ -120,7 +120,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
 
             // Traces checkbox
             {
-                _tracesCheckBox = new JCheckBox( SimStrings.get( "label.showTraces" ) );
+                _tracesCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showTraces" ) );
                 _tracesCheckBox.setFont( RSConstants.CONTROL_FONT );
                 _tracesCheckBox.setSelected( _module.getTracesNode().isEnabled() );
                 _tracesCheckBox.addChangeListener( new ChangeListener() {
@@ -143,7 +143,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
         
         JPanel atomPanel = new JPanel();
         {
-            TitledBorder border = new TitledBorder( SimStrings.get( "label.atomProperties" ) );
+            TitledBorder border = new TitledBorder( SimStrings.getInstance().getString( "label.atomProperties" ) );
             border.setTitleFont( RSConstants.TITLE_FONT );
             border.setBorder( RSConstants.TITLED_BORDER_STYLE );
             atomPanel.setBorder( border );
@@ -156,7 +156,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
                 int tickSpacing = max - min;
                 int tickDecimalPlaces = 0;
                 int valueDecimalPlaces = 0;
-                String label = SimStrings.get( "label.numberOfProtons" );
+                String label = SimStrings.getInstance().getString( "label.numberOfProtons" );
                 String units = "";
                 int columns = 3;
                 _protonsControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
@@ -179,7 +179,7 @@ public class RutherfordAtomControlPanel extends AbstractControlPanel implements 
                 int tickSpacing = max - min;
                 int tickDecimalPlaces = 0;
                 int valueDecimalPlaces = 0;
-                String label = SimStrings.get( "label.numberOfNeutrons" );
+                String label = SimStrings.getInstance().getString( "label.numberOfNeutrons" );
                 String units = "";
                 int columns = 3;
                 _neutronsControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );

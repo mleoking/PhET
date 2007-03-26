@@ -70,7 +70,7 @@ public class SimulationRateControlPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         this.add( simulationRateTF, gbc );
 
-        Border border = new TitledBorder( SimStrings.get( "SimulationRateControlPanel.BorderTitle" ) );
+        Border border = new TitledBorder( SimStrings.getInstance().getString( "SimulationRateControlPanel.BorderTitle" ) );
         this.setBorder( border );
     }
 

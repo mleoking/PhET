@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 
 public class BackgroundColorMenuItem extends JMenuItem {
     public BackgroundColorMenuItem( final PhetApplication application, final ICCKModule cck ) {
-        super( SimStrings.get( "OptionsMenu.BackgroundColorMenuItem" ) );
+        super( SimStrings.getInstance().getString( "OptionsMenu.BackgroundColorMenuItem" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ColorDialog.Listener listy = new ColorDialog.Listener() {
@@ -35,7 +35,7 @@ public class BackgroundColorMenuItem extends JMenuItem {
                         cck.setMyBackground( color );
                     }
                 };
-                ColorDialog.showDialog( SimStrings.get( "OptionsMenu.BackgroundColorDialogTitle" ),
+                ColorDialog.showDialog( SimStrings.getInstance().getString( "OptionsMenu.BackgroundColorDialogTitle" ),
                                         application.getPhetFrame(), cck.getMyBackground(), listy );
             }
         } );

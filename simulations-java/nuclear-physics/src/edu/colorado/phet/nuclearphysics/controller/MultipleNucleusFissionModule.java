@@ -8,7 +8,6 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -17,14 +16,10 @@ import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
 import edu.colorado.phet.nuclearphysics.view.LegendPanel;
 import edu.colorado.phet.nuclearphysics.view.ExplodingContainmentGraphic;
-import edu.colorado.phet.nuclearphysics.Config;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.IndexColorModel;
 import java.awt.geom.*;
 import java.util.*;
 import java.util.List;
@@ -55,7 +50,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
      * @param clock
      */
     public MultipleNucleusFissionModule( IClock clock ) {
-        super( SimStrings.get( "ModuleTitle.MultipleNucleusFissionModule" ), clock );
+        super( SimStrings.getInstance().getString( "ModuleTitle.MultipleNucleusFissionModule" ), clock );
     }
 
     protected void init() {

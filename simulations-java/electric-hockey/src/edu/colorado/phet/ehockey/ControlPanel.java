@@ -51,24 +51,24 @@ public class ControlPanel extends JPanel {
 
     public ControlPanel( final HockeyModule hockeyModule ) {
         this.hockeyModule = hockeyModule;
-        startBtn = new JButton( SimStrings.get( "HockeyControlPanel.Start" ) );
-        resetBtn = new JButton( SimStrings.get( "HockeyControlPanel.Reset" ) );
+        startBtn = new JButton( SimStrings.getInstance().getString( "HockeyControlPanel.Start" ) );
+        resetBtn = new JButton( SimStrings.getInstance().getString( "HockeyControlPanel.Reset" ) );
         nbrTries = 0;
-        nbrTriesLbl = new JLabel( SimStrings.get( "HockeyControlPanel.Tries" ) + nbrTries );
+        nbrTriesLbl = new JLabel( SimStrings.getInstance().getString( "HockeyControlPanel.Tries" ) + nbrTries );
 
-        clearBtn = new JButton( SimStrings.get( "HockeyControlPanel.Clear" ) );
+        clearBtn = new JButton( SimStrings.getInstance().getString( "HockeyControlPanel.Clear" ) );
         //pauseBtn = new JButton("Pause");
-        pauseChkBox = new JCheckBox( SimStrings.get( "HockeyControlPanel.Pause" ), false );
+        pauseChkBox = new JCheckBox( SimStrings.getInstance().getString( "HockeyControlPanel.Pause" ), false );
         pauseChkBox.setBackground( Color.yellow );
         //togglePause = true;
 
         // traceChkBox = new JCheckBox( "Trace ", false ); gmwb - extra space at end of Trace ?
-        traceChkBox = new JCheckBox( SimStrings.get( "HockeyControlPanel.Trace" ), false );
+        traceChkBox = new JCheckBox( SimStrings.getInstance().getString( "HockeyControlPanel.Trace" ), false );
         traceChkBox.setBackground( Color.yellow );
         //traceBtn = new JButton("Trace On");
         toggleTrace = false;
 
-        final JCheckBox positivePuck = new JCheckBox( SimStrings.get( "HockeyControlPanel.PuckIsPositive" ), true );
+        final JCheckBox positivePuck = new JCheckBox( SimStrings.getInstance().getString( "HockeyControlPanel.PuckIsPositive" ), true );
         positivePuck.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean sel = positivePuck.isSelected();
@@ -86,7 +86,7 @@ public class ControlPanel extends JPanel {
         } );
         positivePuck.setBackground( Color.yellow );
 
-        fieldGridChkBox = new JCheckBox( SimStrings.get( "HockeyControlPanel.Field" ), false );
+        fieldGridChkBox = new JCheckBox( SimStrings.getInstance().getString( "HockeyControlPanel.Field" ), false );
         fieldGridChkBox.setBackground( Color.yellow );
         showField = false;
 
@@ -98,14 +98,14 @@ public class ControlPanel extends JPanel {
         } );
         antialiasButton.setBackground( Color.yellow );
 
-        radio0 = new JRadioButton( SimStrings.get( "HockeyControlPanel.Practice" ), true );
+        radio0 = new JRadioButton( SimStrings.getInstance().getString( "HockeyControlPanel.Practice" ), true );
         radio1 = new JRadioButton( "1", false );
         radio2 = new JRadioButton( "2", false );
         radio3 = new JRadioButton( "3", false );
 
-        difficultyLbl = new JLabel( SimStrings.get( "HockeyControlPanel.Difficulty" ) );
+        difficultyLbl = new JLabel( SimStrings.getInstance().getString( "HockeyControlPanel.Difficulty" ) );
 
-        String str = SimStrings.get( "HockeyControlPanel.Charges" ) +
+        String str = SimStrings.getInstance().getString( "HockeyControlPanel.Charges" ) +
                      hockeyModule.getModel().getChargeListSize();
 
         nbrChargesLbl = new JLabel( str );
@@ -124,7 +124,7 @@ public class ControlPanel extends JPanel {
         btnGroup.add( radio2 );
         btnGroup.add( radio3 );
 
-        massLbl = new JLabel( SimStrings.get( "HockeyControlPanel.Mass" ) );
+        massLbl = new JLabel( SimStrings.getInstance().getString( "HockeyControlPanel.Mass" ) );
         massLbl.setBackground( Color.green );
         // gmwb - leading space?
         // massText = new JTextField( " 25", 3 );
@@ -386,11 +386,11 @@ public class ControlPanel extends JPanel {
     }
 
     public void setNbrTriesLbl() {
-        nbrTriesLbl.setText( SimStrings.get( "HockeyControlPanel.Tries" ) + new Integer( nbrTries ).toString() );
+        nbrTriesLbl.setText( SimStrings.getInstance().getString( "HockeyControlPanel.Tries" ) + new Integer( nbrTries ).toString() );
     }
 
     public void setNbrChargesLbl( int n ) {
-        nbrChargesLbl.setText( SimStrings.get( "HockeyControlPanel.Charges" ) + new Integer( n ).toString() );
+        nbrChargesLbl.setText( SimStrings.getInstance().getString( "HockeyControlPanel.Charges" ) + new Integer( n ).toString() );
     }
 
     public void prt( String str ) {

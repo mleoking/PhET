@@ -56,7 +56,7 @@ public class MeasurementDialog extends JDialog {
 
     class PressureSliceControl extends JPanel {
         PressureSliceControl() {
-            final JCheckBox pressureSliceCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Measure_pressure_in_layer" ) );
+            final JCheckBox pressureSliceCB = new JCheckBox( SimStrings.getInstance().getString( "MeasurementControlPanel.Measure_pressure_in_layer" ) );
             this.add( pressureSliceCB );
             pressureSliceCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -68,7 +68,7 @@ public class MeasurementDialog extends JDialog {
 
     class RulerControl extends JPanel {
         RulerControl() {
-            final JCheckBox rulerCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Display_ruler" ) );
+            final JCheckBox rulerCB = new JCheckBox( SimStrings.getInstance().getString( "MeasurementControlPanel.Display_ruler" ) );
             this.add( rulerCB );
             rulerCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -80,7 +80,7 @@ public class MeasurementDialog extends JDialog {
 
     class HistogramControlPanel extends JPanel {
         HistogramControlPanel() {
-            final JCheckBox histogramCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Display_energy_histograms" ) );
+            final JCheckBox histogramCB = new JCheckBox( SimStrings.getInstance().getString( "MeasurementControlPanel.Display_energy_histograms" ) );
             this.add( histogramCB );
             histogramCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -98,7 +98,7 @@ public class MeasurementDialog extends JDialog {
 
     class CmLinesControl extends JPanel {
         CmLinesControl() {
-            final JCheckBox cmLinesOnCB = new JCheckBox( SimStrings.get( "IdealGasControlPanel.Show_CM_lines" ) );
+            final JCheckBox cmLinesOnCB = new JCheckBox( SimStrings.getInstance().getString( "IdealGasControlPanel.Show_CM_lines" ) );
             this.add( cmLinesOnCB );
             cmLinesOnCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
@@ -110,7 +110,7 @@ public class MeasurementDialog extends JDialog {
 
     class SpeciesMonitorControl extends JPanel {
         SpeciesMonitorControl() {
-            final JCheckBox speciesMonotorCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Show_species_information" ) );
+            final JCheckBox speciesMonotorCB = new JCheckBox( SimStrings.getInstance().getString( "MeasurementControlPanel.Show_species_information" ) );
             this.add( speciesMonotorCB );
             speciesMonotorCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -129,7 +129,7 @@ public class MeasurementDialog extends JDialog {
     class StopwatchControl extends JPanel {
 
         public StopwatchControl() {
-           final JCheckBox stopwatchCB = new JCheckBox( SimStrings.get("MeasurementControlPanel.Stopwatch"), false );
+           final JCheckBox stopwatchCB = new JCheckBox( SimStrings.getInstance().getString("MeasurementControlPanel.Stopwatch"), false );
             stopwatchCB.addActionListener( new ActionListener() {
                 PhetFrame frame = PhetApplication.instance().getPhetFrame();
                 public void actionPerformed( ActionEvent e ) {

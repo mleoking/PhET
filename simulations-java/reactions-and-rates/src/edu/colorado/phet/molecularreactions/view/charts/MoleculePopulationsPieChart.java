@@ -55,7 +55,7 @@ public class MoleculePopulationsPieChart extends PieChartNode {
         setBounds( bounds );
 
         // Add the title
-        PText titleNode = new PText( SimStrings.get("StripChart.title") );
+        PText titleNode = new PText( SimStrings.getInstance().getString("StripChart.title") );
         addChild( titleNode );
 
         // If we don't position it here, the stripped paints get seams in them 

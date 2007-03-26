@@ -140,7 +140,7 @@ public class QTModule extends AbstractModule implements Observer {
      * Sole constructor.
      */
     public QTModule() {
-        super( SimStrings.get( "title.quantumTunneling" ), new QTClock(), true /* startsPaused */ );
+        super( SimStrings.getInstance().getString( "title.quantumTunneling" ), new QTClock(), true /* startsPaused */ );
 
         setLogoPanel( null );
         
@@ -294,7 +294,7 @@ public class QTModule extends AbstractModule implements Observer {
         
         // Configure button
         {
-            JButton jButton = new JButton( SimStrings.get( "button.configureEnergy" ) );
+            JButton jButton = new JButton( SimStrings.getInstance().getString( "button.configureEnergy" ) );
             jButton.setOpaque( false );
             jButton.addActionListener( listener );
             _configureButton = new PSwing( jButton );
@@ -302,7 +302,7 @@ public class QTModule extends AbstractModule implements Observer {
         
         // Measure button
         {
-            JButton jButton = new JButton( SimStrings.get( "button.measure" ) );
+            JButton jButton = new JButton( SimStrings.getInstance().getString( "button.measure" ) );
             jButton.setOpaque( false );
             jButton.addActionListener( listener );
             _measureButton = new PSwing( jButton );
@@ -365,19 +365,19 @@ public class QTModule extends AbstractModule implements Observer {
         
         HelpPane helpPane = getDefaultHelpPane();
 
-        HelpBalloon configureHelp = new HelpBalloon( helpPane, SimStrings.get( "help.configure" ), HelpBalloon.RIGHT_CENTER, 20 );
+        HelpBalloon configureHelp = new HelpBalloon( helpPane, SimStrings.getInstance().getString( "help.configure" ), HelpBalloon.RIGHT_CENTER, 20 );
         helpPane.add( configureHelp );
         configureHelp.pointAt( _configureButton, _canvas );
         
-        HelpBalloon dragHandleHelp = new HelpBalloon( helpPane, SimStrings.get( "help.dragHandle" ), HelpBalloon.RIGHT_TOP, 20 );
+        HelpBalloon dragHandleHelp = new HelpBalloon( helpPane, SimStrings.getInstance().getString( "help.dragHandle" ), HelpBalloon.RIGHT_TOP, 20 );
         helpPane.add( dragHandleHelp );
         dragHandleHelp.pointAt( _totalEnergyControl, _canvas );
         
-        HelpBalloon zoomHelp = new HelpBalloon( helpPane, SimStrings.get( "help.zoom" ), HelpBalloon.LEFT_CENTER, 30 );
+        HelpBalloon zoomHelp = new HelpBalloon( helpPane, SimStrings.getInstance().getString( "help.zoom" ), HelpBalloon.LEFT_CENTER, 30 );
         helpPane.add( zoomHelp );
         zoomHelp.pointAt( _waveFunctionZoomControl, _canvas );
         
-        HelpBalloon restartHelp = new HelpBalloon( helpPane, SimStrings.get( "help.restart" ), HelpBalloon.BOTTOM_CENTER, 80 );
+        HelpBalloon restartHelp = new HelpBalloon( helpPane, SimStrings.getInstance().getString( "help.restart" ), HelpBalloon.BOTTOM_CENTER, 80 );
         helpPane.add(  restartHelp );
         restartHelp.pointAt( _clockControls.getRestartComponent() );
         

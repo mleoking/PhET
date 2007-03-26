@@ -51,7 +51,7 @@ public class WavePacketSpacingSlider extends AbstractFourierSlider {
      * Sole constructor.
      */
     public WavePacketSpacingSlider() {
-        super( SimStrings.get( "WavePacketSpacingSlider.format.space" ) );
+        super( SimStrings.getInstance().getString( "WavePacketSpacingSlider.format.space" ) );
         
         // Min/max are the indicies of the VALUES array.
         getSlider().setMinimum( 0 );

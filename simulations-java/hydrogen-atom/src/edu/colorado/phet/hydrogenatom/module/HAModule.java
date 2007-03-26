@@ -126,7 +126,7 @@ public class HAModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public HAModule() {
-        super( SimStrings.get( "HAModule.title" ), new HAClock(), !HADefaults.CLOCK_RUNNING /* startsPaused */ );
+        super( SimStrings.getInstance().getString( "HAModule.title" ), new HAClock(), !HADefaults.CLOCK_RUNNING /* startsPaused */ );
 
         // hide the PhET logo
         setLogoPanel( null );
@@ -268,7 +268,7 @@ public class HAModule extends PiccoloModule {
         // Spectrometer
         {
             // Checkbox
-            _spectrometerCheckBox = new JCheckBox( SimStrings.get( "label.showSpectrometer" ) );
+            _spectrometerCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showSpectrometer" ) );
 //            _spectrometerCheckBox.setOpaque( false ); //XXX preferrable to setting background, but looks lousy on Windows
             _spectrometerCheckBox.setBackground( HAConstants.CANVAS_BACKGROUND );
             _spectrometerCheckBox.setForeground( HAConstants.CANVAS_LABELS_COLOR );
@@ -282,7 +282,7 @@ public class HAModule extends PiccoloModule {
             _spectrometerCheckBoxNode.addInputEventListener( new CursorHandler() );
 
             // Spectrometer
-            String title = SimStrings.get( "label.photonsEmitted" );
+            String title = SimStrings.getInstance().getString( "label.photonsEmitted" );
             _spectrometerNode = new SpectrometerNode( HAConstants.SPECTROMETER_SIZE, title, _spectrometerFont, HAConstants.SPECTROMETER_MIN_WAVELENGTH, HAConstants.SPECTROMETER_MAX_WAVELENGTH );
             _spectrometerNode.addCloseListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
@@ -302,7 +302,7 @@ public class HAModule extends PiccoloModule {
         // Energy diagrams
         {
             // checkbox
-            _energyDiagramCheckBox = new JCheckBox( SimStrings.get( "label.showEnergyDiagram" ) );
+            _energyDiagramCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showEnergyDiagram" ) );
 //            _energyDiagramCheckBox.setOpaque( false );//XXX preferrable to setting background, but looks lousy on Windows
             _energyDiagramCheckBox.setBackground( HAConstants.CANVAS_BACKGROUND );
             _energyDiagramCheckBox.setForeground( HAConstants.CANVAS_LABELS_COLOR );
@@ -605,7 +605,7 @@ public class HAModule extends PiccoloModule {
         if ( !_wiggleMeInitialized ) {
             
             // Create wiggle me, add to root node.
-            String wiggleMeString = SimStrings.get( "wiggleMe.gun" );  
+            String wiggleMeString = SimStrings.getInstance().getString( "wiggleMe.gun" );
             _wiggleMe = new HAWiggleMe( _canvas, wiggleMeString );
             _rootNode.addChild( _wiggleMe );
             
@@ -759,12 +759,12 @@ public class HAModule extends PiccoloModule {
         _spectrometerSnapshotsCounter++;
 
         // create the snapshot title
-        String title = SimStrings.get( "label.snapshot" ) + " " + _spectrometerSnapshotsCounter + ": ";
+        String title = SimStrings.getInstance().getString( "label.snapshot" ) + " " + _spectrometerSnapshotsCounter + ": ";
         if ( _modeSwitch.isPredictionSelected() ) {
             title += _atomicModelSelector.getSelectionName();
         }
         else {
-            title += SimStrings.get( "title.spectrometer.experiment" );
+            title += SimStrings.getInstance().getString( "title.spectrometer.experiment" );
         }
 
         // create the snapshot's Piccolo node

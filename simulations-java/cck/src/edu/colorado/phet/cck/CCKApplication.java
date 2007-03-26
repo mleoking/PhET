@@ -41,8 +41,8 @@ public class CCKApplication extends PiccoloPhetApplication {
     private static String AC_OPTION = "-dynamics";
 
     public CCKApplication( String[] args ) throws IOException {
-        super( args, SimStrings.get( "CCKApplication.title" ) + getSubTitle( args ),
-               SimStrings.get( "CCKApplication.description" ),
+        super( args, SimStrings.getInstance().getString( "CCKApplication.title" ) + getSubTitle( args ),
+               SimStrings.getInstance().getString( "CCKApplication.description" ),
                readVersion(), createFrameSetup() );
 
         boolean debugMode = false;

@@ -88,7 +88,7 @@ public class MoleculeTrackerPane extends PNode implements SimpleObserver {
         moleculePaneAxisNode = new PNode();
         separationIndicatorArrow = new SeparationIndicatorArrow( Color.black );
         moleculePaneAxisNode.addChild( separationIndicatorArrow );
-        PText siaLabel = new PText( SimStrings.get( "EnergyView.separation" ) );
+        PText siaLabel = new PText( SimStrings.getInstance().getString( "EnergyView.separation" ) );
         siaLabel.setFont( axisFont );
         siaLabel.rotate( -Math.PI / 2 );
         siaLabel.setOffset( curveAreaInsets.left / 2 - siaLabel.getFullBounds().getWidth() + 2,

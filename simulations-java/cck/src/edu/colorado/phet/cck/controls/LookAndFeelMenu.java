@@ -14,8 +14,8 @@ import javax.swing.*;
 
 public class LookAndFeelMenu extends JMenu {
     public LookAndFeelMenu() {
-        super( SimStrings.get( "ViewMenu.Title" ) );
-        setMnemonic( SimStrings.get( "ViewMenu.TitleMnemonic" ).charAt( 0 ) );
+        super( SimStrings.getInstance().getString( "ViewMenu.Title" ) );
+        setMnemonic( SimStrings.getInstance().getString( "ViewMenu.TitleMnemonic" ).charAt( 0 ) );
         JMenuItem[] jmi = PlafUtil.getLookAndFeelItems();
         for( int i = 0; i < jmi.length; i++ ) {
             JMenuItem jMenuItem = jmi[i];

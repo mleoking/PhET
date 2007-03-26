@@ -93,7 +93,7 @@ public class PickupCoilPanel extends FaradayPanel {
         
         //  Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
-        String title = SimStrings.get( "PickupCoilPanel.title" );
+        String title = SimStrings.getInstance().getString( "PickupCoilPanel.title" );
         TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
         titleBorder.setTitleFont( getTitleFont() );
         setBorder( titleBorder );
@@ -101,7 +101,7 @@ public class PickupCoilPanel extends FaradayPanel {
         JPanel indicatorPanel = new JPanel();
         {
             // Title
-            TitledBorder indicatorBorder = new TitledBorder( SimStrings.get( "PickupCoilPanel.indicator" ) );
+            TitledBorder indicatorBorder = new TitledBorder( SimStrings.getInstance().getString( "PickupCoilPanel.indicator" ) );
             indicatorPanel.setBorder( indicatorBorder );
 
             // Layout
@@ -127,8 +127,8 @@ public class PickupCoilPanel extends FaradayPanel {
             }
             catch ( IOException ioe ) {
                 // Radio buttons with text.
-                _lightbulbRadioButton = new JRadioButton( SimStrings.get( "PickupCoilPanel.lightbulb" ) );
-                _voltmeterRadioButton = new JRadioButton( SimStrings.get( "PickupCoilPanel.voltmeter" ) );
+                _lightbulbRadioButton = new JRadioButton( SimStrings.getInstance().getString( "PickupCoilPanel.lightbulb" ) );
+                _voltmeterRadioButton = new JRadioButton( SimStrings.getInstance().getString( "PickupCoilPanel.voltmeter" ) );
                 
                 // Vertical layout
                 layout.addAnchoredComponent( _lightbulbRadioButton, 0, 0, GridBagConstraints.WEST );
@@ -144,7 +144,7 @@ public class PickupCoilPanel extends FaradayPanel {
         // Number of loops
         JPanel loopsPanel = new JPanel();
         {
-            JLabel loopsLabel = new JLabel( SimStrings.get( "PickupCoilPanel.numberOfLoops" ) );
+            JLabel loopsLabel = new JLabel( SimStrings.getInstance().getString( "PickupCoilPanel.numberOfLoops" ) );
 
             // Spinner, keyboard editing disabled.
             SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
@@ -175,7 +175,7 @@ public class PickupCoilPanel extends FaradayPanel {
             int range = max - min;
 
             // Slider
-            String format = SimStrings.get( "PickupCoilPanel.area" );
+            String format = SimStrings.getInstance().getString( "PickupCoilPanel.area" );
             _areaSlider = new ControlPanelSlider( format );
             _areaSlider.setMaximum( max );
             _areaSlider.setMinimum( min );
@@ -186,7 +186,7 @@ public class PickupCoilPanel extends FaradayPanel {
         }
         
         // Electrons on/off
-        _electronsCheckBox = new JCheckBox( SimStrings.get( "PickupCoilPanel.showElectrons" ) );
+        _electronsCheckBox = new JCheckBox( SimStrings.getInstance().getString( "PickupCoilPanel.showElectrons" ) );
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );

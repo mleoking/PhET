@@ -22,8 +22,8 @@ public class DiffusionApplication extends PhetApplication {
 
     public DiffusionApplication( String[] args ) {
         super( args,
-               SimStrings.get( "DiffusionApplication.title" ),
-               SimStrings.get( "DiffusionApplication.description" ),
+               SimStrings.getInstance().getString( "DiffusionApplication.title" ),
+               SimStrings.getInstance().getString( "DiffusionApplication.description" ),
                IdealGasConfig.VERSION,
 //               new SwingClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true ),
 //               true,

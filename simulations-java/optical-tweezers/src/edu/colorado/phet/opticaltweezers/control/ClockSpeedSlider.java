@@ -40,9 +40,9 @@ public class ClockSpeedSlider extends JSlider {
         setPaintTicks( true );
         setPaintLabels( true );
         
-        JLabel slowLabel = new JLabel( SimStrings.get( "label.slow" ) );
+        JLabel slowLabel = new JLabel( SimStrings.getInstance().getString( "label.slow" ) );
         slowLabel.setFont( font );
-        JLabel fastLabel = new JLabel( SimStrings.get( "label.fast" ) );
+        JLabel fastLabel = new JLabel( SimStrings.getInstance().getString( "label.fast" ) );
         fastLabel.setFont( font );
         Hashtable labelTable = new Hashtable();
         labelTable.put( new Integer( getMinimum() ), slowLabel );

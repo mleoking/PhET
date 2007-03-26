@@ -17,29 +17,29 @@ public class ScorePanel extends JPanel implements ItemListener {
     boolean traceOn;
     boolean clockOn;
 
-    JButton startBtn = new JButton( SimStrings.get( "ScorePanel.RestartButton" ) );
-    JButton pauseBtn = new JButton( SimStrings.get( "ScorePanel.PauseButton" ) );
-    JButton resetBtn = new JButton( SimStrings.get( "ScorePanel.ResetButton" ) );
+    JButton startBtn = new JButton( SimStrings.getInstance().getString( "ScorePanel.RestartButton" ) );
+    JButton pauseBtn = new JButton( SimStrings.getInstance().getString( "ScorePanel.PauseButton" ) );
+    JButton resetBtn = new JButton( SimStrings.getInstance().getString( "ScorePanel.ResetButton" ) );
     //JButton soundBtn = new JButton("Sound ON/OFF");
-    JCheckBox soundChkBox = new JCheckBox( SimStrings.get( "ScorePanel.SoundCheckBox" ), true );
-    JCheckBox traceChkBox = new JCheckBox( SimStrings.get( "ScorePanel.TraceCheckBox" ), false );
-    JButton scoreBtn = new JButton( SimStrings.get( "ScorePanel.StartButton" ) );
+    JCheckBox soundChkBox = new JCheckBox( SimStrings.getInstance().getString( "ScorePanel.SoundCheckBox" ), true );
+    JCheckBox traceChkBox = new JCheckBox( SimStrings.getInstance().getString( "ScorePanel.TraceCheckBox" ), false );
+    JButton scoreBtn = new JButton( SimStrings.getInstance().getString( "ScorePanel.StartButton" ) );
 
-    JRadioButton radio0 = new JRadioButton( SimStrings.get( "ScorePanel.PracticeRadioButton" ), true );
-    JRadioButton radio1 = new JRadioButton( SimStrings.get( "ScorePanel.Level1RadioButton" ), false );
-    JRadioButton radio2 = new JRadioButton( SimStrings.get( "ScorePanel.Level2RadioButton" ), false );
-    JRadioButton radio3 = new JRadioButton( SimStrings.get( "ScorePanel.CertainDeathRadioButton" ), false );
+    JRadioButton radio0 = new JRadioButton( SimStrings.getInstance().getString( "ScorePanel.PracticeRadioButton" ), true );
+    JRadioButton radio1 = new JRadioButton( SimStrings.getInstance().getString( "ScorePanel.Level1RadioButton" ), false );
+    JRadioButton radio2 = new JRadioButton( SimStrings.getInstance().getString( "ScorePanel.Level2RadioButton" ), false );
+    JRadioButton radio3 = new JRadioButton( SimStrings.getInstance().getString( "ScorePanel.CertainDeathRadioButton" ), false );
 
     ButtonGroup radioGroup = new ButtonGroup();
     ClockPanel myClock1;
 
-    JLabel timeLbl = new JLabel( SimStrings.get( "ScorePanel.TimeLabel" ) + ":" );
+    JLabel timeLbl = new JLabel( SimStrings.getInstance().getString( "ScorePanel.TimeLabel" ) + ":" );
 
     //JLabel timeInSecLbl = new JLabel("0.0");
-    JLabel collisionsLbl = new JLabel( SimStrings.get( "ScorePanel.CollisionsLabel" ) + ":" );
+    JLabel collisionsLbl = new JLabel( SimStrings.getInstance().getString( "ScorePanel.CollisionsLabel" ) + ":" );
     JLabel nbrCollisionsLbl = new JLabel( "0" );
-    JLabel scoreLbl = new JLabel( SimStrings.get( "ScorePanel.ScoreLabel" ) + ":" );
-    JLabel ptsScoreLbl = new JLabel( SimStrings.get( "ScorePanel.NoGameLabel" ) );
+    JLabel scoreLbl = new JLabel( SimStrings.getInstance().getString( "ScorePanel.ScoreLabel" ) + ":" );
+    JLabel ptsScoreLbl = new JLabel( SimStrings.getInstance().getString( "ScorePanel.NoGameLabel" ) );
 
     JPanel panel1 = new JPanel();
     JPanel panel2 = new JPanel();
@@ -175,7 +175,7 @@ public class ScorePanel extends JPanel implements ItemListener {
             ScorePanel.this.pArena.stop();
             myClock1.stop();
             //startStopLbl.setText("Press start to begin.");
-            startBtn.setText( SimStrings.get( "ScorePanel.RestartButton" ) );
+            startBtn.setText( SimStrings.getInstance().getString( "ScorePanel.RestartButton" ) );
             startBtn.setEnabled( true );
             pauseBtn.setEnabled( false );
             resetBtn.setEnabled( true );

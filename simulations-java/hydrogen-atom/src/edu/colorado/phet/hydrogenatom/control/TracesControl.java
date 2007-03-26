@@ -27,7 +27,7 @@ public class TracesControl extends JCheckBox {
 
     public TracesControl( Font font ) {
         super();
-        setText( SimStrings.get( "label.showTraces" ) );
+        setText( SimStrings.getInstance().getString( "label.showTraces" ) );
         setFont( font );
         setOpaque( false );
     }

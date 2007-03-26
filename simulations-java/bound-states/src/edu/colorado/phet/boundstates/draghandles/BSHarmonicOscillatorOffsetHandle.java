@@ -49,7 +49,7 @@ public class BSHarmonicOscillatorOffsetHandle extends BSPotentialHandle {
         int significantDecimalPlaces = potentialSpec.getOffsetRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
         setValueNumberFormat( numberFormat );
-        setValuePattern( SimStrings.get( "drag.offset" ) );
+        setValuePattern( SimStrings.getInstance().getString( "drag.offset" ) );
         
         updateDragBounds();
     }

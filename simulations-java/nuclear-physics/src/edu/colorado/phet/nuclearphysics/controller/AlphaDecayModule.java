@@ -8,10 +8,8 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -20,12 +18,9 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
-import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
-import edu.colorado.phet.piccolo.help.WiggleMe;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +31,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.*;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 public class AlphaDecayModule extends ProfiledNucleusModule implements DecayListener, PreDecayListener {
 
@@ -66,7 +60,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
      * @param clock
      */
     public AlphaDecayModule( IClock clock ) {
-        super( SimStrings.get( "ModuleTitle.AlphaDecayModule" ), clock, EnergyProfileGraphic.TOTAL_ENERGY );
+        super( SimStrings.getInstance().getString( "ModuleTitle.AlphaDecayModule" ), clock, EnergyProfileGraphic.TOTAL_ENERGY );
     }
 
     /**
@@ -246,7 +240,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
             try {
                 Image image = ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_REWIND );
                 Icon icon = new ImageIcon( image );
-                rewindToDecayBtn = new JButton( SimStrings.get( "AlphaDecayControlPanel.Rewind" ), icon );
+                rewindToDecayBtn = new JButton( SimStrings.getInstance().getString( "AlphaDecayControlPanel.Rewind" ), icon );
             }
             catch( IOException e ) {
                 e.printStackTrace();
@@ -334,7 +328,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
                     Font font = new Font( "Lucida Sans", Font.BOLD, 24 );
                     wiggleMe = new PhetTextGraphic2( getPhysicalPanel(),
                                                                  font,
-                                                                 SimStrings.get( "AlphaDecayControlPanel.DecayMessage" ),
+                                                                 SimStrings.getInstance().getString( "AlphaDecayControlPanel.DecayMessage" ),
                                                                  Color.red, 30, 100 );
                     getPhysicalPanel().addGraphic( wiggleMe, 1E6 );
                     wiggleMe.repaint();
@@ -358,15 +352,15 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     // Implementation of abstract methods
     //--------------------------------------------------------------------------------------------------
     protected String getEnergyLegendHeader() {
-        return SimStrings.get( "PotentialProfilePanel.YAxisLabel1" );
+        return SimStrings.getInstance().getString( "PotentialProfilePanel.YAxisLabel1" );
     }
 
     protected String getPotentialEnergyLegend() {
-        return SimStrings.get( "PotentialProfilePanel.legend.PotentialEnergy" );
+        return SimStrings.getInstance().getString( "PotentialProfilePanel.legend.PotentialEnergy" );
     }
 
     protected String getTotalEnergyLegend() {
-        return SimStrings.get( "PotentialProfilePanel.legend.TotalEnergy" );
+        return SimStrings.getInstance().getString( "PotentialProfilePanel.legend.TotalEnergy" );
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -23,15 +23,15 @@ import javax.swing.*;
 public class ViewMenu extends JMenu {
 
     public ViewMenu() {
-        super( SimStrings.get( "Common.ViewMenu.Title" ) );
-        this.setMnemonic( SimStrings.get( "Common.ViewMenu.TitleMnemonic" ).charAt( 0 ) );
+        super( SimStrings.getInstance().getString( "Common.ViewMenu.Title" ) );
+        this.setMnemonic( SimStrings.getInstance().getString( "Common.ViewMenu.TitleMnemonic" ).charAt( 0 ) );
         JMenu subMenu = new JMenu();
-        subMenu.setText( SimStrings.get( "Common.ViewMenu.LookandFeel" ) );
-        subMenu.setMnemonic( SimStrings.get( "Common.ViewMenu.LookandFeelMnemonic" ).charAt( 0 ) );
+        subMenu.setText( SimStrings.getInstance().getString( "Common.ViewMenu.LookandFeel" ) );
+        subMenu.setMnemonic( SimStrings.getInstance().getString( "Common.ViewMenu.LookandFeelMnemonic" ).charAt( 0 ) );
 
         // bold checkbox item
         JCheckBoxMenuItem checkItem = new JCheckBoxMenuItem();
-        checkItem.setText( SimStrings.get( "Common.ViewMenu.Test" ) );
+        checkItem.setText( SimStrings.getInstance().getString( "Common.ViewMenu.Test" ) );
         subMenu.add( checkItem );
 
         this.add( subMenu );

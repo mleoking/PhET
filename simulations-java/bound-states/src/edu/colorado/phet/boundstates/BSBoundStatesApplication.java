@@ -91,8 +91,8 @@ public class BSBoundStatesApplication extends BSAbstractApplication {
                 Properties simulationProperties = PropertiesLoader.loadProperties( BSConstants.SIM_PROPERTIES_NAME );
                 
                 // Title & description
-                String title = SimStrings.get( "BSBoundStatesApplication.title" );
-                String description = SimStrings.get( "BSBoundStatesApplication.description" );
+                String title = SimStrings.getInstance().getString( "BSBoundStatesApplication.title" );
+                String description = SimStrings.getInstance().getString( "BSBoundStatesApplication.description" );
                 
                 // Version
                 String version = PhetApplication.getVersionString( simulationProperties );

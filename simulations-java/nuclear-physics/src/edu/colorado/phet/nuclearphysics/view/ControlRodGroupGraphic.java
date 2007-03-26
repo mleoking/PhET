@@ -17,15 +17,11 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.nuclearphysics.Config;
-import edu.colorado.phet.nuclearphysics.util.DefaultInteractiveGraphic;
-import edu.colorado.phet.nuclearphysics.util.Translatable;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 import edu.colorado.phet.nuclearphysics.model.ControlRod;
 import edu.colorado.phet.nuclearphysics.model.Vessel;
 
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.geom.*;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -173,7 +169,7 @@ public class ControlRodGroupGraphic extends CompositePhetGraphic {
             graphics2D.transform( atx );
             super.paint( graphics2D );
 
-            String str = SimStrings.get( "ControlledFissionControlPanel.ControlRodAdjuster" );
+            String str = SimStrings.getInstance().getString( "ControlledFissionControlPanel.ControlRodAdjuster" );
 //            String str = "Control Rod Adjuster";
             double x = verticalBar.getCenterX();
             double y = verticalBar.getCenterY();

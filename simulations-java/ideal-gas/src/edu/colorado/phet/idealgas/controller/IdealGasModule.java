@@ -132,7 +132,7 @@ public class IdealGasModule extends PhetGraphicsModule {
      * @param clock
      */
     public IdealGasModule( SimulationClock clock ) {
-        this( clock, SimStrings.get( "ModuleTitle.IdealGas" ) );
+        this( clock, SimStrings.getInstance().getString( "ModuleTitle.IdealGas" ) );
         this.clock = clock;
     }
 
@@ -216,7 +216,7 @@ public class IdealGasModule extends PhetGraphicsModule {
      * @return names of species
      */
     protected String[] getSpeciesNames() {
-        return new String[]{SimStrings.get( "Common.Heavy_Species" ), SimStrings.get( "Common.Light_Species" )};
+        return new String[]{SimStrings.getInstance().getString( "Common.Heavy_Species" ), SimStrings.getInstance().getString( "Common.Light_Species" )};
     }
 
     /**
@@ -594,13 +594,13 @@ public class IdealGasModule extends PhetGraphicsModule {
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
             ctrlPane.add( aveTimeTF, gbc );
-            ctrlPane.add( new JLabel( SimStrings.get( "IdealGasModule.StopwatchTimeUnits" ) ), gbc );
+            ctrlPane.add( new JLabel( SimStrings.getInstance().getString( "IdealGasModule.StopwatchTimeUnits" ) ), gbc );
             gbc.insets = new Insets( 0, 10, 0, 0 );
             ctrlPane.add( setTimeBtn, gbc );
             Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
                                                                 new Color( 40, 20, 255 ),
                                                                 Color.black ),
-                                              SimStrings.get( "IdealGasControlPanel.AveTimePanelTitle" ) );
+                                              SimStrings.getInstance().getString( "IdealGasControlPanel.AveTimePanelTitle" ) );
             ctrlPane.setBorder( border );
             Color background = new Color( 240, 230, 255 );
             ctrlPane.setBackground( background );

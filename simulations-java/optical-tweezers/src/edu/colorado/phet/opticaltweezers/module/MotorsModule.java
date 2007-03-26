@@ -47,7 +47,7 @@ public class MotorsModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public MotorsModule() {
-        super( SimStrings.get( "MotorsModule.title" ), MotorsDefaults.CLOCK, MotorsDefaults.CLOCK_PAUSED );
+        super( SimStrings.getInstance().getString( "MotorsModule.title" ), MotorsDefaults.CLOCK, MotorsDefaults.CLOCK_PAUSED );
 
         //----------------------------------------------------------------------------
         // Model

@@ -36,7 +36,7 @@ public class AtomTypeChooser extends JPanel {
     public AtomTypeChooser( final DischargeLampModel model, ElementProperties[] elementProperties ) {
         super( new GridBagLayout() );
 
-        setBorder( new TitledBorder( SimStrings.get("Controls.AtomType" )) );
+        setBorder( new TitledBorder( SimStrings.getInstance().getString("Controls.AtomType" )) );
         JComboBox comboBox = new JComboBox( elementProperties );
         comboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

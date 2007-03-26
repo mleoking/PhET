@@ -18,7 +18,7 @@ import java.awt.event.WindowEvent;
 public class EnergyLevelsDialog extends JDialog {
 
     public EnergyLevelsDialog( Frame parent, JPanel energyLevelsPanel ) {
-        super( parent, SimStrings.get( "EnergyLevelsDialog.Title" ) );
+        super( parent, SimStrings.getInstance().getString( "EnergyLevelsDialog.Title" ) );
 
         // Make the window plain, with no way to close it
         this.setUndecorated( true );

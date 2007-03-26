@@ -70,11 +70,11 @@ public class QTClockControls extends JPanel implements ClockListener {
         _clock.addClockListener( this );
         
         // Labels
-        String restartLabel = SimStrings.get( "button.restart" );
-        String playLabel = SimStrings.get( "button.play" );
-        String pauseLabel = SimStrings.get( "button.pause" );
-        String stepLabel = SimStrings.get( "button.step" );
-        String timeUnitsLabel = SimStrings.get( "units.time" );
+        String restartLabel = SimStrings.getInstance().getString( "button.restart" );
+        String playLabel = SimStrings.getInstance().getString( "button.play" );
+        String pauseLabel = SimStrings.getInstance().getString( "button.pause" );
+        String stepLabel = SimStrings.getInstance().getString( "button.step" );
+        String timeUnitsLabel = SimStrings.getInstance().getString( "units.time" );
         
         // Icons
         Icon restartIcon = null;

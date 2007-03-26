@@ -30,14 +30,14 @@ public class EmRepSelector extends JPanel {
         setBorder( BorderFactory.createEtchedBorder() );
 //        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "EMW Representation" ) );
 
-        JRadioButton photonViewButton = new JRadioButton( SimStrings.get( "ControlPanel.PhotonView" ) );
+        JRadioButton photonViewButton = new JRadioButton( SimStrings.getInstance().getString( "ControlPanel.PhotonView" ) );
         photonViewButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setEmRep( NmrModule.PHOTON_VIEW );
             }
         } );
 
-        JRadioButton waveViewButton = new JRadioButton( SimStrings.get( "ControlPanel.WaveView" ) );
+        JRadioButton waveViewButton = new JRadioButton( SimStrings.getInstance().getString( "ControlPanel.WaveView" ) );
         waveViewButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setEmRep( NmrModule.WAVE_VIEW );

@@ -51,7 +51,7 @@ public class PumpSpeciesSelectorPanel extends GraphicLayerSet {
 //        GridBagConstraints gbc = null;
 //        gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
 //        basePanel.add( buttonPanel, gbc );
-        setTitle( SimStrings.get( "IdealGasControlPanel.Pump_Gas" ) );
+        setTitle( SimStrings.getInstance().getString( "IdealGasControlPanel.Pump_Gas" ) );
 //        Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
 //                                                            new Color( 40, 20, 255 ),
 //                                                            Color.black ),
@@ -111,10 +111,10 @@ public class PumpSpeciesSelectorPanel extends GraphicLayerSet {
          * Sets up the radio buttons for selecting a species
          */
         private void makeRadioButtons() {
-            heavySpeciesRB = new JRadioButton( SimStrings.get( "Common.Heavy_Species" ) );
+            heavySpeciesRB = new JRadioButton( SimStrings.getInstance().getString( "Common.Heavy_Species" ) );
             heavySpeciesRB.setForeground( Color.blue );
             heavySpeciesRB.setBackground( backgroundColor );
-            lightSpeciesRB = new JRadioButton( SimStrings.get( "Common.Light_Species" ) );
+            lightSpeciesRB = new JRadioButton( SimStrings.getInstance().getString( "Common.Light_Species" ) );
             lightSpeciesRB.setForeground( Color.red );
             lightSpeciesRB.setBackground( backgroundColor );
             final ButtonGroup speciesGroup = new ButtonGroup();

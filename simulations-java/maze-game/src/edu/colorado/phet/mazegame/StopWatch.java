@@ -36,9 +36,9 @@ public class StopWatch extends JPanel {
         timeLbl.setFont( myClockFont );
         timeLbl.setText( clockTimeString );
 
-        startBtn = new JButton( SimStrings.get( "StopWatch.StartButton" ) );
-        stopBtn = new JButton( SimStrings.get( "StopWatch.StopButton" ) );
-        resetBtn = new JButton( SimStrings.get( "StopWatch.ResetButton" ) );
+        startBtn = new JButton( SimStrings.getInstance().getString( "StopWatch.StartButton" ) );
+        stopBtn = new JButton( SimStrings.getInstance().getString( "StopWatch.StopButton" ) );
+        resetBtn = new JButton( SimStrings.getInstance().getString( "StopWatch.ResetButton" ) );
 
 
         myTimer1 = new Timer( TENTH_SEC, new ActionListener() {

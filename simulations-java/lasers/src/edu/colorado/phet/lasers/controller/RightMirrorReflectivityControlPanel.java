@@ -62,7 +62,7 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         this.setLayout( new GridBagLayout() );
-        JLabel title = new JLabel( SimStrings.get( "RightMirrorReflectivityControlPanel.BorderTitle" ) );
+        JLabel title = new JLabel( SimStrings.getInstance().getString( "RightMirrorReflectivityControlPanel.BorderTitle" ) );
         gbc.gridwidth = 2;
         this.add( title, gbc );
         gbc.gridwidth = 1;

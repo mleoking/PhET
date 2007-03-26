@@ -12,7 +12,6 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision_idealgas.VerticalBarrier;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -122,11 +121,11 @@ abstract public class AdvancedModule extends IdealGasModule {
         setParticleCounterRegions();
 
         // Put readouts on the apparatus panel
-        PhetGraphic leftCounterReadout = new ReadoutGraphic( leftRegionParticleCounter, SimStrings.get( "AdvancedModule.Count" ) + ": " );
+        PhetGraphic leftCounterReadout = new ReadoutGraphic( leftRegionParticleCounter, SimStrings.getInstance().getString( "AdvancedModule.Count" ) + ": " );
         leftCounterReadout.setLocation( (int)boxBounds.getMinX() + 0, (int)boxBounds.getMaxY() + 7 );
         addGraphic( leftCounterReadout, IdealGasConfig.READOUT_LAYER );
 
-        PhetGraphic rightCounterReadout = new ReadoutGraphic( rightRegionParticleCounter, SimStrings.get( "AdvancedModule.Count" ) + ": " );
+        PhetGraphic rightCounterReadout = new ReadoutGraphic( rightRegionParticleCounter, SimStrings.getInstance().getString( "AdvancedModule.Count" ) + ": " );
         rightCounterReadout.setLocation( (int)boxBounds.getMaxX() - 110, (int)boxBounds.getMaxY() + 7 );
         addGraphic( rightCounterReadout, IdealGasConfig.READOUT_LAYER );
 
@@ -158,8 +157,8 @@ abstract public class AdvancedModule extends IdealGasModule {
      * @return
      */
     protected String[] getSpeciesNames() {
-        return new String[]{SimStrings.get( "AdvancedModule.Particle_Type_A" ),
-                            SimStrings.get( "AdvancedModule.Particle_Type_B" )};
+        return new String[]{SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_A" ),
+                            SimStrings.getInstance().getString( "AdvancedModule.Particle_Type_B" )};
     }
 
     /**

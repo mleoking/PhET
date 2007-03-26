@@ -16,7 +16,7 @@ public class TestIL8N {
     public static void main( String[] args ) {
         SimStrings.getInstance().init( args, "LabelsBundle" );
         String units = "cm";
-        String hello = MessageFormat.format( SimStrings.get( "hello.0" ), new Object[]{units} );
+        String hello = MessageFormat.format( SimStrings.getInstance().getString( "hello.0" ), new Object[]{units} );
         System.out.println( "hello = " + hello );
     }
 }

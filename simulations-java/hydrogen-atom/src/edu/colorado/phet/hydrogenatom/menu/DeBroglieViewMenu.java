@@ -38,14 +38,14 @@ public class DeBroglieViewMenu extends JMenu {
     private JRadioButtonMenuItem _brightnessMenuItem;
     
     public DeBroglieViewMenu( HAModule module ) {
-        super( SimStrings.get( "menu.deBroglieView" ) );
+        super( SimStrings.getInstance().getString( "menu.deBroglieView" ) );
         setMnemonic( SimStrings.getChar( "menu.deBroglieView.mnemonic" ) );
 
         _module = module;
         
-        _radialDistanceMenuItem = new JRadioButtonMenuItem( SimStrings.get( "menu.deBroglieView.radialDistance" ) );
-        _height3DMenuItem = new JRadioButtonMenuItem( SimStrings.get( "menu.deBroglieView.height3D" ) );
-        _brightnessMenuItem = new JRadioButtonMenuItem( SimStrings.get( "menu.deBroglieView.brightness" ) );
+        _radialDistanceMenuItem = new JRadioButtonMenuItem( SimStrings.getInstance().getString( "menu.deBroglieView.radialDistance" ) );
+        _height3DMenuItem = new JRadioButtonMenuItem( SimStrings.getInstance().getString( "menu.deBroglieView.height3D" ) );
+        _brightnessMenuItem = new JRadioButtonMenuItem( SimStrings.getInstance().getString( "menu.deBroglieView.brightness" ) );
 
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( _radialDistanceMenuItem );

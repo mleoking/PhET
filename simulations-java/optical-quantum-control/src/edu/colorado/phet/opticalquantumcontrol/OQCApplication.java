@@ -99,8 +99,8 @@ public class OQCApplication extends PhetApplication {
         if ( helpMenu != null ) {
             
             // Explanation...
-            JMenuItem explanationItem = new JMenuItem( SimStrings.get( "HelpMenu.explanation" ) );
-            explanationItem.setMnemonic( SimStrings.get( "HelpMenu.explanation.mnemonic" ).charAt( 0 ) );
+            JMenuItem explanationItem = new JMenuItem( SimStrings.getInstance().getString( "HelpMenu.explanation" ) );
+            explanationItem.setMnemonic( SimStrings.getInstance().getString( "HelpMenu.explanation.mnemonic" ).charAt( 0 ) );
             explanationItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _explanationDialog = new ExplanationDialog( getPhetFrame() );
@@ -110,8 +110,8 @@ public class OQCApplication extends PhetApplication {
             helpMenu.add( explanationItem );
             
             // Cheat...
-            JMenuItem cheatItem = new JMenuItem( SimStrings.get( "HelpMenu.cheat" ) );
-            cheatItem.setMnemonic( SimStrings.get( "HelpMenu.cheat.mnemonic" ).charAt( 0 ) );
+            JMenuItem cheatItem = new JMenuItem( SimStrings.getInstance().getString( "HelpMenu.cheat" ) );
+            cheatItem.setMnemonic( SimStrings.getInstance().getString( "HelpMenu.cheat.mnemonic" ).charAt( 0 ) );
             cheatItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _shaperModule.setCheatEnabled( true );
@@ -139,8 +139,8 @@ public class OQCApplication extends PhetApplication {
         Properties simulationProperties = PropertiesLoader.loadProperties( OQCConstants.SIM_PROPERTIES_NAME );
         
         // Title, etc.
-        String title = SimStrings.get( "OQCApplication.title" );
-        String description = SimStrings.get( "OQCApplication.description" );
+        String title = SimStrings.getInstance().getString( "OQCApplication.title" );
+        String description = SimStrings.getInstance().getString( "OQCApplication.description" );
         String version = PhetApplication.getVersionString( simulationProperties );
         
         // Frame setup

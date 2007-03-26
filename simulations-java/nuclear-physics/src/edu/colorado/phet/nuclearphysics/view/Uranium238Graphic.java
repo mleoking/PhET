@@ -7,7 +7,6 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Uranium235;
 import edu.colorado.phet.nuclearphysics.model.Uranium238;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -59,10 +58,10 @@ public class Uranium238Graphic extends NucleusGraphic {
         g.setColor( NucleusLabelColors.getColor( this.getClass() ));
         g.setFont( isotopeFont );
         FontMetrics fm = g.getFontMetrics();
-        g.drawString( SimStrings.get( "Uranium238Graphic.Number" ), -fm.stringWidth( SimStrings.get( "Uranium238Graphic.Number" ) ), 0 );
+        g.drawString( SimStrings.getInstance().getString( "Uranium238Graphic.Number" ), -fm.stringWidth( SimStrings.getInstance().getString( "Uranium238Graphic.Number" ) ), 0 );
         int dy = fm.getHeight() * 3 / 4;
         g.setFont( elementFont );
-        g.drawString( SimStrings.get( "Uranium238Graphic.Symbol" ), 0, dy );
+        g.drawString( SimStrings.getInstance().getString( "Uranium238Graphic.Symbol" ), 0, dy );
 
         g.setTransform( orgTx );
     }

@@ -11,7 +11,6 @@
 package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.application.PhetGraphicsModule;
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
@@ -357,11 +356,11 @@ public class DischargeLampModule extends PhetGraphicsModule {
                                                              GridBagConstraints.WEST,
                                                              GridBagConstraints.NONE,
                                                              new Insets( -2, 40, -2, 0 ), 0, 0 );
-            optionsPanel.setBorder( new TitledBorder( SimStrings.get( "Controls.Options" ) ) );
+            optionsPanel.setBorder( new TitledBorder( SimStrings.getInstance().getString( "Controls.Options" ) ) );
             JPanel cbPanel = new JPanel( new GridLayout( 2, 1 ) );
 
             // Add a button to show/hide the spectrometer
-            final JCheckBox spectrometerCB = new JCheckBox( SimStrings.get( "ControlPanel.SpectrometerButtonLabel" ) );
+            final JCheckBox spectrometerCB = new JCheckBox( SimStrings.getInstance().getString( "ControlPanel.SpectrometerButtonLabel" ) );
             spectrometerCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
@@ -371,7 +370,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
             } );
             spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
 
-            squiggleCB = new JCheckBox( SimStrings.get( "Controls.Squiggles" ) );
+            squiggleCB = new JCheckBox( SimStrings.getInstance().getString( "Controls.Squiggles" ) );
             squiggleCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     energyLevelsMonitorPanel.setSquigglesEnabled( squiggleCB.isSelected() );
@@ -393,7 +392,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
      * Adds a button to the clock control panel that will pop up an image of real lamps
      */
     private void createRealPictureControl() {
-        JButton realLampsBtn = new JButton( SimStrings.get( "Misc.ActualPixBtn.label" ) );
+        JButton realLampsBtn = new JButton( SimStrings.getInstance().getString( "Misc.ActualPixBtn.label" ) );
         realLampsBtn.addActionListener( new ActionListener() {
 
             public void actionPerformed( ActionEvent e ) {

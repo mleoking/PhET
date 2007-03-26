@@ -22,7 +22,7 @@ public class PotentialEnergyChart extends JFreeChart {
     private PotentialEnergyPlot _plot;
     
     public PotentialEnergyChart( PotentialEnergyPlot plot ) {
-        super( SimStrings.get( "title.potentialEnergyChart" ), null /* titleFont */, plot, false /* createLegend */ );
+        super( SimStrings.getInstance().getString( "title.potentialEnergyChart" ), null /* titleFont */, plot, false /* createLegend */ );
         setAntiAlias( true );
         setBorderVisible( true );
         setBackgroundPaint( BACKGROUND_COLOR );

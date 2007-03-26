@@ -118,7 +118,7 @@ public class HAApplication extends PiccoloPhetApplication {
         {
             HelpMenu helpMenu = frame.getHelpMenu();
             
-            JMenuItem legendMenuItem = new JMenuItem( SimStrings.get( "menu.help.legend" ) );
+            JMenuItem legendMenuItem = new JMenuItem( SimStrings.getInstance().getString( "menu.help.legend" ) );
             legendMenuItem.setMnemonic( SimStrings.getChar( "menu.help.legend.mnemonic" ) );
             legendMenuItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
@@ -127,7 +127,7 @@ public class HAApplication extends PiccoloPhetApplication {
             } );
             helpMenu.add( legendMenuItem );
             
-            JMenuItem transitionsMenuItem = new JMenuItem( SimStrings.get( "menu.help.transitions" ) );
+            JMenuItem transitionsMenuItem = new JMenuItem( SimStrings.getInstance().getString( "menu.help.transitions" ) );
             transitionsMenuItem.setMnemonic( SimStrings.getChar( "menu.help.transitions.mnemonic") );
             transitionsMenuItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
@@ -226,8 +226,8 @@ public class HAApplication extends PiccoloPhetApplication {
                 Properties simulationProperties = PropertiesLoader.loadProperties( HAConstants.SIM_PROPERTIES_NAME );
                 
                 // Title & description
-                String title = SimStrings.get( "HAApplication.title" );
-                String description = SimStrings.get( "HAApplication.description" );
+                String title = SimStrings.getInstance().getString( "HAApplication.title" );
+                String description = SimStrings.getInstance().getString( "HAApplication.description" );
 
                 // Version
                 String version = PhetApplication.getVersionString( simulationProperties );

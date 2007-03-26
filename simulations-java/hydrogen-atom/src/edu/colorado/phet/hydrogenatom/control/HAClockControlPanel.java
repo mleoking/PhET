@@ -82,9 +82,9 @@ public class HAClockControlPanel extends JPanel {
         _clock.setSimulationTimeChange( dt );
         
         // Labels (use localized strings from phetcommon)
-        String playLabel = SimStrings.get( "Common.ClockControlPanel.Play" );
-        String pauseLabel = SimStrings.get( "Common.ClockControlPanel.Pause" );
-        String stepLabel = SimStrings.get( "Common.ClockControlPanel.Step" );
+        String playLabel = SimStrings.getInstance().getString( "Common.ClockControlPanel.Play" );
+        String pauseLabel = SimStrings.getInstance().getString( "Common.ClockControlPanel.Pause" );
+        String stepLabel = SimStrings.getInstance().getString( "Common.ClockControlPanel.Step" );
         
         // Icons
         Icon playIcon = null;
@@ -113,8 +113,8 @@ public class HAClockControlPanel extends JPanel {
             _clockIndexSlider.setValue( HADefaults.CLOCK_INDEX );
             
             // Label the min "normal", the max "fast".
-            String normalString = SimStrings.get( "label.clockSpeed.slow" );
-            String fastString = SimStrings.get( "label.clockSpeed.fast" );
+            String normalString = SimStrings.getInstance().getString( "label.clockSpeed.slow" );
+            String fastString = SimStrings.getInstance().getString( "label.clockSpeed.fast" );
             Hashtable labelTable = new Hashtable();
             labelTable.put( new Integer( _clockIndexSlider.getMinimum() ), new JLabel( normalString ) );
             labelTable.put( new Integer( _clockIndexSlider.getMaximum() ), new JLabel( fastString ) );

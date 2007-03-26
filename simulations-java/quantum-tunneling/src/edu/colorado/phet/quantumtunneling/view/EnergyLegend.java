@@ -57,12 +57,12 @@ public class EnergyLegend extends PNode {
         setChildrenPickable( false );
         
         // Total Energy
-        _totalEnergyItem = new LegendItem( SimStrings.get( "legend.totalEnergy" ), QTConstants.COLOR_SCHEME.getTotalEnergyColor() );
+        _totalEnergyItem = new LegendItem( SimStrings.getInstance().getString( "legend.totalEnergy" ), QTConstants.COLOR_SCHEME.getTotalEnergyColor() );
         _totalEnergyItem.translate( 0, 0 );
         addChild( _totalEnergyItem );
         
         // Potential Energy
-        _potentialEnergyItem = new LegendItem( SimStrings.get( "legend.potentialEnergy" ), QTConstants.COLOR_SCHEME.getPotentialEnergyColor() );
+        _potentialEnergyItem = new LegendItem( SimStrings.getInstance().getString( "legend.potentialEnergy" ), QTConstants.COLOR_SCHEME.getPotentialEnergyColor() );
         _potentialEnergyItem.translate( _totalEnergyItem.getFullBounds().getWidth() + 20, 0 );
         addChild( _potentialEnergyItem );
         

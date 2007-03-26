@@ -126,11 +126,11 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
         JPanel speciesButtonPanel = new PChemParticleControlPanel( module, module.getPump(),
                                                                    leftParticlesLabel,
                                                                    rightParticlesLabel );
-        speciesButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Particles_In_Chamber" ) ) );
+        speciesButtonPanel.setBorder( new TitledBorder( SimStrings.getInstance().getString( "IdealGasControlPanel.Particles_In_Chamber" ) ) );
         particleControlsPanel.add( speciesButtonPanel, particleControlsGbc );
 
         // Add control for temperature at which particles are introduced
-        JLabel tempLbl = new JLabel( SimStrings.get( "AdvancedControlPanel.Particle_Temperature" ) );
+        JLabel tempLbl = new JLabel( SimStrings.getInstance().getString( "AdvancedControlPanel.Particle_Temperature" ) );
         particleControlsGbc.insets = new Insets( 10, 10, 10, 10 );
         particleControlsGbc.gridwidth = 1;
         particleControlsGbc.gridx = 0;
@@ -193,7 +193,7 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
     private void makeButtonPanel() {
 
         // Reset button
-        JButton resetBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Reset" ) );
+        JButton resetBtn = new JButton( SimStrings.getInstance().getString( "IdealGasControlPanel.Reset" ) );
         resetBtn.setBackground( new Color( 180, 255, 180 ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -238,8 +238,8 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
         gravitySlider.setMajorTickSpacing( 10 );
         gravitySlider.setMinorTickSpacing( 5 );
         Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( 0 ), new JLabel( SimStrings.get( "Common.0" ) ) );
-        labelTable.put( new Integer( IdealGasConfig.MAX_GRAVITY ), new JLabel( SimStrings.get( "Common.Max" ) ) );
+        labelTable.put( new Integer( 0 ), new JLabel( SimStrings.getInstance().getString( "Common.0" ) ) );
+        labelTable.put( new Integer( IdealGasConfig.MAX_GRAVITY ), new JLabel( SimStrings.getInstance().getString( "Common.Max" ) ) );
         gravitySlider.setLabelTable( labelTable );
         gravitySlider.setPaintLabels( true );
         gravityControlPanel.add( gravitySlider, gbc );
@@ -258,7 +258,7 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
         gravityFormat.setMinimumFractionDigits( 2 );
         gravityTF.setText( gravityFormat.format( 0 ) );
 
-        Border gravityBorder = new TitledBorder( SimStrings.get( "Common.Gravity" ) );
+        Border gravityBorder = new TitledBorder( SimStrings.getInstance().getString( "Common.Gravity" ) );
         gravityControlPanel.setBorder( gravityBorder );
         return gravityControlPanel;
     }
@@ -290,8 +290,8 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
     private class MeasurementDialogButton extends ToggleButton {
 
         public MeasurementDialogButton() {
-            super( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ),
-                   SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ) );
+            super( SimStrings.getInstance().getString( "IdealGasControlPanel.Measurement_Tools" ),
+                   SimStrings.getInstance().getString( "IdealGasControlPanel.Measurement_Tools" ) );
         }
 
         public void onAction() {

@@ -48,7 +48,7 @@ public class BSAsymmetricHeightHandle extends BSPotentialHandle {
         int significantDecimalPlaces = potentialSpec.getHeightRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
         setValueNumberFormat( numberFormat );
-        setValuePattern( SimStrings.get( "drag.height" ) );
+        setValuePattern( SimStrings.getInstance().getString( "drag.height" ) );
         
         updateDragBounds();
     }

@@ -125,7 +125,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
         addGraphic( backgroundGraphic, BACKGROUND_LAYER );
         
         // Title
-        String title = SimStrings.get( "D2CAmplitudesView.title" );
+        String title = SimStrings.getInstance().getString( "D2CAmplitudesView.title" );
         PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         titleGraphic.centerRegistrationPoint();
         titleGraphic.rotate( -( Math.PI / 2 ) );
@@ -441,10 +441,10 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
      */
     private void updateAxisTitles() {
         if ( _domain == Domain.SPACE ) {
-            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CAmplitudesView.xTitleSpace" ) );
+            _chartGraphic.setXAxisTitle( SimStrings.getInstance().getString( "D2CAmplitudesView.xTitleSpace" ) );
         }
         else if ( _domain == Domain.TIME ) {
-            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CAmplitudesView.xTitleTime" ) );
+            _chartGraphic.setXAxisTitle( SimStrings.getInstance().getString( "D2CAmplitudesView.xTitleTime" ) );
         }
         refreshChart();
     }

@@ -51,7 +51,7 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
     public BackgroundColorHandler( PhetApplication app ) {
         super();
         _app = app;
-        String title = SimStrings.get( "BackgroundColorDialog.title" );
+        String title = SimStrings.getInstance().getString( "BackgroundColorDialog.title" );
         Component parent = app.getPhetFrame();
         
         // Start with the active module's background color.

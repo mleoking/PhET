@@ -105,11 +105,11 @@ public class BSLauncher extends JFrame {
      */
     private JPanel createInputPanel() {
         
-        JLabel instructions = new JLabel( SimStrings.get( "BSLauncher.instructions") );
+        JLabel instructions = new JLabel( SimStrings.getInstance().getString( "BSLauncher.instructions") );
         
-        _boundStatesRadioButton = new JRadioButton( SimStrings.get( "BSBoundStatesApplication.title" ) );
-        _covalentBoundsRadioButton = new JRadioButton( SimStrings.get( "BSCovalentBondsApplication.title" ) );
-        _bandStructureRadioButton = new JRadioButton( SimStrings.get( "BSBandStructureApplication.title" ) );
+        _boundStatesRadioButton = new JRadioButton( SimStrings.getInstance().getString( "BSBoundStatesApplication.title" ) );
+        _covalentBoundsRadioButton = new JRadioButton( SimStrings.getInstance().getString( "BSCovalentBondsApplication.title" ) );
+        _bandStructureRadioButton = new JRadioButton( SimStrings.getInstance().getString( "BSBandStructureApplication.title" ) );
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( _boundStatesRadioButton );
         buttonGroup.add( _covalentBoundsRadioButton );
@@ -136,14 +136,14 @@ public class BSLauncher extends JFrame {
      */
     protected JPanel createActionsPanel() {
 
-        JButton startButton = new JButton( SimStrings.get( "button.start" ) );
+        JButton startButton = new JButton( SimStrings.getInstance().getString( "button.start" ) );
         startButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleStart();
             }
         });
         
-        JButton cancelButton = new JButton( SimStrings.get( "button.cancel" ) );
+        JButton cancelButton = new JButton( SimStrings.getInstance().getString( "button.cancel" ) );
         cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleCancel();

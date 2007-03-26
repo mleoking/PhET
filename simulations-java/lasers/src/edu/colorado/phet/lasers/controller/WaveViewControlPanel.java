@@ -40,10 +40,10 @@ public class WaveViewControlPanel extends JPanel {
 
         // Controls to set view of lasing photons
         JPanel lasingViewPanel = new JPanel( new GridBagLayout() );
-        ViewUtils.setBorder( lasingViewPanel, SimStrings.get( "WaveViewControlPanel.lasingPanelTitle" ) );
+        ViewUtils.setBorder( lasingViewPanel, SimStrings.getInstance().getString( "WaveViewControlPanel.lasingPanelTitle" ) );
         lasingPhotonBG = new ButtonGroup();
-        lasingPhotonViewRB = new JRadioButton( SimStrings.get( "WaveViewControlPanel.photonView" ) );
-        lasingWaveViewRB = new JRadioButton( SimStrings.get( "WaveViewControlPanel.waveView" ) );
+        lasingPhotonViewRB = new JRadioButton( SimStrings.getInstance().getString( "WaveViewControlPanel.photonView" ) );
+        lasingWaveViewRB = new JRadioButton( SimStrings.getInstance().getString( "WaveViewControlPanel.waveView" ) );
         lasingPhotonBG.add( lasingPhotonViewRB );
         lasingPhotonBG.add( lasingWaveViewRB );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,

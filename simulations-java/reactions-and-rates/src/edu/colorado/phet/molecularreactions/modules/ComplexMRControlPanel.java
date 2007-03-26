@@ -61,7 +61,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
         optionsPanel = new ChartOptionsPanel( module );
 
         // Reset button
-        resetBtn = new JButton( SimStrings.get( "Control.reset" ) );
+        resetBtn = new JButton( SimStrings.getInstance().getString( "Control.reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
@@ -84,7 +84,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
         // TODO: There's a lot in common with ExperimentSetupPanel; factor out common class
         JPanel reactionSelectionPanel = new JPanel(new GridBagLayout());
 
-        reactionSelectionPanel.setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.get( "Control.initialConditions" )));
+        reactionSelectionPanel.setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "Control.initialConditions" )));
 
         GridBagConstraints c = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                        1, 1, 1, 1,
@@ -97,7 +97,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
         c.gridwidth = 4;
         c.anchor    = GridBagConstraints.WEST;
 
-        reactionSelectionPanel.add( new JLabel( SimStrings.get( "Control.selectReaction" ) ), c );
+        reactionSelectionPanel.add( new JLabel( SimStrings.getInstance().getString( "Control.selectReaction" ) ), c );
 
         c.anchor     = GridBagConstraints.CENTER;
 

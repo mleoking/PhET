@@ -62,7 +62,7 @@ public class WavePacketKWidthSlider extends AbstractFourierSlider {
      * Sole constructor.
      */
     public WavePacketKWidthSlider() {
-        super( SimStrings.get( "WavePacketKWidthSlider.format.space" ) );
+        super( SimStrings.getInstance().getString( "WavePacketKWidthSlider.format.space" ) );
         
         getSlider().setMinimum( (int)( MIN_WIDTH * MULTIPLIER) );
         getSlider().setMaximum( (int)( MAX_WIDTH * MULTIPLIER ) );

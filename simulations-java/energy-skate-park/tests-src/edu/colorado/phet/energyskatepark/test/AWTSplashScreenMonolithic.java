@@ -51,7 +51,7 @@ public class AWTSplashScreenMonolithic extends Window {
             }
         } );
         t.start();
-        String labelFormat = SimStrings.get( "PhetApplication.StartupDialog.message" );
+        String labelFormat = SimStrings.getInstance().getString( "PhetApplication.StartupDialog.message" );
         Object[] args = {title};
         labelString = MessageFormat.format( labelFormat, args );
         label = new Label( labelString );

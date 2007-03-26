@@ -7,7 +7,6 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
@@ -25,7 +24,7 @@ public class SingleNucleusFissionControlPanel extends JPanel {
         setLayout( new GridBagLayout() );
         int rowIdx = 0;
 
-        final JButton resetBtn = new JButton( SimStrings.get( "SingleNucleusFissionControlPanel.ResetButton" ) );
+        final JButton resetBtn = new JButton( SimStrings.getInstance().getString( "SingleNucleusFissionControlPanel.ResetButton" ) );
 
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -41,7 +40,7 @@ public class SingleNucleusFissionControlPanel extends JPanel {
         add( resetBtn, gbc );
 
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "SingleNucleusFissionControlPanel.ControlBorder" ) );
+        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.getInstance().getString( "SingleNucleusFissionControlPanel.ControlBorder" ) );
         this.setBorder( titledBorder );
     }
 }

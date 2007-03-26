@@ -51,7 +51,7 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Chan
      * Constructor.
      */
     public BSCoulomb1DDialog( Frame parent, BSCoulomb1DPotential potential, BSPotentialSpec potentialSpec, boolean offsetControlSupported ) {
-        super( parent, SimStrings.get( "BSCoulomb1DDialog.title" ), potential );
+        super( parent, SimStrings.getInstance().getString( "BSCoulomb1DDialog.title" ), potential );
         JPanel inputPanel = createInputPanel( potentialSpec, offsetControlSupported );
         createUI( inputPanel );
         updateControls();
@@ -64,8 +64,8 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Chan
      */
     protected JPanel createInputPanel( BSPotentialSpec potentialSpec, boolean offsetControlSupported ) {
         
-        String positionUnits = SimStrings.get( "units.position" );
-        String energyUnits = SimStrings.get( "units.energy" );
+        String positionUnits = SimStrings.getInstance().getString( "units.position" );
+        String energyUnits = SimStrings.getInstance().getString( "units.energy" );
 
         // Offset
         {
@@ -77,7 +77,7 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Chan
             int tickDecimalPlaces = offsetRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String offsetLabel = SimStrings.get( "label.wellOffset" );
+            String offsetLabel = SimStrings.getInstance().getString( "label.wellOffset" );
             _offsetSlider = new SliderControl( value, min, max, 
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
                     offsetLabel, energyUnits, columns, SLIDER_INSETS );
@@ -95,7 +95,7 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Chan
             int tickDecimalPlaces = spacingRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String spacingLabel = SimStrings.get( "label.wellSpacing" );
+            String spacingLabel = SimStrings.getInstance().getString( "label.wellSpacing" );
             _spacingSlider = new SliderControl( value, min, max, 
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
                     spacingLabel, positionUnits, columns, SLIDER_INSETS );
