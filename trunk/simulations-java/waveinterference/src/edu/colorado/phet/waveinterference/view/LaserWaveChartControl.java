@@ -49,7 +49,7 @@ public class LaserWaveChartControl extends PNode {
         verticalLayoutPanel.add( vectors );
 //        verticalLayoutPanel.add( colorized );
 
-        PSwing pSwing = new PSwing( pSwingCanvas, verticalLayoutPanel );
+        PSwing pSwing = new PSwing(verticalLayoutPanel );
         addChild( pSwing );
         reset();
     }

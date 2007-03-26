@@ -73,7 +73,7 @@ public class IntensityReaderMenuDecorator extends PNode {
                 }
             }
         } );
-        buttonPSwing = new PSwing( pSwingCanvas, options );
+        buttonPSwing = new PSwing(options );
         addChild( intensityReader );
         addChild( buttonPSwing );
         intensityReader.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {

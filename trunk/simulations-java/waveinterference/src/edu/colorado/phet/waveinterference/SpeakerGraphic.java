@@ -19,7 +19,7 @@ public class SpeakerGraphic extends ImageOscillatorPNode {
     public SpeakerGraphic( PSwingCanvas pSwingCanvas, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
         super( oscillator, latticeScreenCoordinates, "images/speaker.gif" );
         OscillatorOnOffControlPanel oscillatorOnOffControlPanel = new OscillatorOnOffControlPanel( oscillator );
-        PSwing pswing = new PSwing( pSwingCanvas, oscillatorOnOffControlPanel );
+        PSwing pswing = new PSwing(oscillatorOnOffControlPanel );
         addChild( pswing );
     }
 }

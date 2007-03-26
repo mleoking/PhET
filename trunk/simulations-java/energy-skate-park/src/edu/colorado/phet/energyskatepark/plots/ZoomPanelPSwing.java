@@ -18,7 +18,7 @@ public class ZoomPanelPSwing extends PSwing {
     private ZoomPanel zoomPanel;
 
     public ZoomPanelPSwing( EnergyPositionPlotCanvas canvas, ZoomPanel zoomPanel ) {
-        super( canvas, zoomPanel );
+        super(zoomPanel );
         this.canvas = canvas;
         this.zoomPanel = zoomPanel;
 

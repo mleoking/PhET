@@ -2,7 +2,6 @@
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +28,6 @@ public class TabLabelIcon extends ImageIcon {
         };
         example.setText( name );
         example.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
-        setImage( new PSwing( new PSwingCanvas(), example ).toImage() );
+        setImage( new PSwing(example ).toImage() );
     }
 }

@@ -5,9 +5,9 @@ import edu.colorado.phet.common.view.GPLAboutPanel;
 import edu.colorado.phet.common.view.LogoPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import org.jfree.base.Library;
-import org.jfree.ui.about.AboutDialog;
 import org.jfree.ui.about.Contributor;
 import org.jfree.ui.about.ProjectInfo;
+import org.jfree.ui.about.AboutFrame;
 
 import java.awt.*;
 import java.io.IOException;
@@ -20,9 +20,10 @@ import java.util.ArrayList;
  * Copyright (c) Jul 5, 2006 by Sam Reid
  */
 
-public class TravoltageAboutDialog extends AboutDialog {
+public class TravoltageAboutDialog extends AboutFrame {
     public TravoltageAboutDialog( TravoltageApplication travoltageApplication ) {
-        super( travoltageApplication.getPhetFrame(), "Travoltage", createProjectInfo( travoltageApplication ) );
+        // travoltageApplication.getPhetFrame(),
+        super( "Travoltage", createProjectInfo( travoltageApplication ) );
     }
 
     private static ProjectInfo createProjectInfo( TravoltageApplication travoltageApplication ) {

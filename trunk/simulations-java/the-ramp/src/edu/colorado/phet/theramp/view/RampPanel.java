@@ -155,7 +155,7 @@ public class RampPanel extends PhetPCanvas {
         appliedForceControl = new AppliedForceSimpleControl( module, this );
         addScreenChild( appliedForceControl );
 
-        goPauseClear = new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) );
+        goPauseClear = new PSwing(new GoPauseClearPanel( module.getTimeSeriesModel() ) );
         addScreenChild( goPauseClear );
 
         layoutAll();

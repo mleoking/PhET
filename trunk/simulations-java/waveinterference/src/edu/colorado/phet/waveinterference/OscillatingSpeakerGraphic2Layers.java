@@ -29,7 +29,7 @@ public class OscillatingSpeakerGraphic2Layers extends ImageOscillatorPNode {
         cone.setOffset( 30, 0 );
         addChild( cone );
         OscillatorOnOffControlPanel oscillatorOnOffControlPanel = new OscillatorOnOffControlPanel( oscillator );
-        PSwing pswing = new PSwing( pSwingCanvas, new ShinyPanel( oscillatorOnOffControlPanel ) );
+        PSwing pswing = new PSwing(new ShinyPanel( oscillatorOnOffControlPanel ) );
         addChild( pswing );
     }
 

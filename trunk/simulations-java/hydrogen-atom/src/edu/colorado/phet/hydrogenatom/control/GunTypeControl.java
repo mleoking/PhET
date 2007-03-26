@@ -27,7 +27,6 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.view.particle.AlphaParticleNode;
 import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 import edu.colorado.phet.piccolo.PhetPNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -107,7 +106,7 @@ public class GunTypeControl extends PhetPNode {
         layout.addComponent( alphaParticleControl, row, col );
         
         // Piccolo wrapper for panel
-        PSwing pswing = new PSwing( canvas, panel );
+        PSwing pswing = new PSwing(panel );
         addChild( pswing );
         
         // Fonts

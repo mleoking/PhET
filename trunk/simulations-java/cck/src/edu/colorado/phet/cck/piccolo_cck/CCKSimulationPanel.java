@@ -192,7 +192,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
 
     public void addGrabBag() {
         GrabBagButton grabBagButton = new GrabBagButton( module );
-        grabBagPSwing = new PSwing( this, grabBagButton );
+        grabBagPSwing = new PSwing(grabBagButton );
         addScreenChild( grabBagPSwing );
     }
 

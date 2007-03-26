@@ -15,7 +15,7 @@ public class PanZoomOnscreenControl extends PhetPNode {
 
     public PanZoomOnscreenControl( EnergySkateParkSimulationPanel phetPCanvas ) {
         panZoomControl = new PanZoomControl( phetPCanvas );
-        addChild( new PSwing( phetPCanvas, panZoomControl ) );
+        addChild( new PSwing(panZoomControl ) );
     }
 
     public void reset() {

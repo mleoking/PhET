@@ -37,7 +37,7 @@ public class LaserControlPanelPNode extends PNode {
                 updateFrequency();
             }
         } );
-        laserControlPSwing = new PSwing( lightSimulationPanel, new ShinyPanel( laserControlPanel ) );
+        laserControlPSwing = new PSwing(new ShinyPanel( laserControlPanel ) );
         ResizeHandler.getInstance().setResizable( lightSimulationPanel, laserControlPSwing, 0.9 );
 
         addChild( laserControlPSwing );

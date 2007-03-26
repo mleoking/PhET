@@ -38,7 +38,7 @@ public class PlayAreaReducedScreenControlPanel extends PhetPNode {
                 screenNode.setScreenEnabled( true );
             }
         } );
-        showButton = new PhetPNode( new PSwing( lightSimulationPanel, button ) );
+        showButton = new PhetPNode( new PSwing(button ) );
         addChild( showButton );
 
         lightSimulationPanel.getLatticeScreenCoordinates().addListener( new LatticeScreenCoordinates.Listener() {
@@ -69,7 +69,7 @@ public class PlayAreaReducedScreenControlPanel extends PhetPNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        closeButtonNode = new PhetPNode( new PSwing( lightSimulationPanel, closeButton ) );
+        closeButtonNode = new PhetPNode( new PSwing(closeButton ) );
         addChild( closeButtonNode );
         update();
         updateExpanded();

@@ -150,7 +150,7 @@ public class QWIScreenNode extends PNode {
         } );
         stopwatchPanel.getTimeDisplay().setEditable( false );
         stopwatchPanel.setBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ) );
-        stopwatchPanelPSwing = new PSwing( QWIPanel, stopwatchPanel );
+        stopwatchPanelPSwing = new PSwing(stopwatchPanel );
 //        stopwatchPanelPSwing = new PSwing( schrodingerPanel, new JButton( "Test Button" ));
 //        stopwatchPanelPSwing.addInputEventListener( new PDragEventHandler() );
 //        stopwatchPanelPSwing.addInputEventListener( new HalfOnscreenDragHandler( schrodingerPanel, stopwatchPanelPSwing ) );

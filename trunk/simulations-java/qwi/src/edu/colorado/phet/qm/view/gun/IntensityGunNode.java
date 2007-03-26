@@ -77,7 +77,7 @@ public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
         setupObject( beams[0] );
 
         alwaysOnCheckBox.setBackground( BlueGunDetails.gunBackgroundColor );
-        onPswing = new PSwing( QWIPanel, alwaysOnCheckBox );
+        onPswing = new PSwing(alwaysOnCheckBox );
         onPswing.addInputEventListener( new CursorHandler() );
         setOnGunControl( onPswing );
 

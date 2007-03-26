@@ -31,10 +31,10 @@ public class GraphControlNode extends PNode {
     public GraphControlNode( PSwingCanvas pSwingCanvas, GraphTimeSeries graphTimeSeries ) {
         addChild( seriesLayer );
 
-        goStopButton = new PSwing( pSwingCanvas, new GoStopButton( graphTimeSeries ) );
+        goStopButton = new PSwing(new GoStopButton( graphTimeSeries ) );
         addChild( goStopButton );
 
-        clearButton = new PSwing( pSwingCanvas, new ClearButton( graphTimeSeries ) );
+        clearButton = new PSwing(new ClearButton( graphTimeSeries ) );
         addChild( clearButton );
 
         constructed = true;
@@ -72,7 +72,7 @@ public class GraphControlNode extends PNode {
             addChild( shadowPText );
 
             box = new TextBox( title, simulationVariable );
-            textBox = new PSwing( pSwingCanvas, box );
+            textBox = new PSwing(box );
             addChild( textBox );
         }
 

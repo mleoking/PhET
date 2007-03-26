@@ -227,7 +227,7 @@ public class ComplexModule extends MRModule {
     protected void addMovableStopwatch( double x, double y ) {
         StopwatchPanel stopwatchPanel = new StopwatchPanel(getClock());
 
-        stopwatchAdapter = new PSwing(getCanvas(), stopwatchPanel);
+        stopwatchAdapter = new PSwing(stopwatchPanel);
 
         stopwatchAdapter.setOffset(x, y);
 

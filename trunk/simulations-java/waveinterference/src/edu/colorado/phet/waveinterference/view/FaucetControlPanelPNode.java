@@ -22,7 +22,7 @@ public class FaucetControlPanelPNode extends PNode {
 
     public FaucetControlPanelPNode( PhetPCanvas phetPCanvas, JComponent faucetControlPanel, final FaucetGraphic faucetGraphic, WaveModelGraphic waveModelGraphic ) {
         this.waveModelGraphic = waveModelGraphic;
-        PSwing pSwing = new PSwing( phetPCanvas, faucetControlPanel );
+        PSwing pSwing = new PSwing(faucetControlPanel );
 
         this.faucetGraphic = faucetGraphic;
         faucetGraphic.addPropertyChangeListener( "fullBounds", new PropertyChangeListener() {

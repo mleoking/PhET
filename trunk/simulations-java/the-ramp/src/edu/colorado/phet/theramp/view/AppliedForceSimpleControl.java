@@ -40,7 +40,7 @@ public class AppliedForceSimpleControl extends PNode {
         spinner.setEditor( new JSpinner.NumberEditor( spinner, "0.00" ) );
         verticalLayoutPanel.add( spinner );
         horizontalLayoutPanel.add( verticalLayoutPanel );
-        PSwing pSwing = new PSwing( rampPanel, horizontalLayoutPanel );
+        PSwing pSwing = new PSwing(horizontalLayoutPanel );
         addChild( pSwing );
         spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

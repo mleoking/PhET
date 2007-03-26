@@ -83,7 +83,7 @@ public class MandelGun extends PhetPNode {
                 fireIntensityChanged();
             }
         } );
-        onGunGraphic = new PSwing( qwiPanel, onOffCheckBox );
+        onGunGraphic = new PSwing(onOffCheckBox );
         onGunGraphic.addInputEventListener( new CursorHandler() );
         addChild( onGunGraphic );
         onGunGraphic.setOffset( pimage.getFullBounds().getX() + pimage.getFullBounds().getWidth() / 2 - onGunGraphic.getFullBounds().getWidth() / 2 + BlueGunDetails.onGunControlDX, BlueGunDetails.gunControlAreaY + pimage.getFullBounds().getY() );

@@ -182,7 +182,7 @@ public class TimePlotSuitePNode extends PhetPNode {
 
             } );
             minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
-            minButNode = new PSwing( pCanvas, minBut );
+            minButNode = new PSwing(minBut );
             minButNode.setOffset( 1, 1 );
             addChild( minButNode );
         }
@@ -200,7 +200,7 @@ public class TimePlotSuitePNode extends PhetPNode {
             }
         } );
         maximize.setBackground( EarthGraphic.earthGreen );
-        maxButNode = new PSwing( pCanvas, maximize );
+        maxButNode = new PSwing(maximize );
         addChild( maxButNode );
 
         double maxVisibleRange = getMaxRangeValue();
@@ -210,7 +210,7 @@ public class TimePlotSuitePNode extends PhetPNode {
             final ZoomButton zoomIn = new ZoomButton( new ImageIcon( loadZoomInImage() ),
                                                       -dzPress, -dzHold, 100, maxVisibleRange * 4, maxVisibleRange, TheRampStrings.getString( "zoom.in" ) );
 
-            zoomInGraphic = new PSwing( pCanvas, zoomIn );
+            zoomInGraphic = new PSwing(zoomIn );
             addChild( zoomInGraphic );
 
             final ZoomButton zoomOut = new ZoomButton( new ImageIcon( loadZoomOutImage() ),
@@ -222,7 +222,7 @@ public class TimePlotSuitePNode extends PhetPNode {
                     zoomIn.setValue( rangeY );
                 }
             } );
-            zoomOutGraphic = new PSwing( pCanvas, zoomOut );
+            zoomOutGraphic = new PSwing(zoomOut );
             addChild( zoomOutGraphic );
 
             zoomIn.addListener( new ZoomButton.Listener() {

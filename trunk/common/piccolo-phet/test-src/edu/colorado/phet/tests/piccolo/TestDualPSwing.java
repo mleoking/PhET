@@ -17,10 +17,10 @@ public class TestDualPSwing {
         PSwingCanvas swingCanvas = new PSwingCanvas();
         frame.setContentPane( swingCanvas );
         JButton button1=new JButton( "button");
-        PSwing child = new PSwing( swingCanvas, button1 );
+        PSwing child = new PSwing(button1 );
         System.out.println( "child.getBounds() = " + child.getBounds() );
         swingCanvas.getLayer().addChild( child );
-        PSwing child2=new PSwing( swingCanvas, button1);
+        PSwing child2=new PSwing(button1);
         child2.setOffset( 100,100);
         swingCanvas.getLayer().addChild( child2);
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

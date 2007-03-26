@@ -24,7 +24,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
 import java.awt.*;
@@ -68,8 +67,8 @@ public class PumpGraphic extends PNode implements Resetable {
 
         // Molecule selector
         moleculeTypeSelector = new MoleculeTypeSelector();
-        PSwing moleculeSelector = new PSwing( (PSwingCanvas)module.getSimulationPanel(),
-                                              moleculeTypeSelector );
+        PSwing moleculeSelector = new PSwing(
+                moleculeTypeSelector );
 
         moleculeSelector.setOffset( 15 + pumpBodyPI.getWidth() / 2 - moleculeSelector.getWidth() / 2,
                                     2 + pumpBodyPI.getHeight() );

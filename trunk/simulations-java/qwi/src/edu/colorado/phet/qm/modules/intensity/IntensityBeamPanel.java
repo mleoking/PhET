@@ -79,7 +79,7 @@ public class IntensityBeamPanel extends QWIPanel {
 
     protected void addGunChooserGraphic() {
         if( useGunChooserGraphic() ) {
-            PSwing pSwing = new PSwing( this, intensityGun.getComboBox() );
+            PSwing pSwing = new PSwing(intensityGun.getComboBox() );
             intensityGun.getComboBox().setEnvironment( pSwing, this );
             getSchrodingerScreenNode().setGunTypeChooserGraphic( pSwing );
         }

@@ -63,7 +63,7 @@ public class PNodeViewableOption {
     public PNodeViewableOption( PNode parent, PhetPCanvas canvas, String restoreButtonName ) {
         this.parent     = parent;
         this.button     = new JButton();
-        this.buttonNode = new PSwing( canvas, button );
+        this.buttonNode = new PSwing(button );
         this.canvas     = canvas;
 
         initButton( parent );
@@ -87,7 +87,7 @@ public class PNodeViewableOption {
 
         restoreButton.setText( SimStrings.get( restoreButtonName ) );
 
-        restoreButtonNode = new PSwing( canvas, restoreButton );
+        restoreButtonNode = new PSwing(restoreButton );
 
         pnode.addChild( restoreButtonNode );
 

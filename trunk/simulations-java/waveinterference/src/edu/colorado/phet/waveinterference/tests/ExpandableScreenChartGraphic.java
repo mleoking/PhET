@@ -50,8 +50,8 @@ public class ExpandableScreenChartGraphic extends PNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        closeNode = new PhetPNode( new PSwing( pSwingCanvas, closeButton ) );
-        expandNode = new PhetPNode( new PSwing( pSwingCanvas, showChart ) );
+        closeNode = new PhetPNode( new PSwing(closeButton ) );
+        expandNode = new PhetPNode( new PSwing(showChart ) );
         addChild( screenChart );
         addChild( expandNode );
         addChild( closeNode );

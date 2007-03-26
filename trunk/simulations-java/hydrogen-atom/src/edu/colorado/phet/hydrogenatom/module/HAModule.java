@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.hydrogenatom.module;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,7 +52,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -263,7 +261,7 @@ public class HAModule extends PiccoloModule {
             deBroglieViewControl.setSelectedView( HADefaults.DEBROGLIE_VIEW );
             
             // PSwing wrapper
-            _deBroglieViewControlWrapper = new PSwing( _canvas, deBroglieViewControl );
+            _deBroglieViewControlWrapper = new PSwing(deBroglieViewControl );
             deBroglieViewControl.setEnvironment( _deBroglieViewControlWrapper, _canvas );
         }
         
@@ -280,7 +278,7 @@ public class HAModule extends PiccoloModule {
                     handleSpectrometerCheckBox();
                 }
             } );
-            _spectrometerCheckBoxNode = new PSwing( _canvas, _spectrometerCheckBox );
+            _spectrometerCheckBoxNode = new PSwing(_spectrometerCheckBox );
             _spectrometerCheckBoxNode.addInputEventListener( new CursorHandler() );
 
             // Spectrometer
@@ -316,7 +314,7 @@ public class HAModule extends PiccoloModule {
                     _legendNode.setVisible( !_energyDiagramCheckBox.isSelected() );
                 }
             } );
-            _energyDiagramCheckBoxNode = new PSwing( _canvas, _energyDiagramCheckBox );
+            _energyDiagramCheckBoxNode = new PSwing(_energyDiagramCheckBox );
             _energyDiagramCheckBoxNode.addInputEventListener( new CursorHandler() );
 
             // diagrams

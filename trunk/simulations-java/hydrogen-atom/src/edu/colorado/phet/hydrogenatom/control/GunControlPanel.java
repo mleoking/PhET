@@ -113,7 +113,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
         JLabel lightControlsLabel = new JLabel( SimStrings.get( "label.lightControls" ) );
         Font labelFont = new Font( FONT_NAME, FONT_STYLE, fontSize+2 );
         lightControlsLabel.setFont( labelFont );
-        PSwing lightControlsLabelWrapper = new PSwing( canvas, lightControlsLabel );
+        PSwing lightControlsLabelWrapper = new PSwing(lightControlsLabel );
         
         _gunTypeControl = new GunTypeControl( canvas, font );
         
@@ -133,11 +133,11 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _alphaParticlesTracesControl = new TracesControl( font );
 
         // Wrappers for Swing components
-        PSwing lightTypeControlWrapper = new PSwing( canvas, _lightTypeControl );
-        PSwing lightIntensityControlWrapper = new PSwing( canvas, _lightIntensityControl );
-        _transitionMarksControlWrapper = new PSwing( canvas, _transitionMarksControl );
-        PSwing alphaParticlesIntensityControlWrapper = new PSwing( canvas, _alphaParticlesIntensityControl );
-        PSwing alphaParticlesTracesControlWrapper = new PSwing( canvas, _alphaParticlesTracesControl );
+        PSwing lightTypeControlWrapper = new PSwing(_lightTypeControl );
+        PSwing lightIntensityControlWrapper = new PSwing(_lightIntensityControl );
+        _transitionMarksControlWrapper = new PSwing(_transitionMarksControl );
+        PSwing alphaParticlesIntensityControlWrapper = new PSwing(_alphaParticlesIntensityControl );
+        PSwing alphaParticlesTracesControlWrapper = new PSwing(_alphaParticlesTracesControl );
         
         // Layering, back to front
         {

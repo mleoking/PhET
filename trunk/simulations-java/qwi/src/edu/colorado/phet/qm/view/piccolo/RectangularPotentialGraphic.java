@@ -54,7 +54,7 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
                 remove();
             }
         } );
-        closeGraphic = new PSwing( component, closeButton );
+        closeGraphic = new PSwing(closeButton );
         addChild( closeGraphic );
         closeGraphic.setOffset( -closeGraphic.getWidth() - 2, 0 );
         update();

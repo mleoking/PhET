@@ -90,8 +90,8 @@ public class TestPSwingTransform extends PFrame {
         node2.setPaint( Color.GREEN );
 
         /* Make a swing test button */
-        getCanvas().getCamera().addChild( node = new PSwing( pSwingCanvas,
-                                                             new JButton( "Click me" ) ) );
+        getCanvas().getCamera().addChild( node = new PSwing(
+                new JButton( "Click me" ) ) );
         node.setOffset( 100, 200 );
 
         getCanvas().getLayer().addChild( node2 = new PNode() );
@@ -101,8 +101,8 @@ public class TestPSwingTransform extends PFrame {
         node2.moveToBack();
 
         /* Make a swing test combobox */
-        getCanvas().getCamera().addChild( node = new PSwing( pSwingCanvas,
-                                                             box = new PComboBox( new String[]{"Click me"} ) ) );
+        getCanvas().getCamera().addChild( node = new PSwing(
+                box = new PComboBox( new String[]{"Click me"} ) ) );
         node.setOffset( 100, 300 );
         box.setEnvironment( (PSwing)node, pSwingCanvas );
 

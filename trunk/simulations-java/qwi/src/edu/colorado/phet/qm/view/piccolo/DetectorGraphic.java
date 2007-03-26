@@ -57,7 +57,7 @@ public class DetectorGraphic extends RectangleGraphic {
                 QWIPanel.removeDetectorGraphic( DetectorGraphic.this );
             }
         } );
-        closeGraphic = new PSwing( QWIPanel, closeButton );
+        closeGraphic = new PSwing(closeButton );
         addChild( closeGraphic );
 
         updateDetectorReadouts();

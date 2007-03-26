@@ -61,7 +61,7 @@ public class StripChartDialog extends JDialog implements Resetable {
         chartPanel.setPreferredSize( chartSize );
 
         PhetPCanvas stripChartCanvas = new PhetPCanvas();
-        PNode stripChartNode = new PSwing( stripChartCanvas, chartPanel );
+        PNode stripChartNode = new PSwing(chartPanel );
         stripChartCanvas.addScreenChild( stripChartNode );
 
         // Add a rescale button
@@ -71,7 +71,7 @@ public class StripChartDialog extends JDialog implements Resetable {
                 stripChart.rescale();
             }
         } );
-        PSwing rescaleNode = new PSwing( stripChartCanvas, rescaleBtn );
+        PSwing rescaleNode = new PSwing(rescaleBtn );
         rescaleNode.setOffset( chartPanel.getPreferredSize().getWidth() - rescaleNode.getFullBounds().getWidth() - 10,
                                chartPanel.getPreferredSize().getHeight() - rescaleNode.getFullBounds().getHeight() - 10 );
         stripChartCanvas.addScreenChild( rescaleNode );
@@ -83,7 +83,7 @@ public class StripChartDialog extends JDialog implements Resetable {
 
         Insets scrollBarInsets = new Insets( 3, 50, 3, 10 );
         scrollBar.setPreferredSize( new Dimension( (int)( stripChartNode.getFullBounds().getWidth() - scrollBarInsets.left - scrollBarInsets.right ), 15 ) );
-        PSwing scrollBarNode = new PSwing( stripChartCanvas, scrollBar );
+        PSwing scrollBarNode = new PSwing(scrollBar );
         scrollBarNode.setPaint( new Color(0,0,0,0));
         Dimension dialogSize = new Dimension( (int)chartSize.getWidth(),
                                               (int)( chartSize.getHeight() + scrollBarNode.getFullBounds().getHeight() +

@@ -297,7 +297,7 @@ public class QTModule extends AbstractModule implements Observer {
             JButton jButton = new JButton( SimStrings.get( "button.configureEnergy" ) );
             jButton.setOpaque( false );
             jButton.addActionListener( listener );
-            _configureButton = new PSwing( _canvas, jButton );
+            _configureButton = new PSwing(jButton );
         }
         
         // Measure button
@@ -305,7 +305,7 @@ public class QTModule extends AbstractModule implements Observer {
             JButton jButton = new JButton( SimStrings.get( "button.measure" ) );
             jButton.setOpaque( false );
             jButton.addActionListener( listener );
-            _measureButton = new PSwing( _canvas, jButton );
+            _measureButton = new PSwing(jButton );
         }
         
         // Energy drag handles
@@ -340,13 +340,13 @@ public class QTModule extends AbstractModule implements Observer {
             ZoomControl z1 = new ZoomControl( ZoomControl.VERTICAL, QTConstants.WAVE_FUNCTION_ZOOM_SPECS, QTConstants.DEFAULT_WAVE_FUNCTION_ZOOM_INDEX );
             z1.addPlot( _chart.getWaveFunctionPlot() );
             z1.addPlot( _waveFunctionPlot );
-            _waveFunctionZoomControl = new PSwing( _canvas, z1 );
+            _waveFunctionZoomControl = new PSwing(z1 );
             
             // NOTE: Zoom both the chart and the XYPlotNodes!
             ZoomControl z2 = new ZoomControl( ZoomControl.VERTICAL, QTConstants.PROBABILITY_DENSITY_ZOOM_SPECS, QTConstants.DEFAULT_PROBABILTY_DENSITY_ZOOM_INDEX );
             z2.addPlot( _chart.getProbabilityDensityPlot() );
             z2.addPlot( _probabilityDensityPlot );
-            _probabilityDensityZoomControl = new PSwing( _canvas, z2 );
+            _probabilityDensityZoomControl = new PSwing(z2 );
         }
         
         // Add control nodes to the scene graph

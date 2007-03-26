@@ -120,7 +120,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
             button0.setName( "button0" );
             button0.setOpaque( false );
             button0.addActionListener( listener );
-            PSwing pswing = new PSwing( canvas, button0 );
+            PSwing pswing = new PSwing(button0 );
             pswing.addInputEventListener( new CursorHandler() );
             pswing.setOffset( 100, 200 );
             canvas.getLayer().addChild( pswing );

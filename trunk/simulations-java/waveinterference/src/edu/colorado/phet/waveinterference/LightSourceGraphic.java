@@ -23,6 +23,6 @@ public class LightSourceGraphic extends ImageOscillatorPNode {
     public LightSourceGraphic( PhetPCanvas phetPCanvas, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
         super( oscillator, latticeScreenCoordinates, "images/spotlight_3d.png" );
         JComponent control = ( new OscillatorOnOffControlPanel( oscillator ) );
-        addChild( new PSwing( phetPCanvas, new ShinyPanel( control ) ) );
+        addChild( new PSwing(new ShinyPanel( control ) ) );
     }
 }
