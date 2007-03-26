@@ -50,12 +50,10 @@ public class TestChartRenderingInfo extends ApplicationFrame {
     public TestChartRenderingInfo( String title ) {
         super( title );
         
-//        QTCombinedChart chart = new QTCombinedChart();
         XYSeries series = new XYSeries( "Random Data" );
         series.add( 0, 0 );
         series.add( 1, 1 );
         XYSeriesCollection dataSet = new XYSeriesCollection( series );
-        XYItemRenderer renderer = new StandardXYItemRenderer();
         JFreeChart chart = ChartFactory.createXYLineChart( "My Chart", "X", "Y", 
                 dataSet, PlotOrientation.HORIZONTAL, false, false ,false );
         _chartPanel = new ChartPanel( chart );
