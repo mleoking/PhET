@@ -6,7 +6,6 @@ IN PROGRESS:
 - implement laser beam shape
 
 HIGH PRIORITY:
-- bug: ruler is not quite aligned with bead
 - bug: fluid viscosity slider is brain damaged
 - implement laser beam gradient
 - implement force model for fast mode
@@ -31,6 +30,7 @@ MEDIUM PRIORITY:
 - get spec for "Show charge on bead" feature
 
 LOW PRIORITY:
+- replace OTRuler alignment hack with permanent solution
 - migrate CloseButtonNode to common, reuse phetcommon/data/images/buttons/closeButton.png
 - add close button to ruler?
 - get requirements for "Fun With DNA" and "Molecular Motors" panels
@@ -66,6 +66,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/26/07 - temporary hack in OTRuler for ruler alignment problem
 3/26/07 - converting bead to image crops right & bottom pixels, remove stroke
 3/26/07 - add debug crosshair at laser's origin
 3/26/07 - make laser's local origin be at the center of its waist
