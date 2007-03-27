@@ -28,6 +28,8 @@ public class Particle1D {
     private boolean splineTop = true;
     private boolean reflect = true;
     private double zeroPointPotentialY = 0.0;
+    private double xThrust = 0;
+    private double yThrust = 0;
 
     public Particle1D( ParametricFunction2D cubicSpline, boolean splineTop ) {
         this( cubicSpline, splineTop, 9.8 );
@@ -81,8 +83,9 @@ public class Particle1D {
 //        totalDE += getNormalizedEnergyDiff( initEnergy );
 //        System.out.println( "Particle1D[0]: dE=" + ( getEnergy() - initEnergy ) );
 
-
-        fixEnergy( initAlpha, initVelocity, initEnergy );
+        if( getThrust().getMagnitude() == 0 ) {
+            fixEnergy( initAlpha, initVelocity, initEnergy );
+        }
 
 //        System.out.println( "Particle1D[1]: dE=" + ( getEnergy() - initEnergy ) );
 //        double dEFix = getNormalizedEnergyDiff( initEnergy );
@@ -96,6 +99,10 @@ public class Particle1D {
             Particle1DNode particle1DNode = (Particle1DNode)listeners.get( i );
             particle1DNode.update();
         }
+    }
+
+    private Vector2D.Double getThrust() {
+        return new Vector2D.Double( xThrust, yThrust );
     }
 
     public void addListener( Particle1DNode particle1DNode ) {
@@ -193,6 +200,11 @@ public class Particle1D {
 
     public void setZeroPointPotentialY( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
+    }
+
+    public void setThrust( double xThrust, double yThrust ) {
+        this.xThrust = xThrust;
+        this.yThrust = yThrust;
     }
 
     public interface UpdateStrategy {
@@ -389,18 +401,22 @@ public class Particle1D {
     /*
     Returns the net force (discluding normal forces).
      */
-    public Vector2D getNetForce() {
-        return new Vector2D.Double( 0, mass * g );
+    public AbstractVector2D getNetForce() {
+        Vector2D gravity = new Vector2D.Double( 0, mass * g );
+        Vector2D thrust = new Vector2D.Double( xThrust * mass, yThrust * mass );
+
+        return gravity.getAddedInstance( thrust );
     }
 
     public class Euler implements UpdateStrategy {
 
         public void stepInTime( double dt ) {
-            Vector2D netForce = getNetForce();
+            AbstractVector2D netForce = getNetForce();
+//            System.out.println( "netForce = " + netForce );
             double a = cubicSpline.getUnitParallelVector( alpha ).dot( netForce ) / mass;
-            alpha += cubicSpline.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
+            System.out.println( "a = " + a );
             velocity += a * dt;
-
+            alpha += cubicSpline.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
             handleBoundary();
         }
     }

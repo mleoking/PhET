@@ -28,7 +28,7 @@ public class SplineMatch {
         return target;
     }
 
-    public EnergySkateParkSpline getTopSplineMatch() {
+    public EnergySkateParkSpline getEnergySkateParkSpline() {
         return target.getSpline();
     }
 
@@ -37,6 +37,6 @@ public class SplineMatch {
     }
 
     public boolean matchesEnd() {
-        return index == getTopSplineMatch().numControlPoints() - 1;
+        return index == getEnergySkateParkSpline().numControlPoints() - 1;
     }
 }
