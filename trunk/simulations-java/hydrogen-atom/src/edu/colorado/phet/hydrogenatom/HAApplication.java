@@ -119,7 +119,7 @@ public class HAApplication extends PiccoloPhetApplication {
             HelpMenu helpMenu = frame.getHelpMenu();
             
             JMenuItem legendMenuItem = new JMenuItem( SimStrings.getInstance().getString( "menu.help.legend" ) );
-            legendMenuItem.setMnemonic( SimStrings.getChar( "menu.help.legend.mnemonic" ) );
+            legendMenuItem.setMnemonic( SimStrings.getInstance().getChar( "menu.help.legend.mnemonic" ) );
             legendMenuItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     handleLegendDialog();
@@ -128,7 +128,7 @@ public class HAApplication extends PiccoloPhetApplication {
             helpMenu.add( legendMenuItem );
             
             JMenuItem transitionsMenuItem = new JMenuItem( SimStrings.getInstance().getString( "menu.help.transitions" ) );
-            transitionsMenuItem.setMnemonic( SimStrings.getChar( "menu.help.transitions.mnemonic") );
+            transitionsMenuItem.setMnemonic( SimStrings.getInstance().getChar( "menu.help.transitions.mnemonic") );
             transitionsMenuItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     handleTransitionsDialog();

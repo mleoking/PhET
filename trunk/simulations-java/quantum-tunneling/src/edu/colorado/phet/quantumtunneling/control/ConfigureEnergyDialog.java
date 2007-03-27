@@ -330,7 +330,7 @@ public class ConfigureEnergyDialog extends JDialog {
             }
 
             // Potential Energy for each region...
-            char peChar = SimStrings.getChar( "char.potentialEnergy" );
+            char peChar = SimStrings.getInstance().getChar( "char.potentialEnergy" );
             {
                 JLabel peTitle = new JLabel( SimStrings.getInstance().getString( "label.potentialEnergy" ) );
                 leftLayout.addAnchoredComponent( peTitle, leftRow, 0, 4, 1, GridBagConstraints.WEST );
@@ -367,7 +367,7 @@ public class ConfigureEnergyDialog extends JDialog {
             // Barriers...
             _widthSpinners = null;
             _positionSpinners = null;
-            char barrierChar = SimStrings.getChar( "char.barrier" );
+            char barrierChar = SimStrings.getInstance().getChar( "char.barrier" );
             if ( _potentialEnergy instanceof BarrierPotential ) {
 
                 int numberOfBarriers = ( (BarrierPotential) _potentialEnergy ).getNumberOfBarriers();
@@ -516,8 +516,8 @@ public class ConfigureEnergyDialog extends JDialog {
      */
     private void updateMarkersAndAnnotations() {
 
-        char peChar = SimStrings.getChar( "char.potentialEnergy" );
-        char barrierChar = SimStrings.getChar( "char.barrier" );
+        char peChar = SimStrings.getInstance().getChar( "char.potentialEnergy" );
+        char barrierChar = SimStrings.getInstance().getChar( "char.barrier" );
         
         boolean hasBarriers = ( _potentialEnergy instanceof BarrierPotential );
         
