@@ -2,6 +2,8 @@ package edu.colorado.phet.energyskatepark;
 
 import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
 
+import java.awt.geom.Point2D;
+
 /**
  * Author: Sam Reid
  * Mar 27, 2007, 3:14:03 PM
@@ -27,5 +29,9 @@ public class TraversalState {
 
     public double getAlpha() {
         return alpha;
+    }
+
+    public Point2D getPosition() {
+        return parametricFunction2D.evaluate( alpha );
     }
 }

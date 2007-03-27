@@ -5,10 +5,10 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.energyskatepark.TraversalState;
 import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.test.phys1d.Particle;
 import edu.colorado.phet.energyskatepark.test.phys1d.ParticleStage;
-import edu.colorado.phet.energyskatepark.TraversalState;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -334,8 +334,14 @@ public class Body {
         return particle.getParticle1D().isSplineTop();
     }
 
-    public TraversalState getBestTraversalState() {
-        return particle.getBestTraversalState();
+    public TraversalState getBestTraversalState( TraversalState origState ) {
+        AbstractVector2D normal = new Vector2D.Double( origState.getParametricFunction2D().getUnitNormalVector( origState.getAlpha() ) ).getScaledInstance( origState.isTop() ? 1.0 : -1.0 );
+        Point2D location = origState.getParametricFunction2D().evaluate( origState.getAlpha() );
+        return particle.getBestTraversalState( location, normal );
+    }
+
+    public TraversalState getTraversalState() {
+        return particle.getTraversalState();
     }
 
     public static interface Listener {
