@@ -65,6 +65,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/26/07 - restore OTObservable, functionality was important
 3/26/07 - remove OTObservable, additional functionality not used
 3/26/07 - document model coordinate system in package javadoc
 3/26/07 - add Laser.contains, determines if a point is inside the laser beam
