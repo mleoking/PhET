@@ -8,6 +8,7 @@ import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.test.phys1d.Particle;
 import edu.colorado.phet.energyskatepark.test.phys1d.ParticleStage;
+import edu.colorado.phet.energyskatepark.TraversalState;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -71,9 +72,8 @@ public class Body {
         controls.setVisible( true );
     }
 
-    public void setSplineMode( EnergySkateParkSpline bestMatch,boolean top ) {
-//        particle.switchToTrack( bestMatch.getParametricFunction2D(), );
-        particle.getParticle1D().setCubicSpline2D( bestMatch.getParametricFunction2D(), true );//todo: correct side
+    public void setSpline( EnergySkateParkSpline bestMatch, boolean top, double alpha ) {
+        particle.getParticle1D().setCubicSpline2D( bestMatch.getParametricFunction2D(), top, alpha );//todo: correct side
     }
 
     public void setFreeFallMode() {
@@ -332,6 +332,10 @@ public class Body {
     /*If particle is not on spline, results are indeterminate.*/
     public boolean isTop() {
         return particle.getParticle1D().isSplineTop();
+    }
+
+    public TraversalState getBestTraversalState() {
+        return particle.getBestTraversalState();
     }
 
     public static interface Listener {

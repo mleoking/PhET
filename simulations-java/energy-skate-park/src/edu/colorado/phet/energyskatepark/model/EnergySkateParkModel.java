@@ -188,7 +188,7 @@ public class EnergySkateParkModel {
 ////                        System.out.println( "\"Skater is on a track that the model doesn't currently know about\" = " + "Skater is on a track that the model doesn't currently know about" );
 ////                    }
 ////                    else {
-//                    body.setSplineMode( esps,body.isTop() );//todo: determine side of spline
+//                    body.setSpline( esps,body.isTop() );//todo: determine side of spline
 ////                    }
 //                }
 //            }
@@ -196,7 +196,10 @@ public class EnergySkateParkModel {
         updateFloorState();
     }
 
-    private EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D spline ) {
+//    public EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D parametricFunction2D ) {
+//        return null;
+//    }
+    public EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D spline ) {
         for( int i = 0; i < splines.size(); i++ ) {
             EnergySkateParkSpline energySkateParkSpline = (EnergySkateParkSpline)splines.get( i );
             if( energySkateParkSpline.getParametricFunction2D() == spline ) {
@@ -333,6 +336,7 @@ public class EnergySkateParkModel {
         zeroPointPotentialY = initZeroPointPotentialY;
         updateFloorState();
     }
+
 
     public static class EnergyModelListenerAdapter implements EnergyModelListener {
 
