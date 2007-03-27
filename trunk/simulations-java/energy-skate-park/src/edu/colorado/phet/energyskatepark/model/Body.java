@@ -71,7 +71,8 @@ public class Body {
         controls.setVisible( true );
     }
 
-    public void stayInSplineModeNewSpline( EnergySkateParkSpline bestMatch,boolean top ) {
+    public void setSplineMode( EnergySkateParkSpline bestMatch,boolean top ) {
+//        particle.switchToTrack( bestMatch.getParametricFunction2D(), );
         particle.getParticle1D().setCubicSpline2D( bestMatch.getParametricFunction2D(), true );//todo: correct side
     }
 
@@ -326,6 +327,11 @@ public class Body {
 
     public ParametricFunction2D getSpline() {
         return particle.getSpline();
+    }
+
+    /*If particle is not on spline, results are indeterminate.*/
+    public boolean isTop() {
+        return particle.getParticle1D().isSplineTop();
     }
 
     public static interface Listener {

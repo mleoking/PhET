@@ -30,7 +30,6 @@ public class Particle {
     private UpdateStrategy updateStrategy = new Particle1DUpdate();
     private ParticleStage particleStage;
     private boolean convertNormalVelocityToThermalOnLanding = false;
-    //    private double angle = 0.0;
     private double angle = Math.PI / 2;
     private boolean userControlled = false;
     private double thermalEnergy = 0.0;
@@ -160,6 +159,7 @@ public class Particle {
     public void setThrust( double xThrust, double yThrust ) {
         this.xThrust = xThrust;
         this.yThrust = yThrust;
+        particle1D.setThrust(xThrust,yThrust);
     }
 
     interface UpdateStrategy {

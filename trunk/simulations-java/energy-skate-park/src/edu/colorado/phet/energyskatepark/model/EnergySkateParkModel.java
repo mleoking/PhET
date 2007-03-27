@@ -175,24 +175,24 @@ public class EnergySkateParkModel {
         this.maxNumHistoryPoints = model.maxNumHistoryPoints;
         setGravity( model.gravity );
         //todo: some model objects are not getting copied over correctly, body's spline strategy could refer to different splines
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
-            body.setGravityState(gravity,zeroPointPotentialY);
-            if( body.isSplineMode() ) {
-                ParametricFunction2D spline = body.getSpline();
-                EnergySkateParkSpline esps = getEnergySkateParkSpline( spline );
-                if( !containsSpline( spline ) ) {
-//                    new RuntimeException( "Skater is on a track that the model doesn't currently know about" ).printStackTrace();
-//                    EnergySkateParkSpline bestMatch = getBestSplineMatch( esps );
-//                    if( bestMatch == null ) {
-//                        System.out.println( "\"Skater is on a track that the model doesn't currently know about\" = " + "Skater is on a track that the model doesn't currently know about" );
-//                    }
-//                    else {
-                    body.stayInSplineModeNewSpline( esps,true );//todo: determine side of spline
-//                    }
-                }
-            }
-        }
+//        for( int i = 0; i < bodies.size(); i++ ) {
+//            Body body = (Body)bodies.get( i );
+//            body.setGravityState(gravity,zeroPointPotentialY);
+//            if( body.isSplineMode() ) {
+//                ParametricFunction2D spline = body.getSpline();
+//                EnergySkateParkSpline esps = getEnergySkateParkSpline( spline );
+//                if( !containsSpline( spline ) ) {
+////                    new RuntimeException( "Skater is on a track that the model doesn't currently know about" ).printStackTrace();
+////                    EnergySkateParkSpline bestMatch = getBestSplineMatch( esps );
+////                    if( bestMatch == null ) {
+////                        System.out.println( "\"Skater is on a track that the model doesn't currently know about\" = " + "Skater is on a track that the model doesn't currently know about" );
+////                    }
+////                    else {
+//                    body.setSplineMode( esps,body.isTop() );//todo: determine side of spline
+////                    }
+//                }
+//            }
+//        }
         updateFloorState();
     }
 

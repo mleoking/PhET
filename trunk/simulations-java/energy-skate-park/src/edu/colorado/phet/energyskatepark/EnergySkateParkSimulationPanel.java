@@ -266,6 +266,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
     public void attach( SplineNode splineNode, int index, SplineMatch match ) {
         boolean change = false;
+        boolean top=getEnergySkateParkModel().bodyAt( 0).isTop();
         if( getEnergySkateParkModel().bodyAt( 0 ).getSpline() == splineNode.getParametricFunction2D() || getEnergySkateParkModel().bodyAt( 0 ).getSpline() == match.getSplineGraphic().getParametricFunction2D() ) {
             change = true;
         }
@@ -275,7 +276,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
         AbstractSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
         ControlPointParametricFunction2D a = splineNode.getSpline().getParametricFunction2D();
-        EnergySkateParkSpline b = match.getTopSplineMatch();
+        EnergySkateParkSpline b = match.getEnergySkateParkSpline();
         if( index == 0 ) {
             for( int i = a.numControlPoints() - 1; i >= 0; i-- ) {
                 spline.addControlPoint( a.controlPointAt( i ) );
@@ -301,7 +302,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         addSplineGraphic( new SplineNode( this, energySkateParkSpline, this ) );
         System.out.println( "change = " + change );
         if( change ) {
-            energySkateParkModel.bodyAt( 0).stayInSplineModeNewSpline( energySkateParkSpline,true );//todo: determine side of spline
+            energySkateParkModel.bodyAt( 0).setSplineMode( energySkateParkSpline,top );
         }
     }
 
