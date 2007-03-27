@@ -1,11 +1,16 @@
 package edu.colorado.phet.energyskatepark.test.phys1d;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.energyskatepark.TraversalState;
+import edu.colorado.phet.piccolo.nodes.PhetPPath;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -16,6 +21,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 public class TestPhysics1D extends JFrame {
     private JFrame controlFrame;
@@ -317,6 +323,22 @@ public class TestPhysics1D extends JFrame {
 //            }
 //        } );
 //        controlPanel.add( resetEnergyError, gridBagConstraints );
+        final PhetPPath phetPPath = new PhetPPath( new Rectangle2D.Double( 0, 0, 10, 10 ), Color.yellow );
+        pSwingCanvas.getLayer().addChild( phetPPath );
+        phetPPath.moveToBack();
+
+        final PhetPPath closestPoint = new PhetPPath( new Rectangle2D.Double( 0, 0, 0.2, 0.2 ), Color.blue );
+        pSwingCanvas.getLayer().addChild( closestPoint );
+        phetPPath.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                Point2D coords = event.getPositionRelativeTo( phetPPath );
+                System.out.println( "coords = " + coords );
+//                TraversalState traversalState=new TraversalState( cubicSpline, true,);
+                TraversalState traversalState = particle.getBestTraversalState( coords, new Vector2D.Double( 1, 0 ) );
+                closestPoint.setOffset( traversalState.getPosition());
+            }
+        } );
+
 
         controlFrame.pack();
         controlFrame.setLocation( this.getX() + this.getWidth(), this.getY() );

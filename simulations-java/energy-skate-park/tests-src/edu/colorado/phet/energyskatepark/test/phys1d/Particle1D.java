@@ -3,6 +3,7 @@ package edu.colorado.phet.energyskatepark.test.phys1d;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.energyskatepark.TraversalState;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -212,6 +213,10 @@ public class Particle1D {
         this.yThrust = yThrust;
     }
 
+    public TraversalState getTraversalState() {
+        return new TraversalState( cubicSpline, splineTop, alpha );
+    }
+
     public interface UpdateStrategy {
         void stepInTime( double dt );
     }
@@ -419,7 +424,7 @@ public class Particle1D {
             AbstractVector2D netForce = getNetForce();
 //            System.out.println( "netForce = " + netForce );
             double a = cubicSpline.getUnitParallelVector( alpha ).dot( netForce ) / mass;
-            System.out.println( "a = " + a );
+//            System.out.println( "a = " + a );
             velocity += a * dt;
             alpha += cubicSpline.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
             handleBoundary();
