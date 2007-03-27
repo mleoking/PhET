@@ -72,8 +72,9 @@ public class Body {
         controls.setVisible( true );
     }
 
-    public void setSpline( EnergySkateParkSpline bestMatch, boolean top, double alpha ) {
-        particle.getParticle1D().setCubicSpline2D( bestMatch.getParametricFunction2D(), top, alpha );//todo: correct side
+    public void setSpline( EnergySkateParkSpline spline, boolean top, double alpha ) {
+//        particle.getParticle1D().setCubicSpline2D( spline.getParametricFunction2D(), top, alpha );//todo: correct side
+        particle.switchToTrack( spline.getParametricFunction2D(), alpha, top );
     }
 
     public void setFreeFallMode() {

@@ -273,9 +273,6 @@ public class Particle {
      * Find the state that best matches where the skater should be if it were to join the nearest track on the correct side.
      */
     public TraversalState getBestTraversalState( Point2D location, AbstractVector2D normal ) {
-//        TraversalState traversalState = new TraversalState();
-
-
         SearchState bestMatch = getBestSearchPoint( location );
         AbstractVector2D newNormal = bestMatch.getTrack().getUnitNormalVector( bestMatch.getAlpha() );
         boolean top = newNormal.dot( normal ) > 0;

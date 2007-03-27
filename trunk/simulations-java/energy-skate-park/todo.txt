@@ -1,4 +1,3 @@
-1. When new track is attached & skater is on-track, skater falls through.
 2. Add friction
 3. Bar graphs don't update continuously when on-track
 4. Fix zoom-in problem (put house in model coordinates)?
