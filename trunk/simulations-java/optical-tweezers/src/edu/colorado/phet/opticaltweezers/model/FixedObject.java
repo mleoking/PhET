@@ -3,16 +3,14 @@
 package edu.colorado.phet.opticaltweezers.model;
 
 import java.awt.geom.Point2D;
-
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
+import java.util.Observable;
 
 /**
  * FixedObject is an object that has a fixed (immutable) position and orientation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FixedObject extends OTObservable {
+public class FixedObject extends Observable {
     
     //----------------------------------------------------------------------------
     // Instance data
