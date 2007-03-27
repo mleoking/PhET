@@ -24,7 +24,7 @@ import java.io.IOException;
 
 public class MovingManApplication {
 
-    private static final String MOVING_MAN_VERSION = "1.16";
+    private static final String MOVING_MAN_VERSION = "1.16.01";
     private static boolean addJEP = true;
 
     // Localization
