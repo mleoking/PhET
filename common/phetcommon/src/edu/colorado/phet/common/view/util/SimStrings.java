@@ -1,13 +1,5 @@
-/* Copyright 2004, University of Colorado */
+/* Copyright 2004-2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.view.util;
 
 import java.util.Iterator;
@@ -18,15 +10,10 @@ import java.util.Vector;
 /**
  * SimStrings
  * <p/>
- * Manages strings for simulations so that they can be localized. All methods are static.
- * <p/>
- * Call setStrings() for each resource bundle of strings that a simulation needs to access.
+ * Manages strings for simulations so that they can be localized.
  *
- * @author Ron LeMaster
- * @version $Revision$
  */
 public class SimStrings {
-
     private Vector localizedStrings;
     private Vector stringsPaths;
     private Locale localizedLocale;
@@ -56,7 +43,7 @@ public class SimStrings {
         // Get the default locale from property javaws.locale.
         String applicationLocale = System.getProperty( "javaws.locale" );
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            getInstance().setLocale( new Locale( applicationLocale ) );
+            setLocale( new Locale( applicationLocale ) );
         }
 
         // Override default locale using "user.language=" command line argument.
@@ -64,22 +51,22 @@ public class SimStrings {
         for( int i = 0; i < args.length; i++ ) {
             if( args[i].startsWith( argsKey ) ) {
                 String locale = args[i].substring( argsKey.length(), args[i].length() );
-                getInstance().setLocale( new Locale( locale ) );
+                setLocale( new Locale( locale ) );
                 break;
             }
         }
 
         // Initialize simulation strings using resource bundle for the locale.
-        SimStrings.getInstance().addStrings( bundleName );
+        addStrings( bundleName );
     }
 
     // TODO: make this private after all simulation use init
     public void setLocale( Locale locale ) {
-        INSTANCE.localizedLocale = locale;
+        this.localizedLocale = locale;
         // Reload all existing string resources with the new locale
-        Vector priorPaths = INSTANCE.stringsPaths;
-        INSTANCE.stringsPaths = null;
-        INSTANCE.localizedStrings = null;
+        Vector priorPaths = this.stringsPaths;
+        this.stringsPaths = null;
+        this.localizedStrings = null;
         if( priorPaths != null ) {
             for( Iterator i = priorPaths.iterator(); i.hasNext(); ) {
                 String path = (String)i.next();
@@ -90,21 +77,21 @@ public class SimStrings {
 
     // TODO: make this private after all simulation use init
     public void addStrings( String stringsPath ) {
-        if( INSTANCE.localizedStrings == null ) {
-            INSTANCE.localizedStrings = new Vector();
-            INSTANCE.stringsPaths = new Vector();
+        if( this.localizedStrings == null ) {
+            this.localizedStrings = new Vector();
+            this.stringsPaths = new Vector();
         }
-        if( INSTANCE.stringsPaths.contains( stringsPath ) ) {
+        if( this.stringsPaths.contains( stringsPath ) ) {
             return;
         }
         try {
-            if( INSTANCE.localizedLocale == null ) {
-                INSTANCE.localizedLocale = Locale.getDefault();
+            if( this.localizedLocale == null ) {
+                this.localizedLocale = Locale.getDefault();
             }
-            ResourceBundle rb = ResourceBundle.getBundle( stringsPath, INSTANCE.localizedLocale );
+            ResourceBundle rb = ResourceBundle.getBundle( stringsPath, this.localizedLocale );
             if( rb != null ) {
-                INSTANCE.localizedStrings.add( rb );
-                INSTANCE.stringsPaths.add( stringsPath );
+                this.localizedStrings.add( rb );
+                this.stringsPaths.add( stringsPath );
             }
         }
         catch( Exception x ) {
@@ -119,14 +106,13 @@ public class SimStrings {
      * @return String
      */
     public String getString( String key ) {
-        if( INSTANCE.localizedStrings == null ) {
-
+        if( this.localizedStrings == null ) {
             throw new RuntimeException( "Strings not initialized" );
         }
 
         String value = null;
 
-        for( Iterator i = INSTANCE.localizedStrings.iterator(); value == null && i.hasNext(); ) {
+        for( Iterator i = this.localizedStrings.iterator(); value == null && i.hasNext(); ) {
             try {
                 ResourceBundle rb = (ResourceBundle)i.next();
 
@@ -153,7 +139,7 @@ public class SimStrings {
      * @return int
      */
     public int getInt( String key, int defaultValue ) {
-        String s = getInstance().getString( key );
+        String s = getString( key );
         int value = 0;
         try {
             value = Integer.parseInt( s );
@@ -172,8 +158,8 @@ public class SimStrings {
      * @param defaultValue
      * @return double
      */
-    public static double getDouble( String key, double defaultValue ) {
-        String s = getInstance().getString( key );
+    public double getDouble( String key, double defaultValue ) {
+        String s = getString( key );
         double value = 0;
         try {
             value = Double.parseDouble( s );
@@ -191,7 +177,7 @@ public class SimStrings {
      * @param key
      * @return char
      */
-    public static char getChar( String key ) {
-        return getInstance().getString( key ).charAt( 0 );
+    public char getChar( String key ) {
+        return getString( key ).charAt( 0 );
     }
 }

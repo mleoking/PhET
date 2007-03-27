@@ -20,9 +20,7 @@ import java.util.Observer;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
-import edu.colorado.phet.quantumtunneling.enums.Direction;
 import edu.colorado.phet.quantumtunneling.model.*;
-import edu.colorado.phet.quantumtunneling.util.Complex;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -189,7 +187,7 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
     public static class ReflectionProbabilityNode extends AbstractProbabilityNode {
 
         public ReflectionProbabilityNode() {
-            super( SimStrings.getChar( "char.reflectionProbability" ) );
+            super( SimStrings.getInstance().getChar( "char.reflectionProbability" ) );
         }
 
         public void update() {
@@ -206,7 +204,7 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
     public static class TransmissionProbabilityNode extends AbstractProbabilityNode {
 
         public TransmissionProbabilityNode() {
-            super( SimStrings.getChar( "char.transmissionProbability" ) );
+            super( SimStrings.getInstance().getChar( "char.transmissionProbability" ) );
         }
 
         public void update() {

@@ -39,7 +39,7 @@ public class DeBroglieViewMenu extends JMenu {
     
     public DeBroglieViewMenu( HAModule module ) {
         super( SimStrings.getInstance().getString( "menu.deBroglieView" ) );
-        setMnemonic( SimStrings.getChar( "menu.deBroglieView.mnemonic" ) );
+        setMnemonic( SimStrings.getInstance().getChar( "menu.deBroglieView.mnemonic" ) );
 
         _module = module;
         
