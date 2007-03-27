@@ -10,7 +10,7 @@ import java.util.Observable;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FixedObject extends Observable {
+public class FixedObject extends OTObservable {
     
     //----------------------------------------------------------------------------
     // Instance data
