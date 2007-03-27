@@ -165,9 +165,14 @@ public class Particle1D {
         return cubicSpline.getUnitParallelVector( alpha ).getInstanceOfMagnitude( velocity );
     }
 
-    public void setCubicSpline2D( ParametricFunction2D spline, boolean top ) {
-        cubicSpline = spline;
+    public void detach(){
+        cubicSpline=null;
+    }
+
+    public void setCubicSpline2D( ParametricFunction2D spline, boolean top,double alpha ) {
+        this.cubicSpline = spline;
         this.splineTop = top;
+        this.alpha=alpha;
     }
 
     public double getSpeed() {

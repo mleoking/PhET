@@ -266,7 +266,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
     public void attach( SplineNode splineNode, int index, SplineMatch match ) {
         boolean change = false;
-        boolean top=getEnergySkateParkModel().bodyAt( 0).isTop();
+        boolean top = getEnergySkateParkModel().bodyAt( 0 ).isTop();
         if( getEnergySkateParkModel().bodyAt( 0 ).getSpline() == splineNode.getParametricFunction2D() || getEnergySkateParkModel().bodyAt( 0 ).getSpline() == match.getSplineGraphic().getParametricFunction2D() ) {
             change = true;
         }
@@ -302,7 +302,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         addSplineGraphic( new SplineNode( this, energySkateParkSpline, this ) );
         System.out.println( "change = " + change );
         if( change ) {
-            energySkateParkModel.bodyAt( 0).setSplineMode( energySkateParkSpline,top );
+            TraversalState traversalState = energySkateParkModel.bodyAt( 0 ).getBestTraversalState();
+            energySkateParkModel.bodyAt( 0 ).setSpline( energySkateParkModel.getEnergySkateParkSpline( traversalState.getParametricFunction2D() ), traversalState.isTop(), traversalState.getAlpha() );
         }
     }
 

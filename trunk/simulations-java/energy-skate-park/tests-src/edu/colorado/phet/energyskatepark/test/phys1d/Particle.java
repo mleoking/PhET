@@ -3,6 +3,7 @@ package edu.colorado.phet.energyskatepark.test.phys1d;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.energyskatepark.TraversalState;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -159,7 +160,15 @@ public class Particle {
     public void setThrust( double xThrust, double yThrust ) {
         this.xThrust = xThrust;
         this.yThrust = yThrust;
-        particle1D.setThrust(xThrust,yThrust);
+        particle1D.setThrust( xThrust, yThrust );
+    }
+
+    /**
+     * Find the state that best matches where the skater should be if it were to join the nearest track on the correct side.
+     */
+    public TraversalState getBestTraversalState() {
+//        TraversalState traversalState = new TraversalState();
+        return null;
     }
 
     interface UpdateStrategy {
@@ -231,7 +240,7 @@ public class Particle {
         setFreeFall();
         //todo: update location so it's guaranteed on the right side of the spline?
         offsetOnSpline( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() );
-        particle1D.setCubicSpline2D( null, false );
+        particle1D.detach();
     }
 
     public boolean isAboveSpline( int index ) {
@@ -264,6 +273,52 @@ public class Particle {
         }
     }
 
+    class SearchState {
+        double distance;
+        ParametricFunction2D track;
+        double alpha;
+        int index;
+
+        public SearchState( double dist, ParametricFunction2D track, double alpha, int index ) {
+            this.distance = dist;
+            this.track = track;
+            this.alpha = alpha;
+            this.index = index;
+        }
+
+        public double getDistance() {
+            return distance;
+        }
+
+        public ParametricFunction2D getTrack() {
+            return track;
+        }
+
+        public double getAlpha() {
+            return alpha;
+        }
+
+        public int getIndex() {
+            return index;
+        }
+
+        public void setDistance( double distance ) {
+            this.distance = distance;
+        }
+
+        public void setTrack( ParametricFunction2D track ) {
+            this.track = track;
+        }
+
+        public void setAlpha( double alpha ) {
+            this.alpha = alpha;
+        }
+
+        public void setIndex( int index ) {
+            this.index = index;
+        }
+    }
+
     class FreeFall implements UpdateStrategy {
 
         public void stepInTime( double dt ) {
@@ -283,7 +338,7 @@ public class Particle {
             double dE = getTotalEnergy() - origEnergy;
 //            System.out.println( "FreeFall dE[0]= " + Math.abs( dE ) );
             //todo test for mass * gravity >0 before fixing energy
-            if( getMass() * getGravity() > 1E-6 &&xThrust!=0&&yThrust!=0) {
+            if( getMass() * getGravity() > 1E-6 && xThrust != 0 && yThrust != 0 ) {
                 double dH = dE / ( getMass() * getGravity() );
                 y += dH;
             }
@@ -292,39 +347,11 @@ public class Particle {
             Point2D newLoc = new Point2D.Double( x, y );
 
             //take a min over all possible crossover points
-            double closestDist = Double.POSITIVE_INFINITY;
-            ParametricFunction2D closestTrack = null;
-            double closestAlpha = 0;
-            int closestIndex = -1;
+            SearchState searchState = getBestCrossPoint( newLoc, origAbove, origLoc );
 
-//            System.out.println( "particleStage = " + particleStage.toStringSerialization() );
-            for( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
-//                System.out.println( "Checking spline[" + i + "]" );
-                ParametricFunction2D cubicSpline = particleStage.getCubicSpline2D( i );
-                double alpha = cubicSpline.getClosestPoint( newLoc );
-
-                boolean above = isAboveSpline( cubicSpline, alpha, newLoc );
-//                System.out.println( "above = " + above );
-
-                //check for crossover
-                boolean crossed = origAbove[i] != above;
-
-                if( crossed && ( alpha > 0.0 && alpha < 1.0 ) ) {
-                    double ptLineDist = pointSegmentDistance( cubicSpline.evaluate( alpha ), new Line2D.Double( origLoc, newLoc ) );
-//                    double ptLineDist = new Line2D.Double( origLoc, newLoc ).ptLineDist( cubicSpline.evaluate( alpha ) );
-//                    System.out.println( "crossed spline[" + i + "] at alpha=" + alpha + ", ptLineDist=" + ptLineDist );
-                    if( ptLineDist < closestDist ) {
-                        closestDist = ptLineDist;
-                        closestTrack = cubicSpline;
-                        closestAlpha = alpha;
-                        closestIndex = i;
-                    }
-                }
-            }
-
-            if( closestDist < 0.2 ) {//this number was determined heuristically for a set of tests (free parameter)
-                ParametricFunction2D cubicSpline = closestTrack;
-                double alpha = closestAlpha;
+            if( searchState.getDistance() < 0.2 ) {//this number was determined heuristically for a set of tests (free parameter)
+                ParametricFunction2D cubicSpline = searchState.getTrack();
+                double alpha = searchState.getAlpha();
                 AbstractVector2D parallel = cubicSpline.getUnitParallelVector( alpha );
                 AbstractVector2D norm = cubicSpline.getUnitNormalVector( alpha );
                 //reflect the velocity about the parallel direction
@@ -347,7 +374,7 @@ public class Particle {
                     setVelocity( newVelocity );
 
                     //set the position to be just on top of the spline
-                    offsetOnSpline( cubicSpline, newAlpha, origAbove[closestIndex] );
+                    offsetOnSpline( cubicSpline, newAlpha, origAbove[searchState.getIndex()] );
 
                     double energyAfterBounce = getTotalEnergy();
                     thermalEnergy += ( energyBeforeBounce - energyAfterBounce );
@@ -357,7 +384,7 @@ public class Particle {
                 else {
                     //grab the track
                     double dE0 = getTotalEnergy() - origEnergy;
-                    switchToTrack( cubicSpline, newAlpha, origAbove[closestIndex] );
+                    switchToTrack( cubicSpline, newAlpha, origAbove[searchState.getIndex()] );
                     double dE1 = getTotalEnergy() - origEnergy;
 
 //                    if( dE1 > 0 ) {
@@ -371,6 +398,28 @@ public class Particle {
                     System.out.println( "dE0 = " + dE0 + ", de1=" + dE1 + ", de2=" + dE2 );
                 }
             }
+        }
+
+        private SearchState getBestCrossPoint( Point2D newLoc, boolean[] origAbove, Point2D origLoc ) {
+            SearchState searchState = new SearchState( Double.POSITIVE_INFINITY, null, 0, -1 );
+            for( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
+                ParametricFunction2D cubicSpline = particleStage.getCubicSpline2D( i );
+                double alpha = cubicSpline.getClosestPoint( newLoc );
+                boolean above = isAboveSpline( cubicSpline, alpha, newLoc );
+                //check for crossover
+                boolean crossed = origAbove[i] != above;
+                if( crossed && ( alpha > 0.0 && alpha < 1.0 ) ) {
+                    double ptLineDist = pointSegmentDistance( cubicSpline.evaluate( alpha ), new Line2D.Double( origLoc, newLoc ) );
+//                    System.out.println( "crossed spline[" + i + "] at alpha=" + alpha + ", ptLineDist=" + ptLineDist );
+                    if( ptLineDist < searchState.getDistance() ) {
+                        searchState.setDistance( ptLineDist );
+                        searchState.setTrack( cubicSpline );
+                        searchState.setAlpha( alpha );
+                        searchState.setIndex( i );
+                    }
+                }
+            }
+            return searchState;
         }
     }
 
@@ -408,8 +457,7 @@ public class Particle {
 
     public void switchToTrack( ParametricFunction2D spline, double alpha, boolean top ) {
         Vector2D.Double origVel = getVelocity();
-        particle1D.setAlpha( alpha );
-        particle1D.setCubicSpline2D( spline, top );
+        particle1D.setCubicSpline2D( spline, top, alpha );
         double sign = spline.getUnitParallelVector( alpha ).dot( getVelocity() ) > 0 ? 1.0 : -1.0;
 
         double newVelocityMagnitude = convertNormalVelocityToThermalOnLanding ? getParallelSpeed( spline, alpha ) : getSpeed();
