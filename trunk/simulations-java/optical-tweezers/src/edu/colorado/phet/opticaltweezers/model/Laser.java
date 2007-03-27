@@ -161,6 +161,25 @@ public class Laser extends MovableObject implements ModelElement {
         return rz;
     }
     
+    /**
+     * Is a specified point inside the out-going laser beam's shape?
+     * 
+     * @param p
+     * @return
+     */
+    public boolean contains( Point2D p ) {
+        assert( getOrientation() == Math.toRadians( -90 ) ); // laser beam must point up
+        boolean b = false;
+        // Is p on the out-going side of the objective?
+        if ( p.getY() <= getY() + _distanceFromObjectiveToWaist ) {
+            double radius = getBeamRadiusAt( p.getY() - getY() );
+            if ( radius <= Math.abs( getX() - p.getX() ) ) {
+                b= true;
+            }
+        }
+        return b;
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------

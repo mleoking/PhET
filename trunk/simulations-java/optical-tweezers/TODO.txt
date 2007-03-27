@@ -3,11 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
-- implement laser beam shape
+- implement laser beam gradient
 
 HIGH PRIORITY:
 - bug: fluid viscosity slider is brain damaged
-- implement laser beam gradient
 - implement force model for fast mode
 - implement bead motion model
 - implement E-field model for slow mode
@@ -66,6 +65,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+3/26/07 - document model coordinate system in package javadoc
+3/26/07 - add Laser.contains, determines if a point is inside the laser beam
 3/26/07 - temporary hack in OTRuler for ruler alignment problem
 3/26/07 - converting bead to image crops right & bottom pixels, remove stroke
 3/26/07 - add debug crosshair at laser's origin
