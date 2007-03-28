@@ -2,6 +2,7 @@ package edu.colorado.phet.energyskatepark.test.phys1d;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.energyskatepark.TraversalState;
 
@@ -38,6 +39,7 @@ public class Particle {
     private double xThrust = 0;
     private double yThrust = 0;
     private double frictionCoefficient = 0;
+    private boolean verboseDebug = true;
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
         this( new ParticleStage( parametricFunction2D ) );
@@ -53,11 +55,12 @@ public class Particle {
     public void stepInTime( double dt ) {
         if( !userControlled ) {
             double origEnergy = getTotalEnergy();
+            Class updateClass = updateStrategy.getClass();
             updateStrategy.stepInTime( dt );
             double finalEnergy = getTotalEnergy();
             double dE = finalEnergy - origEnergy;
             if( Math.abs( dE ) > 1E-6 ) {
-                System.out.println( "Particle.stepInTime: de = " + dE + ", strategy=" + updateStrategy.getClass() );
+                System.out.println( "Particle.stepInTime: de = " + dE + ", strategy=" + updateClass + ", newStrategy=" + updateStrategy.getClass() );
             }
             update();
         }
@@ -244,11 +247,54 @@ public class Particle {
     }
 
     private void switchToFreeFall() {
+        double origEnergy = particle1D.getEnergy();
         setVelocity( particle1D.getVelocity2D() );
         setFreeFall();
         //todo: update location so it's guaranteed on the right side of the spline?
         offsetOnSpline( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() );
         particle1D.detach();
+        double dE = getTotalEnergy() - origEnergy;
+        if( Math.abs( dE ) > 1E-6 ) {
+            System.out.println( "Switching to freefall: energy discrepancy: dE=" + dE );
+            if( dE > 0 ) {//gained energy
+                //can we reduce velocity to fix?
+                testCorrectVelocity( origEnergy );
+            }
+        }
+    }
+
+    private void testCorrectVelocity( double e0 ) {
+        double dE = getTotalEnergy() - e0;
+        if( Math.abs( getKineticEnergy() ) > Math.abs( dE ) ) {//amount we could reduce the energy if we deleted all the kinetic energy:
+            verboseDebug( "Could fix all energy by changing velocity." );//todo: maybe should only do this if all velocity is not converted
+            correctEnergyReduceVelocity( e0 );
+            verboseDebug( "changed velocity: dE=" + ( getTotalEnergy() - e0 ) );
+            if( !MathUtil.isApproxEqual( e0, getTotalEnergy(), 1E-8 ) ) {
+                new RuntimeException( "Energy error[p0]" ).printStackTrace();
+            }
+        }
+        else {
+            System.out.println( "can't correct with velocity correction" );
+        }
+    }
+
+    private void verboseDebug( String s ) {
+        if( verboseDebug ) {
+            System.out.println( s );
+        }
+    }
+
+    private void correctEnergyReduceVelocity( double e0 ) {
+        double velocity = getVelocity().getMagnitude();
+        for( int i = 0; i < 100; i++ ) {
+            double dv = ( getTotalEnergy() - e0 ) / ( mass * velocity );
+            velocity -= dv;
+            setVelocity( getVelocity().getInstanceOfMagnitude( Math.abs( velocity ) ) );
+            if( MathUtil.isApproxEqual( e0, getTotalEnergy(), 1E-8 ) ) {
+                break;
+            }
+        }
+        setVelocity( getVelocity().getInstanceOfMagnitude( Math.abs( velocity ) ) );
     }
 
     public boolean isAboveSpline( int index ) {
@@ -541,7 +587,7 @@ public class Particle {
         double newEnergy = particle1D.getEnergy();
         double dE = ( newEnergy - origEnergy );
         if( dE <= 0 ) {
-            System.out.println( "dE = " + dE );
+//            System.out.println( "dE = " + dE );
             particle1D.addThermalEnergy( Math.abs( dE ) );
         }
         else {
