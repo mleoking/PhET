@@ -211,12 +211,17 @@ public class SkaterNode extends PNode {
         centerDebugger.setPathTo( new Rectangle2D.Double( body.getCenterOfMass().getX(), body.getCenterOfMass().getY(), 0.1, 0.1 ) );
         feetDebugger.setPathTo( body.getFeetShape() );
     }
+
     private void updateJetPackTransform() {
         jetPackNode.setTransform( new AffineTransform() );
-        jetPackNode.setOffset( skaterImageNode.getFullBounds().getCenter2D());
+        jetPackNode.setOffset( skaterImageNode.getFullBounds().getCenter2D() );
         jetPackNode.transformBy( AffineTransform.getScaleInstance( 2 * body.getWidth() / skaterImage.getWidth(), -2 * body.getHeight() / skaterImage.getHeight() ) );
-        jetPackNode.translate( -jetPackImage.getWidth()/2,-jetPackImage.getHeight( )/2);
-        jetPackNode.rotateAboutPoint( -body.getThrust().getAngle()+Math.PI/2,jetPackImage.getWidth()/2,jetPackImage.getHeight( )/2);
+        jetPackNode.translate( -jetPackImage.getWidth() / 2, -jetPackImage.getHeight() / 2 );
+        jetPackNode.rotateAboutPoint( -body.getThrust().getAngle() + Math.PI / 2, jetPackImage.getWidth() / 2, jetPackImage.getHeight() / 2 );
+        if( body.isFacingRight() ) {
+            jetPackNode.transformBy( AffineTransform.getScaleInstance( -1, 1 ) );
+            jetPackNode.translate( -jetPackImage.getWidth(),0);
+        }
     }
 
     private void updateSkaterTransform() {
@@ -225,10 +230,10 @@ public class SkaterNode extends PNode {
         skaterImageNode.transformBy( AffineTransform.getScaleInstance( body.getWidth() / skaterImage.getWidth(), -body.getHeight() / skaterImage.getHeight() ) );
         skaterImageNode.rotate( -body.getRotation() );
         skaterImageNode.translate( -skaterImage.getWidth() / 2, -skaterImage.getHeight() );
-    }
-
-    public boolean isFacingRight() {
-        return body.isFacingRight();
+        if( body.isFacingRight() ) {
+            skaterImageNode.transformBy( AffineTransform.getScaleInstance( -1, 1 ) );
+            skaterImageNode.translate( -skaterImage.getWidth(),0);
+        }
     }
 
     public boolean isBoxVisible() {

@@ -4,6 +4,14 @@
 
 7. With high enough speed, sometimes the skater can pass through a track (or ground)
 8. Add special friction for ground (friction for all tracks, averaged with skater friction?)
+9. Make it so skater cannot be dragged underground.
+10. Skater should point at track while dragging.
+11. Show an indicator for attachment point during skater dragging?
+12. Make it impossible to drag control points below ground?
+13. Performance problems after lots of runs?
+14. Playback/record.
+
+16. 
 
 #################################################################
 Remaining Work

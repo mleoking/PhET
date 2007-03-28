@@ -1,5 +1,6 @@
 1.05.11
 Many bugfixes for new physics.
+Fixed graphics for direction skater is facing.
 
 1.05.07 (3-4-2007) <13466>
 Added 1-d test case.
