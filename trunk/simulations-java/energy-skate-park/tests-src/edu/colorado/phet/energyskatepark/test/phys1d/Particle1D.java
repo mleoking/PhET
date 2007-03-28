@@ -31,6 +31,8 @@ public class Particle1D {
     private double zeroPointPotentialY = 0.0;
     private double xThrust = 0;
     private double yThrust = 0;
+    private double frictionCoefficient = 0;
+    private double thermalEnergy = 0;
 
     public Particle1D( ParametricFunction2D cubicSpline, boolean splineTop ) {
         this( cubicSpline, splineTop, 9.8 );
@@ -138,12 +140,12 @@ public class Particle1D {
         return new Euler();
     }
 
-    public double getEnergy( double alpha, double velocity ) {
-        return 0.5 * mass * velocity * velocity - mass * g * getY( alpha );
+    private double getEnergy( double alpha, double velocity ) {
+        return 0.5 * mass * velocity * velocity - mass * g * getY( alpha ) + thermalEnergy;
     }
 
     public double getEnergy() {
-        return getKineticEnergy() + getPotentialEnergy();
+        return getKineticEnergy() + getPotentialEnergy() + thermalEnergy;
     }
 
     private double getPotentialEnergy() {
@@ -166,14 +168,14 @@ public class Particle1D {
         return cubicSpline.getUnitParallelVector( alpha ).getInstanceOfMagnitude( velocity );
     }
 
-    public void detach(){
-        cubicSpline=null;
+    public void detach() {
+        cubicSpline = null;
     }
 
-    public void setCubicSpline2D( ParametricFunction2D spline, boolean top,double alpha ) {
+    public void setCubicSpline2D( ParametricFunction2D spline, boolean top, double alpha ) {
         this.cubicSpline = spline;
         this.splineTop = top;
-        this.alpha=alpha;
+        this.alpha = alpha;
     }
 
     public double getSpeed() {
@@ -215,6 +217,18 @@ public class Particle1D {
 
     public TraversalState getTraversalState() {
         return new TraversalState( cubicSpline, splineTop, alpha );
+    }
+
+    public void setFrictionCoefficient( double frictionCoefficient ) {
+        this.frictionCoefficient = frictionCoefficient;
+    }
+
+    public double getThermalEnergy() {
+        return thermalEnergy;
+    }
+
+    public void setThermalEnergy( double thermalEnergy ) {
+        this.thermalEnergy = thermalEnergy;
     }
 
     public interface UpdateStrategy {
@@ -294,7 +308,7 @@ public class Particle1D {
             verboseDebug( "Energy too low" );
             //increasing the kinetic energy
             //Choose the exact velocity in the same direction as current velocity to ensure total energy conserved.
-            double vSq = Math.abs( 2 / mass * ( e0 - getPotentialEnergy() ) );
+            double vSq = Math.abs( 2 / mass * ( e0 - getPotentialEnergy() - thermalEnergy ) );
             double v = Math.sqrt( vSq );
 //            this.velocity = Math.sqrt( Math.abs( 2 * dE / mass ) ) * MathUtil.getSign( velocity );
             this.velocity = v * MathUtil.getSign( velocity );
@@ -412,21 +426,29 @@ public class Particle1D {
     Returns the net force (discluding normal forces).
      */
     public AbstractVector2D getNetForce() {
-        Vector2D gravity = new Vector2D.Double( 0, mass * g );
-        Vector2D thrust = new Vector2D.Double( xThrust * mass, yThrust * mass );
+        Vector2D.Double netForce = new Vector2D.Double();
+        netForce.add( new Vector2D.Double( 0, mass * g ) );//gravity
+        netForce.add( new Vector2D.Double( xThrust * mass, yThrust * mass ) );//thrust
+        netForce.add( getFrictionForce() );
+        return netForce;
+    }
 
-        return gravity.getAddedInstance( thrust );
+    public AbstractVector2D getFrictionForce() {
+        return getVelocity2D().getScaledInstance( -frictionCoefficient * 10000 );//todo factor out heuristic
     }
 
     public class Euler implements UpdateStrategy {
-
         public void stepInTime( double dt ) {
+            Point2D origLoc = getLocation();
             AbstractVector2D netForce = getNetForce();
-//            System.out.println( "netForce = " + netForce );
             double a = cubicSpline.getUnitParallelVector( alpha ).dot( netForce ) / mass;
-//            System.out.println( "a = " + a );
             velocity += a * dt;
             alpha += cubicSpline.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
+            if( frictionCoefficient > 0 ) {
+                double therm = getFrictionForce().getMagnitude() * getLocation().distance( origLoc );
+//                System.out.println( "therm = " + therm );
+                thermalEnergy += therm;
+            }
             handleBoundary();
         }
     }
