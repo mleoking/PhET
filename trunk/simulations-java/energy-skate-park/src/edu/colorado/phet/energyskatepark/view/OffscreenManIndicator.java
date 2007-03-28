@@ -5,6 +5,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -24,7 +25,7 @@ public class OffscreenManIndicator extends PhetPNode {
     private PSwingCanvas canvas;
     private SkaterNode bodyNode;
     private EnergySkateParkModule module;
-    private PSwing buttonNode;
+    private PNode buttonNode;
     private ConnectorGraphic connectorGraphic;
 
     public OffscreenManIndicator( PSwingCanvas canvas, final EnergySkateParkModule ec3Module, SkaterNode body ) {
@@ -37,7 +38,7 @@ public class OffscreenManIndicator extends PhetPNode {
                 ec3Module.resetSkater();
             }
         } );
-        buttonNode = ( new PSwing(bringBackSkater ) );
+        buttonNode = new PhetPNode( new PSwing( bringBackSkater ) );
         addChild( buttonNode );
     }
 

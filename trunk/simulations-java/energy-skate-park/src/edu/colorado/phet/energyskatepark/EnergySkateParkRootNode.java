@@ -134,6 +134,8 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addScreenChild( panZoomControls );
 
         PDebug.debugRegionManagement=true;
+        PDebug.debugBounds=true;
+        PDebug.debugPaintCalls=true;
     }
 
     private void addClouds() {
