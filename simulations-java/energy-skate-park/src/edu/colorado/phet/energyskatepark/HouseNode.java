@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -12,7 +13,7 @@ import java.io.IOException;
  * Author: Sam Reid
  * Mar 28, 2007, 12:08:06 AM
  */
-public class HouseNode extends PNode {
+public class HouseNode extends PhetPNode {
 
     public HouseNode() {
 
