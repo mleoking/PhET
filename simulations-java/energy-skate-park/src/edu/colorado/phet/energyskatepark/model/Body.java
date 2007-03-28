@@ -32,7 +32,6 @@ public class Body {
 
     private boolean facingRight;
 
-    private double frictionCoefficient = 0.0;
     private double coefficientOfRestitution = 1.0;
 
     private double width;
@@ -135,6 +134,7 @@ public class Body {
                 facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getRotation() ) ) > 0;
             }
         }
+
     }
 
     public double getY() {
@@ -253,11 +253,11 @@ public class Body {
     }
 
     public double getFrictionCoefficient() {
-        return frictionCoefficient;
+        return particle.getFrictionCoefficient();
     }
 
     public void setFrictionCoefficient( double value ) {
-        this.frictionCoefficient = value;
+        particle.setFrictionCoefficient( value );
     }
 
     public double getCoefficientOfRestitution() {

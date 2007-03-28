@@ -37,6 +37,7 @@ public class Particle {
     private double zeroPointPotentialY;
     private double xThrust = 0;
     private double yThrust = 0;
+    private double frictionCoefficient = 0;
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
         this( new ParticleStage( parametricFunction2D ) );
@@ -141,6 +142,7 @@ public class Particle {
 
     public void resetThermalEnergy() {
         this.thermalEnergy = 0.0;
+        particle1D.setThermalEnergy( 0.0 );
     }
 
     public void setMass( double mass ) {
@@ -165,6 +167,15 @@ public class Particle {
 
     public TraversalState getTraversalState() {
         return particle1D.getTraversalState();
+    }
+
+    public void setFrictionCoefficient( double value ) {
+        this.frictionCoefficient = value;
+        particle1D.setFrictionCoefficient( value );
+    }
+
+    public double getFrictionCoefficient() {
+        return frictionCoefficient;
     }
 
     interface UpdateStrategy {
@@ -229,6 +240,7 @@ public class Particle {
         vx = vel.getX();
         vy = vel.getY();
         angle = particle1D.getSideVector().getAngle();
+        thermalEnergy = particle1D.getThermalEnergy();
     }
 
     private void switchToFreeFall() {
@@ -485,6 +497,7 @@ public class Particle {
     }
 
     public void switchToTrack( ParametricFunction2D spline, double alpha, boolean top ) {
+        particle1D.setThermalEnergy( thermalEnergy );
         Vector2D.Double origVel = getVelocity();
         particle1D.setCubicSpline2D( spline, top, alpha );
         double sign = spline.getUnitParallelVector( alpha ).dot( getVelocity() ) > 0 ? 1.0 : -1.0;
