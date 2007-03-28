@@ -522,7 +522,7 @@ public class Particle {
     }
 
     public void switchToTrack( ParametricFunction2D spline, double alpha, boolean top ) {
-        double origKE = getKineticEnergy();
+        double origEnergy = getTotalEnergy();
         particle1D.setThermalEnergy( thermalEnergy );
         Vector2D.Double origVel = getVelocity();
         particle1D.setCubicSpline2D( spline, top, alpha );
@@ -538,11 +538,15 @@ public class Particle {
         if( dot < 0 ) {
             System.out.println( "Velocities were in contrary directions" );
         }
-        double newKE = particle1D.getKineticEnergy();
-        double dThermal = ( newKE - origKE );
-        assert dThermal >= 0;
-        System.out.println( "dThermal = " + dThermal );
-//        particle1D.setThermalEnergy( particle1D.getThermalEnergy() - dThermal );
+        double newEnergy = particle1D.getEnergy();
+        double dE = ( newEnergy - origEnergy );
+        if( dE <= 0 ) {
+            System.out.println( "dE = " + dE );
+            particle1D.addThermalEnergy( Math.abs( dE ) );
+        }
+        else {
+            System.out.println( "gained energy on landing, not solved yet" ); //todo: solve energy problem on landing
+        }
         updateStateFrom1D();
     }
 

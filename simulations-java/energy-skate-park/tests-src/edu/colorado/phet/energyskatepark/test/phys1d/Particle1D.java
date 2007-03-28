@@ -231,6 +231,10 @@ public class Particle1D {
         this.thermalEnergy = thermalEnergy;
     }
 
+    public void addThermalEnergy( double dT ) {
+        setThermalEnergy( thermalEnergy + dT );
+    }
+
     public interface UpdateStrategy {
         void stepInTime( double dt );
     }
@@ -253,10 +257,10 @@ public class Particle1D {
     }
 
     void fixEnergy( double alpha0, final double e0 ) {
-        fixEnergyHeuristic( alpha0,  e0 );
+        fixEnergyHeuristic( alpha0, e0 );
     }
 
-    private void fixEnergyHeuristic( double alpha0,  double e0 ) {
+    private void fixEnergyHeuristic( double alpha0, double e0 ) {
         double dE = getEnergy() - e0;
         if( Math.abs( dE ) < 1E-6 ) {
             //small enough
@@ -423,11 +427,27 @@ public class Particle1D {
     }
 
     public AbstractVector2D getNormalForce() {//todo some code duplication in Particle.Particle1DUpdate
-        Vector2D.Double netForceRadial = new Vector2D.Double();
-        netForceRadial.add( new Vector2D.Double( 0, mass * g ) );//gravity
-        netForceRadial.add( new Vector2D.Double( xThrust * mass, yThrust * mass ) );//thrust
-        double normalForce = mass * velocity * velocity / Math.abs( getRadiusOfCurvature() ) - netForceRadial.dot( getCurvatureDirection() );
-        return Vector2D.Double.parseAngleAndMagnitude( normalForce, getCurvatureDirection().getAngle() );
+        System.out.println( "getRadiusOfCurvature() = " + getRadiusOfCurvature() );
+        if( Double.isInfinite( getRadiusOfCurvature() ) ) {
+            System.out.println( "infinite" );
+
+            double radiusOfCurvature = 100000;
+            System.out.println( "radiusOfCurvature = " + radiusOfCurvature );
+            System.out.println( " getCurvatureDirection()  = " + getCurvatureDirection() );
+            Vector2D.Double netForceRadial = new Vector2D.Double();
+            netForceRadial.add( new Vector2D.Double( 0, mass * g ) );//gravity
+            netForceRadial.add( new Vector2D.Double( xThrust * mass, yThrust * mass ) );//thrust
+            double normalForce = mass * velocity * velocity / Math.abs( radiusOfCurvature ) - netForceRadial.dot( getCurvatureDirection() );
+
+            return Vector2D.Double.parseAngleAndMagnitude( normalForce, getCurvatureDirection().getAngle() );
+        }
+        else {
+            Vector2D.Double netForceRadial = new Vector2D.Double();
+            netForceRadial.add( new Vector2D.Double( 0, mass * g ) );//gravity
+            netForceRadial.add( new Vector2D.Double( xThrust * mass, yThrust * mass ) );//thrust
+            double normalForce = mass * velocity * velocity / Math.abs( getRadiusOfCurvature() ) - netForceRadial.dot( getCurvatureDirection() );
+            return Vector2D.Double.parseAngleAndMagnitude( normalForce, getCurvatureDirection().getAngle() );
+        }
     }
 
     /*
@@ -442,9 +462,14 @@ public class Particle1D {
     }
 
     public AbstractVector2D getFrictionForce() {
+        if( frictionCoefficient == 0 ) {
+            return new Vector2D.Double();
+        }
+        else {
 //        return getVelocity2D().getScaledInstance( -frictionCoefficient * 10000 );//todo factor out heuristic
 //        return getVelocity2D().getScaledInstance( -frictionCoefficient * getNormalForce().getMagnitude() );//todo factor out heuristic
-        return getVelocity2D().getInstanceOfMagnitude( -frictionCoefficient * getNormalForce().getMagnitude()*25 );//todo factor out heuristic
+            return getVelocity2D().getInstanceOfMagnitude( -frictionCoefficient * getNormalForce().getMagnitude() * 25 );//todo factor out heuristic
+        }
     }
 
     public class Euler implements UpdateStrategy {

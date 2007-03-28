@@ -10,7 +10,9 @@
 12. Make it impossible to drag control points below ground?
 13. Performance problems after lots of runs?
 14. Playback/record.
-16. Add rotation for skater in the air? 
+16. Add rotation for skater in the air?
+
+todo: memory leak in EnergySkateParkSplineListAdapter
 
 #################################################################
 Remaining Work
