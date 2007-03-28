@@ -1,0 +1,35 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: March 22-28, 2007 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+  
+  out sick March 27 & 28
+  
+  Optical Tweezers:
+  - completed all change requests from 3/22 status meeting
+  - completed model of laser beam shape
+  - started model of laser beam gradient
+  
+  Common:
+  - convert sims to use new PSwing constructor
+  - development meeting with Sam & John
+
+WHAT'S NEXT:
+  
+  - continue work on Optical Tweezers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/optical-tweezers/TODO.txt?view=markup
+  
+  - combine Play & Pause clock buttons in my sims ?
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  - July 16-24
+  - August 6-17
+  
+--
