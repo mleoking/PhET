@@ -11,6 +11,7 @@ import edu.colorado.phet.piccolo.PhetRootPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
+import edu.umd.cs.piccolo.util.PDebug;
 
 import java.awt.*;
 import java.awt.event.ComponentEvent;
@@ -53,7 +54,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private GridNode gridNode;
     private PanZoomOnscreenControl panZoomControls;
 
-    public EnergySkateParkRootNode( EnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
+    public EnergySkateParkRootNode( final EnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
         this.module = module;
         this.simulationPanel = simulationPanel;
         EnergySkateParkModel ec3Model = getModel();
@@ -76,10 +77,16 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         offscreenManIndicator = new OffscreenManIndicator( simulationPanel, module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
         gridNode = new GridNode();
 
-        HouseNode houseNode=new HouseNode();
+        final HouseNode houseNode=new HouseNode();
 
         addScreenChild( screenBackground );
         addScreenChild( splineToolbox );
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter(){
+
+            public void gravityChanged() {
+                houseNode.setVisible( module.getEnergySkateParkModel().getGravity()==EnergySkateParkModel.G_EARTH);
+            }
+        } );
         addWorldChild( houseNode );
         addWorldChild( floorGraphic );
         addWorldChild( splineGraphics );
@@ -125,6 +132,8 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 //        addClouds();
         panZoomControls = new PanZoomOnscreenControl( simulationPanel );
         addScreenChild( panZoomControls );
+
+//        PDebug.debugRegionManagement=true;
     }
 
     private void addClouds() {
@@ -148,11 +157,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         }
     }
 
-//    public PNode getToolboxPlaceholder() {
-//        return toolboxPlaceholder;
-//    }
-
-
     public BackgroundScreenNode getBackground() {
         return screenBackground;
     }
@@ -160,10 +164,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     public void setBackground( Image image ) {
         screenBackground.setBackground( image );
     }
-
-//    private void updateBackgroundImage() {
-//        screenBackground.update();
-//    }
 
     private void resetDefaults() {
         setPieChartVisible( DEFAULT_PIE_CHART_VISIBLE );
