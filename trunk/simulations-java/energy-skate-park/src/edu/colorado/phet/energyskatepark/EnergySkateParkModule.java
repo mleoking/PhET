@@ -161,7 +161,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         final Body body = new Body( getEnergySkateParkModel() );
         body.reset();
         energyModel.addBody( body );
-        body.showControls();
+//        body.showControls();
         energyCanvas.getRootNode().updateGraphics();
 
         PreFabSplines preFabSplines = new PreFabSplines();
