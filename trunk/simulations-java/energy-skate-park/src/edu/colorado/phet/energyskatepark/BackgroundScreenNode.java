@@ -3,6 +3,7 @@ package edu.colorado.phet.energyskatepark;
 
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.piccolo.PhetRootPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -24,7 +25,7 @@ public class BackgroundScreenNode extends PhetPNode {
     private Image backgroundImage;
     private PNode floorGraphic;
 
-    public BackgroundScreenNode( EnergySkateParkSimulationPanel simulationPanel, Image backgroundImage, PNode floorGraphic ) {
+    public BackgroundScreenNode( EnergySkateParkSimulationPanel simulationPanel, Image backgroundImage, PNode floorGraphic, PhetRootPNode rootNode ) {
         this.ec3Canvas = simulationPanel;
         this.backgroundImage = backgroundImage;
         this.floorGraphic = floorGraphic;
@@ -36,6 +37,13 @@ public class BackgroundScreenNode extends PhetPNode {
         } );
         simulationPanel.addListener( new EnergySkateParkSimulationPanel.Listener() {
             public void zoomChanged() {
+                update();
+            }
+        } );
+        rootNode.addWorldTransformListener( new PropertyChangeListener() {
+
+            public void propertyChange( PropertyChangeEvent evt ) {
+                System.out.println( "evt = " + evt );
                 update();
             }
         } );
