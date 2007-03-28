@@ -87,7 +87,7 @@ public class Particle1D {
 //        System.out.println( "Particle1D[0]: dE=" + ( getEnergy() - initEnergy ) );
 
         if( getThrust().getMagnitude() == 0 ) {
-            fixEnergy( initAlpha, initVelocity, initEnergy );
+            fixEnergy( initAlpha, initEnergy );
         }
 
 //        System.out.println( "Particle1D[1]: dE=" + ( getEnergy() - initEnergy ) );
@@ -152,7 +152,7 @@ public class Particle1D {
         return -mass * g * ( getY() - zeroPointPotentialY );
     }
 
-    private double getKineticEnergy() {
+    public double getKineticEnergy() {
         return 0.5 * mass * velocity * velocity;
     }
 
@@ -252,11 +252,11 @@ public class Particle1D {
         }
     }
 
-    private void fixEnergy( double alpha0, double v0, final double e0 ) {
-        fixEnergyHeuristic( alpha0, v0, e0 );
+    void fixEnergy( double alpha0, final double e0 ) {
+        fixEnergyHeuristic( alpha0,  e0 );
     }
 
-    private void fixEnergyHeuristic( double alpha0, double v0, double e0 ) {
+    private void fixEnergyHeuristic( double alpha0,  double e0 ) {
         double dE = getEnergy() - e0;
         if( Math.abs( dE ) < 1E-6 ) {
             //small enough

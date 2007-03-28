@@ -24,7 +24,7 @@ public class HouseNode extends PhetPNode {
             double scale = 1.5 / houseImage.getHeight();
             houseImageNode.transformBy( AffineTransform.getScaleInstance( scale, -scale ) );
             double dy = -houseImageNode.getFullBounds().getHeight() / scale;
-            System.out.println( "dy = " + dy );
+//            System.out.println( "dy = " + dy );
             houseImageNode.translate( 10 / scale, dy );//10 meters east
             addChild( houseImageNode );
         }
