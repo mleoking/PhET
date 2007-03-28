@@ -71,24 +71,12 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         legend = new EnergySkateParkLegend( module );
 //        legend.addNegPEEntry();
         floorGraphic = new FloorGraphic( module, getModel(), floor );
-        screenBackground = new BackgroundScreenNode( simulationPanel, null, floorGraphic );
+        screenBackground = new BackgroundScreenNode( simulationPanel, null, floorGraphic,this );
         zeroPointPotentialGraphic = new ZeroPointPotentialGraphic( simulationPanel );
         offscreenManIndicator = new OffscreenManIndicator( simulationPanel, module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
         gridNode = new GridNode();
 
-        PNode houseNode = null;
-        try {
-            BufferedImage houseImage = ImageLoader.loadBufferedImage( "images/house.png" );
-            houseNode = new PImage( houseImage );
-            double scale = 1.5 / houseImage.getHeight();
-            houseNode.transformBy( AffineTransform.getScaleInstance( scale, -scale ) );
-            double dy = -houseNode.getFullBounds().getHeight() / scale;
-            System.out.println( "dy = " + dy );
-            houseNode.translate( 10 / scale, dy );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        HouseNode houseNode=new HouseNode();
 
         addScreenChild( screenBackground );
         addScreenChild( splineToolbox );
