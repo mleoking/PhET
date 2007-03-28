@@ -202,18 +202,18 @@ public class Particle {
             //compare a to v/r^2 to see if it leaves the track
             double r = Math.abs( particle1D.getRadiusOfCurvature() );
             double centripForce = getMass() * particle1D.getSpeed() * particle1D.getSpeed() / r;
-            double gravForceRad = particle1D.getNetForce().dot( particle1D.getCurvatureDirection() );
+            double netForceRadial = particle1D.getNetForce().dot( particle1D.getCurvatureDirection() );
 
 //            System.out.println( "r = " + r );
 //            System.out.println( "particle1D.getCurvatureDirection() = " + particle1D.getCurvatureDirection() );
 //            System.out.println( "centripForce = " + centripForce );
-//            System.out.println( "gravForceRad = " + gravForceRad );
+//            System.out.println( "netForceRadial = " + netForceRadial );
 
             boolean leaveTrack = false;
-            if( gravForceRad < centripForce && outsideCircle ) {
+            if( netForceRadial < centripForce && outsideCircle ) {
                 leaveTrack = true;
             }
-            if( gravForceRad > centripForce && !outsideCircle ) {
+            if( netForceRadial > centripForce && !outsideCircle ) {
                 leaveTrack = true;
             }
             if( leaveTrack ) {
