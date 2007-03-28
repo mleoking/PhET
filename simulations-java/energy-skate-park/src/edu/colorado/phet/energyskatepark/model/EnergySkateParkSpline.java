@@ -82,6 +82,7 @@ public class EnergySkateParkSpline {
         for( double alpha = 0.0; alpha <= 1.0; alpha += 0.01 ) {
             pts.add( parametricFunction2D.evaluate( alpha ) );
         }
+        pts.add( parametricFunction2D.evaluate( 1.0) );
         return (Point2D[])pts.toArray( new Point2D.Double[0] );
     }
 
