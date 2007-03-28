@@ -21,6 +21,34 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
         update();
     }
 
+    public Object clone() {
+        CubicSpline2D clone = (CubicSpline2D)super.clone();
+        try {
+            clone.x = (CubicSpline)this.x.clone();
+            clone.y = (CubicSpline)this.y.clone();
+            return clone;
+        }
+        catch( CloneNotSupportedException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
+    }
+
+    public boolean equals( Object obj ) {
+        if( !super.equals( obj ) ) {
+            return false;
+        }
+        else {
+            if( obj instanceof CubicSpline2D ) {
+                CubicSpline2D cubicSpline2D = (CubicSpline2D)obj;
+                return cubicSpline2D.x.equals( this.x ) && cubicSpline2D.y.equals( this.y );
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
     public void setControlPoints( Point2D[] pts ) {
         super.setControlPoints( pts );
         update();

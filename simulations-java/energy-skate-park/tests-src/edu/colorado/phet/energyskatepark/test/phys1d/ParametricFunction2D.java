@@ -14,7 +14,7 @@ import java.util.Arrays;
  * Copyright (c) Feb 14, 2007 by Sam Reid
  */
 
-public abstract class ParametricFunction2D {
+public abstract class ParametricFunction2D implements Cloneable{
 
     public double getClosestPoint( Point2D pt ) {
 //        return getClosestPointFlatSearch( pt );

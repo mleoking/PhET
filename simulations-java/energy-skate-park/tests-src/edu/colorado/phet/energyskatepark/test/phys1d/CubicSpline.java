@@ -2,6 +2,8 @@ package edu.colorado.phet.energyskatepark.test.phys1d;
 
 import Jama.Matrix;
 
+import java.util.Arrays;
+
 /**
  * User: Sam Reid
  * Date: Feb 13, 2007
@@ -11,7 +13,7 @@ import Jama.Matrix;
  * see http://en.wikipedia.org/wiki/Spline_interpolation
  */
 
-public class CubicSpline {
+public class CubicSpline implements Cloneable {
     private CubicSplineSegment[] segments;
     private double[] xTrain;
     private double[] yTrain;
@@ -20,6 +22,33 @@ public class CubicSpline {
         this.segments = segments;
         this.xTrain = x;
         this.yTrain = y;
+    }
+
+    public boolean equals( Object obj ) {
+        if( obj instanceof CubicSpline ) {
+            CubicSpline cubicSpline = (CubicSpline)obj;
+            return Arrays.equals( cubicSpline.segments, segments ) && Arrays.equals( cubicSpline.xTrain, xTrain ) && Arrays.equals( cubicSpline.yTrain, yTrain );
+        }
+        else {
+            return false;
+        }
+    }
+
+    protected Object clone() throws CloneNotSupportedException {
+        CubicSpline clone = (CubicSpline)super.clone();
+        clone.segments = new CubicSplineSegment[segments.length];
+        for( int i = 0; i < segments.length; i++ ) {
+            clone.segments[i] = (CubicSplineSegment)this.segments[i].clone();
+        }
+        clone.xTrain = new double[xTrain.length];
+        clone.yTrain = new double[yTrain.length];
+        for( int i = 0; i < xTrain.length; i++ ) {
+            clone.xTrain[i] = this.xTrain[i];
+        }
+        for( int i = 0; i < yTrain.length; i++ ) {
+            clone.yTrain[i] = this.yTrain[i];
+        }
+        return clone;
     }
 
     public double evaluate( double x ) {
@@ -40,7 +69,7 @@ public class CubicSpline {
 //        throw new RuntimeException( "value not contained in spline: " + x + ", min=" + xTrain[0] + ", max=" + xTrain[xTrain.length - 1] );
     }
 
-    static class CubicSplineSegment {
+    static class CubicSplineSegment implements Cloneable {
         private double h;
         private double z0;
         private double z1;
@@ -59,6 +88,28 @@ public class CubicSpline {
             this.x1 = x1;
             this.y0 = y0;
             this.y1 = y1;
+        }
+
+        public boolean equals( Object obj ) {
+            if( obj instanceof CubicSplineSegment ) {
+                CubicSplineSegment c = (CubicSplineSegment)obj;
+                return c.h == h && c.z0 == z0 && c.z1 == z1 && c.x0 == x0 && c.x1 == x1 && c.y0 == y0 && c.y1 == y1;
+            }
+            else {
+                return false;
+            }
+        }
+
+        protected Object clone() throws CloneNotSupportedException {
+            CubicSplineSegment clone = (CubicSplineSegment)super.clone();
+            clone.h = this.h;
+            clone.z0 = this.z0;
+            clone.z1 = this.z1;
+            clone.x0 = this.x0;
+            clone.x1 = this.x1;
+            clone.y0 = this.y0;
+            clone.y1 = this.y1;
+            return clone;
         }
 
         public double evaluate( double x ) {
