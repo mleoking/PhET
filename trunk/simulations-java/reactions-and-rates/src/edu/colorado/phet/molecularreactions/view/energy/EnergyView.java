@@ -3,11 +3,11 @@
 package edu.colorado.phet.molecularreactions.view.energy;
 
 import edu.colorado.phet.molecularreactions.MRConfig;
-import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.Resetable;
-import edu.colorado.phet.molecularreactions.util.PNodeViewableOption;
-import edu.colorado.phet.molecularreactions.view.*;
+import edu.colorado.phet.molecularreactions.view.ReactionGraphic;
+import edu.colorado.phet.piccolo.nodes.PNodeShowHideControl;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -56,8 +56,8 @@ public class EnergyView extends PNode implements Resetable {
     private volatile PPath legendNode;
     private volatile MRModule module;
 
-    private volatile PNodeViewableOption curvePaneCloser;
-    private volatile PNodeViewableOption moleculeSeparationCloser;
+    private volatile PNodeShowHideControl curvePaneCloser;
+    private volatile PNodeShowHideControl moleculeSeparationCloser;
 
     private volatile PNode upperPaneContent;
 
@@ -142,7 +142,7 @@ public class EnergyView extends PNode implements Resetable {
 
     private void addUpperPaneCloser() {
         if ( moleculeSeparationCloser == null) {
-            moleculeSeparationCloser = new PNodeViewableOption( moleculeSeparationPane, module.getCanvas(), "SeparationView.restoreViewName" );
+            moleculeSeparationCloser = new PNodeShowHideControl( moleculeSeparationPane, "SeparationView.restoreViewName" );
         }
     }
 
@@ -171,12 +171,12 @@ public class EnergyView extends PNode implements Resetable {
 
         addChild( curvePane );
 
-        enableCurvePaneCloser( module );
+        enableCurvePaneCloser();
     }
 
-    private void enableCurvePaneCloser( MRModule module ) {
+    private void enableCurvePaneCloser() {
         if (curvePaneCloser == null) {
-            curvePaneCloser = new PNodeViewableOption( curvePane, module.getCanvas(), "EnergyView.restoreViewName" );
+            curvePaneCloser = new PNodeShowHideControl( curvePane, "EnergyView.restoreViewName" );
         }
     }
 
