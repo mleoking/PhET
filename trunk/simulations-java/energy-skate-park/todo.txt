@@ -1,5 +1,9 @@
-3. Bar graphs don't update continuously when on-track (maybe only a problem at high resolution)
 5. Add visualization for force diagram (or just normal force?)
+6. Finish energy conservation
+    -with/without friction
+
+7. With high enough speed, sometimes the skater can pass through a track (or ground)
+8. Add special friction for ground (friction for all tracks, averaged with skater friction?)
 
 #################################################################
 Remaining Work
