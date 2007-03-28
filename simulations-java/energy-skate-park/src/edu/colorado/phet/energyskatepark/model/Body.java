@@ -94,22 +94,20 @@ public class Body {
         particle.setGravity( -9.8 );
     }
 
-    public Particle getParticle() {
-        return particle;
-    }
-
     public void setGravityState( double gravity, double zeroPointPotentialY ) {
         particle.setGravity( gravity );
         particle.setZeroPointPotentialY( zeroPointPotentialY );
     }
 
     public void setState( Body body ) {
+        //todo: set state for particle
         this.angularVelocity = body.angularVelocity;
         this.facingRight = body.facingRight;
         this.coefficientOfRestitution = body.coefficientOfRestitution;
     }
 
     public Body copyState() {
+        //todo: copy state for particle
         Body copy = new Body( width, height, energySkateParkModel );
         copy.angularVelocity = this.angularVelocity;
         copy.facingRight = facingRight;
