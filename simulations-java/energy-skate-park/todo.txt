@@ -1,6 +1,5 @@
 3. Bar graphs don't update continuously when on-track (maybe only a problem at high resolution)
-4. Fix zoom-in problem (put house in model coordinates)?
-
+5. Add visualization for force diagram (or just normal force?)
 
 #################################################################
 Remaining Work

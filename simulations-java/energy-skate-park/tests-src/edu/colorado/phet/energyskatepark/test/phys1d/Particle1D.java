@@ -444,12 +444,12 @@ public class Particle1D {
     public AbstractVector2D getFrictionForce() {
 //        return getVelocity2D().getScaledInstance( -frictionCoefficient * 10000 );//todo factor out heuristic
 //        return getVelocity2D().getScaledInstance( -frictionCoefficient * getNormalForce().getMagnitude() );//todo factor out heuristic
-        return getVelocity2D().getInstanceOfMagnitude( -frictionCoefficient * getNormalForce().getMagnitude()*20 );//todo factor out heuristic
+        return getVelocity2D().getInstanceOfMagnitude( -frictionCoefficient * getNormalForce().getMagnitude()*25 );//todo factor out heuristic
     }
 
     public class Euler implements UpdateStrategy {
         public void stepInTime( double dt ) {
-            System.out.println( "nor = " + getNormalForce().getMagnitude() );
+//            System.out.println( "nor = " + getNormalForce().getMagnitude() );
             Point2D origLoc = getLocation();
             AbstractVector2D netForce = getNetForce();
             double a = cubicSpline.getUnitParallelVector( alpha ).dot( netForce ) / mass;
