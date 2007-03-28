@@ -1,16 +1,17 @@
-5. Add visualization for force diagram (or just normal force?)
-6. Finish energy conservation
+• Finish energy conservation
     -with/without friction
 
-7. With high enough speed, sometimes the skater can pass through a track (or ground)
-8. Add special friction for ground (friction for all tracks, averaged with skater friction?)
-9. Make it so skater cannot be dragged underground.
-10. Skater should point at track while dragging.
-11. Show an indicator for attachment point during skater dragging?
-12. Make it impossible to drag control points below ground?
-13. Performance problems after lots of runs?
-14. Playback/record.
-16. Add rotation for skater in the air?
+• Add special friction for ground (friction for all tracks, averaged with skater friction?)
+• Make it so skater cannot be dragged underground.
+• Skater should point at track while dragging.
+• Show an indicator for attachment point during skater dragging?
+• Make it impossible to drag control points below ground?
+• Performance problems after lots of runs?
+• Playback/record.
+• Add rotation for skater in the air?
+• Add visualization for force diagram (or just normal force?)
+• With high enough speed, sometimes the skater can pass through a track (or ground)
+• Return skater in space resets gravity.
 
 todo: memory leak in EnergySkateParkSplineListAdapter
 
