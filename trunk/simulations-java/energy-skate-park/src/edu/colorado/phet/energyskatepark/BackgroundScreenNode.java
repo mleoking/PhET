@@ -34,11 +34,11 @@ public class BackgroundScreenNode extends PhetPNode {
                 update();
             }
         } );
-//        simulationPanel.addListener( new EnergySkateParkSimulationPanel.Listener() {
-//            public void zoomChanged() {
-//                update();
-//            }
-//        } );
+        simulationPanel.addListener( new EnergySkateParkSimulationPanel.Listener() {
+            public void zoomChanged() {
+                update();
+            }
+        } );
     }
 
     public void update() {

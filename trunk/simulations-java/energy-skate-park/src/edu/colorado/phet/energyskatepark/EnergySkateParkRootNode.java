@@ -15,6 +15,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -75,8 +76,23 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         offscreenManIndicator = new OffscreenManIndicator( simulationPanel, module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
         gridNode = new GridNode();
 
+        PNode houseNode = null;
+        try {
+            BufferedImage houseImage = ImageLoader.loadBufferedImage( "images/house.png" );
+            houseNode = new PImage( houseImage );
+            double scale = 1.5 / houseImage.getHeight();
+            houseNode.transformBy( AffineTransform.getScaleInstance( scale, -scale ) );
+            double dy = -houseNode.getFullBounds().getHeight() / scale;
+            System.out.println( "dy = " + dy );
+            houseNode.translate( 10 / scale, dy );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
         addScreenChild( screenBackground );
         addScreenChild( splineToolbox );
+        addWorldChild( houseNode );
         addWorldChild( floorGraphic );
         addWorldChild( splineGraphics );
 
@@ -92,6 +108,8 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addScreenChild( legend );
         addScreenChild( zeroPointPotentialGraphic );
         addScreenChild( offscreenManIndicator );
+
+
         addWorldChild( gridNode );
         setGridVisible( false );
 
@@ -321,7 +339,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void updateSplines() {
         while( numSplineGraphics() < getModel().numSplineSurfaces() ) {
-            addSplineGraphic( new SplineNode( simulationPanel, getModel().splineSurfaceAt( 0 ) ,simulationPanel ) );
+            addSplineGraphic( new SplineNode( simulationPanel, getModel().splineSurfaceAt( 0 ), simulationPanel ) );
         }
         while( numSplineGraphics() > getModel().numSplineSurfaces() ) {
             removeSplineGraphic( splineGraphicAt( numSplineGraphics() - 1 ) );

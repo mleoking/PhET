@@ -37,7 +37,8 @@ public class FloorGraphic extends PNode {
         } );
         this.floor = floor;
         double y = floor.getY();
-        float offsetY = 3 * AbstractSpline.SPLINE_THICKNESS / 2;
+//        float offsetY = 3 * AbstractSpline.SPLINE_THICKNESS / 2;
+        float offsetY = 0;
         double xMin = -1000;
         double xMax = 1000;
         double height = 1000;
