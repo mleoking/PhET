@@ -15,6 +15,30 @@ public abstract class ControlPointParametricFunction2D extends ParametricFunctio
         this.pts = pts;
     }
 
+    public boolean equals( Object obj ) {
+        if( obj instanceof ControlPointParametricFunction2D ) {
+            ControlPointParametricFunction2D c = (ControlPointParametricFunction2D)obj;
+            return Arrays.equals( pts,c.pts);
+        }else{
+            return false;
+        }
+    }
+
+    public Object clone() {
+        try {
+            ControlPointParametricFunction2D cppf2d = (ControlPointParametricFunction2D)super.clone();
+            cppf2d.pts = new Point2D[pts.length];
+            for( int i = 0; i < pts.length; i++ ) {
+                cppf2d.pts[i] = (Point2D)pts[i].clone();
+            }
+            return cppf2d;
+        }
+        catch( CloneNotSupportedException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
+    }
+
     public void setControlPoints( Point2D[] pts ) {
         this.pts = pts;
     }
@@ -48,9 +72,9 @@ public abstract class ControlPointParametricFunction2D extends ParametricFunctio
     }
 
     public void removeControlPoint( int index ) {
-        ArrayList list=new ArrayList( Arrays.asList( pts) );
+        ArrayList list = new ArrayList( Arrays.asList( pts ) );
         list.remove( index );
-        setControlPoints( (Point2D[])list.toArray( new Point2D.Double[list.size()]) );
+        setControlPoints( (Point2D[])list.toArray( new Point2D.Double[list.size()] ) );
     }
 
     public int numControlPoints() {
