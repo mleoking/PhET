@@ -10,8 +10,7 @@
 12. Make it impossible to drag control points below ground?
 13. Performance problems after lots of runs?
 14. Playback/record.
-
-16. 
+16. Add rotation for skater in the air? 
 
 #################################################################
 Remaining Work
