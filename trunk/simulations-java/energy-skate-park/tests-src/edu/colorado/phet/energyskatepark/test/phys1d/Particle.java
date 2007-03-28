@@ -30,7 +30,7 @@ public class Particle {
 
     private UpdateStrategy updateStrategy = new Particle1DUpdate();
     private ParticleStage particleStage;
-    private boolean convertNormalVelocityToThermalOnLanding = false;
+    private boolean convertNormalVelocityToThermalOnLanding = true;
     private double angle = Math.PI / 2;
     private boolean userControlled = false;
     private double thermalEnergy = 0.0;
@@ -57,7 +57,7 @@ public class Particle {
             double finalEnergy = getTotalEnergy();
             double dE = finalEnergy - origEnergy;
             if( Math.abs( dE ) > 1E-6 ) {
-                System.out.println( "Particle.stepInTime: de = " + dE );
+                System.out.println( "Particle.stepInTime: de = " + dE + ", strategy=" + updateStrategy.getClass() );
             }
             update();
         }
@@ -375,7 +375,7 @@ public class Particle {
             double dE = getTotalEnergy() - origEnergy;
 //            System.out.println( "FreeFall dE[0]= " + Math.abs( dE ) );
             //todo test for mass * gravity >0 before fixing energy
-            if( getMass() * getGravity() > 1E-6 && xThrust != 0 && yThrust != 0 ) {
+            if( Math.abs( getMass() * getGravity() ) > 1E-6 && xThrust == 0 && yThrust == 0 ) {
                 double dH = dE / ( getMass() * getGravity() );
                 y += dH;
             }
@@ -386,8 +386,13 @@ public class Particle {
             //take a min over all possible crossover points
             SearchState searchState = getBestCrossPoint( newLoc, origAbove, origLoc );
 
-            if( searchState.getDistance() < 0.2 ) {//this number was determined heuristically for a set of tests (free parameter)
+            boolean interactWithTrack = searchState.getDistance() < 0.2;
+            if( interactWithTrack ) {//this number was determined heuristically for a set of tests (free parameter)
                 interactWithTrack( searchState, newLoc, origLoc, origAbove, origEnergy );
+            }
+            double finalEnergy = getTotalEnergy();
+            if( Math.abs( finalEnergy - origEnergy ) >= 1E-6 ) {
+                System.out.println( "Energy error in freefall, interactWithTrack=" + interactWithTrack );
             }
         }
 
@@ -437,7 +442,27 @@ public class Particle {
 //                    }
 //                    updateStateFrom1D();
                 double dE2 = getTotalEnergy() - origEnergy;
-                System.out.println( "dE0 = " + dE0 + ", de1=" + dE1 + ", de2=" + dE2 );
+                if( Math.abs( dE2 ) > 1E-6 ) {
+//                    System.out.println( "Grabbed the track, dE0 = " + dE0 + ", de1=" + dE1 + ", de2=" + dE2 );
+                    //energy error on track attachment.
+                    if( dE2 < 0 ) {//lost energy
+                        thermalEnergy += Math.abs( dE2 );
+                    }
+                    else {
+//                        System.out.println( "gained energy on track attachment" );
+                        //See if particle1d can fix energy problem
+                        particle1D.fixEnergy( particle1D.getAlpha(), origEnergy );
+                        updateStateFrom1D();
+                        double dE3 = getTotalEnergy() - origEnergy;
+                        if( Math.abs( dE3 ) > 1E-6 ) {
+                            System.out.println( "particle1d couldn't fix, deleting thermal energy (temporary solution): dE=" + Math.abs( dE3 ) );
+                            thermalEnergy -= Math.abs( dE3 );
+                        }
+                        else {
+//                            System.out.println( "particle1d fixed it." );
+                        }
+                    }
+                }
             }
         }
 
@@ -497,6 +522,7 @@ public class Particle {
     }
 
     public void switchToTrack( ParametricFunction2D spline, double alpha, boolean top ) {
+        double origKE = getKineticEnergy();
         particle1D.setThermalEnergy( thermalEnergy );
         Vector2D.Double origVel = getVelocity();
         particle1D.setCubicSpline2D( spline, top, alpha );
@@ -512,6 +538,11 @@ public class Particle {
         if( dot < 0 ) {
             System.out.println( "Velocities were in contrary directions" );
         }
+        double newKE = particle1D.getKineticEnergy();
+        double dThermal = ( newKE - origKE );
+        assert dThermal >= 0;
+        System.out.println( "dThermal = " + dThermal );
+//        particle1D.setThermalEnergy( particle1D.getThermalEnergy() - dThermal );
         updateStateFrom1D();
     }
 

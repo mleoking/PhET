@@ -43,7 +43,7 @@ public class BackgroundScreenNode extends PhetPNode {
         rootNode.addWorldTransformListener( new PropertyChangeListener() {
 
             public void propertyChange( PropertyChangeEvent evt ) {
-                System.out.println( "evt = " + evt );
+//                System.out.println( "evt = " + evt );
                 update();
             }
         } );
