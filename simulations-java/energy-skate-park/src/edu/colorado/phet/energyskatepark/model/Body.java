@@ -40,6 +40,8 @@ public class Body {
 
     private ArrayList listeners = new ArrayList();
     private EnergySkateParkModel energySkateParkModel;
+    private static ArrayList particles = new ArrayList();
+    private static double staticSticky = 0.75;
 
     public Body( EnergySkateParkModel model ) {
         this( 1.3, 1.8, model );
@@ -53,16 +55,21 @@ public class Body {
         particle = new Particle( particleStage );
         particle.setMass( 75.0 );
         particle.getParticle1D().setReflect( false );
-        particle.setStickiness( 0.5 );
+        particle.setStickiness( staticSticky );
         setGravityState( energySkateParkModel.getGravity(), energySkateParkModel.getZeroPointPotentialY() );
+        particles.add( this );
     }
 
-    public void showControls() {
+    static {
         JFrame controls = new JFrame();
-        final ModelSlider stickiness = new ModelSlider( "Stickiness", "", 0, 5, particle.getStickiness() );
+        final ModelSlider stickiness = new ModelSlider( "Stickiness", "", 0, 5, staticSticky );
         stickiness.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                particle.setStickiness( stickiness.getValue() );
+                staticSticky = stickiness.getValue();
+                for( int i = 0; i < particles.size(); i++ ) {
+                    Body body = (Body)particles.get( i );
+                    body.particle.setStickiness( staticSticky );
+                }
             }
         } );
 
