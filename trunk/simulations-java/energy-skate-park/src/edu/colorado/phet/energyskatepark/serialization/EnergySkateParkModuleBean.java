@@ -4,8 +4,6 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-import edu.colorado.phet.energyskatepark.model.spline.CubicSpline;
-import edu.colorado.phet.energyskatepark.model.spline.SplineSurface;
 import edu.colorado.phet.energyskatepark.test.phys1d.CubicSpline2D;
 
 import java.awt.geom.Point2D;
@@ -232,17 +230,6 @@ public class EnergySkateParkModuleBean {
 
         public void setControlPoints( Point2D[] controlPoints ) {
             this.controlPoints = controlPoints;
-        }
-
-        public SplineSurface toSplineSurface() {
-            CubicSpline top = new CubicSpline();
-            for( int i = 0; i < controlPoints.length; i++ ) {
-                Point2D controlPoint = controlPoints[i];
-                top.addControlPoint( controlPoint );
-            }
-            SplineSurface splineSurface = new SplineSurface( top );
-            splineSurface.getSpline().setRollerCoasterMode( rollerCoaster );
-            return splineSurface;
         }
 
         public EnergySkateParkSpline toEnergySkateParkSpline() {

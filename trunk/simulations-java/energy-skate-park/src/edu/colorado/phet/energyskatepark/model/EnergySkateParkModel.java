@@ -26,11 +26,13 @@ public class EnergySkateParkModel {
     private boolean recordPath = false;
     private double initZeroPointPotentialY;
 
+    private int maxNumHistoryPoints = 100;
+
     public static final double G_SPACE = 0.0;
     public static final double G_EARTH = -9.81;
     public static final double G_MOON = -1.62;
     public static final double G_JUPITER = -25.95;
-    private int maxNumHistoryPoints = 100;
+    public static final double SPLINE_THICKNESS = 0.25f;//meters
     private static boolean thermalLanding = true;
 
     public EnergySkateParkModel( double zeroPointPotentialY ) {
@@ -168,7 +170,7 @@ public class EnergySkateParkModel {
         for( int i = 0; i < model.splines.size(); i++ ) {
             splines.add( model.splineSurfaceAt( i ).copy() );
         }
-        this.floor=model.floor==null?null:model.floor.copyState();
+        this.floor = model.floor == null ? null : model.floor.copyState();
         this.history.clear();
         this.history.addAll( model.history );
         this.time = model.time;
@@ -198,7 +200,8 @@ public class EnergySkateParkModel {
 
 //    public EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D parametricFunction2D ) {
 //        return null;
-//    }
+
+    //    }
     public EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D spline ) {
         for( int i = 0; i < splines.size(); i++ ) {
             EnergySkateParkSpline energySkateParkSpline = (EnergySkateParkSpline)splines.get( i );
