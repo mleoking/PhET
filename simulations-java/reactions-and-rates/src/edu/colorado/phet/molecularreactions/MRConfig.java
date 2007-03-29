@@ -5,7 +5,10 @@ import edu.colorado.phet.molecularreactions.model.MoleculeA;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;/* Copyright 2003-2004, University of Colorado */
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;/* Copyright 2003-2004, University of Colorado */
 
 /*
  * CVS Info -
@@ -17,7 +20,7 @@ import java.io.*;/* Copyright 2003-2004, University of Colorado */
  */
 
 /**
- * edu.colorado.phet.molecularreactions.MRConfig
+ * edu.colorado.phet.molecularreactionspublic ;.MRConfig
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -104,6 +107,7 @@ public class MRConfig {
                                                       Font.BOLD,
                                                       UIManager.getFont( "Panel.font" ).getSize() );
     public static final Font LABEL_FONT = UIManager.getFont( "Label.font" );
+
 
     private static String readVersionFromFile() {
         InputStream asStream = MRConfig.class.getResourceAsStream( "/version.txt" );

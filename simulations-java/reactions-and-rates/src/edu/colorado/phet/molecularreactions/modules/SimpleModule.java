@@ -62,6 +62,7 @@ public class SimpleModule extends MRModule {
                                                                                            getSpatialView().getTopLayer() ) {
             public PNode createGraphic( ModelElement modelElement ) {
                 launcherGraphic = new LauncherGraphic( (Launcher)modelElement );
+
                 return launcherGraphic;
             }
         } );
@@ -218,13 +219,14 @@ public class SimpleModule extends MRModule {
         resetMolecules();
         launcherLoadPanel.setMolecule( launcherMolecule );
         launcher.setMovementType( movementType );
+        getClock().start();
     }
 
     /**
      * Add a wiggle-me that will go away when the user clicks on the red knob
      */
     private void createWiggleMe() {
-        final PhetPCanvas pCanvas = (PhetPCanvas)getSimulationPanel();
+        final PhetPCanvas pCanvas = getCanvas();
         final MotionHelpBalloon wiggleMe = new MotionHelpBalloon( pCanvas, SimStrings.getInstance().getString( "Application.wiggleMe" ) );
         wiggleMe.setOffset( 0, 0 );
         wiggleMe.setBalloonFillPaint( new Color( 255, 255, 100 ) );
@@ -235,7 +237,6 @@ public class SimpleModule extends MRModule {
         wiggleMe.animateTo( launcher.getRestingTipLocation().getX() - wiggleMe.getFullBounds().getWidth() - 15,
                             launcher.getRestingTipLocation().getY() + 85  );
         launcherGraphic.addInputEventListener( new PBasicInputEventHandler() {
-
             public void mousePressed( PInputEvent event ) {
                 super.mousePressed( event );
                 launcherGraphic.removeInputEventListener( this );

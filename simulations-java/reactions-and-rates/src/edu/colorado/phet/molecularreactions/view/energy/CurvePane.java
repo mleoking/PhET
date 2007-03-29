@@ -7,7 +7,6 @@ import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.view.AxisNode;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -25,7 +24,7 @@ public class CurvePane extends PPath {
     private volatile EnergyLine energyLine;
     private EnergyCursor energyCursor;
     private MRModel mrModel;
-    private CurvePane.CurveCreatingModelListener curveCreatingModelListener;
+    private CurveCreatingModelListener curveCreatingModelListener;
 
     public CurvePane(final MRModule module, Dimension upperPaneSize) {
         super( new Rectangle2D.Double( 0,
@@ -86,23 +85,21 @@ public class CurvePane extends PPath {
         cursorLayer.addChild( energyCursor );
 
         // Add axes
-        RegisterablePNode xAxis = new RegisterablePNode( new AxisNode( SimStrings.getInstance().getString( "EnergyView.ReactionCoordinate" ),
+        PNode xAxis = new AxisNode( SimStrings.getInstance().getString( "EnergyView.ReactionCoordinate" ),
                                                                        200,
                                                                        MRConfig.ENERGY_PANE_TEXT_COLOR,
                                                                        AxisNode.HORIZONTAL,
-                                                                       AxisNode.BOTTOM ) );
-        xAxis.setRegistrationPoint( xAxis.getFullBounds().getWidth() / 2, 0 );
-        xAxis.setOffset( this.getFullBounds().getWidth() / 2 + curveAreaInsets.left / 2,
+                                                                       AxisNode.BOTTOM );
+        
+        xAxis.setOffset( curveAreaInsets.left - 2,
                          this.getHeight() - 25 );
         addChild( xAxis );
 
-        RegisterablePNode yAxis = new RegisterablePNode( new AxisNode( "Energy", 200,
-                                                                       MRConfig.ENERGY_PANE_TEXT_COLOR,
-                                                                       AxisNode.VERTICAL,
-                                                                       AxisNode.TOP ) );
-        yAxis.setRegistrationPoint( yAxis.getFullBounds().getWidth() / 2,
-                                    -yAxis.getFullBounds().getHeight() / 2 );
-        yAxis.setOffset( curveAreaInsets.left / 2, this.getFullBounds().getHeight() / 2 );
+        PNode yAxis = new AxisNode( "Energy", 200,
+                                    MRConfig.ENERGY_PANE_TEXT_COLOR,
+                                    AxisNode.VERTICAL,
+                                    AxisNode.TOP );
+        yAxis.setOffset( curveAreaInsets.left - 2, this.getHeight() - 25 );
         
         addChild( yAxis );
     }

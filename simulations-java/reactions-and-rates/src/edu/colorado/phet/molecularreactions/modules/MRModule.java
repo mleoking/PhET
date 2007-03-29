@@ -35,19 +35,19 @@ import java.awt.geom.Dimension2D;
  */
 public class MRModule extends Module {
 
-    private Dimension canvasSize = MRConfig.SIMULATION_PANEL_SIZE;
-    private SpatialView spatialView;
-    protected EnergyView energyView = new EnergyView();
-    private Dimension spatialViewSize = MRConfig.SPATIAL_VIEW_SIZE;
-    private MRModel mrModel;
+    private final Dimension canvasSize = MRConfig.SIMULATION_PANEL_SIZE;
+    private final SpatialView spatialView;
+    private final EnergyView energyView = new EnergyView();
+    private final Dimension spatialViewSize = MRConfig.SPATIAL_VIEW_SIZE;
+    private final MRModel mrModel;
 
     public PhetPCanvas getCanvas() {
         return canvas;
     }
 
-    private PhetPCanvas canvas;
-    private Insets simulationPaneInsets;
-    private int chartPaneHeight;
+    private final PhetPCanvas canvas;
+    private final Insets simulationPaneInsets;
+    private final int chartPaneHeight;
 
 
     /**
@@ -56,7 +56,7 @@ public class MRModule extends Module {
      */
     public MRModule( String name, Dimension chartPaneSize ) {
         super( name, new VariableConstantTickClock( new SwingClock( 1000 / MRConfig.CLOCK_FPS,
-                                                                    MRConfig.RUNNING_DT ),
+                                                    MRConfig.RUNNING_DT ),
                                                     MRConfig.RUNNING_DT ) );
         chartPaneHeight = chartPaneSize.height;
 
