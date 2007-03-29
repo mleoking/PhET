@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark.test.apptests;
 
-import edu.colorado.phet.energyskatepark.EC3LookAndFeel;
+import edu.colorado.phet.energyskatepark.view.EC3LookAndFeel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 

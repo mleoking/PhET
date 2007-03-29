@@ -2,8 +2,8 @@
 package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkRootNode;
-import edu.colorado.phet.energyskatepark.EnergySkateParkSimulationPanel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkRootNode;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.piccolo.nodes.ShadowPText;
 import edu.colorado.phet.piccolo.util.PImageFactory;
