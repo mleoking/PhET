@@ -9,7 +9,6 @@ package edu.colorado.phet.energyskatepark.model;
  */
 
 public class HistoryPoint {
-    private EnergySkateParkModel model;
     private Body body;
     private double x;
     private double y;
@@ -19,12 +18,11 @@ public class HistoryPoint {
     private double totalEnergy;
     private double thermalEnergy;
 
-    public HistoryPoint( EnergySkateParkModel model, Body body ) {
-        this.model = model;
+    public HistoryPoint( double time, Body body ) {
         this.body = body;
         this.x = body.getX();
         this.y = body.getY();
-        this.time = model.getTime();
+        this.time = time;
         this.ke = body.getKineticEnergy();
         this.pe = body.getPotentialEnergy();
         this.thermalEnergy = body.getThermalEnergy();
@@ -33,6 +31,10 @@ public class HistoryPoint {
 
     public double getX() {
         return x;
+    }
+
+    public Body getBody() {
+        return body;
     }
 
     public double getY() {
