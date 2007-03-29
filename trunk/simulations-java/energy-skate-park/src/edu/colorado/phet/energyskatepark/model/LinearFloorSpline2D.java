@@ -1,7 +1,7 @@
 package edu.colorado.phet.energyskatepark.model;
 
-import edu.colorado.phet.energyskatepark.test.phys1d.LinearSpline2D;
-import edu.colorado.phet.energyskatepark.test.phys1d.TrackWithStickiness;
+import edu.colorado.phet.energyskatepark.model.physics.LinearSpline2D;
+import edu.colorado.phet.energyskatepark.model.physics.TrackWithStickiness;
 
 import java.awt.geom.Point2D;
 

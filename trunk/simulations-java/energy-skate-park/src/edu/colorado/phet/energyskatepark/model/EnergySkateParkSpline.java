@@ -1,7 +1,7 @@
 package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
-import edu.colorado.phet.energyskatepark.test.phys1d.ControlPointParametricFunction2D;
+import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
 
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;

@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark.model;
 
-import edu.colorado.phet.energyskatepark.test.phys1d.ParticleStage;
+import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
 
 /**
  * Author: Sam Reid

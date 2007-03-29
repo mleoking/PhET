@@ -1,7 +1,7 @@
 package edu.colorado.phet.energyskatepark;
 
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-import edu.colorado.phet.energyskatepark.test.phys1d.CubicSpline2D;
+import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
 import edu.colorado.phet.energyskatepark.view.SplineNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
