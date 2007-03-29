@@ -18,7 +18,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
@@ -96,24 +95,16 @@ public class SkaterNode extends PNode {
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( SkaterNode.this );
                 boolean okToTranslate = true;
-                if( getBody().getShape().getBounds2D().getMinY() < 0 && delta.getHeight() < 0 ) {
+                getBody().translate( delta.getWidth(), delta.getHeight() );
+                double y = getBody().getCenterOfMass().getY();
+                if( y <= 0 ) {
                     okToTranslate = false;
                 }
-                PBounds b = getFullBounds();
-                localToGlobal( b );
-                ec3Module.getEnergyConservationCanvas().getLayer().globalToLocal( b );
-                if( b.getMaxX() > ec3Module.getEnergyConservationCanvas().getWidth() && delta.getWidth() > 0 ) {
-                    okToTranslate = false;
-                }
-                if( b.getMinX() < 0 && delta.getWidth() < 0 ) {
-                    okToTranslate = false;
-                }
-                okToTranslate = true;
+                getBody().translate( -delta.getWidth(), -delta.getHeight() );
                 if( okToTranslate ) {
                     getBody().translate( delta.getWidth(), delta.getHeight() );
                     updateDragAngle();
                 }
-
             }
         } );
         addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
@@ -133,7 +124,6 @@ public class SkaterNode extends PNode {
                 getBody().setVelocity( 0, 0 );
             }
         } );
-//        particleImageNode=new ParticleImageNode( body.getParticle());
         update();
     }
 
@@ -220,7 +210,7 @@ public class SkaterNode extends PNode {
         jetPackNode.rotateAboutPoint( -body.getThrust().getAngle() + Math.PI / 2, jetPackImage.getWidth() / 2, jetPackImage.getHeight() / 2 );
         if( body.isFacingRight() ) {
             jetPackNode.transformBy( AffineTransform.getScaleInstance( -1, 1 ) );
-            jetPackNode.translate( -jetPackImage.getWidth(),0);
+            jetPackNode.translate( -jetPackImage.getWidth(), 0 );
         }
     }
 
@@ -232,7 +222,7 @@ public class SkaterNode extends PNode {
         skaterImageNode.translate( -skaterImage.getWidth() / 2, -skaterImage.getHeight() );
         if( body.isFacingRight() ) {
             skaterImageNode.transformBy( AffineTransform.getScaleInstance( -1, 1 ) );
-            skaterImageNode.translate( -skaterImage.getWidth(),0);
+            skaterImageNode.translate( -skaterImage.getWidth(), 0 );
         }
     }
 
