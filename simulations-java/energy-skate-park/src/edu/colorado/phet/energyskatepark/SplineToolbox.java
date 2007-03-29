@@ -1,8 +1,6 @@
 package edu.colorado.phet.energyskatepark;
 
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
-import edu.colorado.phet.energyskatepark.model.spline.CubicSpline;
 import edu.colorado.phet.energyskatepark.test.phys1d.CubicSpline2D;
 import edu.colorado.phet.energyskatepark.view.SplineNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
@@ -58,7 +56,7 @@ public class SplineToolbox extends PNode {
             private void create( PInputEvent event ) {
                 Point2D pt = new Point2D.Double( event.getCanvasPosition().getX(), event.getCanvasPosition().getY() );
                 energySkateParkSimulationPanel.getRootNode().screenToWorld( pt );
-                AbstractSpline spline = new CubicSpline( EnergySkateParkSimulationPanel.NUM_CUBIC_SPLINE_SEGMENTS );
+                PreFabSplines.CubicSpline spline = new PreFabSplines.CubicSpline( );
                 spline.addControlPoint( pt.getX() - 1, pt.getY() );
                 spline.addControlPoint( pt.getX(), pt.getY() );
                 spline.addControlPoint( pt.getX() + 1, pt.getY() );
@@ -119,7 +117,7 @@ public class SplineToolbox extends PNode {
     }
 
     private EnergySkateParkSpline createSplineSurface() {
-        AbstractSpline spline = new CubicSpline( EnergySkateParkSimulationPanel.NUM_CUBIC_SPLINE_SEGMENTS );
+        PreFabSplines.CubicSpline spline = new PreFabSplines.CubicSpline( );
         spline.addControlPoint( 0, 0 );
         spline.addControlPoint( 1, 0 );
         spline.addControlPoint( 2.0, 0 );

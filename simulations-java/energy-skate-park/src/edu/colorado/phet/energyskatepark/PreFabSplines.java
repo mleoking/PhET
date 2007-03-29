@@ -1,8 +1,8 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark;
 
-import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
-import edu.colorado.phet.energyskatepark.model.spline.CubicSpline;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -36,6 +36,22 @@ public class PreFabSplines {
         return spline;
     }
 
+    public static class CubicSpline {
+        private ArrayList pts = new ArrayList();
+
+        public void addControlPoint( double x, double y ) {
+            pts.add( new Point2D.Double( x, y ) );
+        }
+
+        public void addControlPoint( Point2D point2D ) {
+            addControlPoint( point2D.getX(), point2D.getY() );
+        }
+
+        public Point2D[] getControlPoints() {
+            return (Point2D[])pts.toArray( new Point2D[0] );
+        }
+    }
+
     public CubicSpline getParabolic() {
         CubicSpline spline = new CubicSpline();
 
@@ -48,7 +64,7 @@ public class PreFabSplines {
         return spline;
     }
 
-    public static void init( AbstractSpline spline ) {
+    public static void init( CubicSpline spline ) {
 
 //        spline.addControlPoint( 150, 300 );
 //        spline.addControlPoint( 200, 320 );

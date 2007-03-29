@@ -4,7 +4,7 @@ package edu.colorado.phet.energyskatepark.view;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.event.PopupMenuHandler;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
@@ -84,11 +84,11 @@ public class SplineNode extends PNode {
     }
 
     private BasicStroke getTrackStroke( float thickness ) {
-        return new BasicStroke( AbstractSpline.SPLINE_THICKNESS * thickness );
+        return new BasicStroke( (float)( EnergySkateParkModel.SPLINE_THICKNESS * thickness ) );
     }
 
     private BasicStroke getRailroadStroke( float thickness ) {
-        return new BasicStroke( AbstractSpline.SPLINE_THICKNESS * thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[]{AbstractSpline.SPLINE_THICKNESS * 0.4f, AbstractSpline.SPLINE_THICKNESS * 0.6f}, 0 );
+        return new BasicStroke( (float)( EnergySkateParkModel.SPLINE_THICKNESS * thickness ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[]{(float)( EnergySkateParkModel.SPLINE_THICKNESS * 0.4 ), (float)( EnergySkateParkModel.SPLINE_THICKNESS * 0.6f )}, 0 );
     }
 
     public void disableDragHandler() {

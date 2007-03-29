@@ -13,7 +13,6 @@ import edu.colorado.phet.energyskatepark.common.StringOutputStream;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-import edu.colorado.phet.energyskatepark.model.spline.CubicSpline;
 import edu.colorado.phet.energyskatepark.plots.BarGraphCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyPositionPlotCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyTimePlotCanvas;
@@ -165,7 +164,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyCanvas.getRootNode().updateGraphics();
 
         PreFabSplines preFabSplines = new PreFabSplines();
-        CubicSpline spline = preFabSplines.getParabolic();
+        PreFabSplines.CubicSpline spline = preFabSplines.getParabolic();
         ControlPointParametricFunction2D parametricFunction2D = new CubicSpline2D( spline.getControlPoints() );
 
         EnergySkateParkSpline espspline = new EnergySkateParkSpline( parametricFunction2D );
