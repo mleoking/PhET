@@ -10,6 +10,7 @@
 criteria are (with, without friction)x(too much proposed energy, too little proposed energy)x(gravity on, off).
 Depending on the effectiveness of patches, other patches are tested.
 Also during track attachment and release
+• Behavior on landing on flat surface is different (no sideways motion)
 
 
 #################################################################
