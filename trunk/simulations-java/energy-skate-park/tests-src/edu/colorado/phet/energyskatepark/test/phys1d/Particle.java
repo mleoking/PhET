@@ -455,7 +455,7 @@ public class Particle {
 
             double testVal = Math.abs( newNormalVelocity.getMagnitude() / newVelocity.getMagnitude() );
 //                System.out.println( "testv = " + testVal );
-            boolean bounce = testVal >= stickiness;
+            boolean bounce = testVal >= ( stickiness + getTrackStickiness( cubicSpline ) );
 
             double newAlpha = cubicSpline.getClosestPoint( newLoc );
 
@@ -532,6 +532,16 @@ public class Particle {
                 }
             }
             return searchState;
+        }
+    }
+
+    private static double getTrackStickiness( ParametricFunction2D cubicSpline ) {
+        if( cubicSpline instanceof TrackWithStickiness ) {
+            TrackWithStickiness trackWithStickiness = (TrackWithStickiness)cubicSpline;
+            return trackWithStickiness.getStickiness();
+        }
+        else {
+            return 0.0;
         }
     }
 

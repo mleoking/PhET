@@ -86,7 +86,7 @@ public class Particle1D {
 
 //        totalDE += getNormalizedEnergyDiff( initEnergy );
 //        System.out.println( "Particle1D[0]: dE=" + ( getEnergy() - initEnergy ) );
-
+        assert ( !Double.isNaN( getEnergy() ) );
         if( getThrust().getMagnitude() == 0 ) {
             fixEnergy( initAlpha, initEnergy );
         }
@@ -262,6 +262,7 @@ public class Particle1D {
     }
 
     private void fixEnergyHeuristic( double alpha0, double e0 ) {
+        if( Double.isNaN( getEnergy() ) ) { throw new IllegalArgumentException();}
         double dE = getEnergy() - e0;
         if( Math.abs( dE ) < 1E-6 ) {
             //small enough
@@ -303,13 +304,14 @@ public class Particle1D {
                         }
                     }
                     else {
-                        System.out.println( "Changed position, wanted to change velocity, but didn't have enough to fix it..." );
+                        System.out.println( "Changed position, wanted to change velocity, but didn't have enough to fix it..., dE=" + ( getEnergy() - e0 ) );
                         new RuntimeException( "Energy error[456]" ).printStackTrace();
                     }
                 }
             }
         }
         else {
+            if( Double.isNaN( getEnergy() ) ) { throw new IllegalArgumentException();}
             verboseDebug( "Energy too low" );
             //increasing the kinetic energy
             //Choose the exact velocity in the same direction as current velocity to ensure total energy conserved.
@@ -463,14 +465,17 @@ public class Particle1D {
     }
 
     public AbstractVector2D getFrictionForce() {
-        if( getTotalFriction() == 0 ) {
+//        if( getTotalFriction() == 0 || getVelocity2D().getMagnitude() < 1E-6 ) {
+        if( getTotalFriction() == 0 || getVelocity2D().getMagnitude() < 1E-2 ) {
             return new Vector2D.Double();
         }
         else {
 //        return getVelocity2D().getScaledInstance( -frictionCoefficient * 10000 );//todo factor out heuristic
 //        return getVelocity2D().getScaledInstance( -frictionCoefficient * getNormalForce().getMagnitude() );//todo factor out heuristic
 //            System.out.println( "friction = " + getTotalFriction() );
-            return getVelocity2D().getInstanceOfMagnitude( -getTotalFriction() * getNormalForce().getMagnitude() * 25 );//todo factor out heuristic
+            AbstractVector2D f = getVelocity2D().getInstanceOfMagnitude( -getTotalFriction() * getNormalForce().getMagnitude() * 25 );
+            if( ( Double.isNaN( f.getMagnitude() ) ) ) { throw new IllegalArgumentException();}
+            return f;//todo factor out heuristic
         }
     }
 
@@ -481,16 +486,40 @@ public class Particle1D {
     public class Euler implements UpdateStrategy {
         public void stepInTime( double dt ) {
 //            System.out.println( "nor = " + getNormalForce().getMagnitude() );
+            double origEnergy = getEnergy();
             Point2D origLoc = getLocation();
             AbstractVector2D netForce = getNetForce();
             double a = track.getUnitParallelVector( alpha ).dot( netForce ) / mass;
             velocity += a * dt;
             alpha += track.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
             if( getTotalFriction() > 0 ) {
+                if( ( Double.isNaN( getFrictionForce().getMagnitude() ) ) ) { throw new IllegalArgumentException();}
                 double therm = getFrictionForce().getMagnitude() * getLocation().distance( origLoc );
 //                System.out.println( "therm = " + therm );
                 thermalEnergy += therm;
+                if( getEnergy() < origEnergy ) {
+                    thermalEnergy += Math.abs( getEnergy() - origEnergy );//add some thermal to exactly match
+                    if( Math.abs( getEnergy() - origEnergy ) > 1E-6 ) {
+                        System.out.println( "Added thermal, dE=" + ( getEnergy() - origEnergy ) );
+                    }
+                }
+                if( getEnergy() > origEnergy ) {
+                    if( Math.abs( getEnergy() - origEnergy ) < therm ) {
+                        System.out.println( "gained energy, removing thermal (Would have to remove more than we gained)" );
+                    }
+                    else {
+                        double editThermal = Math.abs( getEnergy() - origEnergy );
+                        thermalEnergy -= editThermal;
+                        if( Math.abs( getEnergy() - origEnergy ) > 1E-6 ) {
+                            System.out.println( "Removed thermal, dE=" + ( getEnergy() - origEnergy ) );
+                        }
+                    }
+                }
+
             }
+            if( ( Double.isNaN( getKineticEnergy() ) ) ) { throw new IllegalArgumentException();}
+            if( ( Double.isInfinite( getKineticEnergy() ) ) ) { throw new IllegalArgumentException();}
+            if( ( Double.isNaN( getVelocity2D().getMagnitude() ) ) ) { throw new IllegalArgumentException();}
             handleBoundary();
         }
     }
