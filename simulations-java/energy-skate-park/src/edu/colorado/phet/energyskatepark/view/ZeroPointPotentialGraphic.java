@@ -1,7 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view;
 
-import edu.colorado.phet.energyskatepark.EnergySkateParkSimulationPanel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.common.LucidaSansFont;
 import edu.colorado.phet.piccolo.PhetPNode;

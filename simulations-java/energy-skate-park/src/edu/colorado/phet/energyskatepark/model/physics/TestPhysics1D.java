@@ -7,7 +7,7 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.energyskatepark.TraversalState;
+import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

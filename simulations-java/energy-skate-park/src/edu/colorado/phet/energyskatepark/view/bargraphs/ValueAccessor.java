@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark.view.bargraphs;
 
-import edu.colorado.phet.energyskatepark.EnergyLookAndFeel;
+import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 

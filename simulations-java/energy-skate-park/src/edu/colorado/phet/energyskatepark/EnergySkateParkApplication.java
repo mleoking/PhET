@@ -33,7 +33,11 @@ package edu.colorado.phet.energyskatepark;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
+import edu.colorado.phet.energyskatepark.view.EC3LookAndFeel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkTestMenu;
 import edu.colorado.phet.lookandfeels.LookAndFeelMenu;
 
 import javax.jnlp.UnavailableServiceException;
@@ -151,6 +155,31 @@ new EnergySkateParkFrameSetup() );
                 TestPhysics1D.main( args );
             }
         } );
+    }
+    public static class EnergySkateParkDebugFrameSetup implements FrameSetup {
+
+        public void initialize( JFrame frame ) {
+            frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - EnergySkateParkModule.energyFrameWidth,
+                           Toolkit.getDefaultToolkit().getScreenSize().height - 100 - EnergySkateParkModule.chartFrameHeight //for debug
+            );
+            frame.setLocation( 0, 0 );
+        }
+
+    }
+    public static class EnergySkateParkFrameSetup implements FrameSetup {
+        public void initialize( JFrame frame ) {
+            if( Toolkit.getDefaultToolkit().getScreenSize().height <= 768 ) {
+                new MaxExtent( new TopCenter( Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height - 100 ) ).initialize( frame );
+            }
+            else {
+                Toolkit tk = Toolkit.getDefaultToolkit();
+                int x = 0;
+                int y = 0;
+                frame.setLocation( x, y );
+                frame.setSize( tk.getScreenSize().width - 200, tk.getScreenSize().height - 200 );
+            }
+//        new CenteredWithInsets(50,50).initialize( frame );
+        }
     }
 
 }

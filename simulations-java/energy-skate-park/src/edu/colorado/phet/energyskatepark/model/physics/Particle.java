@@ -4,7 +4,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.energyskatepark.TraversalState;
+import edu.colorado.phet.energyskatepark.model.TraversalState;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;

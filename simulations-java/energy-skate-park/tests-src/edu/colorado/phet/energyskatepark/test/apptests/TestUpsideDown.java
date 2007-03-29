@@ -1,10 +1,10 @@
 package edu.colorado.phet.energyskatepark.test.apptests;
 
-import edu.colorado.phet.energyskatepark.EC3LookAndFeel;
+import edu.colorado.phet.energyskatepark.view.EC3LookAndFeel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-import edu.colorado.phet.energyskatepark.model.spline.CubicSpline;
+import edu.colorado.phet.energyskatepark.model.PreFabSplines;
 import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
 
 /**
@@ -30,7 +30,7 @@ public class TestUpsideDown {
     private void start() {
         energySkateParkApplication.startApplication();
         energySkateParkApplication.getModule().getEnergySkateParkModel().removeAllSplineSurfaces();
-        CubicSpline spline = new CubicSpline();
+        PreFabSplines.CubicSpline spline = new PreFabSplines.CubicSpline();
         //add control points
         spline.addControlPoint( 2.9071550255536627, 6.9361158432708665 );
         spline.addControlPoint( 6.5, 1.5 );
