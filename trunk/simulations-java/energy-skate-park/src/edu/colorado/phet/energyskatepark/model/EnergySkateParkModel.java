@@ -202,6 +202,7 @@ public class EnergySkateParkModel {
 //        return null;
 
     //    }
+
     public EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D spline ) {
         for( int i = 0; i < splines.size(); i++ ) {
             EnergySkateParkSpline energySkateParkSpline = (EnergySkateParkSpline)splines.get( i );
@@ -232,7 +233,7 @@ public class EnergySkateParkModel {
     public void stepInTime( double dt ) {
         time += dt;
         if( recordPath && numBodies() > 0 && timeSinceLastHistory() > 0.1 ) {
-            history.add( new HistoryPoint( this, bodyAt( 0 ) ) );
+            history.add( new HistoryPoint( getTime(), bodyAt( 0 ) ) );
         }
         if( history.size() > maxNumHistoryPoints ) {
             history.remove( 0 );
