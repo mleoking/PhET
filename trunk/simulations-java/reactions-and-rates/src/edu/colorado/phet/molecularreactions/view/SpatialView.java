@@ -108,10 +108,14 @@ public class SpatialView extends PNode {
 
         java.util.List graphics = megm.getGraphicsForModelElementClass( TemperatureControl.class );
 
-        if (graphics.size() == 1) {
-            TemperatureControlGraphic graphic = (TemperatureControlGraphic)graphics.get(0);
+        for (int i = 0; i < graphics.size(); i++) {
+            TemperatureControlGraphic graphic = (TemperatureControlGraphic)graphics.get(i);
 
-            adjusting = graphic.isTemperatureBeingAdjusted();
+            if (graphic.isTemperatureBeingAdjusted()) {
+                adjusting = true;
+
+                break;
+            }
         }
 
         return adjusting;

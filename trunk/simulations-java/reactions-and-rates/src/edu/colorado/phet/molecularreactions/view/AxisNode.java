@@ -18,6 +18,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * AxisNode
@@ -28,6 +29,8 @@ import java.awt.geom.Point2D;
  * @version $Revision$
  */
 public class AxisNode extends PNode {
+    private static final int TEXT_PADDING = 5;
+
     public static class VerticalAlignment {
         private VerticalAlignment() {}
     }
@@ -49,14 +52,14 @@ public class AxisNode extends PNode {
                      Orientation orientation,
                      VerticalAlignment textVerticalAlignment ) {
 
-        Arrow arrow = new Arrow( new Point2D.Double( ),
-                                 new Point2D.Double( length, 0),
-                                 12, 8, 1 );
-        PPath arrowNode = new PPath( arrow.getShape() );
-        arrowNode.setPaint( color );
-        arrowNode.setStroke( new BasicStroke( 1 ));
-        arrowNode.setStrokePaint( color );
-        addChild( arrowNode );
+        double arrowNodeWidth;
+
+        if (orientation == HORIZONTAL) {
+            arrowNodeWidth = addLineNode( length, color );
+        }
+        else {
+            arrowNodeWidth = addArrowNode( length, color, textVerticalAlignment );
+        }
 
         Font defaultFont = UIManager.getFont( "Label.font" );
         axisFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
@@ -64,17 +67,44 @@ public class AxisNode extends PNode {
         labelNode.setFont( axisFont );
         labelNode.setTextPaint( color );
         double labelOffsetY = 0;
+        if( textVerticalAlignment == BOTTOM ) {
+            labelOffsetY = TEXT_PADDING;
+        }
         if( textVerticalAlignment == TOP ) {
-            arrowNode.setOffset( 0, 20 );
+            labelOffsetY = -TEXT_PADDING - labelNode.getHeight();
         }
-        else if( textVerticalAlignment == BOTTOM ) {
-            labelOffsetY = 10;
-        }
-        labelNode.setOffset( (arrowNode.getFullBounds().getWidth() - labelNode.getFullBounds().getWidth()) / 2, labelOffsetY );
+        labelNode.setOffset( (arrowNodeWidth - labelNode.getFullBounds().getWidth()) / 2, labelOffsetY );
         addChild( labelNode );
 
         if( orientation == VERTICAL ) {
             this.rotate( -Math.PI / 2 );
         }
+    }
+
+    private double addArrowNode( double length, Color color, VerticalAlignment textVerticalAlignment ) {
+        Arrow arrow = new Arrow( new Point2D.Double( 0,      0),
+                                 new Point2D.Double( length, 0),
+                                 12, 8, 1 );
+
+        PPath arrowNode = addAxisNode( arrow.getShape(), color );
+
+        return arrowNode.getFullBounds().getWidth();
+    }
+
+    private double addLineNode( double length, Color color) {
+        Rectangle2D rect = new Rectangle2D.Double( 0, 0, length, 1 );
+
+        return addAxisNode( rect, color ).getFullBounds().getWidth();
+    }
+
+    private PPath addAxisNode( Shape line, Color color ) {
+        PPath arrowNode = new PPath( line );
+
+        arrowNode.setPaint( color );
+        arrowNode.setStroke( new BasicStroke( 1 ));
+        arrowNode.setStrokePaint( color );
+        addChild( arrowNode );
+
+        return arrowNode;
     }
 }

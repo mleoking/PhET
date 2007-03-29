@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.molecularreactions.modules;
 
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.clock.StopwatchPanel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.clock.StopwatchPanel;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
+import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.PublishingModel;
-import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 import edu.colorado.phet.molecularreactions.view.PumpGraphic;
 import edu.colorado.phet.molecularreactions.view.SimpleMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChartNode;
@@ -110,8 +110,12 @@ public class ComplexModule extends MRModule {
         boolean adjusting = super.isTemperatureBeingAdjusted();
 
         if (!adjusting && controlPanel != null) {            
-            adjusting = ((MRControlPanel)controlPanel).isTemperatureBeingAdjusted();
+            adjusting = controlPanel.isTemperatureBeingAdjusted();
         }
+
+        //if (!(this instanceof RateExperimentsModule)) {
+        //    System.out.println("Is adjusting = " + adjusting);
+        //}
 
         return adjusting;
     }

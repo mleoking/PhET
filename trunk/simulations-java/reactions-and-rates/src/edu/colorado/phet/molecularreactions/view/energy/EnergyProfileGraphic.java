@@ -17,7 +17,10 @@ import edu.umd.cs.piccolo.nodes.PText;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
 
 /**
  * EnergyCurve
@@ -94,9 +97,8 @@ class EnergyProfileGraphic extends PNode {
 
         potentialEnergyLegend = new PText( SimStrings.getInstance().getString( "EnergyView.Legend.potentialEnergy" ) );
         potentialEnergyLegend.setFont( labelFont );
-        potentialEnergyLegend.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
+        potentialEnergyLegend.setTextPaint( MRConfig.POTENTIAL_ENERGY_COLOR );
         addChild( potentialEnergyLegend );
-
 
         update( energyProfile );
     }
@@ -275,8 +277,18 @@ class EnergyProfileGraphic extends PNode {
                                                        energyProfile.getRightLevel() - dy / modelToViewScale ) );
                     energyProfile.setRightLevel( level );
                 }
+
+                constrainPeak();
             }
         }
+    }
+
+    private void constrainPeak() {
+        double level = energyProfile.getPeakLevel();
+
+        double max = Math.max( energyProfile.getRightLevel(), energyProfile.getLeftLevel() );
+
+        energyProfile.setPeakLevel( Math.max( level, max ) );
     }
 
     /**
@@ -319,7 +331,10 @@ class EnergyProfileGraphic extends PNode {
                 double level = Math.min( size.height / modelToViewScale,
                                          Math.max( 0,
                                                    energyProfile.getPeakLevel() - dy / modelToViewScale ) );
+
                 energyProfile.setPeakLevel( level );
+
+                constrainPeak();
             }
         }
     }

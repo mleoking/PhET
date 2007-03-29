@@ -22,7 +22,6 @@ import edu.colorado.phet.molecularreactions.util.Resetable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +51,8 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     private MoleculeCounter moleculeABCounter;
     private MoleculeCounter moleculeCCounter;
     private InitialTemperaturePanel initialTemperaturePanel;
+    private JButton goButton;
+    private boolean inProgress = false;
 
     /**
      * @param module
@@ -100,12 +101,6 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         moleculeTypeToGenerator.put( MoleculeAB.class, moleculeABParamGenerator );
         moleculeTypeToGenerator.put( MoleculeC.class, moleculeCParamGenerator );
 
-//        moleculeParamGenerator = new RandomMoleculeParamGenerator( generatorBounds,
-//                                                                   5,
-//                                                                   .1,
-//                                                                   0,
-//                                                                   Math.PI * 2 );
-
         // Create the controls
         JLabel topLineLbl = new JLabel( SimStrings.getInstance().getString( "ExperimentSetup.topLine" ) );
         JLabel numALbl = new JLabel( SimStrings.getInstance().getString( "ExperimentSetup.numA" ) );
@@ -120,27 +115,20 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         numABTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
         numCTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
 
-
-        JButton resetBtn = new JButton( SimStrings.getInstance().getString( "ExperimentSet.clear" ) );
-        resetBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                reset();
-            }
-        } );
-
         // The GO button
-        JButton goButton = new JButton( new StartExperimentAction( module, this ) );
+        goButton = new JButton( new StartExperimentAction( module, this ) );
 
         // Add a border
         setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "ExperimentSetup.title" ) ) );
 
         // Lay out the controls
         GridBagConstraints c = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                              1, 1, 1, 1,
-                                                              GridBagConstraints.WEST,
-                                                              GridBagConstraints.NONE,
-                                                              new Insets( 2, 3, 3, 3 ),
-                                                              0, 0 );
+                                                       1, 1, 1, 1,
+                                                       GridBagConstraints.WEST,
+                                                       GridBagConstraints.NONE,
+                                                       new Insets( 2, 3, 3, 3 ),
+                                                       0, 0 );
+
         GridBagConstraints textFieldGbc = new GridBagConstraints( 1, 1,
                                                                   1, 1, 1, 1,
                                                                   GridBagConstraints.WEST,
@@ -191,8 +179,8 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         // Buttons on button panel
         JPanel buttonPanel = new JPanel(new GridBagLayout());
 
+        c.anchor     = GridBagConstraints.CENTER;
         buttonPanel.add( goButton );
-        buttonPanel.add( resetBtn );
 
         // Button panel
         c.anchor     = GridBagConstraints.CENTER;
@@ -253,27 +241,29 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
      * @param editable
      */
     private void setInitialConditionsEditable( boolean editable ) {
-        numATF.setEditable( editable );
+        numATF.setEditable(  editable );
         numBCTF.setEditable( editable );
         numABTF.setEditable( editable );
-        numCTF.setEditable( editable );
+        numCTF.setEditable(  editable );
     }
 
     /**
      * Resets everything
      */
     public void reset() {
-
         setInitialConditionsEditable( true );
-        numATF.setText( "0" );
+
+        inProgress = false;
+
+        numATF.setText(  "0" );
         numBCTF.setText( "0" );
         numABTF.setText( "0" );
-        numCTF.setText( "0" );
+        numCTF.setText(  "0" );
 
-        generateMolecules( MoleculeA.class, -moleculeACounter.getCnt() );
+        generateMolecules( MoleculeA.class,  -moleculeACounter.getCnt() );
         generateMolecules( MoleculeBC.class, -moleculeBCCounter.getCnt() );
         generateMolecules( MoleculeAB.class, -moleculeABCounter.getCnt() );
-        generateMolecules( MoleculeC.class, -moleculeCCounter.getCnt() );
+        generateMolecules( MoleculeC.class,  -moleculeCCounter.getCnt() );
 
         module.setExperimentRunning( false );
         module.resetStripChart();
@@ -290,7 +280,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     /**
      * Action for starting an experiment
      */
-    private static class StartExperimentAction extends AbstractAction {
+    private class StartExperimentAction extends AbstractAction {
         private RateExperimentsModule module;
         private ExperimentSetupPanel panel;
 
@@ -302,15 +292,43 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         }
 
         public void actionPerformed( ActionEvent e ) {
-            module.getMRModel().removeAllMolecules();
-            panel.generateMolecules( MoleculeA.class, Integer.parseInt( panel.numATF.getText() ) );
-            panel.generateMolecules( MoleculeBC.class, Integer.parseInt( panel.numBCTF.getText() ) );
-            panel.generateMolecules( MoleculeAB.class, Integer.parseInt( panel.numABTF.getText() ) );
-            panel.generateMolecules( MoleculeC.class, Integer.parseInt( panel.numCTF.getText() ) );
+            if (!inProgress) {
+                module.getMRModel().removeAllMolecules();
+                panel.generateMolecules( MoleculeA.class, Integer.parseInt( panel.numATF.getText() ) );
+                panel.generateMolecules( MoleculeBC.class, Integer.parseInt( panel.numBCTF.getText() ) );
+                panel.generateMolecules( MoleculeAB.class, Integer.parseInt( panel.numABTF.getText() ) );
+                panel.generateMolecules( MoleculeC.class, Integer.parseInt( panel.numCTF.getText() ) );
 
-            module.resetStripChart();
-            module.setExperimentRunning( true );
-            //panel.setInitialConditionsEditable( false );
+                module.resetStripChart();
+                module.setExperimentRunning( true );
+                panel.setInitialConditionsEditable( false );
+
+                goButton.setText( SimStrings.getInstance().getString( "ExperimentSetup.stop" ) );
+            }
+            else {
+                setInitialConditionsEditable( true );
+
+                numATF.setText( "0" );
+                numBCTF.setText( "0" );
+                numABTF.setText( "0" );
+                numCTF.setText( "0" );
+
+                generateMolecules( MoleculeA.class,  -moleculeACounter.getCnt() );
+                generateMolecules( MoleculeBC.class, -moleculeBCCounter.getCnt() );
+                generateMolecules( MoleculeAB.class, -moleculeABCounter.getCnt() );
+                generateMolecules( MoleculeC.class,  -moleculeCCounter.getCnt() );
+
+                module.setExperimentRunning( false );
+                module.resetStripChart();
+        //        module.setStripChartRecording( true );
+                module.getClock().start();
+
+                initialTemperaturePanel.reset();
+
+                goButton.setText( SimStrings.getInstance().getString( "ExperimentSetup.go" ) );
+            }
+
+            inProgress = !inProgress;
         }
     }
     

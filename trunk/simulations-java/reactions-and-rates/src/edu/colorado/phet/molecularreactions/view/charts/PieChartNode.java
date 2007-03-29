@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.molecularreactions.util;
+package edu.colorado.phet.molecularreactions.view.charts;
 
 /**
  * PieChartNode

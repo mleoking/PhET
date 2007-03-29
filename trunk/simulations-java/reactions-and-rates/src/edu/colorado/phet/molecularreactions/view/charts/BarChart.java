@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.molecularreactions.util;
+package edu.colorado.phet.molecularreactions.view.charts;
 
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
@@ -29,7 +29,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * edu.colorado.phet.molecularreactions.util.BarChart
+ * edu.colorado.phet.molecularreactions.view.charts.BarChart
  *
  * @author Ron LeMaster
  * @version $Revision$

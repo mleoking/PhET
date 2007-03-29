@@ -16,7 +16,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
-import edu.colorado.phet.molecularreactions.util.PieChartNode;
 import edu.colorado.phet.molecularreactions.view.MoleculePaints;
 import edu.umd.cs.piccolo.nodes.PText;
 

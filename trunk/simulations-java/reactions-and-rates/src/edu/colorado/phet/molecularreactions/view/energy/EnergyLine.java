@@ -67,7 +67,7 @@ public class EnergyLine extends PNode {
         Font labelFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
         totalEnergyLegend = new PText( SimStrings.getInstance().getString( "EnergyView.Legend.totalEnergy" ) );
         totalEnergyLegend.setFont( labelFont );
-        totalEnergyLegend.setTextPaint( MRConfig.ENERGY_PANE_TEXT_COLOR );
+        totalEnergyLegend.setTextPaint( MRConfig.TOTAL_ENERGY_COLOR );
         addChild( totalEnergyLegend );
 
         clock.addClockListener( new ClockAdapter() {

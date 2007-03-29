@@ -31,7 +31,8 @@ import java.lang.reflect.InvocationTargetException;
 public class MRApplication extends PiccoloPhetApplication {
 
     public MRApplication( String[] args ) {
-        super( args, SimStrings.getInstance().getString( "Application.title" ),
+        super( args,
+               SimStrings.getInstance().getString( "Application.title" ),
                SimStrings.getInstance().getString( "Application.description" ),
                MRConfig.VERSION,
                new FrameSetup.CenteredWithSize( 1000, 700 ) );

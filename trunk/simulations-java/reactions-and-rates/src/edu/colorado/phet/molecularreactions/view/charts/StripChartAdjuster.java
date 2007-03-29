@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.molecularreactions.view.charts;
 
-import edu.colorado.phet.molecularreactions.util.StripChart;
-
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 
