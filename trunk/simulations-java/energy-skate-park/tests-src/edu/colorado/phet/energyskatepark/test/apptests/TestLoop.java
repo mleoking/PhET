@@ -3,7 +3,7 @@ package edu.colorado.phet.energyskatepark.test.apptests;
 import edu.colorado.phet.energyskatepark.EC3LookAndFeel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
-import edu.colorado.phet.energyskatepark.test.phys1d.CubicSpline2D;
+import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
 import edu.colorado.phet.energyskatepark.model.spline.CubicSpline;
 import edu.colorado.phet.energyskatepark.model.spline.SplineSurface;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
