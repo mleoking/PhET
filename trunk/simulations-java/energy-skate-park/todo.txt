@@ -1,17 +1,15 @@
-• Finish energy conservation
-    -with/without friction
-
-• Add special friction for ground (friction for all tracks, averaged with skater friction?)
 • Make it so skater cannot be dragged underground.
 • Skater should point at track while dragging.
 • Show an indicator for attachment point during skater dragging?
 • Make it impossible to drag control points below ground?
-• Performance problems after lots of runs?
+• Performance problems after lots of runs
 • Playback/record.
 • Add rotation for skater in the air?
 • Add visualization for force diagram (or just normal force?)
 • With high enough speed, sometimes the skater can pass through a track (or ground)
 • Return skater in space resets gravity.
+• Finish energy conservation
+    -with/without friction
 
 todo: memory leak in EnergySkateParkSplineListAdapter
 

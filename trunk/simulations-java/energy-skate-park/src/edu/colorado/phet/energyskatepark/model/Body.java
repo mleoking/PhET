@@ -98,7 +98,8 @@ public class Body {
         setVelocity( 0, 0 );
         setPosition( 3, 6 );
         particle.setVelocity( 0, 0 );
-        particle.setGravity( -9.8 );
+        particle.resetAngle();
+//        particle.setGravity( -9.8 );
     }
 
     public void setGravityState( double gravity, double zeroPointPotentialY ) {

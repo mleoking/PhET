@@ -32,7 +32,8 @@ public class Particle {
     private UpdateStrategy updateStrategy = new Particle1DUpdate();
     private ParticleStage particleStage;
     private boolean convertNormalVelocityToThermalOnLanding = true;
-    private double angle = Math.PI / 2;
+
+    private double angle = DEFAULT_ANGLE;
     private boolean userControlled = false;
     private double thermalEnergy = 0.0;
     private double zeroPointPotentialY;
@@ -40,6 +41,8 @@ public class Particle {
     private double yThrust = 0;
     private double frictionCoefficient = 0;
     private boolean verboseDebug = true;
+
+    private static double DEFAULT_ANGLE = Math.PI / 2;
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
         this( new ParticleStage( parametricFunction2D ) );
@@ -179,6 +182,11 @@ public class Particle {
 
     public double getFrictionCoefficient() {
         return frictionCoefficient;
+    }
+
+    public void resetAngle() {
+        this.angle = DEFAULT_ANGLE;
+        update();
     }
 
     interface UpdateStrategy {
