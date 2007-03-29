@@ -38,7 +38,7 @@ import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.EC3LookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkTestMenu;
-import edu.colorado.phet.lookandfeels.LookAndFeelMenu;
+//import edu.colorado.phet.lookandfeels.LookAndFeelMenu;
 
 import javax.jnlp.UnavailableServiceException;
 import javax.swing.*;
@@ -49,7 +49,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 public class EnergySkateParkApplication extends PhetApplication {
-    private static final String VERSION = "1.05.10";
+    private static final String VERSION = "1.05.11";
     private EnergySkateParkModule module;
     public static double SIMULATION_TIME_DT = 0.03;
 
@@ -99,7 +99,7 @@ new EnergySkateParkFrameSetup() );
         getPhetFrame().addFileMenuItem( saveItem );
 
         getPhetFrame().addFileMenuSeparator();
-        getPhetFrame().addMenu( new LookAndFeelMenu() );
+//        getPhetFrame().addMenu( new LookAndFeelMenu() );
     }
 
     public EnergySkateParkModule getModule() {
