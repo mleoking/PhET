@@ -8,7 +8,7 @@
     -with/without friction
 
 • memory leak in EnergySkateParkSplineListAdapter
-• Skater should point at track while dragging: Unpredictable behavior when there are 2 possible matches.
+• Skater should point at track while dragging: Unpredictable behavior when there are 2+ possible matches.
 
 #################################################################
 Remaining Work
