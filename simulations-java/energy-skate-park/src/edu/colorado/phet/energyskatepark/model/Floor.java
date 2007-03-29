@@ -1,8 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.model;
 
-import edu.colorado.phet.energyskatepark.test.phys1d.LinearSpline2D;
-import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
+import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 
 import java.awt.geom.Point2D;
 

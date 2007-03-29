@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark;
 
-import edu.colorado.phet.energyskatepark.test.phys1d.ParametricFunction2D;
+import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 
 import java.awt.geom.Point2D;
 

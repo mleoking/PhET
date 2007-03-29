@@ -4,7 +4,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-import edu.colorado.phet.energyskatepark.test.phys1d.CubicSpline2D;
+import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

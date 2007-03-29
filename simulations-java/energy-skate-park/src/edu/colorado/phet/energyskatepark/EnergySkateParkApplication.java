@@ -33,7 +33,7 @@ package edu.colorado.phet.energyskatepark;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.energyskatepark.test.phys1d.TestPhysics1D;
+import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
 import edu.colorado.phet.lookandfeels.LookAndFeelMenu;
 
 import javax.jnlp.UnavailableServiceException;
