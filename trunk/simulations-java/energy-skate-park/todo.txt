@@ -1,13 +1,10 @@
-• Make it so skater cannot be dragged underground.
 • Skater should point at track while dragging.
 • Show an indicator for attachment point during skater dragging?
-• Make it impossible to drag control points below ground?
 • Performance problems after lots of runs
 • Playback/record.
 • Add rotation for skater in the air?
 • Add visualization for force diagram (or just normal force?)
 • With high enough speed, sometimes the skater can pass through a track (or ground)
-• Return skater in space resets gravity.
 • Finish energy conservation
     -with/without friction
 

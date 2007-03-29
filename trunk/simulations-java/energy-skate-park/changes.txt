@@ -2,6 +2,8 @@
 Many bugfixes for new physics.
 Fixed graphics for direction skater is facing.
 Added special friction for ground (friction for all tracks, averaged with skater friction?)
+Fixed: Return skater in space resets gravity.
+Skater cannot be dragged underground.
 
 1.05.07 (3-4-2007) <13466>
 Added 1-d test case.
