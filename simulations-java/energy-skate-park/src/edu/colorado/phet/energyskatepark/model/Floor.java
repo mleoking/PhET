@@ -35,6 +35,6 @@ public class Floor {
     }
 
     public ParametricFunction2D getParametricFunction2D() {
-        return new LinearSpline2D( new Point2D[]{new Point2D.Double( -100, y ), new Point2D.Double( 200, y )} );
+        return new LinearFloorSpline2D( new Point2D[]{new Point2D.Double( -100, y ), new Point2D.Double( 200, y )} );
     }
 }

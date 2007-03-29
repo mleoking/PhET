@@ -4,6 +4,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.energyskatepark.TraversalState;
+import edu.colorado.phet.energyskatepark.model.TrackWithFriction;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class Particle1D {
     private double alpha = 0.25;
     private double velocity = 0;
 
-    private ParametricFunction2D cubicSpline;
+    private ParametricFunction2D track;
 
     private UpdateStrategy updateStrategy = new Euler();
 
@@ -39,7 +40,7 @@ public class Particle1D {
     }
 
     public Particle1D( ParametricFunction2D parametricFunction2D, boolean splineTop, double g ) {
-        this.cubicSpline = parametricFunction2D;
+        this.track = parametricFunction2D;
         this.splineTop = splineTop;
         this.g = g;
     }
@@ -53,15 +54,15 @@ public class Particle1D {
     }
 
     public double getX() {
-        return cubicSpline.evaluate( alpha ).getX();
+        return track.evaluate( alpha ).getX();
     }
 
     public double getY() {
-        return cubicSpline.evaluate( alpha ).getY();
+        return track.evaluate( alpha ).getY();
     }
 
     private double getY( double alpha ) {
-        return cubicSpline.evaluate( alpha ).getY();
+        return track.evaluate( alpha ).getY();
     }
 
     public void setAlpha( double alpha ) {
@@ -165,15 +166,15 @@ public class Particle1D {
     }
 
     public AbstractVector2D getVelocity2D() {
-        return cubicSpline.getUnitParallelVector( alpha ).getInstanceOfMagnitude( velocity );
+        return track.getUnitParallelVector( alpha ).getInstanceOfMagnitude( velocity );
     }
 
     public void detach() {
-        cubicSpline = null;
+        track = null;
     }
 
     public void setCubicSpline2D( ParametricFunction2D spline, boolean top, double alpha ) {
-        this.cubicSpline = spline;
+        this.track = spline;
         this.splineTop = top;
         this.alpha = alpha;
     }
@@ -187,11 +188,11 @@ public class Particle1D {
     }
 
     public AbstractVector2D getCurvatureDirection() {
-        return cubicSpline.getCurvatureDirection( alpha );
+        return track.getCurvatureDirection( alpha );
     }
 
     public ParametricFunction2D getCubicSpline2D() {
-        return cubicSpline;
+        return track;
     }
 
     public boolean isSplineTop() {
@@ -216,7 +217,7 @@ public class Particle1D {
     }
 
     public TraversalState getTraversalState() {
-        return new TraversalState( cubicSpline, splineTop, alpha );
+        return new TraversalState( track, splineTop, alpha );
     }
 
     public void setFrictionCoefficient( double frictionCoefficient ) {
@@ -360,19 +361,19 @@ public class Particle1D {
 
     double getRadiusOfCurvature() {
         double epsilon = 0.001;
-        double a0 = alpha + cubicSpline.getFractionalDistance( alpha, -epsilon / 2.0 );
-        double a1 = alpha + cubicSpline.getFractionalDistance( alpha, epsilon / 2.0 );
-        double d = cubicSpline.evaluate( a0 ).distance( cubicSpline.evaluate( a1 ) );
-        double curvature = ( cubicSpline.getAngle( a0 ) - cubicSpline.getAngle( a1 ) ) / d;
+        double a0 = alpha + track.getFractionalDistance( alpha, -epsilon / 2.0 );
+        double a1 = alpha + track.getFractionalDistance( alpha, epsilon / 2.0 );
+        double d = track.evaluate( a0 ).distance( track.evaluate( a1 ) );
+        double curvature = ( track.getAngle( a0 ) - track.getAngle( a1 ) ) / d;
         return 1.0 / curvature;
     }
 
     public AbstractVector2D getUnitParallelVector() {
-        return cubicSpline.getUnitParallelVector( alpha );
+        return track.getUnitParallelVector( alpha );
     }
 
     public AbstractVector2D getUnitNormalVector() {
-        return cubicSpline.getUnitNormalVector( alpha );
+        return track.getUnitNormalVector( alpha );
     }
 
     public class VerletOffset implements UpdateStrategy {
@@ -384,13 +385,13 @@ public class Particle1D {
 
         public void stepInTime( double dt ) {
             double R = getRadiusOfCurvature();
-            double origAngle = Math.PI / 2 - cubicSpline.getAngle( alpha );
+            double origAngle = Math.PI / 2 - track.getAngle( alpha );
 //                double aOrig = g * Math.cos( origAngle );
             double aOrig = Math.pow( R / ( R + L ), 2 ) * g * Math.cos( origAngle ) * ( 1 + L / R );
             double ds = velocity * dt - 0.5 * aOrig * dt * dt;
 
-            alpha += cubicSpline.getFractionalDistance( alpha, ds );
-            double newAngle = Math.PI / 2 - cubicSpline.getAngle( alpha );
+            alpha += track.getFractionalDistance( alpha, ds );
+            double newAngle = Math.PI / 2 - track.getAngle( alpha );
 //                double accel = g * ( Math.cos( origAngle ) + Math.cos( newAngle ) ) / 2.0;
             double accel = Math.pow( R / ( R + L ), 2 ) * g * ( Math.cos( origAngle ) + Math.cos( newAngle ) ) / 2 * ( 1 + L / R );
             velocity = velocity + accel * dt;
@@ -406,11 +407,11 @@ public class Particle1D {
     public class Verlet implements UpdateStrategy {
 
         public void stepInTime( double dt ) {
-            double origAngle = Math.PI / 2 - cubicSpline.getAngle( alpha );
+            double origAngle = Math.PI / 2 - track.getAngle( alpha );
             double ds = velocity * dt - 0.5 * g * Math.cos( origAngle ) * dt * dt;
 
-            alpha += cubicSpline.getFractionalDistance( alpha, ds );
-            double newAngle = Math.PI / 2 - cubicSpline.getAngle( alpha );
+            alpha += track.getFractionalDistance( alpha, ds );
+            double newAngle = Math.PI / 2 - track.getAngle( alpha );
             velocity = velocity + g * ( Math.cos( origAngle ) + Math.cos( newAngle ) ) / 2.0 * dt;
 
             handleBoundary();
@@ -420,20 +421,20 @@ public class Particle1D {
     public class ConstantVelocity implements UpdateStrategy {
 
         public void stepInTime( double dt ) {
-            alpha += cubicSpline.getFractionalDistance( alpha, velocity * dt );
+            alpha += track.getFractionalDistance( alpha, velocity * dt );
 
             handleBoundary();
         }
     }
 
     public AbstractVector2D getNormalForce() {//todo some code duplication in Particle.Particle1DUpdate
-        System.out.println( "getRadiusOfCurvature() = " + getRadiusOfCurvature() );
+//        System.out.println( "getRadiusOfCurvature() = " + getRadiusOfCurvature() );
         if( Double.isInfinite( getRadiusOfCurvature() ) ) {
-            System.out.println( "infinite" );
+//            System.out.println( "infinite" );
 
             double radiusOfCurvature = 100000;
-            System.out.println( "radiusOfCurvature = " + radiusOfCurvature );
-            System.out.println( " getCurvatureDirection()  = " + getCurvatureDirection() );
+//            System.out.println( "radiusOfCurvature = " + radiusOfCurvature );
+//            System.out.println( " getCurvatureDirection()  = " + getCurvatureDirection() );
             Vector2D.Double netForceRadial = new Vector2D.Double();
             netForceRadial.add( new Vector2D.Double( 0, mass * g ) );//gravity
             netForceRadial.add( new Vector2D.Double( xThrust * mass, yThrust * mass ) );//thrust
@@ -462,14 +463,19 @@ public class Particle1D {
     }
 
     public AbstractVector2D getFrictionForce() {
-        if( frictionCoefficient == 0 ) {
+        if( getTotalFriction() == 0 ) {
             return new Vector2D.Double();
         }
         else {
 //        return getVelocity2D().getScaledInstance( -frictionCoefficient * 10000 );//todo factor out heuristic
 //        return getVelocity2D().getScaledInstance( -frictionCoefficient * getNormalForce().getMagnitude() );//todo factor out heuristic
-            return getVelocity2D().getInstanceOfMagnitude( -frictionCoefficient * getNormalForce().getMagnitude() * 25 );//todo factor out heuristic
+//            System.out.println( "friction = " + getTotalFriction() );
+            return getVelocity2D().getInstanceOfMagnitude( -getTotalFriction() * getNormalForce().getMagnitude() * 25 );//todo factor out heuristic
         }
+    }
+
+    private double getTotalFriction() {
+        return frictionCoefficient + ( ( track instanceof TrackWithFriction ) ? ( (TrackWithFriction)track ).getFriction() : 0.0 );
     }
 
     public class Euler implements UpdateStrategy {
@@ -477,10 +483,10 @@ public class Particle1D {
 //            System.out.println( "nor = " + getNormalForce().getMagnitude() );
             Point2D origLoc = getLocation();
             AbstractVector2D netForce = getNetForce();
-            double a = cubicSpline.getUnitParallelVector( alpha ).dot( netForce ) / mass;
+            double a = track.getUnitParallelVector( alpha ).dot( netForce ) / mass;
             velocity += a * dt;
-            alpha += cubicSpline.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
-            if( frictionCoefficient > 0 ) {
+            alpha += track.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
+            if( getTotalFriction() > 0 ) {
                 double therm = getFrictionForce().getMagnitude() * getLocation().distance( origLoc );
 //                System.out.println( "therm = " + therm );
                 thermalEnergy += therm;
@@ -496,7 +502,7 @@ public class Particle1D {
             edu.colorado.phet.energyskatepark.model.RK4.Diff diffy = new edu.colorado.phet.energyskatepark.model.RK4.Diff() {
                 public void f( double t, double state[], double F[] ) {
                     F[0] = state[1];
-                    double parallelForce = cubicSpline.getUnitParallelVector( alpha ).dot( getNetForce() );
+                    double parallelForce = track.getUnitParallelVector( alpha ).dot( getNetForce() );
                     F[1] = parallelForce / mass;
                 }
             };
