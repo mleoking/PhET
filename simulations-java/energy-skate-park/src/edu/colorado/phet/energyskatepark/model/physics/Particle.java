@@ -42,7 +42,7 @@ public class Particle {
     private double frictionCoefficient = 0;
     private boolean verboseDebug = true;
 
-    private static double DEFAULT_ANGLE = Math.PI / 2;
+    private static double DEFAULT_ANGLE = 0;
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
         this( new ParticleStage( parametricFunction2D ) );
@@ -189,6 +189,19 @@ public class Particle {
         update();
     }
 
+    public TraversalState getTrackMatch( double dx, double dy ) {
+        boolean[] above = getOrigAbove();
+        SearchState crossPoint = getBestCrossPoint( new Point2D.Double( getPosition().getX() + dx, getPosition().getY() + dy ), getOrigAbove(), getPosition() );
+
+        if( crossPoint == null || crossPoint.getIndex() == -1 ) {
+            return null;
+        }
+        else {
+
+            return new TraversalState( crossPoint.getTrack(), above[crossPoint.getIndex()], crossPoint.getAlpha() );
+        }
+    }
+
     interface UpdateStrategy {
         void stepInTime( double dt );
     }
@@ -250,8 +263,13 @@ public class Particle {
         AbstractVector2D vel = particle1D.getVelocity2D();
         vx = vel.getX();
         vy = vel.getY();
-        angle = particle1D.getSideVector().getAngle();
+        angle = particle1D.getSideVector().getAngle() - Math.PI / 2;
         thermalEnergy = particle1D.getThermalEnergy();
+    }
+
+    public void setAngle( double angle ) {
+        this.angle = angle;
+        update();
     }
 
     private void switchToFreeFall() {
@@ -346,7 +364,7 @@ public class Particle {
     }
 
     //todo: this code is highly similar to pt-line search code, could be consolidated
-    SearchState getBestSearchPoint( Point2D origLoc ) {
+    private SearchState getBestSearchPoint( Point2D origLoc ) {
         SearchState searchState = new SearchState( Double.POSITIVE_INFINITY, null, 0, -1 );
         for( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
             ParametricFunction2D cubicSpline = particleStage.getCubicSpline2D( i );
@@ -519,28 +537,28 @@ public class Particle {
                 }
             }
         }
+    }
 
-        private SearchState getBestCrossPoint( Point2D pt, boolean[] origAbove, Point2D origLoc ) {
-            SearchState searchState = new SearchState( Double.POSITIVE_INFINITY, null, 0, -1 );
-            for( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
-                ParametricFunction2D cubicSpline = particleStage.getCubicSpline2D( i );
-                double alpha = cubicSpline.getClosestPoint( pt );
-                boolean above = isAboveSpline( cubicSpline, alpha, pt );
-                //check for crossover
-                boolean crossed = origAbove[i] != above;
-                if( crossed && ( alpha > 0.0 && alpha < 1.0 ) ) {
-                    double ptLineDist = pointSegmentDistance( cubicSpline.evaluate( alpha ), new Line2D.Double( origLoc, pt ) );
+    private SearchState getBestCrossPoint( Point2D pt, boolean[] origAbove, Point2D origLoc ) {
+        SearchState searchState = new SearchState( Double.POSITIVE_INFINITY, null, 0, -1 );
+        for( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
+            ParametricFunction2D cubicSpline = particleStage.getCubicSpline2D( i );
+            double alpha = cubicSpline.getClosestPoint( pt );
+            boolean above = isAboveSpline( cubicSpline, alpha, pt );
+            //check for crossover
+            boolean crossed = origAbove[i] != above;
+            if( crossed && ( alpha > 0.0 && alpha < 1.0 ) ) {
+                double ptLineDist = pointSegmentDistance( cubicSpline.evaluate( alpha ), new Line2D.Double( origLoc, pt ) );
 //                    System.out.println( "crossed spline[" + i + "] at alpha=" + alpha + ", ptLineDist=" + ptLineDist );
-                    if( ptLineDist < searchState.getDistance() ) {
-                        searchState.setDistance( ptLineDist );
-                        searchState.setTrack( cubicSpline );
-                        searchState.setAlpha( alpha );
-                        searchState.setIndex( i );
-                    }
+                if( ptLineDist < searchState.getDistance() ) {
+                    searchState.setDistance( ptLineDist );
+                    searchState.setTrack( cubicSpline );
+                    searchState.setAlpha( alpha );
+                    searchState.setIndex( i );
                 }
             }
-            return searchState;
         }
+        return searchState;
     }
 
     private static double getTrackStickiness( ParametricFunction2D cubicSpline ) {

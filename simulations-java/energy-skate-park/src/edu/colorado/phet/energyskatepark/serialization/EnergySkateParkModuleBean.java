@@ -113,7 +113,7 @@ public class EnergySkateParkModuleBean {
             mass = body.getMass();
             thermalEnergy = body.getThermalEnergy();
             freeFrame = body.isFreeFallMode();
-            this.attachmentPointRotation = body.getRotation();
+            this.attachmentPointRotation = body.getAngle();
         }
 
         public void apply( Body body ) {

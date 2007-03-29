@@ -2,14 +2,11 @@
 package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.Body;
-import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
-import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-//import edu.colorado.phet.energyskatepark.model.spline.AbstractSpline;
+import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
@@ -22,12 +19,9 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -103,7 +97,7 @@ public class SkaterNode extends PNode {
                 getBody().translate( -delta.getWidth(), -delta.getHeight() );
                 if( okToTranslate ) {
                     getBody().translate( delta.getWidth(), delta.getHeight() );
-//                    updateDragAngle();
+                    updateDragAngle();
                 }
             }
         } );
@@ -127,51 +121,14 @@ public class SkaterNode extends PNode {
         update();
     }
 
-//    private void updateDragAngle() {
-//        AbstractSpline spline = getGrabSpline( body );
-//        if( spline != null ) {
-//            Point2D center = body.getCenterOfMass();
-//            double alongSpline = spline.getDistAlongSpline( center, 0, spline.getLength(), 100 );
-//            Point2D splineLocation = spline.evaluateAnalytical( alongSpline );
-//            Vector2D vec = new Vector2D.Double( splineLocation, center );
-//            double offsetAngle = 0.0;
-//            AbstractVector2D unitNormal = spline.getUnitNormalVector( alongSpline );
-//            if( vec.dot( unitNormal ) > 0 ) {
-//                offsetAngle = Math.PI / 2;
-//            }
-//            else {
-//                offsetAngle = -Math.PI / 2;
-//            }
-////            body.setCMRotation( unitNormal.getAngle() + offsetAngle );
-//        }
-//    }
-//
-//    private AbstractSpline getGrabSpline( Body body ) {
-//        double bestScore = Double.POSITIVE_INFINITY;
-//        AbstractSpline bestSpline = null;
-//        ArrayList allSplines = getEnergySkateParkModel().getAllSplines();
-//        for( int i = 0; i < allSplines.size(); i++ ) {
-//            double score = getGrabScore( (EnergySkateParkSpline)allSplines.get( i ), body );
-//            if( score < bestScore ) {
-//                bestScore = score;
-//                bestSpline = (AbstractSpline)allSplines.get( i );
-//            }
-//        }
-//        return bestSpline;
-//    }
-
-    private EnergySkateParkModel getEnergySkateParkModel() {
-        return energySkateParkModule.getEnergySkateParkModel();
-    }
-
-    private double getGrabScore( EnergySkateParkSpline spline, Body body ) {
-        Area feet = new Area( body.getFeetShape() );
-        feet.add( new Area( AffineTransform.getTranslateInstance( 0, body.getFeetShape().getBounds2D().getHeight() ).createTransformedShape( body.getFeetShape() ) ) );
-        feet.add( new Area( AffineTransform.getTranslateInstance( 0, body.getFeetShape().getBounds2D().getHeight() * 2 ).createTransformedShape( body.getFeetShape() ) ) );
-        Area splineArea = new Area();//todo: add area for spline? This may be handled by Particle physics implementation
-        splineArea.intersect( feet );
-        boolean collide = !splineArea.isEmpty();
-        return collide ? 0 : Double.POSITIVE_INFINITY;
+    private void updateDragAngle() {
+        TraversalState state = getBody().getTrackMatch( 0, -2 );
+        if( state != null ) {
+            AbstractVector2D vector = state.getParametricFunction2D().getUnitNormalVector( state.getAlpha() );//todo: this code is highly similar to code in Particle.updateStateFrom1D
+            double sign = state.isTop() ? 1.0 : -1.0;
+            AbstractVector2D vect = vector.getInstanceOfMagnitude( sign );
+            getBody().setAngle( vect.getAngle() - Math.PI / 2 );
+        }
     }
 
     protected void setImage( Image image ) {
@@ -218,7 +175,7 @@ public class SkaterNode extends PNode {
         skaterImageNode.setTransform( new AffineTransform() );
         skaterImageNode.setOffset( body.getX(), body.getY() );
         skaterImageNode.transformBy( AffineTransform.getScaleInstance( body.getWidth() / skaterImage.getWidth(), -body.getHeight() / skaterImage.getHeight() ) );
-        skaterImageNode.rotate( -body.getRotation() );
+        skaterImageNode.rotate( -body.getAngle() );
         skaterImageNode.translate( -skaterImage.getWidth() / 2, -skaterImage.getHeight() );
         if( body.isFacingRight() ) {
             skaterImageNode.transformBy( AffineTransform.getScaleInstance( -1, 1 ) );

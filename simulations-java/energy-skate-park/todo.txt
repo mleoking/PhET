@@ -1,4 +1,3 @@
-• Skater should point at track while dragging.
 • Show an indicator for attachment point during skater dragging?
 • Performance problems after lots of runs
 • Playback/record.

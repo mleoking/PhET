@@ -5,7 +5,6 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.Particle;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
@@ -137,7 +136,7 @@ public class Body {
     private void updateStateFromParticle() {
         if( getSpeed() > 0.01 ) {
             if( !isFreeFallMode() && !isUserControlled() ) {
-                facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getRotation() ) ) > 0;
+                facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAngle() ) ) > 0;
             }
         }
 
@@ -228,8 +227,8 @@ public class Body {
         return 0.5 * getMass() * getSpeed() * getSpeed();
     }
 
-    public double getRotation() {
-        return particle.getAngle() - Math.PI / 2;//todo remove math.pi?
+    public double getAngle() {
+        return particle.getAngle();
     }
 
     public boolean isFreeFallMode() {
@@ -287,7 +286,7 @@ public class Body {
         AffineTransform transform = new AffineTransform();
         double dy = getHeight();
         transform.translate( getPosition().getX() - getWidth() / 2, getPosition().getY() - dy );
-        transform.rotate( getRotation(), getWidth() / 2, dy );
+        transform.rotate( getAngle(), getWidth() / 2, dy );
         transform.rotate( Math.PI, getWidth() / 2, getHeight() / 2 );
         return transform;
     }
@@ -349,6 +348,14 @@ public class Body {
 
     public TraversalState getTraversalState() {
         return particle.getTraversalState();
+    }
+
+    public TraversalState getTrackMatch( double dx, double dy ) {
+        return particle.getTrackMatch( dx, dy );
+    }
+
+    public void setAngle( double angle ) {
+        particle.setAngle( angle );
     }
 
     public static interface Listener {
