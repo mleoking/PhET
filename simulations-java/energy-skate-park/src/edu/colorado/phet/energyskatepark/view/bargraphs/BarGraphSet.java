@@ -4,9 +4,9 @@ package edu.colorado.phet.energyskatepark.view.bargraphs;
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
-import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 public class BarGraphSet extends PNode {
     private EnergySkateParkSimulationPanel rampPanel;
-    private EnergySkateParkModel rampPhysicalModel;
+    private EnergySkateParkModel model;
     private ModelViewTransform1D transform1D;
     private double barChartHeight;
     private double barWidth;
@@ -56,7 +56,7 @@ public class BarGraphSet extends PNode {
     public BarGraphSet( EnergySkateParkSimulationPanel energySkateParkSimulationPanel, EnergySkateParkModel energySkateParkModel,
                         String title, ModelViewTransform1D transform1D ) {
         this.rampPanel = energySkateParkSimulationPanel;
-        this.rampPhysicalModel = energySkateParkModel;
+        this.model = energySkateParkModel;
         this.transform1D = transform1D;
         topY = 0;
         barChartHeight = 400;
@@ -75,9 +75,13 @@ public class BarGraphSet extends PNode {
             }
         } );
         max.setBackground( Color.green );
-        maximizeButton = new PSwing(max );
-        energySkateParkSimulationPanel.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter(){
+        maximizeButton = new PSwing( max );
+        energySkateParkSimulationPanel.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void stepFinished() {
+                update();
+            }
+
+            public void bodyEnergyChanged() {//todo: this will be called too many times if there are many bodies changing energy during one time step
                 update();
             }
         } );
@@ -116,7 +120,7 @@ public class BarGraphSet extends PNode {
                 }
             } );
             minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
-            minButNode = new PSwing(minBut );
+            minButNode = new PSwing( minBut );
             minButNode.setOffset( 5, topY + 10 );
             addChild( minButNode );
         }
@@ -242,7 +246,7 @@ public class BarGraphSet extends PNode {
         for( int i = 0; i < valueAccessors.length; i++ ) {
             final ValueAccessor accessor = valueAccessors[i];
             final BarGraphic2D barGraphic = new BarGraphic2D( accessor.getName(), transform1D,
-                                                              accessor.getValue( rampPhysicalModel ), (int)( i * sep + dw ), (int)barWidth,
+                                                              accessor.getValue( model ), (int)( i * sep + dw ), (int)barWidth,
                                                               (int)barChartHeight, dx, dy, accessor.getColor(), new Font( "Lucida Sans", Font.BOLD, 14 ) );
             addBarGraphic( barGraphic );
         }
@@ -259,7 +263,7 @@ public class BarGraphSet extends PNode {
         if( getVisible() ) {
             for( int i = 0; i < barGraphics.size(); i++ ) {
                 BarGraphic2D barGraphic2D = (BarGraphic2D)barGraphics.get( i );
-                barGraphic2D.setValue( valueAccessors[i].getValue( rampPhysicalModel ) );
+                barGraphic2D.setValue( valueAccessors[i].getValue( model ) );
             }
         }
     }

@@ -108,7 +108,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         ec3Module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
                 // This is invoked both when the simulation is paused,
-                // and also when it is running.
+                // and also when it is running.//todo this looks awkward
                 updateWorldGraphics();
             }
         } );
