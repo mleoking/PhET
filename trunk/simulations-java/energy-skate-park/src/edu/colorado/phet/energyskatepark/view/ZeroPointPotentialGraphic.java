@@ -1,15 +1,14 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view;
 
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.common.LucidaSansFont;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.colorado.phet.piccolo.nodes.ShadowPText;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
@@ -28,15 +27,15 @@ public class ZeroPointPotentialGraphic extends PhetPNode {
 
     public ZeroPointPotentialGraphic( final EnergySkateParkSimulationPanel canvas ) {
         this.canvas = canvas;
-        PPath path = new PPath( new Line2D.Double( 0, 0, 5000, 0 ) );
-        path.setStroke( new BasicStroke( 3, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 3, new float[]{16, 8}, 0 ) );
-//        path.setStrokePaint( Color.red );
-        path.setStrokePaint( Color.blue );
+
+        PhetPPath background = new PhetPPath( new Line2D.Double( 0, 0, 5000, 0 ), new BasicStroke( 30, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 3 ), new Color( 0, 0, 0, 0 ) );
+        addChild( background );
+
+        PhetPPath path = new PhetPPath( new Line2D.Double( 0, 0, 5000, 0 ), new BasicStroke( 3, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 3, new float[]{16, 8}, 0 ), Color.blue );
         addChild( path );
 
         ShadowPText text = new ShadowPText( EnergySkateParkStrings.getString( "pe.0.at.this.dotted.line" ) );
         text.setFont( new LucidaSansFont( 16, true ) );
-//        text.setTextPaint( new Color( 255, 60, 80 ) );
         text.setTextPaint( Color.black );
         text.setShadowColor( new Color( 128, 128, 255 ) );
         addChild( text );
