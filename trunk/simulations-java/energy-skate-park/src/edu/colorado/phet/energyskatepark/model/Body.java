@@ -101,6 +101,14 @@ public class Body {
 
     private void setThermalEnergy( double thermalEnergy ) {
         this.particle.setThermalEnergy( thermalEnergy );
+        notifyEnergyChanged();
+    }
+
+    private void notifyEnergyChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.energyChanged();
+        }
     }
 
     public void setGravityState( double gravity, double zeroPointPotentialY ) {
@@ -175,10 +183,12 @@ public class Body {
     public void setVelocity( double vx, double vy ) {
         particle.setVelocity( vx, vy );
         updateStateFromParticle();
+        notifyEnergyChanged();
     }
 
     public void setMass( double value ) {
         particle.setMass( value );
+        notifyEnergyChanged();
     }
 
     public boolean isUserControlled() {
@@ -187,6 +197,7 @@ public class Body {
 
     public void setUserControlled( boolean userControlled ) {
         particle.setUserControlled( userControlled );
+        notifyEnergyChanged();
     }
 
     public double getMinY() {
@@ -247,6 +258,7 @@ public class Body {
 
     public void setThrust( double xThrust, double yThrust ) {
         particle.setThrust( xThrust, yThrust );
+        notifyEnergyChanged();
     }
 
     public AbstractVector2D getThrust() {
@@ -360,12 +372,18 @@ public class Body {
         particle.setAngle( angle );
     }
 
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
     public static interface Listener {
         void thrustChanged();
 
         void doRepaint();
 
         void stepFinished();
+
+        void energyChanged();
     }
 
     public static class ListenerAdapter implements Listener {
@@ -378,6 +396,9 @@ public class Body {
         }
 
         public void stepFinished() {
+        }
+
+        public void energyChanged() {
         }
     }
 

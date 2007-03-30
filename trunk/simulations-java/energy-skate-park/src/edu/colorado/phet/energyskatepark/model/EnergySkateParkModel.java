@@ -35,12 +35,24 @@ public class EnergySkateParkModel {
     public static final double G_MOON = -1.62;
     public static final double G_JUPITER = -25.95;
     public static final double SPLINE_THICKNESS = 0.25f;//meters
+    private Body.Listener energyListener = new Body.ListenerAdapter() {
+        public void energyChanged() {
+            notifyBodyEnergyChanged();
+        }
+    };
 
     public EnergySkateParkModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
         this.initZeroPointPotentialY = zeroPointPotentialY;
         this.particleStage = new EnergySkateParkSplineListAdapter( this );//todo copy, clone this
         updateFloorState();
+    }
+
+    private void notifyBodyEnergyChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+            energyModelListener.bodyEnergyChanged();
+        }
     }
 
     public int numSplineSurfaces() {
@@ -116,6 +128,8 @@ public class EnergySkateParkModel {
     }
 
     public void removeBody( int i ) {
+        Body body = bodyAt( i );
+        body.removeListener( energyListener );
         bodies.remove( i );
     }
 
@@ -239,6 +253,7 @@ public class EnergySkateParkModel {
     }
 
     public void addBody( Body body ) {
+        body.addListener( energyListener );
         bodies.add( body );
         if( bodies.size() == 1 ) {//The zero point potential now occurs at the center of mass of the skater.
             zeroPointPotentialY = 0;
@@ -322,6 +337,10 @@ public class EnergySkateParkModel {
 
         public void stepFinished() {
         }
+
+        public void bodyEnergyChanged() {
+        }
+
     }
 
     public static interface EnergyModelListener {
@@ -334,6 +353,8 @@ public class EnergySkateParkModel {
         void floorChanged();
 
         void stepFinished();
+
+        void bodyEnergyChanged();
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {
