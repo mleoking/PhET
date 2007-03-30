@@ -9,11 +9,9 @@ Depending on the effectiveness of patches, other patches are tested. Also during
 • Better track graphics? Centerline? (see mike)
 • ground should come back when dragging gravity slider 0+
 • bar chart should clear heat when paused
-• pie chart should be enabled on ground
 • add ball graphic
 • add graphic choices
 • make easier to grab PE=0 line
-
 
 Maybe:
 • Show an indicator for attachment point during skater dragging.
