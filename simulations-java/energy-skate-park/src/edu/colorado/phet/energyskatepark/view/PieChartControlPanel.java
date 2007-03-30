@@ -61,10 +61,10 @@ public class PieChartControlPanel extends VerticalLayoutPanel {
     public void update() {
         EnergySkateParkModel energySkateParkModel = module.getEnergySkateParkModel();
 
-        boolean areSkaters = energySkateParkModel.numBodies() > 0;
+        boolean anySkaters = energySkateParkModel.numBodies() > 0;
 
-        boolean skaterHasPotentialEnergy = energySkateParkModel.bodyAt( 0 ).getPotentialEnergy() > 0.0;
+        boolean skaterHasPotentialEnergy = energySkateParkModel.bodyAt( 0 ).getPotentialEnergy() >= 0.0;
 
-        showPieChartCheckBox.setEnabled( areSkaters && skaterHasPotentialEnergy );
+        showPieChartCheckBox.setEnabled( anySkaters && skaterHasPotentialEnergy );
     }
 }

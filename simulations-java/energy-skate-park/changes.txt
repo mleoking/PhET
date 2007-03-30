@@ -2,6 +2,7 @@
 Fixed: Memory leak in EnergySkateParkSplineListAdapter
 Fixed: Dragging skater should clear heat
 Fixed: Return skater should clear heat
+Fixed: Pie chart button should be enabled on ground
 
 1.05.11 (3-29-2007)
 Many bugfixes for new physics.
