@@ -1,4 +1,4 @@
-1.05.12
+1.05.12 (3-30-2007)
 Fixed: Memory leak in EnergySkateParkSplineListAdapter
 Fixed: Dragging skater should clear heat
 Fixed: Return skater should clear heat
