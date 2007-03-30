@@ -95,7 +95,12 @@ public class Body {
         setPosition( 3, 6 );
         particle.setVelocity( 0, 0 );
         particle.resetAngle();
+        setThermalEnergy( 0.0 );
 //        particle.setGravity( -9.8 );
+    }
+
+    private void setThermalEnergy( double thermalEnergy ) {
+        this.particle.setThermalEnergy( thermalEnergy );
     }
 
     public void setGravityState( double gravity, double zeroPointPotentialY ) {
