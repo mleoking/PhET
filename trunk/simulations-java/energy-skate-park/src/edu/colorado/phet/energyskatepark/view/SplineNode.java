@@ -1,10 +1,12 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view;
 
+import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
-import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
-import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
+import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.event.PopupMenuHandler;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
@@ -15,6 +17,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,8 +33,8 @@ import java.awt.geom.Point2D;
  */
 
 public class SplineNode extends PNode {
-    private PPath splinePath;
-    private PhetPPath splineFrontPath;
+    private TrackNode splinePath;
+    private PhetPPath rollerCoasterPath;
 
     private PNode controlPointLayer;
 
@@ -45,20 +49,57 @@ public class SplineNode extends PNode {
 
     private JComponent parent;
     private EnergySkateParkSplineEnvironment ec3Canvas;
+    private TrackNode centerPath;
+
+    class TrackNode extends PhetPPath {
+        private float thickness;
+        private Color color;
+
+        public TrackNode( float thickness, Color strokePaint ) {
+            super( getTrackStroke( thickness ), strokePaint );
+            this.thickness = thickness;
+            this.color = strokePaint;
+        }
+
+        public float getThickness() {
+            return thickness;
+        }
+
+        public void setThickness( float thickness ) {
+            this.thickness = thickness;
+            setStroke( getTrackStroke( thickness ) );
+        }
+
+        public Color getColor() {
+            return color;
+        }
+
+        public void setColor( Color color ) {
+            this.color = color;
+            setStrokePaint( color );
+        }
+    }
 
     public SplineNode( JComponent parent, EnergySkateParkSpline splineSurface, EnergySkateParkSplineEnvironment ec3Canvas ) {
         this.parent = parent;
         this.ec3Canvas = ec3Canvas;
 //        this.spline = spline;
         this.spline = splineSurface;
-        splinePath = new PhetPPath( getTrackStroke( 1.0f ), Color.black );
-        splineFrontPath = new PhetPPath( getRailroadStroke( 0.4f ), Color.gray );
-        splineFrontPath.setPickable( false );
-        splineFrontPath.setChildrenPickable( false );
+        splinePath = new TrackNode( 1.0f, Color.gray );
+
+        rollerCoasterPath = new PhetPPath( getRailroadStroke( 0.4f ), Color.gray );
+        rollerCoasterPath.setPickable( false );
+        rollerCoasterPath.setChildrenPickable( false );
+
+        centerPath = new TrackNode( 0.2f, Color.black );
+        centerPath.setPickable( false );
+        centerPath.setChildrenPickable( false );
+
         controlPointLayer = new PNode();
 
         addChild( splinePath );
-        addChild( splineFrontPath );
+        addChild( centerPath );
+        addChild( rollerCoasterPath );
         addChild( controlPointLayer );
 
         updateAll();
@@ -79,7 +120,51 @@ public class SplineNode extends PNode {
         splinePath.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         splinePath.addInputEventListener( new PopupMenuHandler( parent, new PathPopupMenu( ec3Canvas ) ) );
     }
-    public ParametricFunction2D getParametricFunction2D(){
+
+    class TrackEditPanel extends JPanel {
+
+        public TrackEditPanel( final TrackNode splinePath, String name ) {
+            final ModelSlider modelSlider = new ModelSlider( name, "", 0, 10, splinePath.getThickness() );
+            modelSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    splinePath.setThickness( (float)modelSlider.getValue() );
+                }
+            } );
+            setLayout( new GridBagLayout() );
+            GridBagConstraints gridBagConstraints = new GridBagConstraints();
+            gridBagConstraints.gridx = GridBagConstraints.RELATIVE;
+            gridBagConstraints.gridy = 0;
+
+            final JColorChooser colorChooser = new JColorChooser( splinePath.getColor() );
+            colorChooser.getSelectionModel().addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    splinePath.setColor( colorChooser.getColor() );
+                }
+            } );
+
+            add( modelSlider, gridBagConstraints );
+            add( colorChooser, gridBagConstraints );
+        }
+    }
+
+    private void showColorControls() {
+        JPanel panel = new JPanel();
+        panel.setLayout( new GridBagLayout() );
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = GridBagConstraints.RELATIVE;
+
+        panel.add( new TrackEditPanel( splinePath, "Outside Line" ), gridBagConstraints );
+        panel.add( new TrackEditPanel( centerPath, "Center Line" ), gridBagConstraints );
+
+        JDialog colorControls = new JDialog( (Frame)SwingUtilities.getWindowAncestor( parent ) );
+        colorControls.setContentPane( panel );
+        colorControls.pack();
+        SwingUtils.centerDialogInParent( colorControls );
+        colorControls.setVisible( true );
+    }
+
+    public ParametricFunction2D getParametricFunction2D() {
         return spline.getParametricFunction2D();
     }
 
@@ -153,9 +238,19 @@ public class SplineNode extends PNode {
                     ec3Canvas.removeSpline( SplineNode.this );
                 }
             } );
+
+            JMenuItem colors = new JMenuItem( "Edit look" );
+            colors.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    showColorControls();
+                }
+            } );
+
             add( rollerCoasterMode );
             addSeparator();
             add( delete );
+            addSeparator();
+            add( colors );
         }
     }
 
@@ -206,8 +301,18 @@ public class SplineNode extends PNode {
     }
 
     private SplineMatch getTrunkMatch( int index ) {
-        Point2D toMatch = new Point2D.Double( initDragSpline[index].getX(), initDragSpline[index].getY() );
-        return ec3Canvas.proposeMatch( this, toMatch );
+        if( initDragSpline == null ) {
+            System.out.println( "initdragspline was null" );
+            return null;
+        }
+        if( index < 0 || index > initDragSpline.length ) {
+            System.out.println( "index = " + index + ", initDragSpline.length=" + initDragSpline.length );
+            return null;
+        }
+        else {
+            Point2D toMatch = new Point2D.Double( initDragSpline[index].getX(), initDragSpline[index].getY() );
+            return ec3Canvas.proposeMatch( this, toMatch );
+        }
     }
 
     private void translateAll( Point2D pt ) {
@@ -227,9 +332,10 @@ public class SplineNode extends PNode {
         setChildrenPickable( spline.isInteractive() );
         if( changed() ) {
             splinePath.setPathTo( spline.getInterpolationPath() );
-            splineFrontPath.setPathTo( spline.getInterpolationPath() );
-            splineFrontPath.setVisible( spline.isRollerCoasterMode() );
-            splineFrontPath.setStrokePaint( spline.isRollerCoasterMode() ? Color.gray : Color.black );
+            centerPath.setPathTo( spline.getInterpolationPath() );
+            rollerCoasterPath.setPathTo( spline.getInterpolationPath() );
+            rollerCoasterPath.setVisible( spline.isRollerCoasterMode() );
+            rollerCoasterPath.setStrokePaint( spline.isRollerCoasterMode() ? Color.gray : Color.black );
 
             controlPointLayer.removeAllChildren();
 

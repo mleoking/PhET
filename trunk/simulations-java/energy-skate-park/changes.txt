@@ -5,6 +5,7 @@ Fixed: Return skater should clear heat
 Fixed: Pie chart button should be enabled on ground
 Fixed: Bar chart should clear heat when paused
 Fixed: Ground should come back when dragging gravity slider above 0.0
+Added editor for track graphics (right click track -> Edit)
 
 1.05.11 (3-29-2007)
 Many bugfixes for new physics.
