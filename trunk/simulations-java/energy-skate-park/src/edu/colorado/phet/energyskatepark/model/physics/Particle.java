@@ -650,7 +650,14 @@ public class Particle {
 
     public void setUserControlled( boolean userControlled ) {
         this.userControlled = userControlled;
-//        setUpdateStrategy( new UserUpdateStrategy() );
+        if( userControlled ) {
+            setThermalEnergy( 0.0 );
+        }
+    }
+
+    private void setThermalEnergy( double thermalEnergy ) {
+        this.thermalEnergy = thermalEnergy;
+        particle1D.setThermalEnergy( thermalEnergy );
     }
 
     public void setUpdateStrategy( UpdateStrategy updateStrategy ) {
