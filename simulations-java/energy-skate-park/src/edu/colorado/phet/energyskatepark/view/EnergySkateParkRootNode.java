@@ -7,6 +7,7 @@ import edu.colorado.phet.energyskatepark.common.MeasuringTape;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLegend;
 import edu.colorado.phet.energyskatepark.view.SplineToolbox;
 import edu.colorado.phet.energyskatepark.view.HistoryPointGraphic;
@@ -54,6 +55,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     public static final Color SKY_COLOR = new Color( 170, 200, 220 );
     private GridNode gridNode;
     private PanZoomOnscreenControl panZoomControls;
+    private SkaterCharacter skaterCharacter;
 
     public EnergySkateParkRootNode( final EnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
         this.module = module;
@@ -428,5 +430,12 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     public void updateScale() {
         panZoomControls.updateScale();
+    }
+
+    public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
+        this.skaterCharacter=skaterCharacter;
+        for (int i=0;i<bodyGraphics.getChildrenCount();i++){
+            bodyGraphicAt( i).setSkaterCharacter(skaterCharacter);
+        }
     }
 }

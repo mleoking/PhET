@@ -259,6 +259,7 @@ public class Body {
     public void setThrust( double xThrust, double yThrust ) {
         particle.setThrust( xThrust, yThrust );
         notifyEnergyChanged();
+        notifyThrustChanged();
     }
 
     public AbstractVector2D getThrust() {

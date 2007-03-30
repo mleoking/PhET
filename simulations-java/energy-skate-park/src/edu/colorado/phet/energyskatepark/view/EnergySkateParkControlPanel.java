@@ -7,13 +7,13 @@ import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.common.IconComponent;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
-import edu.colorado.phet.energyskatepark.view.*;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
@@ -98,6 +98,20 @@ public class EnergySkateParkControlPanel extends ControlPanel {
             e.printStackTrace();
         }
         addControlFullWidth( new IconComponent( zeroPointPotential, potentialIcon ) );
+
+
+        try {
+            JButton chooseCharacter = new JButton( "Choose Character" );
+            chooseCharacter.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    new ChooseCharacterDialog( module ).setVisible( true );
+                }
+            } );
+            addControl( new IconComponent( chooseCharacter, BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( "images/skater3.png" ), chooseCharacter.getPreferredSize().height ) ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
 
         addControlFullWidth( new GridLinesCheckBox( module ) );
         addControlFullWidth( new PathRecordContol( module ) );

@@ -1,11 +1,10 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view;
 
-import edu.colorado.phet.energyskatepark.model.Body;
-import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkRootNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.model.Body;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -60,8 +59,10 @@ public class WiggleMeInSpace {
         hintNode.animateTo( module.getEnergyConservationCanvas().getWidth() / 2, (int)( module.getEnergyConservationCanvas().getHeight() * 1.0 / 4.0 ) );
         module.getEnergySkateParkModel().bodyAt( 0 ).addListener( new Body.ListenerAdapter() {
             public void thrustChanged() {
-                hintNode.setVisible( false );
-                hintDone = true;
+                if( module.getEnergySkateParkModel().bodyAt( 0 ).getThrust().getMagnitude() > 0 ) {
+                    hintNode.setVisible( false );
+                    hintDone = true;
+                }
             }
         } );
 //        hintNode.st

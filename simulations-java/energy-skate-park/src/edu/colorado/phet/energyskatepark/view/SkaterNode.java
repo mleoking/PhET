@@ -5,6 +5,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -194,5 +195,11 @@ public class SkaterNode extends PNode {
         else if( !v && isBoxVisible() ) {
             removeChild( boundsDebugPPath );
         }
+    }
+
+    public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
+        skaterImage = skaterCharacter.getImage();
+        skaterImageNode.setImage( skaterImage );
+        update();
     }
 }

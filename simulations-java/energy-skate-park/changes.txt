@@ -1,3 +1,6 @@
+1.05.13
+Fixed: "Press arrow keys to add thrust" should disappear after thrusting.
+
 1.05.12 (3-30-2007) [14118]
 Fixed: Memory leak in EnergySkateParkSplineListAdapter
 Fixed: Dragging skater should clear heat
