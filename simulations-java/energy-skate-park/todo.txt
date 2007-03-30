@@ -5,6 +5,16 @@ criteria are (with, without friction)x(too much proposed energy, too little prop
 Depending on the effectiveness of patches, other patches are tested. Also during track attachment and release.
 • Track should bump up when beneath ground
 • Project doesn't build using normal build scripts
+• gradient for sky/earth in energyskate park sim (see projectile motion)
+• Better track graphics? Centerline? (see mike)
+• ground should come back when dragging gravity slider 0+
+• bar chart should clear heat when paused
+• pie chart should be enabled on ground
+• return skater should clear heat
+• add ball graphic
+• add graphic choices
+• make easier to grab PE=0 line
+
 
 Maybe:
 • Show an indicator for attachment point during skater dragging.
