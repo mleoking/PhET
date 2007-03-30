@@ -10,7 +10,6 @@ Depending on the effectiveness of patches, other patches are tested. Also during
 • ground should come back when dragging gravity slider 0+
 • bar chart should clear heat when paused
 • pie chart should be enabled on ground
-• return skater should clear heat
 • add ball graphic
 • add graphic choices
 • make easier to grab PE=0 line

@@ -655,7 +655,7 @@ public class Particle {
         }
     }
 
-    private void setThermalEnergy( double thermalEnergy ) {
+    public void setThermalEnergy( double thermalEnergy ) {
         this.thermalEnergy = thermalEnergy;
         particle1D.setThermalEnergy( thermalEnergy );
     }
