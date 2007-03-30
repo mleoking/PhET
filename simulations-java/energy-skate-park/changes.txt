@@ -7,6 +7,7 @@ Fixed: Bar chart should clear heat when paused
 Fixed: Ground should come back when dragging gravity slider above 0.0
 Added editor for track graphics (right click track -> Edit)
 Made it easier to grab PE=0 line
+Added gradient for sky on earth.
 
 1.05.11 (3-29-2007)
 Many bugfixes for new physics.

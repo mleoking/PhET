@@ -92,7 +92,8 @@ public abstract class Planet {
             BufferedImage image = null;
             try {
 //                image = ImageLoader.loadBufferedImage( "images/background-gif.gif" );
-                image = ImageLoader.loadBufferedImage( "images/earth3.gif" );
+//                image = ImageLoader.loadBufferedImage( "images/earth3.gif" );
+                image = ImageLoader.loadBufferedImage( "images/earth3.jpg" );
             }
             catch( IOException e ) {
                 e.printStackTrace();

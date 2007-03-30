@@ -5,10 +5,11 @@ criteria are (with, without friction)x(too much proposed energy, too little prop
 Depending on the effectiveness of patches, other patches are tested. Also during track attachment and release.
 • Track should bump up when beneath ground
 • Project doesn't build using normal build scripts
-• gradient for sky/earth in energyskate park sim (see projectile motion)
+• gradient for earth in energyskate park sim (see projectile motion)
 • add ball graphic
 • add graphic choices
 • Bar chart should listen to a single particle, not the entire model
+• Remove unused image files
 
 • Get feedback on track graphics.
 
