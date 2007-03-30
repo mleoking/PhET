@@ -1,3 +1,6 @@
+1.05.12
+Fixed: Memory leak in EnergySkateParkSplineListAdapter
+
 1.05.11 (3-29-2007)
 Many bugfixes for new physics.
 Fixed graphics for direction skater is facing.
