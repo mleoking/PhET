@@ -7,7 +7,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.Particle;
-import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 
 public class Body {
     private Particle particle;
-    private ParticleStage particleStage;
 
     private boolean facingRight;
 
@@ -50,8 +48,7 @@ public class Body {
         this.energySkateParkModel = energySkateParkModel;
         this.width = width;
         this.height = height;
-        particleStage = new EnergySkateParkSplineListAdapter( energySkateParkModel );
-        particle = new Particle( particleStage );
+        particle = new Particle( energySkateParkModel.getParticleStage() );
         particle.setMass( 75.0 );
         particle.getParticle1D().setReflect( false );
         particle.setStickiness( staticSticky );

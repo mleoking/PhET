@@ -19,13 +19,13 @@ public class EnergySkateParkOptionsMenu extends JMenu {
         super( "Options" );
         setMnemonic( 'o' );
 
-        final JRadioButtonMenuItem thermal = new JRadioButtonMenuItem( "Thermal Landing", EnergySkateParkModel.isThermalLanding() );
-        thermal.setMnemonic( 't' );
-        thermal.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                EnergySkateParkModel.setThermalLanding( thermal.isSelected() );
-            }
-        } );
-        add( thermal );
+//        final JRadioButtonMenuItem thermal = new JRadioButtonMenuItem( "Thermal Landing", EnergySkateParkModel.isThermalLanding() );
+//        thermal.setMnemonic( 't' );
+//        thermal.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                EnergySkateParkModel.setThermalLanding( thermal.isSelected() );
+//            }
+//        } );
+//        add( thermal );
     }
 }

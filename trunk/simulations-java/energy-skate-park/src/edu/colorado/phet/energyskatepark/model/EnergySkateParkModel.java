@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
+import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
 
 import java.util.ArrayList;
 
@@ -28,16 +29,17 @@ public class EnergySkateParkModel {
 
     private int maxNumHistoryPoints = 100;
 
+    private ParticleStage particleStage;
     public static final double G_SPACE = 0.0;
     public static final double G_EARTH = -9.81;
     public static final double G_MOON = -1.62;
     public static final double G_JUPITER = -25.95;
     public static final double SPLINE_THICKNESS = 0.25f;//meters
-    private static boolean thermalLanding = true;
 
     public EnergySkateParkModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
         this.initZeroPointPotentialY = zeroPointPotentialY;
+        this.particleStage = new EnergySkateParkSplineListAdapter( this );//todo copy, clone this
         updateFloorState();
     }
 
@@ -135,14 +137,6 @@ public class EnergySkateParkModel {
         return floor;
     }
 
-    public static boolean isThermalLanding() {
-        return thermalLanding;
-    }
-
-    public static void setThermalLanding( boolean selected ) {
-        thermalLanding = selected;
-    }
-
     public EnergySkateParkModel copyState() {
         EnergySkateParkModel copy = new EnergySkateParkModel( zeroPointPotentialY );
         for( int i = 0; i < bodies.size(); i++ ) {
@@ -177,31 +171,8 @@ public class EnergySkateParkModel {
         this.maxNumHistoryPoints = model.maxNumHistoryPoints;
         setGravity( model.gravity );
         //todo: some model objects are not getting copied over correctly, body's spline strategy could refer to different splines
-//        for( int i = 0; i < bodies.size(); i++ ) {
-//            Body body = (Body)bodies.get( i );
-//            body.setGravityState(gravity,zeroPointPotentialY);
-//            if( body.isSplineMode() ) {
-//                ParametricFunction2D spline = body.getSpline();
-//                EnergySkateParkSpline esps = getEnergySkateParkSpline( spline );
-//                if( !containsSpline( spline ) ) {
-////                    new RuntimeException( "Skater is on a track that the model doesn't currently know about" ).printStackTrace();
-////                    EnergySkateParkSpline bestMatch = getBestSplineMatch( esps );
-////                    if( bestMatch == null ) {
-////                        System.out.println( "\"Skater is on a track that the model doesn't currently know about\" = " + "Skater is on a track that the model doesn't currently know about" );
-////                    }
-////                    else {
-//                    body.setSpline( esps,body.isTop() );//todo: determine side of spline
-////                    }
-//                }
-//            }
-//        }
         updateFloorState();
     }
-
-//    public EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D parametricFunction2D ) {
-//        return null;
-
-    //    }
 
     public EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D spline ) {
         for( int i = 0; i < splines.size(); i++ ) {
@@ -211,16 +182,6 @@ public class EnergySkateParkModel {
             }
         }
         return null;
-    }
-
-    private boolean containsSpline( ParametricFunction2D spline ) {
-        for( int i = 0; i < splines.size(); i++ ) {
-            EnergySkateParkSpline energySkateParkSpline = (EnergySkateParkSpline)splines.get( i );
-            if( energySkateParkSpline.getParametricFunction2D() == spline ) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public double timeSinceLastHistory() {
@@ -341,6 +302,9 @@ public class EnergySkateParkModel {
         updateFloorState();
     }
 
+    public ParticleStage getParticleStage() {
+        return particleStage;
+    }
 
     public static class EnergyModelListenerAdapter implements EnergyModelListener {
 
@@ -373,6 +337,7 @@ public class EnergySkateParkModel {
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {
+        System.out.println( "listeners.size() = " + listeners.size() );
         listeners.add( listener );
     }
 

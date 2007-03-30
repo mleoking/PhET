@@ -1,5 +1,4 @@
 • Performance problems after lots of runs
-• Memory leak in EnergySkateParkSplineListAdapter
 • Playback/record (depends on correct data structure copying which needs to be implemented and tested)
 • Energy conservation is handling about 6/8 (?) cases correctly, there are still a few instances in which it could fail.
 criteria are (with, without friction)x(too much proposed energy, too little proposed energy)x(gravity on, off).
