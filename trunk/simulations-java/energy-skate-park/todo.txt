@@ -5,7 +5,6 @@ criteria are (with, without friction)x(too much proposed energy, too little prop
 Depending on the effectiveness of patches, other patches are tested. Also during track attachment and release.
 • Track should bump up when beneath ground
 • Project doesn't build using normal build scripts
-• gradient for earth in energyskate park sim (see projectile motion)
 • add ball graphic
 • add graphic choices
 • Bar chart should listen to a single particle, not the entire model
@@ -16,6 +15,8 @@ Depending on the effectiveness of patches, other patches are tested. Also during
 Maybe:
 • Show an indicator for attachment point during skater dragging.
 • Skater should point at track while dragging: Unpredictable behavior when there are 2+ possible matches.
+• gradient for earth in energyskate park sim (see projectile motion)
+    -Simple solution would degrade performance, more complicated solution would take up to an hour 
 
 Postponed:
 • Add rotation for skater in the air.
