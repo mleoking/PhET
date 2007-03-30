@@ -304,4 +304,8 @@ public class EnergySkateParkModule extends PiccoloModule {
     public Frame getPhetFrame() {
         return phetFrame;
     }
+
+    public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
+        energyCanvas.setSkaterCharacter(skaterCharacter);
+    }
 }

@@ -13,6 +13,7 @@ import edu.colorado.phet.energyskatepark.view.SkaterNode;
 import edu.colorado.phet.energyskatepark.view.SplineMatch;
 import edu.colorado.phet.energyskatepark.view.SplineNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.energyskatepark.model.PreFabSplines;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -441,6 +442,9 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         return null;
     }
 
+    public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
+        rootNode.setSkaterCharacter(skaterCharacter);
+    }
 
     public static interface Listener {
         void zoomChanged();
