@@ -7,7 +7,6 @@ Depending on the effectiveness of patches, other patches are tested. Also during
 • Project doesn't build using normal build scripts
 • gradient for sky/earth in energyskate park sim (see projectile motion)
 • Better track graphics? Centerline? (see mike)
-• ground should come back when dragging gravity slider 0+
 • add ball graphic
 • add graphic choices
 • make easier to grab PE=0 line

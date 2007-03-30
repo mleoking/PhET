@@ -2,9 +2,9 @@
 package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.model.Planet;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
+import edu.colorado.phet.energyskatepark.model.Planet;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -33,6 +33,10 @@ public class FloorGraphic extends PNode {
             public void gravityChanged() {
                 update();
             }
+
+            public void floorChanged() {
+                update();
+            }
         } );
         this.floor = floor;
         double y = floor.getY();
@@ -58,13 +62,20 @@ public class FloorGraphic extends PNode {
 
     private void update() {
         Planet[] planets = module.getPlanets();
+        show( new Planet.Earth() );//default state
         for( int i = 0; i < planets.length; i++ ) {
             Planet planet = planets[i];
             if( planet.getGravity() == energySkateParkModel.getGravity() ) {
-                groundPPath.setPaint( planet.getGroundPaint() );
-                groundLinePPath.setStrokePaint( planet.getGroundLinePaint() );
-                setVisible( planet.isGroundVisible() );
+                show( planet );
+                break;
             }
         }
+        setVisible( energySkateParkModel.getFloor() != null );
+    }
+
+    private void show( Planet planet ) {
+        groundPPath.setPaint( planet.getGroundPaint() );
+        groundLinePPath.setStrokePaint( planet.getGroundLinePaint() );
+        setVisible( planet.isGroundVisible() );
     }
 }
