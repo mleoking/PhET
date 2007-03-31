@@ -6,7 +6,6 @@ Depending on the effectiveness of patches, other patches are tested. Also during
 • Track should bump up when beneath ground
 • Project doesn't build using normal build scripts
 • add ball graphic
-• add graphic choices
 • Bar chart should listen to a single particle, not the entire model
 • Remove unused image files
 
