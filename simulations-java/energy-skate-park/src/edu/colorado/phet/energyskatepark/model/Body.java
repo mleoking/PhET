@@ -40,9 +40,9 @@ public class Body {
     private static ArrayList particles = new ArrayList();
     private static double staticSticky = 0.75;
 
-    public Body( EnergySkateParkModel model ) {
-        this( 1.3, 1.8, model );
-    }
+//    public Body( EnergySkateParkModel model ) {
+//        this( 1.3, 1.8, model );
+//    }
 
     public Body( double width, double height, EnergySkateParkModel energySkateParkModel ) {
         this.energySkateParkModel = energySkateParkModel;
@@ -377,6 +377,19 @@ public class Body {
         listeners.remove( listener );
     }
 
+    public void setDimension( double modelWidth, double modelHeight ) {
+        this.width = modelWidth;
+        this.height = modelHeight;
+        notifyDimensionChanged();
+    }
+
+    private void notifyDimensionChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.dimensionChanged();
+        }
+    }
+
     public static interface Listener {
         void thrustChanged();
 
@@ -385,6 +398,8 @@ public class Body {
         void stepFinished();
 
         void energyChanged();
+
+        void dimensionChanged();
     }
 
     public static class ListenerAdapter implements Listener {
@@ -400,6 +415,9 @@ public class Body {
         }
 
         public void energyChanged() {
+        }
+
+        public void dimensionChanged() {
         }
     }
 

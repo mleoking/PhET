@@ -40,12 +40,10 @@ public class ChooseCharacterDialog extends JDialog {
                 dispose();
             }
         } );
-
-        addCharacterPanel( new CharacterPanel( module, new SkaterCharacter( "images/skater3.png", "The PhET Skater", 75.0 ) ) );
-        addCharacterPanel( new CharacterPanel( module, new SkaterCharacter( "images/ferrari-side2.gif", "Ferarri", 2000.0 ) ) );//todo: correct kg
-        addCharacterPanel( new CharacterPanel( module, new SkaterCharacter( "images/Lunar-Rover.gif", "Lunar Rover", 2000.0 ) ) );
-        addCharacterPanel( new CharacterPanel( module, new SkaterCharacter( "images/Mars-Lander.gif", "Mars Lander", 2000.0 ) ) );
-        addCharacterPanel( new CharacterPanel( module, new SkaterCharacter( "images/motorcycle.gif", "Motorcycle", 2000.0 ) ) );
+        SkaterCharacter[]sk=module.getSkaterCharacters();
+        for( int i = 0; i < sk.length; i++ ) {
+            addCharacterPanel( new CharacterPanel( module, sk[i]) );
+        }
 
         contentPanel.add( ok, gridBagConstraints );
         pack();
@@ -61,6 +59,7 @@ public class ChooseCharacterDialog extends JDialog {
                 setSelection( characterPanel );
             }
         } );
+        characterPanel.setSelected( characterPanel.getSkaterCharacter()==module.getSkaterCharacter());
         characterPanels.add( characterPanel );
     }
 
@@ -106,6 +105,10 @@ public class ChooseCharacterDialog extends JDialog {
 
         private Border getSelectionBorder() {
             return BorderFactory.createLineBorder( Color.blue, 3 );
+        }
+
+        public SkaterCharacter getSkaterCharacter() {
+            return skaterCharacter;
         }
     }
 

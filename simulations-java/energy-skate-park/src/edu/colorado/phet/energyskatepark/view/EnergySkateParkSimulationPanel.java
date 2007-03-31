@@ -3,19 +3,11 @@ package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.energyskatepark.model.Body;
-import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
-import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
-import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkSplineEnvironment;
-import edu.colorado.phet.energyskatepark.view.SkaterNode;
-import edu.colorado.phet.energyskatepark.view.SplineMatch;
-import edu.colorado.phet.energyskatepark.view.SplineNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
-import edu.colorado.phet.energyskatepark.model.TraversalState;
-import edu.colorado.phet.energyskatepark.model.PreFabSplines;
+import edu.colorado.phet.energyskatepark.model.*;
+import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
+import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.event.PDebugKeyHandler;
 import edu.colorado.phet.piccolo.event.PanZoomWorldKeyHandler;
@@ -39,7 +31,7 @@ import java.util.Comparator;
  */
 
 public class EnergySkateParkSimulationPanel extends PhetPCanvas implements EnergySkateParkSplineEnvironment {
-    private EnergySkateParkModule ec3Module;
+    private EnergySkateParkModule module;
     private EnergySkateParkModel energySkateParkModel;
     private MultiKeyHandler multiKeyHandler = new MultiKeyHandler();
     private EnergySkateParkRootNode rootNode;
@@ -47,17 +39,17 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     private ArrayList listeners = new ArrayList();
     public static final int NUM_CUBIC_SPLINE_SEGMENTS = 25;
 
-    public EnergySkateParkSimulationPanel( EnergySkateParkModule ec3Module ) {
+    public EnergySkateParkSimulationPanel( EnergySkateParkModule module ) {
         super( new Rectangle2D.Double( 0, -1, 15, 10 ) );
-        this.ec3Module = ec3Module;
-        this.energySkateParkModel = ec3Module.getEnergySkateParkModel();
-        this.rootNode = new EnergySkateParkRootNode( ec3Module, this );
+        this.module = module;
+        this.energySkateParkModel = module.getEnergySkateParkModel();
+        this.rootNode = new EnergySkateParkRootNode( module, this );
         setPhetRootNode( rootNode );
         addFocusRequest();
         addKeyHandling();
         addKeyListener( new PanZoomWorldKeyHandler( this ) );
         addThrust();
-        addGraphicsUpdate( ec3Module );
+        addGraphicsUpdate( module );
         addKeyListener( new PDebugKeyHandler() );
         addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
@@ -200,8 +192,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     private void addSkater() {
-        Body body = new Body( energySkateParkModel );
-        ec3Module.resetSkater( body );
+        Body body = new Body( module.getSkaterCharacter().getModelWidth(), module.getSkaterCharacter().getModelHeight(), energySkateParkModel );
+        module.resetSkater( body );
         energySkateParkModel.addBody( body );
         updateGraphics();
     }
@@ -277,7 +269,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         removeSpline( splineNode );
         removeSpline( match.getSplineGraphic() );
 
-        PreFabSplines.CubicSpline spline = new PreFabSplines.CubicSpline( );
+        PreFabSplines.CubicSpline spline = new PreFabSplines.CubicSpline();
         ControlPointParametricFunction2D a = splineNode.getSpline().getParametricFunction2D();
         EnergySkateParkSpline b = match.getEnergySkateParkSpline();
         if( index == 0 ) {
@@ -305,7 +297,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         addSplineGraphic( new SplineNode( this, energySkateParkSpline, this ) );
         System.out.println( "change = " + change );
         if( change ) {
-            TraversalState traversalState = energySkateParkModel.bodyAt( 0 ).getBestTraversalState(origState);
+            TraversalState traversalState = energySkateParkModel.bodyAt( 0 ).getBestTraversalState( origState );
             energySkateParkModel.bodyAt( 0 ).setSpline( energySkateParkModel.getEnergySkateParkSpline( traversalState.getParametricFunction2D() ), traversalState.isTop(), traversalState.getAlpha() );
         }
     }
@@ -324,7 +316,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     public EnergySkateParkModule getEnergyConservationModule() {
-        return ec3Module;
+        return module;
     }
 
     public void reset() {
@@ -443,7 +435,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
-        rootNode.setSkaterCharacter(skaterCharacter);
+        rootNode.setSkaterCharacter( skaterCharacter );
     }
 
     public static interface Listener {

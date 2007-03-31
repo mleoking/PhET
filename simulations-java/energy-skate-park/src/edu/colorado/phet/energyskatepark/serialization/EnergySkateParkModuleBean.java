@@ -72,7 +72,7 @@ public class EnergySkateParkModuleBean {
     public void apply( EnergySkateParkModule module ) {
         module.getEnergySkateParkModel().removeAllBodies();
         for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = new Body( module.getEnergySkateParkModel() );
+            Body body = new Body( 1.3, 1.8, module.getEnergySkateParkModel() );//todo: default body width, height
             ( (BodyElement)bodies.get( i ) ).apply( body );
             module.getEnergySkateParkModel().addBody( body );
         }
@@ -92,7 +92,7 @@ public class EnergySkateParkModuleBean {
         private Point2D.Double velocity;
         private Point2D.Double acceleration;
 
-//        private double cmRotation;
+        //        private double cmRotation;
         private double angularVelocity;
         private double frictionCoefficient;
         private double mass;
@@ -104,7 +104,7 @@ public class EnergySkateParkModuleBean {
         }
 
         public BodyElement( Body body ) {
-            position = new Point2D.Double( body.getPosition().getX(),body.getPosition().getY( ));
+            position = new Point2D.Double( body.getPosition().getX(), body.getPosition().getY() );
             velocity = new Point2D.Double( body.getVelocity().getX(), body.getVelocity().getY() );
 //            acceleration = new Point2D.Double( body.getAcceleration().getX(), body.getAcceleration().getY() );
 //            cmRotation = body.getCMRotation();
