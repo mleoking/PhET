@@ -11,16 +11,16 @@ import edu.colorado.phet.common.util.services.PhetServiceManager;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.energyskatepark.common.StringOutputStream;
 import edu.colorado.phet.energyskatepark.model.*;
+import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
+import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
 import edu.colorado.phet.energyskatepark.plots.BarGraphCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyPositionPlotCanvas;
 import edu.colorado.phet.energyskatepark.plots.EnergyTimePlotCanvas;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkModuleBean;
-import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
-import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.WiggleMeInSpace;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
@@ -67,6 +67,9 @@ public class EnergySkateParkModule extends PiccoloModule {
     public static final int chartFrameHeight = 250;
     private BarGraphCanvas barGraphCanvas;
     public EnergySkateParkControlPanel energySkateParkControlPanel;
+
+    private SkaterCharacterSet skaterCharacterSet = new SkaterCharacterSet();
+    private SkaterCharacter skaterCharacter = skaterCharacterSet.getSkaterCharacters()[0];
 
     public EnergySkateParkModule( String name, IClock clock, PhetFrame phetFrame ) {
         super( name, clock );
@@ -159,7 +162,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     private void init() {
-        final Body body = new Body( getEnergySkateParkModel() );
+        final Body body = new Body( skaterCharacter.getModelWidth(), skaterCharacter.getModelHeight(), getEnergySkateParkModel() );
         body.reset();
         energyModel.addBody( body );
 //        body.showControls();
@@ -306,6 +309,16 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
-        energyCanvas.setSkaterCharacter(skaterCharacter);
+        this.skaterCharacter = skaterCharacter;
+        energyModel.setSkaterCharacter( skaterCharacter );
+        energyCanvas.setSkaterCharacter( skaterCharacter );
+    }
+
+    public SkaterCharacter getSkaterCharacter() {
+        return skaterCharacter;
+    }
+
+    public SkaterCharacter[] getSkaterCharacters() {
+        return skaterCharacterSet.getSkaterCharacters();
     }
 }

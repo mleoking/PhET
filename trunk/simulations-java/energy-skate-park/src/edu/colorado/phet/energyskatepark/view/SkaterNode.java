@@ -119,6 +119,12 @@ public class SkaterNode extends PNode {
                 getBody().setVelocity( 0, 0 );
             }
         } );
+
+        getBody().addListener( new Body.ListenerAdapter(){
+            public void dimensionChanged() {
+                update();
+            }
+        } );
         update();
     }
 

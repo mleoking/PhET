@@ -13,11 +13,21 @@ public class SkaterCharacter {
     private String imageURL;
     private String name;
     private double mass;
+    private double modelHeight;
 
-    public SkaterCharacter( String imageURL, String name, double mass ) {
+    public SkaterCharacter( String imageURL, String name, double mass, double modelHeight ) {
         this.imageURL = imageURL;
         this.name = name;
         this.mass = mass;
+        this.modelHeight = modelHeight;
+    }
+
+    public double getModelWidth() {
+        return ( modelHeight / getImage().getHeight() ) * getImage().getWidth();
+    }
+
+    public double getModelHeight() {
+        return modelHeight;
     }
 
     public String getName() {

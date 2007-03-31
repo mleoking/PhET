@@ -1,6 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.model;
 
+import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
 
@@ -319,6 +320,14 @@ public class EnergySkateParkModel {
 
     public ParticleStage getParticleStage() {
         return particleStage;
+    }
+
+    public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body)bodies.get( i );
+            body.setDimension( skaterCharacter.getModelWidth(), skaterCharacter.getModelHeight() );
+            body.setMass( skaterCharacter.getMass() );
+        }
     }
 
     public static class EnergyModelListenerAdapter implements EnergyModelListener {
