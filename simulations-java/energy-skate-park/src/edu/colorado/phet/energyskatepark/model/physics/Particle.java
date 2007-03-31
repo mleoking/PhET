@@ -458,8 +458,8 @@ public class Particle {
             //take a min over all possible crossover points
             SearchState searchState = getBestCrossPoint( newLoc, origAbove, origLoc );
 
-            boolean interactWithTrack = searchState.getDistance() < 0.2;
-            if( interactWithTrack ) {//this number was determined heuristically for a set of tests (free parameter)
+            boolean interactWithTrack = searchState.getDistance() < 0.2;//this number was determined heuristically for a set of tests (free parameter), doesn't work very well for large gravity field
+            if( interactWithTrack ) {
                 interactWithTrack( searchState, newLoc, origLoc, origAbove, origEnergy );
             }
             double finalEnergy = getTotalEnergy();
@@ -543,7 +543,7 @@ public class Particle {
         SearchState searchState = new SearchState( Double.POSITIVE_INFINITY, null, 0, -1 );
         for( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
             ParametricFunction2D cubicSpline = particleStage.getCubicSpline2D( i );
-            double alpha = cubicSpline.getClosestPoint( pt );
+            double alpha = cubicSpline.getClosestPoint( pt );//todo: should this argument be average of pt & origLoc?
             boolean above = isAboveSpline( cubicSpline, alpha, pt );
             //check for crossover
             boolean crossed = origAbove[i] != above;
