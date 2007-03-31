@@ -1,3 +1,6 @@
+1.05.14
+Fixed: The very right hand 1/2 inch or so of image is solid color on earth/space. (aspect ratio problem)
+
 1.05.13 (3-30-2007)
 Fixed: "Press arrow keys to add thrust" should disappear after thrusting.
 Changed default track graphics.

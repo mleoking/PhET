@@ -21,12 +21,12 @@ import java.beans.PropertyChangeListener;
  */
 
 public class BackgroundScreenNode extends PhetPNode {
-    private EnergySkateParkSimulationPanel ec3Canvas;
+    private EnergySkateParkSimulationPanel canvas;
     private Image backgroundImage;
     private PNode floorGraphic;
 
     public BackgroundScreenNode( EnergySkateParkSimulationPanel simulationPanel, Image backgroundImage, PNode floorGraphic, PhetRootPNode rootNode ) {
-        this.ec3Canvas = simulationPanel;
+        this.canvas = simulationPanel;
         this.backgroundImage = backgroundImage;
         this.floorGraphic = floorGraphic;
 
@@ -54,12 +54,20 @@ public class BackgroundScreenNode extends PhetPNode {
             removeAllChildren();
         }
         else {
-            BufferedImage i2 = BufferedImageUtils.toBufferedImage( backgroundImage );
-            if( ec3Canvas.getHeight() > 0 && ec3Canvas.getWidth() > 0 ) {
-                i2 = BufferedImageUtils.rescaleYMaintainAspectRatio( i2, ec3Canvas.getHeight() );
+            BufferedImage image = BufferedImageUtils.toBufferedImage( backgroundImage );
+            double yRatio = ( (double)canvas.getHeight() ) / image.getHeight();
+            double xRatio = ( (double)canvas.getWidth() ) / image.getWidth();
+            if( canvas.getHeight() > 0 && canvas.getWidth() > 0 ) {
+                //choose smaller
+                if( xRatio > yRatio ) {
+                    image = BufferedImageUtils.rescaleXMaintainAspectRatio( image, canvas.getWidth() );
+                }
+                else {
+                    image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, canvas.getHeight() );
+                }
             }
             removeAllChildren();
-            PImage child = new PImage( i2 );
+            PImage child = new PImage( image );
             double maxY = floorGraphic.getGlobalFullBounds().getMinY();
             if( floorGraphic.getVisible() ) {
                 Point2D.Double loc = new Point2D.Double( 0, maxY );
@@ -74,10 +82,10 @@ public class BackgroundScreenNode extends PhetPNode {
     public void setBackground( Image image ) {
         if( image != null ) {
             BufferedImage im = BufferedImageUtils.toBufferedImage( image );//todo this is a bit of a hack for background color.
-            ec3Canvas.setBackground( new Color( im.getRGB( im.getWidth() / 2, 30 ) ) );
+            canvas.setBackground( new Color( im.getRGB( im.getWidth() / 2, 30 ) ) );
         }
         else {
-            ec3Canvas.setBackground( EnergySkateParkRootNode.SKY_COLOR );
+            canvas.setBackground( EnergySkateParkRootNode.SKY_COLOR );
         }
         if( this.backgroundImage != image ) {
             this.backgroundImage = image;
