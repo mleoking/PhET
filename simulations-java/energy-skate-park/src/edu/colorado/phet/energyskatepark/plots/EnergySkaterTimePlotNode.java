@@ -167,7 +167,7 @@ public class EnergySkaterTimePlotNode extends PNode {
 //        JButton minBut = new JButton( "Minimize" );
         JButton minBut = null;
         try {
-            minBut = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/min15.jpg" ) ) );
+            minBut = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/buttons/minimizeButton.png" ) ) );
             minBut.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setMinimized( true );

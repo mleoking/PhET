@@ -3,14 +3,11 @@ package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.common.MeasuringTape;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.SkaterCharacter;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkLegend;
-import edu.colorado.phet.energyskatepark.view.SplineToolbox;
-import edu.colorado.phet.energyskatepark.view.HistoryPointGraphic;
 import edu.colorado.phet.piccolo.PhetRootPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -75,19 +72,19 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         legend = new EnergySkateParkLegend( module );
 //        legend.addNegPEEntry();
         floorGraphic = new FloorGraphic( module, getModel(), floor );
-        screenBackground = new BackgroundScreenNode( simulationPanel, null, floorGraphic,this );
+        screenBackground = new BackgroundScreenNode( simulationPanel, null, floorGraphic, this );
         zeroPointPotentialGraphic = new ZeroPointPotentialGraphic( simulationPanel );
         offscreenManIndicator = new OffscreenManIndicator( simulationPanel, module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
         gridNode = new GridNode();
 
-        final HouseNode houseNode=new HouseNode();
+        final HouseNode houseNode = new HouseNode();
 
         addScreenChild( screenBackground );
         addScreenChild( splineToolbox );
-        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter(){
+        module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
 
             public void gravityChanged() {
-                houseNode.setVisible( module.getEnergySkateParkModel().getGravity()==EnergySkateParkModel.G_EARTH);
+                houseNode.setVisible( module.getEnergySkateParkModel().getGravity() == EnergySkateParkModel.G_EARTH );
             }
         } );
         addWorldChild( houseNode );
@@ -433,9 +430,9 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
-        this.skaterCharacter=skaterCharacter;
-        for (int i=0;i<bodyGraphics.getChildrenCount();i++){
-            bodyGraphicAt( i).setSkaterCharacter(skaterCharacter);
+        this.skaterCharacter = skaterCharacter;
+        for( int i = 0; i < bodyGraphics.getChildrenCount(); i++ ) {
+            bodyGraphicAt( i ).setSkaterCharacter( skaterCharacter );
         }
     }
 }

@@ -37,6 +37,7 @@ import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -312,6 +313,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         this.skaterCharacter = skaterCharacter;
         energyModel.setSkaterCharacter( skaterCharacter );
         energyCanvas.setSkaterCharacter( skaterCharacter );
+        notifySkaterCharacterChanged();
     }
 
     public SkaterCharacter getSkaterCharacter() {
@@ -320,5 +322,22 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public SkaterCharacter[] getSkaterCharacters() {
         return skaterCharacterSet.getSkaterCharacters();
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public static interface Listener {
+        void skaterCharacterChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    private void notifySkaterCharacterChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.skaterCharacterChanged();
+        }
     }
 }

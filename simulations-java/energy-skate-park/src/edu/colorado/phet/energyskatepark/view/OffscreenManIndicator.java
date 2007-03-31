@@ -27,12 +27,12 @@ public class OffscreenManIndicator extends PhetPNode {
     private EnergySkateParkModule module;
     private PNode buttonNode;
     private ConnectorGraphic connectorGraphic;
+    private JButton bringBackSkater = new JButton( "" );
 
     public OffscreenManIndicator( PSwingCanvas canvas, final EnergySkateParkModule ec3Module, SkaterNode body ) {
         this.canvas = canvas;
         this.bodyNode = body;
         this.module = ec3Module;
-        JButton bringBackSkater = new JButton( EnergySkateParkStrings.getString( "bring.back.the.skater" ) );
         bringBackSkater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ec3Module.resetSkater();
@@ -40,6 +40,18 @@ public class OffscreenManIndicator extends PhetPNode {
         } );
         buttonNode = new PhetPNode( new PSwing( bringBackSkater ) );
         addChild( buttonNode );
+        ec3Module.addListener( new EnergySkateParkModule.Listener() {
+            public void skaterCharacterChanged() {
+                updateText();
+            }
+
+        } );
+        updateText();
+    }
+
+    private void updateText() {
+        bringBackSkater.setText( EnergySkateParkStrings.getString( "bring.back.the" ) + " " + module.getSkaterCharacter().getName() );
+
     }
 
     public void setBodyGraphic( SkaterNode body ) {
