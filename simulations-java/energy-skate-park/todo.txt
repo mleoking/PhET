@@ -16,7 +16,7 @@ a.	This was a tradeoff I made when I made the mountains not disappear during zoo
 4.	Shrink the bulldog to 1/3 current size.
 5.	Reword “Bring Back Skater” to “Bring Back Character”
 6.	Still looking for appropriate colors for track.
-7.  Cars (& similar objects) should be removed since they are self-powered? 
+7.  Cars (& similar objects) should be removed since they are self-powered. 
 
 • Get feedback on track graphics.
 
