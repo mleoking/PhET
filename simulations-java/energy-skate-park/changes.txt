@@ -1,3 +1,6 @@
+1.05.15 (3-31-2007)
+Added character selection dialog ("Choose character" from control panel)
+
 1.05.14
 Fixed: The very right hand 1/2 inch or so of image is solid color on earth/space. (aspect ratio problem)
 
