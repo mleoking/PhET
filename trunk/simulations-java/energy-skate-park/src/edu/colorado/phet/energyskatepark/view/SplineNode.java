@@ -85,13 +85,18 @@ public class SplineNode extends PNode {
         this.ec3Canvas = ec3Canvas;
 //        this.spline = spline;
         this.spline = splineSurface;
-        splinePath = new TrackNode( 1.0f, Color.gray );
+        //Original recommendation
+//        splinePath = new TrackNode( 1.0f, Color.gray );
+//        centerPath = new TrackNode( 0.2f, Color.black );
+
+        //Kathy's recommendation:
+        splinePath = new TrackNode( 0.75f, Color.gray );
+        centerPath = new TrackNode( 0.15f, new Color( 235, 193, 56 ) );
 
         rollerCoasterPath = new PhetPPath( getRailroadStroke( 0.4f ), Color.gray );
         rollerCoasterPath.setPickable( false );
         rollerCoasterPath.setChildrenPickable( false );
 
-        centerPath = new TrackNode( 0.2f, Color.black );
         centerPath.setPickable( false );
         centerPath.setChildrenPickable( false );
 
