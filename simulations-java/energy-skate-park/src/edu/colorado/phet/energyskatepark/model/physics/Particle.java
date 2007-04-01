@@ -244,7 +244,7 @@ public class Particle {
                 System.out.println( "Switching to freefall" );
                 switchToFreeFall();
 
-                System.out.println( "switched to freefall, above=" + isAboveSplineZero() );
+//                System.out.println( "switched to freefall, above=" + isAboveSplineZero() );
                 Particle.this.stepInTime( dt );
             }
             else {
@@ -585,7 +585,7 @@ public class Particle {
         setPosition( finalPosition );
     }
 
-    private void setVelocity( AbstractVector2D velocity ) {
+    public void setVelocity( AbstractVector2D velocity ) {
         setVelocity( velocity.getX(), velocity.getY() );
     }
 
