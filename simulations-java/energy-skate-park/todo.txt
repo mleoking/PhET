@@ -8,13 +8,12 @@ Depending on the effectiveness of patches, other patches are tested. Also during
 • add ball graphic
 • Bar chart should listen to a single particle, not the entire model
 
-1.	Fix the fall-through track problem.
 2.	Improve performance e.g. during right-click interaction with track
 3.	Improve performance for zooming out:
        a.	This was a tradeoff I made when I made the mountains not disappear during zoomout.  (It was the easiest way, but with this performance problem.)  There are other ways to implement this without the performance problem, (but take longer to implement).
-6.	Still looking for appropriate colors for track.
 
 • Get feedback on track graphics.
+6.	Still looking for appropriate colors for track.
 
 Maybe:
 • Show an indicator for attachment point during skater dragging.
