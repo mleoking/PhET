@@ -462,7 +462,10 @@ public class Particle {
 
             //take a min over all possible crossover points
             SearchState searchState = getBestCrossPoint( newLoc, origAbove, origLoc );
-
+            if( !Double.isInfinite( searchState.getDistance() ) ) {
+                System.out.println( "searchState.getDistance() = " + searchState.getDistance() );
+//                SearchState debugit = getBestCrossPoint( newLoc, origAbove, origLoc );
+            }
             boolean interactWithTrack = searchState.getDistance() < 0.2;//this number was determined heuristically for a set of tests (free parameter), doesn't work very well for large gravity field
             if( interactWithTrack ) {
                 interactWithTrack( searchState, newLoc, origLoc, origAbove, origEnergy );
@@ -548,11 +551,11 @@ public class Particle {
         SearchState searchState = new SearchState( Double.POSITIVE_INFINITY, null, 0, -1 );
         for( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
             ParametricFunction2D cubicSpline = particleStage.getCubicSpline2D( i );
-            double alpha = cubicSpline.getClosestPoint( pt );//todo: should this argument be average of pt & origLoc?
+            double alpha = cubicSpline.getClosestPoint( new Line2D.Double( origLoc, pt ) );
             boolean above = isAboveSpline( cubicSpline, alpha, pt );
             //check for crossover
             boolean crossed = origAbove[i] != above;
-            if( crossed && ( alpha > 0.0 && alpha < 1.0 ) ) {
+            if( crossed && ( alpha >= 0.0 && alpha <= 1.0 ) ) {
                 double ptLineDist = pointSegmentDistance( cubicSpline.evaluate( alpha ), new Line2D.Double( origLoc, pt ) );
 //                    System.out.println( "crossed spline[" + i + "] at alpha=" + alpha + ", ptLineDist=" + ptLineDist );
                 if( ptLineDist < searchState.getDistance() ) {
