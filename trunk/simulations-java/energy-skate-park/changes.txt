@@ -1,4 +1,4 @@
-1.05.15
+1.05.15 (3-31-2007)
 Cars (& similar objects) have been removed since they are self-powered.
 Removed unused image files
 Shrank the bulldog to 1/3 current size.
