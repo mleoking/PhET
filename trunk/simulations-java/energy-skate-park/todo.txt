@@ -15,6 +15,10 @@ Depending on the effectiveness of patches, other patches are tested. Also during
 • Get feedback on track graphics.
 6.	Still looking for appropriate colors for track.
 
+ParametricFunction2D:
+line 32 could do flat search for line-based
+line 80 could do for finite segment
+
 Maybe:
 • Show an indicator for attachment point during skater dragging.
 • Skater should point at track while dragging: Unpredictable behavior when there are 2+ possible matches.
