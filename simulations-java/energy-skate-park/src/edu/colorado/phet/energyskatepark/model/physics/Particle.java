@@ -62,7 +62,7 @@ public class Particle {
             updateStrategy.stepInTime( dt );
             double finalEnergy = getTotalEnergy();
             double dE = finalEnergy - origEnergy;
-            if( Math.abs( dE ) > 1E-6 ) {
+            if( Math.abs( dE ) > 1E-6 &&getThrust().getMagnitude()==0.0) {
                 System.out.println( "Particle.stepInTime: de = " + dE + ", strategy=" + updateClass + ", newStrategy=" + updateStrategy.getClass() );
             }
             update();
@@ -452,7 +452,7 @@ public class Particle {
             double dE = getTotalEnergy() - origEnergy;
 //            System.out.println( "FreeFall dE[0]= " + Math.abs( dE ) );
             //todo test for mass * gravity >0 before fixing energy
-            if( Math.abs( getMass() * getGravity() ) > 1E-6 && xThrust == 0 && yThrust == 0 ) {
+            if( shouldFixFreeFallEnergy() ) {
                 double dH = dE / ( getMass() * getGravity() );
                 y += dH;
             }
@@ -471,9 +471,13 @@ public class Particle {
                 interactWithTrack( searchState, newLoc, origLoc, origAbove, origEnergy );
             }
             double finalEnergy = getTotalEnergy();
-            if( Math.abs( finalEnergy - origEnergy ) >= 1E-6 ) {
+            if( shouldFixFreeFallEnergy()&&Math.abs( finalEnergy - origEnergy ) >= 1E-6 ) {
                 System.out.println( "Energy error in freefall, interactWithTrack=" + interactWithTrack );
             }
+        }
+
+        private boolean shouldFixFreeFallEnergy() {
+            return Math.abs( getMass() * getGravity() ) > 1E-6 && xThrust == 0 && yThrust == 0;
         }
 
         private void interactWithTrack( SearchState searchState, Point2D newLoc, Point2D origLoc, boolean[] origAbove, double origEnergy ) {

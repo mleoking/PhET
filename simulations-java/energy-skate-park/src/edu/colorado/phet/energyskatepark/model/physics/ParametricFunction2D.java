@@ -29,7 +29,7 @@ public abstract class ParametricFunction2D implements Cloneable{
         int numTestPts = 100;
         double distBetweenTestPts = 1.0 / numTestPts;
         Point2D center = new Point2D.Double( ( line.getX1() + line.getX2() ) / 2.0, ( line.getY1() + line.getY2() ) / 2.0 );
-        double approx = getClosestPointFlatSearch( center, numTestPts );
+        double approx = getClosestPointFlatSearch( center, numTestPts );//todo: could do flat search for line
         SearchPoint low = new SearchPoint( approx - distBetweenTestPts * 1.5, line );
         SearchPoint high = new SearchPoint( approx + distBetweenTestPts * 1.5, line );
 
