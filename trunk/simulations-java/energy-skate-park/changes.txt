@@ -3,6 +3,7 @@ Cars (& similar objects) have been removed since they are self-powered.
 Removed unused image files
 Shrank the bulldog to 1/3 current size.
 Reworded “Bring Back Skater” to “Bring Back [character name]”
+Fixed: Character falls through the track sometimes at high speeds.  (Still falls through sometimes at combinations of large speeds & large curvature)
 
 1.05.14 (3-31-2007)
 Fixed: The very right hand 1/2 inch or so of image is solid color on earth/space. (aspect ratio problem)
