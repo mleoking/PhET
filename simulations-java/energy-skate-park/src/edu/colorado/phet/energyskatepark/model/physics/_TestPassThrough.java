@@ -11,19 +11,32 @@ import java.awt.geom.Point2D;
  * Mar 31, 2007, 7:44:36 PM
  */
 public class _TestPassThrough extends TestCase {
-    public void testPassThrough() {
-        ParticleTestState testState = new ParticleTestState( new Point2D.Double[]{new Point2D.Double( 1, -1 ), new Point2D.Double( 1, +1 )},
-                                                             new Point2D.Double( 0, 0 ), new Vector2D.Double( 0.1, 0.0 ) );
+
+    public ParticleTestState getDefaultTestState( double lineX, double speedX ) {
+        return new ParticleTestState( new Point2D.Double[]{new Point2D.Double( lineX, -1 ), new Point2D.Double( lineX, +1 )},
+                                      new Point2D.Double( 0, 0 ), new Vector2D.Double( speedX, 0.0 ) );
+    }
+
+    public void runTest( ParticleTestState testState, double dt, int iterations ) {
         boolean origSide = testState.getSide();
-        double dt = 1.0;
         double t = 0;
         for( int i = 0; i < 100; i++ ) {
             testState.stepInTime( dt );
             t += dt;
             boolean side = testState.getSide();
-            assertEquals( "Particle passed through at iteration: "+i, origSide, side );
+            assertEquals( "Particle passed through at iteration: " + i, origSide, side );
             System.out.println( "t=" + t + ", top=" + testState.getSide() + ", testState.getParticle().getPosition() = " + testState.getParticle().getPosition() );
         }
+    }
+
+    public void testFastPassThrough() {
+        ParticleTestState testState = getDefaultTestState( 1, 2.0 );
+        runTest( testState, 1.0, 100 );
+    }
+
+    public void testSlowPassThrough() {
+        ParticleTestState testState = getDefaultTestState( 1, 0.1 );
+        runTest( testState, 1.0, 100 );
     }
 
     public static class ParticleTestState {
