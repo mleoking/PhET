@@ -339,17 +339,22 @@ public class Particle {
         return orig;
     }
 
-    //todo: test this function
-    public static double pointSegmentDistance( Point2D pt, Line2D.Double line ) {
-        double distToInfiniteLine = line.ptLineDist( pt );
-
-        double distToP1 = line.getP1().distance( pt );
-        double distToP2 = line.getP2().distance( pt );
-        if( distToP1 > distToInfiniteLine || distToP2 > distToInfiniteLine ) {
-            return Math.min( distToP1, distToP2 );
+    /*
+    see http://local.wasp.uwa.edu.au/~pbourke/geometry/pointline/
+     */
+    public static double pointSegmentDistance( Point2D pt3, Line2D.Double line ) {
+        Point2D p1 = line.getP1();
+        Point2D p2 = line.getP2();
+        double u = ( ( pt3.getX() - p1.getX() ) * ( p2.getX() - p1.getX() ) + ( pt3.getY() - p1.getY() ) * ( p2.getY() - p1.getY() ) ) / p1.distanceSq( p2 );
+        if( u < 0 ) {
+            return pt3.distance( line.getP1() );
+        }
+        else if( u > 1 ) {
+            return pt3.distance( line.getP2() );
         }
         else {
-            return distToInfiniteLine;
+            Point2D closest = new Point2D.Double( p1.getX() + u * ( p2.getX() - p1.getX() ), p1.getY() + u * ( p2.getY() - p1.getY() ) );
+            return closest.distance( pt3 );
         }
     }
 

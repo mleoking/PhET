@@ -4,6 +4,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import junit.framework.TestCase;
 
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 /**
@@ -18,6 +19,7 @@ public class _TestPassThrough extends TestCase {
     }
 
     public void runTest( ParticleTestState testState, double dt, int iterations ) {
+        System.out.println( "Starting t=0, top=" + testState.getSide() + ", testState.getParticle().getPosition() = " + testState.getParticle().getPosition() );
         boolean origSide = testState.getSide();
         double t = 0;
         for( int i = 0; i < 100; i++ ) {
@@ -29,14 +31,31 @@ public class _TestPassThrough extends TestCase {
         }
     }
 
+    public void testFastPassThrough2() {
+        ParticleTestState testState = getDefaultTestState( 500, 1000 );
+        runTest( testState, 1.0, 5 );
+    }
+
     public void testFastPassThrough() {
-        ParticleTestState testState = getDefaultTestState( 1, 2.0 );
+        ParticleTestState testState = getDefaultTestState( 1, 1.5 );
         runTest( testState, 1.0, 100 );
     }
 
     public void testSlowPassThrough() {
         ParticleTestState testState = getDefaultTestState( 1, 0.1 );
         runTest( testState, 1.0, 100 );
+    }
+
+//    public void testPointSegmentDistance2() {
+//        double dist = pointSegmentDistance( new Point2D.Double( 1.0, 0 ), new Line2D.Double( 0.0, 0.0, 2.0, 0.0 ) );
+//        System.out.println( "dist = " + dist );
+//        assertEquals( "point line distance should be almost zero", 0.0, dist, 1E-4 );
+//    }
+
+    public void testPointSegmentDistance() {
+        double dist = Particle.pointSegmentDistance( new Point2D.Double( 1.0, 0 ), new Line2D.Double( 0.0, 0.0, 2.0, 0.0 ) );
+        System.out.println( "dist = " + dist );
+        assertEquals( "point line distance should be almost zero", 0.0, dist, 1E-4 );
     }
 
     public static class ParticleTestState {
