@@ -34,7 +34,10 @@ public class TestBeamShapeModel extends JFrame {
     private static final double BEAM_HEIGHT = ( 2 * FLUID_Y_OFFSET ) + FLUID_SIZE.getHeight();
     private static final double BEAM_WAVELENGTH = 1064;
     private static final double BEAD_DIAMETER = 200;
-    private static double OBJECTIVE_HEIGHT = 40;
+    private static final double OBJECTIVE_HEIGHT = 40;
+    private static final double MIN_POWER = 0; // mW
+    private static final double MAX_POWER = 1000; // mW
+    private static final double POWER = 500; // mW
     
     public static void main( String[] args ) {
         TestBeamShapeModel frame = new TestBeamShapeModel();
@@ -114,26 +117,16 @@ public class TestBeamShapeModel extends JFrame {
     
     private class BeamNode extends PPath {
         
-        private double _radiusAtObjective;
-        private double _radiusAtWaist;
-        private double _wavelength;
-        private double _height;
-        private double _zrScale;
-        
         public BeamNode( double radiusAtObjective, double radiusAtWaist, double height, double wavelength ) {
             super();
-            _radiusAtObjective = radiusAtObjective;
-            _radiusAtWaist = radiusAtWaist;
-            _wavelength = wavelength;
-            _height = height;
-            
+
             // Scaling factor for zr term, constrains the width of the beam profile.
-            _zrScale = getBeamRadiusAt( _height/2, _radiusAtWaist, _wavelength, 1 ) / _radiusAtObjective;
+            final double zrScale = getBeamRadiusAt( height/2, radiusAtWaist, wavelength, 1 ) / radiusAtObjective;
             
-            int numberOfPoints = (int)height/2;
+            final int numberOfPoints = (int)height/2;
             Point2D[] points = new Point2D.Double[ numberOfPoints ];
             for ( int z = 0; z < points.length; z++ ) {
-                double x = getBeamRadiusAt( z, _radiusAtWaist, _wavelength, _zrScale );
+                double x = getBeamRadiusAt( z, radiusAtWaist, wavelength, zrScale );
                 points[z] = new Point2D.Double( x, z );
             }
             
@@ -168,10 +161,17 @@ public class TestBeamShapeModel extends JFrame {
             setPaint( null );
         }
         
-        private double getBeamRadiusAt( double z, double w0, double wavelength, double scale ) {
-            double zr = scale * Math.PI * w0 * w0 / wavelength;
-            double wz = w0 * Math.sqrt(  1 + ( ( z / zr ) * ( z / zr )  ) );
-            return wz;
+        private double getBeamRadiusAt( double z, double r0, double wavelength, double scale ) {
+            double zAbs = Math.abs( z );
+            double zr = scale * Math.PI * r0 * r0 / wavelength;
+            double rz = r0 * Math.sqrt(  1 + ( ( zAbs / zr ) * ( zAbs / zr )  ) );
+            return rz;
+        }
+        
+        private double getBeamIntensityAt( double x, double rz, double power ) {
+            double t1 = power / ( Math.PI * ( ( rz * rz ) / 2 ) );
+            double t2 = Math.exp( ( -2 * x * x ) / ( rz * rz ) );
+            return t1 * t2;
         }
     }
 
