@@ -35,7 +35,6 @@ public class Laser extends MovableObject implements ModelElement {
     private final double _visibleWavelength; // nm
     private double _power; // mW
     private final DoubleRange _powerRange; // mW
-    private final double _zrScale;  // scaling factor for zr term, constrains the width of the beam shape
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -68,8 +67,6 @@ public class Laser extends MovableObject implements ModelElement {
         _visibleWavelength = visibleWavelength;
         _power = powerRange.getDefault();
         _powerRange = new DoubleRange( powerRange );
-        
-        _zrScale = getBeamRadiusAt( _distanceFromObjectiveToWaist, _diameterAtWaist / 2, _wavelength, 1 ) / ( _diameterAtObjective / 2 );
     }
     
     //----------------------------------------------------------------------------
@@ -143,23 +140,13 @@ public class Laser extends MovableObject implements ModelElement {
      * @return radius at z
      */
     public double getBeamRadiusAt( double z ) {
-        return getBeamRadiusAt( z, _diameterAtWaist/2, _wavelength, _zrScale );
-    }
-    
-    /*
-     * Gets the beam radius at a specified distance from the waist.
-     * Calculation assumes that (0,0) is at the center of the waist.
-     * 
-     * @param z distance from waist
-     * @param r0 radius at waist
-     * @param wavelength
-     * @param zrScale
-     * @return radius at z
-     */
-    private static double getBeamRadiusAt( double z, double r0, double wavelength, double zrScale ) {
-        double zAbs = Math.abs( z );
-        double zr = zrScale * Math.PI * r0 * r0 / wavelength;
-        double rz = r0 * Math.sqrt(  1 + ( ( zAbs / zr ) * ( zAbs / zr )  ) );
+        final double zAbs = Math.abs( z );
+        final double r0 = _diameterAtWaist / 2;
+        final double rMax = _diameterAtObjective / 2;
+        final double zr = ( Math.PI * r0 * r0 ) / _wavelength;
+        final double A = ( _distanceFromObjectiveToWaist / zr ) / Math.sqrt( ( ( rMax / r0 ) * ( rMax / r0 ) ) - 1 );
+        final double t1 = zAbs / ( A * zr );
+        double rz = r0 * Math.sqrt(  1 + ( t1 * t1 ) );
         return rz;
     }
     

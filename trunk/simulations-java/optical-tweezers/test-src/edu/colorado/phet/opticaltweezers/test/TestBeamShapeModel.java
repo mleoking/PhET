@@ -6,6 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.*;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
@@ -13,6 +14,7 @@ import edu.colorado.phet.opticaltweezers.view.SphericalNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -49,9 +51,6 @@ public class TestBeamShapeModel extends JFrame {
         
         /*--------------------------- Canvas ---------------------------*/
         
-        PPath dragBoundsNode = new PPath(); // shape will be determined by HorizontalBarNode
-        dragBoundsNode.setStrokePaint( Color.RED ); // so we can see the bounds
-        
         PCanvas canvas = new PhetPCanvas();
         PComposite rootNode = new PComposite();
         canvas.getLayer().addChild( rootNode );
@@ -69,7 +68,7 @@ public class TestBeamShapeModel extends JFrame {
         fluidNode.setPaint( new Color( 0, 0, 255, 20 ) );
         rootNode.addChild( fluidNode );
         
-        BeamNode beamNode = new BeamNode( BEAM_RADIUS_AT_OBJECTIVE, BEAM_RADIUS_AT_WAIST, BEAM_HEIGHT, BEAM_WAVELENGTH );
+        BeamNode beamNode = new BeamNode( BEAM_RADIUS_AT_OBJECTIVE, BEAM_RADIUS_AT_WAIST, BEAM_HEIGHT / 2, BEAM_WAVELENGTH );
         beamNode.setOffset( PLAY_AREA_SIZE.getWidth()/2, FLUID_Y_OFFSET + FLUID_SIZE.getHeight()/2 );
         rootNode.addChild( beamNode );
         
@@ -115,21 +114,22 @@ public class TestBeamShapeModel extends JFrame {
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
     
-    private class BeamNode extends PPath {
+    private class BeamNode extends PComposite {
         
-        public BeamNode( double radiusAtObjective, double radiusAtWaist, double height, double wavelength ) {
+        public BeamNode( double radiusAtObjective, double radiusAtWaist, double distanceFromWaistToObjective, double wavelength ) {
             super();
 
-            // Scaling factor for zr term, constrains the width of the beam profile.
-            final double zrScale = getBeamRadiusAt( height/2, radiusAtWaist, wavelength, 1 ) / radiusAtObjective;
-            
-            final int numberOfPoints = (int)height/2;
+            // Shape is symmetric, calculate points on one quarter of outline
+            final int numberOfPoints = (int) distanceFromWaistToObjective;
             Point2D[] points = new Point2D.Double[ numberOfPoints ];
             for ( int z = 0; z < points.length; z++ ) {
-                double x = getBeamRadiusAt( z, radiusAtWaist, wavelength, zrScale );
+                double x = getBeamRadiusAt( z, distanceFromWaistToObjective, radiusAtWaist, radiusAtObjective, wavelength );
                 points[z] = new Point2D.Double( x, z );
             }
+            System.out.println( "min radius = " + points[0].getX() );
+            System.out.println( "max radius = " + points[points.length-1].getX() );
             
+            // Create path for entire outline.
             GeneralPath p = new GeneralPath();
             int first = 0;
             int last = points.length - 1;
@@ -155,16 +155,33 @@ public class TestBeamShapeModel extends JFrame {
             }
             p.closePath();
             
-            setPathTo( p );
-            setStroke( new BasicStroke( 1f ) );
-            setStrokePaint( Color.BLACK );
-            setPaint( null );
+            // Node to draw the outline
+            PPath outlineNode = new PPath( p );
+            outlineNode.setStroke( new BasicStroke( 1f ) );
+            outlineNode.setStrokePaint( Color.BLACK );
+            outlineNode.setPaint( null );
+            addChild( outlineNode );
+            
+            // Image to hold gradient pixel data
+            int bufWidth = (int)( 2 * radiusAtObjective );
+            int bufHeight = (int) distanceFromWaistToObjective;
+            BufferedImage bi = new BufferedImage( bufWidth, bufHeight, BufferedImage.TYPE_INT_ARGB );
+            for ( int x = 0; x < bufWidth; x++ ) {
+                for ( int y = 0; y < bufHeight; y++ ) {
+                    bi.setRGB( x, y, 0xFFFFFF );
+                }
+            }
+            
+            PImage gradientNode = new PImage( bi );
+//            addChild( gradientNode );
         }
         
-        private double getBeamRadiusAt( double z, double r0, double wavelength, double scale ) {
+        private double getBeamRadiusAt( double z, double zmax, double r0, double rmax, double wavelength ) {
             double zAbs = Math.abs( z );
-            double zr = scale * Math.PI * r0 * r0 / wavelength;
-            double rz = r0 * Math.sqrt(  1 + ( ( zAbs / zr ) * ( zAbs / zr )  ) );
+            double zr = ( Math.PI * r0 * r0 ) / wavelength;
+            double A = ( zmax / zr ) / Math.sqrt( ( ( rmax / r0 ) * ( rmax / r0 ) ) - 1 );
+            double t1 = zAbs / ( A * zr );
+            double rz = r0 * Math.sqrt( 1 + ( t1 * t1 ) );
             return rz;
         }
         
