@@ -42,4 +42,9 @@ public class MoleculeBC extends CompositeMolecule {
         A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)((MRModel)PhetUtilities.getActiveModule().getModel()).getReaction();
         return reaction.getPotentialEnergy( this, this );
     }
+
+
+    public Object clone() {
+        return super.clone();
+    }
 }

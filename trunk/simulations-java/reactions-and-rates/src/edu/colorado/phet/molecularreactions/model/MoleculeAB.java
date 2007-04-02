@@ -43,6 +43,10 @@ public class MoleculeAB extends CompositeMolecule {
         return reaction.getPotentialEnergy( this, this );
     }
 
+    public Object clone() {
+        return super.clone();
+    }
+
 //    public void setVelocity( Vector2D velocity ) {
 //        if( velocity.getMagnitude() == 0 ) {
 //            System.out.println( "MoleculeAB.setVelocity" );

@@ -226,7 +226,8 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
     /**
      * Get all the graphics for model elemenst of a specified class
      *
-     * @param modelElementClass
+     * @param modelElementClass     The model element class.
+     * 
      * @return all the graphics for the model elements of a specified class
      */
     public List getGraphicsForModelElementClass( Class modelElementClass ) {
@@ -241,6 +242,28 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
             }
         }
         return graphics;
+    }
+
+    /**
+     * Get the graphic for a model element.
+     *
+     * @param modelElement  The model element.
+     *
+     * @return all the graphics for the model elements of a specified class
+     */
+    public PNode getGraphicsForModelElement( ModelElement modelElement ) {
+        List graphics = new ArrayList();
+        Iterator keyIt = modelElementToGraphicMap.keySet().iterator();
+        while( keyIt.hasNext() ) {
+            ModelElement cur = (ModelElement)keyIt.next();
+
+            if ( cur == modelElement ) {
+                GraphicRecord record = (GraphicRecord)modelElementToGraphicMap.get( modelElement );
+
+                return record.getGraphic();
+            }
+        }
+        return null;
     }
 
 

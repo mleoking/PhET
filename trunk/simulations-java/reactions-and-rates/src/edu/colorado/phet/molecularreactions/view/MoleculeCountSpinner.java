@@ -42,7 +42,7 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
     private boolean selfUpdating;
     private MoleculeParamGenerator moleculeParamGenerator;
     private int maxValue;
-    private boolean hasFocus;
+    private boolean hasFocus = false;
 
     /**
      * @param moleculeClass
@@ -70,11 +70,6 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
                                                                    0,
                                                                    Math.PI * 2,
                                                                    moleculeClass );
-//        moleculeParamGenerator = new RandomMoleculeParamGenerator( generatorBounds,
-//                                                                   MRConfig.MAX_SPEED,
-//                                                                   .1,
-//                                                                   0,
-//                                                                   Math.PI * 2 );
         setValue( new Integer( 0 ) );
 
         // Respond to changes in the spinner
@@ -83,14 +78,14 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
         // Track focus
         ( (NumberEditor)getEditor() ).getTextField().addFocusListener( new FocusAdapter() {
             public void focusGained( FocusEvent e ) {
-//                System.out.println( "MoleculeCountSpinner.focusGained" );
-//                System.out.println( "moleculeClass = " + moleculeClass );
+                //System.out.println( "MoleculeCountSpinner.focusGained" );
+                //System.out.println( "moleculeClass = " + moleculeClass );
                 hasFocus = true;
             }
 
             public void focusLost( FocusEvent e ) {
-//                System.out.println( "MoleculeCountSpinner.focusLost" );
-//                System.out.println( "moleculeClass = " + moleculeClass );
+                //System.out.println( "MoleculeCountSpinner.focusLost" );
+                //System.out.println( "moleculeClass = " + moleculeClass );
                 hasFocus = false;
             }
         } );
@@ -142,7 +137,10 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
             }
         }
         cnt = n;
-        setValue( new Integer( n ) );
+
+        if (!hasFocus) {
+            setValue( new Integer( n ) );
+        }
     }
 
 
@@ -233,6 +231,10 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
             }
 
             selfUpdating = false;
+
+            // Transfer the focus away from the control so the value will be
+            // updated from the model again:
+            requestFocus( false );
         }
     }
 }

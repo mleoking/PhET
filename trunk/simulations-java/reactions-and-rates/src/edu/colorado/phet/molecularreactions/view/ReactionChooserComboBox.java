@@ -95,17 +95,16 @@ public class ReactionChooserComboBox extends JComboBox implements MRModel.ModelL
                 if( selection == defaultItem ) {
                     command = SelectReactionAction.DEFAULT_ACTION;
                 }
-                if( selection == r1Item ) {
+                else if( selection == r1Item ) {
                     command = SelectReactionAction.R1_ACTION;
                 }
-                if( selection == r2Item ) {
+                else if( selection == r2Item ) {
                     command = SelectReactionAction.R2_ACTION;
                 }
-                if( selection == r3Item ) {
+                else if( selection == r3Item ) {
                     command = SelectReactionAction.R3_ACTION;
-
                 }
-                if( selection == designYourOwnItem ) {
+                else if( selection == designYourOwnItem ) {
                     command = SelectReactionAction.DESIGN_YOUR_OWN_ACTION;
                 }
                 selectionAction.actionPerformed( new ActionEvent( e.getSource(), e.getID(), command ) );

@@ -25,7 +25,8 @@ import java.util.EventListener;
  *
  * @author Ron LeMaster
  */
-abstract public class AbstractMolecule extends Body implements Collidable, KineticEnergySource {
+abstract public class AbstractMolecule extends Body implements Collidable, KineticEnergySource, Cloneable {
+    public static EventChannel classEventChannel = new EventChannel( ClassListener.class );
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -34,8 +35,6 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
         void statusChanged( AbstractMolecule molecule );
     }
 
-    public static EventChannel classEventChannel = new EventChannel( ClassListener.class );
-    private ClassListener classListenerProxy = (ClassListener)classEventChannel.getListenerProxy();
 
     public static void addClassListener( ClassListener listener ) {
         classEventChannel.addListener( listener );
@@ -51,6 +50,17 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
 
     private CollidableAdapter collidableAdapter;
     private CompositeMolecule parentComposite;
+    private ClassListener classListenerProxy = (ClassListener)classEventChannel.getListenerProxy();
+
+
+    public Object clone() {
+        AbstractMolecule clone = (AbstractMolecule)super.clone();
+
+        clone.collidableAdapter = new CollidableAdapter ( this );
+        clone.parentComposite   = parentComposite == null ? null : (CompositeMolecule)parentComposite.clone();
+
+        return clone;
+    }
 
     protected AbstractMolecule() {
         this( new Point2D.Double(), new Vector2D.Double(), new Vector2D.Double(), 0, 0 );
@@ -117,6 +127,8 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
     public boolean isWholeMolecule() {
         return !isPartOfComposite();
     }
+
+
 
     public CompositeMolecule getParentComposite() {
         return parentComposite;

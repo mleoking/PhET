@@ -1,13 +1,13 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.molecularreactions.view.energy;
 
-import edu.colorado.phet.molecularreactions.model.MRModel;
-import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.EnergyProfile;
-import edu.colorado.phet.molecularreactions.model.SelectedMoleculeTracker;
-import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.common.util.DynamicListenerController;
 import edu.colorado.phet.common.util.DynamicListenerControllerFactory;
+import edu.colorado.phet.molecularreactions.model.EnergyProfile;
+import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.model.SelectedMoleculeTracker;
+import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
+import edu.colorado.phet.molecularreactions.modules.MRModule;
 
 import java.util.Collection;
 

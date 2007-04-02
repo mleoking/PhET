@@ -34,4 +34,9 @@ public class MoleculeB extends SimpleMolecule {
     public MoleculeB( Point2D location, Vector2D velocity, Vector2D acceleration, double mass, double charge ) {
         super( MoleculeB.RADIUS, location, velocity, acceleration, mass, charge );
     }
+
+
+    public Object clone() {
+        return super.clone();
+    }
 }

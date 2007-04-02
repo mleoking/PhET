@@ -40,6 +40,15 @@ public abstract class Body extends Particle {
     public abstract double getMomentOfInertia();
 
 
+    public Object clone() {
+        Body clone = (Body)super.clone();
+
+        clone.lastColidedBody = lastColidedBody == null ? null : (Particle)lastColidedBody.clone();
+        clone.momentum        = new Vector2D.Double( momentum );
+
+        return clone;
+    }
+
     /**
      *
      */

@@ -11,6 +11,7 @@
 package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.SwingClock;
@@ -21,6 +22,7 @@ import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.view.SpatialView;
 import edu.colorado.phet.molecularreactions.view.energy.EnergyView;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -101,6 +103,10 @@ public class MRModule extends Module {
         return spatialView.isTemperatureBeingAdjusted();
     }
 
+    public PNode getGraphicsForModelElement( ModelElement element ) {
+        return spatialView.getGraphicsForModelElement( element );
+    }
+
     private void createEnergyView( Dimension chartPaneSize ) {
         if (!energyView.isInitialized()) {
             energyView.initialize( this, chartPaneSize );
@@ -133,11 +139,6 @@ public class MRModule extends Module {
 
     public MRModel getMRModel() {
         return (MRModel)getModel();
-    }
-
-    public void setManualControl( boolean manualControl ) {
-        getClock().pause();
-        energyView.setManualControl( true );
     }
 
     public void setGraphicTypeVisible( boolean visible ) {

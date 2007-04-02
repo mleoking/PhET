@@ -66,6 +66,17 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
     private double orientation;
     private Bond[] bonds;
 
+
+    public Object clone() {
+        CompositeMolecule clone =  (CompositeMolecule)super.clone();
+
+        clone.components  = (SimpleMolecule[])components.clone();
+        clone.boundingBox = new Rectangle2D.Double( boundingBox.getX(), boundingBox.getY(), boundingBox.getWidth(), boundingBox.getHeight() );
+        clone.bonds       = (Bond[])bonds.clone();
+
+        return clone;
+    }
+
     /**
      * Default constructor is protected
      */

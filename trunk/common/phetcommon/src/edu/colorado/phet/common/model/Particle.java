@@ -30,6 +30,17 @@ public class Particle extends SimpleObservable implements ModelElement {
     public Particle() {
     }
 
+    public Object clone() {
+        Particle clone = (Particle)super.clone();
+
+        clone.position         = new Point2D.Double(  position.getX(), position.getY() );
+        clone.velocity         = new Vector2D.Double( velocity );
+        clone.acceleration     = new Vector2D.Double( acceleration );
+        clone.prevAcceleration = new Vector2D.Double( prevAcceleration );
+
+        return clone;
+    }
+
     protected Particle( Point2D position, Vector2D velocity,
                         Vector2D acceleration ) {
         setPosition( position );

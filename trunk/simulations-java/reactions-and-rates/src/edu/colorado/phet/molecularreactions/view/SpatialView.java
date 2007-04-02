@@ -103,6 +103,10 @@ public class SpatialView extends PNode {
         return topLayer;
     }
 
+    public PNode getGraphicsForModelElement( ModelElement element ) {
+        return megm.getGraphicsForModelElement( element );
+    }
+
     public boolean isTemperatureBeingAdjusted() {
         boolean adjusting = false;
 

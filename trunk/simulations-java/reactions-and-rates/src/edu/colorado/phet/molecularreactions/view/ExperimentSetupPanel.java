@@ -22,6 +22,7 @@ import edu.colorado.phet.molecularreactions.util.Resetable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +53,8 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     private MoleculeCounter moleculeCCounter;
     private InitialTemperaturePanel initialTemperaturePanel;
     private JButton goButton;
-    private boolean inProgress = false;
+    private boolean experimentInProgress = false;
+    private boolean toggleInProgress = false;
 
     /**
      * @param module
@@ -116,7 +118,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         numCTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
 
         // The GO button
-        goButton = new JButton( new StartExperimentAction( module, this ) );
+        goButton = new JButton( new TogglingExperimentAction( module ) );
 
         // Add a border
         setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "ExperimentSetup.title" ) ) );
@@ -251,26 +253,59 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
      * Resets everything
      */
     public void reset() {
-        setInitialConditionsEditable( true );
-
-        inProgress = false;
+        endExperiment();
 
         numATF.setText(  "0" );
         numBCTF.setText( "0" );
         numABTF.setText( "0" );
         numCTF.setText(  "0" );
 
-        generateMolecules( MoleculeA.class,  -moleculeACounter.getCnt() );
-        generateMolecules( MoleculeBC.class, -moleculeBCCounter.getCnt() );
-        generateMolecules( MoleculeAB.class, -moleculeABCounter.getCnt() );
-        generateMolecules( MoleculeC.class,  -moleculeCCounter.getCnt() );
+        module.getClock().start();
+        module.resetStripChart();
+        initialTemperaturePanel.reset();
+    }
+
+    private void endExperiment() {
+        experimentInProgress = false;
+
+        // User wants to end an experiment
+        setInitialConditionsEditable( true );
+
+        //generateMolecules( MoleculeA.class,  -moleculeACounter.getCnt() );
+        //generateMolecules( MoleculeBC.class, -moleculeBCCounter.getCnt() );
+        //generateMolecules( MoleculeAB.class, -moleculeABCounter.getCnt() );
+        //generateMolecules( MoleculeC.class,  -moleculeCCounter.getCnt() );
+
+        module.getClock().pause();
 
         module.setExperimentRunning( false );
+
+        goButton.setText( SimStrings.getInstance().getString( "ExperimentSetup.go" ) );
+
+        toggleInProgress = false;
+    }
+
+    private void beginExperiment() {
+        experimentInProgress = true;
+
+        module.getMRModel().removeAllMolecules();
+
+        // User wants to begin an experiment:
+        setInitialConditionsEditable( false );
+
+        generateMolecules( MoleculeA.class,  Integer.parseInt( numATF.getText()  ) );
+        generateMolecules( MoleculeBC.class, Integer.parseInt( numBCTF.getText() ) );
+        generateMolecules( MoleculeAB.class, Integer.parseInt( numABTF.getText() ) );
+        generateMolecules( MoleculeC.class,  Integer.parseInt( numCTF.getText()  ) );
+
+        module.setExperimentRunning( true );
+
+        goButton.setText( SimStrings.getInstance().getString( "ExperimentSetup.stop" ) );
+
         module.resetStripChart();
-//        module.setStripChartRecording( true );
         module.getClock().start();
 
-        initialTemperaturePanel.reset();
+        toggleInProgress = false;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -280,56 +315,52 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     /**
      * Action for starting an experiment
      */
-    private class StartExperimentAction extends AbstractAction {
+    private class TogglingExperimentAction extends AbstractAction {
         private RateExperimentsModule module;
-        private ExperimentSetupPanel panel;
 
-
-        public StartExperimentAction( RateExperimentsModule module, ExperimentSetupPanel panel ) {
+        public TogglingExperimentAction( RateExperimentsModule module ) {
             super( SimStrings.getInstance().getString( "ExperimentSetup.go" ) );
             this.module = module;
-            this.panel = panel;
         }
 
         public void actionPerformed( ActionEvent e ) {
-            if (!inProgress) {
-                module.getMRModel().removeAllMolecules();
-                panel.generateMolecules( MoleculeA.class, Integer.parseInt( panel.numATF.getText() ) );
-                panel.generateMolecules( MoleculeBC.class, Integer.parseInt( panel.numBCTF.getText() ) );
-                panel.generateMolecules( MoleculeAB.class, Integer.parseInt( panel.numABTF.getText() ) );
-                panel.generateMolecules( MoleculeC.class, Integer.parseInt( panel.numCTF.getText() ) );
+            if (toggleInProgress) return;
 
-                module.resetStripChart();
-                module.setExperimentRunning( true );
-                panel.setInitialConditionsEditable( false );
+            toggleInProgress = true;
 
-                goButton.setText( SimStrings.getInstance().getString( "ExperimentSetup.stop" ) );
+            if (!experimentInProgress ) {
+
+                int moleculeCount = module.getMRModel().countWholeMolecules();
+
+                if (moleculeCount > 0) {
+                   runOnce(new Runnable() {
+                       public void run() {
+                           beginExperiment();
+                       }
+                   }, 1000);
+                }
+                else {
+                    beginExperiment();
+                }
             }
             else {
-                setInitialConditionsEditable( true );
-
-                numATF.setText( "0" );
-                numBCTF.setText( "0" );
-                numABTF.setText( "0" );
-                numCTF.setText( "0" );
-
-                generateMolecules( MoleculeA.class,  -moleculeACounter.getCnt() );
-                generateMolecules( MoleculeBC.class, -moleculeBCCounter.getCnt() );
-                generateMolecules( MoleculeAB.class, -moleculeABCounter.getCnt() );
-                generateMolecules( MoleculeC.class,  -moleculeCCounter.getCnt() );
-
-                module.setExperimentRunning( false );
-                module.resetStripChart();
-        //        module.setStripChartRecording( true );
-                module.getClock().start();
-
-                initialTemperaturePanel.reset();
-
-                goButton.setText( SimStrings.getInstance().getString( "ExperimentSetup.go" ) );
+                endExperiment();
             }
-
-            inProgress = !inProgress;
         }
+    }
+
+    private void runOnce(final Runnable runnable, int time) {
+        Timer timer = new Timer(time, new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                Timer timer = (Timer)actionEvent.getSource();
+
+                runnable.run();
+
+                timer.stop();
+            }
+        } );
+
+        timer.start();
     }
     
     public boolean isTemperatureBeingAdjusted() {

@@ -22,12 +22,22 @@ import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
  */
 public class EnergySimpleMoleculeGraphic extends SimpleMoleculeGraphic {
 
+    private final SimpleMolecule molecule;
+    private final EnergyProfile profile;
+
     public EnergySimpleMoleculeGraphic( SimpleMolecule molecule, EnergyProfile profile ) {
         super( molecule, profile );
+
+        this.molecule = molecule;
+        this.profile  = profile;
     }
 
     public void update() {
         super.update();
+    }
+
+    public Object clone() {
+        return new EnergySimpleMoleculeGraphic( (SimpleMolecule)molecule.clone(), profile );
     }
 
     public void selectionStatusChanged( SimpleMolecule molecule ) {

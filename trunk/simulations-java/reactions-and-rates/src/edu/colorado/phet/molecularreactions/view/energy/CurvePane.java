@@ -62,9 +62,9 @@ public class CurvePane extends PPath {
         setOffset( 0, upperPaneSize.getHeight() );
         setPaint( energyPaneBackgroundColor );
         setStrokePaint( new Color( 0, 0, 0, 0 ) );
-        addChild( totalEnergyLineLayer );
         addChild( curveLayer );
         addChild( cursorLayer );
+        addChild( totalEnergyLineLayer );
 
         // Create the line that shows total energy, and a legend for it
         energyLine = new EnergyLine( curveAreaSize, module, module.getClock() );
@@ -86,7 +86,7 @@ public class CurvePane extends PPath {
 
         // Add axes
         PNode xAxis = new AxisNode( SimStrings.getInstance().getString( "EnergyView.ReactionCoordinate" ),
-                                                                       200,
+                                                                       curveAreaSize.getWidth(),
                                                                        MRConfig.ENERGY_PANE_TEXT_COLOR,
                                                                        AxisNode.HORIZONTAL,
                                                                        AxisNode.BOTTOM );
@@ -166,10 +166,6 @@ public class CurvePane extends PPath {
 
     public double getIntersectionWithHorizontal(double x) {
         return energyProfileGraphic.getIntersectionWithHorizontal( energyLine.getEnergyLineY(), x);
-    }
-
-    public void setManualControlEnabled( boolean manualControl ) {
-        energyCursor.setManualControlEnabled( manualControl );
     }
 
     public void setEnergyCursorVisible( boolean b ) {
