@@ -133,13 +133,14 @@ public class Laser extends MovableObject implements ModelElement {
     // Beam shape
     //----------------------------------------------------------------------------
     
-    /*
+    /**
      * Gets the beam radius at a specified distance from the center of the waist.
      * The center of the waist is at (0,0).  If we draw a line through the center
      * of the waist, in the direction that the beam is pointing, then z is a 
      * distance on this line.
      * 
      * @param z vertical distance from the center of the waist (nm)
+     * @return radius at z
      */
     public double getBeamRadiusAt( double z ) {
         return getBeamRadiusAt( z, _diameterAtWaist/2, _wavelength, _zrScale );
@@ -153,6 +154,7 @@ public class Laser extends MovableObject implements ModelElement {
      * @param r0 radius at waist
      * @param wavelength
      * @param zrScale
+     * @return radius at z
      */
     private static double getBeamRadiusAt( double z, double r0, double wavelength, double zrScale ) {
         double zAbs = Math.abs( z );
@@ -165,7 +167,7 @@ public class Laser extends MovableObject implements ModelElement {
      * Is a specified point inside the out-going laser beam's shape?
      * 
      * @param p
-     * @return
+     * @return true or false
      */
     public boolean contains( Point2D p ) {
         assert( getOrientation() == Math.toRadians( -90 ) ); // laser beam must point up
@@ -174,7 +176,7 @@ public class Laser extends MovableObject implements ModelElement {
         if ( p.getY() <= getY() + _distanceFromObjectiveToWaist ) {
             double radius = getBeamRadiusAt( p.getY() - getY() );
             if ( radius <= Math.abs( getX() - p.getX() ) ) {
-                b= true;
+                b = true;
             }
         }
         return b;
