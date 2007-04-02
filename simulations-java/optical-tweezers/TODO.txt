@@ -65,6 +65,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/2/07 - fix beam shape model, calc of scaling factor was wrong
 3/26/07 - restore OTObservable, functionality was important
 3/26/07 - remove OTObservable, additional functionality not used
 3/26/07 - document model coordinate system in package javadoc
