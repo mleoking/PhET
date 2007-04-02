@@ -123,7 +123,7 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         ap.setBorder( BorderFactory.createEmptyBorder() );
         ap.addGraphic( zc );
 
-        PSwing zoomNode = new PSwing(ap );
+        PSwing zoomNode = new PSwing( ap );
 
         zoomNode.setOffset( 10,
                             chartPanel.getPreferredSize().getHeight() - zoomNode.getFullBounds().getHeight() );

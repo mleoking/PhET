@@ -36,6 +36,10 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver {
     private PPath cmNode;
     private PPath boundingBox;
 
+    public Object clone() {
+        return new CompositeMoleculeGraphic( (CompositeMolecule)compositeMolecule.clone() );
+    }
+
     /**
      * @param compositeMolecule
      */

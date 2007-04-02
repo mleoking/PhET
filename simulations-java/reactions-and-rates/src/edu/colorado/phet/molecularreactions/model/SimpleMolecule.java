@@ -31,6 +31,9 @@ public class SimpleMolecule extends AbstractMolecule implements Selectable {
 
     private double radius;
     private Rectangle2D boundingBox = new Rectangle2D.Double();
+    private Selectable.Selection selectionStatus;
+    private EventChannel eventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener listenerProxy = (ChangeListener)eventChannel.getListenerProxy();
 
     /**
      * A molecule that has no component molecules, and whose mass is the square of
@@ -47,6 +50,18 @@ public class SimpleMolecule extends AbstractMolecule implements Selectable {
     public SimpleMolecule( double radius, Point2D location, Vector2D velocity, Vector2D acceleration, double mass, double charge ) {
         super( location, velocity, acceleration, mass, charge );
         this.radius = radius;
+    }
+
+
+    public Object clone() {
+        SimpleMolecule clone = (SimpleMolecule)super.clone();
+
+        clone.boundingBox     = new Rectangle2D.Double( boundingBox.getX(), boundingBox.getY(), boundingBox.getWidth(), boundingBox.getHeight() );
+        clone.eventChannel    = new EventChannel( ChangeListener.class );
+        clone.listenerProxy   = (ChangeListener)eventChannel.getListenerProxy();
+        clone.selectionStatus = null;
+
+        return clone;
     }
 
     public SimpleMolecule[] getComponentMolecules() {
@@ -106,7 +121,7 @@ public class SimpleMolecule extends AbstractMolecule implements Selectable {
     //--------------------------------------------------------------------------------------------------
     // Implementation of Selectable
     //--------------------------------------------------------------------------------------------------
-    private Selectable.Selection selectionStatus;
+
 
     public void setSelectionStatus( Selection selection ) {
         selectionStatus = selection;
@@ -121,8 +136,7 @@ public class SimpleMolecule extends AbstractMolecule implements Selectable {
     //--------------------------------------------------------------------------------------------------
     // Events
     //--------------------------------------------------------------------------------------------------
-    private EventChannel eventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener listenerProxy = (ChangeListener)eventChannel.getListenerProxy();
+
 
     public interface ChangeListener extends EventListener {
         void selectionStatusChanged( SimpleMolecule molecule );

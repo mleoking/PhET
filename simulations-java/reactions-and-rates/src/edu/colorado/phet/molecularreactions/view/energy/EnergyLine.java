@@ -101,7 +101,7 @@ public class EnergyLine extends PNode {
         line.setLine( 0, y, bounds.getWidth(), y );
         lineNode.setPathTo( line );
 
-        totalEnergyLegend.setOffset( line.getX2() - totalEnergyLegend.getFullBounds().getWidth(),
+        totalEnergyLegend.setOffset( 5, //line.getX2() - totalEnergyLegend.getFullBounds().getWidth(),
                                      y + 5 );
     }
 

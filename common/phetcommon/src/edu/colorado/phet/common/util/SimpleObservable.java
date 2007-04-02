@@ -18,9 +18,9 @@ import java.util.ArrayList;
  * @author ?
  * @version $Revision$
  */
-public class SimpleObservable {
+public class SimpleObservable implements Cloneable {
     private ArrayList observers = new ArrayList();
-    private SimpleObserver observerController = new SimpleObserverController();
+    private SimpleObserver observerController = new SimpleObserverController( this );
 
     public void addObserver( SimpleObserver so ) {
         observers.add( so );
@@ -63,6 +63,23 @@ public class SimpleObservable {
     public SimpleObservable() {
     }
 
+
+    public Object clone() {
+        try {
+            SimpleObservable clone = (SimpleObservable)super.clone();
+
+            clone.observers          = new ArrayList( observers );
+            clone.observerController = new SimpleObserverController( clone );
+
+            return clone;
+        }
+        catch( CloneNotSupportedException e ) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
     /**
      * Setter for Java Bean conformance
      *
@@ -85,9 +102,15 @@ public class SimpleObservable {
         return observerController;
     }
 
-    private class SimpleObserverController implements SimpleObserver {
+    private static class SimpleObserverController implements SimpleObserver {
+        private final SimpleObservable observer;
+
+        SimpleObserverController( SimpleObservable o ) {
+            this.observer = o;
+        }
+
         public void update() {
-            notifyObservers();
+            observer.notifyObservers();
         }
     }
 }

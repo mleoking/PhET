@@ -239,7 +239,7 @@ abstract public class SimpleMoleculeGraphic extends PNode implements SimpleObser
             if( annotate ) {
                 PText annotation = new PText( getAnnotation( molecule ) );
                 RegisterablePNode rNode = new RegisterablePNode( annotation );
-                rNode.setRegistrationPoint( annotation.getWidth() / 2,
+                rNode.setRegistrationPoint( annotation.getWidth()  / 2,
                                             annotation.getHeight() / 2 );
                 addChild( rNode );
             }

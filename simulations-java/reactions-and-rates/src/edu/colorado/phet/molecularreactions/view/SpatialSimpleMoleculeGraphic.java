@@ -30,7 +30,9 @@ import java.awt.*;
  */
 public class SpatialSimpleMoleculeGraphic extends SimpleMoleculeGraphic {
     private PPath boundingBox;
-    private PPath debugNode;
+
+    private final SimpleMolecule molecule;
+    private final EnergyProfile profile;
 
     /**
      * 
@@ -39,6 +41,9 @@ public class SpatialSimpleMoleculeGraphic extends SimpleMoleculeGraphic {
      */
     public SpatialSimpleMoleculeGraphic( SimpleMolecule molecule, EnergyProfile profile ) {
         super( molecule, profile );
+
+        this.molecule = molecule;
+        this.profile  = profile;
 
         // Catch mouse clicks that select this graphic's molecule
         if( molecule instanceof MoleculeA || molecule instanceof MoleculeC ) {
@@ -56,6 +61,11 @@ public class SpatialSimpleMoleculeGraphic extends SimpleMoleculeGraphic {
             addChild( boundingBox );
             update();
         }
+    }
+
+
+    public Object clone() {
+        return new SpatialSimpleMoleculeGraphic( (SimpleMolecule)molecule.clone(), profile );
     }
 
     public void update() {

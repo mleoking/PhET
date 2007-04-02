@@ -71,8 +71,7 @@ public class SimpleModule extends MRModule {
         launcherTipLocation = new Point2D.Double( ( model.getBox().getMinX() + model.getBox().getMaxX() ) / 2,
                                                   model.getBox().getMaxY() );
         launcherLoadPanel = new LauncherLoadPanel( this );
-        PSwing launcherMoleculeSelector = new PSwing(
-                launcherLoadPanel );
+        PSwing launcherMoleculeSelector = new PSwing( launcherLoadPanel );
         getSpatialView().addChild( launcherMoleculeSelector );
         launcherMoleculeSelector.setOffset( launcherTipLocation.getX() - launcherMoleculeSelector.getFullBounds().getWidth() - 70,
                                             launcherTipLocation.getY() + 15 );

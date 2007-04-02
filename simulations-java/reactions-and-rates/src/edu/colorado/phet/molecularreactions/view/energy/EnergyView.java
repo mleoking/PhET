@@ -240,10 +240,6 @@ public class EnergyView extends PNode implements Resetable {
     public void setEnergyLineLabel( String propertyName ) {
         curvePane.setEnergyLineLabel( propertyName );
     }
-
-    public void setManualControl( boolean manualControl ) {
-        curvePane.setManualControlEnabled( manualControl );
-    }
     
     public void setProfileManipulable( boolean manipulable ) {
         curvePane.setProfileManipulable( manipulable );

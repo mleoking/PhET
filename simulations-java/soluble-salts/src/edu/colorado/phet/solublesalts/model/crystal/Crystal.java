@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.solublesalts.model.crystal;
 
+import edu.colorado.phet.collision.Collidable;
+import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.Body;
@@ -17,11 +19,9 @@ import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.Atom;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
-import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonFactory;
-import edu.colorado.phet.collision.Collidable;
-import edu.colorado.phet.collision.CollidableAdapter;
+import edu.colorado.phet.solublesalts.model.salt.Salt;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -274,7 +274,7 @@ public class Crystal extends Body implements Collidable {
      * @return
      * @throws CloneNotSupportedException
      */
-    public Object clone() throws CloneNotSupportedException {
+    public Object clone() {
         ArrayList newIons = new ArrayList();
         IonFactory ionFactory = new IonFactory();
         Ion newSeed = null;

@@ -63,10 +63,20 @@ public class MoleculeIcon extends ImageIcon {
     }
 
 
-    private class IconGraphic extends SimpleMoleculeGraphic {
+    private static class IconGraphic extends SimpleMoleculeGraphic {
+        private final SimpleMolecule molecule;
+        private final EnergyProfile profile;
 
         public IconGraphic( SimpleMolecule molecule, EnergyProfile profile ) {
             super( molecule, profile, true );
+
+            this.molecule = molecule;
+            this.profile  = profile;
+        }
+
+
+        public Object clone() {
+            return new IconGraphic( (SimpleMolecule)molecule.clone(), profile );
         }
     }
 }
