@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.opticaltweezers.view.SphericalNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PCanvas;
@@ -35,11 +36,12 @@ public class TestBeamShapeModel extends JFrame {
     private static final double BEAM_RADIUS_AT_WAIST = 250;
     private static final double BEAM_HEIGHT = ( 2 * FLUID_Y_OFFSET ) + FLUID_SIZE.getHeight();
     private static final double BEAM_WAVELENGTH = 1064;
+    private static final double VISIBLE_WAVELENGTH = 632; // nm
     private static final double BEAD_DIAMETER = 200;
     private static final double OBJECTIVE_HEIGHT = 40;
-    private static final double MIN_POWER = 0; // mW
     private static final double MAX_POWER = 1000; // mW
-    private static final double POWER = 500; // mW
+    private static final double POWER = 800; // mW
+    private static final double MAX_ALPHA = 230; // 0..255
     
     public static void main( String[] args ) {
         TestBeamShapeModel frame = new TestBeamShapeModel();
@@ -123,8 +125,8 @@ public class TestBeamShapeModel extends JFrame {
             final int numberOfPoints = (int) distanceFromWaistToObjective;
             Point2D[] points = new Point2D.Double[ numberOfPoints ];
             for ( int z = 0; z < points.length; z++ ) {
-                double x = getBeamRadiusAt( z, distanceFromWaistToObjective, radiusAtWaist, radiusAtObjective, wavelength );
-                points[z] = new Point2D.Double( x, z );
+                double r = getBeamRadiusAt( z, distanceFromWaistToObjective, radiusAtWaist, radiusAtObjective, wavelength );
+                points[z] = new Point2D.Double( r, z );
             }
             System.out.println( "min radius = " + points[0].getX() );
             System.out.println( "max radius = " + points[points.length-1].getX() );
@@ -162,18 +164,35 @@ public class TestBeamShapeModel extends JFrame {
             outlineNode.setPaint( null );
             addChild( outlineNode );
             
-            // Image to hold gradient pixel data
-            int bufWidth = (int)( 2 * radiusAtObjective );
-            int bufHeight = (int) distanceFromWaistToObjective;
+            // Max power intensity, at center of trap
+            double minRadius = getBeamRadiusAt( 0, distanceFromWaistToObjective, radiusAtWaist, radiusAtObjective, wavelength );
+            final double maxIntensity = getBeamIntensityAt( 0, minRadius, MAX_POWER );
+            
+            // Color for the laser beam
+            Color c = VisibleColor.wavelengthToColor( VISIBLE_WAVELENGTH );
+            int red = c.getRed();
+            int green = c.getGreen();
+            int blue = c.getBlue();
+            
+            // Image with gradient pixel data
+            int bufWidth = (int)radiusAtObjective;
+            int bufHeight = (int)distanceFromWaistToObjective;
             BufferedImage bi = new BufferedImage( bufWidth, bufHeight, BufferedImage.TYPE_INT_ARGB );
-            for ( int x = 0; x < bufWidth; x++ ) {
-                for ( int y = 0; y < bufHeight; y++ ) {
-                    bi.setRGB( x, y, 0xFFFFFF );
+            for ( int y = 0; y < bufHeight; y++ ) {
+                double r = getBeamRadiusAt( y, distanceFromWaistToObjective, radiusAtWaist, radiusAtObjective, wavelength );
+                for ( int x = 0; x < bufWidth; x++ ) {
+                    int argb = 0x00000000;  // ARGB
+                    if ( x <= r ) {
+                        double intensity = getBeamIntensityAt( x, r, POWER );
+                        int alpha = (int) ( MAX_ALPHA * intensity / maxIntensity );
+                        argb = ( alpha << 24 ) | ( red << 16 ) | ( green << 8 ) | blue;
+                    }
+                    bi.setRGB( x, y, argb );
                 }
             }
             
             PImage gradientNode = new PImage( bi );
-//            addChild( gradientNode );
+            addChild( gradientNode );
         }
         
         private double getBeamRadiusAt( double z, double zmax, double r0, double rmax, double wavelength ) {
