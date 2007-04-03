@@ -141,7 +141,7 @@ public class HAModule extends PiccoloModule {
         // Model
         //----------------------------------------------------------------------------
 
-        IClock clock = getClock();
+        HAClock clock = (HAClock) getClock();
         
         {
             // Gun
@@ -318,10 +318,10 @@ public class HAModule extends PiccoloModule {
             _energyDiagramCheckBoxNode.addInputEventListener( new CursorHandler() );
 
             // diagrams
-            _solarSystemEnergyDiagram = new SolarSystemEnergyDiagram();
-            _bohrEnergyDiagram = new BohrEnergyDiagram( getClock() );
-            _deBroglieEnergyDiagram = new DeBroglieEnergyDiagram( getClock() );
-            _schrodingerEnergyDiagram = new SchrodingerEnergyDiagram( getClock() );
+            _solarSystemEnergyDiagram = new SolarSystemEnergyDiagram( clock );
+            _bohrEnergyDiagram = new BohrEnergyDiagram( clock );
+            _deBroglieEnergyDiagram = new DeBroglieEnergyDiagram( clock );
+            _schrodingerEnergyDiagram = new SchrodingerEnergyDiagram( clock );
             
             ActionListener closeListener = new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
