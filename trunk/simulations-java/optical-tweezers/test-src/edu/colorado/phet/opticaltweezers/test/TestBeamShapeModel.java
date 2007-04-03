@@ -15,6 +15,7 @@ import edu.colorado.phet.opticaltweezers.view.SphericalNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -91,7 +92,7 @@ public class TestBeamShapeModel extends JFrame {
         rootNode.addChild( laserControlsNode );
         
         PNode beadNode = new SphericalNode( BEAD_DIAMETER, Color.yellow, new BasicStroke(1f), Color.BLACK, true );
-        beadNode.setOffset( beamNode.getOffset() );
+        beadNode.setOffset( beamNode.getOffset().getX() - 400, beamNode.getOffset().getY() );
         rootNode.addChild( beadNode );
         
         rootNode.scale( 0.3 );
@@ -174,24 +175,44 @@ public class TestBeamShapeModel extends JFrame {
             int green = c.getGreen();
             int blue = c.getBlue();
             
-            // Image with gradient pixel data
-            int bufWidth = (int)radiusAtObjective;
-            int bufHeight = (int)distanceFromWaistToObjective;
+            // Image to hold gradient, odd number of pixels in each dimension, image will be symmetrical about center
+            int bufWidth = (int)( 2 * radiusAtObjective );
+            if ( bufWidth % 2 == 0 ) {
+                bufWidth++;
+            }
+            int bufHeight = (int)( 2 * distanceFromWaistToObjective );
+            if ( bufHeight % 2 == 0 ) {
+                bufHeight++;
+            }
             BufferedImage bi = new BufferedImage( bufWidth, bufHeight, BufferedImage.TYPE_INT_ARGB );
-            for ( int y = 0; y < bufHeight; y++ ) {
+
+            // Create the gradient, working from the center out
+            int iy1 = bufHeight / 2;
+            int iy2 = iy1;
+            for ( int y = 0; y < ( bufHeight / 2 ) + 1; y++ ) {
                 double r = getBeamRadiusAt( y, distanceFromWaistToObjective, radiusAtWaist, radiusAtObjective, wavelength );
-                for ( int x = 0; x < bufWidth; x++ ) {
+                int ix1 = bufWidth / 2;
+                int ix2 = ix1;
+                for ( int x = 0; x < ( bufWidth / 2 ) + 1; x++ ) {
                     int argb = 0x00000000;  // ARGB
                     if ( x <= r ) {
                         double intensity = getBeamIntensityAt( x, r, POWER );
                         int alpha = (int) ( MAX_ALPHA * intensity / maxIntensity );
                         argb = ( alpha << 24 ) | ( red << 16 ) | ( green << 8 ) | blue;
                     }
-                    bi.setRGB( x, y, argb );
+                    bi.setRGB( ix1, iy1, argb ); // lower right quadrant
+                    bi.setRGB( ix1, iy2, argb ); // upper right
+                    bi.setRGB( ix2, iy1, argb ); // lower left
+                    bi.setRGB( ix2, iy2, argb ); // upper left
+                    ix1++;
+                    ix2--;
                 }
+                iy1++;
+                iy2--;
             }
             
             PImage gradientNode = new PImage( bi );
+            gradientNode.setOffset( -gradientNode.getFullBounds().getWidth()/2, -gradientNode.getFullBounds().getHeight()/2 );
             addChild( gradientNode );
         }
         
