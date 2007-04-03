@@ -11,6 +11,7 @@ public class SkaterCharacterSet {
 
     public SkaterCharacterSet() {
         addSkaterCharacter( new SkaterCharacter( "images/skater3.png", "PhET Skater", 75.0, 1.8 ) );
+        addSkaterCharacter( new SkaterCharacter( "images/starskater2.gif", "Star Skater", 60.0, 1.5 ) );
 //        addSkaterCharacter( new SkaterCharacter( "images/ferrari-side2.gif", "Ferarri", 2000.0, 1.0 ) );
 //        addSkaterCharacter( new SkaterCharacter( "images/Lunar-Rover.gif", "Lunar Rover", 210.0, 1.2 ) );
 //        addSkaterCharacter( new SkaterCharacter( "images/Mars-Lander.gif", "Mars Lander", 180.0, 1.3 ) );
