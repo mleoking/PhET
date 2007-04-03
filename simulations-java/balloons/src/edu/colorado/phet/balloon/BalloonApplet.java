@@ -9,12 +9,10 @@ import edu.colorado.phet.common.IHelp;
 import edu.colorado.phet.common.view.util.ImageDebugFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
-import phet.ImageLoader2;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import phet.paint.*;
 import phet.paint.particle.ParticlePainterAdapter;
 import phet.phys2d.*;
-import phet.utils.ImageLoader;
-import phet.utils.ResourceLoader4;
 
 import javax.swing.*;
 import java.awt.*;
@@ -80,7 +78,7 @@ public class BalloonApplet extends JApplet implements IHelp {
         minusPainter.paintAt( 84, 167, g2 );
     }
 
-    public void init(String[] args) {
+    public void init(String[] args) throws IOException {
         SimStrings.getInstance().init( args, BalloonsConfig.localizedStringsPath );
 
         plusPainter.setPaint( PlusPainter.NONE );
@@ -88,17 +86,14 @@ public class BalloonApplet extends JApplet implements IHelp {
 
         width = PANEL_WIDTH;
         height = PANEL_HEIGHT;
-        ImageLoader loader = new ResourceLoader4( getClass().getClassLoader(), this );
 
-//        String blueBalloonIm = "FilteredBalloon-ii.GIF";
-//        String yellowBalloonIm = "balloon5_filter-ii.GIF";
         String blueBalloonIm = "balloon-blue.gif";
         String yellowBalloonIm = "balloon-yellow.gif";
-        BufferedImage balloon = loader.loadBufferedImage( "images/" + blueBalloonIm );
-        BufferedImage blueCharge = loader.loadBufferedImage( "images/" + blueBalloonIm );
+        BufferedImage balloon = new ImageLoader().loadImage( "images/" + blueBalloonIm );
+        BufferedImage blueCharge = new ImageLoader().loadImage( "images/" + blueBalloonIm );
 
-        BufferedImage yelBal = loader.loadBufferedImage( "images/" + yellowBalloonIm );
-        BufferedImage yelCharge = loader.loadBufferedImage( "images/" + yellowBalloonIm );
+        BufferedImage yelBal = new ImageLoader().loadImage( "images/" + yellowBalloonIm );
+        BufferedImage yelCharge = new ImageLoader().loadImage( "images/" + yellowBalloonIm );
 
         paintCharge( yelCharge );
         paintCharge( blueCharge );
@@ -147,7 +142,7 @@ public class BalloonApplet extends JApplet implements IHelp {
         cm.addBalloonDragListener( chargeMover );
         bd.addBalloonDragListener( cm );
 
-        sweaterImage = loader.loadBufferedImage( "images/sweaterWidth300.gif" );
+        sweaterImage = ImageLoader.loadBufferedImage( "images/sweaterWidth300.gif" );
 
         FixedImagePainter sweater = new FixedImagePainter( sweaterImage );
         layeredPainter.addPainter( sweater, 0 );
@@ -303,7 +298,7 @@ public class BalloonApplet extends JApplet implements IHelp {
         balloonHelp = new BalloonHelpPainter( this );
     }
 
-    public static void main( String[] args ) throws UnsupportedLookAndFeelException {
+    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
         isApplet = false;
         BalloonApplet ba = new BalloonApplet();
@@ -346,7 +341,7 @@ public class BalloonApplet extends JApplet implements IHelp {
     public void showMegaHelp() {
         try {
 //            new ImageDebugFrame( ImageLoader2.loadBufferedImage("images/sweaterWidth300.gif" ) ).setVisible( true );
-            new ImageDebugFrame( ImageLoader2.loadBufferedImage( "balloon-meg.gif" ) ).setVisible( true );
+            new ImageDebugFrame( ImageLoader.loadBufferedImage( "balloon-meg.gif" ) ).setVisible( true );
         }
         catch( IOException e ) {
             e.printStackTrace();
