@@ -63,7 +63,4 @@ public class PlusPainter implements ParticlePainter {
         paint( (Charge)p, x, y, g );
     }
 
-    public boolean contains( Particle part, Point p ) {
-        return false;
-    }
 }

@@ -31,11 +31,6 @@ public class System2D {
         laws.add( lx );
     }
 
-    public void addLaw( Propagator prop ) {
-        Law x = new PropagatorLaw( prop );
-        addLaw( x );
-    }
-
     public int numLaws() {
         return laws.size();
     }

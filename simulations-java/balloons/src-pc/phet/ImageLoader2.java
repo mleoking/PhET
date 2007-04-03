@@ -64,34 +64,8 @@ public class ImageLoader2 {
         return buffy;
     }
 
-    public void setImageIOLoader() {
-        this.loadStrategy = new ImageIOLoader();
-    }
-
     public void setPhetLoader() {
         this.loadStrategy = new PhetResourceLoader();
-    }
-
-    public void setToolkitLoader() {
-        this.loadStrategy = new ToolkitLoader();
-    }
-
-    /**
-     * So you can add your own strategy.
-     */
-    public void setLoadStrategy( LoadStrategy loadStrategy ) {
-        this.loadStrategy = loadStrategy;
-    }
-
-    /**
-     * So you can add your own strategy.
-     */
-    public void setConversionStrategy( ConversionStrategy conversionStrategy ) {
-        this.conversionStrategy = conversionStrategy;
-    }
-
-    public void setIconLoader() {
-        this.loadStrategy = new IconLoader();
     }
 
     static interface LoadStrategy {
@@ -100,26 +74,6 @@ public class ImageLoader2 {
 
     static interface ConversionStrategy {
         BufferedImage toBufferedImage( Image image );
-    }
-
-    static class ImageIOLoader implements LoadStrategy {
-        public Image loadImage( URL location ) throws IOException {
-            return ImageIO.read( location );
-        }
-    }
-
-    static class IconLoader implements LoadStrategy {
-        public Image loadImage( URL location ) throws IOException {
-            ImageIcon ic = new ImageIcon( location );
-            return ic.getImage();
-        }
-
-    }
-
-    static class ToolkitLoader implements LoadStrategy {
-        public Image loadImage( URL location ) throws IOException {
-            return Toolkit.getDefaultToolkit().getImage( location );
-        }
     }
 
     static class PhetResourceLoader implements LoadStrategy {

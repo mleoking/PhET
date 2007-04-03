@@ -16,10 +16,6 @@ public class ResourceLoader4 implements ImageLoader {
         this.observer = observer;
     }
 
-    public URL getResource( String name ) {
-        return loader.getResource( name );
-    }
-
     public BufferedImage loadBufferedImage( String name ) {
         //URL fileLoc=findResource("images/"+name,c);
         URL fileLoc = loader.getResource( name );

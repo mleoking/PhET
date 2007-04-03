@@ -62,7 +62,4 @@ public class MinusPainter implements ParticlePainter {
         paint( (Charge)p, x, y, g );
     }
 
-    public boolean contains( Particle part, Point p ) {
-        return false;
-    }
 }

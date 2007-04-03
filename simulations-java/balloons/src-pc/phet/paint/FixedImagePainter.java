@@ -25,14 +25,6 @@ public class FixedImagePainter implements Painter {
         return new Point( x, y );
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     public void setImage( BufferedImage im ) {
         this.im = im;
     }
@@ -40,16 +32,6 @@ public class FixedImagePainter implements Painter {
     public void setPosition( Point p ) {
         this.x = p.x;
         this.y = p.y;
-        at = AffineTransform.getTranslateInstance( x, y );
-    }
-
-    public void setY( int y ) {
-        this.y = y;
-        at = AffineTransform.getTranslateInstance( x, y );
-    }
-
-    public void setX( int x ) {
-        this.x = x;
         at = AffineTransform.getTranslateInstance( x, y );
     }
 

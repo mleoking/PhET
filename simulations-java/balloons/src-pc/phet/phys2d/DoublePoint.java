@@ -56,10 +56,6 @@ public class DoublePoint {
         return new DoublePoint( this.x * scale, this.y * scale );
     }
 
-    public double dot( DoublePoint p ) {
-        return p.x * this.x + p.y * this.y;
-    }
-
     public double distance( DoublePoint p ) {
         return Math.sqrt( Math.pow( p.x - x, 2 ) + Math.pow( p.y - y, 2 ) );
     }
@@ -68,17 +64,4 @@ public class DoublePoint {
         return new DoublePoint( this.x - p.x, this.y - p.y );
     }
 
-    public DoublePoint subtract( double x, double y ) {
-        return new DoublePoint( this.x - x, this.y - y );
-    }
-
-    public static DoublePoint average( DoublePoint[] dp ) {
-        phet.phys2d.Averager x = new phet.phys2d.Averager();
-        phet.phys2d.Averager y = new phet.phys2d.Averager();
-        for( int i = 0; i < dp.length; i++ ) {
-            x.update( dp[i].getX() );
-            y.update( dp[i].getY() );
-        }
-        return new DoublePoint( x.value(), y.value() );
-    }
 }
