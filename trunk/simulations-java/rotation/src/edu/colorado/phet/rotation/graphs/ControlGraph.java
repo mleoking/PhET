@@ -6,6 +6,7 @@ import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.colorado.phet.piccolo.nodes.ShadowPText;
+import edu.colorado.phet.piccolo.nodes.ZoomControlNode;
 import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;

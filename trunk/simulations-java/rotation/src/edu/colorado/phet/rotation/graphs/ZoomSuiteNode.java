@@ -1,5 +1,6 @@
 package edu.colorado.phet.rotation.graphs;
 
+import edu.colorado.phet.piccolo.nodes.ZoomControlNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
