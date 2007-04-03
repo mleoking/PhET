@@ -1,3 +1,5 @@
+Thrusting while on track with friction enabled causes incorrect energy behavior (total energy is conserved, thermal energy fluctuates)
+
 • Performance problems after lots of runs
 • Playback/record (depends on correct data structure copying which needs to be implemented and tested)
 • Energy conservation is handling about 6/8 (?) cases correctly, there are still a few instances in which it could fail.
