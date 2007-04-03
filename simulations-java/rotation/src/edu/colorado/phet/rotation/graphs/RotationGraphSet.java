@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation.graphs;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.nodes.ZoomControlNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.SimulationVariable;

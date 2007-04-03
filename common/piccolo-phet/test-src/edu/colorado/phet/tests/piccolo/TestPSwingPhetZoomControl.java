@@ -6,6 +6,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class TestPSwingPhetZoomControl {
     private JFrame frame;
@@ -26,6 +27,7 @@ public class TestPSwingPhetZoomControl {
         zc2.setLocation( 300, 300 );
         ap.addGraphic( zc );
         ap.addGraphic( zc2 );
+        ap.setPreferredSize( new Dimension( 600, 600 ) );
 
         pCanvas.addScreenChild( new PSwing( ap ) );
     }
