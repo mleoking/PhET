@@ -66,6 +66,10 @@ public class ModelViewTransform {
         return _modelToViewTransform.createTransformedShape( shape );
     }
     
+    public double getScaleModelToView() {
+        return _modelToViewTransform.getScaleX();
+    }
+    
     //----------------------------------------------------------------------------
     // Model-to-view transforms
     //----------------------------------------------------------------------------

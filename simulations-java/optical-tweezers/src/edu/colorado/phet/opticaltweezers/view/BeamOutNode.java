@@ -12,8 +12,10 @@ import java.awt.image.BufferedImage;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -36,6 +38,8 @@ public class BeamOutNode extends PhetPNode implements Observer {
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1f );
     private static final Color OUTLINE_COLOR = Color.BLACK;
     
+    private static final int MAX_ALPHA_CHANNEL = 220; // 0-255
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -43,9 +47,9 @@ public class BeamOutNode extends PhetPNode implements Observer {
     private Laser _laser;
     private ModelViewTransform _modelViewTransform;
     
-    private PPath _outlineNode;
     private PImage _gradientNode;
     private BufferedImage _gradientImage;
+    private int _gradientWidth, _gradientHeight;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -67,24 +71,25 @@ public class BeamOutNode extends PhetPNode implements Observer {
         
         _modelViewTransform = modelViewTransform;
 
-        int bufferWidth = (int) _modelViewTransform.modelToView( laser.getDiameterAtObjective() );
-        if ( bufferWidth % 2 == 0 ) {
-            bufferWidth++;
+        // Gradient image
+        _gradientWidth = (int) _laser.getDiameterAtObjective();
+        if ( _gradientWidth % 2 == 0 ) {
+            _gradientWidth++;
         }
-        int bufferHeight = (int) ( 2 * _laser.getDistanceFromObjectiveToWaist() );
-        if ( bufferHeight % 2 == 0 ) {
-            bufferHeight++;
+        _gradientHeight = (int) ( 2 * _laser.getDistanceFromObjectiveToWaist() );
+        if ( _gradientHeight % 2 == 0 ) {
+            _gradientHeight++;
         }
-        _gradientImage = new BufferedImage( bufferWidth, bufferHeight, BufferedImage.TYPE_INT_ARGB );
+        _gradientImage = new BufferedImage( _gradientWidth, _gradientHeight, BufferedImage.TYPE_INT_ARGB ); // setRGB requires TYPE_INT_ARGB
+        _gradientNode = new PImage();
+        _gradientNode.setScale( _modelViewTransform.getScaleModelToView() ); // image is in scale of model coordinates!
+        addChild( _gradientNode );
+        updateGradient();
         
         // Outline of beam shape
         if ( SHOW_OUTLINE ) {
-            _outlineNode = new PPath();
-            _outlineNode.setStroke( OUTLINE_STROKE );
-            _outlineNode.setStrokePaint( OUTLINE_COLOR );
-            _outlineNode.setPaint( null );
-            addChild( _outlineNode );
-            updateOutline();
+            PNode outlineNode = createOutlineNode();
+            addChild( outlineNode );
         }
     }
     
@@ -109,14 +114,54 @@ public class BeamOutNode extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     
     private void updateGradient() {
-        //XXX
+        
+        assert( _gradientImage.getType() == BufferedImage.TYPE_INT_ARGB ); // required by setRGB
+        
+        // Color for the laser beam
+        Color c = VisibleColor.wavelengthToColor( _laser.getVisibleWavelength() );
+        final int red = c.getRed();
+        final int green = c.getGreen();
+        final int blue = c.getBlue();
+        
+        // Max power intensity, at center of trap
+        final double waistRadius = _laser.getBeamRadiusAt( 0 );
+        final double maxPower = _laser.getPowerRange().getMax();
+        final double maxIntensity = Laser.getBeamIntensityAt( 0, waistRadius, maxPower );
+        
+        // Create the gradient, working from the center out
+        int iy1 = _gradientHeight / 2;
+        int iy2 = iy1;
+        for ( int y = 0; y < ( _gradientHeight / 2 ) + 1; y++ ) {
+            final double r = _laser.getBeamRadiusAt( y );
+            int ix1 = _gradientWidth / 2;
+            int ix2 = ix1;
+            for ( int x = 0; x < ( _gradientWidth / 2 ) + 1; x++ ) {
+                int argb = 0x00000000;  // 4 bytes, in order ARGB
+                if ( x <= r ) {
+                    final double intensity = _laser.getBeamIntensityAt( x, r );
+                    final int alpha = (int) ( MAX_ALPHA_CHANNEL * intensity / maxIntensity );
+                    argb = ( alpha << 24 ) | ( red << 16 ) | ( green << 8 ) | ( blue );
+                }
+                _gradientImage.setRGB( ix1, iy1, argb ); // lower right quadrant
+                _gradientImage.setRGB( ix1, iy2, argb ); // upper right
+                _gradientImage.setRGB( ix2, iy1, argb ); // lower left
+                _gradientImage.setRGB( ix2, iy2, argb ); // upper left
+                ix1++;
+                ix2--;
+            }
+            iy1++;
+            iy2--;
+        }
+        
+        _gradientNode.setImage( _gradientImage );
     }
 
     /*
-     * Updates the shape of the beam's outline. 
+     * Create the shape of the beam's outline. 
      * The shape is calculated in model coordinates, then transformed to view coordinates.
+     * The node returned has it's origin at its geometrical center.
      */
-    private void updateOutline() {
+    private PNode createOutlineNode() {
         
         // Shape is symmetric, calculate points for one quarter of the outline, 1 point for each 1 nm
         final int numberOfPoints = (int) _laser.getDistanceFromObjectiveToWaist();
@@ -155,10 +200,14 @@ public class BeamOutNode extends PhetPNode implements Observer {
         // transform to view coordinates
         Shape shape = _modelViewTransform.createTransformedShapeModelToView( p );
 
-        // set node's path
-        _outlineNode.setPathTo( shape );
+        PPath outlineNode = new PPath( shape );
+        outlineNode.setStroke( OUTLINE_STROKE );
+        outlineNode.setStrokePaint( OUTLINE_COLOR );
+        outlineNode.setPaint( null );
         
         // shape was drawn starting at right center, adjust so that origin is at center
-        _outlineNode.setOffset( _outlineNode.getFullBounds().getWidth()/2, _outlineNode.getFullBounds().getHeight()/2 );
+        outlineNode.setOffset( outlineNode.getFullBounds().getWidth()/2, outlineNode.getFullBounds().getHeight()/2 );
+        
+        return outlineNode;
     }
 }
