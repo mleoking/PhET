@@ -4,8 +4,12 @@ package edu.colorado.phet.opticaltweezers.view;
 
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
+import java.util.Observable;
+import java.util.Observer;
 
+import edu.colorado.phet.common.util.DoubleRange;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.util.ColorUtils;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -16,14 +20,21 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeamInNode extends PhetPNode {
+public class BeamInNode extends PhetPNode implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+
+    private static final int MAX_ALPHA_CHANNEL = 180; // 0-255
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PPath _pathNode; // the beam node
+    private Laser _laser;
     private Color _laserColor;
+    private PPath _pathNode; // the beam node
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -31,38 +42,55 @@ public class BeamInNode extends PhetPNode {
     
     /**
      * Constructor.
-     * 
-     * @param width width in view coordinates
-     * @param height height in view coordinates
-     * @param wavelength laser wavelength, in nm
-     * @param alpha alpha component of the beam color
      */
-    public BeamInNode( double width, double height, double wavelength, int alpha ) {
+    public BeamInNode( Laser laser, ModelViewTransform modelViewTransform ) {
         super();
-        
         setPickable( false );
         setChildrenPickable( false );
         
+        _laser = laser;
+        _laser.addObserver( this );
+        
+        _laserColor = VisibleColor.wavelengthToColor( _laser.getVisibleWavelength() );
+        
+        double width = modelViewTransform.modelToView( laser.getDiameterAtObjective() );
+        double height = modelViewTransform.modelToView( laser.getDistanceFromObjectiveToControlPanel() );
         _pathNode = new PPath();
         _pathNode.setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
-        Color wavelengthColor = VisibleColor.wavelengthToColor( wavelength );
-        _laserColor = ColorUtils.addAlpha( wavelengthColor, alpha );
         _pathNode.setPaint( _laserColor );
         _pathNode.setStroke( null );
         addChild( _pathNode );
+        
+        updateAlpha();
+    }
+
+    public void cleanup() {
+        _laser.deleteObserver( this );
     }
     
     //----------------------------------------------------------------------------
-    // Mutators and accessors
+    // Observer implementation
+    //----------------------------------------------------------------------------
+
+    public void update( Observable o, Object arg ) {
+        if ( o == _laser ) {
+            if ( arg == Laser.PROPERTY_POWER ) {
+                updateAlpha();
+            }
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Updaters
     //----------------------------------------------------------------------------
     
-    /**
-     * Sets the alpha component of the beam color.
-     * 
-     * @param alpha 0-255
+    /*
+     * Updates the alpha of the beam's color to match the power of the laser.
      */
-    public void setAlpha( int alpha ) {
-        assert( alpha >= 0 && alpha <= 255 );
+    private void updateAlpha() {
+        double power = _laser.getPower();
+        DoubleRange powerRange = _laser.getPowerRange();
+        int alpha = (int) ( MAX_ALPHA_CHANNEL * ( power - powerRange.getMin() ) / ( powerRange.getMax() - powerRange.getMin() ) );
         Color newColor = ColorUtils.addAlpha( _laserColor, alpha );
         _pathNode.setPaint( newColor );
     }

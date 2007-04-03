@@ -38,7 +38,6 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     
     private static final boolean DEBUG_SHOW_ORIGIN = true;
 
-    private static final int MAX_ALPHA_CHANNEL = 180; // 0-255
     
     private static final Stroke LINE_STROKE = new BasicStroke();
     private static final Color LINE_COLOR = Color.BLACK;
@@ -99,13 +98,11 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         rightLineNode.setStroke( LINE_STROKE );
         rightLineNode.setStrokePaint( LINE_COLOR );
         
-        // Laser beam coming into objective
-        final int alpha = powerToAlpha( _laser.getPower() );
-        _beamInNode = new BeamInNode( laserWidth, controlPanelYOffset, laser.getVisibleWavelength(), alpha );
+        // Laser beam going into objective
+        _beamInNode = new BeamInNode( _laser, _modelViewTransform );
         
-        // Laser beam coming out of objective, height is the distance of objective from top of canvas
-        double beamOutHeight = _modelViewTransform.modelToView( laser.getPositionRef().getY() + _laser.getDistanceFromObjectiveToWaist() );
-        _beamOutNode = new BeamOutNode( laserWidth, beamOutHeight, laser.getVisibleWavelength(), alpha );
+        // Laser beam coming out of objective
+        _beamOutNode = new BeamOutNode( _laser, _modelViewTransform );
         
         // Handles
         double handleHeight = 0.8 * _controlPanel.getFullBounds().getHeight();
@@ -161,7 +158,6 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         // Default state
         updateRunning();
         updatePosition();
-        updatePower();
     }
 
     /**
@@ -169,11 +165,9 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
      */
     public void cleanup() {
         _laser.deleteObserver( this );
+        _beamInNode.cleanup();
+        _beamOutNode.cleanup();
     }
-    
-    //----------------------------------------------------------------------------
-    // Accessors and mutators
-    //----------------------------------------------------------------------------
     
     //----------------------------------------------------------------------------
     // Property change handlers
@@ -205,16 +199,12 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
             if ( arg == Laser.PROPERTY_POSITION ) {
                 updatePosition();
             }
-            else if ( arg == Laser.PROPERTY_POWER ) {
-                updatePower();
-            }
             else if ( arg == Laser.PROPERTY_RUNNING ) {
                 updateRunning();
             }
             else if ( arg == null ) {
-                throw new IllegalArgumentException( "LaserNode.update, null arg" );
+                throw new IllegalArgumentException( "LaserNode.update, arg=null" );
             }
-            //XXX other properties?
         }
     }
     
@@ -231,34 +221,10 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     }
     
     /**
-     * Updates the power to match the model.
-     */
-    private void updatePower() {
-        double power = _laser.getPower();
-        int alpha = powerToAlpha( power);
-        _beamInNode.setAlpha( alpha );
-        _beamOutNode.setAlpha( alpha );
-    }
-    
-    /**
      * Updates the beam's visibility to match the model.
      */
     private void updateRunning() {
         _beamInNode.setVisible( _laser.isRunning() );
         _beamOutNode.setVisible( _laser.isRunning() );
-    }
-
-    //----------------------------------------------------------------------------
-    // Utilities
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Converts power to a color alpha component value.
-     * 
-     * @param power power in mW
-     * @return alpha component value
-     */
-    private int powerToAlpha( double power ) {
-        return (int)( MAX_ALPHA_CHANNEL * ( power - _controlPanel.getMinPower() ) / ( _controlPanel.getMaxPower() - _controlPanel.getMinPower() ) );
     }
 }
