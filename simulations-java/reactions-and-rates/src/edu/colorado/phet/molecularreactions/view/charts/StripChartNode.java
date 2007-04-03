@@ -5,12 +5,11 @@ package edu.colorado.phet.molecularreactions.view.charts;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.nodes.ZoomControlNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartPanel;
@@ -34,6 +33,7 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
     private MoleculePopulationsStripChart stripChart;
     private IClock clock;
     private static final double ZOOM_SCALE_FACTOR = 2.0;
+    private ZoomControlNode zoomControl;
 
     public StripChartNode( MRModule module, Dimension size ) {
         PhetPCanvas stripChartCanvas = new PhetPCanvas();
@@ -82,7 +82,7 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         scrollBar.setEnabled( true );
 
         // Add a rescale button
-        addZoomControl( stripChartCanvas, chartPanel );
+        addZoomControl( module, stripChartCanvas, chartPanel );
 
         stripChartCanvas.setOpaque( true );
 
@@ -113,27 +113,14 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         this.addChild( stripChartCanvas.getPhetRootNode() );
     }
 
-    private void addZoomControl( PhetPCanvas stripChartCanvas, ChartPanel chartPanel ) {
-        ApparatusPanel ap = new ApparatusPanel();
+    private void addZoomControl( MRModule module, PhetPCanvas stripChartCanvas, ChartPanel chartPanel ) {
+        zoomControl = new ZoomControlNode( ZoomControlNode.VERTICAL );
 
-        PhetZoomControl zc = new PhetZoomControl( ap, PhetZoomControl.VERTICAL );
-        zc.setLocation( 0, 0 );
+        zoomControl.setOffset( 10, chartPanel.getPreferredSize().getHeight() - zoomControl.getFullBounds().getHeight() );
 
-        ap.setBounds( 0, 0, zc.getWidth(), zc.getHeight() );
-        ap.setBorder( BorderFactory.createEmptyBorder() );
-        ap.addGraphic( zc );
+        stripChartCanvas.addScreenChild( zoomControl );
 
-        PSwing zoomNode = new PSwing( ap );
-
-        zoomNode.setOffset( 10,
-                            chartPanel.getPreferredSize().getHeight() - zoomNode.getFullBounds().getHeight() );
-
-        zoomNode.setPickable( true );
-        zoomNode.moveToFront();
-
-        stripChartCanvas.addScreenChild( zoomNode );
-
-        zc.addZoomListener( new ChartRescalingZoomListener() );
+        zoomControl.addZoomListener( new ChartRescalingZoomListener() );
     }
 
     /*
@@ -161,20 +148,26 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         stripChart.rescale();
     }
 
-    private class ChartRescalingZoomListener implements PhetZoomControl.ZoomListener {
+    private class ChartRescalingZoomListener implements ZoomControlNode.ZoomListener {
         private static final int MIN_NUM_MOLECULES = 2;
 
-        public void zoomPerformed( PhetZoomControl.ZoomEvent event ) {
-            int type = event.getZoomType();
+        public void zoomedOut() {
+            handleZoom( true );
+        }
 
+        public void zoomedIn() {
+            handleZoom( false );
+        }
+
+        private void handleZoom( boolean zoomOut ) {
             Range plotRange = stripChart.getYRange();
 
             double newMax = plotRange.getLength();
 
-            if (type == PhetZoomControl.ZoomEvent.VERTICAL_ZOOM_OUT) {
+            if ( zoomOut ) {
                 newMax *= ZOOM_SCALE_FACTOR;
             }
-            else if (type == PhetZoomControl.ZoomEvent.VERTICAL_ZOOM_IN) {
+            else {
                 newMax /= ZOOM_SCALE_FACTOR;
 
                 if (newMax < MIN_NUM_MOLECULES ) {
