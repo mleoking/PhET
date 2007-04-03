@@ -2,10 +2,9 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-
-import edu.colorado.phet.piccolo.PhetPCanvas;
 
 /**
  * ModelViewTransform provides the transforms between model and view coordinate systems.
@@ -57,6 +56,14 @@ public class ModelViewTransform {
         
         _pModelDistance = new Point2D.Double();
         _pViewDistance = new Point2D.Double();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public Shape createTransformedShapeModelToView( Shape shape ) {
+        return _modelToViewTransform.createTransformedShape( shape );
     }
     
     //----------------------------------------------------------------------------

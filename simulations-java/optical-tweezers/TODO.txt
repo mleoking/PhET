@@ -65,6 +65,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/3/07 - draw outline of beam shape in BeamOutNode
+4/3/07 - make BeamInNode and BeamOutNode observers of Laser
 4/3/07 - test program to display laser power gradient
 4/3/07 - model laser power gradient
 4/2/07 - fix beam shape model, calc of scaling factor was wrong
