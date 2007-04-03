@@ -1,4 +1,4 @@
-package edu.colorado.phet.common;
+package edu.colorado.phet.balloon;
 
 /**
  * User: Sam Reid

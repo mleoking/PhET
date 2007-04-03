@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.common.view.util;
+package edu.colorado.phet.balloon;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,8 +11,8 @@ import java.awt.*;
  * Copyright (c) Apr 11, 2005 by Sam Reid
  */
 
-public class ImageDebugFrame extends JFrame {
-    public ImageDebugFrame( Image im ) {
+public class ImageFrame extends JFrame {
+    public ImageFrame( Image im ) {
         JLabel contentPane = new JLabel( new ImageIcon( im ) );
         contentPane.setOpaque( true );
         setContentPane( contentPane );
