@@ -127,18 +127,38 @@ public class Laser extends MovableObject implements ModelElement {
     }
     
     //----------------------------------------------------------------------------
-    // Beam shape & gradient
+    // Beam intensity (power gradient)
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the intensity at a specified horizontal location along a specified radius.
+     * The radius can be calculated using getBeamRadiusAt.
+     * 
+     * @param x
+     * @param radius
+     * @return intensity, in units of power/nm^2
+     */
     public double getBeamIntensityAt( double x, double radius ) {
         return getBeamIntensityAt( x, radius, _power );
     }
     
+    /**
+     * Gets the intensity for a specified location, radius and power.
+     * The radius can be calculated using getBeamRadiusAt.
+     * 
+     * @param x
+     * @param radius
+     * @return intensity, in units of power/nm^2
+     */
     public static double getBeamIntensityAt( double x, double radius, double power ) {
         double t1 = power / ( Math.PI * ( ( radius * radius ) / 2 ) );
         double t2 = Math.exp( ( -2 * x * x ) / ( radius * radius ) );
         return t1 * t2;
     }
+    
+    //----------------------------------------------------------------------------
+    // Beam radius (shape)
+    //----------------------------------------------------------------------------
     
     /**
      * Gets the beam radius at a specified distance from the center of the waist.
