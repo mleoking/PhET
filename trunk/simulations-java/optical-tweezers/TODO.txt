@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- implement laser beam gradient
+- optimize gradient view of laser power intensity using a BufferedImageOp that adjusts alpha channel
 
 HIGH PRIORITY:
 - bug: fluid viscosity slider is brain damaged
