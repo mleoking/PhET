@@ -17,22 +17,11 @@ public class LayeredPainter implements Painter {
         remove( p, layer );
     }
 
-    public boolean hasPainter( Painter p, int layer ) {
-        if( painters.get( new Integer( layer ) ) == null ) {
-            return false;
-        }
-        return ( (Vector)painters.get( new Integer( layer ) ) ).contains( p );
-    }
-
     public void remove( Painter p, int layer ) {
         Vector v = (Vector)painters.get( new Integer( layer ) );
         if( v != null ) {
             v.remove( p );
         }
-    }
-
-    public Painter[] paintersAt( int i ) {
-        return (Painter[])( ( (Vector)painters.get( new Integer( i ) ) ).toArray( new Painter[0] ) );
     }
 
     public void addPainter( Painter p ) {

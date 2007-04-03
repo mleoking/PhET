@@ -14,10 +14,6 @@ public class TruncatedSeries {
         pointerIndex = 0;
     }
 
-    public int getCount() {
-        return addCount;
-    }
-
     public int length() {
         return size;
     }

@@ -10,10 +10,6 @@ public class PainterPanel extends JPanel {
         this.p = p;
     }
 
-    public void setPainter( Painter p ) {
-        this.p = p;
-    }
-
     public void paintComponent( Graphics g ) {
         super.paintComponent( g );
         if( p != null ) {

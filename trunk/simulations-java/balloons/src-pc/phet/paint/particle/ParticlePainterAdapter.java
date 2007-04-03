@@ -18,15 +18,8 @@ public class ParticlePainterAdapter implements Painter {
         return getClass().getName() + ", Particle=" + part + ", Paint=" + p;
     }
 
-    public boolean contains( Point px ) {
-        return p.contains( part, px );
-    }
-
     public void paint( Graphics2D g ) {
         p.paint( part, g );
     }
 
-    public Particle getParticle() {
-        return part;
-    }
 }
