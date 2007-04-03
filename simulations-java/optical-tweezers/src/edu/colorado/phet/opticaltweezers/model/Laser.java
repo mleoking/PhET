@@ -136,18 +136,38 @@ public class Laser extends MovableObject implements ModelElement {
      * of the waist, in the direction that the beam is pointing, then z is a 
      * distance on this line.
      * 
-     * @param z vertical distance from the center of the waist (nm)
-     * @return radius at z
+     * @param y vertical distance from the center of the waist (nm)
+     * @return radius at y, in nm
      */
-    public double getBeamRadiusAt( double z ) {
-        final double zAbs = Math.abs( z );
+    public double getBeamRadiusAt( double y ) {
+        final double yAbs = Math.abs( y );
         final double r0 = _diameterAtWaist / 2;
         final double rMax = _diameterAtObjective / 2;
         final double zr = ( Math.PI * r0 * r0 ) / _wavelength;
         final double A = ( _distanceFromObjectiveToWaist / zr ) / Math.sqrt( ( ( rMax / r0 ) * ( rMax / r0 ) ) - 1 );
-        final double t1 = zAbs / ( A * zr );
+        final double t1 = yAbs / ( A * zr );
         double rz = r0 * Math.sqrt(  1 + ( t1 * t1 ) );
         return rz;
+    }
+    
+    /**
+     * Is a specified point inside the out-going laser beam's shape?
+     * 
+     * @param x
+     * @param y
+     * @return true or false
+     */
+    public boolean contains( double x, double y ) {
+        assert( getOrientation() == Math.toRadians( -90 ) ); // laser beam must point up
+        boolean b = false;
+        // Is y on the out-going side of the objective?
+        if ( y <= getY() + _distanceFromObjectiveToWaist ) {
+            double radius = getBeamRadiusAt( y - getY() );
+            if ( radius <= Math.abs( getX() - x ) ) {
+                b = true;
+            }
+        }
+        return b;
     }
     
     /**
@@ -157,16 +177,7 @@ public class Laser extends MovableObject implements ModelElement {
      * @return true or false
      */
     public boolean contains( Point2D p ) {
-        assert( getOrientation() == Math.toRadians( -90 ) ); // laser beam must point up
-        boolean b = false;
-        // Is p on the out-going side of the objective?
-        if ( p.getY() <= getY() + _distanceFromObjectiveToWaist ) {
-            double radius = getBeamRadiusAt( p.getY() - getY() );
-            if ( radius <= Math.abs( getX() - p.getX() ) ) {
-                b = true;
-            }
-        }
-        return b;
+        return contains( p.getX(), p.getY() );
     }
     
     //----------------------------------------------------------------------------
