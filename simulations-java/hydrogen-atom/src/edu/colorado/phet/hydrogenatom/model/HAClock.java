@@ -32,11 +32,19 @@ public class HAClock extends SwingClock {
     /* Simulation time between clock ticks (units defined by the simulation) */
     private static final double SIM_DT = HAConstants.DEFAULT_CLOCK_STEP;
     
+    private double _dt;
+    
     public HAClock() {
         super( WALL_DT, new TimingStrategy.Constant( SIM_DT ) );
+        _dt = SIM_DT;
     }
     
-    public void setSimulationTimeChange( final double dt ) {
+    public void setDt( final double dt ) {
+        _dt = dt;
         setTimingStrategy( new TimingStrategy.Constant( dt ) );
+    }
+    
+    public double getDt() {
+        return _dt;
     }
 }

@@ -79,7 +79,7 @@ public class HAClockControlPanel extends JPanel {
         // Clock
         double dt = HAConstants.DEFAULT_CLOCK_STEP;
         _clock = clock;
-        _clock.setSimulationTimeChange( dt );
+        _clock.setDt( dt );
         
         // Labels (use localized strings from phetcommon)
         String playLabel = SimStrings.getInstance().getString( "Common.ClockControlPanel.Play" );
@@ -246,7 +246,7 @@ public class HAClockControlPanel extends JPanel {
     private void handleClockIndexChange() {
         int index = _clockIndexSlider.getValue();
         double dt = HAConstants.CLOCK_STEPS[index];
-        _clock.setSimulationTimeChange( dt );
+        _clock.setDt( dt );
         updateDt( dt );
     }
     

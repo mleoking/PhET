@@ -16,10 +16,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
+import edu.colorado.phet.hydrogenatom.model.HAClock;
 import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * SolarSystemEnergyDiagram is the energy diagram for the Solar System model.
@@ -50,12 +50,13 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
      * atom is destroyed. If the height of the diagram is changed, then 
      * you'll need to play with this to find the correct new value.
      */
-    private static final double ACCELERATION = 1.23;
+    private static final double ACCELERATION = 0.1105;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
+    private HAClock _clock;
     private SolarSystemModel _atom;
     
     //----------------------------------------------------------------------------
@@ -67,8 +68,9 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
      * 
      * @param canvas
      */
-    public SolarSystemEnergyDiagram() {
+    public SolarSystemEnergyDiagram( HAClock clock ) {
         super( 0 /* numberOfStates */ );
+        _clock = clock;
     }
     
     /**
@@ -134,7 +136,9 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
         if ( o instanceof SolarSystemModel ) {
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET ) {
                 ElectronNode electronNode = getElectronNode();
-                electronNode.setOffset( electronNode.getOffset().getX(), electronNode.getOffset().getY() * ACCELERATION );
+                double dt = _clock.getDt();
+                double accel = 1 + ( dt * ACCELERATION );
+                electronNode.setOffset( electronNode.getOffset().getX(), electronNode.getOffset().getY() * accel );
             }
             else if ( arg == AbstractHydrogenAtom.PROPERTY_ATOM_DESTROYED ) {
                 clearAtom();
