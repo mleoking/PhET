@@ -65,6 +65,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/3/07 - implemented gradient field view of Laser power intensity, very slow!
+4/3/07 - add power intensity model to Laser
 4/3/07 - draw outline of beam shape in BeamOutNode
 4/3/07 - make BeamInNode and BeamOutNode observers of Laser
 4/3/07 - test program to display laser power gradient

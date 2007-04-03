@@ -127,8 +127,18 @@ public class Laser extends MovableObject implements ModelElement {
     }
     
     //----------------------------------------------------------------------------
-    // Beam shape
+    // Beam shape & gradient
     //----------------------------------------------------------------------------
+    
+    public double getBeamIntensityAt( double x, double radius ) {
+        return getBeamIntensityAt( x, radius, _power );
+    }
+    
+    public static double getBeamIntensityAt( double x, double radius, double power ) {
+        double t1 = power / ( Math.PI * ( ( radius * radius ) / 2 ) );
+        double t2 = Math.exp( ( -2 * x * x ) / ( radius * radius ) );
+        return t1 * t2;
+    }
     
     /**
      * Gets the beam radius at a specified distance from the center of the waist.
