@@ -116,6 +116,16 @@ public class SolarSystemModel extends AbstractHydrogenAtom {
         return _electronOffset;
     }
     
+    /**
+     * Gets the electron's distance from the center of the atom.
+     * @return double
+     */
+    public double getElectronDistanceFromCenter() {
+        double x = _electronOffset.getX();
+        double y = _electronOffset.getY();
+        return Math.sqrt( ( x * x ) + ( y * y ) );
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------

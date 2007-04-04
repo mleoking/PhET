@@ -15,8 +15,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
-import edu.colorado.phet.hydrogenatom.model.HAClock;
+import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -41,22 +42,15 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
     private static final double X_MARGIN = 15;
     
     // Distance between the electron's initial position and top of the diagram.
-    private static final double Y_MARGIN = 10;
+    private static final double Y_MARGIN = 40;
     
-    /*
-     * The motion of the electron in this diagram is totally "Hollywood".
-     * Play with the value of this constant until the electron falls off 
-     * the bottom of the diagram at approximately the same time that the 
-     * atom is destroyed. If the height of the diagram is changed, then 
-     * you'll need to play with this to find the correct new value.
-     */
-    private static final double ACCELERATION = 0.1105;
+    // Electron's distance from the atom's center when it drops off bottom of diagram
+    private static final double MIN_RADIUS = 15; // same as Bohr's ground state orbit
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private HAClock _clock;
     private SolarSystemModel _atom;
     
     //----------------------------------------------------------------------------
@@ -66,11 +60,10 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
     /**
      * Constructor.
      * 
-     * @param canvas
+     * @param clock
      */
-    public SolarSystemEnergyDiagram( HAClock clock ) {
+    public SolarSystemEnergyDiagram( IClock clock ) {
         super( 0 /* numberOfStates */ );
-        _clock = clock;
     }
     
     /**
@@ -109,11 +102,7 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
             _atom.addObserver( this );
 
             // Set electron's initial position
-            Rectangle2D drawingArea = getDrawingArea();
-            PBounds electronBounds = electronNode.getFullBounds();
-            double x = drawingArea.getX() + ( electronBounds.getWidth() / 2 ) + X_MARGIN;
-            double y = drawingArea.getY() + ( electronBounds.getHeight() / 2 ) + Y_MARGIN;
-            electronNode.setOffset( x, y );
+            updateElectronPosition();
         }
     }
     
@@ -133,16 +122,39 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
      * When the atom is destroyed, clear the atom.
      */
     public void update( Observable o, Object arg ) {
-        if ( o instanceof SolarSystemModel ) {
+        if ( o == _atom ) {
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET ) {
-                ElectronNode electronNode = getElectronNode();
-                double dt = _clock.getDt();
-                double accel = 1 + ( dt * ACCELERATION );
-                electronNode.setOffset( electronNode.getOffset().getX(), electronNode.getOffset().getY() * accel );
+                updateElectronPosition();
             }
             else if ( arg == AbstractHydrogenAtom.PROPERTY_ATOM_DESTROYED ) {
                 clearAtom();
             }
         }
+    }
+    
+    /*
+     * Updates the position of the electron in the diagram.
+     */
+    private void updateElectronPosition() {
+        
+        ElectronNode electronNode = getElectronNode();
+        PBounds electronBounds = electronNode.getFullBounds();
+        Rectangle2D drawingArea = getDrawingArea();
+
+        final double x = drawingArea.getX() + ( electronBounds.getWidth() / 2 ) + X_MARGIN;
+        
+        double y = Double.MAX_VALUE; // off the chart
+        final double r = _atom.getElectronDistanceFromCenter();
+        final double minEnergy = -1 / ( MIN_RADIUS * MIN_RADIUS );
+        if ( r > 0 ) {
+            final double energy = -1 / ( r * r );
+            if ( energy >= minEnergy ) {
+                double h = drawingArea.getHeight() - Y_MARGIN; // height of energy axis
+                double d = h * energy / minEnergy; // how far down the energy axis is this energy value?
+                y = drawingArea.getY() + Y_MARGIN + d;
+            }
+        }
+
+        electronNode.setOffset( x, y );
     }
 }
