@@ -2,12 +2,12 @@
 • Performance problems after lots of runs
 • Playback/record (depends on correct data structure copying which needs to be implemented and tested)
 • Track should bump up when beneath ground
-• Project doesn't build using normal build scripts
 • add ball graphic
 • Bar chart should listen to a single particle, not the entire model
 • Other feedback on track graphics?
 • Other feedback on characters?
 • When running tests with a non-default character, dimensions & character don't match.
+• Is skater location correctly preserved on serialization?
 
 • Improve performance e.g. during right-click interaction with track
 • Improve performance for zooming out:
