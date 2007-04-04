@@ -38,7 +38,7 @@ import java.util.EventListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class StripChart implements Resetable {
+public class StripChart implements Resetable, ResizableChart {
 
     private XYSeries[] series;
     private JFreeChart chart;

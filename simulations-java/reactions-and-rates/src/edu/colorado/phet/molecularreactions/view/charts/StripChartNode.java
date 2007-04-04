@@ -9,11 +9,9 @@ import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.nodes.ZoomControlNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartPanel;
-import org.jfree.data.Range;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,18 +27,16 @@ import java.awt.event.AdjustmentListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class StripChartNode extends PNode implements Resetable, Rescaleable {
+public class StripChartNode extends AbstractRescaleableChartNode implements Resetable, Rescaleable {
     private MoleculePopulationsStripChart stripChart;
     private IClock clock;
-    private static final double ZOOM_SCALE_FACTOR = 2.0;
-    private ZoomControlNode zoomControl;
 
     public StripChartNode( MRModule module, Dimension size ) {
         PhetPCanvas stripChartCanvas = new PhetPCanvas();
 
         this.clock = module.getClock();
         final double xAxisRange = MRConfig.STRIP_CHART_VISIBLE_TIME_RANGE;
-        Insets scrollBarInsets = new Insets( 3, 50, 3, 10 );
+        Insets scrollBarInsets = new Insets( 3, 80, 3, 10 );
 
         int numBufferedDataPoints = MRConfig.STRIP_CHART_BUFFER_SIZE;
         stripChart = new MoleculePopulationsStripChart( module.getMRModel(),
@@ -81,8 +77,7 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         scrollBar.setVisible( true );
         scrollBar.setEnabled( true );
 
-        // Add a rescale button
-        addZoomControl( module, stripChartCanvas, chartPanel );
+        addZoomControl( size, stripChartCanvas,  stripChart );
 
         stripChartCanvas.setOpaque( true );
 
@@ -113,16 +108,6 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         this.addChild( stripChartCanvas.getPhetRootNode() );
     }
 
-    private void addZoomControl( MRModule module, PhetPCanvas stripChartCanvas, ChartPanel chartPanel ) {
-        zoomControl = new ZoomControlNode( ZoomControlNode.VERTICAL );
-
-        zoomControl.setOffset( 10, chartPanel.getPreferredSize().getHeight() - zoomControl.getFullBounds().getHeight() );
-
-        stripChartCanvas.addScreenChild( zoomControl );
-
-        zoomControl.addZoomListener( new ChartRescalingZoomListener() );
-    }
-
     /*
      * Starts and stops recording
      */
@@ -148,35 +133,4 @@ public class StripChartNode extends PNode implements Resetable, Rescaleable {
         stripChart.rescale();
     }
 
-    private class ChartRescalingZoomListener implements ZoomControlNode.ZoomListener {
-        private static final int MIN_NUM_MOLECULES = 2;
-
-        public void zoomedOut() {
-            handleZoom( true );
-        }
-
-        public void zoomedIn() {
-            handleZoom( false );
-        }
-
-        private void handleZoom( boolean zoomOut ) {
-            Range plotRange = stripChart.getYRange();
-
-            double newMax = plotRange.getLength();
-
-            if ( zoomOut ) {
-                newMax *= ZOOM_SCALE_FACTOR;
-            }
-            else {
-                newMax /= ZOOM_SCALE_FACTOR;
-
-                if (newMax < MIN_NUM_MOLECULES ) {
-                    newMax = MIN_NUM_MOLECULES;
-                }
-            }
-
-            stripChart.setYRange( 0, (int)newMax );
-            repaint();
-        }
-    }
 }
