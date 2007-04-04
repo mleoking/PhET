@@ -10,16 +10,6 @@
  */
 package edu.colorado.phet.common.application;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.URL;
-import java.util.Properties;
-
-import javax.swing.*;
-
 import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
@@ -27,6 +17,15 @@ import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.net.URL;
+import java.util.Properties;
 
 /**
  * PhetAboutDialog shows information about PhET, the simulation, copyright, and license.
@@ -114,17 +113,18 @@ public class PhetAboutDialog extends JDialog {
         JLabel description = new JLabel( phetApplication.getDescription() );
         
         // Simulation version
-        String versionString = SimStrings.getInstance().getString( "Common.About.Version" ) + " ";
-        Properties simulationProperties = phetApplication.getSimulationProperties();
-        if ( simulationProperties != null ) {
-            versionString += getVersionString( simulationProperties );
+        String versionHeader = SimStrings.getInstance().getString( "Common.About.Version" ) + " ";
+
+        String versionNumber;
+
+        if ( phetApplication.getProjectConfig() != null ) {
+            versionNumber = phetApplication.getProjectConfig().getVersion().formatSmart();
         }
         else {
-            // For older sims that don't have a properties file, 
-            // simply use the same version string that is shown in the PhetFrame's titlebar.
-            versionString += phetApplication.getVersion();
+            versionNumber = extractVersionNumber();
         }
-        JLabel version = new JLabel( versionString );
+        
+        JLabel version = new JLabel( versionHeader + versionNumber );
 
         // Java runtime version
         String javaVersionString = SimStrings.getInstance().getString( "Common.About.JavaVersion" ) + " " + System.getProperty( "java.version" );
@@ -145,11 +145,30 @@ public class PhetAboutDialog extends JDialog {
         
         return infoPanel;
     }
-    
-    /*
-     * Create the panel that contains the buttons.
-     * The Credits button is added only if a credits file exists.
+
+    /**
+     * @return The version number.
+     *
+     * @deprecated
      */
+    private String extractVersionNumber() {
+        String versionNumber;
+        Properties simulationProperties = phetApplication.getSimulationProperties();
+        if ( simulationProperties != null ) {
+            versionNumber = getVersionString( simulationProperties );
+        }
+        else {
+            // For older sims that don't have a properties file,
+            // simply use the same version string that is shown in the PhetFrame's titlebar.
+            versionNumber = phetApplication.getVersion();
+        }
+        return versionNumber;
+    }
+
+    /*
+    * Create the panel that contains the buttons.
+    * The Credits button is added only if a credits file exists.
+    */
     private JPanel createButtonPanel() {
         
         JButton licenseButton = new JButton( SimStrings.getInstance().getString( "Common.About.LicenseButton" ) );

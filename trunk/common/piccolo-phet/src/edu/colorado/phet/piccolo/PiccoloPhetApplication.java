@@ -10,13 +10,10 @@
  */
 package edu.colorado.phet.piccolo;
 
-import javax.swing.JComponent;
-
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ITabbedModulePane;
-import edu.colorado.phet.common.view.JTabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.PhetProjectConfig;
 
 /**
  * PiccoloPhetApplication
@@ -54,6 +51,8 @@ public class PiccoloPhetApplication extends PhetApplication {
      * @param title
      * @param description
      * @param version
+     *
+     * @deprecated
      */
     public PiccoloPhetApplication( String[] args, String title, String description, String version ) {
         super( args, title, description, version );
@@ -68,6 +67,8 @@ public class PiccoloPhetApplication extends PhetApplication {
      * @param description
      * @param version
      * @param tabbedPaneType The type of tabbed panes to be used
+     *
+     * @deprecated
      */
     public PiccoloPhetApplication( String[] args, String title, String description, String version, TabbedPaneType tabbedPaneType ) {
         super( args, title, description, version );
@@ -80,10 +81,20 @@ public class PiccoloPhetApplication extends PhetApplication {
      * @param description
      * @param version
      * @param frameSetup
+     *
+     * @deprecated
      */
     public PiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
         super( args, title, description, version, frameSetup );
         super.setTabbedPaneType(PHET_TABBED_PANE);
+    }
+
+    public PiccoloPhetApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup ) {
+        super( args, config, frameSetup, PHET_TABBED_PANE );
+    }
+
+    public PiccoloPhetApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
+        super( args, config, frameSetup, tabbedPaneType );
     }
 
     /**
@@ -95,9 +106,11 @@ public class PiccoloPhetApplication extends PhetApplication {
      * @param version
      * @param frameSetup
      * @param tabbedPaneType
+     *
+     * @deprecated
      */
     public PiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
-        super( args, title, description, version, frameSetup,tabbedPaneType );
+        super( args, title, description, version, frameSetup, tabbedPaneType );
     }
 
 }

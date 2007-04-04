@@ -5,26 +5,42 @@ public class PhetProjectVersion {
     private final String major, minor, dev, revision;
 
     PhetProjectVersion( String major, String minor, String dev, String revision ) {
-        this.major    = cleanup(major);
-        this.minor    = cleanup(minor);
-        this.dev      = cleanup(dev);
-        this.revision = cleanup(revision);
+        this.major = cleanup( major );
+        this.minor = cleanup( minor );
+        this.dev = cleanup( dev );
+        this.revision = cleanup( revision );
     }
 
     public String getMajor() {
         return major;
     }
 
+    public int getMajorAsInt() {
+        return getAsInt( getMajor() );
+    }
+
     public String getMinor() {
         return minor;
+    }
+
+    public int getMinorAsInt() {
+        return getAsInt( getMinor() );
     }
 
     public String getDev() {
         return dev;
     }
 
+    public int getDevAsInt() {
+        return getAsInt( getDev() );
+    }
+
     public String getRevision() {
         return revision;
+    }
+
+    public int getRevisionAsInt() {
+        return getAsInt( getRevision() );
     }
 
     public String formatForDev() {
@@ -33,6 +49,14 @@ public class PhetProjectVersion {
 
     public String formatForProd() {
         return major + "." + minor;
+    }
+
+    public String formatSmart() {
+        if (getDevAsInt() == 0) {
+            return formatForProd();
+        }
+
+        return formatForDev();
     }
 
     public String toString() {
@@ -49,20 +73,9 @@ public class PhetProjectVersion {
 
         PhetProjectVersion that = (PhetProjectVersion)o;
 
-        if( !dev.equals( that.dev ) ) {
-            return false;
-        }
-        if( !major.equals( that.major ) ) {
-            return false;
-        }
-        if( !minor.equals( that.minor ) ) {
-            return false;
-        }
-        if( !revision.equals( that.revision ) ) {
-            return false;
-        }
+        return dev.equals( that.dev ) && major.equals( that.major ) && 
+               minor.equals( that.minor ) && revision.equals( that.revision );
 
-        return true;
     }
 
     public int hashCode() {
@@ -74,9 +87,20 @@ public class PhetProjectVersion {
         return result;
     }
 
-    private static String cleanup(String input) {
-        if (input == null) return "UNKNOWN";
+    private static String cleanup( String input ) {
+        if( input == null ) {
+            return "UNKNOWN";
+        }
 
         return input;
+    }
+
+    private static int getAsInt( String number ) {
+        try {
+            return Integer.parseInt( number );
+        }
+        catch( NumberFormatException e ) {
+            return -1;
+        }
     }
 }
