@@ -18,7 +18,14 @@ public class ZPhetProjectVersionTester extends TestCase {
     }
 
     public void testToString() {
-        assertEquals( "1.2.03.1234", VERSION.toString() );
+        assertEquals( "1.2.03 (1234)", VERSION.toString() );
+    }
+
+    public void testFormatSmart() {
+        PhetProjectVersion zeroDev = new PhetProjectVersion( "1", "2", "0", "1234" );
+
+        assertEquals( "1.2",    zeroDev.formatSmart() );
+        assertEquals( "1.2.03", VERSION.formatSmart() );
     }
 
     public void testAsIntMethods() {

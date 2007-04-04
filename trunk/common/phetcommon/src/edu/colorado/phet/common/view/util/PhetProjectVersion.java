@@ -60,7 +60,7 @@ public class PhetProjectVersion {
     }
 
     public String toString() {
-        return formatForDev() + "." + revision;
+        return formatForDev() + " (" + revision + ")";
     }
 
     public boolean equals( Object o ) {

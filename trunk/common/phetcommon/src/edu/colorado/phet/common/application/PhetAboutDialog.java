@@ -118,7 +118,7 @@ public class PhetAboutDialog extends JDialog {
         String versionNumber;
 
         if ( phetApplication.getProjectConfig() != null ) {
-            versionNumber = phetApplication.getProjectConfig().getVersion().formatSmart();
+            versionNumber = phetApplication.getProjectConfig().getVersion().toString();
         }
         else {
             versionNumber = extractVersionNumber();
