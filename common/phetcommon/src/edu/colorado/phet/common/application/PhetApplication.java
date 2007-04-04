@@ -31,19 +31,18 @@
 
 package edu.colorado.phet.common.application;
 
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Toolkit;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Properties;
-
 import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.ITabbedModulePane;
 import edu.colorado.phet.common.view.JTabbedModulePane;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.PhetProjectConfig;
+
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  * The top-level class for PhET applications.
@@ -76,6 +75,25 @@ public class PhetApplication {
     private static ArrayList phetApplications = new ArrayList();
     private TabbedPaneType tabbedPaneType;
     private Properties simulationProperties;
+
+    private volatile PhetProjectConfig projectConfig;
+
+
+    public PhetApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup ) {
+        this( args, config.getName(), config.getDescription(), config.getVersion().formatSmart(), frameSetup );
+
+        this.projectConfig = config;
+    }
+
+    public PhetApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
+        this( args, config.getName(), config.getDescription(), config.getVersion().formatSmart(), frameSetup, tabbedPaneType );
+
+        this.projectConfig = config;
+    }
+
+    public PhetProjectConfig getProjectConfig() {
+        return projectConfig;
+    }
 
     /**
      * Get the last created PhetApplication.
@@ -114,6 +132,8 @@ public class PhetApplication {
      * @param title       Title that appears in the frame and the About dialog
      * @param description Appears in the About dialog
      * @param version     Appears in the About dialog
+     *
+     * @deprecated
      */
     public PhetApplication( String[] args, String title, String description, String version
     ) {
@@ -128,11 +148,19 @@ public class PhetApplication {
      * @param description Appears in the About dialog
      * @param version     Appears in the About dialog
      * @param frameSetup  Defines the size and location of the frame
+     *
+     * @deprecated
      */
     public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
         this( args, title, description, version, frameSetup, JTABBED_PANE_TYPE );
     }
 
+    /**
+     *
+     *
+     *
+     * @deprecated
+     */
     public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
         // Put up a dialog that lets the user know that the simulation is starting up
         showSplashWindow( title );

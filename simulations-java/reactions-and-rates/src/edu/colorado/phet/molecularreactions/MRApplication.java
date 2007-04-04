@@ -32,9 +32,7 @@ public class MRApplication extends PiccoloPhetApplication {
 
     public MRApplication( String[] args ) {
         super( args,
-               SimStrings.getInstance().getString( "Application.title" ),
-               SimStrings.getInstance().getString( "Application.description" ),
-               MRConfig.VERSION,
+               MRConfig.CONFIG,
                new FrameSetup.CenteredWithSize( 1000, 700 ) );
 
         addModule( new SimpleModule() );
