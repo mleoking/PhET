@@ -103,7 +103,7 @@ public class PhetProjectConfig implements PhetResourceLoader, PhetStringSource {
      *         and locale.
      */
     public static PhetProjectConfig forProject( String dirname, String flavor, Locale locale ) {
-        String bundleName = LOCALIZATION_DIR + dirname + "-strings";
+        String bundleName = LOCALIZATION_DIR + dirname + "/" + dirname + "-strings";
 
         SimStrings strings = new SimStrings();
 

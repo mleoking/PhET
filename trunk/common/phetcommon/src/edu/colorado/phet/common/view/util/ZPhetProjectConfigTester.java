@@ -15,7 +15,7 @@ import java.util.Properties;
  */
 public class ZPhetProjectConfigTester extends MockObjectTestCase {
     private static final String TEST_DIRNAME = "dirname";
-    private static final String TEST_FLAVOR = "flavor";
+    private static final String TEST_FLAVOR  = "flavor";
 
     private volatile Mock mockStrings;
     private volatile Mock mockLoader;
@@ -98,7 +98,7 @@ public class ZPhetProjectConfigTester extends MockObjectTestCase {
 
         expectProperties( properties );
 
-        assertEquals( "1.2.03.1234", config.getVersion().toString() );
+        assertEquals( "1.2.03 (1234)", config.getVersion().toString() );
     }
 
     private class TestProjectConfig extends PhetProjectConfig {
