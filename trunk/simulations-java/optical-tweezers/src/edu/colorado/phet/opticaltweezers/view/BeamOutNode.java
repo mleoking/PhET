@@ -20,6 +20,7 @@ import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * BeamOutNode is the visual representation of the portion of the 
@@ -37,7 +38,7 @@ public class BeamOutNode extends PhetPNode implements Observer {
     
     private static final boolean SHOW_OUTLINE = true;
 
-    private static final Color OUTLINE_COLOR = Color.BLACK;
+    private static final Color OUTLINE_COLOR = Color.GRAY;
     public static final Stroke OUTLINE_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 ); // dashed
     
@@ -191,43 +192,54 @@ public class BeamOutNode extends PhetPNode implements Observer {
             points[y] = new Point2D.Double( r, y );
         }
 
-        // Create path for entire outline.
-        GeneralPath p = new GeneralPath();
         int iFirst = 0;
         int iLast = points.length - 1;
-        // start at right center
-        p.moveTo( (float) points[iFirst].getX(), (float) points[iFirst].getY() );
+        
+        // Right half
+        GeneralPath pRight = new GeneralPath();
+        // upper-right quadrant
+        pRight.moveTo( (float) points[iLast].getX(), -(float) points[iLast].getY() );
+        for ( int i = iLast - 2; i >= iFirst; i-- ) {
+            pRight.lineTo( (float) points[i].getX(), -(float) points[i].getY() );
+        }
         // lower-right quadrant
-        for ( int i = iFirst + 1; i < iLast - 1; i++ ) {
-            p.lineTo( (float) points[i].getX(), (float) points[i].getY() );
+        for ( int i = iFirst; i < iLast - 1; i++ ) {
+            pRight.lineTo( (float) points[i].getX(), (float) points[i].getY() );
+        }
+        // transform to view coordinates
+        Shape sRight = _modelViewTransform.createTransformedShapeModelToView( pRight );
+        // node
+        PPath nRight = new PPath( sRight );
+        nRight.setStroke( OUTLINE_STROKE );
+        nRight.setStrokePaint( OUTLINE_COLOR );
+        nRight.setPaint( null );
+        
+        // Left path
+        GeneralPath pLeft = new GeneralPath();
+        // upper-left quadrant
+        pLeft.moveTo( (float) -points[iLast].getX(), -(float) points[iLast].getY() );
+        for ( int i = iLast - 2; i >= iFirst; i-- ) {
+            pLeft.lineTo( (float) -points[i].getX(), -(float) points[i].getY() );
         }
         // lower-left quadrant
-        p.lineTo( -(float) points[iLast].getX(), (float) points[iLast].getY() );
-        for ( int i = iLast - 2; i >= iFirst; i-- ) {
-            p.lineTo( -(float) points[i].getX(), (float) points[i].getY() );
+        for ( int i = iFirst; i < iLast - 1; i++ ) {
+            pLeft.lineTo( (float) -points[i].getX(), (float) points[i].getY() );
         }
-        // upper-left quadrant
-        for ( int i = iFirst + 1; i < iLast - 1; i++ ) {
-            p.lineTo( -(float) points[i].getX(), -(float) points[i].getY() );
-        }
-        // upper-right quadrant
-        p.lineTo( (float) points[iLast].getX(), -(float) points[iLast].getY() );
-        for ( int i = iLast - 2; i >= iFirst; i-- ) {
-            p.lineTo( (float) points[i].getX(), -(float) points[i].getY() );
-        }
-        p.closePath();
-        
         // transform to view coordinates
-        Shape shape = _modelViewTransform.createTransformedShapeModelToView( p );
-
-        PPath outlineNode = new PPath( shape );
-        outlineNode.setStroke( OUTLINE_STROKE );
-        outlineNode.setStrokePaint( OUTLINE_COLOR );
-        outlineNode.setPaint( null );
+        Shape sLeft = _modelViewTransform.createTransformedShapeModelToView( pLeft );
+        // node
+        PPath nLeft = new PPath( sLeft );
+        nLeft.setStroke( OUTLINE_STROKE );
+        nLeft.setStrokePaint( OUTLINE_COLOR );
+        nLeft.setPaint( null );
+        
+        PNode parentNode = new PComposite();
+        parentNode.addChild( nLeft );
+        parentNode.addChild( nRight );
         
         // shape was drawn starting at right center, adjust so that origin is at center
-        outlineNode.setOffset( outlineNode.getFullBounds().getWidth()/2, outlineNode.getFullBounds().getHeight()/2 );
+        parentNode.setOffset( parentNode.getFullBounds().getWidth()/2, parentNode.getFullBounds().getHeight()/2 );
         
-        return outlineNode;
+        return parentNode;
     }
 }
