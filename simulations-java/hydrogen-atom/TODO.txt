@@ -17,6 +17,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
 DONE:
 ***** 1.03.00 (14161)
+4/4/07 - add energy model to Solar System energy diagram
 4/3/07 - make Solar System energy diagram work correctly with variable clock speed
 4/3/07 - add HAClock.getDt, rename setDt
 3/27/07 - remove canvas argument from all ancestor nodes of PSwing in scenegraph
