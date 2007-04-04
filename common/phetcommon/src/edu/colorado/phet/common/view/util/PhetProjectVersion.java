@@ -5,9 +5,9 @@ public class PhetProjectVersion {
     private final String major, minor, dev, revision;
 
     PhetProjectVersion( String major, String minor, String dev, String revision ) {
-        this.major = cleanup( major );
-        this.minor = cleanup( minor );
-        this.dev = cleanup( dev );
+        this.major    = cleanup( major );
+        this.minor    = cleanup( minor );
+        this.dev      = cleanup( dev );
         this.revision = cleanup( revision );
     }
 

@@ -69,7 +69,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/hydrogen-atom/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/hydrogen-atom/test-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/ideal-gas/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/ideal-gas/temp" isTestSource="false" packagePrefix="edu.colorado.phet.idealgas.graphics" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/lasers/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/lasers/test" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/maze-game/src" isTestSource="false" />
@@ -113,8 +112,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound/phetcommon-5790/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound/phetcommon-5790/tests-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/sound/temp" isTestSource="false" packagePrefix="edu.colorado.phet.sound.graphics" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/the-ramp/proguard3.3.2/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/the-ramp/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/the-ramp/tests-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations-java/the-ramp/theramp-timeseries/src" isTestSource="false" />
@@ -806,6 +803,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/../../common/phetcommon/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/jmock/jmock-1.1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
