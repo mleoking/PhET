@@ -1,14 +1,11 @@
 package edu.colorado.phet.molecularreactions;
 
+import edu.colorado.phet.common.view.util.PhetProjectConfig;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.model.MoleculeA;
 
 import javax.swing.*;
-import java.awt.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;/* Copyright 2003-2004, University of Colorado */
+import java.awt.*;/* Copyright 2003-2004, University of Colorado */
 
 /*
  * CVS Info -
@@ -26,12 +23,13 @@ import java.io.InputStreamReader;/* Copyright 2003-2004, University of Colorado 
  * @version $Revision$
  */
 public class MRConfig {
+    public static PhetProjectConfig CONFIG = PhetProjectConfig.forProject( "reactions-and-rates" );
 
     //--------------------------------------------------------------------------------------------------
     // Misc
     //--------------------------------------------------------------------------------------------------
     // Version
-    public static final String VERSION = readVersionFromFile();
+    public static final String VERSION = CONFIG.getVersion().formatForDev();
     // Prefix of the strings bundles
     public static final String LOCALIZATION_BUNDLE = "localization/MRStrings";
     // Debug flag
@@ -107,28 +105,4 @@ public class MRConfig {
                                                       Font.BOLD,
                                                       UIManager.getFont( "Panel.font" ).getSize() );
     public static final Font LABEL_FONT = UIManager.getFont( "Label.font" );
-
-
-    private static String readVersionFromFile() {
-        InputStream asStream = MRConfig.class.getResourceAsStream( "/version.txt" );
-
-        if (asStream != null) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader( asStream ));
-
-            try {
-                return reader.readLine();
-            }
-            catch( IOException e ) {
-            }
-            finally {
-                try {
-                    reader.close();
-                }
-                catch( IOException e ) {
-                }
-            }
-        }
-
-        return "0.0.0";
-    }
 }
