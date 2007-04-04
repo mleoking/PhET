@@ -49,7 +49,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 public class EnergySkateParkApplication extends PhetApplication {
-    private static final String VERSION = "1.05.17";
+    private static final String VERSION = "1.05.17 <14176>";
     private EnergySkateParkModule module;
     public static double SIMULATION_TIME_DT = 0.03;
 
