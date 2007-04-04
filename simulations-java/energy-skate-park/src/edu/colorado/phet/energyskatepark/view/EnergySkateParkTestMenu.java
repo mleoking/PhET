@@ -60,7 +60,7 @@ public class EnergySkateParkTestMenu extends JMenu {
                 new TestItem( "esp/tests/angle.esp", "Slight angle/speed" ),
                 new TestItem( "esp/tests/fall-through-ground.esp", "Shoulder through ground" ),
                 new TestItem( "esp/tests/dw-rc.esp", "double well roller coaster" ),
-                new TestItem( "esp/tests/skater jump.xml", "Skater Jump" )
+                new TestItem( "esp/tests/skater-jump.esp", "Skater Jump" )
         };
         for( int i = 0; i < testItems.length; i++ ) {
             final TestItem testItem = testItems[i];
