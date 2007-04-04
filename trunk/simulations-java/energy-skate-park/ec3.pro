@@ -29,6 +29,10 @@
     public **[] values();
 }
 
+-keep public class edu.colorado.phet.energyskatepark.serialization.**{
+    public protected *;
+}
+
 -keep public class edu.colorado.phet.common.util.services.**{
     public protected *;
 }
@@ -42,10 +46,6 @@
 }
 
 -keep public class javax.xml.parsers.**{
-    public protected *;
-}
-
--keep public class edu.colorado.phet.ec3.serialization.**{
     public protected *;
 }
 

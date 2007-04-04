@@ -2,7 +2,6 @@
 package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
@@ -60,11 +59,7 @@ public class PieChartControlPanel extends VerticalLayoutPanel {
 
     public void update() {
         EnergySkateParkModel energySkateParkModel = module.getEnergySkateParkModel();
-
-        boolean anySkaters = energySkateParkModel.numBodies() > 0;
-
-        boolean skaterHasPotentialEnergy = energySkateParkModel.bodyAt( 0 ).getPotentialEnergy() >= 0.0;
-
-        showPieChartCheckBox.setEnabled( anySkaters && skaterHasPotentialEnergy );
+        boolean enabled = energySkateParkModel.numBodies() > 0 && energySkateParkModel.bodyAt( 0 ).getPotentialEnergy() >= 0.0;
+        showPieChartCheckBox.setEnabled( enabled );
     }
 }
