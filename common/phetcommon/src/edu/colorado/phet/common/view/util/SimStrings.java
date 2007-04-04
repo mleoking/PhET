@@ -13,7 +13,7 @@ import java.util.Vector;
  * Manages strings for simulations so that they can be localized.
  *
  */
-public class SimStrings {
+public class SimStrings implements PhetStringSource {
     private Vector localizedStrings;
     private Vector stringsPaths;
     private Locale localizedLocale;
