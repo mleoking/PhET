@@ -14,7 +14,7 @@ public class ZPhetProjectVersionTester extends TestCase {
     }
 
     public void testFormatForProd() {
-        assertEquals( "1.2", VERSION.formatForDev() );
+        assertEquals( "1.2", VERSION.formatForProd() );
     }
 
     public void testToString() {
