@@ -156,7 +156,6 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         addPropertyChangeListener( this );
         
         // Default state
-        updateRunning();
         updatePosition();
     }
 
@@ -199,9 +198,6 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
             if ( arg == Laser.PROPERTY_POSITION ) {
                 updatePosition();
             }
-            else if ( arg == Laser.PROPERTY_RUNNING ) {
-                updateRunning();
-            }
             else if ( arg == null ) {
                 throw new IllegalArgumentException( "LaserNode.update, arg=null" );
             }
@@ -218,13 +214,5 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     private void updatePosition() {
         Point2D laserPosition = _modelViewTransform.modelToView( _laser.getPosition() );
         setOffset( laserPosition.getX(), laserPosition.getY() );
-    }
-    
-    /**
-     * Updates the beam's visibility to match the model.
-     */
-    private void updateRunning() {
-        _beamInNode.setVisible( _laser.isRunning() );
-        _beamOutNode.setVisible( _laser.isRunning() );
     }
 }

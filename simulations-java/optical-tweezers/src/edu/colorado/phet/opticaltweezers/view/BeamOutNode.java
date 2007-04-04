@@ -95,6 +95,8 @@ public class BeamOutNode extends PhetPNode implements Observer {
             PNode outlineNode = createOutlineNode();
             addChild( outlineNode );
         }
+        
+        updateVisible();
     }
     
     public void cleanup() {
@@ -110,6 +112,9 @@ public class BeamOutNode extends PhetPNode implements Observer {
             if ( arg == Laser.PROPERTY_POWER ) {
                 updateGradient();
             }
+            else if ( arg == Laser.PROPERTY_RUNNING ) {
+                updateVisible();
+            }
         }
     }
     
@@ -117,9 +122,17 @@ public class BeamOutNode extends PhetPNode implements Observer {
     // Updaters
     //----------------------------------------------------------------------------
     
+    private void updateVisible() {
+        setVisible( _laser.isRunning() );
+    }
+    
     private void updateGradient() {
         
         assert( _gradientImage.getType() == BufferedImage.TYPE_INT_ARGB );
+        
+        if ( !isVisible() ) {
+            return;
+        }
         
         double tBegin = System.currentTimeMillis();
         

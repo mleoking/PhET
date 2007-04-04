@@ -62,6 +62,7 @@ public class BeamInNode extends PhetPNode implements Observer {
         addChild( _pathNode );
         
         updateAlpha();
+        updateVisible();
     }
 
     public void cleanup() {
@@ -76,6 +77,9 @@ public class BeamInNode extends PhetPNode implements Observer {
         if ( o == _laser ) {
             if ( arg == Laser.PROPERTY_POWER ) {
                 updateAlpha();
+            }
+            else if ( arg == Laser.PROPERTY_RUNNING ) {
+                updateVisible();
             }
         }
     }
@@ -93,5 +97,9 @@ public class BeamInNode extends PhetPNode implements Observer {
         int alpha = (int) ( MAX_ALPHA_CHANNEL * ( power - powerRange.getMin() ) / ( powerRange.getMax() - powerRange.getMin() ) );
         Color newColor = ColorUtils.addAlpha( _laserColor, alpha );
         _pathNode.setPaint( newColor );
+    }
+    
+    private void updateVisible() {
+        setVisible( _laser.isRunning() );
     }
 }
