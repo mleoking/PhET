@@ -59,6 +59,8 @@ public class ImageLoader {
         };
     }
 
+
+
     /**
      * Loads an image using the current load strategy and converts it to a bufferedimage
      * using the current conversion strategy.
