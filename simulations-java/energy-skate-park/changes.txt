@@ -1,3 +1,5 @@
+1.05.17
+
 1.05.16 (4-3-2007) <14173>
 Added skater graphics.
 Bugfix: Tests wouldn't launch
