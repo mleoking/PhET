@@ -7,6 +7,7 @@
 • Bar chart should listen to a single particle, not the entire model
 • Other feedback on track graphics?
 • Other feedback on characters?
+• When running tests with a non-default character, dimensions & character don't match.
 
 • Improve performance e.g. during right-click interaction with track
 • Improve performance for zooming out:
