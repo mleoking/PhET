@@ -1,13 +1,5 @@
 /* Copyright 2003-2004, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.molecularreactions.view.charts;
 
 import edu.colorado.phet.common.model.clock.ClockAdapter;
@@ -16,14 +8,12 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.Range;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.xy.XYSeries;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,20 +24,12 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class BarChart {
+public class BarChart implements ResizableChart {
 
-    private XYSeries[] series;
     private JFreeChart chart;
-    private double xAxisRange;
     private BarRenderer renderer;
     private DefaultCategoryDataset dataset;
 
-    /**
-     * @param title
-     * @param seriesNames
-     * @param xAxisLabel
-     * @param yAxisLabel
-     */
     public BarChart( String title,
                      String[] seriesNames,
                      String xAxisLabel,
@@ -87,37 +69,30 @@ public class BarChart {
         renderer = (BarRenderer)plot.getRenderer();
         renderer.setDrawBarOutline( false );
 
-        if( true ) {
-            return;
-        }
-
-        // set up gradient paints for series...
-        GradientPaint gp0 = new GradientPaint(
-                0.0f, 0.0f, Color.blue,
-                0.0f, 0.0f, new Color( 0, 0, 64 )
-        );
-        GradientPaint gp1 = new GradientPaint(
-                0.0f, 0.0f, Color.green,
-                0.0f, 0.0f, new Color( 0, 64, 0 )
-        );
-        GradientPaint gp2 = new GradientPaint(
-                0.0f, 0.0f, Color.red,
-                0.0f, 0.0f, new Color( 64, 0, 0 )
-        );
-        renderer.setSeriesPaint( 0, gp0 );
-        renderer.setSeriesPaint( 1, gp1 );
-        renderer.setSeriesPaint( 2, gp2 );
-
-        CategoryAxis domainAxis = plot.getDomainAxis();
-        domainAxis.setCategoryLabelPositions(
-                CategoryLabelPositions.createUpRotationLabelPositions( Math.PI / 6.0 )
-        );
+//        // set up gradient paints for series...
+//        GradientPaint gp0 = new GradientPaint(
+//                0.0f, 0.0f, Color.blue,
+//                0.0f, 0.0f, new Color( 0, 0, 64 )
+//        );
+//        GradientPaint gp1 = new GradientPaint(
+//                0.0f, 0.0f, Color.green,
+//                0.0f, 0.0f, new Color( 0, 64, 0 )
+//        );
+//        GradientPaint gp2 = new GradientPaint(
+//                0.0f, 0.0f, Color.red,
+//                0.0f, 0.0f, new Color( 64, 0, 0 )
+//        );
+//        renderer.setSeriesPaint( 0, gp0 );
+//        renderer.setSeriesPaint( 1, gp1 );
+//        renderer.setSeriesPaint( 2, gp2 );
+//
+//        CategoryAxis domainAxis = plot.getDomainAxis();
+//        domainAxis.setCategoryLabelPositions(
+//                CategoryLabelPositions.createUpRotationLabelPositions( Math.PI / 6.0 )
+//        );
 
     }
 
-    /**
-     * @return The dataset.
-     */
     private DefaultCategoryDataset createDataset( String[] seriesNames ) {
 
         // column keys...
@@ -145,7 +120,6 @@ public class BarChart {
         return chart;
     }
 
-
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Bar Chart Test" );
         final BarChart barChart = new BarChart( "Test Chart",
@@ -172,13 +146,12 @@ public class BarChart {
         clock.start();
     }
 
-    /**
-     * Set the vertical range of the chart
-     *
-     * @param minY
-     * @param maxY
-     */
     public void setYRange( int minY, int maxY ) {
         getChart().getCategoryPlot().getRangeAxis().setRange( minY, maxY );
+    }
+
+
+    public Range getYRange() {
+        return getChart().getCategoryPlot().getRangeAxis().getRange();
     }
 }
