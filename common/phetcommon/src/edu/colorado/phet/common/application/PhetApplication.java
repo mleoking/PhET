@@ -300,8 +300,14 @@ public class PhetApplication {
      * These are properties that do NOT require localization.
      * 
      * @param simulationProperties
+     *
+     * @deprecated
      */
     public void setSimulationProperties( Properties simulationProperties ) {
+        if (getProjectConfig() != null) {
+            throw new IllegalStateException( "Properties cannot be set when using project config" );
+        }
+        
         this.simulationProperties = simulationProperties;
     }
     
@@ -310,8 +316,14 @@ public class PhetApplication {
      * These are properties that do NOT require localization.
      * 
      * @return Properties, null if setSimulationProperties was not called
+     *
+     * @deprecated Use getProjectConfig().getProperties() instead
      */
     public Properties getSimulationProperties() {
+        if (getProjectConfig() != null) {
+            return getProjectConfig().getProperties();
+        }
+
         return simulationProperties;
     }
     
@@ -321,6 +333,8 @@ public class PhetApplication {
      * 
      * @param simulationProperties
      * @return
+     *
+     * @deprecated  Use getProjectConfig()
      */
     public static String getVersionString( Properties simulationProperties ) {
         String major = simulationProperties.getProperty( PropertiesLoader.PROPERTY_VERSION_MAJOR, "?" );
@@ -454,8 +468,14 @@ public class PhetApplication {
      * Get the title for this PhetApplication.
      *
      * @return the title.
+     *
+     * @deprecated  Use getProjectConfig()
      */
     public String getTitle() {
+        if (getProjectConfig() != null) {
+            return getProjectConfig().getName();
+        }
+
         return title;
     }
 
@@ -463,8 +483,14 @@ public class PhetApplication {
      * Get the description for this PhetApplication.
      *
      * @return the description.
+     *
+     * @deprecated  Use getProjectConfig()
      */
     public String getDescription() {
+        if (getProjectConfig() != null) {
+            return getProjectConfig().getDescription();
+        }
+
         return description;
     }
 
@@ -472,8 +498,14 @@ public class PhetApplication {
      * Get the version string for this PhetApplication.
      *
      * @return the version string.
+     *
+     * @deprecated  Use getProjectConfig()
      */
     public String getVersion() {
+        if (getProjectConfig() != null) {
+            return getProjectConfig().getVersion().formatSmart();
+        }
+
         return version;
     }
 
