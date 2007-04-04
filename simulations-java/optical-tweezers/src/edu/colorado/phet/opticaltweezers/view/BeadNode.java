@@ -128,7 +128,7 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
             if ( arg == Bead.PROPERTY_POSITION ) {
                 updatePosition();
             }
-            if ( arg == Bead.PROPERTY_DIAMETER ) {
+            else if ( arg == Bead.PROPERTY_DIAMETER ) {
                 updateDiameter();
             }
         }
