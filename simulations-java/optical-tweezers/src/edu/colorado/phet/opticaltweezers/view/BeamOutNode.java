@@ -9,6 +9,8 @@ import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.awt.image.WritableRaster;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -34,9 +36,10 @@ public class BeamOutNode extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     
     private static final boolean SHOW_OUTLINE = true;
-    
-    private static final Stroke OUTLINE_STROKE = new BasicStroke( 1f );
+
     private static final Color OUTLINE_COLOR = Color.BLACK;
+    public static final Stroke OUTLINE_STROKE = 
+        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 ); // dashed
     
     private static final int MAX_ALPHA_CHANNEL = 220; // 0-255
     
@@ -80,7 +83,7 @@ public class BeamOutNode extends PhetPNode implements Observer {
         if ( _gradientHeight % 2 == 0 ) {
             _gradientHeight++;
         }
-        _gradientImage = new BufferedImage( _gradientWidth, _gradientHeight, BufferedImage.TYPE_INT_ARGB ); // setRGB requires TYPE_INT_ARGB
+        _gradientImage = new BufferedImage( _gradientWidth, _gradientHeight, BufferedImage.TYPE_INT_ARGB );
         _gradientNode = new PImage();
         _gradientNode.setScale( _modelViewTransform.getScaleModelToView() ); // image is in scale of model coordinates!
         addChild( _gradientNode );
@@ -115,7 +118,9 @@ public class BeamOutNode extends PhetPNode implements Observer {
     
     private void updateGradient() {
         
-        assert( _gradientImage.getType() == BufferedImage.TYPE_INT_ARGB ); // required by setRGB
+        assert( _gradientImage.getType() == BufferedImage.TYPE_INT_ARGB );
+        
+        double tBegin = System.currentTimeMillis();
         
         // Color for the laser beam
         Color c = VisibleColor.wavelengthToColor( _laser.getVisibleWavelength() );
@@ -128,7 +133,8 @@ public class BeamOutNode extends PhetPNode implements Observer {
         final double maxPower = _laser.getPowerRange().getMax();
         final double maxIntensity = Laser.getBeamIntensityAt( 0, waistRadius, maxPower );
         
-        // Create the gradient, working from the center out
+        // Create the gradient pixel data, working from the center out
+        int[][] dataBuffer = new int[ _gradientWidth ][ _gradientHeight ];
         int iy1 = _gradientHeight / 2;
         int iy2 = iy1;
         for ( int y = 0; y < ( _gradientHeight / 2 ) + 1; y++ ) {
@@ -142,10 +148,10 @@ public class BeamOutNode extends PhetPNode implements Observer {
                     final int alpha = (int) ( MAX_ALPHA_CHANNEL * intensity / maxIntensity );
                     argb = ( alpha << 24 ) | ( red << 16 ) | ( green << 8 ) | ( blue );
                 }
-                _gradientImage.setRGB( ix1, iy1, argb ); // lower right quadrant
-                _gradientImage.setRGB( ix1, iy2, argb ); // upper right
-                _gradientImage.setRGB( ix2, iy1, argb ); // lower left
-                _gradientImage.setRGB( ix2, iy2, argb ); // upper left
+                dataBuffer[ ix1 ][ iy1 ] = argb; // lower right quadrant
+                dataBuffer[ ix1 ][ iy2 ] = argb; // upper right
+                dataBuffer[ ix2 ][ iy1 ] = argb; // lower left
+                dataBuffer[ ix2 ][ iy2 ] = argb; // upper left
                 ix1++;
                 ix2--;
             }
@@ -153,7 +159,21 @@ public class BeamOutNode extends PhetPNode implements Observer {
             iy2--;
         }
         
+        // Copy the gradient data to the image's raster buffer
+        WritableRaster raster = _gradientImage.getRaster();
+        int[] rasterBuffer = ( (DataBufferInt) raster.getDataBuffer() ).getData();
+        int ri = 0;
+        for ( int row = 0; row < _gradientHeight; row++ ) {
+            for ( int col = 0; col < _gradientWidth; col++ ) {
+                rasterBuffer[ri] = dataBuffer[col][row];
+                ri++;
+            }
+        }
+        
         _gradientNode.setImage( _gradientImage );
+        
+        double tEnd = System.currentTimeMillis();
+        System.out.println( "BeamOutNode.updateGradient: " + ( tEnd - tBegin ) + " ms" );//XXX
     }
 
     /*
