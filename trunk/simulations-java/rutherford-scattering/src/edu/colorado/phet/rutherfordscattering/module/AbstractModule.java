@@ -2,10 +2,8 @@
 
 package edu.colorado.phet.rutherfordscattering.module;
 
-import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.Dimension2D;
 
 import javax.swing.JFrame;
 
@@ -13,8 +11,6 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.rutherfordscattering.model.RSClock;
-import edu.colorado.phet.rutherfordscattering.model.RSModel;
-import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**

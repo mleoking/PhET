@@ -5,8 +5,6 @@ package edu.colorado.phet.rutherfordscattering.model;
 import java.awt.Dimension;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.rutherfordscattering.RSConstants;
-
 /**
  * RutherfordScattering is the algorthm for computing the alpha particle trajectories
  * for the Rutherford Atom model.

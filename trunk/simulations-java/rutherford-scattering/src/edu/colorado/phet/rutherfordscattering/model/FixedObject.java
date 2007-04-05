@@ -4,9 +4,6 @@ package edu.colorado.phet.rutherfordscattering.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
-
 /**
  * FixedObject is an object that has a fixed (immutable) position and orientation.
  *

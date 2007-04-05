@@ -4,8 +4,6 @@ package edu.colorado.phet.rutherfordscattering.model;
 
 import java.awt.geom.Point2D;
 
-import javax.swing.event.EventListenerList;
-
 import edu.colorado.phet.common.model.ModelElement;
 
 /**

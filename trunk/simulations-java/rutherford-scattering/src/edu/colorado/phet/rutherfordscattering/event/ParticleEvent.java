@@ -2,7 +2,6 @@ package edu.colorado.phet.rutherfordscattering.event;
 
 import java.util.EventObject;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.rutherfordscattering.model.AlphaParticle;
 
 /**

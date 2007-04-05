@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.rutherfordscattering.view;
 
-import java.awt.Color;
 import java.awt.Image;
 import java.util.Observable;
 import java.util.Observer;

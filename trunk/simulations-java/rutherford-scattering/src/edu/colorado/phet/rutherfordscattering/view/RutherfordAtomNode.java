@@ -16,7 +16,6 @@ import edu.colorado.phet.rutherfordscattering.model.RutherfordAtom;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * RutherfordAtomNode is the visual representation of the Rutherford Atom model.
