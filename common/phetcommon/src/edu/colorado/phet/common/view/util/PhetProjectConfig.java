@@ -15,9 +15,9 @@ import java.util.Properties;
  * <p/>
  * The class imposes the following requirements on the configuration info:
  * <p/>
+ *      /[dirname]/                                  <- Root of all resources (images, etc.)
  *      /[dirname]/[dirname].properties              <- All project properties
- *      /localization/[dirname]-strings.properties   <- All localized strings
- *      /[dirname]/                                  <- Root of resources (images, etc.)
+ *      /[dirname]/localization/[dirname]-strings.properties  <- All localized strings
  * <p/>
  * Required localized strings (property names):
  * <p/>
@@ -103,7 +103,7 @@ public class PhetProjectConfig implements PhetResourceLoader, PhetStringSource {
      *         and locale.
      */
     public static PhetProjectConfig forProject( String dirname, String flavor, Locale locale ) {
-        String bundleName = LOCALIZATION_DIR + dirname + "/" + dirname + "-strings";
+        String bundleName = dirname + "/" + LOCALIZATION_DIR + "/" + dirname + "-strings";
 
         SimStrings strings = new SimStrings();
 
