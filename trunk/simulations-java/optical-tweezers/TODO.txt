@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- optimize gradient view of laser power intensity using a BufferedImageOp that adjusts alpha channel
 
 HIGH PRIORITY:
 - bug: fluid viscosity slider is brain damaged
@@ -18,7 +17,6 @@ MEDIUM PRIORITY:
 - try to make laser control panel draggable
 - use proper plot type for PositionHistogramPlot
 - careful! fluid speed is in microns (1E-6 m), everything else is in nm (1E-9 m)
-- careful! Mike's laser intensity model uses mJ for power, everything else is in mW
 - make viscosity control logarithimic
 - accept multiple formats for entry of viscosity value (1E-10, 1e-10, 0.0001)
 - cursors that indicate direction when drag is horizontally or vertically constrained
@@ -65,6 +63,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/4/07 - optimize gradient view of laser power intensity using a BufferedImageOp that adjusts alpha channel
+4/4/07 - reduce size of gradient image by only drawing one quadrant, then scaling it to the view
 4/4/07 - make BeamInNode and BeamOutNode handle their own visibility based on Laser state
 4/4/07 - show left and right edges of BeamOutNode as a faint dashed line
 4/4/07 - speed up creation of laser gradient view by 4x
