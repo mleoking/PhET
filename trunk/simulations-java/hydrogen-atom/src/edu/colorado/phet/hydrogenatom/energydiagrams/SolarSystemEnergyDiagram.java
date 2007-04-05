@@ -44,8 +44,12 @@ public class SolarSystemEnergyDiagram extends AbstractEnergyDiagram implements O
     // Distance between the electron's initial position and top of the diagram.
     private static final double Y_MARGIN = 40;
     
-    // Electron's distance from the atom's center when it drops off bottom of diagram
-    private static final double MIN_RADIUS = 15; // same as Bohr's ground state orbit
+    // Electron's distance from the atom's center when it drops off bottom of diagram.
+    // If you want the last position of the electron to be close to the bottom of the chart:
+    // Determine the electron's distance r from the proton for each clock step, for each clock speed.
+    // Choose a value of r that all clock speeds have in common.
+    // Then choose a value for MIN_RADIUS that is slightly less r. 
+    private static final double MIN_RADIUS = 5.85;
     
     //----------------------------------------------------------------------------
     // Instance data
