@@ -11,17 +11,14 @@
 
 package edu.colorado.phet.hydrogenatom.menu;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JMenu;
-import javax.swing.JRadioButtonMenuItem;
-
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HADefaults;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * DeBroglieViewMenu is the "deBroglie View" submenu that appears in menu bar's Options menu.
@@ -39,7 +36,7 @@ public class DeBroglieViewMenu extends JMenu {
     
     public DeBroglieViewMenu( HAModule module ) {
         super( SimStrings.getInstance().getString( "menu.deBroglieView" ) );
-        setMnemonic( SimStrings.getInstance().getChar( "menu.deBroglieView.mnemonic" ) );
+        setMnemonic( SimStrings.getInstance().getChar( "menu.deBroglieView.mnemonic", 'D' ) );
 
         _module = module;
         

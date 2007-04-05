@@ -13,7 +13,7 @@ import java.util.Vector;
  * Manages strings for simulations so that they can be localized.
  *
  */
-public class SimStrings implements PhetStringSource {
+public class SimStrings implements PhetPropertySource {
     private Vector localizedStrings;
     private Vector stringsPaths;
     private Locale localizedLocale;
@@ -139,16 +139,7 @@ public class SimStrings implements PhetStringSource {
      * @return int
      */
     public int getInt( String key, int defaultValue ) {
-        String s = getString( key );
-        int value = 0;
-        try {
-            value = Integer.parseInt( s );
-        }
-        catch( NumberFormatException nfe ) {
-            System.err.println( "SimStrings: " + key + " is not an int: " + s );
-            value = defaultValue;
-        }
-        return value;
+        return StringUtil.asInt( getString( key ), defaultValue );
     }
     
     /**
@@ -159,25 +150,18 @@ public class SimStrings implements PhetStringSource {
      * @return double
      */
     public double getDouble( String key, double defaultValue ) {
-        String s = getString( key );
-        double value = 0;
-        try {
-            value = Double.parseDouble( s );
-        }
-        catch( NumberFormatException nfe ) {
-            System.err.println( "SimStrings: " + key + " is not a double: " + s );
-            value = defaultValue;
-        }
-        return value;
+        return StringUtil.asDouble( getString( key ), defaultValue );
     }
     
     /**
      * Gets a char value from the localization file.
      * 
-     * @param key
+     * @param key           The key of the character.
+     * @param defaultValue  The default value.
+     *
      * @return char
      */
-    public char getChar( String key ) {
-        return getString( key ).charAt( 0 );
+    public char getChar( String key, char defaultValue ) {
+        return StringUtil.asChar( getString( key ), defaultValue );
     }
 }

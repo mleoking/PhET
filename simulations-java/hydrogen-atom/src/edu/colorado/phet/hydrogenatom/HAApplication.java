@@ -11,17 +11,6 @@
 
 package edu.colorado.phet.hydrogenatom;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Properties;
-
-import javax.swing.JDialog;
-import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
-
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.CommandLineUtils;
 import edu.colorado.phet.common.util.PropertiesLoader;
@@ -36,6 +25,14 @@ import edu.colorado.phet.hydrogenatom.menu.OptionsMenu;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendDialog;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
 
 /**
  * HAApplication
@@ -119,7 +116,7 @@ public class HAApplication extends PiccoloPhetApplication {
             HelpMenu helpMenu = frame.getHelpMenu();
             
             JMenuItem legendMenuItem = new JMenuItem( SimStrings.getInstance().getString( "menu.help.legend" ) );
-            legendMenuItem.setMnemonic( SimStrings.getInstance().getChar( "menu.help.legend.mnemonic" ) );
+            legendMenuItem.setMnemonic( SimStrings.getInstance().getChar( "menu.help.legend.mnemonic", 'L' ) );
             legendMenuItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     handleLegendDialog();
@@ -128,7 +125,7 @@ public class HAApplication extends PiccoloPhetApplication {
             helpMenu.add( legendMenuItem );
             
             JMenuItem transitionsMenuItem = new JMenuItem( SimStrings.getInstance().getString( "menu.help.transitions" ) );
-            transitionsMenuItem.setMnemonic( SimStrings.getInstance().getChar( "menu.help.transitions.mnemonic") );
+            transitionsMenuItem.setMnemonic( SimStrings.getInstance().getChar( "menu.help.transitions.mnemonic", 'T' ) );
             transitionsMenuItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     handleTransitionsDialog();

@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Locale;
-import java.util.Properties;
 
 /**
  * Represents the configuration and resource information for a PhET project
@@ -39,7 +38,7 @@ import java.util.Properties;
  *      PhetProjectConfig config = PhetProjectConfig.forName( "balloons" );
  * </code>
  */
-public class PhetProjectConfig implements PhetResourceLoader, PhetStringSource {
+public class PhetProjectConfig implements PhetResourceLoader, PhetPropertySource {
     // Standard localized properties:
     private static final String NAME_PROPERTY_FORMAT = "{0}.name";
     private static final String DESC_PROPERTY_FORMAT = "{0}.description";
@@ -58,12 +57,12 @@ public class PhetProjectConfig implements PhetResourceLoader, PhetStringSource {
     private final String dirname;
     private final String flavor;
     private final Locale locale;
-    private final PhetStringSource strings;
+    private final PhetPropertySource localized;
     private final PhetResourceLoader loader;
     private final String dataRoot;
 
     private volatile PhetProjectVersion version;
-    private volatile Properties properties;
+    private volatile PropertiesEx properties;
 
     /**
      * Constructs a new PhetProjectConfig for the specified dirname. The
@@ -119,12 +118,12 @@ public class PhetProjectConfig implements PhetResourceLoader, PhetStringSource {
      * not be used. Clients should use the static forProject() methods to
      * construct new PhetProjectConfig objects.
      */
-    protected PhetProjectConfig( String dirname, String flavor, Locale locale, PhetStringSource strings, PhetResourceLoader loader ) {
+    protected PhetProjectConfig( String dirname, String flavor, Locale locale, PhetPropertySource strings, PhetResourceLoader loader ) {
         this.isFlavored = isConfigFlavored( flavor, dirname );
         this.dirname    = dirname;
         this.flavor     = flavor == null ? dirname : flavor;
         this.locale     = locale;
-        this.strings    = strings;
+        this.localized  = strings;
         this.loader     = loader;
         this.dataRoot   = "/" + dirname + "/";
     }
@@ -217,9 +216,9 @@ public class PhetProjectConfig implements PhetResourceLoader, PhetStringSource {
      *
      * @return The project-specific properties.
      */
-    public Properties getProperties() {
+    public PropertiesEx getProperties() {
         if( properties == null ) {
-            properties = new Properties();
+            properties = new PropertiesEx();
 
             String propertiesResource = dirname + ".properties";
 
@@ -240,10 +239,57 @@ public class PhetProjectConfig implements PhetResourceLoader, PhetStringSource {
      *
      * @param propertyName The property name.
      *
-     * @return The localized string.
+     * @return The localized string, or the property name, if no such property
+     *         exists in the localization file.
      */
     public String getString( String propertyName ) {
-        return strings.getString( propertyName );
+        return localized.getString( propertyName );
+    }
+
+    /**
+     * Retrieves the localized integer associated with the specified property
+     * name.
+     *
+     * @param propertyName  The property name.
+     *
+     * @param defaultValue  The default value.
+     *
+     * @return  The localized integer, or the default value if none was
+     *          specified.
+     */
+    public int getInt( String propertyName, int defaultValue ) {
+        return localized.getInt( propertyName, defaultValue );
+    }
+
+    /**
+     * Retrieves the localized double associated with the specified property
+     * name.
+     *
+     * @param propertyName  The property name.
+     *
+     * @param defaultValue  The default value.
+     *
+     * @return  The localized double, or the default value if none was
+     *          specified.
+     */
+    public double getDouble( String propertyName, double defaultValue ) {
+        return localized.getDouble( propertyName, defaultValue );
+    }
+
+    /**
+     * Retrieves the localized character associated with the specified property
+     * name.
+     *
+     * @param propertyName  The property name.
+     *
+     * @param defaultValue  The default value.
+     *
+     * @return  The localized character, or the default value if none was
+     *          specified.
+     */
+
+    public char getChar( String propertyName, char defaultValue ) {
+        return localized.getChar( propertyName, defaultValue );
     }
 
     /**
@@ -337,7 +383,7 @@ public class PhetProjectConfig implements PhetResourceLoader, PhetStringSource {
                ", dirname=" + dirname +
                ", flavor=" + flavor +
                ", locale=" + locale +
-               ", strings=" + strings +
+               ", strings=" + localized +
                ", loader=" + loader +
                ", version=" + getVersion() +
                ", properties=" + getProperties() + "]";
