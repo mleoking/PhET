@@ -131,6 +131,8 @@ public class ZPhetProjectConfigTester extends MockObjectTestCase {
         int c = stream.read();
 
         assertTrue( c >= 0 );
+
+        stream.close();
     }
 
     private class TestProjectConfig extends PhetProjectConfig {

@@ -295,9 +295,11 @@ public class MoleculeSeparationPane extends PPath {
                 //
                 // Note: This is a hack implemented because the physics of the
                 //       simulation are fudged.
-                double maxX = curvePane.getIntersectionWithHorizontal( x );
-
-                x = Math.min( x, maxX );
+                if ( direction < 0 ) {
+                    double maxX = curvePane.getIntersectionWithHorizontal( x );
+                    
+                    x = Math.min( x, maxX );
+                }
 
                 midPoint = new Point2D.Double( x, y );
 
