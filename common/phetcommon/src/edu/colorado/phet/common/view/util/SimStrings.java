@@ -13,7 +13,7 @@ import java.util.Vector;
  * Manages strings for simulations so that they can be localized.
  *
  */
-public class SimStrings implements PhetPropertySource {
+public class SimStrings extends AbstractPhetPropertySource {
     private Vector localizedStrings;
     private Vector stringsPaths;
     private Locale localizedLocale;
@@ -130,38 +130,5 @@ public class SimStrings implements PhetPropertySource {
 
         return value;
     }
-    
-    /**
-     * Gets an integer value from the localization resource file.
-     * If key's value is not an integer, the specified default value is returned.
-     * @param key
-     * @param defaultValue
-     * @return int
-     */
-    public int getInt( String key, int defaultValue ) {
-        return StringUtil.asInt( getString( key ), defaultValue );
-    }
-    
-    /**
-     * Gets a double value from the localization resource file.
-     * If key's value is not a double, the specified default value is returned.
-     * @param key
-     * @param defaultValue
-     * @return double
-     */
-    public double getDouble( String key, double defaultValue ) {
-        return StringUtil.asDouble( getString( key ), defaultValue );
-    }
-    
-    /**
-     * Gets a char value from the localization file.
-     * 
-     * @param key           The key of the character.
-     * @param defaultValue  The default value.
-     *
-     * @return char
-     */
-    public char getChar( String key, char defaultValue ) {
-        return StringUtil.asChar( getString( key ), defaultValue );
-    }
+
 }
