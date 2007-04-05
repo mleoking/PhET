@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -47,33 +48,33 @@ public class LegendPanel extends JPanel {
         ElectronNode electronNode = new ElectronNode();
         electronNode.scale( iconScale );
         JLabel electronImage = toJLabel( electronNode );
-        JLabel electronText = new JLabel( SimStrings.getInstance().getString( "label.electron" ) );
+        JLabel electronText = new JLabel( RSConstants.S_ELECTRON );
         electronText.setFont( labelFont );
         electronText.setForeground( TEXT_COLOR );
         
         ProtonNode protonNode = new ProtonNode();
         protonNode.scale( iconScale );
         JLabel protonImage = toJLabel( protonNode );
-        JLabel protonText = new JLabel( SimStrings.getInstance().getString( "label.proton" ) );
+        JLabel protonText = new JLabel( RSConstants.S_PROTON );
         protonText.setFont( labelFont );
         protonText.setForeground( TEXT_COLOR );
         
         NeutronNode neutronNode = new NeutronNode();
         neutronNode.scale( iconScale );
         JLabel neutronImage = toJLabel( neutronNode );
-        JLabel neutronText = new JLabel( SimStrings.getInstance().getString( "label.neutron" ) );
+        JLabel neutronText = new JLabel( RSConstants.S_NEUTRON );
         neutronText.setFont( labelFont );
         neutronText.setForeground( TEXT_COLOR );
         
         PImage alphaParticleNode = new PImage( AlphaParticleNode.createImage() );
         alphaParticleNode.scale( iconScale );
         JLabel alphaParticleImage = toJLabel( alphaParticleNode );
-        JLabel alphaParticleText = new JLabel( SimStrings.getInstance().getString( "label.alphaParticle" ) );
+        JLabel alphaParticleText = new JLabel( RSConstants.S_ALPHA_PARTICLE );
         alphaParticleText.setFont( labelFont );
         alphaParticleText.setForeground( TEXT_COLOR );
 
         // Border
-        TitledBorder titledBorder = new TitledBorder( SimStrings.getInstance().getString( "label.legend" ) );
+        TitledBorder titledBorder = new TitledBorder( RSConstants.S_LEGEND );
         titledBorder.setTitleFont( titleFont );
         titledBorder.setBorder( border );
         setBorder( titledBorder );

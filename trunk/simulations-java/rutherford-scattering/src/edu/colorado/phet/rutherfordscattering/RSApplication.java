@@ -11,6 +11,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.PhetProjectConfig;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 import edu.colorado.phet.rutherfordscattering.module.PlumPuddingAtomModule;
@@ -31,15 +32,12 @@ public class RSApplication extends PiccoloPhetApplication {
      * Sole constructor.
      * 
      * @param args command line arguments
-     * @param title
-     * @param description
-     * @param version
+     * @param config
      * @param frameSetup
      */
-    public RSApplication( String[] args, 
-            String title, String description, String version, FrameSetup frameSetup )
+    public RSApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup )
     {
-        super( args, title, description, version, frameSetup );
+        super( args, config, frameSetup );
         initModules();
         initMenubar( args );
     }
@@ -92,27 +90,8 @@ public class RSApplication extends PiccoloPhetApplication {
                 PhetLookAndFeel laf = new PhetLookAndFeel();
                 laf.initLookAndFeel();
 
-                // Initialize localization.
-                SimStrings.getInstance().init( args, RSConstants.SIM_STRINGS_NAME );
-
-                // Load simulation properties file
-                Properties simulationProperties = PropertiesLoader.loadProperties( RSConstants.SIM_PROPERTIES_NAME );
-                
-                // Title & description
-                String title = SimStrings.getInstance().getString( "RSApplication.title" );
-                String description = SimStrings.getInstance().getString( "RSApplication.description" );
-                
-                // Version
-                String version = PhetApplication.getVersionString( simulationProperties );
-
-                // Frame setup
-                int width = RSConstants.APP_FRAME_SIZE.width;
-                int height = RSConstants.APP_FRAME_SIZE.height;
-                FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
-
                 // Create the application.
-                RSApplication app = new RSApplication( args, title, description, version, frameSetup );
-                app.setSimulationProperties( simulationProperties );
+                RSApplication app = new RSApplication( args, RSConstants.CONFIG, RSConstants.FRAME_SETUP );
                 
                 // Start the application.
                 app.startApplication();

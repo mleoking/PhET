@@ -62,7 +62,7 @@ public class PlumPuddingAtomNode extends BufferedPNode {
         PNode parentNode = new PNode();
         
         // Read the pudding image and scale it to match the atom model
-        PImage puddingNode = PImageFactory.create( RSConstants.IMAGE_PLUM_PUDDING );
+        PImage puddingNode = new PImage( RSConstants.IMAGE_PLUM_PUDDING );
         final double imageDiameter = Math.max( puddingNode.getWidth(), puddingNode.getHeight() );
         final double atomDiameter = 2 * ModelViewTransform.transform( atom.getRadius() );
         final double imageScale = atomDiameter / imageDiameter;

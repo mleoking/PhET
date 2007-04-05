@@ -70,7 +70,7 @@ public class RutherfordAtomModule extends AbstractModule {
      * Constructor.
      */
     public RutherfordAtomModule() {
-        super( SimStrings.getInstance().getString( "RutherfordAtomModule.title" ), new RSClock(), RSConstants.CLOCK_PAUSED );
+        super( RSConstants.S_RUTHERFORD_ATOM, new RSClock(), RSConstants.CLOCK_PAUSED );
 
         //----------------------------------------------------------------------------
         // Model
@@ -315,7 +315,7 @@ public class RutherfordAtomModule extends AbstractModule {
         if ( !_wiggleMeInitialized && HAS_WIGGLE_ME ) {
             
             // Create wiggle me, add to root node.
-            String wiggleMeString = SimStrings.getInstance().getString( "wiggleMe.gun" );
+            String wiggleMeString = RSConstants.S_TURN_ON_THE_GUN;
             _wiggleMe = new RSWiggleMe( _canvas, wiggleMeString );
             _wiggleMe.setArrowTailPosition( MotionHelpBalloon.TOP_LEFT );
             _wiggleMe.setArrowLength( 60 );
