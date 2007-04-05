@@ -23,7 +23,7 @@ public class ZPropertiesExTester extends TestCase {
     }
 
     public void testGetStringThatDoesNotExistEqualsPropertyName() {
-        assertEquals( "string", properties.getString( "yoda" ) );
+        assertEquals( "yoda", properties.getString( "yoda" ) );
     }
 
     public void testGetInt() {
