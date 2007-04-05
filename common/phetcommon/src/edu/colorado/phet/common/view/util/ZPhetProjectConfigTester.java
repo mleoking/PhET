@@ -1,6 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.common.view.util;
 
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 
@@ -102,13 +103,15 @@ public class ZPhetProjectConfigTester extends MockObjectTestCase {
         assertEquals( "1.2.03 (1234)", config.getVersion().toString() );
     }
 
-    public void testGetImage() throws Exception {
-        PhetProjectConfig commonConfig = PhetProjectConfig.forProject( "phetcommon" );
+    public void testGetImageForPhetCommon() throws Exception {
+        BufferedImage image = PhetCommonProjectConfig.getInstance().getImage( "phet-logo.jpg" );
 
-        BufferedImage image = commonConfig.getImage( "test-image.jpg" );
+        assertTrue( image.getWidth()  > 0 );
+        assertTrue( image.getHeight() > 0 );
+    }
 
-        assertEquals( 120, image.getWidth() );
-        assertEquals( 50, image.getHeight() );        
+    public void testPhetCommonHasAtLeastOneProperty() throws Exception {
+        assertEquals( "Help", PhetProjectConfig.forProject( "phetcommon", null, Locale.ENGLISH ).getString( "Common.HelpMenu.Title" ) );
     }
 
     private class TestProjectConfig extends PhetProjectConfig {
