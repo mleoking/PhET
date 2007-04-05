@@ -2,7 +2,10 @@
 
 package edu.colorado.phet.rutherfordscattering;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -12,8 +15,6 @@ import edu.colorado.phet.common.util.DoubleRange;
 import edu.colorado.phet.common.util.IntegerRange;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.PhetProjectConfig;
-import edu.colorado.phet.common.view.util.PropertiesEx;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**

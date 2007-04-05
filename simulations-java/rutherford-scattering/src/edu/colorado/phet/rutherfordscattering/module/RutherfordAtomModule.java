@@ -8,7 +8,6 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.colorado.phet.rutherfordscattering.RSConstants;

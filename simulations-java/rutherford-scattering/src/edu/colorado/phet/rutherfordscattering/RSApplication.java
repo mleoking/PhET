@@ -3,16 +3,12 @@
 package edu.colorado.phet.rutherfordscattering;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Properties;
 
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.PhetProjectConfig;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 import edu.colorado.phet.rutherfordscattering.module.PlumPuddingAtomModule;
 import edu.colorado.phet.rutherfordscattering.module.RutherfordAtomModule;

@@ -10,7 +10,6 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.*;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.rutherfordscattering.event.ParticleEvent;
 import edu.colorado.phet.rutherfordscattering.event.ParticleListener;

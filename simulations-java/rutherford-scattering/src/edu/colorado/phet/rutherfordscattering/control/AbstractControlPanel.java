@@ -13,7 +13,6 @@ import javax.swing.*;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.DialogUtils;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.module.AbstractModule;
 

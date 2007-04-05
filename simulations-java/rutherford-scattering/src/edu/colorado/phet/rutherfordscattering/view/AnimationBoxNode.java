@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.event.ParticleEvent;
 import edu.colorado.phet.rutherfordscattering.event.ParticleListener;

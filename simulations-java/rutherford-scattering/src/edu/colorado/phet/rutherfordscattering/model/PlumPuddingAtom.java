@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.rutherfordscattering.model;
 
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 /**

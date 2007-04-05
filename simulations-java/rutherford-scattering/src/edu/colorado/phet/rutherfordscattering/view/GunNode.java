@@ -2,14 +2,12 @@
 
 package edu.colorado.phet.rutherfordscattering.view;
 
-import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.model.Gun;
 import edu.umd.cs.piccolo.PNode;

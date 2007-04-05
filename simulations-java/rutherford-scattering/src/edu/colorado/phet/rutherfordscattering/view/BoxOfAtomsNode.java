@@ -6,8 +6,6 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
