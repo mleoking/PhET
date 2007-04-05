@@ -61,7 +61,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
-********* version 0.00.02 (?)
+********* version 0.00.02 (14202)
 4/4/07 - optimize gradient view of laser power intensity using a BufferedImageOp that adjusts alpha channel
 4/4/07 - reduce size of gradient image by only drawing one quadrant, then scaling it to the view
 4/4/07 - make BeamInNode and BeamOutNode handle their own visibility based on Laser state
