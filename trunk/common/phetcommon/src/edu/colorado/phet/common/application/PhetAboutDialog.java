@@ -39,7 +39,8 @@ public class PhetAboutDialog extends JDialog {
     private static final String LICENSE_RESOURCE = "phet-license.txt";
     
     private PhetApplication phetApplication;
-    
+    private JPanel logoPanel;
+
     /**
      * Constructs the dialog.
      * 
@@ -55,8 +56,8 @@ public class PhetAboutDialog extends JDialog {
 
         String title = SimStrings.getInstance().getString( "Common.HelpMenu.AboutTitle" ) + " " + phetApplication.getTitle();
         setTitle( title );
-        
-        JPanel logoPanel = createLogoPanel();
+
+        logoPanel = createLogoPanel();
         JPanel infoPanel = createInfoPanel();
         JPanel buttonPanel = createButtonPanel();
 
@@ -108,9 +109,22 @@ public class PhetAboutDialog extends JDialog {
         JLabel title = new JLabel( phetApplication.getTitle() );
         Font f = title.getFont();
         title.setFont( new Font( f.getFontName(), Font.BOLD, f.getSize() ) );
-        
+
+        JComponent description;
+
+        String descriptionText = phetApplication.getDescription();
+
         // Simulation description (aka, abstract)
-        JLabel description = new JLabel( phetApplication.getDescription() );
+        if ( isPlainText( descriptionText ) ) {
+            JMultilineLabel multiline = new JMultilineLabel( descriptionText );
+
+            multiline.setMaxWidth( (int)logoPanel.getPreferredSize().getWidth() );
+
+            description = multiline;
+        }
+        else {
+            description = new JLabel( descriptionText );
+        }
         
         // Simulation version
         String versionHeader = SimStrings.getInstance().getString( "Common.About.Version" ) + " ";
@@ -144,6 +158,10 @@ public class PhetAboutDialog extends JDialog {
         infoPanel.add( Box.createVerticalStrut( ySpacing ) );
         
         return infoPanel;
+    }
+
+    private boolean isPlainText( String descriptionText ) {
+        return descriptionText.matches( "[^><]+" );
     }
 
     /**
