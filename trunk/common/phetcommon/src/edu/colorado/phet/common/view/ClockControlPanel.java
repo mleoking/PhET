@@ -48,6 +48,10 @@ public class ClockControlPanel extends JPanel implements ClockListener {
     public static final String IMAGE_FAST_FORWARD = IMAGES_DIRECTORY + "FastForward24.gif";
     public static final String IMAGE_STOP = IMAGES_DIRECTORY + "Stop24.gif";
     
+    public static final String PROPERTY_PLAY = "Common.ClockControlPanel.Play";
+    public static final String PROPERTY_PAUSE = "Common.ClockControlPanel.Pause";
+    public static final String PROPERTY_STEP = "Common.ClockControlPanel.Step";
+    
     private JButton playPause;
     private JButton step;
     private IClock clock;
@@ -68,9 +72,9 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         clock.addClockListener( this );
 
         // Button labels
-        playString = SimStrings.getInstance().getString( "Common.ClockControlPanel.Play" );
-        pauseString = SimStrings.getInstance().getString( "Common.ClockControlPanel.Pause" );
-        String stepString = SimStrings.getInstance().getString( "Common.ClockControlPanel.Step" );
+        playString = SimStrings.getInstance().getString( PROPERTY_PLAY );
+        pauseString = SimStrings.getInstance().getString( PROPERTY_PAUSE );
+        String stepString = SimStrings.getInstance().getString( PROPERTY_STEP );
         
         // Button icons
         BufferedImage playU = loadImage( IMAGE_PLAY );
