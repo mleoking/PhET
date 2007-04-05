@@ -1,0 +1,195 @@
+.section {
+	background: url(../images/section_BG.gif) left bottom no-repeat;
+	margin:0 0 6px 0;
+	padding:20px 20px 10px 20px;
+}
+#container {
+	padding:15px 0 0 0;
+}
+h1 {
+	color:#dc5e0a;
+	font-size:1.4em;
+	line-height:1.2em;
+	margin:0;
+}
+h1 em {
+	font-size:1.05em;
+	font-weight:600;
+	font-style:normal;
+}
+h4 {
+	color:#727272;
+	font-size:1.1em;
+	text-transform:uppercase;
+}
+p.openingParagraph {
+	color:#666;
+	font-size:1em;
+	font-weight:bold;
+	line-height:1.5em;
+	margin:15px 0 0 0;
+	padding:0;
+}
+p.findOutMore {
+	 float: left;
+	 margin-top: 5px;
+}
+.mainImage {
+	 float:left;
+	 margin-top: 3px;
+	 margin-left:-20px;
+	 margin-right: 10px;
+	 padding: 0px 0px 0px 0px;
+}
+div.practices {
+	background: url(../images/practice_BG.gif) left bottom no-repeat;
+	background-color:none;
+	margin:0 0 15px 0;
+	padding:0;
+}
+dl {
+	background: url(../images/practiceSeperator.gif) right top no-repeat;
+	float:left;
+	margin-left: 1px;
+	padding:0;
+	width:190px;
+}
+dl.last {
+	background: none;
+	width:190px;
+	
+}
+dl dt {
+	 color:#000;
+	 margin:0;
+	 padding:0;
+
+}
+dl dd {
+	margin:0;
+	padding: 0px 15px;
+}
+
+div.practices dd a.nolink	{
+background: none;
+text-decoration: none;
+color: #000;
+padding: 0px 0px 0px 0px;
+line-height: 20px;
+}
+
+div.practices dd a:hover.nolink	{
+background: none;
+text-decoration: none;
+color: #000;
+padding: 0px 0px 0px 0px;
+line-height: 20px;
+}
+
+
+div.practices dd a	{
+background: url(../images/circleArrow_Icon.gif) no-repeat 0px 0px;
+text-decoration: none;
+color: #000;
+padding: 0px 0px 0px 17px;
+line-height: 20px;
+}
+
+div.practices dd a:hover	{
+background: url(../images/circleArrow_Icon.gif) no-repeat 0px 0px;
+text-decoration: none;
+color: #2345a1;
+padding: 0px 0px 0px 17px;
+line-height: 20px;
+
+}
+
+dl dd.readMore a {
+	float:right;
+	margin:0;
+	padding:0;
+	text-decoration:none;
+}
+
+object.last	{
+margin: 8px 0px 0px 15px;
+}
+
+/******** =caseStudy ********/
+.caseStudy {
+	float:left;
+	margin:0;
+	padding:0;
+	width:50%;
+}
+.caseStudy dl {
+	background:none;
+	float:none;
+	line-height: 1.6em;
+	margin:0;
+	padding:0;
+	width:100%;
+	
+}
+.caseStudy dl dt, .caseStudy dl dt a {
+	 color:#981b1e;
+	 font-size:1.1em;
+	 font-weight:bold;
+	 margin:10px 0 0 0;
+	 padding:0;
+}
+.caseStudy dl dd {
+	margin:0;
+	padding:5px 5px 0 0;
+}
+.caseStudy dl dd a{
+	color:#1e3a84;
+}
+
+/******** =news ********/
+.news {
+	float:right;
+	width:47%;
+}
+.news ul {
+	margin:10px 0 0 0;
+	padding-left:0;
+}
+.news ul li {
+	background: url(../images/newsArrow_Icon.gif) left 2px no-repeat;
+	font-size:1.05em;
+	font-weight:bold;
+	list-style:none;
+	padding:0 0 8px 22px;
+}
+.news li a {
+	color:#1e3a84;
+}
+
+a.espanol	{
+font-weight:bold;
+list-style:none;
+text-decoration: none;
+}
+a.espanol:hover	{
+font-weight:bold;
+list-style:none;
+text-decoration: none;
+color: #c60;
+}
+
+
+
+img.spon	{
+
+
+}
+
+
+
+
+
+
+
+
+
