@@ -104,7 +104,7 @@ public class PhetProjectConfig implements PhetResourceLoader, PhetPropertySource
      *         and locale.
      */
     public static PhetProjectConfig forProject( String dirname, String flavor, Locale locale ) {
-        String bundleName = dirname + "/" + LOCALIZATION_DIR + "/" + dirname + "-strings";
+        String bundleName = dirname + "/" + LOCALIZATION_DIR + dirname + "-strings";
 
         SimStrings strings = new SimStrings();
 
@@ -302,7 +302,7 @@ public class PhetProjectConfig implements PhetResourceLoader, PhetPropertySource
      * @return The image having the specified resource location.
      */
     public BufferedImage getImage( String resource ) {
-        return loader.getImage( dataRoot + "image/" + resource );
+        return loader.getImage( dataRoot + "images/" + resource );
     }
 
     /**
