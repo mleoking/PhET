@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.rutherfordscattering;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -13,6 +10,10 @@ import javax.swing.border.Border;
 
 import edu.colorado.phet.common.util.DoubleRange;
 import edu.colorado.phet.common.util.IntegerRange;
+import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.PhetProjectConfig;
+import edu.colorado.phet.common.view.util.PropertiesEx;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
@@ -26,24 +27,19 @@ public class RSConstants {
     private RSConstants() {}
     
     //----------------------------------------------------------------------------
-    // Project
+    // Application
     //----------------------------------------------------------------------------
     
     private static final String PROJECT = "rutherford-scattering";
     
-    //----------------------------------------------------------------------------
-    // Properties files
-    //----------------------------------------------------------------------------
+    public static final PhetProjectConfig CONFIG = PhetProjectConfig.forProject( PROJECT );
     
-    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
-    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
+    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
     //----------------------------------------------------------------------------
     // Dimensions
     //----------------------------------------------------------------------------
     
-    public static final Dimension APP_FRAME_SIZE = new Dimension( 1024, 768 );
-
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 800, 800 );
 
     // Animation box size, must be square!
@@ -55,6 +51,8 @@ public class RSConstants {
     public static final double BOX_OF_HYDROGEN_DEPTH = 10;
     
     public static final Dimension BEAM_SIZE = new Dimension( (int) ( .75 * BOX_OF_HYDROGEN_SIZE.width ), 75 );
+    
+    public static final int MIN_CONTROL_PANEL_WIDTH = CONFIG.getInt( "int.minControlPanelWidth", 200 );
     
     //----------------------------------------------------------------------------
     // Clock
@@ -106,20 +104,33 @@ public class RSConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String IMAGES_DIRECTORY = PROJECT + "/images/";
-    
-    public static final String IMAGE_GUN = IMAGES_DIRECTORY + "gun.png";
-    public static final String IMAGE_GUN_ON_BUTTON = IMAGES_DIRECTORY + "gunOnButton.png";
-    public static final String IMAGE_GUN_OFF_BUTTON = IMAGES_DIRECTORY + "gunOffButton.png";
-    public static final String IMAGE_PLUM_PUDDING = IMAGES_DIRECTORY + "plumPudding.png";
+    public static final Image IMAGE_GUN = CONFIG.getImage( "gun.png" );
+    public static final Image IMAGE_GUN_ON_BUTTON = CONFIG.getImage( "gunOnButton.png" );
+    public static final Image IMAGE_GUN_OFF_BUTTON = CONFIG.getImage(  "gunOffButton.png" );
+    public static final Image IMAGE_PLUM_PUDDING = CONFIG.getImage(  "plumPudding.png" );
     
     //----------------------------------------------------------------------------
-    // Cursors
+    // Strings
     //----------------------------------------------------------------------------
     
-    public static final Cursor DEFAULT_CURSOR = new Cursor( Cursor.DEFAULT_CURSOR );
-    public static final Cursor HAND_CURSOR = new Cursor( Cursor.HAND_CURSOR );
-    public static final Cursor WAIT_CURSOR = new Cursor( Cursor.WAIT_CURSOR );
+    public static final String S_ALPHA_PARTICLE = CONFIG.getString( "string.alphaParticle" );
+    public static final String S_ALPHA_PARTICLE_PROPERTIES = CONFIG.getString( "string.alphaParticleProperties" );
+    public static final String S_ATOM_PROPERTIES = CONFIG.getString( "string.atomProperties" );
+    public static final String S_CONFIRM_RESET_ALL = CONFIG.getString( "string.confirmResetAll" );
+    public static final String S_ELECTRON = CONFIG.getString( "string.electron" );
+    public static final String S_ENERGY = CONFIG.getString( "string.energy" );
+    public static final String S_LEGEND = CONFIG.getString( "string.legend" );
+    public static final String S_MAX_ENERGY = CONFIG.getString( "string.maxEnergy" );
+    public static final String S_MIN_ENERGY = CONFIG.getString( "string.minEnergy" );
+    public static final String S_NEUTRON = CONFIG.getString( "string.neutron" );
+    public static final String S_NUMBER_OF_NEUTRONS = CONFIG.getString( "string.numberOfNeutrons" );
+    public static final String S_NUMBER_OF_PROTONS = CONFIG.getString( "string.numberOfProtons" );
+    public static final String S_PLUM_PUDDING = CONFIG.getString( "string.plumPuddingAtom" );
+    public static final String S_PROTON = CONFIG.getString( "string.proton" );
+    public static final String S_RESET_ALL = CONFIG.getString( "string.resetAll" );
+    public static final String S_RUTHERFORD_ATOM = CONFIG.getString( "string.rutherfordAtom" );
+    public static final String S_SHOW_TRACES = CONFIG.getString( "string.showTraces" );
+    public static final String S_TURN_ON_THE_GUN = CONFIG.getString( "string.turnOnTheGun" );
     
     //----------------------------------------------------------------------------
     // Default state of the model

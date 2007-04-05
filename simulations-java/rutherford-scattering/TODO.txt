@@ -13,6 +13,9 @@ LOW PRIORITY:
 
 
 DONE:
+4/5/07 - set locale in Spanish JNLP file via javaws.locale property
+4/5/07 - convert from SimStrings to PhetProjectConfig, pull all String and Image constants into RSConstants
+4/5/07 - remove label from BoxOfAtomsNode
 3/20/07 - remove DebugUtils and their single usage in AlphaParticles
 3/20/07 - move DoubleRange, IntegerRange to phetcommon
 ******* version 1.00.00 (13862)

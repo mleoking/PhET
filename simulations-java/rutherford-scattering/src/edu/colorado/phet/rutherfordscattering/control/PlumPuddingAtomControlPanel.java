@@ -68,7 +68,7 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
         // Alpha Particles panel
         JPanel alphaParticlesPanel = new JPanel();
         {
-            TitledBorder border = new TitledBorder( SimStrings.getInstance().getString( "label.alphaParticleProperties" ) );
+            TitledBorder border = new TitledBorder( RSConstants.S_ALPHA_PARTICLE_PROPERTIES );
             border.setTitleFont( RSConstants.TITLE_FONT );
             border.setBorder( RSConstants.TITLED_BORDER_STYLE );
             alphaParticlesPanel.setBorder( border );
@@ -81,7 +81,7 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
                 double tickSpacing = max - min;
                 int tickDecimalPlaces = 0;
                 int valueDecimalPlaces = 1;
-                String label = SimStrings.getInstance().getString( "label.energy" );
+                String label = RSConstants.S_ENERGY;
                 String units = "";
                 int columns = 3;
                 _energyControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
@@ -90,7 +90,7 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
                 if ( !DEBUG_SHOW_ENERGY_VALUE ) {
                     _energyControl.setTextFieldVisible( false );
                 }
-                _energyControl.setMinMaxLabels( SimStrings.getInstance().getString( "label.minEnergy" ), SimStrings.getInstance().getString( "label.maxEnergy" ) );
+                _energyControl.setMinMaxLabels( RSConstants.S_MIN_ENERGY, RSConstants.S_MAX_ENERGY );
                 _energyListener = new ChangeListener() {
                     public void stateChanged( ChangeEvent event ) {
                         _module.removeAllAlphaParticles();
@@ -106,7 +106,7 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
 
             // Traces checkbox
             {
-                _tracesCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showTraces" ) );
+                _tracesCheckBox = new JCheckBox( RSConstants.S_SHOW_TRACES );
                 _tracesCheckBox.setFont( RSConstants.CONTROL_FONT );
                 _tracesCheckBox.setSelected( _module.getTracesNode().isEnabled() );
                 _tracesCheckBox.addChangeListener( new ChangeListener() {

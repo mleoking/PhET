@@ -14,6 +14,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.DialogUtils;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.module.AbstractModule;
 
 
@@ -42,7 +43,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
      */
     public AbstractControlPanel( AbstractModule module ) {
         super();
-        setMinimumWidth( SimStrings.getInstance().getInt( "width.controlPanel", 200 ) );
+        setMinimumWidth( RSConstants.MIN_CONTROL_PANEL_WIDTH );
         setInsets( new Insets( 0, 3, 0, 3 ) );
         _module = module;
     }
@@ -78,15 +79,14 @@ public abstract class AbstractControlPanel extends ControlPanel {
      * The button handler calls the module's reset method.
      */
     public void addResetButton( Font font ) {
-        _resetButton = new JButton( SimStrings.getInstance().getString( "button.resetAll" ) );
+        _resetButton = new JButton( RSConstants.S_RESET_ALL );
         if ( font != null ) {
             _resetButton.setFont( font );
         }
         _resetButton.addActionListener( new ActionListener() { 
             public void actionPerformed( ActionEvent e ) {
                 Frame frame = PhetApplication.instance().getPhetFrame();
-                String message = SimStrings.getInstance().getString( "message.resetAll" );
-                int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
+                int option = DialogUtils.showConfirmDialog( frame, RSConstants.S_CONFIRM_RESET_ALL, JOptionPane.YES_NO_OPTION );
                 if ( option == JOptionPane.YES_OPTION ) {
                     _module.reset();
                 }

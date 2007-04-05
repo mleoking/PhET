@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.rutherfordscattering.view;
 
+import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
@@ -52,9 +53,9 @@ public class GunNode extends PhetPNode implements Observer {
         _gun = gun;
         
         // Nodes
-        PImage gunNode = PImageFactory.create( RSConstants.IMAGE_GUN );
-        _onButton = PImageFactory.create( RSConstants.IMAGE_GUN_ON_BUTTON );
-        _offButton = PImageFactory.create( RSConstants.IMAGE_GUN_OFF_BUTTON );
+        PImage gunNode = new PImage( RSConstants.IMAGE_GUN );
+        _onButton = new PImage( RSConstants.IMAGE_GUN_ON_BUTTON );
+        _offButton = new PImage( RSConstants.IMAGE_GUN_OFF_BUTTON );
         
         // Layering
         addChild( gunNode );

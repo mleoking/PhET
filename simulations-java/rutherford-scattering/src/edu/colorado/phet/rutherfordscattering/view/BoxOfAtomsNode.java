@@ -35,8 +35,6 @@ public class BoxOfAtomsNode extends PNode {
     private static final float BACK_DEPTH = 10f;
     private static final float BACK_OFFSET = 0.15f;
     
-    private static final double Y_SPACING = 5;  // space between label and box
-
     public static final Color TINY_BOX_FILL_COLOR = RSConstants.ANIMATION_BOX_COLOR;
     public static final Color TINY_BOX_STROKE_COLOR = RSConstants.ANIMATION_BOX_STROKE_COLOR;
     public static final Stroke TINY_BOX_STROKE = new BasicStroke( 2f );
@@ -86,40 +84,19 @@ public class BoxOfAtomsNode extends PNode {
             boxNode.addChild( frontNode );
             boxNode.addChild( topNode );
         }
+        boxNode.setOffset( 0, 0 );
+        addChild( boxNode );
 
         // Tiny box
         _tinyBoxNode = new PPath( new Rectangle2D.Double( 0, 0, tinyBoxSize.width, tinyBoxSize.height ) );
         _tinyBoxNode.setPaint( TINY_BOX_FILL_COLOR );
         _tinyBoxNode.setStrokePaint( TINY_BOX_STROKE_COLOR );
         _tinyBoxNode.setStroke( TINY_BOX_STROKE );
-        
-        // Label, origin in upper-left corner of bounds
-        HTMLNode labelNode = new HTMLNode();
-        labelNode.setHTML( SimStrings.getInstance().getString( "label.boxOfHydrogen" ) );
-        labelNode.setHTMLColor( RSConstants.CANVAS_LABELS_COLOR );
-        labelNode.setFont( RSConstants.DEFAULT_FONT );
-        
-        // Layering
-        addChild( boxNode );
-        addChild( _tinyBoxNode );
-        addChild( labelNode );
-        
-        // Label centered above box, orgin in upper-left corner of bounds
-        final double labelWidth = labelNode.getFullBounds().getWidth();
-        final double boxWidth = boxNode.getFullBounds().getWidth();
-        if ( boxWidth > labelWidth ) {
-            labelNode.setOffset( ( boxWidth - labelWidth ) / 2, 0 );
-            boxNode.setOffset( 0, labelNode.getFullBounds().getHeight() + Y_SPACING );
-        }
-        else {
-            labelNode.setOffset( 0, 0 );
-            boxNode.setOffset( ( labelWidth - boxWidth ) / 2, labelNode.getFullBounds().getHeight() + Y_SPACING );
-        }
-        
-        // Tiny box in upper right quadrant of box
+        // in upper right quadrant of box
         double x = boxNode.getFullBounds().getX() + ( 0.6 * boxNode.getFullBounds().getWidth() );
         double y = boxNode.getFullBounds().getY() + ( 0.5 * boxNode.getFullBounds().getHeight() );
         _tinyBoxNode.setOffset( x, y );
+        addChild( _tinyBoxNode );
     }
     
     //----------------------------------------------------------------------------
