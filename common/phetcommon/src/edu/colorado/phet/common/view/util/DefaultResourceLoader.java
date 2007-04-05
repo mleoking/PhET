@@ -7,18 +7,12 @@ import java.io.InputStream;
 
 public class DefaultResourceLoader extends AbstractPhetResourceLoader {
     private static final BufferedImage NULL_IMAGE = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB );
-    
-    private static final InputStream NULL_STREAM = new InputStream() {
-        public int read() throws IOException {
-            return -1;
-        }
-    };
 
-    public InputStream getResourceAsStream( String resource ) {
-        InputStream stream = getClass().getResourceAsStream( resource );
+    public InputStream getResourceAsStream( String resource ) throws IOException {
+        InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream( resource );
 
         if (stream == null) {
-            return NULL_STREAM;
+            throw new IOException( "The specified resource " + resource + " is not valid." );
         }
 
         return stream;

@@ -316,12 +316,6 @@ public class PhetProjectConfig implements PhetResourceLoader, PhetPropertySource
         return loader.getAudioClip( dataRoot + "audio/" + resource );
     }
 
-    /*
-    public PhetAudioClip getAudioClip( String resource ) {
-       dataRoot + "audio/" + resource
-    }
-     */
-
     /**
      * Retrieves a byte array of the resource file having the specified
      * location.
@@ -330,7 +324,7 @@ public class PhetProjectConfig implements PhetResourceLoader, PhetPropertySource
      *
      * @return The byte array of the resource file.
      */
-    public byte[] getResource( String resource ) {
+    public byte[] getResource( String resource ) throws IOException {
         return loader.getResource( dataRoot + resource );
     }
 
@@ -341,7 +335,7 @@ public class PhetProjectConfig implements PhetResourceLoader, PhetPropertySource
      *
      * @return The input stream to the resource having the specified location.
      */
-    public InputStream getResourceAsStream( String resource ) {
+    public InputStream getResourceAsStream( String resource ) throws IOException {
         return loader.getResourceAsStream( dataRoot + resource );
     }
 

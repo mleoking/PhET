@@ -2,12 +2,13 @@
 package edu.colorado.phet.common.view.util;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.InputStream;
 
 public interface PhetResourceLoader {
-    InputStream getResourceAsStream( String resource );
+    InputStream getResourceAsStream( String resource ) throws IOException;
 
-    byte[] getResource( String resource );
+    byte[] getResource( String resource ) throws IOException;
 
     BufferedImage getImage( String resource );
 
