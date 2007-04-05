@@ -44,11 +44,11 @@ public class DialogUtils {
     public static int showConfirmDialog( Component parentComponent, String message, int optionType ) {
         
         // Get localized strings
-        String title = SimStrings.getInstance().getString( "title.confirm" );
-        String yes = SimStrings.getInstance().getString( "choice.yes" );
-        String no = SimStrings.getInstance().getString( "choice.no" );
-        String ok = SimStrings.getInstance().getString( "choice.ok" );
-        String cancel = SimStrings.getInstance().getString( "choice.cancel" );
+        String title = SimStrings.getInstance().getString( "Common.title.confirm" );
+        String yes = SimStrings.getInstance().getString( "Common.choice.yes" );
+        String no = SimStrings.getInstance().getString( "Common.choice.no" );
+        String ok = SimStrings.getInstance().getString( "Common.choice.ok" );
+        String cancel = SimStrings.getInstance().getString( "Common.choice.cancel" );
         
         // Create an option pane
         JOptionPane pane = new JOptionPane( message, JOptionPane.QUESTION_MESSAGE, optionType );
