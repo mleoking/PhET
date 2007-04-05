@@ -5,6 +5,7 @@ import edu.colorado.phet.common.view.util.PhetAudioClip;
 
 public class TestPhetAudioClip {
     public static void main(String[] args) throws Exception {
+        // Note that this test cannot be run without the data from movingman!
         PhetAudioClip clip = new PhetAudioClip( "audio/smash0.wav" );
 
         clip.play();

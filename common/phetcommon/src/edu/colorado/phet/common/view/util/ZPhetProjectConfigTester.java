@@ -4,6 +4,7 @@ package edu.colorado.phet.common.view.util;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -91,14 +92,23 @@ public class ZPhetProjectConfigTester extends MockObjectTestCase {
     public void testGetVersion() throws Exception {
         Properties properties = new Properties();
 
-        properties.put( "version.major", "1" );
-        properties.put( "version.minor", "2" );
-        properties.put( "version.dev", "03" );
+        properties.put( "version.major",    "1" );
+        properties.put( "version.minor",    "2" );
+        properties.put( "version.dev",      "03" );
         properties.put( "version.revision", "1234" );
 
         expectProperties( properties );
 
         assertEquals( "1.2.03 (1234)", config.getVersion().toString() );
+    }
+
+    public void testGetImage() throws Exception {
+        PhetProjectConfig commonConfig = PhetProjectConfig.forProject( "phetcommon" );
+
+        BufferedImage image = commonConfig.getImage( "test-image.jpg" );
+
+        assertEquals( 120, image.getWidth() );
+        assertEquals( 50, image.getHeight() );        
     }
 
     private class TestProjectConfig extends PhetProjectConfig {
