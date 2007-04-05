@@ -22,7 +22,7 @@ public class ZPhetProjectConfigTester extends MockObjectTestCase {
     private volatile TestProjectConfig config, configF;
 
     public void setUp() throws Exception {
-        mockStrings = mock( PhetStringSource.class );
+        mockStrings = mock( PhetPropertySource.class );
         mockLoader  = mock( PhetResourceLoader.class );
         config      = new TestProjectConfig( TEST_DIRNAME, null, Locale.getDefault() );
         configF     = new TestProjectConfig( TEST_DIRNAME, TEST_FLAVOR, Locale.getDefault() );
@@ -103,7 +103,7 @@ public class ZPhetProjectConfigTester extends MockObjectTestCase {
 
     private class TestProjectConfig extends PhetProjectConfig {
         protected TestProjectConfig( String dirname, String flavor, Locale locale ) {
-            super( dirname, flavor, locale, (PhetStringSource)mockStrings.proxy(), (PhetResourceLoader)mockLoader.proxy() );
+            super( dirname, flavor, locale, (PhetPropertySource)mockStrings.proxy(), (PhetResourceLoader)mockLoader.proxy() );
         }
     }
 

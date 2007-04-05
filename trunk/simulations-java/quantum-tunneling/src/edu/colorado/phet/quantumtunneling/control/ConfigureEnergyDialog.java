@@ -11,18 +11,15 @@
 
 package edu.colorado.phet.quantumtunneling.control;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.ArrayList;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
+import edu.colorado.phet.common.util.DialogUtils;
+import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
+import edu.colorado.phet.quantumtunneling.enums.PotentialType;
+import edu.colorado.phet.quantumtunneling.model.*;
+import edu.colorado.phet.quantumtunneling.module.QTModule;
+import edu.colorado.phet.quantumtunneling.view.EnergyPlot;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYTextAnnotation;
@@ -34,15 +31,16 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.TextAnchor;
 
-import edu.colorado.phet.common.util.DialogUtils;
-import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
-import edu.colorado.phet.quantumtunneling.enums.PotentialType;
-import edu.colorado.phet.quantumtunneling.model.*;
-import edu.colorado.phet.quantumtunneling.module.QTModule;
-import edu.colorado.phet.quantumtunneling.view.EnergyPlot;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 
 /**
@@ -330,7 +328,7 @@ public class ConfigureEnergyDialog extends JDialog {
             }
 
             // Potential Energy for each region...
-            char peChar = SimStrings.getInstance().getChar( "char.potentialEnergy" );
+            char peChar = SimStrings.getInstance().getChar( "char.potentialEnergy", 'P' );
             {
                 JLabel peTitle = new JLabel( SimStrings.getInstance().getString( "label.potentialEnergy" ) );
                 leftLayout.addAnchoredComponent( peTitle, leftRow, 0, 4, 1, GridBagConstraints.WEST );
@@ -367,7 +365,7 @@ public class ConfigureEnergyDialog extends JDialog {
             // Barriers...
             _widthSpinners = null;
             _positionSpinners = null;
-            char barrierChar = SimStrings.getInstance().getChar( "char.barrier" );
+            char barrierChar = SimStrings.getInstance().getChar( "char.barrier", 'B' );
             if ( _potentialEnergy instanceof BarrierPotential ) {
 
                 int numberOfBarriers = ( (BarrierPotential) _potentialEnergy ).getNumberOfBarriers();
@@ -516,8 +514,8 @@ public class ConfigureEnergyDialog extends JDialog {
      */
     private void updateMarkersAndAnnotations() {
 
-        char peChar = SimStrings.getInstance().getChar( "char.potentialEnergy" );
-        char barrierChar = SimStrings.getInstance().getChar( "char.barrier" );
+        char peChar = SimStrings.getInstance().getChar( "char.potentialEnergy", 'P' );
+        char barrierChar = SimStrings.getInstance().getChar( "char.barrier", 'B' );
         
         boolean hasBarriers = ( _potentialEnergy instanceof BarrierPotential );
         
