@@ -16,7 +16,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
-***** 1.03.00 (?)
+***** 1.03.00 (14208)
 4/5/07 - change SolarSystemEnergyDiagram.MIN_RADIUS so electron's last position will be at bottom of chart for all clock speeds
 4/4/07 - add energy model to Solar System energy diagram
 4/3/07 - make Solar System energy diagram work correctly with variable clock speed
