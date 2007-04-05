@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -103,15 +104,33 @@ public class ZPhetProjectConfigTester extends MockObjectTestCase {
         assertEquals( "1.2.03 (1234)", config.getVersion().toString() );
     }
 
-    public void testGetImageForPhetCommon() throws Exception {
+    public void testGetImageForPhetCommon() {
         BufferedImage image = PhetCommonProjectConfig.getInstance().getImage( "phet-logo.jpg" );
 
         assertTrue( image.getWidth()  > 0 );
         assertTrue( image.getHeight() > 0 );
     }
 
-    public void testPhetCommonHasAtLeastOneProperty() throws Exception {
+    public void testCanRetrieveLocalizedStringForPhetCommon() {
         assertEquals( "Help", PhetProjectConfig.forProject( "phetcommon", null, Locale.ENGLISH ).getString( "Common.HelpMenu.Title" ) );
+    }
+
+    public void testCannotRetrieveNonExistingResourceForPhetCommon() {
+        try {
+            PhetCommonProjectConfig.getInstance().getResourceAsStream( "bogus/bogus/phet-logo.jpg" );
+
+            fail();
+        }
+        catch( IOException e ) {
+        }
+    }
+
+    public void testCanRetrieveExistingResourceForPhetCommon() throws Exception {
+        InputStream stream = PhetCommonProjectConfig.getInstance().getResourceAsStream( "images/phet-logo.jpg" );
+
+        int c = stream.read();
+
+        assertTrue( c >= 0 );
     }
 
     private class TestProjectConfig extends PhetProjectConfig {

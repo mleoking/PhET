@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public abstract class AbstractPhetResourceLoader implements PhetResourceLoader {
-    public byte[] getResource( String resource ) {
+    public byte[] getResource( String resource ) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         InputStream stream = getResourceAsStream( resource );

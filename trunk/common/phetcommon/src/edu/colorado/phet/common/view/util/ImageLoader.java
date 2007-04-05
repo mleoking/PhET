@@ -69,6 +69,8 @@ public class ImageLoader {
      * @return the loaded image.
      */
     public BufferedImage loadImage( String name ) throws IOException {
+        // TODO: Sometimes there are problems with getClass().getClassLoader()
+        // TODO  that are solved with Thread.currentThread().getContextClassLoader()
         ClassLoader cl = this.getClass().getClassLoader();
         URL imageUrl = cl.getResource( name );
         if( imageUrl == null ) {
