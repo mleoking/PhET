@@ -10,4 +10,6 @@ public interface PhetResourceLoader {
     byte[] getResource( String resource );
 
     BufferedImage getImage( String resource );
+
+    PhetAudioClip getAudioClip( String resource );
 }

@@ -17,6 +17,8 @@ import java.util.Locale;
  *      /[dirname]/                                  <- Root of all resources (images, etc.)
  *      /[dirname]/[dirname].properties              <- All project properties
  *      /[dirname]/localization/[dirname]-strings.properties  <- All localized strings
+ *      /[dirname]/images/  <- All images
+ *      /[dirname]/audio/   <- All audio
  * <p/>
  * Required localized strings (property names):
  * <p/>
@@ -125,7 +127,7 @@ public class PhetProjectConfig implements PhetResourceLoader, PhetPropertySource
         this.locale     = locale;
         this.localized  = strings;
         this.loader     = loader;
-        this.dataRoot   = "/" + dirname + "/";
+        this.dataRoot   = dirname + "/";
     }
 
     /**
@@ -300,8 +302,25 @@ public class PhetProjectConfig implements PhetResourceLoader, PhetPropertySource
      * @return The image having the specified resource location.
      */
     public BufferedImage getImage( String resource ) {
-        return loader.getImage( dataRoot + resource );
+        return loader.getImage( dataRoot + "image/" + resource );
     }
+
+    /**
+     * Retrieves the audio having the specified resource location.
+     *
+     * @param resource The location of the resource.
+     *
+     * @return The audio having the specified resource location.
+     */
+    public PhetAudioClip getAudioClip( String resource ) {
+        return loader.getAudioClip( dataRoot + "audio/" + resource );
+    }
+
+    /*
+    public PhetAudioClip getAudioClip( String resource ) {
+       dataRoot + "audio/" + resource
+    }
+     */
 
     /**
      * Retrieves a byte array of the resource file having the specified

@@ -34,7 +34,7 @@ public class ZPhetProjectConfigTester extends MockObjectTestCase {
     }
 
     public void testGetDataRoot() {
-        assertEquals( "/dirname/", config.getDataRoot() );
+        assertEquals( "dirname/", config.getDataRoot() );
     }
 
     public void testGetDirname() {
@@ -112,6 +112,6 @@ public class ZPhetProjectConfigTester extends MockObjectTestCase {
 
         properties.store( out, "Property test" );
 
-        mockLoader.expects( once() ).method( "getResourceAsStream" ).with( eq( "/dirname/dirname.properties" ) ).will( returnValue( new ByteArrayInputStream( out.toByteArray() ) ) );
+        mockLoader.expects( once() ).method( "getResourceAsStream" ).with( eq( "dirname/dirname.properties" ) ).will( returnValue( new ByteArrayInputStream( out.toByteArray() ) ) );
     }
 }

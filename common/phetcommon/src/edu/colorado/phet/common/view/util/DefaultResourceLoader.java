@@ -34,4 +34,9 @@ public class DefaultResourceLoader extends AbstractPhetResourceLoader {
             return NULL_IMAGE;
         }
     }
+
+    public PhetAudioClip getAudioClip( String resource ) {
+        return new PhetAudioClip( resource );
+    }
+
 }
