@@ -2,10 +2,8 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Shape;
-import java.awt.Stroke;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -14,6 +12,7 @@ import java.awt.image.WritableRaster;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -50,11 +49,11 @@ public class BeamOutNode extends PhetPNode implements Observer {
     
     private Laser _laser;
     private ModelViewTransform _modelViewTransform;
-    
-    private PImage _gradientNode;
-    private BufferedImage _gradientImage;
-    private int _gradientWidth, _gradientHeight;
-    
+    private GradientNode _gradientNode;
+    private ScaleAlphaImageOp _imageOp;
+    private BufferedImage _maxPowerGradientImage; // gradient for the max power, this image is not modified
+    private BufferedImage _actualPowerGradientImage; // gradient for the actual power, created by scaling the alpha channel of _maxPowerGradientImage
+
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
@@ -74,22 +73,15 @@ public class BeamOutNode extends PhetPNode implements Observer {
         _laser.addObserver( this );
         
         _modelViewTransform = modelViewTransform;
-
-        // Gradient image
-        _gradientWidth = (int) _laser.getDiameterAtObjective();
-        if ( _gradientWidth % 2 == 0 ) {
-            _gradientWidth++;
-        }
-        _gradientHeight = (int) ( 2 * _laser.getDistanceFromObjectiveToWaist() );
-        if ( _gradientHeight % 2 == 0 ) {
-            _gradientHeight++;
-        }
-        _gradientImage = new BufferedImage( _gradientWidth, _gradientHeight, BufferedImage.TYPE_INT_ARGB );
-        _gradientNode = new PImage();
-        _gradientNode.setScale( _modelViewTransform.getScaleModelToView() ); // image is in scale of model coordinates!
-        addChild( _gradientNode );
-        updateGradient();
         
+        _imageOp = new ScaleAlphaImageOp();
+        
+        _maxPowerGradientImage = createMaxPowerGradientImage();
+        _actualPowerGradientImage = _imageOp.createCompatibleDestImage( _maxPowerGradientImage, _maxPowerGradientImage.getColorModel() );
+        
+        _gradientNode = new GradientNode( _maxPowerGradientImage, 0.05 /* overlap */ );
+        addChild( _gradientNode );
+
         // Outline of beam shape
         if ( SHOW_OUTLINE ) {
             PNode outlineNode = createOutlineNode();
@@ -97,6 +89,7 @@ public class BeamOutNode extends PhetPNode implements Observer {
         }
         
         updateVisible();
+        updateGradient();
     }
     
     public void cleanup() {
@@ -126,15 +119,29 @@ public class BeamOutNode extends PhetPNode implements Observer {
         setVisible( _laser.isRunning() );
     }
     
+    /*
+     * Adjusts the alpha channel of the gradient image so that it corresponds
+     * to the current value of the laser power.
+     */
     private void updateGradient() {
+        double scale = _laser.getPower() / _laser.getPowerRange().getMax();
+        _imageOp.setScale( scale );
+        _imageOp.filter( _maxPowerGradientImage, _actualPowerGradientImage );
+        _gradientNode.setImage( _actualPowerGradientImage );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Creators
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Creates a buffered image for the lower left quadrant of the maximum power gradient.
+     */
+    private BufferedImage createMaxPowerGradientImage() {
         
-        assert( _gradientImage.getType() == BufferedImage.TYPE_INT_ARGB );
-        
-        if ( !isVisible() ) {
-            return;
-        }
-        
-        double tBegin = System.currentTimeMillis();
+        int gradientWidth = (int) ( _laser.getDiameterAtObjective() / 2 );
+        int gradientHeight = (int) ( _laser.getDistanceFromObjectiveToWaist() );
+        BufferedImage gradientImage = new BufferedImage( gradientWidth, gradientHeight, BufferedImage.TYPE_INT_ARGB );
         
         // Color for the laser beam
         Color c = VisibleColor.wavelengthToColor( _laser.getVisibleWavelength() );
@@ -147,47 +154,37 @@ public class BeamOutNode extends PhetPNode implements Observer {
         final double maxPower = _laser.getPowerRange().getMax();
         final double maxIntensity = Laser.getBeamIntensityAt( 0, waistRadius, maxPower );
         
-        // Create the gradient pixel data, working from the center out
-        int[][] dataBuffer = new int[ _gradientWidth ][ _gradientHeight ];
-        int iy1 = _gradientHeight / 2;
-        int iy2 = iy1;
-        for ( int y = 0; y < ( _gradientHeight / 2 ) + 1; y++ ) {
+        // Create the gradient pixel data
+        int[][] dataBuffer = new int[ gradientWidth ][ gradientHeight ];
+        for ( int y = 0; y < gradientHeight; y++ ) {
             final double r = _laser.getBeamRadiusAt( y );
-            int ix1 = _gradientWidth / 2;
-            int ix2 = ix1;
-            for ( int x = 0; x < ( _gradientWidth / 2 ) + 1; x++ ) {
+            for ( int x = 0; x < gradientWidth; x++ ) {
                 int argb = 0x00000000;  // 4 bytes, in order ARGB
                 if ( x <= r ) {
-                    final double intensity = _laser.getBeamIntensityAt( x, r );
+                    final double intensity = Laser.getBeamIntensityAt( x, r, maxPower );
                     final int alpha = (int) ( MAX_ALPHA_CHANNEL * intensity / maxIntensity );
                     argb = ( alpha << 24 ) | ( red << 16 ) | ( green << 8 ) | ( blue );
                 }
-                dataBuffer[ ix1 ][ iy1 ] = argb; // lower right quadrant
-                dataBuffer[ ix1 ][ iy2 ] = argb; // upper right
-                dataBuffer[ ix2 ][ iy1 ] = argb; // lower left
-                dataBuffer[ ix2 ][ iy2 ] = argb; // upper left
-                ix1++;
-                ix2--;
+                dataBuffer[ x ][ y ] = argb;
             }
-            iy1++;
-            iy2--;
         }
         
-        // Copy the gradient data to the image's raster buffer
-        WritableRaster raster = _gradientImage.getRaster();
+        // Copy the gradient data to the image's raster buffer.
+        // This is many times faster than calling BufferedImage.setRGB !!
+        WritableRaster raster = gradientImage.getRaster();
         int[] rasterBuffer = ( (DataBufferInt) raster.getDataBuffer() ).getData();
         int ri = 0;
-        for ( int row = 0; row < _gradientHeight; row++ ) {
-            for ( int col = 0; col < _gradientWidth; col++ ) {
+        for ( int row = 0; row < gradientHeight; row++ ) {
+            for ( int col = 0; col < gradientWidth; col++ ) {
                 rasterBuffer[ri] = dataBuffer[col][row];
                 ri++;
             }
         }
         
-        _gradientNode.setImage( _gradientImage );
-        
-        double tEnd = System.currentTimeMillis();
-        System.out.println( "BeamOutNode.updateGradient: " + ( tEnd - tBegin ) + " ms" );//XXX
+        double scale = _modelViewTransform.getScaleModelToView();
+        BufferedImage scaledImage = BufferedImageUtils.rescaleFractional( gradientImage, scale, scale );
+
+        return scaledImage;
     }
 
     /*
@@ -254,5 +251,61 @@ public class BeamOutNode extends PhetPNode implements Observer {
         parentNode.setOffset( parentNode.getFullBounds().getWidth()/2, parentNode.getFullBounds().getHeight()/2 );
         
         return parentNode;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /*
+     * GradientNode is the node that represents the power gradient.
+     * The power gradient is symmetric about both axes, so we use the 
+     * same image for each of the quadrants.   The images is assumed
+     * to have been generated for the lower-right quadrant.
+     */
+    private static class GradientNode extends PComposite {
+        
+        // one node for each quadrant
+        private PImage _upperLeftNode, _upperRightNode, _lowerLeftNode, _lowerRightNode;
+        
+        public GradientNode( Image image, double overlap ) {
+            
+            _upperLeftNode = new PImage( image );
+            _upperRightNode = new PImage( image );
+            _lowerLeftNode = new PImage( image );
+            _lowerRightNode = new PImage( image );
+            
+            addChild( _upperLeftNode );
+            addChild( _upperRightNode );
+            addChild( _lowerLeftNode );
+            addChild( _lowerRightNode );
+            
+            AffineTransform upperLeftTransform = new AffineTransform();
+            upperLeftTransform.translate( _upperLeftNode.getFullBounds().getWidth() + overlap, _upperLeftNode.getFullBounds().getHeight() + overlap );
+            upperLeftTransform.scale( -1, -1 ); // reflection about both axis
+            _upperLeftNode.setTransform( upperLeftTransform );
+            
+            AffineTransform upperRightTransform = new AffineTransform();
+            upperRightTransform.translate( _upperRightNode.getFullBounds().getWidth() - overlap, _upperRightNode.getFullBounds().getHeight() + overlap );
+            upperRightTransform.scale( 1, -1 ); // reflection about the x axis
+            _upperRightNode.setTransform( upperRightTransform );
+
+            AffineTransform lowerLeftTransform = new AffineTransform();
+            lowerLeftTransform.translate( _lowerLeftNode.getFullBounds().getWidth() + overlap, _lowerLeftNode.getFullBounds().getHeight() - overlap );
+            lowerLeftTransform.scale( -1, 1 ); // reflection about the y axis
+            _lowerLeftNode.setTransform( lowerLeftTransform );
+            
+            AffineTransform lowerRightTransform = new AffineTransform();
+            lowerRightTransform.translate( _lowerRightNode.getFullBounds().getWidth() - overlap, _lowerRightNode.getFullBounds().getHeight() - overlap );
+            lowerRightTransform.scale( 1, 1 ); // no reflection
+            _lowerRightNode.setTransform( lowerRightTransform );
+        }
+        
+        public void setImage( Image image ) {
+            _upperLeftNode.setImage( image );
+            _upperRightNode.setImage( image );
+            _lowerLeftNode.setImage( image );
+            _lowerRightNode.setImage( image );
+        }
     }
 }
