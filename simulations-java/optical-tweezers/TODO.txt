@@ -46,8 +46,6 @@ DEFER UNTIL AFTER INTERVIEWS:
 
 MODEL INFO NEEDED:
 - Brownian motion of bead
-- laser curvature
-- laser gradient
 - E-field
 - trap force (slide 7)
 - fluid drag force (slide 14)
