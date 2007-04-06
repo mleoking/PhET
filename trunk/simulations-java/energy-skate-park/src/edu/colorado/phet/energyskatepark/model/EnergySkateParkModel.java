@@ -47,7 +47,6 @@ public class EnergySkateParkModel {
         this.initZeroPointPotentialY = zeroPointPotentialY;
         this.particleStage = new EnergySkateParkSplineListAdapter( this );//todo copy, clone this
         updateFloorState();
-        addEnergyModelListener( new BumpUpSplines( this ) );
     }
 
     private void notifyBodyEnergyChanged() {
