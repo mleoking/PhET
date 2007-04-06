@@ -13,8 +13,11 @@ package edu.colorado.phet.opticalquantumcontrol;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.math.TrigCache;
+import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.PhetProjectConfig;
 
 
 /**
@@ -41,8 +44,11 @@ public class OQCConstants {
     
     private static final String PROJECT = "optical-quantum-control";
     
-    public static final int APP_FRAME_WIDTH = 1024;
-    public static final int APP_FRAME_HEIGHT = 768;
+    public static final PhetProjectConfig CONFIG = PhetProjectConfig.forProject( PROJECT );
+    
+    public static final int FRAME_WIDTH = 1024;
+    public static final int FRAME_HEIGHT = 768;
+    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( FRAME_WIDTH, FRAME_HEIGHT );
     
     public static final TrigCache TRIG_CACHE = new TrigCache( 360 );
     
@@ -67,6 +73,8 @@ public class OQCConstants {
     //----------------------------------------------------------------------------
 
     public static final String FONT_NAME = "Lucida Sans";
+    
+    public static final int EXPLANATION_FONT_SIZE = CONFIG.getInt( "ExplanationDialog.fontSize", 12 );
     
     //----------------------------------------------------------------------------
     // Colors
@@ -122,9 +130,8 @@ public class OQCConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String IMAGES_DIRECTORY = PROJECT + "/images/";
-    public static final String CLOSE_BUTTON_IMAGE = IMAGES_DIRECTORY + "closeButton.png";
-    public static final String EXPLANATION_IMAGE = IMAGES_DIRECTORY + "explanation.jpg";
-    public static final String KABOOM_IMAGE = IMAGES_DIRECTORY + "kaboom.png";
-    public static final String MAGNIFYING_GLASS_IMAGE = IMAGES_DIRECTORY + "magnifyingGlass.png";
+    public static final BufferedImage CLOSE_BUTTON_IMAGE = CONFIG.getImage( "closeButton.png" );
+    public static final BufferedImage EXPLANATION_IMAGE = CONFIG.getImage( "explanation.jpg" );
+    public static final BufferedImage KABOOM_IMAGE = CONFIG.getImage( "kaboom.png" );
+    public static final BufferedImage MAGNIFYING_GLASS_IMAGE = CONFIG.getImage( "magnifyingGlass.png" );
 }

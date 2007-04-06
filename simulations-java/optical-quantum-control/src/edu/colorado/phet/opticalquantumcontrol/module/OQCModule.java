@@ -30,8 +30,8 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCStrings;
 import edu.colorado.phet.opticalquantumcontrol.enums.MoleculeEnum;
 import edu.colorado.phet.opticalquantumcontrol.help.HelpBubble;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
@@ -84,7 +84,7 @@ public class OQCModule extends AbstractModule implements ActionListener {
      */
     public OQCModule() {
         
-        super( SimStrings.getInstance().getString( "OQCModule.title" ), new SwingClock(  OQCConstants.CLOCK_DELAY, OQCConstants.CLOCK_STEP ) );
+        super( OQCStrings.MODULE_TITLE, new SwingClock(  OQCConstants.CLOCK_DELAY, OQCConstants.CLOCK_STEP ) );
 
         setLogoPanel( null );
         setHelpPanel( null );
@@ -130,7 +130,7 @@ public class OQCModule extends AbstractModule implements ActionListener {
         
         // "New Output Pulse" button
         {     
-            _newButton = new JButton( SimStrings.getInstance().getString( "newOutputPulse" ) );
+            _newButton = new JButton( OQCStrings.NEW_OUTPUT_PULSE );
             _newButton.setOpaque( false );
             _newButton.addActionListener( this );
             PhetGraphic newButtonGraphic = PhetJComponent.newInstance( apparatusPanel, _newButton );
@@ -156,7 +156,7 @@ public class OQCModule extends AbstractModule implements ActionListener {
             inputMirrorLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
             inputMirrorLabel.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
             inputMirrorLabel.setColor( Color.BLACK );
-            inputMirrorLabel.setHTML( SimStrings.getInstance().getString( "Mirror.label" ) );
+            inputMirrorLabel.setHTML( OQCStrings.MIRROR );
             inputMirrorLabel.setLocation( 55, 15 );
             inputMirrorLabel.setIgnoreMouse( true );
             apparatusPanel.addGraphic( inputMirrorLabel );
@@ -172,7 +172,7 @@ public class OQCModule extends AbstractModule implements ActionListener {
             outputMirrorLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
             outputMirrorLabel.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
             outputMirrorLabel.setColor( Color.BLACK );
-            outputMirrorLabel.setHTML( SimStrings.getInstance().getString( "Mirror.label" ) );
+            outputMirrorLabel.setHTML( OQCStrings.MIRROR );
             outputMirrorLabel.setLocation( 55, 655 );
             outputMirrorLabel.setIgnoreMouse( true );
             apparatusPanel.addGraphic( outputMirrorLabel );
@@ -196,7 +196,7 @@ public class OQCModule extends AbstractModule implements ActionListener {
             gratingsLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
             gratingsLabel.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
             gratingsLabel.setColor( Color.LIGHT_GRAY );
-            gratingsLabel.setHTML( SimStrings.getInstance().getString( "DiffractionGratings.label" ) );
+            gratingsLabel.setHTML( OQCStrings.DIFFRACTION_GRATING );
             gratingsLabel.setLocation( 400, 325 );
             gratingsLabel.setIgnoreMouse( true );
             apparatusPanel.addGraphic( gratingsLabel );
@@ -227,7 +227,7 @@ public class OQCModule extends AbstractModule implements ActionListener {
         
         // Amplitudes "Reset" button
         {
-            JButton _resetButton = new JButton( SimStrings.getInstance().getString( "reset" ) );
+            JButton _resetButton = new JButton( OQCStrings.RESET );
             _resetButton.setOpaque( false );
             // Reset button
             _resetButton.addActionListener( new ActionListener() {
@@ -250,7 +250,7 @@ public class OQCModule extends AbstractModule implements ActionListener {
             maskLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
             maskLabel.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
             maskLabel.setColor( Color.LIGHT_GRAY );
-            maskLabel.setHTML( SimStrings.getInstance().getString( "Mask.label" ) );
+            maskLabel.setHTML( OQCStrings.MASK );
             maskLabel.setLocation( 10, 535 );
             maskLabel.setIgnoreMouse( true );
             apparatusPanel.addGraphic( maskLabel );
@@ -293,7 +293,7 @@ public class OQCModule extends AbstractModule implements ActionListener {
         // Instructions
         HTMLGraphic instructions = new HTMLGraphic( apparatusPanel );
         instructions.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-        instructions.setHTML( SimStrings.getInstance().getString( "instructions" ) );
+        instructions.setHTML( OQCStrings.INSTRUCTIONS );
         instructions.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
         instructions.setColor( OQCConstants.OUTPUT_PULSE_COLOR );
         instructions.setRegistrationPoint( 0, instructions.getHeight()/2 ); // left center
@@ -302,19 +302,19 @@ public class OQCModule extends AbstractModule implements ActionListener {
         apparatusPanel.addGraphic( instructions );
         
         // Help Items
-        HelpBubble slidersHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "Help.amplitude.sliders" ) );
+        HelpBubble slidersHelp = new HelpBubble( apparatusPanel, OQCStrings.HELP_AMPLITUDE_SLIDERS );
         slidersHelp.pointAt( new Point( 125, 445 ), HelpBubble.TOP_LEFT, 45 );
         addHelpItem( slidersHelp );
         
-        HelpBubble textfieldsHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "Help.amplitude.textfields" ) );
+        HelpBubble textfieldsHelp = new HelpBubble( apparatusPanel, OQCStrings.HELP_AMPLITUDE_TEXTFIELDS );
         textfieldsHelp.pointAt( new Point( 146, 238 ), HelpBubble.BOTTOM_LEFT, 30 );
         addHelpItem( textfieldsHelp );
         
-        HelpBubble resetHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "Help.amplitude.reset" ) );
+        HelpBubble resetHelp = new HelpBubble( apparatusPanel, OQCStrings.HELP_AMPLITUDE_RESET );
         resetHelp.pointAt( new Point( 47, 221 ), HelpBubble.BOTTOM_LEFT, 80 );
         addHelpItem( resetHelp );
         
-        HelpBubble newPulseHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "Help.newPulse" ) );
+        HelpBubble newPulseHelp = new HelpBubble( apparatusPanel, OQCStrings.HELP_NEW_PULSE );
         newPulseHelp.pointAt( new Point( 970, 495 ), HelpBubble.BOTTOM_RIGHT, 30 );
         addHelpItem( newPulseHelp );
         

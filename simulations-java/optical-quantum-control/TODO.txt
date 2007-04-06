@@ -22,6 +22,9 @@ PHETCOMMON:
 
 
 DONE:
+4/5/07 - set locale in Spanish JNLP file via javaws.locale property
+4/5/07 - convert from SimStrings to PhetProjectConfig
+4/5/07 - consolidate all string constants in OQCStrings
 3/20/07 - move TrigCache to phetcommon, convert to an instance instead of static methods
 3/20/07 - rename packages that contained "enum" keyword, use "enums" instead
 3/14/07 - rename SimStrings files to have basename opticalquantumcontrol_strings
