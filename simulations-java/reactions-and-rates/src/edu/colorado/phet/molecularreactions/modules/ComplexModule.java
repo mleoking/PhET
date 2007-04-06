@@ -21,13 +21,11 @@ import edu.colorado.phet.molecularreactions.view.PumpGraphic;
 import edu.colorado.phet.molecularreactions.view.SimpleMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChartNode;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChartNode;
-import edu.colorado.phet.molecularreactions.view.charts.StripChartDialog;
 import edu.colorado.phet.molecularreactions.view.charts.StripChartNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import java.awt.event.ComponentListener;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -42,14 +40,14 @@ import java.awt.geom.Rectangle2D;
 public class ComplexModule extends MRModule {
     //private static final double DEFAULT_TEMPERATURE = 500.0;
     
-    private StripChartDialog stripChartDlg;
     private MRControlPanel controlPanel;
     private PumpGraphic pumpGraphic;
     private MoleculePopulationsBarChartNode barChartNode;
     private MoleculePopulationsPieChartNode pieChart;
-    private StripChartNode stripChartNode;
     private boolean firstTimeStripChartVisible = true;
     private PSwing stopwatchAdapter;
+
+    private final StripChartNode stripChartNode;
 
 
     /**
@@ -72,7 +70,6 @@ public class ComplexModule extends MRModule {
 
         // Create the strip chart
         stripChartNode = new StripChartNode( this, MRConfig.CHART_PANE_SIZE );
-//        setStripChartRecording( true );
 
         // Disable marking of the selected molecule and its nearest neighbor
         SimpleMoleculeGraphic.setMarkSelectedMolecule( true );
@@ -104,6 +101,8 @@ public class ComplexModule extends MRModule {
                 }
             }
         });
+
+        getEnergyView().clearUpperPaneContent();
     }
 
     public boolean isTemperatureBeingAdjusted() {
@@ -137,7 +136,6 @@ public class ComplexModule extends MRModule {
     }
 
     private void setInitialConditions() {
-        setStripChartVisible( false, null );
         setBarChartVisible( false );
         setPieChartVisible( false );
     }
@@ -186,12 +184,6 @@ public class ComplexModule extends MRModule {
         }
     }
 
-    public void rescaleStripChart() {
-        if( stripChartDlg != null ) {
-            stripChartDlg.rescaleChart();
-        }
-    }
-
     /**
      * Sets the flag that determines whether the strip chart will be rescaled the next time
      * it's made visible.
@@ -200,20 +192,6 @@ public class ComplexModule extends MRModule {
      */
     protected void setFirstTimeStripChartVisible( boolean firstTimeStripChartVisible ) {
         this.firstTimeStripChartVisible = firstTimeStripChartVisible;
-    }
-
-    /**
-     * Variant that hooks a ComponentListener to the dialog, so it will know if the
-     * user has closed the dialog by clicking on the X in its frame.
-     *
-     * @param visible
-     * @param showStripChartBtn
-     */
-    public void setStripChartVisible( boolean visible, ComponentListener showStripChartBtn ) {
-        setStripChartVisible( visible );
-        if( visible && showStripChartBtn != null ) {
-            stripChartDlg.addComponentListener( showStripChartBtn );
-        }
     }
 
     public void resetStripChart() {

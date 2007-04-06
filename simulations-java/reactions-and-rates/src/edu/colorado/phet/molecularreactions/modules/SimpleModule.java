@@ -86,9 +86,12 @@ public class SimpleModule extends MRModule {
         // Disable user manipulation of the profile
         getEnergyView().setProfileManipulable( false );
 
+        // By default, disable energy & separation views:
+        getEnergyView().setEnergyViewVisible( false );
+        getEnergyView().setSeparationViewVisible( false );
+
         // Create a wiggle-me
         createWiggleMe();
-
     }
 
    public boolean isTemperatureBeingAdjusted() {
