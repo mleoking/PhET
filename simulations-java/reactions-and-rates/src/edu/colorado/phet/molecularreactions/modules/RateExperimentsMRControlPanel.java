@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.molecularreactions.modules;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.view.ExperimentSetupPanel;
 import edu.colorado.phet.molecularreactions.view.MoleculeInstanceControlPanel;
@@ -55,7 +55,7 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
         optionsPanel = new ChartOptionsPanel( module );
 
         // Reset button
-        JButton resetBtn = new JButton( SimStrings.getInstance().getString( "Control.reset" ) );
+        JButton resetBtn = new JButton( MRConfig.CONFIG.getString( "Control.reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();

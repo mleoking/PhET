@@ -5,7 +5,6 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
@@ -57,7 +56,7 @@ public class MoleculeSeparationPane extends PPath {
         this.moleculePaneAxisNode = new PNode();
         this.separationIndicatorArrow = new SeparationIndicatorArrow( Color.black );
         this.moleculePaneAxisNode.addChild( this.separationIndicatorArrow );
-        PText siaLabel = new PText( SimStrings.getInstance().getString( "EnergyView.separation" ) );
+        PText siaLabel = new PText( MRConfig.CONFIG.getString( "EnergyView.separation" ) );
         siaLabel.setFont( MRConfig.LABEL_FONT );
         siaLabel.rotate( -Math.PI / 2 );
         siaLabel.setOffset( this.paneInsets.left / 2 - siaLabel.getFullBounds().getWidth() + 2,

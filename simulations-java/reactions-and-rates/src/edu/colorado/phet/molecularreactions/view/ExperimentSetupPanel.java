@@ -11,7 +11,6 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.RateExperimentsModule;
@@ -94,11 +93,11 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         moleculeTypeToGenerator.put( MoleculeC.class, moleculeCParamGenerator );
 
         // Create the controls
-        JLabel topLineLbl = new JLabel( SimStrings.getInstance().getString( "ExperimentSetup.topLine" ) );
-        JLabel numALbl = new JLabel( SimStrings.getInstance().getString( "ExperimentSetup.numA" ) );
-        JLabel numBCLbl = new JLabel( SimStrings.getInstance().getString( "ExperimentSetup.numBC" ) );
-        JLabel numABLbl = new JLabel( SimStrings.getInstance().getString( "ExperimentSetup.numAB" ) );
-        JLabel numCLbl = new JLabel( SimStrings.getInstance().getString( "ExperimentSetup.numC" ) );
+        JLabel topLineLbl = new JLabel( MRConfig.CONFIG.getString( "ExperimentSetup.topLine" ) );
+        JLabel numALbl = new JLabel( MRConfig.CONFIG.getString( "ExperimentSetup.numA" ) );
+        JLabel numBCLbl = new JLabel( MRConfig.CONFIG.getString( "ExperimentSetup.numBC" ) );
+        JLabel numABLbl = new JLabel( MRConfig.CONFIG.getString( "ExperimentSetup.numAB" ) );
+        JLabel numCLbl = new JLabel( MRConfig.CONFIG.getString( "ExperimentSetup.numC" ) );
 
         // Make the text fields for the number of molecules
         int maxMolecules = MRConfig.MAX_MOLECULE_CNT;
@@ -111,7 +110,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         goButton = new JButton( new TogglingExperimentAction( module ) );
 
         // Add a border
-        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "ExperimentSetup.title" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.CONFIG.getString( "ExperimentSetup.title" ) ) );
 
         // Lay out the controls
         GridBagConstraints c = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
@@ -130,7 +129,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         c.gridx = 0;
         c.gridwidth = 4;
         c.anchor = GridBagConstraints.WEST;
-        add( new JLabel( SimStrings.getInstance().getString( "Control.selectReaction" ) ), c );
+        add( new JLabel( MRConfig.CONFIG.getString( "Control.selectReaction" ) ), c );
         c.anchor = GridBagConstraints.CENTER;
         add( new ReactionChooserComboBox( module ), c );
 
@@ -261,7 +260,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
 
         module.setExperimentRunning( false );
 
-        goButton.setText( SimStrings.getInstance().getString( "ExperimentSetup.go" ) );
+        goButton.setText( MRConfig.CONFIG.getString( "ExperimentSetup.go" ) );
 
         toggleInProgress = false;
     }
@@ -279,7 +278,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
 
         module.setExperimentRunning( true );
 
-        goButton.setText( SimStrings.getInstance().getString( "ExperimentSetup.stop" ) );
+        goButton.setText( MRConfig.CONFIG.getString( "ExperimentSetup.stop" ) );
 
         module.resetStripChart();
         module.getClock().start();
@@ -298,7 +297,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         private RateExperimentsModule module;
 
         public TogglingExperimentAction( RateExperimentsModule module ) {
-            super( SimStrings.getInstance().getString( "ExperimentSetup.go" ) );
+            super( MRConfig.CONFIG.getString( "ExperimentSetup.go" ) );
             this.module = module;
         }
 

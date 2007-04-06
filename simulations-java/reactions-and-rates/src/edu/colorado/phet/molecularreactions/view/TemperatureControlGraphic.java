@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.TemperatureControl;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
@@ -96,9 +95,9 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
         stoveSlider.setMinorTickSpacing( 10 );
         stoveSlider.setSnapToTicks( true );
         Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( 0 ), new JLabel( SimStrings.getInstance().getString( "Control.0" ) ) );
-        labelTable.put( new Integer( -40 ), new MyJLabel( SimStrings.getInstance().getString( "Control.Lower" ) ) );
-        labelTable.put( new Integer( 40 ), new MyJLabel( SimStrings.getInstance().getString( "Control.Raise" ) ) );
+        labelTable.put( new Integer( 0 ), new JLabel( MRConfig.CONFIG.getString( "Control.0" ) ) );
+        labelTable.put( new Integer( -40 ), new MyJLabel( MRConfig.CONFIG.getString( "Control.Lower" ) ) );
+        labelTable.put( new Integer( 40 ), new MyJLabel( MRConfig.CONFIG.getString( "Control.Raise" ) ) );
         stoveSlider.setLabelTable( labelTable );
         stoveSlider.setPaintTicks( true );
         stoveSlider.setSnapToTicks( true );
@@ -132,7 +131,7 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
 //                                                            Color.black ),
 //                                          SimStrings.get( "Control.Heat_Control" ) );
 //        stovePanel.setBorder( border );
-        stovePanel.setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "Control.Heat_Control" ) ) );
+        stovePanel.setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.CONFIG.getString( "Control.Heat_Control" ) ) );
         Color background = MRConfig.SPATIAL_VIEW_BACKGROUND;
         stovePanel.setBackground( background );
         stoveSlider.setBackground( background );

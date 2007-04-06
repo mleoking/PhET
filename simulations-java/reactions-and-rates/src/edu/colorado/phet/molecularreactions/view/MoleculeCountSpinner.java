@@ -12,7 +12,7 @@ package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 
 import javax.swing.*;
@@ -146,7 +146,7 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
 
     private void resetValue() {
         setValue( new Integer( 0 ) );
-        JOptionPane.showMessageDialog( this, SimStrings.getInstance().getString( "Util.maxValueExceeded" ) );
+        JOptionPane.showMessageDialog( this, MRConfig.CONFIG.getString( "Util.maxValueExceeded" ) );
         requestFocus();
     }
 

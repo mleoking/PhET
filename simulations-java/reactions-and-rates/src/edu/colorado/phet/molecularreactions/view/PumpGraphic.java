@@ -11,7 +11,6 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
@@ -189,7 +188,7 @@ public class PumpGraphic extends PNode implements Resetable {
             } );
             updateIcons();
 
-            setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "Control.moleculeType" ) ) );
+            setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.CONFIG.getString( "Control.moleculeType" ) ) );
             setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
 
             ButtonGroup bg = new ButtonGroup();

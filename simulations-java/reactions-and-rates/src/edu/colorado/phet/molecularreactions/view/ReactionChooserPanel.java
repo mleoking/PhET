@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.controller.SelectReactionAction;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.model.MRModel;
@@ -50,7 +50,7 @@ public class ReactionChooserPanel extends JPanel implements MRModel.ModelListene
         this.module = module;
         module.getMRModel().addListener( this );
 
-        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "ExperimentSetup.reactionSelector" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.CONFIG.getString( "ExperimentSetup.reactionSelector" ) ) );
 
         ButtonGroup bg = new ButtonGroup();
         defaultRB = new JRadioButton();
@@ -79,7 +79,7 @@ public class ReactionChooserPanel extends JPanel implements MRModel.ModelListene
         iconBC.addMouseListener( new MoleculeIconMouseAdapter( r2RB ) );
         JLabel iconAB = new JLabel( ReactionSelectorIcons.getIcon( Profiles.R3 ) );
         iconAB.addMouseListener( new MoleculeIconMouseAdapter( r3RB ) );
-        JLabel designYourOwnLbl = new JLabel( SimStrings.getInstance().getString( "ExperimentSetup.designYourOwn" ) );
+        JLabel designYourOwnLbl = new JLabel( MRConfig.CONFIG.getString( "ExperimentSetup.designYourOwn" ) );
         designYourOwnLbl.addMouseListener( new MoleculeIconMouseAdapter( designYourOwnRB ) );
 
         setLayout( new GridBagLayout() );

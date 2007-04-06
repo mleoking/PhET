@@ -1,7 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 
 import javax.swing.*;
@@ -20,7 +20,7 @@ public class InitialTemperaturePanel extends JPanel {
         JLabel sliderLabel;
 
         slider      = new InitialTemperatureSlider();
-        sliderLabel = new JLabel( SimStrings.getInstance().getString( "InitialTemperaturePanel.sliderLabel" ));
+        sliderLabel = new JLabel( MRConfig.CONFIG.getString( "InitialTemperaturePanel.sliderLabel" ));
 
         GridBagConstraints c = new GridBagConstraints();
 

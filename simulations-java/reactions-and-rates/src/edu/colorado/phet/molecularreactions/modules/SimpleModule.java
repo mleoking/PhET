@@ -12,7 +12,6 @@ package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
@@ -52,7 +51,7 @@ public class SimpleModule extends MRModule {
      *
      */
     public SimpleModule() {
-        super( SimStrings.getInstance().getString( "Module.simpleModuleTitle" ), MRConfig.MOLECULE_SEPARATION_PANE_SIZE );
+        super( MRConfig.CONFIG.getString( "Module.simpleModuleTitle" ), MRConfig.MOLECULE_SEPARATION_PANE_SIZE );
 
         // Set up the model
         MRModel model = getThisModel();
@@ -229,7 +228,7 @@ public class SimpleModule extends MRModule {
      */
     private void createWiggleMe() {
         final PhetPCanvas pCanvas = getCanvas();
-        final MotionHelpBalloon wiggleMe = new MotionHelpBalloon( pCanvas, SimStrings.getInstance().getString( "Application.wiggleMe" ) );
+        final MotionHelpBalloon wiggleMe = new MotionHelpBalloon( pCanvas, MRConfig.CONFIG.getString( "Application.wiggleMe" ) );
         wiggleMe.setOffset( 0, 0 );
         wiggleMe.setBalloonFillPaint( new Color( 255, 255, 100 ) );
         wiggleMe.setBalloonVisible( true );
