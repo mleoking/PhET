@@ -84,6 +84,7 @@ public class EnergySkateParkModuleBean {
         }
         module.getEnergySkateParkModel().updateFloorState();
         module.getEnergySkateParkModel().setGravity( gravity );
+        module.setSkaterCharacter( module.getDefaultSkaterCharacter() );
     }
 
 
