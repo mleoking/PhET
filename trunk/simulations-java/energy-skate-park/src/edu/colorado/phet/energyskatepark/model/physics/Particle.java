@@ -202,6 +202,10 @@ public class Particle {
         }
     }
 
+    public boolean isSplineUserControlled() {
+        return particleStage.isSplineUserControlled();
+    }
+
     interface UpdateStrategy {
         void stepInTime( double dt );
     }

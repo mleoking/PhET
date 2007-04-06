@@ -86,6 +86,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
                 new BumpUpSplines( energySkateParkModel ).bumpUpSplines();
             }
         } );
+
     }
 
     protected void updateScale() {
@@ -165,7 +166,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
     private void updateThrust() {
         if( energySkateParkModel.getNumBodies() > 0 ) {
-            Body body = energySkateParkModel.bodyAt( 0 );
+            Body body = energySkateParkModel.getBody( 0 );
             double xThrust = 0.0;
             double yThrust = 0.0;
             int thrustValue = 15;
@@ -263,10 +264,10 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     public void attach( SplineNode splineNode, int index, SplineMatch match ) {
-        TraversalState origState = getEnergySkateParkModel().bodyAt( 0 ).getTraversalState();
+        TraversalState origState = getEnergySkateParkModel().getBody( 0 ).getTraversalState();
         boolean change = false;
-        boolean top = getEnergySkateParkModel().bodyAt( 0 ).isTop();
-        if( getEnergySkateParkModel().bodyAt( 0 ).getSpline() == splineNode.getParametricFunction2D() || getEnergySkateParkModel().bodyAt( 0 ).getSpline() == match.getSplineGraphic().getParametricFunction2D() ) {
+        boolean top = getEnergySkateParkModel().getBody( 0 ).isTop();
+        if( getEnergySkateParkModel().getBody( 0 ).getSpline() == splineNode.getParametricFunction2D() || getEnergySkateParkModel().getBody( 0 ).getSpline() == match.getSplineGraphic().getParametricFunction2D() ) {
             change = true;
         }
         //delete both of those, add one new parent.
@@ -301,8 +302,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         addSplineGraphic( new SplineNode( this, energySkateParkSpline, this ) );
         System.out.println( "change = " + change );
         if( change ) {
-            TraversalState traversalState = energySkateParkModel.bodyAt( 0 ).getBestTraversalState( origState );
-            energySkateParkModel.bodyAt( 0 ).setSpline( energySkateParkModel.getEnergySkateParkSpline( traversalState.getParametricFunction2D() ), traversalState.isTop(), traversalState.getAlpha() );
+            TraversalState traversalState = energySkateParkModel.getBody( 0 ).getBestTraversalState( origState );
+            energySkateParkModel.getBody( 0 ).setSpline( energySkateParkModel.getEnergySkateParkSpline( traversalState.getParametricFunction2D() ), traversalState.isTop(), traversalState.getAlpha() );
         }
     }
 
@@ -405,7 +406,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     ArrayList attachmentPointGraphics = new ArrayList();
 
     public void addAttachmentPointGraphic( Body body ) {
-        AttachmentPointNode pointNode = new AttachmentPointNode( this, energySkateParkModel.bodyAt( 0 ) );
+        AttachmentPointNode pointNode = new AttachmentPointNode( this, energySkateParkModel.getBody( 0 ) );
         attachmentPointGraphics.add( pointNode );
         addScreenChild( pointNode );
     }

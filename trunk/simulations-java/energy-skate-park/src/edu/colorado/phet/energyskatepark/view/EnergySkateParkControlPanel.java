@@ -183,7 +183,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
                 if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
-                    restitution.setValue( module.getEnergySkateParkModel().bodyAt( 0 ).getBounciness() );//todo: refactor to listener pattern.
+                    restitution.setValue( module.getEnergySkateParkModel().getBody( 0 ).getBounciness() );//todo: refactor to listener pattern.
                 }
             }
         } );
@@ -196,7 +196,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
             public void stateChanged( ChangeEvent e ) {
                 EnergySkateParkModel model = module.getEnergySkateParkModel();
                 for( int i = 0; i < model.getNumBodies(); i++ ) {
-                    Body b = model.bodyAt( i );
+                    Body b = model.getBody( i );
                     b.setMass( mass.getValue() );
                 }
             }
@@ -205,7 +205,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 //            public void clockTicked( ClockEvent event ) {
 //                EnergyConservationModel model = module.getEnergySkateParkModel();
 //                for( int i = 0; i < model.getNumBodies(); i++ ) {
-//                    Body b = model.bodyAt( i );
+//                    Body b = model.getBody( i );
 //                    b.setMass( mass.getValue() );
 //                }
 //            }
@@ -213,7 +213,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
                 if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
-                    mass.setValue( module.getEnergySkateParkModel().bodyAt( 0 ).getMass() );
+                    mass.setValue( module.getEnergySkateParkModel().getBody( 0 ).getMass() );
                 }
             }
         } );

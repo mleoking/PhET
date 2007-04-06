@@ -12,6 +12,7 @@ public class EnergySkateParkSplineListAdapter extends ParticleStage {
     public EnergySkateParkSplineListAdapter( EnergySkateParkModel energySkateParkModel ) {
         this.energySkateParkModel = energySkateParkModel;
         energySkateParkModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {//todo: memory leak
+
             public void splinesChanged() {
                 update();
             }
@@ -32,6 +33,15 @@ public class EnergySkateParkSplineListAdapter extends ParticleStage {
         if( energySkateParkModel.getFloor() != null ) {
             addCubicSpline2D( energySkateParkModel.getFloor().getParametricFunction2D() );
         }
+    }
+
+    public boolean isSplineUserControlled() {
+        for( int i = 0; i < energySkateParkModel.getNumSplines(); i++ ) {
+            if( energySkateParkModel.getSpline( i ).isUserControlled() ) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

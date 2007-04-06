@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class ParticleStage {
     private ArrayList splines = new ArrayList();
+    private ArrayList listeners = new ArrayList();
 
     public ParticleStage() {
     }
@@ -24,18 +25,16 @@ public class ParticleStage {
         notifySplineAdded();
     }
 
-//    public int numCubicSpline2Ds() {
-//        return splines.size();
-//    }
-
     public ParametricFunction2D getCubicSpline2D( int i ) {
         return (ParametricFunction2D)splines.get( i );
     }
 
-    private ArrayList listeners = new ArrayList();
-
     public int getCubicSpline2DCount() {
         return splines.size();
+    }
+
+    public boolean isSplineUserControlled() {
+        return false;
     }
 
     public static interface Listener {

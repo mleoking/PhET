@@ -26,7 +26,7 @@ public class EnergySkateParkModuleBean {
 
     public EnergySkateParkModuleBean( EnergySkateParkModule module ) {
         for( int i = 0; i < module.getEnergySkateParkModel().getNumBodies(); i++ ) {
-            addBody( module.getEnergySkateParkModel().bodyAt( i ) );
+            addBody( module.getEnergySkateParkModel().getBody( i ) );
         }
         for( int i = 0; i < module.getEnergySkateParkModel().getNumSplines(); i++ ) {
             EnergySkateParkSpline splineSurface = module.getEnergySkateParkModel().getSpline( i );

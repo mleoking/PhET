@@ -26,6 +26,6 @@ public class TestFallThrough {
 
     private void start() {
         energySkateParkApplication.startApplication();
-        energySkateParkApplication.getModule().getEnergySkateParkModel().bodyAt( 0 ).setFrictionCoefficient( 0.01 );
+        energySkateParkApplication.getModule().getEnergySkateParkModel().getBody( 0 ).setFrictionCoefficient( 0.01 );
     }
 }
