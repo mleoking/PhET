@@ -3,34 +3,40 @@
 • Playback/record (depends on correct data structure copying which needs to be implemented and tested)
 • Track should bump up when beneath ground
 • add ball graphic
-• Bar chart should listen to a single particle, not the entire model
 • Other feedback on track graphics?
 • Other feedback on characters?
 • When running tests with a non-default character, dimensions & character don't match.
 • Is skater location correctly preserved on serialization?
-
-• Improve performance e.g. during right-click interaction with track
-• Improve performance for zooming out:
-       This was a tradeoff I made when I made the mountains not disappear during zoomout.  (It was the easiest way, but with this performance problem.)  There are other ways to implement this without the performance problem, (but take longer to implement).
-
-• Energy conservation is handling about 6/8 (?) cases correctly, there are still a few instances in which it could fail.
-criteria are (with, without friction)x(too much proposed energy, too little proposed energy)x(gravity on, off).
-Depending on the effectiveness of patches, other patches are tested. Also during track attachment and release.
+• Convert tests to new style.
+• Energy conservation (wait until we see visible problem)
+• Add energy conservation indicator (cumulative percent error, number of timesteps that had error), clear button
+• Wire up bounciness control
+• Investigate track "crinkliness"
+• In the default setup, when the simulation starts or when the user presses "return skater", the skater falls a few feet onto the track and loses some energy to thermal.  This was confusing for Trish's students, who weren't ready to be exposed to friction-based features.  What should be done about this?
 
 ParametricFunction2D:
 line 32 could do flat search for line-based
 line 80 could do for finite segment
 
 Maybe:
+• Allow user to save a "batch" of experiments, and switch between them.
 • Show an indicator for attachment point during skater dragging.
 • Skater should point at track while dragging: Unpredictable behavior when there are 2+ possible matches.
 • gradient for earth in energyskate park sim (see projectile motion)
-    -Simple solution would degrade performance, more complicated solution would take up to an hour 
+    -Simple solution would degrade performance, more complicated solution would take up to an hour
+• Improve performance e.g. during right-click interaction with track
 
 Postponed:
 • Add rotation for skater in the air.
 • Add visualization for force diagram (or just normal force?)
 • With high enough speed, sometimes the skater can pass through a track (or ground)
+• Bar chart should listen to a single particle, not the entire model (do this before porting the bar chart to other applications)
+• Improve performance for zooming out: This was a tradeoff I made when I made the mountains not disappear during zoomout.  (It was the easiest way, but with this performance problem.)  There are other ways to implement this without the performance problem, (but take longer to implement). (Postponed because testing can be done for non-image background locations)
+
+Notes:
+• Energy conservation is handling about 6/8 (?) cases correctly, there are still a few instances in which it could fail.
+criteria are (with, without friction)x(too much proposed energy, too little proposed energy)x(gravity on, off).
+Depending on the effectiveness of patches, other patches are tested. Also during track attachment and release.
 
 #################################################################
 Remaining Work
