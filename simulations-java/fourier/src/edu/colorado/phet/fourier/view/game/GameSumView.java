@@ -16,8 +16,8 @@ import java.awt.*;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.*;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
 import edu.colorado.phet.fourier.model.FourierSeries;
 
@@ -125,7 +125,7 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
         _backgroundGraphic.setLocation( 0, 0 );
         
         // Title
-        String title = SimStrings.getInstance().getString( "GameSumView.title" );
+        String title = FourierResources.getString( "GameSumView.title" );
         _titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         _titleGraphic.centerRegistrationPoint();
         _titleGraphic.rotate( -( Math.PI / 2 ) );
@@ -136,7 +136,7 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
         HTMLGraphic instructions = new HTMLGraphic( component );
         instructions.setFont( INSTRUCTIONS_FONT );
         instructions.setColor( INSTRUCTIONS_COLOR );
-        instructions.setHTML( SimStrings.getInstance().getString( "GameSumView.instructions" ) );
+        instructions.setHTML( FourierResources.getString( "GameSumView.instructions" ) );
         instructions.setLocation( INSTRUCTIONS_LOCATION );
         addGraphic( instructions, TITLE_LAYER );
         

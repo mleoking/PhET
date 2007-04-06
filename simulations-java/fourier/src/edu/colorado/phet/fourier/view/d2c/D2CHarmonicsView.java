@@ -20,8 +20,8 @@ import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl;
 import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl.ZoomEvent;
 import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl.ZoomListener;
 import edu.colorado.phet.common.view.phetgraphics.*;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.charts.HarmonicPlot;
 import edu.colorado.phet.fourier.enums.Domain;
@@ -131,7 +131,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         addGraphic( _backgroundGraphic, BACKGROUND_LAYER );
         
         // Title
-        String title = SimStrings.getInstance().getString( "D2CHarmonicsView.title" );
+        String title = FourierResources.getString( "D2CHarmonicsView.title" );
         _titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         _titleGraphic.centerRegistrationPoint();
         _titleGraphic.rotate( -( Math.PI / 2 ) );
@@ -153,7 +153,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         }
         
         // "Cannot show" message 
-        String cannotShowMessage = SimStrings.getInstance().getString( "D2CHarmonicsView.cannotShow" );
+        String cannotShowMessage = FourierResources.getString( "D2CHarmonicsView.cannotShow" );
         _cannotShowGraphic = new HTMLGraphic( component, CANNOT_SHOW_MESSAGE_FONT, cannotShowMessage, CANNOT_SHOW_MESSAGE_COLOR );
         addGraphic( _cannotShowGraphic, MESSAGE_LAYER );
         _cannotShowGraphic.setRegistrationPoint( 0, _cannotShowGraphic.getHeight() / 2 ); // left center
@@ -166,7 +166,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         _minimizeButton.setLocation( (_minimizeButton.getWidth()/2) + 10, _minimizeButton.getHeight()/2 + 5 );
         
         // "Minimize" message
-        String minimizeMessage = SimStrings.getInstance().getString( "D2CHarmonicsView.minimize" );
+        String minimizeMessage = FourierResources.getString( "D2CHarmonicsView.minimize" );
         HTMLGraphic minimizeGraphic = new HTMLGraphic( component, MINIMIZE_MESSAGE_FONT, minimizeMessage, MINIMIZE_MESSAGE_COLOR );
         addGraphic( minimizeGraphic, MESSAGE_LAYER );
         minimizeGraphic.setRegistrationPoint( 0, minimizeGraphic.getHeight() / 2 ); // left center

@@ -12,7 +12,6 @@
 package edu.colorado.phet.fourier.control;
 
 import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 

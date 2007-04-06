@@ -27,7 +27,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.control.sliders.WavePacketCenterSlider;
 import edu.colorado.phet.fourier.control.sliders.WavePacketKWidthSlider;
 import edu.colorado.phet.fourier.control.sliders.WavePacketSpacingSlider;
@@ -126,18 +126,18 @@ public class D2CControlPanel extends FourierControlPanel {
         _periodTool = periodTool;
         
         // Set the control panel's minimum width.
-        String widthString = SimStrings.getInstance().getString( "D2CControlPanel.width" );
+        String widthString = FourierResources.getString( "D2CControlPanel.width" );
         int width = Integer.parseInt( widthString );
         setMinumumWidth( width );
 
         // Spacing panel
-        FourierTitledPanel spacingPanel = new FourierTitledPanel( SimStrings.getInstance().getString( "D2CControlPanel.spacing" ) );
+        FourierTitledPanel spacingPanel = new FourierTitledPanel( FourierResources.getString( "D2CControlPanel.spacing" ) );
         {
             // spacing (k1)
             _spacingSlider = new WavePacketSpacingSlider();
 
             // amplitudes envelope ("Show continuous...")
-            _amplitudesEnvelopeCheckBox = new JCheckBox( SimStrings.getInstance().getString( "D2CControlPanel.kEnvelope" ) );
+            _amplitudesEnvelopeCheckBox = new JCheckBox( FourierResources.getString( "D2CControlPanel.kEnvelope" ) );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -155,7 +155,7 @@ public class D2CControlPanel extends FourierControlPanel {
         }
         
         // Center Point panel
-        FourierTitledPanel centerPanel = new FourierTitledPanel( SimStrings.getInstance().getString( "D2CControlPanel.center" ) );
+        FourierTitledPanel centerPanel = new FourierTitledPanel( FourierResources.getString( "D2CControlPanel.center" ) );
         {
             // center point (k0)
             _centerSlider = new WavePacketCenterSlider();
@@ -175,7 +175,7 @@ public class D2CControlPanel extends FourierControlPanel {
         }
         
         // Width panel
-        FourierTitledPanel widthPanel = new FourierTitledPanel( SimStrings.getInstance().getString( "D2CControlPanel.widthControls" ) );
+        FourierTitledPanel widthPanel = new FourierTitledPanel( FourierResources.getString( "D2CControlPanel.widthControls" ) );
         {
             // k-space width
             _kWidthSlider = new WavePacketKWidthSlider();
@@ -198,17 +198,17 @@ public class D2CControlPanel extends FourierControlPanel {
             widthPanel.add( innerPanel, BorderLayout.WEST );
         }
         
-        FourierTitledPanel graphControlsPanel = new FourierTitledPanel( SimStrings.getInstance().getString( "D2CControlPanel.graphControls" ) );
+        FourierTitledPanel graphControlsPanel = new FourierTitledPanel( FourierResources.getString( "D2CControlPanel.graphControls" ) );
         {
             // Domain
             {
                 // Label
-                String label = SimStrings.getInstance().getString( "D2CControlPanel.domain" );
+                String label = FourierResources.getString( "D2CControlPanel.domain" );
 
                 // Choices
                 _domainChoices = new ArrayList();
-                _domainChoices.add( new FourierComboBox.Choice( Domain.SPACE, SimStrings.getInstance().getString( "domain.space" ) ) );
-                _domainChoices.add( new FourierComboBox.Choice( Domain.TIME, SimStrings.getInstance().getString( "domain.time" ) ) );
+                _domainChoices.add( new FourierComboBox.Choice( Domain.SPACE, FourierResources.getString( "domain.space" ) ) );
+                _domainChoices.add( new FourierComboBox.Choice( Domain.TIME, FourierResources.getString( "domain.time" ) ) );
  
                 // Function combo box
                 _domainComboBox = new FourierComboBox( label, _domainChoices );
@@ -218,8 +218,8 @@ public class D2CControlPanel extends FourierControlPanel {
             JPanel waveTypePanel = new JPanel();
             {              
                 // Radio buttons
-                _sinesRadioButton = new JRadioButton( SimStrings.getInstance().getString( "waveType.sines" ) );
-                _cosinesRadioButton = new JRadioButton( SimStrings.getInstance().getString( "waveType.cosines" ) );
+                _sinesRadioButton = new JRadioButton( FourierResources.getString( "waveType.sines" ) );
+                _cosinesRadioButton = new JRadioButton( FourierResources.getString( "waveType.cosines" ) );
                 ButtonGroup group = new ButtonGroup();
                 group.add( _sinesRadioButton );
                 group.add( _cosinesRadioButton );
@@ -233,10 +233,10 @@ public class D2CControlPanel extends FourierControlPanel {
             }
             
             // Sum envelope
-            _sumEnvelopeCheckBox = new JCheckBox( SimStrings.getInstance().getString( "D2CControlPanel.xEnvelope" ) );
+            _sumEnvelopeCheckBox = new JCheckBox( FourierResources.getString( "D2CControlPanel.xEnvelope" ) );
             
             // Show widths checkbox
-            _showWidthsCheckBox = new JCheckBox( SimStrings.getInstance().getString( "D2CControlPanel.showWidths" ) );
+            _showWidthsCheckBox = new JCheckBox( FourierResources.getString( "D2CControlPanel.showWidths" ) );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -476,20 +476,20 @@ public class D2CControlPanel extends FourierControlPanel {
         _periodTool.setDomain( domain );
         
         if ( domain == Domain.SPACE ) {
-            _spacingSlider.setFormat( SimStrings.getInstance().getString( "WavePacketSpacingSlider.format.space" ) );
-            _centerSlider.setFormat( SimStrings.getInstance().getString( "WavePacketCenterSlider.format.space" ) );
-            _kWidthSlider.setFormat( SimStrings.getInstance().getString( "WavePacketKWidthSlider.format.space" ) );
-            _xWidthSlider.setFormat( SimStrings.getInstance().getString( "WavePacketXWidthSlider.format.space" ) );
-            _amplitudesEnvelopeCheckBox.setText( SimStrings.getInstance().getString( "D2CControlPanel.kEnvelope" ) );
-            _sumEnvelopeCheckBox.setText( SimStrings.getInstance().getString( "D2CControlPanel.xEnvelope" ) );
+            _spacingSlider.setFormat( FourierResources.getString( "WavePacketSpacingSlider.format.space" ) );
+            _centerSlider.setFormat( FourierResources.getString( "WavePacketCenterSlider.format.space" ) );
+            _kWidthSlider.setFormat( FourierResources.getString( "WavePacketKWidthSlider.format.space" ) );
+            _xWidthSlider.setFormat( FourierResources.getString( "WavePacketXWidthSlider.format.space" ) );
+            _amplitudesEnvelopeCheckBox.setText( FourierResources.getString( "D2CControlPanel.kEnvelope" ) );
+            _sumEnvelopeCheckBox.setText( FourierResources.getString( "D2CControlPanel.xEnvelope" ) );
         }
         else if ( domain == Domain.TIME ) {
-            _spacingSlider.setFormat( SimStrings.getInstance().getString( "WavePacketSpacingSlider.format.time" ) );
-            _centerSlider.setFormat( SimStrings.getInstance().getString( "WavePacketCenterSlider.format.time" ) );
-            _kWidthSlider.setFormat( SimStrings.getInstance().getString( "WavePacketKWidthSlider.format.time" ) );
-            _xWidthSlider.setFormat( SimStrings.getInstance().getString( "WavePacketXWidthSlider.format.time" ) );
-            _amplitudesEnvelopeCheckBox.setText( SimStrings.getInstance().getString( "D2CControlPanel.wEnvelope" ) );
-            _sumEnvelopeCheckBox.setText( SimStrings.getInstance().getString( "D2CControlPanel.tEnvelope" ) );
+            _spacingSlider.setFormat( FourierResources.getString( "WavePacketSpacingSlider.format.time" ) );
+            _centerSlider.setFormat( FourierResources.getString( "WavePacketCenterSlider.format.time" ) );
+            _kWidthSlider.setFormat( FourierResources.getString( "WavePacketKWidthSlider.format.time" ) );
+            _xWidthSlider.setFormat( FourierResources.getString( "WavePacketXWidthSlider.format.time" ) );
+            _amplitudesEnvelopeCheckBox.setText( FourierResources.getString( "D2CControlPanel.wEnvelope" ) );
+            _sumEnvelopeCheckBox.setText( FourierResources.getString( "D2CControlPanel.tEnvelope" ) );
         }
         else {
             throw new IllegalArgumentException( "unsupported domain: " + domain );

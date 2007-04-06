@@ -24,8 +24,8 @@ import javax.swing.JPanel;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.module.FourierModule;
 
 
@@ -108,7 +108,7 @@ public abstract class FourierControlPanel extends ControlPanel {
      * The button handler calls the module's reset method.
      */
     public void addResetButton() {
-        JButton resetButton = new JButton( SimStrings.getInstance().getString( "Reset.button" ) );
+        JButton resetButton = new JButton( FourierResources.getString( "Reset.button" ) );
         resetButton.addActionListener( new ActionListener() { 
             public void actionPerformed( ActionEvent e ) {
                 setWaitCursorEnabled( true );

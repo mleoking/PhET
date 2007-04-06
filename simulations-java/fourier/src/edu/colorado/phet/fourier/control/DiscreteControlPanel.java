@@ -13,7 +13,6 @@ package edu.colorado.phet.fourier.control;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -22,9 +21,8 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.control.sliders.AbstractFourierSlider;
 import edu.colorado.phet.fourier.control.sliders.DefaultFourierSlider;
@@ -141,26 +139,26 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _animationCycleController = animationCycleController;
 
         // Set the control panel's minimum width.
-        String widthString = SimStrings.getInstance().getString( "DiscreteControlPanel.width" );
+        String widthString = FourierResources.getString( "DiscreteControlPanel.width" );
         int width = Integer.parseInt( widthString );
         setMinumumWidth( width );
 
         // Preset Controls panel
-        FourierTitledPanel presetControlsPanel = new FourierTitledPanel( SimStrings.getInstance().getString( "DiscreteControlPanel.presetControls" ) );
+        FourierTitledPanel presetControlsPanel = new FourierTitledPanel( FourierResources.getString( "DiscreteControlPanel.presetControls" ) );
         {
             // Presets
             {
                 // Label
-                String label = SimStrings.getInstance().getString( "DiscreteControlPanel.presets" );
+                String label = FourierResources.getString( "DiscreteControlPanel.presets" );
 
                 // Choices
                 _presetChoices = new ArrayList();
-                _presetChoices.add( new FourierComboBox.Choice( Preset.SINE_COSINE, SimStrings.getInstance().getString( "preset.sinecosine" ) ) );
-                _presetChoices.add( new FourierComboBox.Choice( Preset.TRIANGLE, SimStrings.getInstance().getString( "preset.triangle" ) ) );
-                _presetChoices.add( new FourierComboBox.Choice( Preset.SQUARE, SimStrings.getInstance().getString( "preset.square" ) ) );
-                _presetChoices.add( new FourierComboBox.Choice( Preset.SAWTOOTH, SimStrings.getInstance().getString( "preset.sawtooth" ) ) );
-                _presetChoices.add( new FourierComboBox.Choice( Preset.WAVE_PACKET, SimStrings.getInstance().getString( "preset.wavePacket" ) ) );
-                _presetChoices.add( new FourierComboBox.Choice( Preset.CUSTOM, SimStrings.getInstance().getString( "preset.custom" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.SINE_COSINE, FourierResources.getString( "preset.sinecosine" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.TRIANGLE, FourierResources.getString( "preset.triangle" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.SQUARE, FourierResources.getString( "preset.square" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.SAWTOOTH, FourierResources.getString( "preset.sawtooth" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.WAVE_PACKET, FourierResources.getString( "preset.wavePacket" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.CUSTOM, FourierResources.getString( "preset.custom" ) ) );
 
                 // Presets combo box
                 _presetsComboBox = new FourierComboBox( label, _presetChoices );
@@ -168,7 +166,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
             // Number of harmonics
             {
-                String format = SimStrings.getInstance().getString( "DiscreteControlPanel.numberOfHarmonics" );
+                String format = FourierResources.getString( "DiscreteControlPanel.numberOfHarmonics" );
                 _numberOfHarmonicsSlider = new DefaultFourierSlider( format );
                 _numberOfHarmonicsSlider.getSlider().setMaximum( FourierConstants.MAX_HARMONICS );
                 _numberOfHarmonicsSlider.getSlider().setMinimum( FourierConstants.MIN_HARMONICS );
@@ -180,7 +178,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             }
 
             // Show infinite...
-            _showInfiniteCheckBox = new JCheckBox( SimStrings.getInstance().getString( "DiscreteControlPanel.showInfinite" ) );
+            _showInfiniteCheckBox = new JCheckBox( FourierResources.getString( "DiscreteControlPanel.showInfinite" ) );
 
             // Layout
             JPanel innerPanel = new JPanel();
@@ -199,18 +197,18 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         }
 
         // Graph Controls panel
-        FourierTitledPanel graphControlsPanel = new FourierTitledPanel( SimStrings.getInstance().getString( "DiscreteControlPanel.graphControls" ) );
+        FourierTitledPanel graphControlsPanel = new FourierTitledPanel( FourierResources.getString( "DiscreteControlPanel.graphControls" ) );
         {
             // Domain
             {
                 // Label
-                String label = SimStrings.getInstance().getString( "DiscreteControlPanel.domain" );
+                String label = FourierResources.getString( "DiscreteControlPanel.domain" );
 
                 // Choices
                 _domainChoices = new ArrayList();
-                _domainChoices.add( new FourierComboBox.Choice( Domain.SPACE, SimStrings.getInstance().getString( "domain.space" ) ) );
-                _domainChoices.add( new FourierComboBox.Choice( Domain.TIME, SimStrings.getInstance().getString( "domain.time" ) ) );
-                _domainChoices.add( new FourierComboBox.Choice( Domain.SPACE_AND_TIME, SimStrings.getInstance().getString( "domain.spaceAndTime" ) ) );
+                _domainChoices.add( new FourierComboBox.Choice( Domain.SPACE, FourierResources.getString( "domain.space" ) ) );
+                _domainChoices.add( new FourierComboBox.Choice( Domain.TIME, FourierResources.getString( "domain.time" ) ) );
+                _domainChoices.add( new FourierComboBox.Choice( Domain.SPACE_AND_TIME, FourierResources.getString( "domain.spaceAndTime" ) ) );
 
                 // Function combo box
                 _domainComboBox = new FourierComboBox( label, _domainChoices );
@@ -220,8 +218,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             JPanel waveTypePanel = new JPanel();
             {
                 // Radio buttons
-                _sinesRadioButton = new JRadioButton( SimStrings.getInstance().getString( "waveType.sines" ) );
-                _cosinesRadioButton = new JRadioButton( SimStrings.getInstance().getString( "waveType.cosines" ) );
+                _sinesRadioButton = new JRadioButton( FourierResources.getString( "waveType.sines" ) );
+                _cosinesRadioButton = new JRadioButton( FourierResources.getString( "waveType.cosines" ) );
                 ButtonGroup group = new ButtonGroup();
                 group.add( _sinesRadioButton );
                 group.add( _cosinesRadioButton );
@@ -250,12 +248,12 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         }
 
         // Tool Controls panel
-        FourierTitledPanel toolControlsPanel = new FourierTitledPanel( SimStrings.getInstance().getString( "DiscreteControlPanel.toolControls" ) );
+        FourierTitledPanel toolControlsPanel = new FourierTitledPanel( FourierResources.getString( "DiscreteControlPanel.toolControls" ) );
         {
             // Wavelength Tool
             JPanel wavelengthToolPanel = new JPanel();
             {
-                _wavelengthToolCheckBox = new JCheckBox( SimStrings.getInstance().getString( "DiscreteControlPanel.wavelengthTool" ) );
+                _wavelengthToolCheckBox = new JCheckBox( FourierResources.getString( "DiscreteControlPanel.wavelengthTool" ) );
 
                 _wavelengthToolComboBox = new JComboBox();
 
@@ -278,7 +276,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             // Period Tool
             JPanel periodToolPanel = new JPanel();
             {
-                _periodToolCheckBox = new JCheckBox( SimStrings.getInstance().getString( "DiscreteControlPanel.periodTool" ) );
+                _periodToolCheckBox = new JCheckBox( FourierResources.getString( "DiscreteControlPanel.periodTool" ) );
 
                 _periodToolComboBox = new JComboBox();
 
@@ -316,30 +314,30 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         }
 
         // Math Mode panel
-        FourierTitledPanel mathModePanel = new FourierTitledPanel( SimStrings.getInstance().getString( "DiscreteControlPanel.mathMode" ) );
+        FourierTitledPanel mathModePanel = new FourierTitledPanel( FourierResources.getString( "DiscreteControlPanel.mathMode" ) );
         {
             // Show Math
-            _showMathCheckBox = new JCheckBox( SimStrings.getInstance().getString( "DiscreteControlPanel.showMath" ) );
+            _showMathCheckBox = new JCheckBox( FourierResources.getString( "DiscreteControlPanel.showMath" ) );
 
             // Math Forms
             {
                 // Choices
                 {
                     _spaceMathFormChoices = new ArrayList();
-                    _spaceMathFormChoices.add( new FourierComboBox.Choice( MathForm.WAVELENGTH, SimStrings.getInstance().getString( "mathForm.wavelength" ) ) );
-                    _spaceMathFormChoices.add( new FourierComboBox.Choice( MathForm.WAVE_NUMBER, SimStrings.getInstance().getString( "mathForm.waveNumber" ) ) );
-                    _spaceMathFormChoices.add( new FourierComboBox.Choice( MathForm.MODE, SimStrings.getInstance().getString( "mathForm.mode" ) ) );
+                    _spaceMathFormChoices.add( new FourierComboBox.Choice( MathForm.WAVELENGTH, FourierResources.getString( "mathForm.wavelength" ) ) );
+                    _spaceMathFormChoices.add( new FourierComboBox.Choice( MathForm.WAVE_NUMBER, FourierResources.getString( "mathForm.waveNumber" ) ) );
+                    _spaceMathFormChoices.add( new FourierComboBox.Choice( MathForm.MODE, FourierResources.getString( "mathForm.mode" ) ) );
 
                     _timeMathFormChoices = new ArrayList();
-                    _timeMathFormChoices.add( new FourierComboBox.Choice( MathForm.FREQUENCY, SimStrings.getInstance().getString( "mathForm.frequency" ) ) );
-                    _timeMathFormChoices.add( new FourierComboBox.Choice( MathForm.PERIOD, SimStrings.getInstance().getString( "mathForm.period" ) ) );
-                    _timeMathFormChoices.add( new FourierComboBox.Choice( MathForm.ANGULAR_FREQUENCY, SimStrings.getInstance().getString( "mathForm.angularFrequency" ) ) );
-                    _timeMathFormChoices.add( new FourierComboBox.Choice( MathForm.MODE, SimStrings.getInstance().getString( "mathForm.mode" ) ) );
+                    _timeMathFormChoices.add( new FourierComboBox.Choice( MathForm.FREQUENCY, FourierResources.getString( "mathForm.frequency" ) ) );
+                    _timeMathFormChoices.add( new FourierComboBox.Choice( MathForm.PERIOD, FourierResources.getString( "mathForm.period" ) ) );
+                    _timeMathFormChoices.add( new FourierComboBox.Choice( MathForm.ANGULAR_FREQUENCY, FourierResources.getString( "mathForm.angularFrequency" ) ) );
+                    _timeMathFormChoices.add( new FourierComboBox.Choice( MathForm.MODE, FourierResources.getString( "mathForm.mode" ) ) );
 
                     _spaceAndTimeMathFormChoices = new ArrayList();
-                    _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( MathForm.WAVELENGTH_AND_PERIOD, SimStrings.getInstance().getString( "mathForm.wavelengthAndPeriod" ) ) );
-                    _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( MathForm.WAVE_NUMBER_AND_ANGULAR_FREQUENCY, SimStrings.getInstance().getString( "mathForm.waveNumberAndAngularFrequency" ) ) );
-                    _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( MathForm.MODE, SimStrings.getInstance().getString( "mathForm.mode" ) ) );
+                    _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( MathForm.WAVELENGTH_AND_PERIOD, FourierResources.getString( "mathForm.wavelengthAndPeriod" ) ) );
+                    _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( MathForm.WAVE_NUMBER_AND_ANGULAR_FREQUENCY, FourierResources.getString( "mathForm.waveNumberAndAngularFrequency" ) ) );
+                    _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( MathForm.MODE, FourierResources.getString( "mathForm.mode" ) ) );
                 }
 
                 // Math form combo box
@@ -347,7 +345,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             }
 
             // Expand Sum
-            _expandSumCheckBox = new JCheckBox( SimStrings.getInstance().getString( "DiscreteControlPanel.expandSum" ) );
+            _expandSumCheckBox = new JCheckBox( FourierResources.getString( "DiscreteControlPanel.expandSum" ) );
 
             // Layout
             JPanel innerPanel = new JPanel();
@@ -365,24 +363,16 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             mathModePanel.add( innerPanel, BorderLayout.WEST );
         }
 
-        FourierTitledPanel audioControlsPanel = new FourierTitledPanel( SimStrings.getInstance().getString( "DiscreteControlPanel.audioControls" ) );
+        FourierTitledPanel audioControlsPanel = new FourierTitledPanel( FourierResources.getString( "DiscreteControlPanel.audioControls" ) );
         {
             // Sound on/off
-            _soundCheckBox = new JCheckBox( SimStrings.getInstance().getString( "DiscreteControlPanel.sound" ) );
+            _soundCheckBox = new JCheckBox( FourierResources.getString( "DiscreteControlPanel.sound" ) );
 
             // Min & max icon labels
-            JLabel soundMinLabel, soundMaxLabel;
-            try {  
-                ImageIcon soundMinIcon = new ImageIcon( ImageLoader.loadBufferedImage( FourierConstants.SOUND_MIN_IMAGE ) );
-                soundMinLabel = new JLabel( soundMinIcon );
-                ImageIcon soundMaxIcon = new ImageIcon( ImageLoader.loadBufferedImage( FourierConstants.SOUND_MAX_IMAGE ) );
-                soundMaxLabel = new JLabel( soundMaxIcon );
-            }
-            catch ( IOException ioe ) {
-                ioe.printStackTrace();
-                soundMinLabel = new JLabel( "-" );
-                soundMaxLabel = new JLabel( "+" );
-            }
+            ImageIcon soundMinIcon = new ImageIcon( FourierConstants.SOUND_MIN_IMAGE );
+            JLabel soundMinLabel = new JLabel( soundMinIcon );
+            ImageIcon soundMaxIcon = new ImageIcon( FourierConstants.SOUND_MAX_IMAGE );
+            JLabel soundMaxLabel = new JLabel( soundMaxIcon );
             
             // Sound volume
             _soundSlider = new JSlider();
@@ -1020,7 +1010,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
      * You can't make a sawtooth wave out of cosines because it is asymmetric.
      */
     private void showSawtoothCosinesErrorDialog() {
-        String message = SimStrings.getInstance().getString( "SawtoothCosinesErrorDialog.message" );
+        String message = FourierResources.getString( "SawtoothCosinesErrorDialog.message" );
         JOptionPane op = new JOptionPane( message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION );
         op.createDialog( this, null ).show();
     }
@@ -1041,7 +1031,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 _soundPlayer = null;
                 _soundCheckBox.setEnabled( false );
                 _soundSlider.setEnabled( false );
-                String message = SimStrings.getInstance().getString( "sound.error.init" );
+                String message = FourierResources.getString( "sound.error.init" );
                 handleSoundError( message, e );
             }
             _soundPlayer.addSoundErrorListener( this );
@@ -1062,7 +1052,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
      */
     private void handleSoundError( String message, Exception exception ) {
         // Display the message in an Error dialog
-        String title = SimStrings.getInstance().getString( "sound.error.title" );
+        String title = FourierResources.getString( "sound.error.title" );
         JOptionPane.showMessageDialog( this, message, title, JOptionPane.ERROR_MESSAGE );
         // Disable the UI control for sound
         _soundCheckBox.setSelected( false );

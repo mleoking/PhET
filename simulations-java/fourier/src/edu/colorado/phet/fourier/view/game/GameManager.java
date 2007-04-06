@@ -22,8 +22,8 @@ import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.enums.GameLevel;
 import edu.colorado.phet.fourier.enums.Preset;
 import edu.colorado.phet.fourier.model.FourierSeries;
@@ -317,8 +317,8 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
 
             // Tell the user they won.
             JFrame frame = PhetApplication.instance().getPhetFrame();
-            String title = SimStrings.getInstance().getString( "WinDialog.title" );
-            String message = SimStrings.getInstance().getString( "WinDialog.message" );
+            String title = FourierResources.getString( "WinDialog.title" );
+            String message = FourierResources.getString( "WinDialog.message" );
             JOptionPane.showMessageDialog( frame, message, title, JOptionPane.PLAIN_MESSAGE );
 
             // Start a new game.

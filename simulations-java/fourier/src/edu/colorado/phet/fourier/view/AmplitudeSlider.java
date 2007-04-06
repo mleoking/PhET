@@ -32,8 +32,8 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeEvent;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeListener;
@@ -351,7 +351,7 @@ public class AmplitudeSlider extends GraphicLayerSet
      * Displays a modal error dialog for invalid user inputs.
      */
     private void showUserInputErrorDialog() {
-        String message = SimStrings.getInstance().getString( "AmplitudeErrorDialog.message" );
+        String message = FourierResources.getString( "AmplitudeErrorDialog.message" );
         JOptionPane op = new JOptionPane( message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION );
         op.createDialog( getComponent(), null ).show();
     }

@@ -22,7 +22,7 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.control.D2CControlPanel;
 import edu.colorado.phet.fourier.enums.Domain;
 import edu.colorado.phet.fourier.enums.WaveType;
@@ -94,7 +94,7 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
      */
     public D2CModule() {
         
-        super( SimStrings.getInstance().getString( "D2CModule.title" ) );
+        super( FourierResources.getString( "D2CModule.title" ) );
 
         //----------------------------------------------------------------------------
         // Model
@@ -130,7 +130,7 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         apparatusPanel.addGraphic( _harmonicsView, HARMONICS_LAYER );
         
         // Harmonics view (minimized)
-        _harmonicsMinimizedView = new MinimizedView( apparatusPanel, SimStrings.getInstance().getString( "D2CHarmonicsView.title" ) );
+        _harmonicsMinimizedView = new MinimizedView( apparatusPanel, FourierResources.getString( "D2CHarmonicsView.title" ) );
         apparatusPanel.addGraphic( _harmonicsMinimizedView, HARMONICS_CLOSED_LAYER );
         
         // Sum view
@@ -138,7 +138,7 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         apparatusPanel.addGraphic( _sumView, SUM_LAYER );
         
         // Sum view (minimized)
-        _sumMinimizedView = new MinimizedView( apparatusPanel, SimStrings.getInstance().getString( "D2CSumView.title" ) );
+        _sumMinimizedView = new MinimizedView( apparatusPanel, FourierResources.getString( "D2CSumView.title" ) );
         apparatusPanel.addGraphic( _sumMinimizedView, SUM_CLOSED_LAYER );
         
         // Spacing (k1,w1) measurement tool
@@ -221,11 +221,11 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         // Help
         //----------------------------------------------------------------------------
         
-        HelpBubble spacingToolHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "D2CModule.help.spacingTool" ) );
+        HelpBubble spacingToolHelp = new HelpBubble( apparatusPanel, FourierResources.getString( "D2CModule.help.spacingTool" ) );
         spacingToolHelp.pointAt( _spacingTool, HelpBubble.BOTTOM_CENTER, 15 );
         addHelpItem( spacingToolHelp );
         
-        HelpBubble periodToolHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "D2CModule.help.periodTool" ) );
+        HelpBubble periodToolHelp = new HelpBubble( apparatusPanel, FourierResources.getString( "D2CModule.help.periodTool" ) );
         periodToolHelp.pointAt( _periodTool, HelpBubble.BOTTOM_CENTER, 15 );
         addHelpItem( periodToolHelp );
         

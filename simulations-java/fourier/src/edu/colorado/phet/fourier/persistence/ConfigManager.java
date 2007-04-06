@@ -16,10 +16,6 @@ import java.beans.ExceptionListener;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.InputStream;
 import java.text.MessageFormat;
 
 import javax.jnlp.*;
@@ -29,9 +25,9 @@ import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierApplication;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.view.HarmonicColors;
 
@@ -111,7 +107,7 @@ public class ConfigManager {
             }
         }
         catch ( Exception e ) {
-            showError( SimStrings.getInstance().getString( "Save.error.message" ), e );
+            showError( FourierResources.getString( "Save.error.message" ), e );
         }
     }
     
@@ -131,7 +127,7 @@ public class ConfigManager {
             }
         }
         catch ( Exception e ) {
-            showError( SimStrings.getInstance().getString( "Load.error.message" ), e );
+            showError( FourierResources.getString( "Load.error.message" ), e );
         }
         if ( object == null ) {
             return;
@@ -139,7 +135,7 @@ public class ConfigManager {
         
         // Verify the object's type
         if ( !( object instanceof FourierConfig ) ) {
-            showError( SimStrings.getInstance().getString( "Load.error.message" ), SimStrings.getInstance().getString( "Load.error.contents" ) );
+            showError( FourierResources.getString( "Load.error.message" ), FourierResources.getString( "Load.error.contents" ) );
             return;
         }
         
@@ -179,7 +175,7 @@ public class ConfigManager {
         
         // Choose the file to save.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( SimStrings.getInstance().getString( "Save.title" ) );
+        fileChooser.setDialogTitle( FourierResources.getString( "Save.title" ) );
         int rval = fileChooser.showSaveDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -191,8 +187,8 @@ public class ConfigManager {
 
         // If the file exists, confirm overwrite.
         if ( selectedFile.exists() ) {
-            String title = SimStrings.getInstance().getString( "Save.confirm.title" );
-            String message = SimStrings.getInstance().getString( "Save.confirm.message" );
+            String title = FourierResources.getString( "Save.confirm.title" );
+            String message = FourierResources.getString( "Save.confirm.message" );
             int reply = JOptionPane.showConfirmDialog( frame, message, title, JOptionPane.YES_NO_OPTION );
             if ( reply != JOptionPane.YES_OPTION ) {
                 return;
@@ -209,7 +205,7 @@ public class ConfigManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Save.error.encode" ), e );
+                    showError( FourierResources.getString( "Save.error.encode" ), e );
                     errors++;
                 }
             }      
@@ -226,7 +222,7 @@ public class ConfigManager {
         
         // Choose the file to load.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( SimStrings.getInstance().getString( "Load.title" ) );
+        fileChooser.setDialogTitle( FourierResources.getString( "Load.title" ) );
         int rval = fileChooser.showOpenDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -245,7 +241,7 @@ public class ConfigManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Load.error.decode" ), e );
+                    showError( FourierResources.getString( "Load.error.decode" ), e );
                     errors++;
                 }
             }      
@@ -253,7 +249,7 @@ public class ConfigManager {
         object = decoder.readObject();
         decoder.close();
         if ( object == null ) {
-            throw new Exception( SimStrings.getInstance().getString( "Load.error.contents" ) );
+            throw new Exception( FourierResources.getString( "Load.error.contents" ) );
         }
 
         return object;
@@ -274,7 +270,7 @@ public class ConfigManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Save.error.encode" ), e );
+                    showError( FourierResources.getString( "Save.error.encode" ), e );
                     errors++;
                 }
             }
@@ -282,7 +278,7 @@ public class ConfigManager {
         encoder.writeObject( object );
         encoder.close();
         if ( object == null ) {
-            throw new Exception( SimStrings.getInstance().getString( "XML encoding failed" ) );
+            throw new Exception( FourierResources.getString( "XML encoding failed" ) );
         }
         
         // Convert to a byte input stream.
@@ -332,7 +328,7 @@ public class ConfigManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Load.error.decode" ), e );
+                    showError( FourierResources.getString( "Load.error.decode" ), e );
                     errors++;
                 }
             }
@@ -340,7 +336,7 @@ public class ConfigManager {
         object = decoder.readObject();
         decoder.close();
         if ( object == null ) {
-            throw new Exception( SimStrings.getInstance().getString( "Load.error.contents" ) );
+            throw new Exception( FourierResources.getString( "Load.error.contents" ) );
         }
         
         return object;
@@ -375,7 +371,7 @@ public class ConfigManager {
      */
     public void showError( String format, String errorMessage ) {
         JFrame frame = _app.getPhetFrame();
-        String title = SimStrings.getInstance().getString( "error.title" );
+        String title = FourierResources.getString( "error.title" );
         Object[] args = { errorMessage };
         String message = MessageFormat.format( format, args );
         JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
