@@ -20,7 +20,7 @@ information.
   codebase="http://phet-web.colorado.edu/simulations"
   href="optical-tweezers/optical-tweezers_es.jnlp"> 
   <information> 
-    <title>Optical Tweezers</title>
+    <title>Pinzas Opticas</title>
     <vendor>Universidad de Colorado, Departamento de la Fisica</vendor> 
     <homepage href="http://phet-web.colorado.edu"/> 
     <icon href="icons/PhET.gif"/> 
@@ -29,9 +29,7 @@ information.
   </information> 
   <resources> 
     <j2se version="1.4+"/> 
-    <jar href="optical-tweezers/opticaltweezers.jar"/> 
+    <jar href="optical-tweezers/opticaltweezers.jar"/>         <property name="javaws.locale" value="es"/>
   </resources> 
-  <application-desc main-class="edu.colorado.phet.opticaltweezers.OTApplication">
-        <argument>user.language=es</argument>
-  </application-desc>
+  <application-desc main-class="edu.colorado.phet.opticaltweezers.OTApplication"/>
 </jnlp> 
