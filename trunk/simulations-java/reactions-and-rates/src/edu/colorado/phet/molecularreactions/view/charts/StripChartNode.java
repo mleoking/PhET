@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.molecularreactions.view.charts;
 
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
@@ -35,16 +33,17 @@ public class StripChartNode extends AbstractRescaleableChartNode implements Rese
         PhetPCanvas stripChartCanvas = new PhetPCanvas();
 
         this.clock = module.getClock();
+
         final double xAxisRange = MRConfig.STRIP_CHART_VISIBLE_TIME_RANGE;
         Insets scrollBarInsets = new Insets( 3, 80, 3, 10 );
 
         int numBufferedDataPoints = MRConfig.STRIP_CHART_BUFFER_SIZE;
         stripChart = new MoleculePopulationsStripChart( module.getMRModel(),
-                                                        module.getClock(),
+                                                        clock,
                                                         xAxisRange,
                                                         0,
                                                         MRConfig.STRIP_CHART_MIN_RANGE_Y,
-                                                        1,
+                                                        10,
                                                         numBufferedDataPoints );
         final ChartPanel chartPanel = new ChartPanel( stripChart.getChart() );
         chartPanel.setBackground( MRConfig.MOLECULE_PANE_BACKGROUND );
@@ -57,7 +56,7 @@ public class StripChartNode extends AbstractRescaleableChartNode implements Rese
         Dimension scrollBarDim = new Dimension( (int)( size.getWidth() - scrollBarInsets.left - scrollBarInsets.right ), 15 );
 
         scrollBar.setPreferredSize( scrollBarDim );
-        final PSwing scrollBarNode = new PSwing(scrollBar );
+        final PSwing scrollBarNode = new PSwing( scrollBar );
         scrollBarNode.setPaint( new Color( 0, 0, 0, 0 ) );
         scrollBarNode.setOffset( scrollBarInsets.left,
                                  size.getHeight() - scrollBarNode.getFullBounds().getHeight() - scrollBarInsets.bottom );
@@ -90,20 +89,6 @@ public class StripChartNode extends AbstractRescaleableChartNode implements Rese
                 scrollBar.setValue( (int)stripChart.getMaxX() );
             }
         } );
-
-        // The scroll bar should only be enabled when the clock is paused
-        module.getClock().addClockListener( new ClockAdapter() {
-            public void clockStarted( ClockEvent clockEvent ) {
-                //scrollBar.setEnabled( false );
-                scrollBarNode.repaint();
-            }
-
-            public void clockPaused( ClockEvent clockEvent ) {
-                scrollBar.setEnabled( true );
-                scrollBarNode.repaint();
-            }
-        } );
-        //scrollBar.setEnabled( !module.getClock().isRunning() );
 
         this.addChild( stripChartCanvas.getPhetRootNode() );
     }

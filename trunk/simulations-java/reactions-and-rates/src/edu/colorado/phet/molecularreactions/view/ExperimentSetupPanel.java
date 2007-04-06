@@ -36,37 +36,27 @@ import java.util.List;
  * @version $Revision$
  */
 public class ExperimentSetupPanel extends JPanel implements Resetable {
+    private static final int BEGIN_EXPERIMENT_DELAY_MS = 1000;
+    
     private JTextField numATF;
     private JTextField numBCTF;
     private JTextField numABTF;
     private JTextField numCTF;
-    private MoleculeParamGenerator moleculeParamGenerator;
-    private MoleculeParamGenerator moleculeAParamGenerator;
-    private MoleculeParamGenerator moleculeBCParamGenerator;
-    private MoleculeParamGenerator moleculeABParamGenerator;
-    private MoleculeParamGenerator moleculeCParamGenerator;
     private HashMap moleculeTypeToGenerator = new HashMap( );
     private RateExperimentsModule module;
-    private MoleculeCounter moleculeACounter;
-    private MoleculeCounter moleculeBCCounter;
-    private MoleculeCounter moleculeABCounter;
-    private MoleculeCounter moleculeCCounter;
     private InitialTemperaturePanel initialTemperaturePanel;
     private JButton goButton;
     private boolean experimentInProgress = false;
     private boolean toggleInProgress = false;
 
-    /**
-     * @param module
-     */
     public ExperimentSetupPanel( RateExperimentsModule module ) {
         super( new GridBagLayout() );
         this.module = module;
 
-        moleculeACounter = new MoleculeCounter( MoleculeA.class, module.getMRModel() );
-        moleculeBCCounter = new MoleculeCounter( MoleculeBC.class, module.getMRModel() );
-        moleculeABCounter = new MoleculeCounter( MoleculeAB.class, module.getMRModel() );
-        moleculeCCounter = new MoleculeCounter( MoleculeC.class, module.getMRModel() );
+        new MoleculeCounter( MoleculeA.class, module.getMRModel() );
+        new MoleculeCounter( MoleculeBC.class, module.getMRModel() );
+        new MoleculeCounter( MoleculeAB.class, module.getMRModel() );
+        new MoleculeCounter( MoleculeC.class, module.getMRModel() );
 
         // Create a generator for molecule parameters
         Rectangle2D r = module.getMRModel().getBox().getBounds();
@@ -74,30 +64,30 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
                                                               r.getMinY() + 20,
                                                               r.getWidth() - 40,
                                                               r.getHeight() - 40 );
-        moleculeAParamGenerator = new ConstantTemperatureMoleculeParamGenerator( generatorBounds,
-                                                                   module.getMRModel(),
-                                                                   .1,
-                                                                   0,
-                                                                   Math.PI * 2,
-                                                                   MoleculeA.class );
-        moleculeBCParamGenerator = new ConstantTemperatureMoleculeParamGenerator( generatorBounds,
-                                                                   module.getMRModel(),
-                                                                   .1,
-                                                                   0,
-                                                                   Math.PI * 2,
-                                                                   MoleculeBC.class );
-        moleculeABParamGenerator = new ConstantTemperatureMoleculeParamGenerator( generatorBounds,
-                                                                   module.getMRModel(),
-                                                                   .1,
-                                                                   0,
-                                                                   Math.PI * 2,
-                                                                   MoleculeAB.class );
-        moleculeCParamGenerator = new ConstantTemperatureMoleculeParamGenerator( generatorBounds,
-                                                                   module.getMRModel(),
-                                                                   .1,
-                                                                   0,
-                                                                   Math.PI * 2,
-                                                                   MoleculeC.class );
+        MoleculeParamGenerator moleculeAParamGenerator = new ConstantTemperatureMoleculeParamGenerator( generatorBounds,
+                                                                                                        module.getMRModel(),
+                                                                                                        .1,
+                                                                                                        0,
+                                                                                                        Math.PI * 2,
+                                                                                                        MoleculeA.class );
+        MoleculeParamGenerator moleculeBCParamGenerator = new ConstantTemperatureMoleculeParamGenerator( generatorBounds,
+                                                                                                         module.getMRModel(),
+                                                                                                         .1,
+                                                                                                         0,
+                                                                                                         Math.PI * 2,
+                                                                                                         MoleculeBC.class );
+        MoleculeParamGenerator moleculeABParamGenerator = new ConstantTemperatureMoleculeParamGenerator( generatorBounds,
+                                                                                                         module.getMRModel(),
+                                                                                                         .1,
+                                                                                                         0,
+                                                                                                         Math.PI * 2,
+                                                                                                         MoleculeAB.class );
+        MoleculeParamGenerator moleculeCParamGenerator = new ConstantTemperatureMoleculeParamGenerator( generatorBounds,
+                                                                                                        module.getMRModel(),
+                                                                                                        .1,
+                                                                                                        0,
+                                                                                                        Math.PI * 2,
+                                                                                                        MoleculeC.class );
         moleculeTypeToGenerator.put( MoleculeA.class, moleculeAParamGenerator );
         moleculeTypeToGenerator.put( MoleculeBC.class, moleculeBCParamGenerator );
         moleculeTypeToGenerator.put( MoleculeAB.class, moleculeABParamGenerator );
@@ -194,11 +184,6 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         add(buttonPanel, c);
     }
 
-    /**
-     *
-     * @param moleculeClass
-     * @param numMolecules
-     */
     private void generateMolecules( Class moleculeClass, int numMolecules ) {
         MRModel model = module.getMRModel();
 
@@ -238,10 +223,6 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         }
     }
 
-    /**
-     *
-     * @param editable
-     */
     private void setInitialConditionsEditable( boolean editable ) {
         numATF.setEditable(  editable );
         numBCTF.setEditable( editable );
@@ -288,8 +269,6 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     private void beginExperiment() {
         experimentInProgress = true;
 
-        module.getMRModel().removeAllMolecules();
-
         // User wants to begin an experiment:
         setInitialConditionsEditable( false );
 
@@ -333,11 +312,16 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
                 int moleculeCount = module.getMRModel().countWholeMolecules();
 
                 if (moleculeCount > 0) {
-                   runOnce(new Runnable() {
-                       public void run() {
-                           beginExperiment();
-                       }
-                   }, 1000);
+                    module.getMRModel().removeAllMolecules();
+
+                    runOnce(
+                        new Runnable() {
+                            public void run() {
+                                beginExperiment();
+                            }
+                        },
+                        BEGIN_EXPERIMENT_DELAY_MS
+                    );
                 }
                 else {
                     beginExperiment();

@@ -40,6 +40,8 @@ public class MoleculePopulationsStripChart extends StripChart implements Rescale
     private MoleculeCounter counterC;
     private double updateInterval;
     private double timeSinceLastUpdate;
+    private MoleculePopulationsStripChart.Updater updater;
+    private IClock clock;
 
     /**
      * @param model
@@ -58,6 +60,7 @@ public class MoleculePopulationsStripChart extends StripChart implements Rescale
                                           double updateInterval,
                                           int buffSize ) {
         super( title, seriesNames, xAxisLabel, yAxisLabel, orienation, xAxisRange, minY, maxY, buffSize );
+        this.clock = clock;
 
         getChart().setBackgroundPaint( MRConfig.MOLECULE_PANE_BACKGROUND );
         this.updateInterval = updateInterval;
@@ -78,12 +81,14 @@ public class MoleculePopulationsStripChart extends StripChart implements Rescale
 
         model.addListener(new MRModel.ModelListenerAdapter() {
             public void notifyEnergyProfileChanged( EnergyProfile profile ) {
-                setPaintOfMolecules(profile);
+                setPaintOfMolecules( profile );
             }
         } );
 
         // Hook up to the clock
-        clock.addClockListener( new Updater() );
+        updater = new Updater();
+
+        clock.addClockListener( updater );
     }
 
     private void setPaintOfMolecules( EnergyProfile profile ) {
@@ -105,6 +110,10 @@ public class MoleculePopulationsStripChart extends StripChart implements Rescale
         super.setYRange( 0, (int)( maxCnt * 1.5 ) );
     }
 
+    public void terminate() {
+        clock.removeClockListener( updater );
+    }
+
     /**
      * Updates the chart when the clock ticks
      */
@@ -114,6 +123,8 @@ public class MoleculePopulationsStripChart extends StripChart implements Rescale
             timeSinceLastUpdate += clockEvent.getSimulationTimeChange();
             if( timeSinceLastUpdate > updateInterval ) {
                 timeSinceLastUpdate = 0;
+
+                //System.out.println("Updating data at time = " + clockEvent.getSimulationTime());
 
                 addData( clockEvent.getSimulationTime(),
                          new double[]{counterA.getCnt(),

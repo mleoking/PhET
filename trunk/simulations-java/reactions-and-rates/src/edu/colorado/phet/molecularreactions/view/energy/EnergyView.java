@@ -237,6 +237,24 @@ public class EnergyView extends PNode implements Resetable {
         }
     }
 
+    public void setSeparationViewVisible( boolean visible ) {
+        if ( visible ) {
+            moleculeSeparationCloser.show();
+        }
+        else {
+            moleculeSeparationCloser.hide();
+        }
+    }
+
+    public void setEnergyViewVisible( boolean visible ) {
+        if ( visible ) {
+            curvePaneCloser.show();
+        }
+        else {
+            curvePaneCloser.hide();
+        }
+    }
+
     public void setEnergyLineLabel( String propertyName ) {
         curvePane.setEnergyLineLabel( propertyName );
     }
