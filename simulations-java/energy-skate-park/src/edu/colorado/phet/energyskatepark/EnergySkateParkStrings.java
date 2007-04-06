@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.PhetProjectConfig;
 
 /**
  * User: Sam Reid
@@ -10,11 +10,11 @@ import edu.colorado.phet.common.view.util.SimStrings;
  */
 
 public class EnergySkateParkStrings {
-    public static void init( String[] args, String bundlename ) {
-        SimStrings.getInstance().init( args, bundlename );
-    }
+
+    private static PhetProjectConfig phetProjectConfig = PhetProjectConfig.forProject( "energy-skate-park" );
 
     public static String getString( String s ) {
-        return SimStrings.getInstance().getString( s );
+        return phetProjectConfig.getString( s );
     }
+
 }

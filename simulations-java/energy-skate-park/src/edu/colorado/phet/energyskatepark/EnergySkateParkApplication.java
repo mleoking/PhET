@@ -137,7 +137,7 @@ new EnergySkateParkFrameSetup() );
     public static void mainESP( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
+//                EnergySkateParkStrings.init( args, "localization/EnergySkateParkStrings" );
                 new EC3LookAndFeel().initLookAndFeel();
                 new EnergySkateParkApplication( args ).start();
             }
