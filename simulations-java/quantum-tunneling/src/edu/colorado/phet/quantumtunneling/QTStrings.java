@@ -23,4 +23,8 @@ public class QTStrings {
     public static final int getInt( String name, int defaultValue ) {
         return CONFIG.getInt( name, defaultValue );
     }
+    
+    public static final String getVersion() {
+        return CONFIG.getVersion().toString();
+    }
 }
