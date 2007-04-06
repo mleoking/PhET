@@ -4,6 +4,7 @@ Converted tests to new style.
 Bugfix: running tests with a non-default character, dimensions & character don't match.
 Bugfix: Thrusting while on track with friction enabled causes incorrect energy behavior (total energy is conserved, thermal energy fluctuates)
 Track bumps up on mouse release when beneath ground
+Added energy error indicator
 
 1.05.17 (4-4-2007)
 Added a test case.
