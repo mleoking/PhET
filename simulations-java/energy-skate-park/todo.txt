@@ -7,7 +7,6 @@
 • Other feedback on characters?
 • When running tests with a non-default character, dimensions & character don't match.
 • Is skater location correctly preserved on serialization?
-• Convert tests to new style.
 • Energy conservation (wait until we see visible problem)
 • Add energy conservation indicator (cumulative percent error, number of timesteps that had error), clear button
 • In the default setup, when the simulation starts or when the user presses "return skater", the skater falls a few feet onto the track and loses some energy to thermal.  This was confusing for Trish's students, who weren't ready to be exposed to friction-based features.  What should be done about this?
