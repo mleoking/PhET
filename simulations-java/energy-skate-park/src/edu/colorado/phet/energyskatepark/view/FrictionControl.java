@@ -35,7 +35,7 @@ public class FrictionControl extends VerticalLayoutPanel {
         } );
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
-                if( module.getEnergySkateParkModel().numBodies() > 0 ) {
+                if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
                     modelSlider.setValue( module.getEnergySkateParkModel().bodyAt( 0 ).getFrictionCoefficient() );
                 }
             }

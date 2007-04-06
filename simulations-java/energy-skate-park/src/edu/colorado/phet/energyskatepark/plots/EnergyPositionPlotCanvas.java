@@ -233,7 +233,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         if( !isActive() ) {
             return;
         }
-        if( module.getEnergySkateParkModel().numBodies() > 0 ) {
+        if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
             Body body = module.getEnergySkateParkModel().bodyAt( 0 );
             double x = toImageLocation( body.getX(), 0 ).getX();
             verticalBar.setPathTo( new Line2D.Double( x, 0, x, getHeight() ) );

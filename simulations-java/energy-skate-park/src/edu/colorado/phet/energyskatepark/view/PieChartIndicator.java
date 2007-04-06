@@ -79,7 +79,7 @@ public class PieChartIndicator extends PNode {
     }
 
     private PieChartNode.PieValue[] createPieValues() {
-        if( module.getEnergySkateParkModel().numBodies() > 0 ) {
+        if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
             Body body = module.getEnergySkateParkModel().bodyAt( 0 );
             double ke = body.getKineticEnergy();
             double pe = Math.abs( body.getPotentialEnergy() );

@@ -43,7 +43,7 @@ public class EnergyTimePlotCanvas extends PhetPCanvas {
         heatSeries = new TimeSeriesPNode( plot, new ValueAccessor( "Thermal", "Thermal", "Joules", "J", ec3Module.getEnergyLookAndFeel().getThermalEnergyColor(), "Thermal Energy" ) {
             public double getValue( Object model ) {
 //                return ec3Module.getEnergySkateParkModel().getThermalEnergy();
-                if( ec3Module.getEnergySkateParkModel().numBodies() > 0 ) {
+                if( ec3Module.getEnergySkateParkModel().getNumBodies() > 0 ) {
                     Body body = ec3Module.getEnergySkateParkModel().bodyAt( 0 );
                     return body.getThermalEnergy();
                 }
@@ -57,7 +57,7 @@ public class EnergyTimePlotCanvas extends PhetPCanvas {
 
         keSeries = new TimeSeriesPNode( plot, new ValueAccessor( "KE", "KE", "Joules", "J", ec3Module.getEnergyLookAndFeel().getKEColor(), "Kinetic Energy" ) {
             public double getValue( Object model ) {
-                if( ec3Module.getEnergySkateParkModel().numBodies() > 0 ) {
+                if( ec3Module.getEnergySkateParkModel().getNumBodies() > 0 ) {
                     Body body = ec3Module.getEnergySkateParkModel().bodyAt( 0 );
                     return body.getKineticEnergy();
                 }
@@ -71,7 +71,7 @@ public class EnergyTimePlotCanvas extends PhetPCanvas {
 
         peSeries = new TimeSeriesPNode( plot, new ValueAccessor( "PE", "PE", "Joules", "J", ec3Module.getEnergyLookAndFeel().getPEColor(), "Potential Energy" ) {
             public double getValue( Object model ) {
-                if( ec3Module.getEnergySkateParkModel().numBodies() > 0 ) {
+                if( ec3Module.getEnergySkateParkModel().getNumBodies() > 0 ) {
                     Body body = ec3Module.getEnergySkateParkModel().bodyAt( 0 );
                     return body.getPotentialEnergy();
                 }
