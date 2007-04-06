@@ -156,7 +156,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void resetSkater() {
         if( getEnergySkateParkModel().getNumBodies() > 0 ) {
-            Body body = getEnergySkateParkModel().bodyAt( 0 );
+            Body body = getEnergySkateParkModel().getBody( 0 );
             resetSkater( body );
         }
     }
@@ -235,7 +235,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void setCoefficientOfFriction( double value ) {
         for( int i = 0; i < getEnergySkateParkModel().getNumBodies(); i++ ) {
-            Body body = getEnergySkateParkModel().bodyAt( i );
+            Body body = getEnergySkateParkModel().getBody( i );
             body.setFrictionCoefficient( value );
         }
     }
@@ -252,7 +252,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     public void setBounciness( double bounciness ) {
         EnergySkateParkModel model = getEnergySkateParkModel();
         for( int i = 0; i < model.getNumBodies(); i++ ) {
-            Body b = model.bodyAt( i );
+            Body b = model.getBody( i );
             b.setBounciness( bounciness );
         }
     }

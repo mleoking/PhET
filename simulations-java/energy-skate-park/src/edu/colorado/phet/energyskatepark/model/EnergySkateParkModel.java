@@ -129,9 +129,10 @@ public class EnergySkateParkModel {
     }
 
     public void removeBody( int i ) {
-        Body body = bodyAt( i );
+        Body body = getBody( i );
         body.removeListener( energyListener );
         bodies.remove( i );
+        notifyBodiesChanged();
     }
 
     public void updateFloorState() {
@@ -174,7 +175,7 @@ public class EnergySkateParkModel {
         bodies.clear();
         splines.clear();
         for( int i = 0; i < model.bodies.size(); i++ ) {
-            bodies.add( model.bodyAt( i ).copyState() );
+            bodies.add( model.getBody( i ).copyState() );
         }
         for( int i = 0; i < model.splines.size(); i++ ) {
             splines.add( model.getSpline( i ).copy() );
@@ -209,7 +210,7 @@ public class EnergySkateParkModel {
     public void stepInTime( double dt ) {
         time += dt;
         if( recordPath && getNumBodies() > 0 && timeSinceLastHistory() > 0.1 ) {
-            history.add( new HistoryPoint( getTime(), bodyAt( 0 ) ) );
+            history.add( new HistoryPoint( getTime(), getBody( 0 ) ) );
         }
         if( history.size() > maxNumHistoryPoints ) {
             history.remove( 0 );
@@ -260,13 +261,21 @@ public class EnergySkateParkModel {
             zeroPointPotentialY = 0;
             initZeroPointPotentialY = zeroPointPotentialY;
         }
+        notifyBodiesChanged();
+    }
+
+    private void notifyBodiesChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+            energyModelListener.bodiesChanged();
+        }
     }
 
     public int getNumBodies() {
         return bodies.size();
     }
 
-    public Body bodyAt( int i ) {
+    public Body getBody( int i ) {
         return (Body)bodies.get( i );
     }
 
@@ -350,6 +359,9 @@ public class EnergySkateParkModel {
         public void bodyEnergyChanged() {
         }
 
+        public void bodiesChanged() {
+        }
+
     }
 
     public static interface EnergyModelListener {
@@ -364,6 +376,8 @@ public class EnergySkateParkModel {
         void stepFinished();
 
         void bodyEnergyChanged();
+
+        void bodiesChanged();
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {

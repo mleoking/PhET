@@ -234,7 +234,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
             return;
         }
         if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
-            Body body = module.getEnergySkateParkModel().bodyAt( 0 );
+            Body body = module.getEnergySkateParkModel().getBody( 0 );
             double x = toImageLocation( body.getX(), 0 ).getX();
             verticalBar.setPathTo( new Line2D.Double( x, 0, x, getHeight() ) );
 
@@ -358,7 +358,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         public abstract double getValue();
 
         public Body getBody() {
-            return module.getEnergySkateParkModel().bodyAt( 0 );
+            return module.getEnergySkateParkModel().getBody( 0 );
         }
 
         public EnergySkateParkModel getModel() {

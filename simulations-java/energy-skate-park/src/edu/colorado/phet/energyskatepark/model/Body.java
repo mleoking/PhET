@@ -39,10 +39,8 @@ public class Body {
     private EnergySkateParkModel energySkateParkModel;
     private static ArrayList particles = new ArrayList();
     private static double staticSticky = 0.75;
-
-//    public Body( EnergySkateParkModel model ) {
-//        this( 1.3, 1.8, model );
-//    }
+    private int errorCount = 0;
+    private double fractionalEnergyError = 0.0;
 
     public Body( double width, double height, EnergySkateParkModel energySkateParkModel ) {
         this.energySkateParkModel = energySkateParkModel;
@@ -133,7 +131,7 @@ public class Body {
     }
 
     public void stepInTime( double dt ) {
-        Body orig = copyState();
+        double origEnergy = getTotalEnergy();
         particle.stepInTime( dt );
 
         updateStateFromParticle();
@@ -141,6 +139,24 @@ public class Body {
             Listener listener = (Listener)listeners.get( i );
             listener.stepFinished();
         }
+        double err = Math.abs( origEnergy - getTotalEnergy() );
+        if( err > 1E-5 && getThrust().getMagnitude() == 0 && !isUserControlled()&&!isSplineUserControlled() ) {
+            System.out.println( "err = " + err );
+            errorCount++;
+            fractionalEnergyError += err / Math.abs( origEnergy );
+        }
+    }
+
+    private boolean isSplineUserControlled() {
+        return particle.isSplineUserControlled();
+    }
+
+    public int getErrorCount() {
+        return errorCount;
+    }
+
+    public double getFractionalEnergyError() {
+        return fractionalEnergyError;
     }
 
     private void updateStateFromParticle() {
@@ -390,6 +406,11 @@ public class Body {
         }
     }
 
+    public void clearEnergyError() {
+        errorCount = 0;
+        fractionalEnergyError = 0;
+    }
+
     public static interface Listener {
         void thrustChanged();
 
@@ -404,11 +425,9 @@ public class Body {
 
     public static class ListenerAdapter implements Listener {
         public void thrustChanged() {
-
         }
 
         public void doRepaint() {
-
         }
 
         public void stepFinished() {

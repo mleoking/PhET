@@ -41,7 +41,7 @@ public abstract class ValueAccessor {
             if( rampPhysicalModel.getNumBodies() == 0 ) {
                 return 0;
             }
-            return rampPhysicalModel.bodyAt( 0 ).getKineticEnergy();
+            return rampPhysicalModel.getBody( 0 ).getKineticEnergy();
         }
     }
 
@@ -54,8 +54,8 @@ public abstract class ValueAccessor {
             if( rampPhysicalModel.getNumBodies() == 0 ) {
                 return 0;
             }
-            return rampPhysicalModel.bodyAt( 0 ).getPotentialEnergy();
-//            return rampPhysicalModel.getPotentialEnergy( rampPhysicalModel.bodyAt( 0 ) );
+            return rampPhysicalModel.getBody( 0 ).getPotentialEnergy();
+//            return rampPhysicalModel.getPotentialEnergy( rampPhysicalModel.getBody( 0 ) );
         }
     }
 
@@ -68,8 +68,8 @@ public abstract class ValueAccessor {
             if( rampPhysicalModel.getNumBodies() == 0 ) {
                 return 0;
             }
-            return rampPhysicalModel.bodyAt( 0 ).getTotalEnergy();
-//            return rampPhysicalModel.getPotentialEnergy( rampPhysicalModel.bodyAt( 0 ) ) + rampPhysicalModel.bodyAt( 0 ).getKineticEnergy() + rampPhysicalModel.getThermalEnergy();
+            return rampPhysicalModel.getBody( 0 ).getTotalEnergy();
+//            return rampPhysicalModel.getPotentialEnergy( rampPhysicalModel.getBody( 0 ) ) + rampPhysicalModel.getBody( 0 ).getKineticEnergy() + rampPhysicalModel.getThermalEnergy();
         }
     }
 
@@ -82,7 +82,7 @@ public abstract class ValueAccessor {
             if( rampPhysicalModel.getNumBodies() == 0 ) {
                 return 0;
             }
-            return rampPhysicalModel.bodyAt( 0 ).getThermalEnergy();
+            return rampPhysicalModel.getBody( 0 ).getThermalEnergy();
 //            return rampPhysicalModel.getThermalEnergy();
         }
     }

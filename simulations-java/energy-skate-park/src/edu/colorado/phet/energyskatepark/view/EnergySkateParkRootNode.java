@@ -14,6 +14,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.Point2D;
@@ -53,6 +54,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private GridNode gridNode;
     private PanZoomOnscreenControl panZoomControls;
     private SkaterCharacter skaterCharacter;
+    private EnergyErrorIndicator energyErrorIndicator;
 
     public EnergySkateParkRootNode( final EnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
         this.module = module;
@@ -136,6 +138,24 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 //        PDebug.debugRegionManagement=true;
 //        PDebug.debugBounds=true;
 //        PDebug.debugPaintCalls=true;
+
+        energyErrorIndicator = new EnergyErrorIndicator( module.getEnergySkateParkModel() );
+        addScreenChild( energyErrorIndicator );
+        simulationPanel.addComponentListener( new ComponentAdapter() {
+            public void componentShown( ComponentEvent e ) {
+                updateEnergyIndicator();
+            }
+
+            public void componentResized( ComponentEvent e ) {
+                updateEnergyIndicator();
+            }
+        } );
+    }
+
+    private void updateEnergyIndicator() {
+        double insetX = 20;
+        double insetY = 20;
+        energyErrorIndicator.setOffset( insetX, simulationPanel.getHeight() - insetY - energyErrorIndicator.getFullBounds().getHeight() );
     }
 
     private void addClouds() {
@@ -317,13 +337,13 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void updateBodies() {
         while( numBodyGraphics() < getModel().getNumBodies() ) {
-            addBodyGraphic( new SkaterNode( module, getModel().bodyAt( 0 ) ) );
+            addBodyGraphic( new SkaterNode( module, getModel().getBody( 0 ) ) );
         }
         while( numBodyGraphics() > getModel().getNumBodies() ) {
             removeBodyGraphic( bodyGraphicAt( numBodyGraphics() - 1 ) );
         }
         for( int i = 0; i < getModel().getNumBodies(); i++ ) {
-            bodyGraphicAt( i ).setBody( getModel().bodyAt( i ) );
+            bodyGraphicAt( i ).setBody( getModel().getBody( i ) );
         }
     }
 
