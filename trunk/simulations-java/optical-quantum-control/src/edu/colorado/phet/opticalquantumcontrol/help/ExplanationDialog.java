@@ -19,8 +19,8 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCStrings;
 
 
 /**
@@ -44,7 +44,6 @@ public class ExplanationDialog extends JDialog {
     private static final Color BUBBLE_ARROW_COLOR = BUBBLE_COLOR;
     private static final Color BUBBLE_TEXT_COLOR = Color.BLACK;
     private static final Color TEXT_COLOR = Color.BLACK;
-    private static final int DEFAULT_TEXT_SIZE = 12;
     
     /* Space for the "Java Application Window" label that Web Start puts on the bottom of dialogs. */
     private static final int JAVA_APP_WINDOW_HEIGHT = 50;
@@ -60,7 +59,7 @@ public class ExplanationDialog extends JDialog {
      */
     public ExplanationDialog( Frame owner ) {
         super( owner, false /* nonmodal */ );
-        setTitle( SimStrings.getInstance().getString( "ExplanationDialog.title" ) );
+        setTitle( OQCStrings.EXPLANATION_TITLE );
         setResizable( false );
         
         ApparatusPanel apparatusPanel = new ApparatusPanel();
@@ -75,40 +74,31 @@ public class ExplanationDialog extends JDialog {
             picture.addGraphic( image );
 
             // Mask bubble
-            HelpBubble maskBubble = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "ExplanationDialog.mask" ) );
+            HelpBubble maskBubble = new HelpBubble( apparatusPanel, OQCStrings.EXPLANATION_MASK );
             maskBubble.setColors( BUBBLE_TEXT_COLOR, BUBBLE_COLOR, BUBBLE_ARROW_COLOR );
             maskBubble.pointAt( new Point( 100, 175 ), HelpBubble.LEFT_CENTER, 40 );
             picture.addGraphic( maskBubble );
 
             // Mirror bubble
-            HelpBubble mirrorBubble = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "ExplanationDialog.mirror" ) );
+            HelpBubble mirrorBubble = new HelpBubble( apparatusPanel, OQCStrings.EXPLANATION_MIRROR );
             mirrorBubble.setColors( BUBBLE_TEXT_COLOR, BUBBLE_COLOR, BUBBLE_ARROW_COLOR );
             mirrorBubble.pointAt( new Point( 605, 205 ), HelpBubble.RIGHT_CENTER, 50 );
             picture.addGraphic( mirrorBubble );
 
             // Diffraction Grating bubble
-            HelpBubble gratingBubble = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "ExplanationDialog.grating" ) );
+            HelpBubble gratingBubble = new HelpBubble( apparatusPanel, OQCStrings.EXPLANATION_GRATING );
             gratingBubble.setColors( BUBBLE_TEXT_COLOR, BUBBLE_COLOR, BUBBLE_ARROW_COLOR );
             gratingBubble.pointAt( new Point( 320, 420 ), HelpBubble.RIGHT_BOTTOM, 40 );
             picture.addGraphic( gratingBubble );
         }
         
         // Text explanation
-        int fontSize = DEFAULT_TEXT_SIZE;
-        String sFontSize = SimStrings.getInstance().getString( "ExplanationDialog.fontSize" ); // you can control font size in SimStrings file!
-        if ( sFontSize != null ) {
-            try {
-                fontSize = Integer.parseInt( sFontSize );
-            }
-            catch ( NumberFormatException nfe ) {
-                fontSize = DEFAULT_TEXT_SIZE;
-            }
-        }
+        int fontSize = OQCConstants.EXPLANATION_FONT_SIZE;
         HTMLGraphic text = new HTMLGraphic( apparatusPanel );
         text.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         text.setFont( new Font( "Lucida Sans", Font.PLAIN, fontSize ) );
         text.setColor( TEXT_COLOR );
-        text.setHTML( SimStrings.getInstance().getString( "ExplanationDialog.text" ) );
+        text.setHTML( OQCStrings.EXPLANATION_TEXT );
         
         // Layout
         picture.setRegistrationPoint( picture.getWidth()/2, 0 ); // top center

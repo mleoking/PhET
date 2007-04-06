@@ -23,8 +23,8 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCStrings;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 
 
@@ -81,7 +81,7 @@ public class CheatPanel extends GraphicLayerSet implements SimpleObserver {
         titleGraphic.setIgnoreMouse( true );
         titleGraphic.setColor( Color.BLACK );
         titleGraphic.setFont( TITLE_FONT );
-        titleGraphic.setHTML( SimStrings.getInstance().getString( "CheatDialog.label" ) );
+        titleGraphic.setHTML( OQCStrings.CHEAT_DIALOG_LABEL );
         titleGraphic.setLocation( 35, 5 );
         addGraphic( titleGraphic );
         

@@ -16,7 +16,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 

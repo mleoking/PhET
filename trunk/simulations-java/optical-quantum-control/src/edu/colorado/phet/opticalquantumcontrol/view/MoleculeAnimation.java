@@ -14,6 +14,7 @@ package edu.colorado.phet.opticalquantumcontrol.view;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
 import java.util.Random;
 
@@ -27,8 +28,8 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCStrings;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;
 
@@ -206,7 +207,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _closenessGraphic = new HTMLGraphic( component );
         _closenessGraphic.setColor( Color.BLACK );
         _closenessGraphic.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
-        _closenessFormat = SimStrings.getInstance().getString( "closenessReadout" );
+        _closenessFormat = OQCStrings.CLOSENESS_READOUT;
         Object[] args = { "-000" };
         String text = MessageFormat.format( _closenessFormat, args );
         _closenessGraphic.setHTML( text );
@@ -276,12 +277,12 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
      * @param index
      */
     public void setMolecule( int index ) {
-        String part1 = OQCConstants.IMAGES_DIRECTORY + "molecule" + index + "_part1.png";
-        String part2 = OQCConstants.IMAGES_DIRECTORY + "molecule" + index + "_part2.png";
-        String part3 = OQCConstants.IMAGES_DIRECTORY + "molecule" + index + "_part3.png";
-        _moleculePart1.setImageResourceName( part1 );
-        _moleculePart2.setImageResourceName( part2 );
-        _moleculePart3.setImageResourceName( part3 );
+        BufferedImage image1 = OQCConstants.CONFIG.getImage( "molecule" + index + "_part1.png" );
+        BufferedImage image2 = OQCConstants.CONFIG.getImage( "molecule" + index + "_part2.png" );
+        BufferedImage image3 = OQCConstants.CONFIG.getImage( "molecule" + index + "_part3.png" );
+        _moleculePart1.setImage( image1 );
+        _moleculePart2.setImage( image2 );
+        _moleculePart3.setImage( image3 );
     }
     
     /**
@@ -356,7 +357,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
             }
             else {
                 // Are we still visible in the apparatus panel?
-                if ( Math.abs( _moleculePart1.getX() ) > 2 * OQCConstants.APP_FRAME_WIDTH && Math.abs( _moleculePart1.getY() ) > 2 * OQCConstants.APP_FRAME_HEIGHT ) {
+                if ( Math.abs( _moleculePart1.getX() ) > 2 * OQCConstants.FRAME_WIDTH && Math.abs( _moleculePart1.getY() ) > 2 * OQCConstants.FRAME_HEIGHT ) {
                     _animationDone = true; // animation is done
                     gameOver();
                 }
@@ -405,8 +406,8 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
 
         // Tell the user they won.
         JFrame frame = PhetApplication.instance().getPhetFrame();
-        String title = SimStrings.getInstance().getString( "WinDialog.title" );
-        String message = SimStrings.getInstance().getString( "WinDialog.message" );
+        String message = OQCStrings.WIN_DIALOG_MESSAGE;
+        String title = OQCStrings.WIN_DIALOG_TITLE;
         JOptionPane.showMessageDialog( frame, message, title, JOptionPane.PLAIN_MESSAGE );
 
         // Start a new "game".

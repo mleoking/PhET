@@ -14,13 +14,13 @@ click on "Setup & Troubleshooting" for more
 information.
 
 -->
-<!-- JNLP File for PhET "Optical Quantum Control" simulation --> 
+<!-- Spanish (es) JNLP File for PhET "Optical Quantum Control" simulation --> 
 <jnlp
   spec="1.0+" 
   codebase="http://www.colorado.edu/physics/phet/simulations/"
   href="optical-quantum-control/optical-quantum-control_es.jnlp"> 
   <information> 
-    <title>Control îptico De Quantum</title> 
+    <title>Control Optico De Quantum</title> 
     <vendor>Universidad de Colorado, Departamento de la Fisica</vendor> 
     <homepage href="docs/help.html"/> 
     <icon href="icons/PhET.gif"/> 
@@ -30,8 +30,7 @@ information.
   <resources> 
     <j2se version="1.4+"/> 
     <jar href="optical-quantum-control/opticalquantumcontrol.jar"/>
+    <property name="javaws.locale" value="es"/>
   </resources> 
-  <application-desc main-class="edu.colorado.phet.opticalquantumcontrol.OQCApplication">
-    <argument>user.language=es</argument>
-  </application-desc> 
+  <application-desc main-class="edu.colorado.phet.opticalquantumcontrol.OQCApplication"/>
 </jnlp> 

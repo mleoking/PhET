@@ -18,8 +18,8 @@ import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
+import edu.colorado.phet.opticalquantumcontrol.OQCStrings;
 import edu.colorado.phet.opticalquantumcontrol.charts.FourierSumPlot;
 import edu.colorado.phet.opticalquantumcontrol.charts.PulseChart;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
@@ -97,7 +97,7 @@ public class InputPulseView extends GraphicLayerSet {
         addGraphic( lightSpigot, SPIGOT_LAYER );
 
         // Title
-        String title = SimStrings.getInstance().getString( "InputPulseView.title" );
+        String title = OQCStrings.INPUT_PULSE;
         HTMLGraphic titleGraphic = new HTMLGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         titleGraphic.setRegistrationPoint( titleGraphic.getWidth()/2, 0 );
         titleGraphic.setLocation( BACKGROUND_SIZE.width / 2, 5 );

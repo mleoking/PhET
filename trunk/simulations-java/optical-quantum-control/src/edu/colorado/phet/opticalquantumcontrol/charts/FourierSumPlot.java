@@ -18,7 +18,6 @@ import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.LinePlot;
 import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.common.math.TrigCache;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 import edu.colorado.phet.opticalquantumcontrol.model.Harmonic;
