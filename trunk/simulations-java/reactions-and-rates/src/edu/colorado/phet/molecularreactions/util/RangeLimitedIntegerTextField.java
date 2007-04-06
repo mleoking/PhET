@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.molecularreactions.util;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.MRConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -68,7 +68,7 @@ public class RangeLimitedIntegerTextField extends JTextField {
         private void resetValue() {
             setText( new Integer( RangeLimitedIntegerTextField.this.maxValue ).toString() );
             JOptionPane.showMessageDialog( RangeLimitedIntegerTextField.this,
-                                           SimStrings.getInstance().getString( "Util.maxValueExceeded" ) );
+                                           MRConfig.CONFIG.getString( "Util.maxValueExceeded" ) );
             requestFocus();
         }
     }

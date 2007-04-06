@@ -12,7 +12,6 @@ package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.clock.StopwatchPanel;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 import edu.colorado.phet.molecularreactions.model.MRModel;
@@ -54,7 +53,7 @@ public class ComplexModule extends MRModule {
      *
      */
     public ComplexModule() {
-        this( SimStrings.getInstance().getString( "Module.complexModuleTitle" ) );
+        this( MRConfig.CONFIG.getString( "Module.complexModuleTitle" ) );
     }
 
     /**

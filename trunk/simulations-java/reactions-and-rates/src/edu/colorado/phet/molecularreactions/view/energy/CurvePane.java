@@ -1,7 +1,6 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.molecularreactions.view.energy;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.model.MRModel;
@@ -85,7 +84,7 @@ public class CurvePane extends PPath {
         cursorLayer.addChild( energyCursor );
 
         // Add axes
-        PNode xAxis = new AxisNode( SimStrings.getInstance().getString( "EnergyView.ReactionCoordinate" ),
+        PNode xAxis = new AxisNode( MRConfig.CONFIG.getString( "EnergyView.ReactionCoordinate" ),
                                                                        curveAreaSize.getWidth(),
                                                                        MRConfig.ENERGY_PANE_TEXT_COLOR,
                                                                        AxisNode.HORIZONTAL,

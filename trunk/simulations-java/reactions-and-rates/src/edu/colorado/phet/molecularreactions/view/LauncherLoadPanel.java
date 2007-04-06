@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.SimpleModule;
@@ -51,7 +50,7 @@ public class LauncherLoadPanel extends JPanel {
         } );
         updateIcons();
 
-        setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "Control.launcherType" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.CONFIG.getString( "Control.launcherType" ) ) );
         setBackground( MRConfig.SPATIAL_VIEW_BACKGROUND );
 
         ButtonGroup bg = new ButtonGroup();

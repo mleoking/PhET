@@ -142,7 +142,7 @@ public class EnergyView extends PNode implements Resetable {
 
     private void addUpperPaneCloser() {
         if ( moleculeSeparationCloser == null) {
-            moleculeSeparationCloser = new PNodeShowHideControl( moleculeSeparationPane, "SeparationView.restoreViewName" );
+            moleculeSeparationCloser = new PNodeShowHideControl( moleculeSeparationPane, MRConfig.CONFIG.getString( "SeparationView.restoreViewName" ) );
         }
     }
 
@@ -176,7 +176,7 @@ public class EnergyView extends PNode implements Resetable {
 
     private void enableCurvePaneCloser() {
         if (curvePaneCloser == null) {
-            curvePaneCloser = new PNodeShowHideControl( curvePane, "EnergyView.restoreViewName" );
+            curvePaneCloser = new PNodeShowHideControl( curvePane, MRConfig.CONFIG.getString( "EnergyView.restoreViewName" ) );
         }
     }
 

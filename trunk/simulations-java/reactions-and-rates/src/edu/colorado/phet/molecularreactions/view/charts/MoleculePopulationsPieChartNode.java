@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.molecularreactions.view.charts;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.ComplexModule;
@@ -55,7 +54,7 @@ public class MoleculePopulationsPieChartNode extends PNode {
         pieChart.setOffset( -bounds.getWidth() / 6, 0 );
 
         // Title
-        PText title = new PText( SimStrings.getInstance().getString( "StripChart.title"));
+        PText title = new PText( MRConfig.CONFIG.getString( "StripChart.title"));
         title.setFont( MRConfig.CHART_TITLE_FONT );
         addChild( title );
         double x = bounds.getWidth() - title.getFullBounds().getWidth() - 20;

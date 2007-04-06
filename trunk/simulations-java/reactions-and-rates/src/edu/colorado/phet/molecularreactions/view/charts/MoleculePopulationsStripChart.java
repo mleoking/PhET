@@ -13,7 +13,6 @@ package edu.colorado.phet.molecularreactions.view.charts;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.view.MoleculePaints;
@@ -28,10 +27,10 @@ import java.awt.*;
  * @version $Revision$
  */
 public class MoleculePopulationsStripChart extends StripChart implements Rescaleable {
-    static String title = SimStrings.getInstance().getString( "StripChart.title" );
+    static String title = MRConfig.CONFIG.getString( "StripChart.title" );
     static String[] seriesNames = new String[]{"A", "BC", "AB", "C"};
-    static String xAxisLabel = SimStrings.getInstance().getString( "StripChart.time" );
-    static String yAxisLabel = SimStrings.getInstance().getString( "StripChart.num" );
+    static String xAxisLabel = MRConfig.CONFIG.getString( "StripChart.time" );
+    static String yAxisLabel = MRConfig.CONFIG.getString( "StripChart.num" );
     static PlotOrientation orienation = PlotOrientation.VERTICAL;
 
     private MoleculeCounter counterA;

@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.molecularreactions.modules;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.molecularreactions.MRConfig;
 
 /**
  * RateExperimentsModule
@@ -27,7 +27,7 @@ public class RateExperimentsModule extends ComplexModule {
      *
      */
     public RateExperimentsModule() {
-        super( SimStrings.getInstance().getString( "Module.RateExperimentsModuleTitle" ) );
+        super( MRConfig.CONFIG.getString( "Module.RateExperimentsModuleTitle" ) );
     }
 
     protected MRControlPanel createControlPanel() {

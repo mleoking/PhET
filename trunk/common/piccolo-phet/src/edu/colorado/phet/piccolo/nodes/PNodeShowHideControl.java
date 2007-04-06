@@ -2,7 +2,6 @@
 package edu.colorado.phet.piccolo.nodes;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -58,13 +57,13 @@ public class PNodeShowHideControl {
      * Constructs a new show/hide control.
      *
      * @param parent            The parent, whose children will be hidden/shown.
-     * @param restoreButtonName The property of the string to associate with showing the children.
+     * @param restoreButtonName The string to associate with showing the children.
      */
     public PNodeShowHideControl( PNode parent, String restoreButtonName ) {
         this.parent             = parent;
         this.showHideButton     = new JButton();
         this.showHideButtonNode = new PSwing( showHideButton );
-        this.restoreLabelNode   = new PSwing( new JLabel( SimStrings.getInstance().getString( restoreButtonName ) ) );
+        this.restoreLabelNode   = new PSwing( new JLabel( restoreButtonName ) );
 
         initButton();
 

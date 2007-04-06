@@ -2,7 +2,6 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.molecularreactions.MRConfig;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.util.Dictionary;
@@ -16,8 +15,8 @@ public class InitialTemperatureSlider extends JSlider {
     private static final Dictionary LABEL_TABLE = new Hashtable();
 
     static {
-        LABEL_TABLE.put(new Integer(MIN), new JLabel( SimStrings.getInstance().getString("InitialTemperature.label.min") ) );
-        LABEL_TABLE.put(new Integer(MAX), new JLabel( SimStrings.getInstance().getString("InitialTemperature.label.max") ) );
+        LABEL_TABLE.put(new Integer(MIN), new JLabel( MRConfig.CONFIG.getString("InitialTemperature.label.min") ) );
+        LABEL_TABLE.put(new Integer(MAX), new JLabel( MRConfig.CONFIG.getString("InitialTemperature.label.max") ) );
     }
 
     public InitialTemperatureSlider() {

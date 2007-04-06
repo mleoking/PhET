@@ -12,7 +12,6 @@ package edu.colorado.phet.molecularreactions;
 
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.modules.RateExperimentsModule;
 import edu.colorado.phet.molecularreactions.modules.SimpleModule;
@@ -46,7 +45,6 @@ public class MRApplication extends PiccoloPhetApplication {
             public void run() {
 
                 // Standard initializations
-                SimStrings.getInstance().init( args, MRConfig.LOCALIZATION_BUNDLE );
                 PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
                 phetLookAndFeel.setFont( MRConfig.CONTROL_FONT );
                 phetLookAndFeel.setTitledBorderFont( MRConfig.CONTROL_FONT );

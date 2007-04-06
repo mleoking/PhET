@@ -13,7 +13,6 @@ package edu.colorado.phet.molecularreactions.view.energy;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
@@ -65,7 +64,7 @@ public class EnergyLine extends PNode {
 
         Font defaultFont = MRConfig.LABEL_FONT;
         Font labelFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
-        totalEnergyLegend = new PText( SimStrings.getInstance().getString( "EnergyView.Legend.totalEnergy" ) );
+        totalEnergyLegend = new PText( MRConfig.CONFIG.getString( "EnergyView.Legend.totalEnergy" ) );
         totalEnergyLegend.setFont( labelFont );
         totalEnergyLegend.setTextPaint( MRConfig.TOTAL_ENERGY_COLOR );
         addChild( totalEnergyLegend );
@@ -110,6 +109,6 @@ public class EnergyLine extends PNode {
     }
 
     public void setLabel( String propertyName ) {
-        totalEnergyLegend.setText( SimStrings.getInstance().getString( propertyName ) );
+        totalEnergyLegend.setText( MRConfig.CONFIG.getString( propertyName ) );
     }
 }
