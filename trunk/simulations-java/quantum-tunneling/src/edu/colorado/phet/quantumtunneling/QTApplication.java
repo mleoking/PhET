@@ -173,7 +173,7 @@ public class QTApplication extends PhetApplication {
         
         QTGlobalConfig config = appConfig.getGlobalConfig();
         
-        config.setVersionNumber( QTConstants.CONFIG.getVersion().toString() );
+        config.setVersionNumber( QTStrings.getVersion() );
         
         // Color scheme
         config.setColorSchemeName( _colorSchemeMenu.getColorSchemeName() );
