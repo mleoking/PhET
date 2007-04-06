@@ -1,4 +1,3 @@
-• Thrusting while on track with friction enabled causes incorrect energy behavior (total energy is conserved, thermal energy fluctuates)
 • Performance problems after lots of runs
 • Playback/record (depends on correct data structure copying which needs to be implemented and tested)
 • Track should bump up when beneath ground

@@ -3,8 +3,8 @@ package edu.colorado.phet.energyskatepark.model.physics;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.energyskatepark.model.TrackWithFriction;
+import edu.colorado.phet.energyskatepark.model.TraversalState;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -495,27 +495,27 @@ public class Particle1D {
             if( getTotalFriction() > 0 ) {
                 if( ( Double.isNaN( getFrictionForce().getMagnitude() ) ) ) { throw new IllegalArgumentException();}
                 double therm = getFrictionForce().getMagnitude() * getLocation().distance( origLoc );
-//                System.out.println( "therm = " + therm );
                 thermalEnergy += therm;
-                if( getEnergy() < origEnergy ) {
-                    thermalEnergy += Math.abs( getEnergy() - origEnergy );//add some thermal to exactly match
-                    if( Math.abs( getEnergy() - origEnergy ) > 1E-6 ) {
-                        System.out.println( "Added thermal, dE=" + ( getEnergy() - origEnergy ) );
-                    }
-                }
-                if( getEnergy() > origEnergy ) {
-                    if( Math.abs( getEnergy() - origEnergy ) < therm ) {
-                        System.out.println( "gained energy, removing thermal (Would have to remove more than we gained)" );
-                    }
-                    else {
-                        double editThermal = Math.abs( getEnergy() - origEnergy );
-                        thermalEnergy -= editThermal;
+                if( getThrust().getMagnitude() == 0 ) {//only conserve energy if the user is not adding energy
+                    if( getEnergy() < origEnergy ) {
+                        thermalEnergy += Math.abs( getEnergy() - origEnergy );//add some thermal to exactly match
                         if( Math.abs( getEnergy() - origEnergy ) > 1E-6 ) {
-                            System.out.println( "Removed thermal, dE=" + ( getEnergy() - origEnergy ) );
+                            System.out.println( "Added thermal, dE=" + ( getEnergy() - origEnergy ) );
+                        }
+                    }
+                    if( getEnergy() > origEnergy ) {
+                        if( Math.abs( getEnergy() - origEnergy ) < therm ) {
+                            System.out.println( "gained energy, removing thermal (Would have to remove more than we gained)" );
+                        }
+                        else {
+                            double editThermal = Math.abs( getEnergy() - origEnergy );
+                            thermalEnergy -= editThermal;
+                            if( Math.abs( getEnergy() - origEnergy ) > 1E-6 ) {
+                                System.out.println( "Removed thermal, dE=" + ( getEnergy() - origEnergy ) );
+                            }
                         }
                     }
                 }
-
             }
             if( ( Double.isNaN( getKineticEnergy() ) ) ) { throw new IllegalArgumentException();}
             if( ( Double.isInfinite( getKineticEnergy() ) ) ) { throw new IllegalArgumentException();}
