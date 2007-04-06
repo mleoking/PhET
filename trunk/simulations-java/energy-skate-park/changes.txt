@@ -1,6 +1,7 @@
 1.05.18
 Wired up bounciness control
 Converted tests to new style.
+Bugfix: running tests with a non-default character, dimensions & character don't match.
 
 1.05.17 (4-4-2007)
 Added a test case.

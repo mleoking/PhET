@@ -326,6 +326,10 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     private ArrayList listeners = new ArrayList();
 
+    public SkaterCharacter getDefaultSkaterCharacter() {
+        return skaterCharacterSet.getSkaterCharacters()[0];
+    }
+
     public static interface Listener {
         void skaterCharacterChanged();
     }
