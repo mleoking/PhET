@@ -11,14 +11,13 @@
 
 package edu.colorado.phet.quantumtunneling;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 import java.text.DecimalFormat;
 
 import org.jfree.data.Range;
 
+import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.PhetProjectConfig;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.color.WhiteColorScheme;
 import edu.colorado.phet.quantumtunneling.control.ZoomControl.ZoomSpec;
@@ -42,16 +41,10 @@ public class QTConstants {
     
     private static final String PROJECT = "quantum-tunneling";
     
-    public static final int APP_FRAME_WIDTH = 1024;
-    public static final int APP_FRAME_HEIGHT = 768;
+    public static final PhetProjectConfig CONFIG = PhetProjectConfig.forProject( PROJECT );
     
-    //----------------------------------------------------------------------------
-    // Properties files
-    //----------------------------------------------------------------------------
+    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
-    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
-    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
-
     //----------------------------------------------------------------------------
     // Clock
     //----------------------------------------------------------------------------
@@ -117,15 +110,13 @@ public class QTConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String IMAGES_DIRECTORY = PROJECT + "/images/";
-    
-    public static final String IMAGE_ARROW_L2R = IMAGES_DIRECTORY + "arrowL2R.png";
-    public static final String IMAGE_ARROW_L2R_SELECTED = IMAGES_DIRECTORY + "arrowL2RSelected.png";
-    public static final String IMAGE_ARROW_R2L = IMAGES_DIRECTORY + "arrowR2L.png";
-    public static final String IMAGE_ARROW_R2L_SELECTED = IMAGES_DIRECTORY + "arrowR2LSelected.png";
-    public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
-    public static final String IMAGE_ZOOM_IN = IMAGES_DIRECTORY + "zoomIn.gif";
-    public static final String IMAGE_ZOOM_OUT = IMAGES_DIRECTORY + "zoomOut.gif";
+    public static final Image IMAGE_ARROW_L2R = CONFIG.getImage( "arrowL2R.png" );
+    public static final Image IMAGE_ARROW_L2R_SELECTED = CONFIG.getImage( "arrowL2RSelected.png" );
+    public static final Image IMAGE_ARROW_R2L = CONFIG.getImage( "arrowR2L.png" );
+    public static final Image IMAGE_ARROW_R2L_SELECTED = CONFIG.getImage( "arrowR2LSelected.png" );
+    public static final Image IMAGE_CLOCK = CONFIG.getImage( "clock.png" );
+    public static final Image IMAGE_ZOOM_IN = CONFIG.getImage( "zoomIn.gif" );
+    public static final Image IMAGE_ZOOM_OUT = CONFIG.getImage( "zoomOut.gif" );
     
     //----------------------------------------------------------------------------
     // Ranges

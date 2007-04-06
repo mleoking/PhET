@@ -24,8 +24,8 @@ import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.util.DialogUtils;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTApplication;
+import edu.colorado.phet.quantumtunneling.QTStrings;
 import edu.colorado.phet.quantumtunneling.module.AbstractModule;
 
 
@@ -97,7 +97,7 @@ public class QTPersistenceManager {
             }
         }
         catch ( Exception e ) {
-            showError( SimStrings.getInstance().getString( "Save.error.message" ), e );
+            showError( QTStrings.getString( "Save.error.message" ), e );
         }
     }
       
@@ -110,7 +110,7 @@ public class QTPersistenceManager {
         
         // Choose the file to save.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( SimStrings.getInstance().getString( "title.save" ) );
+        fileChooser.setDialogTitle( QTStrings.getString( "title.save" ) );
         int rval = fileChooser.showSaveDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -122,7 +122,7 @@ public class QTPersistenceManager {
 
         // If the file exists, confirm overwrite.
         if ( selectedFile.exists() ) {
-            String message = SimStrings.getInstance().getString( "Save.confirm.message" );
+            String message = QTStrings.getString( "Save.confirm.message" );
             int reply = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_CANCEL_OPTION );
             if ( reply != JOptionPane.YES_OPTION ) {
                 return;
@@ -139,7 +139,7 @@ public class QTPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Save.error.encode" ), e );
+                    showError( QTStrings.getString( "Save.error.encode" ), e );
                     errors++;
                 }
             }      
@@ -161,7 +161,7 @@ public class QTPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Save.error.encode" ), e );
+                    showError( QTStrings.getString( "Save.error.encode" ), e );
                     errors++;
                 }
             }
@@ -169,7 +169,7 @@ public class QTPersistenceManager {
         encoder.writeObject( object );
         encoder.close();
         if ( object == null ) {
-            throw new Exception( SimStrings.getInstance().getString( "XML encoding failed" ) );
+            throw new Exception( QTStrings.getString( "XML encoding failed" ) );
         }
         
         // Convert to a byte input stream.
@@ -208,7 +208,7 @@ public class QTPersistenceManager {
             }
         }
         catch ( Exception e ) {
-            showError( SimStrings.getInstance().getString( "Load.error.message" ), e );
+            showError( QTStrings.getString( "Load.error.message" ), e );
         }
         if ( object == null ) {
             return;
@@ -216,7 +216,7 @@ public class QTPersistenceManager {
         
         // Verify the object's type
         if ( !( object instanceof QTConfig ) ) {
-            showError( SimStrings.getInstance().getString( "Load.error.message" ), SimStrings.getInstance().getString( "Load.error.contents" ) );
+            showError( QTStrings.getString( "Load.error.message" ), QTStrings.getString( "Load.error.contents" ) );
             return;
         }
         
@@ -235,7 +235,7 @@ public class QTPersistenceManager {
             }
         }
         catch ( Exception e ) {
-            showError( SimStrings.getInstance().getString( "Load.error.message" ), e );
+            showError( QTStrings.getString( "Load.error.message" ), e );
         }
     }
  
@@ -247,7 +247,7 @@ public class QTPersistenceManager {
         
         // Choose the file to load.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( SimStrings.getInstance().getString( "title.load" ) );
+        fileChooser.setDialogTitle( QTStrings.getString( "title.load" ) );
         int rval = fileChooser.showOpenDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -266,7 +266,7 @@ public class QTPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Load.error.decode" ), e );
+                    showError( QTStrings.getString( "Load.error.decode" ), e );
                     errors++;
                 }
             }      
@@ -274,7 +274,7 @@ public class QTPersistenceManager {
         object = decoder.readObject();
         decoder.close();
         if ( object == null ) {
-            throw new Exception( SimStrings.getInstance().getString( "Load.error.contents" ) );
+            throw new Exception( QTStrings.getString( "Load.error.contents" ) );
         }
 
         return object;
@@ -309,7 +309,7 @@ public class QTPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Load.error.decode" ), e );
+                    showError( QTStrings.getString( "Load.error.decode" ), e );
                     errors++;
                 }
             }
@@ -317,7 +317,7 @@ public class QTPersistenceManager {
         object = decoder.readObject();
         decoder.close();
         if ( object == null ) {
-            throw new Exception( SimStrings.getInstance().getString( "Load.error.contents" ) );
+            throw new Exception( QTStrings.getString( "Load.error.contents" ) );
         }
         
         return object;
@@ -347,7 +347,7 @@ public class QTPersistenceManager {
      */
     private void showError( String format, String errorMessage ) {
         JFrame frame = _app.getPhetFrame();
-        String title = SimStrings.getInstance().getString( "title.error" );
+        String title = QTStrings.getString( "title.error" );
         Object[] args = { errorMessage };
         String message = MessageFormat.format( format, args );
         DialogUtils.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );

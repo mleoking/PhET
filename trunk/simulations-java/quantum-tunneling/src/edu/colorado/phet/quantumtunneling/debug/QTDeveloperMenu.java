@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.debug;
 
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;

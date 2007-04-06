@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
-import edu.colorado.phet.quantumtunneling.QTConstants;
 
 
 /**

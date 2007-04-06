@@ -13,7 +13,6 @@ package edu.colorado.phet.quantumtunneling.model;
 
 import edu.colorado.phet.quantumtunneling.enums.Direction;
 import edu.colorado.phet.quantumtunneling.util.Complex;
-import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 
 /**

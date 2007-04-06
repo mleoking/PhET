@@ -11,13 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.persistence;
 
-import java.io.Serializable;
-
-import edu.colorado.phet.quantumtunneling.enums.Direction;
-import edu.colorado.phet.quantumtunneling.enums.IRView;
-import edu.colorado.phet.quantumtunneling.enums.PotentialType;
-import edu.colorado.phet.quantumtunneling.enums.WaveType;
-import edu.colorado.phet.quantumtunneling.model.*;
 
 
 /**

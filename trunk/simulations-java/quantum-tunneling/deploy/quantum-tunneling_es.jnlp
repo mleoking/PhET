@@ -30,8 +30,7 @@ information.
   <resources> 
     <j2se version="1.4+"/> 
     <jar href="quantum-tunneling/quantumtunneling.jar"/>
-  </resources> 
-  <application-desc main-class="edu.colorado.phet.quantumtunneling.QTApplication">
-    <argument>user.language=es</argument>
-  </application-desc> 
+    <property name="javaws.locale" value="es"/>
+  </resources>
+  <application-desc main-class="edu.colorado.phet.quantumtunneling.QTApplication"/>
 </jnlp> 
