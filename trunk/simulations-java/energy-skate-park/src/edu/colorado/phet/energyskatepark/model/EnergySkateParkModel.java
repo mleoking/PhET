@@ -47,6 +47,7 @@ public class EnergySkateParkModel {
         this.initZeroPointPotentialY = zeroPointPotentialY;
         this.particleStage = new EnergySkateParkSplineListAdapter( this );//todo copy, clone this
         updateFloorState();
+        addEnergyModelListener( new BumpUpSplines( this ) );
     }
 
     private void notifyBodyEnergyChanged() {
@@ -56,7 +57,7 @@ public class EnergySkateParkModel {
         }
     }
 
-    public int numSplineSurfaces() {
+    public int getNumSplines() {
         return splines.size();
     }
 
@@ -118,7 +119,7 @@ public class EnergySkateParkModel {
 
     public void removeAllSplineSurfaces() {
         while( splines.size() > 0 ) {
-            removeSplineSurface( splineSurfaceAt( 0 ) );
+            removeSplineSurface( getSpline( 0 ) );
         }
     }
 
@@ -160,7 +161,7 @@ public class EnergySkateParkModel {
         }
         copy.floor = this.floor == null ? null : this.floor.copyState();
         for( int i = 0; i < splines.size(); i++ ) {
-            EnergySkateParkSpline surface = splineSurfaceAt( i );
+            EnergySkateParkSpline surface = getSpline( i );
             copy.splines.add( surface.copy() );
         }
         copy.history = new ArrayList( history );
@@ -177,7 +178,7 @@ public class EnergySkateParkModel {
             bodies.add( model.bodyAt( i ).copyState() );
         }
         for( int i = 0; i < model.splines.size(); i++ ) {
-            splines.add( model.splineSurfaceAt( i ).copy() );
+            splines.add( model.getSpline( i ).copy() );
         }
         this.floor = model.floor == null ? null : model.floor.copyState();
         this.history.clear();
@@ -208,7 +209,7 @@ public class EnergySkateParkModel {
 
     public void stepInTime( double dt ) {
         time += dt;
-        if( recordPath && numBodies() > 0 && timeSinceLastHistory() > 0.1 ) {
+        if( recordPath && getNumBodies() > 0 && timeSinceLastHistory() > 0.1 ) {
             history.add( new HistoryPoint( getTime(), bodyAt( 0 ) ) );
         }
         if( history.size() > maxNumHistoryPoints ) {
@@ -237,7 +238,7 @@ public class EnergySkateParkModel {
         return list;
     }
 
-    public EnergySkateParkSpline splineSurfaceAt( int i ) {
+    public EnergySkateParkSpline getSpline( int i ) {
         return (EnergySkateParkSpline)splines.get( i );
     }
 
@@ -262,7 +263,7 @@ public class EnergySkateParkModel {
         }
     }
 
-    public int numBodies() {
+    public int getNumBodies() {
         return bodies.size();
     }
 
@@ -371,7 +372,7 @@ public class EnergySkateParkModel {
         listeners.add( listener );
     }
 
-    public int numHistoryPoints() {
+    public int getNumHistoryPoints() {
         return history.size();
     }
 

@@ -1,11 +1,10 @@
-• Performance problems after lots of runs
 • Playback/record (depends on correct data structure copying which needs to be implemented and tested)
-• Track should bump up when beneath ground
 • add ball graphic
 • Is skater location correctly preserved on serialization?
 • Add energy conservation indicator (cumulative percent error, number of timesteps that had error), clear button
 • Energy conservation (wait until we see visible problem)
 • In the default setup, when the simulation starts or when the user presses "return skater", the skater falls a few feet onto the track and loses some energy to thermal.  This was confusing for Trish's students, who weren't ready to be exposed to friction-based features.  What should be done about this?
+• Performance problems after lots of runs
 
 Questions:
 Should we add ability to save skater character as part of a saved state? (30 min or so)

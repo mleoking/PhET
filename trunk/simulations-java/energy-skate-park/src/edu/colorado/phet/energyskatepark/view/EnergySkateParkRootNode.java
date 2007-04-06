@@ -285,14 +285,14 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void updateHistory() {
 //        System.out.println( "numHistoryGraphics() = " + numHistoryGraphics() );
-//        System.out.println( "getModel().numHistoryPoints() = " + getModel().numHistoryPoints() );
-        while( numHistoryGraphics() < getModel().numHistoryPoints() ) {
+//        System.out.println( "getModel().getNumHistoryPoints() = " + getModel().getNumHistoryPoints() );
+        while( numHistoryGraphics() < getModel().getNumHistoryPoints() ) {
             addHistoryGraphic( new HistoryPointGraphic( getModel().historyPointAt( 0 ), this ) );
         }
-        while( numHistoryGraphics() > getModel().numHistoryPoints() ) {
+        while( numHistoryGraphics() > getModel().getNumHistoryPoints() ) {
             removeHistoryPointGraphic( historyGraphicAt( numHistoryGraphics() - 1 ) );
         }
-        for( int i = 0; i < getModel().numHistoryPoints(); i++ ) {
+        for( int i = 0; i < getModel().getNumHistoryPoints(); i++ ) {
             historyGraphicAt( i ).setHistoryPoint( getModel().historyPointAt( i ) );
         }
     }
@@ -316,26 +316,26 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     private void updateBodies() {
-        while( numBodyGraphics() < getModel().numBodies() ) {
+        while( numBodyGraphics() < getModel().getNumBodies() ) {
             addBodyGraphic( new SkaterNode( module, getModel().bodyAt( 0 ) ) );
         }
-        while( numBodyGraphics() > getModel().numBodies() ) {
+        while( numBodyGraphics() > getModel().getNumBodies() ) {
             removeBodyGraphic( bodyGraphicAt( numBodyGraphics() - 1 ) );
         }
-        for( int i = 0; i < getModel().numBodies(); i++ ) {
+        for( int i = 0; i < getModel().getNumBodies(); i++ ) {
             bodyGraphicAt( i ).setBody( getModel().bodyAt( i ) );
         }
     }
 
     private void updateSplines() {
-        while( numSplineGraphics() < getModel().numSplineSurfaces() ) {
-            addSplineGraphic( new SplineNode( simulationPanel, getModel().splineSurfaceAt( 0 ), simulationPanel ) );
+        while( numSplineGraphics() < getModel().getNumSplines() ) {
+            addSplineGraphic( new SplineNode( simulationPanel, getModel().getSpline( 0 ), simulationPanel ) );
         }
-        while( numSplineGraphics() > getModel().numSplineSurfaces() ) {
+        while( numSplineGraphics() > getModel().getNumSplines() ) {
             removeSplineGraphic( splineGraphicAt( numSplineGraphics() - 1 ) );
         }
-        for( int i = 0; i < getModel().numSplineSurfaces(); i++ ) {
-            splineGraphicAt( i ).setSpline( getModel().splineSurfaceAt( i ) );
+        for( int i = 0; i < getModel().getNumSplines(); i++ ) {
+            splineGraphicAt( i ).setSpline( getModel().getSpline( i ) );
         }
     }
 

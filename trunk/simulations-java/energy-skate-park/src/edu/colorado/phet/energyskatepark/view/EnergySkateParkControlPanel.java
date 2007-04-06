@@ -182,7 +182,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 //        } );
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
-                if( module.getEnergySkateParkModel().numBodies() > 0 ) {
+                if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
                     restitution.setValue( module.getEnergySkateParkModel().bodyAt( 0 ).getBounciness() );//todo: refactor to listener pattern.
                 }
             }
@@ -195,7 +195,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         mass.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 EnergySkateParkModel model = module.getEnergySkateParkModel();
-                for( int i = 0; i < model.numBodies(); i++ ) {
+                for( int i = 0; i < model.getNumBodies(); i++ ) {
                     Body b = model.bodyAt( i );
                     b.setMass( mass.getValue() );
                 }
@@ -204,7 +204,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 //        module.getClock().addClockListener( new ClockAdapter() {
 //            public void clockTicked( ClockEvent event ) {
 //                EnergyConservationModel model = module.getEnergySkateParkModel();
-//                for( int i = 0; i < model.numBodies(); i++ ) {
+//                for( int i = 0; i < model.getNumBodies(); i++ ) {
 //                    Body b = model.bodyAt( i );
 //                    b.setMass( mass.getValue() );
 //                }
@@ -212,7 +212,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 //        } );
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
-                if( module.getEnergySkateParkModel().numBodies() > 0 ) {
+                if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
                     mass.setValue( module.getEnergySkateParkModel().bodyAt( 0 ).getMass() );
                 }
             }

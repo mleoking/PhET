@@ -25,11 +25,11 @@ public class EnergySkateParkModuleBean {
     }
 
     public EnergySkateParkModuleBean( EnergySkateParkModule module ) {
-        for( int i = 0; i < module.getEnergySkateParkModel().numBodies(); i++ ) {
+        for( int i = 0; i < module.getEnergySkateParkModel().getNumBodies(); i++ ) {
             addBody( module.getEnergySkateParkModel().bodyAt( i ) );
         }
-        for( int i = 0; i < module.getEnergySkateParkModel().numSplineSurfaces(); i++ ) {
-            EnergySkateParkSpline splineSurface = module.getEnergySkateParkModel().splineSurfaceAt( i );
+        for( int i = 0; i < module.getEnergySkateParkModel().getNumSplines(); i++ ) {
+            EnergySkateParkSpline splineSurface = module.getEnergySkateParkModel().getSpline( i );
 //            if( !( splineSurface instanceof FloorSpline ) ) {
             addSplineSurface( splineSurface );             //todo: handle floor
 //            }

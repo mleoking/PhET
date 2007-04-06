@@ -38,7 +38,7 @@ public abstract class ValueAccessor {
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {
-            if( rampPhysicalModel.numBodies() == 0 ) {
+            if( rampPhysicalModel.getNumBodies() == 0 ) {
                 return 0;
             }
             return rampPhysicalModel.bodyAt( 0 ).getKineticEnergy();
@@ -51,7 +51,7 @@ public abstract class ValueAccessor {
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {
-            if( rampPhysicalModel.numBodies() == 0 ) {
+            if( rampPhysicalModel.getNumBodies() == 0 ) {
                 return 0;
             }
             return rampPhysicalModel.bodyAt( 0 ).getPotentialEnergy();
@@ -65,7 +65,7 @@ public abstract class ValueAccessor {
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {
-            if( rampPhysicalModel.numBodies() == 0 ) {
+            if( rampPhysicalModel.getNumBodies() == 0 ) {
                 return 0;
             }
             return rampPhysicalModel.bodyAt( 0 ).getTotalEnergy();
@@ -79,7 +79,7 @@ public abstract class ValueAccessor {
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {
-            if( rampPhysicalModel.numBodies() == 0 ) {
+            if( rampPhysicalModel.getNumBodies() == 0 ) {
                 return 0;
             }
             return rampPhysicalModel.bodyAt( 0 ).getThermalEnergy();

@@ -81,7 +81,11 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
             public void mouseReleased( MouseEvent e ) {
             }
         } );
-
+        addMouseListener( new MouseAdapter() {
+            public void mouseReleased( MouseEvent e ) {
+                new BumpUpSplines( energySkateParkModel ).bumpUpSplines();
+            }
+        } );
     }
 
     protected void updateScale() {
@@ -160,7 +164,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     private void updateThrust() {
-        if( energySkateParkModel.numBodies() > 0 ) {
+        if( energySkateParkModel.getNumBodies() > 0 ) {
             Body body = energySkateParkModel.bodyAt( 0 );
             double xThrust = 0.0;
             double yThrust = 0.0;
@@ -186,7 +190,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     private void removeSkater() {
-        if( getEnergySkateParkModel().numBodies() > 1 ) {
+        if( getEnergySkateParkModel().getNumBodies() > 1 ) {
             energySkateParkModel.removeBody( 1 );
         }
     }
@@ -211,7 +215,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     private void printControlPoints() {
-        energySkateParkModel.splineSurfaceAt( 0 ).printControlPointCode();
+        energySkateParkModel.getSpline( 0 ).printControlPointCode();
     }
 
     public SplineMatch proposeMatch( SplineNode splineNode, final Point2D toMatch ) {
@@ -328,7 +332,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         multiKeyHandler.keyPressed( e );
         if( hasFocus() ) {
             if( e.getKeyCode() == KeyEvent.VK_P ) {
-                System.out.println( "spline.getSegmentPath().getLength() = " + energySkateParkModel.splineSurfaceAt( 0 ).numControlPoints() );
+                System.out.println( "spline.getSegmentPath().getLength() = " + energySkateParkModel.getSpline( 0 ).numControlPoints() );
                 printControlPoints();
             }
             else if( e.getKeyCode() == KeyEvent.VK_B ) {

@@ -57,20 +57,23 @@ public class EnergySkateParkModule extends PiccoloModule {
     private JDialog chartFrame;
     private EnergyTimePlotCanvas energyTimePlotCanvas;
 
-    private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
-    private static final boolean DEFAULT_PLOT_VISIBLE = false;
-
     private JDialog energyPositionPlotFrame;
     private EnergyPositionPlotCanvas energyPositionCanvas;
     private PhetFrame phetFrame;
-
-    public static final int energyFrameWidth = 200;
-    public static final int chartFrameHeight = 250;
+    
     private BarGraphCanvas barGraphCanvas;
-    public EnergySkateParkControlPanel energySkateParkControlPanel;
+    private EnergySkateParkControlPanel energySkateParkControlPanel;
 
     private SkaterCharacterSet skaterCharacterSet = new SkaterCharacterSet();
     private SkaterCharacter skaterCharacter = skaterCharacterSet.getSkaterCharacters()[0];
+
+    private ArrayList listeners = new ArrayList();
+
+    public static final int energyFrameWidth = 200;
+    public static final int chartFrameHeight = 250;
+
+    private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
+    private static final boolean DEFAULT_PLOT_VISIBLE = false;
 
     public EnergySkateParkModule( String name, IClock clock, PhetFrame phetFrame ) {
         super( name, clock );
@@ -152,7 +155,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void resetSkater() {
-        if( getEnergySkateParkModel().numBodies() > 0 ) {
+        if( getEnergySkateParkModel().getNumBodies() > 0 ) {
             Body body = getEnergySkateParkModel().bodyAt( 0 );
             resetSkater( body );
         }
@@ -166,7 +169,6 @@ public class EnergySkateParkModule extends PiccoloModule {
         final Body body = new Body( skaterCharacter.getModelWidth(), skaterCharacter.getModelHeight(), getEnergySkateParkModel() );
         body.reset();
         energyModel.addBody( body );
-//        body.showControls();
         energyCanvas.getRootNode().updateGraphics();
 
         PreFabSplines preFabSplines = new PreFabSplines();
@@ -178,7 +180,6 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyCanvas.initPieGraphic();
         energyCanvas.removeAllAttachmentPointGraphics();
     }
-
 
     public Object getModelState() {
         return energyModel.copyState();
@@ -233,7 +234,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void setCoefficientOfFriction( double value ) {
-        for( int i = 0; i < getEnergySkateParkModel().numBodies(); i++ ) {
+        for( int i = 0; i < getEnergySkateParkModel().getNumBodies(); i++ ) {
             Body body = getEnergySkateParkModel().bodyAt( i );
             body.setFrictionCoefficient( value );
         }
@@ -250,7 +251,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void setBounciness( double bounciness ) {
         EnergySkateParkModel model = getEnergySkateParkModel();
-        for( int i = 0; i < model.numBodies(); i++ ) {
+        for( int i = 0; i < model.getNumBodies(); i++ ) {
             Body b = model.bodyAt( i );
             b.setBounciness( bounciness );
         }
@@ -258,7 +259,7 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void confirmAndReset() {
         int response = JOptionPane.showConfirmDialog( getSimulationPanel(), EnergySkateParkStrings.getString( "are.you.sure.you.want.to.reset" ) );
-        if( response == JOptionPane.OK_OPTION || response == JOptionPane.YES_OPTION ) {
+        if( response == JOptionPane.OK_OPTION ) {
             reset();
         }
     }
@@ -324,7 +325,7 @@ public class EnergySkateParkModule extends PiccoloModule {
         return skaterCharacterSet.getSkaterCharacters();
     }
 
-    private ArrayList listeners = new ArrayList();
+
 
     public SkaterCharacter getDefaultSkaterCharacter() {
         return skaterCharacterSet.getSkaterCharacters()[0];

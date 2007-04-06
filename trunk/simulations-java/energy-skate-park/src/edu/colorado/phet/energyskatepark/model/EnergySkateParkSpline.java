@@ -16,7 +16,6 @@ public class EnergySkateParkSpline implements Cloneable {
     private boolean rollerCoaster;
     private boolean userControlled;
     private boolean interactive = true;
-//    private GeneralPath generalPath;
 
     public EnergySkateParkSpline( ControlPointParametricFunction2D parametricFunction2D ) {
         this.parametricFunction2D = parametricFunction2D;
@@ -85,10 +84,6 @@ public class EnergySkateParkSpline implements Cloneable {
 
     public GeneralPath getInterpolationPath() {
         return createInterpolationPath();//todo: buffering for this call?
-//        if( generalPath == null ) {
-//            generalPath = createInterpolationPath();
-//        }
-//        return generalPath;
     }
 
     private GeneralPath createInterpolationPath() {
@@ -136,5 +131,16 @@ public class EnergySkateParkSpline implements Cloneable {
 
     public void setControlPointLocation( int index, Point2D pt ) {
         parametricFunction2D.setControlPoint( index, pt );
+    }
+
+    public double getMinY() {
+        double minY = Double.POSITIVE_INFINITY;
+        for( int i = 0; i < 100; i++ ) {
+            Point2D pt = parametricFunction2D.evaluate( ( (double)i ) / 100.0 );
+            if( pt.getY() < minY ) {
+                minY = pt.getY();
+            }
+        }
+        return minY;
     }
 }
