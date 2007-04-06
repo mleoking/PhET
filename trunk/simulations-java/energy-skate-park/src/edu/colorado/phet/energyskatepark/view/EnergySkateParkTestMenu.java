@@ -21,37 +21,6 @@ public class EnergySkateParkTestMenu extends JMenu {
     public EnergySkateParkTestMenu( final EnergySkateParkApplication parentApp, final String[] args ) {
         super( "Tests" );
         this.parentApp = parentApp;
-        add( new JMenuItem( new AbstractAction( "Fall Through" ) {
-            public void actionPerformed( ActionEvent e ) {
-                parentApp.closeApplication();
-                TestFallThrough.main( args );
-            }
-        } ) );
-        add( new JMenuItem( new AbstractAction( "Head Bounce" ) {
-            public void actionPerformed( ActionEvent e ) {
-                parentApp.closeApplication();
-                TestHeadBounce.main( args );
-            }
-        } ) );
-        add( new JMenuItem( new AbstractAction( "Drop To Floor" ) {
-            public void actionPerformed( ActionEvent e ) {
-                parentApp.closeApplication();
-                TestLongDropToFloor.main( args );
-            }
-        } ) );
-        add( new JMenuItem( new AbstractAction( "Loop" ) {
-            public void actionPerformed( ActionEvent e ) {
-                parentApp.closeApplication();
-                TestLoop.main( args );
-            }
-        } ) );
-        add( new JMenuItem( new AbstractAction( "Upside Down" ) {
-            public void actionPerformed( ActionEvent e ) {
-                parentApp.closeApplication();
-                TestUpsideDown.main( args );
-            }
-        } ) );
-        addSeparator();
 
         TestItem[] testItems = new TestItem[]{
                 new TestItem( "esp/tests/a.esp", "Head Bounce Get Stuck" ),
@@ -60,7 +29,11 @@ public class EnergySkateParkTestMenu extends JMenu {
                 new TestItem( "esp/tests/angle.esp", "Slight angle/speed" ),
                 new TestItem( "esp/tests/fall-through-ground.esp", "Shoulder through ground" ),
                 new TestItem( "esp/tests/dw-rc.esp", "double well roller coaster" ),
-                new TestItem( "esp/tests/skater-jump.esp", "Skater Jump" )
+                new TestItem( "esp/tests/skater-jump.esp", "Skater Jump" ),
+                new TestItem( "esp/tests/droptofloor_test.esp", "Drop to floor" ),
+                new TestItem( "esp/tests/fallthrough_test.esp", "High Friction parabolic" ),
+                new TestItem( "esp/tests/loop_test.esp", "Loop Test" ),
+                new TestItem( "esp/tests/upside-down_test.esp", "Upside Down" )
         };
         for( int i = 0; i < testItems.length; i++ ) {
             final TestItem testItem = testItems[i];
