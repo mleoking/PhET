@@ -3,8 +3,6 @@
 • Playback/record (depends on correct data structure copying which needs to be implemented and tested)
 • Track should bump up when beneath ground
 • add ball graphic
-• Other feedback on track graphics?
-• Other feedback on characters?
 • Is skater location correctly preserved on serialization?
 • Add energy conservation indicator (cumulative percent error, number of timesteps that had error), clear button
 • Energy conservation (wait until we see visible problem)
@@ -12,6 +10,8 @@
 
 Questions:
 Should we add ability to save skater character as part of a saved state? (30 min or so)
+Other feedback on track graphics?
+Other feedback on characters?
 
 ParametricFunction2D:
 line 32 could do flat search for line-based
