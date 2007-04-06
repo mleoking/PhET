@@ -38,13 +38,6 @@ public class OTConstants {
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
     //----------------------------------------------------------------------------
-    // Properties files
-    //----------------------------------------------------------------------------
-    
-    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
-    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
-
-    //----------------------------------------------------------------------------
     // Dimensions
     //----------------------------------------------------------------------------
     
