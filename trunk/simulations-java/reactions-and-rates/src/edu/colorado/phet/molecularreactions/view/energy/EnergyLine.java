@@ -16,6 +16,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
+import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -30,7 +31,7 @@ import java.awt.geom.Line2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class EnergyLine extends PNode {
+public class EnergyLine extends PNode implements Resetable {
     public static final Paint linePaint = MRConfig.TOTAL_ENERGY_COLOR;
     public static final Stroke lineStroke = new BasicStroke( EnergyProfileGraphic.LINE_STROKE.getLineWidth() + 1 );
 
@@ -41,7 +42,7 @@ public class EnergyLine extends PNode {
     private double scale;
     private PText totalEnergyLegend;
     private MRModule module;
-    private double curEnergy;
+    private double curEnergy = -1.0;
 
     /**
      * @param bounds The bounds within which this line is to be drawn
@@ -51,7 +52,7 @@ public class EnergyLine extends PNode {
     public EnergyLine( Dimension bounds, MRModule module, IClock clock ) {
         this.module = module;
         this.bounds = bounds;
-        this.model = module.getMRModel();
+        this.model  = module.getMRModel();
 
         line = new Line2D.Double();
         lineNode = new PPath( line );
@@ -91,8 +92,12 @@ public class EnergyLine extends PNode {
         return line.getY1();
     }
 
+    public void reset() {
+        curEnergy = -1.0;
+    }
+
     public void update() {
-        if (module.isTemperatureBeingAdjusted()) {
+        if (module.isTemperatureBeingAdjusted() || module.isResetInProgress() || curEnergy < 0.0) {
             curEnergy = model.getTotalEnergy();
         }
 

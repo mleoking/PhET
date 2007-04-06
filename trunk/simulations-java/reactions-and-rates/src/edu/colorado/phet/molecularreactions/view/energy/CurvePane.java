@@ -5,6 +5,7 @@ import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
+import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.view.AxisNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -12,7 +13,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class CurvePane extends PPath {
+public class CurvePane extends PPath implements Resetable {
     private final Color energyPaneBackgroundColor = MRConfig.ENERGY_PANE_BACKGROUND;
     private final Color curveColor = MRConfig.POTENTIAL_ENERGY_COLOR;
     private final Insets curveAreaInsets = new Insets( 20, 30, 40, 10 );
@@ -101,6 +102,10 @@ public class CurvePane extends PPath {
         yAxis.setOffset( curveAreaInsets.left - 2, this.getHeight() - 25 );
         
         addChild( yAxis );
+    }
+
+    public void reset() {
+        energyLine.reset();
     }
 
     public void terminate() {

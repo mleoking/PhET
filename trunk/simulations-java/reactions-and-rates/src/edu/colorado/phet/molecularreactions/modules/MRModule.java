@@ -28,6 +28,8 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
 import java.awt.geom.Dimension2D;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * MRModule
@@ -51,6 +53,8 @@ public class MRModule extends Module {
     private final Insets simulationPaneInsets;
     private final int chartPaneHeight;
 
+    private volatile boolean resetInProgress;
+
 
     /**
      * @param name          The title of the module
@@ -60,6 +64,9 @@ public class MRModule extends Module {
         super( name, new VariableConstantTickClock( new SwingClock( 1000 / MRConfig.CLOCK_FPS,
                                                     MRConfig.RUNNING_DT ),
                                                     MRConfig.RUNNING_DT ) );
+
+        initiateReset();
+
         chartPaneHeight = chartPaneSize.height;
 
         // Create the model
@@ -83,9 +90,6 @@ public class MRModule extends Module {
         spatialView.setOffset( simulationPaneInsets.left, simulationPaneInsets.top );
         canvas.addWorldChild( spatialView );
 
-        // Create energy view
-        createEnergyView( chartPaneSize );
-
         // Add an agent that will make the clock's time step smaller when it's
         // being single stepped.
         getClock().addClockListener( new ClockAdapter() {
@@ -97,10 +101,19 @@ public class MRModule extends Module {
                 ( (VariableConstantTickClock)getClock() ).setDt( MRConfig.STEPPING_DT );
             }
         } );
+
+        // Create energy view
+        createEnergyView( chartPaneSize );
+
+        completeReset();
     }
 
     public boolean isTemperatureBeingAdjusted() {
         return spatialView.isTemperatureBeingAdjusted();
+    }
+
+    public boolean isResetInProgress() {
+        return resetInProgress;
     }
 
     public PNode getGraphicsForModelElement( ModelElement element ) {
@@ -108,21 +121,23 @@ public class MRModule extends Module {
     }
 
     private void createEnergyView( Dimension chartPaneSize ) {
-        if (!energyView.isInitialized()) {
-            energyView.initialize( this, chartPaneSize );
+        energyView.initialize( this, chartPaneSize );
 
-            energyView.setOffset( simulationPaneInsets.left + spatialView.getFullBounds().getWidth() + simulationPaneInsets.left,
-                                  simulationPaneInsets.top );
+        energyView.setOffset( simulationPaneInsets.left + spatialView.getFullBounds().getWidth() + simulationPaneInsets.left,
+                              simulationPaneInsets.top );
 
-            canvas.addWorldChild( energyView );
-        }
+        canvas.addWorldChild( energyView );
     }
 
     public void reset() {
+        initiateReset();
+
         getModel().removeAllModelElements();
         ( (MRModel)getModel() ).setInitialConditions();
         energyView.reset();
         getClock().start();
+
+        completeReset();
     }
 
     protected SpatialView getSpatialView() {
@@ -152,5 +167,19 @@ public class MRModule extends Module {
         Dimension2D dim = new PDimension( canvas.getWidth(), canvas.getHeight() );
         canvas.getPhetRootNode().screenToWorld( dim ); // this modifies dim!
         return new Dimension( (int)dim.getWidth(), (int)dim.getHeight() );
+    }
+
+    private void initiateReset() {
+        resetInProgress = true;
+    }
+
+    private void completeReset() {
+        Timer t = new Timer();
+
+        t.schedule( new TimerTask() {
+            public void run() {
+                resetInProgress = false;
+            }
+        }, 1000 );
     }
 }
