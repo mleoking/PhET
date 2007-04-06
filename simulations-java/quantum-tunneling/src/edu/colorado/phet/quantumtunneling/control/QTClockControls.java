@@ -25,8 +25,8 @@ import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.QTStrings;
 
 
 /**
@@ -70,11 +70,11 @@ public class QTClockControls extends JPanel implements ClockListener {
         _clock.addClockListener( this );
         
         // Labels
-        String restartLabel = SimStrings.getInstance().getString( "button.restart" );
-        String playLabel = SimStrings.getInstance().getString( "button.play" );
-        String pauseLabel = SimStrings.getInstance().getString( "button.pause" );
-        String stepLabel = SimStrings.getInstance().getString( "button.step" );
-        String timeUnitsLabel = SimStrings.getInstance().getString( "units.time" );
+        String restartLabel = QTStrings.getString( "button.restart" );
+        String playLabel = QTStrings.getString( "button.play" );
+        String pauseLabel = QTStrings.getString( "button.pause" );
+        String stepLabel = QTStrings.getString( "button.step" );
+        String timeUnitsLabel = QTStrings.getString( "units.time" );
         
         // Icons
         Icon restartIcon = null;
@@ -87,7 +87,7 @@ public class QTClockControls extends JPanel implements ClockListener {
             playIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PLAY ) );
             pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PAUSE ) );
             stepIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_STEP ) );
-            clockIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_CLOCK ) );
+            clockIcon = new ImageIcon( QTConstants.IMAGE_CLOCK );
         }
         catch ( IOException e ) {
             e.printStackTrace();

@@ -19,7 +19,7 @@ import java.util.Iterator;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.quantumtunneling.QTStrings;
 import edu.colorado.phet.quantumtunneling.enums.PotentialType;
 
 
@@ -80,10 +80,10 @@ public class PotentialComboBox extends JComboBox {
         ImageIcon singleBarrierIcon = createSingleBarrierIcon( _potentialColor );
         ImageIcon doubleBarrierIcon = createDoubleBarrierIcon( _potentialColor );
 
-        PotentialChoice constantItem = new PotentialChoice( PotentialType.CONSTANT, SimStrings.getInstance().getString( "choice.potential.constant" ), constantIcon );
-        PotentialChoice stepItem = new PotentialChoice( PotentialType.STEP, SimStrings.getInstance().getString( "choice.potential.step" ), stepIcon );
-        PotentialChoice singleBarrierItem = new PotentialChoice( PotentialType.SINGLE_BARRIER, SimStrings.getInstance().getString( "choice.potential.barrier" ), singleBarrierIcon );
-        PotentialChoice doubleBarrierItem = new PotentialChoice( PotentialType.DOUBLE_BARRIER, SimStrings.getInstance().getString( "choice.potential.double" ), doubleBarrierIcon );
+        PotentialChoice constantItem = new PotentialChoice( PotentialType.CONSTANT, QTStrings.getString( "choice.potential.constant" ), constantIcon );
+        PotentialChoice stepItem = new PotentialChoice( PotentialType.STEP, QTStrings.getString( "choice.potential.step" ), stepIcon );
+        PotentialChoice singleBarrierItem = new PotentialChoice( PotentialType.SINGLE_BARRIER, QTStrings.getString( "choice.potential.barrier" ), singleBarrierIcon );
+        PotentialChoice doubleBarrierItem = new PotentialChoice( PotentialType.DOUBLE_BARRIER, QTStrings.getString( "choice.potential.double" ), doubleBarrierIcon );
 
         _choices.add( constantItem );
         _choices.add( stepItem );

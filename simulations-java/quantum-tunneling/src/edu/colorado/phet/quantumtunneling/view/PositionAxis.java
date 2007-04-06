@@ -14,8 +14,8 @@ package edu.colorado.phet.quantumtunneling.view;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.TickUnits;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.QTStrings;
 
 
 /**
@@ -28,7 +28,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 public class PositionAxis extends NumberAxis {
 
     public PositionAxis() {
-        String label = SimStrings.getInstance().getString( "axis.position" ) + " (" + SimStrings.getInstance().getString( "units.position" ) + ")";
+        String label = QTStrings.getString( "axis.position" ) + " (" + QTStrings.getString( "units.position" ) + ")";
         setLabel( label );
         setLabelFont( QTConstants.AXIS_LABEL_FONT );
         setRange( QTConstants.POSITION_RANGE );

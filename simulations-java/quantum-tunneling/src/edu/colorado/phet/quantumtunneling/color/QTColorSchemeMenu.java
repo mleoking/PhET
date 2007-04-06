@@ -19,7 +19,7 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.quantumtunneling.QTStrings;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
 
 
@@ -54,14 +54,14 @@ public class QTColorSchemeMenu extends JMenu {
     //----------------------------------------------------------------------------
     
     public QTColorSchemeMenu( QTModule module ) {
-        super( SimStrings.getInstance().getString( "menu.colorScheme" ) );
-        setMnemonic( SimStrings.getInstance().getString( "menu.colorScheme.mnemonic" ).charAt( 0 ) );
+        super( QTStrings.getString( "menu.colorScheme" ) );
+        setMnemonic( QTStrings.getString( "menu.colorScheme.mnemonic" ).charAt( 0 ) );
         
         _module = module;
 
         // Black
-        _blackItem = new JRadioButtonMenuItem( SimStrings.getInstance().getString( "menu.colorScheme.black" ) );
-        _blackItem.setMnemonic( SimStrings.getInstance().getString( "menu.colorScheme.black.mnemonic" ).charAt( 0 ) );
+        _blackItem = new JRadioButtonMenuItem( QTStrings.getString( "menu.colorScheme.black" ) );
+        _blackItem.setMnemonic( QTStrings.getChar( "menu.colorScheme.black.mnemonic", 'B' ) );
         _blackItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleBlackSelection();
@@ -69,8 +69,8 @@ public class QTColorSchemeMenu extends JMenu {
         } );
 
         // White
-        _whiteItem = new JRadioButtonMenuItem( SimStrings.getInstance().getString( "menu.colorScheme.white" ) );
-        _whiteItem.setMnemonic( SimStrings.getInstance().getString( "menu.colorScheme.white.mnemonic" ).charAt( 0 ) );
+        _whiteItem = new JRadioButtonMenuItem( QTStrings.getString( "menu.colorScheme.white" ) );
+        _whiteItem.setMnemonic( QTStrings.getChar( "menu.colorScheme.white.mnemonic", 'W' ) );
         _whiteItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleWhiteSelection();
@@ -78,8 +78,8 @@ public class QTColorSchemeMenu extends JMenu {
         } );
 
         // Custom
-        _customItem = new JRadioButtonMenuItem( SimStrings.getInstance().getString( "menu.colorScheme.custom" ) );
-        _customItem.setMnemonic( SimStrings.getInstance().getString( "menu.colorScheme.custom.mnemonic" ).charAt( 0 ) );
+        _customItem = new JRadioButtonMenuItem( QTStrings.getString( "menu.colorScheme.custom" ) );
+        _customItem.setMnemonic( QTStrings.getChar( "menu.colorScheme.custom.mnemonic", 'C' ) );
         _customItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleCustomSelection();

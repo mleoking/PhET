@@ -14,18 +14,14 @@ package edu.colorado.phet.quantumtunneling;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.Properties;
 
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.CommandLineUtils;
-import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.view.menu.HelpMenu;
-import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.color.BlackColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorSchemeMenu;
@@ -70,17 +66,10 @@ public class QTApplication extends PhetApplication {
      * Sole constructor.
      * 
      * @param args command line arguments
-     * @param title
-     * @param description
-     * @param version
-     * @param clock
-     * @param useClockControlPanel
-     * @param frameSetup
      */
-    public QTApplication( String[] args, 
-            String title, String description, String version, FrameSetup frameSetup )
+    public QTApplication( String[] args )
     {
-        super( args, title, description, version, frameSetup );
+        super( args, QTConstants.CONFIG, QTConstants.FRAME_SETUP );
         initModules();
         initMenubar( args );
     }
@@ -112,16 +101,16 @@ public class QTApplication extends PhetApplication {
         
         // File menu
         {
-            JMenuItem saveItem = new JMenuItem( SimStrings.getInstance().getString( "menu.file.save" ) );
-            saveItem.setMnemonic( SimStrings.getInstance().getString( "menu.file.save.mnemonic" ).charAt(0) );
+            JMenuItem saveItem = new JMenuItem( QTStrings.getString( "menu.file.save" ) );
+            saveItem.setMnemonic( QTStrings.getChar( "menu.file.save.mnemonic", 'S' ) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.save();
                 }
             } );
             
-            JMenuItem loadItem = new JMenuItem( SimStrings.getInstance().getString( "menu.file.load" ) );
-            loadItem.setMnemonic( SimStrings.getInstance().getString( "menu.file.load.mnemonic" ).charAt(0) );
+            JMenuItem loadItem = new JMenuItem( QTStrings.getString( "menu.file.load" ) );
+            loadItem.setMnemonic( QTStrings.getChar( "menu.file.load.mnemonic", 'L' ) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.load();
@@ -184,7 +173,7 @@ public class QTApplication extends PhetApplication {
         
         QTGlobalConfig config = appConfig.getGlobalConfig();
         
-        config.setVersionNumber( getVersion() );
+        config.setVersionNumber( QTConstants.CONFIG.getVersion().toString() );
         
         // Color scheme
         config.setColorSchemeName( _colorSchemeMenu.getColorSchemeName() );
@@ -216,34 +205,14 @@ public class QTApplication extends PhetApplication {
      * Supported command line arguments:
      * <ul>
      * <li>-dev : enabled developer controls
-     * <li>user.language=value : sets the locale used by SimStrings
      * </ul>
      * 
      * @param args command line arguments
      */
     public static void main( final String[] args ) throws IOException {
 
-        // Initialize localization.
-        SimStrings.getInstance().init( args, QTConstants.SIM_STRINGS_NAME );
-
-        // Load simulation properties file
-        Properties simulationProperties = PropertiesLoader.loadProperties( QTConstants.SIM_PROPERTIES_NAME );
-        
-        // Title & description
-        String title = SimStrings.getInstance().getString( "title.quantumTunneling" );
-        String description = SimStrings.getInstance().getString( "QTApplication.description" );
-
-        // Version
-        String version = PhetApplication.getVersionString( simulationProperties );
-
-        // Frame setup
-        int width = QTConstants.APP_FRAME_WIDTH;
-        int height = QTConstants.APP_FRAME_HEIGHT;
-        FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
-
         // Create the application.
-        QTApplication app = new QTApplication( args, title, description, version, frameSetup );
-        app.setSimulationProperties( simulationProperties );
+        QTApplication app = new QTApplication( args );
         
         // Start the application.
         app.startApplication();

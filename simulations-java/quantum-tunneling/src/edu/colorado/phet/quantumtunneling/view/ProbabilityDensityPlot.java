@@ -17,9 +17,9 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.jfreechart.FastPathRenderer;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.QTStrings;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 
 
@@ -40,7 +40,7 @@ public class ProbabilityDensityPlot extends QTXYPlot {
         super();
         
         // Labels (localized)
-        String probabilityDensityLabel = SimStrings.getInstance().getString( "axis.probabilityDensity" );
+        String probabilityDensityLabel = QTStrings.getString( "axis.probabilityDensity" );
         
         // Dataset
         XYSeriesCollection data = new XYSeriesCollection();

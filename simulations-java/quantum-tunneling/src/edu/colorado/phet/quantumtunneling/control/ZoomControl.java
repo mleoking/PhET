@@ -14,7 +14,6 @@ package edu.colorado.phet.quantumtunneling.control;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,7 +29,6 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.Range;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 
 
@@ -89,20 +87,13 @@ public class ZoomControl extends JPanel {
         _plots = new ArrayList();
         _specs = specs;
         _zoomIndex = startingIndex;
-        
-        try {
-            // Icons on buttons
-            ImageIcon zoomInIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_ZOOM_IN ) );
-            _zoomInButton = new JButton( zoomInIcon );
-            ImageIcon zoomOutIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_ZOOM_OUT ) );
-            _zoomOutButton = new JButton( zoomOutIcon );
-        }
-        catch ( IOException ioe ) {
-            // Fall back to text on buttons
-            _zoomInButton = new JButton( "+" );
-            _zoomOutButton = new JButton( "-" );
-        }
-        
+
+        // Icons on buttons
+        ImageIcon zoomInIcon = new ImageIcon( QTConstants.IMAGE_ZOOM_IN );
+        _zoomInButton = new JButton( zoomInIcon );
+        ImageIcon zoomOutIcon = new ImageIcon( QTConstants.IMAGE_ZOOM_OUT );
+        _zoomOutButton = new JButton( zoomOutIcon );
+
         // Zoom In button
         _zoomInButton.setOpaque( true );
         _zoomInButton.setMargin( MARGIN );

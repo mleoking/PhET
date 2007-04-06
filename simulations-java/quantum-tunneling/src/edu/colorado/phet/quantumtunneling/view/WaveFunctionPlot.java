@@ -20,9 +20,9 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.jfreechart.FastPathRenderer;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.QTStrings;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.enums.IRView;
 import edu.colorado.phet.quantumtunneling.model.*;
@@ -90,7 +90,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
         super();
         
         // Labels
-        String waveFunctionLabel = SimStrings.getInstance().getString( "axis.waveFunction" );
+        String waveFunctionLabel = QTStrings.getString( "axis.waveFunction" );
         
         int index = 0;
         

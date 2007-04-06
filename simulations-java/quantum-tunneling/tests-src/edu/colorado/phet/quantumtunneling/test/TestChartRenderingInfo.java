@@ -26,15 +26,10 @@ import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
-
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.quantumtunneling.QTConstants;
 
 
 /**
@@ -97,8 +92,6 @@ public class TestChartRenderingInfo extends ApplicationFrame {
     }
 
     public static void main( String args[] ) {
-        SimStrings.getInstance().init( args, QTConstants.SIM_STRINGS_NAME );
-        
         TestChartRenderingInfo frame = new TestChartRenderingInfo( "ChartRenderingInfo test" );
         frame.pack();
         RefineryUtilities.centerFrameOnScreen( frame );
