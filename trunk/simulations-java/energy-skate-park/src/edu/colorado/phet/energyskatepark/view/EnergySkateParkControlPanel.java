@@ -171,20 +171,19 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         restitution.setModelTicks( new double[]{0, 0.5, 1} );
         restitution.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                double rest = restitution.getValue();
-                module.setCoefficientOfRestitution( rest );
+                module.setBounciness( restitution.getValue() );
             }
         } );
 //        module.getClock().addClockListener( new ClockAdapter() {
 //            public void clockTicked( ClockEvent event ) {
 //                double rest = restitution.getValue();
-//                module.setCoefficientOfRestitution( rest );
+//                module.setBounciness( rest );
 //            }
 //        } );
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
                 if( module.getEnergySkateParkModel().numBodies() > 0 ) {
-                    restitution.setValue( module.getEnergySkateParkModel().bodyAt( 0 ).getCoefficientOfRestitution() );
+                    restitution.setValue( module.getEnergySkateParkModel().bodyAt( 0 ).getBounciness() );//todo: refactor to listener pattern.
                 }
             }
         } );

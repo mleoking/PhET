@@ -248,11 +248,11 @@ public class EnergySkateParkModule extends PiccoloModule {
         energyPositionPlotFrame.setVisible( b );
     }
 
-    public void setCoefficientOfRestitution( double rest ) {
+    public void setBounciness( double bounciness ) {
         EnergySkateParkModel model = getEnergySkateParkModel();
         for( int i = 0; i < model.numBodies(); i++ ) {
             Body b = model.bodyAt( i );
-            b.setCoefficientOfRestitution( rest );
+            b.setBounciness( bounciness );
         }
     }
 

@@ -175,6 +175,8 @@ public class SplineNode extends PNode {
 
     private BasicStroke getTrackStroke( float thickness ) {
         return new BasicStroke( (float)( EnergySkateParkModel.SPLINE_THICKNESS * thickness ) );
+//        return new BasicStroke( (float)( EnergySkateParkModel.SPLINE_THICKNESS * thickness ) ,BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
+//        return new BasicStroke( (float)( EnergySkateParkModel.SPLINE_THICKNESS * thickness ) ,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
     }
 
     private BasicStroke getRailroadStroke( float thickness ) {

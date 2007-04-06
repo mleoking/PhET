@@ -280,12 +280,12 @@ public class Body {
         particle.setFrictionCoefficient( value );
     }
 
-    public double getCoefficientOfRestitution() {
-        return coefficientOfRestitution;
+    public double getBounciness() {
+        return particle.getElasticity();
     }
 
-    public void setCoefficientOfRestitution( double coefficientOfRestitution ) {
-        this.coefficientOfRestitution = coefficientOfRestitution;
+    public void setBounciness( double coefficientOfRestitution ) {
+        particle.setElasticity( coefficientOfRestitution );
     }
 
     public Shape getFeetShape() {

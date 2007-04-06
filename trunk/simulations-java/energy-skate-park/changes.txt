@@ -1,3 +1,6 @@
+1.05.18
+Wired up bounciness control
+
 1.05.17 (4-4-2007)
 Added a test case.
 
