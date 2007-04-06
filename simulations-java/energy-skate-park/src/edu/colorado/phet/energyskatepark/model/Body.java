@@ -24,23 +24,21 @@ import java.util.ArrayList;
  * Copyright (c) Sep 21, 2005 by Sam Reid
  */
 
-public class Body {
+public class Body implements Cloneable {
     private Particle particle;
-
     private boolean facingRight;
-
-    private double coefficientOfRestitution = 1.0;
-
     private double width;
     private double height;
     private double angularVelocity = 0;
 
     private ArrayList listeners = new ArrayList();
     private EnergySkateParkModel energySkateParkModel;
-    private static ArrayList particles = new ArrayList();
-    private static double staticSticky = 0.75;
+
     private int errorCount = 0;
     private double fractionalEnergyError = 0.0;
+
+    private static ArrayList particles = new ArrayList();
+    private static double staticSticky = 0.75;
 
     public Body( double width, double height, EnergySkateParkModel energySkateParkModel ) {
         this.energySkateParkModel = energySkateParkModel;
@@ -118,16 +116,32 @@ public class Body {
         //todo: set state for particle
         this.angularVelocity = body.angularVelocity;
         this.facingRight = body.facingRight;
-        this.coefficientOfRestitution = body.coefficientOfRestitution;
+    }
+
+    protected Object clone() throws CloneNotSupportedException {
+        Body clone = (Body)super.clone();
+        clone.width = this.width;
+        clone.height = this.height;
+        clone.energySkateParkModel = energySkateParkModel;
+
+        //todo: clone state for particle
+        clone.angularVelocity = this.angularVelocity;
+        clone.facingRight = facingRight;
+        clone.errorCount=this.errorCount;
+        clone.fractionalEnergyError=this.fractionalEnergyError;
+        clone.particle= (Particle)this.particle.clone();
+
+        return clone;
     }
 
     public Body copyState() {
-        //todo: copy state for particle
-        Body copy = new Body( width, height, energySkateParkModel );
-        copy.angularVelocity = this.angularVelocity;
-        copy.facingRight = facingRight;
-        copy.coefficientOfRestitution = coefficientOfRestitution;
-        return copy;
+        try {
+            return (Body)clone();
+        }
+        catch( CloneNotSupportedException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
     }
 
     public void stepInTime( double dt ) {
@@ -140,7 +154,7 @@ public class Body {
             listener.stepFinished();
         }
         double err = Math.abs( origEnergy - getTotalEnergy() );
-        if( err > 1E-5 && getThrust().getMagnitude() == 0 && !isUserControlled()&&!isSplineUserControlled() ) {
+        if( err > 1E-5 && getThrust().getMagnitude() == 0 && !isUserControlled() && !isSplineUserControlled() ) {
             System.out.println( "err = " + err );
             errorCount++;
             fractionalEnergyError += err / Math.abs( origEnergy );
