@@ -72,7 +72,7 @@ public class EnergySkateParkModuleBean {
     public void apply( EnergySkateParkModule module ) {
         module.getEnergySkateParkModel().removeAllBodies();
         for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = new Body( 1.3, 1.8, module.getEnergySkateParkModel() );//todo: default body width, height
+            Body body = module.createBody();
             ( (BodyElement)bodies.get( i ) ).apply( body );
             module.getEnergySkateParkModel().addBody( body );
         }

@@ -7,6 +7,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.Particle;
+import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -30,25 +31,22 @@ public class Body implements Cloneable {
     private double width;
     private double height;
     private double angularVelocity = 0;
-
-    private ArrayList listeners = new ArrayList();
-    private EnergySkateParkModel energySkateParkModel;
-
     private int errorCount = 0;
     private double fractionalEnergyError = 0.0;
+
+    private ArrayList listeners = new ArrayList();
 
     private static ArrayList particles = new ArrayList();
     private static double staticSticky = 0.75;
 
-    public Body( double width, double height, EnergySkateParkModel energySkateParkModel ) {
-        this.energySkateParkModel = energySkateParkModel;
+    public Body( double width, double height, ParticleStage particleStage,double gravity,double zeroPointPotentialY ) {
         this.width = width;
         this.height = height;
-        particle = new Particle( energySkateParkModel.getParticleStage() );
+        particle = new Particle( particleStage );
         particle.setMass( 75.0 );
         particle.getParticle1D().setReflect( false );
         particle.setStickiness( staticSticky );
-        setGravityState( energySkateParkModel.getGravity(), energySkateParkModel.getZeroPointPotentialY() );
+        setGravityState( gravity, zeroPointPotentialY );
         particles.add( this );
     }
 
@@ -71,7 +69,6 @@ public class Body implements Cloneable {
     }
 
     public void setSpline( EnergySkateParkSpline spline, boolean top, double alpha ) {
-//        particle.getParticle1D().setCubicSpline2D( spline.getParametricFunction2D(), top, alpha );//todo: correct side
         particle.switchToTrack( spline.getParametricFunction2D(), alpha, top );
     }
 
@@ -122,15 +119,11 @@ public class Body implements Cloneable {
         Body clone = (Body)super.clone();
         clone.width = this.width;
         clone.height = this.height;
-        clone.energySkateParkModel = energySkateParkModel;
-
-        //todo: clone state for particle
         clone.angularVelocity = this.angularVelocity;
         clone.facingRight = facingRight;
         clone.errorCount=this.errorCount;
         clone.fractionalEnergyError=this.fractionalEnergyError;
         clone.particle= (Particle)this.particle.clone();
-
         return clone;
     }
 
