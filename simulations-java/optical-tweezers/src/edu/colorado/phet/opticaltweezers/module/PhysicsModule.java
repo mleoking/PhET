@@ -15,8 +15,8 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.OTStrings;
 import edu.colorado.phet.opticaltweezers.charts.*;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.control.PhysicsControlPanel;
@@ -87,7 +87,7 @@ public class PhysicsModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public PhysicsModule() {
-        super( SimStrings.getInstance().getString( "PhysicsModule.title" ), PhysicsDefaults.CLOCK, PhysicsDefaults.CLOCK_PAUSED );
+        super( OTStrings.PHYSICS_OF_TWEEZERS, PhysicsDefaults.CLOCK, PhysicsDefaults.CLOCK_PAUSED );
 
         //----------------------------------------------------------------------------
         // Model
@@ -207,7 +207,7 @@ public class PhysicsModule extends AbstractModule {
         setClockControlPanel( _clockControlPanel );
         
         // "Return Bead" button
-        JButton returnBeadButton = new JButton( SimStrings.getInstance().getString( "label.returnBead" ) );
+        JButton returnBeadButton = new JButton( OTStrings.RETURN_BEAD );
         Font font = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 18 );
         returnBeadButton.setFont( font );
         returnBeadButton.setOpaque( false );
@@ -436,8 +436,7 @@ public class PhysicsModule extends AbstractModule {
         if ( !_wiggleMeInitialized ) {
             
             // Create wiggle me, add to root node.
-            String wiggleMeString = SimStrings.getInstance().getString( "wiggleMe.XXX" );
-            _wiggleMe = new OTWiggleMe( _canvas, wiggleMeString );
+            _wiggleMe = new OTWiggleMe( _canvas, OTStrings.WIGGLE_ME );
             _rootNode.addChild( _wiggleMe );
             
             // Animate from the upper-left to some point

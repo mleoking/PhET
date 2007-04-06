@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.control;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.module.MotorsModule;
 
 /**
@@ -33,11 +33,7 @@ public class MotorsControlPanel extends AbstractControlPanel {
         _module = module;
 
         // Set the control panel's minimum width.
-        String widthString = SimStrings.getInstance().getString( "width.controlPanel" );
-        if ( widthString != null ) {
-            int width = Integer.parseInt( widthString );
-            setMinumumWidth( width );
-        }
+        setMinumumWidth( OTConstants.MIN_CONTROL_PANEL_WIDTH );
         
         // Layout
         {

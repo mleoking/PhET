@@ -4,12 +4,13 @@ package edu.colorado.phet.opticaltweezers;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 
 import javax.swing.JLabel;
 
-import edu.colorado.phet.common.util.DoubleRange;
+import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.PhetProjectConfig;
 
 
 /**
@@ -32,8 +33,10 @@ public class OTConstants {
     
     private static final String PROJECT = "optical-tweezers";
     
-    public static final Dimension APP_FRAME_SIZE = new Dimension( 1024, 768 );
-
+    public static final PhetProjectConfig CONFIG = PhetProjectConfig.forProject( PROJECT );
+    
+    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
+    
     //----------------------------------------------------------------------------
     // Properties files
     //----------------------------------------------------------------------------
@@ -42,11 +45,15 @@ public class OTConstants {
     public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
 
     //----------------------------------------------------------------------------
+    // Dimensions
+    //----------------------------------------------------------------------------
+    
+    public static final int MIN_CONTROL_PANEL_WIDTH = CONFIG.getInt( "int.minControlPanelWidth", 215 );
+    
+    //----------------------------------------------------------------------------
     // Fonts
     //----------------------------------------------------------------------------
 
-    // NOTE: font sizes are configurable in the SimStrings file!
-    
     // Default font properties
     public static final String DEFAULT_FONT_NAME = new JLabel( "PhET" ).getFont().getName();
     public static final int DEFAULT_FONT_STYLE = Font.PLAIN;
@@ -78,11 +85,10 @@ public class OTConstants {
     //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------
-
-    public static final String IMAGES_DIRECTORY = PROJECT + "/images/";
-    public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
-    public static final String IMAGE_CLOSE_BUTTON = IMAGES_DIRECTORY + "closeButton.png";
-    public static final String IMAGE_LASER_SIGN = IMAGES_DIRECTORY + "laserDangerSign.png";
+    
+    public static final Image IMAGE_CLOCK = CONFIG.getImage( "clock.png" );
+    public static final Image IMAGE_CLOSE_BUTTON = CONFIG.getImage( "closeButton.png" );
+    public static final Image IMAGE_LASER_SIGN = CONFIG.getImage( "laserDangerSign.png" );
     
     //----------------------------------------------------------------------------
     // Cursors

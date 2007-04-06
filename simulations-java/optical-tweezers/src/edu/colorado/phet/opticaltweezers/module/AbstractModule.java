@@ -2,18 +2,13 @@
 
 package edu.colorado.phet.opticaltweezers.module;
 
-import java.awt.Dimension;
-import java.awt.geom.Dimension2D;
-
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
-import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
-import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**

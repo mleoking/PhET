@@ -9,7 +9,7 @@ import java.awt.Stroke;
 import org.jfree.chart.JFreeChart;
 import org.jfree.ui.RectangleInsets;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.opticaltweezers.OTStrings;
 
 
 public class PotentialEnergyChart extends JFreeChart {
@@ -22,7 +22,7 @@ public class PotentialEnergyChart extends JFreeChart {
     private PotentialEnergyPlot _plot;
     
     public PotentialEnergyChart( PotentialEnergyPlot plot ) {
-        super( SimStrings.getInstance().getString( "title.potentialEnergyChart" ), null /* titleFont */, plot, false /* createLegend */ );
+        super( OTStrings.POTENTIAL_ENERGY_CHART_TITLE, null /* titleFont */, plot, false /* createLegend */ );
         setAntiAlias( true );
         setBorderVisible( true );
         setBackgroundPaint( BACKGROUND_COLOR );

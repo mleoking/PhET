@@ -13,14 +13,11 @@ package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
@@ -56,17 +53,10 @@ public class CloseButtonNode extends PhetPNode {
 
         public CloseButton() {
             super();
-            try {
-                BufferedImage closeImage = ImageLoader.loadBufferedImage( OTConstants.IMAGE_CLOSE_BUTTON );
-                Icon closeIcon = new ImageIcon( closeImage );
-                setIcon( closeIcon );
-                setOpaque( false );
-                setMargin( new Insets( 0, 0, 0, 0 ) );
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-                setText( "X" );
-            }
+            Icon closeIcon = new ImageIcon( OTConstants.IMAGE_CLOSE_BUTTON );
+            setIcon( closeIcon );
+            setOpaque( false );
+            setMargin( new Insets( 0, 0, 0, 0 ) );
         }
     }
 }

@@ -13,7 +13,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.OTStrings;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
 
@@ -77,16 +78,12 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _clock = _module.getOTClock();
 
         // Set the control panel's minimum width.
-        String widthString = SimStrings.getInstance().getString( "width.controlPanel" );
-        if ( widthString != null ) {
-            int width = Integer.parseInt( widthString );
-            setMinumumWidth( width );
-        }
+        setMinumumWidth( OTConstants.MIN_CONTROL_PANEL_WIDTH );
         
         // Clock speed
         JPanel speedPanel = new JPanel();
         {
-            JLabel titleLabel = new JLabel( SimStrings.getInstance().getString( "label.simulationSpeed" ) );
+            JLabel titleLabel = new JLabel( OTStrings.SIMULATION_SPEED );
             titleLabel.setFont( TITLE_FONT );
             
             _clockSpeedSlider = new ClockSpeedSlider( _clock, CONTROL_FONT );
@@ -104,13 +101,13 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         // Fields and charged 
         JPanel fieldAndChargesPanel = new JPanel();
         {
-            JLabel titleLabel = new JLabel( SimStrings.getInstance().getString( "label.fieldsAndCharges" ) );
+            JLabel titleLabel = new JLabel( OTStrings.FIELDS_AND_CHARGES );
             titleLabel.setFont( TITLE_FONT );
             
-            _electricFieldCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showElectricField" ) );
-            _beadChargesCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showBeadCharges" ) );
-            _allChargesRadioButton = new JRadioButton( SimStrings.getInstance().getString( "label.allCharges" ) );
-            _excessChargesRadioButton = new JRadioButton( SimStrings.getInstance().getString( "label.excessCharges" ) );
+            _electricFieldCheckBox = new JCheckBox( OTStrings.SHOW_ELECTRIC_FIELD );
+            _beadChargesCheckBox = new JCheckBox( OTStrings.SHOW_BEAD_CHARGES );
+            _allChargesRadioButton = new JRadioButton( OTStrings.ALL_CHARGES );
+            _excessChargesRadioButton = new JRadioButton( OTStrings.EXCESS_CHARGES );
             ButtonGroup bg = new ButtonGroup();
             bg.add( _allChargesRadioButton );
             bg.add( _excessChargesRadioButton );
@@ -135,17 +132,17 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         // Forces on bead 
         JPanel forcesPanel = new JPanel();
         {
-            JLabel titleLabel = new JLabel( SimStrings.getInstance().getString( "label.forcesOnBead" ) );
+            JLabel titleLabel = new JLabel( OTStrings.FORCES_ON_BEAD );
             titleLabel.setFont( TITLE_FONT );
             
-            _trapForceCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showTrapForce" ) );
-            _fluidDragCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showFluidDrag" ) );
-            _brownianForceCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showBrownianForce" ) );
+            _trapForceCheckBox = new JCheckBox( OTStrings.SHOW_TRAP_FORCE );
+            _fluidDragCheckBox = new JCheckBox( OTStrings.SHOW_FLUID_DRAG );
+            _brownianForceCheckBox = new JCheckBox( OTStrings.SHOW_BROWNIAN_FORCE );
 
-            _horizontalTrapForceLabel = new JLabel( SimStrings.getInstance().getString( "label.horizontalTrapForce" ) );
+            _horizontalTrapForceLabel = new JLabel( OTStrings.HORIZONTAL_TRAP_FORCE );
             _horizontalTrapForceLabel.setFont( CONTROL_FONT );
-            _wholeBeadRadioButton = new JRadioButton( SimStrings.getInstance().getString( "label.wholeBead" ) );
-            _halfBeadRadioButton = new JRadioButton( SimStrings.getInstance().getString( "label.halfBead" ) );
+            _wholeBeadRadioButton = new JRadioButton( OTStrings.WHOLE_BEAD );
+            _halfBeadRadioButton = new JRadioButton( OTStrings.HALF_BEAD );
             ButtonGroup bg = new ButtonGroup();
             bg.add( _wholeBeadRadioButton );
             bg.add( _halfBeadRadioButton );
@@ -170,18 +167,18 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         }
         
         // Ruler
-        _rulerCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showRuler" ) );
+        _rulerCheckBox = new JCheckBox( OTStrings.SHOW_RULER );
         
         // Histogram
-        _positionHistogramCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showPositionHistogram" ) );
+        _positionHistogramCheckBox = new JCheckBox( OTStrings.SHOW_POSITION_HISTOGRAM );
         
         // Advanced features
         JPanel advancedPanel = new JPanel();
         {
-            _advancedButton = new JButton( SimStrings.getInstance().getString( "label.showAdvanced" ) );
-            _fluidControlsCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.controlFluidFlow" ) );
-            _momemtumChangeCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showMomentumChange" ) );
-            _potentialEnergyChartCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showPotentialEnergyChart" ) );
+            _advancedButton = new JButton( OTStrings.SHOW_ADVANCED );
+            _fluidControlsCheckBox = new JCheckBox( OTStrings.CONTROL_FLUID_FLOW );
+            _momemtumChangeCheckBox = new JCheckBox( OTStrings.SHOW_MOMENTUM_CHANGE );
+            _potentialEnergyChartCheckBox = new JCheckBox( OTStrings.SHOW_POTENTIAL_ENERGY_CHART );
             
             _advancedPanel = new Box( BoxLayout.Y_AXIS );
             _advancedPanel.add( _fluidControlsCheckBox );
@@ -655,10 +652,10 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         _advancedPanel.setVisible( !_advancedPanel.isVisible() );
         if ( _advancedPanel.isVisible() ) {
-            _advancedButton.setText( SimStrings.getInstance().getString( "label.hideAdvanced" ) );
+            _advancedButton.setText( OTStrings.HIDE_ADVANCED );
         }
         else {
-            _advancedButton.setText( SimStrings.getInstance().getString( "label.showAdvanced" ) );
+            _advancedButton.setText( OTStrings.SHOW_ADVANCED );
         }
     }
     

@@ -15,8 +15,8 @@ import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.util.DialogUtils;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTApplication;
+import edu.colorado.phet.opticaltweezers.OTStrings;
 import edu.colorado.phet.opticaltweezers.module.AbstractModule;
 
 
@@ -87,7 +87,7 @@ public class OTPersistenceManager {
             }
         }
         catch ( Exception e ) {
-            showError( SimStrings.getInstance().getString( "Save.error.message" ), e );
+            showError( OTStrings.SAVE_ERROR_MESSAGE, e );
         }
     }
       
@@ -100,7 +100,7 @@ public class OTPersistenceManager {
         
         // Choose the file to save.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( SimStrings.getInstance().getString( "Save.title" ) );
+        fileChooser.setDialogTitle( OTStrings.SAVE_TITLE );
         int rval = fileChooser.showSaveDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -112,8 +112,7 @@ public class OTPersistenceManager {
 
         // If the file exists, confirm overwrite.
         if ( selectedFile.exists() ) {
-            String message = SimStrings.getInstance().getString( "Save.confirm.message" );
-            int reply = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_CANCEL_OPTION );
+            int reply = DialogUtils.showConfirmDialog( frame, OTStrings.SAVE_CONFIRM_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION );
             if ( reply != JOptionPane.YES_OPTION ) {
                 return;
             }
@@ -129,7 +128,7 @@ public class OTPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Save.error.encode" ), e );
+                    showError( OTStrings.SAVE_ERROR_ENCODE, e );
                     errors++;
                 }
             }      
@@ -151,7 +150,7 @@ public class OTPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Save.error.encode" ), e );
+                    showError( OTStrings.SAVE_ERROR_ENCODE, e );
                     errors++;
                 }
             }
@@ -159,7 +158,7 @@ public class OTPersistenceManager {
         encoder.writeObject( object );
         encoder.close();
         if ( object == null ) {
-            throw new Exception( SimStrings.getInstance().getString( "XML encoding failed" ) );
+            throw new Exception( "XML encoding failed" );
         }
         
         // Convert to a byte input stream.
@@ -198,7 +197,7 @@ public class OTPersistenceManager {
             }
         }
         catch ( Exception e ) {
-            showError( SimStrings.getInstance().getString( "Load.error.message" ), e );
+            showError( OTStrings.LOAD_ERROR_MESSAGE, e );
         }
         if ( object == null ) {
             return;
@@ -206,7 +205,7 @@ public class OTPersistenceManager {
         
         // Verify the object's type
         if ( !( object instanceof OTConfig ) ) {
-            showError( SimStrings.getInstance().getString( "Load.error.message" ), SimStrings.getInstance().getString( "Load.error.contents" ) );
+            showError( OTStrings.LOAD_ERROR_MESSAGE, OTStrings.LOAD_ERROR_CONTENTS );
             return;
         }
         
@@ -225,7 +224,7 @@ public class OTPersistenceManager {
             }
         }
         catch ( Exception e ) {
-            showError( SimStrings.getInstance().getString( "Load.error.message" ), e );
+            showError( OTStrings.LOAD_ERROR_MESSAGE, e );
         }
     }
  
@@ -237,7 +236,7 @@ public class OTPersistenceManager {
         
         // Choose the file to load.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( SimStrings.getInstance().getString( "Load.title" ) );
+        fileChooser.setDialogTitle( OTStrings.LOAD_TITLE );
         int rval = fileChooser.showOpenDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -256,7 +255,7 @@ public class OTPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Load.error.decode" ), e );
+                    showError( OTStrings.LOAD_ERROR_DECODE, e );
                     errors++;
                 }
             }      
@@ -264,7 +263,7 @@ public class OTPersistenceManager {
         object = decoder.readObject();
         decoder.close();
         if ( object == null ) {
-            throw new Exception( SimStrings.getInstance().getString( "Load.error.contents" ) );
+            throw new Exception( OTStrings.LOAD_ERROR_CONTENTS );
         }
 
         return object;
@@ -299,7 +298,7 @@ public class OTPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Load.error.decode" ), e );
+                    showError( OTStrings.LOAD_ERROR_DECODE, e );
                     errors++;
                 }
             }
@@ -307,7 +306,7 @@ public class OTPersistenceManager {
         object = decoder.readObject();
         decoder.close();
         if ( object == null ) {
-            throw new Exception( SimStrings.getInstance().getString( "Load.error.contents" ) );
+            throw new Exception( OTStrings.LOAD_ERROR_CONTENTS );
         }
         
         return object;
@@ -337,10 +336,9 @@ public class OTPersistenceManager {
      */
     private void showError( String format, String errorMessage ) {
         JFrame frame = _app.getPhetFrame();
-        String title = SimStrings.getInstance().getString( "title.error" );
         Object[] args = { errorMessage };
         String message = MessageFormat.format( format, args );
-        DialogUtils.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
+        DialogUtils.showMessageDialog( frame, message, OTStrings.ERROR_TITLE, JOptionPane.ERROR_MESSAGE );
     }
     
     //----------------------------------------------------------------------------

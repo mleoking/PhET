@@ -8,7 +8,7 @@ import java.util.Hashtable;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.opticaltweezers.OTStrings;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 
 /**
@@ -40,9 +40,9 @@ public class ClockSpeedSlider extends JSlider {
         setPaintTicks( true );
         setPaintLabels( true );
         
-        JLabel slowLabel = new JLabel( SimStrings.getInstance().getString( "label.slow" ) );
+        JLabel slowLabel = new JLabel( OTStrings.SLOW );
         slowLabel.setFont( font );
-        JLabel fastLabel = new JLabel( SimStrings.getInstance().getString( "label.fast" ) );
+        JLabel fastLabel = new JLabel( OTStrings.FAST );
         fastLabel.setFont( font );
         Hashtable labelTable = new Hashtable();
         labelTable.put( new Integer( getMinimum() ), slowLabel );

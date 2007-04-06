@@ -2,7 +2,10 @@
 
 package edu.colorado.phet.opticaltweezers.dialog;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 

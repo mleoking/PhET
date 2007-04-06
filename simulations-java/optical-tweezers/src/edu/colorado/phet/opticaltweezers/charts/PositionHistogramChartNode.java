@@ -21,9 +21,9 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.OTStrings;
 import edu.colorado.phet.opticaltweezers.control.CloseButtonNode;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
@@ -95,17 +95,17 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         _controlsBackgroundNode.setPaint( _chart.getBackgroundPaint() );
         _controlsBackgroundNode.setStroke( null );
 
-        _measurementsString = SimStrings.getInstance().getString( "label.measurements" );
+        _measurementsString = OTStrings.MEASUREMENTS;
         _measurementsLabel = new PText();
         _measurementsLabel.setFont( LABEL_FONT );
         _measurementsLabel.setTextPaint( LABEL_COLOR );
 
-        _titleLabel = new PText( SimStrings.getInstance().getString( "title.positionHistogram" ) );
+        _titleLabel = new PText( OTStrings.POSITION_HISTOGRAM );
         _titleLabel.setFont( TITLE_FONT );
         _titleLabel.setTextPaint( TITLE_COLOR );
 
-        _startString = SimStrings.getInstance().getString( "button.start" );
-        _stopString = SimStrings.getInstance().getString( "button.stop" );
+        _startString = OTStrings.START_BUTTON;
+        _stopString = OTStrings.STOP_BUTTON;
         _startStopButton = new JButton( _isRunning ? _stopString : _startString );
         _startStopButton.setOpaque( false );
         _startStopButton.setFont( LABEL_FONT );
@@ -118,7 +118,7 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         } );
         _startStopButtonWrapper = new PSwing( _startStopButton );
 
-        JButton clearButton = new JButton( SimStrings.getInstance().getString( "button.clear" ) );
+        JButton clearButton = new JButton( OTStrings.CLEAR_BUTTON );
         clearButton.setOpaque( false );
         clearButton.setFont( LABEL_FONT );
         clearButton.setForeground( LABEL_COLOR );
