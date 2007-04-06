@@ -16,12 +16,9 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.VisibleColor;
 
 
@@ -46,14 +43,12 @@ public class HAConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    private static final String PROJECT = "hydrogen-atom";
+    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
     //----------------------------------------------------------------------------
     // Dimensions
     //----------------------------------------------------------------------------
     
-    public static final Dimension APP_FRAME_SIZE = new Dimension( 1024, 768 );
-
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 750, 750 );
 
     // Animation box size, must be square!
@@ -69,13 +64,6 @@ public class HAConstants {
     // Spectrometer
     public static final Dimension SPECTROMETER_SIZE = new Dimension( 500, 210 );
     
-    //----------------------------------------------------------------------------
-    // Properties files
-    //----------------------------------------------------------------------------
-    
-    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
-    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
-
     //----------------------------------------------------------------------------
     // Clock
     //----------------------------------------------------------------------------
@@ -95,7 +83,7 @@ public class HAConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    // NOTE: font sizes are configurable in the SimStrings file!
+    // NOTE: font sizes are configurable in the localization file!
     
     // Default font properties
     public static final String DEFAULT_FONT_NAME = new JLabel( "PhET" ).getFont().getName();
@@ -143,30 +131,28 @@ public class HAConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String IMAGES_DIRECTORY = PROJECT + "/images/";
-    
-    public static final String IMAGE_ATOMIC_MODEL_PANEL = IMAGES_DIRECTORY + "atomicModelPanel.png";
-    public static final String IMAGE_BILLIARD_BALL_BUTTON = IMAGES_DIRECTORY + "billiardBallButton.png";
-    public static final String IMAGE_BOHR_BUTTON = IMAGES_DIRECTORY + "bohrButton.png";
-    public static final String IMAGE_CAMERA = IMAGES_DIRECTORY + "camera.png";
-    public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
-    public static final String IMAGE_CLOSE_BUTTON = IMAGES_DIRECTORY + "closeButton.png";
-    public static final String IMAGE_DEBROGLIE_BUTTON = IMAGES_DIRECTORY + "deBroglieButton.png";
-    public static final String IMAGE_GUN = IMAGES_DIRECTORY + "gun.png";
-    public static final String IMAGE_GUN_CONTROL_CABLE = IMAGES_DIRECTORY + "gunControlCable.png";
-    public static final String IMAGE_GUN_ON_BUTTON = IMAGES_DIRECTORY + "gunOnButton.png";
-    public static final String IMAGE_GUN_OFF_BUTTON = IMAGES_DIRECTORY + "gunOffButton.png";
-    public static final String IMAGE_GUN_PANEL = IMAGES_DIRECTORY + "gunPanel.png";
-    public static final String IMAGE_KABOOM = IMAGES_DIRECTORY + "kaboom.png";
-    public static final String IMAGE_MODE_PANEL = IMAGES_DIRECTORY + "modePanel.png";
-    public static final String IMAGE_MODE_SWITCH_DOWN = IMAGES_DIRECTORY + "modeSwitchDown.png";
-    public static final String IMAGE_MODE_SWITCH_UP = IMAGES_DIRECTORY + "modeSwitchUp.png";
-    public static final String IMAGE_PLUM_PUDDING = IMAGES_DIRECTORY + "plumPudding.png";
-    public static final String IMAGE_PLUM_PUDDING_BUTTON = IMAGES_DIRECTORY + "plumPuddingButton.png";
-    public static final String IMAGE_SCHRODINGER_BUTTON = IMAGES_DIRECTORY + "schrodingerButton.png";
-    public static final String IMAGE_SOLAR_SYSTEM_BUTTON = IMAGES_DIRECTORY + "solarSystemButton.png";
-    public static final String IMAGE_SPECTROMETER_PANEL = IMAGES_DIRECTORY + "spectrometerPanel.png";
-    public static final String IMAGE_SPECTROMETER_SNAPSHOT_PANEL = IMAGES_DIRECTORY + "spectrometerSnapshotPanel.png";
+    public static final String IMAGE_ATOMIC_MODEL_PANEL = "atomicModelPanel.png";
+    public static final String IMAGE_BILLIARD_BALL_BUTTON = "billiardBallButton.png";
+    public static final String IMAGE_BOHR_BUTTON = "bohrButton.png";
+    public static final String IMAGE_CAMERA = "camera.png";
+    public static final String IMAGE_CLOCK = "clock.png";
+    public static final String IMAGE_CLOSE_BUTTON = "closeButton.png";
+    public static final String IMAGE_DEBROGLIE_BUTTON = "deBroglieButton.png";
+    public static final String IMAGE_GUN = "gun.png";
+    public static final String IMAGE_GUN_CONTROL_CABLE = "gunControlCable.png";
+    public static final String IMAGE_GUN_ON_BUTTON = "gunOnButton.png";
+    public static final String IMAGE_GUN_OFF_BUTTON = "gunOffButton.png";
+    public static final String IMAGE_GUN_PANEL = "gunPanel.png";
+    public static final String IMAGE_KABOOM = "kaboom.png";
+    public static final String IMAGE_MODE_PANEL = "modePanel.png";
+    public static final String IMAGE_MODE_SWITCH_DOWN = "modeSwitchDown.png";
+    public static final String IMAGE_MODE_SWITCH_UP = "modeSwitchUp.png";
+    public static final String IMAGE_PLUM_PUDDING = "plumPudding.png";
+    public static final String IMAGE_PLUM_PUDDING_BUTTON = "plumPuddingButton.png";
+    public static final String IMAGE_SCHRODINGER_BUTTON = "schrodingerButton.png";
+    public static final String IMAGE_SOLAR_SYSTEM_BUTTON = "solarSystemButton.png";
+    public static final String IMAGE_SPECTROMETER_PANEL = "spectrometerPanel.png";
+    public static final String IMAGE_SPECTROMETER_SNAPSHOT_PANEL = "spectrometerSnapshotPanel.png";
     
     //----------------------------------------------------------------------------
     // Cursors

@@ -16,6 +16,10 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+4/6/07 - organize imports
+4/6/07 - set locale in Spanish JNLP file via javaws.locale property
+4/6/07 - encapsulate loading of strings and images in HAResources
+4/6/07 - convert from SimStrings to PhetProjectConfig
 ***** 1.03.00 (14208)
 4/5/07 - change SolarSystemEnergyDiagram.MIN_RADIUS so electron's last position will be at bottom of chart for all clock speeds
 4/4/07 - add energy model to Solar System energy diagram

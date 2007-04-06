@@ -26,7 +26,6 @@ import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * SchrodingerEnergyDiagram is the energy diagram for the Schrodinger model.

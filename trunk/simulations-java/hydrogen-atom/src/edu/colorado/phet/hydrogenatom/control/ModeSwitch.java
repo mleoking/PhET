@@ -22,11 +22,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.event.PInputEventListener;
@@ -78,26 +77,26 @@ public class ModeSwitch extends PhetPNode {
         super();
         
         // Font size 
-        int bigFontSize = SimStrings.getInstance().getInt( "modeSwitch.big.font.size", HAConstants.DEFAULT_FONT_SIZE );
+        int bigFontSize = HAResources.getInt( "modeSwitch.big.font.size", HAConstants.DEFAULT_FONT_SIZE );
         Font bigFont = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, bigFontSize );
-        int smallFontSize = SimStrings.getInstance().getInt( "modeSwitch.small.font.size", HAConstants.DEFAULT_FONT_SIZE );
+        int smallFontSize = HAResources.getInt( "modeSwitch.small.font.size", HAConstants.DEFAULT_FONT_SIZE );
         Font smallFont = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN, smallFontSize );
         
-        PImage panel = PImageFactory.create( HAConstants.IMAGE_MODE_PANEL );
-        _switchUpNode = new PhetPNode( PImageFactory.create( HAConstants.IMAGE_MODE_SWITCH_UP ) );
-        _switchDownNode = new PhetPNode( PImageFactory.create( HAConstants.IMAGE_MODE_SWITCH_DOWN ) );
+        PImage panel = HAResources.getImageNode( HAConstants.IMAGE_MODE_PANEL );
+        _switchUpNode = new PhetPNode( HAResources.getImageNode( HAConstants.IMAGE_MODE_SWITCH_UP ) );
+        _switchDownNode = new PhetPNode( HAResources.getImageNode( HAConstants.IMAGE_MODE_SWITCH_DOWN ) );
         
         if ( EXPERIMENT_IS_AT_TOP ) {
-            _topTitleNode = new PText( SimStrings.getInstance().getString( "label.experiment" ) );
-            _topSubtitleNode = new PText( SimStrings.getInstance().getString( "label.whatReallyHappens" ) );
-            _bottomTitleNode = new PText( SimStrings.getInstance().getString( "label.prediction" ) );
-            _bottomSubtitleNode = new PText( SimStrings.getInstance().getString( "label.whatTheModelPredicts" ) );
+            _topTitleNode = new PText( HAResources.getString( "label.experiment" ) );
+            _topSubtitleNode = new PText( HAResources.getString( "label.whatReallyHappens" ) );
+            _bottomTitleNode = new PText( HAResources.getString( "label.prediction" ) );
+            _bottomSubtitleNode = new PText( HAResources.getString( "label.whatTheModelPredicts" ) );
         }
         else {
-            _topTitleNode = new PText( SimStrings.getInstance().getString( "label.prediction") );
-            _topSubtitleNode = new PText( SimStrings.getInstance().getString( "label.whatTheModelPredicts") );
-            _bottomTitleNode = new PText( SimStrings.getInstance().getString( "label.experiment") );
-            _bottomSubtitleNode = new PText( SimStrings.getInstance().getString( "label.whatReallyHappens") );
+            _topTitleNode = new PText( HAResources.getString( "label.prediction") );
+            _topSubtitleNode = new PText( HAResources.getString( "label.whatTheModelPredicts") );
+            _bottomTitleNode = new PText( HAResources.getString( "label.experiment") );
+            _bottomSubtitleNode = new PText( HAResources.getString( "label.whatReallyHappens") );
         }
         _topTitleNode.setFont( bigFont );
         _topSubtitleNode.setFont( smallFont );

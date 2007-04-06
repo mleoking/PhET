@@ -2,11 +2,9 @@ package edu.colorado.phet.hydrogenatom.view.atom;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 
-import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**

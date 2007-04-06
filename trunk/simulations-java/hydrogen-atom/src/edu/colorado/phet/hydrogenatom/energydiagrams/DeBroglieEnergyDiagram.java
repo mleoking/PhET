@@ -12,7 +12,6 @@
 package edu.colorado.phet.hydrogenatom.energydiagrams;
 
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * DeBroglieEnergyDiagram is the energy diagram for the deBroglie model.

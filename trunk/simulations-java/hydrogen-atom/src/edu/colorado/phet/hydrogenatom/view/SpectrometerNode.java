@@ -16,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -26,8 +25,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.common.view.util.*;
+import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.view.util.SpectrumImageFactory;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.control.CloseButtonNode;
 import edu.colorado.phet.hydrogenatom.event.PhotonEmittedEvent;
 import edu.colorado.phet.hydrogenatom.event.PhotonEmittedListener;
@@ -35,7 +37,6 @@ import edu.colorado.phet.hydrogenatom.model.Photon;
 import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -44,7 +45,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * SpectrometerNode is the visual representation of a spectrometer.
@@ -184,7 +184,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
 
         // Background panel
         {
-            _panelNode = PImageFactory.create( HAConstants.IMAGE_SPECTROMETER_PANEL );
+            _panelNode = HAResources.getImageNode( HAConstants.IMAGE_SPECTROMETER_PANEL );
             double scaleX = size.width / _panelNode.getWidth();
             double scaleY = size.height / _panelNode.getHeight();
             AffineTransform panelTransform = new AffineTransform();
@@ -223,7 +223,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
         // Button panel, centered below the black rectangle.
         {
             // Start/Stop button
-            String s = _isRunning ? SimStrings.getInstance().getString( "button.spectrometer.stop" ) : SimStrings.getInstance().getString( "button.spectrometer.start" );
+            String s = _isRunning ? HAResources.getString( "button.spectrometer.stop" ) : HAResources.getString( "button.spectrometer.start" );
             _startStopButton = new JButton( s );
             _startStopButton.setFont( font );
             _startStopButton.addActionListener( new ActionListener() {
@@ -238,7 +238,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             } );
 
             // Reset button
-            _resetButton = new JButton( SimStrings.getInstance().getString( "button.spectrometer.reset" ) );
+            _resetButton = new JButton( HAResources.getString( "button.spectrometer.reset" ) );
             _resetButton.setFont( font );
             _resetButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
@@ -247,15 +247,9 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             } );
 
             // Snapshot button
-            try {
-                BufferedImage snapshotImage = ImageLoader.loadBufferedImage( HAConstants.IMAGE_CAMERA );
-                Icon snapshotIcon = new ImageIcon( snapshotImage );
-                _snapshotButton = new JButton( snapshotIcon );
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-                _snapshotButton = new JButton( "Snapshot" );
-            }
+            BufferedImage snapshotImage = HAResources.getImage( HAConstants.IMAGE_CAMERA );
+            Icon snapshotIcon = new ImageIcon( snapshotImage );
+            _snapshotButton = new JButton( snapshotIcon );
             _snapshotButton.setMargin( new Insets( 0, 0, 0, 0 ) );
 
             // Put buttons in a panel
@@ -507,7 +501,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
      */
     public void start() {
         _isRunning = true;
-        _startStopButton.setText( SimStrings.getInstance().getString( "button.spectrometer.stop" ) );
+        _startStopButton.setText( HAResources.getString( "button.spectrometer.stop" ) );
     }
     
     /**
@@ -516,7 +510,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
      */
     public void stop() {
         _isRunning = false;
-        _startStopButton.setText( SimStrings.getInstance().getString( "button.spectrometer.start" ) );
+        _startStopButton.setText( HAResources.getString( "button.spectrometer.start" ) );
     }
     
     /**
@@ -705,7 +699,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
             super();
 
             // Background panel
-            PImage panelNode = PImageFactory.create( HAConstants.IMAGE_SPECTROMETER_SNAPSHOT_PANEL );
+            PImage panelNode = HAResources.getImageNode( HAConstants.IMAGE_SPECTROMETER_SNAPSHOT_PANEL );
             Dimension size = spectrometerNode.getSize();
             double scaleX = size.width / panelNode.getWidth();
             double scaleY = size.height / panelNode.getHeight();

@@ -22,13 +22,12 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.view.particle.AlphaParticleNode;
 import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * GunTypeControl is the control that determines what the guns shoots,
@@ -77,12 +76,12 @@ public class GunTypeControl extends PhetPNode {
         Icon alphaParticleIcon = new ImageIcon( alphaParticleImage );
         
         // Photons radio button
-        RadioButtonWithIcon photonsControl = new RadioButtonWithIcon( SimStrings.getInstance().getString( "button.photons" ), photonIcon );
+        RadioButtonWithIcon photonsControl = new RadioButtonWithIcon( HAResources.getString( "button.photons" ), photonIcon );
         _photonsButton = photonsControl.getRadioButton();
         _photonsButton.setHorizontalTextPosition( SwingConstants.RIGHT );
         
         // Alpha Particles radio button
-        RadioButtonWithIcon alphaParticleControl = new RadioButtonWithIcon( SimStrings.getInstance().getString( "button.alphaParticles" ), alphaParticleIcon );
+        RadioButtonWithIcon alphaParticleControl = new RadioButtonWithIcon( HAResources.getString( "button.alphaParticles" ), alphaParticleIcon );
         _alphaParticlesButton = alphaParticleControl.getRadioButton();
         _alphaParticlesButton.setHorizontalTextPosition( SwingConstants.RIGHT );
         

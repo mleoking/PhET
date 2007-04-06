@@ -24,7 +24,6 @@ import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * BohrEnergyDiagram is the energy diagram for the Bohr model.

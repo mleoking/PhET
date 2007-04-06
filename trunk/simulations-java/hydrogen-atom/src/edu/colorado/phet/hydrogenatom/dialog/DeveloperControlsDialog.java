@@ -39,7 +39,6 @@ import edu.colorado.phet.hydrogenatom.model.RutherfordScattering;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieBrightnessMagnitudeNode;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieBrightnessNode;
-import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieRadialDistanceNode;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.

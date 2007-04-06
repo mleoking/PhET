@@ -12,7 +12,6 @@
 package edu.colorado.phet.hydrogenatom.view.atom;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
@@ -23,7 +22,6 @@ import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PBounds;
 
 
 public class ExperimentNode extends PhetPNode implements Observer {

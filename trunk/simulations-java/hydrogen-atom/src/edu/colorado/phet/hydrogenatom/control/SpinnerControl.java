@@ -14,7 +14,6 @@ package edu.colorado.phet.hydrogenatom.control;
 import java.awt.Insets;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 

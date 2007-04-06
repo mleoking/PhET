@@ -11,10 +11,6 @@
 
 package edu.colorado.phet.hydrogenatom.view.atom;
 
-import java.awt.*;
-
-import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
-import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 import edu.colorado.phet.piccolo.PhetPNode;
 
 /**

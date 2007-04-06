@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
 import edu.umd.cs.piccolox.pswing.PComboBox;
 
@@ -31,9 +31,9 @@ public class DeBroglieViewControl extends PComboBox {
     public DeBroglieViewControl() {
         super();
         setOpaque( false );
-        addItem( new Choice( SimStrings.getInstance().getString( "menu.deBroglieView.radialDistance" ), DeBroglieView.RADIAL_DISTANCE ) );
-        addItem( new Choice( SimStrings.getInstance().getString( "menu.deBroglieView.height3D" ), DeBroglieView.HEIGHT_3D ) );
-        addItem( new Choice( SimStrings.getInstance().getString( "menu.deBroglieView.brightness" ), DeBroglieView.BRIGHTNESS ) );
+        addItem( new Choice( HAResources.getString( "menu.deBroglieView.radialDistance" ), DeBroglieView.RADIAL_DISTANCE ) );
+        addItem( new Choice( HAResources.getString( "menu.deBroglieView.height3D" ), DeBroglieView.HEIGHT_3D ) );
+        addItem( new Choice( HAResources.getString( "menu.deBroglieView.brightness" ), DeBroglieView.BRIGHTNESS ) );
     }
    
     /**

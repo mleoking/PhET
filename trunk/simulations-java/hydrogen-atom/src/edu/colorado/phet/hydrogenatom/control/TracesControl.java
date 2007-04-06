@@ -15,7 +15,7 @@ import java.awt.Font;
 
 import javax.swing.JCheckBox;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.hydrogenatom.HAResources;
 
 /**
  * TracesControl is the control used to turn traces on/off in the Gun control panel.
@@ -27,7 +27,7 @@ public class TracesControl extends JCheckBox {
 
     public TracesControl( Font font ) {
         super();
-        setText( SimStrings.getInstance().getString( "label.showTraces" ) );
+        setText( HAResources.getString( "label.showTraces" ) );
         setFont( font );
         setOpaque( false );
     }

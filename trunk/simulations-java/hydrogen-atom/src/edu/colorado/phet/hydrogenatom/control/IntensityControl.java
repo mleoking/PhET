@@ -19,16 +19,11 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-import javax.swing.border.SoftBevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.hydrogenatom.HAConstants;
 
 /**
  * IntensityControl is an intensity control, with range from 0-100 %.

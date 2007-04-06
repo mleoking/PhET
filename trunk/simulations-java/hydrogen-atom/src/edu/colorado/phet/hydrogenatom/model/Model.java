@@ -14,7 +14,6 @@ package edu.colorado.phet.hydrogenatom.model;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
-import java.util.Iterator;
 
 import javax.swing.event.EventListenerList;
 

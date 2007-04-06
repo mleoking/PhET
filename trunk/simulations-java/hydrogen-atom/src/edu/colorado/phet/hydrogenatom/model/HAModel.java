@@ -12,7 +12,6 @@
 package edu.colorado.phet.hydrogenatom.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockEvent;

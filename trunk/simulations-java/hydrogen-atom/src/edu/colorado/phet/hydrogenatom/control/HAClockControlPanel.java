@@ -28,9 +28,9 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HADefaults;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.model.HAClock;
 
 
@@ -82,9 +82,9 @@ public class HAClockControlPanel extends JPanel {
         _clock.setDt( dt );
         
         // Labels (use localized strings from phetcommon)
-        String playLabel = SimStrings.getInstance().getString( "Common.ClockControlPanel.Play" );
-        String pauseLabel = SimStrings.getInstance().getString( "Common.ClockControlPanel.Pause" );
-        String stepLabel = SimStrings.getInstance().getString( "Common.ClockControlPanel.Step" );
+        String playLabel = HAResources.getString( "Common.ClockControlPanel.Play" );
+        String pauseLabel = HAResources.getString( "Common.ClockControlPanel.Pause" );
+        String stepLabel = HAResources.getString( "Common.ClockControlPanel.Step" );
         
         // Icons
         Icon playIcon = null;
@@ -95,7 +95,7 @@ public class HAClockControlPanel extends JPanel {
             playIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PLAY ) );
             pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PAUSE ) );
             stepIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_STEP ) );
-            clockIcon = new ImageIcon( ImageLoader.loadBufferedImage( HAConstants.IMAGE_CLOCK ) );
+            clockIcon = new ImageIcon( HAResources.getImage( HAConstants.IMAGE_CLOCK ) );
         }
         catch ( IOException e ) {
             e.printStackTrace();
@@ -113,8 +113,8 @@ public class HAClockControlPanel extends JPanel {
             _clockIndexSlider.setValue( HADefaults.CLOCK_INDEX );
             
             // Label the min "normal", the max "fast".
-            String normalString = SimStrings.getInstance().getString( "label.clockSpeed.slow" );
-            String fastString = SimStrings.getInstance().getString( "label.clockSpeed.fast" );
+            String normalString = HAResources.getString( "label.clockSpeed.slow" );
+            String fastString = HAResources.getString( "label.clockSpeed.fast" );
             Hashtable labelTable = new Hashtable();
             labelTable.put( new Integer( _clockIndexSlider.getMinimum() ), new JLabel( normalString ) );
             labelTable.put( new Integer( _clockIndexSlider.getMaximum() ), new JLabel( fastString ) );

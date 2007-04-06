@@ -17,13 +17,13 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
-import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -62,7 +62,7 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
         
         _protonNode = new ProtonNode();
         _electronNode = new ElectronNode();
-        _kaboomNode = PImageFactory.create( HAConstants.IMAGE_KABOOM );
+        _kaboomNode = HAResources.getImageNode( HAConstants.IMAGE_KABOOM );
         
         _kaboomNode.setVisible( false );
         _kaboomNode.setOffset( -_kaboomNode.getWidth() / 2, -_kaboomNode.getHeight() / 2 );

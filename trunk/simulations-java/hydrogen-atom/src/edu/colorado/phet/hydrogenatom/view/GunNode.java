@@ -16,10 +16,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -63,10 +63,10 @@ public class GunNode extends PhetPNode implements Observer {
         _gun = gun;
         
         // Nodes
-        PImage gunNode = PImageFactory.create( HAConstants.IMAGE_GUN );
-        _onButton = PImageFactory.create(HAConstants.IMAGE_GUN_ON_BUTTON );
-        _offButton = PImageFactory.create( HAConstants.IMAGE_GUN_OFF_BUTTON );
-        PImage cableNode = PImageFactory.create( HAConstants.IMAGE_GUN_CONTROL_CABLE );
+        PImage gunNode = HAResources.getImageNode( HAConstants.IMAGE_GUN );
+        _onButton = HAResources.getImageNode(HAConstants.IMAGE_GUN_ON_BUTTON );
+        _offButton = HAResources.getImageNode( HAConstants.IMAGE_GUN_OFF_BUTTON );
+        PImage cableNode = HAResources.getImageNode( HAConstants.IMAGE_GUN_CONTROL_CABLE );
         
         // Layering
         addChild( cableNode );

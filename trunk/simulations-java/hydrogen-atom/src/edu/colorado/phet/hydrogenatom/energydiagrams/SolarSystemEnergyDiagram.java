@@ -17,7 +17,6 @@ import java.util.Observer;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
-import edu.colorado.phet.hydrogenatom.model.BohrModel;
 import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.umd.cs.piccolo.util.PBounds;

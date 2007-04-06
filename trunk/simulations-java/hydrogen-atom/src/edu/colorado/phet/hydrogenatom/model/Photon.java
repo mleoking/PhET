@@ -15,7 +15,6 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.util.DebugUtils;
 

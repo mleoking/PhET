@@ -19,13 +19,12 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.PlumPuddingModel;
-import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
-import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -65,7 +64,7 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
         _atom = atom;
         _atom.addObserver( this );
         
-        PImage puddingNode = PImageFactory.create( HAConstants.IMAGE_PLUM_PUDDING );
+        PImage puddingNode = HAResources.getImageNode( HAConstants.IMAGE_PLUM_PUDDING );
         double imageHeight = puddingNode.getHeight();
         double atomHeight = 2 * ModelViewTransform.transform( atom.getRadius() );
         double imageScale = atomHeight / imageHeight;

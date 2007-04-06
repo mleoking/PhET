@@ -13,8 +13,8 @@ package edu.colorado.phet.hydrogenatom.menu;
 
 import javax.swing.JMenu;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
 
 /**
@@ -26,8 +26,8 @@ import edu.colorado.phet.hydrogenatom.module.HAModule;
 public class OptionsMenu extends JMenu {
     
     public OptionsMenu( HAModule module ) {
-        super( SimStrings.getInstance().getString( "menu.options" ) );
-        setMnemonic( SimStrings.getInstance().getString( "menu.options.mnemonic" ).charAt( 0 ) );
+        super( HAResources.getString( "menu.options" ) );
+        setMnemonic( HAResources.getChar( "menu.options.mnemonic", 'O' ) );
         
         if ( HAConstants.DEBROGLIE_VIEW_IN_MENUBAR ) {
             DeBroglieViewMenu deBroglieViewMenu = new DeBroglieViewMenu( module );
