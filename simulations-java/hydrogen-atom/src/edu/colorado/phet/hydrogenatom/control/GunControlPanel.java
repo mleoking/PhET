@@ -24,9 +24,9 @@ import javax.swing.JLabel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HADefaults;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.enums.GunMode;
 import edu.colorado.phet.hydrogenatom.enums.LightType;
 import edu.colorado.phet.hydrogenatom.hacks.GunWavelengthControl;
@@ -34,7 +34,6 @@ import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.hydrogenatom.view.TracesNode;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -104,12 +103,12 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _transitionMarksControlVisible = false;
         
         // Font
-        int fontSize = SimStrings.getInstance().getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
+        int fontSize = HAResources.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
         
-        PImage panel = PImageFactory.create( HAConstants.IMAGE_GUN_PANEL );
+        PImage panel = HAResources.getImageNode( HAConstants.IMAGE_GUN_PANEL );
         
-        JLabel lightControlsLabel = new JLabel( SimStrings.getInstance().getString( "label.lightControls" ) );
+        JLabel lightControlsLabel = new JLabel( HAResources.getString( "label.lightControls" ) );
         Font labelFont = new Font( FONT_NAME, FONT_STYLE, fontSize+2 );
         lightControlsLabel.setFont( labelFont );
         PSwing lightControlsLabelWrapper = new PSwing(lightControlsLabel );

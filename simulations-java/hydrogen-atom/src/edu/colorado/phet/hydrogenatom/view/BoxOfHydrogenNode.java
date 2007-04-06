@@ -17,8 +17,8 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -116,9 +116,9 @@ public class BoxOfHydrogenNode extends PImage {
         
         // Label, origin in upper-left corner of bounds
         HTMLNode labelNode = new HTMLNode();
-        labelNode.setHTML( SimStrings.getInstance().getString( "label.boxOfHydrogen" ) );
+        labelNode.setHTML( HAResources.getString( "label.boxOfHydrogen" ) );
         labelNode.setHTMLColor( HAConstants.CANVAS_LABELS_COLOR );
-        int fontSize = SimStrings.getInstance().getInt( "boxOfHydrogen.font.size", DEFAULT_FONT_SIZE );
+        int fontSize = HAResources.getInt( "boxOfHydrogen.font.size", DEFAULT_FONT_SIZE );
         Font labelFont = new Font( FONT_NAME, FONT_STYLE, fontSize );
         labelNode.setFont( labelFont );
         

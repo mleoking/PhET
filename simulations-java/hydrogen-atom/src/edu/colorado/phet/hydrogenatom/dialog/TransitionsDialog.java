@@ -22,8 +22,8 @@ import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.model.BohrModel;
 
 /**
@@ -38,7 +38,7 @@ public class TransitionsDialog extends JDialog {
     private static final DecimalFormat WAVELENGTH_FORMATTER = new DecimalFormat( "0" );
     
     public TransitionsDialog( Frame owner ) {
-        super( owner, SimStrings.getInstance().getString( "dialog.transitions.title") );
+        super( owner, HAResources.getString( "dialog.transitions.title") );
         setResizable( false );
         
         JPanel inputPanel = createInputPanel();
@@ -66,8 +66,8 @@ public class TransitionsDialog extends JDialog {
         panel.setLayout( layout );
         int row = 0;
         
-        layout.addAnchoredComponent( new JLabel( SimStrings.getInstance().getString( "dialog.transitions.transition" ) ), row, 0, GridBagConstraints.CENTER );
-        layout.addAnchoredComponent( new JLabel( SimStrings.getInstance().getString( "dialog.transitions.wavelength" ) ), row, 2, GridBagConstraints.EAST );
+        layout.addAnchoredComponent( new JLabel( HAResources.getString( "dialog.transitions.transition" ) ), row, 0, GridBagConstraints.CENTER );
+        layout.addAnchoredComponent( new JLabel( HAResources.getString( "dialog.transitions.wavelength" ) ), row, 2, GridBagConstraints.EAST );
         layout.addAnchoredComponent( new JLabel( "(nm)" ), row, 4, GridBagConstraints.WEST );
         row++;
         layout.addComponent( new JSeparator(), row, 0, 5, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL );
@@ -91,7 +91,7 @@ public class TransitionsDialog extends JDialog {
     }
     
     private JPanel createActionsPanel() {
-        JButton closeButton = new JButton( SimStrings.getInstance().getString( "button.close" ) );
+        JButton closeButton = new JButton( HAResources.getString( "button.close" ) );
         closeButton.addActionListener( new ActionListener() {
 
             public void actionPerformed( ActionEvent event ) {

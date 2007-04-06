@@ -26,10 +26,9 @@ import javax.swing.JCheckBox;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HADefaults;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.control.*;
 import edu.colorado.phet.hydrogenatom.energydiagrams.BohrEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.DeBroglieEnergyDiagram;
@@ -126,15 +125,15 @@ public class HAModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public HAModule() {
-        super( SimStrings.getInstance().getString( "HAModule.title" ), new HAClock(), !HADefaults.CLOCK_RUNNING /* startsPaused */ );
+        super( HAResources.getString( "HAModule.title" ), new HAClock(), !HADefaults.CLOCK_RUNNING /* startsPaused */ );
 
         // hide the PhET logo
         setLogoPanel( null );
 
         // Fonts
-        int jComponentFontSize = SimStrings.getInstance().getInt( "jcomponent.font.size", HAConstants.DEFAULT_FONT_SIZE );
+        int jComponentFontSize = HAResources.getInt( "jcomponent.font.size", HAConstants.DEFAULT_FONT_SIZE );
         Font jComponentFont = new Font( HAConstants.DEFAULT_FONT_NAME, HAConstants.DEFAULT_FONT_STYLE, jComponentFontSize );
-        int spectrometerFontSize = SimStrings.getInstance().getInt( "spectrometer.font.size", HAConstants.DEFAULT_FONT_SIZE );
+        int spectrometerFontSize = HAResources.getInt( "spectrometer.font.size", HAConstants.DEFAULT_FONT_SIZE );
         _spectrometerFont = new Font( HAConstants.DEFAULT_FONT_NAME, HAConstants.DEFAULT_FONT_STYLE, spectrometerFontSize );
         
         //----------------------------------------------------------------------------
@@ -268,7 +267,7 @@ public class HAModule extends PiccoloModule {
         // Spectrometer
         {
             // Checkbox
-            _spectrometerCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showSpectrometer" ) );
+            _spectrometerCheckBox = new JCheckBox( HAResources.getString( "label.showSpectrometer" ) );
 //            _spectrometerCheckBox.setOpaque( false ); //XXX preferrable to setting background, but looks lousy on Windows
             _spectrometerCheckBox.setBackground( HAConstants.CANVAS_BACKGROUND );
             _spectrometerCheckBox.setForeground( HAConstants.CANVAS_LABELS_COLOR );
@@ -282,7 +281,7 @@ public class HAModule extends PiccoloModule {
             _spectrometerCheckBoxNode.addInputEventListener( new CursorHandler() );
 
             // Spectrometer
-            String title = SimStrings.getInstance().getString( "label.photonsEmitted" );
+            String title = HAResources.getString( "label.photonsEmitted" );
             _spectrometerNode = new SpectrometerNode( HAConstants.SPECTROMETER_SIZE, title, _spectrometerFont, HAConstants.SPECTROMETER_MIN_WAVELENGTH, HAConstants.SPECTROMETER_MAX_WAVELENGTH );
             _spectrometerNode.addCloseListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
@@ -302,7 +301,7 @@ public class HAModule extends PiccoloModule {
         // Energy diagrams
         {
             // checkbox
-            _energyDiagramCheckBox = new JCheckBox( SimStrings.getInstance().getString( "label.showEnergyDiagram" ) );
+            _energyDiagramCheckBox = new JCheckBox( HAResources.getString( "label.showEnergyDiagram" ) );
 //            _energyDiagramCheckBox.setOpaque( false );//XXX preferrable to setting background, but looks lousy on Windows
             _energyDiagramCheckBox.setBackground( HAConstants.CANVAS_BACKGROUND );
             _energyDiagramCheckBox.setForeground( HAConstants.CANVAS_LABELS_COLOR );
@@ -605,7 +604,7 @@ public class HAModule extends PiccoloModule {
         if ( !_wiggleMeInitialized ) {
             
             // Create wiggle me, add to root node.
-            String wiggleMeString = SimStrings.getInstance().getString( "wiggleMe.gun" );
+            String wiggleMeString = HAResources.getString( "wiggleMe.gun" );
             _wiggleMe = new HAWiggleMe( _canvas, wiggleMeString );
             _rootNode.addChild( _wiggleMe );
             
@@ -759,12 +758,12 @@ public class HAModule extends PiccoloModule {
         _spectrometerSnapshotsCounter++;
 
         // create the snapshot title
-        String title = SimStrings.getInstance().getString( "label.snapshot" ) + " " + _spectrometerSnapshotsCounter + ": ";
+        String title = HAResources.getString( "label.snapshot" ) + " " + _spectrometerSnapshotsCounter + ": ";
         if ( _modeSwitch.isPredictionSelected() ) {
             title += _atomicModelSelector.getSelectionName();
         }
         else {
-            title += SimStrings.getInstance().getString( "title.spectrometer.experiment" );
+            title += HAResources.getString( "title.spectrometer.experiment" );
         }
 
         // create the snapshot's Piccolo node

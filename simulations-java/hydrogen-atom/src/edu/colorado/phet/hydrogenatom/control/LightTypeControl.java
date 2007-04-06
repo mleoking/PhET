@@ -24,7 +24,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.hydrogenatom.HAResources;
 
 /**
  * LightTypeControl is the control that determines the type of light source,
@@ -58,10 +58,10 @@ public class LightTypeControl extends JPanel {
         _listenerList = new EventListenerList();
         
         // Radio buttons
-        _whiteButton = new JRadioButton( SimStrings.getInstance().getString( "button.white" ) );
+        _whiteButton = new JRadioButton( HAResources.getString( "button.white" ) );
         _whiteButton.setFont( font );
 
-        _monochromaticButton = new JRadioButton( SimStrings.getInstance().getString( "button.monochromatic" ) );
+        _monochromaticButton = new JRadioButton( HAResources.getString( "button.monochromatic" ) );
         _monochromaticButton.setFont( font );
         
         ButtonGroup buttonGroup = new ButtonGroup();

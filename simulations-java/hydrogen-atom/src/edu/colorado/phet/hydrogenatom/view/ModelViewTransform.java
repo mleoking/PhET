@@ -14,7 +14,6 @@ package edu.colorado.phet.hydrogenatom.view;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 
 /**

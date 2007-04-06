@@ -125,7 +125,7 @@ public class MetastableHandler extends ClockAdapter implements Observer {
         if ( _stuck && _gun.isEnabled() && _gun.isPhotonsMode() && _gun.isWhiteLightType() ) {
             _stuckSimTime += event.getSimulationTimeChange();
             if ( _stuckSimTime >= MAX_STUCK_SIM_TIME ) {
-                System.out.println( "stuckSimTime=" + _stuckSimTime );//XXX
+//                System.out.println( "stuckSimTime=" + _stuckSimTime );//XXX
                 fireOneAbsorbablePhoton();
                 /* 
                  * Restart the timer, but don't clear the stuck flag.

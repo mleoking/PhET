@@ -11,14 +11,17 @@
 
 package edu.colorado.phet.hydrogenatom.menu;
 
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.hydrogenatom.HADefaults;
-import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
-import edu.colorado.phet.hydrogenatom.module.HAModule;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JMenu;
+import javax.swing.JRadioButtonMenuItem;
+
+import edu.colorado.phet.hydrogenatom.HADefaults;
+import edu.colorado.phet.hydrogenatom.HAResources;
+import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
+import edu.colorado.phet.hydrogenatom.module.HAModule;
 
 /**
  * DeBroglieViewMenu is the "deBroglie View" submenu that appears in menu bar's Options menu.
@@ -35,14 +38,14 @@ public class DeBroglieViewMenu extends JMenu {
     private JRadioButtonMenuItem _brightnessMenuItem;
     
     public DeBroglieViewMenu( HAModule module ) {
-        super( SimStrings.getInstance().getString( "menu.deBroglieView" ) );
-        setMnemonic( SimStrings.getInstance().getChar( "menu.deBroglieView.mnemonic", 'D' ) );
+        super( HAResources.getString( "menu.deBroglieView" ) );
+        setMnemonic( HAResources.getChar( "menu.deBroglieView.mnemonic", 'D' ) );
 
         _module = module;
         
-        _radialDistanceMenuItem = new JRadioButtonMenuItem( SimStrings.getInstance().getString( "menu.deBroglieView.radialDistance" ) );
-        _height3DMenuItem = new JRadioButtonMenuItem( SimStrings.getInstance().getString( "menu.deBroglieView.height3D" ) );
-        _brightnessMenuItem = new JRadioButtonMenuItem( SimStrings.getInstance().getString( "menu.deBroglieView.brightness" ) );
+        _radialDistanceMenuItem = new JRadioButtonMenuItem( HAResources.getString( "menu.deBroglieView.radialDistance" ) );
+        _height3DMenuItem = new JRadioButtonMenuItem( HAResources.getString( "menu.deBroglieView.height3D" ) );
+        _brightnessMenuItem = new JRadioButtonMenuItem( HAResources.getString( "menu.deBroglieView.brightness" ) );
 
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( _radialDistanceMenuItem );

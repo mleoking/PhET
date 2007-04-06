@@ -19,8 +19,8 @@ import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.util.Observer;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.control.CloseButtonNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -132,14 +132,14 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         setPickable( false );
         
         // Fonts
-        int axisFontSize = SimStrings.getInstance().getInt( AXIS_FONT_SIZE_RESOURCE, HAConstants.DEFAULT_FONT_SIZE );
+        int axisFontSize = HAResources.getInt( AXIS_FONT_SIZE_RESOURCE, HAConstants.DEFAULT_FONT_SIZE );
         Font axisFont = new Font( HAConstants.DEFAULT_FONT_NAME, HAConstants.DEFAULT_FONT_STYLE, axisFontSize );
         
-        int titleFontSize = SimStrings.getInstance().getInt( TITLE_FONT_SIZE_RESOURCE, HAConstants.DEFAULT_FONT_SIZE );
+        int titleFontSize = HAResources.getInt( TITLE_FONT_SIZE_RESOURCE, HAConstants.DEFAULT_FONT_SIZE );
         Font titleFont = new Font( HAConstants.DEFAULT_FONT_NAME, HAConstants.DEFAULT_FONT_STYLE, titleFontSize );
         
         // Title bar, with title & close button
-        PText titleNode = new PText( SimStrings.getInstance().getString( "title.energyDiagram" ) );
+        PText titleNode = new PText( HAResources.getString( "title.energyDiagram" ) );
         _closeButton = new CloseButtonNode();
         PPath titleBarNode = new PPath();
         titleBarNode.addChild( titleNode );
@@ -357,7 +357,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         arrowNode.setStroke( null );
         
         // Label -- origin at lower-left after rotating
-        PText labelNode = new PText( SimStrings.getInstance().getString( "label.energyDiagram.yAxis" ) );
+        PText labelNode = new PText( HAResources.getString( "label.energyDiagram.yAxis" ) );
         labelNode.setFont( font );
         labelNode.setTextPaint( AXIS_LABEL_COLOR );
         labelNode.rotate( Math.toRadians( -90 ) ); 

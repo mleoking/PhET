@@ -23,13 +23,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
-import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -108,82 +107,82 @@ public class AtomicModelSelector extends PhetPNode {
         
         // Fonts
         Font titleFont = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD,
-                SimStrings.getInstance().getInt( "atomicModelSelector.title.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
+                HAResources.getInt( "atomicModelSelector.title.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
         Font continuumFont = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN,
-                SimStrings.getInstance().getInt( "atomicModelSelector.continuum.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
+                HAResources.getInt( "atomicModelSelector.continuum.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
         Font buttonFont = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD,
-                SimStrings.getInstance().getInt( "atomicModelSelector.button.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
+                HAResources.getInt( "atomicModelSelector.button.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
         
         // Panel
-        PImage panel = PImageFactory.create( HAConstants.IMAGE_ATOMIC_MODEL_PANEL );
+        PImage panel = HAResources.getImageNode( HAConstants.IMAGE_ATOMIC_MODEL_PANEL );
         
         // Labels
-        HTMLNode atomicModelLabel = new HTMLNode( SimStrings.getInstance().getString( "label.atomicModel" ) );
+        HTMLNode atomicModelLabel = new HTMLNode( HAResources.getString( "label.atomicModel" ) );
         atomicModelLabel.setFont( titleFont );
         atomicModelLabel.setHTMLColor( TITLE_COLOR );
         widthNodes.add( atomicModelLabel );
         heightNodes.add( atomicModelLabel );
         
-        PText classicalLabel = new PText( SimStrings.getInstance().getString( "label.classical" ) );
+        PText classicalLabel = new PText( HAResources.getString( "label.classical" ) );
         classicalLabel.setFont( continuumFont );
         classicalLabel.setTextPaint( CONTINUUM_QUANTUM_COLOR ); // yes, this is correct
         
-        PText quantumLabel = new PText( SimStrings.getInstance().getString( "label.quantum" ) );
+        PText quantumLabel = new PText( HAResources.getString( "label.quantum" ) );
         quantumLabel.setFont( continuumFont );
         quantumLabel.setTextPaint( CONTINUUM_CLASSICAL_COLOR ); // yes, this is correct
         
-        _billiardBallLabel = new HTMLNode( SimStrings.getInstance().getString( "button.billiardBall" ) );
+        _billiardBallLabel = new HTMLNode( HAResources.getString( "button.billiardBall" ) );
         _billiardBallLabel.setFont( buttonFont );
         widthNodes.add( _billiardBallLabel );
         heightNodes.add( _billiardBallLabel );
 
-        _plumPuddingLabel = new HTMLNode( SimStrings.getInstance().getString( "button.plumPudding" ) );
+        _plumPuddingLabel = new HTMLNode( HAResources.getString( "button.plumPudding" ) );
         _plumPuddingLabel.setFont( buttonFont );
         widthNodes.add( _plumPuddingLabel );
         heightNodes.add( _plumPuddingLabel );
         
-        _solarSystemLabel = new HTMLNode( SimStrings.getInstance().getString( "button.solarSystem" ) );
+        _solarSystemLabel = new HTMLNode( HAResources.getString( "button.solarSystem" ) );
         _solarSystemLabel.setFont( buttonFont );
         widthNodes.add( _solarSystemLabel );
         heightNodes.add( _solarSystemLabel );
         
-        _bohrLabel = new HTMLNode( SimStrings.getInstance().getString( "button.bohr" ) );
+        _bohrLabel = new HTMLNode( HAResources.getString( "button.bohr" ) );
         _bohrLabel.setFont( buttonFont );
         widthNodes.add( _bohrLabel );
         heightNodes.add( _bohrLabel );
         
-        _deBroglieLabel = new HTMLNode( SimStrings.getInstance().getString( "button.deBroglie" ) );
+        _deBroglieLabel = new HTMLNode( HAResources.getString( "button.deBroglie" ) );
         _deBroglieLabel.setFont( buttonFont );
         widthNodes.add( _deBroglieLabel );
         heightNodes.add( _deBroglieLabel );
         
-        _schrodingerLabel = new HTMLNode( SimStrings.getInstance().getString( "button.schrodinger" ) );
+        _schrodingerLabel = new HTMLNode( HAResources.getString( "button.schrodinger" ) );
         _schrodingerLabel.setFont( buttonFont );
         widthNodes.add( _schrodingerLabel );
         heightNodes.add( _schrodingerLabel );
         
         // Buttons
-        _billiardBallButton = PImageFactory.create( HAConstants.IMAGE_BILLIARD_BALL_BUTTON );
+        _billiardBallButton = HAResources.getImageNode( HAConstants.IMAGE_BILLIARD_BALL_BUTTON );
         widthNodes.add( _billiardBallButton );
         heightNodes.add( _billiardBallButton );
         
-        _plumPuddingButton = PImageFactory.create( HAConstants.IMAGE_PLUM_PUDDING_BUTTON );
+        _plumPuddingButton = HAResources.getImageNode( HAConstants.IMAGE_PLUM_PUDDING_BUTTON );
         widthNodes.add( _plumPuddingButton );
         heightNodes.add( _plumPuddingButton );
         
-        _solarSystemButton = PImageFactory.create( HAConstants.IMAGE_SOLAR_SYSTEM_BUTTON );
+        _solarSystemButton = HAResources.getImageNode( HAConstants.IMAGE_SOLAR_SYSTEM_BUTTON );
         widthNodes.add( _solarSystemButton );
         heightNodes.add( _solarSystemButton );
         
-        _bohrButton = PImageFactory.create( HAConstants.IMAGE_BOHR_BUTTON );
+        _bohrButton = HAResources.getImageNode( HAConstants.IMAGE_BOHR_BUTTON );
         widthNodes.add( _bohrButton );
         heightNodes.add( _bohrButton );
         
-        _deBroglieButton = PImageFactory.create( HAConstants.IMAGE_DEBROGLIE_BUTTON );
+        _deBroglieButton = HAResources.getImageNode( HAConstants.IMAGE_DEBROGLIE_BUTTON );
         widthNodes.add( _deBroglieButton );
         heightNodes.add( _deBroglieButton );
         
-        _schrodingerButton = PImageFactory.create( HAConstants.IMAGE_SCHRODINGER_BUTTON );
+        _schrodingerButton = HAResources.getImageNode( HAConstants.IMAGE_SCHRODINGER_BUTTON );
         widthNodes.add( _schrodingerButton );
         heightNodes.add( _schrodingerButton );
         
@@ -459,9 +458,9 @@ public class AtomicModelSelector extends PhetPNode {
             resourceName = "label.schrodinger";
         }
         
-        String name = SimStrings.getInstance().getString( resourceName );
+        String name = HAResources.getString( resourceName );
         if ( name.indexOf( "<html>" ) != -1 ) {
-            System.err.println( "WARNING: SimStrings resource " + resourceName + " should not contain HTML!" );
+            System.err.println( "WARNING: resource " + resourceName + " should not contain HTML!" );
         }
         
         return name;

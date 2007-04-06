@@ -145,16 +145,9 @@ package edu.colorado.phet.hydrogenatom.wireframe;
 
 
 import java.awt.*;
-
 import java.awt.geom.Line2D;
-
 import java.beans.PropertyChangeEvent;
-
 import java.beans.PropertyChangeListener;
-
-
-
-import javax.swing.event.ChangeListener;
 
 import javax.swing.event.EventListenerList;
 

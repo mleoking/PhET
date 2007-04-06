@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.hydrogenatom.view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import java.util.Observable;

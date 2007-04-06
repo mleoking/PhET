@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.hydrogenatom.test;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Rectangle;
 

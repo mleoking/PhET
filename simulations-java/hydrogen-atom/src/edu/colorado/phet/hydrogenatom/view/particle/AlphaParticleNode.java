@@ -13,7 +13,6 @@ package edu.colorado.phet.hydrogenatom.view.particle;
 
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,7 +23,6 @@ import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PAffineTransform;
 
 /**
  * AlphaParticleNode is the visual representation of an alpha particle.

@@ -16,7 +16,6 @@ import java.awt.Font;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.model.SchrodingerModel;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**

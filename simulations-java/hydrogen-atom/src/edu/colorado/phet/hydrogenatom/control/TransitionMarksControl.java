@@ -15,7 +15,7 @@ import java.awt.Font;
 
 import javax.swing.JCheckBox;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.hydrogenatom.HAResources;
 
 /**
  * TransitionMarksControl is the control used to turn transition marks on/off
@@ -28,7 +28,7 @@ public class TransitionMarksControl extends JCheckBox {
 
     public TransitionMarksControl( Font font ) {
         super();
-        setText( SimStrings.getInstance().getString( "label.transitionMarks" ) );
+        setText( HAResources.getString( "label.transitionMarks" ) );
         setFont( font );
         setOpaque( false );
     }

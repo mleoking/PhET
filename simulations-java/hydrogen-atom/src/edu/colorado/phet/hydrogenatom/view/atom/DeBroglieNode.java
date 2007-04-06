@@ -11,9 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.view.atom;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,7 +20,6 @@ import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
-import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
 

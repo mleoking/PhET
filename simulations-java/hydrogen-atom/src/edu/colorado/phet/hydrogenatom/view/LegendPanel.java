@@ -19,9 +19,9 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.view.particle.*;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -64,41 +64,41 @@ public class LegendPanel extends JPanel {
     public LegendPanel() {
         super();
 
-        int fontSize = SimStrings.getInstance().getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
+        int fontSize = HAResources.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
 
         JLabel photonImage = toJLabel( PhotonNode.createPhotonImage( HAConstants.PHOTON_ICON_WAVELENGTH ) );
-        JLabel photonText = new JLabel( SimStrings.getInstance().getString( "label.photon" ) );
+        JLabel photonText = new JLabel( HAResources.getString( "label.photon" ) );
         photonText.setFont( font );
         photonText.setForeground( LABEL_COLOR );
 
         JLabel uvPhotonImage = toJLabel( PhotonNode.createPhotonImage( VisibleColor.MIN_WAVELENGTH - 1 ) );
-        JLabel uvPhotonText = new JLabel( SimStrings.getInstance().getString( "label.uvPhoton" ) );
+        JLabel uvPhotonText = new JLabel( HAResources.getString( "label.uvPhoton" ) );
         uvPhotonText.setFont( font );
         uvPhotonText.setForeground( LABEL_COLOR );
 
         JLabel irPhotonImage = toJLabel( PhotonNode.createPhotonImage( VisibleColor.MAX_WAVELENGTH + 1 ) );
-        JLabel irPhotonText = new JLabel( SimStrings.getInstance().getString( "label.irPhoton" ) );
+        JLabel irPhotonText = new JLabel( HAResources.getString( "label.irPhoton" ) );
         irPhotonText.setFont( font );
         irPhotonText.setForeground( LABEL_COLOR );
 
         JLabel alphaParticleImage = toJLabel( AlphaParticleNode.createImage() );
-        JLabel alphaParticleText = new JLabel( SimStrings.getInstance().getString( "label.alphaParticle" ) );
+        JLabel alphaParticleText = new JLabel( HAResources.getString( "label.alphaParticle" ) );
         alphaParticleText.setFont( font );
         alphaParticleText.setForeground( LABEL_COLOR );
 
         JLabel neutronImage = toJLabel( new NeutronNode() );
-        JLabel neutronText = new JLabel( SimStrings.getInstance().getString( "label.neutron" ) );
+        JLabel neutronText = new JLabel( HAResources.getString( "label.neutron" ) );
         neutronText.setFont( font );
         neutronText.setForeground( LABEL_COLOR );
 
         JLabel protonImage = toJLabel( new ProtonNode() );
-        JLabel protonText = new JLabel( SimStrings.getInstance().getString( "label.proton" ) );
+        JLabel protonText = new JLabel( HAResources.getString( "label.proton" ) );
         protonText.setFont( font );
         protonText.setForeground( LABEL_COLOR );
 
         JLabel electronImage = toJLabel( new ElectronNode() );
-        JLabel electronText = new JLabel( SimStrings.getInstance().getString( "label.electron" ) );
+        JLabel electronText = new JLabel( HAResources.getString( "label.electron" ) );
         electronText.setFont( font );
         electronText.setForeground( LABEL_COLOR );
 
@@ -107,7 +107,7 @@ public class LegendPanel extends JPanel {
         {
             EmptyBorder emptyBorder = new EmptyBorder( new Insets( 5, 5, 5, 5 ) );
             LineBorder lineBorder = new LineBorder( LABEL_COLOR, 1 );
-            TitledBorder titledBorder = new TitledBorder( lineBorder, SimStrings.getInstance().getString( "label.legend" ) );
+            TitledBorder titledBorder = new TitledBorder( lineBorder, HAResources.getString( "label.legend" ) );
             titledBorder.setTitleFont( font );
             titledBorder.setTitleColor( LABEL_COLOR );
             border = new CompoundBorder( emptyBorder, titledBorder );
@@ -216,7 +216,7 @@ public class LegendPanel extends JPanel {
         }
 
         private JPanel createActionsPanel() {
-            JButton closeButton = new JButton( SimStrings.getInstance().getString( "button.close" ) );
+            JButton closeButton = new JButton( HAResources.getString( "button.close" ) );
             closeButton.addActionListener( new ActionListener() {
 
                 public void actionPerformed( ActionEvent event ) {

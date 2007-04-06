@@ -11,28 +11,26 @@
 
 package edu.colorado.phet.hydrogenatom;
 
-import edu.colorado.phet.common.application.PhetApplication;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.JDialog;
+import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
+
 import edu.colorado.phet.common.util.CommandLineUtils;
-import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.menu.HelpMenu;
-import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.dialog.TransitionsDialog;
 import edu.colorado.phet.hydrogenatom.menu.DeveloperMenu;
 import edu.colorado.phet.hydrogenatom.menu.OptionsMenu;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendDialog;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Properties;
 
 /**
  * HAApplication
@@ -65,15 +63,10 @@ public class HAApplication extends PiccoloPhetApplication {
      * Sole constructor.
      * 
      * @param args command line arguments
-     * @param title
-     * @param description
-     * @param version
-     * @param frameSetup
      */
-    public HAApplication( String[] args, 
-            String title, String description, String version, FrameSetup frameSetup )
+    public HAApplication( String[] args )
     {
-        super( args, title, description, version, frameSetup );
+        super( args, HAResources.getConfig(), HAConstants.FRAME_SETUP );
         initModules();
         initMenubar( args );
     }
@@ -115,8 +108,8 @@ public class HAApplication extends PiccoloPhetApplication {
         {
             HelpMenu helpMenu = frame.getHelpMenu();
             
-            JMenuItem legendMenuItem = new JMenuItem( SimStrings.getInstance().getString( "menu.help.legend" ) );
-            legendMenuItem.setMnemonic( SimStrings.getInstance().getChar( "menu.help.legend.mnemonic", 'L' ) );
+            JMenuItem legendMenuItem = new JMenuItem( HAResources.getString( "menu.help.legend" ) );
+            legendMenuItem.setMnemonic( HAResources.getChar( "menu.help.legend.mnemonic", 'L' ) );
             legendMenuItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     handleLegendDialog();
@@ -124,8 +117,8 @@ public class HAApplication extends PiccoloPhetApplication {
             } );
             helpMenu.add( legendMenuItem );
             
-            JMenuItem transitionsMenuItem = new JMenuItem( SimStrings.getInstance().getString( "menu.help.transitions" ) );
-            transitionsMenuItem.setMnemonic( SimStrings.getInstance().getChar( "menu.help.transitions.mnemonic", 'T' ) );
+            JMenuItem transitionsMenuItem = new JMenuItem( HAResources.getString( "menu.help.transitions" ) );
+            transitionsMenuItem.setMnemonic( HAResources.getChar( "menu.help.transitions.mnemonic", 'T' ) );
             transitionsMenuItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     handleTransitionsDialog();
@@ -216,27 +209,8 @@ public class HAApplication extends PiccoloPhetApplication {
                 PhetLookAndFeel laf = new PhetLookAndFeel();
                 laf.initLookAndFeel();
 
-                // Initialize localization.
-                SimStrings.getInstance().init( args, HAConstants.SIM_STRINGS_NAME );
-
-                // Load simulation properties file
-                Properties simulationProperties = PropertiesLoader.loadProperties( HAConstants.SIM_PROPERTIES_NAME );
-                
-                // Title & description
-                String title = SimStrings.getInstance().getString( "HAApplication.title" );
-                String description = SimStrings.getInstance().getString( "HAApplication.description" );
-
-                // Version
-                String version = PhetApplication.getVersionString( simulationProperties );
-
-                // Frame setup
-                int width = HAConstants.APP_FRAME_SIZE.width;
-                int height = HAConstants.APP_FRAME_SIZE.height;
-                FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
-
                 // Create the application.
-                HAApplication app = new HAApplication( args, title, description, version, frameSetup );
-                app.setSimulationProperties( simulationProperties );
+                HAApplication app = new HAApplication( args );
                 
                 // Start the application.
                 app.startApplication();

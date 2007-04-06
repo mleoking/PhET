@@ -13,8 +13,8 @@ package edu.colorado.phet.hydrogenatom.view;
 
 import java.awt.Font;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 
 /**
@@ -45,10 +45,10 @@ public class NotToScaleNode extends HTMLNode {
         setPickable( false );
         setChildrenPickable( false );
         
-        int fontSize = SimStrings.getInstance().getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
+        int fontSize = HAResources.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
         
-        setHTML( SimStrings.getInstance().getString( "label.notToScale" ) );
+        setHTML( HAResources.getString( "label.notToScale" ) );
         setHTMLColor( HAConstants.CANVAS_LABELS_COLOR );
         setFont( font );
     }
