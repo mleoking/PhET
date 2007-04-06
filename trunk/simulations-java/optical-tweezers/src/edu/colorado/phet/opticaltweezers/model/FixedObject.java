@@ -3,7 +3,6 @@
 package edu.colorado.phet.opticaltweezers.model;
 
 import java.awt.geom.Point2D;
-import java.util.Observable;
 
 /**
  * FixedObject is an object that has a fixed (immutable) position and orientation.

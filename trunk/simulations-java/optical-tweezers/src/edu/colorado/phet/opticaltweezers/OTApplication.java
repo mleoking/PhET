@@ -5,18 +5,15 @@ package edu.colorado.phet.opticaltweezers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Properties;
 
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.CommandLineUtils;
-import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.PhetProjectConfig;
 import edu.colorado.phet.opticaltweezers.menu.DeveloperMenu;
 import edu.colorado.phet.opticaltweezers.menu.OptionsMenu;
 import edu.colorado.phet.opticaltweezers.module.DNAModule;
@@ -60,15 +57,12 @@ public class OTApplication extends PiccoloPhetApplication {
      * Sole constructor.
      * 
      * @param args command line arguments
-     * @param title
-     * @param description
-     * @param version
+     * @param config
      * @param frameSetup
      */
-    public OTApplication( String[] args, 
-            String title, String description, String version, FrameSetup frameSetup )
+    public OTApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup )
     {
-        super( args, title, description, version, frameSetup );
+        super( args, config, frameSetup );
         initModules();
         initMenubar( args );
     }
@@ -104,16 +98,16 @@ public class OTApplication extends PiccoloPhetApplication {
         
         // File menu
         {
-            JMenuItem saveItem = new JMenuItem( SimStrings.getInstance().getString( "menu.file.save" ) );
-            saveItem.setMnemonic( SimStrings.getInstance().getString( "menu.file.save.mnemonic" ).charAt(0) );
+            JMenuItem saveItem = new JMenuItem( OTStrings.FILE_SAVE );
+            saveItem.setMnemonic( OTStrings.FILE_SAVE_MNEMONIC );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.save();
                 }
             } );
             
-            JMenuItem loadItem = new JMenuItem( SimStrings.getInstance().getString( "menu.file.load" ) );
-            loadItem.setMnemonic( SimStrings.getInstance().getString( "menu.file.load.mnemonic" ).charAt(0) );
+            JMenuItem loadItem = new JMenuItem( OTStrings.FILE_LOAD );
+            loadItem.setMnemonic( OTStrings.FILE_LOAD_MNEMONIC );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.load();
@@ -156,7 +150,7 @@ public class OTApplication extends PiccoloPhetApplication {
         
         GlobalConfig config = appConfig.getGlobalConfig();
         
-        config.setVersionNumber( getVersion() );
+        config.setVersionNumber( OTStrings.VERSION );
     }
 
     /**
@@ -198,27 +192,8 @@ public class OTApplication extends PiccoloPhetApplication {
                 PhetLookAndFeel laf = new PhetLookAndFeel();
                 laf.initLookAndFeel();
 
-                // Initialize localization.
-                SimStrings.getInstance().init( args, OTConstants.SIM_STRINGS_NAME );
-
-                // Load simulation properties file
-                Properties simulationProperties = PropertiesLoader.loadProperties( OTConstants.SIM_PROPERTIES_NAME );
-                
-                // Title & description
-                String title = SimStrings.getInstance().getString( "OTApplication.title" );
-                String description = SimStrings.getInstance().getString( "OTApplication.description" );
-                
-                // Version
-                String version = PhetApplication.getVersionString( simulationProperties );
-
-                // Frame setup
-                int width = OTConstants.APP_FRAME_SIZE.width;
-                int height = OTConstants.APP_FRAME_SIZE.height;
-                FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
-
                 // Create the application.
-                OTApplication app = new OTApplication( args, title, description, version, frameSetup );
-                app.setSimulationProperties( simulationProperties );
+                OTApplication app = new OTApplication( args, OTConstants.CONFIG, OTConstants.FRAME_SETUP );
 
                 // Start the application.
                 app.startApplication();

@@ -2,16 +2,10 @@
 
 package edu.colorado.phet.opticaltweezers.charts;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.ui.RectangleInsets;
-
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.opticaltweezers.OTConstants;
 
 
 public class PositionHistogramChart extends JFreeChart {

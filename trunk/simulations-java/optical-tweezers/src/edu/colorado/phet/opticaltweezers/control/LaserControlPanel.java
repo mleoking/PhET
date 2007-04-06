@@ -14,12 +14,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.util.DoubleRange;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.OTStrings;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -76,11 +76,11 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         _laser.addObserver( this );
         
         // Warning sign
-        PNode signNode = PImageFactory.create( OTConstants.IMAGE_LASER_SIGN );
+        PNode signNode = new PImage( OTConstants.IMAGE_LASER_SIGN );
         
         // Start/Stop button
-        _startString = SimStrings.getInstance().getString( "label.startLaser" );
-        _stopString = SimStrings.getInstance().getString( "label.stopLaser" );
+        _startString = OTStrings.START_LASER;
+        _stopString = OTStrings.STOP_LASER;
         _startStopButton = new JButton( _laser.isRunning() ? _stopString : _startString );
         _startStopButton.setOpaque( false );
         _startStopButton.setFont( font );
@@ -94,8 +94,8 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         
         // Power control
         DoubleRange powerRange = _laser.getPowerRange();
-        String label = SimStrings.getInstance().getString( "label.power" );
-        String units = SimStrings.getInstance().getString( "units.power" );
+        String label = OTStrings.POWER;
+        String units = OTStrings.POWER_UNITS;
         int columns = POWER_VALUE_DIGITS;
         double wavelength = laser.getVisibleWavelength();
         _powerControl = new LaserPowerControl( powerRange, label, units, columns, wavelength, POWER_SLIDER_SIZE, font );

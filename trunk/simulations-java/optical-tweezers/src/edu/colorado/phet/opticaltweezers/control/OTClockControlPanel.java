@@ -17,8 +17,8 @@ import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.OTStrings;
 
 
 /**
@@ -68,13 +68,6 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
         _clock = clock;
         _clock.addClockListener( this );
         
-        // Labels
-        String restartLabel = SimStrings.getInstance().getString( "button.restart" );
-        String playLabel = SimStrings.getInstance().getString( "Common.ClockControlPanel.Play" );
-        String pauseLabel = SimStrings.getInstance().getString( "Common.ClockControlPanel.Pause" );
-        String stepLabel = SimStrings.getInstance().getString( "Common.ClockControlPanel.Step" );
-        String timeUnitsLabel = SimStrings.getInstance().getString( "units.time" );
-        
         // Icons
         Icon restartIcon = null;
         Icon playIcon = null;
@@ -86,7 +79,7 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
             playIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PLAY ) );
             pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PAUSE ) );
             stepIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_STEP ) );
-            clockIcon = new ImageIcon( ImageLoader.loadBufferedImage( OTConstants.IMAGE_CLOCK ) );
+            clockIcon = new ImageIcon( OTConstants.IMAGE_CLOCK );
         }
         catch ( IOException e ) {
             e.printStackTrace();
@@ -104,7 +97,7 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
             _timeTextField.setEditable( false );
             _timeTextField.setHorizontalAlignment( JTextField.RIGHT );
             
-            _timeUnitsLabel = new JLabel( timeUnitsLabel );
+            _timeUnitsLabel = new JLabel( OTStrings.TIME_UNITS );
             _timeUnitsLabel.setFont( TIME_UNITS_FONT );
             
             _timeFormat = new DecimalFormat( "0" );
@@ -117,10 +110,10 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
         // Clock control buttons
         JPanel controlsPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         {
-            _restartButton = new JButton( restartLabel, restartIcon );
-            _playButton = new JButton( playLabel, playIcon );
-            _pauseButton = new JButton( pauseLabel, pauseIcon );
-            _stepButton = new JButton( stepLabel, stepIcon );
+            _restartButton = new JButton( OTStrings.RESTART, restartIcon );
+            _playButton = new JButton( OTStrings.PLAY, playIcon );
+            _pauseButton = new JButton( OTStrings.PAUSE, pauseIcon );
+            _stepButton = new JButton( OTStrings.STEP, stepIcon );
             
             controlsPanel.add( _restartButton );
             controlsPanel.add( _playButton );

@@ -17,8 +17,8 @@ import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.OTStrings;
 
 
 public class PotentialEnergyPlot extends XYPlot implements Observer {
@@ -39,8 +39,8 @@ public class PotentialEnergyPlot extends XYPlot implements Observer {
         super();
         
         // axis labels
-        String positonLabel = SimStrings.getInstance().getString( "axis.position" );
-        String potentialLabel = SimStrings.getInstance().getString( "axis.potentialEnergy" );
+        String positonLabel = OTStrings.POSITION_AXIS;
+        String potentialLabel = OTStrings.POTENTIAL_ENERGY_AXIS;
         
         // Series & dataset
         _series = new XYSeries( SERIES_KEY, false /* autoSort */);

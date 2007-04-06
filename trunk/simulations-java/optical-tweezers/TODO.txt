@@ -61,6 +61,9 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/5/07 - convert from SimStrings to PhetProjectConfig
+4/5/07 - consolidate all strings in OTStrings
+4/5/07 - consolidate all images in OTConstants
 ********* version 0.00.02 (14202)
 4/4/07 - optimize gradient view of laser power intensity using a BufferedImageOp that adjusts alpha channel
 4/4/07 - reduce size of gradient image by only drawing one quadrant, then scaling it to the view
