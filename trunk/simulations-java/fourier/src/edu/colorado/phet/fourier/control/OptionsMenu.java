@@ -17,8 +17,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierApplication;
+import edu.colorado.phet.fourier.FourierResources;
 
 
 /**
@@ -46,15 +46,15 @@ public class OptionsMenu extends JMenu {
      */
     public OptionsMenu( FourierApplication application ) {
         
-        super( SimStrings.getInstance().getString( "Menubar.options" ) );
+        super( FourierResources.getString( "Menubar.options" ) );
         
         _application = application;
         
-        setMnemonic( SimStrings.getInstance().getString( "Menubar.options.mnemonic" ).charAt( 0 ) );
+        setMnemonic( FourierResources.getChar( "Menubar.options.mnemonic", 'O' ) );
 
         // Background Color menu item
-        JMenuItem backgroundColorMenuItem = new JMenuItem( SimStrings.getInstance().getString( "Menubar.harmonicColors" ) );
-        backgroundColorMenuItem.setMnemonic( SimStrings.getInstance().getString( "Menubar.harmonicColors.mnemonic" ).charAt( 0 ) );
+        JMenuItem backgroundColorMenuItem = new JMenuItem( FourierResources.getString( "Menubar.harmonicColors" ) );
+        backgroundColorMenuItem.setMnemonic( FourierResources.getChar( "Menubar.harmonicColors.mnemonic", 'H' ) );
         backgroundColorMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleHarmonicColorsMenuItem();

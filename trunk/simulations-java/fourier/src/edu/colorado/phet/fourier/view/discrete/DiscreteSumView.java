@@ -25,8 +25,8 @@ import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl;
 import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl.ZoomEvent;
 import edu.colorado.phet.common.view.phetcomponents.PhetZoomControl.ZoomListener;
 import edu.colorado.phet.common.view.phetgraphics.*;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
 import edu.colorado.phet.fourier.enums.Domain;
 import edu.colorado.phet.fourier.enums.MathForm;
@@ -144,7 +144,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         _backgroundGraphic.setLocation( 0, 0 );
         
         // Title
-        String title = SimStrings.getInstance().getString( "DiscreteSumView.title" );
+        String title = FourierResources.getString( "DiscreteSumView.title" );
         _titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         _titleGraphic.centerRegistrationPoint();
         _titleGraphic.rotate( -( Math.PI / 2 ) );
@@ -196,7 +196,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             int y = _chartGraphic.getY();
             _horizontalZoomControl.setLocation( x, y );
             
-            _autoScaleCheckBox = new JCheckBox( SimStrings.getInstance().getString( "DiscreteSumView.autoScale" ) );
+            _autoScaleCheckBox = new JCheckBox( FourierResources.getString( "DiscreteSumView.autoScale" ) );
             _autoScaleCheckBox.setBackground( new Color( 255, 255, 255, 0 ) );
             _autoScaleGraphic = PhetJComponent.newInstance( component, _autoScaleCheckBox );
             addGraphic( _autoScaleGraphic, CONTROLS_LAYER );

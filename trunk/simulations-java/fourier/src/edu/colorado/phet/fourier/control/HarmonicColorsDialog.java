@@ -24,7 +24,7 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.view.HarmonicColors;
 
 
@@ -64,7 +64,7 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
     public HarmonicColorsDialog( PhetApplication app ) {
         super( app.getPhetFrame() );
         _app = app;
-        super.setTitle( SimStrings.getInstance().getString( "HarmonicColorsDialog.title" ) );
+        super.setTitle( FourierResources.getString( "HarmonicColorsDialog.title" ) );
         super.setModal( false );
         super.setResizable( false );
         
@@ -96,7 +96,7 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
      */
     private JPanel createInputPanel() {
         
-        String editString = SimStrings.getInstance().getString( "HarmonicColorsDialog.edit" );
+        String editString = FourierResources.getString( "HarmonicColorsDialog.edit" );
         Stroke colorBarStroke = new BasicStroke( 1f );
         
         JPanel inputPanel = new JPanel();
@@ -149,14 +149,14 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
      */
     private JPanel createActionsPanel() {
 
-        _okButton = new JButton( SimStrings.getInstance().getString( "HarmonicColorsDialog.ok" ) );
+        _okButton = new JButton( FourierResources.getString( "HarmonicColorsDialog.ok" ) );
         _okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
             }
         });
 
-        _cancelButton = new JButton( SimStrings.getInstance().getString( "HarmonicColorsDialog.cancel" ) );
+        _cancelButton = new JButton( FourierResources.getString( "HarmonicColorsDialog.cancel" ) );
         _cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 restoreColors();
@@ -182,7 +182,7 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
     private void editColor( int order ) {
         _editIndex = order;
         Object[] args = { new Integer( order + 1 ) };
-        String format = SimStrings.getInstance().getString( "HarmonicColors.colorChooser.title" );
+        String format = FourierResources.getString( "HarmonicColors.colorChooser.title" );
         String title = MessageFormat.format( format, args );
         Component parent = _app.getPhetFrame();
         Color initialColor = HarmonicColors.getInstance().getColor( order );

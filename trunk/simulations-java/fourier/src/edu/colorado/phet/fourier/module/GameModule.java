@@ -25,8 +25,8 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.control.GameControlPanel;
 import edu.colorado.phet.fourier.enums.GameLevel;
 import edu.colorado.phet.fourier.enums.Preset;
@@ -91,7 +91,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
      */
     public GameModule() {
         
-        super( SimStrings.getInstance().getString( "GameModule.title" ) );
+        super( FourierResources.getString( "GameModule.title" ) );
 
         getModulePanel().addComponentListener( new ModuleVisibleListener() );
         
@@ -135,7 +135,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         apparatusPanel.addGraphic( _harmonicsView, HARMONICS_LAYER );
         
         // Harmonics view (minimized)
-        _harmonicsMinimizedView = new MinimizedView( apparatusPanel, SimStrings.getInstance().getString( "GameHarmonicsView.title" ) );
+        _harmonicsMinimizedView = new MinimizedView( apparatusPanel, FourierResources.getString( "GameHarmonicsView.title" ) );
         apparatusPanel.addGraphic( _harmonicsMinimizedView, HARMONICS_CLOSED_LAYER );
         
         // Sum view
@@ -143,7 +143,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         apparatusPanel.addGraphic( _sumView, SUM_LAYER );
         
         // Sum view (minimized)
-        _sumMinimizedView = new MinimizedView( apparatusPanel, SimStrings.getInstance().getString( "GameSumView.title" ) );
+        _sumMinimizedView = new MinimizedView( apparatusPanel, FourierResources.getString( "GameSumView.title" ) );
         apparatusPanel.addGraphic( _sumMinimizedView, SUM_CLOSED_LAYER );
         
         //----------------------------------------------------------------------------
@@ -210,11 +210,11 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         //----------------------------------------------------------------------------
         
         // Help Items
-        HelpBubble slidersToolHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "GameModule.help.sliders" ) );
+        HelpBubble slidersToolHelp = new HelpBubble( apparatusPanel, FourierResources.getString( "GameModule.help.sliders" ) );
         slidersToolHelp.pointAt( new Point( 252, 117 ), HelpBubble.TOP_CENTER, 30 );
         addHelpItem( slidersToolHelp );
         
-        HelpBubble textfieldsToolHelp = new HelpBubble( apparatusPanel, SimStrings.getInstance().getString( "GameModule.help.textfields" ) );
+        HelpBubble textfieldsToolHelp = new HelpBubble( apparatusPanel, FourierResources.getString( "GameModule.help.textfields" ) );
         textfieldsToolHelp.pointAt( new Point( 205, 44 ), HelpBubble.TOP_CENTER, 15 );
         addHelpItem( textfieldsToolHelp );
    
@@ -295,8 +295,8 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         public void componentShown( ComponentEvent event ) {
             if ( ! _instructionsHaveBeenDisplayed  ) {
                 _instructionsHaveBeenDisplayed = true;
-                String message = SimStrings.getInstance().getString( "GameInstructionsDialog.message" );
-                String title = SimStrings.getInstance().getString( "GameInstructionsDialog.title" );
+                String message = FourierResources.getString( "GameInstructionsDialog.message" );
+                String title = FourierResources.getString( "GameInstructionsDialog.title" );
                 JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(), message, title, JOptionPane.PLAIN_MESSAGE );
             }
         }

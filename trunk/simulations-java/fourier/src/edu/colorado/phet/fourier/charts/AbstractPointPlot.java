@@ -17,7 +17,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.DataSetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 
 /**

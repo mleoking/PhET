@@ -11,8 +11,6 @@
 
 package edu.colorado.phet.fourier.persistence;
 
-import java.awt.Color;
-import java.io.Serializable;
 
 
 /**

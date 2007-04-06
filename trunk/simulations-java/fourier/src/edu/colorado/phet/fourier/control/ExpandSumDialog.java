@@ -26,7 +26,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.enums.Domain;
 import edu.colorado.phet.fourier.enums.MathForm;
@@ -73,7 +73,7 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
     public ExpandSumDialog( Frame parentFrame, FourierSeries fourierSeries ) {
         super( parentFrame );
         
-        setTitle( SimStrings.getInstance().getString( "ExpandSumDialog.title" ) );
+        setTitle( FourierResources.getString( "ExpandSumDialog.title" ) );
         setModal( false );
         setResizable( false );
         setLocationRelativeTo( parentFrame );
@@ -138,7 +138,7 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
      */
     private JPanel createActionsPanel() {
 
-        _closeButton = new JButton( SimStrings.getInstance().getString( "ExpandSumDialog.close" ) );
+        _closeButton = new JButton( FourierResources.getString( "ExpandSumDialog.close" ) );
 
         JPanel innerPanel = new JPanel( new GridLayout( 1, 1, 10, 0 ) );
         innerPanel.add( _closeButton );

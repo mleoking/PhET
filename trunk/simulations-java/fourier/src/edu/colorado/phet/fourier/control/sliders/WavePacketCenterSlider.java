@@ -17,7 +17,7 @@ import java.util.Hashtable;
 
 import javax.swing.JLabel;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.MathStrings;
 
 
@@ -51,7 +51,7 @@ public class WavePacketCenterSlider extends AbstractFourierSlider {
      * Sole constructor.
      */
     public WavePacketCenterSlider() {
-        super( SimStrings.getInstance().getString( "WavePacketCenterSlider.format.space" ) );
+        super( FourierResources.getString( "WavePacketCenterSlider.format.space" ) );
         
         // Range is 900 to 1500, which will be mapped to 9pi to 15pi.
         getSlider().setMinimum( 9 * MULTIPLIER );

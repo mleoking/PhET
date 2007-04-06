@@ -16,7 +16,7 @@ import java.io.IOException;
 import javax.sound.sampled.*;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.event.SoundErrorEvent;
 import edu.colorado.phet.fourier.event.SoundErrorListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
@@ -222,7 +222,7 @@ public class FourierSoundPlayer implements Runnable {
             }
             catch ( IOException ioe ) {
                 _soundEnabled = false; // cause the sound thread to exit
-                String message = SimStrings.getInstance().getString( "sound.error.io" );
+                String message = FourierResources.getString( "sound.error.io" );
                 notifySoundErrorListeners( ioe, message );
             }
         }

@@ -17,7 +17,7 @@ import java.util.Hashtable;
 
 import javax.swing.JLabel;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.MathStrings;
 
 
@@ -51,7 +51,7 @@ public class WavePacketSpacingSlider extends AbstractFourierSlider {
      * Sole constructor.
      */
     public WavePacketSpacingSlider() {
-        super( SimStrings.getInstance().getString( "WavePacketSpacingSlider.format.space" ) );
+        super( FourierResources.getString( "WavePacketSpacingSlider.format.space" ) );
         
         // Min/max are the indicies of the VALUES array.
         getSlider().setMinimum( 0 );

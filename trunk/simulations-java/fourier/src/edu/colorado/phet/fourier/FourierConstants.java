@@ -12,8 +12,10 @@
 package edu.colorado.phet.fourier;
 
 import java.awt.Cursor;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.math.TrigCache;
+import edu.colorado.phet.common.view.util.FrameSetup;
 
 
 /**
@@ -38,20 +40,10 @@ public class FourierConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    private static final String PROJECT = "fourier";
-    
-    public static final int APP_FRAME_WIDTH = 1024;
-    public static final int APP_FRAME_HEIGHT = 768;
+    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
     public static final TrigCache TRIG_CACHE = new TrigCache( 360 );
     
-    //----------------------------------------------------------------------------
-    // Properties files
-    //----------------------------------------------------------------------------
-    
-    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
-    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
-
     //----------------------------------------------------------------------------
     // Clock
     //----------------------------------------------------------------------------
@@ -102,9 +94,8 @@ public class FourierConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    private static final String IMAGES_DIRECTORY = PROJECT + "/images/";
-    public static final String MAXIMIZE_BUTTON_IMAGE = IMAGES_DIRECTORY + "maximizeButton.png";
-    public static final String MINIMIZE_BUTTON_IMAGE = IMAGES_DIRECTORY + "minimizeButton.png";
-    public static final String SOUND_MAX_IMAGE = IMAGES_DIRECTORY + "soundMax.png";
-    public static final String SOUND_MIN_IMAGE = IMAGES_DIRECTORY + "soundMin.png";
+    public static final BufferedImage MAXIMIZE_BUTTON_IMAGE = FourierResources.getImage( "maximizeButton.png" );
+    public static final BufferedImage MINIMIZE_BUTTON_IMAGE = FourierResources.getImage( "minimizeButton.png" );
+    public static final BufferedImage SOUND_MAX_IMAGE = FourierResources.getImage( "soundMax.png" );
+    public static final BufferedImage SOUND_MIN_IMAGE = FourierResources.getImage( "soundMin.png" );
 }

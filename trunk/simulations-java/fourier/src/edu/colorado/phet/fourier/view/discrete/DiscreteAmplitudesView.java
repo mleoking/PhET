@@ -23,9 +23,9 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
@@ -117,7 +117,7 @@ public class DiscreteAmplitudesView extends GraphicLayerSet implements SimpleObs
         addGraphic( backgroundGraphic, BACKGROUND_LAYER );
         
         // Title
-        String title = SimStrings.getInstance().getString( "DiscreteAmplitudesView.title" );
+        String title = FourierResources.getString( "DiscreteAmplitudesView.title" );
         PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         titleGraphic.centerRegistrationPoint();
         titleGraphic.rotate( -( Math.PI / 2 ) );
