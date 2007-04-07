@@ -39,7 +39,7 @@ import edu.colorado.phet.common.PhetCommonProjectConfig;
  */
 public class ClockControlPanel extends JPanel implements ClockListener {
     
-    private static final String IMAGES_DIRECTORY = "images/icons/java/media/";
+    private static final String IMAGES_DIRECTORY = "icons/java/media/";
     
     // These image filenames may be used by sim-specific classes that have custom clock control panels!
     public static final String IMAGE_PAUSE = IMAGES_DIRECTORY + "Pause24.gif";
@@ -78,9 +78,9 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         String stepString = PhetCommonProjectConfig.getInstance().getString( PROPERTY_STEP );
         
         // Button icons
-        BufferedImage playU = loadImage( IMAGE_PLAY );
-        BufferedImage pauseU = loadImage( IMAGE_PAUSE );
-        BufferedImage stepU = loadImage( IMAGE_STEP );
+        BufferedImage playU = PhetCommonProjectConfig.getInstance().getImage( IMAGE_PLAY );
+        BufferedImage pauseU = PhetCommonProjectConfig.getInstance().getImage( IMAGE_PAUSE );
+        BufferedImage stepU = PhetCommonProjectConfig.getInstance().getImage( IMAGE_STEP );
         playIcon = new ImageIcon( playU );
         pauseIcon = new ImageIcon( pauseU );
         ImageIcon stepIcon = new ImageIcon( stepU );
@@ -148,20 +148,6 @@ public class ClockControlPanel extends JPanel implements ClockListener {
      */
     public void addControl(JComponent control){
         buttonPanel.add(control);
-    }
-    
-    /*
-     * Used to load button icons.
-     */
-    private BufferedImage loadImage( String resourceName ) {
-        BufferedImage image = null;
-        try {
-            image = ImageLoader.loadBufferedImage( resourceName );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        return image;
     }
 
     /**

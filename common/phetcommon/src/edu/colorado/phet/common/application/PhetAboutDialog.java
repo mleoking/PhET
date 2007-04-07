@@ -79,18 +79,11 @@ public class PhetAboutDialog extends JDialog {
      * Creates the panel that contains the logo and general copyright info.
      */
     private JPanel createLogoPanel() {
-        
-        JLabel logoLabel = null;
-        try {
-            BufferedImage image = ImageLoader.loadBufferedImage( PhetLookAndFeel.PHET_LOGO_120x50 );
-            logoLabel = new JLabel( new ImageIcon( image ) );
-            logoLabel.setBorder( BorderFactory.createLineBorder( Color.black ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            logoLabel = new JLabel(); // fallback to a blank label
-        }
-        
+
+        BufferedImage image = PhetCommonProjectConfig.getInstance().getImage( PhetLookAndFeel.PHET_LOGO_120x50 );
+        JLabel logoLabel = new JLabel( new ImageIcon( image ) );
+        logoLabel.setBorder( BorderFactory.createLineBorder( Color.black ) );
+
         JLabel copyrightLabel = new JLabel( PhetCommonProjectConfig.getInstance().getString( "Common.About.Copyright" ) );
         
         HorizontalLayoutPanel logoPanel = new HorizontalLayoutPanel();

@@ -11,20 +11,18 @@
 
 package edu.colorado.phet.common.application;
 
-import edu.colorado.phet.common.view.PhetLookAndFeel;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.common.PhetCommonProjectConfig;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
+
+import javax.swing.SwingUtilities;
+
+import edu.colorado.phet.common.PhetCommonProjectConfig;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
  * AWTSplashWindow is a splash window based on AWT, that allows
@@ -134,13 +132,7 @@ public class AWTSplashWindow extends Window {
      * Gets the PhET logo image.
      */
     private static BufferedImage getLogoImage() {
-        try {
-            return ImageLoader.loadBufferedImage( LOGO_RESOURCE_NAME );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( "failed to load logo image: " + LOGO_RESOURCE_NAME );
-        }
+        return PhetCommonProjectConfig.getInstance().getImage( LOGO_RESOURCE_NAME );
     }
 
     /**

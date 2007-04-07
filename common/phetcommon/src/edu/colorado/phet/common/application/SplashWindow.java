@@ -47,13 +47,7 @@ public class SplashWindow extends JDialog {
         progressBar.setIndeterminate( true );
 
         // Phet logo
-        BufferedImage image = null;
-        try {
-            image = ImageLoader.loadBufferedImage( PhetLookAndFeel.PHET_LOGO_120x50 );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        BufferedImage image = PhetCommonProjectConfig.getInstance().getImage( PhetLookAndFeel.PHET_LOGO_120x50 );
         ImageIcon logo = new ImageIcon( image );
 
         // Layout
