@@ -21,6 +21,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.view.util.PhetProjectConfig;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
@@ -37,6 +38,7 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 public class BSLauncher extends JFrame {
     
     public static void main( String args[] ) {
+        BSResources.setConfig( PhetProjectConfig.forProject( BSConstants.PROJECT ) );
         BSLauncher launcher = new BSLauncher( args );
         SwingUtils.centerWindowOnScreen( launcher );
         launcher.show();
