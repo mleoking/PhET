@@ -29,6 +29,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 /**
  * ClockControlPanel
@@ -72,9 +73,9 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         clock.addClockListener( this );
 
         // Button labels
-        playString = SimStrings.getInstance().getString( PROPERTY_PLAY );
-        pauseString = SimStrings.getInstance().getString( PROPERTY_PAUSE );
-        String stepString = SimStrings.getInstance().getString( PROPERTY_STEP );
+        playString = PhetCommonProjectConfig.getInstance().getString( PROPERTY_PLAY );
+        pauseString = PhetCommonProjectConfig.getInstance().getString( PROPERTY_PAUSE );
+        String stepString = PhetCommonProjectConfig.getInstance().getString( PROPERTY_STEP );
         
         // Button icons
         BufferedImage playU = loadImage( IMAGE_PLAY );

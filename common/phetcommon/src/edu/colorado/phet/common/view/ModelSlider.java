@@ -13,6 +13,7 @@ package edu.colorado.phet.common.view;
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -375,11 +376,11 @@ public class ModelSlider extends JPanel {
             return true;
         }
         catch( IllegalValueException ive ) {
-            String outofrange = SimStrings.getInstance().getString( "Common.ModelSlider.OutOfRange" );
-            String minimum = SimStrings.getInstance().getString( "Common.ModelSlider.Minimum" );
-            String maximum = SimStrings.getInstance().getString( "Common.ModelSlider.Maximum" );
-            String youentered = SimStrings.getInstance().getString( "Common.ModelSlider.YouEntered" );
-            String description = SimStrings.getInstance().getString( "Common.ModelSlider.Description" );
+            String outofrange = PhetCommonProjectConfig.getInstance().getString( "Common.ModelSlider.OutOfRange" );
+            String minimum = PhetCommonProjectConfig.getInstance().getString( "Common.ModelSlider.Minimum" );
+            String maximum = PhetCommonProjectConfig.getInstance().getString( "Common.ModelSlider.Maximum" );
+            String youentered = PhetCommonProjectConfig.getInstance().getString( "Common.ModelSlider.YouEntered" );
+            String description = PhetCommonProjectConfig.getInstance().getString( "Common.ModelSlider.Description" );
             JOptionPane.showMessageDialog( this, outofrange + ".\n" + minimum + "= " + ive.getMin()
                                                  + ", " + maximum + "=" + ive.getMax() + "\n" + youentered + ": "
                                                  + ive.getValue(), description, JOptionPane.ERROR_MESSAGE );
