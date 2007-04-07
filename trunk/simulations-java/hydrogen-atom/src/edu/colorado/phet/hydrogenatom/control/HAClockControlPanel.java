@@ -23,6 +23,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
@@ -82,25 +83,16 @@ public class HAClockControlPanel extends JPanel {
         _clock.setDt( dt );
         
         // Labels (use localized strings from phetcommon)
-        String playLabel = HAResources.getString( "Common.ClockControlPanel.Play" );
-        String pauseLabel = HAResources.getString( "Common.ClockControlPanel.Pause" );
-        String stepLabel = HAResources.getString( "Common.ClockControlPanel.Step" );
-        
+        String playLabel = HAResources.getCommonString( "Common.ClockControlPanel.Play" );
+        String pauseLabel = HAResources.getCommonString( "Common.ClockControlPanel.Pause" );
+        String stepLabel = HAResources.getCommonString( "Common.ClockControlPanel.Step" );
+
         // Icons
-        Icon playIcon = null;
-        Icon pauseIcon = null;
-        Icon stepIcon = null;
-        Icon clockIcon = null;
-        try {
-            playIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PLAY ) );
-            pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PAUSE ) );
-            stepIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_STEP ) );
-            clockIcon = new ImageIcon( HAResources.getImage( HAConstants.IMAGE_CLOCK ) );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
-        
+        Icon playIcon = new ImageIcon( HAResources.getCommonImage( ClockControlPanel.IMAGE_PLAY ) );
+        Icon pauseIcon = new ImageIcon( HAResources.getCommonImage( ClockControlPanel.IMAGE_PAUSE ) );
+        Icon stepIcon = new ImageIcon( HAResources.getCommonImage( ClockControlPanel.IMAGE_STEP ) );
+        Icon clockIcon = new ImageIcon( HAResources.getImage( HAConstants.IMAGE_CLOCK ) );
+
         // Speed slider
         {
             _clockIndexSlider = new JSlider();
