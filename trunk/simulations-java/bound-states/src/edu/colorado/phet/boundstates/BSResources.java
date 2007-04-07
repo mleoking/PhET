@@ -10,36 +10,40 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 public class BSResources {
     
-    private static final PhetProjectConfig CONFIG = PhetProjectConfig.forProject( "bound-states" );
+    private static PhetProjectConfig _config;
     
     /* not intended for instantiation */
     private BSResources() {}
     
+    public static final void setConfig( PhetProjectConfig config ) {
+        _config = config;
+    }
+    
     public static final PhetProjectConfig getConfig() {
-        return CONFIG;
+        return _config;
     }
     
     public static final String getString( String name ) {
-        return CONFIG.getString( name  );
+        return _config.getString( name  );
     }
     
     public static final char getChar( String name, char defaultValue ) {
-        return CONFIG.getChar( name, defaultValue );
+        return _config.getChar( name, defaultValue );
     }
 
     public static final int getInt( String name, int defaultValue ) {
-        return CONFIG.getInt( name, defaultValue );
+        return _config.getInt( name, defaultValue );
     }
     
     public static final String getVersion() {
-        return CONFIG.getVersion().toString();
+        return _config.getVersion().toString();
     }
     
     public static final BufferedImage getImage( String name ) {
-        return CONFIG.getImage( name );
+        return _config.getImage( name );
     }
     
     public static final PImage getImageNode( String name ) {
-        return new PImage( CONFIG.getImage( name ) );
+        return new PImage( _config.getImage( name ) );
     }
 }

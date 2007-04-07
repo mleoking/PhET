@@ -79,6 +79,9 @@ public class BSBoundStatesApplication extends BSAbstractApplication {
                 // Initialize look-and-feel
                 PhetLookAndFeel laf = new PhetLookAndFeel();
                 laf.initLookAndFeel();
+                
+                // Config
+                BSResources.setConfig( PhetProjectConfig.forProject( BSConstants.PROJECT ) );
 
                 // Create the application.
                 BSAbstractApplication app = new BSBoundStatesApplication( args, BSResources.getConfig(), BSConstants.FRAME_SETUP );
