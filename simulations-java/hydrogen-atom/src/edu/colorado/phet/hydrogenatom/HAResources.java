@@ -4,6 +4,7 @@ package edu.colorado.phet.hydrogenatom;
 
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 import edu.colorado.phet.common.view.util.PhetProjectConfig;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -41,5 +42,13 @@ public class HAResources {
     
     public static final PImage getImageNode( String name ) {
         return new PImage( CONFIG.getImage( name ) );
+    }
+    
+    public static final String getCommonString( String name ) {
+        return PhetCommonProjectConfig.getInstance().getString( name );
+    }
+    
+    public static final BufferedImage getCommonImage( String name ) {
+        return PhetCommonProjectConfig.getInstance().getImage( name );
     }
 }
