@@ -5,7 +5,6 @@ package edu.colorado.phet.opticaltweezers;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.Image;
 
 import javax.swing.JLabel;
 
@@ -31,17 +30,7 @@ public class OTConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    private static final String PROJECT = "optical-tweezers";
-    
-    public static final PhetProjectConfig CONFIG = PhetProjectConfig.forProject( PROJECT );
-    
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
-    
-    //----------------------------------------------------------------------------
-    // Dimensions
-    //----------------------------------------------------------------------------
-    
-    public static final int MIN_CONTROL_PANEL_WIDTH = CONFIG.getInt( "int.minControlPanelWidth", 215 );
     
     //----------------------------------------------------------------------------
     // Fonts
@@ -79,9 +68,9 @@ public class OTConstants {
     // Images
     //----------------------------------------------------------------------------
     
-    public static final Image IMAGE_CLOCK = CONFIG.getImage( "clock.png" );
-    public static final Image IMAGE_CLOSE_BUTTON = CONFIG.getImage( "closeButton.png" );
-    public static final Image IMAGE_LASER_SIGN = CONFIG.getImage( "laserDangerSign.png" );
+    public static final String IMAGE_CLOCK = "clock.png";
+    public static final String IMAGE_CLOSE_BUTTON = "closeButton.png";
+    public static final String IMAGE_LASER_SIGN = "laserDangerSign.png";
     
     //----------------------------------------------------------------------------
     // Cursors
@@ -91,15 +80,4 @@ public class OTConstants {
     public static final Cursor HAND_CURSOR = new Cursor( Cursor.HAND_CURSOR );
     public static final Cursor WAIT_CURSOR = new Cursor( Cursor.WAIT_CURSOR );
     
-    //----------------------------------------------------------------------------
-    // Model
-    //----------------------------------------------------------------------------
-    
-    //----------------------------------------------------------------------------
-    // Ranges
-    //----------------------------------------------------------------------------
-    
-    //----------------------------------------------------------------------------
-    // Features
-    //----------------------------------------------------------------------------    
 }

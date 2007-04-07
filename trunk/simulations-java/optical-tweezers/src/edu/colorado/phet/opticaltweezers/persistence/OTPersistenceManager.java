@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.util.DialogUtils;
 import edu.colorado.phet.opticaltweezers.OTApplication;
-import edu.colorado.phet.opticaltweezers.OTStrings;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.module.AbstractModule;
 
 
@@ -87,7 +87,7 @@ public class OTPersistenceManager {
             }
         }
         catch ( Exception e ) {
-            showError( OTStrings.SAVE_ERROR_MESSAGE, e );
+            showError( OTResources.getString( "Save.error.message" ), e );
         }
     }
       
@@ -100,7 +100,7 @@ public class OTPersistenceManager {
         
         // Choose the file to save.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( OTStrings.SAVE_TITLE );
+        fileChooser.setDialogTitle( OTResources.getString( "Save.title" ) );
         int rval = fileChooser.showSaveDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -112,7 +112,7 @@ public class OTPersistenceManager {
 
         // If the file exists, confirm overwrite.
         if ( selectedFile.exists() ) {
-            int reply = DialogUtils.showConfirmDialog( frame, OTStrings.SAVE_CONFIRM_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION );
+            int reply = DialogUtils.showConfirmDialog( frame, OTResources.getString( "Save.confirm.message" ), JOptionPane.YES_NO_CANCEL_OPTION );
             if ( reply != JOptionPane.YES_OPTION ) {
                 return;
             }
@@ -128,7 +128,7 @@ public class OTPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( OTStrings.SAVE_ERROR_ENCODE, e );
+                    showError( OTResources.getString( "Save.error.encode" ), e );
                     errors++;
                 }
             }      
@@ -150,7 +150,7 @@ public class OTPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( OTStrings.SAVE_ERROR_ENCODE, e );
+                    showError( OTResources.getString( "Save.error.encode" ), e );
                     errors++;
                 }
             }
@@ -197,7 +197,7 @@ public class OTPersistenceManager {
             }
         }
         catch ( Exception e ) {
-            showError( OTStrings.LOAD_ERROR_MESSAGE, e );
+            showError( OTResources.getString( "Load.error.message" ), e );
         }
         if ( object == null ) {
             return;
@@ -205,7 +205,7 @@ public class OTPersistenceManager {
         
         // Verify the object's type
         if ( !( object instanceof OTConfig ) ) {
-            showError( OTStrings.LOAD_ERROR_MESSAGE, OTStrings.LOAD_ERROR_CONTENTS );
+            showError( OTResources.getString( "Load.error.message" ), OTResources.getString( "Load.error.contents" ) );
             return;
         }
         
@@ -224,7 +224,7 @@ public class OTPersistenceManager {
             }
         }
         catch ( Exception e ) {
-            showError( OTStrings.LOAD_ERROR_MESSAGE, e );
+            showError( OTResources.getString( "Load.error.message" ), e );
         }
     }
  
@@ -236,7 +236,7 @@ public class OTPersistenceManager {
         
         // Choose the file to load.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( OTStrings.LOAD_TITLE );
+        fileChooser.setDialogTitle( OTResources.getString( "Load.title" ) );
         int rval = fileChooser.showOpenDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -255,7 +255,7 @@ public class OTPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( OTStrings.LOAD_ERROR_DECODE, e );
+                    showError( OTResources.getString( "Load.error.decode" ), e );
                     errors++;
                 }
             }      
@@ -263,7 +263,7 @@ public class OTPersistenceManager {
         object = decoder.readObject();
         decoder.close();
         if ( object == null ) {
-            throw new Exception( OTStrings.LOAD_ERROR_CONTENTS );
+            throw new Exception( OTResources.getString( "Load.error.contents" ) );
         }
 
         return object;
@@ -298,7 +298,7 @@ public class OTPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( OTStrings.LOAD_ERROR_DECODE, e );
+                    showError( OTResources.getString( "Load.error.decode" ), e );
                     errors++;
                 }
             }
@@ -306,7 +306,7 @@ public class OTPersistenceManager {
         object = decoder.readObject();
         decoder.close();
         if ( object == null ) {
-            throw new Exception( OTStrings.LOAD_ERROR_CONTENTS );
+            throw new Exception( OTResources.getString( "Load.error.contents" ) );
         }
         
         return object;
@@ -338,7 +338,8 @@ public class OTPersistenceManager {
         JFrame frame = _app.getPhetFrame();
         Object[] args = { errorMessage };
         String message = MessageFormat.format( format, args );
-        DialogUtils.showMessageDialog( frame, message, OTStrings.ERROR_TITLE, JOptionPane.ERROR_MESSAGE );
+        String title = OTResources.getString( "title.error" );
+        DialogUtils.showErrorDialog( frame, message, title );
     }
     
     //----------------------------------------------------------------------------

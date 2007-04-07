@@ -14,7 +14,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.OTStrings;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
 
@@ -78,12 +78,13 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _clock = _module.getOTClock();
 
         // Set the control panel's minimum width.
-        setMinumumWidth( OTConstants.MIN_CONTROL_PANEL_WIDTH );
+        int minimumWidth = OTResources.getInt( "int.minControlPanelWidth", 215 );
+        setMinumumWidth( minimumWidth );
         
         // Clock speed
         JPanel speedPanel = new JPanel();
         {
-            JLabel titleLabel = new JLabel( OTStrings.SIMULATION_SPEED );
+            JLabel titleLabel = new JLabel( OTResources.getString( "label.simulationSpeed" ) );
             titleLabel.setFont( TITLE_FONT );
             
             _clockSpeedSlider = new ClockSpeedSlider( _clock, CONTROL_FONT );
@@ -101,13 +102,13 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         // Fields and charged 
         JPanel fieldAndChargesPanel = new JPanel();
         {
-            JLabel titleLabel = new JLabel( OTStrings.FIELDS_AND_CHARGES );
+            JLabel titleLabel = new JLabel( OTResources.getString( "label.fieldsAndCharges" ) );
             titleLabel.setFont( TITLE_FONT );
             
-            _electricFieldCheckBox = new JCheckBox( OTStrings.SHOW_ELECTRIC_FIELD );
-            _beadChargesCheckBox = new JCheckBox( OTStrings.SHOW_BEAD_CHARGES );
-            _allChargesRadioButton = new JRadioButton( OTStrings.ALL_CHARGES );
-            _excessChargesRadioButton = new JRadioButton( OTStrings.EXCESS_CHARGES );
+            _electricFieldCheckBox = new JCheckBox( OTResources.getString( "label.showElectricField" ) );
+            _beadChargesCheckBox = new JCheckBox( OTResources.getString( "label.showBeadCharges" ) );
+            _allChargesRadioButton = new JRadioButton( OTResources.getString("label.allCharges" ) );
+            _excessChargesRadioButton = new JRadioButton( OTResources.getString( "label.excessCharges" ) );
             ButtonGroup bg = new ButtonGroup();
             bg.add( _allChargesRadioButton );
             bg.add( _excessChargesRadioButton );
@@ -132,17 +133,17 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         // Forces on bead 
         JPanel forcesPanel = new JPanel();
         {
-            JLabel titleLabel = new JLabel( OTStrings.FORCES_ON_BEAD );
+            JLabel titleLabel = new JLabel( OTResources.getString( "label.forcesOnBead" ) );
             titleLabel.setFont( TITLE_FONT );
             
-            _trapForceCheckBox = new JCheckBox( OTStrings.SHOW_TRAP_FORCE );
-            _fluidDragCheckBox = new JCheckBox( OTStrings.SHOW_FLUID_DRAG );
-            _brownianForceCheckBox = new JCheckBox( OTStrings.SHOW_BROWNIAN_FORCE );
+            _trapForceCheckBox = new JCheckBox( OTResources.getString( "label.showTrapForce" ) );
+            _fluidDragCheckBox = new JCheckBox( OTResources.getString( "label.showFluidDrag" ) );
+            _brownianForceCheckBox = new JCheckBox( OTResources.getString( "label.showBrownianForce" ) );
 
-            _horizontalTrapForceLabel = new JLabel( OTStrings.HORIZONTAL_TRAP_FORCE );
+            _horizontalTrapForceLabel = new JLabel( OTResources.getString( "label.horizontalTrapForce" ) );
             _horizontalTrapForceLabel.setFont( CONTROL_FONT );
-            _wholeBeadRadioButton = new JRadioButton( OTStrings.WHOLE_BEAD );
-            _halfBeadRadioButton = new JRadioButton( OTStrings.HALF_BEAD );
+            _wholeBeadRadioButton = new JRadioButton( OTResources.getString( "label.wholeBead" ) );
+            _halfBeadRadioButton = new JRadioButton( OTResources.getString( "label.halfBead" ) );
             ButtonGroup bg = new ButtonGroup();
             bg.add( _wholeBeadRadioButton );
             bg.add( _halfBeadRadioButton );
@@ -167,18 +168,18 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         }
         
         // Ruler
-        _rulerCheckBox = new JCheckBox( OTStrings.SHOW_RULER );
+        _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
         
         // Histogram
-        _positionHistogramCheckBox = new JCheckBox( OTStrings.SHOW_POSITION_HISTOGRAM );
+        _positionHistogramCheckBox = new JCheckBox( OTResources.getString( "label.showPositionHistogram" ) );
         
         // Advanced features
         JPanel advancedPanel = new JPanel();
         {
-            _advancedButton = new JButton( OTStrings.SHOW_ADVANCED );
-            _fluidControlsCheckBox = new JCheckBox( OTStrings.CONTROL_FLUID_FLOW );
-            _momemtumChangeCheckBox = new JCheckBox( OTStrings.SHOW_MOMENTUM_CHANGE );
-            _potentialEnergyChartCheckBox = new JCheckBox( OTStrings.SHOW_POTENTIAL_ENERGY_CHART );
+            _advancedButton = new JButton( OTResources.getString( "label.showAdvanced" ) );
+            _fluidControlsCheckBox = new JCheckBox( OTResources.getString( "label.controlFluidFlow" ) );
+            _momemtumChangeCheckBox = new JCheckBox( OTResources.getString( "label.showMomentumChange" ) );
+            _potentialEnergyChartCheckBox = new JCheckBox( OTResources.getString( "label.showPotentialEnergyChart" ) );
             
             _advancedPanel = new Box( BoxLayout.Y_AXIS );
             _advancedPanel.add( _fluidControlsCheckBox );
@@ -652,10 +653,10 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         
         _advancedPanel.setVisible( !_advancedPanel.isVisible() );
         if ( _advancedPanel.isVisible() ) {
-            _advancedButton.setText( OTStrings.HIDE_ADVANCED );
+            _advancedButton.setText( OTResources.getString( "label.hideAdvanced" ) );
         }
         else {
-            _advancedButton.setText( OTStrings.SHOW_ADVANCED );
+            _advancedButton.setText( OTResources.getString( "label.showAdvanced" ) );
         }
     }
     

@@ -14,7 +14,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.DialogUtils;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.OTStrings;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.module.AbstractModule;
 import edu.colorado.phet.opticaltweezers.util.CursorUtils;
 
@@ -86,11 +86,12 @@ public abstract class AbstractControlPanel extends ControlPanel {
      * The button handler calls the module's reset method.
      */
     public void addResetButton() {
-        _resetButton = new JButton( OTStrings.RESET_ALL );
+        _resetButton = new JButton( OTResources.getString( "button.resetAll" ) );
         _resetButton.addActionListener( new ActionListener() { 
             public void actionPerformed( ActionEvent e ) {
                 Frame frame = PhetApplication.instance().getPhetFrame();
-                int option = DialogUtils.showConfirmDialog( frame, OTStrings.CONFIRM_RESET_ALL, JOptionPane.YES_NO_OPTION );
+                String message = OTResources.getString( "message.confirmResetAll" );
+                int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
                 if ( option == JOptionPane.YES_OPTION ) {
                     CursorUtils.setWaitCursorEnabled( true );
                     _module.resetAll();

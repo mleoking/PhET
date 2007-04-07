@@ -16,7 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.OTStrings;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.charts.*;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.control.PhysicsControlPanel;
@@ -87,7 +87,7 @@ public class PhysicsModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public PhysicsModule() {
-        super( OTStrings.PHYSICS_OF_TWEEZERS, PhysicsDefaults.CLOCK, PhysicsDefaults.CLOCK_PAUSED );
+        super( OTResources.getString( "title.physicsOfTweezers" ), PhysicsDefaults.CLOCK, PhysicsDefaults.CLOCK_PAUSED );
 
         //----------------------------------------------------------------------------
         // Model
@@ -207,7 +207,7 @@ public class PhysicsModule extends AbstractModule {
         setClockControlPanel( _clockControlPanel );
         
         // "Return Bead" button
-        JButton returnBeadButton = new JButton( OTStrings.RETURN_BEAD );
+        JButton returnBeadButton = new JButton( OTResources.getString( "button.returnBead" ) );
         Font font = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 18 );
         returnBeadButton.setFont( font );
         returnBeadButton.setOpaque( false );
@@ -436,7 +436,7 @@ public class PhysicsModule extends AbstractModule {
         if ( !_wiggleMeInitialized ) {
             
             // Create wiggle me, add to root node.
-            _wiggleMe = new OTWiggleMe( _canvas, OTStrings.WIGGLE_ME );
+            _wiggleMe = new OTWiggleMe( _canvas, OTResources.getString( "label.wiggleMe" ) );
             _rootNode.addChild( _wiggleMe );
             
             // Animate from the upper-left to some point

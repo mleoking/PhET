@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.opticaltweezers.OTStrings;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.FluidControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 
@@ -39,11 +39,11 @@ public class FluidControlDialog extends JDialog {
         assert( owner != null );
         setResizable( false );
         setModal( false );
-        setTitle( OTStrings.FLUID_CONTROLS_TITLE );
+        setTitle( OTResources.getString( "title.fluidControls" ) );
         
         _fluidControlPanel = new FluidControlPanel( fluid, font ); 
         
-        _closeButton = new JButton( OTStrings.CLOSE_BUTTON );
+        _closeButton = new JButton( OTResources.getString( "button.close" ) );
         _closeButton.setFont( font );
         _closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {

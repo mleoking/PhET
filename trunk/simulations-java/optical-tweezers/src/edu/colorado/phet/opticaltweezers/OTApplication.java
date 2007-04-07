@@ -57,12 +57,10 @@ public class OTApplication extends PiccoloPhetApplication {
      * Sole constructor.
      * 
      * @param args command line arguments
-     * @param config
-     * @param frameSetup
      */
-    public OTApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup )
+    public OTApplication( String[] args )
     {
-        super( args, config, frameSetup );
+        super( args, OTResources.getConfig(), OTConstants.FRAME_SETUP );
         initModules();
         initMenubar( args );
     }
@@ -98,16 +96,16 @@ public class OTApplication extends PiccoloPhetApplication {
         
         // File menu
         {
-            JMenuItem saveItem = new JMenuItem( OTStrings.FILE_SAVE );
-            saveItem.setMnemonic( OTStrings.FILE_SAVE_MNEMONIC );
+            JMenuItem saveItem = new JMenuItem( OTResources.getString( "menu.file.save" ) );
+            saveItem.setMnemonic( OTResources.getChar( "menu.file.save.mnemonic", 'S' ) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.save();
                 }
             } );
             
-            JMenuItem loadItem = new JMenuItem( OTStrings.FILE_LOAD );
-            loadItem.setMnemonic( OTStrings.FILE_LOAD_MNEMONIC );
+            JMenuItem loadItem = new JMenuItem( OTResources.getString( "menu.file.load" ) );
+            loadItem.setMnemonic( OTResources.getChar( "menu.file.load.mnemonic", 'L' ) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.load();
@@ -150,7 +148,7 @@ public class OTApplication extends PiccoloPhetApplication {
         
         GlobalConfig config = appConfig.getGlobalConfig();
         
-        config.setVersionNumber( OTStrings.VERSION );
+        config.setVersionNumber( OTResources.getVersion() );
     }
 
     /**
@@ -193,7 +191,7 @@ public class OTApplication extends PiccoloPhetApplication {
                 laf.initLookAndFeel();
 
                 // Create the application.
-                OTApplication app = new OTApplication( args, OTConstants.CONFIG, OTConstants.FRAME_SETUP );
+                OTApplication app = new OTApplication( args );
 
                 // Start the application.
                 app.startApplication();

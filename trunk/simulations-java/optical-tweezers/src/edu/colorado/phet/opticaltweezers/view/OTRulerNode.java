@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.opticaltweezers.OTStrings;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.piccolo.event.BoundedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
@@ -57,7 +57,7 @@ public class OTRulerNode extends RulerNode implements Observer {
      * @param dragBoundsNode
      */
     public OTRulerNode( Laser laser, ModelViewTransform modelWorldTransform, PPath dragBoundsNode ) {
-        super( DEFAULT_WORLD_SIZE.getWidth(), HEIGHT, null, OTStrings.POSITION_UNITS, MINOR_TICKS_BETWEEN_MAJORS, FONT_SIZE );
+        super( DEFAULT_WORLD_SIZE.getWidth(), HEIGHT, null, OTResources.getString( "units.position" ), MINOR_TICKS_BETWEEN_MAJORS, FONT_SIZE );
         
         setUnitsAssociatedMajorTickLabel( "0" ); // attach units to the tick mark labeled "0"
         
