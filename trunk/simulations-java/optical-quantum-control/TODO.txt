@@ -22,6 +22,7 @@ PHETCOMMON:
 
 
 DONE:
+4/7/07 - encapsulate PhetProjectConfig in OQCResources
 4/5/07 - set locale in Spanish JNLP file via javaws.locale property
 4/5/07 - convert from SimStrings to PhetProjectConfig
 4/5/07 - consolidate all string constants in OQCStrings

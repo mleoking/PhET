@@ -31,7 +31,7 @@ import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
-import edu.colorado.phet.opticalquantumcontrol.OQCStrings;
+import edu.colorado.phet.opticalquantumcontrol.OQCResources;
 import edu.colorado.phet.opticalquantumcontrol.model.Harmonic;
 
 
@@ -346,7 +346,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
      * Displays a modal error dialog for invalid user inputs.
      */
     private void showUserInputErrorDialog() {
-        String message = OQCStrings.AMPLITUDE_ERROR_MESSAGE;
+        String message = OQCResources.AMPLITUDE_ERROR_MESSAGE;
         JOptionPane op = new JOptionPane( message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION );
         op.createDialog( getComponent(), null ).show();
     }

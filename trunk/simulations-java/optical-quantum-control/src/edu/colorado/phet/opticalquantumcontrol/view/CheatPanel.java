@@ -24,7 +24,7 @@ import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
-import edu.colorado.phet.opticalquantumcontrol.OQCStrings;
+import edu.colorado.phet.opticalquantumcontrol.OQCResources;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 
 
@@ -81,7 +81,7 @@ public class CheatPanel extends GraphicLayerSet implements SimpleObserver {
         titleGraphic.setIgnoreMouse( true );
         titleGraphic.setColor( Color.BLACK );
         titleGraphic.setFont( TITLE_FONT );
-        titleGraphic.setHTML( OQCStrings.CHEAT_DIALOG_LABEL );
+        titleGraphic.setHTML( OQCResources.CHEAT_DIALOG_LABEL );
         titleGraphic.setLocation( 35, 5 );
         addGraphic( titleGraphic );
         
@@ -118,7 +118,7 @@ public class CheatPanel extends GraphicLayerSet implements SimpleObserver {
         }
         
         // Close button
-        PhetImageGraphic closeButton = new PhetImageGraphic( component, OQCConstants.CLOSE_BUTTON_IMAGE );
+        PhetImageGraphic closeButton = new PhetImageGraphic( component, OQCResources.CLOSE_BUTTON_IMAGE );
         closeButton.setLocation( 5, 5 );
         addGraphic( closeButton );
         closeButton.addMouseInputListener( new MouseInputAdapter() {

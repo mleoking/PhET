@@ -2,20 +2,40 @@
 
 package edu.colorado.phet.opticalquantumcontrol;
 
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.common.view.util.PhetProjectConfig;
 
 /**
- * OQCStrings is the collection of localized strings used in this simulation.
+ * OQCResources is the collection of JAR file resources used in this sim.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class OQCStrings {
+public class OQCResources {
     
     /* not intended for instantiation */
-    private OQCStrings() {}
+    private OQCResources() {}
     
-    private static PhetProjectConfig CONFIG = OQCConstants.CONFIG;
+    private static PhetProjectConfig CONFIG = PhetProjectConfig.forProject( "optical-quantum-control" );
+    
+    public static PhetProjectConfig getConfig() {
+        return CONFIG;
+    }
+    
+    public static BufferedImage getImage( String name ) {
+        return CONFIG.getImage( name );
+    }
+    
+    // Numbers
+    public static final int EXPLANATION_FONT_SIZE = CONFIG.getInt( "ExplanationDialog.fontSize", 12 );
+    
+    // Images
+    public static final BufferedImage CLOSE_BUTTON_IMAGE = CONFIG.getImage( "closeButton.png" );
+    public static final BufferedImage EXPLANATION_IMAGE = CONFIG.getImage( "explanation.jpg" );
+    public static final BufferedImage KABOOM_IMAGE = CONFIG.getImage( "kaboom.png" );
+    public static final BufferedImage MAGNIFYING_GLASS_IMAGE = CONFIG.getImage( "magnifyingGlass.png" );
 
+    // Strings
     public static final String MODULE_TITLE = CONFIG.getString( "OQCModule.title" );
     public static final String AMPLITUDES = CONFIG.getString( "AmplitudesView.title" );
     public static final String INPUT_PULSE = CONFIG.getString( "InputPulseView.title" );

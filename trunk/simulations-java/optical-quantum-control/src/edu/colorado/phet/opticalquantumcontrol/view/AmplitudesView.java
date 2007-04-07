@@ -24,7 +24,7 @@ import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
-import edu.colorado.phet.opticalquantumcontrol.OQCStrings;
+import edu.colorado.phet.opticalquantumcontrol.OQCResources;
 import edu.colorado.phet.opticalquantumcontrol.charts.FlattenedChart;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 import edu.colorado.phet.opticalquantumcontrol.model.Harmonic;
@@ -112,7 +112,7 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
         addGraphic( backgroundGraphic, BACKGROUND_LAYER );
         
         // Title
-        String title = OQCStrings.AMPLITUDES;
+        String title = OQCResources.AMPLITUDES;
         HTMLGraphic titleGraphic = new HTMLGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         titleGraphic.setRegistrationPoint( titleGraphic.getWidth()/2, 0 ); // top center
         titleGraphic.rotate( -( Math.PI / 2 ) );

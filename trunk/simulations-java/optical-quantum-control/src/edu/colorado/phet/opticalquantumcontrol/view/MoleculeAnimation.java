@@ -29,7 +29,7 @@ import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
-import edu.colorado.phet.opticalquantumcontrol.OQCStrings;
+import edu.colorado.phet.opticalquantumcontrol.OQCResources;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;
 
@@ -207,7 +207,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _closenessGraphic = new HTMLGraphic( component );
         _closenessGraphic.setColor( Color.BLACK );
         _closenessGraphic.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
-        _closenessFormat = OQCStrings.CLOSENESS_READOUT;
+        _closenessFormat = OQCResources.CLOSENESS_READOUT;
         Object[] args = { "-000" };
         String text = MessageFormat.format( _closenessFormat, args );
         _closenessGraphic.setHTML( text );
@@ -216,7 +216,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _closenessGraphic.setLocation( BACKGROUND_SIZE.width/2, BACKGROUND_SIZE.height - 5 );
         
         // explosion (Kaboom!)
-        _explosionGraphic = new PhetImageGraphic( component, OQCConstants.KABOOM_IMAGE );
+        _explosionGraphic = new PhetImageGraphic( component, OQCResources.KABOOM_IMAGE );
         _explosionGraphic.setRegistrationPoint( _explosionGraphic.getWidth()/2, 0 ); // top center
         _explosionGraphic.setLocation( _animationFrame.getLocation() );
         addGraphic( _explosionGraphic );
@@ -277,9 +277,9 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
      * @param index
      */
     public void setMolecule( int index ) {
-        BufferedImage image1 = OQCConstants.CONFIG.getImage( "molecule" + index + "_part1.png" );
-        BufferedImage image2 = OQCConstants.CONFIG.getImage( "molecule" + index + "_part2.png" );
-        BufferedImage image3 = OQCConstants.CONFIG.getImage( "molecule" + index + "_part3.png" );
+        BufferedImage image1 = OQCResources.getImage( "molecule" + index + "_part1.png" );
+        BufferedImage image2 = OQCResources.getImage( "molecule" + index + "_part2.png" );
+        BufferedImage image3 = OQCResources.getImage( "molecule" + index + "_part3.png" );
         _moleculePart1.setImage( image1 );
         _moleculePart2.setImage( image2 );
         _moleculePart3.setImage( image3 );
@@ -406,8 +406,8 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
 
         // Tell the user they won.
         JFrame frame = PhetApplication.instance().getPhetFrame();
-        String message = OQCStrings.WIN_DIALOG_MESSAGE;
-        String title = OQCStrings.WIN_DIALOG_TITLE;
+        String message = OQCResources.WIN_DIALOG_MESSAGE;
+        String title = OQCResources.WIN_DIALOG_TITLE;
         JOptionPane.showMessageDialog( frame, message, title, JOptionPane.PLAIN_MESSAGE );
 
         // Start a new "game".

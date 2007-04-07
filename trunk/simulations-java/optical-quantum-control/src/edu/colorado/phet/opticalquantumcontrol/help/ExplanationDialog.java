@@ -19,8 +19,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
-import edu.colorado.phet.opticalquantumcontrol.OQCStrings;
+import edu.colorado.phet.opticalquantumcontrol.OQCResources;
 
 
 /**
@@ -59,7 +58,7 @@ public class ExplanationDialog extends JDialog {
      */
     public ExplanationDialog( Frame owner ) {
         super( owner, false /* nonmodal */ );
-        setTitle( OQCStrings.EXPLANATION_TITLE );
+        setTitle( OQCResources.EXPLANATION_TITLE );
         setResizable( false );
         
         ApparatusPanel apparatusPanel = new ApparatusPanel();
@@ -69,36 +68,36 @@ public class ExplanationDialog extends JDialog {
         CompositePhetGraphic picture = new CompositePhetGraphic( apparatusPanel );
         {
             // The image
-            PhetImageGraphic image = new PhetImageGraphic( apparatusPanel, OQCConstants.EXPLANATION_IMAGE );
+            PhetImageGraphic image = new PhetImageGraphic( apparatusPanel, OQCResources.EXPLANATION_IMAGE );
             image.setLocation( 0, 0 );
             picture.addGraphic( image );
 
             // Mask bubble
-            HelpBubble maskBubble = new HelpBubble( apparatusPanel, OQCStrings.EXPLANATION_MASK );
+            HelpBubble maskBubble = new HelpBubble( apparatusPanel, OQCResources.EXPLANATION_MASK );
             maskBubble.setColors( BUBBLE_TEXT_COLOR, BUBBLE_COLOR, BUBBLE_ARROW_COLOR );
             maskBubble.pointAt( new Point( 100, 175 ), HelpBubble.LEFT_CENTER, 40 );
             picture.addGraphic( maskBubble );
 
             // Mirror bubble
-            HelpBubble mirrorBubble = new HelpBubble( apparatusPanel, OQCStrings.EXPLANATION_MIRROR );
+            HelpBubble mirrorBubble = new HelpBubble( apparatusPanel, OQCResources.EXPLANATION_MIRROR );
             mirrorBubble.setColors( BUBBLE_TEXT_COLOR, BUBBLE_COLOR, BUBBLE_ARROW_COLOR );
             mirrorBubble.pointAt( new Point( 605, 205 ), HelpBubble.RIGHT_CENTER, 50 );
             picture.addGraphic( mirrorBubble );
 
             // Diffraction Grating bubble
-            HelpBubble gratingBubble = new HelpBubble( apparatusPanel, OQCStrings.EXPLANATION_GRATING );
+            HelpBubble gratingBubble = new HelpBubble( apparatusPanel, OQCResources.EXPLANATION_GRATING );
             gratingBubble.setColors( BUBBLE_TEXT_COLOR, BUBBLE_COLOR, BUBBLE_ARROW_COLOR );
             gratingBubble.pointAt( new Point( 320, 420 ), HelpBubble.RIGHT_BOTTOM, 40 );
             picture.addGraphic( gratingBubble );
         }
         
         // Text explanation
-        int fontSize = OQCConstants.EXPLANATION_FONT_SIZE;
+        int fontSize = OQCResources.EXPLANATION_FONT_SIZE;
         HTMLGraphic text = new HTMLGraphic( apparatusPanel );
         text.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         text.setFont( new Font( "Lucida Sans", Font.PLAIN, fontSize ) );
         text.setColor( TEXT_COLOR );
-        text.setHTML( OQCStrings.EXPLANATION_TEXT );
+        text.setHTML( OQCResources.EXPLANATION_TEXT );
         
         // Layout
         picture.setRegistrationPoint( picture.getWidth()/2, 0 ); // top center

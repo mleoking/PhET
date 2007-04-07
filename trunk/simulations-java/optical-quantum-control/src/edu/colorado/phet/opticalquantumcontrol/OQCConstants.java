@@ -13,11 +13,9 @@ package edu.colorado.phet.opticalquantumcontrol;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.math.TrigCache;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
 
 
 /**
@@ -42,23 +40,12 @@ public class OQCConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    private static final String PROJECT = "optical-quantum-control";
-    
-    public static final PhetProjectConfig CONFIG = PhetProjectConfig.forProject( PROJECT );
-    
     public static final int FRAME_WIDTH = 1024;
     public static final int FRAME_HEIGHT = 768;
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( FRAME_WIDTH, FRAME_HEIGHT );
     
     public static final TrigCache TRIG_CACHE = new TrigCache( 360 );
     
-    //----------------------------------------------------------------------------
-    // Properties files
-    //----------------------------------------------------------------------------
-    
-    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
-    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
-
     //----------------------------------------------------------------------------
     // Clock
     //----------------------------------------------------------------------------
@@ -73,8 +60,6 @@ public class OQCConstants {
     //----------------------------------------------------------------------------
 
     public static final String FONT_NAME = "Lucida Sans";
-    
-    public static final int EXPLANATION_FONT_SIZE = CONFIG.getInt( "ExplanationDialog.fontSize", 12 );
     
     //----------------------------------------------------------------------------
     // Colors
@@ -125,13 +110,4 @@ public class OQCConstants {
     
     /** The closeness value that is considered a "match" */
     public static final double CLOSENESS_MATCH = 0.95;
-    
-    //----------------------------------------------------------------------------
-    // Images
-    //----------------------------------------------------------------------------
-
-    public static final BufferedImage CLOSE_BUTTON_IMAGE = CONFIG.getImage( "closeButton.png" );
-    public static final BufferedImage EXPLANATION_IMAGE = CONFIG.getImage( "explanation.jpg" );
-    public static final BufferedImage KABOOM_IMAGE = CONFIG.getImage( "kaboom.png" );
-    public static final BufferedImage MAGNIFYING_GLASS_IMAGE = CONFIG.getImage( "magnifyingGlass.png" );
 }
