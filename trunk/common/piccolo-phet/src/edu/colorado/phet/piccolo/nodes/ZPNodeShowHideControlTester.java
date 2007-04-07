@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -27,7 +28,7 @@ public class ZPNodeShowHideControlTester {
         
         PText textNode = new PText( "Blah blah blah" );
         
-        PComposite parentNode = new PComposite();
+        PNode parentNode = new PComposite(); // breaks this test case! PComposite nodes don't forward events to children
         parentNode.addChild( pathNode );
         parentNode.addChild( textNode );
         textNode.setOffset( 0, 100 );
