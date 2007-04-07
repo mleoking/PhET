@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 import javax.swing.event.ChangeListener;
 
@@ -24,8 +25,8 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.control.FaradaySlider;
 import edu.colorado.phet.faraday.model.Turbine;
 
@@ -95,7 +96,8 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
         
         // Faucet 
         {
-            PhetImageGraphic faucet = new PhetImageGraphic( component, FaradayConstants.FAUCET_IMAGE );
+            BufferedImage faucetImage = FaradayResources.getImage( FaradayConstants.FAUCET_IMAGE );
+            PhetImageGraphic faucet = new PhetImageGraphic( component, faucetImage );
             addGraphic( faucet, FAUCET_LAYER );
             faucet.setLocation( -405, -350 );
             faucet.setIgnoreMouse( !TURBINE_IS_DRAGGABLE );
@@ -128,7 +130,8 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
         
         // Water Wheel
         {
-            _waterWheelGraphic = new PhetImageGraphic( component, FaradayConstants.WATER_WHEEL_IMAGE );
+            BufferedImage waterWheelImage = FaradayResources.getImage( FaradayConstants.WATER_WHEEL_IMAGE );
+            _waterWheelGraphic = new PhetImageGraphic( component, waterWheelImage );
             _waterWheelGraphic.setIgnoreMouse( !TURBINE_IS_DRAGGABLE );
             _waterWheelGraphic.centerRegistrationPoint();
             _waterWheelGraphic.setLocation( 0, 0 );
@@ -137,7 +140,8 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
         
         // Bar magnet
         {
-            _barMagnetGraphic = new PhetImageGraphic( component, FaradayConstants.BAR_MAGNET_IMAGE );
+            BufferedImage barMagnetImage = FaradayResources.getImage( FaradayConstants.BAR_MAGNET_IMAGE );
+            _barMagnetGraphic = new PhetImageGraphic( component, barMagnetImage );
             _barMagnetGraphic.setIgnoreMouse( !TURBINE_IS_DRAGGABLE );
             _barMagnetGraphic.centerRegistrationPoint();
             _barMagnetGraphic.setLocation( 0, 0 );
@@ -149,7 +153,8 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
         
         // Pivot point
         {
-            PhetImageGraphic pivotGraphic = new PhetImageGraphic( component, FaradayConstants.TURBINE_PIVOT_IMAGE );
+            BufferedImage turbinePivotImage = FaradayResources.getImage( FaradayConstants.TURBINE_PIVOT_IMAGE );
+            PhetImageGraphic pivotGraphic = new PhetImageGraphic( component, turbinePivotImage );
             pivotGraphic.setIgnoreMouse( !TURBINE_IS_DRAGGABLE );
             addGraphic( pivotGraphic, PIVOT_LAYER );
             pivotGraphic.centerRegistrationPoint();
@@ -165,7 +170,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
             _rpmValue.setLocation( 0, 10 );
             _rpmValue.setIgnoreMouse( !TURBINE_IS_DRAGGABLE );
 
-            String unitsString = SimStrings.getInstance().getString( "TurbineGraphic.rpm" );
+            String unitsString = FaradayResources.getString( "TurbineGraphic.rpm" );
             PhetTextGraphic rpmUnits = new PhetTextGraphic( component, RPM_UNITS_FONT, unitsString, RPM_COLOR );
             addGraphic( rpmUnits, RPM_LAYER );
             rpmUnits.centerRegistrationPoint();

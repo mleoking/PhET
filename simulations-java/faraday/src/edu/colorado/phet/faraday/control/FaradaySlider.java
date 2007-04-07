@@ -15,11 +15,13 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 
 
 /**
@@ -74,12 +76,14 @@ public class FaradaySlider extends GraphicSlider {
         setTrack( track );
         
         // Knob
-        PhetGraphic knob = new PhetImageGraphic( component, FaradayConstants.SLIDER_KNOB_IMAGE );
+        BufferedImage knobImage = FaradayResources.getImage( FaradayConstants.SLIDER_KNOB_IMAGE );
+        PhetGraphic knob = new PhetImageGraphic( component, knobImage );
         knob.centerRegistrationPoint();
         setKnob( knob );
         
         // Knob Highlight
-        PhetGraphic knobHighlight = new PhetImageGraphic( component, FaradayConstants.SLIDER_KNOB_HIGHLIGHT_IMAGE );
+        BufferedImage knobHighlightImage = FaradayResources.getImage( FaradayConstants.SLIDER_KNOB_HIGHLIGHT_IMAGE );
+        PhetGraphic knobHighlight = new PhetImageGraphic( component, knobHighlightImage );
         knobHighlight.centerRegistrationPoint();
         setKnobHighlight( knobHighlight );
     }

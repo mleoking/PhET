@@ -15,7 +15,6 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -24,9 +23,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.view.CoilGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
@@ -111,27 +109,27 @@ public class ElectromagnetPanel extends FaradayPanel {
         
         // Title
         Border border = BorderFactory.createLineBorder( Color.BLACK, 2 );
-        String title = SimStrings.getInstance().getString( "ElectromagnetPanel.title" );
+        String title = FaradayResources.getString( "ElectromagnetPanel.title" );
         TitledBorder titledBorder = BorderFactory.createTitledBorder( border, title );
         titledBorder.setTitleFont( getTitleFont() );
         setBorder( titledBorder );
         
         // Compass Grid on/off
-        _gridCheckBox = new JCheckBox( SimStrings.getInstance().getString( "ElectromagnetPanel.showGrid" ) );
+        _gridCheckBox = new JCheckBox( FaradayResources.getString( "ElectromagnetPanel.showGrid" ) );
         
         // Field Meter on/off
-        _fieldMeterCheckBox = new JCheckBox( SimStrings.getInstance().getString( "ElectromagnetPanel.showFieldMeter" ) );
+        _fieldMeterCheckBox = new JCheckBox( FaradayResources.getString( "ElectromagnetPanel.showFieldMeter" ) );
 
         // Compass on/off
-        _compassCheckBox = new JCheckBox( SimStrings.getInstance().getString( "ElectromagnetPanel.showCompass" ) );
+        _compassCheckBox = new JCheckBox( FaradayResources.getString( "ElectromagnetPanel.showCompass" ) );
 
         // Electrons on/off
-        _electronsCheckBox = new JCheckBox( SimStrings.getInstance().getString( "ElectromagnetPanel.showElectrons" ) );
+        _electronsCheckBox = new JCheckBox( FaradayResources.getString( "ElectromagnetPanel.showElectrons" ) );
         
         // Number of loops
         JPanel loopsPanel = new JPanel();
         {
-            JLabel loopsLabel = new JLabel( SimStrings.getInstance().getString( "ElectromagnetPanel.numberOfLoops" ) );
+            JLabel loopsLabel = new JLabel( FaradayResources.getString( "ElectromagnetPanel.numberOfLoops" ) );
 
             // Spinner, keyboard editing disabled.
             SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
@@ -157,43 +155,32 @@ public class ElectromagnetPanel extends FaradayPanel {
         JPanel sourcePanel = new JPanel();
         {
             // Title
-            TitledBorder indicatorBorder = new TitledBorder( SimStrings.getInstance().getString( "ElectromagnetPanel.currentSource" ) );
+            TitledBorder indicatorBorder = new TitledBorder( FaradayResources.getString( "ElectromagnetPanel.currentSource" ) );
             sourcePanel.setBorder( indicatorBorder );
 
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( sourcePanel );
             sourcePanel.setLayout( layout );
-            
-            // Radio buttons
-            try {
-                // Radio buttons with text & icons.
-                ImageIcon batteryIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.BATTERY_ICON ) );
-                ImageIcon batteryIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.BATTERY_ICON_SELECTED ) );
-                _batteryRadioButton = new JRadioButton( SimStrings.getInstance().getString( "ElectromagnetPanel.dc" ), batteryIcon );
-                _batteryRadioButton.setVerticalTextPosition( SwingConstants.BOTTOM );
-                _batteryRadioButton.setHorizontalTextPosition( SwingConstants.CENTER );
-                _batteryRadioButton.setSelectedIcon( batteryIconSelected );
-                
-                ImageIcon acIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.AC_POWER_SUPPLY_ICON ) );
-                ImageIcon acIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.AC_POWER_SUPPLY_ICON_SELECTED ) );
-                _acRadioButton = new JRadioButton( SimStrings.getInstance().getString( "ElectromagnetPanel.ac" ), acIcon );
-                _acRadioButton.setVerticalTextPosition( SwingConstants.BOTTOM );
-                _acRadioButton.setHorizontalTextPosition( SwingConstants.CENTER );
-                _acRadioButton.setSelectedIcon( acIconSelected );
-                
-                // Horizontal layout
-                layout.addAnchoredComponent( _batteryRadioButton, 0, 0, GridBagConstraints.WEST );
-                layout.addAnchoredComponent( _acRadioButton, 0, 1, GridBagConstraints.WEST );
-            }
-            catch ( IOException ioe ) {  /* Fallback... */
-                // Radio buttons with text.
-                _batteryRadioButton = new JRadioButton( SimStrings.getInstance().getString( "ElectromagnetPanel.dc" ) );
-                _acRadioButton = new JRadioButton( SimStrings.getInstance().getString( "ElectromagnetPanel.ac" ) );
-                // Vertical layout
-                layout.addAnchoredComponent( _batteryRadioButton, 0, 0, GridBagConstraints.WEST );
-                layout.addAnchoredComponent( _acRadioButton, 1, 0, GridBagConstraints.WEST );
-            }
-            
+
+            // Radio buttons with text & icons.
+            ImageIcon batteryIcon = new ImageIcon( FaradayResources.getImage( FaradayConstants.BATTERY_ICON ) );
+            ImageIcon batteryIconSelected = new ImageIcon( FaradayResources.getImage( FaradayConstants.BATTERY_ICON_SELECTED ) );
+            _batteryRadioButton = new JRadioButton( FaradayResources.getString( "ElectromagnetPanel.dc" ), batteryIcon );
+            _batteryRadioButton.setVerticalTextPosition( SwingConstants.BOTTOM );
+            _batteryRadioButton.setHorizontalTextPosition( SwingConstants.CENTER );
+            _batteryRadioButton.setSelectedIcon( batteryIconSelected );
+
+            ImageIcon acIcon = new ImageIcon( FaradayResources.getImage( FaradayConstants.AC_POWER_SUPPLY_ICON ) );
+            ImageIcon acIconSelected = new ImageIcon( FaradayResources.getImage( FaradayConstants.AC_POWER_SUPPLY_ICON_SELECTED ) );
+            _acRadioButton = new JRadioButton( FaradayResources.getString( "ElectromagnetPanel.ac" ), acIcon );
+            _acRadioButton.setVerticalTextPosition( SwingConstants.BOTTOM );
+            _acRadioButton.setHorizontalTextPosition( SwingConstants.CENTER );
+            _acRadioButton.setSelectedIcon( acIconSelected );
+
+            // Horizontal layout
+            layout.addAnchoredComponent( _batteryRadioButton, 0, 0, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( _acRadioButton, 0, 1, GridBagConstraints.WEST );
+
             // Button group
             ButtonGroup group = new ButtonGroup();
             group.add( _batteryRadioButton );

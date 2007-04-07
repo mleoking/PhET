@@ -25,8 +25,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.control.ControlPanelSlider;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
@@ -99,7 +99,7 @@ public class BarMagnetPanel extends FaradayPanel {
         
         // Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
-        String title = SimStrings.getInstance().getString( "BarMagnetPanel.title" );
+        String title = FaradayResources.getString( "BarMagnetPanel.title" );
         TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
         titleBorder.setTitleFont( getTitleFont() );
         setBorder( titleBorder );
@@ -112,7 +112,7 @@ public class BarMagnetPanel extends FaradayPanel {
             int range = max - min;
 
             // Slider
-            String format = SimStrings.getInstance().getString( "BarMagnetPanel.strength" );
+            String format = FaradayResources.getString( "BarMagnetPanel.strength" );
             _strengthSlider = new ControlPanelSlider( format );
             _strengthSlider.setMaximum( max );
             _strengthSlider.setMinimum( min );
@@ -123,19 +123,19 @@ public class BarMagnetPanel extends FaradayPanel {
         }
 
         //  Flip Polarity button
-        _flipPolarityButton = new JButton( SimStrings.getInstance().getString( "BarMagnetPanel.flipPolarity" ) );
+        _flipPolarityButton = new JButton( FaradayResources.getString( "BarMagnetPanel.flipPolarity" ) );
 
         // Magnet transparency on/off
-        _seeInsideCheckBox = new JCheckBox( SimStrings.getInstance().getString( "BarMagnetPanel.seeInside" ) );
+        _seeInsideCheckBox = new JCheckBox( FaradayResources.getString( "BarMagnetPanel.seeInside" ) );
 
         // Compass Grid on/off
-        _gridCheckBox = new JCheckBox( SimStrings.getInstance().getString( "BarMagnetPanel.showGrid" ) );
+        _gridCheckBox = new JCheckBox( FaradayResources.getString( "BarMagnetPanel.showGrid" ) );
         
         // Field Meter on/off
-        _fieldMeterCheckBox = new JCheckBox( SimStrings.getInstance().getString( "BarMagnetPanel.showFieldMeter" ) );
+        _fieldMeterCheckBox = new JCheckBox( FaradayResources.getString( "BarMagnetPanel.showFieldMeter" ) );
 
         // Compass on/off
-        _compassCheckBox = new JCheckBox( SimStrings.getInstance().getString( "BarMagnetPanel.showCompass" ) );
+        _compassCheckBox = new JCheckBox( FaradayResources.getString( "BarMagnetPanel.showCompass" ) );
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );

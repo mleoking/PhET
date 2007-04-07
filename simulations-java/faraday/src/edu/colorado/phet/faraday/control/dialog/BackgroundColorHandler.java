@@ -19,7 +19,7 @@ import javax.swing.JDialog;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.ColorChooserFactory;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.module.ICompassGridModule;
 
 
@@ -51,7 +51,7 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
     public BackgroundColorHandler( PhetApplication app ) {
         super();
         _app = app;
-        String title = SimStrings.getInstance().getString( "BackgroundColorDialog.title" );
+        String title = FaradayResources.getString( "BackgroundColorDialog.title" );
         Component parent = app.getPhetFrame();
         
         // Start with the active module's background color.

@@ -12,11 +12,8 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.text.DecimalFormat;
-
-import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -26,7 +23,6 @@ import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.collision.CollisionDetector;
 import edu.colorado.phet.faraday.collision.ICollidable;
-import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.model.Voltmeter;

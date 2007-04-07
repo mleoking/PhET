@@ -12,9 +12,6 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-
-import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;

@@ -24,8 +24,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.FieldMeter;
 import edu.colorado.phet.faraday.model.Turbine;
@@ -90,7 +90,7 @@ public class TurbinePanel extends FaradayPanel {
         
         // Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
-        String title = SimStrings.getInstance().getString( "TurbinePanel.title" );
+        String title = FaradayResources.getString( "TurbinePanel.title" );
         TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
         titleBorder.setTitleFont( getTitleFont() );
         setBorder( titleBorder );
@@ -129,13 +129,13 @@ public class TurbinePanel extends FaradayPanel {
         }
 
         // Compass Grid on/off
-        _gridCheckBox = new JCheckBox( SimStrings.getInstance().getString( "TurbinePanel.showGrid" ) );
+        _gridCheckBox = new JCheckBox( FaradayResources.getString( "TurbinePanel.showGrid" ) );
         
         // Field Meter on/off
-        _fieldMeterCheckBox = new JCheckBox( SimStrings.getInstance().getString( "BarMagnetPanel.showFieldMeter" ) );
+        _fieldMeterCheckBox = new JCheckBox( FaradayResources.getString( "BarMagnetPanel.showFieldMeter" ) );
         
         // Compass on/off
-        _compassCheckBox = new JCheckBox( SimStrings.getInstance().getString( "TurbinePanel.showCompass" ) );
+        _compassCheckBox = new JCheckBox( FaradayResources.getString( "TurbinePanel.showCompass" ) );
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -231,7 +231,7 @@ public class TurbinePanel extends FaradayPanel {
                 _turbineModel.setStrength( strength );
                 // Update the label.
                 Object[] args = { new Integer( percent ) };
-                String text = MessageFormat.format( SimStrings.getInstance().getString( "TurbinePanel.strength" ), args );
+                String text = MessageFormat.format( FaradayResources.getString( "TurbinePanel.strength" ), args );
                 _strengthValue.setText( text );
             }
             else {

@@ -12,11 +12,13 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.model.Lightbulb;
 
 
@@ -70,7 +72,8 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
 
         // Lightbulb
         {
-            PhetImageGraphic lightBulbGraphic = new PhetImageGraphic( component, FaradayConstants.LIGHTBULB_IMAGE );
+            BufferedImage lightBulbImage = FaradayResources.getImage( FaradayConstants.LIGHTBULB_IMAGE );
+            PhetImageGraphic lightBulbGraphic = new PhetImageGraphic( component, lightBulbImage );
             addGraphic( lightBulbGraphic, BULB_LAYER );
             int rx = lightBulbGraphic.getImage().getWidth() / 2;
             int ry = lightBulbGraphic.getImage().getHeight();

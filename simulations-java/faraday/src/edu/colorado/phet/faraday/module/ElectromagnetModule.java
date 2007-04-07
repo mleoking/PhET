@@ -19,8 +19,8 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
@@ -92,7 +92,7 @@ public class ElectromagnetModule extends FaradayModule {
      */
     public ElectromagnetModule() {
 
-        super( SimStrings.getInstance().getString( "ElectromagnetModule.title" ) );
+        super( FaradayResources.getString( "ElectromagnetModule.title" ) );
 
         //----------------------------------------------------------------------------
         // Model
@@ -323,7 +323,7 @@ public class ElectromagnetModule extends FaradayModule {
             _electromagnetLocation = _electromagnetModel.getLocation();
             _electromagnetModel.addObserver( this );
             
-            setText( SimStrings.getInstance().getString( "ElectromagnetModule.wiggleMe" ) );
+            setText( FaradayResources.getString( "ElectromagnetModule.wiggleMe" ) );
             addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -50, 50 ) );
             setRange( 25, 0 );
             setCycleDuration( 5 );

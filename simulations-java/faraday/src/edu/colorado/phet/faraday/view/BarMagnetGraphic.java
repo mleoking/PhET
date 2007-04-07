@@ -18,6 +18,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.collision.CollisionDetector;
 import edu.colorado.phet.faraday.collision.ICollidable;
 import edu.colorado.phet.faraday.model.BarMagnet;
@@ -61,7 +62,7 @@ public class BarMagnetGraphic extends PhetImageGraphic
      * @param barMagnetModel model of the bar magnet
      */
     public BarMagnetGraphic( Component component, BarMagnet barMagnetModel ) {
-        super( component, FaradayConstants.BAR_MAGNET_IMAGE );
+        super( component, FaradayResources.getImage( FaradayConstants.BAR_MAGNET_IMAGE ) );
         
         assert( component != null );
         assert( barMagnetModel != null );

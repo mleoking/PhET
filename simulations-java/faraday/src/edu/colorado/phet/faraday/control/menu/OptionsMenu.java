@@ -17,8 +17,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayApplication;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.control.dialog.BackgroundColorHandler;
 import edu.colorado.phet.faraday.control.dialog.GridControlsDialog;
 
@@ -48,15 +48,15 @@ public class OptionsMenu extends JMenu {
      */
     public OptionsMenu( FaradayApplication application ) {
         
-        super( SimStrings.getInstance().getString( "Menubar.options" ) );
+        super( FaradayResources.getString( "Menubar.options" ) );
         
         _application = application;
         
-        setMnemonic( SimStrings.getInstance().getString( "Menubar.options.mnemonic" ).charAt( 0 ) );
+        setMnemonic( FaradayResources.getString( "Menubar.options.mnemonic" ).charAt( 0 ) );
 
         // Background Color menu item
-        JMenuItem backgroundColorMenuItem = new JMenuItem( SimStrings.getInstance().getString( "Menubar.backgroundColor" ) );
-        backgroundColorMenuItem.setMnemonic( SimStrings.getInstance().getString( "Menubar.backgroundColor.mnemonic" ).charAt( 0 ) );
+        JMenuItem backgroundColorMenuItem = new JMenuItem( FaradayResources.getString( "Menubar.backgroundColor" ) );
+        backgroundColorMenuItem.setMnemonic( FaradayResources.getString( "Menubar.backgroundColor.mnemonic" ).charAt( 0 ) );
         backgroundColorMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleBackgroundColorMenuItem();
@@ -65,8 +65,8 @@ public class OptionsMenu extends JMenu {
         add( backgroundColorMenuItem );
 
         // Grid Controls dialog
-        JMenuItem gridControlsMenuItem = new JMenuItem( SimStrings.getInstance().getString( "Menubar.gridControls" ) );
-        gridControlsMenuItem.setMnemonic( SimStrings.getInstance().getString( "Menubar.gridControls.mnemonic" ).charAt( 0 ) );
+        JMenuItem gridControlsMenuItem = new JMenuItem( FaradayResources.getString( "Menubar.gridControls" ) );
+        gridControlsMenuItem.setMnemonic( FaradayResources.getString( "Menubar.gridControls.mnemonic" ).charAt( 0 ) );
         gridControlsMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleGridControlsMenuItem();

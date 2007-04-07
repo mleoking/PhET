@@ -11,18 +11,14 @@
 
 package edu.colorado.phet.faraday.view;
 
-import java.awt.AlphaComposite;
 import java.awt.Component;
-import java.awt.Composite;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.model.Electron;
 import edu.colorado.phet.faraday.model.ElectronPathDescriptor;
 
@@ -70,15 +66,9 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
 
         _electronModel = electronModel;
         _electronModel.addObserver( this );
-        
-        try {
-            _foregroundImage = ImageLoader.loadBufferedImage( FaradayConstants.ELECTRON_FOREGROUND_IMAGE );
-            _backgroundImage = ImageLoader.loadBufferedImage( FaradayConstants.ELECTRON_BACKGROUND_IMAGE );
-        }
-        catch ( IOException e ) {
-            // Bail if this happens.
-            throw new RuntimeException( e );
-        }
+
+        _foregroundImage = FaradayResources.getImage( FaradayConstants.ELECTRON_FOREGROUND_IMAGE );
+        _backgroundImage = FaradayResources.getImage( FaradayConstants.ELECTRON_BACKGROUND_IMAGE );
         setImage( _foregroundImage );
         
         int rx = getImage().getWidth() / 2;

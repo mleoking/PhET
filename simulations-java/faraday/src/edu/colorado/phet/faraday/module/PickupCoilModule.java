@@ -19,8 +19,8 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
@@ -100,7 +100,7 @@ public class PickupCoilModule extends FaradayModule {
      */
     public PickupCoilModule() {
 
-        super( SimStrings.getInstance().getString( "PickupCoilModule.title" ) );
+        super( FaradayResources.getString( "PickupCoilModule.title" ) );
         
         //----------------------------------------------------------------------------
         // Model
@@ -339,7 +339,7 @@ public class PickupCoilModule extends FaradayModule {
             _pickupCoilLocation = pickupCoilModel.getLocation();
             pickupCoilModel.addObserver( this );
             
-            setText( SimStrings.getInstance().getString( "PickupCoilModule.wiggleMe" ) );
+            setText( FaradayResources.getString( "PickupCoilModule.wiggleMe" ) );
             addArrow( WiggleMeGraphic.BOTTOM_CENTER, new Vector2D( 0, 75 ) );
             addArrow( WiggleMeGraphic.MIDDLE_RIGHT, new Vector2D( 75, 0 ) );
             setRange( 20, 10 );
