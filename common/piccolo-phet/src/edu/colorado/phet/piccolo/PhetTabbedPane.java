@@ -10,6 +10,18 @@
  */
 package edu.colorado.phet.piccolo;
 
+import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.geom.GeneralPath;
+import java.util.ArrayList;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 import edu.colorado.phet.common.view.LogoPanel;
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -21,15 +33,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PPaintContext;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.geom.GeneralPath;
-import java.util.ArrayList;
 
 /**
  * The PhetTabbedPane is a Piccolo implementation of a tabbed pane.  In general, the interface resembles JTabbedPane.
@@ -651,7 +654,8 @@ public class PhetTabbedPane extends JPanel {
         private boolean logoVisible = true;
 
         public TabPane( Color selectedTabColor ) {
-            logo = PImageFactory.create( IMAGE_PHET_LOGO );
+            Image image = PhetCommonProjectConfig.getInstance().getImage( IMAGE_PHET_LOGO );
+            logo = new PImage( image );
             tabBase = new TabBase( selectedTabColor );
             setPanEventHandler( null );
             setZoomEventHandler( null );
