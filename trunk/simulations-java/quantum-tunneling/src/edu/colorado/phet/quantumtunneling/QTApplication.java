@@ -69,7 +69,7 @@ public class QTApplication extends PhetApplication {
      */
     public QTApplication( String[] args )
     {
-        super( args, QTConstants.CONFIG, QTConstants.FRAME_SETUP );
+        super( args, QTResources.getConfig(), QTConstants.FRAME_SETUP );
         initModules();
         initMenubar( args );
     }
@@ -101,16 +101,16 @@ public class QTApplication extends PhetApplication {
         
         // File menu
         {
-            JMenuItem saveItem = new JMenuItem( QTStrings.getString( "menu.file.save" ) );
-            saveItem.setMnemonic( QTStrings.getChar( "menu.file.save.mnemonic", 'S' ) );
+            JMenuItem saveItem = new JMenuItem( QTResources.getString( "menu.file.save" ) );
+            saveItem.setMnemonic( QTResources.getChar( "menu.file.save.mnemonic", 'S' ) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.save();
                 }
             } );
             
-            JMenuItem loadItem = new JMenuItem( QTStrings.getString( "menu.file.load" ) );
-            loadItem.setMnemonic( QTStrings.getChar( "menu.file.load.mnemonic", 'L' ) );
+            JMenuItem loadItem = new JMenuItem( QTResources.getString( "menu.file.load" ) );
+            loadItem.setMnemonic( QTResources.getChar( "menu.file.load.mnemonic", 'L' ) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.load();
@@ -173,7 +173,7 @@ public class QTApplication extends PhetApplication {
         
         QTGlobalConfig config = appConfig.getGlobalConfig();
         
-        config.setVersionNumber( QTStrings.getVersion() );
+        config.setVersionNumber( QTResources.getVersion() );
         
         // Color scheme
         config.setColorSchemeName( _colorSchemeMenu.getColorSchemeName() );

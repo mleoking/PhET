@@ -26,7 +26,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.QTStrings;
+import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.enums.Direction;
 import edu.colorado.phet.quantumtunneling.enums.IRView;
@@ -97,20 +97,20 @@ public class QTControlPanel extends AbstractControlPanel {
         _module = module;
         
         // Set the control panel's minimum width.
-        int width = QTStrings.getInt( "width.controlPanel", 235 );
+        int width = QTResources.getInt( "width.controlPanel", 235 );
         setMinumumWidth( width );
         
         // Potential
         JPanel energyPanel = new JPanel();
         {
             // Potential label
-            JLabel label = new JLabel( QTStrings.getString( "label.potential" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.potential" ) );
 
             // Potential combo box 
             _potentialComboBox = new PotentialComboBox();
 
             // Show values
-            _showValuesCheckBox = new JCheckBox( QTStrings.getString( "label.showValues" ) );
+            _showValuesCheckBox = new JCheckBox( QTResources.getString( "label.showValues" ) );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -128,7 +128,7 @@ public class QTControlPanel extends AbstractControlPanel {
         // Probability
         JPanel probabilityPanel = new JPanel();
         {
-            _rtpCheckBox = new JCheckBox( QTStrings.getString( "label.rtProbability" ) );
+            _rtpCheckBox = new JCheckBox( QTResources.getString( "label.rtProbability" ) );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -144,11 +144,11 @@ public class QTControlPanel extends AbstractControlPanel {
         // Wave Function View 
         JPanel viewPanel = new JPanel();
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.view" ) );
-            _realCheckBox = new JCheckBox( QTStrings.getString( "choice.view.real" ) );
-            _imaginaryCheckBox = new JCheckBox( QTStrings.getString( "choice.view.imaginary" ) );
-            _magnitudeCheckBox = new JCheckBox( QTStrings.getString( "choice.view.magnitude" ) );
-            _phaseCheckBox = new JCheckBox( QTStrings.getString( "choice.view.phase" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.view" ) );
+            _realCheckBox = new JCheckBox( QTResources.getString( "choice.view.real" ) );
+            _imaginaryCheckBox = new JCheckBox( QTResources.getString( "choice.view.imaginary" ) );
+            _magnitudeCheckBox = new JCheckBox( QTResources.getString( "choice.view.magnitude" ) );
+            _phaseCheckBox = new JCheckBox( QTResources.getString( "choice.view.phase" ) );
             
             // Real
             JPanel realPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
@@ -200,13 +200,13 @@ public class QTControlPanel extends AbstractControlPanel {
         // Direction
         JPanel directionPanel = new JPanel();
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.direction" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.direction" ) );
             
             // Pretty icons to indicate direction
-            ImageIcon l2rIcon = new ImageIcon( QTConstants.IMAGE_ARROW_L2R );
-            ImageIcon r2lIcon = new ImageIcon( QTConstants.IMAGE_ARROW_R2L );
-            ImageIcon l2rIconSelected = new ImageIcon( QTConstants.IMAGE_ARROW_L2R_SELECTED );
-            ImageIcon r2lIconSelected = new ImageIcon( QTConstants.IMAGE_ARROW_R2L_SELECTED );
+            ImageIcon l2rIcon = new ImageIcon( QTResources.IMAGE_ARROW_L2R );
+            ImageIcon r2lIcon = new ImageIcon( QTResources.IMAGE_ARROW_R2L );
+            ImageIcon l2rIconSelected = new ImageIcon( QTResources.IMAGE_ARROW_L2R_SELECTED );
+            ImageIcon r2lIconSelected = new ImageIcon( QTResources.IMAGE_ARROW_R2L_SELECTED );
             _leftToRightRadioButton = new JRadioButton( l2rIcon );
             _leftToRightRadioButton.setSelectedIcon( l2rIconSelected );
             _rightToLeftRadioButton = new JRadioButton( r2lIcon );
@@ -238,9 +238,9 @@ public class QTControlPanel extends AbstractControlPanel {
         // Wave function form
         JPanel formPanel = new JPanel();
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.wave" ) );
-            _wavePacketRadioButton = new JRadioButton( QTStrings.getString( "choice.wave.packet" ) );
-            _planeWaveRadioButton = new JRadioButton( QTStrings.getString( "choice.wave.plane" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.wave" ) );
+            _wavePacketRadioButton = new JRadioButton( QTResources.getString( "choice.wave.packet" ) );
+            _planeWaveRadioButton = new JRadioButton( QTResources.getString( "choice.wave.plane" ) );
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( _wavePacketRadioButton );
             buttonGroup.add( _planeWaveRadioButton );
@@ -261,14 +261,14 @@ public class QTControlPanel extends AbstractControlPanel {
         // Wave packet properties
         _propertiesPanel = new JPanel();
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.packetProperties" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.packetProperties" ) );
         
             _widthSlider = new SliderControl( 
                     QTConstants.MIN_PACKET_WIDTH, QTConstants.MAX_PACKET_WIDTH,
                     WIDTH_TICK_SPACING,
                     WIDTH_TICK_PRECISION,
                     WIDTH_LABEL_PRECISION,
-                    QTStrings.getString( "label.packetWidth" ) + " {0} " + QTStrings.getString( "units.position" ),
+                    QTResources.getString( "label.packetWidth" ) + " {0} " + QTResources.getString( "units.position" ),
                     new Insets( 5, 0, 0, 0 ) );
             _widthSlider.setInverted( true );
             
@@ -277,7 +277,7 @@ public class QTControlPanel extends AbstractControlPanel {
                     CENTER_TICK_SPACING,
                     CENTER_TICK_PRECISION,
                     CENTER_LABEL_PRECISION,
-                    QTStrings.getString( "label.packetCenter" ) + " {0} " + QTStrings.getString( "units.position" ),
+                    QTResources.getString( "label.packetCenter" ) + " {0} " + QTResources.getString( "units.position" ),
                     new Insets( 0, 0, 0, 0 ) );
             
             // Layout
@@ -296,10 +296,10 @@ public class QTControlPanel extends AbstractControlPanel {
         // Incident/Reflected view
         _irPanel = new JPanel();
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.ir" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.ir" ) );
             
-            _sumRadioButton = new JRadioButton( QTStrings.getString( "choice.ir.sum" ) );
-            _separateRadioButton = new JRadioButton( QTStrings.getString( "choice.ir.separate" ) );
+            _sumRadioButton = new JRadioButton( QTResources.getString( "choice.ir.sum" ) );
+            _separateRadioButton = new JRadioButton( QTResources.getString( "choice.ir.separate" ) );
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( _sumRadioButton );
             buttonGroup.add( _separateRadioButton );

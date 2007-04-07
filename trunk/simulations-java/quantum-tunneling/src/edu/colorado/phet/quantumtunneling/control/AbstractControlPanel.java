@@ -21,7 +21,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.DialogUtils;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.quantumtunneling.QTStrings;
+import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.module.AbstractModule;
 import edu.colorado.phet.quantumtunneling.util.CursorUtils;
 
@@ -87,11 +87,11 @@ public abstract class AbstractControlPanel extends ControlPanel {
      * The button handler calls the module's reset method.
      */
     public void addResetButton() {
-        _resetButton = new JButton( QTStrings.getString( "button.reset" ) );
+        _resetButton = new JButton( QTResources.getString( "button.reset" ) );
         _resetButton.addActionListener( new ActionListener() { 
             public void actionPerformed( ActionEvent e ) {
                 Frame frame = PhetApplication.instance().getPhetFrame();
-                String message = QTStrings.getString( "message.reset" );
+                String message = QTResources.getString( "message.reset" );
                 int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
                 if ( option == JOptionPane.YES_OPTION ) {
                     CursorUtils.setWaitCursorEnabled( true );

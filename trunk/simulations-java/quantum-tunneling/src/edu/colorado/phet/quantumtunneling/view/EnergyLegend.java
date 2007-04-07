@@ -17,7 +17,7 @@ import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.QTStrings;
+import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -57,12 +57,12 @@ public class EnergyLegend extends PNode {
         setChildrenPickable( false );
         
         // Total Energy
-        _totalEnergyItem = new LegendItem( QTStrings.getString( "legend.totalEnergy" ), QTConstants.COLOR_SCHEME.getTotalEnergyColor() );
+        _totalEnergyItem = new LegendItem( QTResources.getString( "legend.totalEnergy" ), QTConstants.COLOR_SCHEME.getTotalEnergyColor() );
         _totalEnergyItem.translate( 0, 0 );
         addChild( _totalEnergyItem );
         
         // Potential Energy
-        _potentialEnergyItem = new LegendItem( QTStrings.getString( "legend.potentialEnergy" ), QTConstants.COLOR_SCHEME.getPotentialEnergyColor() );
+        _potentialEnergyItem = new LegendItem( QTResources.getString( "legend.potentialEnergy" ), QTConstants.COLOR_SCHEME.getPotentialEnergyColor() );
         _potentialEnergyItem.translate( _totalEnergyItem.getFullBounds().getWidth() + 20, 0 );
         addChild( _potentialEnergyItem );
         

@@ -18,7 +18,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.QTStrings;
+import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.model.AbstractWave;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -187,7 +187,7 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
     public static class ReflectionProbabilityNode extends AbstractProbabilityNode {
 
         public ReflectionProbabilityNode() {
-            super( QTStrings.getChar( "char.reflectionProbability", 'R' ) );
+            super( QTResources.getChar( "char.reflectionProbability", 'R' ) );
         }
 
         public void update() {
@@ -204,7 +204,7 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
     public static class TransmissionProbabilityNode extends AbstractProbabilityNode {
 
         public TransmissionProbabilityNode() {
-            super( QTStrings.getChar( "char.transmissionProbability", 'T' ) );
+            super( QTResources.getChar( "char.transmissionProbability", 'T' ) );
         }
 
         public void update() {

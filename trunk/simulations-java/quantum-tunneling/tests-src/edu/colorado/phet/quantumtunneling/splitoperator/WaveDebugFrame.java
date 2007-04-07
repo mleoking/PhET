@@ -1,12 +1,17 @@
 
 package edu.colorado.phet.quantumtunneling.splitoperator;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.HeadlessException;
+import java.awt.geom.GeneralPath;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import edu.colorado.phet.quantumtunneling.model.IWavePacketSolver;
 import edu.colorado.phet.quantumtunneling.util.LightweightComplex;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.GeneralPath;
 
 /**
  * User: Sam Reid

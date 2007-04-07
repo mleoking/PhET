@@ -11,13 +11,15 @@
 
 package edu.colorado.phet.quantumtunneling;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
 import java.text.DecimalFormat;
 
 import org.jfree.data.Range;
 
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.color.WhiteColorScheme;
 import edu.colorado.phet.quantumtunneling.control.ZoomControl.ZoomSpec;
@@ -38,10 +40,6 @@ public class QTConstants {
     //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
-    
-    private static final String PROJECT = "quantum-tunneling";
-    
-    public static final PhetProjectConfig CONFIG = PhetProjectConfig.forProject( PROJECT );
     
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
@@ -73,11 +71,11 @@ public class QTConstants {
     //----------------------------------------------------------------------------
     
     public static final char C_PI = '\u03c0';
-    
+
     //----------------------------------------------------------------------------
     // Strokes
     //----------------------------------------------------------------------------
-    
+
     public static final Stroke AVERAGE_TOTAL_ENERGY_STROKE = new BasicStroke( 1f );
     public static final Stroke TOTAL_ENERGY_SOLID_STROKE = new BasicStroke( 4f );
     public static final Stroke TOTAL_ENERGY_DASHED_STROKE = 
@@ -105,18 +103,6 @@ public class QTConstants {
     
     // The default color scheme
     public static final QTColorScheme COLOR_SCHEME = new WhiteColorScheme();
-    
-    //----------------------------------------------------------------------------
-    // Images
-    //----------------------------------------------------------------------------
-
-    public static final Image IMAGE_ARROW_L2R = CONFIG.getImage( "arrowL2R.png" );
-    public static final Image IMAGE_ARROW_L2R_SELECTED = CONFIG.getImage( "arrowL2RSelected.png" );
-    public static final Image IMAGE_ARROW_R2L = CONFIG.getImage( "arrowR2L.png" );
-    public static final Image IMAGE_ARROW_R2L_SELECTED = CONFIG.getImage( "arrowR2LSelected.png" );
-    public static final Image IMAGE_CLOCK = CONFIG.getImage( "clock.png" );
-    public static final Image IMAGE_ZOOM_IN = CONFIG.getImage( "zoomIn.gif" );
-    public static final Image IMAGE_ZOOM_OUT = CONFIG.getImage( "zoomOut.gif" );
     
     //----------------------------------------------------------------------------
     // Ranges
