@@ -24,6 +24,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 /**
  * HelpPanel
@@ -33,9 +34,9 @@ import edu.colorado.phet.common.view.util.SwingUtils;
  */
 public class HelpPanel extends JPanel {
     private boolean miniHelpShowing = false;
-    private String showHelpStr = SimStrings.getInstance().getString( "Common.HelpPanel.ShowHelp" );
-    private String hideHelpStr = SimStrings.getInstance().getString( "Common.HelpPanel.HideHelp" );
-    private String megaHelpStr = SimStrings.getInstance().getString( "Common.HelpPanel.MegaHelp" );
+    private String showHelpStr = PhetCommonProjectConfig.getInstance().getString( "Common.HelpPanel.ShowHelp" );
+    private String hideHelpStr = PhetCommonProjectConfig.getInstance().getString( "Common.HelpPanel.HideHelp" );
+    private String megaHelpStr = PhetCommonProjectConfig.getInstance().getString( "Common.HelpPanel.MegaHelp" );
     private JButton miniHelpBtn;
     private JButton megaHelpBtn;
     private int padY = 2;

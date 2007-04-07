@@ -11,6 +11,7 @@
 package edu.colorado.phet.common.view.clock;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,7 +36,7 @@ public class ClockTimeReadout extends JPanel {
         Font clockFont = clockTF.getFont();
         clockTF.setFont( new Font( clockFont.getName(), Font.BOLD, 16 ) );
 
-        add( new JLabel( SimStrings.getInstance().getString( "Common.ClockTimeReadout.RunningTime" ) + ": " ) );
+        add( new JLabel( PhetCommonProjectConfig.getInstance().getString( "Common.ClockTimeReadout.RunningTime" ) + ": " ) );
         clockTF.setEditable( false );
         add( clockTF );
         clockFormat.setMaximumFractionDigits( 1 );

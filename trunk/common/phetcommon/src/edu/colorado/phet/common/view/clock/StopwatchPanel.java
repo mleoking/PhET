@@ -30,6 +30,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 /**
  * StopwatchPanel simulates a stopwatch on a specified IClock.
@@ -123,13 +124,13 @@ public class StopwatchPanel extends JPanel {
         this.timeFormat = timeFormat;
 
         // Start/Stop button
-        startString = SimStrings.getInstance().getString( "Common.StopwatchPanel.start" );
-        stopString = SimStrings.getInstance().getString( "Common.StopwatchPanel.stop" );
+        startString = PhetCommonProjectConfig.getInstance().getString( "Common.StopwatchPanel.start" );
+        stopString = PhetCommonProjectConfig.getInstance().getString( "Common.StopwatchPanel.stop" );
         startStopButton = new JButton( startString );
         SwingUtils.fixButtonOpacity( startStopButton );
 
         // Reset button
-        resetButton = new JButton( SimStrings.getInstance().getString( "Common.StopwatchPanel.reset" ) );
+        resetButton = new JButton( PhetCommonProjectConfig.getInstance().getString( "Common.StopwatchPanel.reset" ) );
         SwingUtils.fixButtonOpacity( resetButton );
 
         // Time readout

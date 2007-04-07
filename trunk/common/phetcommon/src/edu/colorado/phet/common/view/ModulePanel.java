@@ -11,6 +11,7 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -286,7 +287,7 @@ public class ModulePanel extends JPanel {
 
         if( buttonDlg == null ) {
             buttonDlg = new JDialog();
-            buttonDlg.setTitle( SimStrings.getInstance().getString( "Common.BasicPhetPanel.Title" ) );
+            buttonDlg.setTitle( PhetCommonProjectConfig.getInstance().getString( "Common.BasicPhetPanel.Title" ) );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
             ImageIcon logo = new ImageIcon( getClass().getClassLoader().getResource( PhetLookAndFeel.PHET_LOGO_120x50 ) );
             JButton logoButton = new JButton( logo );
@@ -297,7 +298,7 @@ public class ModulePanel extends JPanel {
                     buttonDlg.setVisible( false );
                 }
             } );
-            logoButton.setToolTipText( SimStrings.getInstance().getString( "Common.BasicPhetPanel.LogoToolTip" ) );
+            logoButton.setToolTipText( PhetCommonProjectConfig.getInstance().getString( "Common.BasicPhetPanel.LogoToolTip" ) );
             buttonDlg.getContentPane().setLayout( new FlowLayout( FlowLayout.CENTER ) );
             buttonDlg.getContentPane().add( logoButton );
             Rectangle thisBounds = this.getBounds();

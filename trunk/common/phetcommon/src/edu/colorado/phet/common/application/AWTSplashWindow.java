@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -72,7 +73,7 @@ public class AWTSplashWindow extends Window {
         setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
 
         // UI components
-        String labelString = MessageFormat.format( SimStrings.getInstance().getString( "PhetApplication.StartupDialog.message" ), new Object[]{title} );
+        String labelString = MessageFormat.format( PhetCommonProjectConfig.getInstance().getString( "PhetApplication.StartupDialog.message" ), new Object[]{title} );
         BufferedImage image = getLogoImage();
         Component imageComponent = new ImageComponent( image ) {
             public void paint( Graphics g ) {

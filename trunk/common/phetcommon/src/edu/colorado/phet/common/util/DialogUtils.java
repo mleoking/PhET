@@ -17,6 +17,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 
 /**
@@ -44,11 +45,11 @@ public class DialogUtils {
     public static int showConfirmDialog( Component parentComponent, String message, int optionType ) {
         
         // Get localized strings
-        String title = SimStrings.getInstance().getString( "Common.title.confirm" );
-        String yes = SimStrings.getInstance().getString( "Common.choice.yes" );
-        String no = SimStrings.getInstance().getString( "Common.choice.no" );
-        String ok = SimStrings.getInstance().getString( "Common.choice.ok" );
-        String cancel = SimStrings.getInstance().getString( "Common.choice.cancel" );
+        String title = PhetCommonProjectConfig.getInstance().getString( "Common.title.confirm" );
+        String yes = PhetCommonProjectConfig.getInstance().getString( "Common.choice.yes" );
+        String no = PhetCommonProjectConfig.getInstance().getString( "Common.choice.no" );
+        String ok = PhetCommonProjectConfig.getInstance().getString( "Common.choice.ok" );
+        String cancel = PhetCommonProjectConfig.getInstance().getString( "Common.choice.cancel" );
         
         // Create an option pane
         JOptionPane pane = new JOptionPane( message, JOptionPane.QUESTION_MESSAGE, optionType );
@@ -107,7 +108,7 @@ public class DialogUtils {
     public static void showMessageDialog( Component parentComponent, String message, String title, int messageType ) {
         
         // Get localized strings
-        String ok = SimStrings.getInstance().getString( "choice.ok" );
+        String ok = PhetCommonProjectConfig.getInstance().getString( "choice.ok" );
         
         // Create an option pane
         JOptionPane pane = new JOptionPane( message, messageType );

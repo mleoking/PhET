@@ -16,7 +16,6 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.*;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 
@@ -75,7 +74,7 @@ public abstract class Module {
         this.name = name;
         this.clock = clock;
         setModel( new BaseModel() );
-        SimStrings.getInstance().addStrings( "localization/CommonStrings" );
+//        PhetCommonProjectConfig.getInstance().addStrings( "localization/CommonStrings" );
 
         this.modulePanel = new ModulePanel();
         setClockControlPanel( new ClockControlPanel( clock ) );

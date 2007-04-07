@@ -4,6 +4,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -29,8 +30,8 @@ public class GPLAboutPanel extends JPanel {
     public GPLAboutPanel( final PhetApplication phetApplication ) {
         this.phetApplication = phetApplication;
         setLayout( new BorderLayout() );
-        String javaVersion = SimStrings.getInstance().getString( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
-        final String msg = phetApplication.getTitle() + "\n\n" + phetApplication.getDescription() + "\n\n" + SimStrings.getInstance().getString( "Common.HelpMenu.VersionLabel" ) + ": " + phetApplication.getVersion() + "\n\n" + javaVersion + "\n";
+        String javaVersion = PhetCommonProjectConfig.getInstance().getString( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
+        final String msg = phetApplication.getTitle() + "\n\n" + phetApplication.getDescription() + "\n\n" + PhetCommonProjectConfig.getInstance().getString( "Common.HelpMenu.VersionLabel" ) + ": " + phetApplication.getVersion() + "\n\n" + javaVersion + "\n";
         JTextArea info = new JTextArea() {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D)g;

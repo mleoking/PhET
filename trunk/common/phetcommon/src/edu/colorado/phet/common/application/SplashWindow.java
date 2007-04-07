@@ -13,6 +13,7 @@ package edu.colorado.phet.common.application;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +37,7 @@ public class SplashWindow extends JDialog {
         getRootPane().setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
 
         // Splash message
-        String labelFormat = SimStrings.getInstance().getString( "PhetApplication.StartupDialog.message" );
+        String labelFormat = PhetCommonProjectConfig.getInstance().getString( "PhetApplication.StartupDialog.message" );
         Object[] args = {title};
         String labelString = MessageFormat.format( labelFormat, args );
         JLabel label = new JLabel( labelString );
