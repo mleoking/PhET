@@ -49,7 +49,7 @@ public class OQCApplication extends PhetApplication {
      * @param args command line arguments
      */
     public OQCApplication( String[] args ) {
-        super( args, OQCConstants.CONFIG, OQCConstants.FRAME_SETUP );
+        super( args, OQCResources.getConfig(), OQCConstants.FRAME_SETUP );
         initModules();
         initMenubar();
     }
@@ -82,8 +82,8 @@ public class OQCApplication extends PhetApplication {
         if ( helpMenu != null ) {
             
             // Explanation...
-            JMenuItem explanationItem = new JMenuItem( OQCStrings.MENU_EXPLANATION );
-            explanationItem.setMnemonic( OQCStrings.MENU_EXPLANATION_MNEMONIC );
+            JMenuItem explanationItem = new JMenuItem( OQCResources.MENU_EXPLANATION );
+            explanationItem.setMnemonic( OQCResources.MENU_EXPLANATION_MNEMONIC );
             explanationItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _explanationDialog = new ExplanationDialog( getPhetFrame() );
@@ -93,8 +93,8 @@ public class OQCApplication extends PhetApplication {
             helpMenu.add( explanationItem );
             
             // Cheat...
-            JMenuItem cheatItem = new JMenuItem( OQCStrings.MENU_CHEAT );
-            cheatItem.setMnemonic( OQCStrings.MENU_CHEAT_MNEMONIC );
+            JMenuItem cheatItem = new JMenuItem( OQCResources.MENU_CHEAT );
+            cheatItem.setMnemonic( OQCResources.MENU_CHEAT_MNEMONIC );
             cheatItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _shaperModule.setCheatEnabled( true );

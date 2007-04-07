@@ -20,7 +20,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
-import edu.colorado.phet.opticalquantumcontrol.OQCStrings;
+import edu.colorado.phet.opticalquantumcontrol.OQCResources;
 import edu.colorado.phet.opticalquantumcontrol.charts.FourierSumPlot;
 import edu.colorado.phet.opticalquantumcontrol.charts.PulseChart;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
@@ -123,7 +123,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
         addGraphic( lightSpigot, SPIGOT_LAYER );
         
         // Title
-        String title = OQCStrings.OUTPUT_PULSE;
+        String title = OQCResources.OUTPUT_PULSE;
         _titleGraphic = new HTMLGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         _titleGraphic.setRegistrationPoint( _titleGraphic.getWidth()/2, 0 );
         _titleGraphic.setLocation( BACKGROUND_SIZE.width / 2, 5 );
