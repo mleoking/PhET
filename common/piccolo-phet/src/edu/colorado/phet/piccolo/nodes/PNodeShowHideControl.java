@@ -1,27 +1,30 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.piccolo.nodes;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+
+import edu.colorado.phet.common.PhetCommonProjectConfig;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This class adds a control to a specified node that enables the user to
  * hide/show the contents of that node.
  */
 public class PNodeShowHideControl {
-    private static final String HIDE_BUTTON_RESOURCE = "images/buttons/minimizeButton.png";
-    private static final String SHOW_BUTTON_RESOURCE = "images/buttons/maximizeButton.png";
+    private static final String HIDE_BUTTON_RESOURCE = "buttons/minimizeButton.png";
+    private static final String SHOW_BUTTON_RESOURCE = "buttons/maximizeButton.png";
 
     private final static ImageIcon HIDE_IMAGE_ICON;
     private final static ImageIcon SHOW_IMAGE_ICON;
@@ -39,18 +42,8 @@ public class PNodeShowHideControl {
     private volatile boolean isHidden = false;
 
     static {
-        ImageIcon hide = null, show = null;
-
-        try {
-            hide = new ImageIcon( ImageLoader.loadBufferedImage( HIDE_BUTTON_RESOURCE ) );
-            show = new ImageIcon( ImageLoader.loadBufferedImage( SHOW_BUTTON_RESOURCE ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-
-        HIDE_IMAGE_ICON = hide;
-        SHOW_IMAGE_ICON = show;
+        HIDE_IMAGE_ICON = new ImageIcon( PhetCommonProjectConfig.getInstance().getImage( HIDE_BUTTON_RESOURCE ) );
+        SHOW_IMAGE_ICON = new ImageIcon( PhetCommonProjectConfig.getInstance().getImage( SHOW_BUTTON_RESOURCE ) );
     }
 
     /**
