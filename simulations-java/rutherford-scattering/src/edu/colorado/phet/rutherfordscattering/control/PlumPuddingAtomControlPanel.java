@@ -15,6 +15,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
+import edu.colorado.phet.rutherfordscattering.RSResources;
 import edu.colorado.phet.rutherfordscattering.model.Gun;
 import edu.colorado.phet.rutherfordscattering.module.PlumPuddingAtomModule;
 import edu.colorado.phet.rutherfordscattering.view.LegendPanel;
@@ -67,7 +68,7 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
         // Alpha Particles panel
         JPanel alphaParticlesPanel = new JPanel();
         {
-            TitledBorder border = new TitledBorder( RSConstants.S_ALPHA_PARTICLE_PROPERTIES );
+            TitledBorder border = new TitledBorder( RSResources.getString( "string.alphaParticleProperties" ) );
             border.setTitleFont( RSConstants.TITLE_FONT );
             border.setBorder( RSConstants.TITLED_BORDER_STYLE );
             alphaParticlesPanel.setBorder( border );
@@ -80,7 +81,7 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
                 double tickSpacing = max - min;
                 int tickDecimalPlaces = 0;
                 int valueDecimalPlaces = 1;
-                String label = RSConstants.S_ENERGY;
+                String label = RSResources.getString( "string.energy" );
                 String units = "";
                 int columns = 3;
                 _energyControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
@@ -89,7 +90,7 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
                 if ( !DEBUG_SHOW_ENERGY_VALUE ) {
                     _energyControl.setTextFieldVisible( false );
                 }
-                _energyControl.setMinMaxLabels( RSConstants.S_MIN_ENERGY, RSConstants.S_MAX_ENERGY );
+                _energyControl.setMinMaxLabels( RSResources.getString( "string.minEnergy" ), RSResources.getString( "string.maxEnergy" ) );
                 _energyListener = new ChangeListener() {
                     public void stateChanged( ChangeEvent event ) {
                         _module.removeAllAlphaParticles();
@@ -105,7 +106,7 @@ public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements
 
             // Traces checkbox
             {
-                _tracesCheckBox = new JCheckBox( RSConstants.S_SHOW_TRACES );
+                _tracesCheckBox = new JCheckBox( RSResources.getString( "string.showTraces" ) );
                 _tracesCheckBox.setFont( RSConstants.CONTROL_FONT );
                 _tracesCheckBox.setSelected( _module.getTracesNode().isEnabled() );
                 _tracesCheckBox.addChangeListener( new ChangeListener() {

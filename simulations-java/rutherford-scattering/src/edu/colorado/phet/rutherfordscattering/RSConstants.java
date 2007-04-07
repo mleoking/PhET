@@ -5,7 +5,6 @@ package edu.colorado.phet.rutherfordscattering;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -14,7 +13,6 @@ import javax.swing.border.Border;
 import edu.colorado.phet.common.util.DoubleRange;
 import edu.colorado.phet.common.util.IntegerRange;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
 
 
 /**
@@ -30,10 +28,6 @@ public class RSConstants {
     //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
-    
-    private static final String PROJECT = "rutherford-scattering";
-    
-    public static final PhetProjectConfig CONFIG = PhetProjectConfig.forProject( PROJECT );
     
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
@@ -52,8 +46,6 @@ public class RSConstants {
     public static final double BOX_OF_HYDROGEN_DEPTH = 10;
     
     public static final Dimension BEAM_SIZE = new Dimension( (int) ( .75 * BOX_OF_HYDROGEN_SIZE.width ), 75 );
-    
-    public static final int MIN_CONTROL_PANEL_WIDTH = CONFIG.getInt( "int.minControlPanelWidth", 200 );
     
     //----------------------------------------------------------------------------
     // Clock
@@ -100,38 +92,26 @@ public class RSConstants {
     // Color of the animation box
     public static final Color ANIMATION_BOX_COLOR = Color.BLACK;
     public static final Color ANIMATION_BOX_STROKE_COLOR = Color.WHITE;
-    
-    //----------------------------------------------------------------------------
-    // Images
-    //----------------------------------------------------------------------------
 
-    public static final Image IMAGE_GUN = CONFIG.getImage( "gun.png" );
-    public static final Image IMAGE_GUN_ON_BUTTON = CONFIG.getImage( "gunOnButton.png" );
-    public static final Image IMAGE_GUN_OFF_BUTTON = CONFIG.getImage(  "gunOffButton.png" );
-    public static final Image IMAGE_PLUM_PUDDING = CONFIG.getImage(  "plumPudding.png" );
-    
-    //----------------------------------------------------------------------------
-    // Strings
-    //----------------------------------------------------------------------------
-    
-    public static final String S_ALPHA_PARTICLE = CONFIG.getString( "string.alphaParticle" );
-    public static final String S_ALPHA_PARTICLE_PROPERTIES = CONFIG.getString( "string.alphaParticleProperties" );
-    public static final String S_ATOM_PROPERTIES = CONFIG.getString( "string.atomProperties" );
-    public static final String S_CONFIRM_RESET_ALL = CONFIG.getString( "string.confirmResetAll" );
-    public static final String S_ELECTRON = CONFIG.getString( "string.electron" );
-    public static final String S_ENERGY = CONFIG.getString( "string.energy" );
-    public static final String S_LEGEND = CONFIG.getString( "string.legend" );
-    public static final String S_MAX_ENERGY = CONFIG.getString( "string.maxEnergy" );
-    public static final String S_MIN_ENERGY = CONFIG.getString( "string.minEnergy" );
-    public static final String S_NEUTRON = CONFIG.getString( "string.neutron" );
-    public static final String S_NUMBER_OF_NEUTRONS = CONFIG.getString( "string.numberOfNeutrons" );
-    public static final String S_NUMBER_OF_PROTONS = CONFIG.getString( "string.numberOfProtons" );
-    public static final String S_PLUM_PUDDING = CONFIG.getString( "string.plumPuddingAtom" );
-    public static final String S_PROTON = CONFIG.getString( "string.proton" );
-    public static final String S_RESET_ALL = CONFIG.getString( "string.resetAll" );
-    public static final String S_RUTHERFORD_ATOM = CONFIG.getString( "string.rutherfordAtom" );
-    public static final String S_SHOW_TRACES = CONFIG.getString( "string.showTraces" );
-    public static final String S_TURN_ON_THE_GUN = CONFIG.getString( "string.turnOnTheGun" );
+
+//    public static final String S_ALPHA_PARTICLE = RSResources.CONFIG.getString( "string.alphaParticle" );
+//    public static final String S_ALPHA_PARTICLE_PROPERTIES = RSResources.CONFIG.getString( "string.alphaParticleProperties" );
+//    public static final String S_ATOM_PROPERTIES = RSResources.CONFIG.getString( "string.atomProperties" );
+//    public static final String S_CONFIRM_RESET_ALL = RSResources.CONFIG.getString( "string.confirmResetAll" );
+//    public static final String S_ELECTRON = RSResources.CONFIG.getString( "string.electron" );
+//    public static final String S_ENERGY = RSResources.CONFIG.getString( "string.energy" );
+//    public static final String S_LEGEND = RSResources.CONFIG.getString( "string.legend" );
+//    public static final String S_MAX_ENERGY = RSResources.CONFIG.getString( "string.maxEnergy" );
+//    public static final String S_MIN_ENERGY = RSResources.CONFIG.getString( "string.minEnergy" );
+//    public static final String S_NEUTRON = RSResources.CONFIG.getString( "string.neutron" );
+//    public static final String S_NUMBER_OF_NEUTRONS = RSResources.CONFIG.getString( "string.numberOfNeutrons" );
+//    public static final String S_NUMBER_OF_PROTONS = RSResources.CONFIG.getString( "string.numberOfProtons" );
+//    public static final String S_PLUM_PUDDING = RSResources.CONFIG.getString( "string.plumPuddingAtom" );
+//    public static final String S_PROTON = RSResources.CONFIG.getString( "string.proton" );
+//    public static final String S_RESET_ALL = RSResources.CONFIG.getString( "string.resetAll" );
+//    public static final String S_RUTHERFORD_ATOM = RSResources.CONFIG.getString( "string.rutherfordAtom" );
+//    public static final String S_SHOW_TRACES = RSResources.CONFIG.getString( "string.showTraces" );
+//    public static final String S_TURN_ON_THE_GUN = RSResources.CONFIG.getString( "string.turnOnTheGun" );
     
     //----------------------------------------------------------------------------
     // Default state of the model

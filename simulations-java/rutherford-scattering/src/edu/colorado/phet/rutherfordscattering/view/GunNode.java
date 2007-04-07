@@ -8,7 +8,7 @@ import java.util.Observer;
 
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.rutherfordscattering.RSConstants;
+import edu.colorado.phet.rutherfordscattering.RSResources;
 import edu.colorado.phet.rutherfordscattering.model.Gun;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -51,9 +51,9 @@ public class GunNode extends PhetPNode implements Observer {
         _gun = gun;
         
         // Nodes
-        PImage gunNode = new PImage( RSConstants.IMAGE_GUN );
-        _onButton = new PImage( RSConstants.IMAGE_GUN_ON_BUTTON );
-        _offButton = new PImage( RSConstants.IMAGE_GUN_OFF_BUTTON );
+        PImage gunNode = new PImage( RSResources.getImage( "gun.png" ) );
+        _onButton = new PImage( RSResources.getImage( "gunOnButton.png" ) );
+        _offButton = new PImage( RSResources.getImage(  "gunOffButton.png" ) );
         
         // Layering
         addChild( gunNode );

@@ -28,12 +28,10 @@ public class RSApplication extends PiccoloPhetApplication {
      * Sole constructor.
      * 
      * @param args command line arguments
-     * @param config
-     * @param frameSetup
      */
-    public RSApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup )
+    public RSApplication( String[] args )
     {
-        super( args, config, frameSetup );
+        super( args, RSResources.getConfig(), RSConstants.FRAME_SETUP );
         initModules();
         initMenubar( args );
     }
@@ -87,7 +85,7 @@ public class RSApplication extends PiccoloPhetApplication {
                 laf.initLookAndFeel();
 
                 // Create the application.
-                RSApplication app = new RSApplication( args, RSConstants.CONFIG, RSConstants.FRAME_SETUP );
+                RSApplication app = new RSApplication( args );
                 
                 // Start the application.
                 app.startApplication();

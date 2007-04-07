@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
+import edu.colorado.phet.rutherfordscattering.RSResources;
 import edu.colorado.phet.rutherfordscattering.control.RutherfordAtomControlPanel;
 import edu.colorado.phet.rutherfordscattering.help.RSWiggleMe;
 import edu.colorado.phet.rutherfordscattering.model.*;
@@ -69,7 +70,7 @@ public class RutherfordAtomModule extends AbstractModule {
      * Constructor.
      */
     public RutherfordAtomModule() {
-        super( RSConstants.S_RUTHERFORD_ATOM, new RSClock(), RSConstants.CLOCK_PAUSED );
+        super( RSResources.getString( "string.rutherfordAtom" ), new RSClock(), RSConstants.CLOCK_PAUSED );
 
         //----------------------------------------------------------------------------
         // Model
@@ -314,7 +315,7 @@ public class RutherfordAtomModule extends AbstractModule {
         if ( !_wiggleMeInitialized && HAS_WIGGLE_ME ) {
             
             // Create wiggle me, add to root node.
-            String wiggleMeString = RSConstants.S_TURN_ON_THE_GUN;
+            String wiggleMeString = RSResources.getString( "string.turnOnTheGun" );
             _wiggleMe = new RSWiggleMe( _canvas, wiggleMeString );
             _wiggleMe.setArrowTailPosition( MotionHelpBalloon.TOP_LEFT );
             _wiggleMe.setArrowLength( 60 );
