@@ -78,9 +78,11 @@ public class BSBandStructureApplication extends BSAbstractApplication {
                 PhetLookAndFeel laf = new PhetLookAndFeel();
                 laf.initLookAndFeel();
                 
+                // Config
+                BSResources.setConfig( PhetProjectConfig.forProject( BSConstants.PROJECT, BSConstants.FLAVOR_BAND_STRUCTURE ) );
+                
                 // Create the application.
-                PhetProjectConfig config = PhetProjectConfig.forProject( BSConstants.PROJECT, BSConstants.FLAVOR_BAND_STRUCTURE );
-                BSAbstractApplication app = new BSBandStructureApplication( args, config, BSConstants.FRAME_SETUP );
+                BSAbstractApplication app = new BSBandStructureApplication( args, BSResources.getConfig(), BSConstants.FRAME_SETUP );
                 
                 // Start the application.
                 app.startApplication();

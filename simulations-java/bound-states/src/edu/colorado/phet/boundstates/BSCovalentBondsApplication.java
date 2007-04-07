@@ -78,9 +78,11 @@ public class BSCovalentBondsApplication extends BSAbstractApplication {
                 PhetLookAndFeel laf = new PhetLookAndFeel();
                 laf.initLookAndFeel();
 
+                // Config
+                BSResources.setConfig( PhetProjectConfig.forProject( BSConstants.PROJECT, BSConstants.FLAVOR_COVALENT_BONDS ) );
+                
                 // Create the application.
-                PhetProjectConfig config = PhetProjectConfig.forProject( BSConstants.PROJECT, BSConstants.FLAVOR_COVALENT_BONDS );
-                BSAbstractApplication app = new BSCovalentBondsApplication( args, config, BSConstants.FRAME_SETUP );
+                BSAbstractApplication app = new BSCovalentBondsApplication( args, BSResources.getConfig(), BSConstants.FRAME_SETUP );
                 
                 // Start the application.
                 app.startApplication();
