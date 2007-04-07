@@ -16,20 +16,17 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 /**
  * ClockControlPanel

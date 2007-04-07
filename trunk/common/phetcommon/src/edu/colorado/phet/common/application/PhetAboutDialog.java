@@ -10,16 +10,6 @@
  */
 package edu.colorado.phet.common.application;
 
-import edu.colorado.phet.common.util.PropertiesLoader;
-import edu.colorado.phet.common.view.HorizontalLayoutPanel;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
-import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.common.PhetCommonProjectConfig;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +17,15 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.util.Properties;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.PhetCommonProjectConfig;
+import edu.colorado.phet.common.util.PropertiesLoader;
+import edu.colorado.phet.common.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
+import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
  * PhetAboutDialog shows information about PhET, the simulation, copyright, and license.

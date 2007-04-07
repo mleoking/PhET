@@ -10,6 +10,13 @@
  */
 package edu.colorado.phet.common.view;
 
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleEvent;
 import edu.colorado.phet.common.application.ModuleObserver;
@@ -17,14 +24,6 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.common.view.util.ImageLoader;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.IOException;
 
 /**
  * The PhetFrame is the JFrame for the PhetApplication.
@@ -84,15 +83,8 @@ public class PhetFrame extends JFrame {
             }
 
         } );
-
-        // todo: put this back in if and when everyone decides on an acceptable logo
-//        try {
-//            setIconImage( addBorder( ImageLoader.loadBufferedImage( PHET_LOGO_WINDOW_ICON ) ));
-//        }
-//        catch( IOException e ) {
-//            e.printStackTrace();
-//        }
     }
+    
     private static BufferedImage addBorder( BufferedImage image){
         Graphics2D g2=image.createGraphics();
         g2.setStroke( new BasicStroke( 1) );
