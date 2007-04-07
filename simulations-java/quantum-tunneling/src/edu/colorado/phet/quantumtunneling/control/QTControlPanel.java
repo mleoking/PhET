@@ -203,10 +203,10 @@ public class QTControlPanel extends AbstractControlPanel {
             JLabel label = new JLabel( QTResources.getString( "label.direction" ) );
             
             // Pretty icons to indicate direction
-            ImageIcon l2rIcon = new ImageIcon( QTResources.IMAGE_ARROW_L2R );
-            ImageIcon r2lIcon = new ImageIcon( QTResources.IMAGE_ARROW_R2L );
-            ImageIcon l2rIconSelected = new ImageIcon( QTResources.IMAGE_ARROW_L2R_SELECTED );
-            ImageIcon r2lIconSelected = new ImageIcon( QTResources.IMAGE_ARROW_R2L_SELECTED );
+            ImageIcon l2rIcon = new ImageIcon( QTResources.getImage( QTConstants.IMAGE_ARROW_L2R ) );
+            ImageIcon r2lIcon = new ImageIcon( QTResources.getImage( QTConstants.IMAGE_ARROW_R2L ) );
+            ImageIcon l2rIconSelected = new ImageIcon( QTResources.getImage( QTConstants.IMAGE_ARROW_L2R_SELECTED ) );
+            ImageIcon r2lIconSelected = new ImageIcon( QTResources.getImage( QTConstants.IMAGE_ARROW_R2L_SELECTED ) );
             _leftToRightRadioButton = new JRadioButton( l2rIcon );
             _leftToRightRadioButton.setSelectedIcon( l2rIconSelected );
             _rightToLeftRadioButton = new JRadioButton( r2lIcon );

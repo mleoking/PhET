@@ -29,6 +29,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.Range;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.QTResources;
 
 
@@ -89,9 +90,9 @@ public class ZoomControl extends JPanel {
         _zoomIndex = startingIndex;
 
         // Icons on buttons
-        ImageIcon zoomInIcon = new ImageIcon( QTResources.IMAGE_ZOOM_IN );
+        ImageIcon zoomInIcon = new ImageIcon( QTResources.getImage( QTConstants.IMAGE_ZOOM_IN ) );
         _zoomInButton = new JButton( zoomInIcon );
-        ImageIcon zoomOutIcon = new ImageIcon( QTResources.IMAGE_ZOOM_OUT );
+        ImageIcon zoomOutIcon = new ImageIcon( QTResources.getImage( QTConstants.IMAGE_ZOOM_OUT ) );
         _zoomOutButton = new JButton( zoomOutIcon );
 
         // Zoom In button
