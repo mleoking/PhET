@@ -4,6 +4,7 @@ package edu.colorado.phet.boundstates;
 
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 import edu.colorado.phet.common.view.util.PhetProjectConfig;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -45,5 +46,13 @@ public class BSResources {
     
     public static final PImage getImageNode( String name ) {
         return new PImage( _config.getImage( name ) );
+    }
+    
+    public static final String getCommonString( String name ) {
+        return PhetCommonProjectConfig.getInstance().getString( name );
+    }
+    
+    public static final BufferedImage getCommonImage( String name ) {
+        return PhetCommonProjectConfig.getInstance().getImage( name );
     }
 }

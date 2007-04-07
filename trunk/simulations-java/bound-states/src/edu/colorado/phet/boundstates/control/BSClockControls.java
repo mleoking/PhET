@@ -26,6 +26,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSClock;
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
@@ -77,28 +78,18 @@ public class BSClockControls extends JPanel implements ClockListener {
         
         // Labels
         String restartLabel = BSResources.getString( "button.restart" );
-        String playLabel = BSResources.getString( "button.play" );
-        String pauseLabel = BSResources.getString( "button.pause" );
-        String stepLabel = BSResources.getString( "button.step" );
+        String playLabel = BSResources.getCommonString( ClockControlPanel.PROPERTY_PLAY );
+        String pauseLabel = BSResources.getCommonString( ClockControlPanel.PROPERTY_PAUSE );
+        String stepLabel = BSResources.getCommonString( ClockControlPanel.PROPERTY_STEP );
         String timeUnitsLabel = BSResources.getString( "units.time" );
-        
+
         // Icons
-        Icon restartIcon = null;
-        Icon playIcon = null;
-        Icon pauseIcon = null;
-        Icon stepIcon = null;
-        Icon clockIcon = null;
-        try {
-            restartIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_REWIND ) );
-            playIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PLAY ) );
-            pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PAUSE ) );
-            stepIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_STEP ) );
-            clockIcon = new ImageIcon( BSResources.getImage( BSConstants.IMAGE_CLOCK ) );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
-        
+        Icon restartIcon = new ImageIcon( BSResources.getCommonImage( ClockControlPanel.IMAGE_REWIND ) );
+        Icon playIcon = new ImageIcon( BSResources.getCommonImage( ClockControlPanel.IMAGE_PLAY ) );
+        Icon pauseIcon = new ImageIcon( BSResources.getCommonImage( ClockControlPanel.IMAGE_PAUSE ) );
+        Icon stepIcon = new ImageIcon( BSResources.getCommonImage( ClockControlPanel.IMAGE_STEP ) );
+        Icon clockIcon = new ImageIcon( BSResources.getImage( BSConstants.IMAGE_CLOCK ) );
+
         // Time display
         JPanel timePanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         {
