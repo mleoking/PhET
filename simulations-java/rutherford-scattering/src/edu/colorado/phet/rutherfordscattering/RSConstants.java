@@ -93,26 +93,6 @@ public class RSConstants {
     public static final Color ANIMATION_BOX_COLOR = Color.BLACK;
     public static final Color ANIMATION_BOX_STROKE_COLOR = Color.WHITE;
 
-
-//    public static final String S_ALPHA_PARTICLE = RSResources.CONFIG.getString( "string.alphaParticle" );
-//    public static final String S_ALPHA_PARTICLE_PROPERTIES = RSResources.CONFIG.getString( "string.alphaParticleProperties" );
-//    public static final String S_ATOM_PROPERTIES = RSResources.CONFIG.getString( "string.atomProperties" );
-//    public static final String S_CONFIRM_RESET_ALL = RSResources.CONFIG.getString( "string.confirmResetAll" );
-//    public static final String S_ELECTRON = RSResources.CONFIG.getString( "string.electron" );
-//    public static final String S_ENERGY = RSResources.CONFIG.getString( "string.energy" );
-//    public static final String S_LEGEND = RSResources.CONFIG.getString( "string.legend" );
-//    public static final String S_MAX_ENERGY = RSResources.CONFIG.getString( "string.maxEnergy" );
-//    public static final String S_MIN_ENERGY = RSResources.CONFIG.getString( "string.minEnergy" );
-//    public static final String S_NEUTRON = RSResources.CONFIG.getString( "string.neutron" );
-//    public static final String S_NUMBER_OF_NEUTRONS = RSResources.CONFIG.getString( "string.numberOfNeutrons" );
-//    public static final String S_NUMBER_OF_PROTONS = RSResources.CONFIG.getString( "string.numberOfProtons" );
-//    public static final String S_PLUM_PUDDING = RSResources.CONFIG.getString( "string.plumPuddingAtom" );
-//    public static final String S_PROTON = RSResources.CONFIG.getString( "string.proton" );
-//    public static final String S_RESET_ALL = RSResources.CONFIG.getString( "string.resetAll" );
-//    public static final String S_RUTHERFORD_ATOM = RSResources.CONFIG.getString( "string.rutherfordAtom" );
-//    public static final String S_SHOW_TRACES = RSResources.CONFIG.getString( "string.showTraces" );
-//    public static final String S_TURN_ON_THE_GUN = RSResources.CONFIG.getString( "string.turnOnTheGun" );
-    
     //----------------------------------------------------------------------------
     // Default state of the model
     //----------------------------------------------------------------------------
