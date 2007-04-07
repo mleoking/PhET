@@ -76,7 +76,7 @@ public class MinimizeMaximizeNode extends PNode {
     //----------------------------------------------------------------------------
     
     /**
-     * Constructs that uses a default font and text color.
+     * Constructor that uses default properties.
      * 
      * @param text
      * @param buttonPosition BUTTON_LEFT or BUTTON_RIGHT
