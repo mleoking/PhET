@@ -31,7 +31,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.QTStrings;
+import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.control.*;
 import edu.colorado.phet.quantumtunneling.enums.Direction;
@@ -140,7 +140,7 @@ public class QTModule extends AbstractModule implements Observer {
      * Sole constructor.
      */
     public QTModule() {
-        super( QTStrings.getString( "title.quantumTunneling" ), new QTClock(), true /* startsPaused */ );
+        super( QTResources.getString( "title.quantumTunneling" ), new QTClock(), true /* startsPaused */ );
 
         setLogoPanel( null );
         
@@ -294,7 +294,7 @@ public class QTModule extends AbstractModule implements Observer {
         
         // Configure button
         {
-            JButton jButton = new JButton( QTStrings.getString( "button.configureEnergy" ) );
+            JButton jButton = new JButton( QTResources.getString( "button.configureEnergy" ) );
             jButton.setOpaque( false );
             jButton.addActionListener( listener );
             _configureButton = new PSwing( jButton );
@@ -302,7 +302,7 @@ public class QTModule extends AbstractModule implements Observer {
         
         // Measure button
         {
-            JButton jButton = new JButton( QTStrings.getString( "button.measure" ) );
+            JButton jButton = new JButton( QTResources.getString( "button.measure" ) );
             jButton.setOpaque( false );
             jButton.addActionListener( listener );
             _measureButton = new PSwing( jButton );
@@ -365,19 +365,19 @@ public class QTModule extends AbstractModule implements Observer {
         
         HelpPane helpPane = getDefaultHelpPane();
 
-        HelpBalloon configureHelp = new HelpBalloon( helpPane, QTStrings.getString( "help.configure" ), HelpBalloon.RIGHT_CENTER, 20 );
+        HelpBalloon configureHelp = new HelpBalloon( helpPane, QTResources.getString( "help.configure" ), HelpBalloon.RIGHT_CENTER, 20 );
         helpPane.add( configureHelp );
         configureHelp.pointAt( _configureButton, _canvas );
         
-        HelpBalloon dragHandleHelp = new HelpBalloon( helpPane, QTStrings.getString( "help.dragHandle" ), HelpBalloon.RIGHT_TOP, 20 );
+        HelpBalloon dragHandleHelp = new HelpBalloon( helpPane, QTResources.getString( "help.dragHandle" ), HelpBalloon.RIGHT_TOP, 20 );
         helpPane.add( dragHandleHelp );
         dragHandleHelp.pointAt( _totalEnergyControl, _canvas );
         
-        HelpBalloon zoomHelp = new HelpBalloon( helpPane, QTStrings.getString( "help.zoom" ), HelpBalloon.LEFT_CENTER, 30 );
+        HelpBalloon zoomHelp = new HelpBalloon( helpPane, QTResources.getString( "help.zoom" ), HelpBalloon.LEFT_CENTER, 30 );
         helpPane.add( zoomHelp );
         zoomHelp.pointAt( _waveFunctionZoomControl, _canvas );
         
-        HelpBalloon restartHelp = new HelpBalloon( helpPane, QTStrings.getString( "help.restart" ), HelpBalloon.BOTTOM_CENTER, 80 );
+        HelpBalloon restartHelp = new HelpBalloon( helpPane, QTResources.getString( "help.restart" ), HelpBalloon.BOTTOM_CENTER, 80 );
         helpPane.add(  restartHelp );
         restartHelp.pointAt( _clockControls.getRestartComponent() );
         

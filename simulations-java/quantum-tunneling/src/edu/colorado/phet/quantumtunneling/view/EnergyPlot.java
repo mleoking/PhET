@@ -23,7 +23,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.jfreechart.FastPathRenderer;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.QTStrings;
+import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.enums.Direction;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
@@ -72,9 +72,9 @@ public class EnergyPlot extends QTXYPlot implements Observer {
         super();
         
         // Labels (localized)
-        String energyLabel = QTStrings.getString( "axis.energy" ) + " (" + QTStrings.getString( "units.energy" ) + ")";
-        String potentialEnergyLabel = QTStrings.getString( "legend.potentialEnergy" );
-        String totalEnergyLabel = QTStrings.getString( "legend.totalEnergy" );
+        String energyLabel = QTResources.getString( "axis.energy" ) + " (" + QTResources.getString( "units.energy" ) + ")";
+        String potentialEnergyLabel = QTResources.getString( "legend.potentialEnergy" );
+        String totalEnergyLabel = QTResources.getString( "legend.totalEnergy" );
         
         int dataSetIndex = 0;
         

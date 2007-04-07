@@ -25,7 +25,7 @@ import javax.swing.event.MouseInputListener;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.quantumtunneling.QTStrings;
+import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
 
 
@@ -76,7 +76,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
      */
     public ColorSchemeDialog( QTModule module, QTColorScheme scheme ) {
         super( PhetApplication.instance().getPhetFrame() );
-        super.setTitle( QTStrings.getString( "title.colorScheme" ) );
+        super.setTitle( QTResources.getString( "title.colorScheme" ) );
         super.setModal( false );
         super.setResizable( false );
         _parent = PhetApplication.instance().getPhetFrame();
@@ -128,7 +128,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         
         // Chart
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.color.chart" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.color.chart" ) );
             _chartChip = new JLabel();
             setColor( _chartChip, _scheme.getChartColor() );
             _chartChip.addMouseListener( listener );
@@ -139,7 +139,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         
         // Ticks
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.color.ticks" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.color.ticks" ) );
             _ticksChip = new JLabel();
             setColor( _ticksChip, _scheme.getTickColor() );
             _ticksChip.addMouseListener( listener );
@@ -150,7 +150,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         
         // Gridlines
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.color.gridlines" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.color.gridlines" ) );
             _gridlinesChip = new JLabel();
             setColor( _gridlinesChip, _scheme.getGridlineColor() );
             _gridlinesChip.addMouseListener( listener );
@@ -161,7 +161,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         
         // Annotations
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.color.annotations" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.color.annotations" ) );
             _annotationChip = new JLabel();
             setColor( _annotationChip, _scheme.getAnnotationColor() );
             _annotationChip.addMouseListener( listener );
@@ -172,7 +172,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         
         // Region Markers
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.color.regionMarkers" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.color.regionMarkers" ) );
             _regionMarkersChip = new JLabel();
             setColor( _regionMarkersChip, _scheme.getRegionMarkerColor() );
             _regionMarkersChip.addMouseListener( listener );
@@ -187,7 +187,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         
         // Total Energy
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.color.totalEnergy" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.color.totalEnergy" ) );
             _totalEnergyChip = new JLabel();
             setColor( _totalEnergyChip, _scheme.getTotalEnergyColor() );
             _totalEnergyChip.addMouseListener( listener );
@@ -198,7 +198,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         
         // Potential Energy
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.color.potentialEnergy" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.color.potentialEnergy" ) );
             _potentialEnergyChip = new JLabel();
             setColor( _potentialEnergyChip, _scheme.getPotentialEnergyColor() );
             _potentialEnergyChip.addMouseListener( listener );
@@ -213,7 +213,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         
         // Real
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.color.real" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.color.real" ) );
             _realChip = new JLabel();
             setColor( _realChip, _scheme.getRealColor() );
             _realChip.addMouseListener( listener );
@@ -224,7 +224,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         
         // Imaginary
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.color.imaginary" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.color.imaginary" ) );
             _imaginaryChip = new JLabel();
             setColor( _imaginaryChip, _scheme.getImaginaryColor() );
             _imaginaryChip.addMouseListener( listener );
@@ -235,7 +235,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         
         // Magnitude
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.color.magnitude" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.color.magnitude" ) );
             _magnitudeChip = new JLabel();
             setColor( _magnitudeChip, _scheme.getMagnitudeColor() );
             _magnitudeChip.addMouseListener( listener );
@@ -246,7 +246,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         
         // Probability Density
         {
-            JLabel label = new JLabel( QTStrings.getString( "label.color.probabilityDensity" ) );
+            JLabel label = new JLabel( QTResources.getString( "label.color.probabilityDensity" ) );
             _probabilityDensityChip = new JLabel();
             setColor( _probabilityDensityChip, _scheme.getProbabilityDensityColor() );
             _probabilityDensityChip.addMouseListener( listener );
@@ -265,14 +265,14 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
      */
     private JPanel createActionsPanel() {
 
-        _okButton = new JButton( QTStrings.getString( "choice.ok" ) );
+        _okButton = new JButton( QTResources.getString( "choice.ok" ) );
         _okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
             }
         });
 
-        _cancelButton = new JButton( QTStrings.getString( "choice.cancel" ) );
+        _cancelButton = new JButton( QTResources.getString( "choice.cancel" ) );
         _cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 restoreColors();
@@ -315,54 +315,54 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         Color initialColor = null;
         
         if ( _currentChip == _chartChip ) {
-            titlePrefix = QTStrings.getString( "label.color.chart" );
+            titlePrefix = QTResources.getString( "label.color.chart" );
             initialColor = _scheme.getChartColor();
         }
         else if ( _currentChip == _ticksChip ) {
-            titlePrefix = QTStrings.getString( "label.color.ticks" );
+            titlePrefix = QTResources.getString( "label.color.ticks" );
             initialColor = _scheme.getTickColor();
         }
         else if ( _currentChip == _gridlinesChip ) {
-            titlePrefix = QTStrings.getString( "label.color.gridlines" );
+            titlePrefix = QTResources.getString( "label.color.gridlines" );
             initialColor = _scheme.getGridlineColor();
         }
         else if ( _currentChip == _annotationChip ) {
-            titlePrefix = QTStrings.getString( "label.color.annotations" );
+            titlePrefix = QTResources.getString( "label.color.annotations" );
             initialColor = _scheme.getAnnotationColor();
         }
         else if ( _currentChip == _regionMarkersChip ) {
-            titlePrefix = QTStrings.getString( "label.color.regionMarkers" );
+            titlePrefix = QTResources.getString( "label.color.regionMarkers" );
             initialColor = _scheme.getRegionMarkerColor();
         }
         else if ( _currentChip == _totalEnergyChip ) {
-            titlePrefix = QTStrings.getString( "label.color.totalEnergy" );
+            titlePrefix = QTResources.getString( "label.color.totalEnergy" );
             initialColor = _scheme.getTotalEnergyColor();
         }
         else if ( _currentChip == _potentialEnergyChip ) {
-            titlePrefix = QTStrings.getString( "label.color.potentialEnergy" );
+            titlePrefix = QTResources.getString( "label.color.potentialEnergy" );
             initialColor = _scheme.getPotentialEnergyColor();
         }
         else if ( _currentChip == _realChip ) {
-            titlePrefix = QTStrings.getString( "label.color.real" );
+            titlePrefix = QTResources.getString( "label.color.real" );
             initialColor = _scheme.getRealColor();
         }
         else if ( _currentChip == _imaginaryChip ) {
-            titlePrefix = QTStrings.getString( "label.color.imaginary" );
+            titlePrefix = QTResources.getString( "label.color.imaginary" );
             initialColor = _scheme.getImaginaryColor();
         }
         else if ( _currentChip == _magnitudeChip ) {
-            titlePrefix = QTStrings.getString( "label.color.magnitude" );
+            titlePrefix = QTResources.getString( "label.color.magnitude" );
             initialColor = _scheme.getMagnitudeColor();
         }
         else if ( _currentChip == _probabilityDensityChip ) {
-            titlePrefix = QTStrings.getString( "label.color.probabilityDensity" );
+            titlePrefix = QTResources.getString( "label.color.probabilityDensity" );
             initialColor = _scheme.getProbabilityDensityColor();
         }
         else {
             throw new IllegalStateException( "unsupported color scheme property" );
         }
         
-        String title = titlePrefix + " " + QTStrings.getString( "title.chooseColor" );
+        String title = titlePrefix + " " + QTResources.getString( "title.chooseColor" );
         
         closeColorChooser();
         _colorChooserDialog = ColorChooserFactory.createDialog( title, _parent, initialColor, this );

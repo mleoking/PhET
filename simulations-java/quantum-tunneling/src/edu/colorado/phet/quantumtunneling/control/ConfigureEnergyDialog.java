@@ -37,7 +37,7 @@ import org.jfree.ui.TextAnchor;
 import edu.colorado.phet.common.util.DialogUtils;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.QTStrings;
+import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.enums.PotentialType;
 import edu.colorado.phet.quantumtunneling.model.*;
@@ -142,7 +142,7 @@ public class ConfigureEnergyDialog extends JDialog {
         
         _colorScheme = colorScheme;
         
-        setTitle( QTStrings.getString( "title.configureEnergy" ) );
+        setTitle( QTResources.getString( "title.configureEnergy" ) );
         setModal( true );
         setResizable( false );
 
@@ -281,7 +281,7 @@ public class ConfigureEnergyDialog extends JDialog {
         JPanel menuPanel = new JPanel();
         {
             // Potential
-            JLabel potentialLabel = new JLabel( QTStrings.getString( "label.potential" ) );
+            JLabel potentialLabel = new JLabel( QTResources.getString( "label.potential" ) );
             _potentialComboBox = new PotentialComboBox();
             _potentialComboBox.setPotentialColor( _colorScheme.getPotentialEnergyColor() );
             _potentialComboBox.addItemListener( _listener );
@@ -319,10 +319,10 @@ public class ConfigureEnergyDialog extends JDialog {
 
             // Total Energy
             {
-                JLabel teLabel = new JLabel( QTStrings.getString( "label.averageTotalEnergy" ) );
+                JLabel teLabel = new JLabel( QTResources.getString( "label.averageTotalEnergy" ) );
                 _teSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP, ENERGY_FORMAT, SPINNER_SIZE );
                 _teSpinner.addChangeListener( _listener );
-                JLabel teUnits = new JLabel( QTStrings.getString( "units.energy" ) );
+                JLabel teUnits = new JLabel( QTResources.getString( "units.energy" ) );
                 leftLayout.addAnchoredComponent( teLabel, leftRow, 0, 2, 1, GridBagConstraints.EAST );
                 leftLayout.addComponent( _teSpinner, leftRow, 2 );
                 leftLayout.addComponent( teUnits, leftRow, 3 );
@@ -330,9 +330,9 @@ public class ConfigureEnergyDialog extends JDialog {
             }
 
             // Potential Energy for each region...
-            char peChar = QTStrings.getChar( "char.potentialEnergy", 'P' );
+            char peChar = QTResources.getChar( "char.potentialEnergy", 'P' );
             {
-                JLabel peTitle = new JLabel( QTStrings.getString( "label.potentialEnergy" ) );
+                JLabel peTitle = new JLabel( QTResources.getString( "label.potentialEnergy" ) );
                 leftLayout.addAnchoredComponent( peTitle, leftRow, 0, 4, 1, GridBagConstraints.WEST );
                 leftRow++;
                 int numberOfRegions = _potentialEnergy.getNumberOfRegions();
@@ -343,7 +343,7 @@ public class ConfigureEnergyDialog extends JDialog {
                     DoubleSpinner peSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP, ENERGY_FORMAT, SPINNER_SIZE );
                     peSpinner.addChangeListener( _listener );
                     _peSpinners.add( peSpinner );
-                    JLabel peUnits = new JLabel( QTStrings.getString( "units.energy" ) );
+                    JLabel peUnits = new JLabel( QTResources.getString( "units.energy" ) );
                     leftLayout.addAnchoredComponent( peLabel, leftRow, 1, GridBagConstraints.EAST );
                     leftLayout.addAnchoredComponent( peSpinner, leftRow, 2, GridBagConstraints.EAST );
                     leftLayout.addAnchoredComponent( peUnits, leftRow, 3, GridBagConstraints.WEST );
@@ -354,10 +354,10 @@ public class ConfigureEnergyDialog extends JDialog {
             // Step...
             _stepSpinner = null;
             if ( _potentialEnergy instanceof StepPotential ) {
-                JLabel stepLabel = new JLabel( QTStrings.getString( "label.stepPosition" ) );
+                JLabel stepLabel = new JLabel( QTResources.getString( "label.stepPosition" ) );
                 _stepSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT, SPINNER_SIZE );
                 _stepSpinner.addChangeListener( _listener );
-                JLabel stepUnits = new JLabel( QTStrings.getString( "units.position" ) );
+                JLabel stepUnits = new JLabel( QTResources.getString( "units.position" ) );
                 leftLayout.addAnchoredComponent( stepLabel, leftRow, 0, 2, 1, GridBagConstraints.EAST );
                 leftLayout.addComponent( _stepSpinner, leftRow, 2 );
                 leftLayout.addComponent( stepUnits, leftRow, 3 );
@@ -367,14 +367,14 @@ public class ConfigureEnergyDialog extends JDialog {
             // Barriers...
             _widthSpinners = null;
             _positionSpinners = null;
-            char barrierChar = QTStrings.getChar( "char.barrier", 'B' );
+            char barrierChar = QTResources.getChar( "char.barrier", 'B' );
             if ( _potentialEnergy instanceof BarrierPotential ) {
 
                 int numberOfBarriers = ( (BarrierPotential) _potentialEnergy ).getNumberOfBarriers();
 
                 // Barrier Positions...
                 _positionSpinners = new ArrayList();
-                JLabel positionTitle = new JLabel( QTStrings.getString( "label.barrierPosition" ) );
+                JLabel positionTitle = new JLabel( QTResources.getString( "label.barrierPosition" ) );
                 rightLayout.addAnchoredComponent( positionTitle, rightRow, 0, 4, 1, GridBagConstraints.WEST );
                 rightRow++;
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
@@ -383,7 +383,7 @@ public class ConfigureEnergyDialog extends JDialog {
                     DoubleSpinner positionSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT, SPINNER_SIZE );
                     positionSpinner.addChangeListener( _listener );
                     _positionSpinners.add( positionSpinner );
-                    JLabel positionUnits = new JLabel( QTStrings.getString( "units.position" ) );
+                    JLabel positionUnits = new JLabel( QTResources.getString( "units.position" ) );
                     rightLayout.addAnchoredComponent( positionLabel, rightRow, 1, GridBagConstraints.EAST );
                     rightLayout.addAnchoredComponent( positionSpinner, rightRow, 2, GridBagConstraints.EAST );
                     rightLayout.addAnchoredComponent( positionUnits, rightRow, 3, GridBagConstraints.WEST );
@@ -392,7 +392,7 @@ public class ConfigureEnergyDialog extends JDialog {
                 
                 // Barrier Widths...
                 _widthSpinners = new ArrayList();
-                JLabel widthTitle = new JLabel( QTStrings.getString( "label.barrierWidth" ) );
+                JLabel widthTitle = new JLabel( QTResources.getString( "label.barrierWidth" ) );
                 rightLayout.addAnchoredComponent( widthTitle, rightRow, 0, 4, 1, GridBagConstraints.WEST );
                 rightRow++;
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
@@ -401,7 +401,7 @@ public class ConfigureEnergyDialog extends JDialog {
                     DoubleSpinner widthSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT, SPINNER_SIZE );
                     widthSpinner.addChangeListener( _listener );
                     _widthSpinners.add( widthSpinner );
-                    JLabel widthUnits = new JLabel( QTStrings.getString( "units.position" ) );
+                    JLabel widthUnits = new JLabel( QTResources.getString( "units.position" ) );
                     rightLayout.addAnchoredComponent( widthLabel, rightRow, 1, GridBagConstraints.EAST );
                     rightLayout.addAnchoredComponent( widthSpinner, rightRow, 2, GridBagConstraints.EAST );
                     rightLayout.addAnchoredComponent( widthUnits, rightRow, 3, GridBagConstraints.WEST );
@@ -425,10 +425,10 @@ public class ConfigureEnergyDialog extends JDialog {
      */
     private JPanel createActionsPanel() {
 
-        _applyButton = new JButton( QTStrings.getString( "button.apply" ) );
+        _applyButton = new JButton( QTResources.getString( "button.apply" ) );
         _applyButton.addActionListener( _listener );
 
-        _closeButton = new JButton( QTStrings.getString( "button.close" ) );
+        _closeButton = new JButton( QTResources.getString( "button.close" ) );
         _closeButton.addActionListener( _listener );
 
         JPanel buttonPanel = new JPanel( new GridLayout( 1, 2, 10, 0 ) );
@@ -516,8 +516,8 @@ public class ConfigureEnergyDialog extends JDialog {
      */
     private void updateMarkersAndAnnotations() {
 
-        char peChar = QTStrings.getChar( "char.potentialEnergy", 'P' );
-        char barrierChar = QTStrings.getChar( "char.barrier", 'B' );
+        char peChar = QTResources.getChar( "char.potentialEnergy", 'P' );
+        char barrierChar = QTResources.getChar( "char.barrier", 'B' );
         
         boolean hasBarriers = ( _potentialEnergy instanceof BarrierPotential );
         
@@ -642,7 +642,7 @@ public class ConfigureEnergyDialog extends JDialog {
      */
     private void handleClose() {
         if ( _teChanged || _peChanged ) {
-            String message = QTStrings.getString( "message.unsavedChanges" );
+            String message = QTResources.getString( "message.unsavedChanges" );
             int reply = DialogUtils.showConfirmDialog( this, message, JOptionPane.YES_NO_CANCEL_OPTION );
             if ( reply == JOptionPane.YES_OPTION) {
                 handleApply();

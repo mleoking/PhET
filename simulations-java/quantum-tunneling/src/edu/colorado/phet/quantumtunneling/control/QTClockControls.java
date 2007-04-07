@@ -26,7 +26,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.QTStrings;
+import edu.colorado.phet.quantumtunneling.QTResources;
 
 
 /**
@@ -70,11 +70,11 @@ public class QTClockControls extends JPanel implements ClockListener {
         _clock.addClockListener( this );
         
         // Labels
-        String restartLabel = QTStrings.getString( "button.restart" );
-        String playLabel = QTStrings.getString( "button.play" );
-        String pauseLabel = QTStrings.getString( "button.pause" );
-        String stepLabel = QTStrings.getString( "button.step" );
-        String timeUnitsLabel = QTStrings.getString( "units.time" );
+        String restartLabel = QTResources.getString( "button.restart" );
+        String playLabel = QTResources.getString( "button.play" );
+        String pauseLabel = QTResources.getString( "button.pause" );
+        String stepLabel = QTResources.getString( "button.step" );
+        String timeUnitsLabel = QTResources.getString( "units.time" );
         
         // Icons
         Icon restartIcon = null;
@@ -87,7 +87,7 @@ public class QTClockControls extends JPanel implements ClockListener {
             playIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PLAY ) );
             pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PAUSE ) );
             stepIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_STEP ) );
-            clockIcon = new ImageIcon( QTConstants.IMAGE_CLOCK );
+            clockIcon = new ImageIcon( QTResources.IMAGE_CLOCK );
         }
         catch ( IOException e ) {
             e.printStackTrace();
