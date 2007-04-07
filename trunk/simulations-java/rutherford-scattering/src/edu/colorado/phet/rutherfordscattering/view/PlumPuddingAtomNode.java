@@ -3,6 +3,7 @@
 package edu.colorado.phet.rutherfordscattering.view;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -10,7 +11,7 @@ import java.util.Random;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.nodes.BufferedPNode;
-import edu.colorado.phet.rutherfordscattering.RSConstants;
+import edu.colorado.phet.rutherfordscattering.RSResources;
 import edu.colorado.phet.rutherfordscattering.model.PlumPuddingAtom;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -60,7 +61,8 @@ public class PlumPuddingAtomNode extends BufferedPNode {
         PNode parentNode = new PNode();
         
         // Read the pudding image and scale it to match the atom model
-        PImage puddingNode = new PImage( RSConstants.IMAGE_PLUM_PUDDING );
+        Image puddingImage = RSResources.getImage(  "plumPudding.png" );
+        PImage puddingNode = new PImage( puddingImage );
         final double imageDiameter = Math.max( puddingNode.getWidth(), puddingNode.getHeight() );
         final double atomDiameter = 2 * ModelViewTransform.transform( atom.getRadius() );
         final double imageScale = atomDiameter / imageDiameter;

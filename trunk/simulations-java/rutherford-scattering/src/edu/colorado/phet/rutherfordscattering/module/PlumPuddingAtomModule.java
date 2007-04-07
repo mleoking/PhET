@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
+import edu.colorado.phet.rutherfordscattering.RSResources;
 import edu.colorado.phet.rutherfordscattering.control.PlumPuddingAtomControlPanel;
 import edu.colorado.phet.rutherfordscattering.help.RSWiggleMe;
 import edu.colorado.phet.rutherfordscattering.model.*;
@@ -64,7 +65,7 @@ public class PlumPuddingAtomModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public PlumPuddingAtomModule() {
-        super( RSConstants.S_PLUM_PUDDING, new RSClock(), RSConstants.CLOCK_PAUSED );
+        super( RSResources.getString( "string.plumPuddingAtom" ), new RSClock(), RSConstants.CLOCK_PAUSED );
 
         //----------------------------------------------------------------------------
         // Model
@@ -296,7 +297,7 @@ public class PlumPuddingAtomModule extends AbstractModule {
         if ( !_wiggleMeInitialized && HAS_WIGGLE_ME ) {
             
             // Create wiggle me, add to root node.
-            String wiggleMeString = RSConstants.S_TURN_ON_THE_GUN;
+            String wiggleMeString = RSResources.getString( "string.turnOnTheGun" );
             _wiggleMe = new RSWiggleMe( _canvas, wiggleMeString );
             _wiggleMe.setArrowTailPosition( MotionHelpBalloon.TOP_LEFT );
             _wiggleMe.setArrowLength( 60 );
