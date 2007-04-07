@@ -1,13 +1,5 @@
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.common.PhetCommonProjectConfig;
-
-import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +8,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
+
+import edu.colorado.phet.common.PhetCommonProjectConfig;
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
  * This JPanel shows information about the application, with links to information about Licensing.
@@ -45,13 +44,9 @@ public class GPLAboutPanel extends JPanel {
         info.setEditable( false );
         add( info, BorderLayout.CENTER );
 
-        try {
-            JLabel icon = new JLabel( new ImageIcon( ImageLoader.loadBufferedImage( PhetLookAndFeel.PHET_LOGO_120x50 ) ) );
-            add( icon, BorderLayout.NORTH );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        Icon icon = new ImageIcon( PhetCommonProjectConfig.getInstance().getImage( PhetLookAndFeel.PHET_LOGO_120x50 ) );
+        JLabel label = new JLabel( icon );
+        add( label, BorderLayout.NORTH );
 
         JButton button = new JButton( "License" );
         button.addActionListener( new ActionListener() {

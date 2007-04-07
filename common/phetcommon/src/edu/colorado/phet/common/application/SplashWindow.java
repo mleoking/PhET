@@ -10,16 +10,14 @@
  */
 package edu.colorado.phet.common.application;
 
-import edu.colorado.phet.common.view.PhetLookAndFeel;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.PhetCommonProjectConfig;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.text.MessageFormat;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.PhetCommonProjectConfig;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 
 /**
  * SplashWindow is an undecorated window that appears
