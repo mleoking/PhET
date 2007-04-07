@@ -14,7 +14,6 @@ package edu.colorado.phet.quantumtunneling.control;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -24,7 +23,6 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.QTResources;
 
@@ -71,28 +69,18 @@ public class QTClockControls extends JPanel implements ClockListener {
         
         // Labels
         String restartLabel = QTResources.getString( "button.restart" );
-        String playLabel = QTResources.getString( "button.play" );
-        String pauseLabel = QTResources.getString( "button.pause" );
-        String stepLabel = QTResources.getString( "button.step" );
+        String playLabel = QTResources.getCommonString( "Common.ClockControlPanel.Play" );
+        String pauseLabel = QTResources.getCommonString( "Common.ClockControlPanel.Pause" );
+        String stepLabel = QTResources.getCommonString( "Common.ClockControlPanel.Step" );
         String timeUnitsLabel = QTResources.getString( "units.time" );
-        
+
         // Icons
-        Icon restartIcon = null;
-        Icon playIcon = null;
-        Icon pauseIcon = null;
-        Icon stepIcon = null;
-        Icon clockIcon = null;
-        try {
-            restartIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_REWIND ) );
-            playIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PLAY ) );
-            pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PAUSE ) );
-            stepIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_STEP ) );
-            clockIcon = new ImageIcon( QTResources.IMAGE_CLOCK );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
-        
+        Icon restartIcon = new ImageIcon( QTResources.getCommonImage( ClockControlPanel.IMAGE_REWIND ) );
+        Icon playIcon = new ImageIcon( QTResources.getCommonImage( ClockControlPanel.IMAGE_PLAY ) );
+        Icon pauseIcon = new ImageIcon( QTResources.getCommonImage( ClockControlPanel.IMAGE_PAUSE ) );
+        Icon stepIcon = new ImageIcon( QTResources.getCommonImage( ClockControlPanel.IMAGE_STEP ) );
+        Icon clockIcon = new ImageIcon( QTResources.getImage( QTConstants.IMAGE_CLOCK ) );
+
         // Time display
         JPanel timePanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         {

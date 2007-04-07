@@ -11,10 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 import java.text.DecimalFormat;
 
 import org.jfree.data.Range;
@@ -72,6 +69,18 @@ public class QTConstants {
     
     public static final char C_PI = '\u03c0';
 
+    //----------------------------------------------------------------------------
+    // Images
+    //----------------------------------------------------------------------------
+    
+    public static final String IMAGE_ARROW_L2R = "arrowL2R.png";
+    public static final String IMAGE_ARROW_L2R_SELECTED = "arrowL2RSelected.png";
+    public static final String IMAGE_ARROW_R2L = "arrowR2L.png";
+    public static final String IMAGE_ARROW_R2L_SELECTED = "arrowR2LSelected.png";
+    public static final String IMAGE_CLOCK = "clock.png";
+    public static final String IMAGE_ZOOM_IN = "zoomIn.gif";
+    public static final String IMAGE_ZOOM_OUT = "zoomOut.gif";
+    
     //----------------------------------------------------------------------------
     // Strokes
     //----------------------------------------------------------------------------
