@@ -19,12 +19,7 @@ public class SimStrings extends AbstractPhetPropertySource {
     private Locale localizedLocale;
 
     private static SimStrings INSTANCE = new SimStrings();
-
-
-    static {
-        INSTANCE.addStrings( "localization/CommonStrings" );
-    }
-
+    
     public static SimStrings getInstance() {
         return INSTANCE;
     }
