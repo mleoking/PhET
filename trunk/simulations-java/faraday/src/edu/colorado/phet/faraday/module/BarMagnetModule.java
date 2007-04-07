@@ -19,8 +19,8 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.model.BarMagnet;
@@ -82,7 +82,7 @@ public class BarMagnetModule extends FaradayModule {
      */
     public BarMagnetModule() {
         
-        super( SimStrings.getInstance().getString( "BarMagnetModule.title" ) );
+        super( FaradayResources.getString( "BarMagnetModule.title" ) );
         
         //----------------------------------------------------------------------------
         // Model
@@ -253,7 +253,7 @@ public class BarMagnetModule extends FaradayModule {
             _compassLocation = compassModel.getLocation();
             compassModel.addObserver( this );
             
-            setText( SimStrings.getInstance().getString( "BarMagnetModule.wiggleMe" ) );
+            setText( FaradayResources.getString( "BarMagnetModule.wiggleMe" ) );
             addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -40, 50 ) );
             addArrow( WiggleMeGraphic.BOTTOM_RIGHT, new Vector2D( 40, 50 ) );
             setRange( 20, 10 );

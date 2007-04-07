@@ -18,8 +18,8 @@ import java.awt.Point;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
@@ -99,7 +99,7 @@ public class GeneratorModule extends FaradayModule {
      */
     public GeneratorModule() {
 
-        super( SimStrings.getInstance().getString( "GeneratorModule.title" ) );
+        super( FaradayResources.getString( "GeneratorModule.title" ) );
 
         //----------------------------------------------------------------------------
         // Model
@@ -321,7 +321,7 @@ public class GeneratorModule extends FaradayModule {
             _turbineSpeed = turbineModel.getSpeed();
             turbineModel.addObserver( this );
             
-            setText( SimStrings.getInstance().getString( "GeneratorModule.wiggleMe" ) );
+            setText( FaradayResources.getString( "GeneratorModule.wiggleMe" ) );
             addArrow( WiggleMeGraphic.MIDDLE_LEFT, new Vector2D( -80, 0 ) );
             setRange( 25, 0 );
             setCycleDuration( 10 );

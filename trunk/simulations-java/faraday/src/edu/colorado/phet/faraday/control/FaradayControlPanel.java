@@ -20,7 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.module.FaradayModule;
 
 
@@ -59,8 +59,7 @@ public class FaradayControlPanel extends ControlPanel {
         _module = module;
         
         // Set the control panel's minimum width.
-        String widthString = SimStrings.getInstance().getString( "ControlPanel.width" );
-        int width = Integer.parseInt( widthString );
+        int width = FaradayResources.getInt( "ControlPanel.width", 225 );
         setMinumumWidth( width );
     }
     
@@ -105,7 +104,7 @@ public class FaradayControlPanel extends ControlPanel {
      * The button handler calls the module's reset method.
      */
     public void addResetButton() {
-        JButton resetButton = new JButton( SimStrings.getInstance().getString( "Reset.button" ) );
+        JButton resetButton = new JButton( FaradayResources.getString( "Reset.button" ) );
         resetButton.addActionListener( new ActionListener() { 
             public void actionPerformed( ActionEvent e ) {
                 _module.reset();

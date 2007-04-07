@@ -21,8 +21,8 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.*;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.control.FaradaySlider;
 import edu.colorado.phet.faraday.model.ACPowerSupply;
 
@@ -126,7 +126,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             _maxAmplitudeValue = new PhetTextGraphic2( component, VALUE_FONT, "", VALUE_COLOR );
             _maxAmplitudeValue.setLocation( 45, 57 );
             
-            _amplitudeFormat = SimStrings.getInstance().getString( "ACPowerSupplyGraphic.amplitude.format" );
+            _amplitudeFormat = FaradayResources.getString( "ACPowerSupplyGraphic.amplitude.format" );
         }
         
         // Amplitude value  (debug)
@@ -154,7 +154,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             _frequencyValue = new PhetTextGraphic2( component, VALUE_FONT, " ", VALUE_COLOR );
             _frequencyValue.setLocation( 210, 193 );
             
-            _frequencyFormat = SimStrings.getInstance().getString( "ACPowerSupplyGraphic.frequency.format" );
+            _frequencyFormat = FaradayResources.getString( "ACPowerSupplyGraphic.frequency.format" );
         }
         
         // Sine Wave
@@ -449,12 +449,13 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             graphicLayerSet.setRenderingHints( hints );
             
             // AC panel
-            PhetImageGraphic panel = new PhetImageGraphic( component, FaradayConstants.AC_POWER_SUPPLY_IMAGE );
+            BufferedImage powerSupplyImage = FaradayResources.getImage( FaradayConstants.AC_POWER_SUPPLY_IMAGE );
+            PhetImageGraphic panel = new PhetImageGraphic( component, powerSupplyImage );
             graphicLayerSet.addGraphic( panel, PANEL_LAYER );
             
             // Title label
             {
-                String s = SimStrings.getInstance().getString( "ACPowerSupplyGraphic.title" );
+                String s = FaradayResources.getString( "ACPowerSupplyGraphic.title" );
                 PhetTextGraphic title = new PhetTextGraphic( component, TITLE_FONT, s, TITLE_COLOR );
                 graphicLayerSet.addGraphic( title, TITLE_LAYER );
                 title.centerRegistrationPoint();

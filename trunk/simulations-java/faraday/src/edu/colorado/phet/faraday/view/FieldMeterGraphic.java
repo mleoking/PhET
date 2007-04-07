@@ -12,6 +12,7 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -21,8 +22,8 @@ import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.model.FieldMeter;
 import edu.colorado.phet.faraday.util.Vector2D;
 
@@ -118,12 +119,13 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
         // Probe body, registration point at center of crosshairs.
-        PhetImageGraphic body = new PhetImageGraphic( component, FaradayConstants.FIELD_METER_IMAGE );
+        BufferedImage fieldMeterImage = FaradayResources.getImage( FaradayConstants.FIELD_METER_IMAGE );
+        PhetImageGraphic body = new PhetImageGraphic( component, fieldMeterImage );
         body.setRegistrationPoint( CROSSHAIRS_LOCATION.x, CROSSHAIRS_LOCATION.y );
         addGraphic( body );
         
         // Title text, registration point at bottom center.
-        String titleString = SimStrings.getInstance().getString( "FieldMeter.title" );
+        String titleString = FaradayResources.getString( "FieldMeter.title" );
         PhetTextGraphic titleText = new PhetTextGraphic( component, TITLE_FONT, titleString, TITLE_COLOR, 0, 0 );
         int width = titleText.getBounds().width;
         int height = titleText.getBounds().height;

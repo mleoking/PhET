@@ -13,6 +13,8 @@ package edu.colorado.phet.faraday;
 
 import java.awt.Dimension;
 
+import edu.colorado.phet.common.view.util.FrameSetup;
+
 
 /**
  * FaradayConstants contains global configuration values.
@@ -37,18 +39,8 @@ public class FaradayConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    private static final String PROJECT = "faraday";
+    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
-    public static final int APP_FRAME_WIDTH = 1024;
-    public static final int APP_FRAME_HEIGHT = 768;
-    
-    //----------------------------------------------------------------------------
-    // Properties files
-    //----------------------------------------------------------------------------
-    
-    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
-    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
-
     //----------------------------------------------------------------------------
     // Clock parameters
     //----------------------------------------------------------------------------
@@ -63,33 +55,31 @@ public class FaradayConstants {
     // Images
     //----------------------------------------------------------------------------
     
-    private static final String IMAGES_DIRECTORY = PROJECT + "/images/";
-    
-    public static final String AC_POWER_SUPPLY_IMAGE = IMAGES_DIRECTORY + "acPowerSupply.png";
-    public static final String AC_POWER_SUPPLY_ICON = IMAGES_DIRECTORY + "acPowerSupply_icon.png";
-    public static final String AC_POWER_SUPPLY_ICON_SELECTED = IMAGES_DIRECTORY + "acPowerSupply_icon_selected.png";
-    public static final String BAR_MAGNET_IMAGE = IMAGES_DIRECTORY + "barMagnet.png";
-    public static final String BATTERY_IMAGE = IMAGES_DIRECTORY + "battery.png";
-    public static final String BATTERY_ICON = IMAGES_DIRECTORY + "battery_icon.png";
-    public static final String BATTERY_ICON_SELECTED = IMAGES_DIRECTORY + "battery_icon_selected.png";
-    public static final String COMPASS_IMAGE = IMAGES_DIRECTORY + "compass.png";
-    public static final String ELECTRON_FOREGROUND_IMAGE = IMAGES_DIRECTORY + "electron_foreground.png";
-    public static final String ELECTRON_BACKGROUND_IMAGE = IMAGES_DIRECTORY + "electron_background.png";
-    public static final String FAUCET_IMAGE = IMAGES_DIRECTORY + "faucet.png";
-    public static final String FIELD_METER_IMAGE = IMAGES_DIRECTORY + "fieldMeter.png";
-    public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightbulb.png";
-    public static final String LIGHTBULB_ICON = IMAGES_DIRECTORY + "lightbulb_icon.png";
-    public static final String LIGHTBULB_ICON_SELECTED = IMAGES_DIRECTORY + "lightbulb_icon_selected.png";
-    public static final String RESISTOR_IMAGE = IMAGES_DIRECTORY + "resistor.png";
-    public static final String SLIDER_KNOB_IMAGE = IMAGES_DIRECTORY + "sliderKnob.png";
-    public static final String SLIDER_KNOB_HIGHLIGHT_IMAGE = IMAGES_DIRECTORY + "sliderKnobHighlight.png";
-    public static final String TURBINE_PIVOT_IMAGE = IMAGES_DIRECTORY + "turbinePivot.png";
-    public static final String VOLTMETER_IMAGE = IMAGES_DIRECTORY + "voltmeter.png";
-    public static final String VOLTMETER_ICON = IMAGES_DIRECTORY + "voltmeter_icon.png";
-    public static final String VOLTMETER_ICON_SELECTED = IMAGES_DIRECTORY + "voltmeter_icon_selected.png";
-    public static final String VOLTMETER_PROBE_BLACK_IMAGE = IMAGES_DIRECTORY + "voltmeterProbeBlack.png";
-    public static final String VOLTMETER_PROBE_RED_IMAGE = IMAGES_DIRECTORY + "voltmeterProbeRed.png";
-    public static final String WATER_WHEEL_IMAGE = IMAGES_DIRECTORY + "waterWheel.png";
+    public static final String AC_POWER_SUPPLY_IMAGE = "acPowerSupply.png";
+    public static final String AC_POWER_SUPPLY_ICON = "acPowerSupply_icon.png";
+    public static final String AC_POWER_SUPPLY_ICON_SELECTED = "acPowerSupply_icon_selected.png";
+    public static final String BAR_MAGNET_IMAGE = "barMagnet.png";
+    public static final String BATTERY_IMAGE = "battery.png";
+    public static final String BATTERY_ICON = "battery_icon.png";
+    public static final String BATTERY_ICON_SELECTED = "battery_icon_selected.png";
+    public static final String COMPASS_IMAGE = "compass.png";
+    public static final String ELECTRON_FOREGROUND_IMAGE = "electron_foreground.png";
+    public static final String ELECTRON_BACKGROUND_IMAGE = "electron_background.png";
+    public static final String FAUCET_IMAGE = "faucet.png";
+    public static final String FIELD_METER_IMAGE = "fieldMeter.png";
+    public static final String LIGHTBULB_IMAGE = "lightbulb.png";
+    public static final String LIGHTBULB_ICON = "lightbulb_icon.png";
+    public static final String LIGHTBULB_ICON_SELECTED = "lightbulb_icon_selected.png";
+    public static final String RESISTOR_IMAGE = "resistor.png";
+    public static final String SLIDER_KNOB_IMAGE = "sliderKnob.png";
+    public static final String SLIDER_KNOB_HIGHLIGHT_IMAGE = "sliderKnobHighlight.png";
+    public static final String TURBINE_PIVOT_IMAGE = "turbinePivot.png";
+    public static final String VOLTMETER_IMAGE = "voltmeter.png";
+    public static final String VOLTMETER_ICON = "voltmeter_icon.png";
+    public static final String VOLTMETER_ICON_SELECTED = "voltmeter_icon_selected.png";
+    public static final String VOLTMETER_PROBE_BLACK_IMAGE = "voltmeterProbeBlack.png";
+    public static final String VOLTMETER_PROBE_RED_IMAGE = "voltmeterProbeRed.png";
+    public static final String WATER_WHEEL_IMAGE = "waterWheel.png";
 
     //----------------------------------------------------------------------------
     // Bar Magnet parameters

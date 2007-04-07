@@ -12,19 +12,14 @@
 package edu.colorado.phet.faraday;
 
 import java.io.IOException;
-import java.util.Properties;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.util.PropertiesLoader;
-import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.control.menu.DeveloperMenu;
 import edu.colorado.phet.faraday.control.menu.OptionsMenu;
 import edu.colorado.phet.faraday.module.*;
 
 /**
- * FaradayApplication is the main application for the PhET
- * "Faraday's Law" simulation.
+ * FaradayApplication is the main application for the PhET "Faraday's Law" simulation.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -39,13 +34,9 @@ public class FaradayApplication extends PhetApplication {
      * Sole constructor.
      * 
      * @param args command line arguments
-     * @param title
-     * @param description
-     * @param version
-     * @param frameSetup
      */
-    public FaradayApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
-        super( args, title, description, version, frameSetup );
+    public FaradayApplication( String[] args ) {
+        super( args, FaradayResources.getConfig(), FaradayConstants.FRAME_SETUP );
         initModules();
         initMenubar();
     }
@@ -89,24 +80,9 @@ public class FaradayApplication extends PhetApplication {
      * @param args command line arguments
      */
     public static void main( String[] args ) throws IOException {
-        
-        // Initialize localization.
-        SimStrings.getInstance().init( args, FaradayConstants.SIM_STRINGS_NAME );
-        
-        // Load simulation properties file
-        Properties simulationProperties = PropertiesLoader.loadProperties( FaradayConstants.SIM_PROPERTIES_NAME );
-
-        // Get stuff needed to initialize the application model.
-        String title = SimStrings.getInstance().getString( "FaradayApplication.title" );
-        String description = SimStrings.getInstance().getString( "FaradayApplication.description" );
-        String version = PhetApplication.getVersionString( simulationProperties );
-        int width = FaradayConstants.APP_FRAME_WIDTH;
-        int height = FaradayConstants.APP_FRAME_HEIGHT;
-        FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
 
         // Create the application.
-        PhetApplication app = new FaradayApplication( args, title, description, version, frameSetup );
-        app.setSimulationProperties( simulationProperties );
+        PhetApplication app = new FaradayApplication( args );
         
         // Start the application.
         app.startApplication();

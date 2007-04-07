@@ -14,7 +14,7 @@ click on "Setup & Troubleshooting" for more
 information.
 
 -->
-<!-- JNLP File for PhET Faraday's Law simulation --> 
+<!-- Spansih (es) JNLP File for PhET Faraday's Law simulation --> 
 <jnlp
   spec="1.0+" 
   codebase="http://www.colorado.edu/physics/phet/simulations"
@@ -31,9 +31,8 @@ information.
   </information> 
   <resources> 
     <j2se version="1.4+"/> 
-    <jar href="faraday/faraday.jar"/> 
+    <jar href="faraday/faraday.jar"/>
+    <property name="javaws.locale" value="es"/>
   </resources> 
-  <application-desc main-class="edu.colorado.phet.faraday.FaradayApplication">
-	<argument>user.language=es</argument>
-  </application-desc> 
+  <application-desc main-class="edu.colorado.phet.faraday.FaradayApplication"/>
 </jnlp> 

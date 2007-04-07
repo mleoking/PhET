@@ -21,8 +21,8 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.*;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.model.Voltmeter;
 
 /**
@@ -195,12 +195,13 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
             graphicLayerSet.setRenderingHints( hints );    
             
             // Meter body
-            PhetImageGraphic body = new PhetImageGraphic( component, FaradayConstants.VOLTMETER_IMAGE );
+            BufferedImage voltMeterImage = FaradayResources.getImage( FaradayConstants.VOLTMETER_IMAGE );
+            PhetImageGraphic body = new PhetImageGraphic( component, voltMeterImage );
             graphicLayerSet.addGraphic( body, BODY_LAYER );
             
             // Title label
             {
-                String s = SimStrings.getInstance().getString( "VoltmeterGraphic.title" );
+                String s = FaradayResources.getString( "VoltmeterGraphic.title" );
                 PhetTextGraphic title = new PhetTextGraphic( component, TITLE_FONT, s, TITLE_COLOR );
                 title.centerRegistrationPoint();
                 title.setLocation( body.getWidth() / 2, body.getHeight() + 3 );
@@ -271,7 +272,8 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
             }
 
             // Resistor
-            PhetImageGraphic resistor = new PhetImageGraphic( component, FaradayConstants.RESISTOR_IMAGE );
+            BufferedImage resistorImage = FaradayResources.getImage( FaradayConstants.RESISTOR_IMAGE );
+            PhetImageGraphic resistor = new PhetImageGraphic( component, resistorImage );
             resistor.centerRegistrationPoint();
             resistor.setLocation( body.getWidth() / 2, body.getHeight() + 40 );
             graphicLayerSet.addGraphic( resistor, RESISTOR_LAYER );
@@ -281,11 +283,13 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
                 int xOffset = 53;
                 int yOffset = body.getHeight() - 52;
                 
-                PhetImageGraphic leftProbe = new PhetImageGraphic( component, FaradayConstants.VOLTMETER_PROBE_RED_IMAGE );
+                BufferedImage leftProbeImage = FaradayResources.getImage( FaradayConstants.VOLTMETER_PROBE_RED_IMAGE );
+                PhetImageGraphic leftProbe = new PhetImageGraphic( component, leftProbeImage );
                 leftProbe.setLocation( xOffset, yOffset );
                 graphicLayerSet.addGraphic( leftProbe, PROBE_LAYER );
                 
-                PhetImageGraphic rightProbe = new PhetImageGraphic( component, FaradayConstants.VOLTMETER_PROBE_BLACK_IMAGE );
+                BufferedImage rightProbeImage = FaradayResources.getImage( FaradayConstants.VOLTMETER_PROBE_BLACK_IMAGE );
+                PhetImageGraphic rightProbe = new PhetImageGraphic( component, rightProbeImage );
                 rightProbe.setLocation( xOffset + resistor.getWidth() + 2, leftProbe.getY() );
                 graphicLayerSet.addGraphic( rightProbe, PROBE_LAYER );
             }

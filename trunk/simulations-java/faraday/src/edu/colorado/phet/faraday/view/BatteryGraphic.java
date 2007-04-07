@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
 
 import javax.swing.event.ChangeEvent;
@@ -24,8 +25,8 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.control.FaradaySlider;
 import edu.colorado.phet.faraday.control.GraphicSlider;
 import edu.colorado.phet.faraday.model.Battery;
@@ -79,7 +80,8 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
         
         // Battery image
         {
-            _batteryGraphic = new PhetImageGraphic( component, FaradayConstants.BATTERY_IMAGE );
+            BufferedImage batteryImage = FaradayResources.getImage( FaradayConstants.BATTERY_IMAGE );
+            _batteryGraphic = new PhetImageGraphic( component, batteryImage );
             addGraphic( _batteryGraphic, BATTERY_LAYER );
  
             // Registration point at top center.
@@ -160,7 +162,7 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
             {
                 // Format the text
                 Object[] args = { new Double( Math.abs(voltage) ) };
-                String text = MessageFormat.format( SimStrings.getInstance().getString( "BatteryGraphic.voltage" ), args );
+                String text = MessageFormat.format( FaradayResources.getString( "BatteryGraphic.voltage" ), args );
                 _amplitudeValue.setText( text );
 
                 // Move the voltage label to the positive end of the battery

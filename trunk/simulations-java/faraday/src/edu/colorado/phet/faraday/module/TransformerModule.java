@@ -18,8 +18,8 @@ import java.awt.Point;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
@@ -110,7 +110,7 @@ public class TransformerModule extends FaradayModule {
      */
     public TransformerModule() {
 
-        super( SimStrings.getInstance().getString( "TransformerModule.title" ) );
+        super( FaradayResources.getString( "TransformerModule.title" ) );
 
         //----------------------------------------------------------------------------
         // Model
@@ -388,7 +388,7 @@ public class TransformerModule extends FaradayModule {
             
             _count = 0;
             
-            setText( SimStrings.getInstance().getString( "TransformerModule.challenge" ), null, Color.RED );
+            setText( FaradayResources.getString( "TransformerModule.challenge" ), null, Color.RED );
             setRange( 20, 20 );
             setEnabled( true );
         }

@@ -15,7 +15,6 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -24,9 +23,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.control.ControlPanelSlider;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
@@ -93,7 +91,7 @@ public class PickupCoilPanel extends FaradayPanel {
         
         //  Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
-        String title = SimStrings.getInstance().getString( "PickupCoilPanel.title" );
+        String title = FaradayResources.getString( "PickupCoilPanel.title" );
         TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
         titleBorder.setTitleFont( getTitleFont() );
         setBorder( titleBorder );
@@ -101,40 +99,28 @@ public class PickupCoilPanel extends FaradayPanel {
         JPanel indicatorPanel = new JPanel();
         {
             // Title
-            TitledBorder indicatorBorder = new TitledBorder( SimStrings.getInstance().getString( "PickupCoilPanel.indicator" ) );
+            TitledBorder indicatorBorder = new TitledBorder( FaradayResources.getString( "PickupCoilPanel.indicator" ) );
             indicatorPanel.setBorder( indicatorBorder );
 
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( indicatorPanel );
             indicatorPanel.setLayout( layout );
-            
-            // Radio buttons
-            try {
-                // Radio buttons with icons.
-                ImageIcon lightbulbIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.LIGHTBULB_ICON ) );
-                ImageIcon lightbulbIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.LIGHTBULB_ICON_SELECTED ) );
-                _lightbulbRadioButton = new JRadioButton( lightbulbIcon );
-                _lightbulbRadioButton.setSelectedIcon( lightbulbIconSelected );
-                
-                ImageIcon voltmeterIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.VOLTMETER_ICON ) );
-                ImageIcon voltmeterIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConstants.VOLTMETER_ICON_SELECTED ) );
-                _voltmeterRadioButton = new JRadioButton( voltmeterIcon );
-                _voltmeterRadioButton.setSelectedIcon( voltmeterIconSelected );
-                
-                // Horizontal layout.
-                layout.addAnchoredComponent( _lightbulbRadioButton, 0, 0, GridBagConstraints.WEST );
-                layout.addAnchoredComponent( _voltmeterRadioButton, 0, 1, GridBagConstraints.WEST );
-            }
-            catch ( IOException ioe ) {
-                // Radio buttons with text.
-                _lightbulbRadioButton = new JRadioButton( SimStrings.getInstance().getString( "PickupCoilPanel.lightbulb" ) );
-                _voltmeterRadioButton = new JRadioButton( SimStrings.getInstance().getString( "PickupCoilPanel.voltmeter" ) );
-                
-                // Vertical layout
-                layout.addAnchoredComponent( _lightbulbRadioButton, 0, 0, GridBagConstraints.WEST );
-                layout.addAnchoredComponent( _voltmeterRadioButton, 1, 0, GridBagConstraints.WEST );
-            }
-            
+
+            // Radio buttons with icons.
+            ImageIcon lightbulbIcon = new ImageIcon( FaradayResources.getImage( FaradayConstants.LIGHTBULB_ICON ) );
+            ImageIcon lightbulbIconSelected = new ImageIcon( FaradayResources.getImage( FaradayConstants.LIGHTBULB_ICON_SELECTED ) );
+            _lightbulbRadioButton = new JRadioButton( lightbulbIcon );
+            _lightbulbRadioButton.setSelectedIcon( lightbulbIconSelected );
+
+            ImageIcon voltmeterIcon = new ImageIcon( FaradayResources.getImage( FaradayConstants.VOLTMETER_ICON ) );
+            ImageIcon voltmeterIconSelected = new ImageIcon( FaradayResources.getImage( FaradayConstants.VOLTMETER_ICON_SELECTED ) );
+            _voltmeterRadioButton = new JRadioButton( voltmeterIcon );
+            _voltmeterRadioButton.setSelectedIcon( voltmeterIconSelected );
+
+            // Horizontal layout.
+            layout.addAnchoredComponent( _lightbulbRadioButton, 0, 0, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( _voltmeterRadioButton, 0, 1, GridBagConstraints.WEST );
+
             // Button group
             ButtonGroup group = new ButtonGroup();
             group.add( _lightbulbRadioButton );
@@ -144,7 +130,7 @@ public class PickupCoilPanel extends FaradayPanel {
         // Number of loops
         JPanel loopsPanel = new JPanel();
         {
-            JLabel loopsLabel = new JLabel( SimStrings.getInstance().getString( "PickupCoilPanel.numberOfLoops" ) );
+            JLabel loopsLabel = new JLabel( FaradayResources.getString( "PickupCoilPanel.numberOfLoops" ) );
 
             // Spinner, keyboard editing disabled.
             SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
@@ -175,7 +161,7 @@ public class PickupCoilPanel extends FaradayPanel {
             int range = max - min;
 
             // Slider
-            String format = SimStrings.getInstance().getString( "PickupCoilPanel.area" );
+            String format = FaradayResources.getString( "PickupCoilPanel.area" );
             _areaSlider = new ControlPanelSlider( format );
             _areaSlider.setMaximum( max );
             _areaSlider.setMinimum( min );
@@ -186,7 +172,7 @@ public class PickupCoilPanel extends FaradayPanel {
         }
         
         // Electrons on/off
-        _electronsCheckBox = new JCheckBox( SimStrings.getInstance().getString( "PickupCoilPanel.showElectrons" ) );
+        _electronsCheckBox = new JCheckBox( FaradayResources.getString( "PickupCoilPanel.showElectrons" ) );
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
