@@ -26,6 +26,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.enums.BSWellType;
@@ -35,7 +36,6 @@ import edu.colorado.phet.boundstates.view.ViewLegend;
 import edu.colorado.phet.common.util.DoubleRange;
 import edu.colorado.phet.common.util.IntegerRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
@@ -100,21 +100,18 @@ public class BSControlPanel extends BSAbstractControlPanel {
         _module = module;
 
         // Set the control panel's minimum width.
-        String widthString = SimStrings.getInstance().getString( "width.controlPanel" );
-        if ( widthString != null ) {
-            int width = Integer.parseInt( widthString );
-            setMinumumWidth( width );
-        }
+        int width = BSResources.getInt( "width.controlPanel", 235 );
+        setMinumumWidth( width );
 
         // Energy chart controls
         JPanel energyControlsPanel = new JPanel();
         {
             // Titled border
-            String title = SimStrings.getInstance().getString( "title.energyChartControls" );
+            String title = BSResources.getString( "title.energyChartControls" );
             energyControlsPanel.setBorder( new TitledBorder( title ) );
 
             // Well type 
-            JLabel wellTypeLabel = new JLabel( SimStrings.getInstance().getString( "label.wellType" ) );
+            JLabel wellTypeLabel = new JLabel( BSResources.getString( "label.wellType" ) );
             _wellTypeComboBox = new BSWellComboBox();
             BSWellType[] wellTypes = moduleSpec.getWellTypes();
             for ( int i = 0; i < wellTypes.length; i++ ) {
@@ -127,16 +124,16 @@ public class BSControlPanel extends BSAbstractControlPanel {
                     numberOfWellsRange.getDefault(),
                     numberOfWellsRange.getMin(), 
                     numberOfWellsRange.getMax(),
-                    1, 0, 0, SimStrings.getInstance().getString( "label.numberOfWells" ), "", 2, SLIDER_INSETS );
+                    1, 0, 0, BSResources.getString( "label.numberOfWells" ), "", 2, SLIDER_INSETS );
             _numberOfWellsSlider.setTextEditable( true );
             _numberOfWellsSlider.setNotifyWhileDragging( false );
             _numberOfWellsSlider.getSlider().setSnapToTicks( true );
             
             // Configure button
-            _configureEnergyButton = new JButton( SimStrings.getInstance().getString( "button.configureEnergy" ) );
+            _configureEnergyButton = new JButton( BSResources.getString( "button.configureEnergy" ) );
 
             // Superposition button
-            _superpositionButton = new JButton( SimStrings.getInstance().getString( "button.superposition" ) );
+            _superpositionButton = new JButton( BSResources.getString( "button.superposition" ) );
             
             // Field constant
             DoubleRange fieldConstantRange = moduleSpec.getFieldConstantRange();
@@ -146,8 +143,8 @@ public class BSControlPanel extends BSAbstractControlPanel {
             final double tickSpacing = 0.5;
             final int tickDecimalPlaces = 1;
             final int valueDecimalPlaces = fieldConstantRange.getSignificantDecimalPlaces();
-            String label = SimStrings.getInstance().getString( "label.fieldConstant" );
-            String units = SimStrings.getInstance().getString( "units.fieldConstant" );
+            String label = BSResources.getString( "label.fieldConstant" );
+            String units = BSResources.getString( "units.fieldConstant" );
             final int columns = 3;
             _fieldConstantSlider = new SliderControl( value, min, max, 
                     tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
@@ -155,7 +152,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _fieldConstantSlider.setNotifyWhileDragging( false );
             
             // Magnifying glass on/off
-            String magnifyingGlassLabel = SimStrings.getInstance().getString( "choice.magnifyingGlass" ) + " (?x)";
+            String magnifyingGlassLabel = BSResources.getString( "choice.magnifyingGlass" ) + " (?x)";
             _magnifyingGlassCheckBox = new JCheckBox( magnifyingGlassLabel );
             
             // Layout
@@ -195,19 +192,19 @@ public class BSControlPanel extends BSAbstractControlPanel {
         JPanel bottomChartControlsPanel = new JPanel();
         {          
             // Title
-            String title = SimStrings.getInstance().getString( "title.bottomChartControls" );
+            String title = BSResources.getString( "title.bottomChartControls" );
             bottomChartControlsPanel.setBorder( new TitledBorder( title ) );
             
             // Display 
             JPanel displayPanel = new JPanel();
             {
                 // Display label
-                JLabel label = new JLabel( SimStrings.getInstance().getString( "label.display" ) );
+                JLabel label = new JLabel( BSResources.getString( "label.display" ) );
 
                 // Radio buttons
-                _averageProbabilityDensityRadioButton = new JRadioButton( SimStrings.getInstance().getString( "choice.display.averageProbabilityDensity" ) );
-                _probabilityDensityRadioButton = new JRadioButton( SimStrings.getInstance().getString( "choice.display.probabilityDensity" ) );
-                _waveFunctionRadioButton = new JRadioButton( SimStrings.getInstance().getString( "choice.display.waveFunction" ) );
+                _averageProbabilityDensityRadioButton = new JRadioButton( BSResources.getString( "choice.display.averageProbabilityDensity" ) );
+                _probabilityDensityRadioButton = new JRadioButton( BSResources.getString( "choice.display.probabilityDensity" ) );
+                _waveFunctionRadioButton = new JRadioButton( BSResources.getString( "choice.display.waveFunction" ) );
 
                 // Button group
                 ButtonGroup buttonGroup = new ButtonGroup();
@@ -242,11 +239,11 @@ public class BSControlPanel extends BSAbstractControlPanel {
             // View 
             JPanel viewPanel = new JPanel();
             {
-                JLabel label = new JLabel( SimStrings.getInstance().getString( "label.view" ) );
-                _realCheckBox = new JCheckBox( SimStrings.getInstance().getString( "choice.view.real" ) );
-                _imaginaryCheckBox = new JCheckBox( SimStrings.getInstance().getString( "choice.view.imaginary" ) );
-                _magnitudeCheckBox = new JCheckBox( SimStrings.getInstance().getString( "choice.view.magnitude" ) );
-                _phaseCheckBox = new JCheckBox( SimStrings.getInstance().getString( "choice.view.phase" ) );
+                JLabel label = new JLabel( BSResources.getString( "label.view" ) );
+                _realCheckBox = new JCheckBox( BSResources.getString( "choice.view.real" ) );
+                _imaginaryCheckBox = new JCheckBox( BSResources.getString( "choice.view.imaginary" ) );
+                _magnitudeCheckBox = new JCheckBox( BSResources.getString( "choice.view.magnitude" ) );
+                _phaseCheckBox = new JCheckBox( BSResources.getString( "choice.view.phase" ) );
 
                 // Real
                 JPanel realPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
@@ -320,7 +317,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             final double max = massMultiplierRange.getMax();
             final double tickSpacing = ( max - min );
             final int decimalPlaces = massMultiplierRange.getSignificantDecimalPlaces();
-            String massLabel = SimStrings.getInstance().getString( "label.particleMass" );
+            String massLabel = BSResources.getString( "label.particleMass" );
             String massUnits = "<html>m<sub>e</sub></html>";
             final int columns = 3;
             _massMultiplierSlider = new BSMassMultiplierSlider( value, min, max,
@@ -414,7 +411,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
 
     public void setMagnification( double magnification ) {
         String magString = BSConstants.MAGNIFICATION_FORMAT.format( magnification );
-        String text = SimStrings.getInstance().getString( "choice.magnifyingGlass" ) + " (" + magString + "x)";
+        String text = BSResources.getString( "choice.magnifyingGlass" ) + " (" + magString + "x)";
         _magnifyingGlassCheckBox.setText( text );
     }
     

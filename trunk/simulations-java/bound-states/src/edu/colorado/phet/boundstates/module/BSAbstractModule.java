@@ -27,6 +27,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.control.BSClockControls;
 import edu.colorado.phet.boundstates.control.BSControlPanel;
@@ -45,7 +46,6 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.jfreechart.piccolo.XYPlotNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
@@ -361,25 +361,25 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         if ( hasHelp() ) {
             HelpPane helpPane = getDefaultHelpPane();
             
-            HelpBalloon restartHelp = new HelpBalloon( helpPane, SimStrings.getInstance().getString( "help.restart" ), HelpBalloon.BOTTOM_LEFT, 80 );
+            HelpBalloon restartHelp = new HelpBalloon( helpPane, BSResources.getString( "help.restart" ), HelpBalloon.BOTTOM_LEFT, 80 );
             helpPane.add(  restartHelp );
             restartHelp.pointAt( _clockControls.getRestartComponent() );
             
-            HelpBalloon clockSpeedHelp = new HelpBalloon( helpPane, SimStrings.getInstance().getString( "help.clockSpeed" ), HelpBalloon.BOTTOM_RIGHT, 80 );
+            HelpBalloon clockSpeedHelp = new HelpBalloon( helpPane, BSResources.getString( "help.clockSpeed" ), HelpBalloon.BOTTOM_RIGHT, 80 );
             helpPane.add(  clockSpeedHelp );
             clockSpeedHelp.pointAt( _clockControls.getClockIndexComponent() );
             
             if ( _magnifyingGlass != null ) {
-                HelpBalloon magnifyingGlassHelp = new HelpBalloon( helpPane, SimStrings.getInstance().getString( "help.magnifyingGlass" ), HelpBalloon.RIGHT_CENTER, 20 );
+                HelpBalloon magnifyingGlassHelp = new HelpBalloon( helpPane, BSResources.getString( "help.magnifyingGlass" ), HelpBalloon.RIGHT_CENTER, 20 );
                 helpPane.add( magnifyingGlassHelp );
                 magnifyingGlassHelp.pointAt( _magnifyingGlass.getPartsNode(), _canvas );
             }
             
-            HelpBalloon zoomHelp = new HelpBalloon( helpPane, SimStrings.getInstance().getString( "help.zoom" ), HelpBalloon.RIGHT_CENTER, 20 );
+            HelpBalloon zoomHelp = new HelpBalloon( helpPane, BSResources.getString( "help.zoom" ), HelpBalloon.RIGHT_CENTER, 20 );
             helpPane.add( zoomHelp );
             zoomHelp.pointAt( _energyZoomControlNode, _canvas );
             
-            _dragHandleHelp = new HelpBalloon( helpPane, SimStrings.getInstance().getString( "help.dragHandle" ), HelpBalloon.RIGHT_CENTER, 20 );
+            _dragHandleHelp = new HelpBalloon( helpPane, BSResources.getString( "help.dragHandle" ), HelpBalloon.RIGHT_CENTER, 20 );
             helpPane.add( _dragHandleHelp );
         }
 
@@ -781,7 +781,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private void addWiggleMe() {
         if ( _wiggleMe == null ) {
             // Wiggle Me that points at the eigenstates
-            String wiggleMeString = SimStrings.getInstance().getString( "wiggleMe.eigenstates" );
+            String wiggleMeString = BSResources.getString( "wiggleMe.eigenstates" );
             _wiggleMe = new BSWiggleMe( _canvas, wiggleMeString );
             _parentNode.addChild( _wiggleMe );
             _wiggleMe.setOffset( 250, -50 );

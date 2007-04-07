@@ -19,12 +19,12 @@ import javax.swing.JSeparator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSAsymmetricPotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.common.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
@@ -51,7 +51,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
      * Constructor.
      */
     public BSAsymmetricDialog( Frame parent, BSAsymmetricPotential potential, BSPotentialSpec potentialSpec ) {
-        super( parent, SimStrings.getInstance().getString( "BSAsymmetricDialog.title" ), potential );
+        super( parent, BSResources.getString( "BSAsymmetricDialog.title" ), potential );
         JPanel inputPanel = createInputPanel( potentialSpec );
         createUI( inputPanel );
         updateControls();
@@ -64,8 +64,8 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
      */
     private JPanel createInputPanel( BSPotentialSpec potentialSpec ) {
         
-        String positionUnits = SimStrings.getInstance().getString( "units.position" );
-        String energyUnits = SimStrings.getInstance().getString( "units.energy" );
+        String positionUnits = BSResources.getString( "units.position" );
+        String energyUnits = BSResources.getString( "units.energy" );
      
         // Offset
         {
@@ -77,7 +77,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
             int tickDecimalPlaces = offsetRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String offsetLabel = SimStrings.getInstance().getString( "label.wellOffset" );
+            String offsetLabel = BSResources.getString( "label.wellOffset" );
             _offsetSlider = new SliderControl( value, min, max, 
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
                     offsetLabel, energyUnits, columns, SLIDER_INSETS );
@@ -95,7 +95,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
             int tickDecimalPlaces = heightRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String heightLabel = SimStrings.getInstance().getString( "label.wellHeight" );
+            String heightLabel = BSResources.getString( "label.wellHeight" );
             _heightSlider = new SliderControl( value, min, max, 
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
                     heightLabel, energyUnits, columns, SLIDER_INSETS );
@@ -113,7 +113,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Cha
             int tickDecimalPlaces = widthRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String widthLabel = SimStrings.getInstance().getString( "label.wellWidth" );
+            String widthLabel = BSResources.getString( "label.wellWidth" );
             _widthSlider = new SliderControl( value, min, max, 
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
                     widthLabel, positionUnits, columns, SLIDER_INSETS );

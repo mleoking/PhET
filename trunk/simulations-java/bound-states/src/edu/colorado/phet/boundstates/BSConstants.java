@@ -18,6 +18,7 @@ import org.jfree.data.Range;
 
 import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.common.view.util.FrameSetup;
 
 
 /**
@@ -35,18 +36,12 @@ public class BSConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    private static final String PROJECT = "bound-states";
+    public static final String PROJECT = "bound-states";
+    public static final String FLAVOR_COVALENT_BONDS = "covalent-bonds";
+    public static final String FLAVOR_BAND_STRUCTURE = "band-structure";
     
-    public static final int APP_FRAME_WIDTH = 1024;
-    public static final int APP_FRAME_HEIGHT = 768;
+    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
-    //----------------------------------------------------------------------------
-    // Properties files
-    //----------------------------------------------------------------------------
-    
-    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
-    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
-
     //----------------------------------------------------------------------------
     // Clock
     //----------------------------------------------------------------------------
@@ -127,11 +122,9 @@ public class BSConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String IMAGES_DIRECTORY = PROJECT + "/images/";
-    
-    public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
-    public static final String IMAGE_ZOOM_IN = IMAGES_DIRECTORY + "zoomIn.gif";
-    public static final String IMAGE_ZOOM_OUT = IMAGES_DIRECTORY + "zoomOut.gif";
+    public static final String IMAGE_CLOCK = "clock.png";
+    public static final String IMAGE_ZOOM_IN = "zoomIn.gif";
+    public static final String IMAGE_ZOOM_OUT = "zoomOut.gif";
 
     //----------------------------------------------------------------------------
     // Cursors

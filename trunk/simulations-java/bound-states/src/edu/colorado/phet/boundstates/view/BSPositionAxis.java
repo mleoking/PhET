@@ -16,7 +16,7 @@ import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.TickUnits;
 
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.boundstates.BSResources;
 
 
 /**
@@ -32,7 +32,7 @@ public class BSPositionAxis extends NumberAxis {
         
         setRange( BSConstants.POSITION_VIEW_RANGE );
         
-        String label = SimStrings.getInstance().getString( "axis.position" ) + " (" + SimStrings.getInstance().getString( "units.position" ) + ")";
+        String label = BSResources.getString( "axis.position" ) + " (" + BSResources.getString( "units.position" ) + ")";
         setLabel( label );
         setLabelFont( BSConstants.AXIS_LABEL_FONT );
         setTickLabelFont( BSConstants.AXIS_TICK_LABEL_FONT );

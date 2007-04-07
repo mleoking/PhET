@@ -16,10 +16,10 @@ import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.axis.ValueAxis;
 
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * BSSquareSeparationHandle is the drag handle used to control the 
@@ -53,7 +53,7 @@ public class BSSquareSeparationHandle extends BSPotentialHandle {
         int significantDecimalPlaces = potentialSpec.getSeparationRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
         setValueNumberFormat( numberFormat );
-        setValuePattern( SimStrings.getInstance().getString( "drag.separation" ) );
+        setValuePattern( BSResources.getString( "drag.separation" ) );
         
         updateDragBounds();
     }

@@ -13,7 +13,6 @@ package edu.colorado.phet.boundstates.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
 

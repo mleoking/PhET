@@ -22,12 +22,12 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
-import edu.colorado.phet.boundstates.model.*;
+import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
@@ -111,9 +111,9 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         super();
         
         // Labels
-        _waveFunctionLabel = SimStrings.getInstance().getString( "axis.waveFunction" );
-        _probabilityDensityLabel = SimStrings.getInstance().getString( "axis.probabilityDensity" );
-        _averageProbabilityDensityLabel = SimStrings.getInstance().getString( "axis.averageProbabilityDensity" );
+        _waveFunctionLabel = BSResources.getString( "axis.waveFunction" );
+        _probabilityDensityLabel = BSResources.getString( "axis.probabilityDensity" );
+        _averageProbabilityDensityLabel = BSResources.getString( "axis.averageProbabilityDensity" );
         
         int index = 0;
         

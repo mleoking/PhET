@@ -23,10 +23,10 @@ import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.boundstates.BSAbstractApplication;
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
@@ -85,7 +85,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
      */
     public BSColorSchemeDialog( BSAbstractApplication app, BSColorScheme scheme ) {
         super( PhetApplication.instance().getPhetFrame() );
-        super.setTitle( SimStrings.getInstance().getString( "title.colorScheme" ) );
+        super.setTitle( BSResources.getString( "title.colorScheme" ) );
         super.setModal( false );
         super.setResizable( false );
         _parent = PhetApplication.instance().getPhetFrame();
@@ -149,7 +149,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Chart section
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.chartSection" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.chartSection" ) );
             label.setFont( titleFont );
             inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.WEST );
             row++;
@@ -157,7 +157,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Chart background
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.chartBackground" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.chartBackground" ) );
             _chartChip = new JLabel();
             setColor( _chartChip, _scheme.getChartColor() );
             _chartChip.addMouseListener( listener );
@@ -168,7 +168,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Ticks
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.ticks" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.ticks" ) );
             _ticksChip = new JLabel();
             setColor( _ticksChip, _scheme.getTickColor() );
             _ticksChip.addMouseListener( listener );
@@ -179,7 +179,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Gridlines
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.gridlines" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.gridlines" ) );
             _gridlinesChip = new JLabel();
             setColor( _gridlinesChip, _scheme.getGridlineColor() );
             _gridlinesChip.addMouseListener( listener );
@@ -194,7 +194,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Energy Plots section
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.energySection" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.energySection" ) );
             label.setFont( titleFont );
             inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.WEST );
             row++;
@@ -202,7 +202,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Potential Energy
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.potentialEnergy" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.potentialEnergy" ) );
             _potentialEnergyChip = new JLabel();
             setColor( _potentialEnergyChip, _scheme.getPotentialEnergyColor() );
             _potentialEnergyChip.addMouseListener( listener );
@@ -213,7 +213,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Eigenstate normal
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.eigenstateNormal" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.eigenstateNormal" ) );
             _eigenstateNormalChip = new JLabel();
             setColor( _eigenstateNormalChip, _scheme.getEigenstateNormalColor() );
             _eigenstateNormalChip.addMouseListener( listener );
@@ -224,7 +224,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Eigenstate hilite
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.eigenstateHilite" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.eigenstateHilite" ) );
             _eigenstateHiliteChip = new JLabel();
             setColor( _eigenstateHiliteChip, _scheme.getEigenstateHiliteColor() );
             _eigenstateHiliteChip.addMouseListener( listener );
@@ -235,7 +235,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Eigenstate selection
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.eigenstateSelection" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.eigenstateSelection" ) );
             _eigenstateSelectionChip = new JLabel();
             setColor( _eigenstateSelectionChip, _scheme.getEigenstateSelectionColor() );
             _eigenstateSelectionChip.addMouseListener( listener );
@@ -250,7 +250,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Wave Function Plots section
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.waveFunctionSection" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.waveFunctionSection" ) );
             label.setFont( titleFont );
             inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.WEST );
             row++;
@@ -258,7 +258,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Real
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.real" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.real" ) );
             _realChip = new JLabel();
             setColor( _realChip, _scheme.getRealColor() );
             _realChip.addMouseListener( listener );
@@ -269,7 +269,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Imaginary
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.imaginary" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.imaginary" ) );
             _imaginaryChip = new JLabel();
             setColor( _imaginaryChip, _scheme.getImaginaryColor() );
             _imaginaryChip.addMouseListener( listener );
@@ -280,7 +280,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Magnitude
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.magnitude" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.magnitude" ) );
             _magnitudeChip = new JLabel();
             setColor( _magnitudeChip, _scheme.getMagnitudeColor() );
             _magnitudeChip.addMouseListener( listener );
@@ -295,7 +295,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Magnifying Glass section
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.magnifyingGlassSection" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.magnifyingGlassSection" ) );
             label.setFont( titleFont );
             inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.WEST );
             row++;
@@ -303,7 +303,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Magnifying Glass bezel
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.magnifyingGlassBezel" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.magnifyingGlassBezel" ) );
             _magnifyingGlassBezelChip = new JLabel();
             setColor( _magnifyingGlassBezelChip, _scheme.getMagnifyingGlassBezelColor() );
             _magnifyingGlassBezelChip.addMouseListener( listener );
@@ -314,7 +314,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Magnifying Glass handle
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.magnifyingGlassHandle" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.magnifyingGlassHandle" ) );
             _magnifyingGlassHandleChip = new JLabel();
             setColor( _magnifyingGlassHandleChip, _scheme.getMagnifyingGlassHandleColor() );
             _magnifyingGlassHandleChip.addMouseListener( listener );
@@ -329,7 +329,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Drag Handles section
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.dragHandleSection" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.dragHandleSection" ) );
             label.setFont( titleFont );
             inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.WEST );
             row++;
@@ -337,7 +337,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Drag handle "normal" color
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.dragHandle" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.dragHandle" ) );
             _dragHandleChip = new JLabel();
             setColor( _dragHandleChip, _scheme.getDragHandleColor() );
             _dragHandleChip.addMouseListener( listener );
@@ -348,7 +348,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Drag handle "hilite" color
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.dragHandleHilite" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.dragHandleHilite" ) );
             _dragHandleHiliteChip = new JLabel();
             setColor( _dragHandleHiliteChip, _scheme.getDragHandleHiliteColor() );
             _dragHandleHiliteChip.addMouseListener( listener );
@@ -359,7 +359,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Drag handle "value" color
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.dragHandleValue" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.dragHandleValue" ) );
             _dragHandleValueChip = new JLabel();
             setColor( _dragHandleValueChip, _scheme.getDragHandleValueColor() );
             _dragHandleValueChip.addMouseListener( listener );
@@ -370,7 +370,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         
         // Drag handle "markers" color
         {
-            JLabel label = new JLabel( SimStrings.getInstance().getString( "label.color.dragHandleMarkers" ) );
+            JLabel label = new JLabel( BSResources.getString( "label.color.dragHandleMarkers" ) );
             _dragHandleMarkersChip = new JLabel();
             setColor( _dragHandleMarkersChip, _scheme.getDragHandleMarkersColor() );
             _dragHandleMarkersChip.addMouseListener( listener );
@@ -389,14 +389,14 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
      */
     private JPanel createActionsPanel() {
 
-        _okButton = new JButton( SimStrings.getInstance().getString( "choice.ok" ) );
+        _okButton = new JButton( BSResources.getString( "choice.ok" ) );
         _okButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
             }
         });
 
-        _cancelButton = new JButton( SimStrings.getInstance().getString( "choice.cancel" ) );
+        _cancelButton = new JButton( BSResources.getString( "choice.cancel" ) );
         _cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 restoreColors();
@@ -431,74 +431,74 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         Color initialColor = null;
         
         if ( _currentChip == _chartChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.chartBackground" );
+            titlePrefix = BSResources.getString( "label.color.chartBackground" );
             initialColor = _scheme.getChartColor();
         }
         else if ( _currentChip == _ticksChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.ticks" );
+            titlePrefix = BSResources.getString( "label.color.ticks" );
             initialColor = _scheme.getTickColor();
         }
         else if ( _currentChip == _gridlinesChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.gridlines" );
+            titlePrefix = BSResources.getString( "label.color.gridlines" );
             initialColor = _scheme.getGridlineColor();
         }
         else if ( _currentChip == _eigenstateNormalChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.eigenstateNormal" );
+            titlePrefix = BSResources.getString( "label.color.eigenstateNormal" );
             initialColor = _scheme.getEigenstateNormalColor();
         }
         else if ( _currentChip == _eigenstateHiliteChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.eigenstateHilite" );
+            titlePrefix = BSResources.getString( "label.color.eigenstateHilite" );
             initialColor = _scheme.getEigenstateHiliteColor();
         }
         else if ( _currentChip == _eigenstateSelectionChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.eigenstateSelection" );
+            titlePrefix = BSResources.getString( "label.color.eigenstateSelection" );
             initialColor = _scheme.getEigenstateSelectionColor();
         }
         else if ( _currentChip == _potentialEnergyChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.potentialEnergy" );
+            titlePrefix = BSResources.getString( "label.color.potentialEnergy" );
             initialColor = _scheme.getPotentialEnergyColor();
         }
         else if ( _currentChip == _realChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.real" );
+            titlePrefix = BSResources.getString( "label.color.real" );
             initialColor = _scheme.getRealColor();
         }
         else if ( _currentChip == _imaginaryChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.imaginary" );
+            titlePrefix = BSResources.getString( "label.color.imaginary" );
             initialColor = _scheme.getImaginaryColor();
         }
         else if ( _currentChip == _magnitudeChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.magnitude" );
+            titlePrefix = BSResources.getString( "label.color.magnitude" );
             initialColor = _scheme.getMagnitudeColor();
         }
         else if ( _currentChip == _magnifyingGlassBezelChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.magnifyingGlassBezel" );
+            titlePrefix = BSResources.getString( "label.color.magnifyingGlassBezel" );
             initialColor = _scheme.getMagnifyingGlassBezelColor();
         }
         else if ( _currentChip == _magnifyingGlassHandleChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.magnifyingGlassHandle" );
+            titlePrefix = BSResources.getString( "label.color.magnifyingGlassHandle" );
             initialColor = _scheme.getMagnifyingGlassHandleColor();
         }
         else if ( _currentChip == _dragHandleChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.dragHandle" );
+            titlePrefix = BSResources.getString( "label.color.dragHandle" );
             initialColor = _scheme.getDragHandleColor(); 
         }
         else if ( _currentChip == _dragHandleHiliteChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.dragHandleHilite" );
+            titlePrefix = BSResources.getString( "label.color.dragHandleHilite" );
             initialColor = _scheme.getDragHandleHiliteColor(); 
         }
         else if ( _currentChip == _dragHandleValueChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.dragHandleValue" );
+            titlePrefix = BSResources.getString( "label.color.dragHandleValue" );
             initialColor = _scheme.getDragHandleValueColor(); 
         }
         else if ( _currentChip == _dragHandleMarkersChip ) {
-            titlePrefix = SimStrings.getInstance().getString( "label.color.dragHandleMarkers" );
+            titlePrefix = BSResources.getString( "label.color.dragHandleMarkers" );
             initialColor = _scheme.getDragHandleMarkersColor(); 
         }
         else {
             throw new IllegalStateException( "unsupported color scheme property" );
         }
         
-        String title = titlePrefix + " " + SimStrings.getInstance().getString( "title.chooseColor" );
+        String title = titlePrefix + " " + BSResources.getString( "title.chooseColor" );
         
         closeColorChooser();
         _colorChooserDialog = ColorChooserFactory.createDialog( title, _parent, initialColor, this );

@@ -15,10 +15,7 @@ import java.awt.geom.Point2D;
 
 import org.jfree.data.xy.XYSeries;
 
-import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSWaveFunctionCache;
-import edu.colorado.phet.boundstates.util.Complex;
-import edu.colorado.phet.boundstates.util.MutableComplex;
 
 /**
  * BSAverageProbabilityDensityPlotter calculates the data series for the 

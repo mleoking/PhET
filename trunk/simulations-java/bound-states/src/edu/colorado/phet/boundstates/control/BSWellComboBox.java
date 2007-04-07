@@ -21,8 +21,8 @@ import java.util.Iterator;
 import javax.swing.*;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.enums.BSWellType;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
@@ -81,31 +81,31 @@ public class BSWellComboBox extends JComboBox {
     public void addChoice( BSWellType wellType ) {
         if ( wellType == BSWellType.ASYMMETRIC ) {
             ImageIcon icon = createAsymmetricIcon( _potentialColor );
-            WellChoice item = new WellChoice( wellType, SimStrings.getInstance().getString( "choice.well.asymmetric" ), icon );
+            WellChoice item = new WellChoice( wellType, BSResources.getString( "choice.well.asymmetric" ), icon );
             _choices.add( item );
             addItem( item ); 
         }
         else if ( wellType == BSWellType.COULOMB_1D ) {
             ImageIcon icon = createCoulombIcon( _potentialColor );
-            WellChoice item = new WellChoice( wellType, SimStrings.getInstance().getString( "choice.well.coulomb1D" ), icon );
+            WellChoice item = new WellChoice( wellType, BSResources.getString( "choice.well.coulomb1D" ), icon );
             _choices.add( item );
             addItem( item );
         }
         else if ( wellType == BSWellType.COULOMB_3D ) {
             ImageIcon icon = createCoulombIcon( _potentialColor );
-            WellChoice item = new WellChoice( wellType, SimStrings.getInstance().getString( "choice.well.coulomb3D" ), icon );
+            WellChoice item = new WellChoice( wellType, BSResources.getString( "choice.well.coulomb3D" ), icon );
             _choices.add( item );
             addItem( item );
         }
         else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
             ImageIcon icon = createHarmonicOscillatorIcon( _potentialColor );
-            WellChoice item = new WellChoice( wellType, SimStrings.getInstance().getString( "choice.well.harmonicOscillator" ), icon );
+            WellChoice item = new WellChoice( wellType, BSResources.getString( "choice.well.harmonicOscillator" ), icon );
             _choices.add( item );
             addItem( item );
         }
         else if ( wellType == BSWellType.SQUARE ) {
             ImageIcon icon = createSquareIcon( _potentialColor );
-            WellChoice item = new WellChoice( wellType, SimStrings.getInstance().getString( "choice.well.square" ), icon );
+            WellChoice item = new WellChoice( wellType, BSResources.getString( "choice.well.square" ), icon );
             _choices.add( item );
             addItem( item );
         }

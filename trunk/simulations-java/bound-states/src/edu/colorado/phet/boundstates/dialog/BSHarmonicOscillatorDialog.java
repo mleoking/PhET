@@ -19,12 +19,12 @@ import javax.swing.JSeparator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorPotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.common.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
@@ -51,7 +51,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
      * Constructor.
      */
     public BSHarmonicOscillatorDialog( Frame parent, BSHarmonicOscillatorPotential potential, BSPotentialSpec potentialSpec ) {
-        super( parent, SimStrings.getInstance().getString( "BSHarmonicOscillatorDialog.title" ), potential );
+        super( parent, BSResources.getString( "BSHarmonicOscillatorDialog.title" ), potential );
         JPanel inputPanel = createInputPanel( potentialSpec );
         createUI( inputPanel );
         updateControls();
@@ -68,8 +68,8 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
      */
     protected JPanel createInputPanel( BSPotentialSpec potentialSpec ) {
         
-        String angularFrequencyUnits = SimStrings.getInstance().getString( "units.angularFrequency" );
-        String energyUnits = SimStrings.getInstance().getString( "units.energy" );
+        String angularFrequencyUnits = BSResources.getString( "units.angularFrequency" );
+        String energyUnits = BSResources.getString( "units.energy" );
 
         // Offset
         {
@@ -81,7 +81,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
             int tickDecimalPlaces = offsetRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String offsetLabel = SimStrings.getInstance().getString( "label.wellOffset" );
+            String offsetLabel = BSResources.getString( "label.wellOffset" );
             _offsetSlider = new SliderControl( value, min, max, 
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
                     offsetLabel, energyUnits, columns, SLIDER_INSETS );
@@ -99,7 +99,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
             int tickDecimalPlaces = angularFrequencyRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String angularFrequencyLabel = SimStrings.getInstance().getString( "label.wellAngularFrequency" );
+            String angularFrequencyLabel = BSResources.getString( "label.wellAngularFrequency" );
             _angularFrequencySlider = new SliderControl( value, min, max, 
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
                     angularFrequencyLabel, angularFrequencyUnits, columns, SLIDER_INSETS );

@@ -15,11 +15,10 @@ import java.awt.geom.Point2D;
 
 import org.jfree.data.xy.XYSeries;
 
-import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.model.*;
-import edu.colorado.phet.boundstates.model.BSWaveFunctionCache.Item;
-import edu.colorado.phet.boundstates.util.Complex;
-import edu.colorado.phet.boundstates.util.MutableComplex;
+import edu.colorado.phet.boundstates.model.BSAbstractPotential;
+import edu.colorado.phet.boundstates.model.BSEigenstate;
+import edu.colorado.phet.boundstates.model.BSModel;
+import edu.colorado.phet.boundstates.model.BSWaveFunctionCache;
 
 
 /**

@@ -19,12 +19,12 @@ import javax.swing.JSeparator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.common.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
@@ -53,7 +53,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
      * Constructor.
      */
     public BSSquareDialog( Frame parent, BSSquarePotential potential, BSPotentialSpec potentialSpec, boolean offsetControlSupported ) {
-        super( parent, SimStrings.getInstance().getString( "BSSquareDialog.title" ), potential );
+        super( parent, BSResources.getString( "BSSquareDialog.title" ), potential );
         JPanel inputPanel = createInputPanel( potentialSpec, offsetControlSupported );
         createUI( inputPanel );
         updateControls();
@@ -66,8 +66,8 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
      */
     protected JPanel createInputPanel( BSPotentialSpec potentialSpec, boolean offsetControlSupported ) {
         
-        String positionUnits = SimStrings.getInstance().getString( "units.position" );
-        String energyUnits = SimStrings.getInstance().getString( "units.energy" );
+        String positionUnits = BSResources.getString( "units.position" );
+        String energyUnits = BSResources.getString( "units.energy" );
  
         // Offset
         {
@@ -79,7 +79,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
             int tickDecimalPlaces = offsetRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String offsetLabel = SimStrings.getInstance().getString( "label.wellOffset" );
+            String offsetLabel = BSResources.getString( "label.wellOffset" );
             _offsetSlider = new SliderControl( value, min, max,
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
                     offsetLabel, energyUnits, columns, SLIDER_INSETS );
@@ -97,7 +97,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
             int tickDecimalPlaces = heightRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String heightLabel = SimStrings.getInstance().getString( "label.wellHeight" );
+            String heightLabel = BSResources.getString( "label.wellHeight" );
             _heightSlider = new SliderControl( value, min, max,
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
                     heightLabel, energyUnits, columns, SLIDER_INSETS );
@@ -115,7 +115,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
             int tickDecimalPlaces = widthRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String widthLabel = SimStrings.getInstance().getString( "label.wellWidth" );
+            String widthLabel = BSResources.getString( "label.wellWidth" );
             _widthSlider = new SliderControl( value, min, max,
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
                     widthLabel, positionUnits, columns, SLIDER_INSETS );
@@ -133,7 +133,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements ChangeL
             int tickDecimalPlaces = separationRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String spacingLabel = SimStrings.getInstance().getString( "label.wellSeparation" );
+            String spacingLabel = BSResources.getString( "label.wellSeparation" );
             _separationSlider = new SliderControl( value, min, max,
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
                     spacingLabel, positionUnits, columns, SLIDER_INSETS );
