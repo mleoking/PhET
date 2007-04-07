@@ -109,7 +109,6 @@ public class PhetProjectConfig implements PhetResourceLoader, PhetPropertySource
         SimStrings strings = new SimStrings();
 
         strings.setLocale( locale );
-        strings.addStrings( LOCALIZATION_DIR + "CommonStrings" );
         strings.init( bundleName );
 
         return new PhetProjectConfig( dirname, flavor, locale, strings, new DefaultResourceLoader() );
