@@ -15,11 +15,11 @@ import java.awt.geom.AffineTransform;
 import java.util.Observable;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * BSHilitedEquation displays the wave function equation of the hilited eigenstate.
@@ -46,7 +46,7 @@ public class BSHilitedEquation extends BSAbstractWaveFunctionEquation {
     public BSHilitedEquation() {
         super();
         _xform = new AffineTransform();
-        _superpositionString = SimStrings.getInstance().getString( "label.equation.superposition" );
+        _superpositionString = BSResources.getString( "label.equation.superposition" );
     }
     
     //----------------------------------------------------------------------------

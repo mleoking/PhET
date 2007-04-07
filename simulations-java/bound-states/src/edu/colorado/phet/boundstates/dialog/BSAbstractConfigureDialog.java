@@ -25,11 +25,11 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
 
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * BSAbstractConfigureDialog is the base class for all dialogs that 
@@ -119,7 +119,7 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
      */
     protected JPanel createActionsPanel() {
 
-        JButton closeButton = new JButton( SimStrings.getInstance().getString( "button.close" ) );
+        JButton closeButton = new JButton( BSResources.getString( "button.close" ) );
         closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 dispose();

@@ -16,10 +16,10 @@ import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.axis.ValueAxis;
 
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * BSSquareWidthHandle is the drag handle used to control the width attribute
@@ -49,7 +49,7 @@ public class BSSquareWidthHandle extends BSPotentialHandle {
         int significantDecimalPlaces = potentialSpec.getWidthRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
         setValueNumberFormat( numberFormat );
-        setValuePattern( SimStrings.getInstance().getString( "drag.width" ) );
+        setValuePattern( BSResources.getString( "drag.width" ) );
         
         updateDragBounds();
     }

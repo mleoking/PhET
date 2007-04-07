@@ -17,8 +17,8 @@ import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -58,13 +58,13 @@ public class BSEnergyLegend extends PNode {
         
         // Total Energy
         _totalEnergyItem = 
-            new LegendItem( SimStrings.getInstance().getString( "legend.totalEnergy" ), BSConstants.COLOR_SCHEME.getEigenstateNormalColor() );
+            new LegendItem( BSResources.getString( "legend.totalEnergy" ), BSConstants.COLOR_SCHEME.getEigenstateNormalColor() );
         _totalEnergyItem.translate( 0, 0 );
         addChild( _totalEnergyItem );
         
         // Potential Energy
         _potentialEnergyItem = 
-            new LegendItem( SimStrings.getInstance().getString( "legend.potentialEnergy" ), BSConstants.COLOR_SCHEME.getPotentialEnergyColor() );
+            new LegendItem( BSResources.getString( "legend.potentialEnergy" ), BSConstants.COLOR_SCHEME.getPotentialEnergyColor() );
         _potentialEnergyItem.translate( _totalEnergyItem.getFullBounds().getWidth() + 20, 0 );
         addChild( _potentialEnergyItem );
         

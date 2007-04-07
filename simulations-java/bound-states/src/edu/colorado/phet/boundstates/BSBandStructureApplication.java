@@ -12,15 +12,12 @@
 package edu.colorado.phet.boundstates;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Properties;
 
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.util.PropertiesLoader;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.PhetProjectConfig;
 
 /**
  * BSBandStructureApplication is the simulation titled "Band Structure".
@@ -35,10 +32,9 @@ public class BSBandStructureApplication extends BSAbstractApplication {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSBandStructureApplication( String[] args, 
-            String title, String description, String version, FrameSetup frameSetup )
+    public BSBandStructureApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup )
     {
-        super( args, title, description, version, frameSetup );
+        super( args, config, frameSetup );
     }
     
     //----------------------------------------------------------------------------
@@ -81,28 +77,10 @@ public class BSBandStructureApplication extends BSAbstractApplication {
                 // Initialize look-and-feel
                 PhetLookAndFeel laf = new PhetLookAndFeel();
                 laf.initLookAndFeel();
-
-                // Initialize localization.
-                SimStrings.getInstance().init( args, BSConstants.SIM_STRINGS_NAME );
-
-                // Load simulation properties file
-                Properties simulationProperties = PropertiesLoader.loadProperties( BSConstants.SIM_PROPERTIES_NAME );
-
-                // Title & description
-                String title = SimStrings.getInstance().getString( "BSBandStructureApplication.title" );
-                String description = SimStrings.getInstance().getString( "BSBandStructureApplication.description" );
                 
-                // Version
-                String version = PhetApplication.getVersionString( simulationProperties );
-
-                // Frame setup
-                int width = BSConstants.APP_FRAME_WIDTH;
-                int height = BSConstants.APP_FRAME_HEIGHT;
-                FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
-
                 // Create the application.
-                BSAbstractApplication app = new BSBandStructureApplication( args, title, description, version, frameSetup );
-                app.setSimulationProperties( simulationProperties );
+                PhetProjectConfig config = PhetProjectConfig.forProject( BSConstants.PROJECT, BSConstants.FLAVOR_BAND_STRUCTURE );
+                BSAbstractApplication app = new BSBandStructureApplication( args, config, BSConstants.FRAME_SETUP );
                 
                 // Start the application.
                 app.startApplication();

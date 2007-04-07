@@ -23,9 +23,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.boundstates.BSAbstractApplication;
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.module.BSAbstractModule;
 import edu.colorado.phet.common.util.DialogUtils;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
@@ -97,7 +97,7 @@ public class BSPersistenceManager {
             }
         }
         catch ( Exception e ) {
-            showError( SimStrings.getInstance().getString( "Save.error.message" ), e );
+            showError( BSResources.getString( "Save.error.message" ), e );
         }
     }
     
@@ -117,7 +117,7 @@ public class BSPersistenceManager {
             }
         }
         catch ( Exception e ) {
-            showError( SimStrings.getInstance().getString( "Load.error.message" ), e );
+            showError( BSResources.getString( "Load.error.message" ), e );
         }
         if ( object == null ) {
             return;
@@ -125,7 +125,7 @@ public class BSPersistenceManager {
         
         // Verify the object's type
         if ( !( object instanceof BSConfig ) ) {
-            showError( SimStrings.getInstance().getString( "Load.error.message" ), SimStrings.getInstance().getString( "Load.error.contents" ) );
+            showError( BSResources.getString( "Load.error.message" ), BSResources.getString( "Load.error.contents" ) );
             return;
         }
         
@@ -157,7 +157,7 @@ public class BSPersistenceManager {
             }
         }
         catch ( Exception e ) {
-            showError( SimStrings.getInstance().getString( "Load.error.message" ), e );
+            showError( BSResources.getString( "Load.error.message" ), e );
         }
     }
     
@@ -170,7 +170,7 @@ public class BSPersistenceManager {
         
         // Choose the file to save.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( SimStrings.getInstance().getString( "title.save" ) );
+        fileChooser.setDialogTitle( BSResources.getString( "title.save" ) );
         int rval = fileChooser.showSaveDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -182,7 +182,7 @@ public class BSPersistenceManager {
 
         // If the file exists, confirm overwrite.
         if ( selectedFile.exists() ) {
-            String message = SimStrings.getInstance().getString( "Save.confirm.message" );
+            String message = BSResources.getString( "Save.confirm.message" );
             int reply = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_CANCEL_OPTION );
             if ( reply != JOptionPane.YES_OPTION ) {
                 return;
@@ -199,7 +199,7 @@ public class BSPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Save.error.encode" ), e );
+                    showError( BSResources.getString( "Save.error.encode" ), e );
                     errors++;
                 }
             }      
@@ -216,7 +216,7 @@ public class BSPersistenceManager {
         
         // Choose the file to load.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( SimStrings.getInstance().getString( "title.load" ) );
+        fileChooser.setDialogTitle( BSResources.getString( "title.load" ) );
         int rval = fileChooser.showOpenDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -235,7 +235,7 @@ public class BSPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Load.error.decode" ), e );
+                    showError( BSResources.getString( "Load.error.decode" ), e );
                     errors++;
                 }
             }      
@@ -243,7 +243,7 @@ public class BSPersistenceManager {
         object = decoder.readObject();
         decoder.close();
         if ( object == null ) {
-            throw new Exception( SimStrings.getInstance().getString( "Load.error.contents" ) );
+            throw new Exception( BSResources.getString( "Load.error.contents" ) );
         }
 
         return object;
@@ -262,7 +262,7 @@ public class BSPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Save.error.encode" ), e );
+                    showError( BSResources.getString( "Save.error.encode" ), e );
                     errors++;
                 }
             }
@@ -270,7 +270,7 @@ public class BSPersistenceManager {
         encoder.writeObject( object );
         encoder.close();
         if ( object == null ) {
-            throw new Exception( SimStrings.getInstance().getString( "XML encoding failed" ) );
+            throw new Exception( BSResources.getString( "XML encoding failed" ) );
         }
         
         // Convert to a byte input stream.
@@ -318,7 +318,7 @@ public class BSPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( SimStrings.getInstance().getString( "Load.error.decode" ), e );
+                    showError( BSResources.getString( "Load.error.decode" ), e );
                     errors++;
                 }
             }
@@ -326,7 +326,7 @@ public class BSPersistenceManager {
         object = decoder.readObject();
         decoder.close();
         if ( object == null ) {
-            throw new Exception( SimStrings.getInstance().getString( "Load.error.contents" ) );
+            throw new Exception( BSResources.getString( "Load.error.contents" ) );
         }
         
         return object;
@@ -361,7 +361,7 @@ public class BSPersistenceManager {
      */
     private void showError( String format, String errorMessage ) {
         JFrame frame = _app.getPhetFrame();
-        String title = SimStrings.getInstance().getString( "title.error" );
+        String title = BSResources.getString( "title.error" );
         Object[] args = { errorMessage };
         String message = MessageFormat.format( format, args );
         DialogUtils.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );

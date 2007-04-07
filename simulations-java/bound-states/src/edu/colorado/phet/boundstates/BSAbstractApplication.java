@@ -30,7 +30,7 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.PhetProjectConfig;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 
@@ -70,15 +70,12 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
      * Sole constructor.
      * 
      * @param args command line arguments
-     * @param title
-     * @param description
-     * @param version
+     * @param config
      * @param frameSetup
      */
-    public BSAbstractApplication( String[] args, 
-            String title, String description, String version, FrameSetup frameSetup )
+    public BSAbstractApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup )
     {
-        super( args, title, description, version, frameSetup );
+        super( args, config, frameSetup );
         initModules();
         initMenubar();
     }
@@ -105,16 +102,16 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
         
         // File menu
         {
-            JMenuItem saveItem = new JMenuItem( SimStrings.getInstance().getString( "menu.file.save" ) );
-            saveItem.setMnemonic( SimStrings.getInstance().getString( "menu.file.save.mnemonic" ).charAt(0) );
+            JMenuItem saveItem = new JMenuItem( BSResources.getString( "menu.file.save" ) );
+            saveItem.setMnemonic( BSResources.getChar( "menu.file.save.mnemonic", 'S' ) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.save();
                 }
             } );
             
-            JMenuItem loadItem = new JMenuItem( SimStrings.getInstance().getString( "menu.file.load" ) );
-            loadItem.setMnemonic( SimStrings.getInstance().getString( "menu.file.load.mnemonic" ).charAt(0) );
+            JMenuItem loadItem = new JMenuItem( BSResources.getString( "menu.file.load" ) );
+            loadItem.setMnemonic( BSResources.getChar( "menu.file.load.mnemonic", 'L' ) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     _persistenceManager.load();
@@ -225,7 +222,7 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
         config.setApplicationClassName( this.getClass().getName() );
         
         // Version and build information
-        config.setVersionNumber( getVersion() );
+        config.setVersionNumber( BSResources.getVersion() );
         
         // Color scheme
         config.setColorSchemeName( _colorsMenu.getColorSchemeName() );

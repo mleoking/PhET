@@ -21,7 +21,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
@@ -38,7 +37,6 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 public class BSLauncher extends JFrame {
     
     public static void main( String args[] ) {
-        SimStrings.getInstance().init( args, BSConstants.SIM_STRINGS_NAME );
         BSLauncher launcher = new BSLauncher( args );
         SwingUtils.centerWindowOnScreen( launcher );
         launcher.show();
@@ -105,11 +103,11 @@ public class BSLauncher extends JFrame {
      */
     private JPanel createInputPanel() {
         
-        JLabel instructions = new JLabel( SimStrings.getInstance().getString( "BSLauncher.instructions") );
+        JLabel instructions = new JLabel( BSResources.getString( "BSLauncher.instructions") );
         
-        _boundStatesRadioButton = new JRadioButton( SimStrings.getInstance().getString( "BSBoundStatesApplication.title" ) );
-        _covalentBoundsRadioButton = new JRadioButton( SimStrings.getInstance().getString( "BSCovalentBondsApplication.title" ) );
-        _bandStructureRadioButton = new JRadioButton( SimStrings.getInstance().getString( "BSBandStructureApplication.title" ) );
+        _boundStatesRadioButton = new JRadioButton( BSResources.getString( BSConstants.PROJECT + ".name" ) );
+        _covalentBoundsRadioButton = new JRadioButton( BSResources.getString( BSConstants.PROJECT + "-" + BSConstants.FLAVOR_COVALENT_BONDS + ".name" ) );
+        _bandStructureRadioButton = new JRadioButton( BSResources.getString( BSConstants.PROJECT + "-" + BSConstants.FLAVOR_BAND_STRUCTURE + ".name" ) );
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( _boundStatesRadioButton );
         buttonGroup.add( _covalentBoundsRadioButton );
@@ -136,14 +134,14 @@ public class BSLauncher extends JFrame {
      */
     protected JPanel createActionsPanel() {
 
-        JButton startButton = new JButton( SimStrings.getInstance().getString( "button.start" ) );
+        JButton startButton = new JButton( BSResources.getString( "button.start" ) );
         startButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleStart();
             }
         });
         
-        JButton cancelButton = new JButton( SimStrings.getInstance().getString( "button.cancel" ) );
+        JButton cancelButton = new JButton( BSResources.getString( "button.cancel" ) );
         cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleCancel();

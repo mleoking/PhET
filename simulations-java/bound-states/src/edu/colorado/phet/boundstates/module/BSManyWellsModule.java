@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.boundstates.module;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.boundstates.BSResources;
 
 
 /**
@@ -23,7 +23,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 public class BSManyWellsModule extends BSAbstractModule {
 
     public BSManyWellsModule() {
-        super( SimStrings.getInstance().getString( "BSManyWellsModule.title" ), new BSManyWellsSpec() );
+        super( BSResources.getString( "BSManyWellsModule.title" ), new BSManyWellsSpec() );
         getClock().start();
     }
 }

@@ -30,8 +30,7 @@ information.
   <resources> 
     <j2se version="1.4+"/> 
     <jar href="bound-states/boundstates.jar"/>
+    <property name="javaws.locale" value="es"/>
   </resources> 
-  <application-desc main-class="edu.colorado.phet.boundstates.BSCovalentBondsApplication">
-    <argument>user.language=es</argument>
-  </application-desc> 
+  <application-desc main-class="edu.colorado.phet.boundstates.BSCovalentBondsApplication"/>
 </jnlp> 

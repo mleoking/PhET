@@ -28,6 +28,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.control.DoubleSpinner;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
@@ -35,7 +36,6 @@ import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
 import edu.colorado.phet.common.util.DialogUtils;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
@@ -103,7 +103,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         
         setModal( false );
         setResizable( false );
-        setTitle( SimStrings.getInstance().getString( "BSSuperpositionStateDialog.title" ) );
+        setTitle( BSResources.getString( "BSSuperpositionStateDialog.title" ) );
         
         _eventListener = new EventListener();
         addWindowListener( _eventListener );
@@ -163,7 +163,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
      */
     private JPanel createInputPanel() {
         
-        JLabel instructions = new JLabel( SimStrings.getInstance().getString( "label.superposition.instructions" ) );
+        JLabel instructions = new JLabel( BSResources.getString( "label.superposition.instructions" ) );
            
         final int numberOfCoefficients = _localCoefficients.getNumberOfCoefficients();
         BSEigenstate[] eigenstates = _model.getEigenstates();
@@ -178,7 +178,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         _spinners = new ArrayList();
         for ( int i = 0; i < numberOfCoefficients; i++ ) {
             int subscript = eigenstates[i].getSubscript();
-            String label = "<html>" + SimStrings.getInstance().getString( "label.superpositionCoefficient" ) + "<sub>" + subscript + "</sub>:</html>";
+            String label = "<html>" + BSResources.getString( "label.superpositionCoefficient" ) + "<sub>" + subscript + "</sub>:</html>";
             labels.add( new JLabel( label ) );
             final double value = _localCoefficients.getCoefficient( i );
             DoubleSpinner spinner = new DoubleSpinner( value, BSConstants.COEFFICIENT_MIN, BSConstants.COEFFICIENT_MAX, 
@@ -242,16 +242,16 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
      */
     private JPanel createActionsPanel() {
 
-        _clearButton = new JButton( SimStrings.getInstance().getString( "button.clear" ) );
+        _clearButton = new JButton( BSResources.getString( "button.clear" ) );
         _clearButton.addActionListener( _eventListener );
         
-        _normalizeButton = new JButton( SimStrings.getInstance().getString( "button.normalize" ) );
+        _normalizeButton = new JButton( BSResources.getString( "button.normalize" ) );
         _normalizeButton.addActionListener( _eventListener );
       
-        _applyButton = new JButton( SimStrings.getInstance().getString( "button.apply" ) );
+        _applyButton = new JButton( BSResources.getString( "button.apply" ) );
         _applyButton.addActionListener( _eventListener );
         
-        _closeButton = new JButton( SimStrings.getInstance().getString( "button.close" ) );
+        _closeButton = new JButton( BSResources.getString( "button.close" ) );
         _closeButton.addActionListener( _eventListener );
 
         final int rows = 1;
@@ -454,7 +454,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
             apply();
         }
         else {
-            String pattern = SimStrings.getInstance().getString( "message.confirmNormalizeApply" );
+            String pattern = BSResources.getString( "message.confirmNormalizeApply" );
             int groundStateSubscript = _model.getPotential().getGroundStateSubscript();
             String equation = createNormalizationEquation( groundStateSubscript );
             Object[] objs = { equation };
@@ -480,9 +480,9 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
             dispose();
         }
         else {
-            String message = SimStrings.getInstance().getString( "message.confirmApplyClose" );
+            String message = BSResources.getString( "message.confirmApplyClose" );
             if ( !_localCoefficients.isNormalized( NORMALIZATION_ERROR ) ) {
-                message = SimStrings.getInstance().getString( "message.confirmNormalizeApplyClose" );
+                message = BSResources.getString( "message.confirmNormalizeApplyClose" );
             }
             int reply = DialogUtils.showConfirmDialog( this, message, JOptionPane.YES_NO_CANCEL_OPTION );
             if ( reply == JOptionPane.YES_OPTION ) {

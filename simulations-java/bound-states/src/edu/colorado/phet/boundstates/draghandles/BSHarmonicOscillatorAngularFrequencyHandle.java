@@ -16,10 +16,10 @@ import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.axis.ValueAxis;
 
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorPotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * BSHarmonicOscillatorAngularFrequencyHandle is the drag handle used to 
@@ -57,7 +57,7 @@ public class BSHarmonicOscillatorAngularFrequencyHandle extends BSPotentialHandl
         int significantDecimalPlaces = potentialSpec.getAngularFrequencyRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
         setValueNumberFormat( numberFormat );
-        setValuePattern( SimStrings.getInstance().getString( "drag.angularFrequency" ) );
+        setValuePattern( BSResources.getString( "drag.angularFrequency" ) );
         
         updateDragBounds();
     }

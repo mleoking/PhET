@@ -14,7 +14,6 @@ package edu.colorado.phet.boundstates.control;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,10 +29,10 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.Range;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.util.AxisSpec;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.ImageLoader;
 
 
 /**
@@ -87,20 +86,9 @@ public class ZoomControl extends JPanel {
         _plots = new ArrayList();
         _zoomSpec = null;
         
-        try {
-            // Icons on buttons
-            ImageIcon zoomInIcon = new ImageIcon( ImageLoader.loadBufferedImage( BSConstants.IMAGE_ZOOM_IN ) );
-            _zoomInButton = new JButton( zoomInIcon );
-            ImageIcon zoomOutIcon = new ImageIcon( ImageLoader.loadBufferedImage( BSConstants.IMAGE_ZOOM_OUT ) );
-            _zoomOutButton = new JButton( zoomOutIcon );
-        }
-        catch ( IOException ioe ) {
-            // Fall back to text on buttons
-            _zoomInButton = new JButton( "+" );
-            _zoomOutButton = new JButton( "-" );
-        }
-        
         // Zoom In button
+        ImageIcon zoomInIcon = new ImageIcon( BSResources.getImage( BSConstants.IMAGE_ZOOM_IN ) );
+        _zoomInButton = new JButton( zoomInIcon );
         _zoomInButton.setOpaque( false );
         _zoomInButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -109,6 +97,8 @@ public class ZoomControl extends JPanel {
         } );
         
         // Zoom Out button
+        ImageIcon zoomOutIcon = new ImageIcon( BSResources.getImage( BSConstants.IMAGE_ZOOM_OUT ) );
+        _zoomOutButton = new JButton( zoomOutIcon );
         _zoomOutButton.setOpaque( false );
         _zoomOutButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {

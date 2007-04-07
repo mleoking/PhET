@@ -15,11 +15,11 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSCoulomb1DPotential;
 import edu.colorado.phet.boundstates.model.BSCoulomb3DPotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * BSCoulomb3DOffsetHandle is the drag handle used to control the 
@@ -51,7 +51,7 @@ public class BSCoulomb3DOffsetHandle extends BSPotentialHandle {
         int significantDecimalPlaces = potentialSpec.getOffsetRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
         setValueNumberFormat( numberFormat );
-        setValuePattern( SimStrings.getInstance().getString( "drag.offset" ) );
+        setValuePattern( BSResources.getString( "drag.offset" ) );
         
         updateDragBounds();
     }

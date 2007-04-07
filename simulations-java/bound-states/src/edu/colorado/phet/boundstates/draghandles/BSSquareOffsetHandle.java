@@ -15,10 +15,10 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSSquarePotential;
 import edu.colorado.phet.boundstates.module.BSPotentialSpec;
 import edu.colorado.phet.boundstates.view.BSCombinedChartNode;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * BSSquareOffsetHandle is the drag handle used to control the offset attribute
@@ -48,7 +48,7 @@ public class BSSquareOffsetHandle extends BSPotentialHandle {
         int significantDecimalPlaces = potentialSpec.getOffsetRange().getSignificantDecimalPlaces();
         String numberFormat = createNumberFormat( significantDecimalPlaces );
         setValueNumberFormat( numberFormat );
-        setValuePattern( SimStrings.getInstance().getString( "drag.offset" ) );
+        setValuePattern( BSResources.getString( "drag.offset" ) );
         
         updateDragBounds();
     }

@@ -24,12 +24,12 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
@@ -66,8 +66,8 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         super();
         
         // Labels (localized)
-        String energyLabel = SimStrings.getInstance().getString( "axis.energy" ) + " (" + SimStrings.getInstance().getString( "units.energy" ) + ")";
-        String potentialEnergyLabel = SimStrings.getInstance().getString( "legend.potentialEnergy" );
+        String energyLabel = BSResources.getString( "axis.energy" ) + " (" + BSResources.getString( "units.energy" ) + ")";
+        String potentialEnergyLabel = BSResources.getString( "legend.potentialEnergy" );
         
         int dataSetIndex = 0;
         

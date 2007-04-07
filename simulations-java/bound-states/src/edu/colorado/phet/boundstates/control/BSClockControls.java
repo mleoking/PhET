@@ -24,13 +24,13 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSClock;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
@@ -76,11 +76,11 @@ public class BSClockControls extends JPanel implements ClockListener {
         _clock.addClockListener( this );
         
         // Labels
-        String restartLabel = SimStrings.getInstance().getString( "button.restart" );
-        String playLabel = SimStrings.getInstance().getString( "button.play" );
-        String pauseLabel = SimStrings.getInstance().getString( "button.pause" );
-        String stepLabel = SimStrings.getInstance().getString( "button.step" );
-        String timeUnitsLabel = SimStrings.getInstance().getString( "units.time" );
+        String restartLabel = BSResources.getString( "button.restart" );
+        String playLabel = BSResources.getString( "button.play" );
+        String pauseLabel = BSResources.getString( "button.pause" );
+        String stepLabel = BSResources.getString( "button.step" );
+        String timeUnitsLabel = BSResources.getString( "units.time" );
         
         // Icons
         Icon restartIcon = null;
@@ -93,7 +93,7 @@ public class BSClockControls extends JPanel implements ClockListener {
             playIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PLAY ) );
             pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PAUSE ) );
             stepIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_STEP ) );
-            clockIcon = new ImageIcon( ImageLoader.loadBufferedImage( BSConstants.IMAGE_CLOCK ) );
+            clockIcon = new ImageIcon( BSResources.getImage( BSConstants.IMAGE_CLOCK ) );
         }
         catch ( IOException e ) {
             e.printStackTrace();
@@ -132,8 +132,8 @@ public class BSClockControls extends JPanel implements ClockListener {
             _clockIndexSlider.setValue( BSConstants.DEFAULT_CLOCK_INDEX );
             
             // Label the min "normal", the max "fast".
-            String normalString = SimStrings.getInstance().getString( "label.clockSpeed.normal" );
-            String fastString = SimStrings.getInstance().getString( "label.clockSpeed.fast" );
+            String normalString = BSResources.getString( "label.clockSpeed.normal" );
+            String fastString = BSResources.getString( "label.clockSpeed.fast" );
             Hashtable labelTable = new Hashtable();
             labelTable.put( new Integer( _clockIndexSlider.getMinimum() ), new JLabel( normalString ) );
             labelTable.put( new Integer( _clockIndexSlider.getMaximum() ), new JLabel( fastString ) );

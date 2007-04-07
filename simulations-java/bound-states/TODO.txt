@@ -16,6 +16,10 @@ LOW PRIORITY:
 
 
 DONE:
+4/7/07 - organize imports
+4/7/07 - set locale in Spanish JNLP file via javaws.locale property
+4/7/07 - encapsulate loading of strings and images in BSResources
+4/7/07 - convert from SimStrings to PhetProjectConfig
 3/27/07 - remove canvas argument from all ancestor nodes of PSwing in scenegraph
 3/20/07 - use DialogUtils in phetcommon
 3/20/07 - move ColorChooserFactory to phetcommon
