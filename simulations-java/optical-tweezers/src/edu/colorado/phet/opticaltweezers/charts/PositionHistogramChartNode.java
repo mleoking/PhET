@@ -23,7 +23,7 @@ import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.OTStrings;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.CloseButtonNode;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
@@ -95,17 +95,17 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         _controlsBackgroundNode.setPaint( _chart.getBackgroundPaint() );
         _controlsBackgroundNode.setStroke( null );
 
-        _measurementsString = OTStrings.MEASUREMENTS;
+        _measurementsString = OTResources.getString( "label.measurements" );
         _measurementsLabel = new PText();
         _measurementsLabel.setFont( LABEL_FONT );
         _measurementsLabel.setTextPaint( LABEL_COLOR );
 
-        _titleLabel = new PText( OTStrings.POSITION_HISTOGRAM );
+        _titleLabel = new PText( OTResources.getString( "title.positionHistogram" ) );
         _titleLabel.setFont( TITLE_FONT );
         _titleLabel.setTextPaint( TITLE_COLOR );
 
-        _startString = OTStrings.START_BUTTON;
-        _stopString = OTStrings.STOP_BUTTON;
+        _startString = OTResources.getString( "button.start" );
+        _stopString = OTResources.getString( "button.stop" );
         _startStopButton = new JButton( _isRunning ? _stopString : _startString );
         _startStopButton.setOpaque( false );
         _startStopButton.setFont( LABEL_FONT );
@@ -118,7 +118,7 @@ public class PositionHistogramChartNode extends PhetPNode implements Observer {
         } );
         _startStopButtonWrapper = new PSwing( _startStopButton );
 
-        JButton clearButton = new JButton( OTStrings.CLEAR_BUTTON );
+        JButton clearButton = new JButton( OTResources.getString( "button.clear" ) );
         clearButton.setOpaque( false );
         clearButton.setFont( LABEL_FONT );
         clearButton.setForeground( LABEL_COLOR );

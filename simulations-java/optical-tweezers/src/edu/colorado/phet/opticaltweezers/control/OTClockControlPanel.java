@@ -6,7 +6,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -16,9 +15,8 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.OTStrings;
+import edu.colorado.phet.opticaltweezers.OTResources;
 
 
 /**
@@ -68,23 +66,20 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
         _clock = clock;
         _clock.addClockListener( this );
         
+        // Labels
+        String restartLabel = OTResources.getString( "button.restart" );
+        String playLabel = OTResources.getCommonString( ClockControlPanel.PROPERTY_PLAY );
+        String pauseLabel = OTResources.getCommonString( ClockControlPanel.PROPERTY_PAUSE );
+        String stepLabel = OTResources.getCommonString( ClockControlPanel.PROPERTY_STEP );
+        String timeUnitsLabel = OTResources.getString( "units.time" );
+
         // Icons
-        Icon restartIcon = null;
-        Icon playIcon = null;
-        Icon pauseIcon = null;
-        Icon stepIcon = null;
-        Icon clockIcon = null;
-        try {
-            restartIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_REWIND ) );
-            playIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PLAY ) );
-            pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PAUSE ) );
-            stepIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_STEP ) );
-            clockIcon = new ImageIcon( OTConstants.IMAGE_CLOCK );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
-        
+        Icon restartIcon = new ImageIcon( OTResources.getCommonImage( ClockControlPanel.IMAGE_REWIND ) );
+        Icon playIcon = new ImageIcon( OTResources.getCommonImage( ClockControlPanel.IMAGE_PLAY ) );
+        Icon pauseIcon = new ImageIcon( OTResources.getCommonImage( ClockControlPanel.IMAGE_PAUSE ) );
+        Icon stepIcon = new ImageIcon( OTResources.getCommonImage( ClockControlPanel.IMAGE_STEP ) );
+        Icon clockIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_CLOCK ) );
+
         // Time display
         JPanel timePanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         {
@@ -97,7 +92,7 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
             _timeTextField.setEditable( false );
             _timeTextField.setHorizontalAlignment( JTextField.RIGHT );
             
-            _timeUnitsLabel = new JLabel( OTStrings.TIME_UNITS );
+            _timeUnitsLabel = new JLabel( timeUnitsLabel );
             _timeUnitsLabel.setFont( TIME_UNITS_FONT );
             
             _timeFormat = new DecimalFormat( "0" );
@@ -110,10 +105,10 @@ public class OTClockControlPanel extends JPanel implements ClockListener {
         // Clock control buttons
         JPanel controlsPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         {
-            _restartButton = new JButton( OTStrings.RESTART, restartIcon );
-            _playButton = new JButton( OTStrings.PLAY, playIcon );
-            _pauseButton = new JButton( OTStrings.PAUSE, pauseIcon );
-            _stepButton = new JButton( OTStrings.STEP, stepIcon );
+            _restartButton = new JButton( restartLabel, restartIcon );
+            _playButton = new JButton( playLabel, playIcon );
+            _pauseButton = new JButton( pauseLabel, pauseIcon );
+            _stepButton = new JButton( stepLabel, stepIcon );
             
             controlsPanel.add( _restartButton );
             controlsPanel.add( _playButton );

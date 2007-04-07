@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -53,7 +54,7 @@ public class CloseButtonNode extends PhetPNode {
 
         public CloseButton() {
             super();
-            Icon closeIcon = new ImageIcon( OTConstants.IMAGE_CLOSE_BUTTON );
+            Icon closeIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_CLOSE_BUTTON ) );
             setIcon( closeIcon );
             setOpaque( false );
             setMargin( new Insets( 0, 0, 0, 0 ) );

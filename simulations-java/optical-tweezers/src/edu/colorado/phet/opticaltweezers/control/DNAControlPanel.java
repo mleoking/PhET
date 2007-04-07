@@ -3,6 +3,7 @@
 package edu.colorado.phet.opticaltweezers.control;
 
 import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.module.DNAModule;
 
 /**
@@ -33,7 +34,8 @@ public class DNAControlPanel extends AbstractControlPanel {
         _module = module;
 
         // Set the control panel's minimum width.
-        setMinumumWidth( OTConstants.MIN_CONTROL_PANEL_WIDTH );
+        int minimumWidth = OTResources.getInt( "int.minControlPanelWidth", 215 );
+        setMinumumWidth( minimumWidth );
         
         // Layout
         {

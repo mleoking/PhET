@@ -8,7 +8,7 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.OTStrings;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.DNAControlPanel;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
@@ -49,7 +49,7 @@ public class DNAModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public DNAModule() {
-        super( OTStrings.FUN_WITH_DNA, DNADefaults.CLOCK, DNADefaults.CLOCK_PAUSED );
+        super( OTResources.getString( "title.funWithDNA" ), DNADefaults.CLOCK, DNADefaults.CLOCK_PAUSED );
 
         //----------------------------------------------------------------------------
         // Model

@@ -4,7 +4,7 @@ package edu.colorado.phet.opticaltweezers.menu;
 
 import javax.swing.JMenu;
 
-import edu.colorado.phet.opticaltweezers.OTStrings;
+import edu.colorado.phet.opticaltweezers.OTResources;
 
 /**
  * OptionsMenu is the "Options" menu that appears in the menu bar.
@@ -14,7 +14,7 @@ import edu.colorado.phet.opticaltweezers.OTStrings;
 public class OptionsMenu extends JMenu {
     
     public OptionsMenu() {
-        super( OTStrings.OPTIONS );
-        setMnemonic( OTStrings.OPTIONS_MNEMONIC );
+        super( OTResources.getString( "menu.options" ) );
+        setMnemonic( OTResources.getChar( "menu.options.mnemonic", 'O' ) );
     }
 }

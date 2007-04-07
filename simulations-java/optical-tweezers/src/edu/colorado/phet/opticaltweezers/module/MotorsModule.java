@@ -8,7 +8,7 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.OTStrings;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.MotorsControlPanel;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.MotorsDefaults;
@@ -47,7 +47,7 @@ public class MotorsModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     public MotorsModule() {
-        super( OTStrings.MOLECULAR_MOTORS, MotorsDefaults.CLOCK, MotorsDefaults.CLOCK_PAUSED );
+        super( OTResources.getString( "title.molecularMotors" ), MotorsDefaults.CLOCK, MotorsDefaults.CLOCK_PAUSED );
 
         //----------------------------------------------------------------------------
         // Model

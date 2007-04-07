@@ -15,7 +15,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.util.DoubleRange;
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.OTStrings;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -76,11 +76,11 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         _laser.addObserver( this );
         
         // Warning sign
-        PNode signNode = new PImage( OTConstants.IMAGE_LASER_SIGN );
+        PNode signNode = new PImage( OTResources.getImage( OTConstants.IMAGE_LASER_SIGN  ) );
         
         // Start/Stop button
-        _startString = OTStrings.START_LASER;
-        _stopString = OTStrings.STOP_LASER;
+        _startString = OTResources.getString( "label.startLaser" );
+        _stopString = OTResources.getString( "label.stopLaser" );
         _startStopButton = new JButton( _laser.isRunning() ? _stopString : _startString );
         _startStopButton.setOpaque( false );
         _startStopButton.setFont( font );
@@ -94,8 +94,8 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         
         // Power control
         DoubleRange powerRange = _laser.getPowerRange();
-        String label = OTStrings.POWER;
-        String units = OTStrings.POWER_UNITS;
+        String label = OTResources.getString( "label.power" );
+        String units = OTResources.getString( "units.power" );
         int columns = POWER_VALUE_DIGITS;
         double wavelength = laser.getVisibleWavelength();
         _powerControl = new LaserPowerControl( powerRange, label, units, columns, wavelength, POWER_SLIDER_SIZE, font );

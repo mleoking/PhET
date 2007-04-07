@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.opticaltweezers.OTStrings;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 
 /**
@@ -68,8 +68,8 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         double tickSpacing = max-min;
         int tickDecimalPlaces = 0;
         int valueDecimalPlaces = fluid.getSpeedRange().getSignificantDecimalPlaces();
-        String label = OTStrings.FLUID_SPEED;
-        String units = OTStrings.FLUID_SPEED_UNITS;
+        String label = OTResources.getString( "label.fluidSpeed" );
+        String units = OTResources.getString( "units.fluidSpeed" );
         int columns = 4;
         _speedControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
         _speedControl.setTextFieldEditable( true );
@@ -82,8 +82,8 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         tickSpacing = max-min;
         tickDecimalPlaces = 0;
         valueDecimalPlaces = fluid.getViscosityRange().getSignificantDecimalPlaces();
-        label = OTStrings.FLUID_VISCOSITY;
-        units = OTStrings.FLUID_VISCOSITY_UNITS;
+        label = OTResources.getString( "label.fluidViscosity" );
+        units = OTResources.getString( "units.fluidViscosity" );
         columns = 6;
         _viscosityControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
         _viscosityControl.setTextFieldEditable( true );
@@ -98,8 +98,8 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         tickSpacing = max-min;
         tickDecimalPlaces = 0;
         valueDecimalPlaces = fluid.getTemperatureRange().getSignificantDecimalPlaces();
-        label = OTStrings.FLUID_TEMPERATURE;
-        units = OTStrings.FLUID_TEMPERATURE_UNITS;
+        label = OTResources.getString( "label.fluidTemperature" );
+        units = OTResources.getString( "units.fluidTemperature" );
         columns = 4;
         _temperatureControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
         _temperatureControl.setTextFieldEditable( true );
