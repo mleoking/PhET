@@ -55,8 +55,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     private Laser _laser;
     private ModelViewTransform _modelViewTransform;
     
-    private BeamInNode _beamInNode;
-    private BeamOutNode _beamOutNode;
+    private LaserBeamNode _beamNode;
     private LaserControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
@@ -98,11 +97,8 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         rightLineNode.setStroke( LINE_STROKE );
         rightLineNode.setStrokePaint( LINE_COLOR );
         
-        // Laser beam going into objective
-        _beamInNode = new BeamInNode( _laser, _modelViewTransform );
-        
-        // Laser beam coming out of objective
-        _beamOutNode = new BeamOutNode( _laser, _modelViewTransform );
+        // Laser beam
+        _beamNode = new LaserBeamNode( _laser, _modelViewTransform );
         
         // Handles
         double handleHeight = 0.8 * _controlPanel.getFullBounds().getHeight();
@@ -110,11 +106,10 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         HandleNode rightHandleNode = new HandleNode( HANDLE_WIDTH, handleHeight, HANDLE_COLOR );
         
         // Layering
-        addChild( _beamInNode );
         addChild( leftLineNode );
         addChild( rightLineNode );
         addChild( objectiveNode );
-        addChild( _beamOutNode );
+        addChild( _beamNode );
         addChild( leftHandleNode );
         addChild( rightHandleNode );
         addChild( _controlPanel );
@@ -123,14 +118,13 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         }
         
         final double distanceFromObjectiveToWaist = _modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToWaist() );
+        final double distanceFromObjectiveToControlPanel = _modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToControlPanel() );
         // Beam above objective
-        _beamOutNode.setOffset( -_beamOutNode.getFullBounds().getWidth()/2, -distanceFromObjectiveToWaist );
+        _beamNode.setOffset( -_beamNode.getFullBounds().getWidth()/2, -distanceFromObjectiveToWaist );
         // Objective below beam
         objectiveNode.setOffset( 0, distanceFromObjectiveToWaist );
-        // Beam below objective
-        _beamInNode.setOffset( -_beamInNode.getFullBounds().getWidth()/2, objectiveNode.getOffset().getY() );
         // Control panel below beam
-        _controlPanel.setOffset( -_controlPanel.getFullBounds().getWidth()/2, _beamInNode.getFullBounds().getMaxY() );
+        _controlPanel.setOffset( -_controlPanel.getFullBounds().getWidth()/2, distanceFromObjectiveToWaist + distanceFromObjectiveToControlPanel );
         // Connecting lines
         leftLineNode.setOffset( objectiveNode.getFullBounds().getX(), objectiveNode.getOffset().getY() );
         rightLineNode.setOffset( objectiveNode.getFullBounds().getMaxX(), objectiveNode.getOffset().getY() );
@@ -164,8 +158,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
      */
     public void cleanup() {
         _laser.deleteObserver( this );
-        _beamInNode.cleanup();
-        _beamOutNode.cleanup();
+        _beamNode.cleanup();
     }
     
     //----------------------------------------------------------------------------
