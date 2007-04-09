@@ -124,7 +124,7 @@ public class LaserBeamNode extends PhetPNode implements Observer {
      * to the current value of the laser power.
      */
     private void updateAlpha() {
-        double scale = _laser.getPower() / _laser.getPowerRange().getMax();
+        double scale = Math.sqrt( _laser.getPower() / _laser.getPowerRange().getMax() ); // use sqrt to compensate for eye's alpha sensitivity
         _imageOp.setScale( scale );
         _imageOp.filter( _maxPowerGradientImage, _actualPowerGradientImage );
         _gradientNode.setImage( _actualPowerGradientImage );
