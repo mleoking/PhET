@@ -61,6 +61,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/9/07 - add gradient for portion of laser beam going into objective
+4/9/07 - combine BeamInNode and BeamOutNode into LaserBeamNode to handle all laser beam drawing
 4/7/07 - encapsulate all resource loading in OTResources
 4/7/07 - use PhetCommonProjectConfig to get common images and strings
 4/5/07 - set locale in Spanish JNLP file via javaws.locale property

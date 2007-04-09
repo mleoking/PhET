@@ -22,14 +22,13 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * BeamOutNode is the visual representation of the portion of the 
- * laser beam that is coming out of the microscope objective.
- * This part of the beam is shaped by the objective and shows the 
- * gradient field.
+ * LaserBeamNode is the visual representation of the laser beam.
+ * It comes out of the control panel with a constant radius,
+ * and is shaped as it passes through the objective.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeamOutNode extends PhetPNode implements Observer {
+public class LaserBeamNode extends PhetPNode implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -41,7 +40,7 @@ public class BeamOutNode extends PhetPNode implements Observer {
     public static final Stroke OUTLINE_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 ); // dashed
     
-    private static final int MAX_ALPHA_CHANNEL = 220; // 0-255
+    private static final int MAX_ALPHA_CHANNEL = 255; // 0-255
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -64,7 +63,7 @@ public class BeamOutNode extends PhetPNode implements Observer {
      * @param laser
      * @param height height in view coordinates
      */
-    public BeamOutNode( Laser laser, ModelViewTransform modelViewTransform ) {
+    public LaserBeamNode( Laser laser, ModelViewTransform modelViewTransform ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -80,6 +79,7 @@ public class BeamOutNode extends PhetPNode implements Observer {
         _actualPowerGradientImage = _imageOp.createCompatibleDestImage( _maxPowerGradientImage, _maxPowerGradientImage.getColorModel() );
         
         _gradientNode = new GradientNode( _maxPowerGradientImage, 0.05 /* overlap */ );
+        _gradientNode.setOffset( 0, -_modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToControlPanel() ) );
         addChild( _gradientNode );
 
         // Outline of beam shape
@@ -89,7 +89,7 @@ public class BeamOutNode extends PhetPNode implements Observer {
         }
         
         updateVisible();
-        updateGradient();
+        updateAlpha();
     }
     
     public void cleanup() {
@@ -103,7 +103,7 @@ public class BeamOutNode extends PhetPNode implements Observer {
     public void update( Observable o, Object arg ) {
         if ( o == _laser ) {
             if ( arg == Laser.PROPERTY_POWER ) {
-                updateGradient();
+                updateAlpha();
             }
             else if ( arg == Laser.PROPERTY_RUNNING ) {
                 updateVisible();
@@ -123,7 +123,7 @@ public class BeamOutNode extends PhetPNode implements Observer {
      * Adjusts the alpha channel of the gradient image so that it corresponds
      * to the current value of the laser power.
      */
-    private void updateGradient() {
+    private void updateAlpha() {
         double scale = _laser.getPower() / _laser.getPowerRange().getMax();
         _imageOp.setScale( scale );
         _imageOp.filter( _maxPowerGradientImage, _actualPowerGradientImage );
@@ -135,12 +135,14 @@ public class BeamOutNode extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     
     /*
-     * Creates a buffered image for the lower left quadrant of the maximum power gradient.
+     * Creates a buffered image for the lower right quadrant of the maximum power gradient.
      */
     private BufferedImage createMaxPowerGradientImage() {
         
-        int gradientWidth = (int) ( _laser.getDiameterAtObjective() / 2 );
-        int gradientHeight = (int) ( _laser.getDistanceFromObjectiveToWaist() );
+        final int gradientWidth = (int) ( _laser.getDiameterAtObjective() / 2 );
+        final int inHeight = (int)( _laser.getDistanceFromObjectiveToControlPanel() );
+        final int outHeight = (int) ( _laser.getDistanceFromObjectiveToWaist() );
+        final int gradientHeight = inHeight + outHeight;
         BufferedImage gradientImage = new BufferedImage( gradientWidth, gradientHeight, BufferedImage.TYPE_INT_ARGB );
         
         // Color for the laser beam
@@ -155,17 +157,27 @@ public class BeamOutNode extends PhetPNode implements Observer {
         final double maxIntensity = Laser.getBeamIntensityAt( 0, waistRadius, maxPower );
         
         // Create the gradient pixel data
-        int[][] dataBuffer = new int[ gradientWidth ][ gradientHeight ];
+        int[][] dataBuffer = new int[gradientWidth][gradientHeight];
         for ( int y = 0; y < gradientHeight; y++ ) {
-            final double r = _laser.getBeamRadiusAt( y );
+            
+            double r = 0;
+            if ( y < outHeight ) {
+                // part of the beam coming out of the objective
+                r = _laser.getBeamRadiusAt( y );
+            }
+            else {
+                // part of the beam going into the objective
+                r = _laser.getBeamRadiusAt( _laser.getDistanceFromObjectiveToWaist() );
+            }
+            
             for ( int x = 0; x < gradientWidth; x++ ) {
-                int argb = 0x00000000;  // 4 bytes, in order ARGB
+                int argb = 0x00000000; // 4 bytes, in order ARGB
                 if ( x <= r ) {
                     final double intensity = Laser.getBeamIntensityAt( x, r, maxPower );
                     final int alpha = (int) ( MAX_ALPHA_CHANNEL * intensity / maxIntensity );
                     argb = ( alpha << 24 ) | ( red << 16 ) | ( green << 8 ) | ( blue );
                 }
-                dataBuffer[ x ][ y ] = argb;
+                dataBuffer[x][y] = argb;
             }
         }
         
@@ -188,7 +200,7 @@ public class BeamOutNode extends PhetPNode implements Observer {
     }
 
     /*
-     * Create the shape of the beam's outline. 
+     * Create the shape of the beam's outline.
      * The shape is calculated in model coordinates, then transformed to view coordinates.
      * The node returned has it's origin at its geometrical center.
      */
@@ -206,39 +218,43 @@ public class BeamOutNode extends PhetPNode implements Observer {
         int iLast = points.length - 1;
         
         // Right half
-        GeneralPath pRight = new GeneralPath();
+        GeneralPath rightPath = new GeneralPath();
         // upper-right quadrant
-        pRight.moveTo( (float) points[iLast].getX(), -(float) points[iLast].getY() );
-        for ( int i = iLast - 2; i >= iFirst; i-- ) {
-            pRight.lineTo( (float) points[i].getX(), -(float) points[i].getY() );
+        rightPath.moveTo( (float) points[iLast].getX(), -(float) points[iLast].getY() );
+        for ( int i = iLast - 1; i > iFirst; i-- ) {
+            rightPath.lineTo( (float) points[i].getX(), -(float) points[i].getY() );
         }
         // lower-right quadrant
-        for ( int i = iFirst; i < iLast - 1; i++ ) {
-            pRight.lineTo( (float) points[i].getX(), (float) points[i].getY() );
+        for ( int i = iFirst; i < iLast; i++ ) {
+            rightPath.lineTo( (float) points[i].getX(), (float) points[i].getY() );
         }
+        // portion coming into objective
+        rightPath.lineTo( (float) points[iLast].getX(),  (float)( points[iLast].getY() + _laser.getDistanceFromObjectiveToControlPanel() ) );
         // transform to view coordinates
-        Shape sRight = _modelViewTransform.createTransformedShapeModelToView( pRight );
+        Shape rightShape = _modelViewTransform.createTransformedShapeModelToView( rightPath );
         // node
-        PPath nRight = new PPath( sRight );
+        PPath nRight = new PPath( rightShape );
         nRight.setStroke( OUTLINE_STROKE );
         nRight.setStrokePaint( OUTLINE_COLOR );
         nRight.setPaint( null );
         
         // Left path
-        GeneralPath pLeft = new GeneralPath();
+        GeneralPath leftPath = new GeneralPath();
         // upper-left quadrant
-        pLeft.moveTo( (float) -points[iLast].getX(), -(float) points[iLast].getY() );
-        for ( int i = iLast - 2; i >= iFirst; i-- ) {
-            pLeft.lineTo( (float) -points[i].getX(), -(float) points[i].getY() );
+        leftPath.moveTo( (float) -points[iLast].getX(), -(float) points[iLast].getY() );
+        for ( int i = iLast - 1; i > iFirst; i-- ) {
+            leftPath.lineTo( (float) -points[i].getX(), -(float) points[i].getY() );
         }
         // lower-left quadrant
-        for ( int i = iFirst; i < iLast - 1; i++ ) {
-            pLeft.lineTo( (float) -points[i].getX(), (float) points[i].getY() );
+        for ( int i = iFirst; i < iLast; i++ ) {
+            leftPath.lineTo( (float) -points[i].getX(), (float) points[i].getY() );
         }
+        // portion coming into objective
+        leftPath.lineTo( (float) -points[iLast].getX(),  (float)( points[iLast].getY() + _laser.getDistanceFromObjectiveToControlPanel() ) );
         // transform to view coordinates
-        Shape sLeft = _modelViewTransform.createTransformedShapeModelToView( pLeft );
+        Shape leftShape = _modelViewTransform.createTransformedShapeModelToView( leftPath );
         // node
-        PPath nLeft = new PPath( sLeft );
+        PPath nLeft = new PPath( leftShape );
         nLeft.setStroke( OUTLINE_STROKE );
         nLeft.setStrokePaint( OUTLINE_COLOR );
         nLeft.setPaint( null );
@@ -247,8 +263,9 @@ public class BeamOutNode extends PhetPNode implements Observer {
         parentNode.addChild( nLeft );
         parentNode.addChild( nRight );
         
-        // shape was drawn starting at right center, adjust so that origin is at center
-        parentNode.setOffset( parentNode.getFullBounds().getWidth()/2, parentNode.getFullBounds().getHeight()/2 );
+        // move origin to center of trap
+        final double d = _modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToControlPanel() );
+        parentNode.setOffset( parentNode.getFullBounds().getWidth() / 2, ( parentNode.getFullBounds().getHeight() / 2 ) - ( d / 2 ) );
         
         return parentNode;
     }
@@ -259,9 +276,14 @@ public class BeamOutNode extends PhetPNode implements Observer {
     
     /*
      * GradientNode is the node that represents the power gradient.
-     * The power gradient is symmetric about both axes, so we use the 
-     * same image for each of the quadrants.   The images is assumed
-     * to have been generated for the lower-right quadrant.
+     * The power gradient is symmetric about the center of the trap.
+     * So we use the same image to draw each of the quadrants.
+     * The image is assumed to have been generated for the lower-right quadrant.
+     * <p>
+     * NOTE! Since the image also contains the portion of the beam coming into
+     * the objective, we must be careful when displaying this node.  We must
+     * position the node so that the incoming-portion of the beam doesn't show
+     * up above the laser beam.
      */
     private static class GradientNode extends PComposite {
         
