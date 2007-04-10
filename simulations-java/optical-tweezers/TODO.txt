@@ -61,6 +61,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/10/07 - add trap force units to localization file
 4/10/07 - add units to trap force vector display
 4/10/07 - change Fy calculation for trap force, old physics was wrong
 4/9/07 - add TrapForceNode for visualizing trap forces on bead

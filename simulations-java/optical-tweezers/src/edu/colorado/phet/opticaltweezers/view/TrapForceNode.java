@@ -12,6 +12,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
@@ -21,6 +22,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 public class TrapForceNode extends PComposite implements Observer {
+    
+    private static final boolean SHOW_VALUES = true;
 
     // properties of the vectors
     private static final double VECTOR_HEAD_HEIGHT = 20;
@@ -31,8 +34,11 @@ public class TrapForceNode extends PComposite implements Observer {
     private static final Stroke VECTOR_STROKE = new BasicStroke( 1f );
     private static final Paint VECTOR_STROKE_PAINT = Color.BLACK;
     private static final Paint VECTOR_FILL_PAINT = Color.GREEN;
+    private static final double VECTOR_VALUE_SPACING = 2;
     
     private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0.##E0" );
+    
+    private static final String UNITS_STRING = OTResources.getString( "units.trapForce" );
     
     private Laser _laser;
     private Bead _bead;
@@ -111,6 +117,7 @@ public class TrapForceNode extends PComposite implements Observer {
 
         if ( _laser.isRunning() ) {
             
+            // calcuate the trap force vector at the bead's position
             Point2D beadPosition = _bead.getPositionRef();
             Vector2D f = _laser.getTrapForce( beadPosition );
             double fx = f.getX();
@@ -119,55 +126,75 @@ public class TrapForceNode extends PComposite implements Observer {
             assert ( Math.abs( fx ) <= _fMax );
             assert ( Math.abs( fy ) <= _fMax );
 
+            // x component of the trap force
             if ( fx != 0 ) {
-                double length = ( fx / _fMax ) * ( VECTOR_MAX_TAIL_LENGTH - VECTOR_MIN_TAIL_LENGTH );
-                if ( length > 0 ) {
-                    length = length + VECTOR_HEAD_HEIGHT + VECTOR_MIN_TAIL_LENGTH;
-                }
-                else {
-                    length = length - VECTOR_HEAD_HEIGHT - VECTOR_MIN_TAIL_LENGTH;
-                }
+                
+                double length = vectorMagnitudeToArrowLength( fx, _fMax );
                 Point2D tail = new Point2D.Double( 0, 0 );
                 Point2D tip = new Point2D.Double( length, 0 );
                 Arrow arrow = new Arrow( tail, tip, VECTOR_HEAD_HEIGHT, VECTOR_HEAD_WIDTH, VECTOR_TAIL_WIDTH );
                 _xComponentNode.setPathTo( arrow.getShape() );
                 addChild( _xComponentNode );
                 
-                String xText = VALUE_FORMAT.format( fx ) + " pN";
-                _xTextNode.setText( xText );
-                addChild( _xTextNode );
-                if ( fx > 0 ) {
-                    _xTextNode.setOffset( _xComponentNode.getFullBounds().getMaxX() + 2, -_yTextNode.getFullBounds().getHeight() / 2 );
-                }
-                else {
-                    _xTextNode.setOffset( _xComponentNode.getFullBounds().getX() - 2 - _xTextNode.getFullBounds().getWidth(), -_yTextNode.getFullBounds().getHeight() / 2 );
+                if ( SHOW_VALUES ) {
+                    String xText = VALUE_FORMAT.format( fx ) + " " + UNITS_STRING;
+                    _xTextNode.setText( xText );
+                    addChild( _xTextNode );
+                    
+                    double x = 0;
+                    double y = -_yTextNode.getFullBounds().getHeight() / 2;
+                    if ( fx > 0 ) {
+                        // text to the right of the arrow
+                        x = _xComponentNode.getFullBounds().getMaxX() + VECTOR_VALUE_SPACING;
+                    }
+                    else {
+                        // text to the left of the arrow
+                        x = _xComponentNode.getFullBounds().getX() - VECTOR_VALUE_SPACING - _xTextNode.getFullBounds().getWidth();
+
+                    }
+                    _xTextNode.setOffset( x, y );
                 }
             }
 
+            // y component of the trap force
             if ( fy != 0 ) {
-                double length = ( fy / _fMax ) * ( VECTOR_MAX_TAIL_LENGTH - VECTOR_MIN_TAIL_LENGTH );
-                if ( length > 0 ) {
-                    length = length + VECTOR_HEAD_HEIGHT + VECTOR_MIN_TAIL_LENGTH;
-                }
-                else {
-                    length = length - VECTOR_HEAD_HEIGHT - VECTOR_MIN_TAIL_LENGTH;
-                }
+                double length = vectorMagnitudeToArrowLength( fy, _fMax );
                 Point2D tail = new Point2D.Double( 0, 0 );
                 Point2D tip = new Point2D.Double( 0, length );
                 Arrow arrow = new Arrow( tail, tip, VECTOR_HEAD_HEIGHT, VECTOR_HEAD_WIDTH, VECTOR_TAIL_WIDTH );
                 _yComponentNode.setPathTo( arrow.getShape() );
                 addChild( _yComponentNode );
                 
-                String yText = VALUE_FORMAT.format( fy ) + " pN";
-                _yTextNode.setText( yText );
-                addChild( _yTextNode );
-                if ( fy > 0 ) {
-                    _yTextNode.setOffset( -_yTextNode.getFullBounds().getWidth() / 2, _yComponentNode.getFullBounds().getMaxY() + 2 );
-                }
-                else {
-                    _yTextNode.setOffset( -_yTextNode.getFullBounds().getWidth() / 2, _yComponentNode.getFullBounds().getY() - 2 - _yTextNode.getFullBounds().getHeight() );
+                if ( SHOW_VALUES ) {
+                    String yText = VALUE_FORMAT.format( fy ) + " " + UNITS_STRING;
+                    _yTextNode.setText( yText );
+                    addChild( _yTextNode );
+                    
+                    double x = -_yTextNode.getFullBounds().getWidth() / 2;
+                    double y = 0;
+                    if ( fy > 0 ) {
+                        // text centered below arrow
+                        y = _yComponentNode.getFullBounds().getMaxY() + VECTOR_VALUE_SPACING;
+                    }
+                    else {
+                        // text centered above arrow
+                        y = _yComponentNode.getFullBounds().getY() - VECTOR_VALUE_SPACING - _yTextNode.getFullBounds().getHeight();
+
+                    }
+                    _yTextNode.setOffset( x, y );
                 }
             }
         }
+    }
+    
+    private static double vectorMagnitudeToArrowLength( double magnitude, double maxMagnitude ) {
+        double length = ( magnitude / maxMagnitude ) * ( VECTOR_MAX_TAIL_LENGTH - VECTOR_MIN_TAIL_LENGTH );
+        if ( length > 0 ) {
+            length = length + VECTOR_HEAD_HEIGHT + VECTOR_MIN_TAIL_LENGTH;
+        }
+        else {
+            length = length - VECTOR_HEAD_HEIGHT - VECTOR_MIN_TAIL_LENGTH;
+        }
+        return length;
     }
 }
