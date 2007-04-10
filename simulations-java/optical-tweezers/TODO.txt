@@ -61,6 +61,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/9/07 - add TrapForceNode for visualizing trap forces on bead
+4/9/07 - implement trap force model, correct problems with physics
 4/9/07 - scale laser alpha using sqrt to compensate for human eye perception
 4/9/07 - add gradient for portion of laser beam going into objective
 4/9/07 - combine BeamInNode and BeamOutNode into LaserBeamNode to handle all laser beam drawing

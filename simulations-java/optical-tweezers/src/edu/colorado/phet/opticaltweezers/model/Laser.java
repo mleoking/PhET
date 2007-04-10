@@ -6,10 +6,11 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.DoubleRange;
+import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
  * Laser is the model of the laser.
- * Position indicates where the center of the waist is located.
+ * Position indicates where the center of the trap is located.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -21,6 +22,8 @@ public class Laser extends MovableObject implements ModelElement {
     
     public static final String PROPERTY_POWER = "power";
     public static final String PROPERTY_RUNNING = "running";
+    
+    private static final double TRAP_FORCE_SCALE_FACTOR = 582771.6; // from Tom Perkins' work
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -127,37 +130,7 @@ public class Laser extends MovableObject implements ModelElement {
     }
     
     //----------------------------------------------------------------------------
-    // Beam intensity (power gradient)
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Gets the intensity at a specified horizontal location along a specified radius.
-     * The radius can be calculated using getBeamRadiusAt.
-     * 
-     * @param x
-     * @param radius
-     * @return intensity, in units of power/nm^2
-     */
-    public double getBeamIntensityAt( double x, double radius ) {
-        return getBeamIntensityAt( x, radius, _power );
-    }
-    
-    /**
-     * Gets the intensity for a specified location, radius and power.
-     * The radius can be calculated using getBeamRadiusAt.
-     * 
-     * @param x
-     * @param radius
-     * @return intensity, in units of power/nm^2
-     */
-    public static double getBeamIntensityAt( double x, double radius, double power ) {
-        double t1 = power / ( Math.PI * ( ( radius * radius ) / 2 ) );
-        double t2 = Math.exp( ( -2 * x * x ) / ( radius * radius ) );
-        return t1 * t2;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Beam radius (shape)
+    // Radius (shape) model
     //----------------------------------------------------------------------------
     
     /**
@@ -166,34 +139,36 @@ public class Laser extends MovableObject implements ModelElement {
      * of the waist, in the direction that the beam is pointing, then z is a 
      * distance on this line.
      * 
-     * @param y vertical distance from the center of the waist (nm)
+     * @param yOffset vertical distance from the center of the waist (nm)
      * @return radius at y, in nm
      */
-    public double getBeamRadiusAt( double y ) {
-        final double yAbs = Math.abs( y );
+    public double getRadius( final double yOffset ) {
+        final double yOffsetAbs = Math.abs( yOffset );
         final double r0 = _diameterAtWaist / 2;
         final double rMax = _diameterAtObjective / 2;
         final double zr = ( Math.PI * r0 * r0 ) / _wavelength;
         final double A = ( _distanceFromObjectiveToWaist / zr ) / Math.sqrt( ( ( rMax / r0 ) * ( rMax / r0 ) ) - 1 );
-        final double t1 = yAbs / ( A * zr );
-        double rz = r0 * Math.sqrt(  1 + ( t1 * t1 ) );
+        final double t1 = yOffsetAbs / ( A * zr );
+        double rz = r0 * Math.sqrt( 1 + ( t1 * t1 ) );
         return rz;
     }
     
     /**
-     * Is a specified point inside the out-going laser beam's shape?
+     * Is a specified point inside the laser beam's shape?
      * 
-     * @param x
-     * @param y
+     * @param x coordinate relative to global model origin
+     * @param y coordinate relative to global model origin
      * @return true or false
      */
-    public boolean contains( double x, double y ) {
+    public boolean contains( final double x, final double y ) {
         assert( getOrientation() == Math.toRadians( -90 ) ); // laser beam must point up
         boolean b = false;
+        final double xOffset = x - getX();
+        final double yOffset = y - getY();
         // Is y on the out-going side of the objective?
-        if ( y <= getY() + _distanceFromObjectiveToWaist ) {
-            double radius = getBeamRadiusAt( y - getY() );
-            if ( radius <= Math.abs( getX() - x ) ) {
+        if ( yOffset <= _distanceFromObjectiveToWaist ) {
+            final double radius = getRadius( yOffset );
+            if ( radius <= Math.abs( xOffset ) ) {
                 b = true;
             }
         }
@@ -201,14 +176,113 @@ public class Laser extends MovableObject implements ModelElement {
     }
     
     /**
-     * Is a specified point inside the out-going laser beam's shape?
+     * Is a specified point inside the laser beam's shape?
      * 
-     * @param p
+     * @param p point relative to global model origin
      * @return true or false
      */
     public boolean contains( Point2D p ) {
         return contains( p.getX(), p.getY() );
     }
+    
+    //----------------------------------------------------------------------------
+    // Intensity model
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the intensity at a point.
+     * 
+     * @param x coordinate relative to global model origin
+     * @param y coordinate relative to global model origin
+     */
+    public double getIntensity( final double x, final double y ) {
+        double intensity = 0;
+        if ( _running ) {
+            final double xOffset = x - getX();
+            final double yOffset = y - getY();
+            final double radius = getRadius( yOffset );
+            intensity = getIntensityOnRadius( xOffset, radius, _power );
+        }
+        return intensity;
+    }
+    
+    /**
+     * Gets the intensity at a point.
+     * 
+     * @param p point relative to global model origin
+     */
+    public double getIntensity( Point2D p ) {
+        return getIntensity( p.getX(), p.getY() );
+    }
+    
+    /**
+     * Gets the intensity at a specified horizontal location along a specified radius.
+     * The radius can be calculated using getBeamRadiusAt.
+     * 
+     * @param xOffset horizontal distance from the center of the waist (nm)
+     * @param radius beam radius in nm
+     * @return intensity, in units of power/nm^2
+     */
+    public double getIntensityOnRadius( final double xOffset, final double radius ) {
+        return getIntensityOnRadius( xOffset, radius, _power );
+    }
+    
+    /**
+     * Gets the intensity for a specified location, radius and power.
+     * The radius can be calculated using getBeamRadiusAt.
+     * 
+     * @param xOffset horizontal distance from the center of the waist (nm)
+     * @param radius beam radius in nm
+     * @param power laser power in mW
+     * @return intensity, in units of power/nm^2
+     */
+    public static double getIntensityOnRadius( final double xOffset, final double radius, final double power ) {
+        //XXX constraints on xOffset?
+        assert( radius > 0 );
+        assert( power >= 0 );
+        final double t1 = power / ( Math.PI * ( ( radius * radius ) / 2 ) );
+        final double t2 = Math.exp( ( -2 * xOffset * xOffset ) / ( radius * radius ) );
+        return t1 * t2;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Trap Force model
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the trap force vector at a point.
+     * 
+     * @param x
+     * @param y
+     */
+    public Vector2D getTrapForce( final double x, final double y ) {
+        return getTrapForce( x, y, _power );
+    }
+    
+    public Vector2D getTrapForce( Point2D p ) {
+        return getTrapForce( p.getX(), p.getY() );
+    }
+    
+    public Vector2D getTrapForce( Point2D p, final double power ) {
+        return getTrapForce( p.getX(), p.getY(), power );
+    }
+
+    public Vector2D getTrapForce( final double x, final double y, final double power ) {
+        
+        final double xOffset = x - getX();
+        final double yOffset = y - getY();
+        
+        // x component
+        final double radius = getRadius( yOffset );
+        final double intensity = getIntensityOnRadius( xOffset, radius, power );
+        final double fx = -1 * TRAP_FORCE_SCALE_FACTOR * ( xOffset / ( radius * radius ) ) * intensity;
+
+        // y component
+        final double fy = Math.abs( fx / 5.6 ) * ( yOffset < 0 ? 1 : -1 );
+
+        return new Vector2D( fx, fy );
+    }
+
     
     //----------------------------------------------------------------------------
     // ModelElement implementation
