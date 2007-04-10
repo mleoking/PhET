@@ -32,7 +32,7 @@ information.
   <resources> 
     <j2se version="1.4+"/> 
     <jar href="faraday/faraday.jar"/>
-    <property name="javaws.locale" value="es"/>
+    <property name="user.language" value="es"/>
   </resources> 
   <application-desc main-class="edu.colorado.phet.faraday.FaradayApplication"/>
 </jnlp> 
