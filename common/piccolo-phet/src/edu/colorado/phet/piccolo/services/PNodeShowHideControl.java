@@ -1,22 +1,18 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.piccolo.nodes;
+package edu.colorado.phet.piccolo.services;
 
+import edu.colorado.phet.common.PhetCommonProjectConfig;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.pswing.PSwing;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-
-import edu.colorado.phet.common.PhetCommonProjectConfig;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This class adds a control to a specified node that enables the user to
