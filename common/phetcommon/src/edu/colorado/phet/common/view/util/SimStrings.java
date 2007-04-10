@@ -14,9 +14,10 @@ import java.util.Vector;
  *
  */
 public class SimStrings extends AbstractPhetPropertySource {
+    
     private Vector localizedStrings;
-    private Vector stringsPaths;
-    private Locale localizedLocale;
+    private Vector bundleNames;
+    private Locale locale;
 
     private static SimStrings INSTANCE = new SimStrings();
     
@@ -24,8 +25,20 @@ public class SimStrings extends AbstractPhetPropertySource {
         return INSTANCE;
     }
 
+    public SimStrings() {
+        
+        // user.language indicates the default locale
+        locale = Locale.getDefault();
+        
+        // javaws.locale overrides user.language
+        String javawsLocale = System.getProperty( "javaws.locale" );
+        if( javawsLocale != null && !javawsLocale.equals( "" ) ) {
+            locale = new Locale( javawsLocale );
+        }
+    }
+    
     public void init( String bundleName ) {
-        init(new String[0], bundleName);
+        init(null, bundleName);
     }
 
     /**
@@ -35,19 +48,16 @@ public class SimStrings extends AbstractPhetPropertySource {
      * @param bundleName the base name of the resource bundle containing localized strings
      */
     public void init( String[] args, String bundleName ) {
-        // Get the default locale from property javaws.locale.
-        String applicationLocale = System.getProperty( "javaws.locale" );
-        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            setLocale( new Locale( applicationLocale ) );
-        }
 
-        // Override default locale using "user.language=" command line argument.
-        String argsKey = "user.language=";
-        for( int i = 0; i < args.length; i++ ) {
-            if( args[i].startsWith( argsKey ) ) {
-                String locale = args[i].substring( argsKey.length(), args[i].length() );
-                setLocale( new Locale( locale ) );
-                break;
+        // Override locale using "user.language=" command line argument.
+        if ( args != null ) {
+            String argsKey = "user.language=";
+            for ( int i = 0; i < args.length; i++ ) {
+                if ( args[i].startsWith( argsKey ) ) {
+                    String locale = args[i].substring( argsKey.length(), args[i].length() );
+                    setLocale( new Locale( locale ) );
+                    break;
+                }
             }
         }
 
@@ -57,10 +67,10 @@ public class SimStrings extends AbstractPhetPropertySource {
 
     // TODO: make this private after all simulation use init
     public void setLocale( Locale locale ) {
-        this.localizedLocale = locale;
+        this.locale = locale;
         // Reload all existing string resources with the new locale
-        Vector priorPaths = this.stringsPaths;
-        this.stringsPaths = null;
+        Vector priorPaths = this.bundleNames;
+        this.bundleNames = null;
         this.localizedStrings = null;
         if( priorPaths != null ) {
             for( Iterator i = priorPaths.iterator(); i.hasNext(); ) {
@@ -71,22 +81,22 @@ public class SimStrings extends AbstractPhetPropertySource {
     }
 
     // TODO: make this private after all simulation use init
-    public void addStrings( String stringsPath ) {
+    public void addStrings( String bundleName ) {
         if( this.localizedStrings == null ) {
             this.localizedStrings = new Vector();
-            this.stringsPaths = new Vector();
+            this.bundleNames = new Vector();
         }
-        if( this.stringsPaths.contains( stringsPath ) ) {
+        if( this.bundleNames.contains( bundleName ) ) {
             return;
         }
         try {
-            if( this.localizedLocale == null ) {
-                this.localizedLocale = Locale.getDefault();
+            if( this.locale == null ) {
+                this.locale = Locale.getDefault();
             }
-            ResourceBundle rb = ResourceBundle.getBundle( stringsPath, this.localizedLocale );
+            ResourceBundle rb = ResourceBundle.getBundle( bundleName, this.locale );
             if( rb != null ) {
                 this.localizedStrings.add( rb );
-                this.stringsPaths.add( stringsPath );
+                this.bundleNames.add( bundleName );
             }
         }
         catch( Exception x ) {
@@ -110,7 +120,6 @@ public class SimStrings extends AbstractPhetPropertySource {
         for( Iterator i = this.localizedStrings.iterator(); value == null && i.hasNext(); ) {
             try {
                 ResourceBundle rb = (ResourceBundle)i.next();
-
                 value = rb.getString( key );
             }
             catch( Exception x ) {
