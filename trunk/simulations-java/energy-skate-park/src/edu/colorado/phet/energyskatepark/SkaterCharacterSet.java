@@ -18,7 +18,7 @@ public class SkaterCharacterSet {
 //        addSkaterCharacter( new SkaterCharacter( "images/motorcycle.gif", "Motorcycle", 227.0, 1.0 ) );
         addSkaterCharacter( new SkaterCharacter( "images/bulldog.gif", "Bulldog", 20.0, 1.125) );
         addSkaterCharacter( new SkaterCharacter( "images/bugboard.gif", "Bug", 0.2, 0.75) );
-        addSkaterCharacter( new SkaterCharacter( "images/ball.png", "Ball", 20.0, 0.6, 2.0 ) );
+        addSkaterCharacter( new SkaterCharacter( "images/ball.png", "Ball", 5.0, 0.6, 2.0 ) );
     }
 
     public SkaterCharacter[] getSkaterCharacters() {
