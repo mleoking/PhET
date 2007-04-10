@@ -1,5 +1,5 @@
 • Playback/record (depends on correct data structure copying which needs to be implemented and tested)
-• add ball graphic
+• change ball graphic to red
 • Performance problems after lots of runs
 • In the default setup, when the simulation starts or when the user presses "return skater", the skater falls a few feet onto the track and loses some energy to thermal.  This was confusing for Trish's students, who weren't ready to be exposed to friction-based features.  What should be done about this?
 
