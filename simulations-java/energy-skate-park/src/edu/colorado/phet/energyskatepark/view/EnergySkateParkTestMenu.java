@@ -1,8 +1,7 @@
 package edu.colorado.phet.energyskatepark.view;
 
-import edu.colorado.phet.energyskatepark.test.apptests.*;
-import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
+import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
