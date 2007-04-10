@@ -3,11 +3,11 @@
 ===============================================================================
 
 IN PROGRESS:
+- implement bead motion model
 
 HIGH PRIORITY:
 - bug: fluid viscosity slider is brain damaged
 - get a better model for Fz trap force
-- implement bead motion model
 - implement E-field model for slow mode
 - connect position histogram to model
 - connect potential energy chart to model
