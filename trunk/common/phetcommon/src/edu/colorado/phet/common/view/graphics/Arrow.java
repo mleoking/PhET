@@ -1,13 +1,5 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.view.graphics;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
@@ -20,31 +12,33 @@ import java.awt.geom.Point2D;
  * Arrow
  *
  * @author ?
- * @version $Revision$
  */
 public class Arrow {
 
     private GeneralPath arrowPath = new GeneralPath();//This causes real problems because equals is not overriden.
     private GeneralPath headShape = new GeneralPath();
     private GeneralPath tailShape = new GeneralPath();
+    
     private Point2D tailLocation;
     private Point2D tipLocation;
     private double headHeight;
     private double headWidth;
     private double tailWidth;
+    private double fractionalHeadHeight;
+    private boolean scaleTailToo;
+    
     private AbstractVector2D direction;
     private AbstractVector2D norm;
     boolean isHeadDynamic = false;
-    private double fractionalHeadHeight;
-    private boolean scaleTailToo;
 
     public boolean equals( Object obj ) {
+        boolean equals = false;
         if( obj instanceof Arrow ) {
             Arrow a = (Arrow)obj;
-            return a.tailLocation.equals( tailLocation ) && a.tipLocation.equals( tipLocation ) && a.headHeight == headHeight
-                   && a.headWidth == headWidth && a.tailWidth == tailWidth && a.isHeadDynamic == isHeadDynamic;
+            equals = ( a.tailLocation.equals( tailLocation ) && a.tipLocation.equals( tipLocation ) && a.headHeight == headHeight
+                   && a.headWidth == headWidth && a.tailWidth == tailWidth && a.isHeadDynamic == isHeadDynamic );
         }
-        return false;
+        return equals;
     }
 
     public Arrow( Point2D tailLocation, Point2D tipLocation, double headHeight, double headWidth, double tailWidth ) {
@@ -170,6 +164,12 @@ public class Arrow {
         this.tipLocation = tipLocation;
         computeArrow();
     }
+    
+    public void setTipAndTailLocations( Point2D tipLocation, Point2D tailLocation ) {
+        this.tipLocation = tipLocation;
+        this.tailLocation = tailLocation;
+        computeArrow();
+    }
 
     public double getTailWidth() {
         return tailWidth;
@@ -192,5 +192,41 @@ public class Arrow {
         tailLocation.setLocation( tailLocation.getX() + dx, tailLocation.getY() + dy );
         tipLocation.setLocation( tailLocation.getX() + dx, tailLocation.getY() + dy );
         computeArrow();
+    }
+    
+    public void setHeadWidth( double headWidth ) {
+        this.headWidth = headWidth;
+        computeArrow();
+    }
+    
+    public double getHeadWidth() {
+        return headWidth;
+    }
+    
+    public void setHeadHeight( double headHeight ) {
+        this.headHeight = headHeight;
+        computeArrow();
+    }
+    
+    public double getHeadHeight() {
+        return headHeight;
+    }
+    
+    public void setFractionalHeadHeight( double fractionalHeadHeight ) {
+        this.fractionalHeadHeight = fractionalHeadHeight;
+        computeArrow();
+    }
+    
+    public double getFractionalHeadHeight() {
+        return fractionalHeadHeight;
+    }
+    
+    public void setScaleTailToo( boolean scaleTailToo ) {
+        this.scaleTailToo = scaleTailToo;
+        computeArrow();
+    }
+    
+    public boolean getScaleTailToo() {
+        return scaleTailToo;
     }
 }
