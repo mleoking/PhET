@@ -152,9 +152,9 @@ public class LaserBeamNode extends PhetPNode implements Observer {
         final int blue = c.getBlue();
         
         // Max power intensity, at center of trap
-        final double waistRadius = _laser.getBeamRadiusAt( 0 );
+        final double waistRadius = _laser.getRadius( 0 );
         final double maxPower = _laser.getPowerRange().getMax();
-        final double maxIntensity = Laser.getBeamIntensityAt( 0, waistRadius, maxPower );
+        final double maxIntensity = Laser.getIntensityOnRadius( 0, waistRadius, maxPower );
         
         // Create the gradient pixel data
         int[][] dataBuffer = new int[gradientWidth][gradientHeight];
@@ -163,17 +163,17 @@ public class LaserBeamNode extends PhetPNode implements Observer {
             double r = 0;
             if ( y < outHeight ) {
                 // part of the beam coming out of the objective
-                r = _laser.getBeamRadiusAt( y );
+                r = _laser.getRadius( y );
             }
             else {
                 // part of the beam going into the objective
-                r = _laser.getBeamRadiusAt( _laser.getDistanceFromObjectiveToWaist() );
+                r = _laser.getRadius( _laser.getDistanceFromObjectiveToWaist() );
             }
             
             for ( int x = 0; x < gradientWidth; x++ ) {
                 int argb = 0x00000000; // 4 bytes, in order ARGB
                 if ( x <= r ) {
-                    final double intensity = Laser.getBeamIntensityAt( x, r, maxPower );
+                    final double intensity = Laser.getIntensityOnRadius( x, r, maxPower );
                     final int alpha = (int) ( MAX_ALPHA_CHANNEL * intensity / maxIntensity );
                     argb = ( alpha << 24 ) | ( red << 16 ) | ( green << 8 ) | ( blue );
                 }
@@ -210,7 +210,7 @@ public class LaserBeamNode extends PhetPNode implements Observer {
         final int numberOfPoints = (int) _laser.getDistanceFromObjectiveToWaist();
         Point2D[] points = new Point2D.Double[numberOfPoints];
         for ( int y = 0; y < points.length; y++ ) {
-            double r = _laser.getBeamRadiusAt( y );
+            double r = _laser.getRadius( y );
             points[y] = new Point2D.Double( r, y );
         }
 

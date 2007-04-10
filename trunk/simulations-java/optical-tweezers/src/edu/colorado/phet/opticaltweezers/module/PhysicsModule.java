@@ -194,6 +194,10 @@ public class PhysicsModule extends AbstractModule {
             }
         });
         
+        //XXX trap force tester
+        TrapForceNode trapForceNode = new TrapForceNode( _laser, _bead, _modelViewTransform );
+        trapForceNode.setOffset( 200, 200 );
+        
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
@@ -260,6 +264,7 @@ public class PhysicsModule extends AbstractModule {
         _rootNode.addChild( _rulerNode );
         _rootNode.addChild( _rulerDragBoundsNode );
         _rootNode.addChild( _returnBeadButtonWrapper );
+        _rootNode.addChild( trapForceNode );//XXX
 
         //----------------------------------------------------------------------------
         // Initialize the module state
