@@ -20,32 +20,47 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * TrapForceNode displays the optical trap force acting on a bead.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class TrapForceNode extends PComposite implements Observer {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final boolean SHOW_VALUES = true;
+    private static final boolean SHOW_XY_COMPONENTS = true;
 
     // properties of the vectors
     private static final double VECTOR_HEAD_HEIGHT = 20;
     private static final double VECTOR_HEAD_WIDTH = 20;
     private static final double VECTOR_TAIL_WIDTH = 5;
-    private static final double VECTOR_MIN_TAIL_LENGTH = 2;
     private static final double VECTOR_MAX_TAIL_LENGTH = 125;
     private static final Stroke VECTOR_STROKE = new BasicStroke( 1f );
     private static final Paint VECTOR_STROKE_PAINT = Color.BLACK;
-    private static final Paint VECTOR_FILL_PAINT = Color.GREEN;
-    private static final double VECTOR_VALUE_SPACING = 2;
+    private static final Paint SUM_VECTOR_FILL_PAINT = Color.WHITE;
+    private static final Paint COMPONENT_VECTOR_FILL_PAINT = Color.LIGHT_GRAY;
+    private static final double VALUE_SPACING = 2; // space between value and arrow head
     
     private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0.##E0" );
     
     private static final String UNITS_STRING = OTResources.getString( "units.trapForce" );
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private Laser _laser;
     private Bead _bead;
     private ModelViewTransform _modelViewTransform;
-    private PPath _xComponentNode, _yComponentNode;
-    private PText _xTextNode, _yTextNode;
-    private double _fMax;
+    private Vector2DNode _vectorNode, _xComponentNode, _yComponentNode;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public TrapForceNode( Laser laser, Bead bead, ModelViewTransform modelViewTransform ) {
         super();
@@ -60,28 +75,24 @@ public class TrapForceNode extends PComposite implements Observer {
         
         _modelViewTransform = modelViewTransform;
         
-        _xComponentNode = new PPath();
-        _xComponentNode.setStroke( VECTOR_STROKE );
-        _xComponentNode.setStrokePaint( VECTOR_STROKE_PAINT );
-        _xComponentNode.setPaint( VECTOR_FILL_PAINT );
-        
-        _yComponentNode = new PPath();
-        _yComponentNode.setStroke( VECTOR_STROKE );
-        _yComponentNode.setStrokePaint( VECTOR_STROKE_PAINT );
-        _yComponentNode.setPaint( VECTOR_FILL_PAINT );
-        
-        _xTextNode = new PText();
-        _xTextNode.setTextPaint( Color.BLACK );
-        
-        _yTextNode = new PText();
-        _yTextNode.setTextPaint( Color.BLACK );
-        
         double x = _laser.getX() + ( _laser.getDiameterAtWaist() / 4 ); // halfway between center and edge of waist
         double y = _laser.getY();
         double maxPower = _laser.getPowerRange().getMax();
-        Vector2D fMax = _laser.getTrapForce( x, y, maxPower );
-        _fMax = Math.max( Math.abs( fMax.getX() ), Math.abs( fMax.getY() ) );
-//        System.out.println( "TrapForceNode.init fMax=" + fMax );//XXX
+        Vector2D maxTrapForce = _laser.getTrapForce( x, y, maxPower );
+
+        _xComponentNode = createVectorNode( COMPONENT_VECTOR_FILL_PAINT, maxTrapForce.getMagnitude(), VECTOR_MAX_TAIL_LENGTH );
+        _xComponentNode.setValueVisible( false );
+        
+        _yComponentNode = createVectorNode( COMPONENT_VECTOR_FILL_PAINT, maxTrapForce.getMagnitude(), VECTOR_MAX_TAIL_LENGTH );
+        _yComponentNode.setValueVisible( false );
+        
+        _vectorNode = createVectorNode( SUM_VECTOR_FILL_PAINT, maxTrapForce.getMagnitude(), VECTOR_MAX_TAIL_LENGTH );
+        
+        if ( SHOW_XY_COMPONENTS ) {
+            addChild( _xComponentNode );
+            addChild( _yComponentNode );
+        }
+        addChild( _vectorNode );
         
         updatePosition();
         updateVectors();
@@ -91,6 +102,29 @@ public class TrapForceNode extends PComposite implements Observer {
         _laser.deleteObserver( this );
         _bead.deleteObserver( this );
     }
+    
+    /*
+     * Creates a Vector2DNode with common property values.
+     */
+    private static Vector2DNode createVectorNode( Paint fillPaint, double referenceMagnitude, double referenceLength ) {
+        Vector2DNode vectorNode = new Vector2DNode( new Vector2D(), referenceMagnitude, referenceLength );
+        vectorNode.setUpdateEnabled( false );
+        vectorNode.setHeadSize( VECTOR_HEAD_WIDTH, VECTOR_HEAD_HEIGHT );
+        vectorNode.setTailWidth( VECTOR_TAIL_WIDTH );
+        vectorNode.setArrowFillPaint( fillPaint );
+        vectorNode.setArrowStroke( VECTOR_STROKE );
+        vectorNode.setArrowStrokePaint( VECTOR_STROKE_PAINT );
+        vectorNode.setValueSpacing( VALUE_SPACING );
+        vectorNode.setValueVisible( SHOW_VALUES );
+        vectorNode.setValueFormat( VALUE_FORMAT );
+        vectorNode.setUnits( UNITS_STRING );
+        vectorNode.setUpdateEnabled( true );
+        return vectorNode;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
         if ( o == _laser ) {
@@ -106,95 +140,32 @@ public class TrapForceNode extends PComposite implements Observer {
         }
     }
     
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
     private void updatePosition() {
         Point2D position = _modelViewTransform.modelToView( _bead.getPositionRef() );
         setOffset( position.getX(), position.getY() );
     }
     
     private void updateVectors() {
-        
-        removeAllChildren();
+
+        _xComponentNode.setVisible( _laser.isRunning() );
+        _yComponentNode.setVisible( _laser.isRunning() );
 
         if ( _laser.isRunning() ) {
-            
+
             // calcuate the trap force vector at the bead's position
             Point2D beadPosition = _bead.getPositionRef();
             Vector2D f = _laser.getTrapForce( beadPosition );
-            double fx = f.getX();
-            double fy = f.getY();
-//            System.out.println( "TrapForceNode.updateVectors beadPosition=" + beadPosition + " laserPosition=" + _laser.getPositionRef() + " f=" + f );//XXX
-            assert ( Math.abs( fx ) <= _fMax );
-            assert ( Math.abs( fy ) <= _fMax );
 
-            // x component of the trap force
-            if ( fx != 0 ) {
-                
-                double length = vectorMagnitudeToArrowLength( fx, _fMax );
-                Point2D tail = new Point2D.Double( 0, 0 );
-                Point2D tip = new Point2D.Double( length, 0 );
-                Arrow arrow = new Arrow( tail, tip, VECTOR_HEAD_HEIGHT, VECTOR_HEAD_WIDTH, VECTOR_TAIL_WIDTH );
-                _xComponentNode.setPathTo( arrow.getShape() );
-                addChild( _xComponentNode );
-                
-                if ( SHOW_VALUES ) {
-                    String xText = VALUE_FORMAT.format( fx ) + " " + UNITS_STRING;
-                    _xTextNode.setText( xText );
-                    addChild( _xTextNode );
-                    
-                    double x = 0;
-                    double y = -_yTextNode.getFullBounds().getHeight() / 2;
-                    if ( fx > 0 ) {
-                        // text to the right of the arrow
-                        x = _xComponentNode.getFullBounds().getMaxX() + VECTOR_VALUE_SPACING;
-                    }
-                    else {
-                        // text to the left of the arrow
-                        x = _xComponentNode.getFullBounds().getX() - VECTOR_VALUE_SPACING - _xTextNode.getFullBounds().getWidth();
-
-                    }
-                    _xTextNode.setOffset( x, y );
-                }
-            }
-
-            // y component of the trap force
-            if ( fy != 0 ) {
-                double length = vectorMagnitudeToArrowLength( fy, _fMax );
-                Point2D tail = new Point2D.Double( 0, 0 );
-                Point2D tip = new Point2D.Double( 0, length );
-                Arrow arrow = new Arrow( tail, tip, VECTOR_HEAD_HEIGHT, VECTOR_HEAD_WIDTH, VECTOR_TAIL_WIDTH );
-                _yComponentNode.setPathTo( arrow.getShape() );
-                addChild( _yComponentNode );
-                
-                if ( SHOW_VALUES ) {
-                    String yText = VALUE_FORMAT.format( fy ) + " " + UNITS_STRING;
-                    _yTextNode.setText( yText );
-                    addChild( _yTextNode );
-                    
-                    double x = -_yTextNode.getFullBounds().getWidth() / 2;
-                    double y = 0;
-                    if ( fy > 0 ) {
-                        // text centered below arrow
-                        y = _yComponentNode.getFullBounds().getMaxY() + VECTOR_VALUE_SPACING;
-                    }
-                    else {
-                        // text centered above arrow
-                        y = _yComponentNode.getFullBounds().getY() - VECTOR_VALUE_SPACING - _yTextNode.getFullBounds().getHeight();
-
-                    }
-                    _yTextNode.setOffset( x, y );
-                }
+            // update the x & y component vectors
+            _vectorNode.setVector( f );
+            if ( SHOW_XY_COMPONENTS ) {
+                _xComponentNode.setVector( f.getX(), 0 );
+                _yComponentNode.setVector( 0, f.getY() );
             }
         }
-    }
-    
-    private static double vectorMagnitudeToArrowLength( double magnitude, double maxMagnitude ) {
-        double length = ( magnitude / maxMagnitude ) * ( VECTOR_MAX_TAIL_LENGTH - VECTOR_MIN_TAIL_LENGTH );
-        if ( length > 0 ) {
-            length = length + VECTOR_HEAD_HEIGHT + VECTOR_MIN_TAIL_LENGTH;
-        }
-        else {
-            length = length - VECTOR_HEAD_HEIGHT - VECTOR_MIN_TAIL_LENGTH;
-        }
-        return length;
     }
 }

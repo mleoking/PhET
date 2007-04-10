@@ -71,6 +71,7 @@ public class PhysicsModule extends AbstractModule {
     private PPath _rulerDragBoundsNode;
     private PositionHistogramChartNode _positionHistogramChartNode;
     private PotentialEnergyChartNode _potentialEnergyChartNode;
+    private TrapForceNode _trapForceNode;
     
     // Control
     private PhysicsControlPanel _controlPanel;
@@ -164,17 +165,18 @@ public class PhysicsModule extends AbstractModule {
             }
         });
         
+        // Trap Force
+        _trapForceNode = new TrapForceNode( _laser, _bead, _modelViewTransform );
+        
         // Ruler
         _rulerDragBoundsNode = new PPath();
         _rulerDragBoundsNode.setStroke( null );
         _rulerNode = new OTRulerNode( _laser,_modelViewTransform, _rulerDragBoundsNode );
-        _rulerNode.setVisible( PhysicsDefaults.RULER_SELECTED );
         
         // Position Histogram chart
         PositionHistogramPlot positionHistogramPlot = new PositionHistogramPlot();
         PositionHistogramChart positionHistogramChart = new PositionHistogramChart( positionHistogramPlot );
         _positionHistogramChartNode = new PositionHistogramChartNode( positionHistogramChart, _laser, _bead, _clock );
-        _positionHistogramChartNode.setVisible( PhysicsDefaults.POSITION_HISTOGRAM_SELECTED );
         _positionHistogramChartNode.addCloseListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 _positionHistogramChartNode.setVisible( false );
@@ -186,17 +188,12 @@ public class PhysicsModule extends AbstractModule {
         PotentialEnergyPlot potentialEnergyPlot = new PotentialEnergyPlot();
         PotentialEnergyChart potentialEnergyChart = new PotentialEnergyChart( potentialEnergyPlot );
         _potentialEnergyChartNode = new PotentialEnergyChartNode( _canvas, potentialEnergyChart );
-        _potentialEnergyChartNode.setVisible( PhysicsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
         _potentialEnergyChartNode.addCloseListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 _potentialEnergyChartNode.setVisible( false );
                 _controlPanel.setPotentialChartSelected( false );
             }
         });
-        
-        //XXX trap force tester
-        TrapForceNode trapForceNode = new TrapForceNode( _laser, _bead, _modelViewTransform );
-        trapForceNode.setOffset( 200, 200 );
         
         //----------------------------------------------------------------------------
         // Control
@@ -259,12 +256,12 @@ public class PhysicsModule extends AbstractModule {
         _rootNode.addChild( _laserDragBoundsNode );
         _rootNode.addChild( _beadNode );
         _rootNode.addChild( _beadDragBoundsNode );
+        _rootNode.addChild( _trapForceNode );
         _rootNode.addChild( _positionHistogramChartNode );
         _rootNode.addChild( _potentialEnergyChartNode );
         _rootNode.addChild( _rulerNode );
         _rootNode.addChild( _rulerDragBoundsNode );
         _rootNode.addChild( _returnBeadButtonWrapper );
-        _rootNode.addChild( trapForceNode );//XXX
 
         //----------------------------------------------------------------------------
         // Initialize the module state
@@ -320,6 +317,10 @@ public class PhysicsModule extends AbstractModule {
     
     public void setPotentialEnergyChartVisible( boolean visible ) {
         _potentialEnergyChartNode.setVisible( visible );
+    }
+    
+    public void setTrapForceVisible( boolean visible ) {
+        _trapForceNode.setVisible( visible );
     }
     
     //----------------------------------------------------------------------------
