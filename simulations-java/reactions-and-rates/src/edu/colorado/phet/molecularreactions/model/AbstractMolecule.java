@@ -10,6 +10,8 @@ import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.EventListener;
 
 /**
@@ -224,6 +226,10 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
     //--------------------------------------------------------------------------------------------------
 
     abstract public SimpleMolecule[] getComponentMolecules();
+
+    public final Collection getComponentMoleculesAsList() {
+        return Arrays.asList( getComponentMolecules() );
+    }
 
     abstract public Rectangle2D getBoundingBox();
 

@@ -17,7 +17,6 @@ import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.LauncherGraphic;
 import edu.colorado.phet.molecularreactions.view.LauncherLoadPanel;
-import edu.colorado.phet.molecularreactions.view.SimpleMoleculeGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.umd.cs.piccolo.PNode;
@@ -105,8 +104,6 @@ public class SimpleModule extends MRModule {
 
     public void activate() {
         super.activate();
-        // Disable marking of the selected molecule and its nearest neighbor
-        SimpleMoleculeGraphic.setMarkSelectedMolecule( false );
     }
 
     public Launcher getLauncher() {
@@ -161,6 +158,7 @@ public class SimpleModule extends MRModule {
      * @param launcherMolecule
      */
     public void setMolecules( MRModel model, SimpleMolecule launcherMolecule ) {
+        initiateReset();
 
         // Clear the molecules from the model
         model.removeAllMolecules();
@@ -169,6 +167,8 @@ public class SimpleModule extends MRModule {
         launcherMoleculeClass = launcherMolecule.getClass();
 
         if( this.launcherMolecule != null ) {
+            launcherMolecule.setSelectionStatus( Selectable.NOT_SELECTED );
+            
             model.removeModelElement( this.launcherMolecule );
         }
         if( cm != null ) {
@@ -206,6 +206,10 @@ public class SimpleModule extends MRModule {
         }
 
         launcherMolecule.setSelectionStatus( Selectable.SELECTED );
+
+        getEnergyView().reset();
+
+        completeReset();
     }
 
     public void reset() {

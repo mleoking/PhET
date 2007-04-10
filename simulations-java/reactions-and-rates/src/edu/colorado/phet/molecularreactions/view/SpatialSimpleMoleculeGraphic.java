@@ -28,7 +28,7 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SpatialSimpleMoleculeGraphic extends SimpleMoleculeGraphic {
+public class SpatialSimpleMoleculeGraphic extends ObservingMoleculeGraphic {
     private PPath boundingBox;
 
     private final SimpleMolecule molecule;

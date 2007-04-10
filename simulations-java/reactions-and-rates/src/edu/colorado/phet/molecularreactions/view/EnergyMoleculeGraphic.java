@@ -16,24 +16,24 @@ import edu.umd.cs.piccolo.PNode;
 public class EnergyMoleculeGraphic extends PNode {
     public EnergyMoleculeGraphic( AbstractMolecule molecule, EnergyProfile profile ) {
         if( molecule instanceof SimpleMolecule ) {
-            addChild( new EnergySimpleMoleculeGraphic( (SimpleMolecule)molecule, profile ) );
+            addChild( new SimpleMoleculeGraphicNode( molecule.getClass(), profile ) );
         }
         else {
             // Keep the B molecule in the middle of the display by putting the other molecule
             // on top if it's an A molecule, and below if it's a C molecule
-            SimpleMolecule[] components = molecule.getComponentMolecules();
+            SimpleMolecule[] components  = molecule.getComponentMolecules();
             SimpleMolecule moleculeB     = components[0] instanceof MoleculeB ? components[0] : components[1];
             SimpleMolecule moleculeOther = components[0] instanceof MoleculeB ? components[1] : components[0];
 
-            EnergySimpleMoleculeGraphic graphicB = new EnergySimpleMoleculeGraphic( moleculeB, profile );
+            SimpleMoleculeGraphicNode graphicB = new SimpleMoleculeGraphicNode( moleculeB.getClass(), profile );
 
             graphicB.setOffset( 0, 0 );
 
-            EnergySimpleMoleculeGraphic graphicOther = new EnergySimpleMoleculeGraphic( moleculeOther, profile );
+            SimpleMoleculeGraphicNode graphicOther = new SimpleMoleculeGraphicNode( moleculeOther.getClass(), profile );
 
             int direction = moleculeOther instanceof MoleculeA ? -1 : 1;
             
-            graphicOther.setOffset( 0, direction * Math.max( graphicB.getMolecule().getRadius(), graphicOther.getMolecule().getRadius() ) );
+            graphicOther.setOffset( 0, direction * Math.max( moleculeB.getRadius(), moleculeOther.getRadius() ) );
 
             addChild( graphicOther );
             addChild( graphicB );

@@ -64,13 +64,7 @@ public class EnergyView extends PNode implements Resetable {
     public EnergyView() {
     }
 
-    public boolean isInitialized() {
-        return upperPane != null;
-    }
-
     public void initialize( MRModule module, Dimension upperPaneSize ) {
-        if (isInitialized()) return;
-        
         this.module = module;
 
         removeAllChildren();
@@ -188,9 +182,9 @@ public class EnergyView extends PNode implements Resetable {
     }
 
     public void reset() {
-        if (!isInitialized()) throw new InternalError();
+        if ( upperPane == null ) throw new InternalError();
 
-        initialize( module,  getUpperPaneSize() );
+        //initialize( module,  getUpperPaneSize() );
     }
 
     /*

@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.model;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 
+import java.util.Collection;
 import java.util.EventListener;
 import java.util.List;
 
@@ -53,6 +54,11 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
                 prevMolecule.setSelectionStatus( Selectable.NOT_SELECTED );
             }
             moleculeTracked = newMoleculeTracked;
+
+            System.out.println("Selected molecule changing to " + moleculeTracked);
+
+            determineNearestToSelected();
+
             listenerProxy.moleculeBeingTrackedChanged( newMoleculeTracked, prevMolecule );
         }
     }
@@ -69,6 +75,9 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
                 prevClosest.setSelectionStatus( Selectable.NOT_SELECTED );
             }
             closestMolecule = newClosestMolecule;
+
+            System.out.println("Closest molecule changing to " + closestMolecule);
+
             listenerProxy.closestMoleculeChanged( closestMolecule, prevClosest );
             listenerProxy.moleculeBeingTrackedChanged( moleculeTracked, moleculeTracked );
         }
@@ -83,14 +92,16 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
     }
 
     public void stepInTime( double dt ) {
-        List modelElements = model.getModelElements();
+        determineNearestToSelected();
+    }
+
+    private void determineNearestToSelected() {
+        List modelElements = model.selectFor( SimpleMolecule.class );
 
         // Look for the closest molecule to the one being tracked that isn't of the
         // same type
         if( moleculeTracked != null ) {
-
-            // Determine which type of molecules are eligible to be "closest".
-            Class nearestMoleculeType = getNearestMoleculeType();
+            Collection moleculeTrackedComponents = moleculeTracked.getFullMolecule().getComponentMoleculesAsList();
 
             // Find the closest eligible molecule to the selected molecule
             SimpleMolecule newClosestMolecule = null;
@@ -98,28 +109,17 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
             double closestDistSq = Double.POSITIVE_INFINITY;
 
             for( int i = 0; i < modelElements.size(); i++ ) {
-                Object o = modelElements.get( i );
-                if( nearestMoleculeType.isInstance( o ) ) {
-                    SimpleMolecule testMolecule = (SimpleMolecule)o;
-                    if( moleculeTracked.isPartOfComposite() && !testMolecule.isPartOfComposite()
-                        || !moleculeTracked.isPartOfComposite() && testMolecule.isPartOfComposite() ) {
+                SimpleMolecule testMolecule = (SimpleMolecule)modelElements.get( i );
 
-                        // Make sure that the non-B molecule in the composite is not the same type as the
-                        // non-composite
-                        SimpleMolecule sm1 = moleculeTracked.isPartOfComposite() ? (SimpleMolecule)testMolecule : moleculeTracked;
-                        CompositeMolecule cm = moleculeTracked.isPartOfComposite() ? (CompositeMolecule)moleculeTracked.getFullMolecule() : (CompositeMolecule)testMolecule.getFullMolecule();
-                        SimpleMolecule sm2 = cm.getComponentMolecules()[0] instanceof MoleculeB ? cm.getComponentMolecules()[1] : cm.getComponentMolecules()[0];
-                        if( sm1.getClass() == sm2.getClass() ) {
-                            System.out.println( "SelectedMoleculeTracker.stepInTime" );
-                            break;
-                        }
+                if ( testMolecule == moleculeTracked ) continue;
 
-                        double distSq = moleculeTracked.getPosition().distanceSq( testMolecule.getPosition() );
-                        if( distSq < closestDistSq ) {
-                            closestDistSq = distSq;
-                            newClosestMolecule = testMolecule;
-                        }
-                    }
+                if ( moleculeTrackedComponents.contains( testMolecule ) ) continue;
+
+                double distSq = moleculeTracked.getPosition().distanceSq( testMolecule.getPosition() );
+
+                if( distSq < closestDistSq ) {
+                    closestDistSq = distSq;
+                    newClosestMolecule = testMolecule;
                 }
             }
 

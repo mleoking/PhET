@@ -11,16 +11,15 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
-import edu.colorado.phet.molecularreactions.model.Selectable;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
 
 /**
- * SimpleMoleculeGraphic
+ * ObservingMoleculeGraphic
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class EnergySimpleMoleculeGraphic extends SimpleMoleculeGraphic {
+public class EnergySimpleMoleculeGraphic extends ObservingMoleculeGraphic {
 
     private final SimpleMolecule molecule;
     private final EnergyProfile profile;
@@ -38,12 +37,5 @@ public class EnergySimpleMoleculeGraphic extends SimpleMoleculeGraphic {
 
     public Object clone() {
         return new EnergySimpleMoleculeGraphic( (SimpleMolecule)molecule.clone(), profile );
-    }
-
-    public void selectionStatusChanged( SimpleMolecule molecule ) {
-        if( molecule.getSelectionStatus() == Selectable.NOT_SELECTED ) {
-            setVisible( false );
-        }
-        super.selectionStatusChanged( molecule );
     }
 }

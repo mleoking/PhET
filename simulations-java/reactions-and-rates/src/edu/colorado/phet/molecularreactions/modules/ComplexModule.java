@@ -17,7 +17,6 @@ import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.model.PublishingModel;
 import edu.colorado.phet.molecularreactions.view.PumpGraphic;
-import edu.colorado.phet.molecularreactions.view.SimpleMoleculeGraphic;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChartNode;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChartNode;
 import edu.colorado.phet.molecularreactions.view.charts.StripChartNode;
@@ -69,9 +68,6 @@ public class ComplexModule extends MRModule {
 
         // Create the strip chart
         stripChartNode = new StripChartNode( this, MRConfig.CHART_PANE_SIZE );
-
-        // Disable marking of the selected molecule and its nearest neighbor
-        SimpleMoleculeGraphic.setMarkSelectedMolecule( true );
 
         // Add the pump
         MRModel model = getMRModel();
