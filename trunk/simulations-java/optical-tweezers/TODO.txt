@@ -61,6 +61,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/10/07 - add units to trap force vector display
+4/10/07 - change Fy calculation for trap force, old physics was wrong
 4/9/07 - add TrapForceNode for visualizing trap forces on bead
 4/9/07 - implement trap force model, correct problems with physics
 4/9/07 - scale laser alpha using sqrt to compensate for human eye perception
