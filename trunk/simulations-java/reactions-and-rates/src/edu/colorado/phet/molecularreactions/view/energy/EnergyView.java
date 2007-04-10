@@ -7,7 +7,7 @@ import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.view.ReactionGraphic;
-import edu.colorado.phet.piccolo.nodes.PNodeShowHideControl;
+import edu.colorado.phet.piccolo.services.PNodeShowHideControl;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 

@@ -1,18 +1,16 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.piccolo.nodes;
-
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.geom.Rectangle2D;
-
-import javax.swing.JFrame;
+package edu.colorado.phet.piccolo.services;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 
 public class ZPNodeShowHideControlTester {
