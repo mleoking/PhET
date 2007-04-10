@@ -133,7 +133,8 @@ public class TrapForceNode extends PComposite implements Observer {
                 _xComponentNode.setPathTo( arrow.getShape() );
                 addChild( _xComponentNode );
                 
-                _xTextNode.setText( VALUE_FORMAT.format( fx ) );
+                String xText = VALUE_FORMAT.format( fx ) + " pN";
+                _xTextNode.setText( xText );
                 addChild( _xTextNode );
                 if ( fx > 0 ) {
                     _xTextNode.setOffset( _xComponentNode.getFullBounds().getMaxX() + 2, -_yTextNode.getFullBounds().getHeight() / 2 );
@@ -157,7 +158,8 @@ public class TrapForceNode extends PComposite implements Observer {
                 _yComponentNode.setPathTo( arrow.getShape() );
                 addChild( _yComponentNode );
                 
-                _yTextNode.setText( VALUE_FORMAT.format( fy ) );
+                String yText = VALUE_FORMAT.format( fy ) + " pN";
+                _yTextNode.setText( yText );
                 addChild( _yTextNode );
                 if ( fy > 0 ) {
                     _yTextNode.setOffset( -_yTextNode.getFullBounds().getWidth() / 2, _yComponentNode.getFullBounds().getMaxY() + 2 );

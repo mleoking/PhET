@@ -23,8 +23,6 @@ public class Laser extends MovableObject implements ModelElement {
     public static final String PROPERTY_POWER = "power";
     public static final String PROPERTY_RUNNING = "running";
     
-    private static final double TRAP_FORCE_SCALE_FACTOR = 582771.6; // from Tom Perkins' work
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -269,16 +267,18 @@ public class Laser extends MovableObject implements ModelElement {
 
     public Vector2D getTrapForce( final double x, final double y, final double power ) {
         
+        final double scaleFactor = 582771.6; // from Tom Perkins' work
+        
         final double xOffset = x - getX();
         final double yOffset = y - getY();
         
         // x component
         final double radius = getRadius( yOffset );
         final double intensity = getIntensityOnRadius( xOffset, radius, power );
-        final double fx = -1 * TRAP_FORCE_SCALE_FACTOR * ( xOffset / ( radius * radius ) ) * intensity;
+        final double fx = -1 * scaleFactor * ( xOffset / ( radius * radius ) ) * intensity;
 
         // y component
-        final double fy = Math.abs( fx / 5.6 ) * ( yOffset < 0 ? 1 : -1 );
+        final double fy = -1 * ( power / 56000 ) * yOffset;
 
         return new Vector2D( fx, fy );
     }
