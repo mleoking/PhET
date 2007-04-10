@@ -169,11 +169,11 @@ public class MRModule extends Module {
         return new Dimension( (int)dim.getWidth(), (int)dim.getHeight() );
     }
 
-    private void initiateReset() {
+    protected void initiateReset() {
         resetInProgress = true;
     }
 
-    private void completeReset() {
+    protected void completeReset() {
         Timer t = new Timer();
 
         t.schedule( new TimerTask() {

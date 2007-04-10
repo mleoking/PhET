@@ -75,7 +75,7 @@ public class MoleculeSeparationPane extends PPath {
         moleculeLayer.addChild( selectedMoleculeGraphic );
         moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
 
-        module.getClock().addClockListener(updatingClockListener);
+        module.getClock().addClockListener( updatingClockListener );
     }
 
     public MoleculeSelectionTracker getTracker() {
@@ -171,7 +171,7 @@ public class MoleculeSeparationPane extends PPath {
         }
         
         private void updateMoleculeGraphics() {
-            addMoleculeGraphic( selectedMoleculeGraphic, tracker.getSelectedMolecule() );
+            addMoleculeGraphic( selectedMoleculeGraphic,          tracker.getSelectedMolecule() );
             addMoleculeGraphic( nearestToSelectedMoleculeGraphic, tracker.getNearestToSelectedMolecule() );
         }
 

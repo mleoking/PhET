@@ -21,10 +21,11 @@ import edu.colorado.phet.molecularreactions.util.Resetable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * ExperimentSetupPanel
@@ -333,17 +334,11 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     }
 
     private void runOnce(final Runnable runnable, int time) {
-        Timer timer = new Timer(time, new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-                Timer timer = (Timer)actionEvent.getSource();
-
+        new Timer().schedule( new TimerTask() {
+            public void run() {
                 runnable.run();
-
-                timer.stop();
             }
-        } );
-
-        timer.start();
+        }, time );
     }
     
     public boolean isTemperatureBeingAdjusted() {
