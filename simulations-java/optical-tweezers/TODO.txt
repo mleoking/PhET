@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - bug: fluid viscosity slider is brain damaged
-- implement force model for fast mode
+- get a better model for Fz trap force
 - implement bead motion model
 - implement E-field model for slow mode
 - connect position histogram to model
@@ -61,6 +61,10 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/10/07 - explicitly call handlers in all control panel setters
+4/10/07 - hook up TrapForceNode to control panel
+4/10/07 - rewrite TrapForceNode to use Vector2DNode
+4/10/07 - Vector2DNode for displaying a Vector2D as an arrow, with optional value
 4/10/07 - add trap force units to localization file
 4/10/07 - add units to trap force vector display
 4/10/07 - change Fy calculation for trap force, old physics was wrong

@@ -315,6 +315,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public void setClockSpeed( double dt ) {
         _clockSpeedSlider.setSpeed( dt );
+        handleSpeedControl();
     }
     
     public double getClockSpeed() {
@@ -323,6 +324,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public void setElectricFieldSelected( boolean b ) {
         _electricFieldCheckBox.setSelected( b );
+        handleElectricFieldCheckBox();
     }
     
     public boolean isElectricFieldSelected() {
@@ -331,6 +333,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
    
     public void setBeadChargesSelected( boolean b ) {
         _beadChargesCheckBox.setSelected( b );
+        handleBeadChargesCheckBox();
     }
     
     public boolean isBeadChargesSelected() {
@@ -339,6 +342,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public void setAllChargesSelected( boolean b ) {
         _allChargesRadioButton.setSelected( b );
+        handleAllChargesRadioButton();
     }
     
     public boolean isAllChargesSelected() {
@@ -347,6 +351,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public void setExcessChargesSelected( boolean b ) {
         _excessChargesRadioButton.setSelected( b );
+        handleExcessChargesRadioButton();
     }
     
     public boolean isExcessChargesSelected() {
@@ -355,6 +360,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public void setTrapForceSelected( boolean b ) {
         _trapForceCheckBox.setSelected( b );
+        handleTrapForceCheckBox();
     }
     
     public boolean isTrapForceSelected() {
@@ -363,6 +369,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public void setWholeBeadSelected( boolean b ) {
         _wholeBeadRadioButton.setSelected( b );
+        handleWholeBeadRadioButton();
     }
     
     public boolean isWholeBeadSelected() {
@@ -371,6 +378,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public void setHalfBeadSelected( boolean b ) {
         _halfBeadRadioButton.setSelected( b );
+        handleHalfBeadRadioButton();
     }
     
     public boolean isHalfBeadSelected() {
@@ -379,6 +387,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
    
     public void setFluidDragSelected( boolean b ) {
         _fluidDragCheckBox.setSelected( b );
+        handleFluidDragCheckBox();
     }
     
     public boolean isFluidDragSelected() {
@@ -387,6 +396,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
    
     public void setBrownianForceSelected( boolean b ) {
         _brownianForceCheckBox.setSelected( b );
+        handleBrownianForceCheckBox();
     }
     
     public boolean isBrownianForceSelected() {
@@ -395,6 +405,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public void setRulerSelected( boolean b ) {
         _rulerCheckBox.setSelected( b );
+        handleRulerCheckBox();
     }
     
     public boolean isRulerSelected() {
@@ -403,6 +414,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public void setPositionHistogramSelected( boolean b ) {
         _positionHistogramCheckBox.setSelected( b );
+        handlePositionHistogramCheckBox();
     }
     
     public boolean isPositionHistogramSelected() {
@@ -415,8 +427,13 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         }
     }
     
+    public boolean isAdvancedVisible() {
+        return _advancedButton.isVisible();
+    }
+    
     public void setFluidControlSelected( boolean b ) {
         _fluidControlsCheckBox.setSelected( b );
+        handleFluidControlsCheckBox();
     }
     
     public boolean isFluidControlsSelected() {
@@ -425,6 +442,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public void setMomentumChangeSelected( boolean b ) {
         _momemtumChangeCheckBox.setSelected( b );
+        handleMomentumChangeCheckBox();
     }
     
     public boolean isMomentumChangeSelected() {
@@ -433,6 +451,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
     
     public void setPotentialChartSelected( boolean b ) {
         _potentialEnergyChartCheckBox.setSelected( b );
+        handlePotentialEnergyChartCheckBox();
     }
     
     public boolean isPotentialChartSelected() {
@@ -578,7 +597,7 @@ public class PhysicsControlPanel extends AbstractControlPanel {
         _wholeBeadRadioButton.setEnabled( selected );
         _halfBeadRadioButton.setEnabled( selected );
         
-        //XXX
+        _module.setTrapForceVisible( selected );
     }
     
     private void handleWholeBeadRadioButton() {
