@@ -337,7 +337,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void updateBodies() {
         while( numBodyGraphics() < getModel().getNumBodies() ) {
-            addBodyGraphic( new SkaterNode( module, getModel().getBody( 0 ) ) );
+            addBodyGraphic( new SkaterNode( getModel().getBody( 0 ) ) );
         }
         while( numBodyGraphics() > getModel().getNumBodies() ) {
             removeBodyGraphic( bodyGraphicAt( numBodyGraphics() - 1 ) );

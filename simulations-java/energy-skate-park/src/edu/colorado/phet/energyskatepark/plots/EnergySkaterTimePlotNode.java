@@ -1,6 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.plots;
 
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 import edu.colorado.phet.common.view.graphics.transforms.LinearTransform2D;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -166,8 +167,8 @@ public class EnergySkaterTimePlotNode extends PNode {
 
 //        JButton minBut = new JButton( "Minimize" );
         JButton minBut = null;
-        try {
-            minBut = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/buttons/minimizeButton.png" ) ) );
+//        try {
+            minBut = new JButton( new ImageIcon( PhetCommonProjectConfig.getInstance().getImage( "buttons/minimizeButton.png" ) ) );
             minBut.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setMinimized( true );
@@ -180,10 +181,10 @@ public class EnergySkaterTimePlotNode extends PNode {
             if( useMinButton ) {
                 addChild( minButNode );
             }
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+//        }
+//        catch( IOException e ) {
+//            e.printStackTrace();
+//        }
 
 
         JButton maximize = new JButton( name + " Graph" );

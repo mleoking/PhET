@@ -14,12 +14,18 @@ public class SkaterCharacter {
     private String name;
     private double mass;
     private double modelHeight;
+    private double heightDivisor;
 
     public SkaterCharacter( String imageURL, String name, double mass, double modelHeight ) {
+        this( imageURL, name, mass, modelHeight, 1.0 );
+    }
+
+    public SkaterCharacter( String imageURL, String name, double mass, double modelHeight, double heightDivisor ) {
         this.imageURL = imageURL;
         this.name = name;
         this.mass = mass;
         this.modelHeight = modelHeight;
+        this.heightDivisor = heightDivisor;
     }
 
     public double getModelWidth() {
@@ -50,5 +56,9 @@ public class SkaterCharacter {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
+    }
+
+    public double getHeightDivisor() {
+        return heightDivisor;
     }
 }
