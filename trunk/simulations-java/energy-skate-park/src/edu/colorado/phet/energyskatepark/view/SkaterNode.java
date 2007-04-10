@@ -2,9 +2,7 @@
 package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
@@ -20,8 +18,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -34,7 +32,7 @@ import java.io.IOException;
 
 public class SkaterNode extends PNode {
     private Body body;
-    private EnergySkateParkModule energySkateParkModule;
+    private double heightDivisor = 1.0;
     private PPath boundsDebugPPath;
     private PImage skaterImageNode;
 
@@ -47,8 +45,7 @@ public class SkaterNode extends PNode {
     private BufferedImage jetPackImage;
     private BufferedImage skaterImage;
 
-    public SkaterNode( final EnergySkateParkModule ec3Module, final Body body ) {
-        this.energySkateParkModule = ec3Module;
+    public SkaterNode( final Body body) {
         this.body = body;
         boundsDebugPPath = new PPath( new Rectangle2D.Double( 0, 0, body.getWidth(), body.getHeight() ) );
         boundsDebugPPath.setStroke( null );
@@ -77,11 +74,11 @@ public class SkaterNode extends PNode {
             addChild( centerDebugger );
         }
 
-        ec3Module.getModel().addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                update();
-            }
-        } );
+//        ec3Module.getModel().addModelElement( new ModelElement() {
+//            public void stepInTime( double dt ) {
+//                update();
+//            }
+//        } );
         body.addListener( new Body.ListenerAdapter() {
             public void doRepaint() {
                 update();
@@ -187,7 +184,7 @@ public class SkaterNode extends PNode {
         skaterImageNode.setOffset( body.getX(), body.getY() );
         skaterImageNode.transformBy( AffineTransform.getScaleInstance( body.getWidth() / skaterImage.getWidth(), -body.getHeight() / skaterImage.getHeight() ) );
         skaterImageNode.rotate( -body.getAngle() );
-        skaterImageNode.translate( -skaterImage.getWidth() / 2, -skaterImage.getHeight() );
+        skaterImageNode.translate( -skaterImage.getWidth() / 2, -skaterImage.getHeight()/heightDivisor );
         if( body.isFacingRight() ) {
             skaterImageNode.transformBy( AffineTransform.getScaleInstance( -1, 1 ) );
             skaterImageNode.translate( -skaterImage.getWidth(), 0 );
@@ -210,6 +207,7 @@ public class SkaterNode extends PNode {
     public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
         skaterImage = skaterCharacter.getImage();
         skaterImageNode.setImage( skaterImage );
+        heightDivisor = skaterCharacter.getHeightDivisor();
         update();
     }
 }
