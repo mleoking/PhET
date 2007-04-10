@@ -1,0 +1,66 @@
+
+	
+	<style type=text/css>
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+.style2 {font-size: xx-small}
+.style3 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-weight: bold;
+	font-size: 18px;
+}
+.style4 {color: #FFFFFF}
+.style5 {font-family: Arial, Helvetica, sans-serif; color: #FFFFFF; }
+.style6 {
+	color: #FFFF99;
+	font-weight: bold;
+}
+-->
+    </style>
+	
+<FORM ENCTYPE=multipart/form-data ACTION=addsim2.php>
+<p align=center class=style3>Is everything correct for this simulation?</p>
+
+
+
+<center>
+<table width=655 border=0 bordercolor=#FFFFFF bgcolor=#FFFFFF>
+  <tr bgcolor="#003366">
+    <td colspan=2 class=style1><div align=center class="style4">
+      <p><span class="style6">Simulation Title</span>*: $simtitle<br>
+        <span class="style2">*make sure the title is unique or it will not get added to the database! </span><br>
+</p>
+      </div></td>
+  </tr>
+  <tr bgcolor="#003366">
+    <td width=320 height=49 class=style5><span class="style6">Simulation Rating: </span>$simrating<br>
+      <span class="style2">*for more info on ratings, please click here </span><br> </td>
+    <td width=325 rowspan=3 class=style5><p><span class="style6"><strong>Simulation URL:</strong></span> $simurl <span class="style6"><strong><br>
+  Simulation Thumbnail URL:<br>
+            <strong class="style5">$simthumburl</strong><br>
+            <br>
+          Simulation Description (Abstract)</strong></span><br>
+          $simdesc
+      </p>
+      <p>        <span class="style6">System Requirements:</span><br>
+          $simsysreq</p></td>
+  </tr>
+  <tr bgcolor="#003366">
+    <td height=67 class=style1><p class="style4"><strong class="style6">Type of Sim:</strong><br>
+        $simtype<br>
+        <span class="style2">*note that .swf files do not work with Internet Explorer 7
+        unless embedded in a .html file</span> <br>
+      </p>
+      </td>
+    </tr>
+  <tr bgcolor="#003366">
+    <td height=21 class=style5><span class="style6">Simulation File Size: </span>$simsize</td>
+  </tr>
+
+  
+</table>
+<p align=center>&lt;&lt; <u><span class="style1"><strong>click here to go back and edit your simulation if it is not yet ready to be added</strong></span></u> &lt;&lt;<br> 
+  <br>
+  <input type=submit value=Yes, Add to Database name=B>
+
+</form>
