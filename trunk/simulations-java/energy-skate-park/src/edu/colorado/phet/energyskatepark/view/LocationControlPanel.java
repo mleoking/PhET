@@ -4,11 +4,9 @@ package edu.colorado.phet.energyskatepark.view;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.energyskatepark.view.GravitySlider;
-import edu.colorado.phet.energyskatepark.view.PlanetButton;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.model.Planet;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.model.Planet;
 
 import javax.swing.*;
 

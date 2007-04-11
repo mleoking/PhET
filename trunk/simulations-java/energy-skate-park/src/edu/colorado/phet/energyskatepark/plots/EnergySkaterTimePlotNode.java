@@ -168,19 +168,19 @@ public class EnergySkaterTimePlotNode extends PNode {
 //        JButton minBut = new JButton( "Minimize" );
         JButton minBut = null;
 //        try {
-            minBut = new JButton( new ImageIcon( PhetCommonProjectConfig.getInstance().getImage( "buttons/minimizeButton.png" ) ) );
-            minBut.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    setMinimized( true );
-                }
-
-            } );
-            minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
-            minButNode = new PSwing(minBut );
-            minButNode.setOffset( 1, 1 );
-            if( useMinButton ) {
-                addChild( minButNode );
+        minBut = new JButton( new ImageIcon( PhetCommonProjectConfig.getInstance().getImage( "buttons/minimizeButton.png" ) ) );
+        minBut.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setMinimized( true );
             }
+
+        } );
+        minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
+        minButNode = new PSwing( minBut );
+        minButNode.setOffset( 1, 1 );
+        if( useMinButton ) {
+            addChild( minButNode );
+        }
 //        }
 //        catch( IOException e ) {
 //            e.printStackTrace();
@@ -196,7 +196,7 @@ public class EnergySkaterTimePlotNode extends PNode {
             }
         } );
 //        maximize.setBackground( EarthGraphic.earthGreen );
-        maxButNode = new PSwing(maximize );
+        maxButNode = new PSwing( maximize );
         addChild( maxButNode );
 
         double maxVisibleRange = getMaxRangeValue();
@@ -206,7 +206,7 @@ public class EnergySkaterTimePlotNode extends PNode {
             final ZoomButton zoomIn = new ZoomButton( new ImageIcon( loadZoomInImage() ),
                                                       -dzPress, -dzHold, 100, maxVisibleRange * 4, maxVisibleRange, "Zoom In" );
 
-            zoomInGraphic = new PSwing(zoomIn );
+            zoomInGraphic = new PSwing( zoomIn );
             addChild( zoomInGraphic );
 
             final ZoomButton zoomOut = new ZoomButton( new ImageIcon( loadZoomOutImage() ),
@@ -221,7 +221,7 @@ public class EnergySkaterTimePlotNode extends PNode {
                     zoomIn.setValue( rangeY );
                 }
             } );
-            zoomOutGraphic = new PSwing(zoomOut );
+            zoomOutGraphic = new PSwing( zoomOut );
             addChild( zoomOutGraphic );
 
             zoomIn.addListener( new ZoomButton.Listener() {

@@ -5,7 +5,6 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.energyskatepark.view.EC3LookAndFeel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;

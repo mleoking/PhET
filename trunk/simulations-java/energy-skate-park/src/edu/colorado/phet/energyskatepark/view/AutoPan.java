@@ -4,7 +4,6 @@ package edu.colorado.phet.energyskatepark.view;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.energyskatepark.view.SkaterNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.umd.cs.piccolo.util.PBounds;
 

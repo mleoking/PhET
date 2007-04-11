@@ -2,9 +2,9 @@
 package edu.colorado.phet.energyskatepark.view.bargraphs;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 
 /**
  * User: Sam Reid

@@ -22,7 +22,7 @@ public class TestSplineNode {
     private JFrame frame;
 
     public TestSplineNode() {
-        PhetPCanvas phetPCanvas = new PhetPCanvas(new Rectangle2D.Double(0,0,10,10));
+        PhetPCanvas phetPCanvas = new PhetPCanvas( new Rectangle2D.Double( 0, 0, 10, 10 ) );
         EnergySkateParkSpline spline = new EnergySkateParkSpline( new CubicSpline2D( new Point2D[]{
                 new Point2D.Double( 0, 0 ),
                 new Point2D.Double( 5, 5 )} ) );

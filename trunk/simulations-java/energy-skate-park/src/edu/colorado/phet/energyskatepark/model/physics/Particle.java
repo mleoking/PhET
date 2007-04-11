@@ -45,7 +45,7 @@ public class Particle implements Cloneable {
     public Object clone() {
         try {
             Particle p = (Particle)super.clone();
-            p.particle1D= (Particle1D)this.particle1D.clone();
+            p.particle1D = (Particle1D)this.particle1D.clone();
             p.x = x;
             p.y = y;
             p.vx = vx;

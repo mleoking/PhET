@@ -22,7 +22,7 @@ public class DebugFrame extends JFrame {
     }
 
     public void appendLine( String text ) {
-        jta.append( text+System.getProperty( "line.separator") );
+        jta.append( text + System.getProperty( "line.separator" ) );
         jta.setCaretPosition( jta.getDocument().getLength() );
     }
 }

@@ -18,8 +18,9 @@ public abstract class ControlPointParametricFunction2D extends ParametricFunctio
     public boolean equals( Object obj ) {
         if( obj instanceof ControlPointParametricFunction2D ) {
             ControlPointParametricFunction2D c = (ControlPointParametricFunction2D)obj;
-            return Arrays.equals( pts,c.pts);
-        }else{
+            return Arrays.equals( pts, c.pts );
+        }
+        else {
             return false;
         }
     }

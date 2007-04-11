@@ -45,7 +45,7 @@ public class SkaterNode extends PNode {
     private BufferedImage jetPackImage;
     private BufferedImage skaterImage;
 
-    public SkaterNode( final Body body) {
+    public SkaterNode( final Body body ) {
         this.body = body;
         boundsDebugPPath = new PPath( new Rectangle2D.Double( 0, 0, body.getWidth(), body.getHeight() ) );
         boundsDebugPPath.setStroke( null );
@@ -118,7 +118,7 @@ public class SkaterNode extends PNode {
             }
         } );
 
-        getBody().addListener( new Body.ListenerAdapter(){
+        getBody().addListener( new Body.ListenerAdapter() {
             public void dimensionChanged() {
                 update();
             }
@@ -161,8 +161,8 @@ public class SkaterNode extends PNode {
         jetPackNode.setVisible( body.getThrust().getMagnitude() > 0 );
         updateJetPackTransform();
 
-        double ellipseWidth=0.1*0.85;
-        Ellipse2D.Double aShape = new Ellipse2D.Double( body.getCenterOfMass().getX()-ellipseWidth/2, body.getCenterOfMass().getY()-ellipseWidth/2, ellipseWidth, ellipseWidth );
+        double ellipseWidth = 0.1 * 0.85;
+        Ellipse2D.Double aShape = new Ellipse2D.Double( body.getCenterOfMass().getX() - ellipseWidth / 2, body.getCenterOfMass().getY() - ellipseWidth / 2, ellipseWidth, ellipseWidth );
         centerDebugger.setPathTo( aShape );
         feetDebugger.setPathTo( body.getFeetShape() );
     }
@@ -184,7 +184,7 @@ public class SkaterNode extends PNode {
         skaterImageNode.setOffset( body.getX(), body.getY() );
         skaterImageNode.transformBy( AffineTransform.getScaleInstance( body.getWidth() / skaterImage.getWidth(), -body.getHeight() / skaterImage.getHeight() ) );
         skaterImageNode.rotate( -body.getAngle() );
-        skaterImageNode.translate( -skaterImage.getWidth() / 2, -skaterImage.getHeight()/heightDivisor );
+        skaterImageNode.translate( -skaterImage.getWidth() / 2, -skaterImage.getHeight() / heightDivisor );
         if( body.isFacingRight() ) {
             skaterImageNode.transformBy( AffineTransform.getScaleInstance( -1, 1 ) );
             skaterImageNode.translate( -skaterImage.getWidth(), 0 );

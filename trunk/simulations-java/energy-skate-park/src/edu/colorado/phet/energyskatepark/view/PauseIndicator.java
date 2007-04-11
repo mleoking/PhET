@@ -2,8 +2,6 @@
 package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkRootNode;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.piccolo.nodes.ShadowPText;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -76,7 +74,7 @@ public class PauseIndicator extends PNode {
                 module.getTimeSeriesModel().startLiveMode();
             }
         } );
-        PSwing pSwing = new PSwing(record );
+        PSwing pSwing = new PSwing( record );
         pSwing.setOffset( text.getFullBounds().getMaxX() + 5, text.getFullBounds().getY() );
         addChild( pSwing );
 

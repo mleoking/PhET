@@ -1,12 +1,9 @@
 package edu.colorado.phet.energyskatepark.view;
 
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.PreFabSplines;
 import edu.colorado.phet.energyskatepark.model.physics.CubicSpline2D;
-import edu.colorado.phet.energyskatepark.view.SplineNode;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkRootNode;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -60,7 +57,7 @@ public class SplineToolbox extends PNode {
             private void create( PInputEvent event ) {
                 Point2D pt = new Point2D.Double( event.getCanvasPosition().getX(), event.getCanvasPosition().getY() );
                 energySkateParkSimulationPanel.getRootNode().screenToWorld( pt );
-                PreFabSplines.CubicSpline spline = new PreFabSplines.CubicSpline( );
+                PreFabSplines.CubicSpline spline = new PreFabSplines.CubicSpline();
                 spline.addControlPoint( pt.getX() - 1, pt.getY() );
                 spline.addControlPoint( pt.getX(), pt.getY() );
                 spline.addControlPoint( pt.getX() + 1, pt.getY() );
@@ -104,7 +101,7 @@ public class SplineToolbox extends PNode {
     private SplineNode createSplineGraphic() {
         EnergySkateParkSpline surface = createSplineSurface();
 
-        final SplineNode splineNode = new SplineNode( energySkateParkSimulationPanel, surface,energySkateParkSimulationPanel );
+        final SplineNode splineNode = new SplineNode( energySkateParkSimulationPanel, surface, energySkateParkSimulationPanel );
         splineNode.setControlPointsPickable( false );
         splineNode.updateAll();
         return splineNode;
@@ -121,7 +118,7 @@ public class SplineToolbox extends PNode {
     }
 
     private EnergySkateParkSpline createSplineSurface() {
-        PreFabSplines.CubicSpline spline = new PreFabSplines.CubicSpline( );
+        PreFabSplines.CubicSpline spline = new PreFabSplines.CubicSpline();
         spline.addControlPoint( 0, 0 );
         spline.addControlPoint( 1, 0 );
         spline.addControlPoint( 2.0, 0 );
