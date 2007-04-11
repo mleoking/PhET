@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- implement bead motion model
+- add fluid flow and trap force components to bead motion model
 
 HIGH PRIORITY:
 - bug: fluid viscosity slider is brain damaged
@@ -45,7 +45,6 @@ CLEANUP:
 DEFER UNTIL AFTER INTERVIEWS:
 
 MODEL INFO NEEDED:
-- Brownian motion of bead
 - E-field
 - trap force (slide 7)
 - fluid drag force (slide 14)
