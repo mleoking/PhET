@@ -627,7 +627,12 @@
     <target name="_proguard" description="Runs ProGuard on the specified simulation to trim the output size">
         <echo message="Copying ProGuard template to ${dir.temp.project}"/>
     
-        <copy todir="${dir.temp.project}" overwrite="yes">
+        <copy file="${jar.project.deploy.local}" tofile="${jar.project.deploy-pro.local}" />
+    
+        <!-- ProGuard is broken on the Mac and may have other problems -->
+        <!--
+            
+            <copy todir="${dir.temp.project}" overwrite="yes">
             <fileset file="${file.template.proguard}"/>
             <filterset>
                 <filter token="PROGUARD_IN_JAR"     value="${jar.project.deploy.local}"/>
@@ -638,7 +643,9 @@
         </copy>
         <echo message="Running ProGuard for config file ${dir.temp.project}proguard.pro"/>
     
-        <proguard configuration="${dir.temp.project}proguard.pro"/>
+        <proguard configuration="${dir.temp.project}proguard.pro"/> 
+        
+        -->
     </target>
     
     <target name="test" description="Runs all unit tests for the specified simulation" depends="_sim-build-depends, _build-project">
