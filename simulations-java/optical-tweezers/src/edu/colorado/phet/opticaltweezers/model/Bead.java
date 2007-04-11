@@ -20,6 +20,9 @@ public class Bead extends MovableObject implements ModelElement {
     
     public static final String PROPERTY_DIAMETER = "diameter";
     
+    // Brownian motion scaling factor, bigger values cause bigger motion
+    public static final double BROWNIAN_MOTION_SCALE = 1;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -90,6 +93,12 @@ public class Bead extends MovableObject implements ModelElement {
         return volume * _density;
     }
     
+    /**
+     * Enables and disables motion of the model, used when something else 
+     * is determining the bead's position (eg, when the user is dragging the bead).
+     * 
+     * @param motionEnabled
+     */
     public void setMotionEnabled( boolean motionEnabled ) {
         _motionEnabled = motionEnabled;    
     }
@@ -99,43 +108,54 @@ public class Bead extends MovableObject implements ModelElement {
     //----------------------------------------------------------------------------
     
     public void stepInTime( double dt ) {
-        
         if ( _motionEnabled ) {
-            
-            final double minY = _fluid.getMinY() + ( getDiameter() / 2 );
-            final double maxY = _fluid.getMaxY() - ( getDiameter() / 2 );
-            
-            final double B = 2; // adjustable fudge factor
-            final double T = _fluid.getTemperature();
-            final double stepLength = B * Math.sqrt( T ) * Math.sqrt( dt );
-            double stepAngle = 0;
-            if ( getY() <= minY ) {
-                // bounce off top edge of microscope slide at an angle between 45 and 135 degrees
-                stepAngle = ( Math.PI / 4 ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
-            }
-            else if ( getY() >= maxY ) {
-                // bounce bottom top edge of microscope slide at an angle between 45 and 135 degrees
-                stepAngle = ( Math.PI + ( Math.PI / 4 ) ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
-            }
-            else {
-                // no collision with the edges of the microscope slide, any random angle will do
-                stepAngle = _stepAngleRandom.nextDouble() * ( 2 * Math.PI );
-            }
-            
-            final double dx = stepLength * Math.cos( stepAngle );
-            final double dy = stepLength * Math.sin( stepAngle );
-            final double newX = getX() + dx;
-            double newY = getY() + dy;
-            if ( newY < minY ) {
-                // collide with top edge of microscope slide
-                newY = minY;
-            }
-            else if ( newY > maxY ) {
-                // collide with bottom edge of microscope slide
-                newY = maxY;
-            }
-            
-            setPosition( newX, newY );
+            moveBead( dt );
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Motion model
+    //----------------------------------------------------------------------------
+    
+    private void moveBead( double dt ) {
+        
+        // Top and bottom edges of microscope slide
+        final double minY = _fluid.getMinY() + ( getDiameter() / 2 );
+        final double maxY = _fluid.getMaxY() - ( getDiameter() / 2 );
+        
+        // Brownian motion components
+        final double fluidTemperature = _fluid.getTemperature();
+        final double stepLength = BROWNIAN_MOTION_SCALE * Math.sqrt( fluidTemperature ) * Math.sqrt( dt );
+        double stepAngle = 0;
+        if ( getY() <= minY ) {
+            // bounce off top edge of microscope slide at an angle between 45 and 135 degrees
+            stepAngle = ( Math.PI / 4 ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
+        }
+        else if ( getY() >= maxY ) {
+            // bounce bottom top edge of microscope slide at an angle between 45 and 135 degrees
+            stepAngle = ( Math.PI + ( Math.PI / 4 ) ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
+        }
+        else {
+            // no collision with the edges of the microscope slide, any random angle will do
+            stepAngle = _stepAngleRandom.nextDouble() * ( 2 * Math.PI );
+        }
+        final double dxBrownian = stepLength * Math.cos( stepAngle );
+        final double dyBrownian = stepLength * Math.sin( stepAngle );
+        
+        // Combine all motion components
+        final double newX = getX() + dxBrownian;
+        double newY = getY() + dyBrownian;
+        
+        // Collision detection
+        if ( newY < minY ) {
+            // collide with top edge of microscope slide
+            newY = minY;
+        }
+        else if ( newY > maxY ) {
+            // collide with bottom edge of microscope slide
+            newY = maxY;
+        }
+        
+        setPosition( newX, newY );
     }
 }
