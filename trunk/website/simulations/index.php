@@ -2,6 +2,7 @@
     ini_set('display_errors', '1');
 
     include_once("../admin/db.inc");
+    include_once("../admin/web-utils.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -136,21 +137,23 @@
                     $num_sims_in_category = mysql_num_rows(mysql_query($select_all_simcats_st, $connection));
 
                     $sims_per_page = 12;
+                    $sim_limit     = $sims_per_page;
 
                     if (isset($HTTP_GET_VARS['st'])) {
                         $sim_start_number = $_REQUEST['st'];
                         
                         if ($sim_start_number == -1) {
                             $sim_start_number = 0;
-                            $sims_per_page    = 999;
+                            $sim_limit        = 999;
                         }
                     } 
                     else { 
                         $sim_start_number = 0; 
                     }
 
-                    print "<div id=\"pg\"><p>\n";
                     if ($num_sims_in_category > $sims_per_page) {
+                        print "<div id=\"pg\"><p>\n";
+                                                
                         $num_pages = (int)ceil((float)$num_sims_in_category / (float)$sims_per_page);
 
                         for ($n = 0; $n < $num_pages; $n = $n + 1) {
@@ -160,15 +163,16 @@
 
                             print "<a class=\"pg\" href=\"index.php?cat=$cat&st=$page_sim_start_number\">$page_number</a>::";
                         }
-                    }
-                    print "<a class=\"pg\" href=\"index.php?cat=$cat&st=-1\">all&raquo;</a>";
-                    print "</p></div>\n";                    
+                        
+                        print "<a class=\"pg\" href=\"index.php?cat=$cat&st=-1\">all&raquo;</a>";
+                        print "</p></div>\n";
+                    } 
 
 
                     //--------------------------------------------------
 
                     //first select which SIMS are in the category
-                    $select_simcat_rows_st  = "SELECT * FROM `simcat` WHERE `category`='$cat'  LIMIT $sim_start_number, $sims_per_page";
+                    $select_simcat_rows_st  = "SELECT * FROM `simcat` WHERE `category`='$cat'  LIMIT $sim_start_number, $sim_limit ";
 
                     $simcat_rows = mysql_query($select_simcat_rows_st, $connection);
 
@@ -190,15 +194,15 @@
                         $thumburl = $sim_row[6];
                         $sim_name = $sim_row[1];
 
-                        if (is_numeric($sim_id)) {
+                        if (is_numeric($sim_id) && url_exists($thumburl)) {
                             if ($sim_column == 1) { 
                                 // OPEN product row
-                                print "<div class=productRow>\n";
+                                print "<div class=\"productRow\">\n";
 
                                 $product_row_open = true;
                             }    
 
-                            if ($sim_column !== 3) {
+                            if ($sim_column !== 3 && $sim_number !== $num_simcats) {
                                 // Just another product in the row:
                                 print "<div class=\"productList\">\n";
                             }
@@ -206,11 +210,19 @@
                                 // Last simulation in row
                                 print "<div class=\"productList lastProduct\">\n";
                             }
+                            
+                            /*
+                                <a href="#"><img src="../images/sims/baloon_static.jpg" width="130" height="97" alt="" /></a>
 
-                            print "<a href=\"sim_page.php?simid=$sim_id\">";
-                            print    "<img src=\"$thumburl\" width=\"130\" height=\"97\" alt=\"\" />";
-                            print    "$sim_name";
+                                <p><a href="/">Balloons &amp; Static</a><br /></p>
+                            */
+                            
+                            $link_to_sim = "<a href=\"sim_page.php?simid=$sim_id\">";
+
+                            print "$link_to_sim";
+                            print "<img src=\"$thumburl\" width=\"130\" height=\"97\" alt=\"View $sim_name Simulation\" />";
                             print "</a>\n";
+                            print "<p>$link_to_sim$sim_name</a><br /></p>";
 
                             // Close product:
                             print "</div>\n";

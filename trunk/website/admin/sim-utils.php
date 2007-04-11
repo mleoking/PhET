@@ -1,4 +1,5 @@
 <?php
+    include_once("db.inc");
 
     // run error checks
     // check for missing fields
