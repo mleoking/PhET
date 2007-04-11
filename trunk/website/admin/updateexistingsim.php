@@ -2,6 +2,7 @@
     ini_set('display_errors', '1');
 
 	include_once("db.inc");
+	include_once("web-utils.php");
 	
     $simid          = $_REQUEST['simid'];
     $sql_sim        = "SELECT * FROM `simtest` WHERE `simid`= '$simid' ";
@@ -122,6 +123,8 @@
       <p align=left>");
       
       function print_category_checkbox($catid, $catname, $checkname) {
+          global $simid;
+          
       	  $sql_cat        = "SELECT * FROM `simcat` WHERE `sim_id`= '$simid' AND `category`='$catid' ";
           $sql_result_cat = mysql_query($sql_cat);
       	  $row_cat        = mysql_num_rows($sql_result_cat);
