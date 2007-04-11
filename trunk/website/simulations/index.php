@@ -69,18 +69,18 @@
             Principle Sponsors</h4>
 
             <dl>
-                <dt><a href="http://www.hewlett.org/Default.htm" target="_blank">The William and Flora Hewlett Foundation</a></dt>
+                <dt><a href="http://www.hewlett.org/Default.htm">The William and Flora Hewlett Foundation</a></dt>
 
-                <dd><a href="http://www.hewlett.org/Default.htm" target="_blank"><img src="../images/hewlett-logo.jpg" /></a><br />
+                <dd><a href="http://www.hewlett.org/Default.htm"><img src="../images/hewlett-logo.jpg" alt="The Hewlett Logo"/></a><br />
                 <br />
                 Makes grants to address the most serious social and environmental problems facing society, where risk capital, responsibly invested, may make a difference over time.</dd>
 
-                <dt><a href="http://www.nsf.gov/" target="_blank"><img class="sponsors" src="../images/nsf-logo.gif" />National Science Foundation</a></dt>
+                <dt><a href="http://www.nsf.gov/"><img class="sponsors" src="../images/nsf-logo.gif" alt="The NSF Logo"/>National Science Foundation</a></dt>
 
                 <dd><br />
-                An independent federal agency created by Congress in 1950 "to promote the progress of science.<br />
+                An independent federal agency created by Congress in 1950 to promote the progress of science.<br />
                 <br />
-                <a href="../sponsors/index.html"><img src="../images/other-sponsors.gif" /></a></dd>
+                <a href="../sponsors/index.html"><img src="../images/other-sponsors.gif" alt="Other Sponsors Logo"/></a></dd>
             </dl>
         </div>
 
