@@ -4,6 +4,7 @@
 
 IN PROGRESS:
 - add fluid flow and trap force components to bead motion model
+- add developer control for Bead.BROWNIAN_MOTION_SCALE
 
 HIGH PRIORITY:
 - bug: fluid viscosity slider is brain damaged
