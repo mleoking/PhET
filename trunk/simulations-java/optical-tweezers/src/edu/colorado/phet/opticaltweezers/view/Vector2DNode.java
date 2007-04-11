@@ -18,7 +18,18 @@ import edu.umd.cs.piccolo.nodes.PText;
  * Vector2DNode is the visual representation of a 2D vector.
  * The vector is drawn as an arrow, with tail located at (0,0).
  * The magnitude of the vector determines the length of the arrow's tail.
+ * The size of the arrow's head is constant, independent of the vector magnitude.
+ * When the magnitude of the vector is zero, this node becomes invisible.
  * An optional value can be displayed at the tip of the arrow.
+ * <p>
+ * Note that this node has a lot of properties.  Rather than provide a 
+ * constructor with lots of arguments, I've chosen to provide a simple
+ * constructor that provides a default "look" for the vector.  Properties
+ * can be changed using setters. Each time you call a setter, the node
+ * is rebuilt (this is because the Arrow class is used to create the
+ * vector's shape, and the Arrow class is immutable). If you plan to call
+ * a lot of setters, you should  consider calling setUpdateEnabled(false)
+ * before calling the setters, and setUpdateEnabled(true) when you're done.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -114,6 +125,13 @@ public class Vector2DNode extends PhetPNode {
     // Mutators and accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Use this if you're going to call a lot of setters.
+     * Call setUpdateEnabled(false) before calling the setters, 
+     * and setUpdateEnabled(true) when you're done.
+     * 
+     * @param enabled true or false
+     */
     public void setUpdateEnabled( boolean enabled ) {
         if ( enabled != _updateEnabled ) {
             _updateEnabled = enabled;
@@ -121,22 +139,56 @@ public class Vector2DNode extends PhetPNode {
         }
     }
     
+    /**
+     * Sets the vector that this node displays.
+     * 
+     * @param vector
+     */
     public void setVector( Vector2D vector ) {
-        setVector( vector.getX(), vector.getY() );
+        setVectorXY( vector.getX(), vector.getY() );
     }
     
-    public void setVector( double x, double y ) {
+    /**
+     * Sets the vector via it's x & y components.
+     * 
+     * @param x
+     * @param y
+     */
+    public void setVectorXY( double x, double y ) {
         if ( x != _vector.getX() || y != _vector.getY() ) {
-            System.out.println( "Vector2DNode.setVector x=" + x + " y=" + y );
             _vector.setXY( x, y );
             update();
         }
     }
     
+    /**
+     * Sets the vector via it's magnitude and angle.
+     * 
+     * @param magnitude
+     * @param angle angle in radians
+     */
+    public void setVectorMagnitudeAngle( double magnitude, double angle ) {
+        if ( magnitude != _vector.getMagnitude() || angle != _vector.getAngle() ) {
+            _vector.setMagnitudeAngle( magnitude, angle );
+            update();
+        }
+    }
+    
+    /**
+     * Controls the visibility of the value that appear at the tip of the arrow.
+     * 
+     * @param visible true or false
+     */
     public void setValueVisible( boolean visible ) {
         _valueNode.setVisible( visible );
     }
     
+    /**
+     * Sets the size of the vector's arrow head.
+     * 
+     * @param width
+     * @param height
+     */
     public void setHeadSize( double width, double height ) {
         if ( width != _headWidth || height != _headHeight ) {
             _headWidth = width;
@@ -145,6 +197,11 @@ public class Vector2DNode extends PhetPNode {
         }
     }
     
+    /**
+     * Sets the width of the vector's arrow tail.
+     * 
+     * @param width
+     */
     public void setTailWidth( double width ) {
         if ( width != _tailWidth ) {
             _tailWidth = width;
@@ -152,26 +209,56 @@ public class Vector2DNode extends PhetPNode {
         }
     }
     
+    /**
+     * Sets the stroke used to outline the arrow.
+     * 
+     * @param stroke
+     */
     public void setArrowStroke( Stroke stroke ) {
         _arrowNode.setStroke( stroke );
     }
     
+    /**
+     * Sets the paint used to outline the arrow.
+     * 
+     * @param paint
+     */
     public void setArrowStrokePaint( Paint paint ) {
         _arrowNode.setStrokePaint( paint );
     }
     
+    /**
+     * Sets the paint used to fill the interior of the arrow.
+     * 
+     * @param paint
+     */
     public void setArrowFillPaint( Paint paint ) {
         _arrowNode.setPaint( paint );
     }
     
+    /**
+     * Sets the paint used to draw the value that appears at the arrow tip.
+     * 
+     * @param paint
+     */
     public void setValuePaint( Paint paint ) {
         _valueNode.setTextPaint( paint );
     }
     
+    /**
+     * Sets the font used to draw the value that appears at the arrow tip.
+     * 
+     * @param font
+     */
     public void setFont( Font font ) {
         _valueNode.setFont( font );
     }
     
+    /**
+     * Sets the spacing between the value and the tip of the arrow.
+     * 
+     * @param spacing
+     */
     public void setValueSpacing( double spacing ) {
         if ( spacing != _valueSpacing ) {
             _valueSpacing = spacing;
@@ -179,11 +266,21 @@ public class Vector2DNode extends PhetPNode {
         }
     }
     
+    /**
+     * Sets the format used to display the value.
+     * 
+     * @param format
+     */
     public void setValueFormat( DecimalFormat format ) {
         _valueFormat = format;
         update();
     }
     
+    /**
+     * Sets the units for the value.
+     * 
+     * @param units
+     */
     public void setUnits( String units ) {
         _units = units;
         update();
@@ -220,8 +317,10 @@ public class Vector2DNode extends PhetPNode {
                 _arrowNode.setPathTo( arrow.getShape() );
 
                 // update the text
-                String text = _valueFormat.format( magnitude ) + " " + _units;
-                System.out.println( "Vector2DNode.update text=" + text );//XXX
+                String text = _valueFormat.format( magnitude );
+                if ( _units != null && _units.length() > 0 ) {
+                    text = text + " " + _units;
+                }
                 _valueNode.setText( text );
 
                 // position the text at the tip of the arrow

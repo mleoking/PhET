@@ -163,8 +163,8 @@ public class TrapForceNode extends PComposite implements Observer {
             // update the x & y component vectors
             _vectorNode.setVector( f );
             if ( SHOW_XY_COMPONENTS ) {
-                _xComponentNode.setVector( f.getX(), 0 );
-                _yComponentNode.setVector( 0, f.getY() );
+                _xComponentNode.setVectorXY( f.getX(), 0 );
+                _yComponentNode.setVectorXY( 0, f.getY() );
             }
         }
     }
