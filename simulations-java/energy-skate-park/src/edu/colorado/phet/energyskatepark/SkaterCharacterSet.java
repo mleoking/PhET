@@ -17,7 +17,8 @@ public class SkaterCharacterSet {
 //        addSkaterCharacter( new SkaterCharacter( "images/Mars-Lander.gif", "Mars Lander", 180.0, 1.3 ) );
 //        addSkaterCharacter( new SkaterCharacter( "images/motorcycle.gif", "Motorcycle", 227.0, 1.0 ) );
         addSkaterCharacter( new SkaterCharacter( "images/bulldog.gif", "Bulldog", 20.0, 1.125 ) );
-        addSkaterCharacter( new SkaterCharacter( "images/bugboard.gif", "Bug", 0.2, 0.75 ) );
+//        addSkaterCharacter( new SkaterCharacter( "images/bugboard.gif", "Bug", 0.2, 0.75 ) );
+        addSkaterCharacter( new SkaterCharacter( "images/bluebug.gif", "Bug", 0.2, 0.75 ) );
         addSkaterCharacter( new SkaterCharacter( "images/red-ball.png", "Ball", 5.0, 0.3, 2.0 ) );
     }
 
