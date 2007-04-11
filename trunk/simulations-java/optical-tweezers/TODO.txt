@@ -61,6 +61,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/11/07 - encapsulate model creation for "Physics of Tweezers" panel in PhysicsModel
 4/10/07 - explicitly call handlers in all control panel setters
 4/10/07 - hook up TrapForceNode to control panel
 4/10/07 - rewrite TrapForceNode to use Vector2DNode

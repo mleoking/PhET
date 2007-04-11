@@ -52,16 +52,11 @@ public class PhysicsModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     // Model
-    private OTClock _clock;
-    private OTModel _model;
-    private Fluid _fluid;
-    private Laser _laser;
-    private Bead _bead;
+    private PhysicsModel _model;
     
     // View
     private PhetPCanvas _canvas;
     private PNode _rootNode;
-    private ModelViewTransform _modelViewTransform;
     private FluidNode _fluidNode;
     private LaserNode _laserNode;
     private BeadNode _beadNode;
@@ -94,32 +89,15 @@ public class PhysicsModule extends AbstractModule {
         // Model
         //----------------------------------------------------------------------------
 
-        _clock = (OTClock) getClock();
+        OTClock clock = (OTClock) getClock();
+         
+        _model = new PhysicsModel( clock );
         
-        _model = new OTModel( _clock );
+        Fluid fluid = _model.getFluid();
+        Laser laser = _model.getLaser();
+        Bead bead = _model.getBead();
+        ModelViewTransform modelViewTransform = _model.getModelViewTransform();
         
-        _fluid = new Fluid( PhysicsDefaults.FLUID_POSITION,
-                PhysicsDefaults.FLUID_ORIENTATION,
-                PhysicsDefaults.FLUID_HEIGHT,
-                PhysicsDefaults.FLUID_SPEED_RANGE, 
-                PhysicsDefaults.FLUID_VISCOSITY_RANGE, 
-                PhysicsDefaults.FLUID_TEMPERATURE_RANGE );
-        
-        _laser = new Laser( PhysicsDefaults.LASER_POSITION, 
-                PhysicsDefaults.LASER_ORIENTATION, 
-                PhysicsDefaults.LASER_DIAMETER_AT_OBJECTIVE, 
-                PhysicsDefaults.LASER_DIAMETER_AT_WAIST,
-                PhysicsDefaults.LASER_DISTANCE_FROM_OBJECTIVE_TO_WAIST,
-                PhysicsDefaults.LASER_DISTANCE_FROM_OBJECTIVE_TO_CONTROL_PANEL,
-                PhysicsDefaults.LASER_WAVELENGTH,
-                PhysicsDefaults.LASER_VISIBLE_WAVELENGTH,
-                PhysicsDefaults.LASER_POWER_RANGE );
-        
-        _bead = new Bead( PhysicsDefaults.BEAD_POSITION, 
-                PhysicsDefaults.BEAD_ORIENTATION, 
-                PhysicsDefaults.BEAD_DIAMETER,
-                PhysicsDefaults.BEAD_DENSITY );
-
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
@@ -141,22 +119,19 @@ public class PhysicsModule extends AbstractModule {
         // Root of our scene graph
         _rootNode = new PNode();
         _canvas.addWorldChild( _rootNode );
-
-        // Model View transform
-        _modelViewTransform = new ModelViewTransform( PhysicsDefaults.MODEL_TO_VIEW_SCALE );
         
         // Fluid
-        _fluidNode = new FluidNode( _fluid, _modelViewTransform );
+        _fluidNode = new FluidNode( fluid, modelViewTransform );
         
         // Laser
         _laserDragBoundsNode = new PPath();
         _laserDragBoundsNode.setStroke( null );
-        _laserNode = new LaserNode( _laser, _modelViewTransform, _laserDragBoundsNode );
+        _laserNode = new LaserNode( laser, modelViewTransform, _laserDragBoundsNode );
         
         // Bead
         _beadDragBoundsNode = new PPath();
         _beadDragBoundsNode.setStroke( null );
-        _beadNode = new BeadNode( _bead, _modelViewTransform, _beadDragBoundsNode );
+        _beadNode = new BeadNode( bead, modelViewTransform, _beadDragBoundsNode );
         _beadNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
@@ -166,17 +141,17 @@ public class PhysicsModule extends AbstractModule {
         });
         
         // Trap Force
-        _trapForceNode = new TrapForceNode( _laser, _bead, _modelViewTransform );
+        _trapForceNode = new TrapForceNode( laser, bead, modelViewTransform );
         
         // Ruler
         _rulerDragBoundsNode = new PPath();
         _rulerDragBoundsNode.setStroke( null );
-        _rulerNode = new OTRulerNode( _laser,_modelViewTransform, _rulerDragBoundsNode );
+        _rulerNode = new OTRulerNode( laser, modelViewTransform, _rulerDragBoundsNode );
         
         // Position Histogram chart
         PositionHistogramPlot positionHistogramPlot = new PositionHistogramPlot();
         PositionHistogramChart positionHistogramChart = new PositionHistogramChart( positionHistogramPlot );
-        _positionHistogramChartNode = new PositionHistogramChartNode( positionHistogramChart, _laser, _bead, _clock );
+        _positionHistogramChartNode = new PositionHistogramChartNode( positionHistogramChart, laser, bead, clock );
         _positionHistogramChartNode.addCloseListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 _positionHistogramChartNode.setVisible( false );
@@ -276,7 +251,7 @@ public class PhysicsModule extends AbstractModule {
     //----------------------------------------------------------------------------
     
     public OTClock getOTClock() {
-        return _clock;
+        return _model.getClock();
     }
     
     public void setFluidControlsVisible( boolean visible ) {
@@ -288,7 +263,8 @@ public class PhysicsModule extends AbstractModule {
         }
         else {
             JFrame parentFrame = getFrame();
-            _fluidControlDialog = new FluidControlDialog( parentFrame, OTConstants.CONTROL_PANEL_CONTROL_FONT, _fluid );
+            Fluid fluid = _model.getFluid();
+            _fluidControlDialog = new FluidControlDialog( parentFrame, OTConstants.CONTROL_PANEL_CONTROL_FONT, fluid );
             _fluidControlDialog.addWindowListener( new WindowAdapter() {
                 // called when the close button in the dialog's window dressing is clicked
                 public void windowClosing( WindowEvent e ) {
@@ -417,12 +393,14 @@ public class PhysicsModule extends AbstractModule {
             _laserDragBoundsNode.setPathTo( localDragBounds );
             
             // If laser is not visible, move it to center of canvas
+            Laser laser = _model.getLaser();
             Rectangle2D worldBounds = new Rectangle2D.Double( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
             Rectangle2D laserBounds = _laserNode.getFullBounds();
             if ( !worldBounds.intersects( laserBounds ) ) {
-                double xModel = _modelViewTransform.viewToModel( worldSize.getWidth() / 2 );
-                double yModel = _laser.getPositionRef().getY();
-                _laser.setPosition( xModel, yModel );
+                ModelViewTransform modelViewTransform = _model.getModelViewTransform();
+                double xModel = modelViewTransform.viewToModel( worldSize.getWidth() / 2 );
+                double yModel = laser.getPositionRef().getY();
+                laser.setPosition( xModel, yModel );
             }
         }
         
@@ -474,26 +452,25 @@ public class PhysicsModule extends AbstractModule {
         // Model
         {
             // Clock
-            if ( PhysicsDefaults.CLOCK_PAUSED ) {
-                _clock.pause();
-            }
-            else {
-                _clock.start();
-            }
-            _clock.setDt( PhysicsDefaults.CLOCK_DT_RANGE.getDefault() );
+            OTClock clock = _model.getClock();
+            clock.setPaused( PhysicsDefaults.CLOCK_PAUSED );
+            clock.setDt( PhysicsDefaults.CLOCK_DT_RANGE.getDefault() );
             
             // Bead
-            _bead.setPosition( PhysicsDefaults.BEAD_POSITION );
-            _bead.setOrientation( PhysicsDefaults.BEAD_ORIENTATION );
+            Bead bead = _model.getBead();
+            bead.setPosition( PhysicsDefaults.BEAD_POSITION );
+            bead.setOrientation( PhysicsDefaults.BEAD_ORIENTATION );
             
             // Laser
-            _laser.setPosition( PhysicsDefaults.LASER_POSITION );
-            _laser.setPower( PhysicsDefaults.LASER_POWER_RANGE.getDefault() );
+            Laser laser = _model.getLaser();
+            laser.setPosition( PhysicsDefaults.LASER_POSITION );
+            laser.setPower( PhysicsDefaults.LASER_POWER_RANGE.getDefault() );
             
             // Fluid
-            _fluid.setSpeed( PhysicsDefaults.FLUID_SPEED_RANGE.getDefault() );
-            _fluid.setViscosity( PhysicsDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
-            _fluid.setTemperature( PhysicsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
+            Fluid fluid = _model.getFluid();
+            fluid.setSpeed( PhysicsDefaults.FLUID_SPEED_RANGE.getDefault() );
+            fluid.setViscosity( PhysicsDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
+            fluid.setTemperature( PhysicsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
         }
         
         // Control panel settings that are view-related
@@ -535,8 +512,9 @@ public class PhysicsModule extends AbstractModule {
         Rectangle2D b = _returnBeadButtonWrapper.getFullBounds().getBounds();
         double x = b.getX() + ( b.getWidth() / 2 );
         double y = b.getY() + ( b.getHeight() / 2 );
-        Point2D p = _modelViewTransform.viewToModel( x, y );
-        _bead.setPosition( p );
+        ModelViewTransform modelViewTransform = _model.getModelViewTransform();
+        Point2D p = modelViewTransform.viewToModel( x, y );
+        _model.getBead().setPosition( p );
         _returnBeadButtonWrapper.setVisible( false );
         _returnBeadButtonWrapper.setPickable( false );
         _returnBeadButtonWrapper.setChildrenPickable( false );

@@ -54,4 +54,13 @@ public class OTClock extends SwingClock {
     public double getDt() {
         return _dt;
     }
+    
+    public void setPaused( boolean paused ) {
+        if ( paused ) {
+            pause();
+        }
+        else {
+            start();
+        }
+    }
 }
