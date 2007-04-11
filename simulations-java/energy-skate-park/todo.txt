@@ -1,6 +1,7 @@
 • Playback/record (depends on correct data structure copying which needs to be implemented and tested)
 • Performance problems after lots of runs
 • In the default setup, when the simulation starts or when the user presses "return skater", the skater falls a few feet onto the track and loses some energy to thermal.  This was confusing for Trish's students, who weren't ready to be exposed to friction-based features.  What should be done about this?
+    Still under discussion.
 
 Questions:
 Should we add ability to save skater character as part of a saved state? (30 min or so)
