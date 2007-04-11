@@ -35,10 +35,9 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.EC3LookAndFeel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkTestMenu;
-//import edu.colorado.phet.lookandfeels.LookAndFeelMenu;
 
 import javax.jnlp.UnavailableServiceException;
 import javax.swing.*;
@@ -156,6 +155,7 @@ new EnergySkateParkFrameSetup() );
             }
         } );
     }
+
     public static class EnergySkateParkDebugFrameSetup implements FrameSetup {
 
         public void initialize( JFrame frame ) {
@@ -166,6 +166,7 @@ new EnergySkateParkFrameSetup() );
         }
 
     }
+
     public static class EnergySkateParkFrameSetup implements FrameSetup {
         public void initialize( JFrame frame ) {
             if( Toolkit.getDefaultToolkit().getScreenSize().height <= 768 ) {

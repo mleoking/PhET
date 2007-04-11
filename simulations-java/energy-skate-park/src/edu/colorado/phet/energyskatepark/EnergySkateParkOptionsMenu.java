@@ -1,10 +1,6 @@
 package edu.colorado.phet.energyskatepark;
 
-import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
-
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid

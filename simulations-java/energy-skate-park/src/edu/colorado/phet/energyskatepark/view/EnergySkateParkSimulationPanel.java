@@ -197,7 +197,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     private void addSkater() {
-        Body body=module.createBody();
+        Body body = module.createBody();
         module.resetSkater( body );
         energySkateParkModel.addBody( body );
         updateGraphics();

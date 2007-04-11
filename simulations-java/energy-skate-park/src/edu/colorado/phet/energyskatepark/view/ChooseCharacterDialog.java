@@ -40,9 +40,9 @@ public class ChooseCharacterDialog extends JDialog {
                 dispose();
             }
         } );
-        SkaterCharacter[]sk=module.getSkaterCharacters();
+        SkaterCharacter[] sk = module.getSkaterCharacters();
         for( int i = 0; i < sk.length; i++ ) {
-            addCharacterPanel( new CharacterPanel( module, sk[i]) );
+            addCharacterPanel( new CharacterPanel( module, sk[i] ) );
         }
 
         contentPanel.add( ok, gridBagConstraints );
@@ -59,7 +59,7 @@ public class ChooseCharacterDialog extends JDialog {
                 setSelection( characterPanel );
             }
         } );
-        characterPanel.setSelected( characterPanel.getSkaterCharacter()==module.getSkaterCharacter());
+        characterPanel.setSelected( characterPanel.getSkaterCharacter() == module.getSkaterCharacter() );
         characterPanels.add( characterPanel );
     }
 

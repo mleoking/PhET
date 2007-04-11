@@ -1,13 +1,13 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.plots;
 
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkLegend;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.common.LucidaSansFont;
 import edu.colorado.phet.energyskatepark.common.SavedGraph;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkLegend;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;

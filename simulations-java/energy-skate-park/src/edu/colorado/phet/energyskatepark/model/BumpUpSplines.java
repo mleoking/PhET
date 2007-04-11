@@ -4,7 +4,7 @@ package edu.colorado.phet.energyskatepark.model;
  * Author: Sam Reid
  * Apr 6, 2007, 9:52:32 AM
  */
-public class BumpUpSplines  {
+public class BumpUpSplines {
     private EnergySkateParkModel model;
 
     public BumpUpSplines( EnergySkateParkModel model ) {

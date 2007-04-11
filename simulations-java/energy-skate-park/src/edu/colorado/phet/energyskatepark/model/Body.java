@@ -39,7 +39,7 @@ public class Body implements Cloneable {
     private static ArrayList particles = new ArrayList();
     private static double staticSticky = 0.75;
 
-    public Body( double width, double height, ParticleStage particleStage,double gravity,double zeroPointPotentialY ) {
+    public Body( double width, double height, ParticleStage particleStage, double gravity, double zeroPointPotentialY ) {
         this.width = width;
         this.height = height;
         particle = new Particle( particleStage );
@@ -121,9 +121,9 @@ public class Body implements Cloneable {
         clone.height = this.height;
         clone.angularVelocity = this.angularVelocity;
         clone.facingRight = facingRight;
-        clone.errorCount=this.errorCount;
-        clone.fractionalEnergyError=this.fractionalEnergyError;
-        clone.particle= (Particle)this.particle.clone();
+        clone.errorCount = this.errorCount;
+        clone.fractionalEnergyError = this.fractionalEnergyError;
+        clone.particle = (Particle)this.particle.clone();
         return clone;
     }
 

@@ -335,7 +335,7 @@ public class TestPhysics1D extends JFrame {
                 System.out.println( "coords = " + coords );
 //                TraversalState traversalState=new TraversalState( cubicSpline, true,);
                 TraversalState traversalState = particle.getBestTraversalState( coords, new Vector2D.Double( 1, 0 ) );
-                closestPoint.setOffset( traversalState.getPosition());
+                closestPoint.setOffset( traversalState.getPosition() );
             }
         } );
 

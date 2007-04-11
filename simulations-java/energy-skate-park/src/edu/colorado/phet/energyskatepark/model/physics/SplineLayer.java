@@ -12,7 +12,7 @@ public class SplineLayer extends PNode {
     private ParticleStage particleStage;
     private boolean showTopOffsetSpline = false;
     private double offsetDistance = ParametricFunction2DNode.HUMAN_CENTER_OF_MASS_HEIGHT;
-    private boolean showBottomOffsetSpline=false;
+    private boolean showBottomOffsetSpline = false;
 
     public SplineLayer( ParticleStage particleStage ) {
         this.particleStage = particleStage;
@@ -44,7 +44,7 @@ public class SplineLayer extends PNode {
         for( int i = 0; i < getChildrenCount(); i++ ) {
             ParametricFunction2DNode node = (ParametricFunction2DNode)getChild( i );
             node.setShowTopOffsetSpline( showTopOffsetSpline );
-            node.setShowBottomOffsetSpline(showBottomOffsetSpline);
+            node.setShowBottomOffsetSpline( showBottomOffsetSpline );
         }
         for( int i = 0; i < getChildrenCount(); i++ ) {
             ParametricFunction2DNode node = (ParametricFunction2DNode)getChild( i );
@@ -113,7 +113,7 @@ public class SplineLayer extends PNode {
     }
 
     public void setShowBottomOffsetSpline( boolean selected ) {
-        this.showBottomOffsetSpline=selected;
+        this.showBottomOffsetSpline = selected;
         update();
     }
 }

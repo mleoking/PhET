@@ -60,7 +60,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     private JDialog energyPositionPlotFrame;
     private EnergyPositionPlotCanvas energyPositionCanvas;
     private PhetFrame phetFrame;
-    
+
     private BarGraphCanvas barGraphCanvas;
     private EnergySkateParkControlPanel energySkateParkControlPanel;
 
@@ -326,13 +326,12 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
 
-
     public SkaterCharacter getDefaultSkaterCharacter() {
         return skaterCharacterSet.getSkaterCharacters()[0];
     }
 
     public Body createBody() {
-        return new Body( getSkaterCharacter().getModelWidth(), getSkaterCharacter().getModelHeight(), getEnergySkateParkModel().getParticleStage(), getEnergySkateParkModel().getGravity(), getEnergySkateParkModel().getZeroPointPotentialY( ));
+        return new Body( getSkaterCharacter().getModelWidth(), getSkaterCharacter().getModelHeight(), getEnergySkateParkModel().getParticleStage(), getEnergySkateParkModel().getGravity(), getEnergySkateParkModel().getZeroPointPotentialY() );
     }
 
     public static interface Listener {

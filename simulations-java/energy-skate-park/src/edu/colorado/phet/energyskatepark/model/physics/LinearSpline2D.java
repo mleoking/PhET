@@ -12,14 +12,14 @@ import java.util.Arrays;
  * Copyright (c) Mar 4, 2007 by Sam Reid
  */
 
-public class LinearSpline2D extends ControlPointParametricFunction2D{
+public class LinearSpline2D extends ControlPointParametricFunction2D {
 
     public LinearSpline2D( Point2D[] points ) {
-        super(points );
+        super( points );
     }
 
     public String toStringSerialization() {
-        return "points=" + Arrays.asList( getControlPoints( ));
+        return "points=" + Arrays.asList( getControlPoints() );
     }
 
     public Point2D evaluate( double alpha ) {
@@ -37,8 +37,8 @@ public class LinearSpline2D extends ControlPointParametricFunction2D{
 
         Point2D a = getControlPoints()[aIndex];
         Point2D b = getControlPoints()[aIndex + 1];
-        Function.LinearFunction x = new Function.LinearFunction( aIndex, aIndex+1, a.getX(), b.getX() );
-        Function.LinearFunction y = new Function.LinearFunction( aIndex, aIndex+1, a.getY(), b.getY() );
+        Function.LinearFunction x = new Function.LinearFunction( aIndex, aIndex + 1, a.getX(), b.getX() );
+        Function.LinearFunction y = new Function.LinearFunction( aIndex, aIndex + 1, a.getY(), b.getY() );
         return new Point2D.Double( x.evaluate( alpha * ( getControlPoints().length - 1 ) ), y.evaluate( alpha * ( getControlPoints().length - 1 ) ) );
     }
 

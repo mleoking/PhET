@@ -106,7 +106,7 @@ public class EnergyTimePlotCanvas extends PhetPCanvas {
                 ec3Module.getTimeSeriesModel().reset();
             }
         } );
-        clearButtonNode = new PSwing(clear );
+        clearButtonNode = new PSwing( clear );
         addScreenChild( clearButtonNode );
         layoutNodes();
         addComponentListener( new ComponentAdapter() {

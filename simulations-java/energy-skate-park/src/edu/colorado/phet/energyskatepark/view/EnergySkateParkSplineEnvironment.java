@@ -1,7 +1,5 @@
 package edu.colorado.phet.energyskatepark.view;
 
-import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-
 import java.awt.geom.Point2D;
 
 /**

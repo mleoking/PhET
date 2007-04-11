@@ -1,7 +1,6 @@
 package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 

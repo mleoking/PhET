@@ -113,7 +113,7 @@ public class CubicSpline implements Cloneable {
         }
 
         public double evaluate( double x ) {
-            return ( z1 * pow3( x - x0) + z0 * pow3( x1 - x) ) / ( 6 * h ) +
+            return ( z1 * pow3( x - x0 ) + z0 * pow3( x1 - x ) ) / ( 6 * h ) +
                    ( y1 / h - h / 6 * z1 ) * ( x - x0 ) + ( y0 / h - h / 6 * z0 ) * ( x1 - x );
         }
     }
