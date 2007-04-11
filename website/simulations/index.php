@@ -3,6 +3,7 @@
 
     include_once("../admin/db.inc");
     include_once("../admin/web-utils.php");
+    include_once("../admin/sim-utils.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -50,18 +51,7 @@
                 <li class=" selected"><a href="#">Simulations</a></li>
                 
                 <?php
-                    // List all the categories:
-
-                    // start selecting SIMULATION CATEGORIES from database table
-                    $select_simcat_def_st = "SELECT * FROM `simcat_def` ORDER BY `cat_id` ASC ";
-                    $simcat_def_table     = mysql_query($select_simcat_def_st, $connection);
-
-                    while ($simcat_def = mysql_fetch_row($simcat_def_table)) {
-                        $cat_id     = $simcat_def[0];
-                        $cat_name   = $simcat_def[1];
-                    
-                        print "<li class=\"sub\"><span class=\"sub-nav\"><a href=\"index.php?cat=$cat_id\">&rarr; $cat_name</a></span></li>";          
-                    } 
+                    print_sim_categories();
                 ?>
 
                 <li><a href="../teacher_ideas/index.html">Teacher Ideas Database</a></li>
@@ -161,10 +151,10 @@
 
                             $page_sim_start_number = $sims_per_page * $n; 
 
-                            print "<a class=\"pg\" href=\"index.php?cat=$cat&st=$page_sim_start_number\">$page_number</a>::";
+                            print "<a class=\"pg\" href=\"index.php?cat=$cat&amp;st=$page_sim_start_number\">$page_number</a>::";
                         }
                         
-                        print "<a class=\"pg\" href=\"index.php?cat=$cat&st=-1\">all&raquo;</a>";
+                        print "<a class=\"pg\" href=\"index.php?cat=$cat&amp;st=-1\">all&raquo;</a>";
                         print "</p></div>\n";
                     } 
 
@@ -192,7 +182,7 @@
 
                         $sim_id   = $sim_row[0];
                         $thumburl = $sim_row[6];
-                        $sim_name = $sim_row[1];
+                        $sim_name = format_for_html($sim_row[1]);
 
                         if (is_numeric($sim_id) && url_exists($thumburl)) {
                             if ($sim_column == 1) { 
