@@ -20,12 +20,6 @@ public class RecordMode extends Mode {
         timer = new PhetTimer( EnergySkateParkStrings.getString( "record.timer" ) );
     }
 
-    public void initialize() {
-//        TimeSeriesModel timeSeriesModel = getTimeSeriesModel();
-//        double recTime = timeSeriesModel.getRecordTime();
-//        timeSeriesModel.setReplayTime( recTime );
-    }
-
     public void step() {
         doStep( EnergySkateParkApplication.SIMULATION_TIME_DT );
     }
@@ -55,6 +49,7 @@ public class RecordMode extends Mode {
         }
         timer.stepInTime( dt, maxTime );//this could go over the max.
         timeSeriesModel.updateModel( dt );
+
         timeSeriesModel.addSeriesPoint( timeSeriesModel.getModelState(), timeSeriesModel.getRecordTime() );
 
 //        System.out.println( "timeSeriesModel.getSeries().size() = " + timeSeriesModel.getSeries().size() );
@@ -67,9 +62,5 @@ public class RecordMode extends Mode {
 ////            timeSeriesModel.getSeries().remove( 0 );
 //            timeSeriesModel.getSeries().remove( 0 );
 //        }
-    }
-
-    public void initAgain( TimeSeriesModel timeSeriesModel ) {
-//        timeSeriesModel.setLastPoint();
     }
 }

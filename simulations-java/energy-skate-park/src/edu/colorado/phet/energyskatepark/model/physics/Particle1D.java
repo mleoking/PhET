@@ -5,9 +5,11 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.energyskatepark.model.TrackWithFriction;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
+import edu.colorado.phet.timeseries.OptionalItemSerializableList;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * User: Sam Reid
@@ -15,7 +17,7 @@ import java.util.ArrayList;
  * Time: 11:16:29 AM
  * Copyright (c) Feb 18, 2007 by Sam Reid
  */
-public class Particle1D implements Cloneable {
+public class Particle1D implements Cloneable, Serializable {
     private double alpha = 0.25;
     private double velocity = 0;
 
@@ -26,7 +28,7 @@ public class Particle1D implements Cloneable {
     private double g;// meters/s/s
     private double mass = 1.0;//kg
 
-    private ArrayList listeners = new ArrayList();
+    private List listeners = new OptionalItemSerializableList();
     private boolean splineTop = true;
     private boolean reflect = true;
     private double zeroPointPotentialY = 0.0;
@@ -260,7 +262,7 @@ public class Particle1D implements Cloneable {
         setThermalEnergy( thermalEnergy + dT );
     }
 
-    public interface UpdateStrategy {
+    public interface UpdateStrategy extends Serializable {
         void stepInTime( double dt );
     }
 

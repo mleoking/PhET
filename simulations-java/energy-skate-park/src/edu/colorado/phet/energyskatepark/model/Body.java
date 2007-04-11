@@ -8,6 +8,7 @@ import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.Particle;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
+import edu.colorado.phet.timeseries.OptionalItemSerializableList;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -16,7 +17,9 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: Sam Reid
@@ -25,7 +28,7 @@ import java.util.ArrayList;
  * Copyright (c) Sep 21, 2005 by Sam Reid
  */
 
-public class Body implements Cloneable {
+public class Body implements Cloneable, Serializable {
     private Particle particle;
     private boolean facingRight;
     private double width;
@@ -34,10 +37,12 @@ public class Body implements Cloneable {
     private int errorCount = 0;
     private double fractionalEnergyError = 0.0;
 
-    private ArrayList listeners = new ArrayList();
+    private List listeners = new OptionalItemSerializableList();
 
-    private static ArrayList particles = new ArrayList();
+    private static List particles = new ArrayList();
+
     private static double staticSticky = 0.75;
+
 
     public Body( double width, double height, ParticleStage particleStage, double gravity, double zeroPointPotentialY ) {
         this.width = width;
@@ -136,6 +141,8 @@ public class Body implements Cloneable {
             throw new RuntimeException( e );
         }
     }
+
+    
 
     public void stepInTime( double dt ) {
         double origEnergy = getTotalEnergy();

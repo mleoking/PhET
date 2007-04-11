@@ -74,11 +74,6 @@ public class SkaterNode extends PNode {
             addChild( centerDebugger );
         }
 
-//        ec3Module.getModel().addModelElement( new ModelElement() {
-//            public void stepInTime( double dt ) {
-//                update();
-//            }
-//        } );
         body.addListener( new Body.ListenerAdapter() {
             public void doRepaint() {
                 update();

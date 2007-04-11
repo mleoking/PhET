@@ -208,8 +208,6 @@ public abstract class TimeSeriesModel implements ClockListener {
     }
 
     public void setRecordMode() {
-
-        recordMode.initAgain( this );
         setMode( recordMode );
     }
 
@@ -232,7 +230,6 @@ public abstract class TimeSeriesModel implements ClockListener {
         boolean same = mode == this.mode;
         if( !same ) {
             this.mode = mode;
-            this.mode.initialize();
             System.out.println( "Changed mode to: " + mode.getName() );
         }
     }

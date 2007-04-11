@@ -5,13 +5,14 @@ import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFun
 
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Author: Sam Reid
  * Mar 16, 2007, 11:30:06 AM
  */
-public class EnergySkateParkSpline implements Cloneable {
+public class EnergySkateParkSpline implements Cloneable, Serializable {
     private ControlPointParametricFunction2D parametricFunction2D;
     private boolean rollerCoaster;
     private boolean userControlled;

@@ -5,6 +5,7 @@ import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Arrays;
  * Copyright (c) Feb 14, 2007 by Sam Reid
  */
 
-public abstract class ParametricFunction2D implements Cloneable {
+public abstract class ParametricFunction2D implements Cloneable, Serializable {
 
     public double getClosestPoint( Point2D pt ) {
 //        return getClosestPointFlatSearch( pt );

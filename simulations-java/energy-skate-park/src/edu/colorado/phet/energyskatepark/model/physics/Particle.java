@@ -8,6 +8,7 @@ import edu.colorado.phet.energyskatepark.model.TraversalState;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  * Copyright (c) Feb 18, 2007 by Sam Reid
  */
 
-public class Particle implements Cloneable {
+public class Particle implements Cloneable, Serializable {
     private Particle1D particle1D;
     private double x;
     private double y;

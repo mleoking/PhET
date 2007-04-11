@@ -4,6 +4,7 @@ package edu.colorado.phet.energyskatepark.model;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 
 /**
  * User: Sam Reid
@@ -12,7 +13,7 @@ import java.awt.geom.Point2D;
  * Copyright (c) Sep 21, 2005 by Sam Reid
  */
 
-public class Floor {
+public class Floor implements Serializable {
     private double y;
     private EnergySkateParkModel model;
 
