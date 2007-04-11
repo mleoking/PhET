@@ -5,6 +5,7 @@
 IN PROGRESS:
 - add fluid flow and trap force components to bead motion model
 - add developer control for Bead.BROWNIAN_MOTION_SCALE
+- add developer controls for disabling individual components of bead motion model
 
 HIGH PRIORITY:
 - bug: fluid viscosity slider is brain damaged
@@ -28,6 +29,7 @@ MEDIUM PRIORITY:
 - get spec for "Show charge on bead" feature
 
 LOW PRIORITY:
+- use TrigCache to improve performance?
 - replace OTRuler alignment hack with permanent solution
 - migrate CloseButtonNode to common, reuse phetcommon/data/images/buttons/closeButton.png
 - add close button to ruler?

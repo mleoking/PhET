@@ -124,23 +124,28 @@ public class Bead extends MovableObject implements ModelElement {
         final double maxY = _fluid.getMaxY() - ( getDiameter() / 2 );
         
         // Brownian motion components
-        final double fluidTemperature = _fluid.getTemperature();
-        final double stepLength = BROWNIAN_MOTION_SCALE * Math.sqrt( fluidTemperature ) * Math.sqrt( dt );
-        double stepAngle = 0;
-        if ( getY() <= minY ) {
-            // bounce off top edge of microscope slide at an angle between 45 and 135 degrees
-            stepAngle = ( Math.PI / 4 ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
+        double dxBrownian = 0;
+        double dyBrownian = 0;
+        {
+            final double fluidTemperature = _fluid.getTemperature();
+            final double stepLength = BROWNIAN_MOTION_SCALE * Math.sqrt( fluidTemperature ) * Math.sqrt( dt );
+            double stepAngle = 0;
+            if ( getY() <= minY ) {
+                // bounce off top edge of microscope slide at an angle between 45 and 135 degrees
+                stepAngle = ( Math.PI / 4 ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
+            }
+            else if ( getY() >= maxY ) {
+                // bounce off bottom edge of microscope slide at an angle between -45 and -135 degrees
+                stepAngle = ( Math.PI + ( Math.PI / 4 ) ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
+            }
+            else {
+                // no collision with the edges of the microscope slide, any random angle will do
+                stepAngle = _stepAngleRandom.nextDouble() * ( 2 * Math.PI );
+            }
+            // covert from Polar to Cartesian coordinates
+            dxBrownian = stepLength * Math.cos( stepAngle );
+            dyBrownian = stepLength * Math.sin( stepAngle );
         }
-        else if ( getY() >= maxY ) {
-            // bounce bottom top edge of microscope slide at an angle between 45 and 135 degrees
-            stepAngle = ( Math.PI + ( Math.PI / 4 ) ) + ( _stepAngleRandom.nextDouble() * Math.PI / 2 );
-        }
-        else {
-            // no collision with the edges of the microscope slide, any random angle will do
-            stepAngle = _stepAngleRandom.nextDouble() * ( 2 * Math.PI );
-        }
-        final double dxBrownian = stepLength * Math.cos( stepAngle );
-        final double dyBrownian = stepLength * Math.sin( stepAngle );
         
         // Combine all motion components
         final double newX = getX() + dxBrownian;
