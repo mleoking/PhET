@@ -17,15 +17,6 @@ public class LiveMode extends Mode {
         super( timeSeriesModel, EnergySkateParkStrings.getString( "play" ) );
     }
 
-    public void initialize() {
-        //11-29-2006: Removed this code to fix this problem:
-        //Record, pause, switch location, go should remain in the newly selected location.
-
-//        if( getTimeSeriesModel().getSeries().getLastPoint() != null ) {
-//            getTimeSeriesModel().setModelState( getTimeSeriesModel().getSeries().getLastPoint().getValue() );
-//        }
-    }
-
     public void step() {
         getTimeSeriesModel().updateModel( EnergySkateParkApplication.SIMULATION_TIME_DT );
     }

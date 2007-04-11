@@ -1,5 +1,6 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * Copyright (c) Feb 18, 2007 by Sam Reid
  */
 
-public class ParticleStage {
+public class ParticleStage implements Serializable {
     private ArrayList splines = new ArrayList();
     private ArrayList listeners = new ArrayList();
 

@@ -20,8 +20,6 @@ public abstract class Mode implements ClockListener {
         this.name = name;
     }
 
-    public abstract void initialize();
-
     public String getName() {
         return name;
     }

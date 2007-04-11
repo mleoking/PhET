@@ -31,9 +31,6 @@ public class PlaybackMode extends Mode {
         this.playbackSpeed = playbackSpeed;
     }
 
-    public void initialize() {
-    }
-
     public void step() {
         setPlaybackSpeed( 1.0 );
         doStep( EnergySkateParkApplication.SIMULATION_TIME_DT );

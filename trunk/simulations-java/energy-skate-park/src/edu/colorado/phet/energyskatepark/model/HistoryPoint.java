@@ -1,6 +1,8 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.model;
 
+import java.io.Serializable;
+
 /**
  * User: Sam Reid
  * Date: Oct 23, 2005
@@ -8,7 +10,7 @@ package edu.colorado.phet.energyskatepark.model;
  * Copyright (c) Oct 23, 2005 by Sam Reid
  */
 
-public class HistoryPoint {
+public class HistoryPoint implements Serializable {
     private Body body;
     private double x;
     private double y;

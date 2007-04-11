@@ -5,6 +5,7 @@ import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
 
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  * Copyright (c) Sep 21, 2005 by Sam Reid
  */
 
-public class EnergySkateParkModel {
+public class EnergySkateParkModel implements Serializable {
     private double time = 0;
     private ArrayList history = new ArrayList();
     private ArrayList bodies = new ArrayList();
@@ -36,11 +37,7 @@ public class EnergySkateParkModel {
     public static final double G_MOON = -1.62;
     public static final double G_JUPITER = -25.95;
     public static final double SPLINE_THICKNESS = 0.25f;//meters
-    private Body.Listener energyListener = new Body.ListenerAdapter() {
-        public void energyChanged() {
-            notifyBodyEnergyChanged();
-        }
-    };
+    private Body.Listener energyListener = new EnergyChangeNotifyingListener();
 
     public EnergySkateParkModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
@@ -153,22 +150,46 @@ public class EnergySkateParkModel {
         return floor;
     }
 
+//    public EnergySkateParkModel copyState() {
+//
+//
+//
+//
+//        EnergySkateParkModel copy = new EnergySkateParkModel( zeroPointPotentialY );
+//        for( int i = 0; i < bodies.size(); i++ ) {
+//            Body body = (Body)bodies.get( i );
+//            copy.bodies.add( body.copyState() );
+//        }
+//        copy.floor = this.floor == null ? null : this.floor.copyState();
+//        for( int i = 0; i < splines.size(); i++ ) {
+//            EnergySkateParkSpline surface = getSpline( i );
+//            copy.splines.add( surface.copy() );
+//        }
+//        copy.history = new ArrayList( history );
+//        copy.time = time;
+//        copy.gravity = gravity;
+//        copy.maxNumHistoryPoints = maxNumHistoryPoints;
+//        return copy;
+//    }
     public EnergySkateParkModel copyState() {
-        EnergySkateParkModel copy = new EnergySkateParkModel( zeroPointPotentialY );
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
-            copy.bodies.add( body.copyState() );
+        try {
+            ByteArrayOutputStream byteOut = new ByteArrayOutputStream( );
+
+            ObjectOutputStream objectOut = new ObjectOutputStream( byteOut );
+
+            objectOut.writeObject( this );
+
+            objectOut.flush();
+
+            ByteArrayInputStream byteIn = new ByteArrayInputStream( byteOut.toByteArray() );
+
+            return (EnergySkateParkModel)new ObjectInputStream(byteIn).readObject();
         }
-        copy.floor = this.floor == null ? null : this.floor.copyState();
-        for( int i = 0; i < splines.size(); i++ ) {
-            EnergySkateParkSpline surface = getSpline( i );
-            copy.splines.add( surface.copy() );
+        catch( Exception e ) {
+            e.printStackTrace();
+
+            return null;
         }
-        copy.history = new ArrayList( history );
-        copy.time = time;
-        copy.gravity = gravity;
-        copy.maxNumHistoryPoints = maxNumHistoryPoints;
-        return copy;
     }
 
     public void setState( EnergySkateParkModel model ) {
@@ -391,5 +412,11 @@ public class EnergySkateParkModel {
 
     public HistoryPoint historyPointAt( int i ) {
         return (HistoryPoint)history.get( i );
+    }
+
+    private class EnergyChangeNotifyingListener extends Body.ListenerAdapter implements Serializable {
+        public void energyChanged() {
+            notifyBodyEnergyChanged();
+        }
     }
 }
