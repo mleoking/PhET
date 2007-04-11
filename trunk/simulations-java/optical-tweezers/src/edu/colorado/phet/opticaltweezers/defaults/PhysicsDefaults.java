@@ -26,7 +26,7 @@ public class PhysicsDefaults {
     // Clock
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
     public static final boolean CLOCK_PAUSED = false ;
-    public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( 1, 100, 1, 1 );
+    public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( 0.01, 1, 1, 2 );
     public static final OTClock CLOCK = new OTClock( CLOCK_FRAME_RATE, CLOCK_DT_RANGE );
     
     // Fluid model, local origin at fluid's center

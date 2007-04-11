@@ -61,6 +61,8 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/11/07 - add Brownian motion to bead, including collision detection with top & bottom edges of microscope slide
+4/11/07 - change clock dt range to [0.01,1]
 4/11/07 - encapsulate model creation for "Physics of Tweezers" panel in PhysicsModel
 4/10/07 - explicitly call handlers in all control panel setters
 4/10/07 - hook up TrapForceNode to control panel
