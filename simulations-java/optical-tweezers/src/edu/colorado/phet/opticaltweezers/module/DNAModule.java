@@ -13,7 +13,7 @@ import edu.colorado.phet.opticaltweezers.control.DNAControlPanel;
 import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
-import edu.colorado.phet.opticaltweezers.model.OTModel;
+import edu.colorado.phet.opticaltweezers.model.PhysicsModel;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.view.ModelViewTransform;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -33,7 +33,7 @@ public class DNAModule extends AbstractModule {
     //----------------------------------------------------------------------------
 
     // Model
-    private OTModel _model;
+    private PhysicsModel _model;
     
     // View
     private PhetPCanvas _canvas;
@@ -55,10 +55,7 @@ public class DNAModule extends AbstractModule {
         // Model
         //----------------------------------------------------------------------------
 
-        IClock clock = getClock();
-        
-        // Model
-        _model = new OTModel( clock );
+        OTClock clock = (OTClock) getClock();
 
         //----------------------------------------------------------------------------
         // View
