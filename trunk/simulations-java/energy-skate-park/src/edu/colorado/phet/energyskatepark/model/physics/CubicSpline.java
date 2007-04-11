@@ -2,6 +2,7 @@ package edu.colorado.phet.energyskatepark.model.physics;
 
 import Jama.Matrix;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Arrays;
  * see http://en.wikipedia.org/wiki/Spline_interpolation
  */
 
-public class CubicSpline implements Cloneable {
+public class CubicSpline implements Cloneable, Serializable {
     private CubicSplineSegment[] segments;
     private double[] xTrain;
     private double[] yTrain;
@@ -69,7 +70,7 @@ public class CubicSpline implements Cloneable {
 //        throw new RuntimeException( "value not contained in spline: " + x + ", min=" + xTrain[0] + ", max=" + xTrain[xTrain.length - 1] );
     }
 
-    static class CubicSplineSegment implements Cloneable {
+    static class CubicSplineSegment implements Cloneable, Serializable {
         private double h;
         private double z0;
         private double z1;

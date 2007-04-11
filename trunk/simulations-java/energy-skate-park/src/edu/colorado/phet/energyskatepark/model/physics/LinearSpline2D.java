@@ -1,6 +1,7 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.math.Function;
+import edu.colorado.phet.timeseries.SPoint2D;
 
 import java.awt.geom.Point2D;
 import java.util.Arrays;
@@ -39,14 +40,14 @@ public class LinearSpline2D extends ControlPointParametricFunction2D {
         Point2D b = getControlPoints()[aIndex + 1];
         Function.LinearFunction x = new Function.LinearFunction( aIndex, aIndex + 1, a.getX(), b.getX() );
         Function.LinearFunction y = new Function.LinearFunction( aIndex, aIndex + 1, a.getY(), b.getY() );
-        return new Point2D.Double( x.evaluate( alpha * ( getControlPoints().length - 1 ) ), y.evaluate( alpha * ( getControlPoints().length - 1 ) ) );
+        return new SPoint2D.Double( x.evaluate( alpha * ( getControlPoints().length - 1 ) ), y.evaluate( alpha * ( getControlPoints().length - 1 ) ) );
     }
 
     public static void main( String[] args ) {
         Point2D[] pts = new Point2D[]{
-                new Point2D.Double( 0, 0 ),
-                new Point2D.Double( 10, 0 ),
-                new Point2D.Double( 10, 10 )
+                new SPoint2D.Double( 0, 0 ),
+                new SPoint2D.Double( 10, 0 ),
+                new SPoint2D.Double( 10, 10 )
         };
         double dAlpha = 0.1;
         LinearSpline2D linearSpline2D = new LinearSpline2D( pts );

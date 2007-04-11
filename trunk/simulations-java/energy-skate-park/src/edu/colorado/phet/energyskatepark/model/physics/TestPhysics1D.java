@@ -9,6 +9,7 @@ import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
+import edu.colorado.phet.timeseries.SPoint2D;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -45,11 +46,11 @@ public class TestPhysics1D extends JFrame {
         setContentPane( pSwingCanvas );
 
         final ParametricFunction2D cubicSpline = new CubicSpline2D( new Point2D[]{
-                new Point2D.Double( 1 * 2, 0.5 * 2 ),
-                new Point2D.Double( 2 * 2, 1 * 2 ),
-                new Point2D.Double( 3 * 2, 0.5 * 2 ),
-                new Point2D.Double( 4 * 2, 2 * 2 ),
-                new Point2D.Double( 5 * 2, 0.5 * 2 )
+                new SPoint2D.Double( 1 * 2, 0.5 * 2 ),
+                new SPoint2D.Double( 2 * 2, 1 * 2 ),
+                new SPoint2D.Double( 3 * 2, 0.5 * 2 ),
+                new SPoint2D.Double( 4 * 2, 2 * 2 ),
+                new SPoint2D.Double( 5 * 2, 0.5 * 2 )
         } );
 
         particleStage.addCubicSpline2D( cubicSpline );

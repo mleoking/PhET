@@ -2,6 +2,7 @@ package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.timeseries.SPoint2D;
 import junit.framework.TestCase;
 
 import java.awt.geom.Line2D;
@@ -14,8 +15,8 @@ import java.awt.geom.Point2D;
 public class _TestPassThrough extends TestCase {
 
     public ParticleTestState getDefaultTestState( double lineX, double speedX ) {
-        return new ParticleTestState( new Point2D.Double[]{new Point2D.Double( lineX, -1 ), new Point2D.Double( lineX, +1 )},
-                                      new Point2D.Double( 0, 0 ), new Vector2D.Double( speedX, 0.0 ) );
+        return new ParticleTestState( new SPoint2D.Double[]{new SPoint2D.Double( lineX, -1 ), new SPoint2D.Double( lineX, +1 )},
+                                      new SPoint2D.Double( 0, 0 ), new Vector2D.Double( speedX, 0.0 ) );
     }
 
     public void runTest( ParticleTestState testState, double dt, int iterations ) {
@@ -47,13 +48,13 @@ public class _TestPassThrough extends TestCase {
     }
 
 //    public void testPointSegmentDistance2() {
-//        double dist = pointSegmentDistance( new Point2D.Double( 1.0, 0 ), new Line2D.Double( 0.0, 0.0, 2.0, 0.0 ) );
+//        double dist = pointSegmentDistance( new SPoint2D.Double( 1.0, 0 ), new Line2D.Double( 0.0, 0.0, 2.0, 0.0 ) );
 //        System.out.println( "dist = " + dist );
 //        assertEquals( "point line distance should be almost zero", 0.0, dist, 1E-4 );
 //    }
 
     public void testPointSegmentDistance() {
-        double dist = Particle.pointSegmentDistance( new Point2D.Double( 1.0, 0 ), new Line2D.Double( 0.0, 0.0, 2.0, 0.0 ) );
+        double dist = Particle.pointSegmentDistance( new SPoint2D.Double( 1.0, 0 ), new Line2D.Double( 0.0, 0.0, 2.0, 0.0 ) );
         System.out.println( "dist = " + dist );
         assertEquals( "point line distance should be almost zero", 0.0, dist, 1E-4 );
     }

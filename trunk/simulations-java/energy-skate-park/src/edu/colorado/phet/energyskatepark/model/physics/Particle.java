@@ -5,6 +5,7 @@ import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
+import edu.colorado.phet.timeseries.SPoint2D;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -223,7 +224,7 @@ public class Particle implements Cloneable, Serializable {
 
     public TraversalState getTrackMatch( double dx, double dy ) {
         boolean[] above = getOrigAbove();
-        SearchState crossPoint = getBestCrossPoint( new Point2D.Double( getPosition().getX() + dx, getPosition().getY() + dy ), getOrigAbove(), getPosition() );
+        SearchState crossPoint = getBestCrossPoint( new SPoint2D.Double( getPosition().getX() + dx, getPosition().getY() + dy ), getOrigAbove(), getPosition() );
 
         if( crossPoint == null || crossPoint.getIndex() == -1 ) {
             return null;
@@ -238,7 +239,7 @@ public class Particle implements Cloneable, Serializable {
         return particleStage.isSplineUserControlled();
     }
 
-    interface UpdateStrategy {
+    interface UpdateStrategy extends Serializable {
         void stepInTime( double dt );
     }
 
@@ -246,7 +247,7 @@ public class Particle implements Cloneable, Serializable {
         return mass;
     }
 
-    class Particle1DUpdate implements UpdateStrategy {
+    class Particle1DUpdate implements UpdateStrategy, Serializable {
         public void stepInTime( double dt ) {
 
 //            AbstractVector2D sideVector = getSideVector( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() );
@@ -360,7 +361,7 @@ public class Particle implements Cloneable, Serializable {
     }
 
     public boolean isAboveSpline( int index ) {
-        return isAboveSpline( particleStage.getCubicSpline2D( index ), particleStage.getCubicSpline2D( index ).getClosestPoint( new Point2D.Double( x, y ) ), new Point2D.Double( x, y ) );
+        return isAboveSpline( particleStage.getCubicSpline2D( index ), particleStage.getCubicSpline2D( index ).getClosestPoint( new SPoint2D.Double( x, y ) ), new SPoint2D.Double( x, y ) );
     }
 
     public boolean isAboveSplineZero() {
@@ -389,7 +390,7 @@ public class Particle implements Cloneable, Serializable {
             return pt3.distance( line.getP2() );
         }
         else {
-            Point2D closest = new Point2D.Double( p1.getX() + u * ( p2.getX() - p1.getX() ), p1.getY() + u * ( p2.getY() - p1.getY() ) );
+            Point2D closest = new SPoint2D.Double( p1.getX() + u * ( p2.getX() - p1.getX() ), p1.getY() + u * ( p2.getY() - p1.getY() ) );
             return closest.distance( pt3 );
         }
     }
@@ -476,7 +477,7 @@ public class Particle implements Cloneable, Serializable {
             boolean[] origAbove = getOrigAbove();
 //            System.out.println( "stepping freefall, origAbove=" + origAbove );
 
-            Point2D origLoc = new Point2D.Double( x, y );
+            Point2D origLoc = new SPoint2D.Double( x, y );
             double ay = g + yThrust;
             double ax = 0 + xThrust;
             vy += ay * dt;
@@ -494,7 +495,7 @@ public class Particle implements Cloneable, Serializable {
             }
 //            System.out.println( "FreeFall dE[1]= " + Math.abs( getTotalEnergy() - origEnergy ) );
 
-            Point2D newLoc = new Point2D.Double( x, y );
+            Point2D newLoc = new SPoint2D.Double( x, y );
 
             //take a min over all possible crossover points
             SearchState searchState = getBestCrossPoint( newLoc, origAbove, origLoc );
@@ -720,7 +721,7 @@ public class Particle implements Cloneable, Serializable {
     private ArrayList listeners = new ArrayList();
 
     public Point2D getPosition() {
-        return new Point2D.Double( x, y );
+        return new SPoint2D.Double( x, y );
     }
 
     public void setPosition( Point2D pt ) {

@@ -9,6 +9,7 @@ import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.Particle;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
 import edu.colorado.phet.timeseries.OptionalItemSerializableList;
+import edu.colorado.phet.timeseries.SPoint2D;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -87,7 +88,7 @@ public class Body implements Cloneable, Serializable {
 
     public void reset() {
         setFreeFallMode();
-        setPosition( new Point2D.Double( 4, 7.25 ) );
+        setPosition( new SPoint2D.Double( 4, 7.25 ) );
         setAngularVelocity( 0.0 );
         setVelocity( 0, 0 );
         setPosition( 3, 6 );
