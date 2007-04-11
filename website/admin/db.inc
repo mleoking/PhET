@@ -14,14 +14,14 @@
     */
     include_once("login-info.php");
     
-    assert(isset(DB_HOSTNAME));
-    assert(isset(DB_NAME));
-    assert(isset(DB_USERNAME));
-    assert(isset(DB_PASSWORD));
-    
     // connect to the server, select db
     function connect_to_db() {
         global $connection;
+        
+        assert('defined("DB_HOSTNAME")');
+        assert('defined("DB_NAME")');
+        assert('defined("DB_USERNAME")');
+        assert('defined("DB_PASSWORD")');
         
 	    $connection = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
 	    
