@@ -299,7 +299,6 @@ public class PhysicsControlPanel extends AbstractControlPanel {
             _beadChargesCheckBox.setForeground( fg );
             _allChargesRadioButton.setForeground( fg );
             _excessChargesRadioButton.setForeground( fg );
-            _trapForceCheckBox.setForeground( fg );
             _horizontalTrapForceLabel.setForeground( fg );
             _wholeBeadRadioButton.setForeground( fg );
             _halfBeadRadioButton.setForeground( fg );
