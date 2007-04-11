@@ -1,5 +1,7 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
+import edu.colorado.phet.timeseries.SPoint2D;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,13 +49,13 @@ public abstract class ControlPointParametricFunction2D extends ParametricFunctio
     public Point2D[] getControlPoints() {
         Point2D[] a = new Point2D[pts.length];
         for( int i = 0; i < a.length; i++ ) {
-            a[i] = new Point2D.Double( pts[i].getX(), pts[i].getY() );
+            a[i] = new SPoint2D.Double( pts[i].getX(), pts[i].getY() );
         }
         return a;
     }
 
     public void setControlPoint( int i, Point2D pt ) {
-        pts[i] = new Point2D.Double( pt.getX(), pt.getY() );
+        pts[i] = new SPoint2D.Double( pt.getX(), pt.getY() );
     }
 
     public int getNumControlPoints() {
@@ -75,7 +77,7 @@ public abstract class ControlPointParametricFunction2D extends ParametricFunctio
     public void removeControlPoint( int index ) {
         ArrayList list = new ArrayList( Arrays.asList( pts ) );
         list.remove( index );
-        setControlPoints( (Point2D[])list.toArray( new Point2D.Double[list.size()] ) );
+        setControlPoints( (Point2D[])list.toArray( new SPoint2D.Double[list.size()] ) );
     }
 
     public int numControlPoints() {

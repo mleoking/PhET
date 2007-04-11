@@ -2,6 +2,7 @@ package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
+import edu.colorado.phet.timeseries.SPoint2D;
 
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
@@ -103,7 +104,7 @@ public class EnergySkateParkSpline implements Cloneable, Serializable {
             pts.add( parametricFunction2D.evaluate( alpha ) );
         }
         pts.add( parametricFunction2D.evaluate( 1.0 ) );
-        return (Point2D[])pts.toArray( new Point2D.Double[0] );
+        return (Point2D[])pts.toArray( new SPoint2D.Double[0] );
     }
 
     public Point2D controlPointAt( int index ) {

@@ -1,5 +1,7 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
+import edu.colorado.phet.timeseries.SPoint2D;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -22,33 +24,33 @@ public class DefaultTestSet {
 
     public DefaultTestSet() {
         dualTrackTest = new TestState.SplineTestState( "Dual Track Test", 0, 0.92, 0.0, false );
-        dualTrackTest.addCubicSpline2D( new Point2D.Double[]{new Point2D.Double( 4.560000000000002, 5.269999999999993 ), new Point2D.Double( 3.4899999999999984, 3.1999999999999953 ), new Point2D.Double( 4.999999999999996, 3.3499999999999908 ), new Point2D.Double( 3.1999999999999966, 5.2099999999999875 ), new Point2D.Double( 1.009999999999998, 2.1999999999999984 )} );
-        dualTrackTest.addCubicSpline2D( new Point2D.Double[]{new Point2D.Double( 0, 0 ), new Point2D.Double( 1, 1 ), new Point2D.Double( 2, 2 )} );
+        dualTrackTest.addCubicSpline2D( new SPoint2D.Double[]{new SPoint2D.Double( 4.560000000000002, 5.269999999999993 ), new SPoint2D.Double( 3.4899999999999984, 3.1999999999999953 ), new SPoint2D.Double( 4.999999999999996, 3.3499999999999908 ), new SPoint2D.Double( 3.1999999999999966, 5.2099999999999875 ), new SPoint2D.Double( 1.009999999999998, 2.1999999999999984 )} );
+        dualTrackTest.addCubicSpline2D( new SPoint2D.Double[]{new SPoint2D.Double( 0, 0 ), new SPoint2D.Double( 1, 1 ), new SPoint2D.Double( 2, 2 )} );
         tests.add( dualTrackTest );
 
         upsideDownLoop = new TestState.SplineTestState( "Upside Down Loop", 0, 1.0, 0.0, false );
-        upsideDownLoop.addCubicSpline2D( new Point2D.Double[]{new Point2D.Double( 4.560000000000002, 5.269999999999993 ), new Point2D.Double( 3.4899999999999984, 3.1999999999999953 ), new Point2D.Double( 4.999999999999996, 3.3499999999999908 ), new Point2D.Double( 3.1999999999999966, 5.2099999999999875 ), new Point2D.Double( 1.009999999999998, 2.1999999999999984 )} );
+        upsideDownLoop.addCubicSpline2D( new SPoint2D.Double[]{new SPoint2D.Double( 4.560000000000002, 5.269999999999993 ), new SPoint2D.Double( 3.4899999999999984, 3.1999999999999953 ), new SPoint2D.Double( 4.999999999999996, 3.3499999999999908 ), new SPoint2D.Double( 3.1999999999999966, 5.2099999999999875 ), new SPoint2D.Double( 1.009999999999998, 2.1999999999999984 )} );
         tests.add( upsideDownLoop );
 
         fallThroughValley = new TestState.SplineTestState( "Fall Through Valley", 0, 0.5, 0, true );
-        fallThroughValley.addCubicSpline2D( new Point2D[]{new Point2D.Double( 1, 0.5 ), new Point2D.Double( 2, 1 ), new Point2D.Double( 3, 0.5 ), new Point2D.Double( 4, 2 ), new Point2D.Double( 5, 0.5 )} );
+        fallThroughValley.addCubicSpline2D( new Point2D[]{new SPoint2D.Double( 1, 0.5 ), new SPoint2D.Double( 2, 1 ), new SPoint2D.Double( 3, 0.5 ), new SPoint2D.Double( 4, 2 ), new SPoint2D.Double( 5, 0.5 )} );
         tests.add( fallThroughValley );
 
         double w = 1.0;
         fallThroughValley2 = new TestState.FreeFallTestState( "Fall Valley 2", 1, 0, 0, 0 );
-        fallThroughValley2.addCubicSpline2D( new Point2D[]{new Point2D.Double( 1 - w / 2, 0 ), new Point2D.Double( 1, 3 ), new Point2D.Double( 1 + w / 2, 0 )} );
+        fallThroughValley2.addCubicSpline2D( new Point2D[]{new SPoint2D.Double( 1 - w / 2, 0 ), new SPoint2D.Double( 1, 3 ), new SPoint2D.Double( 1 + w / 2, 0 )} );
         tests.add( fallThroughValley2 );
 
         fallThroughPeak = new TestState.SplineTestState( "Fall through Peak", 0, 0.92, 0.0, true );
-        fallThroughPeak.addCubicSpline2D( new Point2D[]{new Point2D.Double( 0, 0 ), new Point2D.Double( 1, 2 ), new Point2D.Double( 2, 1 ), new Point2D.Double( 3, 2 ), new Point2D.Double( 4, 0 )} );
+        fallThroughPeak.addCubicSpline2D( new Point2D[]{new SPoint2D.Double( 0, 0 ), new SPoint2D.Double( 1, 2 ), new SPoint2D.Double( 2, 1 ), new SPoint2D.Double( 3, 2 ), new SPoint2D.Double( 4, 0 )} );
         tests.add( fallThroughPeak );
 
         fallOffSteep = new TestState.SplineTestState( "Fall Steep", 0, 0.92, 0.0, true );
-        fallOffSteep.addCubicSpline2D( new Point2D.Double[]{new Point2D.Double( 1.0, 0.5 ), new Point2D.Double( 2.0, 1.0 ), new Point2D.Double( 2.7499999999999996, 4.519999999999998 ), new Point2D.Double( 4.699999999999995, 4.219999999999991 ), new Point2D.Double( 4.070000000000002, 0.12999999999999984 )} );
+        fallOffSteep.addCubicSpline2D( new SPoint2D.Double[]{new SPoint2D.Double( 1.0, 0.5 ), new SPoint2D.Double( 2.0, 1.0 ), new SPoint2D.Double( 2.7499999999999996, 4.519999999999998 ), new SPoint2D.Double( 4.699999999999995, 4.219999999999991 ), new SPoint2D.Double( 4.070000000000002, 0.12999999999999984 )} );
         tests.add( fallOffSteep );
 
         testApproachPeak = new TestState.SplineTestState( "Approach Peak", 0, 0.91075, 0, true );
-        testApproachPeak.addCubicSpline2D( new Point2D[]{new Point2D.Double( 0, 0 ), new Point2D.Double( 1, 2 ), new Point2D.Double( 2, 1 ), new Point2D.Double( 3, 2 ), new Point2D.Double( 4, 0 )} );
+        testApproachPeak.addCubicSpline2D( new Point2D[]{new SPoint2D.Double( 0, 0 ), new SPoint2D.Double( 1, 2 ), new SPoint2D.Double( 2, 1 ), new SPoint2D.Double( 3, 2 ), new SPoint2D.Double( 4, 0 )} );
         tests.add( testApproachPeak );
     }
 

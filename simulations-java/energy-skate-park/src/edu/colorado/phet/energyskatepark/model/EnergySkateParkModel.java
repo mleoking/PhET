@@ -4,9 +4,11 @@ package edu.colorado.phet.energyskatepark.model;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
+import edu.colorado.phet.timeseries.OptionalItemSerializableList;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: Sam Reid
@@ -25,7 +27,7 @@ public class EnergySkateParkModel implements Serializable {
 
     private double gravity = G_EARTH;
     private double zeroPointPotentialY;
-    private ArrayList listeners = new ArrayList();
+    private List listeners = new OptionalItemSerializableList();
     private boolean recordPath = false;
     private double initZeroPointPotentialY;
 
@@ -193,22 +195,15 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void setState( EnergySkateParkModel model ) {
-        bodies.clear();
-        splines.clear();
-        for( int i = 0; i < model.bodies.size(); i++ ) {
-            bodies.add( model.getBody( i ).copyState() );
-        }
-        for( int i = 0; i < model.splines.size(); i++ ) {
-            splines.add( model.getSpline( i ).copy() );
-        }
-        this.floor = model.floor == null ? null : model.floor.copyState();
-        this.history.clear();
-        this.history.addAll( model.history );
-        this.time = model.time;
+        model = model.copyState();
+
+        this.bodies  = model.bodies;
+        this.splines = model.splines;
+        this.floor   = model.floor;
+        this.history = model.history;
+        this.time    = model.time;
         this.maxNumHistoryPoints = model.maxNumHistoryPoints;
-        setGravity( model.gravity );
-        //todo: some model objects are not getting copied over correctly, body's spline strategy could refer to different splines
-        updateFloorState();
+        this.gravity = model.gravity;
     }
 
     public EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D spline ) {
