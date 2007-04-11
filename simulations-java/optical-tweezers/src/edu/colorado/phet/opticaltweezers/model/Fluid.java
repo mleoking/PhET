@@ -69,6 +69,14 @@ public class Fluid extends MovableObject implements ModelElement {
         return _height;
     }
     
+    public double getMinY() {
+        return getY() - ( _height / 2 );
+    }
+    
+    public double getMaxY() {
+        return getY() + ( _height / 2 );
+    }
+    
     public double getViscosity() {
         return _viscosity;
     }

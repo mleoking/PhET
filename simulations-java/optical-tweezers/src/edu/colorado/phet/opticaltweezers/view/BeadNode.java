@@ -18,6 +18,8 @@ import edu.colorado.phet.piccolo.event.BoundedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.FineCrosshairNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * BeadNode is visual representation of the dialectric glass bead.
@@ -79,6 +81,14 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
         
         _dragHandler = new BoundedDragHandler( this, dragBoundsNode );
         addInputEventListener( _dragHandler  );
+        addInputEventListener( new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent event ) {
+                _bead.setMotionEnabled( false );
+            }
+            public void mouseReleased( PInputEvent event ) {
+                _bead.setMotionEnabled( true );
+            }
+        });
         
         // Update the model when this node is dragged.
         addPropertyChangeListener( this );

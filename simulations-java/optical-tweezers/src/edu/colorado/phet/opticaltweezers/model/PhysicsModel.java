@@ -64,7 +64,9 @@ public class PhysicsModel extends ClockAdapter {
          _bead = new Bead( PhysicsDefaults.BEAD_POSITION, 
                 PhysicsDefaults.BEAD_ORIENTATION, 
                 PhysicsDefaults.BEAD_DIAMETER,
-                PhysicsDefaults.BEAD_DENSITY );
+                PhysicsDefaults.BEAD_DENSITY,
+                _fluid,
+                _laser );
          _modelElements.add( _bead );
 
          _modelViewTransform = new ModelViewTransform( PhysicsDefaults.MODEL_TO_VIEW_SCALE );
