@@ -14,5 +14,9 @@
             return false;
         }
     }
+    
+    function format_for_html($string) {
+        return preg_replace('/&(?!amp;)/', '&amp;', $string);
+    }
 
 ?>

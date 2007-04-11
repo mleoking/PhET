@@ -1,5 +1,6 @@
 <?php
     include_once("db.inc");
+    include_once("web-utils.php");
 
     // run error checks
     // check for missing fields
@@ -51,7 +52,9 @@
         global $simtype, $printtype;
 
         //find out type of SIM from URL
-        global $stype = substr("$simurl", -3);
+        global $stype;
+        
+        $stype = substr("$simurl", -3);
 
         if ($stype == "nlp") {
             $simtype   = "0"; 
@@ -72,7 +75,9 @@
         }
 
         //check if sim url is valid http://
-        global $ucheck = substr("$simurl", 0, 4); 
+        global $ucheck;
+        
+        $ucheck = substr("$simurl", 0, 4); 
         
         if ($ucheck != "http") { 
             print "<center><font color=red><b>!!ERROR!!</b> The url for your file doesn't appear to be a proper url (it must start with http://)! Your simulation was not edited.";
@@ -85,7 +90,9 @@
         }
 
     //check if thumbnail url is valid http://
-        global $tcheck = substr("$thumburl", 0, 4); 
+        global $tcheck;
+        
+        $tcheck = substr("$thumburl", 0, 4); 
 
         if ($tcheck != "http") {
             print "<center><font color=red><b>!!ERROR!!</b> The url for your thumbnail doesn't appear to be a proper url (it must start with http://)! Your simulation was not edited.";
@@ -98,7 +105,9 @@
         }
 
         //check that thumbnail file is a .gif
-        global $ttype = substr("$thumburl", -3);    
+        global $ttype;
+        
+        $ttype = substr("$thumburl", -3);    
 
         if ($ttype != "gif" && $ttype != "jpg" && $ttype != "peg") {
             print "<center><font color=red><b>!!ERROR!!</b> The url for your Thumbnail file doesn't have the appropriate file extension (must be gif, jpg, or jpeg)! Your simulation was not edited.";
@@ -139,6 +148,23 @@
             $mac       = "0";
             $mac_print = "Mac Compatible";
         }
+    }
+    
+    function print_sim_categories() {
+        global $connection;
+        
+        // List all the categories:
+
+        // start selecting SIMULATION CATEGORIES from database table
+        $select_simcat_def_st = "SELECT * FROM `simcat_def` ORDER BY `cat_id` ASC ";
+        $simcat_def_table     = mysql_query($select_simcat_def_st, $connection);
+
+        while ($simcat_def = mysql_fetch_row($simcat_def_table)) {
+            $cat_id     = $simcat_def[0];
+            $cat_name   = format_for_html($simcat_def[1]);
+        
+            print "<li class=\"sub\"><span class=\"sub-nav\"><a href=\"index.php?cat=$cat_id\">&rarr; $cat_name</a></span></li>";          
+        } 
     }
 
 ?>
