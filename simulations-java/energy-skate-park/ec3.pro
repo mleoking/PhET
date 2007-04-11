@@ -4,6 +4,7 @@
 -injars '..\..\contrib\jfreechart\lib\jfreechart-1.0.0.jar'
 -injars '..\..\contrib\jfreechart\lib\junit.jar'
 -injars '..\..\contrib\jfreechart\lib\servlet.jar'
+-injars '..\..\contrib\jmock\jmock-1.1.0.jar'
 -injars '..\..\common\service-manager\lib\jnlp.jar'
 -injars '..\..\contrib\liquidlnf-2.9.1-src\lib\laf-plugin.jar'
 -outjars ant_output\jars\ec3-pro.jar
