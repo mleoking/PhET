@@ -8,13 +8,14 @@ IN PROGRESS:
 - add developer controls for disabling individual components of bead motion model
 
 HIGH PRIORITY:
+- use nm/sec for fluid speed model, display as microns/sec?
 - bug: fluid viscosity slider is brain damaged
 - get a better model for Fz trap force
 - implement E-field model for slow mode
-- connect position histogram to model
-- connect potential energy chart to model
 
 MEDIUM PRIORITY:
+- connect position histogram to model
+- connect potential energy chart to model
 - vertical laser toggle button: http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - try to make laser control panel draggable
 - use proper plot type for PositionHistogramPlot
@@ -39,6 +40,7 @@ LOW PRIORITY:
 - package level javadoc
 - make laser danger sign look better
 - combine Play & Pause clock buttons ?
+- Spanish translations
 
 CLEANUP:
 - setPickable(false) on non-interactive nodes
@@ -63,6 +65,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+********* version 0.00.03 (?)
 4/11/07 - add Brownian motion to bead, including collision detection with top & bottom edges of microscope slide
 4/11/07 - change clock dt range to [0.01,1]
 4/11/07 - encapsulate model creation for "Physics of Tweezers" panel in PhysicsModel
