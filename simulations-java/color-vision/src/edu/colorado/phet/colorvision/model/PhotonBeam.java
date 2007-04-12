@@ -16,12 +16,12 @@ import java.util.ArrayList;
 
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.colorvision.coreadditions.event.VisibleColorChangeEvent;
-import edu.colorado.phet.colorvision.coreadditions.event.VisibleColorChangeListener;
-import edu.colorado.phet.common_13364.model.ModelElement;
-import edu.colorado.phet.common_13364.util.SimpleObservable;
-import edu.colorado.phet.common_13364.util.SimpleObserver;
-import edu.colorado.phet.common_13364.view.util.VisibleColor;
+import edu.colorado.phet.colorvision.event.VisibleColorChangeEvent;
+import edu.colorado.phet.colorvision.event.VisibleColorChangeListener;
+import edu.colorado.phet.colorvision.phetcommon.model.ModelElement;
+import edu.colorado.phet.colorvision.phetcommon.util.SimpleObservable;
+import edu.colorado.phet.colorvision.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.colorvision.phetcommon.view.util.VisibleColor;
 
 /**
  * PhotonBeam is the model of a photon beam.

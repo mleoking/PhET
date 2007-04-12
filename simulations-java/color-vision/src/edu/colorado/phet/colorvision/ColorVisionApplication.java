@@ -14,11 +14,11 @@ package edu.colorado.phet.colorvision;
 import java.awt.Color;
 import java.util.Properties;
 
-import edu.colorado.phet.colorvision.coreadditions.view.BoundsOutliner;
-import edu.colorado.phet.common_13364.application.PhetApplication;
-import edu.colorado.phet.common_13364.util.PropertiesLoader;
-import edu.colorado.phet.common_13364.view.util.FrameSetup;
-import edu.colorado.phet.common_13364.view.util.SimStrings;
+import edu.colorado.phet.colorvision.phetcommon.application.PhetApplication;
+import edu.colorado.phet.colorvision.phetcommon.util.PropertiesLoader;
+import edu.colorado.phet.colorvision.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.colorvision.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.colorvision.view.BoundsOutliner;
 
 /**
  * ColorVisionApplication is the main application for the PhET Color Vision
