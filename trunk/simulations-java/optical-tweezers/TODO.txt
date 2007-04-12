@@ -65,6 +65,7 @@ MODEL INFO NEEDED:
 
  
 DONE:
+4/12/07 - merge test-src into src
 ********* version 0.00.03 (14322)
 4/11/07 - add Brownian motion to bead, including collision detection with top & bottom edges of microscope slide
 4/11/07 - change clock dt range to [0.01,1]
