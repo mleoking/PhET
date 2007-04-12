@@ -21,6 +21,14 @@
 -keepclasseswithmembers public class edu.colorado.phet.energyskatepark.EnergySkateParkApplication{
     public static void main(java.lang.String[]);
 }
+
+-keepclassmembers class * implements java.io.Serializable {
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+
 -keep class * extends javax.swing.plaf.ComponentUI {
     public static javax.swing.plaf.ComponentUI createUI(javax.swing.JComponent);
 }
