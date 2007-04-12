@@ -150,7 +150,7 @@
         }
     }
     
-    function print_sim_categories() {
+    function print_sim_categories($prefix = "") {
         global $connection;
         
         // List all the categories:
@@ -163,7 +163,7 @@
             $cat_id     = $simcat_def[0];
             $cat_name   = format_for_html($simcat_def[1]);
         
-            print "<li class=\"sub\"><span class=\"sub-nav\"><a href=\"index.php?cat=$cat_id\">&rarr; $cat_name</a></span></li>";          
+            print "<li class=\"sub\"><span class=\"sub-nav\"><a href=\"${prefix}index.php?cat=$cat_id\">&rarr; $cat_name</a></span></li>";          
         } 
     }
 
