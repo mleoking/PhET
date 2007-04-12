@@ -151,21 +151,13 @@ public class TrapForceNode extends PComposite implements Observer {
     }
     
     private void updateVectors() {
-
-        _xComponentNode.setVisible( _laser.isRunning() );
-        _yComponentNode.setVisible( _laser.isRunning() );
-
-        if ( _laser.isRunning() ) {
-
-            // calcuate the trap force vector at the bead's position
-            Vector2D f = _laser.getTrapForce( _bead.getX(), _bead.getY() );
-
-            // update the x & y component vectors
-            _vectorNode.setVector( f );
-            if ( SHOW_XY_COMPONENTS ) {
-                _xComponentNode.setVectorXY( f.getX(), 0 );
-                _yComponentNode.setVectorXY( 0, f.getY() );
-            }
+        // calcuate the trap force vector at the bead's position
+        Vector2D trapForce = _laser.getTrapForce( _bead.getX(), _bead.getY() );
+        // update the x & y component vectors
+        _vectorNode.setVector( trapForce );
+        if ( SHOW_XY_COMPONENTS ) {
+            _xComponentNode.setVectorXY( trapForce.getX(), 0 );
+            _yComponentNode.setVectorXY( 0, trapForce.getY() );
         }
     }
 }

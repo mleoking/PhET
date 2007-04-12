@@ -28,8 +28,6 @@ public class Bead extends MovableObject implements ModelElement {
     // Brownian motion scaling factor, bigger values cause bigger motion
     private static final double BROWNIAN_MOTION_SCALE = 1;
     
-    private static final double DRAG_COEFFICIENT = 1;
-    
     private static final boolean MOTION_BROWNIAN_COMPONENT_ENABLED = true;
     private static final boolean MOTION_FLUID_COMPONENT_ENABLED = true;
     private static final boolean MOTION_TRAP_FORCE_COMPONENT_ENABLED = true;
@@ -138,14 +136,19 @@ public class Bead extends MovableObject implements ModelElement {
         final double minY = _fluid.getMinY() + ( getDiameter() / 2 );
         final double maxY = _fluid.getMaxY() - ( getDiameter() / 2 );
         
+        // Drag coefficient
+        final double fluidViscosity = _fluid.getViscosity();
+        final double beadRadius = getDiameter() / 2;
+        final double gamma = 6 * Math.PI * fluidViscosity * beadRadius;
+        
         // Acceleration
         final double mass = getMass();
         Vector2D trapForce = _laser.getTrapForce( getX(), getY() );
         final double Fx = trapForce.getX();
         final double Fy = trapForce.getY();
         final double fluidSpeed = _fluid.getSpeed();
-        double ax = ( Fx / mass ) - ( DRAG_COEFFICIENT * _velocity.getX() / mass ) - ( DRAG_COEFFICIENT * fluidSpeed / mass );
-        double ay = ( Fy / mass ) - ( DRAG_COEFFICIENT * _velocity.getY() / mass );
+        double ax = ( Fx / mass ) - ( gamma * _velocity.getX() / mass ) - ( gamma * fluidSpeed / mass );
+        double ay = ( Fy / mass ) - ( gamma * _velocity.getY() / mass );
         _acceleration.setXY( ax, ay );
         
         // Brownian motion components
@@ -179,6 +182,17 @@ public class Bead extends MovableObject implements ModelElement {
         final double newX = getX() + dxBrownian;
         double newY = getY() + dyBrownian;
         
+        
+//        System.out.println( "dt = " + dt );
+//        System.out.println( "bead position = " + getPositionRef() );
+//        System.out.println( "bead mass =" + mass + " g" );
+//        System.out.println( "bead radius = " + beadRadius + " nm" );
+//        System.out.println( "fluid viscosity = " + fluidViscosity + " Pa*sec" );
+//        System.out.println( "drag coefficient = " + gamma + " Ps*sec*nm" );
+//        System.out.println( "fluid velocity = " + new Vector2D( fluidSpeed, 0 ) + " nm/sec" );
+//        System.out.println( "trap force = " + _acceleration + " pN" );
+//        System.out.println( "acceleration = " + _acceleration );
+        
         // New velocity
         double vx = _velocity.getX() + ( _acceleration.getX() * dt );
         double vy = _velocity.getY() + ( _acceleration.getY() * dt );
@@ -195,5 +209,9 @@ public class Bead extends MovableObject implements ModelElement {
         }
         
         setPosition( newX, newY );
+        
+//        System.out.println( "new velocity = " + _velocity );
+//        System.out.println( "new bead position = " + getPositionRef() );
+//        System.out.println( "" );
     }
 }
