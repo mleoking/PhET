@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.molecularreactions.view.energy;
 
+import edu.colorado.phet.molecularreactions.MRApplication;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
@@ -10,7 +11,9 @@ import edu.colorado.phet.molecularreactions.view.ReactionGraphic;
 import edu.colorado.phet.piccolo.services.PNodeShowHideControl;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
@@ -259,5 +262,37 @@ public class EnergyView extends PNode implements Resetable {
 
     public PNode getUpperPaneContent() {
         return upperPaneContent;
+    }
+
+    public static void main( String[] args ) {
+        MRApplication mr = new MRApplication( new String[0] );
+
+        mr.startApplication();
+
+        MRModule module = (MRModule)mr.getModule( 0 );
+
+        EnergyView ev = new EnergyView();
+
+        ev.initialize( module, new Dimension( 400, 400 ) );
+
+        PSwingCanvas canvas = new PSwingCanvas();
+
+        //canvas.getLayer().addChild( ev.moleculeSeparationPane );
+
+        JFrame frame = new JFrame( );
+
+        frame.setContentPane( canvas );
+
+        frame.setSize( 400, 400 );
+
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+
+        frame.setVisible( true );
+
+        canvas.getLayer().addChild (
+            ev.moleculeSeparationPane.getChild( 0 ).getChild( 0 )
+        );
+
+        
     }
 }
