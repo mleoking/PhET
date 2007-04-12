@@ -1,4 +1,6 @@
-
+<?php
+    include_once("password-protection.php");
+?>
 	
 	<style type=text/css>
 <!--

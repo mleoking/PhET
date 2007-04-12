@@ -1,5 +1,6 @@
 <?php
-   ini_set('display_errors', '1');
+    include_once("password-protection.php");
+    ini_set('display_errors', '1');
 
 
 	print ("

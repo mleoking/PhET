@@ -1,7 +1,6 @@
 <?php
-    ini_set('display_errors', '1');
-
-	include_once("db.inc");	
+    include_once("password-protection.php");
+    include_once("db.inc");	
 	
 	//start drop down menu & form
 	
