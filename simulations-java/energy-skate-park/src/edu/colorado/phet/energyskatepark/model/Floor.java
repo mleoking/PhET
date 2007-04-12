@@ -2,7 +2,6 @@
 package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
-import edu.colorado.phet.timeseries.SPoint2D;
 
 import java.awt.geom.Point2D;
 import java.io.Serializable;
@@ -36,6 +35,6 @@ public class Floor implements Serializable {
     }
 
     public ParametricFunction2D getParametricFunction2D() {
-        return new LinearFloorSpline2D( new Point2D[]{new SPoint2D.Double( -100, y ), new SPoint2D.Double( 200, y )} );
+        return new LinearFloorSpline2D( new Point2D[]{new Point2D.Double( -100, y ), new Point2D.Double( 200, y )} );
     }
 }

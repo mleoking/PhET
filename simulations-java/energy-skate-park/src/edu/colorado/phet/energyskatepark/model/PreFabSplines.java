@@ -1,8 +1,6 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.model;
 
-import edu.colorado.phet.timeseries.SPoint2D;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -42,7 +40,7 @@ public class PreFabSplines {
         private ArrayList pts = new ArrayList();
 
         public void addControlPoint( double x, double y ) {
-            pts.add( new SPoint2D.Double( x, y ) );
+            pts.add( new Point2D.Double( x, y ) );
         }
 
         public void addControlPoint( Point2D point2D ) {
