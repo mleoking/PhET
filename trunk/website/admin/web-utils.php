@@ -6,13 +6,17 @@
         return " ";
     }
     
+    // function url_exists($url) {
+    //     if (is_array(get_headers($url))) {
+    //         return true;
+    //     }
+    //     else {
+    //         return false;
+    //     }
+    // }
+    
     function url_exists($url) {
-        if (is_array(get_headers($url))) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return true;
     }
     
     function format_for_html($string) {
