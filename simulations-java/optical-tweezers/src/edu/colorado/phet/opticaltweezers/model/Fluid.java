@@ -25,12 +25,12 @@ public class Fluid extends MovableObject implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final DoubleRange _speedRange;
-    private final DoubleRange _viscosityRange;
-    private final DoubleRange _temperatureRange;
+    private final DoubleRange _speedRange; // nm/sec
+    private final DoubleRange _viscosityRange; // Pa*s
+    private final DoubleRange _temperatureRange; // Kelvin
     
     private final double _height; // nm
-    private double _viscosity; //Pa*s
+    private double _viscosity; // Pa*s
     private double _temperature; // Kelvin
     
     //----------------------------------------------------------------------------
@@ -43,7 +43,7 @@ public class Fluid extends MovableObject implements ModelElement {
      * @param position position at the center of the fluid "stream"
      * @param orientation direction that the fluid stream flows in (radians)
      * @param height height of the fluid stream
-     * @param speedRange speed of the fluid stream
+     * @param speedRange speed of the fluid stream, nm/sec
      * @param viscosityRange
      * @param temperatureRange
      */

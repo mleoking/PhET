@@ -70,7 +70,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         int valueDecimalPlaces = fluid.getSpeedRange().getSignificantDecimalPlaces();
         String label = OTResources.getString( "label.fluidSpeed" );
         String units = OTResources.getString( "units.fluidSpeed" );
-        int columns = 4;
+        int columns = 6;
         _speedControl = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns );
         _speedControl.setTextFieldEditable( true );
         _speedControl.setFont( font );
