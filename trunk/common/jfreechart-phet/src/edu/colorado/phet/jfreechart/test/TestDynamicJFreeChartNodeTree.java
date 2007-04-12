@@ -1,4 +1,4 @@
-package edu.colorado.phet.jfreechart.tests;
+package edu.colorado.phet.jfreechart.test;
 
 import edu.colorado.phet.piccolo.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;

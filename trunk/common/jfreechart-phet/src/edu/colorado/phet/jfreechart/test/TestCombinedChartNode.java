@@ -1,4 +1,4 @@
-package edu.colorado.phet.jfreechart.tests;
+package edu.colorado.phet.jfreechart.test;
 
 /**
  * See also: http://www.java2s.com/Code/Java/Chart/JFreeChartCombinedXYPlotDemo1.htm
