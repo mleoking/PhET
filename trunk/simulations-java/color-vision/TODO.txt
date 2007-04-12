@@ -19,6 +19,8 @@ LOW:
 
 
 DONE:
+4/12/07 refactor edu.colorado.phet.common_13364 to edu.colorado.phet.colorvision.phetcommon
+4/12/07 - move coreadditions packages into other packages, this stuff will not move to common
 3/14/07 - rename ColorVisionConfig to ColorVisionConstants to be consistent with my other sims
 3/14/07 - rename SimStrings files to have basename colorvision_strings
 3/14/07 - move images to data/colorvision/images to avoid namespace collisions

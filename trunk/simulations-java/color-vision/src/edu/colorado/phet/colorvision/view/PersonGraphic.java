@@ -13,10 +13,10 @@ package edu.colorado.phet.colorvision.view;
 
 import edu.colorado.phet.colorvision.ColorVisionConstants;
 import edu.colorado.phet.colorvision.model.Person;
-import edu.colorado.phet.common_13364.util.SimpleObserver;
-import edu.colorado.phet.common_13364.view.ApparatusPanel;
-import edu.colorado.phet.common_13364.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common_13364.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.colorvision.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.colorvision.phetcommon.view.ApparatusPanel;
+import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetImageGraphic;
 
 /**
  * PersonGraphic is the view component that represents the person viewing color.

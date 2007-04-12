@@ -20,25 +20,25 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.colorvision.control.ColorIntensitySlider;
 import edu.colorado.phet.colorvision.control.RgbBulbsControlPanel;
-import edu.colorado.phet.colorvision.coreadditions.control.ColorIntensitySlider;
-import edu.colorado.phet.colorvision.coreadditions.event.VisibleColorChangeEvent;
-import edu.colorado.phet.colorvision.coreadditions.event.VisibleColorChangeListener;
-import edu.colorado.phet.colorvision.coreadditions.help.WiggleMe;
+import edu.colorado.phet.colorvision.event.VisibleColorChangeEvent;
+import edu.colorado.phet.colorvision.event.VisibleColorChangeListener;
 import edu.colorado.phet.colorvision.help.IntensitySliderWiggleMe;
+import edu.colorado.phet.colorvision.help.WiggleMe;
 import edu.colorado.phet.colorvision.model.Person;
 import edu.colorado.phet.colorvision.model.PhotonBeam;
 import edu.colorado.phet.colorvision.model.Spotlight;
+import edu.colorado.phet.colorvision.phetcommon.application.ApplicationModel;
+import edu.colorado.phet.colorvision.phetcommon.application.Module;
+import edu.colorado.phet.colorvision.phetcommon.model.BaseModel;
+import edu.colorado.phet.colorvision.phetcommon.model.clock.AbstractClock;
+import edu.colorado.phet.colorvision.phetcommon.view.ApparatusPanel2;
+import edu.colorado.phet.colorvision.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.colorvision.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.colorvision.view.PersonGraphic;
 import edu.colorado.phet.colorvision.view.PhotonBeamGraphic;
 import edu.colorado.phet.colorvision.view.SpotlightGraphic;
-import edu.colorado.phet.common_13364.application.ApplicationModel;
-import edu.colorado.phet.common_13364.application.Module;
-import edu.colorado.phet.common_13364.model.BaseModel;
-import edu.colorado.phet.common_13364.model.clock.AbstractClock;
-import edu.colorado.phet.common_13364.view.ApparatusPanel2;
-import edu.colorado.phet.common_13364.view.util.SimStrings;
-import edu.colorado.phet.common_13364.view.util.VisibleColor;
 
 /**
  * RgbBulbsModule implements the simulation module that demonstrates how color

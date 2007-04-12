@@ -15,8 +15,7 @@ import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.colorvision.coreadditions.view.BoundsOutliner;
-import edu.colorado.phet.common_13364.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * FilterHolderGraphic

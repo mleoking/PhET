@@ -16,11 +16,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.colorvision.ColorVisionConstants;
-import edu.colorado.phet.colorvision.coreadditions.view.BoundsOutliner;
 import edu.colorado.phet.colorvision.model.Spotlight;
-import edu.colorado.phet.common_13364.util.SimpleObserver;
-import edu.colorado.phet.common_13364.view.ApparatusPanel;
-import edu.colorado.phet.common_13364.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.colorvision.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.colorvision.phetcommon.view.ApparatusPanel;
+import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetImageGraphic;
 
 /**
  * SpotlightGraphic is the view component for a 2D spotlight.

@@ -15,11 +15,10 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.colorvision.coreadditions.help.WiggleMe;
-import edu.colorado.phet.common_13364.model.BaseModel;
-import edu.colorado.phet.common_13364.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common_13364.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common_13364.view.util.SimStrings;
+import edu.colorado.phet.colorvision.phetcommon.model.BaseModel;
+import edu.colorado.phet.colorvision.phetcommon.view.graphics.shapes.Arrow;
+import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.colorvision.phetcommon.view.util.SimStrings;
 
 /**
  * IntensitySliderWiggleMe is a help graphic that tells the user to move an 

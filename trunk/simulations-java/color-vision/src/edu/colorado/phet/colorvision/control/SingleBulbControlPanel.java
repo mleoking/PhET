@@ -24,8 +24,8 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.colorvision.ColorVisionConstants;
 import edu.colorado.phet.colorvision.SingleBulbModule;
-import edu.colorado.phet.common_13364.view.PhetControlPanel;
-import edu.colorado.phet.common_13364.view.util.SimStrings;
+import edu.colorado.phet.colorvision.phetcommon.view.PhetControlPanel;
+import edu.colorado.phet.colorvision.phetcommon.view.util.SimStrings;
 
 /**
  * SingleBulbControlPanel is the control panel for the "Single Bulb" simulation module.

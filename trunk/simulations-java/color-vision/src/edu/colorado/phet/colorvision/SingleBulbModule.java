@@ -20,21 +20,21 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.colorvision.control.SingleBulbControlPanel;
-import edu.colorado.phet.colorvision.coreadditions.control.SpectrumSlider;
-import edu.colorado.phet.colorvision.coreadditions.control.ToggleSwitch;
-import edu.colorado.phet.colorvision.coreadditions.event.VisibleColorChangeEvent;
-import edu.colorado.phet.colorvision.coreadditions.event.VisibleColorChangeListener;
+import edu.colorado.phet.colorvision.control.SpectrumSlider;
+import edu.colorado.phet.colorvision.control.ToggleSwitch;
+import edu.colorado.phet.colorvision.event.VisibleColorChangeEvent;
+import edu.colorado.phet.colorvision.event.VisibleColorChangeListener;
 import edu.colorado.phet.colorvision.help.FilterSliderWiggleMe;
 import edu.colorado.phet.colorvision.model.*;
+import edu.colorado.phet.colorvision.phetcommon.application.ApplicationModel;
+import edu.colorado.phet.colorvision.phetcommon.application.Module;
+import edu.colorado.phet.colorvision.phetcommon.model.BaseModel;
+import edu.colorado.phet.colorvision.phetcommon.model.clock.AbstractClock;
+import edu.colorado.phet.colorvision.phetcommon.view.ApparatusPanel2;
+import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.colorvision.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.colorvision.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.colorvision.view.*;
-import edu.colorado.phet.common_13364.application.ApplicationModel;
-import edu.colorado.phet.common_13364.application.Module;
-import edu.colorado.phet.common_13364.model.BaseModel;
-import edu.colorado.phet.common_13364.model.clock.AbstractClock;
-import edu.colorado.phet.common_13364.view.ApparatusPanel2;
-import edu.colorado.phet.common_13364.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common_13364.view.util.SimStrings;
-import edu.colorado.phet.common_13364.view.util.VisibleColor;
 
 /**
  * SingleBulbModule implements the simulation module that demonstrates how color
