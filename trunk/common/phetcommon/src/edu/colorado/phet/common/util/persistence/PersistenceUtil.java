@@ -60,10 +60,18 @@ public class PersistenceUtil {
      *
      */
     public static Serializable copy( Serializable object ) throws CopyFailedException {
+        return copy( object, null );
+    }
+
+    public static interface CopyObjectReplacementStrategy {
+        public Object replaceObject( Object obj );
+    }
+
+    public static Serializable copy( Serializable object, CopyObjectReplacementStrategy copyObjectReplacementStrategy ) throws CopyFailedException {
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
 
         try {
-            ObjectOutputStream objectOut = new ObjectOutputStream( byteOut );
+            ObjectOutputStream objectOut = copyObjectReplacementStrategy == null ? new ObjectOutputStream( byteOut ) : new MyObjectOutputStream( byteOut, copyObjectReplacementStrategy );
 
             objectOut.writeObject( object );
             objectOut.flush();
@@ -79,23 +87,19 @@ public class PersistenceUtil {
         }
     }
 
-//    private static class MyObjectOutputStream extends ObjectOutputStream {
-//
-//        public MyObjectOutputStream( OutputStream out ) throws IOException {
-//            super( out );
-//            enableReplaceObject( true );
-//        }
-//
-//        protected Object replaceObject( Object obj ) throws IOException {
-//            if( obj instanceof Point2D.Double && !( obj instanceof SPoint2D.Double ) ) {
-//                Point2D.Double pt = (Point2D.Double)obj;
-//                return new SPoint2D.Double( pt.x, pt.y );
-//            }
-//            else {
-//                return super.replaceObject( obj );
-//            }
-//        }
-//    }
+    private static class MyObjectOutputStream extends ObjectOutputStream {
+        private CopyObjectReplacementStrategy copyObjectReplacementStrategy;
+
+        public MyObjectOutputStream( OutputStream out, CopyObjectReplacementStrategy copyObjectReplacementStrategy ) throws IOException {
+            super( out );
+            this.copyObjectReplacementStrategy = copyObjectReplacementStrategy;
+            enableReplaceObject( true );
+        }
+
+        protected Object replaceObject( Object obj ) throws IOException {
+            return copyObjectReplacementStrategy.replaceObject( obj );
+        }
+    }
 
     public static class CopyFailedException extends Exception {
         public CopyFailedException( Throwable cause ) {
