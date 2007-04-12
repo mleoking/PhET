@@ -70,6 +70,7 @@ public class Vector2DNode extends PhetPNode {
     private DecimalFormat _valueFormat;
     private String _units;
     private boolean _updateEnabled;
+    private boolean _valueVisible;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -117,6 +118,7 @@ public class Vector2DNode extends PhetPNode {
         _valueFormat = DEFAULT_VALUE_FORMAT;
         _units = DEFAULT_UNITS;
         _updateEnabled = true;
+        _valueVisible = true;
         
         update();
     }
@@ -180,7 +182,9 @@ public class Vector2DNode extends PhetPNode {
      * @param visible true or false
      */
     public void setValueVisible( boolean visible ) {
+        _valueVisible = visible;
         _valueNode.setVisible( visible );
+        update();
     }
     
     /**
@@ -300,10 +304,12 @@ public class Vector2DNode extends PhetPNode {
             final double magnitude = _vector.getMagnitude();
 
             if ( magnitude == 0 ) {
-                setVisible( false );
+                _arrowNode.setVisible( false );
+                _valueNode.setVisible( false );
             }
             else {
-                setVisible( true );
+                _arrowNode.setVisible( true );
+                _valueNode.setVisible( _valueVisible );
                 
                 // update the arrow, vector magnitude determines tail length
                 double tailWidth = _vector.getX() * ( _referenceLength / _referenceMagnitude );

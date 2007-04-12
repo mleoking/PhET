@@ -147,8 +147,7 @@ public class Laser extends MovableObject implements ModelElement {
         final double zr = ( Math.PI * r0 * r0 ) / _wavelength;
         final double A = ( _distanceFromObjectiveToWaist / zr ) / Math.sqrt( ( ( rMax / r0 ) * ( rMax / r0 ) ) - 1 );
         final double t1 = yOffsetAbs / ( A * zr );
-        double rz = r0 * Math.sqrt( 1 + ( t1 * t1 ) );
-        return rz;
+        return r0 * Math.sqrt( 1 + ( t1 * t1 ) );
     }
     
     /**
@@ -201,8 +200,12 @@ public class Laser extends MovableObject implements ModelElement {
      * @return intensity, in units of power/nm^2
      */
     public static double getIntensityOnRadius( final double xOffset, final double radius, final double power ) {
-        assert( radius > 0 );
-        assert( power >= 0 );
+        if ( radius <= 0 ) {
+            throw new IllegalArgumentException( "radius must be > 0: " + radius );
+        }
+        if ( power < 0 ) {
+            throw new IllegalArgumentException( "power must be >= 0 : " + power );
+        }
         final double t1 = power / ( Math.PI * ( ( radius * radius ) / 2 ) );
         final double t2 = Math.exp( ( -2 * xOffset * xOffset ) / ( radius * radius ) );
         return t1 * t2;
@@ -236,7 +239,13 @@ public class Laser extends MovableObject implements ModelElement {
      * @return
      */
     public static Vector2D getTrapForce( final double xOffset, final double yOffset, final double radius, final double power ) {
-
+        if ( radius <= 0 ) {
+            throw new IllegalArgumentException( "radius must be > 0: " + radius );
+        }
+        if ( power < 0 ) {
+            throw new IllegalArgumentException( "power must be >= 0 : " + power );
+        }
+        
         final double scaleFactor = 582771.6; // from Tom Perkins' work
 
         // x component
