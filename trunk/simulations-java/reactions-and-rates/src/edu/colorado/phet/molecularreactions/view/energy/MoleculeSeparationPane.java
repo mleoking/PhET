@@ -14,6 +14,7 @@ import edu.colorado.phet.molecularreactions.view.SeparationIndicatorArrow;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDebug;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -76,6 +77,8 @@ public class MoleculeSeparationPane extends PPath {
         moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
 
         module.getClock().addClockListener( updatingClockListener );
+
+        PDebug.debugBounds = true;
     }
 
     public MoleculeSelectionTracker getTracker() {
@@ -167,11 +170,20 @@ public class MoleculeSeparationPane extends PPath {
                 graphic.translate( midPoint.getX(), getYPosition( element ) );
 
                 node.addChild( graphic );
+
+                PText pText = new PText( "Testing" );
+
+                pText.translate( midPoint.getX(), getYPosition( element ) );
+
+                node.addChild( pText );
             }
         }
         
         private void updateMoleculeGraphics() {
             addMoleculeGraphic( selectedMoleculeGraphic,          tracker.getSelectedMolecule() );
+
+            System.out.println( "Full bounds = " + selectedMoleculeGraphic.getGlobalFullBounds() );
+
             addMoleculeGraphic( nearestToSelectedMoleculeGraphic, tracker.getNearestToSelectedMolecule() );
         }
 
