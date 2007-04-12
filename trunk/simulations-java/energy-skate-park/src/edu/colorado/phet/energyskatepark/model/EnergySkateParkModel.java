@@ -1,12 +1,13 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.model;
 
+import edu.colorado.phet.common.util.persistence.PersistenceUtil;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
 import edu.colorado.phet.timeseries.OptionalItemSerializableList;
 
-import java.io.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,56 +153,24 @@ public class EnergySkateParkModel implements Serializable {
         return floor;
     }
 
-//    public EnergySkateParkModel copyState() {
-//
-//
-//
-//
-//        EnergySkateParkModel copy = new EnergySkateParkModel( zeroPointPotentialY );
-//        for( int i = 0; i < bodies.size(); i++ ) {
-//            Body body = (Body)bodies.get( i );
-//            copy.bodies.add( body.copyState() );
-//        }
-//        copy.floor = this.floor == null ? null : this.floor.copyState();
-//        for( int i = 0; i < splines.size(); i++ ) {
-//            EnergySkateParkSpline surface = getSpline( i );
-//            copy.splines.add( surface.copy() );
-//        }
-//        copy.history = new ArrayList( history );
-//        copy.time = time;
-//        copy.gravity = gravity;
-//        copy.maxNumHistoryPoints = maxNumHistoryPoints;
-//        return copy;
-//    }
     public EnergySkateParkModel copyState() {
         try {
-            ByteArrayOutputStream byteOut = new ByteArrayOutputStream( );
-
-            ObjectOutputStream objectOut = new ObjectOutputStream( byteOut );
-
-            objectOut.writeObject( this );
-
-            objectOut.flush();
-
-            ByteArrayInputStream byteIn = new ByteArrayInputStream( byteOut.toByteArray() );
-
-            return (EnergySkateParkModel)new ObjectInputStream(byteIn).readObject();
+            return (EnergySkateParkModel)PersistenceUtil.copy( this );
         }
-        catch( Exception e ) {
+        catch( PersistenceUtil.CopyFailedException e ) {
             e.printStackTrace();
-
-            return null;
+            return this;
         }
     }
 
     public void setState( EnergySkateParkModel model ) {
         model = model.copyState();
 
-        this.bodies  = model.bodies;
+        this.bodies = model.bodies;
         this.splines = model.splines;
-        this.floor   = model.floor;
+        this.floor = model.floor;
         this.history = model.history;
-        this.time    = model.time;
+        this.time = model.time;
         this.maxNumHistoryPoints = model.maxNumHistoryPoints;
         this.gravity = model.gravity;
     }
