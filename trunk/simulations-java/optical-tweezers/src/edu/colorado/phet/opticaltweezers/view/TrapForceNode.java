@@ -75,10 +75,11 @@ public class TrapForceNode extends PComposite implements Observer {
         
         _modelViewTransform = modelViewTransform;
         
-        double x = _laser.getX() + ( _laser.getDiameterAtWaist() / 4 ); // halfway between center and edge of waist
-        double y = _laser.getY();
+        double xOffset = _laser.getDiameterAtWaist() / 4; // halfway between center and edge of waist
+        double yOffset = 0;
+        double radius = _laser.getRadius( yOffset );
         double maxPower = _laser.getPowerRange().getMax();
-        Vector2D maxTrapForce = _laser.getTrapForce( x, y, maxPower );
+        Vector2D maxTrapForce = Laser.getTrapForce( xOffset, yOffset, radius, maxPower );
 
         _xComponentNode = createVectorNode( COMPONENT_VECTOR_FILL_PAINT, maxTrapForce.getMagnitude(), VECTOR_MAX_TAIL_LENGTH );
         _xComponentNode.setValueVisible( false );
@@ -157,8 +158,7 @@ public class TrapForceNode extends PComposite implements Observer {
         if ( _laser.isRunning() ) {
 
             // calcuate the trap force vector at the bead's position
-            Point2D beadPosition = _bead.getPositionRef();
-            Vector2D f = _laser.getTrapForce( beadPosition );
+            Vector2D f = _laser.getTrapForce( _bead.getX(), _bead.getY() );
 
             // update the x & y component vectors
             _vectorNode.setVector( f );

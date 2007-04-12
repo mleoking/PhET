@@ -173,16 +173,6 @@ public class Laser extends MovableObject implements ModelElement {
         return b;
     }
     
-    /**
-     * Is a specified point inside the laser beam's shape?
-     * 
-     * @param p point relative to global model origin
-     * @return true or false
-     */
-    public boolean contains( Point2D p ) {
-        return contains( p.getX(), p.getY() );
-    }
-    
     //----------------------------------------------------------------------------
     // Intensity model
     //----------------------------------------------------------------------------
@@ -194,35 +184,11 @@ public class Laser extends MovableObject implements ModelElement {
      * @param y coordinate relative to global model origin
      */
     public double getIntensity( final double x, final double y ) {
-        double intensity = 0;
-        if ( _running ) {
-            final double xOffset = x - getX();
-            final double yOffset = y - getY();
-            final double radius = getRadius( yOffset );
-            intensity = getIntensityOnRadius( xOffset, radius, _power );
-        }
-        return intensity;
-    }
-    
-    /**
-     * Gets the intensity at a point.
-     * 
-     * @param p point relative to global model origin
-     */
-    public double getIntensity( Point2D p ) {
-        return getIntensity( p.getX(), p.getY() );
-    }
-    
-    /**
-     * Gets the intensity at a specified horizontal location along a specified radius.
-     * The radius can be calculated using getBeamRadiusAt.
-     * 
-     * @param xOffset horizontal distance from the center of the waist (nm)
-     * @param radius beam radius in nm
-     * @return intensity, in units of power/nm^2
-     */
-    public double getIntensityOnRadius( final double xOffset, final double radius ) {
-        return getIntensityOnRadius( xOffset, radius, _power );
+        final double xOffset = x - getX();
+        final double yOffset = y - getY();
+        final double radius = getRadius( yOffset );
+        final double power = ( _running ) ? _power : 0;
+        return getIntensityOnRadius( xOffset, radius, power );
     }
     
     /**
@@ -235,7 +201,6 @@ public class Laser extends MovableObject implements ModelElement {
      * @return intensity, in units of power/nm^2
      */
     public static double getIntensityOnRadius( final double xOffset, final double radius, final double power ) {
-        //XXX constraints on xOffset?
         assert( radius > 0 );
         assert( power >= 0 );
         final double t1 = power / ( Math.PI * ( ( radius * radius ) / 2 ) );
@@ -254,26 +219,27 @@ public class Laser extends MovableObject implements ModelElement {
      * @param y
      */
     public Vector2D getTrapForce( final double x, final double y ) {
-        return getTrapForce( x, y, _power );
-    }
-    
-    public Vector2D getTrapForce( Point2D p ) {
-        return getTrapForce( p.getX(), p.getY() );
-    }
-    
-    public Vector2D getTrapForce( Point2D p, final double power ) {
-        return getTrapForce( p.getX(), p.getY(), power );
-    }
-
-    public Vector2D getTrapForce( final double x, final double y, final double power ) {
-        
-        final double scaleFactor = 582771.6; // from Tom Perkins' work
-        
         final double xOffset = x - getX();
         final double yOffset = y - getY();
-        
-        // x component
         final double radius = getRadius( yOffset );
+        final double power = ( _running ) ? _power : 0;
+        return getTrapForce( xOffset, yOffset, radius, power );
+    }
+    
+    /**
+     * Gets trap force vector.
+     * 
+     * @param xOffset horizontal distance from the center of the trap
+     * @param yOffset vertical distance from the center of the trap
+     * @param radius radius of the beam at yOffset
+     * @param power power of the laser, mW
+     * @return
+     */
+    public static Vector2D getTrapForce( final double xOffset, final double yOffset, final double radius, final double power ) {
+
+        final double scaleFactor = 582771.6; // from Tom Perkins' work
+
+        // x component
         final double intensity = getIntensityOnRadius( xOffset, radius, power );
         final double fx = -1 * scaleFactor * ( xOffset / ( radius * radius ) ) * intensity;
 
