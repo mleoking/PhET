@@ -77,8 +77,6 @@ public class MoleculeSeparationPane extends PPath {
         moleculeLayer.addChild( nearestToSelectedMoleculeGraphic );
 
         module.getClock().addClockListener( updatingClockListener );
-
-        PDebug.debugBounds = true;
     }
 
     public MoleculeSelectionTracker getTracker() {
@@ -138,7 +136,7 @@ public class MoleculeSeparationPane extends PPath {
         }
 
         private boolean shouldDrawMoleculeOnTop( AbstractMolecule molecule ) {
-            if (molecule.getClass() == MoleculeA.class) return true;
+             if (molecule.getClass() == MoleculeA.class) return true;
 
             if (molecule.isComposite()) {
                 if (molecule.getComponentMolecules()[0].getClass() == MoleculeA.class) {
@@ -153,38 +151,20 @@ public class MoleculeSeparationPane extends PPath {
             return false;
         }
 
-        private double getYPosition( AbstractMolecule molecule ) {
-            if ( shouldDrawMoleculeOnTop( molecule ) ) {
-                return yMin;
-            }
-
-            return yMax;
-        }
-
-        private void addMoleculeGraphic( PNode node, AbstractMolecule element ) {
+        private void addMoleculeGraphic( PNode node, AbstractMolecule element, boolean top) {
             node.removeAllChildren();
 
             if( element != null ) {
                 EnergyMoleculeGraphic graphic = new EnergyMoleculeGraphic( element.getFullMolecule(), module.getMRModel().getEnergyProfile() );
-
-                graphic.translate( midPoint.getX(), getYPosition( element ) );
-
+                graphic.translate( midPoint.getX(), top?yMin:yMax);
                 node.addChild( graphic );
-
-                PText pText = new PText( "Testing" );
-
-                pText.translate( midPoint.getX(), getYPosition( element ) );
-
-                node.addChild( pText );
             }
         }
-        
+
         private void updateMoleculeGraphics() {
-            addMoleculeGraphic( selectedMoleculeGraphic,          tracker.getSelectedMolecule() );
-
-            System.out.println( "Full bounds = " + selectedMoleculeGraphic.getGlobalFullBounds() );
-
-            addMoleculeGraphic( nearestToSelectedMoleculeGraphic, tracker.getNearestToSelectedMolecule() );
+            boolean selectedTop=shouldDrawMoleculeOnTop( tracker.getSelectedMolecule( ));
+            addMoleculeGraphic( selectedMoleculeGraphic,          tracker.getSelectedMolecule(),selectedTop);
+            addMoleculeGraphic( nearestToSelectedMoleculeGraphic, tracker.getNearestToSelectedMolecule(),!selectedTop);
         }
 
         private void updateEnergyCursor() {
@@ -273,7 +253,7 @@ public class MoleculeSeparationPane extends PPath {
                 double cmDist = getDistanceBetweenTrackedMolecules();
 
                 A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)module.getMRModel().getReaction();
-                
+
                 double edgeDist = reaction.getDistanceToCollision( freeMolecule, boundMolecule.getParentComposite() );
 
                 // In the middle of the reaction, the collision distance is underfined
@@ -308,7 +288,7 @@ public class MoleculeSeparationPane extends PPath {
                 //       simulation are fudged.
                 if ( direction < 0 ) {
                     double maxX = curvePane.getIntersectionWithHorizontal( x );
-                    
+
                     x = Math.min( x, maxX );
                 }
 
