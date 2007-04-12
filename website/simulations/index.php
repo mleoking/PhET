@@ -35,7 +35,7 @@
                 <ul>
                     <li><a href="../index.html" accesskey="1">Home</a></li>
 
-                    <li class="selected"><a href="index.html" accesskey="2">Simulations</a></li>
+                    <li class="selected"><a href="index.php" accesskey="2">Simulations</a></li>
 
                     <li><a href="../research/index.html" accesskey="3">Research</a></li>
 
@@ -207,7 +207,7 @@
                                 <p><a href="/">Balloons &amp; Static</a><br /></p>
                             */
                             
-                            $link_to_sim = "<a href=\"sim_page.php?simid=$sim_id\">";
+                            $link_to_sim = "<a href=\"sims/sims.php?simid=$sim_id\">";
 
                             print "$link_to_sim";
                             print "<img src=\"$thumburl\" width=\"130\" height=\"97\" alt=\"View $sim_name Simulation\" />";
