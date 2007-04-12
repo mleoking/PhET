@@ -5,7 +5,7 @@
  * the display and immediately return on the other side.
  */
 
-package edu.colorado.phet.quantumtunneling.richardson;
+package edu.colorado.phet.quantumtunneling.test.richardson;
 import java.awt.*;
 
 public class WaveSimWithDamping extends java.applet.Applet implements Runnable {

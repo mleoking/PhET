@@ -4,7 +4,7 @@
  * jlr@sgi.com
  * December 1995
  */
-package edu.colorado.phet.quantumtunneling.richardson;
+package edu.colorado.phet.quantumtunneling.test.richardson;
 import java.awt.*;
 
 public class WaveSim extends java.applet.Applet implements Runnable {
