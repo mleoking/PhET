@@ -1,6 +1,5 @@
 <?
-    ini_set('display_errors', '1');
-
+    include_once("password-protection.php");
     include_once("db.inc");
 
     print "<b>DELETE SIMULATION FROM DATABASE</b><br><br>";

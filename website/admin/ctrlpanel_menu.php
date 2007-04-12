@@ -42,7 +42,7 @@ a:hover {
     <p align="center" class="style1">MENU</p>
 
     <ul>
-        <li class="style1"><a href="ctrlpanel_main.htm" target="mainFrame">Home</a></li>
+        <li class="style1"><a href="ctrlpanel_main.php" target="mainFrame">Home</a></li>
 
         <li class="style1"><a href="http://phet.colorado.edu/simtabletest/addnewsim2.php" target="mainFrame">Add Simulation</a></li>
 

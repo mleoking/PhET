@@ -1,5 +1,5 @@
 <?php
-
+    include_once("password-protection.php");
     include_once("web-utils.php");
 
     $bmin_check  = generate_check_status("0", $simrating);
