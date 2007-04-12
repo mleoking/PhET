@@ -1,4 +1,4 @@
-package edu.colorado.phet.boundstates.test.schmidt_lee;
+package edu.colorado.phet.boundstates.test.schmidtlee;
 
 /*
     Copyright (C) 1998 Kevin E. Schmidt and Michael A. Lee
