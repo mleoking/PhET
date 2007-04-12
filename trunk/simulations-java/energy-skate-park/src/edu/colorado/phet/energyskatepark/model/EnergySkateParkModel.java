@@ -6,7 +6,9 @@ import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
 import edu.colorado.phet.timeseries.OptionalItemSerializableList;
+import edu.colorado.phet.timeseries.SPoint2D;
 
+import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -155,7 +157,17 @@ public class EnergySkateParkModel implements Serializable {
 
     public EnergySkateParkModel copyState() {
         try {
-            return (EnergySkateParkModel)PersistenceUtil.copy( this );
+            return (EnergySkateParkModel)PersistenceUtil.copy( this, new PersistenceUtil.CopyObjectReplacementStrategy() {
+                public Object replaceObject( Object obj ) {
+                    if( obj instanceof Point2D.Double && !( obj instanceof SPoint2D.Double ) ) {
+                        Point2D.Double pt = (Point2D.Double)obj;
+                        return new SPoint2D.Double( pt.x, pt.y );
+                    }
+                    else {
+                        return obj;
+                    }
+                }
+            } );
         }
         catch( PersistenceUtil.CopyFailedException e ) {
             e.printStackTrace();

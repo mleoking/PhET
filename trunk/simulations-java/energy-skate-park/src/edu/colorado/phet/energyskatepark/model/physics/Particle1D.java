@@ -6,7 +6,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.energyskatepark.model.TrackWithFriction;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.timeseries.OptionalItemSerializableList;
-import edu.colorado.phet.timeseries.SPoint2D;
 
 import java.awt.geom.Point2D;
 import java.io.Serializable;
@@ -141,7 +140,7 @@ public class Particle1D implements Cloneable, Serializable {
     }
 
     public Point2D getLocation() {
-        return new SPoint2D.Double( getX(), getY() );
+        return new Point2D.Double( getX(), getY() );
     }
 
     public UpdateStrategy getUpdateStrategy() {

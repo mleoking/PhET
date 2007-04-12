@@ -23,5 +23,9 @@ public class SPoint2D {
             x = in.readDouble();
             y = in.readDouble();
         }
+
+        public String toString() {
+            return getClass().getName()+" ["+getX()+", "+getY()+"]";
+        }
     }
 }

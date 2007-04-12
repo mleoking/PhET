@@ -1,7 +1,5 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import edu.colorado.phet.timeseries.SPoint2D;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -68,7 +66,7 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
 
     public Point2D getControlPoint( int i ) {
         Point2D[] pts = getControlPoints();
-        return new SPoint2D.Double( pts[i].getX(), pts[i].getY() );
+        return new Point2D.Double( pts[i].getX(), pts[i].getY() );
     }
 
     public void setControlPoint( int i, Point2D pt ) {
@@ -100,9 +98,9 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
 
     public String toStringSerialization() {
         Point2D[] pts = getControlPoints();
-        String a = "new SPoint2D.Double[]{";
+        String a = "new Point2D.Double[]{";
         for( int i = 0; i < pts.length; i++ ) {
-            a += "new SPoint2D.Double(" + pts[i].getX() + ", " + pts[i].getY() + ")";
+            a += "new Point2D.Double(" + pts[i].getX() + ", " + pts[i].getY() + ")";
             if( i < pts.length - 1 ) {
                 a += ", ";
             }
@@ -127,14 +125,14 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
 
 
     public Point2D evaluate( double alpha ) {
-        return new SPoint2D.Double( x.evaluate( alpha ), y.evaluate( alpha ) );
+        return new Point2D.Double( x.evaluate( alpha ), y.evaluate( alpha ) );
     }
 
     public static void main( String[] args ) {
         ParametricFunction2D parametricFunction2D = new CubicSpline2D( new Point2D[]{
-                new SPoint2D.Double( 0, 0 ),
-                new SPoint2D.Double( 1, 1 ),
-                new SPoint2D.Double( 2, 0 )
+                new Point2D.Double( 0, 0 ),
+                new Point2D.Double( 1, 1 ),
+                new Point2D.Double( 2, 0 )
         } );
         for( double s = 0.0; s < 1.0; s += 0.1 ) {
             Point2D at = parametricFunction2D.evaluate( s );

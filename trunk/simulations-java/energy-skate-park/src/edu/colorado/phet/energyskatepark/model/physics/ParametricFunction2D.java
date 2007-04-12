@@ -2,7 +2,6 @@ package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.timeseries.SPoint2D;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -30,7 +29,7 @@ public abstract class ParametricFunction2D implements Cloneable, Serializable {
     private double getClosestPointBinarySearch( Line2D.Double line ) {
         int numTestPts = 100;
         double distBetweenTestPts = 1.0 / numTestPts;
-        Point2D center = new SPoint2D.Double( ( line.getX1() + line.getX2() ) / 2.0, ( line.getY1() + line.getY2() ) / 2.0 );
+        Point2D center = new Point2D.Double( ( line.getX1() + line.getX2() ) / 2.0, ( line.getY1() + line.getY2() ) / 2.0 );
         double approx = getClosestPointFlatSearch( center, numTestPts );//todo: could do flat search for line
         SearchPoint low = new SearchPoint( approx - distBetweenTestPts * 1.5, line );
         SearchPoint high = new SearchPoint( approx + distBetweenTestPts * 1.5, line );
@@ -63,7 +62,7 @@ public abstract class ParametricFunction2D implements Cloneable, Serializable {
         Point2D a0 = evaluate( alpha - epsilon / 2.0 );
         Point2D a1 = evaluate( alpha + epsilon / 2.0 );
         Point2D center = evaluate( alpha );
-        Point2D avg = new SPoint2D.Double( ( a0.getX() + a1.getX() ) / 2.0, ( a0.getY() + a1.getY() ) / 2.0 );
+        Point2D avg = new Point2D.Double( ( a0.getX() + a1.getX() ) / 2.0, ( a0.getY() + a1.getY() ) / 2.0 );
         Vector2D.Double dir = new Vector2D.Double( center, avg );
         AbstractVector2D vec = new Vector2D.Double( getUnitNormalVector( alpha ) );
         if( dir.dot( vec ) < 0 ) {
