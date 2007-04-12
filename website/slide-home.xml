@@ -1,11 +1,8 @@
- <gallery timer="8" order="random" looping="yes" fadetime="6">
-  <image path="images-slide/1.jpg"/>
-  <image path="images-slide/2.jpg" /> 
-    <image path="images-slide/3.jpg" /> 
-	  <image path="images-slide/4.jpg" /> 
-	    <image path="images-slide/5.jpg" /> 
-
- 
-  </gallery>
-
-
+<?xml version="1.0"?>
+<gallery timer="8" order="random" looping="yes" fadetime="6">
+    <image path="images-slide/1.jpg"/>
+    <image path="images-slide/2.jpg"/>
+    <image path="images-slide/3.jpg"/>
+    <image path="images-slide/4.jpg"/>
+    <image path="images-slide/5.jpg"/>
+</gallery>
