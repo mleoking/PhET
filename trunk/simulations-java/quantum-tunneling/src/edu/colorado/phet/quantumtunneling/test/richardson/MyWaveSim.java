@@ -1,4 +1,4 @@
-package edu.colorado.phet.quantumtunneling.richardson;
+package edu.colorado.phet.quantumtunneling.test.richardson;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

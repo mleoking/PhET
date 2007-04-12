@@ -2,7 +2,7 @@
  * Extension of Richard's "WaveSim" that includes display of phase.  
  * Source: http://www.physics.brocku.ca/faculty/sternin/teaching/mirrors/qm/packet/wave-map.html
  */
-package edu.colorado.phet.quantumtunneling.richardson;
+package edu.colorado.phet.quantumtunneling.test.richardson;
 import java.awt.*;
 
 public class WaveSimWithPhase extends java.applet.Applet implements Runnable {
