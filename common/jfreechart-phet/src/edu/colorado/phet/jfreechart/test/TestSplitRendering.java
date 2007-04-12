@@ -1,4 +1,4 @@
-package edu.colorado.phet.jfreechart.tests;
+package edu.colorado.phet.jfreechart.test;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
@@ -42,7 +42,7 @@ public class TestSplitRendering {
         series = new XYSeries( "Name" );
         dataset.addSeries( series );
         jFreeChart = createScatterPlot( "Test Plot", "X-axis", "Y-axis", dataset, PlotOrientation.HORIZONTAL, true, false, false );
-        final SplitXYPlot p = (SplitXYPlot)jFreeChart.getXYPlot();
+        final TestSplitXYPlot p = (TestSplitXYPlot)jFreeChart.getXYPlot();
 
         p.getDomainAxis().setRange( -1, 1 );
         p.getRangeAxis().setRange( -1, 1 );
@@ -135,7 +135,7 @@ public class TestSplitRendering {
         NumberAxis yAxis = new NumberAxis( yAxisLabel );
         yAxis.setAutoRangeIncludesZero( false );
 
-        SplitXYPlot plot = new SplitXYPlot( dataset, xAxis, yAxis, null );
+        TestSplitXYPlot plot = new TestSplitXYPlot( dataset, xAxis, yAxis, null );
 
         XYToolTipGenerator toolTipGenerator = null;
         if( tooltips ) {
@@ -146,7 +146,7 @@ public class TestSplitRendering {
         if( urls ) {
             urlGenerator = new StandardXYURLGenerator();
         }
-        XYItemRenderer renderer = new FastXYLineAndShapeRenderer( false, true );
+        XYItemRenderer renderer = new TestFastXYLineAndShapeRenderer( false, true );
         renderer.setBaseToolTipGenerator( toolTipGenerator );
         renderer.setURLGenerator( urlGenerator );
         plot.setRenderer( renderer );

@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.jfreechart.tests;
+package edu.colorado.phet.jfreechart.test;
 
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.entity.EntityCollection;
@@ -17,8 +17,8 @@ import java.awt.geom.Rectangle2D;
  * Avoids using AffineTransform.createTransformedShape().
  * Instead, translation is assumed, and done manually.
  */
-public class FastXYLineAndShapeRenderer extends XYLineAndShapeRenderer {
-    public FastXYLineAndShapeRenderer( boolean lines, boolean shapes ) {
+public class TestFastXYLineAndShapeRenderer extends XYLineAndShapeRenderer {
+    public TestFastXYLineAndShapeRenderer( boolean lines, boolean shapes ) {
         super( lines, shapes );
     }
 

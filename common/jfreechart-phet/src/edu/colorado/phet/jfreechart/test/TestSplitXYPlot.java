@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.jfreechart.tests;
+package edu.colorado.phet.jfreechart.test;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisSpace;
@@ -21,15 +21,15 @@ import java.awt.image.BufferedImage;
 /**
  * 'Split' refers to the ability to draw just the chart, just the data or both.
  */
-public class SplitXYPlot extends XYPlot {
+public class TestSplitXYPlot extends XYPlot {
     private boolean renderData = true;
     private boolean backgroundIsBuffered = false;
     private BufferedImage buffer;
 
-    public SplitXYPlot() {
+    public TestSplitXYPlot() {
     }
 
-    public SplitXYPlot( XYDataset dataset, NumberAxis xAxis, NumberAxis yAxis, XYItemRenderer o ) {
+    public TestSplitXYPlot( XYDataset dataset, NumberAxis xAxis, NumberAxis yAxis, XYItemRenderer o ) {
         super( dataset, xAxis, yAxis, o );
     }
 
