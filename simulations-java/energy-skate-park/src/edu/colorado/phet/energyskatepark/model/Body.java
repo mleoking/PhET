@@ -28,7 +28,7 @@ import java.util.List;
  * Copyright (c) Sep 21, 2005 by Sam Reid
  */
 
-public class Body implements Cloneable, Serializable {
+public class Body implements Serializable {
     private Particle particle;
     private boolean facingRight;
     private double width;
@@ -113,35 +113,6 @@ public class Body implements Cloneable, Serializable {
         particle.setGravity( gravity );
         particle.setZeroPointPotentialY( zeroPointPotentialY );
     }
-
-    public void setState( Body body ) {
-        //todo: set state for particle
-        this.angularVelocity = body.angularVelocity;
-        this.facingRight = body.facingRight;
-    }
-
-    protected Object clone() throws CloneNotSupportedException {
-        Body clone = (Body)super.clone();
-        clone.width = this.width;
-        clone.height = this.height;
-        clone.angularVelocity = this.angularVelocity;
-        clone.facingRight = facingRight;
-        clone.errorCount = this.errorCount;
-        clone.fractionalEnergyError = this.fractionalEnergyError;
-        clone.particle = (Particle)this.particle.clone();
-        return clone;
-    }
-
-    public Body copyState() {
-        try {
-            return (Body)clone();
-        }
-        catch( CloneNotSupportedException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
-    }
-
 
     public void stepInTime( double dt ) {
         double origEnergy = getTotalEnergy();
