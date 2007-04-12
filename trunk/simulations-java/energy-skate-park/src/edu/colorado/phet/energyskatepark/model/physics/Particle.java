@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Copyright (c) Feb 18, 2007 by Sam Reid
  */
 
-public class Particle implements Cloneable, Serializable {
+public class Particle implements Serializable {
     private Particle1D particle1D;
     private double x;
     private double y;
@@ -42,39 +42,9 @@ public class Particle implements Cloneable, Serializable {
     private double yThrust = 0;
     private double frictionCoefficient = 0;
     private boolean verboseDebug = true;
-
-    public Object clone() {
-        try {
-            Particle p = (Particle)super.clone();
-            p.particle1D = (Particle1D)this.particle1D.clone();
-            p.x = x;
-            p.y = y;
-            p.vx = vx;
-            p.vy = vy;
-            p.g = g;
-            p.mass = mass;
-            p.elasticity = elasticity;
-            p.stickiness = stickiness;
-            //update strategy
-//            p.particleStage=particle
-            p.convertNormalVelocityToThermalOnLanding = convertNormalVelocityToThermalOnLanding;
-            p.angle = angle;
-            p.userControlled = userControlled;
-            p.thermalEnergy = thermalEnergy;
-            p.zeroPointPotentialY = zeroPointPotentialY;
-            p.xThrust = xThrust;
-            p.yThrust = yThrust;
-            p.frictionCoefficient = frictionCoefficient;
-            p.verboseDebug = verboseDebug;
-            return p;
-        }
-        catch( CloneNotSupportedException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
-    }
-
     private static double DEFAULT_ANGLE = 0;
+
+
 
     public Particle( ParametricFunction2D parametricFunction2D ) {
         this( new ParticleStage( parametricFunction2D ) );

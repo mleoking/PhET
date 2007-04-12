@@ -17,7 +17,7 @@ import java.util.List;
  * Time: 11:16:29 AM
  * Copyright (c) Feb 18, 2007 by Sam Reid
  */
-public class Particle1D implements Cloneable, Serializable {
+public class Particle1D implements Serializable {
     private double alpha = 0.25;
     private double velocity = 0;
 
@@ -36,30 +36,6 @@ public class Particle1D implements Cloneable, Serializable {
     private double yThrust = 0;
     private double frictionCoefficient = 0;
     private double thermalEnergy = 0;
-
-    protected Object clone() {
-        try {
-            Particle1D clone = (Particle1D)super.clone();
-            clone.alpha = alpha;
-            clone.velocity = velocity;
-//            clone.track=track
-//            clone.updateStrategy=updateStrategy;
-            clone.g = g;
-            clone.mass = mass;
-            clone.splineTop = splineTop;
-            clone.reflect = reflect;
-            clone.zeroPointPotentialY = zeroPointPotentialY;
-            clone.xThrust = xThrust;
-            clone.yThrust = yThrust;
-            clone.frictionCoefficient = frictionCoefficient;
-            clone.thermalEnergy = thermalEnergy;
-            return clone;
-        }
-        catch( CloneNotSupportedException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
-    }
 
     public Particle1D( ParametricFunction2D cubicSpline, boolean splineTop ) {
         this( cubicSpline, splineTop, 9.8 );
