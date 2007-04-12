@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.boundstates.test.schmidt_lee;
+package edu.colorado.phet.boundstates.test.schmidtlee;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;

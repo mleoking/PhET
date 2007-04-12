@@ -1,4 +1,4 @@
-package edu.colorado.phet.boundstates.test.schmidt_lee;
+package edu.colorado.phet.boundstates.test.schmidtlee;
 
 /**
  * User: Sam Reid
