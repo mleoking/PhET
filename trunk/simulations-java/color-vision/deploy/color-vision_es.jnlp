@@ -31,9 +31,8 @@ information.
   </information> 
   <resources> 
     <j2se version="1.4+"/> 
-    <jar href="colorvision/colorvision.jar"/> 
+    <jar href="colorvision/colorvision.jar"/>
+    <property name="user.language" value="es"/>
   </resources> 
-  <application-desc main-class="edu.colorado.phet.colorvision.ColorVisionApplication">
-	<argument>user.language=es</argument>	
-  </application-desc>
+  <application-desc main-class="edu.colorado.phet.colorvision.ColorVisionApplication"/>
 </jnlp> 
