@@ -357,6 +357,7 @@ public class PNavigationEventHandler extends PBasicInputEventHandler {
 	}
 
 	public PActivity directCameraViewToFocus(PCamera aCamera, PNode aFocusNode, int duration) {
+		focusNode = aFocusNode;
 		AffineTransform originalViewTransform = aCamera.getViewTransform();
 
 		// Scale the canvas to include

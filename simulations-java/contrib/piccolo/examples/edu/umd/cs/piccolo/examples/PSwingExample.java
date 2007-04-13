@@ -35,7 +35,7 @@ public class PSwingExample extends PFrame {
             }
         } );
         js.setBorder( BorderFactory.createTitledBorder( "Test JSlider" ) );
-        PSwing pSwing = new PSwing(js );
+        PSwing pSwing = new PSwing( pswingCanvas, js );
         pSwing.translate( 100, 100 );
         l.addChild( pSwing );
 

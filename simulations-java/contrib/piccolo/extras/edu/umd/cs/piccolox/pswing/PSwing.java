@@ -216,6 +216,15 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     }
 
     /**
+     * Deprecated constructor for application code still depending on this signature. 
+     * @param pSwingCanvas
+     * @param component
+     */
+    public PSwing(PSwingCanvas pSwingCanvas, JComponent component) {
+        this(component);
+    }
+
+    /**
      * Ensures the bounds of the underlying component are accurate, and sets the bounds of this PNode.
      */
     void reshape() {

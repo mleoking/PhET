@@ -121,7 +121,7 @@ public class PImage extends PNode {
 	public void setImage(Image newImage) {
 		Image old = image;
 		
-		if (newImage instanceof BufferedImage) {
+		if (newImage == null || newImage instanceof BufferedImage) {
 			image = newImage;
 		} else { // else make sure the image is loaded
 			ImageIcon imageLoader = new ImageIcon(newImage);

@@ -532,6 +532,8 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 
 	protected void endMarqueeSelection(PInputEvent e) {
 		// Remove marquee
+		allItems.clear();
+		marqueeMap.clear();
 		marquee.removeFromParent();
 		marquee = null; 		
 	}
