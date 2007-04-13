@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.common.tests.utils;
+package edu.colorado.phet.common.util.services.test;
 
 import edu.colorado.phet.common.util.services.PhetServiceManager;
 
