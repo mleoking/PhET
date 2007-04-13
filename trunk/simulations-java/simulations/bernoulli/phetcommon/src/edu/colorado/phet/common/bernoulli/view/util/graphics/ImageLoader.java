@@ -29,7 +29,8 @@ public class ImageLoader {
 
         public ResourceLoader.LoadedImageDescriptor loadImage(String imageLocation) {
             Image image = null;
-            ClassLoader cl = this.getClass().getClassLoader();
+            System.out.println( "imageLocation = " + imageLocation );
+            ClassLoader cl = Thread.currentThread().getContextClassLoader();
 //        O.d("Cl="+cl);
             URL imageUrl = cl.getResource(imageLocation);
 //        O.d("Str="+imageLocation);

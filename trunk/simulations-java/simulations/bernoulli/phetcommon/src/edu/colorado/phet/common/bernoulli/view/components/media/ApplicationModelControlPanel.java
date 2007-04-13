@@ -36,7 +36,7 @@ public class ApplicationModelControlPanel extends JPanel {
         this.model = runner;
         ImageLoader cil = new ImageLoader();
 
-        String root = "images/icons/java/media/";
+        String root = "phetcommon/images/clock/";
         BufferedImage playU = cil.loadBufferedImage(root + "Play24.gif");
         BufferedImage pauseU = cil.loadBufferedImage(root + "Pause24.gif");
         BufferedImage stepU = cil.loadBufferedImage(root + "StepForward24.gif");
