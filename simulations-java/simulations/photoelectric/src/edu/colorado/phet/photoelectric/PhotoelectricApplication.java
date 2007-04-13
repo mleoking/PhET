@@ -35,6 +35,9 @@ public class PhotoelectricApplication extends PhetApplication {
     //----------------------------------------------------------------
 
     static private String resourceBundleName = "localization/PhotoelectricStrings";
+    static{
+        SimStrings.getInstance().addStrings( resourceBundleName );
+    }
     static private String description = SimStrings.getInstance().getString( "PhotoelectricApplication.description" );
     static private String version = "1.02";
     static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 680 );
