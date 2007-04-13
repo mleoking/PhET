@@ -4,8 +4,11 @@
  * Author: Another Guy
  * Date: Aug 25, 2003
  */
-package edu.colorado.phet.microwave.model;
+package edu.colorado.phet.microwave.test;
 
+
+import edu.colorado.phet.microwave.model.WaterMolecule;
+import edu.colorado.phet.microwave.model.WaterMoleculeWaterMoleculeCollisionExpert;
 
 import java.awt.geom.Point2D;
 
