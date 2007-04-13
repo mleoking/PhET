@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 public class HelpMenu extends JMenu {
     public HelpMenu( final ApplicationModel appDescriptor ) {
         super( SimStrings.get( "Common.HelpMenu.Title" ) );
+        SimStrings.setStrings( "emf-localization/CommonStrings");
         this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt(0) );
 
         final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
