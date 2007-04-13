@@ -1,3 +1,4 @@
+package edu.colorado.phet.distanceladder;
 
 import edu.colorado.games4education.exercise.ExerciseView;
 import edu.colorado.games4education.exercise.MessageView;
