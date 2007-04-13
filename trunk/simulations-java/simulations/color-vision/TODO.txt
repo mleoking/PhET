@@ -19,6 +19,8 @@ LOW:
 
 
 DONE:
+4/13/07 - rename common localizations files to have basename phetcommon-strings
+4/13/07 - move colorvision/phetcommon/data to colorvision/phetcommon/data/colorvision
 4/12/07 refactor edu.colorado.phet.common_13364 to edu.colorado.phet.colorvision.phetcommon
 4/12/07 - move coreadditions packages into other packages, this stuff will not move to common
 3/14/07 - rename ColorVisionConfig to ColorVisionConstants to be consistent with my other sims
