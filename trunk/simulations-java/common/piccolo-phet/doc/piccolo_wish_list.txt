@@ -26,4 +26,6 @@ A list of Piccolo changes/enhancements that would be useful to PhET
 
 - support for testing and assertions
 
-- add method addChild() to PCanvas, with default implementation getLayer().addChild() 
+- add method addChild() to PCanvas, with default implementation getLayer().addChild()
+
+ -improved interface for coordinate frame transformation
