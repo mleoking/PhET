@@ -44,7 +44,7 @@ public class Module {
 
     protected Module( String name ) {
         this.name = name;
-        SimStrings.setStrings( "localization/CommonStrings" );
+        SimStrings.setStrings( "color-vision/localization/phetcommon-strings" );
         helpManager = new HelpManager();
     }
 
