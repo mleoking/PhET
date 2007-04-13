@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package util_efield;
+package edu.colorado.phet.efield.electron.utils;
 
 //Testing subclipse
 

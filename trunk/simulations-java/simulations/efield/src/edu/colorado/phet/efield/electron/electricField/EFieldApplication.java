@@ -19,7 +19,8 @@ import edu.colorado.phet.efield.electron.laws.ForceLawAdapter;
 import edu.colorado.phet.efield.electron.particleFactory.CustomizableParticleFactory;
 import edu.colorado.phet.efield.electron.particleFactory.ShowParticlePropertyDialog;
 import edu.colorado.phet.efield.electron.utils.ResourceLoader;
-import phet.view.util_efield.SimStrings;
+import edu.colorado.phet.efield.electron.utils.SimStrings;
+import edu.colorado.phet.efield.electron.utils.ExitOnClose;
 import phys2d_efield.DoublePoint;
 import phys2d_efield.Particle;
 import phys2d_efield.System2D;
@@ -32,9 +33,7 @@ import java.awt.image.BufferedImage;
 import java.util.Locale;
 import java.util.Vector;
 
-import util_efield.ExitOnClose;
-
-public class FieldNode2 extends JApplet {
+public class EFieldApplication extends JApplet {
     // Localization
     public static final String localizedStringsPath = "localization/ElectricFieldStrings";
     private String applicationLocale = null;
@@ -184,7 +183,7 @@ public class FieldNode2 extends JApplet {
     public static void main(String[] argx) {
         SimStrings.init( argx, localizedStringsPath );
         
-        FieldNode2 j = new FieldNode2();
+        EFieldApplication j = new EFieldApplication();
         j.setSize(new Dimension(600, 600));
         
         String argsKey = "user.language=";

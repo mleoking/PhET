@@ -4,13 +4,14 @@
 
 package edu.colorado.phet.efield.electron.particleFactory;
 
-import phet.view.util_efield.SimStrings;
+import edu.colorado.phet.efield.electron.utils.SimStrings;
+import edu.colorado.phet.efield.electron.utils.Debug;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 import javax.swing.*;
 import phys2d_efield.Particle;
-import util_efield.Debug;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.particleFactory:
 //            ParticlePropertyListener

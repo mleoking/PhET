@@ -7,7 +7,8 @@ package edu.colorado.phet.efield.electron.gui.media;
 import edu.colorado.phet.efield.electron.core.SystemFactory;
 import edu.colorado.phet.efield.electron.gui.ParticlePainter;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
-import phet.view.util_efield.SimStrings;
+import edu.colorado.phet.efield.electron.utils.SimStrings;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;

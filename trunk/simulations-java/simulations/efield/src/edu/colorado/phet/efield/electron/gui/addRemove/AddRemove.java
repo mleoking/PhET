@@ -9,7 +9,9 @@ import edu.colorado.phet.efield.electron.core.ParticleFactory;
 import edu.colorado.phet.efield.electron.gui.ParticlePainter;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 import edu.colorado.phet.efield.electron.gui.media.Resettable;
-import phet.view.util_efield.SimStrings;
+import edu.colorado.phet.efield.electron.utils.SimStrings;
+import edu.colorado.phet.efield.electron.utils.Debug;
+
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +19,6 @@ import java.util.Vector;
 import javax.swing.*;
 import phys2d_efield.Particle;
 import phys2d_efield.System2D;
-import util_efield.Debug;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui.addRemove:
 //            SystemAdapter, PanelAdapter
