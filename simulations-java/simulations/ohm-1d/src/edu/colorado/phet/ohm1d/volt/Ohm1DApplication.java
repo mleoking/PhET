@@ -59,11 +59,11 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Random;
 
-public class Ohm1dModule extends JApplet {
+public class Ohm1DApplication extends JApplet {
     // Localization
     public static final String localizedStringsPath = "localization/Ohm1dStrings";
 
-    public Ohm1dModule() {
+    public Ohm1DApplication() {
         //System.err.println("HI");
     }
 
@@ -620,7 +620,7 @@ public class Ohm1dModule extends JApplet {
 
     public static void main( String[] args ) throws Throwable {
         SimStrings.init( args, localizedStringsPath );
-        new Ohm1dModule().mainBAK();
+        new Ohm1DApplication().mainBAK();
     }
 
     class MediaHandler {
