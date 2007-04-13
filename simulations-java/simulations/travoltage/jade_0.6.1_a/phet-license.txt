@@ -1,0 +1,1 @@
+PhET was given permission from the authors of flade and jade to use Jade in PhET software without GPL restrictions.
