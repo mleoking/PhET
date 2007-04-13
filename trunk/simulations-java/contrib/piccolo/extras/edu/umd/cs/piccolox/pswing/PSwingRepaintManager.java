@@ -2,8 +2,8 @@
 
 /*
  * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
+ * Filename : $Source: /fs/cvs/piccolo/piccolo/extras/edu/umd/cs/piccolox/pswing/PSwingRepaintManager.java,v $
+ * Branch : $Name:  $
  * Modified by : $Author$
  * Revision : $Revision$
  * Date modified : $Date$
