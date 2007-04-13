@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+
 package edu.colorado.phet.boundstates.benfold2;
 
 import org.jfree.chart.ChartFactory;
