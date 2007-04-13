@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.distanceladder.model;
 
-import edu.colorado.phet.common.model.simpleobservable.SimpleObservable;
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.distanceladder.common.model.simpleobservable.SimpleObservable;
+import edu.colorado.phet.distanceladder.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.distanceladder.Config;
 
 import java.awt.*;

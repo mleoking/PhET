@@ -7,8 +7,8 @@
  */
 package edu.colorado.phet.distanceladder.model;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.distanceladder.common.model.BaseModel;
+import edu.colorado.phet.distanceladder.common.model.clock.AbstractClock;
 
 import javax.swing.*;
 

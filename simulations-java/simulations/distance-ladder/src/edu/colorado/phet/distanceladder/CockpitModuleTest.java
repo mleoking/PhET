@@ -1,11 +1,11 @@
 package edu.colorado.phet.distanceladder;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.ApplicationDescriptor;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.framesetup.FrameCenterer;
-import edu.colorado.phet.common.view.util.framesetup.MaxExtentFrameSetup;
+import edu.colorado.phet.distanceladder.common.application.Module;
+import edu.colorado.phet.distanceladder.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.distanceladder.common.view.ApplicationDescriptor;
+import edu.colorado.phet.distanceladder.common.view.util.GraphicsUtil;
+import edu.colorado.phet.distanceladder.common.view.util.framesetup.FrameCenterer;
+import edu.colorado.phet.distanceladder.common.view.util.framesetup.MaxExtentFrameSetup;
 import edu.colorado.phet.distanceladder.controller.CockpitModule;
 import edu.colorado.phet.distanceladder.controller.StarMapModule;
 import edu.colorado.phet.distanceladder.model.*;

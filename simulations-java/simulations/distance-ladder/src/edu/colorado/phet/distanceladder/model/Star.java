@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.distanceladder.model;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.distanceladder.common.model.ModelElement;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

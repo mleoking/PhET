@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.distanceladder.exercise;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.distanceladder.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
 import java.awt.*;
