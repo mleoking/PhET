@@ -1,5 +1,5 @@
 /*PhET, 2004.*/
-package edu.colorado.phet.timeseries;
+package edu.colorado.phet.energyskatepark.timeseries;
 
 
 import edu.colorado.phet.common.model.clock.ClockEvent;

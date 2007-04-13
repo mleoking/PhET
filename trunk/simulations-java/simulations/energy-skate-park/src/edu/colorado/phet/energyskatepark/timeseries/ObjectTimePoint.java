@@ -1,5 +1,5 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.timeseries;
+package edu.colorado.phet.energyskatepark.timeseries;
 
 /**
  * User: Sam Reid

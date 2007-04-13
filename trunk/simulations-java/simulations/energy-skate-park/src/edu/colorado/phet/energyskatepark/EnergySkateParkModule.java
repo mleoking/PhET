@@ -22,8 +22,8 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.WiggleMeInSpace;
 import edu.colorado.phet.piccolo.PiccoloModule;
-import edu.colorado.phet.timeseries.TimeSeriesModel;
-import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
+import edu.colorado.phet.energyskatepark.timeseries.TimeSeriesModel;
+import edu.colorado.phet.energyskatepark.timeseries.TimeSeriesPlaybackPanel;
 
 import javax.jnlp.FileContents;
 import javax.jnlp.FileOpenService;

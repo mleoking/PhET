@@ -2,7 +2,7 @@
 package edu.colorado.phet.energyskatepark.test;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
-import edu.colorado.phet.timeseries.TimeSeriesModel;
+import edu.colorado.phet.energyskatepark.timeseries.TimeSeriesModel;
 
 public class TestModelRecord {
     public static void main( String[] args ) {
