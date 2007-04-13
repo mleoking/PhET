@@ -2,10 +2,10 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package phys2d_efield;
+package edu.colorado.phet.efield.electron.phys2d_efield;
 
 import java.util.Vector;
-import phys2d_efield.util.Averager;
+import edu.colorado.phet.efield.electron.phys2d_efield.util.Averager;
 
 public class DoublePoint
 {

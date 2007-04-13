@@ -8,7 +8,7 @@ import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 import edu.colorado.phet.efield.electron.utils.TruncatedSeries;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
-import phys2d_efield.*;
+import edu.colorado.phet.efield.electron.phys2d_efield.*;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui.mouse:
 //            ParticleGrabber, TimedPoint

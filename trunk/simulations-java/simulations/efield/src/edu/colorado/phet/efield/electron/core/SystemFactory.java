@@ -6,7 +6,7 @@ package edu.colorado.phet.efield.electron.core;
 
 import edu.colorado.phet.efield.electron.gui.ParticlePainter;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
-import phys2d_efield.System2D;
+import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 
 public interface SystemFactory {
 

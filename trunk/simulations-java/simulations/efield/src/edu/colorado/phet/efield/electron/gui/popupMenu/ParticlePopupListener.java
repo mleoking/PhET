@@ -39,7 +39,7 @@ public class ParticlePopupListener
         {
             if(last != null)
                 last.getPopupMenu().setVisible(false);
-            phys2d_efield.Particle particle = ps.selectAt(mouseevent.getPoint());
+            edu.colorado.phet.efield.electron.phys2d_efield.Particle particle = ps.selectAt(mouseevent.getPoint());
             if(particle != null)
             {
                 last = mc.getMenu(particle);

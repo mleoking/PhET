@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.efield.electron.gui.vectorChooser;
 
-import phys2d_efield.DoublePoint;
+import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
 
 import javax.swing.*;
 import java.awt.*;

@@ -17,8 +17,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 import javax.swing.*;
-import phys2d_efield.Particle;
-import phys2d_efield.System2D;
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
+import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui.addRemove:
 //            SystemAdapter, PanelAdapter

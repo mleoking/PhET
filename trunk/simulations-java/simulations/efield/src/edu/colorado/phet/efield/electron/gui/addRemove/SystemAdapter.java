@@ -5,8 +5,8 @@
 package edu.colorado.phet.efield.electron.gui.addRemove;
 
 import edu.colorado.phet.efield.electron.core.ParticleContainer;
-import phys2d_efield.Particle;
-import phys2d_efield.System2D;
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
+import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 
 public class SystemAdapter
     implements ParticleContainer

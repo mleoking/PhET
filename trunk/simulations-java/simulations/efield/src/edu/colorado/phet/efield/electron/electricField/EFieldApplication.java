@@ -21,10 +21,10 @@ import edu.colorado.phet.efield.electron.particleFactory.ShowParticlePropertyDia
 import edu.colorado.phet.efield.electron.utils.ResourceLoader;
 import edu.colorado.phet.efield.electron.utils.SimStrings;
 import edu.colorado.phet.efield.electron.utils.ExitOnClose;
-import phys2d_efield.DoublePoint;
-import phys2d_efield.Particle;
-import phys2d_efield.System2D;
-import phys2d_efield.SystemRunner;
+import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
+import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
+import edu.colorado.phet.efield.electron.phys2d_efield.SystemRunner;
 
 import javax.swing.*;
 import javax.swing.border.Border;

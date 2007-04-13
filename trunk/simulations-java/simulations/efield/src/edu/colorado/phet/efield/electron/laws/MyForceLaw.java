@@ -4,8 +4,8 @@
 
 package edu.colorado.phet.efield.electron.laws;
 
-import phys2d_efield.DoublePoint;
-import phys2d_efield.Particle;
+import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
 public interface MyForceLaw {
 

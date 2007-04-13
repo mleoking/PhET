@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.efield.electron.particleFactory;
 
-import phys2d_efield.Particle;
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
 public interface ParticlePropertyListener
 {

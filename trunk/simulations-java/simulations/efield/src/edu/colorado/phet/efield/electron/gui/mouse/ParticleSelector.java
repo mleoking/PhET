@@ -7,7 +7,7 @@ package edu.colorado.phet.efield.electron.gui.mouse;
 import edu.colorado.phet.efield.electron.gui.ParticlePainter;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 import java.awt.Point;
-import phys2d_efield.Particle;
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
 public class ParticleSelector
 {

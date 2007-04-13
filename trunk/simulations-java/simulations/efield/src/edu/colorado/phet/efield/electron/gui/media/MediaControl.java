@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.Vector;
 import javax.swing.*;
-import phys2d_efield.SystemRunner;
+import edu.colorado.phet.efield.electron.phys2d_efield.SystemRunner;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui.media:
 //            SelectableJButton, Resettable
@@ -113,7 +113,7 @@ public class MediaControl
     {
         pp.reset();
         system.setRunning(false);
-        phys2d_efield.System2D system2d = resetter.newSystem();
+        edu.colorado.phet.efield.electron.phys2d_efield.System2D system2d = resetter.newSystem();
         system.setSystem(system2d);
         resetter.updatePanel(pp, system2d, painter);
         pp.repaint();

@@ -5,8 +5,7 @@
 package edu.colorado.phet.efield.electron.laws;
 
 import edu.colorado.phet.efield.electron.core.ParticleList;
-import edu.colorado.phet.common.phys2d.laws.ForceLaw;
-import phys2d_efield.*;
+import edu.colorado.phet.efield.electron.phys2d_efield.*;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.laws:
 //            ForceLaw
