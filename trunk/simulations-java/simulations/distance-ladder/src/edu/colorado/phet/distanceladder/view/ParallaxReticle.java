@@ -7,11 +7,11 @@
  */
 package edu.colorado.phet.distanceladder.view;
 
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.bounds.Boundary;
-import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.distanceladder.common.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.distanceladder.common.view.graphics.Graphic;
+import edu.colorado.phet.distanceladder.common.view.graphics.bounds.Boundary;
+import edu.colorado.phet.distanceladder.common.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.distanceladder.common.view.util.GraphicsUtil;
 
 import java.awt.*;
 import java.awt.geom.*;

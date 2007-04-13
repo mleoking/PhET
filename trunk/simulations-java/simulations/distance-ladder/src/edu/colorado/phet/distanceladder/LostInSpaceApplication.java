@@ -7,12 +7,12 @@
  */
 package edu.colorado.phet.distanceladder;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ThreadedClock;
-import edu.colorado.phet.common.view.ApplicationDescriptor;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.distanceladder.common.application.Module;
+import edu.colorado.phet.distanceladder.common.application.PhetApplication;
+import edu.colorado.phet.distanceladder.common.model.clock.AbstractClock;
+import edu.colorado.phet.distanceladder.common.model.clock.ThreadedClock;
+import edu.colorado.phet.distanceladder.common.view.ApplicationDescriptor;
+import edu.colorado.phet.distanceladder.common.view.util.GraphicsUtil;
 import edu.colorado.phet.distanceladder.controller.CockpitModule;
 import edu.colorado.phet.distanceladder.controller.StarMapModule;
 import edu.colorado.phet.distanceladder.model.StarField;

@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.distanceladder.view;
 
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.distanceladder.common.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.distanceladder.common.view.graphics.Graphic;
+import edu.colorado.phet.distanceladder.common.view.util.GraphicsUtil;
 import edu.colorado.phet.distanceladder.Config;
 import edu.colorado.phet.distanceladder.model.Starship;
 

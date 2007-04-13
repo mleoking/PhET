@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.distanceladder.controller;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.distanceladder.common.view.util.GraphicsUtil;
 import edu.colorado.phet.distanceladder.view.StarshipCoordsGraphic;
 
 import javax.swing.*;
