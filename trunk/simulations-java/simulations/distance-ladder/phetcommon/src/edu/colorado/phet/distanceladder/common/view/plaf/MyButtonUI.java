@@ -1,8 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.distanceladder.common.view.plaf;
 
-import edu.colorado.phet.distanceladder.common.examples.TestComponents;
-
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.metal.MetalButtonUI;
@@ -31,9 +29,9 @@ public class MyButtonUI extends MetalButtonUI {
     static String onstr = "images/animfactory/suites/graymarble/gray_marble_on_md_wht-dia.gif";
 
 
-    private static ImageIcon pressed = new ImageIcon( TestComponents.class.getClassLoader().
+    private static ImageIcon pressed = new ImageIcon( Thread.currentThread().getContextClassLoader().
                                                       getResource( onstr ) );
-    private static ImageIcon unpressed = new ImageIcon( TestComponents.class.getClassLoader().
+    private static ImageIcon unpressed = new ImageIcon( Thread.currentThread().getContextClassLoader().
                                                         getResource( offstr ) );
 //    private static ImageIcon pressed = new ImageIcon( TestComponents.class.getClassLoader().
 //                                                      getResource( "images/components/webt/redbump_on_md_wht.gif" ) );
