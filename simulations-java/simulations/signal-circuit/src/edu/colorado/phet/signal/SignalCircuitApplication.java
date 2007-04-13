@@ -17,13 +17,13 @@ import java.util.Locale;
 
 //import edu.colorado.phet.util.ExitOnClose;
 
-public class SignalApplet extends JApplet {
+public class SignalCircuitApplication extends JApplet {
     public static boolean applet = true;
 
     // Localization
     public static final String localizedStringsPath = "localization/SignalCircuitStrings";
 
-    public SignalApplet() {
+    public SignalCircuitApplication() {
         int width = 600;
         int height = 300;
         int barrierX = 100;
@@ -62,9 +62,9 @@ public class SignalApplet extends JApplet {
     public static void main( String[] args ) {
         SimStrings.getInstance().init( args, localizedStringsPath );
         
-        SignalApplet.applet = false;
+        applet = false;
         JFrame f = new JFrame( SimStrings.getInstance().getString( "SignalCircuitApplication.title" ));
-        f.setContentPane( new SignalApplet() );
+        f.setContentPane( new SignalCircuitApplication() );
         f.setSize( new Dimension( 850, 435 ) );
         f.setVisible( true );
         edu.colorado.phet.util.ThreadHelper.quietNap( 800 );

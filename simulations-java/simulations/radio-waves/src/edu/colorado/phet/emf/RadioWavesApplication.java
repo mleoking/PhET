@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class EmfApplication {
+public class RadioWavesApplication {
 
     //
     // Static fields and methods

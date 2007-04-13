@@ -7,7 +7,7 @@
 package edu.colorado.phet.emf.model.movement;
 
 import edu.colorado.phet.common_1200.math.Vector2D;
-import edu.colorado.phet.emf.EmfApplication;
+import edu.colorado.phet.emf.RadioWavesApplication;
 import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.waves.model.EMFSineFunction;
 
@@ -43,7 +43,7 @@ public class SinusoidalMovement extends Observable implements MovementType {
     }
 
     public float getWaveValue( double x ) {
-        double k = omega / EmfApplication.s_speedOfLight;
+        double k = omega / RadioWavesApplication.s_speedOfLight;
         double s = Math.sin( k * x - omega * runningTime );
         return (float)( -amplitude * omega * omega * s );
     }

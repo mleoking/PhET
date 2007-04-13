@@ -22,13 +22,13 @@ import java.net.URL;
  * Time: 11:28:24 AM
  */
 
-public class RotationSimulation extends PhetApplication {
+public class RotationApplication extends PhetApplication {
     public static final String TITLE = "Rotational Motion";
     public static final String DESCRIPTION = "Rotational Motion Simulation";
     private JMenu testMenu;
     private RotationModule rotationModule;
 
-    public RotationSimulation( String[] args ) {
+    public RotationApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, readVersion(), createFrameSetup() );
         rotationModule = new RotationModule();
         addModule( rotationModule );
@@ -132,7 +132,7 @@ public class RotationSimulation extends PhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new RotationLookAndFeel().initLookAndFeel();
-                new RotationSimulation( args ).startApplication();
+                new RotationApplication( args ).startApplication();
             }
         } );
     }
