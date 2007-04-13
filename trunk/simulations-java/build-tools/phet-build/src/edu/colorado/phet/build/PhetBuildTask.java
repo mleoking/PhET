@@ -142,7 +142,7 @@ public class PhetBuildTask extends Task {
         System.out.println( "System.getProperty( \"JAVA_HOME\") = " + System.getProperty( "JAVA_HOME" ) );
         File buildFile = new File( "build.xml" );
         Project p = new Project();
-        p.setBaseDir( new File( "C:\\phet\\subversion\\trunk\\simulations-java" ) );
+//        p.setBaseDir( new File( "C:\\phet\\subversion\\trunk\\simulations-java" ) );
         p.setUserProperty( "ant.file", buildFile.getAbsolutePath() );
         p.init();
         ProjectHelper.configureProject( p, buildFile );
