@@ -18,7 +18,7 @@ import java.lang.reflect.InvocationTargetException;
  * Copyright (c) Feb 11, 2005 by Sam Reid
  */
 
-public class RampApplication extends PhetApplication {
+public class TheRampApplication extends PhetApplication {
     private static final String VERSION = "1.01";
     public static final double FORCE_LENGTH_SCALE = 0.1;//1.0;
 
@@ -26,7 +26,7 @@ public class RampApplication extends PhetApplication {
     private RampModule advancedFeatureModule;
 //    private static PhetStartupWindow startupWindow;
 
-    public RampApplication( String[] args, IClock clock, FrameSetup frameSetup ) {
+    public TheRampApplication( String[] args, IClock clock, FrameSetup frameSetup ) {
         super( args, TheRampStrings.getString( "the.ramp" ), TheRampStrings.getString( "the.ramp.simulation" ),
                VERSION, frameSetup );
         simpleRampModule = new SimpleRampModule( getPhetFrame(), clock );
@@ -51,14 +51,14 @@ public class RampApplication extends PhetApplication {
         PhetLookAndFeel.setLookAndFeel();//todo this misses the better l&f in 1.5
         final SwingClock clock = new SwingClock( 30, 1.0 / 30.0 );
         final FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 600 ) );
-        final RampApplication application = new RampApplication( args, clock, frameSetup );
+        final TheRampApplication applicationThe = new TheRampApplication( args, clock, frameSetup );
         try {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
-                    application.startApplication();
+                    applicationThe.startApplication();
                     //workaround for 1.4.1, in which applying maxextent to an invisible frame does nothing.
-                    new FrameSetup.MaxExtent().initialize( application.getPhetFrame() );
-                    application.simpleRampModule.getPhetPCanvas().requestFocus();
+                    new FrameSetup.MaxExtent().initialize( applicationThe.getPhetFrame() );
+                    applicationThe.simpleRampModule.getPhetPCanvas().requestFocus();
 //        System.out.println( "getSize() = " + application.simpleRampModule.getPhetPCanvas().getSize() );
 //        new DebugPiccoloTree().printTree( application.advancedFeatureModule.getRampPanel().getRoot() );
 

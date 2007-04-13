@@ -7,7 +7,7 @@
 package edu.colorado.phet.emf.model;
 
 import edu.colorado.phet.common_1200.math.Vector2D;
-import edu.colorado.phet.emf.EmfApplication;
+import edu.colorado.phet.emf.RadioWavesApplication;
 import edu.colorado.phet.emf.model.movement.ManualMovement;
 import edu.colorado.phet.emf.model.movement.MovementType;
 import edu.colorado.phet.emf.model.movement.SinusoidalMovement;
@@ -263,7 +263,7 @@ public class Electron extends Body {
         //mr = m0 /sqrt(1 - v2/c2)
         float vMag = (float)this.getVelocity().getMagnitude();
         //        float vMag = this.getVelocity().getLength();
-        float denom = (float)Math.sqrt( 1 - ( vMag * vMag ) / ( EmfApplication.s_speedOfLight * EmfApplication.s_speedOfLight ) );
+        float denom = (float)Math.sqrt( 1 - ( vMag * vMag ) / ( RadioWavesApplication.s_speedOfLight * RadioWavesApplication.s_speedOfLight ) );
         if( denom < 1 ) {
             System.out.println( denom );
         }
@@ -330,7 +330,7 @@ public class Electron extends Body {
     private static final float s_B = 1000;
     private static final float s_staticFieldScale = 50;
     private static final float s_restMass = 1;
-    private static int s_stepSize = (int)( EmfApplication.s_speedOfLight );
+    private static int s_stepSize = (int)( RadioWavesApplication.s_speedOfLight );
     //    private static int s_stepSize = (int)( EmfApplication.s_speedOfLight / 4 );
 
     public static float getRestMass() {

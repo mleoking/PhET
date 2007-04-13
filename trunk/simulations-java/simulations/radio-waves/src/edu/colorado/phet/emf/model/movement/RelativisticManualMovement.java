@@ -7,7 +7,7 @@
 package edu.colorado.phet.emf.model.movement;
 
 import edu.colorado.phet.common_1200.math.Vector2D;
-import edu.colorado.phet.emf.EmfApplication;
+import edu.colorado.phet.emf.RadioWavesApplication;
 import edu.colorado.phet.emf.model.Electron;
 
 import java.awt.geom.Point2D;
@@ -50,7 +50,7 @@ public class RelativisticManualMovement extends ManualMovement {
             // The relativistic mass can go wacko because we move through
             // time in quatized steps. So we need this check
             if( Double.isNaN( m ) ) {
-                vy = (float)EmfApplication.s_speedOfLight * 0.9f;
+                vy = (float)RadioWavesApplication.s_speedOfLight * 0.9f;
             }
             else {
                 double a = f.getY() /  m;
