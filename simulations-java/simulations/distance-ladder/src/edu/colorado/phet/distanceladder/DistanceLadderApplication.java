@@ -30,7 +30,7 @@ import java.util.Random;
  * Time: 9:09:55 AM
  */
 
-public class DistanceLadderGame {
+public class DistanceLadderApplication {
     private static ApplicationDescriptor appDesc;
     private Color[] colors = new Color[]{Color.green, Color.magenta, Color.orange,
                                          Color.white, Color.yellow};
@@ -111,7 +111,7 @@ public class DistanceLadderGame {
                                              desc,
                                              "0.1",
                                              new MaxExtentFrameSetup( new FrameCenterer( 100, 100 ) ) );
-        DistanceLadderGame test = new DistanceLadderGame();
+        DistanceLadderApplication test = new DistanceLadderApplication();
         test.test1();
     }
 }
