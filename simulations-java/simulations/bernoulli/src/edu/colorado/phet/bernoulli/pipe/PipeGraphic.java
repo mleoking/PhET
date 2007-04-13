@@ -1,6 +1,6 @@
 package edu.colorado.phet.bernoulli.pipe;
 
-import edu.colorado.phet.bernoulli.BernoulliModule;
+import edu.colorado.phet.bernoulli.BernoulliApplication;
 import edu.colorado.phet.bernoulli.common.RepaintManager;
 import edu.colorado.phet.bernoulli.spline.Spline;
 import edu.colorado.phet.bernoulli.spline.SplineGraphic;
@@ -49,7 +49,7 @@ public class PipeGraphic extends CompositeGraphic implements TransformListener, 
         return rm;
     }
 
-    public PipeGraphic( ModelViewTransform2d transform, Pipe pipe, RepaintManager rm, int numFlowLines, BernoulliModule module ) {
+    public PipeGraphic( ModelViewTransform2d transform, Pipe pipe, RepaintManager rm, int numFlowLines, BernoulliApplication application ) {
         endImage = new ImageLoader().loadBufferedImage( "images/bernoulli/pipe.gif" );
         this.transform = transform;
         this.pipe = pipe;
@@ -84,7 +84,7 @@ public class PipeGraphic extends CompositeGraphic implements TransformListener, 
         double pipeControlPointRadius = .255;
         Point2D.Double[] toppts = pipe.getTopControlPoints();
         for( int i = 0; i < toppts.length; i++ ) {
-            PipeControlPointGraphic graphic = new PipeControlPointGraphic( this, toppts[i].x, toppts[i].y, pipeControlPointRadius, transform, Color.red, true, i, module );
+            PipeControlPointGraphic graphic = new PipeControlPointGraphic( this, toppts[i].x, toppts[i].y, pipeControlPointRadius, transform, Color.red, true, i, application );
             topVertices.add( graphic );
             addGraphic( graphic, 10 );
         }
@@ -92,7 +92,7 @@ public class PipeGraphic extends CompositeGraphic implements TransformListener, 
         bottomVertices = new ArrayList();
         Point2D.Double[] bottompts = pipe.getBottomControlPoints();
         for( int i = 0; i < bottompts.length; i++ ) {
-            PipeControlPointGraphic graphic = new PipeControlPointGraphic( this, bottompts[i].x, bottompts[i].y, pipeControlPointRadius, transform, Color.red, false, i, module );
+            PipeControlPointGraphic graphic = new PipeControlPointGraphic( this, bottompts[i].x, bottompts[i].y, pipeControlPointRadius, transform, Color.red, false, i, application );
             bottomVertices.add( graphic );
             addGraphic( graphic, 10 );
         }

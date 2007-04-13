@@ -21,7 +21,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
-public class FirefighterModule extends BernoulliModule {
+public class FirefighterModule extends BernoulliApplication {
 
     static private double firefighterX = 10;
     static private double firefighterWidth = 2;

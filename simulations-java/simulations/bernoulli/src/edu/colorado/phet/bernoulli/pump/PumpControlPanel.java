@@ -1,6 +1,6 @@
 package edu.colorado.phet.bernoulli.pump;
 
-import edu.colorado.phet.bernoulli.BernoulliModule;
+import edu.colorado.phet.bernoulli.BernoulliApplication;
 import edu.colorado.phet.bernoulli.pipe.VolumeGraphic;
 import edu.colorado.phet.common.bernoulli.model.ModelElement;
 
@@ -19,7 +19,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class PumpControlPanel extends JPanel {
 
-    public PumpControlPanel( final BernoulliModule module ) {
+    public PumpControlPanel( final BernoulliApplication application ) {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 
 
@@ -34,7 +34,7 @@ public class PumpControlPanel extends JPanel {
         JButton zoomIn = new JButton( "Zoom to Pump" );
         zoomIn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.zoomToPump();
+                application.zoomToPump();
             }
         } );
         add( zoomIn );
@@ -50,7 +50,7 @@ public class PumpControlPanel extends JPanel {
         JButton zoomToWaterTower = new JButton( "Full Zoom" );
         zoomToWaterTower.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.zoomToFull();
+                application.zoomToFull();
             }
         } );
         add( zoomToWaterTower );
@@ -58,14 +58,14 @@ public class PumpControlPanel extends JPanel {
         JButton refillWaterTower = new JButton( "Refill Water Tower" );
         refillWaterTower.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.getWaterTower().setFractionalWaterVolume( .80 );
-                module.getRepaintManager().update();
+                application.getWaterTower().setFractionalWaterVolume( .80 );
+                application.getRepaintManager().update();
             }
         } );
         JButton zoomOutButton = new JButton( "zoom out" );
         final ModelElement zoomOutElement = new ModelElement() {
             public void stepInTime( double v ) {
-                Rectangle2D.Double rect = module.getTransform().getModelBounds();
+                Rectangle2D.Double rect = application.getTransform().getModelBounds();
                 double dx = .1;
                 double dy = .1;
 
@@ -73,13 +73,13 @@ public class PumpControlPanel extends JPanel {
                 double y = rect.y - dy;
                 double width = rect.width + dx * 2;
                 double height = rect.height + dy * 2;
-                module.getTransform().setModelBounds( new Rectangle2D.Double( x, y, width, height ) );
+                application.getTransform().setModelBounds( new Rectangle2D.Double( x, y, width, height ) );
             }
         };
 
         final ModelElement zoomInElement = new ModelElement() {
             public void stepInTime( double v ) {
-                Rectangle2D.Double rect = module.getTransform().getModelBounds();
+                Rectangle2D.Double rect = application.getTransform().getModelBounds();
                 double dx = -.1;
                 double dy = -.1;
 
@@ -87,33 +87,33 @@ public class PumpControlPanel extends JPanel {
                 double y = rect.y - dy;
                 double width = rect.width + dx * 2;
                 double height = rect.height + dy * 2;
-                module.getTransform().setModelBounds( new Rectangle2D.Double( x, y, width, height ) );
+                application.getTransform().setModelBounds( new Rectangle2D.Double( x, y, width, height ) );
             }
         };
 
         zoomOutButton.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
-                module.getModel().addModelElement( zoomOutElement );
+                application.getModel().addModelElement( zoomOutElement );
             }
 
             public void mouseReleased( MouseEvent e ) {
-                module.getModel().removeModelElement( zoomOutElement );
+                application.getModel().removeModelElement( zoomOutElement );
             }
         } );
 
         JButton zoomInButton = new JButton( "zoom in" );
         zoomInButton.addMouseListener( new MouseAdapter() {
             public void mouseReleased( MouseEvent e ) {
-                module.getModel().removeModelElement( zoomInElement );
+                application.getModel().removeModelElement( zoomInElement );
             }
 
             public void mousePressed( MouseEvent e ) {
-                module.getModel().addModelElement( zoomInElement );
+                application.getModel().addModelElement( zoomInElement );
             }
         } );
         final ModelElement panLeftElement = new ModelElement() {
             public void stepInTime( double v ) {
-                Rectangle2D.Double rect = module.getTransform().getModelBounds();
+                Rectangle2D.Double rect = application.getTransform().getModelBounds();
                 double dx = -.18;
                 double dy = 0;
 
@@ -121,12 +121,12 @@ public class PumpControlPanel extends JPanel {
                 double y = rect.y - dy;
                 double width = rect.width;// + dx * 2;
                 double height = rect.height;// + dy * 2;
-                module.getTransform().setModelBounds( new Rectangle2D.Double( x, y, width, height ) );
+                application.getTransform().setModelBounds( new Rectangle2D.Double( x, y, width, height ) );
             }
         };
         final ModelElement panUpElement = new ModelElement() {
             public void stepInTime( double v ) {
-                Rectangle2D.Double rect = module.getTransform().getModelBounds();
+                Rectangle2D.Double rect = application.getTransform().getModelBounds();
                 double dx = 0;//.18;
                 double dy = -.180;
 
@@ -134,12 +134,12 @@ public class PumpControlPanel extends JPanel {
                 double y = rect.y - dy;
                 double width = rect.width;// + dx * 2;
                 double height = rect.height;// + dy * 2;
-                module.getTransform().setModelBounds( new Rectangle2D.Double( x, y, width, height ) );
+                application.getTransform().setModelBounds( new Rectangle2D.Double( x, y, width, height ) );
             }
         };
         final ModelElement panDownElement = new ModelElement() {
             public void stepInTime( double v ) {
-                Rectangle2D.Double rect = module.getTransform().getModelBounds();
+                Rectangle2D.Double rect = application.getTransform().getModelBounds();
                 double dx = 0;//.18;
                 double dy = .180;
 
@@ -147,12 +147,12 @@ public class PumpControlPanel extends JPanel {
                 double y = rect.y - dy;
                 double width = rect.width;// + dx * 2;
                 double height = rect.height;// + dy * 2;
-                module.getTransform().setModelBounds( new Rectangle2D.Double( x, y, width, height ) );
+                application.getTransform().setModelBounds( new Rectangle2D.Double( x, y, width, height ) );
             }
         };
         final ModelElement panRightElement = new ModelElement() {
             public void stepInTime( double v ) {
-                Rectangle2D.Double rect = module.getTransform().getModelBounds();
+                Rectangle2D.Double rect = application.getTransform().getModelBounds();
                 double dx = .18;
                 double dy = 0;
 
@@ -160,48 +160,48 @@ public class PumpControlPanel extends JPanel {
                 double y = rect.y - dy;
                 double width = rect.width;// + dx * 2;
                 double height = rect.height;// + dy * 2;
-                module.getTransform().setModelBounds( new Rectangle2D.Double( x, y, width, height ) );
+                application.getTransform().setModelBounds( new Rectangle2D.Double( x, y, width, height ) );
             }
         };
         JButton panLeft = new JButton( "Pan Right" );
         panLeft.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
-                module.getModel().addModelElement( panLeftElement );
+                application.getModel().addModelElement( panLeftElement );
             }
 
             public void mouseReleased( MouseEvent e ) {
-                module.getModel().removeModelElement( panLeftElement );
+                application.getModel().removeModelElement( panLeftElement );
             }
         } );
         JButton panRight = new JButton( "Pan Left" );
         panRight.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
-                module.getModel().addModelElement( panRightElement );
+                application.getModel().addModelElement( panRightElement );
             }
 
             public void mouseReleased( MouseEvent e ) {
-                module.getModel().removeModelElement( panRightElement );
+                application.getModel().removeModelElement( panRightElement );
             }
         } );
         JButton panDown = new JButton( "Pan Down" );
         panDown.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
-                module.getModel().addModelElement( panDownElement );
+                application.getModel().addModelElement( panDownElement );
             }
 
             public void mouseReleased( MouseEvent e ) {
-                module.getModel().removeModelElement( panDownElement );
+                application.getModel().removeModelElement( panDownElement );
             }
         } );
 
         JButton panUp = new JButton( "Pan Up" );
         panUp.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
-                module.getModel().addModelElement( panUpElement );
+                application.getModel().addModelElement( panUpElement );
             }
 
             public void mouseReleased( MouseEvent e ) {
-                module.getModel().removeModelElement( panUpElement );
+                application.getModel().removeModelElement( panUpElement );
             }
         } );
 

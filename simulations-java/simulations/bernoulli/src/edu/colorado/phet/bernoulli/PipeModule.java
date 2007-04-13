@@ -21,7 +21,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 
-public class PipeModule extends BernoulliModule {
+public class PipeModule extends BernoulliApplication {
 
     Pipe pipe;
     PipeGraphic pipeGraphic;

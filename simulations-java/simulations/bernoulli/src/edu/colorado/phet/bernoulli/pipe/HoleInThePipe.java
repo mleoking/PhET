@@ -1,6 +1,6 @@
 package edu.colorado.phet.bernoulli.pipe;
 
-import edu.colorado.phet.bernoulli.BernoulliModule;
+import edu.colorado.phet.bernoulli.BernoulliApplication;
 import edu.colorado.phet.bernoulli.Drop;
 import edu.colorado.phet.common.bernoulli.model.ModelElement;
 import edu.colorado.phet.coreadditions.bernoulli.math.PhetVector;
@@ -17,18 +17,18 @@ public class HoleInThePipe extends ModelElement {
     private Pipe pipe;
     private ControlSection cs;
     private boolean top;
-    private BernoulliModule module;
+    private BernoulliApplication application;
     Random rand = new Random();
     private double density = 1;
     private double gravity = 9.8;
     private int count = 0;
     private int modulo = 3;
 
-    public HoleInThePipe( Pipe pipe, ControlSection cs, boolean top, BernoulliModule module ) {
+    public HoleInThePipe( Pipe pipe, ControlSection cs, boolean top, BernoulliApplication application ) {
         this.pipe = pipe;
         this.cs = cs;
         this.top = top;
-        this.module = module;
+        this.application = application;
     }
 
     public void createSpurtedDrop( double radius ) {
@@ -52,7 +52,7 @@ public class HoleInThePipe extends ModelElement {
         double vy = speed / Math.sqrt( 2 );
 
         Drop drop = new Drop( loc.getX(), loc.getY(), radius, vx, vy );
-        module.addDrop( drop );
+        application.addDrop( drop );
     }
 
     public void stepInTime( double dt ) {

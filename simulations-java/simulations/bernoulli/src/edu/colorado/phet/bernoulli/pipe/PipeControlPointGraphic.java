@@ -1,6 +1,6 @@
 package edu.colorado.phet.bernoulli.pipe;
 
-import edu.colorado.phet.bernoulli.BernoulliModule;
+import edu.colorado.phet.bernoulli.BernoulliApplication;
 import edu.colorado.phet.bernoulli.common.CircleGraphic;
 import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.coreadditions.bernoulli.graphics.DifferentialDragHandler;
@@ -27,14 +27,14 @@ public class PipeControlPointGraphic implements InteractiveGraphic, TransformLis
     private PipeGraphic pipeGraphic;
     private boolean top;
     private int index;
-    private BernoulliModule module;
+    private BernoulliApplication application;
     private JPopupMenu menu;
 
-    public PipeControlPointGraphic( final PipeGraphic pipeGraphic, double x, double y, double radius, ModelViewTransform2d transform, Color color, final boolean top, final int index, final BernoulliModule module ) {
+    public PipeControlPointGraphic( final PipeGraphic pipeGraphic, double x, double y, double radius, ModelViewTransform2d transform, Color color, final boolean top, final int index, final BernoulliApplication application ) {
         this.pipeGraphic = pipeGraphic;
         this.top = top;
         this.index = index;
-        this.module = module;
+        this.application = application;
         cg = new CircleGraphic( new Point2D.Double( x, y ), radius, color, transform );
         this.transform = transform;
         pipeGraphic.getPipe().addObserver( this );
@@ -44,8 +44,8 @@ public class PipeControlPointGraphic implements InteractiveGraphic, TransformLis
         item.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ControlSection cs = pipeGraphic.getPipe().controlSectionAt( index );
-                HoleInThePipe hitp = new HoleInThePipe( pipeGraphic.getPipe(), cs, top, module );
-                module.getModel().addModelElement( hitp );
+                HoleInThePipe hitp = new HoleInThePipe( pipeGraphic.getPipe(), cs, top, application );
+                application.getModel().addModelElement( hitp );
             }
         } );
         menu.add( item );
