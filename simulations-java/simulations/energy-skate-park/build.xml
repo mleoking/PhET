@@ -12,7 +12,7 @@
     <property name="backup" location="../backup"/>
     <property name="releases" location="../releases"/>
 
-    <property file="build.properties"/>
+    <property file="energy-skate-park.properties"/>
     <property file="../../local.properties"/>
     <!--<property file="build.time.stamp" location="data"/>-->
 
