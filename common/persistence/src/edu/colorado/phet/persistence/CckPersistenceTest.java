@@ -1,8 +1,9 @@
+package edu.colorado.phet.persistence;
 
 import edu.colorado.phet.persistence.CckRemotePersistence;
 
 /**
- * Class: CckPersistenceTest
+ * Class: edu.colorado.phet.persistence.CckPersistenceTest
  * Package: PACKAGE_NAME
  * Author: Another Guy
  * Date: Feb 5, 2004
