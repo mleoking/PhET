@@ -1,7 +1,7 @@
 package edu.colorado.phet.ohm1d.volt;
 
-import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WireParticle;
-import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WireSystem;
+import edu.colorado.phet.ohm1d.common.wire1d.WireParticle;
+import edu.colorado.phet.ohm1d.common.wire1d.WireSystem;
 
 public class SmoothBatt extends Batt {
     WireRegion plus;

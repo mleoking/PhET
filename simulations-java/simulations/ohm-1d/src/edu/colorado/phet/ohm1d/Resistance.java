@@ -4,16 +4,16 @@ import edu.colorado.phet.ohm1d.gui.CoreCountListener;
 import edu.colorado.phet.ohm1d.gui.ShowPainters;
 import edu.colorado.phet.ohm1d.oscillator2d.Core;
 import edu.colorado.phet.ohm1d.oscillator2d.Oscillate;
-import edu.colorado.phet.ohm1d.phet_ohm1d.paint.LayeredPainter;
-import edu.colorado.phet.ohm1d.phet_ohm1d.paint.Painter;
-import edu.colorado.phet.ohm1d.phet_ohm1d.paint.SwitchablePainter;
-import edu.colorado.phet.ohm1d.phet_ohm1d.paint.particle.ParticlePainter;
-import edu.colorado.phet.ohm1d.phet_ohm1d.paint.particle.ParticlePainterAdapter;
-import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.DoublePoint;
-import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.Law;
-import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.Particle;
-import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.System2D;
-import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WirePatch;
+import edu.colorado.phet.ohm1d.common.paint.LayeredPainter;
+import edu.colorado.phet.ohm1d.common.paint.Painter;
+import edu.colorado.phet.ohm1d.common.paint.SwitchablePainter;
+import edu.colorado.phet.ohm1d.common.paint.particle.ParticlePainter;
+import edu.colorado.phet.ohm1d.common.paint.particle.ParticlePainterAdapter;
+import edu.colorado.phet.ohm1d.common.phys2d.DoublePoint;
+import edu.colorado.phet.ohm1d.common.phys2d.Law;
+import edu.colorado.phet.ohm1d.common.phys2d.Particle;
+import edu.colorado.phet.ohm1d.common.phys2d.System2D;
+import edu.colorado.phet.ohm1d.common.wire1d.WirePatch;
 
 import java.util.Vector;
 

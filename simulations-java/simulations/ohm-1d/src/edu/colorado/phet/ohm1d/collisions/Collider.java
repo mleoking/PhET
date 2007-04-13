@@ -2,11 +2,11 @@ package edu.colorado.phet.ohm1d.collisions;
 
 import edu.colorado.phet.ohm1d.Electron;
 import edu.colorado.phet.ohm1d.oscillator2d.Core;
-import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.Law;
-import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.Particle;
-import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.System2D;
-import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WirePatch;
-import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WireSystem;
+import edu.colorado.phet.ohm1d.common.phys2d.Law;
+import edu.colorado.phet.ohm1d.common.phys2d.Particle;
+import edu.colorado.phet.ohm1d.common.phys2d.System2D;
+import edu.colorado.phet.ohm1d.common.wire1d.WirePatch;
+import edu.colorado.phet.ohm1d.common.wire1d.WireSystem;
 
 public class Collider implements Law {
     WireSystem ws;

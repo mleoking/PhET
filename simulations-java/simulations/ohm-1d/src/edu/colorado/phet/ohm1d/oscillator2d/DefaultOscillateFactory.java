@@ -1,6 +1,6 @@
 package edu.colorado.phet.ohm1d.oscillator2d;
 
-import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.DoublePoint;
+import edu.colorado.phet.ohm1d.common.phys2d.DoublePoint;
 
 import java.util.Random;
 

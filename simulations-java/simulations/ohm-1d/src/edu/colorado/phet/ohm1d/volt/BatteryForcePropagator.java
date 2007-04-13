@@ -1,9 +1,9 @@
 package edu.colorado.phet.ohm1d.volt;
 
 import edu.colorado.phet.ohm1d.gui.VoltageListener;
-import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.Force1d;
-import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.Propagator1d;
-import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WireParticle;
+import edu.colorado.phet.ohm1d.common.wire1d.Force1d;
+import edu.colorado.phet.ohm1d.common.wire1d.Propagator1d;
+import edu.colorado.phet.ohm1d.common.wire1d.WireParticle;
 
 import java.util.Vector;
 

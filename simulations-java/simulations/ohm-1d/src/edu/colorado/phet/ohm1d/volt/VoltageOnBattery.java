@@ -1,9 +1,9 @@
 package edu.colorado.phet.ohm1d.volt;
 
 import edu.colorado.phet.ohm1d.gui.VoltageListener;
-import edu.colorado.phet.ohm1d.phet_ohm1d.paint.Painter;
-import edu.colorado.phet.ohm1d.phet_ohm1d.paint.TextPainter;
-import edu.colorado.phet.ohm1d.phet_ohm1d.view.util.SimStrings;
+import edu.colorado.phet.ohm1d.common.paint.Painter;
+import edu.colorado.phet.ohm1d.common.paint.TextPainter;
+import edu.colorado.phet.ohm1d.common.view.util.SimStrings;
 
 import java.awt.*;
 import java.text.DecimalFormat;

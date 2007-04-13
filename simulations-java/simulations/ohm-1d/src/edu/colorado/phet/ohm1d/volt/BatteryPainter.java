@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.ohm1d.volt;
 
-import edu.colorado.phet.ohm1d.phet_ohm1d.paint.Painter;
+import edu.colorado.phet.ohm1d.common.paint.Painter;
 
 import java.awt.*;
 

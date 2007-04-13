@@ -1,8 +1,8 @@
 package edu.colorado.phet.ohm1d.regions;
 
 import edu.colorado.phet.ohm1d.volt.WireRegion;
-import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WireParticle;
-import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WirePatch;
+import edu.colorado.phet.ohm1d.common.wire1d.WireParticle;
+import edu.colorado.phet.ohm1d.common.wire1d.WirePatch;
 
 public class SimplePatch implements WireRegion {
     WirePatch patch;
