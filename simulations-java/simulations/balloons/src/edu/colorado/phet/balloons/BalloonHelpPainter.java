@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.balloons;
 
-import phet.paint.Painter;
+import edu.colorado.phet.balloons.common.paint.Painter;
 
 import java.awt.*;
 

@@ -1,6 +1,6 @@
 package edu.colorado.phet.balloons;
 
-import phet.phys2d.DoublePoint;
+import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 
 public class Sweater {
     int n;

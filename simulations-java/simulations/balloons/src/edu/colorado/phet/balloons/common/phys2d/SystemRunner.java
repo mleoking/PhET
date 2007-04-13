@@ -1,4 +1,4 @@
-package phet.phys2d;
+package edu.colorado.phet.balloons.common.phys2d;
 
 
 public class SystemRunner implements Runnable {

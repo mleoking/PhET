@@ -1,7 +1,7 @@
-package phet.phys2d;
+package edu.colorado.phet.balloons.common.phys2d;
 
-import phet.phys2d.Law;
-import phet.phys2d.System2D;
+import edu.colorado.phet.balloons.common.phys2d.Law;
+import edu.colorado.phet.balloons.common.phys2d.System2D;
 
 import java.awt.*;
 

@@ -1,9 +1,9 @@
 package edu.colorado.phet.balloons;
 
-import phet.paint.Painter;
-import phet.paint.particle.ParticlePainter;
-import phet.paint.particle.ParticlePainterAdapter;
-import phet.phys2d.DoublePoint;
+import edu.colorado.phet.balloons.common.paint.Painter;
+import edu.colorado.phet.balloons.common.paint.particle.ParticlePainter;
+import edu.colorado.phet.balloons.common.paint.particle.ParticlePainterAdapter;
+import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 
 import java.awt.*;
 

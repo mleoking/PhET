@@ -1,4 +1,4 @@
-package phet.phys2d;
+package edu.colorado.phet.balloons.common.phys2d;
 
 public interface Law {
     public void iterate( double time, System2D system );

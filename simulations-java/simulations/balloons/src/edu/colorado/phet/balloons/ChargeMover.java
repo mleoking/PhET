@@ -1,7 +1,7 @@
 package edu.colorado.phet.balloons;
 
-import phet.paint.LayeredPainter;
-import phet.phys2d.Particle;
+import edu.colorado.phet.balloons.common.paint.LayeredPainter;
+import edu.colorado.phet.balloons.common.phys2d.Particle;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
