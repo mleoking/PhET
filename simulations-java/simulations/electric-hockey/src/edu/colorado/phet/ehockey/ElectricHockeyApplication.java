@@ -12,7 +12,7 @@ import java.util.Locale;
 
 //Need File class
 
-public class HockeyModule extends JApplet implements Runnable {
+public class ElectricHockeyApplication extends JApplet implements Runnable {
     static boolean isApplet = true;
     private int width;
     private int height;
@@ -98,11 +98,11 @@ public class HockeyModule extends JApplet implements Runnable {
         isApplet = false;
 
         JFrame frame = new JFrame( SimStrings.getInstance().getString( "HockeyApplication.Title" ) );
-        HockeyModule hockeyModule = new HockeyModule();
-        frame.setContentPane( hockeyModule );
+        ElectricHockeyApplication electricHockeyApplication = new ElectricHockeyApplication();
+        frame.setContentPane( electricHockeyApplication );
         frame.setSize( 800, 750 );
 
-        hockeyModule.init();
+        electricHockeyApplication.init();
 
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 //        frame.addWindowListener( new Exit() );
