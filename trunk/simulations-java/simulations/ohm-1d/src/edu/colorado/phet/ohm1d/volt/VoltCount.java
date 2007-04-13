@@ -1,9 +1,9 @@
 package edu.colorado.phet.ohm1d.volt;
 
-import edu.colorado.phet.ohm1d.phet_ohm1d.paint.TextPainter;
-import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.Law;
-import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.System2D;
-import edu.colorado.phet.ohm1d.phet_ohm1d.view.util.SimStrings;
+import edu.colorado.phet.ohm1d.common.paint.TextPainter;
+import edu.colorado.phet.ohm1d.common.phys2d.Law;
+import edu.colorado.phet.ohm1d.common.phys2d.System2D;
+import edu.colorado.phet.ohm1d.common.view.util.SimStrings;
 
 public class VoltCount implements Law {
     Batt batt;

@@ -9,9 +9,9 @@ package edu.colorado.phet.ohm1d.volt;
 
 import edu.colorado.phet.ohm1d.gui.CoreCountListener;
 import edu.colorado.phet.ohm1d.gui.VoltageListener;
-import edu.colorado.phet.ohm1d.phet_ohm1d.paint.Painter;
-import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WirePatch;
-import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.paint.WirePatchPainter;
+import edu.colorado.phet.ohm1d.common.paint.Painter;
+import edu.colorado.phet.ohm1d.common.wire1d.WirePatch;
+import edu.colorado.phet.ohm1d.common.wire1d.paint.WirePatchPainter;
 
 import java.awt.*;
 
@@ -24,7 +24,7 @@ public class Filament implements Painter, CoreCountListener, VoltageListener {
     double powMax;
     ColorMap cm;
 
-    public Filament( BasicStroke stroke, edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WirePatch patch, double vMax, double rMax, ColorMap cm ) {
+    public Filament( BasicStroke stroke, edu.colorado.phet.ohm1d.common.wire1d.WirePatch patch, double vMax, double rMax, ColorMap cm ) {
         this.cm = cm;
         //ColorTemperature cx=new ColorTemperature();
         //cx.colorMixRGB()

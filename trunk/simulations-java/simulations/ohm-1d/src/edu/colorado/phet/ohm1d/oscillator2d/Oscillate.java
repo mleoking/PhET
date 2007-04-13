@@ -1,8 +1,8 @@
 package edu.colorado.phet.ohm1d.oscillator2d;
 
-import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.DoublePoint;
-import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.Particle;
-import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.Propagator;
+import edu.colorado.phet.ohm1d.common.phys2d.DoublePoint;
+import edu.colorado.phet.ohm1d.common.phys2d.Particle;
+import edu.colorado.phet.ohm1d.common.phys2d.Propagator;
 
 public class Oscillate implements Propagator {
     DoublePoint x0;
