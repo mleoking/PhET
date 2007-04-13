@@ -12,7 +12,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public class ControlPanel extends JPanel {
-    private HockeyModule hockeyModule;
+    private ElectricHockeyApplication electricHockeyApplication;
     private JButton startBtn, resetBtn;
     private JButton clearBtn; //pauseBtn;
     private JCheckBox pauseChkBox;
@@ -49,8 +49,8 @@ public class ControlPanel extends JPanel {
     private JPanel panelBottom;
     private JPanel panelBottomLeft, panelBottomRight;
 
-    public ControlPanel( final HockeyModule hockeyModule ) {
-        this.hockeyModule = hockeyModule;
+    public ControlPanel( final ElectricHockeyApplication electricHockeyApplication ) {
+        this.electricHockeyApplication = electricHockeyApplication;
         startBtn = new JButton( SimStrings.getInstance().getString( "HockeyControlPanel.Start" ) );
         resetBtn = new JButton( SimStrings.getInstance().getString( "HockeyControlPanel.Reset" ) );
         nbrTries = 0;
@@ -72,16 +72,16 @@ public class ControlPanel extends JPanel {
         positivePuck.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean sel = positivePuck.isSelected();
-                Charge c = hockeyModule.getModel().getPuck();
+                Charge c = electricHockeyApplication.getModel().getPuck();
                 if( sel ) {
                     c.setSign( Charge.POSITIVE );
                 }
                 else {
                     c.setSign( Charge.NEGATIVE );
                 }
-                hockeyModule.getPlayingField().repaint();
-                hockeyModule.getModel().updatePath();
-                hockeyModule.getModel().updateForceList();
+                electricHockeyApplication.getPlayingField().repaint();
+                electricHockeyApplication.getModel().updatePath();
+                electricHockeyApplication.getModel().updateForceList();
             }
         } );
         positivePuck.setBackground( Color.yellow );
@@ -90,10 +90,10 @@ public class ControlPanel extends JPanel {
         fieldGridChkBox.setBackground( Color.yellow );
         showField = false;
 
-        final JCheckBox antialiasButton = new JCheckBox( "Antialias", hockeyModule.getFieldGrid().isAntialias() );
+        final JCheckBox antialiasButton = new JCheckBox( "Antialias", electricHockeyApplication.getFieldGrid().isAntialias() );
         antialiasButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                hockeyModule.getFieldGrid().setAntialias( antialiasButton.isSelected() );
+                electricHockeyApplication.getFieldGrid().setAntialias( antialiasButton.isSelected() );
             }
         } );
         antialiasButton.setBackground( Color.yellow );
@@ -106,7 +106,7 @@ public class ControlPanel extends JPanel {
         difficultyLbl = new JLabel( SimStrings.getInstance().getString( "HockeyControlPanel.Difficulty" ) );
 
         String str = SimStrings.getInstance().getString( "HockeyControlPanel.Charges" ) +
-                     hockeyModule.getModel().getChargeListSize();
+                     electricHockeyApplication.getModel().getChargeListSize();
 
         nbrChargesLbl = new JLabel( str );
         nbrChargesLbl.setBackground( Color.green );
@@ -222,7 +222,7 @@ public class ControlPanel extends JPanel {
             }
             resetBtn.setEnabled( true );
             startBtn.setEnabled( false );
-            hockeyModule.getModel().startTimer();
+            electricHockeyApplication.getModel().startTimer();
         }
     }
 
@@ -231,7 +231,7 @@ public class ControlPanel extends JPanel {
             if( aevt.getSource() == resetBtn ) {
                 prt( "Reset button pushed" );
             }
-            hockeyModule.getModel().resetTimer();
+            electricHockeyApplication.getModel().resetTimer();
             nbrTries += 1;
             setNbrTriesLbl();
             resetBtn.setEnabled( false );
@@ -244,7 +244,7 @@ public class ControlPanel extends JPanel {
         public void actionPerformed( ActionEvent aevt ) {
             //if(aevt.getSource() == pauseBtn){prt("Pause button pushed.");}
             if( pauseChkBox.isSelected() ) {
-                hockeyModule.getModel().stopTimer();
+                electricHockeyApplication.getModel().stopTimer();
                 //togglePause = false;
                 //pauseBtn.setText("Unpause");
                 startBtn.setEnabled( false );
@@ -252,7 +252,7 @@ public class ControlPanel extends JPanel {
                 clearBtn.setEnabled( false );
             }
             else {
-                hockeyModule.getModel().startTimer();
+                electricHockeyApplication.getModel().startTimer();
                 //togglePause = true;
                 //pauseBtn.setText("Pause");
                 startBtn.setEnabled( true );
@@ -266,17 +266,17 @@ public class ControlPanel extends JPanel {
         public void actionPerformed( ActionEvent aevt ) {
             //if(aevt.getSource() == clearBtn){prt("Clear button pushed.");}
 
-            int listLength = hockeyModule.getModel().getChargeListSize();
+            int listLength = electricHockeyApplication.getModel().getChargeListSize();
             prt( "ChargeList length = " + listLength );
 
             for( int i = ( listLength - 1 ); i >= 0; i-- ) {
-                hockeyModule.getModel().removeChargeAt( i );
+                electricHockeyApplication.getModel().removeChargeAt( i );
             }
-            hockeyModule.getFieldGrid().updateGridForceArray();
-            prt( "Cleared chargelist length = " + hockeyModule.getModel().getChargeListSize() );
+            electricHockeyApplication.getFieldGrid().updateGridForceArray();
+            prt( "Cleared chargelist length = " + electricHockeyApplication.getModel().getChargeListSize() );
 
-            hockeyModule.getModel().stopTimer();
-            hockeyModule.getPlayingField().paintAgain();
+            electricHockeyApplication.getModel().stopTimer();
+            electricHockeyApplication.getPlayingField().paintAgain();
 
         }
     }
@@ -287,8 +287,8 @@ public class ControlPanel extends JPanel {
                 //prt("CheckBox");
                 if( traceChkBox.isSelected() ) {
                     toggleTrace = true;
-                    hockeyModule.getModel().setPathStarted( false );
-                    hockeyModule.getModel().getPath().reset();
+                    electricHockeyApplication.getModel().setPathStarted( false );
+                    electricHockeyApplication.getModel().getPath().reset();
                 }
                 else {
                     toggleTrace = false;
@@ -303,11 +303,11 @@ public class ControlPanel extends JPanel {
             if( aevt.getSource() == fieldGridChkBox ) {
                 if( fieldGridChkBox.isSelected() ) {
                     showField = true;
-                    hockeyModule.getPlayingField().paintAgain();
+                    electricHockeyApplication.getPlayingField().paintAgain();
                 }
                 else {
                     showField = false;
-                    hockeyModule.getPlayingField().paintAgain();
+                    electricHockeyApplication.getPlayingField().paintAgain();
                 }
             }
         }
@@ -333,8 +333,8 @@ public class ControlPanel extends JPanel {
             }
             nbrTries = 0;
             setNbrTriesLbl();
-            hockeyModule.getModel().setBarrierState( levelState );
-            hockeyModule.getPlayingField().paintAgain();
+            electricHockeyApplication.getModel().setBarrierState( levelState );
+            electricHockeyApplication.getPlayingField().paintAgain();
         }
     }
 
@@ -343,7 +343,7 @@ public class ControlPanel extends JPanel {
             if( aevt.getSource() == massText ) {
                 try {
                     double m = Double.parseDouble( massText.getText() );
-                    hockeyModule.getModel().setMass( m );
+                    electricHockeyApplication.getModel().setMass( m );
                     if( m >= 1.0 && m <= 99.0 ) {
                         massSlider.setValue( (int)m );
                     }
@@ -366,7 +366,7 @@ public class ControlPanel extends JPanel {
         public void stateChanged( ChangeEvent cevt ) {
             if( cevt.getSource() == massSlider ) {
                 int m = (int)massSlider.getValue();
-                hockeyModule.getModel().setMass( m );
+                electricHockeyApplication.getModel().setMass( m );
                 massText.setText( new Integer( m ).toString() );
                 //prt("Mass is " + hockeyModule.getModel().getMass());
             }
