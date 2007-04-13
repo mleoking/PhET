@@ -1,4 +1,4 @@
-package edu.colorado.phet.lasers.model.collision;
+package edu.colorado.phet.lasers.test;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
