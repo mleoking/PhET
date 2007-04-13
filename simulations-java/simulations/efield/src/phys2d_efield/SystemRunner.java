@@ -4,7 +4,7 @@
 
 package phys2d_efield;
 
-import util_efield.ThreadHelper;
+import edu.colorado.phet.efield.electron.utils.ThreadHelper;
 
 // Referenced classes of package phys2d:
 //            System2D

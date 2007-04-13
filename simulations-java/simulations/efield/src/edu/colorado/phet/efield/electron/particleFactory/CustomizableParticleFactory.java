@@ -5,11 +5,12 @@
 package edu.colorado.phet.efield.electron.particleFactory;
 
 import edu.colorado.phet.efield.electron.core.ParticleFactory;
+import edu.colorado.phet.efield.electron.utils.Debug;
+
 import java.awt.Rectangle;
 import java.util.Random;
 import phys2d_efield.DoublePoint;
 import phys2d_efield.Particle;
-import util_efield.Debug;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.particleFactory:
 //            ParticlePropertyListener
