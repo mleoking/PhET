@@ -9,8 +9,8 @@ import edu.colorado.phet.efield.electron.utils.Debug;
 
 import java.awt.Rectangle;
 import java.util.Random;
-import phys2d_efield.DoublePoint;
-import phys2d_efield.Particle;
+import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.particleFactory:
 //            ParticlePropertyListener

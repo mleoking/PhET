@@ -2,10 +2,10 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package phys2d_efield.propagators;
+package edu.colorado.phet.efield.electron.phys2d_efield.propagators;
 
-import phys2d_efield.Particle;
-import phys2d_efield.Propagator;
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
+import edu.colorado.phet.efield.electron.phys2d_efield.Propagator;
 
 // Referenced classes of package phys2d.propagators:
 //            NorthBounce, SouthBounce, EastBounce, WestBounce

@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.efield.electron.core;
 
-import phys2d_efield.Particle;
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
 import java.util.Arrays;
 import java.util.Vector;

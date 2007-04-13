@@ -5,8 +5,8 @@
 package edu.colorado.phet.efield.electron.gui;
 
 import java.awt.Component;
-import phys2d_efield.Law;
-import phys2d_efield.System2D;
+import edu.colorado.phet.efield.electron.phys2d_efield.Law;
+import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 
 public class RepaintLaw
     implements Law

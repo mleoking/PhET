@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.efield.electron.gui.mouse;
 
-import phys2d_efield.DoublePoint;
+import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
 
 public class TimedPoint
 {

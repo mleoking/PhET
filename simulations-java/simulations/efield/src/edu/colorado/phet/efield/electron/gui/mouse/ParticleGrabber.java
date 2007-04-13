@@ -7,7 +7,7 @@ package edu.colorado.phet.efield.electron.gui.mouse;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 import edu.colorado.phet.efield.electron.gui.media.Resettable;
 import java.awt.event.*;
-import phys2d_efield.*;
+import edu.colorado.phet.efield.electron.phys2d_efield.*;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui.mouse:
 //            ParticleSelector

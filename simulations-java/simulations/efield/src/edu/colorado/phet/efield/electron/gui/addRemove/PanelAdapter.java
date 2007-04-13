@@ -7,7 +7,7 @@ package edu.colorado.phet.efield.electron.gui.addRemove;
 import edu.colorado.phet.efield.electron.core.ParticleContainer;
 import edu.colorado.phet.efield.electron.gui.ParticlePainter;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
-import phys2d_efield.Particle;
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
 public class PanelAdapter
     implements ParticleContainer

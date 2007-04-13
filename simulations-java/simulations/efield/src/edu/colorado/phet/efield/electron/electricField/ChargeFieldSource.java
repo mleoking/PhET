@@ -1,8 +1,8 @@
 package edu.colorado.phet.efield.electron.electricField;
 
 import edu.colorado.phet.efield.electron.core.ParticleContainer;
-import phys2d_efield.DoublePoint;
-import phys2d_efield.Particle;
+import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
 import java.util.Vector;
 
