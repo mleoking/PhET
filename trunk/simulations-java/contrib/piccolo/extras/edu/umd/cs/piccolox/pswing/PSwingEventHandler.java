@@ -5,6 +5,7 @@
 package edu.umd.cs.piccolox.pswing;
 
 import edu.umd.cs.piccolo.PCamera;
+import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.event.PInputEventListener;
@@ -207,12 +208,14 @@ public class PSwingEventHandler implements PInputEventListener {
             }
 
             // MIDDLE MOUSE BUTTON
-            if( SwingUtilities.isMiddleMouseButton( pSwingMouseEvent ) && middleButtonData.getFocusedComponent() != null ) {
+            if( SwingUtilities.isMiddleMouseButton( pSwingMouseEvent ) && middleButtonData.getFocusedComponent() != null )
+            {
                 handleButton( pSwingMouseEvent, aEvent, middleButtonData );
             }
 
             // RIGHT MOUSE BUTTON
-            if( SwingUtilities.isRightMouseButton( pSwingMouseEvent ) && rightButtonData.getFocusedComponent() != null ) {
+            if( SwingUtilities.isRightMouseButton( pSwingMouseEvent ) && rightButtonData.getFocusedComponent() != null )
+            {
                 handleButton( pSwingMouseEvent, aEvent, rightButtonData );
             }
         }
@@ -350,16 +353,28 @@ public class PSwingEventHandler implements PInputEventListener {
     }
 
     private void cameraToLocal( PCamera topCamera, Point2D pt, PNode node ) {
+        AffineTransform inverse = null;
         try {
-            AffineTransform inverse = topCamera.getViewTransform().createInverse();
-            inverse.transform( pt, pt );
-            if( node != null ) {
-                node.globalToLocal( pt );
-            }
+            inverse = topCamera.getViewTransform().createInverse();
         }
         catch( NoninvertibleTransformException e ) {
             e.printStackTrace();
         }
+        
+        /* Only apply the camera's view transform when this node is a descendant of PLayer */
+        PNode searchNode = node;
+        do {
+             searchNode = searchNode.getParent();
+             if (searchNode instanceof PLayer) {
+                 inverse.transform( pt, pt );
+                 break;
+             }
+        } while(searchNode != null);
+        
+        if( node != null ) {
+            node.globalToLocal( pt );
+        }
+        return;
     }
 
     /**
@@ -369,22 +384,21 @@ public class PSwingEventHandler implements PInputEventListener {
      * @param type
      */
     public void processEvent( PInputEvent aEvent, int type ) {
-        if( aEvent.isMouseEvent() ) {
+        if(aEvent.isMouseEvent()) {
             InputEvent sourceSwingEvent = aEvent.getSourceSwingEvent();
-            if( sourceSwingEvent instanceof MouseEvent ) {
-                MouseEvent swingMouseEvent = (MouseEvent)sourceSwingEvent;
+            if (sourceSwingEvent instanceof MouseEvent) {
+            	MouseEvent swingMouseEvent = (MouseEvent) sourceSwingEvent;
                 PSwingMouseEvent pSwingMouseEvent = PSwingMouseEvent.createMouseEvent( swingMouseEvent.getID(), swingMouseEvent, aEvent );
                 if( !recursing ) {
                     recursing = true;
                     dispatchEvent( pSwingMouseEvent, aEvent );
                     recursing = false;
                 }
-            }
-            else {
-                new Exception( "PInputEvent.getSourceSwingEvent was not a MouseEvent.  Actual event: " + sourceSwingEvent + ", class=" + sourceSwingEvent.getClass().getName() ).printStackTrace();
+            } else {
+                new Exception("PInputEvent.getSourceSwingEvent was not a MouseEvent.  Actual event: " + sourceSwingEvent + ", class=" + sourceSwingEvent.getClass().getName() ).printStackTrace();
             }
         }
-
+    	
 /*        if( !( EventQueue.getCurrentEvent() instanceof MouseEvent ) ) {
             new Exception( "EventQueue.getCurrentEvent was not a MouseEvent, consider making PInputEvent.getSourceSwingEvent public.  Actual event: " + EventQueue.getCurrentEvent() + ", class=" + EventQueue.getCurrentEvent().getClass().getName() ).printStackTrace();
         }
