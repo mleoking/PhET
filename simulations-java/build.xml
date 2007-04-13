@@ -22,12 +22,11 @@
     -->    
     
     <!-- Directory name information -->
-    <property name="dirname.simulations.java"   value="simulations-java"                                    />
     <property name="dirname.simulations"        value="simulations"                                         />
     
     <!-- URLs for performing checkout, update, etc. -->
     <property name="url.svn.trunk"              value="https://phet.svn.sourceforge.net/svnroot/phet/trunk/"/>
-    <property name="url.svn.simulations-java"   value="${url.svn.trunk}/${dirname.simulations.java}/${dirname.simulations}/" />
+    <property name="url.svn.simulations-java"   value="${url.svn.trunk}simulations-java/${dirname.simulations}/" />
 
     <!-- Standard directory information -->
     <property name="dir.simulations"            value="${basedir}/${dirname.simulations}/"                  />
@@ -1031,14 +1030,20 @@
     <target name="edit" description="Edits an existing simulation with the specified name" depends="create" />
     
     <target name="checkout" description="Checks out the specified simulation" depends="_create-sim-properties">
+        <echo message="Checking out ${url.svn.simulations-java}${dirname.project} to ${dir.simulations}" />
+        
+        <mkdir dir="${dir.simulations}${dirname.project}" />
+        
         <exec executable="svn">
             <arg value="co"/>
             <arg value="${url.svn.simulations-java}${dirname.project}"/>
-            <arg value="${dir.simulations}"/>
+            <arg value="${dir.simulations}${dirname.project}"/>
         </exec>
     </target>
     
     <target name="update" description="Updates the specified simulation" depends="_create-sim-properties">
+        <echo message="Updating ${dir.project}" />
+        
         <exec executable="svn">
             <arg value="up"/>
             <arg value="${dir.project}"/>
@@ -1046,6 +1051,8 @@
     </target>
     
     <target name="checkin" description="Checks in the specified simulation" depends="_create-sim-properties">
+        <echo message="Checking in ${dir.project}" />
+        
         <exec executable="svn">
             <arg value="ci"/>
             <arg value="${dir.project}"/>
