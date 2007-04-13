@@ -1,10 +1,10 @@
 package edu.colorado.phet.batteryvoltage;
 
-import edu.colorado.phet.common.batteryvoltage.electron.components.Gauge;
-import edu.colorado.phet.common.batteryvoltage.phys2d.Particle;
-import edu.colorado.phet.common.batteryvoltage.phys2d.PropagatingParticle;
-import edu.colorado.phet.common.batteryvoltage.phys2d.Propagator;
-import edu.colorado.phet.common.batteryvoltage.phys2d.System2D;
+import edu.colorado.phet.batteryvoltage.common.electron.components.Gauge;
+import edu.colorado.phet.batteryvoltage.common.phys2d.Particle;
+import edu.colorado.phet.batteryvoltage.common.phys2d.PropagatingParticle;
+import edu.colorado.phet.batteryvoltage.common.phys2d.Propagator;
+import edu.colorado.phet.batteryvoltage.common.phys2d.System2D;
 
 public class GaugeUpdate implements ParticleMoveListener {
     Gauge g;

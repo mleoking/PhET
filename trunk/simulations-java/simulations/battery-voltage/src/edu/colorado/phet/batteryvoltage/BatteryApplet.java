@@ -4,13 +4,13 @@
 
 package edu.colorado.phet.batteryvoltage;
 
-import edu.colorado.phet.common.batteryvoltage.view.util.SimStrings;
-import edu.colorado.phet.common.batteryvoltage.electron.utils.ImageLoader;
-import edu.colorado.phet.common.batteryvoltage.electron.utils.ResourceLoader4;
-import edu.colorado.phet.common.batteryvoltage.phys2d.System2D;
-import edu.colorado.phet.common.batteryvoltage.phys2d.SystemRunner;
-import edu.colorado.phet.common.batteryvoltage.phys2d.gui.Range;
-import edu.colorado.phet.common.batteryvoltage.phys2d.gui.SystemRunnerControl;
+import edu.colorado.phet.batteryvoltage.common.view.util.SimStrings;
+import edu.colorado.phet.batteryvoltage.common.electron.utils.ImageLoader;
+import edu.colorado.phet.batteryvoltage.common.electron.utils.ResourceLoader4;
+import edu.colorado.phet.batteryvoltage.common.phys2d.System2D;
+import edu.colorado.phet.batteryvoltage.common.phys2d.SystemRunner;
+import edu.colorado.phet.batteryvoltage.common.phys2d.gui.Range;
+import edu.colorado.phet.batteryvoltage.common.phys2d.gui.SystemRunnerControl;
 
 import javax.swing.*;
 import java.awt.*;

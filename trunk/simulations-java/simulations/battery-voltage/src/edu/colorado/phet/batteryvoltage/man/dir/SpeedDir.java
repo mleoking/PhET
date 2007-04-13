@@ -3,8 +3,8 @@ package edu.colorado.phet.batteryvoltage.man.dir;
 import edu.colorado.phet.batteryvoltage.Battery;
 import edu.colorado.phet.batteryvoltage.ParticleMoveListener;
 import edu.colorado.phet.batteryvoltage.man.Directional;
-import edu.colorado.phet.common.batteryvoltage.electron.man.motions.Translate;
-import edu.colorado.phet.common.batteryvoltage.phys2d.Particle;
+import edu.colorado.phet.batteryvoltage.common.electron.man.motions.Translate;
+import edu.colorado.phet.batteryvoltage.common.phys2d.Particle;
 
 public class SpeedDir implements ParticleMoveListener, Directional {
     Translate t;
