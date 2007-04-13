@@ -38,7 +38,7 @@ public class CCKApplication extends PiccoloPhetApplication {
     //version is generated automatically (with ant)
     public static final String localizedStringsPath = "localization/CCKStrings";
     private CCKPiccoloModule cckPiccoloModule;
-    private static String AC_OPTION = "-dynamics";
+    public static final String AC_OPTION = "-dynamics";
 
     public CCKApplication( String[] args ) throws IOException {
         super( args, SimStrings.getInstance().getString( "CCKApplication.title" ) + getSubTitle( args ),

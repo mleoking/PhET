@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 import edu.colorado.phet.common_cck.view.components.PhetSlider;
 import net.n3.nanoxml.*;
 
@@ -49,7 +50,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.view.ControlPanel 
     public CCKControlPanel( final ICCKModule module, Module m ) {
         advancedControlPanel = new AdvancedControlPanel( module );
         advancedControlPanel.setBorder( null );
-        JLabel logoLabel = new JLabel( new ImageIcon( getClass().getClassLoader().getResource( PhetLookAndFeel.PHET_LOGO_120x50 ) ) );
+        JLabel logoLabel = new JLabel( new ImageIcon( PhetCommonProjectConfig.getInstance().getImage( "logos/phet-logo-120x50.jpg")) );
         logoLabel.setToolTipText( SimStrings.getInstance().getString( "CCK3ControlPanel.PhETToolTip" ) );
         logoLabel.setBorder( BorderFactory.createRaisedBevelBorder() );
         logoLabel.setBorder( BorderFactory.createLineBorder( Color.black, 2 ) );
