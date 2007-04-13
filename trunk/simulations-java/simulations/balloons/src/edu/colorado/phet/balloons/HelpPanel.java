@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.balloon;
+package edu.colorado.phet.balloons;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 

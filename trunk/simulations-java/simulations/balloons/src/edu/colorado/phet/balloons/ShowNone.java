@@ -1,4 +1,4 @@
-package edu.colorado.phet.balloon;
+package edu.colorado.phet.balloons;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

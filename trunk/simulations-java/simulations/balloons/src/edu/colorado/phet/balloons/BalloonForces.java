@@ -1,4 +1,4 @@
-package edu.colorado.phet.balloon;
+package edu.colorado.phet.balloons;
 
 import phet.paint.FixedImagePainter;
 import phet.phys2d.DoublePoint;

@@ -1,4 +1,4 @@
-package edu.colorado.phet.balloon;
+package edu.colorado.phet.balloons;
 
 import phet.paint.particle.ParticlePainter;
 import phet.phys2d.DoublePoint;
@@ -6,10 +6,10 @@ import phet.phys2d.Particle;
 
 import java.awt.*;
 
-public class PlusPainter implements ParticlePainter {
+public class MinusPainter implements ParticlePainter {
     int halfWidth;
     int width;
-    Color c;
+    Color color;
     int strokeWidth;
     int halfStroke;
     Color oval;
@@ -18,33 +18,21 @@ public class PlusPainter implements ParticlePainter {
     public static final int NONE = 1;
     public static final int DIFF = 2;
 
-    public void setPaint( int paint ) {
-        this.paint = paint;
-    }
-
-    public PlusPainter( int width, int strokeWidth, Color c, Color oval ) {
+    public MinusPainter( int width, int strokeWidth, Color color, Color oval ) {
         this.oval = oval;
         this.strokeWidth = strokeWidth;
         this.width = width;
-        this.c = c;
+        this.color = color;
         this.halfWidth = width / 2;
         this.halfStroke = strokeWidth / 2;
     }
 
-    boolean ok( Charge ch ) {
-        return !ch.addsToNeutral();
+    public void setPaint( int x ) {
+        this.paint = x;
     }
 
-    public void paintAt( int x, int y, Graphics2D g ) {
-//        g.setComposite( AlphaComposite.SrcAtop );
-        //DoublePoint pos=p.getPosition();
-//        g.setColor( oval );
-//        g.fillOval( x - halfWidth, y - halfWidth, width, width );
-        g.setColor( c );
-        Point topLeft = new Point( x - halfStroke, y - halfWidth );
-        Point leftUp = new Point( x - halfWidth, y - halfStroke );
-        g.fillRect( topLeft.x, topLeft.y, strokeWidth, width );
-        g.fillRect( leftUp.x, leftUp.y, width, strokeWidth );
+    public boolean ok( Charge p ) {
+        return !p.addsToNeutral();
     }
 
     public void paint( Charge p, int x, int y, Graphics2D g ) {
@@ -54,6 +42,17 @@ public class PlusPainter implements ParticlePainter {
         if( paint == ALL || ( paint == DIFF && ok( p ) ) ) {
             paintAt( x, y, g );
         }
+    }
+
+    public void paintAt( int x, int y, Graphics2D g ) {
+        //System.err.println("Paint="+paint);
+//        g.setColor( oval );
+//        g.fillOval( x - halfWidth, y - halfWidth, width, width );
+        g.setColor( color );
+        //Point topLeft=new Point(x-halfStroke,y-halfWidth);
+        Point leftUp = new Point( x - halfWidth, y - halfStroke );
+        //g.fillRect(topLeft.x,topLeft.y,strokeWidth,width);
+        g.fillRect( leftUp.x, leftUp.y, width, strokeWidth );
     }
 
     public void paint( Particle p, Graphics2D g ) {

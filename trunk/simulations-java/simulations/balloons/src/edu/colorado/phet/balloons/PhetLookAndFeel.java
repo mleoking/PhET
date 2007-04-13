@@ -1,4 +1,4 @@
-package edu.colorado.phet.balloon;
+package edu.colorado.phet.balloons;
 
 import javax.swing.*;
 import javax.swing.border.Border;
