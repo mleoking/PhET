@@ -48,6 +48,8 @@
     <div id="container">
         <div id="localNav">
             <ul>
+                <li><a href="../index.html" accesskey="1">Home</a></li>
+
                 <li class=" selected"><a href="#">Simulations</a></li>
                 
                 <?php
@@ -56,9 +58,11 @@
 
                 <li><a href="../teacher_ideas/index.html">Teacher Ideas Database</a></li>
 
-                <li><a href="../get_phet/index.html">Download PhET</a></li>
+                <li><a href="../get_phet/index.html">Get PhET</a></li>
 
                 <li><a href="../tech_support/index.html">Technical Support</a></li>
+                
+                <li><a href="../../research/index.html">Research</a></li>
 
                 <li><a href="../contribute/index.html">Contribute</a></li>
 
@@ -151,10 +155,10 @@
 
                             $page_sim_start_number = $sims_per_page * $n; 
 
-                            print "<a class=\"pg\" href=\"index.php?cat=$cat&amp;st=$page_sim_start_number\">$page_number</a>::";
+                            print "<a class=\"pg\" href=\"index.php?cat=$cat&amp;st=$page_sim_start_number\">$page_number</a> ";
                         }
                         
-                        print "<a class=\"pg\" href=\"index.php?cat=$cat&amp;st=-1\">all&raquo;</a>";
+                        print "<a class=\"pg\" href=\"index.php?cat=$cat&amp;st=-1\">view all&raquo;</a>";
                         print "</p></div>\n";
                     } 
 
@@ -244,7 +248,7 @@
             </div>
 
             <p class="footer">© 2007 PhET. All rights reserved.<br />
-            Web Design By: <a href="http://royalinteractive.com">Royal Interactive</a>.</p> -->
+             -->
         </div>
     </div>
 </body>

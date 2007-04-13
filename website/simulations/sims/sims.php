@@ -97,6 +97,8 @@ window.open = SymWinOpen;
     <div id="container">
         <div id="localNav">
             <ul>
+                <li><a href="../../index.html" accesskey="1">Home</a></li>
+
                 <li class=" selected"><a href="../index.php">Simulations</a></li>
 
                 <?php
@@ -105,7 +107,7 @@ window.open = SymWinOpen;
 
                 <li><a href="../../teacher_ideas/index.html">Teacher Ideas Database</a></li>
 
-                <li><a href="../../get_phet/index.html">Download PhET</a></li>
+                <li><a href="../../get_phet/index.html">Get PhET</a></li>
 
                 <li><a href="../../tech_support/index.html">Technical Support</a></li>
 
@@ -122,16 +124,16 @@ window.open = SymWinOpen;
             <dl>
                 <dt><a href="http://www.hewlett.org/Default.htm">The William and Flora Hewlett Foundation</a></dt>
 
-                <dd><a href="http://www.hewlett.org/Default.htm"><img src="../images/hewlett-logo.jpg" alt="The Hewlett Logo"/></a><br />
+                <dd><a href="http://www.hewlett.org/Default.htm"><img src="../../images/hewlett-logo.jpg" alt="The Hewlett Logo"/></a><br />
                 <br />
                 Makes grants to address the most serious social and environmental problems facing society, where risk capital, responsibly invested, may make a difference over time.</dd>
 
-                <dt><a href="http://www.nsf.gov/"><img class="sponsors" src="../images/nsf-logo.gif" alt="The NSF Logo"/>National Science Foundation</a></dt>
+                <dt><a href="http://www.nsf.gov/"><img class="sponsors" src="../../images/nsf-logo.gif" alt="The NSF Logo"/>National Science Foundation</a></dt>
 
                 <dd><br />
                 An independent federal agency created by Congress in 1950 to promote the progress of science.<br />
                 <br />
-                <a href="../sponsors/index.html"><img src="../images/other-sponsors.gif" alt="Other Sponsors Logo"/></a></dd>
+                <a href="../sponsors/index.html"><img src="../../images/other-sponsors.gif" alt="Other Sponsors Logo"/></a></dd>
             </dl>
         </div>
 
@@ -277,12 +279,7 @@ window.open = SymWinOpen;
 
             <p class="indi-sim">
                 <b>Windows Systems</b><br/>
-                Intel Pentium processor<br/>
                 Microsoft Windows 98SE/2000/XP<br/>
-                256MB RAM minimum<br/>
-                Approximately 50MB available disk space (for full installation)<br/>
-                Microsoft Internet Explorer 5.5 or later, Firefox 1.5 or later<br/>
-                1024x768 screen resolution or better<br/>
                 
                 <?php
                     if ($type == '0') { 
@@ -294,12 +291,8 @@ window.open = SymWinOpen;
                 ?>
                 
                 <br/><b>Macintosh Systems</b><br/>
-                G3, G4, G5 or Intel processor<br/>
                 OS 10.3.9 or later<br/>
-                256MB RAM minimum<br/>
-                Approximately 40 MB available disk space (for full installation)<br/>
-                1024x768 screen resolution or better<br/>
-                Safari 1.3 or later, Firefox 1.5 or later<br/>
+                
                 
                 <?php
                     if ($type == '0') {
@@ -311,11 +304,6 @@ window.open = SymWinOpen;
                 ?>
                 
                 <br/><b>Linux Systems</b><br/>
-                Intel Pentium processor<br/>
-                256MB RAM minimum<br/>
-                Approximately 40 MB disk space (for full installation)<br/>
-                1024x768 screen resolution or better<br/>
-                Firefox 1.5 or later<br/>
                 
                 <?php
                     if ($type == '0') {
@@ -346,7 +334,7 @@ window.open = SymWinOpen;
             <p><a href="#top"><img src="../../images/top.gif" /></a></p>
 
             <p class="footer">© 2007 PhET. All rights reserved.<br />
-            Web Design By: <a href="http://royalinteractive.com">Royal Interactive</a>.</p>
+            
         </div>
     </div>
 
