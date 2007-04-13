@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<project name="OwnTaskExample" default="build" basedir=".">
+  <taskdef name="mytask" classname="edu.colorado.phet.build.PhetBuildTask"/>
+
+  <target name="build">
+    <mytask project="balloons"/>
+  </target>
+</project>
