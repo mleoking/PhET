@@ -5,7 +5,7 @@
 package edu.colorado.phet.semiconductor.macro.battery;
 
 import edu.colorado.phet.common.conductivity.view.util.SimStrings;
-import edu.colorado.phet.semiconductor.macro.MacroModule;
+import edu.colorado.phet.semiconductor.macro.ConductivityApplication;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -24,11 +24,11 @@ public class BatterySpinner {
     double min;
     double max;
     private Battery battery;
-    private MacroModule macroModule;
+    private ConductivityApplication conductivityApplication;
 
-    public BatterySpinner( final Battery battery, MacroModule macroModule ) {
+    public BatterySpinner( final Battery battery, ConductivityApplication conductivityApplication ) {
         this.battery = battery;
-        this.macroModule = macroModule;
+        this.conductivityApplication = conductivityApplication;
         min = 0.0D;
         max = 2D;
         spinner = new JSpinner( new SpinnerNumberModel( battery.getVoltage(), Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0.10000000000000001D ) );
@@ -75,9 +75,9 @@ public class BatterySpinner {
     private void showErrorMessage() {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                macroModule.getClock().stop();
+                conductivityApplication.getClock().stop();
                 JOptionPane.showMessageDialog( spinner, "Value out of range: Voltage should be betwen 0 and 2 Volts.", "Invalid Voltage", JOptionPane.ERROR_MESSAGE );
-                macroModule.getClock().start();
+                conductivityApplication.getClock().start();
             }
         } );
 
