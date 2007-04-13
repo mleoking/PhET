@@ -25,7 +25,7 @@ import java.util.Random;
 /**
  * Test comment.
  */
-public class BalloonApplet extends JApplet implements IHelp {
+public class BalloonsApplication extends JApplet implements IHelp {
     private static final String VERSION = "1.00.01";
     static final int CHARGE_LEVEL = 1;
     static boolean isApplet = true;
@@ -301,7 +301,7 @@ public class BalloonApplet extends JApplet implements IHelp {
     public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
         isApplet = false;
-        BalloonApplet ba = new BalloonApplet();
+        BalloonsApplication ba = new BalloonsApplication();
         ba.init(args);
         JFrame jf = new JFrame( SimStrings.getInstance().getString( "balloons.frame.title" ) + " (" + VERSION + ")" );
         jf.addWindowListener( new Exit() );
