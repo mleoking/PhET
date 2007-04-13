@@ -1,19 +1,19 @@
-package edu.colorado.phet.balloon;
+package edu.colorado.phet.balloons;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ShowDiff implements ActionListener {
+public class ShowAll implements ActionListener {
     PlusPainter pp;
     MinusPainter mp;
 
-    public ShowDiff( PlusPainter pp, MinusPainter mp ) {
+    public ShowAll( PlusPainter pp, MinusPainter mp ) {
         this.pp = pp;
         this.mp = mp;
     }
 
     public void actionPerformed( ActionEvent ae ) {
-        pp.setPaint( pp.DIFF );
-        mp.setPaint( pp.DIFF );
+        pp.setPaint( pp.ALL );
+        mp.setPaint( mp.ALL );
     }
 }

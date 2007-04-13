@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.balloon;
+package edu.colorado.phet.balloons;
 
 import javax.swing.*;
 import java.awt.*;

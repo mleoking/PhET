@@ -1,5 +1,5 @@
 
-package edu.colorado.phet.balloon;
+package edu.colorado.phet.balloons;
 
 public class BalloonsConfig {
 

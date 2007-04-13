@@ -2,11 +2,11 @@
 java -cp %classpath%;../classes edu.colorado.phet.balloon.BalloonApplet
 */
 
-package edu.colorado.phet.balloon;
+package edu.colorado.phet.balloons;
 
-import edu.colorado.phet.balloon.HelpPanel;
-import edu.colorado.phet.balloon.IHelp;
-import edu.colorado.phet.balloon.ImageFrame;
+import edu.colorado.phet.balloons.HelpPanel;
+import edu.colorado.phet.balloons.IHelp;
+import edu.colorado.phet.balloons.ImageFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
