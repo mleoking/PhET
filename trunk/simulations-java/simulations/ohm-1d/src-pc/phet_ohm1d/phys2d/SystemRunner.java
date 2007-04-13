@@ -25,9 +25,19 @@ public class SystemRunner implements Runnable {
         while( alive ) {
             while( running ) {
                 system.iterate( dt );
-                util.ThreadHelper.quietNap( waitTime );
+                try {
+                    Thread.sleep(waitTime);
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
             }
-            util.ThreadHelper.quietNap( notRunningWaitTime );
+            try {
+                Thread.sleep( notRunningWaitTime);
+            }
+            catch( InterruptedException e ) {
+                e.printStackTrace();
+            }
         }
     }
 
