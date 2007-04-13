@@ -3,6 +3,8 @@ package edu.colorado.phet.common.view.plaf;
 
 //import edu.colorado.phet.common.view.PhetFrame;
 
+import edu.colorado.phet.common.view.AnimFactoryLookAndFeel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

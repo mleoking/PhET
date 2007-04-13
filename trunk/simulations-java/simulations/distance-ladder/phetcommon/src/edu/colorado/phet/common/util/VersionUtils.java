@@ -53,6 +53,9 @@ public class VersionUtils {
 
         ClassLoader cl = app.getClass().getClassLoader();
         URL buildNumberURL = cl.getResource( "build.number" );
+        if (buildNumberURL==null){
+            return new VersionInfo( -1,"");
+        }
         System.out.println( "buildNumberURL = " + buildNumberURL );
         int buildNum = -1;
         try {
