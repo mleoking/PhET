@@ -919,15 +919,18 @@
     
     <target name="create" description="Creates or edits a simulation with the specified name" depends="_create-sim-properties">
         <!-- Create required directories -->
-        <mkdir dir="${dir.project}" />
-        <mkdir dir="${dir.project.deploy.local}" />
+        <mkdir dir="${dir.project}"                                             />
+        <mkdir dir="${dir.project.deploy.local}"                                />
         
         <!-- Create standard directories -->
-        <mkdir dir="${dir.project}data" />
-        <mkdir dir="${dir.project}data/${dirname.project}" />
+        <mkdir dir="${dir.project}data"                                         />
+        <mkdir dir="${dir.project}data/${dirname.project}"                      />
+        <mkdir dir="${dir.project}data/${dirname.project}/localization"         />
+        <mkdir dir="${dir.project}data/${dirname.project}/images"               />
+        <mkdir dir="${dir.project}data/${dirname.project}/audio"                />
         
-        <mkdir dir="${dir.project}src"  />
-        <mkdir dir="${dir.project}src/edu/colorado/phet/${dirname.project}"  />        
+        <mkdir dir="${dir.project}src"                                          />
+        <mkdir dir="${dir.project}src/edu/colorado/phet/${dirname.project}"     />        
         
         <!-- Load all property files, in case user is modifying existing simulation: -->
         <property file="${file.project.build.properties}" />
