@@ -219,6 +219,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * Deprecated constructor for application code still depending on this signature. 
      * @param pSwingCanvas
      * @param component
+     * @deprecated 
      */
     public PSwing(PSwingCanvas pSwingCanvas, JComponent component) {
         this(component);
