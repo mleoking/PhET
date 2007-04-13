@@ -142,7 +142,7 @@
         <var name="jar.project.deploy-pro.local"    value="${dir.project.deploy.local}${filename.project.jar.deploy-pro}"   />
         <var name="file.project.properties"         value="${dir.project}data/${dirname.project}/${dirname.project}.properties" />
         <var name="file.project.loc.properties"     value="${dir.project}data/${dirname.project}/localization/${dirname.project}-strings.properties" />        
-        <var name="file.project.build.properties"   value="${dir.project}build.properties"                                  />
+        <var name="file.project.build.properties"   value="${dir.project}${dirname.project}.properties"                     />
     </target>
 
     <target name="_convert-sim-name-to-project-dir" description="Converts the sim name property into a project directory" depends="_verify-sim-name-specified">
@@ -180,7 +180,7 @@
                 </if>
             </then>
             <else>
-                <fail message="The project ${dirname.project} does not have a build.properties file." />
+                <fail message="The project ${dirname.project} does not have a ${file.project.build.properties} file." />
             </else>
         </if>
     </target>
