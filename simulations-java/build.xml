@@ -609,7 +609,8 @@
             replace=":"
             defaultValue="${param.all.lib.depends}"
             casesensitive="false" />
-        
+
+        <echo message="compiling, sourcedir=${javac.param.all.source.depends}"/> 
         <!-- Compile the project! -->
         <javac srcdir="${javac.param.all.source.depends}"
                destdir="${dir.temp.project}"
