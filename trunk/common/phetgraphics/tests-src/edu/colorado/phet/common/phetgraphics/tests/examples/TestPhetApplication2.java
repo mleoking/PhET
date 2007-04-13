@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: May 12, 2004
  */
-package edu.colorado.phet.common.phetgraphics.examples;
+package edu.colorado.phet.common.phetgraphics.tests.examples;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
@@ -17,27 +17,49 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.help.HelpItem;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.Random;
 
-public class TestPhetApplication {
+public class TestPhetApplication2 {
+    private static PhetApplication app;
+
+    static class TestApparatusPanel extends ApparatusPanel {
+        public TestApparatusPanel() {
+//            HTMLGraphic htmlGraphic=new HTMLGraphic( this, getFont(), "Size="+Color.blue);
+            Font font = new Font( "Lucida Sans", Font.BOLD, 22 );
+            final HTMLGraphic htmlGraphic = new HTMLGraphic( this, font, "Size=" + getSize(), Color.blue );
+            addGraphic( htmlGraphic, Double.POSITIVE_INFINITY );
+            htmlGraphic.setLocation( 0, 100 );
+            addComponentListener( new ComponentAdapter() {
+                public void componentResized( ComponentEvent e ) {
+                    htmlGraphic.setHtml( "Size=" + TestApparatusPanel.this.getSize() );
+                }
+
+                public void componentShown( ComponentEvent e ) {
+                    htmlGraphic.setHtml( "Size=" + TestApparatusPanel.this.getSize() );
+                }
+            } );
+
+        }
+    }
+
     static class MyModule extends PhetGraphicsModule {
+        private int count;
 
         public MyModule( String name, IClock clock, Color color ) {
             super( name, clock );
 
-//            final ControlPanel controlPanel = new ControlPanel( this );
-//            setControlPanel( controlPanel );
 
-            setApparatusPanel( new ApparatusPanel() );
+            setApparatusPanel( new TestApparatusPanel() );
             setModel( new BaseModel() );
-            JTextArea ctrl = new JTextArea( 5, 20 );
+            final JTextArea ctrl = new JTextArea( 5, 20 );
+            ctrl.setText( "Click here to change column count." );
             getApparatusPanel().addGraphic( new PhetShapeGraphic( getApparatusPanel(), new Rectangle( 200, 100, 300, 100 ), color ) );
 
             final ControlPanel controlPanel = new ControlPanel( this );
@@ -46,13 +68,28 @@ public class TestPhetApplication {
             addHelpItem( new HelpItem( getApparatusPanel(), "HELP!!!", 300, 200 ) );
 
             controlPanel.addControl( ctrl );
+            count = 0;
+            ctrl.addMouseListener( new MouseAdapter() {
+                public void mousePressed( MouseEvent e ) {
+                    count++;
+                    int dx = count % 2 == 0 ? -5 : 5;
+                    ctrl.setColumns( ctrl.getColumns() + dx );
+                    ctrl.validate();
+                    ctrl.doLayout();
+                    controlPanel.validate();
+                    controlPanel.doLayout();
+                    app.getPhetFrame().invalidate();
+                    app.getPhetFrame().validate();
+                    app.getPhetFrame().doLayout();
+                }
+            } );
             final JButton button1 = new JButton( "YO!" );
             controlPanel.addControl( button1 );
             JButton button2 = new JButton( "Y'ALL!" );
-            controlPanel.addControlFullWidth( button2 );
+            controlPanel.addControl( button2 );
             button2.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    controlPanel.removeControl( button1 );
+                    controlPanel.addControl( button1 );
                 }
             } );
         }
@@ -66,7 +103,7 @@ public class TestPhetApplication {
 
         public MyModule2( String name, IClock clock, Color color ) {
             super( name, clock );
-            setApparatusPanel( new ApparatusPanel() );
+            setApparatusPanel( new TestApparatusPanel() );
             setModel( new BaseModel() );
             JButton ctrl = new JButton( "Click Me" );
             ControlPanel controls = new ControlPanel( this );
@@ -75,7 +112,9 @@ public class TestPhetApplication {
             setControlPanel( controls );
             JPanel monitorPanel = new JPanel();
             monitorPanel.add( new JCheckBox( "yes/no" ) );
-            setMonitorPanel( monitorPanel );
+            super.setMonitorPanel( monitorPanel );
+
+
         }
 
         public void activate() {
@@ -95,16 +134,10 @@ public class TestPhetApplication {
         }
 
         public void stepInTime( double dt ) {
-            //            x += ( rand.nextDouble() - .5 ) * 5;
-            //            y += ( rand.nextDouble() - .5 ) * 5;
             x = x + speed * dt;
             if( x > 600 ) {
                 x = 0;
             }
-//                    x = ++x % 600;
-            //            if( x > 100 ) {
-            //                x = 100;
-            //            }
             if( y > 100 ) {
                 y = 100;
             }
@@ -140,7 +173,7 @@ public class TestPhetApplication {
     static class MyModule3 extends PhetGraphicsModule {
         public MyModule3( IClock clock ) {
             super( "Test Module", clock );
-            setApparatusPanel( new ApparatusPanel() );
+            setApparatusPanel( new TestApparatusPanel() );
             setModel( new BaseModel() );
 
             Photon ph = new Photon( 100, 100 );
@@ -159,17 +192,19 @@ public class TestPhetApplication {
     }
 
     public static void main( String[] args ) {
+
         SwingClock clock = new SwingClock( 30, 1.0 );
-        PhetGraphicsModule module = new MyModule( "Testing", clock, Color.blue );
+        PhetGraphicsModule module = new MyModule( "Testing", clock, Color.green );
         PhetGraphicsModule module2 = new MyModule( "1ntht", clock, Color.red );
         PhetGraphicsModule module3 = new MyModule2( "Button", clock, Color.red );
 
-        MyModule3 modulePhotons = new MyModule3( clock );
-        PhetGraphicsModule[] m = new PhetGraphicsModule[]{module, module2, module3, modulePhotons};
+        MyModule3 module4 = new MyModule3( clock );
+        PhetGraphicsModule[] m = new PhetGraphicsModule[]{module, module2, module3, module4};
 
-        PhetApplication app = new PhetApplication( args, "title", "description", "version" );
-        app.addModules( m );
+        app = new PhetApplication( args, "title", "desc", "version" );
+        app.setModules( m );
         app.startApplication();
+
     }
 
 }
