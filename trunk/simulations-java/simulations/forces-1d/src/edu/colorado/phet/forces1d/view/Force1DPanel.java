@@ -12,7 +12,7 @@ import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransf
 import edu.colorado.phet.common_force1d.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_force1d.view.phetgraphics.*;
 import edu.colorado.phet.common_force1d.view.util.SimStrings;
-import edu.colorado.phet.forces1d.Force1DModule;
+import edu.colorado.phet.forces1d.Force1DApplication;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.common.*;
 import edu.colorado.phet.forces1d.common.phetcomponents.PhetButton;
@@ -36,7 +36,7 @@ import java.io.IOException;
  * Copyright (c) Nov 12, 2004 by Sam Reid
  */
 public class Force1DPanel extends ApparatusPanel2 {
-    private Force1DModule module;
+    private Force1DApplication module;
     private BlockGraphic blockGraphic;
     private ArrowSetGraphic arrowSetGraphic;
     private ModelViewTransform2D transform2D;
@@ -64,7 +64,7 @@ public class Force1DPanel extends ApparatusPanel2 {
     private PhetGraphic floatingControlGraphic;
     private PhetGraphic checkBoxPanelGraphic;
 
-    public Force1DPanel( final Force1DModule module ) throws IOException {
+    public Force1DPanel( final Force1DApplication module ) throws IOException {
         super( module.getClock() );
 //        setAutoPaint( false );
         this.backgroundGraphic = new BufferedPhetGraphic( this, 800, 800, Color.white );
@@ -532,7 +532,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         }
     }
 
-    public Force1DModule getModule() {
+    public Force1DApplication getModule() {
         return module;
     }
 

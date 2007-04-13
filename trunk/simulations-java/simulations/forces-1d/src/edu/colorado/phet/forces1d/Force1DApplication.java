@@ -31,7 +31,7 @@ import java.util.Arrays;
  * Time: 10:06:43 PM
  * Copyright (c) Nov 12, 2004 by Sam Reid
  */
-public class Force1DModule extends Module {
+public class Force1DApplication extends Module {
     public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/Force1DStrings";
 //    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/Force1d-test";
     private PhetLookAndFeel phetLookAndFeel;
@@ -48,11 +48,11 @@ public class Force1DModule extends Module {
     private IForceControl currentControlPanel;
     private static final String VERSION = "1.01.15";
 
-    public Force1DModule( AbstractClock clock, PhetLookAndFeel phetLookAndFeel ) throws IOException {
+    public Force1DApplication( AbstractClock clock, PhetLookAndFeel phetLookAndFeel ) throws IOException {
         this( clock, SimStrings.get( "Force1DModule.moduleName" ), phetLookAndFeel );
     }
 
-    public Force1DModule( AbstractClock clock, String name, PhetLookAndFeel phetLookAndFeel ) throws IOException {
+    public Force1DApplication( AbstractClock clock, String name, PhetLookAndFeel phetLookAndFeel ) throws IOException {
         super( name, clock );
         System.out.println( "Force1DModule.Force1DModule-a" );
         this.phetLookAndFeel = phetLookAndFeel;
@@ -147,7 +147,7 @@ public class Force1DModule extends Module {
         final PhetApplication phetApplication = new PhetApplication( args, SimStrings.get( "Force1DModule.title" ) + " (" + version+")",
                                                                      SimStrings.get( "Force1DModule.description" ), version, clock, false, frameSetup );
 
-        final Force1DModule module = new Force1DModule( clock, lookAndFeel );
+        final Force1DApplication module = new Force1DApplication( clock, lookAndFeel );
         module.getApparatusPanel().getGraphic().setVisible( false );
         Module[] m = new Module[]{module};
         phetApplication.setModules( m );
@@ -220,7 +220,7 @@ public class Force1DModule extends Module {
         forcePanel.setChartBackground( color );
     }
 
-    private static void setup( Force1DModule module ) {
+    private static void setup( Force1DApplication module ) {
         final Force1DPanel p = module.getForcePanel();
         p.setReferenceSize();
         p.forceLayout( p.getWidth(), p.getHeight() );

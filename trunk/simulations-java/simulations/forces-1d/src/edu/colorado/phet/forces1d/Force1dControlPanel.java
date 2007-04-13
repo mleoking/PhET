@@ -25,7 +25,7 @@ import java.util.Hashtable;
  * Copyright (c) Nov 22, 2004 by Sam Reid
  */
 public class Force1dControlPanel extends IForceControl {
-    private Force1DModule module;
+    private Force1DApplication module;
     private Force1DModel model;
     public static final double MAX_KINETIC_FRICTION = 2.0;
     private FreeBodyDiagramSuite freeBodyDiagramSuite;
@@ -37,7 +37,7 @@ public class Force1dControlPanel extends IForceControl {
     private BarrierCheckBox barriers;
     private static final double MAX_GRAV = 30;
 
-    public Force1dControlPanel( final Force1DModule module ) {
+    public Force1dControlPanel( final Force1DApplication module ) {
         super( module );
         this.module = module;
         model = module.getForceModel();

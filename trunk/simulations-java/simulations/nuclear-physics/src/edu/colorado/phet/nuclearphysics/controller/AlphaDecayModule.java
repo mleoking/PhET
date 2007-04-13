@@ -18,6 +18,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
@@ -237,14 +238,10 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
                 }
             } );
 
-            try {
-                Image image = ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_REWIND );
+//                Image image = ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_REWIND );
+                Image image = PhetCommonProjectConfig.getInstance().getImage( ClockControlPanel.IMAGE_REWIND );
                 Icon icon = new ImageIcon( image );
                 rewindToDecayBtn = new JButton( SimStrings.getInstance().getString( "AlphaDecayControlPanel.Rewind" ), icon );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
             rewindToDecayBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( snapshot != null ) {

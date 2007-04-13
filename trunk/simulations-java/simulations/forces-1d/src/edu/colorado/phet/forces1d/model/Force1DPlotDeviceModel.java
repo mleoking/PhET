@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d.model;
 
-import edu.colorado.phet.forces1d.Force1DModule;
+import edu.colorado.phet.forces1d.Force1DApplication;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 
 
@@ -12,10 +12,10 @@ import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
  * Copyright (c) Nov 27, 2004 by Sam Reid
  */
 public class Force1DPlotDeviceModel extends PlotDeviceModel {
-    private Force1DModule module;
+    private Force1DApplication module;
     private Force1DModel model;
 
-    public Force1DPlotDeviceModel( Force1DModule module, final Force1DModel model, double maxTime, double timeScale ) {
+    public Force1DPlotDeviceModel( Force1DApplication module, final Force1DModel model, double maxTime, double timeScale ) {
         super( maxTime, timeScale );
         this.module = module;
         this.model = model;
