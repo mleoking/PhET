@@ -10,7 +10,7 @@ import edu.colorado.phet.common.bernoulli.view.ApparatusPanel;
 import edu.colorado.phet.common.bernoulli.view.ApplicationDescriptor;
 import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.view.util.framesetup.FrameSetup;
-import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 
 import javax.swing.*;
 import java.awt.*;

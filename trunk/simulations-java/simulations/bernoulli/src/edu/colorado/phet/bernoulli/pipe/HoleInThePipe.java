@@ -3,7 +3,7 @@ package edu.colorado.phet.bernoulli.pipe;
 import edu.colorado.phet.bernoulli.BernoulliApplication;
 import edu.colorado.phet.bernoulli.Drop;
 import edu.colorado.phet.common.bernoulli.model.ModelElement;
-import edu.colorado.phet.coreadditions.bernoulli.math.PhetVector;
+import edu.colorado.phet.common.bernoulli.bernoulli.math.PhetVector;
 
 import java.util.Random;
 

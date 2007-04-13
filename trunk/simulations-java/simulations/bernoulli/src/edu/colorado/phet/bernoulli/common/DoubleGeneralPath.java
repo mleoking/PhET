@@ -1,6 +1,6 @@
 package edu.colorado.phet.bernoulli.common;
 
-import edu.colorado.phet.coreadditions.bernoulli.math.PhetVector;
+import edu.colorado.phet.common.bernoulli.bernoulli.math.PhetVector;
 
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;

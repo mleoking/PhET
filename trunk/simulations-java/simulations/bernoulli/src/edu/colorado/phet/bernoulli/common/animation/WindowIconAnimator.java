@@ -1,7 +1,7 @@
 package edu.colorado.phet.bernoulli.common.animation;
 
-import edu.colorado.phet.coreadditions.bernoulli.clock2.AbstractClock;
-import edu.colorado.phet.coreadditions.bernoulli.clock2.TickListener;
+import edu.colorado.phet.common.bernoulli.bernoulli.clock2.AbstractClock;
+import edu.colorado.phet.common.bernoulli.bernoulli.clock2.TickListener;
 
 import javax.swing.*;
 import java.awt.*;

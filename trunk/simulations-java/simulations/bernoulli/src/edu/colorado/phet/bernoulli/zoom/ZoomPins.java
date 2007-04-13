@@ -1,9 +1,9 @@
 package edu.colorado.phet.bernoulli.zoom;
 
-import edu.colorado.phet.coreadditions.bernoulli.clock2.AbstractClock;
-import edu.colorado.phet.coreadditions.bernoulli.clock2.DefaultClock;
-import edu.colorado.phet.coreadditions.bernoulli.clock2.TickListener;
-import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.bernoulli.bernoulli.clock2.AbstractClock;
+import edu.colorado.phet.common.bernoulli.bernoulli.clock2.DefaultClock;
+import edu.colorado.phet.common.bernoulli.bernoulli.clock2.TickListener;
+import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 
 import java.awt.geom.Rectangle2D;
 

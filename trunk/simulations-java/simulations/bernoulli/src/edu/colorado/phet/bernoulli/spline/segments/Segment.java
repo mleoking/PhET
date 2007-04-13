@@ -2,7 +2,7 @@ package edu.colorado.phet.bernoulli.spline.segments;
 
 //import edu.colorado.phet.circuitconstructionkit.wire.util.Point2DDoubleMath;
 
-import edu.colorado.phet.coreadditions.bernoulli.math.PhetVector;
+import edu.colorado.phet.common.bernoulli.bernoulli.math.PhetVector;
 
 import java.awt.geom.Point2D;
 
