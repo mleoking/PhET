@@ -22,16 +22,16 @@ public class DropGraphic implements Graphic, SimpleObserver, TransformListener {
     Drop drop;
     private ModelViewTransform2d transform;
     private RepaintManager rm;
-    private BernoulliModule module;
+    private BernoulliApplication application;
     private Point point;
     private int radius;
     private int brighterRadius;
 
-    public DropGraphic( Drop drop, ModelViewTransform2d transform, RepaintManager rm, BernoulliModule module ) {
+    public DropGraphic( Drop drop, ModelViewTransform2d transform, RepaintManager rm, BernoulliApplication application ) {
         this.drop = drop;
         this.transform = transform;
         this.rm = rm;
-        this.module = module;
+        this.application = application;
         radius = transform.modelToViewDifferentialX( drop.getRadius() );
         brighterRadius = radius + 4;
         drop.addObserver( new Observer() {
@@ -60,11 +60,11 @@ public class DropGraphic implements Graphic, SimpleObserver, TransformListener {
         this.point = transform.modelToView( pv.getX(), pv.getY() );
         this.rm.update();
         if( point.y > transform.getViewBounds().height + transform.getViewBounds().y ) {
-            module.removeDropAndGraphic( this );
+            application.removeDropAndGraphic( this );
         }
         double groundHeight = 0;
         if( pv.getY() < groundHeight ) {
-            module.removeDropAndGraphic( this );
+            application.removeDropAndGraphic( this );
         }
     }
 

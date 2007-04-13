@@ -1,7 +1,7 @@
 package edu.colorado.phet.bernoulli.watertower;
 
 import edu.colorado.phet.bernoulli.AttachmentPoint;
-import edu.colorado.phet.bernoulli.BernoulliModule;
+import edu.colorado.phet.bernoulli.BernoulliApplication;
 import edu.colorado.phet.bernoulli.Drop;
 import edu.colorado.phet.bernoulli.PressureListener;
 import edu.colorado.phet.bernoulli.common.PumpListener;
@@ -26,7 +26,7 @@ public class WaterTower extends SimpleObservable implements PumpListener {
     double width;
     double height;
     double groundHeight;
-    private BernoulliModule module;
+    private BernoulliApplication application;
     RectangularTank tank;
     Valve rightValve;
     Valve bottomValve;
@@ -39,13 +39,13 @@ public class WaterTower extends SimpleObservable implements PumpListener {
     private double leakVolumeSpeed = .0005;
     private ArrayList pressureListeners = new ArrayList();
 
-    public WaterTower( double x, double y, double width, double height, double groundHeight, BernoulliModule module ) {
+    public WaterTower( double x, double y, double width, double height, double groundHeight, BernoulliApplication application ) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.groundHeight = groundHeight;
-        this.module = module;
+        this.application = application;
         tank = new RectangularTank( x, y, width, height );
         valveHeight = .6;
         valveWidth = .6;
@@ -73,7 +73,7 @@ public class WaterTower extends SimpleObservable implements PumpListener {
     }
 
     private void stepInTime( double dt ) {
-        if( rightValve.isOpen() && tank.getWaterVolume() > 0 && module.isGravity() ) {
+        if( rightValve.isOpen() && tank.getWaterVolume() > 0 && application.isGravity() ) {
             //try to leak out.
             double volume = tank.getWaterVolume();
             double newVolume = volume - leakVolumeSpeed * dt;
@@ -85,7 +85,7 @@ public class WaterTower extends SimpleObservable implements PumpListener {
             tank.setWaterVolume( newVolume );
             double radius = Math.sqrt( dVolume / Math.PI );
             createLeakedDrop( radius );
-            module.getRepaintManager().update();
+            application.getRepaintManager().update();
             updateObservers();
 //            tank.updateObservers();
         }
@@ -99,7 +99,7 @@ public class WaterTower extends SimpleObservable implements PumpListener {
         double vy = 0;
         double dropX = rightValve.getX() + rightValve.getWidth() * 1.0;
         Drop drop = new Drop( dropX, rightValve.getY() - valveHeight * .75, radius, vx, vy );
-        module.addDrop( drop );
+        application.addDrop( drop );
     }
 
     public double getGroundHeight() {

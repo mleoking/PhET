@@ -49,7 +49,7 @@ import java.util.ArrayList;
  * Time: 12:46:01 AM
  * Copyright (c) Aug 19, 2003 by Sam Reid
  */
-public class BernoulliModule extends Module {
+public class BernoulliApplication extends Module {
     private static final String VERSION = "0.00.01";
     private int backgroundGraphicLevel = 0;
     int vesselGraphicLevel = 50;
@@ -85,11 +85,11 @@ public class BernoulliModule extends Module {
     private static JFrame clockControlFrame;
 
 
-    public BernoulliModule( DefaultClock dc ) {
+    public BernoulliApplication( DefaultClock dc ) {
         this( "Water Distribution System", dc );
     }
 
-    protected BernoulliModule( String name, DefaultClock dc ) {
+    protected BernoulliApplication( String name, DefaultClock dc ) {
         super( name );
         super.setModel( new BaseModel() );
         super.setApparatusPanel( new ApparatusPanel() );
@@ -407,7 +407,7 @@ public class BernoulliModule extends Module {
         defaultClock = new DefaultClock( clock, new IdentityTimeConverter() );
 
         FakeClock fc = new FakeClock();
-        final BernoulliModule module = new BernoulliModule( defaultClock );
+        final BernoulliApplication application = new BernoulliApplication( defaultClock );
         final PipeModule pipeModule = new PipeModule( defaultClock );
         final FirefighterModule firefighterModule = new FirefighterModule( defaultClock );
         String title = "Bernoulli's Fountain (" + VERSION + ")";
@@ -419,7 +419,7 @@ public class BernoulliModule extends Module {
                 frame.setSize( dim.width - 100, dim.height - 100 );
                 frame.setExtendedState( JFrame.MAXIMIZED_BOTH );
             }
-        } ), new Module[]{module,
+        } ), new Module[]{application,
                 pipeModule,
                 firefighterModule},
              fc );
@@ -468,8 +468,8 @@ public class BernoulliModule extends Module {
 
 //        module.activate( app );
         app.getApplicationView().getBasicPhetPanel().setAppControlPanel( null );
-        module.activate( app );
-        app.startApplication( module );
+        application.activate( app );
+        app.startApplication( application );
 
         defaultClock.start();
     }

@@ -1,7 +1,7 @@
 package edu.colorado.phet.bernoulli.pump;
 
 import edu.colorado.phet.bernoulli.AttachmentPoint;
-import edu.colorado.phet.bernoulli.BernoulliModule;
+import edu.colorado.phet.bernoulli.BernoulliApplication;
 import edu.colorado.phet.bernoulli.Drop;
 import edu.colorado.phet.bernoulli.common.PumpListener;
 import edu.colorado.phet.bernoulli.common.RepaintManager;
@@ -27,7 +27,7 @@ public class Pump extends ModelElement {
     RectangularTank tank;
     Piston piston;
     private RepaintManager rm;
-    private BernoulliModule module;
+    private BernoulliApplication application;
     private Random rand = new Random();
     AttachmentPoint topPoint;
     ArrayList pumpListeners = new ArrayList();
@@ -50,9 +50,9 @@ public class Pump extends ModelElement {
         return tank.getY();
     }
 
-    public Pump( RepaintManager rm, BernoulliModule module, Rectangle2D.Double bounds ) {
+    public Pump( RepaintManager rm, BernoulliApplication application, Rectangle2D.Double bounds ) {
         this.rm = rm;
-        this.module = module;
+        this.application = application;
         double tankX = bounds.getX();
         double tankHeight = bounds.getHeight();
         double tankY = bounds.getY();
@@ -92,7 +92,7 @@ public class Pump extends ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        if( bottom.isOpen() && tank.getWaterVolume() > 0 && module.isGravity() && !AutoPump.active ) {
+        if( bottom.isOpen() && tank.getWaterVolume() > 0 && application.isGravity() && !AutoPump.active ) {
             //try to leak out.
             double volume = tank.getWaterVolume();
             double newVolume = volume - .00001 * dt;
@@ -140,7 +140,7 @@ public class Pump extends ModelElement {
         double vx = rand.nextDouble() * dxSpread;
         vx -= ( dxSpread / 2 );
         Drop drop = new Drop( bottom.getX(), bottom.getY(), radius, vx, 0 );
-        module.addDrop( drop );
+        application.addDrop( drop );
     }
 
     public void createSpoutedDrop( double radius ) {
@@ -148,7 +148,7 @@ public class Pump extends ModelElement {
         double vx = rand.nextDouble() * dxSpread;
         vx -= ( dxSpread / 2 );
         Drop drop = new Drop( top.getX(), top.getY(), radius, vx, .0005 );
-        module.addDrop( drop );
+        application.addDrop( drop );
     }
 
     public boolean isPrettyMuchFullOfWater() {
