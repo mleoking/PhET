@@ -643,9 +643,10 @@
     <target name="_proguard" description="Runs ProGuard on the specified simulation to trim the output size">
         <echo message="Copying ProGuard template to ${dir.temp.project}"/>
     
+        <!-- TODO: When the proguard file is fixed, the following line of code can be deleted -->
         <copy file="${jar.project.deploy.local}" tofile="${jar.project.deploy-pro.local}" />
     
-        <!-- ProGuard is broken on the Mac and may have other problems -->
+        <!-- ProGuard is broken on the Mac and may have other problems; so for now, it's disabled: -->
         <!--
             
             <copy todir="${dir.temp.project}" overwrite="yes">
