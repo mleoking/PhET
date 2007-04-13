@@ -1,7 +1,7 @@
 package edu.colorado.phet.balloons;
 
-import phet.paint.Painter;
-import phet.phys2d.DoublePoint;
+import edu.colorado.phet.balloons.common.paint.Painter;
+import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

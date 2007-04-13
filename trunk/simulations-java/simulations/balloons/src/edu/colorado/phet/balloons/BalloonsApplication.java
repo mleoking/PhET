@@ -10,9 +10,9 @@ import edu.colorado.phet.balloons.ImageFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import phet.paint.*;
-import phet.paint.particle.ParticlePainterAdapter;
-import phet.phys2d.*;
+import edu.colorado.phet.balloons.common.paint.*;
+import edu.colorado.phet.balloons.common.paint.particle.ParticlePainterAdapter;
+import edu.colorado.phet.balloons.common.phys2d.*;
 
 import javax.swing.*;
 import java.awt.*;

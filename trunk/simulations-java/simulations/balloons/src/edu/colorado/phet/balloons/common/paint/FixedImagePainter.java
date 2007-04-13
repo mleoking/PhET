@@ -1,4 +1,4 @@
-package phet.paint;
+package edu.colorado.phet.balloons.common.paint;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

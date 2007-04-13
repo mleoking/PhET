@@ -1,6 +1,6 @@
 package edu.colorado.phet.balloons;
 
-import phet.utils.DoubleSeries;
+import edu.colorado.phet.balloons.common.utils.DoubleSeries;
 
 import java.awt.*;
 import java.util.Vector;

@@ -1,6 +1,6 @@
 package edu.colorado.phet.balloons;
 
-import phet.paint.FixedImagePainter;
+import edu.colorado.phet.balloons.common.paint.FixedImagePainter;
 
 import java.awt.image.BufferedImage;
 

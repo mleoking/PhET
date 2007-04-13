@@ -1,7 +1,7 @@
-package phet.paint.particle;
+package edu.colorado.phet.balloons.common.paint.particle;
 
-import phet.paint.Painter;
-import phet.phys2d.Particle;
+import edu.colorado.phet.balloons.common.paint.Painter;
+import edu.colorado.phet.balloons.common.phys2d.Particle;
 
 import java.awt.*;
 
