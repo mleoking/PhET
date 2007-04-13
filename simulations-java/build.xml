@@ -4,47 +4,63 @@
         use within the Ant build file. These targets do not have any 
         dependencies set and should not be invoked by end-users.
     -->
-    <property name="phet.svn.url"               value="https://phet.svn.sourceforge.net/svnroot/phet/trunk/"/>
-    <property name="phet.java-sim.url"          value="${phet.svn.url}/simulations-java/"   />
-    <property name="simulations.flash"          value="simulations-flash/"                  />
-    <property name="simulations.java"           value="simulations-java/"                   />
     
-    <property name="dir.simulations.java"       value="${basedir}/${simulations.java}"      />
-    <property name="dir.simulations.flash"      value="${basedir}/${simulations.flash}"     />
-    <property name="dir.phet.common"            value="${basedir}/common/"                  />
-    <property name="dir.build-tools"            value="${basedir}/build-tools/"             />
-    <property name="dir.contrib"                value="${basedir}/contrib/"                 />
-    <property name="dir.templates"              value="${basedir}/templates/"               />
-    <property name="dir.templates.java"         value="${dir.templates}simulation-java/"    />
+    <!--
+       
+        trunk/
+            simulations-java/
+                ant_output/
+                build-tools/
+                common/
+                contrib/
+                simulations/
+                templates/
+                
+                build.xml
+                
+        
+    -->    
     
-    <property name="dir.temp"                   value="${basedir}/ant_output/" />
-    <property name="dir.temp.junit"             value="${dir.temp}junit/"      />
-    <property name="dir.temp.projects"          value="${dir.temp}projects/"   />
+    <!-- Directory name information -->
+    <property name="dirname.simulations.java"   value="simulations-java"                                    />
+    <property name="dirname.simulations"        value="simulations"                                         />
     
-    <property name="file.name.template.jnlp"    value="webstart.jnlp"                                   />
-    <property name="file.template.jnlp"         value="${dir.templates.java}${file.name.template.jnlp}" />
-    <property name="file.template.proguard"     value="${dir.templates.java}proguard.pro"               />
+    <!-- URLs for performing checkout, update, etc. -->
+    <property name="url.svn.trunk"              value="https://phet.svn.sourceforge.net/svnroot/phet/trunk/"/>
+    <property name="url.svn.simulations-java"   value="${url.svn.trunk}/${dirname.simulations.java}/${dirname.simulations}/" />
+
+    <!-- Standard directory information -->
+    <property name="dir.simulations"            value="${basedir}/${dirname.simulations}/"                  />
+    <property name="dir.phet.common"            value="${basedir}/common/"                                  />
+    <property name="dir.build-tools"            value="${basedir}/build-tools/"                             />
+    <property name="dir.contrib"                value="${basedir}/contrib/"                                 />
+    <property name="dir.templates"              value="${basedir}/templates/"                               />
     
-    <property name="host.dev.server"            value="spot.colorado.edu" />
+    <!-- Temp directory information -->
+    <property name="dir.temp"                   value="${basedir}/ant_output/"                              />
+    <property name="dir.temp.junit"             value="${dir.temp}junit/"                                   />
+    <property name="dir.temp.projects"          value="${dir.temp}projects/"                                />
+    
+    <!-- Template files -->
+    <property name="filename.template.jnlp"     value="webstart.jnlp"                                       />
+    <property name="filename.template.proguard" value="proguard.pro"                                        />
+    <property name="file.template.jnlp"         value="${dir.templates}${filename.template.jnlp}"           />
+    <property name="file.template.proguard"     value="${dir.templates}${filename.template.proguard}"       />
+    
+    <!-- Deployment properties -->
+    <property name="host.dev.server"            value="spot.colorado.edu"                                   />
     <property name="dir.prefix.dev.server"      value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev/" />
-    <property name="url.prefix.dev.server"      value="http://www.colorado.edu/physics/phet/dev/" />
-    <property name="host.prod.server"           value="tigercat.colorado.edu" />
-    <property name="dir.prefix.prod.server"     value="/web/htdocs/phet/simulations/" />
-    <property name="url.prefix.prod.server"     value="http://phet.colorado.edu/simulations/" />
+    <property name="url.prefix.dev.server"      value="http://www.colorado.edu/physics/phet/dev/"           />
+    <property name="host.prod.server"           value="tigercat.colorado.edu"                               />
+    <property name="dir.prefix.prod.server"     value="/web/htdocs/phet/simulations/"                       />
+    <property name="url.prefix.prod.server"     value="http://phet.colorado.edu/simulations/"               />
     
-    <property name="phet.flash-sim.url"         value="${phet.svn.url}${simulations.flash}"/>
-    <property name="phet.java-sim.url"          value="${phet.svn.url}${simulations.java}" />
-    
-    <property name="jar.ant-contrib"            value="${dir.build-tools}ant-contrib/ant-contrib-1.0b3.jar"     />
-    <property name="jar.junit"                  value="${dir.build-tools}junit3.8.2/junit.jar"                  />
-    <property name="jar.maverick"               value="${dir.build-tools}maverick/lib/maverick-ant.jar"         />
-    <property name="jar.antform"                value="${dir.build-tools}antform-bin-2.0beta2/lib/antform.jar"  />
-    <property name="jar.proguard"               value="${dir.build-tools}proguard3.8/lib/proguard.jar"          />
-
-    <property name="name.classes.dir" value="classes" />
-
-    <!--  Set ant output directories.  -->
-    <property name="ant.output" value="ant_output"/>
+    <!-- Support jars -->
+    <property name="jar.ant-contrib"            value="${dir.build-tools}ant-contrib/ant-contrib-1.0b3.jar" />
+    <property name="jar.junit"                  value="${dir.build-tools}junit3.8.2/junit.jar"              />
+    <property name="jar.maverick"               value="${dir.build-tools}maverick/lib/maverick-ant.jar"     />
+    <property name="jar.antform"                value="${dir.build-tools}antform-bin-2.0beta2/lib/antform.jar"/>
+    <property name="jar.proguard"               value="${dir.build-tools}proguard3.8/lib/proguard.jar"      />
     
     <!-- Ant-Contrib tasks definition -->
     <taskdef resource="net/sf/antcontrib/antcontrib.properties">
@@ -108,7 +124,7 @@
 
         <!-- Extract the project shortname from the directory name: -->
         <propertyregex
-            property="dir.project.name"
+            property="dirname.project"
             override="true"
             input="${dir.project}"
             regexp=".*[/\\]([^/\\]+)"
@@ -116,25 +132,28 @@
             casesensitive="false" >
         </propertyregex>
         
-        <var name="dir.temp.project"              value="${dir.temp.projects}${dir.project.name}/"                  />
-        <var name="dir.project.deploy.local"      value="${dir.project}deploy/"                                     />
-        <var name="jnlp.name.project.deploy"      value="${dir.project.name}.jnlp"                                  />
-        <var name="jar.name.project.deploy"       value="${dir.project.name}.jar"                                   />
-        <var name="jar.name.project.deploy-pro"   value="${dir.project.name}-pro.jar"                               />
-        <var name="jar.project.deploy.local"      value="${dir.project.deploy.local}${jar.name.project.deploy}"     />
-        <var name="jar.project.deploy-pro.local"  value="${dir.project.deploy.local}${jar.name.project.deploy-pro}" />
-        <var name="file.project.properties"       value="${dir.project}data/${dir.project.name}/${dir.project.name}.properties" />
-        <var name="file.project.build.properties" value="${dir.project}build.properties"                            />
+        <var name="key.project.name"                value="${dirname.project}.name"                                         />
+        <var name="key.project.description"         value="${dirname.project}.description"                                  />
+        <var name="dir.temp.project"                value="${dir.temp.projects}${dirname.project}/"                         />
+        <var name="dir.project.deploy.local"        value="${dir.project}deploy/"                                           />
+        <var name="filename.project.jnlp.deploy"    value="${dirname.project}.jnlp"                                         />
+        <var name="filename.project.jar.deploy"     value="${dirname.project}.jar"                                          />
+        <var name="filename.project.jar.deploy-pro" value="${dirname.project}-pro.jar"                                      />
+        <var name="jar.project.deploy.local"        value="${dir.project.deploy.local}${filename.project.jar.deploy}"       />
+        <var name="jar.project.deploy-pro.local"    value="${dir.project.deploy.local}${filename.project.jar.deploy-pro}"   />
+        <var name="file.project.properties"         value="${dir.project}data/${dirname.project}/${dirname.project}.properties" />
+        <var name="file.project.loc.properties"     value="${dir.project}data/${dirname.project}/localization/${dirname.project}-strings.properties" />        
+        <var name="file.project.build.properties"   value="${dir.project}build.properties"                                  />
     </target>
 
     <target name="_convert-sim-name-to-project-dir" description="Converts the sim name property into a project directory" depends="_verify-sim-name-specified">
-        <var name="dir.project" value="${dir.simulations.java}${name.sim}/" />
+        <var name="dir.project" value="${dir.simulations}${name.sim}/" />
     </target>
     
     <target name="_create-sim-properties" description="Creates simulation properties" depends="_convert-sim-name-to-project-dir, _create-project-properties" />
     
     <target name="_load-project-build-properties" description="Loads the build properties for the specified project">
-        <!-- Internal task expects ${file.project.build.properties} and ${dir.project.name} to be defined -->
+        <!-- Internal task expects ${file.project.build.properties} and ${dirname.project} to be defined -->
         
         <available file="${file.project.build.properties}" property="build.properties.present"/>
         
@@ -153,18 +172,16 @@
                             <isset property="project.depends.source"/>
                             <isset property="project.depends.lib"   />
                             <isset property="project.mainclass"     />
-                            <isset property="project.name"          />
-                            <isset property="project.description"   />
                             <isset property="project.screenshot"    /> 
                         </and>
                     </not>
                     <then>
-                        <fail message="A required property was not present in the build file: project.depends.data, project.depends.source, project.depends.lib, project.mainclass, project.name, project.description, project.screenshot" />
+                        <fail message="A required property was not present in the build file: project.depends.data, project.depends.source, project.depends.lib, project.mainclass, project.screenshot" />
                     </then>
                 </if>
             </then>
             <else>
-                <fail message="The project ${dir.project.name} does not have a build.properties file." />
+                <fail message="The project ${dirname.project} does not have a build.properties file." />
             </else>
         </if>
     </target>
@@ -300,17 +317,17 @@
                                 <var name="param.depends" value="${dir.contrib}${param.depends}"/>
                             </then>
                             <else>
-                                <echo message="Looking for dependency ${param.depends} (${tmp.depends.name}) in ${dir.simulations.java}${param.depends}" />
+                                <echo message="Looking for dependency ${param.depends} (${tmp.depends.name}) in ${dir.simulations}${param.depends}" />
                                 
                                 <!-- Dependency not stored in contrib directory. Look into simulations area: -->
-                                <available file="${dir.simulations.java}${param.depends}" property="tmp.dependency.found" />
+                                <available file="${dir.simulations}${param.depends}" property="tmp.dependency.found" />
                                 
                                 <if>
                                     <isset property="tmp.dependency.found"/>
                                     <then>
                                         <echo message="Dependency ${param.depends} found in simulations-java directory" />
                                         
-                                        <var name="param.depends" value="${dir.simulations.java}${param.depends}"/>
+                                        <var name="param.depends" value="${dir.simulations}${param.depends}"/>
                                     </then>
                                     <else>
                                         <fail message="Dependency ${param.depends} not found anywhere." />
@@ -649,7 +666,7 @@
     </target>
     
     <target name="test" description="Runs all unit tests for the specified simulation" depends="_sim-build-depends, _build-project">
-        <echo message="Running all unit tests for ${dir.project.name}" />
+        <echo message="Running all unit tests for ${dirname.project}" />
 
         <mkdir dir="${dir.temp.junit}" />
 
@@ -744,7 +761,12 @@
     <target name="_load-sim-properties" description="Loads simulation-specific properties" >
         <echo message="Loading simulation properties in ${file.project.properties}" />
         
-        <property file="${file.project.properties}" prefix="sim." />
+        <property file="${file.project.properties}"     prefix="sim."   />
+        <property file="${file.project.loc.properties}"                 />
+        
+        <!-- Store localized name & description into project.name and project.description -->
+        <propertycopy name="project.name"           from="${key.project.name}"          override="true" />
+        <propertycopy name="project.description"    from="${key.project.description}"   override="true" />
     </target>
     
     <target name="_read-username-and-password">
@@ -775,29 +797,9 @@
            valid HTML 
         -->
         
-        <propertyregex
-            property="project.description"
-            override="true"
-            input="${project.description}"
-            regexp="&amp;(?![a-z]+;)"
-            replace="&amp;amp;"
-            casesensitive="false" />
-    
-        <propertyregex
-            property="project.description"
-            override="true"
-            input="${project.description}"
-            regexp="&lt;"
-            replace="&amp;lt;"
-            casesensitive="false" />
-    
-        <propertyregex
-            property="project.description"
-            override="true"
-            input="${project.description}"
-            regexp="&gt;"
-            replace="&amp;gt;"
-            casesensitive="false" />
+        <propertyregex property="project.description" override="true" input="${project.description}" regexp="&amp;(?![a-z]+;)" replace="&amp;amp;" />
+        <propertyregex property="project.description" override="true" input="${project.description}" regexp="&lt;" replace="&amp;lt;" />
+        <propertyregex property="project.description" override="true" input="${project.description}" regexp="&gt;" replace="&amp;gt;" />
         
         <echo message="Cleaned up project description: ${project.description}" />
     </target>
@@ -806,10 +808,10 @@
         <!--
             Internal task expects the following to be defined:
                 ${project.name}
-                ${deploy.url}
-                ${jnlp.name.project.deploy}
                 ${project.description}
-                ${jar.name.project.deploy-pro}
+                ${deploy.url}
+                ${filename.project.jnlp.deploy}
+                ${filename.project.jar.deploy-pro}
                 ${project.screenshot}
                 
             Template contains these macros that need replacing:
@@ -829,21 +831,21 @@
             <fileset file="${file.template.jnlp}"/>
             
             <filterset>           
-                <filter token="PROJECT.NAME"        value="${project.name}"                 />
-                <filter token="PROJECT.DEPLOY.PATH" value="${deploy.url}"                   />
-                <filter token="JNLP.NAME"           value="${jnlp.name.project.deploy}"     />
-                <filter token="PROJECT.DESCRIPTION" value="${project.description}"          />
-                <filter token="PROJECT.JAR"         value="${jar.name.project.deploy-pro}"  />
-                <filter token="PROJECT.SCREENSHOT"  value="${project.screenshot}"           />
+                <filter token="PROJECT.NAME"        value="${project.name}"                     />
+                <filter token="PROJECT.DEPLOY.PATH" value="${deploy.url}"                       />
+                <filter token="JNLP.NAME"           value="${filename.project.jnlp.deploy}"     />
+                <filter token="PROJECT.DESCRIPTION" value="${project.description}"              />
+                <filter token="PROJECT.JAR"         value="${filename.project.jar.deploy-pro}"  />
+                <filter token="PROJECT.SCREENSHOT"  value="${project.screenshot}"               />
             </filterset>
         </copy>
         
-        <echo message="Renaming ${dir.project.deploy.local}${file.name.template.jnlp} to ${dir.project.deploy.local}${jnlp.name.project.deploy}" />
+        <echo message="Renaming ${dir.project.deploy.local}${filename.template.jnlp} to ${dir.project.deploy.local}${filename.project.jnlp.deploy}" />
         
         <!-- Rename JNLP file from webstart.jnlp to [shortname].jnlp -->
-        <move file="${dir.project.deploy.local}${file.name.template.jnlp}" tofile="${dir.project.deploy.local}${jnlp.name.project.deploy}" />
+        <move file="${dir.project.deploy.local}${filename.template.jnlp}" tofile="${dir.project.deploy.local}${filename.project.jnlp.deploy}" />
         
-        <echo message="Successfully created JNLP ${dir.project.deploy.local}${jnlp.name.project.deploy}" />
+        <echo message="Successfully created JNLP ${dir.project.deploy.local}${filename.project.jnlp.deploy}" />
     </target>
     
     <target name="_deploy-with-dynamic-jnlp" description="Deploys the simulation along with a dynamically created JNLP" depends="_read-username-and-password, _create-jnlp">
@@ -873,24 +875,24 @@
     </target>
     
     <target name="deploy-dev" description="Deploys a development version of the specified simulation" depends="_sim-deploy-depends, _inc-sim-dev-version-number, _set-sim-revision-number, build-proguard, _load-sim-properties">
-        <echo message="Deploying development version of ${dir.project.name}" />
+        <echo message="Deploying development version of ${dirname.project}" />
         
         <antcall target="_deploy-with-dynamic-jnlp" inheritAll="true">
-            <param name="deploy.host"           value="${host.dev.server}" />
-            <param name="deploy.dir"            value="${dir.prefix.dev.server}${dir.project.name}/${sim.version.major}.${sim.version.minor}.${sim.version.dev}" />
-            <param name="deploy.url"            value="${url.prefix.dev.server}${dir.project.name}/${sim.version.major}.${sim.version.minor}.${sim.version.dev}" />
+            <param name="deploy.host" value="${host.dev.server}" />
+            <param name="deploy.dir"  value="${dir.prefix.dev.server}${dirname.project}/${sim.version.major}.${sim.version.minor}.${sim.version.dev}" />
+            <param name="deploy.url"  value="${url.prefix.dev.server}${dirname.project}/${sim.version.major}.${sim.version.minor}.${sim.version.dev}" />
             <param name="deploy.filter.include" value="**/*.*"  />
             <param name="deploy.filter.exclude" value="**/.svn" />
         </antcall>
     </target>
     
     <target name="deploy-prod" description="Deploys a production version of the specified simulation" depends="_sim-deploy-depends, deploy-dev, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _set-sim-revision-number, build-proguard, _load-sim-properties">
-        <echo message="Deploying production version of ${dir.project.name}" />
+        <echo message="Deploying production version of ${dirname.project}" />
         
         <antcall target="_deploy-with-dynamic-jnlp" inheritAll="true">
             <param name="deploy.host"           value="${host.prod.server}" />
-            <param name="deploy.dir"            value="${dir.prefix.prod.server}${dir.project.name}/${sim.version.major}.${sim.version.minor}" />
-            <param name="deploy.url"            value="${url.prefix.prod.server}${dir.project.name}/${sim.version.major}.${sim.version.minor}" />
+            <param name="deploy.dir"            value="${dir.prefix.prod.server}${dirname.project}/${sim.version.major}.${sim.version.minor}" />
+            <param name="deploy.url"            value="${url.prefix.prod.server}${dirname.project}/${sim.version.major}.${sim.version.minor}" />
             <param name="deploy.filter.include" value="**/*.*"  />
             <param name="deploy.filter.exclude" value="**/.svn" />
         </antcall>
@@ -899,7 +901,7 @@
     <target name="build-all" description="Builds all PhET simulations">
         <foreach param="project.dir" target="build">
             <path>
-                <dirset dir="${dir.simulations.java}">
+                <dirset dir="${dir.simulations}">
                     <include name="*"/>
                 </dirset>
             </path>
@@ -909,7 +911,7 @@
     <target name="test-all" description="Runs all unit tests in all PhET simulations">
         <foreach param="project.dir" target="test">
             <path>
-                <dirset dir="${dir.simulations.java}">
+                <dirset dir="${dir.simulations}">
                     <include name="*"/>
                 </dirset>
             </path>
@@ -923,33 +925,49 @@
         
         <!-- Create standard directories -->
         <mkdir dir="${dir.project}data" />
-        <mkdir dir="${dir.project}data/${dir.project.name}" />
+        <mkdir dir="${dir.project}data/${dirname.project}" />
         
         <mkdir dir="${dir.project}src"  />
-        <mkdir dir="${dir.project}src/edu/colorado/phet/${dir.project.name}"  />        
+        <mkdir dir="${dir.project}src/edu/colorado/phet/${dirname.project}"  />        
         
         <!-- Load all property files, in case user is modifying existing simulation: -->
         <property file="${file.project.build.properties}" />
         <property file="${file.project.properties}"       />
+        <property file="${file.project.loc.properties}"   />
         
-        <antform title="Create New Simulation" focus="OK">
-            <label>Please specify the build properties of the simulation ${dir.project.name}.</label>
-            <textProperty          label="Full name: "            property="project.name"           required="true" tooltip="The full name of the project"/>
-            <multilineTextProperty label="Description: "          property="project.description"    required="true" tooltip="A user-readable description of the project"/>
-            <multilineTextProperty label="Source Dependencies: "  property="project.depends.source" tooltip="The source code dependencies of the project, specified as directories separated by colons or commas"/>
-            <multilineTextProperty label="Library Dependencies: " property="project.depends.lib"    tooltip="The library dependencies of the project, specified as JARs or directories separated by colons or commas"/>
-            <multilineTextProperty label="Data Dependencies: "    property="project.depends.data"   tooltip="The data dependencies of the project, specified as files or directories separated by colons or commas"/>
-            <textProperty          label="Mainclass: "            property="project.mainclass"      tooltip="The main class of the project"  />
-            <fileSelectionProperty label="Screenshot: "           property="project.screenshot"     tooltip="A screenshot of the simulation" />
-            <numberProperty        label="Major Version: "        property="version.major"          tooltip="The major version of the simulation" min="0" max="50" step="1"/>
-            <numberProperty        label="Minor Version: "        property="version.minor"          tooltip="The minor version of the simulation" min="0" max="50" step="1"/>            
-            <numberProperty        label="Dev Version: "          property="version.dev"            tooltip="The dev version of the simulation"   min="0" max="50" step="1"/>
+        <antform title="Describe Simulation" focus="OK">
+            <label>Please specify the properties of the simulation ${dirname.project}.</label>
+            
+            <textProperty          label="Full name: "            property="${key.project.name}"           
+                                   required="true"                tooltip="The full name of the project"/>
+                                   
+            <multilineTextProperty label="Description: "          property="${key.project.description}"    
+                                   required="true"                tooltip="A user-readable description of the project"/>
+                                   
+            <multilineTextProperty label="Source Dependencies: "  property="project.depends.source" 
+                                   tooltip="The source code dependencies of the project, specified as directories separated by colons or commas"/>
+                                   
+            <multilineTextProperty label="Library Dependencies: " property="project.depends.lib"    
+                                   tooltip="The library dependencies of the project, specified as JARs or directories separated by colons or commas"/>
+                                   
+            <multilineTextProperty label="Data Dependencies: "    property="project.depends.data"   
+                                   tooltip="The data dependencies of the project, specified as files or directories separated by colons or commas"/>
+                                   
+            <textProperty          label="Mainclass: "            property="project.mainclass"      
+                                   tooltip="The main class of the project"  />
+                                   
+            <fileSelectionProperty label="Screenshot: "           property="project.screenshot"     
+                                   tooltip="A screenshot of the simulation" />
+                                   
+            <numberProperty        label="Major Version: "        property="version.major"          
+                                   tooltip="The major version of the simulation" min="0" max="50" step="1"/>
+                                   
+            <numberProperty        label="Minor Version: "        property="version.minor"          
+                                   tooltip="The minor version of the simulation" min="0" max="50" step="1"/>            
+                                   
+            <numberProperty        label="Dev Version: "          property="version.dev"            
+                                   tooltip="The dev version of the simulation"   min="0" max="50" step="1"/>
         </antform>
-        
-        <!-- Cleanup version numbers (truncate) -->
-        <propertyregex property="version.major" override="true" input="${version.major}" regexp="([^.]+)\..+" select="\1" casesensitive="false" />
-        <propertyregex property="version.minor" override="true" input="${version.minor}" regexp="([^.]+)\..+" select="\1" casesensitive="false" />
-        <propertyregex property="version.dev"   override="true" input="${version.dev}"   regexp="([^.]+)\..+" select="\1" casesensitive="false" />
         
         <!-- Copy screenshot into deployment directory, if it exists -->
         <available file="${project.screenshot}" property="project.screenshot.exists" type="file"/>
@@ -973,8 +991,6 @@
             
         <!-- Store all build properties in build properties file: -->
         <propertyfile file="${file.project.build.properties}">
-            <entry key="project.name"               value="${project.name}"             />
-            <entry key="project.description"        value="${project.description}"      />
             <entry key="project.depends.source"     value="${project.depends.source}"   />
             <entry key="project.depends.lib"        value="${project.depends.lib}"      />
             <entry key="project.depends.data"       value="${project.depends.data}"     />
@@ -983,12 +999,32 @@
         </propertyfile>
         
         <!-- Store all sim properties in sim properties file: -->
-        <propertyfile file="${file.project.properties}">
-            <entry key="sim.id"        value="${dir.project.name}" />
-            <entry key="version.major" value="${version.major}"    />
-            <entry key="version.minor" value="${version.minor}"    />
-            <entry key="version.dev"   value="${version.dev}"      />
-        </propertyfile>
+            <!-- Cleanup version numbers (truncate) -->
+            <propertyregex property="version.major" override="true" input="${version.major}" regexp="([^.]+)\..+" select="\1" />
+            <propertyregex property="version.minor" override="true" input="${version.minor}" regexp="([^.]+)\..+" select="\1" />
+            <propertyregex property="version.dev"   override="true" input="${version.dev}"   regexp="([^.]+)\..+" select="\1" />
+                
+            <propertyfile file="${file.project.properties}">
+                <entry key="sim.id"        value="${dirname.project}" />
+                <entry key="version.major" value="${version.major}"    />
+                <entry key="version.minor" value="${version.minor}"    />
+                <entry key="version.dev"   value="${version.dev}"      />
+            </propertyfile>
+        
+        <!-- Store localized name & description in localized properties file -->
+            <!-- Have to double dereference property -->
+            <propertycopy name="temp.project.name"  from="${key.project.name}"          override="true" />
+            <propertycopy name="temp.project.desc"  from="${key.project.description}"   override="true" />
+            
+            <!-- Cleanup property name & description (valid HTML) -->
+            <propertyregex property="temp.project.name" override="true" input="${temp.project.name}" regexp="&amp;(?!amp;)" replace="&amp;amp;" />
+            <propertyregex property="temp.project.desc" override="true" input="${temp.project.desc}" regexp="&amp;(?!amp;)" replace="&amp;amp;" />
+        
+            <!-- Store in localization file -->
+            <propertyfile file="${file.project.loc.properties}">
+                <entry key="${key.project.name}"               value="${temp.project.name}" />
+                <entry key="${key.project.description}"        value="${temp.project.desc}" />
+            </propertyfile>        
     </target>
     
     <!-- Edit is just an alias for create, since that task handles both functions -->
@@ -997,8 +1033,8 @@
     <target name="checkout" description="Checks out the specified simulation" depends="_create-sim-properties">
         <exec executable="svn">
             <arg value="co"/>
-            <arg value="${phet.java-sim.url}${dir.project.name}"/>
-            <arg value="${dir.simulations.java}"/>
+            <arg value="${url.svn.simulations-java}${dirname.project}"/>
+            <arg value="${dir.simulations}"/>
         </exec>
     </target>
     
