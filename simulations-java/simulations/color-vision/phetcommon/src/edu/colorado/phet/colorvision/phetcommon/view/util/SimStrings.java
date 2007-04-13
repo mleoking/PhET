@@ -28,7 +28,7 @@ public class SimStrings {
     private static Locale localizedLocale;
 
     static {
-        SimStrings.setStrings( "localization/CommonStrings" );
+        SimStrings.setStrings( "colorvision/localization/phetcommon-strings" );
     }
     
     
