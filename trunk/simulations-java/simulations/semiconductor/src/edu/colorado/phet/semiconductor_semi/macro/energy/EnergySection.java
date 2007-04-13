@@ -8,7 +8,7 @@ import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelView
 import edu.colorado.phet.semiconductor_semi.common.EnergySpaceRegion;
 import edu.colorado.phet.semiconductor_semi.macro.BucketSection;
 import edu.colorado.phet.semiconductor_semi.macro.EntryPoint;
-import edu.colorado.phet.semiconductor_semi.macro.SemiconductorModule;
+import edu.colorado.phet.semiconductor_semi.macro.SemiconductorApplication;
 import edu.colorado.phet.semiconductor_semi.macro.circuit.CircuitSection;
 import edu.colorado.phet.semiconductor_semi.macro.circuit.ConductionListener;
 import edu.colorado.phet.semiconductor_semi.macro.circuit.MacroCircuitGraphic;
@@ -70,7 +70,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         this.battery = battery;
         this.speed = speed;
         this.bounds = bounds;
-        this.plusImage = SemiconductorModule.imageLoader.loadImage( "images/particle-red-plus.gif" );
+        this.plusImage = SemiconductorApplication.imageLoader.loadImage( "images/particle-red-plus.gif" );
         particleImage = MacroCircuitGraphic.getParticleImage();
         setupTwoRegions();
         PhetVector textLocation = new PhetVector( .65, 1 );

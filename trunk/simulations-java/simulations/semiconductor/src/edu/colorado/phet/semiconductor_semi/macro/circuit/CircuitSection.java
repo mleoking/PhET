@@ -6,7 +6,7 @@ import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common_semiconductor.view.util.SimStrings;
-import edu.colorado.phet.semiconductor_semi.macro.SemiconductorModule;
+import edu.colorado.phet.semiconductor_semi.macro.SemiconductorApplication;
 import edu.colorado.phet.semiconductor_semi.macro.circuit.battery.BatterySpinner;
 import edu.colorado.phet.semiconductor_semi.macro.circuit.particles.WireParticle;
 import edu.colorado.phet.semiconductor_semi.macro.circuit.particles.WireParticleGraphic;
@@ -36,7 +36,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
 
     MacroCircuit circuit;
     MacroCircuitGraphic circuitGraphic;
-    private SemiconductorModule module;
+    private SemiconductorApplication application;
     private ModelViewTransform2D transform;
     ArrayList particles = new ArrayList();
     ArrayList particleGraphics = new ArrayList();
@@ -48,8 +48,8 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
     private Shape dopantRect;
     private double macroSpeed = 0;
 
-    public CircuitSection( SemiconductorModule module, ModelViewTransform2D transform, double x, double y, double width, double height, int numDopantRegions ) throws IOException {
-        this.module = module;
+    public CircuitSection( SemiconductorApplication application, ModelViewTransform2D transform, double x, double y, double width, double height, int numDopantRegions ) throws IOException {
+        this.application = application;
         this.transform = transform;
         double resistorThickness = 1;
         circuit = new MacroCircuit( x, y, width, height, resistorThickness );
@@ -238,7 +238,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
         if( closest != null ) {
             closest.setDopantType( dopant.getType() );
 //            updateCircuitListeners();
-            module.removeDopantGraphic( dopant );
+            application.removeDopantGraphic( dopant );
             jb.setEnabled( true );
             updateDopantChangeListeners();
         }
