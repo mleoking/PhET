@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
  */
 
 public class BarrierCheckBox extends JCheckBox {
-    public BarrierCheckBox( final Force1DModule module ) {
+    public BarrierCheckBox( final Force1DApplication module ) {
         super( SimStrings.get( "BarrierCheckBox.barriers" ), true );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

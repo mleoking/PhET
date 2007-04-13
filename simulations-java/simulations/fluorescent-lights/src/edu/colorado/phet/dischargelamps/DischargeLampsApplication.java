@@ -34,13 +34,13 @@ import java.awt.event.ActionListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class DischargeLampsApp extends PhetApplication {
+public class DischargeLampsApplication extends PhetApplication {
     static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
     /**
      * @param args
      */
-    public DischargeLampsApp( String[] args ) {
+    public DischargeLampsApplication( String[] args ) {
         super( args, SimStrings.getInstance().getString( "DischargeLampsApplication.title" ),
                SimStrings.getInstance().getString( "DischargeLampsApplication.title" ),
                DischargeLampsConfig.version,
@@ -106,10 +106,10 @@ public class DischargeLampsApp extends PhetApplication {
                 SimStrings.getInstance().init( args, DischargeLampsConfig.localizedStringsPath );
                 SimStrings.getInstance().addStrings( LaserConfig.localizedStringsPath );
 
-                DischargeLampsApp app = new DischargeLampsApp( args );
+                DischargeLampsApplication application = new DischargeLampsApplication( args );
 
-                app.getPhetFrame().setResizable( false );
-                app.startApplication();
+                application.getPhetFrame().setResizable( false );
+                application.startApplication();
             }
         } );
     }

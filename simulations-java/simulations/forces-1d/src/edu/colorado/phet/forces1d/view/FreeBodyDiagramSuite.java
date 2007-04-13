@@ -8,7 +8,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 import edu.colorado.phet.common_force1d.view.util.SimStrings;
-import edu.colorado.phet.forces1d.Force1DModule;
+import edu.colorado.phet.forces1d.Force1DApplication;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -27,7 +27,7 @@ import java.io.IOException;
 public class FreeBodyDiagramSuite {
     private FreeBodyDiagramPanel fbdPanel;
     private JCheckBox checkBox;
-    private Force1DModule module;
+    private Force1DApplication module;
     private JDialog dialog;
     private JPanel dialogContentPane;
     private ControlPanel controlPanel;
@@ -36,7 +36,7 @@ public class FreeBodyDiagramSuite {
     public PhetGraphic buttonPanelGraphic;
     public ApparatusPanel2 fbdApparatusPanel;
 
-    public FreeBodyDiagramSuite( final Force1DModule module ) {
+    public FreeBodyDiagramSuite( final Force1DApplication module ) {
         this.module = module;
         fbdPanel = new FreeBodyDiagramPanel( module );
         checkBox = new JCheckBox( SimStrings.get( "FreeBodyDiagramSuite.freeBodyDiagram" ), true );

@@ -1,3 +1,6 @@
+
+
+
 <ul>
 <li> Add limited region fission, with a containment box
 <li> When a neutron hits a U239 nucleus it should just pass through, not be absorbed
@@ -13,3 +16,34 @@ was called.
 <li>fold CubicUtil into MathUtil
 <li>do away with DecayProducts class???
 </ul>
+
+
+        <ul>
+- tie clock on Alpha Decay panel to simulation clock, not system clock
+<li>shade the interior of the potential profile
+<li>make profile be in first quadrant
+<li>delete DecayProducts from CVS and add AlphaDecayProducts
+<li>make a Vector2D.Double class
+<li>complete kinematics for Body
+<li>fold CubicUtil into MathUtil
+</ul>
+
+
+        - Double daughters in reactor
+
+
+- Frame doesn't always come up completely until you resize it
+- Performance is very much frame-size dependent
+- Single fission panel should work differently: Nucleus should jump to higher level instantaneously. The necking should
+vibrate without the CM moving
+- Fission products should have same momentum, not speed
+- "Slow Motion" button
+- Make NucleusGraphic a PhetImageGraphic for performance?
+- percent fisioned text field isn't right while nuclei are being added
+- kabooms need to be on a layer above the containment vessel
+- listeners and leaveSystem() implementations are spread around in odd places
+- is more than one kaboom being made per fission?
+
+
+
+11-30-06 - Added mushroom cloud

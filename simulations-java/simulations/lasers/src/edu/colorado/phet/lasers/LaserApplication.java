@@ -37,7 +37,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class LaserSimulation extends PhetApplication {
+public class LaserApplication extends PhetApplication {
 
     static {
 //        PhetLookAndFeel.setLookAndFeel();
@@ -54,7 +54,7 @@ public class LaserSimulation extends PhetApplication {
 
     private JDialog photoDlg;
 
-    public LaserSimulation( String[] args ) {
+    public LaserApplication( String[] args ) {
         super( args,
                SimStrings.getInstance().getString( "LasersApplication.title" ),
                SimStrings.getInstance().getString( "LasersApplication.description" ),
@@ -165,8 +165,8 @@ public class LaserSimulation extends PhetApplication {
 
         setLAF( arch );
 
-        LaserSimulation simulation = new LaserSimulation( args );
-        simulation.startApplication();
+        LaserApplication application = new LaserApplication( args );
+        application.startApplication();
 
         SwingUtilities.updateComponentTreeUI( singleAtomModule.getModulePanel() );
         SwingUtilities.updateComponentTreeUI( multipleAtomModule.getModulePanel() );

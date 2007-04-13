@@ -3,7 +3,7 @@ package edu.colorado.phet.forces1d.model;
 
 import edu.colorado.phet.common_force1d.model.ModelElement;
 import edu.colorado.phet.common_force1d.util.EventChannel;
-import edu.colorado.phet.forces1d.Force1DModule;
+import edu.colorado.phet.forces1d.Force1DApplication;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 
 import java.util.ArrayList;
@@ -47,10 +47,10 @@ public class Force1DModel implements ModelElement {
     private ArrayList boundaryConditionListeners = new ArrayList();
 
     private ArrayList imageSeries = new ArrayList();
-    private Force1DModule module;
+    private Force1DApplication module;
     private boolean friction = true;
 
-    public Force1DModel( Force1DModule module ) {
+    public Force1DModel( Force1DApplication module ) {
         this.module = module;
         block = new Block( this );
         open = new BoundaryCondition.Open( this );

@@ -8,7 +8,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 import edu.colorado.phet.common_force1d.view.util.SimStrings;
-import edu.colorado.phet.forces1d.Force1DModule;
+import edu.colorado.phet.forces1d.Force1DApplication;
 import edu.colorado.phet.forces1d.model.BoundaryCondition;
 
 import java.awt.*;
@@ -39,11 +39,11 @@ public class WalkwayGraphic extends CompositePhetGraphic {
     private PhetImageGraphic leftWallGraphic;
     private PhetImageGraphic rightWallGraphic;
 
-    public WalkwayGraphic( ApparatusPanel panel, Force1DModule module, int numTickMarks, Function.LinearFunction transform ) throws IOException {
+    public WalkwayGraphic( ApparatusPanel panel, Force1DApplication module, int numTickMarks, Function.LinearFunction transform ) throws IOException {
         this( panel, module, numTickMarks, -10, 10, transform );
     }
 
-    public WalkwayGraphic( ApparatusPanel panel, final Force1DModule module, int numTickMarks, double treex, double housex, Function.LinearFunction transform ) throws IOException {
+    public WalkwayGraphic( ApparatusPanel panel, final Force1DApplication module, int numTickMarks, double treex, double housex, Function.LinearFunction transform ) throws IOException {
         super( panel );
         this.treex = treex;
         this.housex = housex;

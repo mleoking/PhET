@@ -2,7 +2,7 @@
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
-import edu.colorado.phet.forces1d.Force1DModule;
+import edu.colorado.phet.forces1d.Force1DApplication;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
 
 import java.awt.*;
@@ -14,10 +14,10 @@ import java.awt.*;
  * Copyright (c) Nov 27, 2004 by Sam Reid
  */
 public class Force1DPlotDeviceView implements PlotDeviceView {
-    private Force1DModule module;
+    private Force1DApplication module;
     private Force1DPanel force1DPanel;
 
-    public Force1DPlotDeviceView( Force1DModule module, Force1DPanel force1DPanel ) {
+    public Force1DPlotDeviceView( Force1DApplication module, Force1DPanel force1DPanel ) {
         this.module = module;
         this.force1DPanel = force1DPanel;
     }

@@ -10,7 +10,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
 import edu.colorado.phet.common_force1d.view.util.SimStrings;
-import edu.colorado.phet.forces1d.Force1DModule;
+import edu.colorado.phet.forces1d.Force1DApplication;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
@@ -30,7 +30,7 @@ import java.awt.geom.Point2D;
  */
 
 public class FreeBodyDiagram extends CompositePhetGraphic {
-    private Force1DModule module;
+    private Force1DApplication module;
     private PhetGraphic background;
     private AxesGraphic axes;
     private Rectangle rect;
@@ -50,7 +50,7 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
     private boolean userClicked = false;
 
 
-    public FreeBodyDiagram( JPanel component, Force1DModule module ) {
+    public FreeBodyDiagram( JPanel component, Force1DApplication module ) {
         super( component );
         this.model = module.getForceModel();
         this.module = module;
