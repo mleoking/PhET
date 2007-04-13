@@ -1,9 +1,9 @@
 package edu.colorado.phet.bernoulli;
 
 import edu.colorado.phet.common.bernoulli.model.ModelElement;
-import edu.colorado.phet.coreadditions.bernoulli.math.PhetVector;
-import edu.colorado.phet.coreadditions.bernoulli.physics2d.Force;
-import edu.colorado.phet.coreadditions.bernoulli.physics2d.Particle2d;
+import edu.colorado.phet.common.bernoulli.bernoulli.math.PhetVector;
+import edu.colorado.phet.common.bernoulli.bernoulli.physics2d.Force;
+import edu.colorado.phet.common.bernoulli.bernoulli.physics2d.Particle2d;
 
 import java.awt.geom.Point2D;
 

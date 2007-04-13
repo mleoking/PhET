@@ -2,8 +2,8 @@ package edu.colorado.phet.bernoulli.meter;
 
 import edu.colorado.phet.bernoulli.BernoulliModel;
 import edu.colorado.phet.bernoulli.Vessel;
-import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObservable;
-import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObserver;
+import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObservable;
+import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
 
 import java.awt.geom.Point2D;
 

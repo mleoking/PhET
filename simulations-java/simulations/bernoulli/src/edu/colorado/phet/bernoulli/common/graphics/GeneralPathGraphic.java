@@ -7,8 +7,8 @@
 package edu.colorado.phet.bernoulli.common.graphics;
 
 import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.TransformListener;
+import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;

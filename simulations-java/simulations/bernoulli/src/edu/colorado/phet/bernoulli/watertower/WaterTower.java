@@ -8,8 +8,8 @@ import edu.colorado.phet.bernoulli.common.PumpListener;
 import edu.colorado.phet.bernoulli.pump.Pump;
 import edu.colorado.phet.bernoulli.valves.Valve;
 import edu.colorado.phet.common.bernoulli.model.ModelElement;
-import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObservable;
-import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObserver;
+import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObservable;
+import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
 
 import java.util.ArrayList;
 import java.util.Random;

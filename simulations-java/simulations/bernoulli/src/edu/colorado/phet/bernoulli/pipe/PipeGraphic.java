@@ -8,10 +8,10 @@ import edu.colorado.phet.common.bernoulli.view.CompositeGraphic;
 import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.bernoulli.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.CompositeTransformListener;
-import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.TransformListener;
-import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObserver;
+import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.CompositeTransformListener;
+import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
+import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

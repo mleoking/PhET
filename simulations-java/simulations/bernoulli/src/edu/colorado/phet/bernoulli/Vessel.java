@@ -1,6 +1,6 @@
 package edu.colorado.phet.bernoulli;
 
-import edu.colorado.phet.coreadditions.bernoulli.simpleobserver.SimpleObservable;
+import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObservable;
 
 /**
  * Created by IntelliJ IDEA.

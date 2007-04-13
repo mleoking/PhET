@@ -3,8 +3,8 @@ package edu.colorado.phet.bernoulli;
 import edu.colorado.phet.bernoulli.common.RectangleImageGraphic2;
 import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.bernoulli.graphics.transform.TransformListener;
+import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
