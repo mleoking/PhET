@@ -1,3 +1,4 @@
+package edu.colorado.phet.persistence;
 
 import edu.colorado.phet.persistence.PersistenceStrategy;
 import edu.colorado.phet.persistence.RemotePersistence;
@@ -6,7 +7,7 @@ import java.util.GregorianCalendar;
 import java.util.Calendar;
 
 /**
- * Class: RemoteTest
+ * Class: edu.colorado.phet.persistence.RemoteTest
  * Package: PACKAGE_NAME
  * Author: Another Guy
  * Date: Feb 5, 2004
