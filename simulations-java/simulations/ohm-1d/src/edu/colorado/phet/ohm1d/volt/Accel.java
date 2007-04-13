@@ -1,9 +1,9 @@
 package edu.colorado.phet.ohm1d.volt;
 
 import edu.colorado.phet.ohm1d.gui.VoltageListener;
-import phet_ohm1d.wire1d.WireParticle;
+import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WireParticle;
 
-public class Accel implements phet_ohm1d.wire1d.Propagator1d, VoltageListener {
+public class Accel implements edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.Propagator1d, VoltageListener {
     double g;
     double vmax;
     double accelScale;

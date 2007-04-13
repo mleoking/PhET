@@ -1,6 +1,6 @@
 package edu.colorado.phet.ohm1d.gui;
 
-import phet_ohm1d.math.functions.Transform;
+import edu.colorado.phet.ohm1d.phet_ohm1d.math.functions.Transform;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

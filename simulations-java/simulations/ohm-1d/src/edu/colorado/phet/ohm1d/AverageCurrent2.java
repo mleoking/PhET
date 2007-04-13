@@ -4,11 +4,11 @@ import edu.colorado.phet.ohm1d.gui.CoreCountListener;
 import edu.colorado.phet.ohm1d.gui.VoltageListener;
 import edu.colorado.phet.ohm1d.volt.CurrentListener;
 import edu.colorado.phet.ohm1d.volt.WireRegion;
-import phet_ohm1d.paint.gauges.IGauge;
-import phet_ohm1d.phys2d.Law;
-import phet_ohm1d.phys2d.System2D;
-import phet_ohm1d.utils.DoubleSeries;
-import phet_ohm1d.wire1d.WireParticle;
+import edu.colorado.phet.ohm1d.phet_ohm1d.paint.gauges.IGauge;
+import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.Law;
+import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.System2D;
+import edu.colorado.phet.ohm1d.phet_ohm1d.utils.DoubleSeries;
+import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WireParticle;
 
 import java.util.ArrayList;
 import java.util.Vector;

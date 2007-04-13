@@ -4,8 +4,8 @@ import edu.colorado.phet.ohm1d.Electron;
 import edu.colorado.phet.ohm1d.oscillator2d.Core;
 import edu.colorado.phet.ohm1d.oscillator2d.Oscillate;
 import edu.colorado.phet.ohm1d.oscillator2d.OscillateFactory;
-import phet_ohm1d.phys2d.Law;
-import phet_ohm1d.phys2d.System2D;
+import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.Law;
+import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.System2D;
 
 public class DefaultCollisionEvent implements CollisionEvent, Law {
     double distThreshold;
