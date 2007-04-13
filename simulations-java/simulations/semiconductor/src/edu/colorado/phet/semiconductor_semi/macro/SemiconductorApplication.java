@@ -60,7 +60,7 @@ import java.util.ArrayList;
  * Time: 7:11:36 PM
  * Copyright (c) Feb 7, 2004 by Sam Reid
  */
-public class SemiconductorModule extends Module implements Graphic {
+public class SemiconductorApplication extends Module implements Graphic {
     // Localization
     public static final String localizedStringsPath = "localization/SemiconductorsStrings";
     private static final String VERSION = "1.00";
@@ -76,7 +76,7 @@ public class SemiconductorModule extends Module implements Graphic {
     private MagnetGraphic magnetGraphic;
 
 
-    public SemiconductorModule( SwingTimerClock clock ) throws IOException {
+    public SemiconductorApplication( SwingTimerClock clock ) throws IOException {
         super( SimStrings.get( "ModuleTitle.SemiconductorModule" ) );
         transform = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 10, 10 ), new Rectangle( 0, 0, 1, 1 ) );
 
@@ -286,10 +286,10 @@ public class SemiconductorModule extends Module implements Graphic {
                                                               SimStrings.get( "SemiconductorApplication.version" ), fs );
         ad.setName( "semiconductor" );
         SwingTimerClock clock = new SwingTimerClock( 1, 45, true );
-        SemiconductorModule module = new SemiconductorModule( clock );
-        final PhetApplication pa = new PhetApplication( ad, module, clock );
-        pa.startApplication( module );
-        enableAspectRatio( pa, module );
+        SemiconductorApplication application = new SemiconductorApplication( clock );
+        final PhetApplication pa = new PhetApplication( ad, application, clock );
+        pa.startApplication( application );
+        enableAspectRatio( pa, application );
         pa.getApplicationView().getPhetFrame().addComponentListener( new ComponentListener() {
             public void componentHidden( ComponentEvent e ) {
             }

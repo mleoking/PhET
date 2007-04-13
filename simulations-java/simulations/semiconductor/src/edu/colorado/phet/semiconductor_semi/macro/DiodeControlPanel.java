@@ -18,20 +18,20 @@ public class DiodeControlPanel extends JPanel {
     ButtonGroup bg = new ButtonGroup();
     private JPanel pan = new JPanel();
     private JCheckBox gateCheckBox;
-    private SemiconductorModule module;
+    private SemiconductorApplication application;
 
-    public DiodeControlPanel( final SemiconductorModule module ) {
-        this.module = module;
+    public DiodeControlPanel( final SemiconductorApplication application ) {
+        this.application = application;
         pan.setLayout( new BoxLayout( pan, BoxLayout.Y_AXIS ) );
 
         addJButton( SimStrings.get( "DiodeControlPanel.OneButton" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.setSingleSection();
+                application.setSingleSection();
             }
         }, false );
         addJButton( SimStrings.get( "DiodeControlPanel.TwoButton" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.setDoubleSection();
+                application.setDoubleSection();
             }
         }, true );
 //        addJButton( SimStrings.get( "DiodeControlPanel.ThreeButton" ), new ActionListener() {
@@ -58,9 +58,9 @@ public class DiodeControlPanel extends JPanel {
     private void updateGate() {
 //        SemiconductorModule module = ...;
 //        JCheckBox gateCheckBox = ...;
-        module.getMagnetGraphic().setVisible( gateCheckBox.isSelected() );
+        application.getMagnetGraphic().setVisible( gateCheckBox.isSelected() );
         if( !gateCheckBox.isSelected() ) {
-            module.releaseGate();
+            application.releaseGate();
         }
     }
 

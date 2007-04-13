@@ -1,7 +1,7 @@
 package edu.colorado.phet.semiconductor_semi.macro.doping;
 
 import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
-import edu.colorado.phet.semiconductor_semi.macro.SemiconductorModule;
+import edu.colorado.phet.semiconductor_semi.macro.SemiconductorApplication;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -24,8 +24,8 @@ public class DopantSlotGraphic implements Graphic {
     public DopantSlotGraphic( Shape shape, DopantType type ) throws IOException {
         this.shape = shape;
 //        this.name = name;
-        green = new TexturePaint( SemiconductorModule.imageLoader.loadImage( "images/particle-green-med.gif" ), new Rectangle2D.Double( 0, 0, 15, 15 ) );
-        red = new TexturePaint( SemiconductorModule.imageLoader.loadImage( "images/particle-red-med.gif" ), new Rectangle2D.Double( 0, 0, 15, 15 ) );
+        green = new TexturePaint( SemiconductorApplication.imageLoader.loadImage( "images/particle-green-med.gif" ), new Rectangle2D.Double( 0, 0, 15, 15 ) );
+        red = new TexturePaint( SemiconductorApplication.imageLoader.loadImage( "images/particle-red-med.gif" ), new Rectangle2D.Double( 0, 0, 15, 15 ) );
     }
 
     public void setDopantType( DopantType type ) {
