@@ -45,7 +45,7 @@ public class ApplicationModel {
         this.version = version;
         this.frameSetup = frameSetup;
         this.frame = new PhetFrame( this );
-        SimStrings.setStrings( "localization/CommonStrings" );
+        SimStrings.setStrings( "color-vision/localization/phetcommon-strings" );
     }
 
     public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module[] m, AbstractClock clock ) {

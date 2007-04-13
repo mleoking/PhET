@@ -62,7 +62,7 @@ public class TestPhetGraphics {
             }
         } );
 
-        final PhetImageGraphic imageGraphic = new PhetImageGraphic( panel, ImageLoader.loadBufferedImage( "images/Phet-logo-48x48.gif" ) );
+        final PhetImageGraphic imageGraphic = new PhetImageGraphic( panel, ImageLoader.loadBufferedImage( "color-vision/images/Phet-logo-48x48.gif" ) );
         imageGraphic.setVisible( true );
         DefaultInteractiveGraphic imageInteraction = new DefaultInteractiveGraphic( imageGraphic );
         imageInteraction.addCursorHandBehavior();

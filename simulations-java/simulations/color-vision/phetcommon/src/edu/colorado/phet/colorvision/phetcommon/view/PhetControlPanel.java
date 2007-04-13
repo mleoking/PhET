@@ -42,7 +42,7 @@ public class PhetControlPanel extends JPanel {
         this.setLayout( new BorderLayout() );
 
         // Logo at top of panel
-        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
+        URL resource = getClass().getClassLoader().getResource( "color-vision/images/Phet-Flatirons-logo-3-small.gif" );
         imageIcon = new ImageIcon( resource );
         titleLabel = ( new JLabel( imageIcon ) );
         JPanel p = new JPanel();

@@ -55,7 +55,7 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
         String stepString = SimStrings.get( "Common.ClockControlPanel.Step" );
         
         // Button icons
-        String root = "images/icons/java/media/";
+        String root = "color-vision/images/icons/java/media/";
         BufferedImage playU = cil.loadImage( root + "Play24.gif" );
         BufferedImage pauseU = cil.loadImage( root + "Pause24.gif" );
         BufferedImage stepU = cil.loadImage( root + "StepForward24.gif" );
