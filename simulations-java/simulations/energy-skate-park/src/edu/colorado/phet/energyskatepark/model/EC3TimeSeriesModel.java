@@ -3,7 +3,7 @@ package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.timeseries.TimeSeriesModel;
+import edu.colorado.phet.energyskatepark.timeseries.TimeSeriesModel;
 
 /**
  * User: Sam Reid

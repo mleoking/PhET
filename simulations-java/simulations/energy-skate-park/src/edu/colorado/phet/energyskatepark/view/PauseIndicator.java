@@ -5,7 +5,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.piccolo.nodes.ShadowPText;
 import edu.colorado.phet.piccolo.util.PImageFactory;
-import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
+import edu.colorado.phet.energyskatepark.timeseries.TimeSeriesModelListenerAdapter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
