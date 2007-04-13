@@ -1,8 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.common.examples;
 
-import edu.colorado.phet.common.view.plaf.AnimFactoryLookAndFeel;
 import edu.colorado.phet.common.view.plaf.PlafUtil;
+import edu.colorado.phet.common.view.AnimFactoryLookAndFeel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
@@ -80,7 +80,7 @@ public class TestComponents {
         contentPane.add( spinnerPanel );
 
         frame.setSize( 600, 600 );
-        GraphicsUtil.centerFrameOnScreen( frame );
+        GraphicsUtil.centerWindowOnScreen( frame );
 //        PlafUtil.applyPlayful();
 
 
