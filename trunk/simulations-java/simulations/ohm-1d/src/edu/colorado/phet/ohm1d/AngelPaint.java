@@ -9,11 +9,11 @@ package edu.colorado.phet.ohm1d;
 
 import edu.colorado.phet.ohm1d.gui.VoltageListener;
 import edu.colorado.phet.ohm1d.volt.WireRegion;
-import phet_ohm1d.paint.Painter;
-import phet_ohm1d.phys2d.DoublePoint;
-import phet_ohm1d.wire1d.WireParticle;
-import phet_ohm1d.wire1d.WirePatch;
-import phet_ohm1d.wire1d.WireSystem;
+import edu.colorado.phet.ohm1d.phet_ohm1d.paint.Painter;
+import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.DoublePoint;
+import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WireParticle;
+import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WirePatch;
+import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WireSystem;
 
 import javax.swing.*;
 import java.awt.*;

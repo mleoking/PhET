@@ -1,8 +1,8 @@
 package edu.colorado.phet.ohm1d.volt;
 
-import phet_ohm1d.paint.Painter;
-import phet_ohm1d.phys2d.Law;
-import phet_ohm1d.phys2d.System2D;
+import edu.colorado.phet.ohm1d.phet_ohm1d.paint.Painter;
+import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.Law;
+import edu.colorado.phet.ohm1d.phet_ohm1d.phys2d.System2D;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

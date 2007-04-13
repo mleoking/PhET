@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.ohm1d.volt;
 
-import phet_ohm1d.utils.DoubleSeries;
+import edu.colorado.phet.ohm1d.phet_ohm1d.utils.DoubleSeries;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

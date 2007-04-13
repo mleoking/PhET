@@ -1,8 +1,8 @@
 package edu.colorado.phet.ohm1d.volt;
 
 import edu.colorado.phet.ohm1d.Electron;
-import phet_ohm1d.wire1d.Propagator1d;
-import phet_ohm1d.wire1d.WireParticle;
+import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.Propagator1d;
+import edu.colorado.phet.ohm1d.phet_ohm1d.wire1d.WireParticle;
 
 public class Crash implements Propagator1d {
     public void propagate( WireParticle wp, double dt ) {
