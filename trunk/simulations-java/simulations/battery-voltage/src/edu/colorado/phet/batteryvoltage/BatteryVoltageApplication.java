@@ -17,7 +17,7 @@ import java.awt.*;
 import java.util.Locale;
 import java.util.Random;
 
-public class BatteryApplet extends JApplet {
+public class BatteryVoltageApplication extends JApplet {
     private SystemRunnerControl timeControls;
 
     public static boolean applet = true;
@@ -25,7 +25,7 @@ public class BatteryApplet extends JApplet {
     // Localization
     public static final String localizedStringsPath = "localization/BatteryVoltageStrings";
 
-    public BatteryApplet() {
+    public BatteryVoltageApplication() {
         if ( applet ) {
             String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
@@ -72,10 +72,10 @@ public class BatteryApplet extends JApplet {
     public static void main( String[] args ) {
         SimStrings.init( args, localizedStringsPath );
         
-        BatteryApplet.applet = false;
+        applet = false;
 
         JFrame f = new JFrame();
-        f.setContentPane( new BatteryApplet() );
+        f.setContentPane( new BatteryVoltageApplication() );
         f.setSize( new Dimension( 850, 525 ) );
         f.setVisible( true );
 //        f.addWindowListener( new ExitOnClose() );
