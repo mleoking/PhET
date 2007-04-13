@@ -20,28 +20,28 @@ public class MacroControlPanel extends JPanel {
     private JCheckBox lightOn;
     private JButton onePhoton;
 
-    public MacroControlPanel( final MacroModule macroModule ) {
+    public MacroControlPanel( final ConductivityApplication conductivityApplication ) {
         JRadioButton jradiobutton = new JRadioButton( SimStrings.get( "MacroControlPanel.MetalRadioButton" ) );
         JRadioButton jradiobutton1 = new JRadioButton( SimStrings.get( "MacroControlPanel.PlasticRadioButton" ) );
         JRadioButton jradiobutton2 = new JRadioButton( SimStrings.get( "MacroControlPanel.PhotoconductorRadioButton" ) );
         jradiobutton.addActionListener( new ActionListener() {
 
             public void actionPerformed( ActionEvent actionevent ) {
-                macroModule.setConductor();
+                conductivityApplication.setConductor();
             }
 
         } );
         jradiobutton1.addActionListener( new ActionListener() {
 
             public void actionPerformed( ActionEvent actionevent ) {
-                macroModule.setInsulator();
+                conductivityApplication.setInsulator();
             }
 
         } );
         jradiobutton2.addActionListener( new ActionListener() {
 
             public void actionPerformed( ActionEvent actionevent ) {
-                macroModule.setPhotoconductor();
+                conductivityApplication.setPhotoconductor();
             }
 
         } );
@@ -64,7 +64,7 @@ public class MacroControlPanel extends JPanel {
         lightOn.addChangeListener( new ChangeListener() {
 
             public void stateChanged( ChangeEvent changeevent ) {
-                macroModule.setFlashlightOn( lightOn.isSelected() );
+                conductivityApplication.setFlashlightOn( lightOn.isSelected() );
             }
 
         } );
@@ -73,7 +73,7 @@ public class MacroControlPanel extends JPanel {
         onePhoton.addActionListener( new ActionListener() {
 
             public void actionPerformed( ActionEvent actionevent ) {
-                macroModule.firePhoton();
+                conductivityApplication.firePhoton();
             }
 
         } );

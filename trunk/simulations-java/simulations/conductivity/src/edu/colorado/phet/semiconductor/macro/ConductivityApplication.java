@@ -48,7 +48,7 @@ import java.util.Hashtable;
 // Referenced classes of package edu.colorado.phet.semiconductor.macro:
 //            MacroControlPanel, MacroSystem, EnergyTextGraphic, BandSetGraphic
 
-public class MacroModule extends Module {
+public class ConductivityApplication extends Module {
     // Localization
 
     public static final String localizedStringsPath = "localization/ConductivityStrings";
@@ -58,7 +58,7 @@ public class MacroModule extends Module {
         return clock;
     }
 
-    public MacroModule( AbstractClock abstractclock )
+    public ConductivityApplication( AbstractClock abstractclock )
             throws IOException {
         super( SimStrings.get( "ModuleTitle.SemiconductorsModule" ) );
         this.clock = abstractclock;
@@ -253,7 +253,7 @@ public class MacroModule extends Module {
         SimStrings.init( args, localizedStringsPath );
 
         SwingTimerClock swingtimerclock = new SwingTimerClock( 1.0D, 30, true );
-        final MacroModule module = new MacroModule( swingtimerclock );
+        final ConductivityApplication module = new ConductivityApplication( swingtimerclock );
         ApplicationDescriptor ad = new ApplicationDescriptor(
                 SimStrings.get( "ConductivityApplication.title" ) + " " + version,
                 SimStrings.get( "ConductivityApplication.description" ),
