@@ -4,6 +4,7 @@ A list of Piccolo changes/enhancements that would be useful to PhET
 - nodes that are invisible should not be pickable (currently handled by PhetPNode)
 
 - PNode setters should test to see if the value has really changed (some support in PhetPNode)
+    -in many applications, this leads to performance improvements
 
 - don't throw exception if you call removeChild with a node that is not a child
 
