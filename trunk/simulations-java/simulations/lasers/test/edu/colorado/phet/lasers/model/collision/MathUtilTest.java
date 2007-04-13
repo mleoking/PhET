@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Mar 26, 2003
  */
-package edu.colorado.phet.util;
+package edu.colorado.phet.lasers.model.collision;
 
 import junit.framework.TestCase;
 
