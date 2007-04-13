@@ -9,7 +9,7 @@
  *      $Name$
  *      $Revision$
  */
-package edu.colorado.phet.lasers.model.collision;
+package edu.colorado.phet.lasers.test;
 
 import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.collision.Wall;

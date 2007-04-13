@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Mar 26, 2003
  */
-package edu.colorado.phet.lasers.model.collision;
+package edu.colorado.phet.lasers.test;
 
 import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.collision.SphereSphereContactDetector;
