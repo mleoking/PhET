@@ -10,13 +10,17 @@
         <mkdir dir="${phetbuild-classes}"/>
         <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes}" classpath="${proguard.jar}"/>
     </target>
-    
+
     <target name="declare_phet-build-task" depends="compile_phet-build">
         <taskdef name="phet-build"
                  classname="${phetbuild-classname}"
                  classpath="${phetbuild-classes};${proguard.jar}"/>
     </target>
 
+    <target name="build_AllSimApp" depends="declare_phet-build-task">
+        <phet-build project="all-sims"/>
+    </target>
+    
     <target name="build_all" depends="declare_phet-build-task">
         <echo message="Starting build..."/>
         <phet-build project="balloons"/>
