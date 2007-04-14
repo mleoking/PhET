@@ -3,8 +3,8 @@
 <project name="PhET" default="build_all" basedir="../../">
     <property name="phetbuild-classes" location="ant_output/phetbuild/classes"/>
     <property name="proguard.jar" location="build-tools/proguard3.8/lib/proguard.jar"/>
-    <property name="phetbuild-src" location="build-tools/phet-build/src">
-    <property name="phetbuild-classname" location="edu.colorado.phet.build.PhetBuildTask">
+    <property name="phetbuild-src" location="build-tools/phet-build/src"/>
+    <property name="phetbuild-classname" value="edu.colorado.phet.build.PhetBuildTask"/>
 
     <target name="compile_phet-build">
         <mkdir dir="${phetbuild-classes}"/>
