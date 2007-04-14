@@ -20,7 +20,7 @@ public class PhetBuildTask extends Task {
 
     // The method executing the task
     public void execute() throws BuildException {
-        output( "Executing: " + projectName );
+        output( "Building: " + projectName );
         try {
             buildSimulation();
         }
@@ -30,12 +30,11 @@ public class PhetBuildTask extends Task {
     }
 
     private void buildSimulation() throws IOException {
-        output( "in build project" );
         PhetProject phetProject = new PhetProject( new File( getProject().getBaseDir(), "simulations" ), projectName );
-        System.out.println( "phetProject = " + phetProject );
-        System.out.println( "phetProject.getSource() = " + phetProject.getSource() );
-//        System.out.println( "phetProject.getExpandedSourcePath() = " + phetProject.getExpandedSourcePath() );
-        System.out.println( "phetProject.getAllDependencies( ) = [" + phetProject.getAllDependencies().length + " total dependencies]" + Arrays.asList( phetProject.getAllDependencies() ) );
+//        System.out.println( "phetProject = " + phetProject );
+//        System.out.println( "phetProject.getSource() = " + phetProject.getSource() );
+////        System.out.println( "phetProject.getExpandedSourcePath() = " + phetProject.getExpandedSourcePath() );
+//        System.out.println( "phetProject.getAllDependencies( ) = [" + phetProject.getAllDependencies().length + " total dependencies]" + Arrays.asList( phetProject.getAllDependencies() ) );
 
         phetProject.buildAll();
     }
@@ -381,12 +380,14 @@ public class PhetBuildTask extends Task {
         }
 
         public void compile( File[] src, File[] classpath, File dst ) {
+            output( "compiling "+projectName);
             Javac javac = new Javac();
             javac.setSource( "1.4" );
             javac.setSrcdir( new Path( getProject(), toString( src ) ) );
             javac.setDestdir( getClassesDirectory() );
             javac.setClasspath( new Path( getProject(), toString( classpath ) ) );
             runTask( javac );
+            output( "Finished compiling "+projectName+".");
         }
 
         private File getAntOutputDir() {
@@ -401,7 +402,7 @@ public class PhetBuildTask extends Task {
     }
 
     public void output( String string ) {
-        System.out.println( string );
+//        System.out.println( string );
         echo( string );
     }
 
