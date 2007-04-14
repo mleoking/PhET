@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Jul 15, 2004
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.coreadditions.emf;
 
 import edu.colorado.phet.common_1200.application.Module;
 import edu.colorado.phet.common_1200.view.help.HelpPanel;

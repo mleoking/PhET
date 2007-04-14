@@ -12,9 +12,8 @@ import edu.colorado.phet.common_1200.model.clock.SwingTimerClock;
 import edu.colorado.phet.common_1200.view.PhetFrame;
 import edu.colorado.phet.common_1200.view.util.FrameSetup;
 import edu.colorado.phet.common_1200.view.util.SimStrings;
-import edu.colorado.phet.coreadditions.ClientPhetLookAndFeel;
-import edu.colorado.phet.coreadditions.LecturePhetLookAndFeel;
-import edu.colorado.phet.coreadditions.PhetLookAndFeel;
+import edu.colorado.phet.coreadditions.emf.LecturePhetLookAndFeel;
+import edu.colorado.phet.coreadditions.emf.PhetLookAndFeel;
 import edu.colorado.phet.waves.view.WaveMediumGraphic;
 
 import javax.swing.*;
@@ -39,7 +38,7 @@ public class RadioWavesApplication {
         SimStrings.setStrings( EmfConfig.localizedStringsPath );//todo: add String[] args to this 
 
         // Log a few message at different severity levels
-        PhetLookAndFeel lookAndFeel = new ClientPhetLookAndFeel();
+        PhetLookAndFeel lookAndFeel = new edu.colorado.phet.coreadditions.emf.ClientPhetLookAndFeel();
         if( args.length > 0 ) {
             for( int i = 0; i < args.length; i++ ) {
                 if( args[i].toLowerCase().equals( "-p" ) ) {

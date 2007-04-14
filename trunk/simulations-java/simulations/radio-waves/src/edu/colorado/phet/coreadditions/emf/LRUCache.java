@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Nov 14, 2003
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.coreadditions.emf;
 
 import java.util.HashMap;
 import java.util.TreeMap;
