@@ -1,0 +1,18 @@
+@ECHO OFF
+set OLD_DIR=%CD%
+
+cd /d %~dp0
+cd ..
+cd ..
+set ROOT_DIR=%CD%
+set ANT_HOME=%ROOT_DIR%\build-tools\apache-ant-1.7.0
+set ANT_OPTS=-Xmx640m
+set PATH=%ANT_HOME%\bin;%PATH%
+echo current dir is %CD%
+cd %ROOT_DIR%\build-tools\phet-build
+
+if "%JAVA_HOME%"=="" (echo The environment variable JAVA_HOME must be set to the location of a valid JDK.) else (
+    if "%1"=="" (ant.bat) else (if "%2"=="" (ant.bat %1) else (ant.bat %1 -Dname.sim=%2))
+)
+
+cd "%OLD_DIR%
