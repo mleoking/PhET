@@ -59,10 +59,8 @@ public class PhetFrame extends JFrame {
         this.application = application;
         this.frameSetup = frameSetup;
 
+        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         this.addWindowListener( new WindowAdapter() {
-            public void windowClosing( WindowEvent e ) {
-                System.exit( 0 );
-            }
 
             // Pause the clock if the simulation window is iconified.
             public void windowIconified( WindowEvent e ) {
@@ -111,10 +109,8 @@ public class PhetFrame extends JFrame {
         super( application.getApplicationModel().getWindowTitle() );
         this.application = application;
         final ApplicationModel model = application.getApplicationModel();
+        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         this.addWindowListener( new WindowAdapter() {
-            public void windowClosing( WindowEvent e ) {
-                System.exit( 0 );
-            }
 
             // Pause the clock if the simulation window is iconified.
             public void windowIconified( WindowEvent e ) {
