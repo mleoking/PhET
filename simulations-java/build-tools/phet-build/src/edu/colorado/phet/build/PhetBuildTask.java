@@ -58,9 +58,17 @@ public class PhetBuildTask extends Task {
             return properties.getProperty( "project.depends.data" );
         }
 
-        public String getFullLibPath() {
+        public String getExpandedLibPath() {
+            return expandPath( getLib() );
+        }
+
+        public String getExpandedSourcePath() {
+            return expandPath( getSource() );
+        }
+
+        private String expandPath( String lib ) {
             String libPath = "";
-            StringTokenizer stringTokenizer = new StringTokenizer( getLib(), ": " );
+            StringTokenizer stringTokenizer = new StringTokenizer( lib, ": " );
             while( stringTokenizer.hasMoreTokens() ) {
                 String token = stringTokenizer.nextToken();
                 File path = searchPath( token );
@@ -70,20 +78,6 @@ public class PhetBuildTask extends Task {
                 }
             }
             return libPath;
-        }
-
-        public String getFullSourcePath() {
-            String sourcePath = "";
-            StringTokenizer stringTokenizer = new StringTokenizer( getSource(), ": " );
-            while( stringTokenizer.hasMoreTokens() ) {
-                String token = stringTokenizer.nextToken();
-                File path = searchPath( token );
-                sourcePath = sourcePath + " " + path.getAbsolutePath();
-                if( stringTokenizer.hasMoreTokens() ) {
-                    sourcePath += " : ";
-                }
-            }
-            return sourcePath;
         }
 
         private File searchPath( String token ) {
@@ -105,11 +99,11 @@ public class PhetBuildTask extends Task {
         public void build() {
             Javac javac = new Javac();
             javac.setSource( "1.4" );
-            javac.setSrcdir( new Path( getProject(), getFullSourcePath() ) );
+            javac.setSrcdir( new Path( getProject(), getExpandedSourcePath() ) );
             File destDir = new File( "C:/temp-phet-ant_output" );
             destDir.mkdirs();
             javac.setDestdir( destDir );
-            javac.setClasspath( new Path( getProject(), getFullLibPath() ) );
+            javac.setClasspath( new Path( getProject(), getExpandedLibPath() ) );
             System.out.println( "System.getProperty( \"JAVA_HOME\") = " + System.getProperty( "JAVA_HOME" ) );
             runTask( javac );
         }
@@ -121,7 +115,7 @@ public class PhetBuildTask extends Task {
         PhetProject phetProject = new PhetProject( simulationsDir, projectName );
         System.out.println( "phetProject = " + phetProject );
         System.out.println( "phetProject.getSource() = " + phetProject.getSource() );
-        System.out.println( "phetProject.getFullSourcePath() = " + phetProject.getFullSourcePath() );
+        System.out.println( "phetProject.getExpandedSourcePath() = " + phetProject.getExpandedSourcePath() );
 
         phetProject.build();
     }
@@ -151,6 +145,9 @@ public class PhetBuildTask extends Task {
 
     /*
    http://www-128.ibm.com/developerworks/websphere/library/techarticles/0502_gawor/0502_gawor.html
+
+   See here for a discussion of how to have an ant script use this task immediately after building it:
+   http://ant.apache.org/manual/develop.html
     */
     public static void main( String[] args ) {
         File buildFile = new File( "build.xml" );
