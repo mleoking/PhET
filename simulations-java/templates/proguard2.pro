@@ -3,7 +3,6 @@
 -dontusemixedcaseclassnames
 -verbose
 -ignorewarnings
-#-dontshrink
 
 -keep class * extends javax.swing.plaf.ComponentUI {
     public static javax.swing.plaf.ComponentUI createUI(javax.swing.JComponent);
