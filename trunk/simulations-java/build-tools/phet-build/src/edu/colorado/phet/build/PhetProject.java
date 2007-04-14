@@ -1,14 +1,17 @@
 package edu.colorado.phet.build;
 
+import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Javac;
 import org.apache.tools.ant.taskdefs.Manifest;
 import org.apache.tools.ant.taskdefs.ManifestException;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
-import proguard.ant.ProGuardTask;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
@@ -23,6 +26,10 @@ public class PhetProject {
     private Properties properties;
     private String name;
     private PhetBuildTask phetBuildTask;
+
+    public PhetProject( PhetBuildTask phetBuildTask, File projectRoot ) throws IOException {
+        this( phetBuildTask, projectRoot.getParentFile(), projectRoot.getName() );
+    }
 
     public PhetProject( PhetBuildTask phetBuildTask, File parentDir, String name ) throws IOException {
         this.phetBuildTask = phetBuildTask;
@@ -43,8 +50,12 @@ public class PhetProject {
         }
     }
 
-    public PhetProject( PhetBuildTask phetBuildTask, File projectRoot ) throws IOException {
-        this( phetBuildTask, projectRoot.getParentFile(), projectRoot.getName() );
+    public File getBaseDir() {
+        return phetBuildTask.getBaseDir();
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String toString() {
@@ -123,7 +134,7 @@ public class PhetProject {
     /**
      * Returns the immediate dependencies for this PhetProject
      *
-     * @return
+     * @return the immediate dependencies declared for this project
      */
     public PhetProject[] getDependencies() {
         ArrayList projects = new ArrayList();
@@ -166,11 +177,11 @@ public class PhetProject {
     }
 
     private File searchPath( String token ) {
-        File commonProject = new File( phetBuildTask.getBaseDir(), "common/" + token );
+        File commonProject = new File( getBaseDir(), "common/" + token );
         if( commonProject.exists() && isProject( commonProject ) ) {
             return commonProject;
         }
-        File contribPath = new File( phetBuildTask.getBaseDir(), "contrib/" + token );
+        File contribPath = new File( getBaseDir(), "contrib/" + token );
         if( contribPath.exists() ) {
             return contribPath;
         }
@@ -178,93 +189,15 @@ public class PhetProject {
         if( path.exists() ) {
             return path;
         }
-        File commonPathNonProject = new File( phetBuildTask.getBaseDir(), "common/" + token );
+        File commonPathNonProject = new File( getBaseDir(), "common/" + token );
         if( commonPathNonProject.exists() ) {
             return commonPathNonProject;
         }
-        File simProject = new File( phetBuildTask.getBaseDir(), "simulations/" + token );
+        File simProject = new File( getBaseDir(), "simulations/" + token );
         if( simProject.exists() && isProject( simProject ) ) {
             return simProject;
         }
         throw new RuntimeException( "No path found for token=" + token + ", in project=" + this );
-    }
-
-    public void buildAll( boolean shrink ) {
-        compile( getAllSourceRoots(), getAllJarFiles(), getClassesDirectory() );
-
-        jar();
-
-        File proguardFile = createProguardFile( shrink );
-        ProGuardTask proGuardTask = new ProGuardTask();
-        proGuardTask.setConfiguration( proguardFile );
-        phetBuildTask.runTask( proGuardTask );
-//            ProGuard.main( new String[]{"@" + proguardFile.getAbsolutePath()} );//causes jvm exit
-    }
-
-    public File[] append( File[] list, File file ) {
-        File[] f = new File[list.length + 1];
-        System.arraycopy( list, 0, f, 0, list.length );
-        f[list.length] = file;
-        return f;
-    }
-
-    public File[] prepend( File[] list, File file ) {
-        File[] f = new File[list.length + 1];
-        System.arraycopy( list, 0, f, 1, list.length );
-        f[0] = file;
-        return f;
-    }
-
-    public File createProguardFile( boolean shrink ) {
-
-        try {
-            File template = new File( phetBuildTask.getBaseDir(), "templates/proguard2.pro" );
-            File output = new File( getAntOutputDir(), name + ".pro" );
-            BufferedReader bufferedReader = new BufferedReader( new FileReader( template ) );
-            BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( output ) );
-            bufferedWriter.write( "# Proguard configuration file for " + name + "." );
-            bufferedWriter.newLine();
-            bufferedWriter.write( "# Automatically generated" );
-            bufferedWriter.newLine();
-
-            File[] libs = prepend( getAllJarFiles(), getJarFile() );
-            for( int j = 0; j < libs.length; j++ ) {
-                bufferedWriter.write( "-injars '" + libs[j].getAbsolutePath() + "'" );
-                bufferedWriter.newLine();
-            }
-            File outJar = new File( getAntOutputDir(), "jars/" + name + "_pro.jar" );
-            bufferedWriter.write( "-outjars '" + outJar.getAbsolutePath() + "'" );
-            bufferedWriter.newLine();
-            bufferedWriter.write( "-libraryjars <java.home>/lib/rt.jar" );//todo: handle mac library
-            bufferedWriter.newLine();
-            bufferedWriter.write( "-keepclasseswithmembers public class " + getMainClass() + "{\n" +
-                                  "    public static void main(java.lang.String[]);\n" +
-                                  "}" );
-            bufferedWriter.newLine();
-
-
-            bufferedWriter.write( "# shrink = " + shrink );
-            bufferedWriter.newLine();
-            if( !shrink ) {
-                bufferedWriter.write( "-dontshrink" );
-                bufferedWriter.newLine();
-            }
-
-            String line = bufferedReader.readLine();
-            while( line != null ) {
-                bufferedWriter.write( line );
-                bufferedWriter.newLine();
-                line = bufferedReader.readLine();
-            }
-
-            bufferedWriter.close();
-            bufferedReader.close();
-            return output;
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
     }
 
     private File[] getAllSourceRoots() {
@@ -300,7 +233,6 @@ public class PhetProject {
         return (File[])jarFiles.toArray( new File[0] );
     }
 
-
     public File[] getAllJarFiles() {
         PhetProject[] all = getAllProjects();
         ArrayList jarFiles = new ArrayList();
@@ -325,7 +257,6 @@ public class PhetProject {
     }
 
     public void jar() {
-
         Jar jar = new Jar();
         File[] dataDirectories = getAllDataDirectories();
         for( int i = 0; i < dataDirectories.length; i++ ) {
@@ -346,15 +277,14 @@ public class PhetProject {
         catch( ManifestException e ) {
             e.printStackTrace();
         }
-
-        phetBuildTask.runTask( jar );
+        runTask( jar );
     }
 
-    private String getMainClass() {
+    public String getMainClass() {
         return properties.getProperty( "project.mainclass" );
     }
 
-    private File getJarFile() {
+    public File getJarFile() {
         File file = new File( getAntOutputDir(), "jars/" + name + ".jar" );
         file.getParentFile().mkdirs();
         return file;
@@ -369,23 +299,33 @@ public class PhetProject {
     }
 
     public void compile( File[] src, File[] classpath, File dst ) {
-        phetBuildTask.output( "compiling " + name );
+        output( "compiling " + name );
         Javac javac = new Javac();
         javac.setSource( "1.4" );
         javac.setSrcdir( new Path( phetBuildTask.getProject(), toString( src ) ) );
         javac.setDestdir( getClassesDirectory() );
         javac.setClasspath( new Path( phetBuildTask.getProject(), toString( classpath ) ) );
-        phetBuildTask.runTask( javac );
-        phetBuildTask.output( "Finished compiling " + name + "." );
+        runTask( javac );
+        output( "Finished compiling " + name + "." );
     }
 
-    private File getAntOutputDir() {
+    private void output( String s ) {
+        phetBuildTask.echo( s );
+    }
+
+    public File getAntOutputDir() {
         File destDir = new File( phetBuildTask.getProject().getBaseDir(), "ant_output/projects/" + name );
         destDir.mkdirs();
         return destDir;
     }
 
-    public void build() {
-        compile( getSrcFiles(), getJarFiles(), new File( phetBuildTask.getProject().getBaseDir(), "ant_output/projects/" + name ) );
+    public void runTask( Task task ) {
+        phetBuildTask.runTask( task );
+    }
+
+    public void buildAll( boolean shrink ) {
+        compile( getAllSourceRoots(), getAllJarFiles(), getClassesDirectory() );
+        jar();
+        new PhetProguard().proguard( this, shrink );
     }
 }

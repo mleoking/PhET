@@ -15,7 +15,7 @@ public class PhetBuildTask extends Task {
 
     // The method executing the task
     public void execute() throws BuildException {
-        output( "Building: " + projectName );
+        echo( "Building: " + projectName );
         try {
             buildSimulation();
         }
@@ -26,17 +26,7 @@ public class PhetBuildTask extends Task {
 
     private void buildSimulation() throws IOException {
         PhetProject phetProject = new PhetProject( this, new File( getProject().getBaseDir(), "simulations" ), projectName );
-//        System.out.println( "phetProject = " + phetProject );
-//        System.out.println( "phetProject.getSource() = " + phetProject.getSource() );
-////        System.out.println( "phetProject.getExpandedSourcePath() = " + phetProject.getExpandedSourcePath() );
-//        System.out.println( "phetProject.getAllDependencies( ) = [" + phetProject.getAllDependencies().length + " total dependencies]" + Arrays.asList( phetProject.getAllDependencies() ) );
-
-        phetProject.buildAll(shrink);
-    }
-
-    public void output( String string ) {
-//        System.out.println( string );
-        echo( string );
+        phetProject.buildAll( shrink );
     }
 
     public void runTask( Task child ) {
@@ -47,7 +37,7 @@ public class PhetBuildTask extends Task {
         child.execute();
     }
 
-    private void echo( String message ) {
+    void echo( String message ) {
         Echo echo = new Echo();
         echo.setMessage( message );
         runTask( echo );
@@ -59,6 +49,10 @@ public class PhetBuildTask extends Task {
 
     public void setShrink( boolean shrink ) {
         this.shrink = shrink;
+    }
+
+    public File getBaseDir() {
+        return project.getBaseDir();
     }
 
     /*
@@ -74,9 +68,5 @@ public class PhetBuildTask extends Task {
         p.init();
         ProjectHelper.configureProject( p, buildFile );
         p.executeTarget( p.getDefaultTarget() );
-    }
-
-    public File getBaseDir() {
-        return project.getBaseDir();
     }
 }

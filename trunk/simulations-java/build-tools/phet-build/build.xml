@@ -20,7 +20,15 @@
     <target name="build_AllSimApp" depends="declare_phet-build-task">
         <phet-build project="all-sims" shrink="false"/>
     </target>
-    
+
+    <target name="build_hydrogen-atom" depends="declare_phet-build-task">
+        <phet-build project="hydrogen-atom"/>
+    </target>
+
+    <target name="build_hydrogen-atom_dontshrink" depends="declare_phet-build-task">
+        <phet-build project="hydrogen-atom" shrink="false"/>
+    </target>
+
     <target name="build_all" depends="declare_phet-build-task">
         <echo message="Starting build..."/>
         <phet-build project="balloons"/>
