@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.coreadditions.emf;
 
 /**
  * CircularBuffer

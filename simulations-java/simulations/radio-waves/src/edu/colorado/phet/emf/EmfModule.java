@@ -18,7 +18,7 @@ import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
 import edu.colorado.phet.common_1200.view.util.ImageLoader;
 import edu.colorado.phet.common_1200.view.util.SimStrings;
 import edu.colorado.phet.common_1200.view.help.HelpItem;
-import edu.colorado.phet.coreadditions.PhetControlPanel;
+import edu.colorado.phet.coreadditions.emf.PhetControlPanel;
 import edu.colorado.phet.emf.command.DynamicFieldIsEnabledCmd;
 import edu.colorado.phet.emf.command.SetMovementCmd;
 import edu.colorado.phet.emf.model.Antenna;

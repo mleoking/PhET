@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Aug 5, 2003
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.coreadditions.emf;
 
 
 import edu.colorado.phet.common_1200.view.util.ImageLoader;
