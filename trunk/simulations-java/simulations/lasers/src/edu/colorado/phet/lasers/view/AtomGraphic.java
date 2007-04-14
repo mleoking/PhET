@@ -245,7 +245,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     /**
      * Picks a Color to represent the energy level of an atom
      */
-    static public interface EnergyRepColorStrategy {
+    public static interface EnergyRepColorStrategy {
         Color getColor( Atom atom );
     }
 

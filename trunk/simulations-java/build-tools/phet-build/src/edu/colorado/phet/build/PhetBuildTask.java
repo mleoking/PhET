@@ -7,7 +7,7 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.*;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
-import proguard.ProGuard;
+import proguard.ant.ProGuardTask;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -163,7 +163,7 @@ public class PhetBuildTask extends Task {
         }
 
         private boolean isProject( File file ) {
-            if( !file.isDirectory() ) {
+            if( !file.exists() || !file.isDirectory() ) {
                 return false;
             }
             if( new File( file, file.getName() + ".properties" ).exists() ) {
@@ -186,17 +186,25 @@ public class PhetBuildTask extends Task {
         }
 
         private File searchPath( String token ) {
+            File commonProject = new File( project.getBaseDir(), "common/" + token );
+            if( commonProject.exists() && isProject( commonProject ) ) {
+                return commonProject;
+            }
+            File contribPath = new File( project.getBaseDir(), "contrib/" + token );
+            if( contribPath.exists() ) {
+                return contribPath;
+            }
             File path = new File( rootDir, token );
             if( path.exists() ) {
                 return path;
             }
-            File commonPath = new File( rootDir.getParentFile().getParentFile(), "common/" + token );
-            if( commonPath.exists() ) {
-                return commonPath;
+            File commonPathNonProject = new File( project.getBaseDir(), "common/" + token );
+            if( commonPathNonProject.exists() ) {
+                return commonPathNonProject;
             }
-            File contribPath = new File( rootDir.getParentFile().getParentFile(), "contrib/" + token );
-            if( contribPath.exists() ) {
-                return contribPath;
+            File simProject=new File( project.getBaseDir(),"simulations/"+token);
+            if (simProject.exists()&&isProject( simProject )){
+                return simProject;
             }
             throw new RuntimeException( "No path found for token=" + token + ", in project=" + this );
         }
@@ -207,7 +215,10 @@ public class PhetBuildTask extends Task {
             jar();
 
             File proguardFile = createProguardFile();
-            ProGuard.main( new String[]{"@" + proguardFile.getAbsolutePath()} );
+            ProGuardTask proGuardTask = new ProGuardTask();
+            proGuardTask.setConfiguration( proguardFile );
+            runTask( proGuardTask );
+//            ProGuard.main( new String[]{"@" + proguardFile.getAbsolutePath()} );//causes jvm exit
         }
 
         public File[] append( File[] list, File file ) {
@@ -373,9 +384,7 @@ public class PhetBuildTask extends Task {
             Javac javac = new Javac();
             javac.setSource( "1.4" );
             javac.setSrcdir( new Path( getProject(), toString( src ) ) );
-            File destDir = getClassesDirectory();
-            destDir.mkdirs();
-            javac.setDestdir( destDir );
+            javac.setDestdir( getClassesDirectory() );
             javac.setClasspath( new Path( getProject(), toString( classpath ) ) );
             runTask( javac );
         }

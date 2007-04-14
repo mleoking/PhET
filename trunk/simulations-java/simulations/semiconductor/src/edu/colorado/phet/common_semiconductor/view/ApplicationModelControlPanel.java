@@ -1,6 +1,7 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.common_semiconductor.view;
 
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 import edu.colorado.phet.common_semiconductor.model.clock.AbstractClock;
 import edu.colorado.phet.common_semiconductor.view.util.SimStrings;
 import edu.colorado.phet.common_semiconductor.view.util.graphics.ImageLoader;
@@ -38,12 +39,12 @@ public class ApplicationModelControlPanel extends JPanel {
         if( clock == null ) {
             throw new RuntimeException( "Cannot have a control panel for a null clock." );
         }
-        ImageLoader cil = new ImageLoader();
+//        ImageLoader cil = new ImageLoader();
 
-        String root = "images/icons/java/media/";
-        BufferedImage playU = cil.loadImage( root + "Play24.gif" );
-        BufferedImage pauseU = cil.loadImage( root + "Pause24.gif" );
-        BufferedImage stepU = cil.loadImage( root + "StepForward24.gif" );
+        String root = "clock/";
+        BufferedImage playU = PhetCommonProjectConfig.getInstance().getImage( root + "Play24.gif" );
+        BufferedImage pauseU = PhetCommonProjectConfig.getInstance().getImage( root + "Pause24.gif" );
+        BufferedImage stepU = PhetCommonProjectConfig.getInstance().getImage( root + "StepForward24.gif" );
         ImageIcon playIcon = new ImageIcon( playU );
         ImageIcon pauseIcon = new ImageIcon( pauseU );
         ImageIcon stepIcon = new ImageIcon( stepU );
@@ -83,7 +84,7 @@ public class ApplicationModelControlPanel extends JPanel {
         buttonPanel.add( step );
         this.add( buttonPanel, BorderLayout.CENTER );
 
-        ImageIcon logo = new ImageIcon( new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" ) );
+        ImageIcon logo = new ImageIcon( PhetCommonProjectConfig.getInstance().getImage( "logos/phet-logo.jpg") );
         logoButton = new JButton( logo );
         logoButton.setToolTipText( SimStrings.get( "ApplicationModelControlPanel.LogoButtonToolTipText" ) );
         logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ) );
