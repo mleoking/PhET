@@ -1,0 +1,6 @@
+Add clean functions
+Add per-simulation build task
+Add tasks to run/post/checkout simulations
+Add task to build all simulations quickly (less duplication of work)
+Add option to not shrink proguard
+Support for mac (proguard lib dependencies, batch scripts)
