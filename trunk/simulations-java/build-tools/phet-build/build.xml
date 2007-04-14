@@ -1,51 +1,65 @@
 <?xml version="1.0"?>
 
 <project name="OwnTaskExample" default="build_project" basedir="../../">
-    <taskdef name="phet-build" classname="edu.colorado.phet.build.PhetBuildTask"/>
+    <!--<taskdef name="phet-build" classname="edu.colorado.phet.build.PhetBuildTask"/>-->
+    <property name="phetbuild-classes" location="ant_output/phetbuild/classes"/>
+    <property name="proguard.jar" location="build-tools/proguard3.8/lib/proguard.jar"/>
 
-    <target name="build_project">
+    <target name="build_phetbuild">
+        <mkdir dir="${phetbuild-classes}"/>
+        <javac srcdir="build-tools/phet-build/src" destdir="${phetbuild-classes}" classpath="${proguard.jar}"/>
+    </target>
+
+    <target name="declare" depends="build_phetbuild">
+        <taskdef name="phet-build"
+                 classname="edu.colorado.phet.build.PhetBuildTask"
+                 classpath="${phetbuild-classes};${proguard.jar}"/>
+
+    </target>
+
+    <target name="build_project" depends="declare">
         <echo message="hello, starting mytask"/>
-        <!--<phet-build project="balloons"/>-->
-        <!--<phet-build project="battery-voltage"/>-->
-        <!--<phet-build project="bernoulli"/>-->
-        <!--<phet-build project="bound-states"/>-->
-        <!--<phet-build project="cck"/>-->
-        <!--<phet-build project="color-vision"/>-->
-        <!--<phet-build project="conductivity"/>-->
-        <!--<phet-build project="distance-ladder"/>-->
-        <!--<phet-build project="efield"/>-->
-        <!--<phet-build project="electric-hockey"/>-->
-        <!--<phet-build project="energy-skate-park"/>-->
-        <!--<phet-build project="faraday"/>-->
-        <!--<phet-build project="fluorescent-lights"/>-->
-        <!--<phet-build project="forces-1d"/>-->
-        <!--<phet-build project="fourier"/>-->
-        <!--<phet-build project="greenhouse"/>-->
-        <!--<phet-build project="hydrogen-atom"/>-->
-        <!--<phet-build project="ideal-gas"/>-->
-        <!--<phet-build project="lasers"/>-->
-        <!--<phet-build project="maze-game"/>-->
-        <!--<phet-build project="microwaves"/>-->
-        <!--<phet-build project="motion-2d"/>-->
-        <!--<phet-build project="moving-man"/>-->
-        <!--<phet-build project="mri"/>-->
-        <!--<phet-build project="nuclear-physics"/>-->
-        <!--<phet-build project="ohm-1d"/>-->
-        <!--<phet-build project="optical-quantum-control"/>-->
-        <!--<phet-build project="optical-tweezers"/>-->
-        <!--<phet-build project="photoelectric"/>-->
-        <!--<phet-build project="quantum-tunneling"/>-->
-        <!--<phet-build project="qwi"/>-->
-        <!--<phet-build project="radio-waves"/>-->
-        <!--<phet-build project="reactions-and-rates"/>-->
-        <!--<phet-build project="rotation"/>-->
-        <!--<phet-build project="rutherford-scattering"/>-->
-        <!--<phet-build project="semiconductor"/>-->
-        <!--<phet-build project="signal-circuit"/>-->
-        <!--<phet-build project="soluble-salts"/>-->
-        <!--<phet-build project="sound"/>-->
-        <!--<phet-build project="the-ramp"/>-->
-        <!--<phet-build project="travoltage"/>-->
+        <phet-build project="balloons"/>
+        <phet-build project="battery-voltage"/>
+        <phet-build project="bernoulli"/>
+        <phet-build project="bound-states"/>
+        <phet-build project="cck"/>
+        <phet-build project="color-vision"/>
+        <phet-build project="conductivity"/>
+        <phet-build project="distance-ladder"/>
+        <phet-build project="efield"/>
+        <phet-build project="electric-hockey"/>
+        <phet-build project="energy-skate-park"/>
+        <phet-build project="faraday"/>
+        <phet-build project="fluorescent-lights"/>
+        <phet-build project="forces-1d"/>
+        <phet-build project="fourier"/>
+        <phet-build project="greenhouse"/>
+        <phet-build project="hydrogen-atom"/>
+        <phet-build project="ideal-gas"/>
+        <phet-build project="lasers"/>
+        <phet-build project="maze-game"/>
+        <phet-build project="microwaves"/>
+        <phet-build project="motion-2d"/>
+        <phet-build project="moving-man"/>
+        <phet-build project="mri"/>
+        <phet-build project="nuclear-physics"/>
+        <phet-build project="ohm-1d"/>
+        <phet-build project="optical-quantum-control"/>
+        <phet-build project="optical-tweezers"/>
+        <phet-build project="photoelectric"/>
+        <phet-build project="quantum-tunneling"/>
+        <phet-build project="qwi"/>
+        <phet-build project="radio-waves"/>
+        <phet-build project="reactions-and-rates"/>
+        <phet-build project="rotation"/>
+        <phet-build project="rutherford-scattering"/>
+        <phet-build project="semiconductor"/>
+        <phet-build project="signal-circuit"/>
+        <phet-build project="soluble-salts"/>
+        <phet-build project="sound"/>
+        <phet-build project="the-ramp"/>
+        <phet-build project="travoltage"/>
         <phet-build project="waveinterference"/>
     </target>
 </project>
