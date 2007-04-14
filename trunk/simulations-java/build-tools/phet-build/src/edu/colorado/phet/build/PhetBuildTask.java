@@ -58,12 +58,26 @@ public class PhetBuildTask extends Task {
             return properties.getProperty( "project.depends.data" );
         }
 
+        public String getFullLibPath() {
+            String libPath = "";
+            StringTokenizer stringTokenizer = new StringTokenizer( getLib(), ": " );
+            while( stringTokenizer.hasMoreTokens() ) {
+                String token = stringTokenizer.nextToken();
+                File path = searchPath( token );
+                libPath = libPath + " " + path.getAbsolutePath();
+                if( stringTokenizer.hasMoreTokens() ) {
+                    libPath += " : ";
+                }
+            }
+            return libPath;
+        }
+
         public String getFullSourcePath() {
             String sourcePath = "";
             StringTokenizer stringTokenizer = new StringTokenizer( getSource(), ": " );
             while( stringTokenizer.hasMoreTokens() ) {
                 String token = stringTokenizer.nextToken();
-                File path = searchSourcePath( token );
+                File path = searchPath( token );
                 sourcePath = sourcePath + " " + path.getAbsolutePath();
                 if( stringTokenizer.hasMoreTokens() ) {
                     sourcePath += " : ";
@@ -72,7 +86,7 @@ public class PhetBuildTask extends Task {
             return sourcePath;
         }
 
-        private File searchSourcePath( String token ) {
+        private File searchPath( String token ) {
             File path = new File( rootDir, token );
             if( path.exists() ) {
                 return path;
@@ -80,6 +94,10 @@ public class PhetBuildTask extends Task {
             File commonPath = new File( rootDir.getParentFile().getParentFile(), "common/" + token );
             if( commonPath.exists() ) {
                 return commonPath;
+            }
+            File contribPath = new File( rootDir.getParentFile().getParentFile(), "contrib/" + token );
+            if( contribPath.exists() ) {
+                return contribPath;
             }
             throw new RuntimeException( "No path found for token=" + token + ", in project=" + this );
         }
@@ -91,7 +109,7 @@ public class PhetBuildTask extends Task {
             File destDir = new File( "C:/temp-phet-ant_output" );
             destDir.mkdirs();
             javac.setDestdir( destDir );
-            javac.setClasspath( new Path( getProject(), getLib() ) );
+            javac.setClasspath( new Path( getProject(), getFullLibPath() ) );
             System.out.println( "System.getProperty( \"JAVA_HOME\") = " + System.getProperty( "JAVA_HOME" ) );
             runTask( javac );
         }
@@ -135,14 +153,8 @@ public class PhetBuildTask extends Task {
    http://www-128.ibm.com/developerworks/websphere/library/techarticles/0502_gawor/0502_gawor.html
     */
     public static void main( String[] args ) {
-        System.setProperty( "JAVA_HOME", "C:\\j2sdk1.4.2_13" );//todo: fix this
-        //todo: fix build error requiring tools.jar:
-        //see: http://jroller.com/page/vdbdavid?entry=ant_eclipse_problems
-        //or: http://saloon.javaranch.com/cgi-bin/ubb/ultimatebb.cgi?ubb=next_topic&f=67&t=002030&go=older
-        System.out.println( "System.getProperty( \"JAVA_HOME\") = " + System.getProperty( "JAVA_HOME" ) );
         File buildFile = new File( "build.xml" );
         Project p = new Project();
-//        p.setBaseDir( new File( "C:\\phet\\subversion\\trunk\\simulations-java" ) );
         p.setUserProperty( "ant.file", buildFile.getAbsolutePath() );
         p.init();
         ProjectHelper.configureProject( p, buildFile );
