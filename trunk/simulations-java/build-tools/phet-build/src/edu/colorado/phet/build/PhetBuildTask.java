@@ -12,6 +12,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -42,6 +43,10 @@ public class PhetBuildTask extends Task {
             this.properties.load( new BufferedInputStream( new FileInputStream( propertyFile ) ) );
         }
 
+        public PhetProject( File projectRoot ) throws IOException {
+            this( projectRoot.getParentFile(), projectRoot.getName() );
+        }
+
         public String toString() {
             return "project=" + name + ", root=" + rootDir.getAbsolutePath() + ", properties=" + properties;
         }
@@ -59,25 +64,72 @@ public class PhetBuildTask extends Task {
         }
 
         public String getExpandedLibPath() {
-            return expandPath( getLib() );
+            return toString( expandPath( getLib() ) );
         }
 
         public String getExpandedSourcePath() {
-            return expandPath( getSource() );
+            return toString( expandPath( getSource() ) );
         }
 
-        private String expandPath( String lib ) {
-            String libPath = "";
+//        public PhetProject[]getAllDependencies(){
+//            ArrayList dep=new ArrayList( );
+//        }
+
+        private String toString( File[] files ) {
+            String string = "";
+            for( int i = 0; i < files.length; i++ ) {
+                File file = files[i];
+                string += file.getAbsolutePath();
+                if( i < files.length - 1 ) {
+                    string += " : ";
+                }
+            }
+            return string;
+        }
+
+        /**
+         * Returns the immediate dependencies for this PhetProject
+         *
+         * @return
+         */
+        public PhetProject[] getDependencies() {
+            ArrayList projects = new ArrayList();
+            File[] path = expandPath( getLib() );
+            for( int i = 0; i < path.length; i++ ) {
+                File file = path[i];
+                if( file.exists() && isProject( file ) ) {
+                    try {
+                        projects.add( new PhetProject( file) );
+                    }
+                    catch( IOException e ) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return (PhetProject[])projects.toArray( new PhetProject[0] );
+        }
+
+        private boolean isProject( File file ) {
+            if( !file.isDirectory() ) {
+                return false;
+            }
+            if( new File( file, file.getName() + ".properties" ).exists() ) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        private File[] expandPath( String lib ) {
+            ArrayList files = new ArrayList();
             StringTokenizer stringTokenizer = new StringTokenizer( lib, ": " );
             while( stringTokenizer.hasMoreTokens() ) {
                 String token = stringTokenizer.nextToken();
                 File path = searchPath( token );
-                libPath = libPath + " " + path.getAbsolutePath();
-                if( stringTokenizer.hasMoreTokens() ) {
-                    libPath += " : ";
-                }
+                files.add( path );
             }
-            return libPath;
+            return (File[])files.toArray( new File[0] );
         }
 
         private File searchPath( String token ) {
@@ -97,14 +149,19 @@ public class PhetBuildTask extends Task {
         }
 
         public void build() {
+            PhetProject[]dependencies=getDependencies();
+            for( int i = 0; i < dependencies.length; i++ ) {
+                PhetProject dependency = dependencies[i];
+                System.out.println( "dependency ["+i+"]= " + dependency );
+            }
+
             Javac javac = new Javac();
             javac.setSource( "1.4" );
             javac.setSrcdir( new Path( getProject(), getExpandedSourcePath() ) );
-            File destDir = new File( "C:/temp-phet-ant_output" );
+            File destDir = new File( getProject().getBaseDir(),"ant_output/projects/"+projectName );
             destDir.mkdirs();
             javac.setDestdir( destDir );
             javac.setClasspath( new Path( getProject(), getExpandedLibPath() ) );
-            System.out.println( "System.getProperty( \"JAVA_HOME\") = " + System.getProperty( "JAVA_HOME" ) );
             runTask( javac );
         }
     }
