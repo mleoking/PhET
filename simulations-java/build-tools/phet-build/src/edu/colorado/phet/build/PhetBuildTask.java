@@ -5,12 +5,11 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.*;
+import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
+import proguard.ProGuard;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
@@ -35,7 +34,7 @@ public class PhetBuildTask extends Task {
         PhetProject phetProject = new PhetProject( new File( getProject().getBaseDir(), "simulations" ), projectName );
         System.out.println( "phetProject = " + phetProject );
         System.out.println( "phetProject.getSource() = " + phetProject.getSource() );
-        System.out.println( "phetProject.getExpandedSourcePath() = " + phetProject.getExpandedSourcePath() );
+//        System.out.println( "phetProject.getExpandedSourcePath() = " + phetProject.getExpandedSourcePath() );
         System.out.println( "phetProject.getAllDependencies( ) = [" + phetProject.getAllDependencies().length + " total dependencies]" + Arrays.asList( phetProject.getAllDependencies() ) );
 
         phetProject.buildAll();
@@ -84,20 +83,24 @@ public class PhetBuildTask extends Task {
             return properties.getProperty( "project.depends.data" );
         }
 
-        public File[] getLibFiles() {
-            return expandPath( getLib() );
+        private File[] getDataDirectories() {
+            return expandPath( getData() );
+        }
+
+        public File[] getJarFiles() {
+            ArrayList all = new ArrayList( Arrays.asList( expandPath( getLib() ) ) );
+            for( int i = 0; i < all.size(); i++ ) {
+                File file = (File)all.get( i );
+                if( isProject( file ) ) {
+                    all.remove( i );
+                    i--;
+                }
+            }
+            return (File[])all.toArray( new File[0] );
         }
 
         public File[] getSrcFiles() {
             return expandPath( getSource() );
-        }
-
-        public String getExpandedLibPath() {
-            return toString( expandPath( getLib() ) );
-        }
-
-        public String getExpandedSourcePath() {
-            return toString( expandPath( getSource() ) );
         }
 
         public PhetProject[] getAllDependencies() {
@@ -199,27 +202,138 @@ public class PhetBuildTask extends Task {
         }
 
         public void buildAll() {
-            PhetProject[] dependencies = getAllProjects();
-            ArrayList srcDirs = new ArrayList();
-            ArrayList lib = new ArrayList();
-            for( int i = 0; i < dependencies.length; i++ ) {
-                PhetProject dependency = dependencies[i];
-                srcDirs.addAll( Arrays.asList( dependency.getSrcFiles() ) );
-                lib.addAll( Arrays.asList( dependency.getLibFiles() ) );
-            }
-            compile( (File[])srcDirs.toArray( new File[0] ), (File[])lib.toArray( new File[0] ), getClassesDirectory() );
+            compile( getAllSourceRoots(), getAllJarFiles(), getClassesDirectory() );
 
             jar();
+
+            File proguardFile = createProguardFile();
+            ProGuard.main( new String[]{"@" + proguardFile.getAbsolutePath()} );
+        }
+
+        public File[] append( File[] list, File file ) {
+            File[] f = new File[list.length + 1];
+            System.arraycopy( list, 0, f, 0, list.length );
+            f[list.length] = file;
+            return f;
+        }
+
+        public File[] prepend( File[] list, File file ) {
+            File[] f = new File[list.length + 1];
+            System.arraycopy( list, 0, f, 1, list.length );
+            f[0] = file;
+            return f;
+        }
+
+        public File createProguardFile() {
+
+            try {
+                File template = new File( project.getBaseDir(), "templates/proguard2.pro" );
+                File output = new File( getAntOutputDir(), projectName + ".pro" );
+                BufferedReader bufferedReader = new BufferedReader( new FileReader( template ) );
+                BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( output ) );
+                bufferedWriter.write( "# Proguard configuration file for " + projectName + "." );
+                bufferedWriter.newLine();
+                bufferedWriter.write( "# Automatically generated" );
+                bufferedWriter.newLine();
+
+
+                File[] libs = prepend( getAllJarFiles(), getJarFile() );
+                for( int j = 0; j < libs.length; j++ ) {
+                    bufferedWriter.write( "-injars '" + libs[j].getAbsolutePath() + "'" );
+                    bufferedWriter.newLine();
+                }
+                File outJar = new File( getAntOutputDir(), "jars/" + projectName + "_pro.jar" );
+                bufferedWriter.write( "-outjars '" + outJar.getAbsolutePath() + "'" );
+                bufferedWriter.newLine();
+                bufferedWriter.write( "-libraryjars <java.home>/lib/rt.jar" );//todo: handle mac library
+                bufferedWriter.newLine();
+                bufferedWriter.write( "-keepclasseswithmembers public class " + getMainClass() + "{\n" +
+                                      "    public static void main(java.lang.String[]);\n" +
+                                      "}" );
+                bufferedWriter.newLine();
+                String line = bufferedReader.readLine();
+                while( line != null ) {
+                    bufferedWriter.write( line );
+                    bufferedWriter.newLine();
+                    line = bufferedReader.readLine();
+                }
+
+                bufferedWriter.close();
+                bufferedReader.close();
+                return output;
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+                throw new RuntimeException( e );
+            }
+        }
+
+        private File[] getAllSourceRoots() {
+            PhetProject[] dependencies = getAllProjects();
+            ArrayList srcDirs = new ArrayList();
+            for( int i = 0; i < dependencies.length; i++ ) {
+                PhetProject dependency = dependencies[i];
+                File[] jf = dependency.getSrcFiles();
+                for( int j = 0; j < jf.length; j++ ) {
+                    File file = jf[j];
+                    if( !srcDirs.contains( file ) ) {
+                        srcDirs.add( file );
+                    }
+                }
+            }
+            return (File[])srcDirs.toArray( new File[0] );
+        }
+
+        public File[] getAllDataDirectories() {
+            PhetProject[] all = getAllProjects();
+            ArrayList jarFiles = new ArrayList();
+
+            for( int i = 0; i < all.length; i++ ) {
+                PhetProject phetProject = all[i];
+                File[] jf = phetProject.getDataDirectories();
+                for( int j = 0; j < jf.length; j++ ) {
+                    File file = jf[j];
+                    if( !jarFiles.contains( file ) ) {
+                        jarFiles.add( file );
+                    }
+                }
+            }
+            return (File[])jarFiles.toArray( new File[0] );
+        }
+
+
+        public File[] getAllJarFiles() {
+            PhetProject[] all = getAllProjects();
+            ArrayList jarFiles = new ArrayList();
+
+            for( int i = 0; i < all.length; i++ ) {
+                PhetProject phetProject = all[i];
+                File[] jf = phetProject.getJarFiles();
+                for( int j = 0; j < jf.length; j++ ) {
+                    File file = jf[j];
+                    if( !jarFiles.contains( file ) ) {
+                        jarFiles.add( file );
+                    }
+                }
+            }
+            return (File[])jarFiles.toArray( new File[0] );
         }
 
         private File getClassesDirectory() {
-            File file = new File( getAntOutputFile(), "classes" );
+            File file = new File( getAntOutputDir(), "classes" );
             file.mkdirs();
             return file;
         }
 
         public void jar() {
+
             Jar jar = new Jar();
+            File[] dataDirectories = getAllDataDirectories();
+            for( int i = 0; i < dataDirectories.length; i++ ) {
+                FileSet set = new FileSet();
+                set.setDir( dataDirectories[i] );
+                jar.addFileset( set );
+            }
             jar.setBasedir( getClassesDirectory() );
             jar.setJarfile( getJarFile() );
             Manifest manifest = new Manifest();
@@ -234,12 +348,6 @@ public class PhetBuildTask extends Task {
                 e.printStackTrace();
             }
 
-            /**
-             *             <manifest>
-             <attribute name="Main-Class" value="${main.class}"/>
-             </manifest>
-             */
-
             runTask( jar );
         }
 
@@ -248,7 +356,7 @@ public class PhetBuildTask extends Task {
         }
 
         private File getJarFile() {
-            File file = new File( getAntOutputFile(), "jars/" + projectName + ".jar" );
+            File file = new File( getAntOutputDir(), "jars/" + projectName + ".jar" );
             file.getParentFile().mkdirs();
             return file;
         }
@@ -272,14 +380,14 @@ public class PhetBuildTask extends Task {
             runTask( javac );
         }
 
-        private File getAntOutputFile() {
+        private File getAntOutputDir() {
             File destDir = new File( getProject().getBaseDir(), "ant_output/projects/" + projectName );
             destDir.mkdirs();
             return destDir;
         }
 
         public void build() {
-            compile( getSrcFiles(), getLibFiles(), new File( getProject().getBaseDir(), "ant_output/projects/" + projectName ) );
+            compile( getSrcFiles(), getJarFiles(), new File( getProject().getBaseDir(), "ant_output/projects/" + projectName ) );
         }
     }
 
