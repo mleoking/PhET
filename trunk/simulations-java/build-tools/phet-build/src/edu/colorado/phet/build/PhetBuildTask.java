@@ -4,8 +4,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
 import org.apache.tools.ant.Task;
-import org.apache.tools.ant.taskdefs.Echo;
-import org.apache.tools.ant.taskdefs.Javac;
+import org.apache.tools.ant.taskdefs.*;
 import org.apache.tools.ant.types.Path;
 
 import java.io.BufferedInputStream;
@@ -208,28 +207,65 @@ public class PhetBuildTask extends Task {
                 srcDirs.addAll( Arrays.asList( dependency.getSrcFiles() ) );
                 lib.addAll( Arrays.asList( dependency.getLibFiles() ) );
             }
-            compile( (File[])srcDirs.toArray( new File[0] ), (File[])lib.toArray( new File[0] ), getAntOutputFile() );
+            compile( (File[])srcDirs.toArray( new File[0] ), (File[])lib.toArray( new File[0] ), getClassesDirectory() );
+
+            jar();
+        }
+
+        private File getClassesDirectory() {
+            File file = new File( getAntOutputFile(), "classes" );
+            file.mkdirs();
+            return file;
+        }
+
+        public void jar() {
+            Jar jar = new Jar();
+            jar.setBasedir( getClassesDirectory() );
+            jar.setJarfile( getJarFile() );
+            Manifest manifest = new Manifest();
+            try {
+                Manifest.Attribute attribute = new Manifest.Attribute();
+                attribute.setName( "Main-Class" );
+                attribute.setValue( getMainClass() );
+                manifest.addConfiguredAttribute( attribute );
+                jar.addConfiguredManifest( manifest );
+            }
+            catch( ManifestException e ) {
+                e.printStackTrace();
+            }
+
+            /**
+             *             <manifest>
+             <attribute name="Main-Class" value="${main.class}"/>
+             </manifest>
+             */
+
+            runTask( jar );
+        }
+
+        private String getMainClass() {
+            return properties.getProperty( "project.mainclass" );
+        }
+
+        private File getJarFile() {
+            File file = new File( getAntOutputFile(), "jars/" + projectName + ".jar" );
+            file.getParentFile().mkdirs();
+            return file;
         }
 
         private PhetProject[] getAllProjects() {
             ArrayList projects = new ArrayList( Arrays.asList( getAllDependencies() ) );
-            if (!projects.contains( this )){
+            if( !projects.contains( this ) ) {
                 projects.add( this );
             }
-            return (PhetProject[])projects.toArray( new PhetProject[0]);
-        }
-
-        public File createAntOutputFile() {
-            File out = getAntOutputFile();
-            out.mkdirs();
-            return out;
+            return (PhetProject[])projects.toArray( new PhetProject[0] );
         }
 
         public void compile( File[] src, File[] classpath, File dst ) {
             Javac javac = new Javac();
             javac.setSource( "1.4" );
             javac.setSrcdir( new Path( getProject(), toString( src ) ) );
-            File destDir = getAntOutputFile();
+            File destDir = getClassesDirectory();
             destDir.mkdirs();
             javac.setDestdir( destDir );
             javac.setClasspath( new Path( getProject(), toString( classpath ) ) );
@@ -238,6 +274,7 @@ public class PhetBuildTask extends Task {
 
         private File getAntOutputFile() {
             File destDir = new File( getProject().getBaseDir(), "ant_output/projects/" + projectName );
+            destDir.mkdirs();
             return destDir;
         }
 
