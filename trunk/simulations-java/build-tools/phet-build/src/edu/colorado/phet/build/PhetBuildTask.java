@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -43,6 +44,16 @@ public class PhetBuildTask extends Task {
             this.properties.load( new BufferedInputStream( new FileInputStream( propertyFile ) ) );
         }
 
+        public boolean equals( Object obj ) {
+            if( obj instanceof PhetProject ) {
+                PhetProject phetProject = (PhetProject)obj;
+                return phetProject.rootDir.equals( rootDir );
+            }
+            else {
+                return false;
+            }
+        }
+
         public PhetProject( File projectRoot ) throws IOException {
             this( projectRoot.getParentFile(), projectRoot.getName() );
         }
@@ -71,9 +82,30 @@ public class PhetBuildTask extends Task {
             return toString( expandPath( getSource() ) );
         }
 
-//        public PhetProject[]getAllDependencies(){
-//            ArrayList dep=new ArrayList( );
-//        }
+        public PhetProject[] getAllDependencies() {
+            ArrayList toSearch = new ArrayList();
+            ArrayList found = new ArrayList();
+            toSearch.addAll( Arrays.asList( getDependencies() ) );
+            getAllDependencies( toSearch, found );
+            return (PhetProject[])found.toArray( new PhetProject[0] );
+        }
+
+        private void getAllDependencies( ArrayList toSearch, ArrayList found ) {
+            toSearch.addAll( Arrays.asList( getDependencies() ) );
+            while( toSearch.size() > 0 ) {
+                PhetProject project = (PhetProject)toSearch.remove( 0 );
+                if( !found.contains( project ) ) {
+                    found.add( project );
+                    PhetProject[] dependencies = project.getDependencies();
+                    for( int i = 0; i < dependencies.length; i++ ) {
+                        PhetProject dependency = dependencies[i];
+                        if( !found.contains( dependency ) && !toSearch.contains( dependency ) ) {
+                            toSearch.add( dependency );
+                        }
+                    }
+                }
+            }
+        }
 
         private String toString( File[] files ) {
             String string = "";
@@ -99,7 +131,7 @@ public class PhetBuildTask extends Task {
                 File file = path[i];
                 if( file.exists() && isProject( file ) ) {
                     try {
-                        projects.add( new PhetProject( file) );
+                        projects.add( new PhetProject( file ) );
                     }
                     catch( IOException e ) {
                         e.printStackTrace();
@@ -149,16 +181,16 @@ public class PhetBuildTask extends Task {
         }
 
         public void build() {
-            PhetProject[]dependencies=getDependencies();
+            PhetProject[] dependencies = getDependencies();
             for( int i = 0; i < dependencies.length; i++ ) {
                 PhetProject dependency = dependencies[i];
-                System.out.println( "dependency ["+i+"]= " + dependency );
+                System.out.println( "dependency [" + i + "]= " + dependency );
             }
 
             Javac javac = new Javac();
             javac.setSource( "1.4" );
             javac.setSrcdir( new Path( getProject(), getExpandedSourcePath() ) );
-            File destDir = new File( getProject().getBaseDir(),"ant_output/projects/"+projectName );
+            File destDir = new File( getProject().getBaseDir(), "ant_output/projects/" + projectName );
             destDir.mkdirs();
             javac.setDestdir( destDir );
             javac.setClasspath( new Path( getProject(), getExpandedLibPath() ) );
@@ -173,6 +205,7 @@ public class PhetBuildTask extends Task {
         System.out.println( "phetProject = " + phetProject );
         System.out.println( "phetProject.getSource() = " + phetProject.getSource() );
         System.out.println( "phetProject.getExpandedSourcePath() = " + phetProject.getExpandedSourcePath() );
+        System.out.println( "phetProject.getAllDependencies( ) = ["+phetProject.getAllDependencies( ).length+" total dependencies]" + Arrays.asList( phetProject.getAllDependencies()) );
 
         phetProject.build();
     }
