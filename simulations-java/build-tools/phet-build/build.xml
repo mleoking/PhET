@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 
-<project name="OwnTaskExample" default="build_project" basedir="../../">
-    <!--<taskdef name="phet-build" classname="edu.colorado.phet.build.PhetBuildTask"/>-->
+<project name="PhET" default="build_all" basedir="../../">
     <property name="phetbuild-classes" location="ant_output/phetbuild/classes"/>
     <property name="proguard.jar" location="build-tools/proguard3.8/lib/proguard.jar"/>
+    <property name="phetbuild-src" location="build-tools/phet-build/src">
+    <property name="phetbuild-classname" location="edu.colorado.phet.build.PhetBuildTask">
 
-    <target name="build_phetbuild">
+    <target name="compile_phet-build">
         <mkdir dir="${phetbuild-classes}"/>
-        <javac srcdir="build-tools/phet-build/src" destdir="${phetbuild-classes}" classpath="${proguard.jar}"/>
+        <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes}" classpath="${proguard.jar}"/>
     </target>
-
-    <target name="declare" depends="build_phetbuild">
+    
+    <target name="declare_phet-build-task" depends="compile_phet-build">
         <taskdef name="phet-build"
-                 classname="edu.colorado.phet.build.PhetBuildTask"
+                 classname="${phetbuild-classname}"
                  classpath="${phetbuild-classes};${proguard.jar}"/>
-
     </target>
 
-    <target name="build_project" depends="declare">
-        <echo message="hello, starting mytask"/>
+    <target name="build_all" depends="declare_phet-build-task">
+        <echo message="Starting build..."/>
         <phet-build project="balloons"/>
         <phet-build project="battery-voltage"/>
         <phet-build project="bernoulli"/>
@@ -61,5 +61,6 @@
         <phet-build project="the-ramp"/>
         <phet-build project="travoltage"/>
         <phet-build project="waveinterference"/>
+        <echo message="Finished build."/>
     </target>
 </project>
