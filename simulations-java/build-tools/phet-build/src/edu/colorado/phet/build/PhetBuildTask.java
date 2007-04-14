@@ -24,11 +24,22 @@ public class PhetBuildTask extends Task {
     public void execute() throws BuildException {
         output( "Executing: " + projectName );
         try {
-            buildProject();
+            buildSimulation();
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
+    }
+
+    private void buildSimulation() throws IOException {
+        output( "in build project" );
+        PhetProject phetProject = new PhetProject( new File( getProject().getBaseDir(), "simulations" ), projectName );
+        System.out.println( "phetProject = " + phetProject );
+        System.out.println( "phetProject.getSource() = " + phetProject.getSource() );
+        System.out.println( "phetProject.getExpandedSourcePath() = " + phetProject.getExpandedSourcePath() );
+        System.out.println( "phetProject.getAllDependencies( ) = [" + phetProject.getAllDependencies().length + " total dependencies]" + Arrays.asList( phetProject.getAllDependencies() ) );
+
+        phetProject.buildAll();
     }
 
     public class PhetProject {
@@ -72,6 +83,14 @@ public class PhetBuildTask extends Task {
 
         public String getData() {
             return properties.getProperty( "project.depends.data" );
+        }
+
+        public File[] getLibFiles() {
+            return expandPath( getLib() );
+        }
+
+        public File[] getSrcFiles() {
+            return expandPath( getSource() );
         }
 
         public String getExpandedLibPath() {
@@ -180,34 +199,51 @@ public class PhetBuildTask extends Task {
             throw new RuntimeException( "No path found for token=" + token + ", in project=" + this );
         }
 
-        public void build() {
-            PhetProject[] dependencies = getDependencies();
+        public void buildAll() {
+            PhetProject[] dependencies = getAllProjects();
+            ArrayList srcDirs = new ArrayList();
+            ArrayList lib = new ArrayList();
             for( int i = 0; i < dependencies.length; i++ ) {
                 PhetProject dependency = dependencies[i];
-                System.out.println( "dependency [" + i + "]= " + dependency );
+                srcDirs.addAll( Arrays.asList( dependency.getSrcFiles() ) );
+                lib.addAll( Arrays.asList( dependency.getLibFiles() ) );
             }
+            compile( (File[])srcDirs.toArray( new File[0] ), (File[])lib.toArray( new File[0] ), getAntOutputFile() );
+        }
 
+        private PhetProject[] getAllProjects() {
+            ArrayList projects = new ArrayList( Arrays.asList( getAllDependencies() ) );
+            if (!projects.contains( this )){
+                projects.add( this );
+            }
+            return (PhetProject[])projects.toArray( new PhetProject[0]);
+        }
+
+        public File createAntOutputFile() {
+            File out = getAntOutputFile();
+            out.mkdirs();
+            return out;
+        }
+
+        public void compile( File[] src, File[] classpath, File dst ) {
             Javac javac = new Javac();
             javac.setSource( "1.4" );
-            javac.setSrcdir( new Path( getProject(), getExpandedSourcePath() ) );
-            File destDir = new File( getProject().getBaseDir(), "ant_output/projects/" + projectName );
+            javac.setSrcdir( new Path( getProject(), toString( src ) ) );
+            File destDir = getAntOutputFile();
             destDir.mkdirs();
             javac.setDestdir( destDir );
-            javac.setClasspath( new Path( getProject(), getExpandedLibPath() ) );
+            javac.setClasspath( new Path( getProject(), toString( classpath ) ) );
             runTask( javac );
         }
-    }
 
-    private void buildProject() throws IOException {
-        output( "in build project" );
-        File simulationsDir = new File( getProject().getBaseDir(), "simulations" );
-        PhetProject phetProject = new PhetProject( simulationsDir, projectName );
-        System.out.println( "phetProject = " + phetProject );
-        System.out.println( "phetProject.getSource() = " + phetProject.getSource() );
-        System.out.println( "phetProject.getExpandedSourcePath() = " + phetProject.getExpandedSourcePath() );
-        System.out.println( "phetProject.getAllDependencies( ) = ["+phetProject.getAllDependencies( ).length+" total dependencies]" + Arrays.asList( phetProject.getAllDependencies()) );
+        private File getAntOutputFile() {
+            File destDir = new File( getProject().getBaseDir(), "ant_output/projects/" + projectName );
+            return destDir;
+        }
 
-        phetProject.build();
+        public void build() {
+            compile( getSrcFiles(), getLibFiles(), new File( getProject().getBaseDir(), "ant_output/projects/" + projectName ) );
+        }
     }
 
     public void output( String string ) {
