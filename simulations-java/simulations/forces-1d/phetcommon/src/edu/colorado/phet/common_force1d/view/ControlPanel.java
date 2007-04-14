@@ -13,6 +13,7 @@ package edu.colorado.phet.common_force1d.view;
 import edu.colorado.phet.common_force1d.application.Module;
 import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_force1d.view.help.HelpPanel;
+import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -21,7 +22,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
-import java.net.URL;
 import java.util.Arrays;
 
 /**
@@ -54,8 +54,9 @@ public class ControlPanel extends JPanel {
     public ControlPanel( Module module ) {
         setLayout( new ControlPanel.Layout() );
         // The panel with the logo
-        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
-        imageIcon = new ImageIcon( resource );
+//        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
+//        URL resource = ;
+        imageIcon = new ImageIcon( PhetCommonProjectConfig.getInstance().getImage( "logos/phet-logo.jpg"));
         titleLabel = ( new JLabel( imageIcon ) );
         northPanel = new JPanel();
         northPanel.add( titleLabel );
@@ -197,7 +198,7 @@ public class ControlPanel extends JPanel {
      * Layout manager for the panel
      */
     public class Layout implements LayoutManager {
-        
+
         public void removeLayoutComponent( Component comp ) {
         }
 
@@ -279,7 +280,7 @@ public class ControlPanel extends JPanel {
                     fixAll( c.getComponent( i ) );
                 }
             }
-            
+
             /*
              * On Macintosh, JSliders do not appear when they are inside a JPanel.
              * When JSlider is painted in internal frame, its preferred width and height
