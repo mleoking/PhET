@@ -304,7 +304,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
         BalloonsApplication ba = new BalloonsApplication();
         ba.init(args);
         JFrame jf = new JFrame( SimStrings.getInstance().getString( "balloons.frame.title" ) + " (" + VERSION + ")" );
-        jf.addWindowListener( new Exit() );
+        jf.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         jf.setContentPane( ba );
         jf.setSize( PANEL_WIDTH, PANEL_HEIGHT + ba.controlPanel.getPreferredSize().height + 10 );
         SwingUtils.centerWindowOnScreen( jf );

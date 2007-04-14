@@ -361,6 +361,7 @@ public class Ohm1DApplication extends JApplet {
         sys.addLaw( new Repaint( pp ) );
 
         JFrame f = new JFrame( SimStrings.get( "Ohm1dApplication.title" ) );
+        f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         pp.setBackground( new Color( 235, 230, 240 ) );
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout( new BorderLayout() );
@@ -614,7 +615,6 @@ public class Ohm1DApplication extends JApplet {
             f.dispose();
             f.setVisible( false );
             sr.setAlive( false );
-            System.exit( 0 );
         }
     }
 
