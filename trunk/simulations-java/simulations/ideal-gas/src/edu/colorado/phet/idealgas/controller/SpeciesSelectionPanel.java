@@ -15,6 +15,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.LightSpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

@@ -18,8 +18,8 @@ import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
+import edu.colorado.phet.lasers.view.AnnotatedAtomGraphic;
 import edu.colorado.phet.quantum.model.Photon;
-import edu.colorado.phet.quantum.view.AnnotatedAtomGraphic;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

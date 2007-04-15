@@ -19,6 +19,7 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.WallGraphic;
+import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
 
 import javax.swing.*;
 import java.awt.*;
