@@ -31,55 +31,59 @@ public class PhetProguard {
         return f;
     }
 
-    public File createProguardFile( PhetProject project, boolean shrink ) {
+    public boolean createProguardFile( String name, File template, File proguardFile, File[] injars, File outJar, String[] mainClasses, boolean shrink ) {
+        String newline = System.getProperty( "line.separator" );
         try {
-            File template = new File( project.getBaseDir(), "templates/proguard2.pro" );
-            File output = new File( project.getAntOutputDir(), project.getName() + ".pro" );
             BufferedReader bufferedReader = new BufferedReader( new FileReader( template ) );
-            BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( output ) );
-            bufferedWriter.write( "# Proguard configuration file for " + project.getName() + "." );
-            bufferedWriter.newLine();
-            bufferedWriter.write( "# Automatically generated" );
-            bufferedWriter.newLine();
+            BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( proguardFile ) );
+            bufferedWriter.write( "# Proguard configuration file for " + name + "." + newline );
+            bufferedWriter.write( "# Automatically generated" + newline );
 
-            File[] libs = prepend( project.getAllJarFiles(), project.getJarFile() );
-            for( int j = 0; j < libs.length; j++ ) {
-                bufferedWriter.write( "-injars '" + libs[j].getAbsolutePath() + "'" );
+            for( int i = 0; i < injars.length; i++ ) {
+                bufferedWriter.write( "-injars '" + injars[i].getAbsolutePath() + "'" + newline );
+            }
+
+            bufferedWriter.write( "-outjars '" + outJar.getAbsolutePath() + "'" + newline );
+            bufferedWriter.write( "-libraryjars <java.home>/lib/rt.jar" + newline );//todo: handle mac library
+            for( int i = 0; i < mainClasses.length; i++ ) {
+                bufferedWriter.write( "-keepclasseswithmembers public class " + mainClasses[i] + "{" + newline +
+                                      "    public static void main(java.lang.String[]);" + newline +
+                                      "}" + newline );
                 bufferedWriter.newLine();
             }
-            File outJar = new File( project.getAntOutputDir(), "jars/" + project.getName() + "_pro.jar" );
-            bufferedWriter.write( "-outjars '" + outJar.getAbsolutePath() + "'" );
-            bufferedWriter.newLine();
-            bufferedWriter.write( "-libraryjars <java.home>/lib/rt.jar" );//todo: handle mac library
-            bufferedWriter.newLine();
-            bufferedWriter.write( "-keepclasseswithmembers public class " + project.getMainClass() + "{\n" +
-                                  "    public static void main(java.lang.String[]);\n" +
-                                  "}" );
-            bufferedWriter.newLine();
 
-
-            bufferedWriter.write( "# shrink = " + shrink );
-            bufferedWriter.newLine();
+            bufferedWriter.write( "# shrink = " + shrink + newline );
             if( !shrink ) {
-                bufferedWriter.write( "-dontshrink" );
-                bufferedWriter.newLine();
+                bufferedWriter.write( "-dontshrink" + newline );
             }
 
             String line = bufferedReader.readLine();
             while( line != null ) {
-                bufferedWriter.write( line );
-                bufferedWriter.newLine();
+                bufferedWriter.write( line + newline );
                 line = bufferedReader.readLine();
             }
 
             bufferedWriter.close();
             bufferedReader.close();
-            return output;
+            return true;
         }
         catch( IOException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
+    }
+
+    public static void main( String[] args ) {
+        
+    }
+
+    public File createProguardFile( PhetProject project, boolean shrink ) {
+        File template = new File( project.getBaseDir(), "templates/proguard2.pro" );
+        File output = new File( project.getAntOutputDir(), project.getName() + ".pro" );
+        File[] injars = prepend( project.getAllJarFiles(), project.getJarFile() );
+        File outJar = new File( project.getAntOutputDir(), "jars/" + project.getName() + "_pro.jar" );
+        boolean ok = createProguardFile( project.getName(), template, output, injars, outJar, new String[]{project.getMainClass()}, shrink );
+        return ok ? output : null;
     }
 
 }
