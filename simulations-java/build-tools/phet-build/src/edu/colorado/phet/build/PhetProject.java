@@ -74,6 +74,14 @@ public class PhetProject {
         return properties.getProperty( "project.depends.data" );
     }
 
+    public String[] getKeepMains() {
+        String v = properties.getProperty( "project.keepmains" );
+        if( v == null ) {
+            v = "";
+        }
+        return split( v, ": " );
+    }
+
     private File[] getDataDirectories() {
         return expandPath( getData() );
     }
@@ -163,6 +171,15 @@ public class PhetProject {
         else {
             return false;
         }
+    }
+
+    private String[] split( String str, String delimiters ) {
+        ArrayList out = new ArrayList();
+        StringTokenizer stringTokenizer = new StringTokenizer( str, delimiters );
+        while( stringTokenizer.hasMoreTokens() ) {
+            out.add( stringTokenizer.nextToken() );
+        }
+        return (String[])out.toArray( new String[0] );
     }
 
     private File[] expandPath( String lib ) {
@@ -331,5 +348,12 @@ public class PhetProject {
 
     public String[] getMainClasses() {
         return new String[0];
+    }
+
+    public String[] getAllMainClasses() {
+        ArrayList all = new ArrayList();
+        all.add( getMainClass() );
+        all.addAll( Arrays.asList( getKeepMains() ) );
+        return (String[])all.toArray( new String[0] );
     }
 }

@@ -119,18 +119,29 @@ public class AllSimsApplication {
 
     public static void copyPropertiesToData( File simulations, File data ) throws IOException {
         data.mkdirs();
-        BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( new File( data, "all.txt" ) ) );
+        BufferedWriter allWriter = new BufferedWriter( new FileWriter( new File( data, "all.txt" ) ) );
+        BufferedWriter classWriter = new BufferedWriter( new FileWriter( new File( data, "main-classes.txt" ) ) );
         File[] f = simulations.listFiles();
         for( int i = 0; i < f.length; i++ ) {
             File file = f[i];
             File propertyFile = new File( file, file.getName() + ".properties" );
             if( propertyFile.exists() ) {
+
                 copyFile( propertyFile, data );
-                bufferedWriter.write( propertyFile.getName() );
-                bufferedWriter.newLine();
+                allWriter.write( propertyFile.getName() );
+                allWriter.newLine();
+
+                Properties prop = new Properties();
+                prop.load( new FileInputStream( propertyFile ) );
+                String mainClass = prop.getProperty( "project.mainclass" );
+                classWriter.write( mainClass );
+                if( i < f.length - 1 ) {
+                    classWriter.write( " : " );
+                }
             }
         }
-        bufferedWriter.close();
+        allWriter.close();
+        classWriter.close();
     }
 
     private static void copyFile( File propertyFile, File data ) throws IOException {
@@ -147,7 +158,7 @@ public class AllSimsApplication {
     }
 
     public static void main( String[] args ) throws IOException {
-//        copyPropertiesToData( new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations" ), new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations\\all-sims\\data\\all-sims" ) );
+        copyPropertiesToData( new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations" ), new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations\\all-sims\\data\\all-sims" ) );
         new AllSimsApplication().start();
     }
 
