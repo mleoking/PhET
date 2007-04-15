@@ -17,8 +17,8 @@ import java.util.Properties;
  * Apr 14, 2007, 4:34:45 AM
  */
 public class AllSimsApplication {
-    private JFrame frame;
     private Timer frameTimer;
+    private JFrame frame = new AllSimsFrame();
 
     public AllSimsApplication() throws IOException {
         InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream( "all-sims/all.txt" );
@@ -29,7 +29,6 @@ public class AllSimsApplication {
             sims.add( new Simulation( "all-sims/" + line.trim() ) );
             line = bufferedReader.readLine();
         }
-        frame = new JFrame();
         final JList list = new JList( sims.toArray() );
         list.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         list.addListSelectionListener( new ListSelectionListener() {
@@ -47,10 +46,14 @@ public class AllSimsApplication {
         frameTimer = new Timer( 100, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 Frame[] f = Frame.getFrames();
-                System.out.println( "f.length = " + f.length );
+                if( f.length != lastFrameCount ) {
+                    System.out.println( "Number of frames: " + f.length );
+                    lastFrameCount = f.length;
+                }
+//                System.out.print( "f.length = " + f.length+", " );
                 for( int i = 0; i < f.length; i++ ) {
                     Frame frame1 = f[i];
-                    if( frame1 instanceof JFrame && frame1 != frame ) {
+                    if( frame1 instanceof JFrame && frame1 != frame && !( frame1 instanceof AllSimsFrame ) ) {
                         JFrame jFrame = (JFrame)frame1;
                         jFrame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
                     }
@@ -58,6 +61,8 @@ public class AllSimsApplication {
             }
         } );
     }
+
+    int lastFrameCount = -1;
 
     static class Simulation {
         private Properties properties;
@@ -155,6 +160,12 @@ public class AllSimsApplication {
         }
         bufferedWriter.close();
         bufferedReader.close();
+    }
+
+    static class AllSimsFrame extends JFrame {
+        public AllSimsFrame() {
+            super( "PhET Simulations" );
+        }
     }
 
     public static void main( String[] args ) throws IOException {
