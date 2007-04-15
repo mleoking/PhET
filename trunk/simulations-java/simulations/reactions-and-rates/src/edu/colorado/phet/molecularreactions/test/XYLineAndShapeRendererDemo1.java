@@ -5,7 +5,7 @@
  *
  */
 
-package demo;
+package edu.colorado.phet.molecularreactions.test;
 
 import javax.swing.JPanel;
 

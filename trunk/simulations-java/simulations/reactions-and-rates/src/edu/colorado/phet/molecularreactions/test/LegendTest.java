@@ -1,4 +1,4 @@
-/* Copyright 2003-2004, University of Colorado */
+package edu.colorado.phet.molecularreactions.test;/* Copyright 2003-2004, University of Colorado */
 
 /*
  * CVS Info -
@@ -11,12 +11,9 @@
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.molecularreactions.view.Legend;
-import edu.umd.cs.piccolo.PCanvas;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * LegendTest
