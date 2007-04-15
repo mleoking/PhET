@@ -8,6 +8,7 @@ import org.apache.tools.ant.taskdefs.Echo;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class PhetBuildTask extends Task {
     private String projectName;
@@ -24,8 +25,25 @@ public class PhetBuildTask extends Task {
         }
     }
 
+    private File searchProject( String name ) {
+        File[] searchRoots = new File[]{
+                new File( getBaseDir(), "simulations" ),
+                new File( getBaseDir(), "common" ),
+                new File( getBaseDir(), "contrib" ),
+        };
+        for( int i = 0; i < searchRoots.length; i++ ) {
+            File searchRoot = searchRoots[i];
+            File dir = new File( searchRoot, name );
+            File props = new File( dir, name + ".properties" );
+            if( dir.exists() && dir.isDirectory() && props.exists() ) {
+                return searchRoot;
+            }
+        }
+        throw new RuntimeException( "No project found for name=" + name + ", searched in roots=" + Arrays.asList( searchRoots ) );
+    }
+
     private void buildSimulation() throws IOException {
-        PhetProject phetProject = new PhetProject( this, new File( getProject().getBaseDir(), "simulations" ), projectName );
+        PhetProject phetProject = new PhetProject( this, searchProject( projectName ), projectName );
         phetProject.buildAll( shrink );
     }
 
