@@ -29,6 +29,14 @@
         <phet-build project="hydrogen-atom" shrink="false"/>
     </target>
 
+    <target name="build_qm_suite" depends="declare_phet-build-task">
+        <phet-build project="quantum" shrink="false"/>
+        <phet-build project="ideal-gas"/>
+        <phet-build project="lasers"/>
+        <phet-build project="fluorescent-lights"/>
+        <phet-build project="photoelectric"/>
+    </target>
+
     <target name="build_all" depends="declare_phet-build-task">
         <echo message="Starting build..."/>
         <phet-build project="balloons"/>
