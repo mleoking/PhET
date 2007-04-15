@@ -16,7 +16,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.GasSource;
-import edu.colorado.phet.idealgas.controller.PumpMoleculeCmd;
+import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

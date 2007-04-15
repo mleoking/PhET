@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.idealgas.controller.menus;
+package edu.colorado.phet.idealgas.controller.Menus;
 
 import edu.colorado.phet.collision_idealgas.SphereSphereExpert;
 import edu.colorado.phet.common.application.PhetApplication;

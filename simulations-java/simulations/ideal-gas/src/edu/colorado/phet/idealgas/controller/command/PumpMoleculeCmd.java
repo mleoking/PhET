@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.idealgas.controller;
+package edu.colorado.phet.idealgas.controller.command;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetGraphicsModule;

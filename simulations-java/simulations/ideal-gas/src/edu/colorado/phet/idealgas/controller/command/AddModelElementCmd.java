@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Jan 13, 2004
  */
-package edu.colorado.phet.idealgas.controller;
+package edu.colorado.phet.idealgas.controller.command;
 
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
