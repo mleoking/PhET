@@ -78,7 +78,8 @@ public class PhetProguard {
         File output = new File( project.getAntOutputDir(), project.getName() + ".pro" );
         File[] injars = prepend( project.getAllJarFiles(), project.getJarFile() );
         File outJar = new File( project.getAntOutputDir(), "jars/" + project.getName() + "_pro.jar" );
-        boolean ok = createProguardFile( project.getName(), template, output, injars, outJar, new String[]{project.getMainClass()}, shrink );
+
+        boolean ok = createProguardFile( project.getName(), template, output, injars, outJar, project.getAllMainClasses(), shrink );
 //        boolean ok = createProguardFile( project.getName(), template, output, injars, outJar, project.getMainClasses(), shrink );
         return ok ? output : null;
     }
