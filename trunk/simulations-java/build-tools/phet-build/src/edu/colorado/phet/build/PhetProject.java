@@ -280,10 +280,6 @@ public class PhetProject {
         runTask( jar );
     }
 
-    public String getMainClass() {
-        return properties.getProperty( "project.mainclass" );
-    }
-
     public File getJarFile() {
         File file = new File( getAntOutputDir(), "jars/" + name + ".jar" );
         file.getParentFile().mkdirs();
@@ -327,5 +323,13 @@ public class PhetProject {
         compile( getAllSourceRoots(), getAllJarFiles(), getClassesDirectory() );
         jar();
         new PhetProguard().proguard( this, shrink );
+    }
+
+    public String getMainClass() {
+        return properties.getProperty( "project.mainclass" );
+    }
+
+    public String[] getMainClasses() {
+        return new String[0];
     }
 }
