@@ -211,14 +211,18 @@ window.open = SymWinOpen;
                 <a class="d-arrow" href="#credits"><span class="burg">Credits</span></a></p><br />
             <br />
 
-            <h1 class="indi-sim" id="topics">Simulation Information</h1>
+            <h1 class="indi-sim" id="topics">Topics</h1>
 
-            <h2 class="sub-title">User Tips</h2>
+            <h2 class="sub-title">Main Topics</h2>
 
             <p class="indi-sim">
-                <?php
-                    print "$usertips";
-                ?>
+                Main topics
+            </p>
+
+            <h2 class="sub-title">Subtopics</h2>
+
+            <p class="indi-sim">
+                Subtopics
             </p>
 
             <h2 class="sub-title">Sample Learning Goals</h2>
