@@ -62,7 +62,7 @@ way, the user does not need Flash in order to correctly view the home page.
 print <<<EOT
     <script language="javascript">
 
-    var delay=7000
+    var delay=5000
     var curindex=0
 
     var randomimages=new Array()
@@ -140,7 +140,7 @@ EOT;
 
             <p class="findOutMore"><a href="simulations/index.php"><img src="images/findOutMore.gif" alt="Find out More" title="Find out More" /></a><br />
             <br />
-            <img src="images/version_es.gif" /> <a class="espanol" href="simulations-espanol.htm">Simulaciones en español</a></p>
+            <img src="images/version_es.gif" /> <a class="espanol" href="simulations-espanol.htm">Simulaciones en espa&ntilde;ol</a></p>
 
             <div class="clear"></div>
         </div>
@@ -153,7 +153,7 @@ EOT;
 
                 <dd><a href="get_phet/full_install.htm">Full Installation</a></dd>
 
-                <dd><a href="get_phet/simlauncher.htm">Partial Installatio</a></dd>
+                <dd><a href="get_phet/simlauncher.htm">Partial Installation</a></dd>
             </dl>
 
             <dl>
@@ -165,13 +165,9 @@ EOT;
             <dl>
                 <dt><a href="contribute/index.html"><img src="images/contribute.jpg" alt="" title="" /></a></dt>
 
-                <dd><a href="contribute/index.html">Provide ideas you’ve used in class</a></dd>
+                <dd><a href="teacher_ideas/index.html">Provide ideas you've used in class</a></dd>
 
-                <dd><a href="contribute/index.html">Financial Support</a></dd>
-
-                <dd><a href="about/licensing.htm">Licensing Options</a></dd>
-
-                <dd><a href="contribute/index.html">Translations of Simulations</a></dd>
+                <dd><a href="contribute/index.html">Other contributions</a></dd>
             </dl>
 
             <dl class="last">
