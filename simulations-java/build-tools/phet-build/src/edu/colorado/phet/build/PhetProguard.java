@@ -44,7 +44,14 @@ public class PhetProguard {
             }
 
             bufferedWriter.write( "-outjars '" + outJar.getAbsolutePath() + "'" + newline );
-            bufferedWriter.write( "-libraryjars <java.home>/lib/rt.jar" + newline );//todo: handle mac library
+            if ( System.getProperty( "os.name" ).toLowerCase().startsWith( "mac os x" ) ) {
+                String macPath = "/System/Library/Frameworks/JavaVM.framework/Classes";
+                bufferedWriter.write( "-libraryjars " + macPath + "/classes.jar" + newline );
+                bufferedWriter.write( "-libraryjars " + macPath + "/ui.jar" + newline );
+            }
+            else {
+                bufferedWriter.write( "-libraryjars <java.home>/lib/rt.jar" + newline ); // Windows, Linux
+            }
             for( int i = 0; i < mainClasses.length; i++ ) {
                 bufferedWriter.write( "-keepclasseswithmembers public class " + mainClasses[i] + "{" + newline +
                                       "    public static void main(java.lang.String[]);" + newline +
