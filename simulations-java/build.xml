@@ -6,7 +6,1072 @@
     -->
     
     <!--
-       
+                                       <project name="PhET Master Build Script" default="build-all" basedir=".">
+    <!--
+        NOTE: Targets prefixed with an underscore are meant only for internal
+        use within the Ant build file. These targets do not have any
+        dependencies set and should not be invoked by end-users.
+    -->
+
+    <!--
+
+        trunk/
+            simulations-java/
+                ant_output/
+                build-tools/
+                common/
+                contrib/
+                simulations/
+                templates/
+
+                build.xml
+
+
+    -->
+
+    <!-- Directory name information -->
+    <property name="dirname.simulations"        value="simulations"                                         />
+
+    <!-- URLs for performing checkout, update, etc. -->
+    <property name="url.svn.trunk"              value="https://phet.svn.sourceforge.net/svnroot/phet/trunk/"/>
+    <property name="url.svn.simulations-java"   value="${url.svn.trunk}simulations-java/${dirname.simulations}/" />
+
+    <!-- Standard directory information -->
+    <property name="dir.simulations"            value="${basedir}/${dirname.simulations}/"                  />
+    <property name="dir.phet.common"            value="${basedir}/common/"                                  />
+    <property name="dir.build-tools"            value="${basedir}/build-tools/"                             />
+    <property name="dir.contrib"                value="${basedir}/contrib/"                                 />
+    <property name="dir.templates"              value="${basedir}/templates/"                               />
+
+    <!-- Temp directory information -->
+    <property name="dir.temp"                   value="${basedir}/ant_output/"                              />
+    <property name="dir.temp.junit"             value="${dir.temp}junit/"                                   />
+    <property name="dir.temp.projects"          value="${dir.temp}projects/"                                />
+
+    <!-- Template files -->
+    <property name="filename.template.jnlp"     value="webstart.jnlp"                                       />
+    <property name="filename.template.proguard" value="proguard.pro"                                        />
+    <property name="file.template.jnlp"         value="${dir.templates}${filename.template.jnlp}"           />
+    <property name="file.template.proguard"     value="${dir.templates}${filename.template.proguard}"       />
+
+    <!-- Deployment properties -->
+    <property name="host.dev.server"            value="spot.colorado.edu"                                   />
+    <property name="dir.prefix.dev.server"      value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev/" />
+    <property name="url.prefix.dev.server"      value="http://www.colorado.edu/physics/phet/dev/"           />
+    <property name="host.prod.server"           value="tigercat.colorado.edu"                               />
+    <property name="dir.prefix.prod.server"     value="/web/htdocs/phet/simulations/"                       />
+    <property name="url.prefix.prod.server"     value="http://phet.colorado.edu/simulations/"               />
+
+    <!-- Support jars -->
+    <property name="jar.ant-contrib"            value="${dir.build-tools}ant-contrib/ant-contrib-1.0b3.jar" />
+    <property name="jar.junit"                  value="${dir.build-tools}junit3.8.2/junit.jar"              />
+    <property name="jar.maverick"               value="${dir.build-tools}maverick/lib/maverick-ant.jar"     />
+    <property name="jar.antform"                value="${dir.build-tools}antform-bin-2.0beta2/lib/antform.jar"/>
+    <property name="jar.proguard"               value="${dir.build-tools}proguard3.8/lib/proguard.jar"      />
+
+    <!-- Ant-Contrib tasks definition -->
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="${jar.ant-contrib}"/>
+        </classpath>
+    </taskdef>
+
+    <!-- Maverick task definition -->
+    <taskdef name="ssh" classname="com.sshtools.ant.Ssh" classpath="${jar.maverick}"/>
+
+    <!-- AntForm task definition -->
+    <taskdef name="antform" classname="com.sardak.antform.AntForm" classpath="${jar.antform}"/>
+
+    <!--Proguard task definition-->
+    <taskdef resource="proguard/ant/task.properties" classpath="${jar.proguard}"/>
+
+    <target name="_verify-sim-exists" description="Verifies that the simulation exists" >
+        <available file="${dir.project}" type="dir" property="tmp.sim.dir.exists" />
+
+        <if>
+            <not>
+                <isset property="tmp.sim.dir.exists" />
+            </not>
+            <then>
+                <fail message="There is no directory ${dir.project}" />
+            </then>
+        </if>
+    </target>
+
+    <target name="_verify-sim-name-specified" description="Verifies that the simulation name has been specified" >
+        <if>
+            <not>
+                <isset property="name.sim"/>
+            </not>
+            <then>
+                <antform title="Enter Simulation Name" focus="OK" width="550" height="300">
+                    <label>Please enter the name of the simulation with which to perform the operation. This is the name of the Subversion folder that the simulation is stored in.</label>
+                    <textProperty label="Simulation Name: " property="name.sim" required="true" tooltip="The simulation name"/>
+                </antform>
+            </then>
+        </if>
+    </target>
+
+    <target name="_create-project-properties" description="Creates project properties" if="dir.project">
+        <!-- Creates project properties from ${dir.project} -->
+
+        <!-- Cleanup the dir.project property: -->
+        <if>
+            <!-- If there's no slash on the end... -->
+            <not>
+                <matches string="${dir.project}" pattern=".*[/\\]\Z" />
+            </not>
+            <then>
+                <!-- Add it! -->
+                <var name="dir.project" value="${dir.project}/" />
+            </then>
+        </if>
+
+        <echo message="Project directory = ${dir.project}" />
+
+        <!-- Extract the project shortname from the directory name: -->
+        <propertyregex
+            property="dirname.project"
+            override="true"
+            input="${dir.project}"
+            regexp=".*[/\\]([^/\\]+)"
+            select="\1"
+            casesensitive="false" >
+        </propertyregex>
+
+        <var name="key.project.name"                value="${dirname.project}.name"                                         />
+        <var name="key.project.description"         value="${dirname.project}.description"                                  />
+        <var name="dir.temp.project"                value="${dir.temp.projects}${dirname.project}/"                         />
+        <var name="dir.project.deploy.local"        value="${dir.project}deploy/"                                           />
+        <var name="filename.project.jnlp.deploy"    value="${dirname.project}.jnlp"                                         />
+        <var name="filename.project.jar.deploy"     value="${dirname.project}.jar"                                          />
+        <var name="filename.project.jar.deploy-pro" value="${dirname.project}-pro.jar"                                      />
+        <var name="jar.project.deploy.local"        value="${dir.project.deploy.local}${filename.project.jar.deploy}"       />
+        <var name="jar.project.deploy-pro.local"    value="${dir.project.deploy.local}${filename.project.jar.deploy-pro}"   />
+        <var name="file.project.properties"         value="${dir.project}data/${dirname.project}/${dirname.project}.properties" />
+        <var name="file.project.loc.properties"     value="${dir.project}data/${dirname.project}/localization/${dirname.project}-strings.properties" />
+        <var name="file.project.build.properties"   value="${dir.project}${dirname.project}.properties"                     />
+    </target>
+
+    <target name="_convert-sim-name-to-project-dir" description="Converts the sim name property into a project directory" depends="_verify-sim-name-specified">
+        <var name="dir.project" value="${dir.simulations}${name.sim}/" />
+    </target>
+
+    <target name="_create-sim-properties" description="Creates simulation properties" depends="_convert-sim-name-to-project-dir, _create-project-properties" />
+
+    <target name="_load-project-build-properties" description="Loads the build properties for the specified project">
+        <!-- Internal task expects ${file.project.build.properties} and ${dirname.project} to be defined -->
+
+        <available file="${file.project.build.properties}" property="build.properties.present"/>
+
+        <echo message="Looking for build properties in ${file.project.build.properties}" />
+
+        <if>
+            <isset property="build.properties.present"/>
+            <then>
+                <!-- The property file exists; load it -->
+                <property file="${file.project.build.properties}"/>
+
+                <if>
+                    <not>
+                        <and>
+                            <isset property="project.depends.data"  />
+                            <isset property="project.depends.source"/>
+                            <isset property="project.depends.lib"   />
+                            <isset property="project.mainclass"     />
+                            <isset property="project.screenshot"    />
+                        </and>
+                    </not>
+                    <then>
+                        <fail message="A required property was not present in the build file: project.depends.data, project.depends.source, project.depends.lib, project.mainclass, project.screenshot" />
+                    </then>
+                </if>
+            </then>
+            <else>
+                <fail message="The project ${dirname.project} does not have a ${file.project.build.properties} file." />
+            </else>
+        </if>
+    </target>
+
+    <target name="_sim-build-depends" description="Build preparation" depends="_create-sim-properties, _verify-sim-name-specified, _verify-sim-exists, _load-project-build-properties" />
+
+    <target name="_sim-deploy-depends" description="Deployment preparation" depends="_create-sim-properties, _verify-sim-name-specified, _verify-sim-exists">
+        <available file="${file.project.properties}" property="tmp.file.sim.properties.is.present" />
+
+        <if>
+            <not>
+                <isset property="tmp.file.sim.properties.is.present" />
+            </not>
+            <then>
+                <fail message="The simulation does not have a property file ${file.project.properties}, which is required for deployment." />
+            </then>
+        </if>
+    </target>
+
+    <target name="_find-dependency" description="Finds the specified dependency" >
+        <!-- TODO: This target needs to be refactored -->
+
+        <!--
+            Internal task expects the following to be defined:
+
+            ${dir.project}
+            ${param.depends}
+
+            Optionally, ${param.dependency.type} may be defined as one of
+            "lib", "data", "source".
+        -->
+
+        <!--
+            On success, ${param.depends} will be updated with path to dependency
+        -->
+
+        <var name="tmp.depends.name" value="" />
+
+        <!-- For files (like JARs), we look only for their parent directories: -->
+
+        <!-- Save the name into ${tmp.depends.name} -->
+        <propertyregex
+            property="tmp.depends.name"
+            override="true"
+            input="${param.depends}"
+            regexp="(.*[/\\]([^/\\.]+$)?)([^/\\]+\.\w+)?"
+            select="\3"
+            casesensitive="false" >
+        </propertyregex>
+
+        <!-- Extract just the path: -->
+        <propertyregex
+            property="param.depends"
+            override="true"
+            input="${param.depends}"
+            regexp="(.*[/\\]([^/\\.]+$)?)([^/\\]+\.\w+)?"
+            select="\1"
+            casesensitive="false" >
+        </propertyregex>
+
+        <echo message="Looking for dependency ${param.depends} (${tmp.depends.name}) in ${dir.project}${param.depends}" />
+
+        <var name="tmp.dependency.found" unset="true"/>
+
+        <if>
+            <and>
+                <!-- If this is a library dependency... -->
+                <equals arg1="${param.dependency.type}" arg2="lib"/>
+
+                <!-- And the user specified a directory... -->
+                <equals arg1="${tmp.depends.name}" arg2="" />
+            </and>
+            <then>
+                <!-- Then strip off /deploy/: -->
+                <propertyregex
+                    property="param.depends"
+                    override="true"
+                    input="${param.depends}"
+                    regexp="(.+)deploy[/\\]?\Z"
+                    select="\1"
+                    casesensitive="false" />
+
+                <!-- Extract the name of the deepest directory: -->
+                <propertyregex
+                    property="tmp.lib.name"
+                    override="true"
+                    input="${param.depends}"
+                    regexp="((.*[/\\])?)([^/\\]+)([/\\]?)"
+                    select="\3"
+                    casesensitive="false" />
+
+                <var name="tmp.depends.name" value="/deploy/${tmp.lib.name}.jar" />
+
+                <echo message="User specifying a library directory as a dependency. Searching for ${tmp.depends.name} in root ${param.depends}" />
+            </then>
+        </if>
+
+        <!-- Look into project build file directory -->
+        <available file="${dir.project}${param.depends}" property="tmp.dependency.found" />
+
+        <if>
+            <isset property="tmp.dependency.found"/>
+
+            <then>
+                <echo message="Dependency ${param.depends} found in project directory" />
+
+                <var name="param.depends" value="${dir.project}${param.depends}"/>
+            </then>
+            <else>
+                <echo message="Looking for dependency ${param.depends} (${tmp.depends.name}) in ${dir.phet.common}${param.depends}" />
+
+                <!-- Dependency not stored in project directory. Look into common area: -->
+                <available file="${dir.phet.common}${param.depends}" property="tmp.dependency.found" />
+
+                <if>
+                    <isset property="tmp.dependency.found"/>
+                    <then>
+                        <echo message="Dependency ${param.depends} found in common directory" />
+
+                        <var name="param.depends" value="${dir.phet.common}${param.depends}"/>
+                    </then>
+                    <else>
+                        <echo message="Looking for dependency ${param.depends} (${tmp.depends.name}) in ${dir.contrib}${param.depends}" />
+
+                        <!-- Dependency not stored in common directory. Look into contrib: -->
+                        <available file="${dir.contrib}${param.depends}" property="tmp.dependency.found" />
+
+                        <if>
+                            <isset property="tmp.dependency.found" />
+                            <then>
+                                <echo message="Dependency ${param.depends} found in contrib directory" />
+
+                                <var name="param.depends" value="${dir.contrib}${param.depends}"/>
+                            </then>
+                            <else>
+                                <echo message="Looking for dependency ${param.depends} (${tmp.depends.name}) in ${dir.simulations}${param.depends}" />
+
+                                <!-- Dependency not stored in contrib directory. Look into simulations area: -->
+                                <available file="${dir.simulations}${param.depends}" property="tmp.dependency.found" />
+
+                                <if>
+                                    <isset property="tmp.dependency.found"/>
+                                    <then>
+                                        <echo message="Dependency ${param.depends} found in simulations-java directory" />
+
+                                        <var name="param.depends" value="${dir.simulations}${param.depends}"/>
+                                    </then>
+                                    <else>
+                                        <fail message="Dependency ${param.depends} not found anywhere." />
+                                    </else>
+                                </if>
+                            </else>
+                        </if>
+                    </else>
+                </if>
+            </else>
+        </if>
+
+        <!-- Tack the name onto the end, if any: -->
+        <var name="param.depends" value="${param.depends}${tmp.depends.name}" />
+
+        <echo message="Resolved dependency as ${param.depends}" />
+    </target>
+
+    <target name="_inc-build-dependency-list" description="Incrementally builds a dependency list">
+        <!--
+             Expects ${param.depends} to be set to the current dependency;
+             will incrementally update ${param.all.depends} with dependency.
+             The dependency list is comma delimited.
+        -->
+
+        <!-- Try to find the dependency: -->
+        <runtarget target="_find-dependency" />
+
+        <!-- Incrementally build the dependency list: -->
+        <if>
+            <equals arg1="${param.all.depends}" arg2="" />
+            <then>
+                <var name="param.all.depends" value="${param.depends}" />
+            </then>
+            <else>
+                <var name="param.all.depends" value="${param.all.depends},${param.depends}" />
+            </else>
+        </if>
+    </target>
+
+    <target name="_collect-all-dependencies" description="Collects all dependencies">
+        <!-- Expects ${dir.project} and ${param.project.depends} to be defined -->
+        <!-- On success, ${param.all.depends} contains all resolved dependencies -->
+
+        <var name="param.all.depends" value="" />
+
+        <for param="foreach.depends" list="${param.project.depends}" delimiter=":" trim="true">
+            <sequential>
+                <var name="param.depends" value="@{foreach.depends}" />
+
+                <antcallback target="_inc-build-dependency-list" return="param.all.depends" />
+            </sequential>
+        </for>
+    </target>
+
+    <target name="_build-non-existent-libraries" description="Builds any non-existent libraries" if="param.all.lib.depends">
+        <!-- Expects ${param.all.lib.depends} to exist -->
+
+        <for param="foreach.lib.depends" list="${param.all.lib.depends}" delimiter="," trim="true">
+            <sequential>
+                <var name="tmp.lib.depends.pathname" value="@{foreach.lib.depends}" />
+
+                <!-- Extract the path of the library:-->
+                <propertyregex
+                    property="tmp.lib.depends.path"
+                    override="true"
+                    input="${tmp.lib.depends.pathname}"
+                    regexp="(.*[/\\]([^/\\.]+$)?)([^/\\]+\.\w+)?"
+                    select="\1"
+                    casesensitive="false" >
+                </propertyregex>
+
+                <!-- Extract the name of the library: -->
+                <propertyregex
+                    property="tmp.lib.depends.name"
+                    override="true"
+                    input="${tmp.lib.depends.pathname}"
+                    regexp="(.*[/\\]([^/\\.]+$)?)([^/\\]+\.\w+)?"
+                    select="\3"
+                    casesensitive="false" >
+                </propertyregex>
+
+                <!-- Check to see if the library exists -->
+
+                <!-- Pretty printing (path cleanup) -->
+                <propertyregex
+                    property="tmp.lib.depends.pathname"
+                    override="true"
+                    input="${tmp.lib.depends.pathname}"
+                    regexp="(\\)|(/+)"
+                    replace="/"
+                    casesensitive="false" >
+                </propertyregex>
+
+                <echo message="Looking for library ${tmp.lib.depends.pathname}" />
+
+                <var name="tmp.lib.depends.exists" unset="true" />
+
+                <available file="${tmp.lib.depends.pathname}" property="tmp.lib.depends.exists" />
+
+                <if>
+                    <!-- If the library does NOT exist... -->
+                    <not>
+                        <isset property="tmp.lib.depends.exists" />
+                    </not>
+                    <then>
+                        <echo message="Library does not exist. Must build library from build properties." />
+
+                        <!-- Strip off /deploy/, if it is specified. -->
+                        <propertyregex
+                            property="tmp.lib.depends.path"
+                            override="true"
+                            input="${tmp.lib.depends.path}"
+                            regexp="(.+)deploy[/\\]?\Z"
+                            select="\1"
+                            casesensitive="false" >
+                        </propertyregex>
+
+                        <echo message="Looking for build properties file in ${tmp.lib.depends.path}" />
+
+                        <!-- Call the _build-project task: -->
+                        <antcall target="_build-project" inheritAll="false">
+                            <param name="dir.project.override" value="${tmp.lib.depends.path}" />
+                        </antcall>
+                    </then>
+                    <else>
+                        <echo message="Library ${tmp.lib.depends.pathname} found" />
+                    </else>
+                </if>
+            </sequential>
+        </for>
+    </target>
+
+    <target name="_copy-all-resources" description="Copies all resources to the required directory" if="param.required.resource">
+        <!-- Internal task expects the following to be defined:
+
+             ${param.required.resource}
+             ${dir.temp.project}
+
+        Optionally, the following may be defined:
+
+             ${param.exclude.filter}
+        -->
+        <if>
+            <not>
+                <isset property="param.exclude.filter" />
+            </not>
+            <then>
+                <var name="param.exclude.filter" value="Nicro$oft" />
+            </then>
+        </if>
+
+        <for param="foreach.required.resource" list="${param.required.resource}" delimiter="," trim="true">
+            <sequential>
+                <if>
+                    <matches string="@{foreach.required.resource}" pattern=".+\.(jar|zip)"/>
+                    <then>
+                        <echo message="Required resource @{foreach.required.resource} is an archive. Unzipping to ${dir.temp.project}" />
+
+                        <unzip src="@{foreach.required.resource}" dest="${dir.temp.project}" />
+                    </then>
+                    <else>
+                        <available file="@{foreach.required.resource}" property="tmp.required.resource.is.directory" type="dir"/>
+
+                        <if>
+                            <isset property="tmp.required.resource.is.directory" />
+                            <then>
+                                <echo message="Required resource @{foreach.required.resource} is a directory. Copying to ${dir.temp.project}" />
+
+                                <copy todir="${dir.temp.project}">
+                                    <fileset dir="@{foreach.required.resource}">
+                                        <exclude name="**/${param.exclude.filter}"/>
+                                        <exclude name="**/.svn"/>
+                                    </fileset>
+                                </copy>
+                            </then>
+                            <else>
+                                <echo message="Required resource @{foreach.required.resource} is a file. Copying to ${dir.temp.project}" />
+
+                                <copy file="@{foreach.required.resource}" todir="${dir.temp.project}" />
+                            </else>
+                        </if>
+                    </else>
+                </if>
+            </sequential>
+        </for>
+    </target>
+
+    <target name="_build-project" description="Builds the specified project" if="dir.project">
+        <!-- Internal task expects ${dir.project} or ${dir.project.override} to be defined -->
+
+        <if>
+            <!--
+                This 'override' hack is necessary because Ant can't override
+                properties specified via -D, like sim name.
+            -->
+            <isset property="dir.project.override" />
+            <then>
+                <var name="dir.project" value="${dir.project.override}" />
+            </then>
+        </if>
+
+        <!-- These have to be invoked AFTER project override, so they can't be depends -->
+        <runtarget target="_create-project-properties"      />
+        <runtarget target="_load-project-build-properties"  />
+
+        <echo message="Building project in ${dir.project}" />
+
+        <!-- Collect all source dependencies into ${param.all.source.depends}: -->
+        <antcallback target="_collect-all-dependencies" return="param.all.depends">
+            <param name="param.project.depends" value="${project.depends.source}" />
+            <param name="param.dependency.type" value="source" />
+        </antcallback>
+        <var name="param.all.source.depends" value="${param.all.depends}" />
+
+        <!-- Collect all data dependencies into ${param.all.source.depends}: -->
+        <antcallback target="_collect-all-dependencies" return="param.all.depends">
+            <param name="param.project.depends" value="${project.depends.data}" />
+            <param name="param.dependency.type" value="data" />
+        </antcallback>
+        <var name="param.all.data.depends" value="${param.all.depends}" />
+
+        <!-- Collect all lib dependencies into ${param.all.source.depends}: -->
+        <antcallback target="_collect-all-dependencies" return="param.all.depends">
+            <param name="param.project.depends" value="${project.depends.lib}" />
+            <param name="param.dependency.type" value="lib" />
+        </antcallback>
+        <var name="param.all.lib.depends" value="${param.all.depends}" />
+
+        <var name="param.all.depends" unset="true" />
+
+        <echo message="All source dependencies: ${param.all.source.depends}" />
+        <echo message="All data dependencies:   ${param.all.data.depends}" />
+        <echo message="All lib dependencies:    ${param.all.lib.depends}" />
+
+        <!-- Some libraries may not exist. Execute recursive build to create them: -->
+        <antcall target="_build-non-existent-libraries" />
+
+        <!--
+            At this point all libraries exist and can be added to the classpath.
+        -->
+        <mkdir dir="${dir.temp.project}" />
+
+        <!-- Copy all non-java files in the source directories (this is usually desired) -->
+        <echo message="Copying all non-source resources in source directories to ${dir.temp.project}" />
+        <antcall target="_copy-all-resources">
+            <param name="param.required.resource" value="${param.all.source.depends}" />
+            <param name="param.exclude.filter"    value="*.java" />
+        </antcall>
+
+        <!-- Copy all library resources -->
+        <echo message="Copying all library resources to ${dir.temp.project}" />
+        <antcall target="_copy-all-resources">
+            <param name="param.required.resource" value="${param.all.lib.depends}" />
+        </antcall>
+
+        <!-- Copy all data resources -->
+        <echo message="Copying all data resources to ${dir.temp.project}" />
+        <antcall target="_copy-all-resources">
+            <param name="param.required.resource" value="${param.all.data.depends}" />
+        </antcall>
+
+        <echo message="Compiling all source files to ${dir.temp.project}" />
+
+        <!-- Replace comma delimiters with colons (expected by javac) -->
+        <propertyregex
+            property="javac.param.all.source.depends"
+            override="true"
+            input="${param.all.source.depends}"
+            regexp=","
+            replace=":"
+            defaultValue="${param.all.source.depends}"
+            casesensitive="false" />
+
+        <propertyregex
+            property="javac.param.all.lib.depends"
+            override="true"
+            input="${param.all.lib.depends}"
+            regexp=","
+            replace=":"
+            defaultValue="${param.all.lib.depends}"
+            casesensitive="false" />
+
+        <echo message="compiling, sourcedir=${javac.param.all.source.depends}"/>
+        <!-- Compile the project! -->
+        <javac srcdir="${javac.param.all.source.depends}"
+               destdir="${dir.temp.project}"
+               classpath="${javac.param.all.lib.depends}"
+               debug="on"
+               source="1.4"
+               fork="true"
+               memoryInitialSize="128m"
+               memoryMaximumSize="512m"
+        />
+
+        <!-- Delete the old manifest directory -->
+        <delete dir="${dir.temp.project}META-INF" />
+
+        <!--Make sure there is a deploy directory-->
+        <echo message="Creating deploy directory: ${dir.project.deploy.local}"/>
+        <mkdir dir="${dir.project.deploy.local}" />
+
+        <!-- Jar the output -->
+        <echo message="Building jar from files in ${dir.temp.project}, to ${jar.project.deploy.local}"/>
+        <jar basedir="${dir.temp.project}" destfile="${jar.project.deploy.local}" >
+            <manifest>
+                <attribute name="Manifest-Version" value="1.0" />
+                <attribute name="Built-By"         value="${user.name}"/>
+                <attribute name="Created-By"       value="PhET Master Build File" />
+                <attribute name="Main-Class"       value="${project.mainclass}" />
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="_proguard" description="Runs ProGuard on the specified simulation to trim the output size">
+        <echo message="Copying ProGuard template to ${dir.temp.project}"/>
+
+        <!-- TODO: When the proguard file is fixed, the following line of code can be deleted -->
+        <copy file="${jar.project.deploy.local}" tofile="${jar.project.deploy-pro.local}" />
+
+        <!-- ProGuard is broken on the Mac and may have other problems; so for now, it's disabled: -->
+        <!--
+
+            <copy todir="${dir.temp.project}" overwrite="yes">
+            <fileset file="${file.template.proguard}"/>
+            <filterset>
+                <filter token="PROGUARD_IN_JAR"     value="${jar.project.deploy.local}"/>
+                <filter token="PROGUARD_OUT_JAR"    value="${jar.project.deploy-pro.local}"/>
+                <filter token="MAIN_CLASS"          value="${project.mainclass}"/>
+                <filter token="LIBRARY_JARS"        value="-libraryjars  &lt;java.home&gt;/lib/rt.jar"/>
+            </filterset>
+        </copy>
+        <echo message="Running ProGuard for config file ${dir.temp.project}proguard.pro"/>
+
+        <proguard configuration="${dir.temp.project}proguard.pro"/>
+
+        -->
+    </target>
+
+    <target name="test" description="Runs all unit tests for the specified simulation" depends="_sim-build-depends, _build-project">
+        <echo message="Running all unit tests for ${dirname.project}" />
+
+        <mkdir dir="${dir.temp.junit}" />
+
+        <junit tempdir="${dir.temp.junit}" >
+            <classpath>
+                <pathelement location="${jar.junit}"/>
+                <pathelement path="${dir.temp.project}"/>
+            </classpath>
+
+            <assertions>
+                <enable/>
+            </assertions>
+
+            <batchtest fork="yes" todir="${dir.temp.junit}">
+                <fileset dir="${dir.temp.project}">
+                    <include name="**/Z*Tester.class"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="build" description="Builds the specified simulation" depends="clean, _sim-build-depends, _build-project" />
+
+    <target name="build-proguard" description="Builds the specified simulation and runs ProGuard on the JAR to reduce file size" depends="build, _proguard" />
+
+    <target name="clean" description="Deletes all buildfile-generated files for the specified simulation" depends="_sim-build-depends">
+        <echo message="Cleaning up ${dir.temp.project}" />
+
+        <delete dir="${dir.temp.project}" />
+    </target>
+
+    <target name="run" description="Runs the specified simulation (does NOT build)" depends="_sim-build-depends">
+        <java jar="${jar.project.deploy.local}" fork="true" failonerror="true" maxmemory="128m">
+            <assertions>
+                <enable/>
+            </assertions>
+
+            <classpath>
+                <pathelement location="${jar.project.deploy.local}"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="_inc-sim-dev-version-number" description="Increments the development version number" >
+        <echo message="Incrementing the simulation development version number in property file ${file.project.properties}" />
+
+        <propertyfile file="${file.project.properties}">
+            <entry key="version.dev" type="int" operation="+" value="1" pattern="00"/>
+        </propertyfile>
+    </target>
+
+    <target name="_reset-sim-dev-version-number" description="Increments the development version number" >
+        <echo message="Resetting the simulation development version number in property file ${file.project.properties}" />
+
+        <propertyfile file="${file.project.properties}">
+            <entry key="version.dev" type="int" operation="=" value="0" pattern="00"/>
+        </propertyfile>
+    </target>
+
+    <target name="_inc-sim-minor-version-number" description="Increments the development version number" >
+        <echo message="Incrementing the simulation minor version number..." />
+
+        <propertyfile file="${file.project.properties}">
+            <entry key="version.minor" type="int" operation="+" value="1" pattern="0"/>
+        </propertyfile>
+    </target>
+
+    <target name="_set-sim-revision-number" description="Sets the simulation revision number">
+        <echo message="Setting the simulation revision number in property file ${file.project.properties}" />
+
+        <exec executable="svn" outputproperty="exec.output.svn.info">
+            <arg value="info"/>
+            <arg value="${dir.project}"/>
+        </exec>
+
+        <echo message="Svn output = ${exec.output.svn.info}" />
+
+        <propertyregex property="number.subversion.revision"
+            override="true"
+            input="${exec.output.svn.info}"
+            regexp="Revision: *(\d+)"
+            select="\1"
+            casesensitive="false" />
+
+        <echo message="Revision number is ${number.subversion.revision}" />
+
+        <propertyfile file="${file.project.properties}">
+            <entry key="version.revision" type="int" operation="=" value="${number.subversion.revision}"/>
+        </propertyfile>
+    </target>
+
+    <target name="_load-sim-properties" description="Loads simulation-specific properties" >
+        <echo message="Loading simulation properties in ${file.project.properties}" />
+
+        <property file="${file.project.properties}"     prefix="sim."   />
+        <property file="${file.project.loc.properties}"                 />
+
+        <!-- Store localized name & description into project.name and project.description -->
+        <propertycopy name="project.name"           from="${key.project.name}"          override="true" />
+        <propertycopy name="project.description"    from="${key.project.description}"   override="true" />
+    </target>
+
+    <target name="_read-username-and-password">
+        <if>
+            <not>
+                <and>
+                    <isset property="deploy.username" />
+                    <isset property="deploy.password" />
+                </and>
+            </not>
+            <then>
+                <echo message="Gathering username and password from user" />
+
+                <!-- If the username and password are not set, get them now: -->
+                <antform title="Deployment Host Login" width="550" height="300" focus="login">
+                    <label>Please enter your username and password that you use to login to the deployment host machine ${deploy.host}.</label>
+
+                    <textProperty label="Username:" property="deploy.username" required="true"/>
+                    <textProperty label="Password:" property="deploy.password" required="true" password="true"/>
+                </antform>
+            </then>
+        </if>
+    </target>
+
+    <target name="_cleanup-project-desc" description="Cleans up a project description" if="project.description">
+        <!--
+           Descriptions tend to include illegal characters; convert them to
+           valid HTML
+        -->
+
+        <propertyregex property="project.description" override="true" input="${project.description}" regexp="&amp;(?![a-z]+;)" replace="&amp;amp;" />
+        <propertyregex property="project.description" override="true" input="${project.description}" regexp="&lt;" replace="&amp;lt;" />
+        <propertyregex property="project.description" override="true" input="${project.description}" regexp="&gt;" replace="&amp;gt;" />
+
+        <echo message="Cleaned up project description: ${project.description}" />
+    </target>
+
+    <target name="_create-jnlp" description="Creates a JNLP file for the specified simulation, for use with Java Webstart" depends="_cleanup-project-desc">
+        <!--
+            Internal task expects the following to be defined:
+                ${project.name}
+                ${project.description}
+                ${deploy.url}
+                ${filename.project.jnlp.deploy}
+                ${filename.project.jar.deploy-pro}
+                ${project.screenshot}
+
+            Template contains these macros that need replacing:
+
+                $PROJECT.NAME$
+                $PROJECT.DEPLOY.PATH$
+                $JNLP.NAME$
+                $PROJECT.DESCRIPTION$
+                $PROJECT.JAR$
+                $PROJECT.SCREENSHOT$
+        -->
+
+        <echo message="Copying template ${file.template.jnlp} to ${dir.project.deploy.local}" />
+
+        <!-- Use the template JNLP file to create the JNLP for the current application: -->
+        <copy todir="${dir.project.deploy.local}" overwrite="yes">
+            <fileset file="${file.template.jnlp}"/>
+
+            <filterset>
+                <filter token="PROJECT.NAME"        value="${project.name}"                     />
+                <filter token="PROJECT.DEPLOY.PATH" value="${deploy.url}"                       />
+                <filter token="JNLP.NAME"           value="${filename.project.jnlp.deploy}"     />
+                <filter token="PROJECT.DESCRIPTION" value="${project.description}"              />
+                <filter token="PROJECT.JAR"         value="${filename.project.jar.deploy-pro}"  />
+                <filter token="PROJECT.SCREENSHOT"  value="${project.screenshot}"               />
+            </filterset>
+        </copy>
+
+        <echo message="Renaming ${dir.project.deploy.local}${filename.template.jnlp} to ${dir.project.deploy.local}${filename.project.jnlp.deploy}" />
+
+        <!-- Rename JNLP file from webstart.jnlp to [shortname].jnlp -->
+        <move file="${dir.project.deploy.local}${filename.template.jnlp}" tofile="${dir.project.deploy.local}${filename.project.jnlp.deploy}" />
+
+        <echo message="Successfully created JNLP ${dir.project.deploy.local}${filename.project.jnlp.deploy}" />
+    </target>
+
+    <target name="_deploy-with-dynamic-jnlp" description="Deploys the simulation along with a dynamically created JNLP" depends="_read-username-and-password, _create-jnlp">
+        <!--
+
+            Internal deployment task expects the following properties to be defined:
+
+            ${deploy.host}              The host
+            ${deploy.dir}               The remote dir to create and deploy to.
+            ${deploy.url}               The URL of the deployment directory.
+            ${dir.project.deploy.local} The local simulation deployment directory, from which files will be copied.
+            ${deploy.filter.include}    The include filter to use.
+            ${deploy.filter.exclude}    The exclude filter to use.
+
+        -->
+        <ssh host="${deploy.host}" username="${deploy.username}" password="${deploy.password}" version="2">
+
+            <sftp action="mkdir" remotedir="${deploy.dir}"/>
+
+            <sftp action="put"   remotedir="${deploy.dir}" verbose="true">
+                <fileset dir="${dir.project.deploy.local}" casesensitive="yes">
+                    <include name="${deploy.filter.include}"/>
+                    <exclude name="${deploy.filter.exclude}"/>
+                </fileset>
+            </sftp>
+        </ssh>
+    </target>
+
+    <target name="deploy-dev" description="Deploys a development version of the specified simulation" depends="_sim-deploy-depends, _inc-sim-dev-version-number, _set-sim-revision-number, build-proguard, _load-sim-properties">
+        <echo message="Deploying development version of ${dirname.project}" />
+
+        <antcall target="_deploy-with-dynamic-jnlp" inheritAll="true">
+            <param name="deploy.host" value="${host.dev.server}" />
+            <param name="deploy.dir"  value="${dir.prefix.dev.server}${dirname.project}/${sim.version.major}.${sim.version.minor}.${sim.version.dev}" />
+            <param name="deploy.url"  value="${url.prefix.dev.server}${dirname.project}/${sim.version.major}.${sim.version.minor}.${sim.version.dev}" />
+            <param name="deploy.filter.include" value="**/*.*"  />
+            <param name="deploy.filter.exclude" value="**/.svn" />
+        </antcall>
+    </target>
+
+    <target name="deploy-prod" description="Deploys a production version of the specified simulation" depends="_sim-deploy-depends, deploy-dev, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _set-sim-revision-number, build-proguard, _load-sim-properties">
+        <echo message="Deploying production version of ${dirname.project}" />
+
+        <antcall target="_deploy-with-dynamic-jnlp" inheritAll="true">
+            <param name="deploy.host"           value="${host.prod.server}" />
+            <param name="deploy.dir"            value="${dir.prefix.prod.server}${dirname.project}/${sim.version.major}.${sim.version.minor}" />
+            <param name="deploy.url"            value="${url.prefix.prod.server}${dirname.project}/${sim.version.major}.${sim.version.minor}" />
+            <param name="deploy.filter.include" value="**/*.*"  />
+            <param name="deploy.filter.exclude" value="**/.svn" />
+        </antcall>
+    </target>
+
+    <target name="build-all" description="Builds all PhET simulations">
+        <foreach param="project.dir" target="build">
+            <path>
+                <dirset dir="${dir.simulations}">
+                    <include name="*"/>
+                </dirset>
+            </path>
+        </foreach>
+    </target>
+
+    <target name="test-all" description="Runs all unit tests in all PhET simulations">
+        <foreach param="project.dir" target="test">
+            <path>
+                <dirset dir="${dir.simulations}">
+                    <include name="*"/>
+                </dirset>
+            </path>
+        </foreach>
+    </target>
+
+    <target name="create" description="Creates or edits a simulation with the specified name" depends="_create-sim-properties">
+        <!-- Create required directories -->
+        <mkdir dir="${dir.project}"                                             />
+        <mkdir dir="${dir.project.deploy.local}"                                />
+
+        <!-- Create standard directories -->
+        <mkdir dir="${dir.project}data"                                         />
+        <mkdir dir="${dir.project}data/${dirname.project}"                      />
+        <mkdir dir="${dir.project}data/${dirname.project}/localization"         />
+        <mkdir dir="${dir.project}data/${dirname.project}/images"               />
+        <mkdir dir="${dir.project}data/${dirname.project}/audio"                />
+
+        <mkdir dir="${dir.project}src"                                          />
+        <mkdir dir="${dir.project}src/edu/colorado/phet/${dirname.project}"     />
+
+        <!-- Load all property files, in case user is modifying existing simulation: -->
+        <property file="${file.project.build.properties}" />
+        <property file="${file.project.properties}"       />
+        <property file="${file.project.loc.properties}"   />
+
+        <antform title="Describe Simulation" focus="OK">
+            <label>Please specify the properties of the simulation ${dirname.project}.</label>
+
+            <textProperty          label="Full name: "            property="${key.project.name}"
+                                   required="true"                tooltip="The full name of the project"/>
+
+            <multilineTextProperty label="Description: "          property="${key.project.description}"
+                                   required="true"                tooltip="A user-readable description of the project"/>
+
+            <multilineTextProperty label="Source Dependencies: "  property="project.depends.source"
+                                   tooltip="The source code dependencies of the project, specified as directories separated by colons or commas"/>
+
+            <multilineTextProperty label="Library Dependencies: " property="project.depends.lib"
+                                   tooltip="The library dependencies of the project, specified as JARs or directories separated by colons or commas"/>
+
+            <multilineTextProperty label="Data Dependencies: "    property="project.depends.data"
+                                   tooltip="The data dependencies of the project, specified as files or directories separated by colons or commas"/>
+
+            <textProperty          label="Mainclass: "            property="project.mainclass"
+                                   tooltip="The main class of the project"  />
+
+            <fileSelectionProperty label="Screenshot: "           property="project.screenshot"
+                                   tooltip="A screenshot of the simulation" />
+
+            <numberProperty        label="Major Version: "        property="version.major"
+                                   tooltip="The major version of the simulation" min="0" max="50" step="1"/>
+
+            <numberProperty        label="Minor Version: "        property="version.minor"
+                                   tooltip="The minor version of the simulation" min="0" max="50" step="1"/>
+
+            <numberProperty        label="Dev Version: "          property="version.dev"
+                                   tooltip="The dev version of the simulation"   min="0" max="50" step="1"/>
+        </antform>
+
+        <!-- Copy screenshot into deployment directory, if it exists -->
+        <available file="${project.screenshot}" property="project.screenshot.exists" type="file"/>
+
+        <if>
+            <isset property="project.screenshot.exists" />
+            <then>
+                <copy todir="${dir.project.deploy.local}" file="${project.screenshot}" failonerror="false"/>
+
+                <!-- Drop path from screenshot pathname: -->
+                <propertyregex property="project.screenshot"
+                    override="true"
+                    input="${project.screenshot}"
+                    regexp="(.*[/\\])?([^/\\]+)"
+                    select="\2"
+                    casesensitive="false" />
+
+                <echo message="Screenshot name is ${project.screenshot}" />
+            </then>
+        </if>
+
+        <!-- Store all build properties in build properties file: -->
+        <propertyfile file="${file.project.build.properties}">
+            <entry key="project.depends.source"     value="${project.depends.source}"   />
+            <entry key="project.depends.lib"        value="${project.depends.lib}"      />
+            <entry key="project.depends.data"       value="${project.depends.data}"     />
+            <entry key="project.mainclass"          value="${project.mainclass}"        />
+            <entry key="project.screenshot"         value="${project.screenshot}"       />
+        </propertyfile>
+
+        <!-- Store all sim properties in sim properties file: -->
+            <!-- Cleanup version numbers (truncate) -->
+            <propertyregex property="version.major" override="true" input="${version.major}" regexp="([^.]+)\..+" select="\1" />
+            <propertyregex property="version.minor" override="true" input="${version.minor}" regexp="([^.]+)\..+" select="\1" />
+            <propertyregex property="version.dev"   override="true" input="${version.dev}"   regexp="([^.]+)\..+" select="\1" />
+
+            <propertyfile file="${file.project.properties}">
+                <entry key="sim.id"        value="${dirname.project}" />
+                <entry key="version.major" value="${version.major}"    />
+                <entry key="version.minor" value="${version.minor}"    />
+                <entry key="version.dev"   value="${version.dev}"      />
+            </propertyfile>
+
+        <!-- Store localized name & description in localized properties file -->
+            <!-- Have to double dereference property -->
+            <propertycopy name="temp.project.name"  from="${key.project.name}"          override="true" />
+            <propertycopy name="temp.project.desc"  from="${key.project.description}"   override="true" />
+
+            <!-- Cleanup property name & description (valid HTML) -->
+            <propertyregex property="temp.project.name" override="true" input="${temp.project.name}" regexp="&amp;(?!amp;)" replace="&amp;amp;" />
+            <propertyregex property="temp.project.desc" override="true" input="${temp.project.desc}" regexp="&amp;(?!amp;)" replace="&amp;amp;" />
+
+            <!-- Store in localization file -->
+            <propertyfile file="${file.project.loc.properties}">
+                <entry key="${key.project.name}"               value="${temp.project.name}" />
+                <entry key="${key.project.description}"        value="${temp.project.desc}" />
+            </propertyfile>
+    </target>
+
+    <!-- Edit is just an alias for create, since that task handles both functions -->
+    <target name="edit" description="Edits an existing simulation with the specified name" depends="create" />
+
+    <target name="checkout" description="Checks out the specified simulation" depends="_create-sim-properties">
+        <echo message="Checking out ${url.svn.simulations-java}${dirname.project} to ${dir.simulations}" />
+
+        <mkdir dir="${dir.simulations}${dirname.project}" />
+
+        <exec executable="svn">
+            <arg value="co"/>
+            <arg value="${url.svn.simulations-java}${dirname.project}"/>
+            <arg value="${dir.simulations}${dirname.project}"/>
+        </exec>
+    </target>
+
+    <target name="update" description="Updates the specified simulation" depends="_create-sim-properties">
+        <echo message="Updating ${dir.project}" />
+
+        <exec executable="svn">
+            <arg value="up"/>
+            <arg value="${dir.project}"/>
+        </exec>
+    </target>
+
+    <target name="checkin" description="Checks in the specified simulation" depends="_create-sim-properties">
+        <echo message="Checking in ${dir.project}" />
+
+        <exec executable="svn">
+            <arg value="ci"/>
+            <arg value="${dir.project}"/>
+        </exec>
+    </target>
+</project>
         trunk/
             simulations-java/
                 ant_output/
