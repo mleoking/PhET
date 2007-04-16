@@ -56,15 +56,15 @@
                     print_sim_categories();
                 ?>
 
-                <li><a href="../teacher_ideas/index.html">Teacher Ideas Database</a></li>
+                <li><a href="../teacher_ideas/index.html">Teacher Ideas &amp; Activities</a></li>
 
                 <li><a href="../get_phet/index.html">Get PhET</a></li>
 
                 <li><a href="../tech_support/index.html">Technical Support</a></li>
                 
-                <li><a href="../../research/index.html">Research</a></li>
-
                 <li><a href="../contribute/index.html">Contribute</a></li>
+                
+                <li><a href="../research/index.html">Research</a></li>
 
                 <li><a href="../about/index.html">About PhET</a></li>
             </ul>
