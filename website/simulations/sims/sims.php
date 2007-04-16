@@ -10,7 +10,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Phet :: Physics Education Technology at CU Boulder</title>
+    <title>PhET :: Physics Education Technology at CU Boulder</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" />
 <style type="text/css">
@@ -105,15 +105,15 @@ window.open = SymWinOpen;
                     print_sim_categories("../");
                 ?>
 
-                <li><a href="../../teacher_ideas/index.html">Teacher Ideas Database</a></li>
+                <li><a href="../../teacher_ideas/index.html">Teacher Ideas &amp; Activities</a></li>
 
                 <li><a href="../../get_phet/index.html">Get PhET</a></li>
 
                 <li><a href="../../tech_support/index.html">Technical Support</a></li>
 
-                <li><a href="../../research/index.html">Research</a></li>
-
                 <li><a href="../../contribute/index.html">Contribute</a></li>
+                
+                <li><a href="../../research/index.html">Research</a></li>
 
                 <li><a href="../../about/index.html">About PhET</a></li>
             </ul>
@@ -182,34 +182,13 @@ window.open = SymWinOpen;
                 <tr>
                     <th scope="row" abbr="" class="spec-sim">
                         <?php
-                            if ($rating == "0") {
-                                $simrating_image = "beta-minus-rating.gif";
-                            }
-                            else if ($rating == "2") {
-                                $simrating_image = "beta-plus-rating.gif";
-                            }
-                            else if ($rating == "1") {
-                                $simrating_image = "beta-rating.gif";
-                            }
-                            else if ($rating == "3") {
-                                $simrating_image = "star-rating.gif";
-                            }
-                            else if ($rating == "4") {
-                                $simrating_image = "alpha-rating.gif";
-                            }
-
-                            if ($type == "0") {
-                                $simtype_image = "java.png";
-                            }
-                            else if ($type == "1") {
-                                $simtype_image = "flash.png";
-                            }
+                            $simrating_image = $SIM_RATING_TO_IMAGE["$rating"];
+                            $simtype_image   = $SIM_TYPE_TO_IMAGE["$type"];
                             
                             $simrating = "<img src=\"../../images/sims/ratings/$simrating_image\" width=\"16\" height=\"16\" />";
                             $simtype   = "<img src=\"../../images/sims/ratings/$simtype_image\"   width=\"32\" height=\"16\" />";
                             
                             print "Rating: $simrating Type: $simtype";
-                            // <img class="rating" src="../../images/check_Icon.gif" />
                         ?>
                     </th>
                 </tr>
@@ -327,7 +306,15 @@ window.open = SymWinOpen;
 
             <h1 class="indi-sim" id="credits">Credits</h1>
 
-            <h2 class="sub-title">Credits</h2>
+            <h2 class="sub-title">Design Team</h2>
+
+            <p class="indi-sim">Quisque sagittis commodo velit. Nunc porttitor sagittis tortor. Mauris metus. Maecenas eu nisi id elit tincidunt malesuada.</p>
+            
+            <h2 class="sub-title">Libraries</h2>
+
+            <p class="indi-sim">Quisque sagittis commodo velit. Nunc porttitor sagittis tortor. Mauris metus. Maecenas eu nisi id elit tincidunt malesuada.</p>
+            
+            <h2 class="sub-title">Thanks To</h2>
 
             <p class="indi-sim">Quisque sagittis commodo velit. Nunc porttitor sagittis tortor. Mauris metus. Maecenas eu nisi id elit tincidunt malesuada.</p>
 

@@ -1,6 +1,30 @@
 <?php
     include_once("db.inc");
     include_once("web-utils.php");
+    
+    define("SIM_TYPE_JAVA",  "0");
+    define("SIM_TYPE_FLASH", "1");
+    
+    $SIM_TYPE_TO_IMAGE =
+        array(
+            SIM_TYPE_JAVA   => 'java.png',
+            SIM_TYPE_FLASH  => 'flash.png'
+        );
+        
+    define("SIM_RATING_BETA_MINUS",     "0");
+    define("SIM_RATING_BETA",           "1");
+    define("SIM_RATING_BETA_PLUS",      "2");
+    define("SIM_RATING_CHECK",          "3");    
+    define("SIM_RATING_ALPHA",          "4");
+    
+    $SIM_RATING_TO_IMAGE = 
+        array(
+            SIM_RATING_BETA_MINUS   => 'beta-minus-rating.gif',
+            SIM_RATING_BETA_PLUS    => 'beta-plus-rating.gif',
+            SIM_RATING_BETA         => 'beta-rating.gif',
+            SIM_RATING_CHECK        => 'check_Icon.gif',
+            SIM_RATING_ALPHA        => 'alpha-rating.gif'
+        );
 
     // run error checks
     // check for missing fields
