@@ -169,7 +169,7 @@ public class AllSimsApplication {
     }
 
     public static void main( String[] args ) throws IOException {
-        copyPropertiesToData( new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations" ), new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations\\all-sims\\data\\all-sims" ) );
+//        copyPropertiesToData( new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations" ), new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations\\all-sims\\data\\all-sims" ) );
         new AllSimsApplication().start();
     }
 
