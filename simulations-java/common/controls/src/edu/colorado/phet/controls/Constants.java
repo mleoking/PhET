@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.control;
+package edu.colorado.phet.controls;
 
 /**
  * Constants related to things in the control package.

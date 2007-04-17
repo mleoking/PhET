@@ -9,12 +9,11 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.control;
+package edu.colorado.phet.controls;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
 
@@ -26,19 +25,11 @@ import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * This is a variant of the the original SpectrumSlider written by Chris Malley.
- * Instead of having a bell curve over the spectrum, it displays a thin rectangle
- * over the line in the specturm that is selected. I (Ron LeMaster) did a quick and
- * dirty clone of the class to achieve this, rather than rewriting the original class,
- * because the original class was not written in a way that made compositing it in
- * another graphic (e.g. in a graphic panel with other controls) workable.
- * <p/>
  * SpectrumSlider is a UI component, similar to a JSlider, for selecting a
  * wavelength from the visible spectrum.
  * <p/>
@@ -57,7 +48,8 @@ import java.io.IOException;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
+//public class SpectrumSlider extends GraphicLayerSet {
+public class SpectrumSlider extends CompositePhetGraphic {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -78,8 +70,6 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
     private static final double HORIZONTAL_ROTATION_ANGLE = Math.toRadians( 0 );
     // Rotation angle for vertical orientation, in radians.
     private static final double VERTICAL_ROTATION_ANGLE = Math.toRadians( -90 );
-    // Color for
-    private static Color KNOB_INVISIBLE_COLOR = new Color( 140, 140, 140 );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -106,9 +96,9 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
 
     // The spectrum graphic.
     private PhetGraphic _spectrum;
+//    private PhetImageGraphic _spectrum;
     // The slider knob.
     private SpectrumSliderKnob _knob;
-    private PhetShapeGraphic spectrumCursor;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -117,7 +107,7 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
     /**
      * @param component
      */
-    public SpectrumSliderWithSquareCursor( Component component ) {
+    public SpectrumSlider( Component component ) {
         this( component, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
     }
 
@@ -126,7 +116,7 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
      * @param minimumWavelength
      * @param maximumWavelength
      */
-    public SpectrumSliderWithSquareCursor( Component component, double minimumWavelength, double maximumWavelength ) {
+    public SpectrumSlider( Component component, double minimumWavelength, double maximumWavelength ) {
 
         super( null );
 
@@ -143,13 +133,8 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
 
         // Initialize graphical components.
         _spectrum = new SpectrumGraphic( component, minimumWavelength, maximumWavelength );
-        addGraphic( _spectrum );
+//        _spectrum = new PhetImageGraphic( component, ColorVisionConfig.SPECTRUM_IMAGE );
         _knob = new SpectrumSliderKnob( component, DEFAULT_KNOB_SIZE, getRotationAngle() );
-
-        Rectangle2D cursorShape = new Rectangle2D.Double( 0, 0, 2, _knob.getLocation().getY() );
-        spectrumCursor = new PhetShapeGraphic( component, cursorShape, new BasicStroke( 1 ), Color.black );
-        spectrumCursor.setRegistrationPoint( 1, 0 );
-        addGraphic( spectrumCursor, 1E14 );
 
         // Initialize interactivity
         super.addGraphic( _knob );
@@ -186,11 +171,11 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
         // Silently clamp the value to the allowed range.
         _value = (int)MathUtil.clamp( _minimum, value, _maximum );
 
-        // Update the knob.
-        updateKnob();
-
         // Fire a ChangeEvent to notify listeners that the value has changed.
         fireChangeEvent( new ChangeEvent( this ) );
+
+        // Update the knob.
+        updateKnob();
     }
 
     /**
@@ -379,6 +364,10 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
         AffineTransform tx = new AffineTransform();
         tx.scale( scaleX, scaleY );
         AffineTransformOp op = new AffineTransformOp( tx, AffineTransformOp.TYPE_BILINEAR );
+        BufferedImage newImage = op.filter( image, null );
+
+        // HACK: create a new PhetImageGraphic - setImage on the old one doesn't work right.
+//        _spectrum = new PhetImageGraphic( _component, newImage );
         _spectrum.setTransform( tx );
 
         updateUI();
@@ -492,6 +481,7 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
 
             // Set drag bounds.
             _dragBounds = new Rectangle( 0, spectrumBounds.height, spectrumBounds.width, 0 );
+//            _dragBounds = new Rectangle( x, y + spectrumBounds.height, spectrumBounds.width, 0 );
         }
         else {
             // Rotate and translate the spectrum graphic.
@@ -502,13 +492,11 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
 
             // Set drag bounds.
             _dragBounds = new Rectangle( spectrumBounds.width, 0, 0, spectrumBounds.height );
+//            _dragBounds = new Rectangle( x + spectrumBounds.width, y, 0, spectrumBounds.height );
         }
 
         // Update the knob.
         updateKnob();
-
-        // Update the cursor
-        spectrumCursor.setShape( new Rectangle2D.Double( 0, 0, 2, _spectrum.getHeight() ) );
     }
 
     /*
@@ -521,6 +509,8 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
         int x, y;
         if( _orientation == HORIZONTAL ) {
             double percent = ( _value - _minimum ) / (double)( _maximum - _minimum );
+//            x = (int) ( percent * _dragBounds.width );
+//            y = (int)_knob.getLocation().getY();
             x = _dragBounds.x + (int)( percent * _dragBounds.width );
             y = _dragBounds.y;
         }
@@ -531,13 +521,15 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
             x = _dragBounds.x;
             y = _dragBounds.y + (int)( percent * _dragBounds.height );
         }
+//        _knob.setLocation( x , y );
         _knob.setLocation( x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY() );
 
         // Set the knob's color.
-        Color color = VisibleColor.wavelengthToColor( _value );
-        color = ( color.equals( VisibleColor.INVISIBLE ) ) ? KNOB_INVISIBLE_COLOR : color;
-        _knob.setPaint( color );
+        VisibleColor color = new VisibleColor( _value );
+        _knob.setPaint( color.toColor() );
 
+//        // Set the readout on the knob
+//        _knob.setWavelength( getValue() );
         repaint();
     }
 
@@ -562,14 +554,49 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
     public void paint( Graphics2D g2 ) {
 
         if( super.isVisible() ) {
-            spectrumCursor.setLocation( (int)_knob.getLocation().getX(),
-                                        (int)getLocation().getY() );
-
             // Draw the spectrum graphic.
+//        	g2.translate( getLocation().getX(), getLocation().getY() );
             _spectrum.paint( g2 );
 
             // Draw the slider knob.
             super.paint( g2 );
+
+            // Draw the optional transmission width curve.  
+            if( _transmissionWidth > 0 ) {
+                // Calculate location.
+                int x, y, w, h;
+                if( _orientation == HORIZONTAL ) {
+                    x = _knob.getLocation().x;
+                    y = _spectrum.getBounds().y;
+                    w = getCurveWidth();
+                    h = _spectrum.getBounds().height;
+                }
+                else {
+                    x = _spectrum.getBounds().x;
+                    y = _knob.getLocation().y;
+                    w = getCurveWidth();
+                    h = _spectrum.getBounds().width;
+                }
+
+                // Create the curve.
+                BellCurve curve = new BellCurve( _component, x,
+//                BellCurve curve = new BellCurve( _component, x + (int)this.getLocation().getX(),
+                                                 (int)this.getLocation().getY(),
+//                                                 y + (int)this.getLocation().getY(),
+                                                 w, h, getRotationAngle() );
+
+                // Save graphics state.
+                Shape oldClip = g2.getClip();
+
+                // Draw the curve, clipped to the spectrum graphic.
+                g2.setClip( _spectrum.getBounds() );
+                curve.paint( g2 );
+
+                // Restore graphics state.
+                g2.setClip( oldClip );
+            }
+
+            //BoundsOutliner.paint( g2, getBounds(), Color.GREEN, new BasicStroke(1f) ); // DEBUG
         }
     }
 
