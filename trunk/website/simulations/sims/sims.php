@@ -142,7 +142,7 @@ window.open = SymWinOpen;
 
 
             <?php
-                $sim_id          = $_REQUEST['sim_id'];
+                $sim_id         = $_REQUEST['sim_id'];
                 $sql_sim        = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
                 $sql_result_sim = mysql_query($sql_sim);
     
