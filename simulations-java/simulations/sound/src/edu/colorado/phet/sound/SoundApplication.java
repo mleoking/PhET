@@ -30,7 +30,7 @@ public class SoundApplication extends PhetApplication {
         // Set the look and feel to Metal, so the stopwatch dialog and the multi-line
         // tabs look right on the Mac
         try {
-            UIManager.setLookAndFeel( "javax.swing.plaf.metal.MetalLookAndFeel");
+            UIManager.setLookAndFeel( "javax.swing.plaf.metal.MetalLookAndFeel" );
         }
         catch( ClassNotFoundException e ) {
             e.printStackTrace();
@@ -56,18 +56,24 @@ public class SoundApplication extends PhetApplication {
         Module wallInterferenceModule = new WallInterferenceModule( this );
         Module evacuatedBoxModule = new SingleSourceWithBoxModule( this );
         this.setModules( new Module[]{singleSourceModule, measureModule,
-                                      twoSourceIntereferenceModule, wallInterferenceModule,
-                                      evacuatedBoxModule} );
+                twoSourceIntereferenceModule, wallInterferenceModule,
+                evacuatedBoxModule} );
         this.setInitialModule( singleSourceModule );
 
     }
 
-    public static void main( String[] args ) {
-        SimStrings.init( args, SoundConfig.localizedStringsPath );
+    public static void main( final String[] args ) {
+//        Locale.setDefault( new Locale( "ie", "ga" ));
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                SimStrings.init( args, SoundConfig.localizedStringsPath );
 
-        PhetApplication app = new SoundApplication( args );
-        app.getPhetFrame().setResizable( false );
+                PhetApplication app = new SoundApplication( args );
+                app.getPhetFrame().setResizable( false );
 
-        app.startApplication();
+                app.startApplication();
+            }
+        } );
+
     }
 }

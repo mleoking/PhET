@@ -81,7 +81,7 @@ public class PhetFrame extends JFrame {
         } );
 
         JMenuBar menuBar = new JMenuBar();
-        this.helpMenu = new HelpMenu( moduleManager, title, description, version );
+        this.helpMenu = new HelpMenu( this, moduleManager, title, description, version );
         defaultFileMenu = new PhetFileMenu();
         menuBar.add( defaultFileMenu );
         menuBar.add( helpMenu );

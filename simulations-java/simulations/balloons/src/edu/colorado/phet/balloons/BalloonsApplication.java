@@ -4,21 +4,26 @@ java -cp %classpath%;../classes edu.colorado.phet.balloon.BalloonApplet
 
 package edu.colorado.phet.balloons;
 
-import edu.colorado.phet.balloons.HelpPanel;
-import edu.colorado.phet.balloons.IHelp;
-import edu.colorado.phet.balloons.ImageFrame;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.balloons.common.paint.*;
 import edu.colorado.phet.balloons.common.paint.particle.ParticlePainterAdapter;
-import edu.colorado.phet.balloons.common.phys2d.*;
+import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
+import edu.colorado.phet.balloons.common.phys2d.ParticleLaw;
+import edu.colorado.phet.balloons.common.phys2d.Repaint;
+import edu.colorado.phet.balloons.common.phys2d.System2D;
+import edu.colorado.phet.common.application.PhetAboutDialog;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Random;
 
 
@@ -47,6 +52,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
     public BufferedImage sweaterImage;
     public int wallWidth;
     public JPanel controlPanel;
+    private JFrame frame;
 
 
     public static void paintCharge( BufferedImage bi ) {
@@ -78,7 +84,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
         minusPainter.paintAt( 84, 167, g2 );
     }
 
-    public void init(String[] args) throws IOException {
+    public void init( String[] args ) throws IOException {
         SimStrings.getInstance().init( args, BalloonsConfig.localizedStringsPath );
 
         plusPainter.setPaint( PlusPainter.NONE );
@@ -212,6 +218,15 @@ public class BalloonsApplication extends JApplet implements IHelp {
         HelpPanel helpPanel = new HelpPanel( this );
         controlPanel.add( helpPanel );
 
+        JButton about = new JButton( "About" );
+        about.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                PhetAboutDialog phetAboutDialog = new PhetAboutDialog( frame, new PhetAboutDialog.SimpleDialogConfig( getTitle(), "", VERSION, null ) );
+                phetAboutDialog.show();
+            }
+        } );
+        controlPanel.add( about );
+
         int wallInset = 10;
         Rectangle wallBounds = new Rectangle( PANEL_WIDTH - wallWidth, 0, wallWidth, PANEL_HEIGHT );
         Rectangle wallChargeBounds = new Rectangle( PANEL_WIDTH - wallWidth + wallInset, 0, wallWidth - wallInset * 2, PANEL_HEIGHT );
@@ -279,7 +294,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
         final double dt = 1.2;
         int waitTime = 30;
         setContentPane( panel );
-        final SystemRunner sr = new SystemRunner( sys, dt, waitTime );
+//        final SystemRunner sr = new SystemRunner( sys, dt, waitTime );
 //        Thread t = new Thread( sr );
         Timer timer = new Timer( waitTime, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -296,27 +311,6 @@ public class BalloonsApplication extends JApplet implements IHelp {
             }
         } );
         balloonHelp = new BalloonHelpPainter( this );
-    }
-
-    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
-        UIManager.setLookAndFeel( new PhetLookAndFeel() );
-        isApplet = false;
-        BalloonsApplication ba = new BalloonsApplication();
-        ba.init(args);
-        JFrame jf = new JFrame( SimStrings.getInstance().getString( "balloons.frame.title" ) + " (" + VERSION + ")" );
-        jf.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        jf.setContentPane( ba );
-        jf.setSize( PANEL_WIDTH, PANEL_HEIGHT + ba.controlPanel.getPreferredSize().height + 10 );
-        SwingUtils.centerWindowOnScreen( jf );
-        jf.setVisible( true );
-
-        jf.invalidate();
-        jf.validate();
-        jf.repaint();
-        jf.getContentPane().invalidate();
-        jf.getContentPane().validate();
-        jf.getContentPane().repaint();
-        //System.out.println("main: height="+ba.getHeight()); //476 for full application.
     }
 
     public void setHelpEnabled( boolean miniHelpShowing ) {
@@ -364,9 +358,36 @@ public class BalloonsApplication extends JApplet implements IHelp {
         return painterPanel.getHeight();
     }
 
-    public static class Exit extends WindowAdapter {
-        public void windowClosing( WindowEvent e ) {
-            System.exit( 0 );
-        }
+    private static String getTitle() {
+        return SimStrings.getInstance().getString( "balloons.frame.title" ) + " (" + VERSION + ")";
     }
+
+    private void setFrame( JFrame frame ) {
+        this.frame = frame;
+    }
+
+    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
+//        Locale.setDefault( new Locale( "ie", "ga" ) );
+        UIManager.setLookAndFeel( new PhetLookAndFeel() );
+        isApplet = false;
+        BalloonsApplication ba = new BalloonsApplication();
+        ba.init( args );
+
+        JFrame frame = new JFrame( getTitle() );
+        ba.setFrame( frame );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setContentPane( ba );
+        frame.setSize( PANEL_WIDTH, PANEL_HEIGHT + ba.controlPanel.getPreferredSize().height + 10 );
+        SwingUtils.centerWindowOnScreen( frame );
+        frame.setVisible( true );
+
+        frame.invalidate();
+        frame.validate();
+        frame.repaint();
+        frame.getContentPane().invalidate();
+        frame.getContentPane().validate();
+        frame.getContentPane().repaint();
+        //System.out.println("main: height="+ba.getHeight()); //476 for full application.
+    }
+
 }
