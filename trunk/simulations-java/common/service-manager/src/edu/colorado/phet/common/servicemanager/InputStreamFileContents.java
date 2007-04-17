@@ -8,39 +8,43 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.common.util.services;
+
+package edu.colorado.phet.common.servicemanager;
 
 import javax.jnlp.FileContents;
 import javax.jnlp.JNLPRandomAccessFile;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
- * Adapter from File to FileContents.
- *
+ * Adapter pattern from InputStream to FileContents.
  * @author Sam Reid
  * @version $Revision$
  */
-public class LocalFileContent implements FileContents {
-    File f;
+public class InputStreamFileContents implements FileContents {
+    private InputStream is;
+    private String name;
 
-    public LocalFileContent( File f ) {
-        this.f = f;
+    public InputStreamFileContents( String name, InputStream is ) {
+        this.name = name;
+        this.is = is;
     }
 
     public boolean canRead() throws IOException {
-        return f.canRead();
+        return true;
     }
 
     public boolean canWrite() throws IOException {
-        return f.canWrite();
+        return false;
     }
 
     public InputStream getInputStream() throws IOException {
-        return new FileInputStream( f );
+        return is;
     }
 
     public long getLength() throws IOException {
-        return f.length();
+        return is.available();
     }
 
     public long getMaxLength() throws IOException {
@@ -48,21 +52,18 @@ public class LocalFileContent implements FileContents {
     }
 
     public String getName() throws IOException {
-        return f.getName();
+        return name;
     }
 
     public OutputStream getOutputStream( boolean b ) throws IOException {
-        if( !b ) {
-            throw new IOException( "OutputStream cannot be protected from overwrite--exiting." );
-        }
-        return new FileOutputStream( f );
+        return null;
     }
 
     public JNLPRandomAccessFile getRandomAccessFile( String s ) throws IOException {
-        throw new RuntimeException( "Not supported." );
+        return null;
     }
 
     public long setMaxLength( long l ) throws IOException {
-        throw new RuntimeException( "Not implemented." );
+        throw new RuntimeException( "not supported" );
     }
 }

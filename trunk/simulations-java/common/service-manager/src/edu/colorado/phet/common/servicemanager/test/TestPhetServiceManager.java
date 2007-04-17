@@ -1,7 +1,7 @@
 /** Sam Reid*/
-package edu.colorado.phet.common.util.services.test;
+package edu.colorado.phet.common.servicemanager.test;
 
-import edu.colorado.phet.common.util.services.PhetServiceManager;
+import edu.colorado.phet.common.servicemanager.PhetServiceManager;
 
 import javax.jnlp.BasicService;
 import javax.jnlp.ServiceManager;
