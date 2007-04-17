@@ -5,8 +5,8 @@ import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.piccolo.help.HelpBalloon;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.umd.cs.piccolo.PNode;
 
 import java.beans.PropertyChangeEvent;

@@ -7,7 +7,7 @@ package edu.colorado.phet.rotation.tests.combined;
  * Copyright (c) Jan 1, 2007 by Sam Reid
  */
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.XYPlotFactory;
 import edu.colorado.phet.rotation.graphs.combined.CombinedControlGraph;
 import org.jfree.chart.plot.XYPlot;

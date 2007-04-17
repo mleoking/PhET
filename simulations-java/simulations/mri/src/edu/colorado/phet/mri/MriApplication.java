@@ -19,7 +19,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.controller.HeadModule;
 import edu.colorado.phet.mri.controller.NmrModule;
 import edu.colorado.phet.mri.controller.OptionMenu;
-import edu.colorado.phet.piccolo.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 import javax.swing.*;
 import java.awt.*;

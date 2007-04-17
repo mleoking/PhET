@@ -20,8 +20,8 @@ import javax.swing.JButton;
 
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**

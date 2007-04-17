@@ -1,6 +1,6 @@
 package edu.colorado.phet.qm.view.piccolo;
 
-import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 import edu.colorado.phet.qm.view.QWIPanel;
 import edu.umd.cs.piccolo.nodes.PImage;

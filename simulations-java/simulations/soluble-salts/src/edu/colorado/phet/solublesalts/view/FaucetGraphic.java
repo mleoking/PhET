@@ -12,8 +12,8 @@
 package edu.colorado.phet.solublesalts.view;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.Spigot;
 import edu.colorado.phet.solublesalts.model.WaterSource;

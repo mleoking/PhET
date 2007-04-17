@@ -1,6 +1,6 @@
 package edu.colorado.phet.qm.phetcommon;
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

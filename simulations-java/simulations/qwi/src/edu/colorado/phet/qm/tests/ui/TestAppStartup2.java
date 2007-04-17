@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.tests.ui;
 
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 import javax.swing.*;
 import java.awt.*;

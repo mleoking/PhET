@@ -13,7 +13,6 @@ import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.common.util.CommandLineUtils;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
-import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.opticaltweezers.menu.DeveloperMenu;
 import edu.colorado.phet.opticaltweezers.menu.OptionsMenu;
 import edu.colorado.phet.opticaltweezers.module.DNAModule;
@@ -22,7 +21,7 @@ import edu.colorado.phet.opticaltweezers.module.PhysicsModule;
 import edu.colorado.phet.opticaltweezers.persistence.GlobalConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTPersistenceManager;
-import edu.colorado.phet.piccolo.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
  * OTApplication is the main application for this simulation.

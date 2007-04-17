@@ -17,7 +17,7 @@ import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.RadiowaveSource;
 import edu.colorado.phet.mri.model.SampleChamber;
-import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
+import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

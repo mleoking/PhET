@@ -11,8 +11,8 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.mri.model.MriModel;
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;

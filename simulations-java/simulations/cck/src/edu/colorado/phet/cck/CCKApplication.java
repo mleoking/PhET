@@ -14,7 +14,7 @@ import edu.colorado.phet.common.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.components.AspectRatioPanel;
-import edu.colorado.phet.piccolo.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 import javax.swing.*;
 import java.awt.*;

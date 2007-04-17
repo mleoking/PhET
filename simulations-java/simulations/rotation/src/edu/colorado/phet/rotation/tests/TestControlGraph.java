@@ -7,7 +7,7 @@ package edu.colorado.phet.rotation.tests;
  * Copyright (c) Dec 29, 2006 by Sam Reid
  */
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.ControlGraph;
 import edu.colorado.phet.rotation.model.SimulationVariable;
 import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;

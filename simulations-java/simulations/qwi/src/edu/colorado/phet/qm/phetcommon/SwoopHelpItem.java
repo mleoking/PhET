@@ -2,9 +2,9 @@
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.colorado.phet.common.view.graphics.Arrow;
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.nodes.BoundGraphic;
-import edu.colorado.phet.piccolo.nodes.HTMLGraphic;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.BoundGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 

@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.graphics.Arrow;
-import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;

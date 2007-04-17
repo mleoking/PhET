@@ -10,8 +10,8 @@ import edu.colorado.phet.theramp.view.BlockGraphic;
 import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.colorado.phet.theramp.view.RampWorld;
 import edu.colorado.phet.theramp.view.SurfaceGraphic;
-import edu.colorado.phet.piccolo.nodes.HTMLNode;
-import edu.colorado.phet.piccolo.nodes.BoundGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.BoundGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 

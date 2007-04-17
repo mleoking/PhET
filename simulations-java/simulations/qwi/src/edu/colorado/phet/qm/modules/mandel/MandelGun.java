@@ -2,10 +2,10 @@
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
-import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.ConnectorGraphic;
+import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.qm.controls.IntensitySlider;
 import edu.colorado.phet.qm.controls.SRRWavelengthSlider;
 import edu.colorado.phet.qm.view.QWIPanel;

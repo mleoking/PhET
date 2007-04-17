@@ -13,8 +13,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.opticaltweezers.model.Fluid;
-import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.piccolo.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 

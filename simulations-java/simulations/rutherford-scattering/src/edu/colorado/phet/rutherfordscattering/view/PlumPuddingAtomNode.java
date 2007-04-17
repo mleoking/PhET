@@ -9,8 +9,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.nodes.BufferedPNode;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.BufferedPNode;
 import edu.colorado.phet.rutherfordscattering.RSResources;
 import edu.colorado.phet.rutherfordscattering.model.PlumPuddingAtom;
 import edu.umd.cs.piccolo.PNode;

@@ -20,7 +20,7 @@ import edu.colorado.phet.molecularreactions.model.collision.ReleasingReactionSpr
 import edu.colorado.phet.molecularreactions.model.collision.Spring;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.factories.SimpleMoleculeGraphicFactory;
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 

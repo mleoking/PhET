@@ -3,7 +3,7 @@ package edu.colorado.phet.energyskatepark.model.physics;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
-import edu.colorado.phet.piccolo.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;

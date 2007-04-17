@@ -2,7 +2,7 @@
 package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.geom.Point2D;

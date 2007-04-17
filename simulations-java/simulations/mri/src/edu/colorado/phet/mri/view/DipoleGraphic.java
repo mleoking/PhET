@@ -16,7 +16,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Dipole;
 import edu.colorado.phet.mri.model.SampleMaterial;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
+import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;

@@ -8,7 +8,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
-import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 
 /**

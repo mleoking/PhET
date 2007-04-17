@@ -7,7 +7,7 @@ import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.qm.controls.QWIControlPanel;
 import edu.colorado.phet.qm.controls.ResolutionControl;
 import edu.colorado.phet.qm.model.*;

@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.view.atom;
 
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 
 /**
  * AbstractHydrogenAtomNode is the base class for all hydrogen atoms.

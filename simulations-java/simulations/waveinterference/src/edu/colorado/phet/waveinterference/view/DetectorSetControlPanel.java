@@ -4,7 +4,7 @@ package edu.colorado.phet.waveinterference.view;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.phetcommon.IconComponent;
 import edu.colorado.phet.waveinterference.util.WIStrings;

@@ -21,7 +21,7 @@ import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.WiggleMeInSpace;
-import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.energyskatepark.timeseries.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.timeseries.TimeSeriesPlaybackPanel;
 

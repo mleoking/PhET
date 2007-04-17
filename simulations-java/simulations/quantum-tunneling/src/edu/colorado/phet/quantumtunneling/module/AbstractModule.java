@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 
 

@@ -4,8 +4,8 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;

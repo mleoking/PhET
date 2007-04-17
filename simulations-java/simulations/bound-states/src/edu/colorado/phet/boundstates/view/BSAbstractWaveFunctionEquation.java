@@ -19,7 +19,7 @@ import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.model.BSModel;
-import edu.colorado.phet.piccolo.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 
 /**
  * BSAbstractWaveFunctionEquation displays a wave function equation.

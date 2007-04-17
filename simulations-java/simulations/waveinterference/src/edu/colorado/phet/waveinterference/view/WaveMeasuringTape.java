@@ -2,7 +2,7 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.piccolo.nodes.MeasuringTape;
+import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

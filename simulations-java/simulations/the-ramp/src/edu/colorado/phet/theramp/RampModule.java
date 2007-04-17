@@ -6,7 +6,7 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.theramp.common.AudioSourceDataLinePlayer;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampModel;

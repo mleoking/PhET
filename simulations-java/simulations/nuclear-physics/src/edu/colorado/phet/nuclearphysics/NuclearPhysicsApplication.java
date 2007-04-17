@@ -17,8 +17,8 @@ import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.SingleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.util.ClockFactory;
-import edu.colorado.phet.piccolo.PhetTabbedPane;
-import edu.colorado.phet.piccolo.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 import javax.swing.*;
 import java.awt.*;

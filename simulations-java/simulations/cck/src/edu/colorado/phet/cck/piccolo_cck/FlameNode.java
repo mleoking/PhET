@@ -2,7 +2,7 @@ package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.image.BufferedImage;

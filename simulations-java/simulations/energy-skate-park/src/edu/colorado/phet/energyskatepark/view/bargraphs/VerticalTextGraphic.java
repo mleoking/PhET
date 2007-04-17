@@ -1,7 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view.bargraphs;
 
-import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;

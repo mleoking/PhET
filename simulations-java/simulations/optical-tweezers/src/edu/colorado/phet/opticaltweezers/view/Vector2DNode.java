@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 

@@ -8,8 +8,8 @@ package edu.colorado.phet.rotation.tests;
  */
 
 import edu.colorado.phet.common.view.PhetLookAndFeel;
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.rotation.graphs.ControlGraph;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.util.BufferedPhetPCanvas;

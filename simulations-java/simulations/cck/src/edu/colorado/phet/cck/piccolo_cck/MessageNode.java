@@ -1,6 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 
 /**
  * User: Sam Reid

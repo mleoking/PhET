@@ -1,6 +1,6 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
-import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLGraphic;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 import java.awt.*;

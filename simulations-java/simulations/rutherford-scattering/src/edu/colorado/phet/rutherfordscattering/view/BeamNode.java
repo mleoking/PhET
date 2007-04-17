@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.rutherfordscattering.model.Gun;
 import edu.umd.cs.piccolo.nodes.PPath;
 

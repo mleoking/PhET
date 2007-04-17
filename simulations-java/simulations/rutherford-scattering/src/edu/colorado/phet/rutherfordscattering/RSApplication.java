@@ -8,8 +8,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
-import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.piccolo.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.rutherfordscattering.module.PlumPuddingAtomModule;
 import edu.colorado.phet.rutherfordscattering.module.RutherfordAtomModule;
 

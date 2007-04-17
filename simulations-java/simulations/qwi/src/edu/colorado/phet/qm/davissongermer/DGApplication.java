@@ -8,7 +8,7 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.view.TabbedModulePane;
-import edu.colorado.phet.piccolo.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.qm.QWIFrameSetup;
 import edu.colorado.phet.qm.QWIPhetLookAndFeel;
 
