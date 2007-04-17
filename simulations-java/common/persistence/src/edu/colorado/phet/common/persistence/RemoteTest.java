@@ -1,7 +1,7 @@
-package edu.colorado.phet.persistence;
+package edu.colorado.phet.common.persistence;
 
-import edu.colorado.phet.persistence.PersistenceStrategy;
-import edu.colorado.phet.persistence.RemotePersistence;
+import edu.colorado.phet.common.persistence.PersistenceStrategy;
+import edu.colorado.phet.common.persistence.RemotePersistence;
 
 import java.util.GregorianCalendar;
 import java.util.Calendar;

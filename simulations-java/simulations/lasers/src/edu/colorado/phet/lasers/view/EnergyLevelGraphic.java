@@ -11,6 +11,7 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
+import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
@@ -18,7 +19,6 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.translation.Translat
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.quantum.model.AtomicState;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

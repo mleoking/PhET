@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.mri.model;
 
+import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.mri.util.IScalar;
-import edu.colorado.phet.quantum.model.Photon;
 
 /**
  * MriEmittedPhoton

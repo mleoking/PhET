@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.quantum.model;
+package edu.colorado.phet.common.quantum.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

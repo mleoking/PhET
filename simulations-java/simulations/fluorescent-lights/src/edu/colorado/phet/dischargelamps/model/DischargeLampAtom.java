@@ -13,7 +13,8 @@ package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.quantum.model.*;
+import edu.colorado.phet.quantum.model.Electron;
+import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.common.util.EventChannel;
 
 import java.util.EventObject;

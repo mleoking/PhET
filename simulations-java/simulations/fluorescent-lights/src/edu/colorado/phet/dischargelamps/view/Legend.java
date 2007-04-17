@@ -13,13 +13,13 @@ package edu.colorado.phet.dischargelamps.view;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.AnnotatedAtomGraphic;
-import edu.colorado.phet.quantum.model.Photon;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

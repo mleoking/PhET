@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.photoelectric.model;
 
+import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.model.DefaultEnergyEmissionStrategy;
 import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
-import edu.colorado.phet.quantum.model.EnergyEmissionStrategy;
 
 /**
  * Copper

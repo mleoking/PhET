@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.quantum.model.ElementProperties;
-import edu.colorado.phet.quantum.model.EnergyEmissionStrategy;
+import edu.colorado.phet.common.quantum.model.ElementProperties;
+import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
 
 /**
  * DischargeLampElementProperties

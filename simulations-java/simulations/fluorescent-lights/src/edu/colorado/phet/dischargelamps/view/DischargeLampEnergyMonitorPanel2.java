@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
+import edu.colorado.phet.common.quantum.model.Atom;
+import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.ConfigurableElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-import edu.colorado.phet.quantum.model.Atom;
-import edu.colorado.phet.quantum.model.AtomicState;
 import edu.colorado.phet.quantum.model.Electron;
 import edu.colorado.phet.quantum.model.ElectronSource;
 

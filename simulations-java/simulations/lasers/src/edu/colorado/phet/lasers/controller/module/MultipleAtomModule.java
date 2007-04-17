@@ -12,6 +12,8 @@ package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.quantum.QuantumConfig;
+import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -23,8 +25,6 @@ import edu.colorado.phet.lasers.model.atom.LaserAtom;
 import edu.colorado.phet.lasers.model.atom.ThreeLevelElementProperties;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.view.LampGraphic;
-import edu.colorado.phet.quantum.QuantumConfig;
-import edu.colorado.phet.quantum.model.*;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

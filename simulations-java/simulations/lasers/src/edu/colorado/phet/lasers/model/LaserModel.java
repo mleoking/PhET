@@ -17,6 +17,8 @@ import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.collision.SphereSphereExpert;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.quantum.QuantumConfig;
+import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -26,8 +28,6 @@ import edu.colorado.phet.lasers.model.atom.ThreeLevelElementProperties;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollisonExpert;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
-import edu.colorado.phet.quantum.QuantumConfig;
-import edu.colorado.phet.quantum.model.*;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

@@ -11,13 +11,13 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.quantum.model.PhotonSource;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;

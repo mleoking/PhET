@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.lasers.model.mirror;
 
-import edu.colorado.phet.quantum.model.Photon;
+import edu.colorado.phet.common.quantum.model.Photon;
 
 
 /**

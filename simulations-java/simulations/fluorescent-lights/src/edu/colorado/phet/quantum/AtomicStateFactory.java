@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.quantum;
 
+import edu.colorado.phet.common.quantum.model.AtomicState;
+import edu.colorado.phet.common.quantum.model.GroundState;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-import edu.colorado.phet.quantum.model.AtomicState;
-import edu.colorado.phet.quantum.model.GroundState;
 
 /**
  * AtomicStateFactory

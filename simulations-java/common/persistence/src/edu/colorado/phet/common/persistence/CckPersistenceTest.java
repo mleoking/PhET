@@ -1,6 +1,6 @@
-package edu.colorado.phet.persistence;
+package edu.colorado.phet.common.persistence;
 
-import edu.colorado.phet.persistence.CckRemotePersistence;
+import edu.colorado.phet.common.persistence.CckRemotePersistence;
 
 /**
  * Class: edu.colorado.phet.persistence.CckPersistenceTest

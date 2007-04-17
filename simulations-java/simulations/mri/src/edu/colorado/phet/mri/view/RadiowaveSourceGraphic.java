@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.mri.view;
 
+import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -21,7 +22,6 @@ import edu.colorado.phet.mri.model.RadiowaveSource;
 import edu.colorado.phet.mri.util.GraphicPSwing;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.util.PImageFactory;
-import edu.colorado.phet.quantum.model.PhotonSource;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;

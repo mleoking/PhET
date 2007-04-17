@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
+import edu.colorado.phet.common.quantum.model.AtomicState;
+import edu.colorado.phet.common.quantum.model.ElementProperties;
+import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.quantum.model.AtomicState;
-import edu.colorado.phet.quantum.model.ElementProperties;
-import edu.colorado.phet.quantum.model.EnergyEmissionStrategy;
 
 /**
  * LaserElementProperties

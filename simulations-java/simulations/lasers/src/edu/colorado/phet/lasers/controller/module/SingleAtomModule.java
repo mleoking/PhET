@@ -13,6 +13,11 @@ package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.quantum.QuantumConfig;
+import edu.colorado.phet.common.quantum.model.Atom;
+import edu.colorado.phet.common.quantum.model.AtomicState;
+import edu.colorado.phet.common.quantum.model.Beam;
+import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -25,11 +30,6 @@ import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.LaserAtom;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.view.LampGraphic;
-import edu.colorado.phet.quantum.QuantumConfig;
-import edu.colorado.phet.quantum.model.Atom;
-import edu.colorado.phet.quantum.model.AtomicState;
-import edu.colorado.phet.quantum.model.Beam;
-import edu.colorado.phet.quantum.model.PhotonSource;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;

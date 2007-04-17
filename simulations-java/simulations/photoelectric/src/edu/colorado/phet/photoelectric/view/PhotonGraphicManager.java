@@ -12,9 +12,9 @@ package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
-import edu.colorado.phet.quantum.model.Photon;
-import edu.colorado.phet.quantum.model.PhotonEmissionListener;
-import edu.colorado.phet.quantum.model.PhotonEmittedEvent;
+import edu.colorado.phet.common.quantum.model.Photon;
+import edu.colorado.phet.common.quantum.model.PhotonEmissionListener;
+import edu.colorado.phet.common.quantum.model.PhotonEmittedEvent;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 /**

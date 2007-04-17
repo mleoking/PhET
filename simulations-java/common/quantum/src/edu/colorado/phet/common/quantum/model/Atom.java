@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.quantum.model;
+package edu.colorado.phet.common.quantum.model;
 
 import edu.colorado.phet.collision.SolidSphere;
 import edu.colorado.phet.common.util.EventChannel;
