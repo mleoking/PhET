@@ -32,7 +32,7 @@ public class SimStrings {
     private static Locale localizedLocale;
 
     static {
-        SimStrings.setStrings( "localization/CommonStrings" );
+        SimStrings.setStrings( "localization/sound/common/CommonStrings" );
     }
 
     /**
