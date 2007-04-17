@@ -799,14 +799,20 @@ html>body #availablePages a#viewAllPaging {
 	font-size:.81em;
 }
 .productEntry {
-	float: left;
-	width:116px;
-	padding:0 47px 50px 12px;
-	font-size:.81em;
+	width:      130;
+	height: 	130px;
+    overflow: 	hidden;
+	float: 		left;
+	padding:	20px 20px 20px 20px;
+	font-size:	0.81em;
 }
 .productEntry p {
-	margin-top:-2px;
-	line-height:1.5em;
+	width:			120px;
+	padding-left:   5%;
+	padding-right:  5%;
+	text-align: 	center;
+	margin-top:		-2px;
+	line-height:	1.1em;
 }
 .lastProduct {
 	padding-right:0;
