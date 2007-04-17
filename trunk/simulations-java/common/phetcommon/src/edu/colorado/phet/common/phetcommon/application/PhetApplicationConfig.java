@@ -2,8 +2,10 @@
 
 package edu.colorado.phet.common.phetcommon.application;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetVersionInfo;
+import java.util.Properties;
+
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersionInfo;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 /**
@@ -17,33 +19,29 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  * <li>More than one simulation may live under a project directory, be built
  * from the project's source code, and use the project's resources.
  * Each of these simulations is referred to as a flavor.
+ * <li>If a flavor name is not specified, it defaults to the project name.
  * <li>A project has a properties file (called the "project properties" file)
  * that contains non-localized properties.
- * <il>A PhetApplicationConfig can be either flavored or non-flavored,
- * as specified in the constructor.
- * <li>Project and flavor determine the keys used to access Properties.
- * For non-flavored configurations, the project name determines property names.
- * For flavored configurations, the flavor name determines property names.
+ * <li>Flavor name determines the keys used to access standard Properties
+ * in both the localization and project properties files.
  * This allows the properties for several flavors of a project to exist
  * in the same properties file.
  * </ul>
  * <p>
  * Some standard property names are described below.
  * <p>
- * Property names for standard localized strings; 
- * if using flavors, replace [projectName] with the flavor name:
+ * Property names for standard localized strings:
  * <ul>
- * <li>[projectName].name : simulation name (required)
- * <li>[projectName].description : simulation description (required)
+ * <li>[flavor].name : simulation name (required)
+ * <li>[flavor].description : simulation description (required)
  * </ul>
  * <p>
- * Property names for standard non-localized strings;
- * if using flavors, prefix these with the flavor name:
+ * Property names for standard non-localized strings:
  * <ul>
- * <li>version.major : major version number (required)
- * <li>version.minor : minor version number (required)
- * <li>version.dev : development version number (required)
- * <li>version.revision : repository revision number (required)
+ * <li>[flavor].version.major : major version number (required)
+ * <li>[flavor].version.minor : minor version number (required)
+ * <li>[flavor].version.dev : development version number (required)
+ * <li>[flavor].version.revision : repository revision number (required)
  * <li>about.credits : development team credits (optional)
  * </ul>
  */
@@ -68,15 +66,18 @@ public class PhetApplicationConfig {
     private volatile PhetVersionInfo version;
 
     /**
+     * Constructor where the flavor defaults to the project name associated with the resource loader.
      * 
      * @param commandLineArgs
      * @param resourceLoader
      */
     public PhetApplicationConfig( String[] commandLineArgs, FrameSetup frameSetup, PhetResources resourceLoader ) {
-        this( commandLineArgs, frameSetup, resourceLoader, null );
+        this( commandLineArgs, frameSetup, resourceLoader, resourceLoader.getProjectName() );
     }
 
     /**
+     * Constructor where a flavor is specified.
+     * 
      * @param commandLineArgs
      * @param resourceLoader
      * @param flavor
@@ -87,6 +88,9 @@ public class PhetApplicationConfig {
         }
         if ( resourceLoader == null ) {
             throw new NullPointerException( "resourceLoader is null" );
+        }
+        if ( flavor == null ) {
+            throw new NullPointerException( "flavor is null" );
         }
         this.commandLineArgs = commandLineArgs;
         this.frameSetup = frameSetup;
@@ -177,32 +181,26 @@ public class PhetApplicationConfig {
     }
 
     /*
-     * Gets a property (possibly flavored) from the project properties.
-     * Standard project properties have a prefix only if they are flavored.
+     * Gets a standard property from the project properties.
      */
     private String getStandardProjectProperty( String propertyName ) {
-        String key = propertyName;
-        if ( flavor != null ) {
-            key = flavor + "." + propertyName;
-        }
-        String value = resourceLoader.getProjectProperties().getProperty( key );
-        return value;
+        return getStandardProperty( resourceLoader.getProjectProperties(), propertyName, flavor );
    }
     
     /*
-     * Gets a standard property (possibly flavored) from the localized properties.
-     * Standard localized properties all begin with either the project name or 
-     * the flavor name.
+     * Gets a standard property from the localized properties.
      */
     private String getStandardLocalizedProperty( String propertyName ) {
-        String key = null;
-        if ( flavor != null ) {
-            key = flavor + "." + propertyName;
-        }
-        else {
-            key = resourceLoader.getProjectName() + "." + propertyName;
-        }
-        String value = resourceLoader.getLocalizedProperties().getProperty( key );
+        return getStandardProperty( resourceLoader.getLocalizedProperties(), propertyName, flavor );
+    }
+    
+    /*
+     * Gets a standard property.
+     * Standard properties are prefixed with the flavor name.
+     */
+    private static String getStandardProperty( Properties properties, String propertyName, String flavor ) {
+        String key = flavor + "." + propertyName;
+        String value = properties.getProperty( key );
         return value;
     }
 }
