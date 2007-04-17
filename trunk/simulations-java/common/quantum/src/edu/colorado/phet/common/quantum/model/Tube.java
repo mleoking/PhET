@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.quantum.model;
 
-import edu.colorado.phet.collision.Box2D;
+import edu.colorado.phet.common.collision.Box2D;
 import edu.colorado.phet.common.util.EventChannel;
 
 import java.awt.geom.Point2D;

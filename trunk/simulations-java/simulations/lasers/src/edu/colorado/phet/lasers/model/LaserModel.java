@@ -11,10 +11,10 @@
 
 package edu.colorado.phet.lasers.model;
 
-import edu.colorado.phet.collision.Collidable;
-import edu.colorado.phet.collision.CollisionExpert;
-import edu.colorado.phet.collision.SphereBoxExpert;
-import edu.colorado.phet.collision.SphereSphereExpert;
+import edu.colorado.phet.common.collision.Collidable;
+import edu.colorado.phet.common.collision.CollisionExpert;
+import edu.colorado.phet.common.collision.SphereBoxExpert;
+import edu.colorado.phet.common.collision.SphereSphereExpert;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.quantum.QuantumConfig;

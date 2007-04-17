@@ -11,8 +11,8 @@
  */
 package edu.colorado.phet.lasers.test;
 
-import edu.colorado.phet.collision.SphericalBody;
-import edu.colorado.phet.collision.Wall;
+import edu.colorado.phet.common.collision.SphericalBody;
+import edu.colorado.phet.common.collision.Wall;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

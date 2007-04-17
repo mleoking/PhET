@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.common.quantum.model;
 
-import edu.colorado.phet.collision.Collidable;
-import edu.colorado.phet.collision.CollidableAdapter;
+import edu.colorado.phet.common.collision.Collidable;
+import edu.colorado.phet.common.collision.CollidableAdapter;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.EventChannel;

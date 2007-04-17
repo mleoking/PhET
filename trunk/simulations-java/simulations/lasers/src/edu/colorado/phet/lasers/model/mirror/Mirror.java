@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.lasers.model.mirror;
 
-import edu.colorado.phet.collision.Wall;
+import edu.colorado.phet.common.collision.Wall;
 import edu.colorado.phet.common.quantum.model.Photon;
 
 import java.awt.geom.Point2D;
