@@ -2,7 +2,7 @@
 package edu.colorado.phet.common.charts.controllers;
 
 import edu.colorado.phet.common.charts.Chart;
-import edu.colorado.phet.common.math.Function;
+import edu.colorado.phet.common.phetcommon.math.Function;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

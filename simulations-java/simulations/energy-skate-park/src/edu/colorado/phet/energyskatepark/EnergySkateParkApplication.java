@@ -30,10 +30,10 @@
  */
 package edu.colorado.phet.energyskatepark;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
 import edu.colorado.phet.energyskatepark.view.EC3LookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;

@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.controls;
 
-import edu.colorado.phet.common.view.AdvancedPanel;
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.QWIModel;

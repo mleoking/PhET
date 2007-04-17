@@ -4,13 +4,13 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14674 $
+ * Date modified : $Date:2007-04-17 02:37:37 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.phetgraphics.view.phetgraphics;
 
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -19,7 +19,7 @@ import java.awt.geom.Rectangle2D;
  * PhetShadowTextGraphic
  *
  * @author ?
- * @version $Revision$
+ * @version $Revision:14674 $
  */
 public class PhetShadowTextGraphic extends PhetGraphic {
     private PhetTextGraphic foreground;

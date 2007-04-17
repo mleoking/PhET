@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.energyskatepark.timeseries;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.common.LucidaSansFont;
 

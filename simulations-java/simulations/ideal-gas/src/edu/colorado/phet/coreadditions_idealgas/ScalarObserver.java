@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.coreadditions_idealgas;
 
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 public interface ScalarObserver extends SimpleObserver {
 }

@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.gun;
 
-import edu.colorado.phet.common.math.Function;
-import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.ParticleUnits;
 import edu.colorado.phet.qm.model.Propagator;

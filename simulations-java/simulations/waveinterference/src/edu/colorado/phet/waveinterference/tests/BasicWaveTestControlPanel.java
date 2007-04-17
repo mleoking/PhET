@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

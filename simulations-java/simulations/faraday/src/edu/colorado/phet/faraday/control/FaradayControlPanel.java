@@ -19,7 +19,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.module.FaradayModule;
 

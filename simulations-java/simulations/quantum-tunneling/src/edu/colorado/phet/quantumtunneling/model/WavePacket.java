@@ -15,8 +15,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enums.Direction;
 import edu.colorado.phet.quantumtunneling.util.Distribution;

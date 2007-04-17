@@ -10,15 +10,15 @@
  */
 package edu.colorado.phet.common.phetgraphics.test.graphics;
 
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.common.phetgraphics.view.util.BasicGraphicsSetup;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsSetup;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;

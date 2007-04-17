@@ -5,8 +5,8 @@ import java.awt.Font;
 import java.awt.RenderingHints;
 
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetMultiLineTextGraphic;

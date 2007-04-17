@@ -1,9 +1,9 @@
 package edu.colorado.phet.cck;
 
 import edu.colorado.phet.cck.common.CCKStrings;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.clock.StopwatchPanel;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.clock.StopwatchPanel;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

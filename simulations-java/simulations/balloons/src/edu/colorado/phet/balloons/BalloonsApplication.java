@@ -10,10 +10,10 @@ import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 import edu.colorado.phet.balloons.common.phys2d.ParticleLaw;
 import edu.colorado.phet.balloons.common.phys2d.Repaint;
 import edu.colorado.phet.balloons.common.phys2d.System2D;
-import edu.colorado.phet.common.application.PhetAboutDialog;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +23,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Random;
 
 

@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.waveinterference.WaveIntereferenceLookAndFeel;
 
 import javax.swing.*;

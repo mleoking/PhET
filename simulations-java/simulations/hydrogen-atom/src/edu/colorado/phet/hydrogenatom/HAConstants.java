@@ -18,8 +18,8 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 
-import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 
 /**

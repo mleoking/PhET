@@ -4,7 +4,7 @@ import edu.colorado.phet.cck.chart.DoubleTerminalFloatingChart;
 import edu.colorado.phet.cck.chart.TwoTerminalValueReader;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.VoltageCalculation;
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 import java.awt.*;

@@ -7,7 +7,7 @@ import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common_cck.util.SimpleObservable;
 import edu.colorado.phet.common_cck.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;

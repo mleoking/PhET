@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.motion2d.phetcommon;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
 /**
  * PhetModelUtilities

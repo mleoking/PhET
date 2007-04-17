@@ -5,7 +5,7 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.Battery;
 import edu.colorado.phet.cck.piccolo_cck.ComponentImageNode;
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;

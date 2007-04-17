@@ -21,9 +21,9 @@ import java.text.MessageFormat;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.util.ColorChooserFactory;
-import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.view.HarmonicColors;
 

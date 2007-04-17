@@ -12,8 +12,8 @@
 package edu.colorado.phet.boundstates.model;
 
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.model.clock.TimingStrategy;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 
 
 /**

@@ -11,10 +11,10 @@
 package edu.colorado.phet.common.quantum.model;
 
 
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.Particle;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.photoelectric.controller;
 
-import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.quantum.model.Beam;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
 
 import javax.swing.*;

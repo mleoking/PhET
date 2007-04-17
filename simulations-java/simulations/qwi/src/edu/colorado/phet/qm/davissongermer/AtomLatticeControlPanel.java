@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.davissongermer;
 
-import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
 import javax.swing.*;
 

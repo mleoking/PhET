@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
  * ElectronPulser

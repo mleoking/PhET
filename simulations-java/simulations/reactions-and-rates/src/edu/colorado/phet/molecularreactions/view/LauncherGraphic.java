@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.model.Launcher;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;

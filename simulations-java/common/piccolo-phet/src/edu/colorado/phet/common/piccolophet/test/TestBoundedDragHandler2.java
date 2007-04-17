@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PCanvas;

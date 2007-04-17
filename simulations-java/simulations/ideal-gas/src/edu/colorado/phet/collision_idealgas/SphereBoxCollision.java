@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.collision_idealgas;
 
-import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.IdealGasModel;

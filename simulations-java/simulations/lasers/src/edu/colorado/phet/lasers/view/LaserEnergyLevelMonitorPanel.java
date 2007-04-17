@@ -11,21 +11,21 @@
 
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Beam;
-import edu.colorado.phet.common.util.PhysicsUtil;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.*;
+import edu.colorado.phet.common.phetcommon.view.util.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;

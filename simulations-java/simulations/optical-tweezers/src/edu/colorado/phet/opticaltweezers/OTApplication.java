@@ -9,10 +9,10 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.application.PhetApplicationConfig;
-import edu.colorado.phet.common.util.CommandLineUtils;
-import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.opticaltweezers.menu.DeveloperMenu;
 import edu.colorado.phet.opticaltweezers.menu.OptionsMenu;
 import edu.colorado.phet.opticaltweezers.module.DNAModule;

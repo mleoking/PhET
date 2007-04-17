@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.view.manager;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.hydrogenatom.model.ExperimentModel;
 import edu.colorado.phet.hydrogenatom.view.atom.ExperimentNode;
 import edu.colorado.phet.hydrogenatom.view.manager.ModelViewManager.NodeFactory;

@@ -14,7 +14,7 @@ package edu.colorado.phet.faraday.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.faraday.util.QuadBezierSpline;
 
 

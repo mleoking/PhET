@@ -11,14 +11,14 @@
 
 package edu.colorado.phet.lasers.controller.module;
 
-import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpManager;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.lasers.controller.Kaboom;

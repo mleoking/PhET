@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.quantum.model.Tube;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 
 import java.awt.*;

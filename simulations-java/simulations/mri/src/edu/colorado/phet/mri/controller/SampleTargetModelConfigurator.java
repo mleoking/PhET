@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.mri.controller;
 
-import edu.colorado.phet.common.util.PhysicsUtil;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.SampleTarget;
 

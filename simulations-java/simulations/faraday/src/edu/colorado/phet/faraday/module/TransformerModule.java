@@ -15,8 +15,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;

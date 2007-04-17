@@ -11,8 +11,8 @@
 package edu.colorado.phet.idealgas.controller.Menus;
 
 import edu.colorado.phet.collision_idealgas.SphereSphereExpert;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.SimulationClock;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;

@@ -41,7 +41,7 @@
 
 package edu.colorado.phet.waveinterference.sound;
 
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;

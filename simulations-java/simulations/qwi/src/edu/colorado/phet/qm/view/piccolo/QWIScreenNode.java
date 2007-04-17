@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.piccolo;
 
-import edu.colorado.phet.common.view.clock.StopwatchPanel;
+import edu.colorado.phet.common.phetcommon.view.clock.StopwatchPanel;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BoundGraphic;
 import edu.colorado.phet.common.piccolophet.nodes.ConnectorGraphic;

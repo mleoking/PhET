@@ -15,7 +15,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Hashtable;
 
@@ -26,12 +25,10 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSClock;
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.resources.PhetCommonResources;
-import edu.colorado.phet.common.view.ClockControlPanel;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 
 
 /**

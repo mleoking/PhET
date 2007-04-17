@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.umd.cs.piccolo.PNode;

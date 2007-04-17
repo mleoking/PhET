@@ -21,9 +21,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.module.FourierModule;

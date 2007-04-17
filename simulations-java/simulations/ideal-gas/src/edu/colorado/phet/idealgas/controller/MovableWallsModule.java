@@ -11,12 +11,12 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision_idealgas.*;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;

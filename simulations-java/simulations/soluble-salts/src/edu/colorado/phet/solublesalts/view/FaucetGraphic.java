@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.solublesalts.view;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;

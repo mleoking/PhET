@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.common.collision;
 
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Point2D;
 

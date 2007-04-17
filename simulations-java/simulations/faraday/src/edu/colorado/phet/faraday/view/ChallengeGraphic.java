@@ -13,7 +13,7 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
 
-import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
 
 
 /**

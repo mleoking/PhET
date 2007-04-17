@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.travoltage;
 
-import edu.colorado.phet.common.view.GPLAboutPanel;
-import edu.colorado.phet.common.view.LogoPanel;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.GPLAboutPanel;
+import edu.colorado.phet.common.phetcommon.view.LogoPanel;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import org.jfree.base.Library;
 import org.jfree.ui.about.Contributor;
 import org.jfree.ui.about.ProjectInfo;

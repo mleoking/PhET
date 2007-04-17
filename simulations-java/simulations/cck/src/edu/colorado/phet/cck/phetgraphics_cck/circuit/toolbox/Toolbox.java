@@ -8,9 +8,9 @@ import edu.colorado.phet.cck.phetgraphics_cck.CCKCompositePhetGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.*;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.components.*;
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.util.SimpleObservable;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.ApparatusPanel;
@@ -121,7 +121,7 @@ public class Toolbox extends CompositeGraphic {
         double samLength = componentWidth;
         double samHeight = CCKModel.SERIES_AMMETER_DIMENSION.getHeightForLength( samLength );
         SeriesAmmeter sam = new SeriesAmmeter( module.getCircuitChangeListener(), new Point2D.Double( componentX, y ),
-                                               new edu.colorado.phet.common.math.ImmutableVector2D.Double( 1, 0 ), samLength, samHeight );
+                                               new edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.Double( 1, 0 ), samLength, samHeight );
         SeriesAmmeterGraphic sag = new SeriesAmmeterGraphic( parent, sam, transform, module, SimStrings.getInstance().getString( "Toolbox.AmmeterTitle" ) );
         sag.setFont( new Font( "Lucida Sans", Font.PLAIN, 8 ) );
         SchematicAmmeterGraphic schAg = new SchematicAmmeterGraphic( parent, sam, transform, schematicWireThickness, module.getDecimalFormat() );

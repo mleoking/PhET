@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.mri.controller;
 
-import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.mri.model.GradientElectromagnet;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.view.GradientMagnetControlPanel;

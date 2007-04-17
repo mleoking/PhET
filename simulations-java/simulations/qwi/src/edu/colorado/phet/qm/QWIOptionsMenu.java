@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm;
 
-import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.qm.controls.PropagatorPanel;
 import edu.colorado.phet.qm.controls.ResolutionControl;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;

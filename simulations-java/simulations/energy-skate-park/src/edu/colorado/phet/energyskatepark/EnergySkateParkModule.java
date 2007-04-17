@@ -1,14 +1,14 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.servicemanager.InputStreamFileContents;
 import edu.colorado.phet.common.servicemanager.PhetServiceManager;
-import edu.colorado.phet.common.util.persistence.Point2DPersistenceDelegate;
-import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.util.persistence.Point2DPersistenceDelegate;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.energyskatepark.common.StringOutputStream;
 import edu.colorado.phet.energyskatepark.model.*;
 import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;

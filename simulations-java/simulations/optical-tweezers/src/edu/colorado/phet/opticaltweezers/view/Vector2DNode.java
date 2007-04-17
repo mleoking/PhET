@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
 
 import javax.swing.JLabel;
 
-import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;

@@ -4,9 +4,9 @@ package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollidableAdapter;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

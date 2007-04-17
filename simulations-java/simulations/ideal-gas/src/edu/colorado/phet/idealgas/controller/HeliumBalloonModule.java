@@ -11,10 +11,10 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision_idealgas.SphereHollowSphereExpert;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.model.Command;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.model.Command;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;

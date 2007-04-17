@@ -25,8 +25,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.enums.GameLevel;
 import edu.colorado.phet.fourier.enums.Preset;

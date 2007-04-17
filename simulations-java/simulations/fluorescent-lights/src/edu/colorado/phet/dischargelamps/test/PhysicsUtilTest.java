@@ -9,7 +9,7 @@ package edu.colorado.phet.dischargelamps.test;/* Copyright 2003-2004, University
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.common.util.PhysicsUtil;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 
 /**
  * PhysicsUtilTest

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.hydrogenatom.model.Model;
 import edu.colorado.phet.hydrogenatom.model.Model.ModelEvent;
 import edu.colorado.phet.hydrogenatom.model.Model.ModelListener;

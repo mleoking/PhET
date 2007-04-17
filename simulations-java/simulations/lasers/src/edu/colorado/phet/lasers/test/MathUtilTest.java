@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
 public class MathUtilTest extends TestCase {
 

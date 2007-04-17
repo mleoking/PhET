@@ -1,6 +1,6 @@
 package edu.colorado.phet.cck.controls;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_cck.view.plaf.PlafUtil;
 
 import javax.swing.*;

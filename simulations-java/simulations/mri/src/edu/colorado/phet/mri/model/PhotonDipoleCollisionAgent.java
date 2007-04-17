@@ -14,7 +14,7 @@ import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollisionExpert;
 import edu.colorado.phet.common.collision.CollisionUtil;
 import edu.colorado.phet.common.quantum.model.Photon;
-import edu.colorado.phet.common.util.PhysicsUtil;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.mri.MriConfig;
 
 import java.util.HashMap;

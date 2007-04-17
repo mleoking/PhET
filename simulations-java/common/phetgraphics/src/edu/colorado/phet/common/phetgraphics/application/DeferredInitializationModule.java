@@ -9,9 +9,9 @@
  * Date modified : $Date$
  */
 package edu.colorado.phet.common.phetgraphics.application;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.ClockControlPanel;
-import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 
 import javax.swing.*;
 

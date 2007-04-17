@@ -4,15 +4,15 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14676 $
+ * Date modified : $Date:2007-04-17 02:58:50 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.piccolophet;
 
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.ClockControlPanel;
-import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 
 import javax.swing.*;
 
@@ -28,7 +28,7 @@ import javax.swing.*;
  * in concrete subclasses.
  *
  * @author Ron LeMaster
- * @version $Revision$
+ * @version $Revision:14676 $
  */
 public abstract class DeferredInitializationModule extends PiccoloModule {
     private boolean initialized;

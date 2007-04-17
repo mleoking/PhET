@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

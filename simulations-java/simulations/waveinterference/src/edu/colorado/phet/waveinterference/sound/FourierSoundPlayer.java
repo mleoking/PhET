@@ -11,8 +11,8 @@
 
 package edu.colorado.phet.waveinterference.sound;
 
-import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.sound.sampled.*;
 import javax.swing.*;

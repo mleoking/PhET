@@ -39,7 +39,7 @@ public class ElectronSpring implements ModelElement {
         a.normalize();
         a.scale( (float)aMag );
         newLoc.setLocation( electronLoc );
-        edu.colorado.phet.common.math.Vector2D electronVelocity = electron.getVelocity();
+        edu.colorado.phet.common.phetcommon.math.Vector2D electronVelocity = electron.getVelocity();
         float vx0 = (float)electronVelocity.getX();
         float vx1 = vx0 + (float)a.getX() * (float)dt;
         float vxAve = 0;

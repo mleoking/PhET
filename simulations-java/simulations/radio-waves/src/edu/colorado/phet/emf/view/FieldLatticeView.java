@@ -15,7 +15,7 @@ import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
 import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.emf.view.graphics.splines.CubicSpline;
 import edu.colorado.phet.emf.EmfConfig;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

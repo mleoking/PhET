@@ -7,9 +7,9 @@ import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.colorado.phet.cck.model.components.Wire;
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

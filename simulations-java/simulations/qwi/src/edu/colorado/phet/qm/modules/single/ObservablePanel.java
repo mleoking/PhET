@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.single;
 
-import edu.colorado.phet.common.view.AdvancedPanel;
+import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.view.QWIPanel;
 

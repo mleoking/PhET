@@ -11,10 +11,10 @@
 
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.model.clock.Clock;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.TimingStrategy;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.model.clock.Clock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.Border;

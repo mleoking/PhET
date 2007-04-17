@@ -1,9 +1,9 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 
 import java.awt.geom.Line2D;

@@ -18,9 +18,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.util.DialogUtils;
-import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.util.DialogUtils;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.module.AbstractModule;
 import edu.colorado.phet.quantumtunneling.util.CursorUtils;

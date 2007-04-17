@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck.phetgraphics_cck;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common_cck.model.ModelElement;
 import edu.colorado.phet.common_cck.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_cck.view.phetgraphics.PhetShadowTextGraphic;

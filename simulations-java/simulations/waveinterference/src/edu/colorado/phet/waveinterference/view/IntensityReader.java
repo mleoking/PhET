@@ -1,11 +1,11 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.util.DefaultDecimalFormat;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.waveinterference.model.WaveModel;

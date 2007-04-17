@@ -7,7 +7,7 @@ package edu.colorado.phet.rotation.tests;
  * Copyright (c) Dec 30, 2006 by Sam Reid
  */
 
-import edu.colorado.phet.common.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.rotation.graphs.ControlGraph;

@@ -1,6 +1,6 @@
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * User: Sam Reid

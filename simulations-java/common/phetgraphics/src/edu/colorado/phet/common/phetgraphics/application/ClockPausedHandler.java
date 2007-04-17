@@ -11,8 +11,8 @@
 
 package edu.colorado.phet.common.phetgraphics.application;
 
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

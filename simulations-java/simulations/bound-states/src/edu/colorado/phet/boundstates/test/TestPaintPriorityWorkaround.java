@@ -1,12 +1,12 @@
 /* Copyright 2006, Univeriity of Colorado */
 package edu.colorado.phet.boundstates.test;
 
-import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.common.model.clock.*;
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.model.clock.*;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;

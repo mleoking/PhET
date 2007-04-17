@@ -1,10 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view.arrows;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.view.BlockGraphic;
 import edu.colorado.phet.theramp.view.RampFontSet;

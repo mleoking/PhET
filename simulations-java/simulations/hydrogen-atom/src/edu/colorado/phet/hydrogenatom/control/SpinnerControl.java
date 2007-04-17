@@ -15,7 +15,7 @@ import java.awt.Insets;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 
 /**
  * SpinnerControl combines a JSpinner and two JLabels into a compound component.

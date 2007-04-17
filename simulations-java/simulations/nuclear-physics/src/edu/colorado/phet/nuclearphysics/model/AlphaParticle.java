@@ -7,8 +7,8 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.nuclearphysics.Config;
 
 import java.awt.geom.Point2D;

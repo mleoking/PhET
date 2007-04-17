@@ -11,11 +11,11 @@
 
 package edu.colorado.phet.common.controls;
 
-import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

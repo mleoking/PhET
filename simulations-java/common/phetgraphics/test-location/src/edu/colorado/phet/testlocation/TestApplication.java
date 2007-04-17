@@ -2,8 +2,8 @@ package edu.colorado.phet.testlocation;
 
 import java.io.IOException;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 /**
  * TestApplication is a test application that demonstrates proposed changes

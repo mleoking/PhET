@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark;
 
-import edu.colorado.phet.common.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
  * User: Sam Reid

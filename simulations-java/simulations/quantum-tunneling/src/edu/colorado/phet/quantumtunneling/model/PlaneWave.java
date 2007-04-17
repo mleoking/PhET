@@ -14,8 +14,8 @@ package edu.colorado.phet.quantumtunneling.model;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.quantumtunneling.enums.Direction;
 import edu.colorado.phet.quantumtunneling.util.Complex;
 

@@ -11,13 +11,10 @@ import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**

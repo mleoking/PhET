@@ -10,12 +10,11 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.quantum.model.Photon;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 /**
  * CollisionAgent

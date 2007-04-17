@@ -1,6 +1,6 @@
 package edu.colorado.phet.cck;
 
-import edu.colorado.phet.common.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -18,9 +18,9 @@ import java.io.IOException;
 import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.application.PhetApplicationConfig;
-import edu.colorado.phet.common.view.menu.HelpMenu;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.opticalquantumcontrol.help.ExplanationDialog;
 import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;
 

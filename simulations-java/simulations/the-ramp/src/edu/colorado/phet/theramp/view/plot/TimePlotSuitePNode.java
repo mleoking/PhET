@@ -1,11 +1,11 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view.plot;
 
-import edu.colorado.phet.common.view.graphics.Arrow;
-import edu.colorado.phet.common.view.graphics.transforms.LinearTransform2D;
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.LinearTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.theramp.RampModule;

@@ -4,7 +4,7 @@ package edu.colorado.phet.fourier;
 
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 
 public class FourierResources {

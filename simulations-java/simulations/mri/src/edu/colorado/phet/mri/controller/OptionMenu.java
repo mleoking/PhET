@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.mri.controller;
 
-import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.mri.MriConfig;
 
 import javax.swing.*;

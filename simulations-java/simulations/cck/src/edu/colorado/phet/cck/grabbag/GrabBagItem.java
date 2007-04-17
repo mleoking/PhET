@@ -3,7 +3,7 @@ package edu.colorado.phet.cck.grabbag;
 
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.components.Resistor;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common_cck.view.util.ImageLoader;
 
 import java.awt.geom.Point2D;

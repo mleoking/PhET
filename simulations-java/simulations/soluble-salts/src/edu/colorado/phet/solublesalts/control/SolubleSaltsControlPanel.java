@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.solublesalts.control;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;

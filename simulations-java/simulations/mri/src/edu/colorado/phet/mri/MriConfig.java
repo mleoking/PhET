@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.mri;
 
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.util.PhysicsUtil;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.mri.model.DipoleOrientationAgent;
 import edu.colorado.phet.mri.model.SampleMaterial;
 import edu.colorado.phet.mri.view.MonitorPanel;

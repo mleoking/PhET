@@ -5,9 +5,9 @@ import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.cck.model.components.Bulb;
 import edu.colorado.phet.cck.piccolo_cck.ComponentNode;
-import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

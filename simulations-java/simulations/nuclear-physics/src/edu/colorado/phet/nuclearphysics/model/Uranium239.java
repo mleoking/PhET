@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
-import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
 
 import java.awt.geom.Point2D;
 

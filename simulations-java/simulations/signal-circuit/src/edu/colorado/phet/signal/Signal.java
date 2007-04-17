@@ -1,6 +1,6 @@
 package edu.colorado.phet.signal;
 
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.electron.wire1d.WireParticle;
 import edu.colorado.phet.electron.wire1d.WirePatch;
 import edu.colorado.phet.electron.wire1d.WireSegment;

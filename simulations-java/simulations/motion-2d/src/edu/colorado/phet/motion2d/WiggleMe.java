@@ -1,13 +1,13 @@
 /** Sam Reid*/
 package edu.colorado.phet.motion2d;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 
 import java.awt.*;
 import java.awt.geom.Area;

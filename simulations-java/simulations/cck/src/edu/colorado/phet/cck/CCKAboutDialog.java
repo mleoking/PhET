@@ -1,6 +1,6 @@
 package edu.colorado.phet.cck;
 
-import edu.colorado.phet.common.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 
 /**
  * User: Sam Reid

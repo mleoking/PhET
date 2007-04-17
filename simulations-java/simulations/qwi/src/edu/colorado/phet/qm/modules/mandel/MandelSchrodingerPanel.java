@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.modules.intensity.IntensityBeamPanel;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;

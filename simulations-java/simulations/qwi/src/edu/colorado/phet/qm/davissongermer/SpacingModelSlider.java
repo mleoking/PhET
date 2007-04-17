@@ -1,6 +1,6 @@
 package edu.colorado.phet.qm.davissongermer;
 
-import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

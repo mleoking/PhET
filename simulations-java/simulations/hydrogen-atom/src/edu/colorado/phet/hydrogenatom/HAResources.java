@@ -4,9 +4,8 @@ package edu.colorado.phet.hydrogenatom;
 
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.application.PhetApplicationConfig;
-import edu.colorado.phet.common.resources.PhetCommonResources;
-import edu.colorado.phet.common.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 

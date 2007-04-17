@@ -12,9 +12,9 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.nuclearphysics.model.Uranium235;
 import edu.colorado.phet.nuclearphysics.model.Uranium238;
 import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;

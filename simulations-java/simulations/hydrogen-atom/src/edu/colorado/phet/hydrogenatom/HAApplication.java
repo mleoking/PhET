@@ -21,11 +21,11 @@ import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.application.PhetApplicationConfig;
-import edu.colorado.phet.common.util.CommandLineUtils;
-import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
-import edu.colorado.phet.common.view.menu.HelpMenu;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.hydrogenatom.dialog.TransitionsDialog;
 import edu.colorado.phet.hydrogenatom.menu.DeveloperMenu;
 import edu.colorado.phet.hydrogenatom.menu.OptionsMenu;

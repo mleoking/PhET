@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 public class FissionDetector implements ModelElement {
     private BaseModel model;

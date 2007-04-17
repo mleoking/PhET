@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.mri.view.computedimage;
 
-import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.mri.model.Detector;
 import edu.colorado.phet.mri.model.SampleScannerB;
 

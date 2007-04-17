@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.molecularreactions.modules;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
 import edu.colorado.phet.molecularreactions.model.collision.ReleasingReactionSpring;

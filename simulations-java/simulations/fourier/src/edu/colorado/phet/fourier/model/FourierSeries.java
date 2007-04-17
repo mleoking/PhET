@@ -13,8 +13,8 @@ package edu.colorado.phet.fourier.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.util.SimpleObservable;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fourier.enums.Preset;
 import edu.colorado.phet.fourier.enums.WaveType;
 

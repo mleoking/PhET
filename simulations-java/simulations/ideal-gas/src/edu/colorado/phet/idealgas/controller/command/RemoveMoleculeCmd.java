@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.idealgas.controller.command;
 
-import edu.colorado.phet.common.model.Command;
+import edu.colorado.phet.common.phetcommon.model.Command;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 

@@ -7,7 +7,7 @@ package edu.colorado.phet.rotation.tests;
  * Copyright (c) Dec 30, 2006 by Sam Reid
  */
 
-import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.VelocityDriven;
 

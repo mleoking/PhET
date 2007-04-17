@@ -1,13 +1,13 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.davissongermer;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.PhetFrameWorkaround;
-import edu.colorado.phet.common.view.TabbedModulePane;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
+import edu.colorado.phet.common.phetcommon.view.TabbedModulePane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.qm.QWIFrameSetup;
 import edu.colorado.phet.qm.QWIPhetLookAndFeel;

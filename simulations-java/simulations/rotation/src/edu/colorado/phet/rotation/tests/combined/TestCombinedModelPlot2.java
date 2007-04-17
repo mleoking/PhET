@@ -1,6 +1,6 @@
 package edu.colorado.phet.rotation.tests.combined;
 
-import edu.colorado.phet.common.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.graphs.*;
 import edu.colorado.phet.rotation.graphs.combined.CombinedChartSlider;

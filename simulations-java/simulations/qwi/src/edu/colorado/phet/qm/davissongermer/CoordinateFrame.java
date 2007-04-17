@@ -1,6 +1,6 @@
 package edu.colorado.phet.qm.davissongermer;
 
-import edu.colorado.phet.common.math.Function;
+import edu.colorado.phet.common.phetcommon.math.Function;
 
 /**
  * User: Sam Reid

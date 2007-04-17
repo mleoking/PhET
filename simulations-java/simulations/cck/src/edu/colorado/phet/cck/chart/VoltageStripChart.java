@@ -3,7 +3,7 @@ package edu.colorado.phet.cck.chart;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.piccolo_cck.CCKSimulationPanel;
 import edu.colorado.phet.cck.piccolo_cck.PiccoloVoltageCalculation;
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 import java.awt.*;
 

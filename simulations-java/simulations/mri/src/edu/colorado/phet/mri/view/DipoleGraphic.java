@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Dipole;
 import edu.colorado.phet.mri.model.SampleMaterial;

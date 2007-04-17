@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.common.piccolophet.test.experimental;
 
-import edu.colorado.phet.common.util.MultiMap;
+import edu.colorado.phet.common.phetcommon.util.MultiMap;
 import edu.umd.cs.piccolo.PNode;
 
 import java.util.Iterator;

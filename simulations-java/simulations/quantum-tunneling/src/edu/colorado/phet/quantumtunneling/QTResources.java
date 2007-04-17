@@ -4,8 +4,8 @@ package edu.colorado.phet.quantumtunneling;
 
 import java.awt.Image;
 
-import edu.colorado.phet.common.resources.PhetCommonResources;
-import edu.colorado.phet.common.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 
 public class QTResources {

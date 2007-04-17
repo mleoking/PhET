@@ -8,7 +8,7 @@ package edu.colorado.phet.idealgas.model;
 import edu.colorado.phet.collision_idealgas.CollidableBody;
 import edu.colorado.phet.collision_idealgas.SphericalBody;
 import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

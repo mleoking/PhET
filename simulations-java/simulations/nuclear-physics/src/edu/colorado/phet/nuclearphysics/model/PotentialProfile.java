@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
-import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.coreadditions_nuclearphysics.CubicUtil;
 import edu.colorado.phet.nuclearphysics.Config;
 

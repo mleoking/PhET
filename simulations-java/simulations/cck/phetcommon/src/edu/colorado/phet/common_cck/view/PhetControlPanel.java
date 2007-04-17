@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.common_cck.view;
 
-import edu.colorado.phet.common.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common_cck.application.Module;
 import edu.colorado.phet.common_cck.view.help.HelpPanel;
 import edu.colorado.phet.common_cck.view.util.FractionSpring;

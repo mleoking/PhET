@@ -7,7 +7,7 @@ import edu.colorado.phet.cck.model.components.CircuitComponent;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetGraphic;
 import edu.colorado.phet.cck.phetgraphics_cck.CCKPhetgraphicsModule;
 import edu.colorado.phet.cck.phetgraphics_cck.circuit.IComponentGraphic;
-import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common_cck.util.SimpleObserver;
 import edu.colorado.phet.common_cck.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_cck.view.graphics.transforms.TransformListener;

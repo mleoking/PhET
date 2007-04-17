@@ -5,7 +5,7 @@ package edu.colorado.phet.rutherfordscattering.model;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
  * Space models the space that alpha particles travel through,

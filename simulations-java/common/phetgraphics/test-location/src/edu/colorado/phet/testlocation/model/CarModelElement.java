@@ -1,7 +1,7 @@
 package edu.colorado.phet.testlocation.model;
 
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
  * CarModelElement is the model of a car that moves horizontally.

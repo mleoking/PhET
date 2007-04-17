@@ -12,10 +12,10 @@ package edu.colorado.phet.common.quantum.model;
 
 import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollidableAdapter;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.util.PhysicsUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.Particle;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

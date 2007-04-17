@@ -31,8 +31,8 @@ import org.jfree.data.Range;
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.util.AxisSpec;
-import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 
 /**

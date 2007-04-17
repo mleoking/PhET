@@ -4,9 +4,9 @@ package edu.colorado.phet.cck.model.components;
 import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.model.CircuitChangeListener;
 import edu.colorado.phet.cck.model.Junction;
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;

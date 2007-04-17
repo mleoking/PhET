@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.photoelectric.view;
 
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 
 import java.awt.*;

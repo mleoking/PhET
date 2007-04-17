@@ -7,7 +7,7 @@ import edu.colorado.phet.cck.model.Junction;
 import edu.colorado.phet.cck.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.cck.model.components.Battery;
 import edu.colorado.phet.cck.model.components.Resistor;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Point2D;
 

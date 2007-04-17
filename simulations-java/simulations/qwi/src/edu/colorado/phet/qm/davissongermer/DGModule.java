@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.davissongermer;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.qm.QWIOptionsMenu;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;

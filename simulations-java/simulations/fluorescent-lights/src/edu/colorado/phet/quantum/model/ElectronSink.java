@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.quantum.model;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;

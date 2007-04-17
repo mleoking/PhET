@@ -11,8 +11,8 @@
 
 package edu.colorado.phet.common.servicemanager;
 
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.util.DialogUtils;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 
 import javax.jnlp.FileContents;
 import javax.jnlp.FileSaveService;

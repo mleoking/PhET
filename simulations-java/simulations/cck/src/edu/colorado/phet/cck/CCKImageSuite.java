@@ -1,7 +1,7 @@
 /*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

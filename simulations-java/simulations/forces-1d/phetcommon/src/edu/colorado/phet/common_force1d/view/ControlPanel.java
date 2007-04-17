@@ -13,7 +13,7 @@ package edu.colorado.phet.common_force1d.view;
 import edu.colorado.phet.common_force1d.application.Module;
 import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_force1d.view.help.HelpPanel;
-import edu.colorado.phet.common.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;

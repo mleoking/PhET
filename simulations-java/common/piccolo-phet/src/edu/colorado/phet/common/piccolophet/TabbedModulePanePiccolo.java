@@ -4,17 +4,17 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14676 $
+ * Date modified : $Date:2007-04-17 02:58:50 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.piccolophet;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.ModuleEvent;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.ITabbedModulePane;
-import edu.colorado.phet.common.view.ModulePanel;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
+import edu.colorado.phet.common.phetcommon.view.ModulePanel;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 
 import javax.swing.event.ChangeEvent;
@@ -28,7 +28,7 @@ import javax.swing.*;
  * This class depends on PhetTabbedPane and Piccolo.
  *
  * @author Sam and Ron
- * @version $Revision$
+ * @version $Revision:14676 $
  */
 public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedModulePane {
     private Module current;

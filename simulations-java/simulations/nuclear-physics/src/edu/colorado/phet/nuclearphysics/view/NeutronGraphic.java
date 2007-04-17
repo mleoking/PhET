@@ -7,7 +7,7 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 
 import java.awt.*;

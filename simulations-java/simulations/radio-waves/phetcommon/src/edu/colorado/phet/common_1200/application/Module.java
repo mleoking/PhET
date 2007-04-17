@@ -2,7 +2,6 @@
 package edu.colorado.phet.common_1200.application;
 
 import edu.colorado.phet.common_1200.model.BaseModel;
-import edu.colorado.phet.common_1200.model.ModelElement;
 import edu.colorado.phet.common_1200.view.ApparatusPanel;
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
 import edu.colorado.phet.common_1200.view.help.HelpItem;
@@ -87,7 +86,7 @@ public class Module {
         return name;
     }
 
-    protected void addModelElement( edu.colorado.phet.common.model.ModelElement  modelElement ) {
+    protected void addModelElement( edu.colorado.phet.common.phetcommon.model.ModelElement  modelElement ) {
         getModel().addModelElement( modelElement );
     }
 
@@ -95,12 +94,12 @@ public class Module {
         getApparatusPanel().addGraphic( graphic, layer );
     }
 
-    protected void add( edu.colorado.phet.common.model.ModelElement  modelElement, Graphic graphic, double layer ) {
+    protected void add( edu.colorado.phet.common.phetcommon.model.ModelElement  modelElement, Graphic graphic, double layer ) {
         this.addModelElement( modelElement );
         this.addGraphic( graphic, layer );
     }
 
-    protected void remove( edu.colorado.phet.common.model.ModelElement  modelElement, Graphic graphic ) {
+    protected void remove( edu.colorado.phet.common.phetcommon.model.ModelElement  modelElement, Graphic graphic ) {
         getModel().removeModelElement( modelElement );
         getApparatusPanel().removeGraphic( graphic );
     }

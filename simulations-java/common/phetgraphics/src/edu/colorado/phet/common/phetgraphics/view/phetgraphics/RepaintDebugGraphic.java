@@ -4,15 +4,15 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14674 $
+ * Date modified : $Date:2007-04-17 02:37:37 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.phetgraphics.view.phetgraphics;
 
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 
 import java.awt.*;
@@ -26,7 +26,7 @@ import java.awt.geom.AffineTransform;
  * RepaintDebugGraphic
  *
  * @author ?
- * @version $Revision$
+ * @version $Revision:14674 $
  */
 public class RepaintDebugGraphic extends PhetGraphic implements ClockListener {
     private int r = 255;

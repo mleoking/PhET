@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.common.math.ProbabilisticChooser;
+import edu.colorado.phet.common.phetcommon.math.ProbabilisticChooser;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;

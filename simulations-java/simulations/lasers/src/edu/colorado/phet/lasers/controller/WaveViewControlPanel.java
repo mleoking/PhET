@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.util.PhysicsUtil;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.util.ViewUtils;
 import edu.colorado.phet.lasers.view.PhotonGraphic;

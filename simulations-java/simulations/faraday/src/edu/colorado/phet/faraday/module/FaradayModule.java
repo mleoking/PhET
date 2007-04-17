@@ -15,7 +15,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
-import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;

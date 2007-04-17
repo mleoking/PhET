@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.hydrogenatom.event.PhotonAbsorbedEvent;
 import edu.colorado.phet.hydrogenatom.event.PhotonAbsorbedListener;
 import edu.colorado.phet.hydrogenatom.event.PhotonEmittedEvent;

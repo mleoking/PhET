@@ -9,10 +9,10 @@ import edu.colorado.phet.cck.model.CircuitChangeListener;
 import edu.colorado.phet.cck.model.ResistivityManager;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Bulb;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

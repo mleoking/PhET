@@ -11,9 +11,9 @@
 
 package edu.colorado.phet.solublesalts.control;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.IonFlowManager;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;

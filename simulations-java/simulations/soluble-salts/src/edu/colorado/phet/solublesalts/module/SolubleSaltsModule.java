@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.solublesalts.module;
 
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
