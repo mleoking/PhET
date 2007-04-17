@@ -766,42 +766,15 @@ html>body #availablePages a#viewAllPaging {
 	background: #fff url(../../images/content-design/bg-view-all.gif) 5px 2px no-repeat;
 }
 /* Product Listings */
-.spacer {
-	clear: both;
-}
-.productLists {
-	position:relative;
-	width:504px;
-	float:left;
-}
-.productLists .moreLink {
-	position:absolute;
-	top:-20px;
-	right:0;
-	font-size:.81em;
-}
-.productLists .moreLink a {
-	display:block;
-	position:relative;
-	color:#363531;
-	padding-right:15px;
-	background:url(../../images/interface/more-link-plus-sign.gif) right 1px no-repeat;
-}
-.productLists p {
-	margin-top:-2px;
-	line-height:1.5em;
-}
 .productList {
-	width:129px;
-	w\idth:116px;
-	float:left;
-	padding:0 47px 50px 12px;
-	font-size:.81em;
+	position:	relative;
+	width: 		100%;
+	float: 		left;
 }
 .productEntry {
 	width:      130;
 	height: 	130px;
-    overflow: 	hidden;
+    /* overflow: 	hidden; */
 	float: 		left;
 	padding:	20px 20px 20px 20px;
 	font-size:	0.81em;
@@ -814,19 +787,10 @@ html>body #availablePages a#viewAllPaging {
 	margin-top:		-2px;
 	line-height:	1.1em;
 }
-.lastProduct {
-	padding-right:0;
-}
-.additionalProduct {
-	display:none;
-}
 .productList a {
 	color:#363531;
 }
-.productListingLeftColumn {
-	float:left;
-	margin-top:30px;
-}
+
 #searchResultsLeftColumn {
 	float:left;
 	width: 143px;
