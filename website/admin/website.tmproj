@@ -3,134 +3,92 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>db.inc</string>
+	<string>sim-utils.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
 			<key>filename</key>
 			<string>addnewsim.php</string>
 			<key>lastUsed</key>
-			<date>2007-04-10T20:03:13Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>addsim.html</string>
-			<key>lastUsed</key>
-			<date>2007-04-10T19:40:35Z</date>
+			<date>2007-04-12T21:41:02Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>addnewsim2.php</string>
 			<key>lastUsed</key>
-			<date>2007-04-10T19:40:40Z</date>
+			<date>2007-04-12T21:28:45Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>addsim.php</string>
 			<key>lastUsed</key>
-			<date>2007-04-10T19:40:42Z</date>
+			<date>2007-04-16T19:52:26Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
-			<string>index.htm</string>
+			<string>index.php</string>
 			<key>lastUsed</key>
-			<date>2007-04-10T19:40:45Z</date>
+			<date>2007-04-12T21:58:26Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>ctrl_simsindex.php</string>
 			<key>lastUsed</key>
-			<date>2007-04-10T20:24:10Z</date>
+			<date>2007-04-12T21:56:39Z</date>
 		</dict>
 		<dict>
-			<key>filename</key>
-			<string>ctrlpanel_menu.htm</string>
-			<key>lastUsed</key>
-			<date>2007-04-10T20:24:14Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>ctrlpanel_title.htm</string>
-			<key>lastUsed</key>
-			<date>2007-04-10T19:40:48Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>ctrlpaneltitle.gif</string>
-		</dict>
-		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>incl</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>selected</key>
+			<true/>
 			<key>sourceDirectory</key>
 			<string>incl</string>
 		</dict>
 		<dict>
 			<key>filename</key>
-			<string>sim_category.php</string>
-			<key>lastUsed</key>
-			<date>2007-04-10T19:41:29Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
 			<string>update_sim.php</string>
 			<key>lastUsed</key>
-			<date>2007-04-10T20:54:00Z</date>
+			<date>2007-04-12T21:41:59Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>updatesim2.php</string>
 			<key>lastUsed</key>
-			<date>2007-04-10T20:56:55Z</date>
+			<date>2007-04-12T21:27:32Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>db.inc</string>
 			<key>lastUsed</key>
-			<date>2007-04-10T21:10:01Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2007-04-12T21:39:54Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
-			<string>addsim_confirmpg.html</string>
+			<string>addsim_confirmpg.php</string>
 			<key>lastUsed</key>
-			<date>2007-04-10T20:03:15Z</date>
+			<date>2007-04-12T21:40:17Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>updateexistingsim.php</string>
 			<key>lastUsed</key>
-			<date>2007-04-10T21:00:38Z</date>
+			<date>2007-04-12T21:28:54Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>ctrl_sim_delete.php</string>
 			<key>lastUsed</key>
-			<date>2007-04-10T20:57:01Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>ctrlpanel_main.htm</string>
-			<key>lastUsed</key>
-			<date>2007-04-10T20:21:34Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>ctrlpanellogo.gif</string>
+			<date>2007-04-12T21:28:04Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>addsim2.php</string>
 			<key>lastUsed</key>
-			<date>2007-04-10T21:03:18Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>sim_page.php</string>
-			<key>lastUsed</key>
-			<date>2007-04-10T21:09:31Z</date>
+			<date>2007-04-12T21:29:00Z</date>
 		</dict>
 		<dict>
 			<key>expanded</key>
@@ -146,13 +104,25 @@
 			<key>filename</key>
 			<string>web-utils.php</string>
 			<key>lastUsed</key>
-			<date>2007-04-10T21:09:34Z</date>
+			<date>2007-04-16T19:52:19Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>sim-utils.php</string>
 			<key>lastUsed</key>
-			<date>2007-04-10T21:10:01Z</date>
+			<date>2007-04-16T19:52:43Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>login-info.php</string>
+			<key>lastUsed</key>
+			<date>2007-04-16T19:52:43Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>password-protection.php</string>
+			<key>lastUsed</key>
+			<date>2007-04-13T18:01:21Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
@@ -164,53 +134,23 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
 				<integer>4</integer>
+				<key>line</key>
+				<integer>1</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>58</integer>
-				<key>line</key>
-				<integer>8</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>4</integer>
-			</dict>
 		</dict>
 		<key>addnewsim2.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>12</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>addsim.html</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>1</integer>
-				<key>line</key>
-				<integer>13</integer>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -222,9 +162,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>4</integer>
 				<key>line</key>
-				<integer>11</integer>
+				<integer>2</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -236,93 +176,51 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>12</integer>
+				<integer>20</integer>
 				<key>line</key>
-				<integer>5</integer>
+				<integer>12</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>addsim_confirmpg.html</key>
+		<key>addsim_confirmpg.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>44</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>1</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>22</integer>
+			<integer>0</integer>
 		</dict>
 		<key>ctrl_sim_delete.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>8</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>48</integer>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>6</integer>
+			<integer>0</integer>
 		</dict>
 		<key>ctrl_simsindex.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>17</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>15</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>ctrlpanel_main.htm</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>6</integer>
-				<key>line</key>
-				<integer>10</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>ctrlpanel_menu.htm</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>20</integer>
-				<key>line</key>
-				<integer>17</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>14</integer>
-		</dict>
-		<key>ctrlpanel_title.htm</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>4</integer>
-				<key>line</key>
-				<integer>9</integer>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -334,23 +232,51 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>6</integer>
+				<integer>14</integer>
 				<key>line</key>
-				<integer>17</integer>
+				<integer>20</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>index.htm</key>
+		<key>index.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>6</integer>
+				<integer>37</integer>
 				<key>line</key>
-				<integer>4</integer>
+				<integer>1</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>login-info.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>41</integer>
+				<key>line</key>
+				<integer>7</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>password-protection.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>15</integer>
+				<key>line</key>
+				<integer>38</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -362,51 +288,23 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>5</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>14</integer>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-		</dict>
-		<key>sim_category.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>24</integer>
-				<key>line</key>
-				<integer>3</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>20</integer>
-		</dict>
-		<key>sim_page.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>41</integer>
-				<key>line</key>
-				<integer>281</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>247</integer>
 		</dict>
 		<key>update_sim.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>6</integer>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -420,37 +318,21 @@
 				<key>column</key>
 				<integer>0</integer>
 				<key>line</key>
-				<integer>136</integer>
+				<integer>0</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>111</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>93</integer>
-				<key>line</key>
-				<integer>148</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>136</integer>
-			</dict>
+			<integer>0</integer>
 		</dict>
 		<key>updatesim2.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>28</integer>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -462,9 +344,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>8</integer>
 				<key>line</key>
-				<integer>6</integer>
+				<integer>15</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -474,30 +356,26 @@
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>ctrlpanel_main.htm</string>
 		<string>ctrl_sim_delete.php</string>
 		<string>updateexistingsim.php</string>
-		<string>addsim_confirmpg.html</string>
+		<string>addsim_confirmpg.php</string>
 		<string>updatesim2.php</string>
 		<string>update_sim.php</string>
-		<string>sim_category.php</string>
-		<string>ctrlpanel_title.htm</string>
-		<string>ctrlpanel_menu.htm</string>
 		<string>ctrl_simsindex.php</string>
-		<string>index.htm</string>
+		<string>index.php</string>
 		<string>addsim.php</string>
 		<string>addnewsim2.php</string>
-		<string>addsim.html</string>
 		<string>db.inc</string>
+		<string>login-info.php</string>
 		<string>addnewsim.php</string>
 		<string>web-utils.php</string>
-		<string>sim_page.php</string>
+		<string>password-protection.php</string>
 		<string>addsim2.php</string>
 		<string>sim-utils.php</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{213, 80}, {1092, 868}}</string>
+	<string>{{296, 47}, {1067, 868}}</string>
 </dict>
 </plist>

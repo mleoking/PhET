@@ -176,7 +176,7 @@
                     $num_simulation_listings      = mysql_num_rows($simulation_listing_rows);
 
                     while ($simulation_listing_row = mysql_fetch_row($simulation_listing_rows)) {
-                        $sim_id    = $simulation_listing_row[0];
+                        $sim_id   = $simulation_listing_row[0];
                         $category = $simulation_listing_row[1];
 
                         // start selecting SIMULATIONS
@@ -191,18 +191,18 @@
                         if (is_numeric($sim_id) && url_exists($thumburl)) {
                             if ($sim_column == 1) { 
                                 // OPEN product row
-                                print "<div class=\"productRow\">\n";
+                                print "<div>\n";
 
                                 $product_row_open = true;
                             }    
 
                             if ($sim_column !== 3 && $sim_number !== $num_simulation_listings) {
                                 // Just another product in the row:
-                                print "<div class=\"productList\">\n";
+                                print "<div class=\"productEntry\">\n";
                             }
                             else {
                                 // Last simulation in row
-                                print "<div class=\"productList lastProduct\">\n";
+                                print "<div class=\"productEntry lastProduct\">\n";
                             }
                             
                             /*
@@ -216,7 +216,7 @@
                             print "$link_to_sim";
                             print "<img src=\"$thumburl\" width=\"130\" height=\"97\" alt=\"View $sim_name Simulation\" />";
                             print "</a>\n";
-                            print "<p>$link_to_sim$sim_name</a><br /></p>";
+                            print "<p>$link_to_sim$sim_name</a></p>";
 
                             // Close product:
                             print "</div>\n";
@@ -242,13 +242,10 @@
                         print "</div>\n";
                     }
                 ?>
-
-            <!-- <div id="pg">
-                <p><a class="pg" href="/">1</a>:: <a class="pg" href="/">2</a>:: <a class="pg" href="/">3</a>:: <a class="pg" href="/">4</a>:: <a class="pg" href="/">5</a>:: <a class="pg" href="/">6</a>:: <a class="pg" href="/">7</a>:: <a class="pg" href="/">all»</a></p>
-            </div>
+                
+            <div class="spacer" />
 
             <p class="footer">© 2007 PhET. All rights reserved.<br />
-             -->
         </div>
     </div>
 </body>
