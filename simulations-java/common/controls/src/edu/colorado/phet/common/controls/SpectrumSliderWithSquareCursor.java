@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.controls;
+package edu.colorado.phet.common.controls;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
