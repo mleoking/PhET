@@ -34,7 +34,7 @@
      exit();
     } */
 
-    print ("<center><font size=3><strong><span class=style1>The following information was successfully edited in the Database!</span></strong></font><br><font class=style1 size=3>(<a href=updateexistingsim.php?simid=?>click here to go back</a>)</font><br><br></center> ");
+    print ("<center><font size=3><strong><span class=style1>The following information was successfully edited in the Database!</span></strong></font><br><font class=style1 size=3>(<a href=updateexistingsim.php?sim_id=?>click here to go back</a>)</font><br><br></center> ");
     
     print ("<div align=center>
         <table width=755 border=0 bordercolor=#FFFFFF bgcolor=#FFFFFF>
@@ -69,8 +69,8 @@
                   </p>
         		      <p align=left class=style16><br>
                 <strong>User Tips</strong>:<br> 
-                <span class=style2>$usertips</span><br><br><br>
-        		<span class=style16><strong>URL to Teaching Ideas (pdf file):</strong></span> <span class=style2>$teachingideas</span>
+                <span class=style2>$sim_user_tips</span><br><br><br>
+        		<span class=style16><strong>URL to Teaching Ideas (pdf file):</strong></span> <span class=style2>$sim_teaching_ideas</span>
                   </p>
               </p><br>
               </td>
@@ -78,9 +78,9 @@
     );
 
     /*  update SIMULATIONS table  */
-    $update_simtest_st = "UPDATE `simtest` SET `simname`='$simtitle', `rating`='$simrating', `desc`='$simdesc', `type`='$simtype', `url_sim`='$simurl', `url_thumb`='$thumburl', `teachingideas`='$teachingideas', `usertips`='$usertips', `size`='$simsize', `learninggoals`='$learninggoals', `systemreq`='$mac_check' WHERE `simid`='$simid'";
+    $update_simulation_st = "UPDATE `simulation` SET `sim_name`='$simtitle', `sim_rating`='$simrating', `sim_desc`='$simdesc', `sim_type`='$simtype', `sim_launch_url`='$simurl', `sim_image_url`='$thumburl', `sim_teaching_ideas`='$sim_teaching_ideas', `sim_user_tips`='$sim_user_tips', `sim_size`='$simsize', `sim_learning_goals`='$sim_learning_goals', `sim_system_req`='$mac_check' WHERE `sim_id`='$sim_id'";
 
-    mysql_query($update_simtest_st, $connection);
+    mysql_query($update_simulation_st, $connection);
 
     print ("<tr bgcolor=#FFFFFF>
         <td colspan=2 class=style16><div align=left>

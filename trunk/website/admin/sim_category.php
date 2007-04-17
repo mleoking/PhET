@@ -48,12 +48,12 @@ src="incl/logo-title.jpg"></SPAN></A>
     //now start dynamic menu for SIMULATIONS//
 
     // start selecting SIMULATION CATEGORIES from database table
-    $select_simcat_def_st = "SELECT * FROM `simcat_def` ORDER BY `cat_id` ASC ";
-    $simcat_def_table     = mysql_query($select_simcat_def_st);
+    $select_category_st = "SELECT * FROM `category_id` ORDER BY `cat_id` ASC ";
+    $category_table     = mysql_query($select_category_st);
 
-    while ($simcat_def = mysql_fetch_row($simcat_def_table)) {
-        $cat_id     = $simcat_def[0];
-        $cat_name   = $simcat_def[1];
+    while ($category = mysql_fetch_row($category_table)) {
+        $cat_id     = $category[0];
+        $cat_name   = $category[1];
     
         print "<li class=sub><span class=sub-nav><a href=\"sim_category.php?cat=$cat_id\">&#8594; $cat_name</a></span>";		   
     } 
@@ -97,20 +97,20 @@ src="incl/logo-title.jpg"></SPAN></A>
 <?php
     $cat = $_REQUEST['cat'];
 
-    $select_simcat_def_st = "SELECT * FROM `simcat_def` WHERE `cat_id`='$cat'";
-    $simcat_def_rows      = mysql_query($select_simcat_def_st);
+    $select_category_st = "SELECT * FROM `category_id` WHERE `cat_id`='$cat'";
+    $category_rows      = mysql_query($select_category_st);
 
-    while ($simcat_def_row = mysql_fetch_row($simcat_def_rows)) {
-        $cat_id   = $simcat_def_row[0];
-        $cat_name = $simcat_def_row[1];
+    while ($category_row = mysql_fetch_row($category_rows)) {
+        $cat_id   = $category_row[0];
+        $cat_name = $category_row[1];
 
         print "<DIV class=productListHeader><H1>$cat_name</H1></DIV>";
     } 
 
     //start numbering
-    $select_all_simcats_st = "SELECT * FROM `simcat` WHERE `category`='$cat'";
+    $select_all_simulation_listings_st = "SELECT * FROM `simulation_listing` WHERE `category_id`='$cat'";
 
-    $num_categories = mysql_num_rows(mysql_query($select_all_simcats_st));
+    $num_categories = mysql_num_rows(mysql_query($select_all_simulation_listings_st));
 
     if (isset($HTTP_GET_VARS['st'])) {
         $sim_start_number = $_REQUEST['st'];
@@ -144,21 +144,21 @@ src="incl/logo-title.jpg"></SPAN></A>
     $cat = $_REQUEST['cat'];
 
     //first select which SIMS are in the category
-    $select_simcat_rows_st  = "SELECT * FROM `simcat` WHERE `category`='$cat'  LIMIT $sim_start_number, $sims_per_page";
+    $select_simulation_listing_rows_st  = "SELECT * FROM `simulation_listing` WHERE `category_id`='$cat'  LIMIT $sim_start_number, $sims_per_page";
 
-    $simcat_rows = mysql_query($select_simcat_rows_st);
+    $simulation_listing_rows = mysql_query($select_simulation_listing_rows_st);
 
     $sim_column       = 1;
     $sim_number       = 1;
     $product_row_open = false;
-    $num_simcats      = mysql_num_rows($simcat_rows)
+    $num_simulation_listings      = mysql_num_rows($simulation_listing_rows)
 
-    while ($simcat_row = mysql_fetch_row($simcat_rows)) {
-        $simid    = $simcat_row[0];
-        $category = $simcat_row[1];
+    while ($simulation_listing_row = mysql_fetch_row($simulation_listing_rows)) {
+        $sim_id    = $simulation_listing_row[0];
+        $category = $simulation_listing_row[1];
 
         // start selecting SIMULATIONS
-        $select_sim_st = "SELECT * FROM `simtest` WHERE `simid`= '$simid' ";
+        $select_sim_st = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
 
         $sim_row = mysql_fetch_row(mysql_query($select_sim_st));
 
@@ -183,7 +183,7 @@ src="incl/logo-title.jpg"></SPAN></A>
                 print "<DIV class=\"productList lastProduct\">\n";
             }
     
-            print "<A href=\"sim_page.php?simid=$sim_id\"><IMG height=97 alt=\"\" src=\"$thumburl\" width=130>$sim_name</A>\n";
+            print "<A href=\"sim_page.php?sim_id=$sim_id\"><IMG height=97 alt=\"\" src=\"$thumburl\" width=130>$sim_name</A>\n";
     
             // Close product:
             print "</DIV>\n";

@@ -142,24 +142,24 @@ window.open = SymWinOpen;
 
 
             <?php
-                $simid          = $_REQUEST['simid'];
-                $sql_sim        = "SELECT * FROM `simtest` WHERE `simid`= '$simid' ";
+                $sim_id          = $_REQUEST['sim_id'];
+                $sql_sim        = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
                 $sql_result_sim = mysql_query($sql_sim);
     
                 while ($row2 = mysql_fetch_row($sql_result_sim)) {
-                    $sim_id         = $row2[0];
-                    $sim_name       = format_for_html($row2[1]);
-                    $rating         = $row2[2];
-                    $type           = $row2[3];
-                    $simsize        = $row2[4];
-                    $url_sim        = $row2[5];
-                    $url_thumb      = $row2[6];
-                    $desc           = format_for_html($row2[7]);
-                    $keywords       = $row2[8];
-                    $systemreq      = $row2[9];
-                    $teachingideas  = $row2[10];
-                    $usertips       = $row2[11];
-                    $learninggoals  = $row2[12];
+                    $sim_id              = $row2[0];
+                    $sim_name            = format_for_html($row2[1]);
+                    $rating              = $row2[2];
+                    $type                = $row2[3];
+                    $simsize             = $row2[4];
+                    $sim_launch_url      = $row2[5];
+                    $sim_image_url       = $row2[6];
+                    $sim_desc            = format_for_html($row2[7]);
+                    $keywords            = $row2[8];
+                    $sim_system_req      = $row2[9];
+                    $sim_teaching_ideas  = $row2[10];
+                    $sim_user_tips       = $row2[11];
+                    $sim_learning_goals  = $row2[12];
                 }
             ?>
 
@@ -171,10 +171,10 @@ window.open = SymWinOpen;
 
             <p>
                 <?php
-                    print "<a href=\"$url_sim\">";
-                    print "<img class=\"sim-large\" src=\"$url_thumb\"/>";
+                    print "<a href=\"$sim_launch_url\">";
+                    print "<img class=\"sim-large\" src=\"$sim_image_url\"/>";
                     print "</a>";
-                    print "$desc";                    
+                    print "$sim_desc";                    
                 ?>
             </p>
 
@@ -229,7 +229,7 @@ window.open = SymWinOpen;
 
             <p class="indi-sim">
                 <?php
-                    print "$learninggoals";
+                    print "$sim_learning_goals";
                 ?>
             </p>
 
@@ -238,18 +238,32 @@ window.open = SymWinOpen;
             <h1 class="indi-sim" id="ideas">Teaching Ideas</h1>
 
             <h2 class="sub-title">Ideas and Activites for this Sim</h2>
-
+    
+            <h2 class="sub-title">Ideas for Teachers from PhET</h2>
+            
             <p class="indi-sim">
                 <?php
-                    print "<a href=\"$teachingideas\">Click here to see Ideas and Activities for this Simulation (PDF file).</a>";
+                    print "<a href=\"$sim_teaching_ideas\">Click here to see Ideas and Activities for this Simulation (PDF file).</a>";
                 ?>
             </p>
+            
+            <h2 class="sub-title">Submit Ideas &amp; Activities</h2>
 
-            <p class="indi-sim">&nbsp;</p>
-
-            <form>
-                <textarea id="textareainput" name="textareainput" class="textarea">
-                </textarea><br />
+            <form enctype="multipart/form-data" action="submit-file.php" method="post">
+                <p class="indi-sim">
+                    If you have ideas or activities you would like to contribute, you can use this form to submit them to PhET.
+                    For security reasons, you may only submit PDF files, and submissions will not appear on the PhET website 
+                    until they have been reviewed and accepted by PhET personnel.
+                </p>
+                <br />
+                <input name="keywords" type="file" size="50" accept="application/pdf">
+                <br />
+                <br />
+                <p class="indi-sim">
+                    Enter keywords to associate with your submission:
+                </p>             
+                <input name="submission_file" type="text" size="50">
+                <br />
                 <br />
                 <input type="submit" value="Submit" class="buttonSubmit" />
             </form>

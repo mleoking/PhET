@@ -88,7 +88,7 @@
             </dl>
         </div>
 
-        <div id="content">
+        <div id="content">                  
             <?php
                     if (isset($_REQUEST['cat'])) {
                         $cat = $_REQUEST['cat'];
@@ -97,15 +97,15 @@
                         $cat = 0;
                     }
 
-                    $select_simcat_def_st = "SELECT * FROM `simcat_def` WHERE `cat_id`='$cat'";
-                    $simcat_def_rows      = mysql_query($select_simcat_def_st, $connection);
+                    $select_category_st = "SELECT * FROM `category` WHERE `cat_id`='$cat'";
+                    $category_rows      = mysql_query($select_category_st, $connection);
                     
-                    if (!$simcat_def_rows) {
+                    if (!$category_rows) {
                     }
                     else {
-                        $simcat_def_row = mysql_fetch_row($simcat_def_rows);
+                        $category_row = mysql_fetch_row($category_rows);
                         
-                        $cat_name = $simcat_def_row[1];
+                        $cat_name = $category_row[1];
 
                         print "<div class=\"productListHeader\"><h1>$cat_name</h1></div>";
                     }                    
@@ -126,9 +126,9 @@
                         </p>
                         </div>
                     */
-                    $select_all_simcats_st = "SELECT * FROM `simcat` WHERE `category`='$cat'";
+                    $select_all_simulation_listings_st = "SELECT * FROM `simulation_listing` WHERE `category_id`='$cat'";
 
-                    $num_sims_in_category = mysql_num_rows(mysql_query($select_all_simcats_st, $connection));
+                    $num_sims_in_category = mysql_num_rows(mysql_query($select_all_simulation_listings_st, $connection));
 
                     $sims_per_page = 12;
                     $sim_limit     = $sims_per_page;
@@ -166,21 +166,21 @@
                     //--------------------------------------------------
 
                     //first select which SIMS are in the category
-                    $select_simcat_rows_st  = "SELECT * FROM `simcat` WHERE `category`='$cat'  LIMIT $sim_start_number, $sim_limit ";
+                    $select_simulation_listing_rows_st  = "SELECT * FROM `simulation_listing` WHERE `category_id`='$cat'  LIMIT $sim_start_number, $sim_limit ";
 
-                    $simcat_rows = mysql_query($select_simcat_rows_st, $connection);
+                    $simulation_listing_rows = mysql_query($select_simulation_listing_rows_st, $connection);
 
                     $sim_column       = 1;
                     $sim_number       = 1;
                     $product_row_open = false;
-                    $num_simcats      = mysql_num_rows($simcat_rows);
+                    $num_simulation_listings      = mysql_num_rows($simulation_listing_rows);
 
-                    while ($simcat_row = mysql_fetch_row($simcat_rows)) {
-                        $simid    = $simcat_row[0];
-                        $category = $simcat_row[1];
+                    while ($simulation_listing_row = mysql_fetch_row($simulation_listing_rows)) {
+                        $sim_id    = $simulation_listing_row[0];
+                        $category = $simulation_listing_row[1];
 
                         // start selecting SIMULATIONS
-                        $select_sim_st = "SELECT * FROM `simtest` WHERE `simid`= '$simid' ";
+                        $select_sim_st = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
 
                         $sim_row = mysql_fetch_row(mysql_query($select_sim_st));
 
@@ -196,7 +196,7 @@
                                 $product_row_open = true;
                             }    
 
-                            if ($sim_column !== 3 && $sim_number !== $num_simcats) {
+                            if ($sim_column !== 3 && $sim_number !== $num_simulation_listings) {
                                 // Just another product in the row:
                                 print "<div class=\"productList\">\n";
                             }
@@ -211,7 +211,7 @@
                                 <p><a href="/">Balloons &amp; Static</a><br /></p>
                             */
                             
-                            $link_to_sim = "<a href=\"sims/sims.php?simid=$sim_id\">";
+                            $link_to_sim = "<a href=\"sims/sims.php?sim_id=$sim_id\">";
 
                             print "$link_to_sim";
                             print "<img src=\"$thumburl\" width=\"130\" height=\"97\" alt=\"View $sim_name Simulation\" />";

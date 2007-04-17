@@ -3,8 +3,8 @@
 	include_once("db.inc");
 	include_once("web-utils.php");
 	
-    $simid          = $_REQUEST['simid'];
-    $sql_sim        = "SELECT * FROM `simtest` WHERE `simid`= '$simid' ";
+    $sim_id          = $_REQUEST['sim_id'];
+    $sql_sim        = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
     $sql_result_sim = mysql_query($sql_sim);
 
 	while ($row2 = mysql_fetch_row($sql_result_sim)) {
@@ -16,12 +16,12 @@
 	    $thumburl       = $row2[6];
 	    $simdesc        = $row2[7];
 	    $keywords       = $row2[8];
-	    $systemreq      = $row2[9];
-	    $teachingideas  = $row2[10];
-        $usertips       = $row2[11];
-        $learninggoals  = $row2[12];
+	    $sim_system_req      = $row2[9];
+	    $sim_teaching_ideas  = $row2[10];
+        $sim_user_tips       = $row2[11];
+        $sim_learning_goals  = $row2[12];
 	
-        if ($systemreq == '1') { 
+        if ($sim_system_req == '1') { 
             $mac_ch = "checked";
         }
         else {
@@ -64,7 +64,7 @@
     <td colspan=2 class=style1><div align=center class=style16>
       <p align=left class=style17><u>SIMULATION</u>_____________________________________</p>
       <p align=left><strong>Simulation Title</strong>*: 
-      <input type=hidden name=simid value=$simid>
+      <input type=hidden name=sim_id value=$sim_id>
         <input name=title type=text size=70 maxlength=70 value=\"$simtitle\">
           <br>
           <span class=style18>*make sure the title is unique or it will not get added to the database! </span><br>
@@ -104,13 +104,13 @@
       <p align=left> </p>
       <p align=left class=style16><br>
   User Tips <br>
-  <textarea name=usertips cols=50>$usertips</textarea>
+  <textarea name=sim_user_tips cols=50>$sim_user_tips</textarea>
       </p>
 	   <p align=left class=style16><br>
   Sample Learning Goals <br>
-  <textarea name=learninggoals cols=50>$learninggoals</textarea>
+  <textarea name=sim_learning_goals cols=50>$sim_learning_goals</textarea>
       </p>
-      <strong>Please include the URL to the Teaching Ideas file (pdf):</strong> <input name=teachingideas type=text size=70 value=\"$teachingideas\"><br>
+      <strong>Please include the URL to the Teaching Ideas file (pdf):</strong> <input name=sim_teaching_ideas type=text size=70 value=\"$sim_teaching_ideas\"><br>
       </p></td>
   </tr>
   <tr bgcolor=#FFFFFF>
@@ -122,9 +122,9 @@
       <p align=left>");
       
       function print_category_checkbox($catid, $catname, $checkname) {
-          global $simid;
+          global $sim_id;
           
-      	  $sql_cat        = "SELECT * FROM `simcat` WHERE `sim_id`= '$simid' AND `category`='$catid' ";
+      	  $sql_cat        = "SELECT * FROM `simulation_listing` WHERE `sim_id`= '$sim_id' AND `category_id`='$catid' ";
           $sql_result_cat = mysql_query($sql_cat);
       	  $row_cat        = mysql_num_rows($sql_result_cat);
 

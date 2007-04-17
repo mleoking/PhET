@@ -4,18 +4,18 @@
 	
 	//start drop down menu & form
 	
-	print ("<form action=updateexistingsim.php method=post><select name=simid>");
+	print ("<form action=updateexistingsim.php method=post><select name=sim_id>");
 	
-    $simid              = $_REQUEST['simid'];
-    $select_simtests_st = "SELECT * FROM `simtest` ORDER BY `simname` ASC ";
-    $simtest_table      = mysql_query($select_simtests_st);
+    $sim_id              = $_REQUEST['sim_id'];
+    $select_simulations_st = "SELECT * FROM `simulation` ORDER BY `sim_name` ASC ";
+    $simulation_table      = mysql_query($select_simulations_st);
 	
-    while ($sim = mysql_fetch_row($simtest_table)) {      
-        $simid    = $sim[0];
+    while ($sim = mysql_fetch_row($simulation_table)) {      
+        $sim_id    = $sim[0];
         $simtitle = $sim[1];
 	
         //print drop down menu
-        print "<OPTION VALUE=\"$simid\">$simtitle";
+        print "<OPTION VALUE=\"$sim_id\">$simtitle";
     }
 
     // close drop down menu and form

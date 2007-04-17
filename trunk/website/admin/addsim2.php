@@ -71,11 +71,11 @@
             <span class=style2>$keywords</span><br><br><br>
     		      <p align=left class=style16><br>
             <strong>User Tips</strong>:<br> 
-            <span class=style2>$usertips</span><br><br><br>
+            <span class=style2>$sim_user_tips</span><br><br><br>
     		<p align=left class=style16><br>
             <strong>Learning Goals</strong>:<br> 
-            <span class=style2>$learninggoals</span><br><br><br>
-    		<span class=style16><strong>URL to Teaching Ideas (pdf file):</strong></span> <span class=style2>$teachingideas</span><br><br>
+            <span class=style2>$sim_learning_goals</span><br><br><br>
+    		<span class=style16><strong>URL to Teaching Ideas (pdf file):</strong></span> <span class=style2>$sim_teaching_ideas</span><br><br>
     		<span class=style16>Compatible with Mac?</strong></span> <span class=style2>$mac_print</span></b>
               </p>
           </p><br>
@@ -83,7 +83,7 @@
       </tr>");
 
     /*  insert into SIMULATIONS table  */
-    $sql = "INSERT INTO `simtest` (`simname`, `rating`, `desc`, `type`, `url_sim`, `url_thumb`, `teachingideas`, `usertips`, `size`, `learninggoals`, `systemreq`, `keywords`) VALUES ('$simtitle','$simrating','$simdesc','$simtype', '$simurl', '$thumburl', '$teachingideas', '$usertips', '$simsize', '$learninggoals', '$mac', '$keywords') ";
+    $sql = "INSERT INTO `simulation` (`sim_name`, `sim_rating`, `sim_desc`, `sim_type`, `sim_launch_url`, `sim_image_url`, `sim_teaching_ideas`, `sim_user_tips`, `sim_size`, `sim_learning_goals`, `sim_system_req`, `sim_keywords`) VALUES ('$simtitle','$simrating','$simdesc','$simtype', '$simurl', '$thumburl', '$sim_teaching_ideas', '$sim_user_tips', '$simsize', '$sim_learning_goals', '$mac', '$keywords') ";
     
     $sql_result = mysql_query($sql,$connection) or die (mysql_error());
 
@@ -96,7 +96,7 @@
     
     function add_sim_to_category($catid, $catname, $checkname) {
         if (isset($HTTP_GET_VARS["$checkname"])) {
-           $sql="INSERT INTO `simcat` (`sim_id`, `category`) VALUES ('$sim_id','$catid') ";
+           $sql="INSERT INTO `simulation_listing` (`sim_id`, `category_id`) VALUES ('$sim_id','$catid') ";
            $sql_result=  mysql_query($sql, $connection);
            
            print "$catname<br>";
@@ -104,7 +104,7 @@
     }
     
     // start CATEGORY insert
-    $sql        = "SELECT `simid` FROM `simtest` WHERE `simname`='$simtitle' ";
+    $sql        = "SELECT `sim_id` FROM `simulation` WHERE `sim_name`='$simtitle' ";
     $sql_result = mysql_query($sql);
 
     if ($row = mysql_fetch_row($sql_result)) {
