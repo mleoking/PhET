@@ -25,10 +25,10 @@
     $password      = "";
     $password_hash = "";
 
-    if (cookie_var_get("username") !== null) {
+    if (cookie_var_get("username") !== "") {
         $username      = cookie_var_get("username");
         $password_hash = cookie_var_get("password_hash");
-    }    
+    }
     if (isset($_POST["username"])) { 
         $username      = $_POST["username"];
         $password      = $_POST["password"];
@@ -37,7 +37,7 @@
         
     if ($username == ADMIN_USERNAME && $password_hash == md5(ADMIN_PASSWORD)) {
         cookie_var_store("username",      $username);
-        cookie_var_store("password_hash", md5($password));
+        cookie_var_store("password_hash", $password_hash);
     }
     else {
         ?>
