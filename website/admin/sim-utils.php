@@ -41,18 +41,18 @@
     }
 
     function gather_verify_sim_vars() {
-        global $simid, $simtitle, $simrating, $simdesc, $simurl, $thumburl, $simsize, $usertips, $teachingideas, $learninggoals;
+        global $sim_id, $simtitle, $simrating, $simdesc, $simurl, $thumburl, $simsize, $sim_user_tips, $sim_teaching_ideas, $sim_learning_goals;
     
-        $simid          = $_REQUEST['simid'];
+        $sim_id          = $_REQUEST['sim_id'];
         $simtitle       = $_REQUEST['title'];
         $simrating      = $_REQUEST['rating'];
         $simdesc        = $_REQUEST['simdesc'];
         $simurl         = $_REQUEST['simurl'];
         $thumburl       = $_REQUEST['thumburl'];
         $simsize        = $_REQUEST['simsize'];
-        $usertips       = $_REQUEST['usertips'];
-        $teachingideas  = $_REQUEST['teachingideas'];
-        $learninggoals  = $_REQUEST['learninggoals'];
+        $sim_user_tips       = $_REQUEST['sim_user_tips'];
+        $sim_teaching_ideas  = $_REQUEST['sim_teaching_ideas'];
+        $sim_learning_goals  = $_REQUEST['sim_learning_goals'];
     
         //title
         verify_field($simtitle);
@@ -60,7 +60,7 @@
         //rating
         verify_field($simrating);
     
-        //desc
+        //sim_desc
         verify_field($simdesc);
     
         //system requirements
@@ -180,12 +180,12 @@
         // List all the categories:
 
         // start selecting SIMULATION CATEGORIES from database table
-        $select_simcat_def_st = "SELECT * FROM `simcat_def` ORDER BY `cat_id` ASC ";
-        $simcat_def_table     = mysql_query($select_simcat_def_st, $connection);
+        $select_category_st = "SELECT * FROM `category` ORDER BY `cat_id` ASC ";
+        $category_table     = mysql_query($select_category_st, $connection);
 
-        while ($simcat_def = mysql_fetch_row($simcat_def_table)) {
-            $cat_id     = $simcat_def[0];
-            $cat_name   = format_for_html($simcat_def[1]);
+        while ($category = mysql_fetch_row($category_table)) {
+            $cat_id     = $category[0];
+            $cat_name   = format_for_html($category[1]);
         
             print "<li class=\"sub\"><span class=\"sub-nav\"><a href=\"${prefix}index.php?cat=$cat_id\">&rarr; $cat_name</a></span></li>";          
         } 

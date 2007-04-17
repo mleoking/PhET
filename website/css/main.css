@@ -156,9 +156,9 @@ p.footer a:hover	{
 
 /******** =content ********/
 #content {
-	background: url(../images/content_BG.gif) right bottom no-repeat;
-	margin-left:178px;
-	padding: 20px 18px 39px 30px;
+	background:  url(../images/content_BG.gif) right bottom no-repeat;
+	margin-left: 178px;
+	padding:     20px 18px 39px 30px;
 	
 }
 #content a {

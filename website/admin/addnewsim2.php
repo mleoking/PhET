@@ -87,13 +87,13 @@
       </p>
       <p align=left class=style16><br>
   User Tips <br>
-  <textarea name=usertips cols=50>$usertips</textarea>
+  <textarea name=sim_user_tips cols=50>$sim_user_tips</textarea>
       </p>
 	  <p align=left class=style16><br>
   Sample Learning Goals <br>
-  <textarea name=learninggoals cols=50>$learninggoals</textarea>
+  <textarea name=sim_learning_goals cols=50>$sim_learning_goals</textarea>
       </p>
-      <strong>Please include the URL to the Teaching Ideas file (pdf):</strong> <input name=teachingideas type=text size=70 value=\"$teachingideas\"><br>
+      <strong>Please include the URL to the Teaching Ideas file (pdf):</strong> <input name=sim_teaching_ideas type=text size=70 value=\"$sim_teaching_ideas\"><br>
       </p></td>
   </tr>
   <tr bgcolor=#FFFFFF>
