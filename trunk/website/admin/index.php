@@ -56,6 +56,8 @@ a:hover {
         <li class="style1"><a href="ctrl_simsindex.php">Simulations Index</a></li>
 
         <li class="style1">Organize Categories</li>
+        
+        <li class="style1"><a href="logout.php">Logout</a></li>
     </ul>
 </body>
 </html>
