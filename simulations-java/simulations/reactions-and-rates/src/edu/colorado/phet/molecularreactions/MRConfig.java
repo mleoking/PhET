@@ -1,11 +1,15 @@
 package edu.colorado.phet.molecularreactions;
 
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Paint;
+
+import javax.swing.UIManager;
+
+import edu.colorado.phet.common.resources.PhetResources;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.model.MoleculeA;
-
-import javax.swing.*;
-import java.awt.*;/* Copyright 2003-2004, University of Colorado */
 
 /*
  * CVS Info -
@@ -23,15 +27,12 @@ import java.awt.*;/* Copyright 2003-2004, University of Colorado */
  * @version $Revision$
  */
 public class MRConfig {
-    public static PhetProjectConfig CONFIG = PhetProjectConfig.forProject( "reactions-and-rates" );
+    public static PhetResources RESOURCES = PhetResources.forProject( "reactions-and-rates" );
 
     //--------------------------------------------------------------------------------------------------
     // Misc
     //--------------------------------------------------------------------------------------------------
-    // Version
-    public static final String VERSION = CONFIG.getVersion().formatForDev();
-    // Prefix of the strings bundles
-    public static final String LOCALIZATION_BUNDLE = "localization/MRStrings";
+
     // Debug flag
     public static boolean DEBUG = true;
 

@@ -18,7 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.PhetCommonProjectConfig;
+import edu.colorado.phet.common.resources.PhetCommonResources;
 
 
 /**
@@ -35,7 +35,7 @@ public class LogoPanel extends JPanel {
     private JLabel titleLabel;
 
     public LogoPanel() {
-        imageIcon = new ImageIcon( PhetCommonProjectConfig.getInstance().getImage( IMAGE_PHET_LOGO ) );
+        imageIcon = new ImageIcon( PhetCommonResources.getInstance().getImage( IMAGE_PHET_LOGO ) );
         titleLabel = new JLabel( imageIcon );
         titleLabel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
         add( titleLabel );

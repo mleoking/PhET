@@ -21,6 +21,7 @@ import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.common.util.CommandLineUtils;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
@@ -61,14 +62,12 @@ public class HAApplication extends PiccoloPhetApplication {
     
     /**
      * Sole constructor.
-     * 
-     * @param args command line arguments
      */
-    public HAApplication( String[] args )
+    public HAApplication( PhetApplicationConfig config )
     {
-        super( args, HAResources.getConfig(), HAConstants.FRAME_SETUP );
+        super( config );
         initModules();
-        initMenubar( args );
+        initMenubar( config.getCommandLineArgs() );
     }
     
     //----------------------------------------------------------------------------
@@ -209,8 +208,10 @@ public class HAApplication extends PiccoloPhetApplication {
                 PhetLookAndFeel laf = new PhetLookAndFeel();
                 laf.initLookAndFeel();
 
+                PhetApplicationConfig config = new PhetApplicationConfig( args, HAConstants.FRAME_SETUP, HAResources.getResourceLoader() );
+                
                 // Create the application.
-                HAApplication app = new HAApplication( args );
+                HAApplication app = new HAApplication( config );
                 
                 // Start the application.
                 app.startApplication();

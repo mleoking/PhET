@@ -14,9 +14,9 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleEvent;
 import edu.colorado.phet.common.application.ModuleObserver;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.resources.PhetCommonResources;
 import edu.colorado.phet.common.util.VersionUtils;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -33,14 +33,14 @@ public class HelpMenu extends JMenu implements ModuleObserver {
     private JMenuItem onscreenHelp;
 
     public HelpMenu( final PhetApplication phetApplication ) {
-        super( PhetCommonProjectConfig.getInstance().getString( "Common.HelpMenu.Title" ) );
-        this.setMnemonic( PhetCommonProjectConfig.getInstance().getString( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
+        super( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.Title" ) );
+        this.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
         phetApplication.addModuleObserver( this );
 
         //----------------------------------------------------------------------
         // "Help" menu item
-        onscreenHelp = new JCheckBoxMenuItem( PhetCommonProjectConfig.getInstance().getString( "Common.HelpMenu.Help" ) );
-        onscreenHelp.setMnemonic( PhetCommonProjectConfig.getInstance().getString( "Common.HelpMenu.HelpMnemonic" ).charAt( 0 ) );
+        onscreenHelp = new JCheckBoxMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.Help" ) );
+        onscreenHelp.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.HelpMnemonic" ).charAt( 0 ) );
         onscreenHelp.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 phetApplication.getActiveModule().setHelpEnabled( onscreenHelp.isSelected() );
@@ -51,8 +51,8 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
         //----------------------------------------------------------------------
         // "MegaHelp" menu item
-        final JMenuItem megaHelpItem = new JMenuItem( PhetCommonProjectConfig.getInstance().getString( "Common.HelpMenu.MegaHelp" ) );
-        megaHelpItem.setMnemonic( PhetCommonProjectConfig.getInstance().getString( "Common.HelpMenu.MegaHelpMnemonic" ).charAt( 0 ) );
+        final JMenuItem megaHelpItem = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.MegaHelp" ) );
+        megaHelpItem.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.MegaHelpMnemonic" ).charAt( 0 ) );
         megaHelpItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( phetApplication.getActiveModule().hasMegaHelp() ) {
@@ -84,8 +84,8 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
         //----------------------------------------------------------------------
         // "About" menu item
-        final JMenuItem about = new JMenuItem( PhetCommonProjectConfig.getInstance().getString( "Common.HelpMenu.About" ) );
-        about.setMnemonic( PhetCommonProjectConfig.getInstance().getString( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
+        final JMenuItem about = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.About" ) );
+        about.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 phetApplication.showAboutDialog();

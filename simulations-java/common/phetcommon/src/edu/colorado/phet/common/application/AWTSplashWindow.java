@@ -20,7 +20,7 @@ import java.text.MessageFormat;
 
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.PhetCommonProjectConfig;
+import edu.colorado.phet.common.resources.PhetCommonResources;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
@@ -71,7 +71,8 @@ public class AWTSplashWindow extends Window {
         setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
 
         // UI components
-        String labelString = MessageFormat.format( PhetCommonProjectConfig.getInstance().getString( "PhetApplication.StartupDialog.message" ), new Object[]{title} );
+        String message = PhetCommonResources.getInstance().getLocalizedString( "PhetApplication.StartupDialog.message" );
+        String labelString = MessageFormat.format( message, new Object[]{title} );
         BufferedImage image = getLogoImage();
         Component imageComponent = new ImageComponent( image ) {
             public void paint( Graphics g ) {
@@ -132,7 +133,7 @@ public class AWTSplashWindow extends Window {
      * Gets the PhET logo image.
      */
     private static BufferedImage getLogoImage() {
-        return PhetCommonProjectConfig.getInstance().getImage( LOGO_RESOURCE_NAME );
+        return PhetCommonResources.getInstance().getImage( LOGO_RESOURCE_NAME );
     }
 
     /**

@@ -18,6 +18,7 @@ import java.io.IOException;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.common.util.CommandLineUtils;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetFrameWorkaround;
@@ -67,11 +68,11 @@ public class QTApplication extends PhetApplication {
      * 
      * @param args command line arguments
      */
-    public QTApplication( String[] args )
+    public QTApplication( PhetApplicationConfig config )
     {
-        super( args, QTResources.getConfig(), QTConstants.FRAME_SETUP );
+        super( config );
         initModules();
-        initMenubar( args );
+        initMenubar( config.getCommandLineArgs() );
     }
     
     //----------------------------------------------------------------------------
@@ -173,7 +174,7 @@ public class QTApplication extends PhetApplication {
         
         QTGlobalConfig config = appConfig.getGlobalConfig();
         
-        config.setVersionNumber( QTResources.getVersion() );
+        config.setVersionNumber( getApplicationConfig().getVersion().toString() );
         
         // Color scheme
         config.setColorSchemeName( _colorSchemeMenu.getColorSchemeName() );
@@ -211,8 +212,10 @@ public class QTApplication extends PhetApplication {
      */
     public static void main( final String[] args ) throws IOException {
 
+        PhetApplicationConfig config = new PhetApplicationConfig( args, QTConstants.FRAME_SETUP,  QTResources.getResourceLoader() );
+        
         // Create the application.
-        QTApplication app = new QTApplication( args );
+        QTApplication app = new QTApplication( config );
         
         // Start the application.
         app.startApplication();

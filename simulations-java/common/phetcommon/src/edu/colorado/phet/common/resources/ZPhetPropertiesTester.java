@@ -1,16 +1,16 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.common.view.util;
+package edu.colorado.phet.common.resources;
 
 import junit.framework.TestCase;
 
 /**
- * The test suite for the class:
+ * The test suite for PhetProperties.
  */
-public class ZPropertiesExTester extends TestCase {
-    PropertiesEx properties;
+public class ZPhetPropertiesTester extends TestCase {
+    PhetProperties properties;
 
     public void setUp() {
-        properties = new PropertiesEx();
+        properties = new PhetProperties();
 
         properties.put( "string", "yoda" );
         properties.put( "double", "3.1415" );

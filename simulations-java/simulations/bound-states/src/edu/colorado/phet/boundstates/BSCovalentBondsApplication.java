@@ -15,9 +15,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
 
 /**
  * BSCovalentBondsApplication is the simulation titled "Double Wells and Covalent Bonds".
@@ -32,9 +32,8 @@ public class BSCovalentBondsApplication extends BSAbstractApplication {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSCovalentBondsApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup )
-    {
-        super( args, config, frameSetup );
+    public BSCovalentBondsApplication( PhetApplicationConfig config ) {
+        super( config );
     }
     
     //----------------------------------------------------------------------------
@@ -79,10 +78,10 @@ public class BSCovalentBondsApplication extends BSAbstractApplication {
                 laf.initLookAndFeel();
 
                 // Config
-                BSResources.setConfig( PhetProjectConfig.forProject( BSConstants.PROJECT, BSConstants.FLAVOR_COVALENT_BONDS ) );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, BSConstants.FRAME_SETUP, BSResources.getResourceLoader(), BSConstants.FLAVOR_COVALENT_BONDS );
                 
                 // Create the application.
-                BSAbstractApplication app = new BSCovalentBondsApplication( args, BSResources.getConfig(), BSConstants.FRAME_SETUP );
+                BSAbstractApplication app = new BSCovalentBondsApplication( config );
                 
                 // Start the application.
                 app.startApplication();

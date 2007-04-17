@@ -26,11 +26,11 @@ import edu.colorado.phet.boundstates.module.BSTwoWellsModule;
 import edu.colorado.phet.boundstates.persistence.BSGlobalConfig;
 import edu.colorado.phet.boundstates.persistence.BSPersistenceManager;
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 
@@ -68,14 +68,10 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
 
     /**
      * Sole constructor.
-     * 
-     * @param args command line arguments
-     * @param config
-     * @param frameSetup
      */
-    public BSAbstractApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup )
+    public BSAbstractApplication( PhetApplicationConfig config )
     {
-        super( args, config, frameSetup );
+        super( config );
         initModules();
         initMenubar();
     }
@@ -222,7 +218,7 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
         config.setApplicationClassName( this.getClass().getName() );
         
         // Version and build information
-        config.setVersionNumber( BSResources.getVersion() );
+        config.setVersionNumber( getApplicationConfig().getVersion().toString() );
         
         // Color scheme
         config.setColorSchemeName( _colorsMenu.getColorSchemeName() );

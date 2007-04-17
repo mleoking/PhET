@@ -36,7 +36,7 @@ public class BSConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    public static final String PROJECT = "bound-states";
+    public static final String FLAVOR_BOUND_STATES = "bound-states";
     public static final String FLAVOR_COVALENT_BONDS = "covalent-bonds";
     public static final String FLAVOR_BAND_STRUCTURE = "band-structure";
     

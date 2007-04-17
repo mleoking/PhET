@@ -27,10 +27,10 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.resources.PhetCommonResources;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 /**
  * StopwatchPanel simulates a stopwatch on a specified IClock.
@@ -124,13 +124,13 @@ public class StopwatchPanel extends JPanel {
         this.timeFormat = timeFormat;
 
         // Start/Stop button
-        startString = PhetCommonProjectConfig.getInstance().getString( "Common.StopwatchPanel.start" );
-        stopString = PhetCommonProjectConfig.getInstance().getString( "Common.StopwatchPanel.stop" );
+        startString = PhetCommonResources.getInstance().getLocalizedString( "Common.StopwatchPanel.start" );
+        stopString = PhetCommonResources.getInstance().getLocalizedString( "Common.StopwatchPanel.stop" );
         startStopButton = new JButton( startString );
         SwingUtils.fixButtonOpacity( startStopButton );
 
         // Reset button
-        resetButton = new JButton( PhetCommonProjectConfig.getInstance().getString( "Common.StopwatchPanel.reset" ) );
+        resetButton = new JButton( PhetCommonResources.getInstance().getLocalizedString( "Common.StopwatchPanel.reset" ) );
         SwingUtils.fixButtonOpacity( resetButton );
 
         // Time readout

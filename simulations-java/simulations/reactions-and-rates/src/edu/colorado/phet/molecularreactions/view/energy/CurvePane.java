@@ -85,7 +85,7 @@ public class CurvePane extends PPath implements Resetable {
         cursorLayer.addChild( energyCursor );
 
         // Add axes
-        PNode xAxis = new AxisNode( MRConfig.CONFIG.getString( "EnergyView.ReactionCoordinate" ),
+        PNode xAxis = new AxisNode( MRConfig.RESOURCES.getLocalizedString( "EnergyView.ReactionCoordinate" ),
                                                                        curveAreaSize.getWidth(),
                                                                        MRConfig.ENERGY_PANE_TEXT_COLOR,
                                                                        AxisNode.HORIZONTAL,

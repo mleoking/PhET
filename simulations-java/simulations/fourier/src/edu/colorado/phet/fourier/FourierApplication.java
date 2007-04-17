@@ -18,6 +18,7 @@ import java.io.IOException;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.fourier.control.OptionsMenu;
 import edu.colorado.phet.fourier.module.D2CModule;
@@ -54,12 +55,10 @@ public class FourierApplication extends PhetApplication {
 
     /**
      * Sole constructor.
-     * 
-     * @param args command line arguments
      */
-    public FourierApplication( String[] args )
+    public FourierApplication( PhetApplicationConfig config )
     {
-        super( args, FourierResources.getConfig(), FourierConstants.FRAME_SETUP );
+        super( config );
         initModules();  
         initMenubar();
     }
@@ -136,8 +135,10 @@ public class FourierApplication extends PhetApplication {
      */
     public static void main( String[] args ) throws IOException {
 
+        PhetApplicationConfig config = new PhetApplicationConfig( args, FourierConstants.FRAME_SETUP, FourierResources.getResourceLoader() );
+        
         // Create the application.
-        FourierApplication app = new FourierApplication( args );
+        FourierApplication app = new FourierApplication( config );
         
         // Start the application.
         app.startApplication();

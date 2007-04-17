@@ -146,7 +146,7 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
 
     private void resetValue() {
         setValue( new Integer( 0 ) );
-        JOptionPane.showMessageDialog( this, MRConfig.CONFIG.getString( "Util.maxValueExceeded" ) );
+        JOptionPane.showMessageDialog( this, MRConfig.RESOURCES.getLocalizedString( "Util.maxValueExceeded" ) );
         requestFocus();
     }
 

@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.molecularreactions.view.energy;
 
+import edu.colorado.phet.common.application.PhetApplicationConfig;
+import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.molecularreactions.MRApplication;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
@@ -139,7 +141,7 @@ public class EnergyView extends PNode implements Resetable {
 
     private void addUpperPaneCloser() {
         if ( moleculeSeparationCloser == null) {
-            moleculeSeparationCloser = new PNodeShowHideControl( moleculeSeparationPane, MRConfig.CONFIG.getString( "SeparationView.restoreViewName" ) );
+            moleculeSeparationCloser = new PNodeShowHideControl( moleculeSeparationPane, MRConfig.RESOURCES.getLocalizedString( "SeparationView.restoreViewName" ) );
         }
     }
 
@@ -173,7 +175,7 @@ public class EnergyView extends PNode implements Resetable {
 
     private void enableCurvePaneCloser() {
         if (curvePaneCloser == null) {
-            curvePaneCloser = new PNodeShowHideControl( curvePane, MRConfig.CONFIG.getString( "EnergyView.restoreViewName" ) );
+            curvePaneCloser = new PNodeShowHideControl( curvePane, MRConfig.RESOURCES.getLocalizedString( "EnergyView.restoreViewName" ) );
         }
     }
 
@@ -265,7 +267,9 @@ public class EnergyView extends PNode implements Resetable {
     }
 
     public static void main( String[] args ) {
-        MRApplication mr = new MRApplication( new String[0] );
+        FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1000, 700 );
+        PhetApplicationConfig config = new PhetApplicationConfig( args, frameSetup, MRConfig.RESOURCES );
+        MRApplication mr = new MRApplication( config );
 
         mr.startApplication();
 

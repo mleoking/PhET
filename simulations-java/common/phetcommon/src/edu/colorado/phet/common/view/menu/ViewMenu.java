@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.common.view.menu;
 
+import edu.colorado.phet.common.resources.PhetCommonResources;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 import javax.swing.*;
 
@@ -24,15 +24,15 @@ import javax.swing.*;
 public class ViewMenu extends JMenu {
 
     public ViewMenu() {
-        super( PhetCommonProjectConfig.getInstance().getString( "Common.ViewMenu.Title" ) );
-        this.setMnemonic( PhetCommonProjectConfig.getInstance().getString( "Common.ViewMenu.TitleMnemonic" ).charAt( 0 ) );
+        super( PhetCommonResources.getInstance().getLocalizedString( "Common.ViewMenu.Title" ) );
+        this.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.ViewMenu.TitleMnemonic" ).charAt( 0 ) );
         JMenu subMenu = new JMenu();
-        subMenu.setText( PhetCommonProjectConfig.getInstance().getString( "Common.ViewMenu.LookandFeel" ) );
-        subMenu.setMnemonic( PhetCommonProjectConfig.getInstance().getString( "Common.ViewMenu.LookandFeelMnemonic" ).charAt( 0 ) );
+        subMenu.setText( PhetCommonResources.getInstance().getLocalizedString( "Common.ViewMenu.LookandFeel" ) );
+        subMenu.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.ViewMenu.LookandFeelMnemonic" ).charAt( 0 ) );
 
         // bold checkbox item
         JCheckBoxMenuItem checkItem = new JCheckBoxMenuItem();
-        checkItem.setText( PhetCommonProjectConfig.getInstance().getString( "Common.ViewMenu.Test" ) );
+        checkItem.setText( PhetCommonResources.getInstance().getLocalizedString( "Common.ViewMenu.Test" ) );
         subMenu.add( checkItem );
 
         this.add( subMenu );

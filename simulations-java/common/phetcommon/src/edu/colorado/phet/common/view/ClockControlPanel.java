@@ -22,10 +22,10 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.PhetCommonProjectConfig;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.resources.PhetCommonResources;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
@@ -70,14 +70,14 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         clock.addClockListener( this );
 
         // Button labels
-        playString = PhetCommonProjectConfig.getInstance().getString( PROPERTY_PLAY );
-        pauseString = PhetCommonProjectConfig.getInstance().getString( PROPERTY_PAUSE );
-        String stepString = PhetCommonProjectConfig.getInstance().getString( PROPERTY_STEP );
+        playString = PhetCommonResources.getInstance().getLocalizedString( PROPERTY_PLAY );
+        pauseString = PhetCommonResources.getInstance().getLocalizedString( PROPERTY_PAUSE );
+        String stepString = PhetCommonResources.getInstance().getLocalizedString( PROPERTY_STEP );
         
         // Button icons
-        BufferedImage playU = PhetCommonProjectConfig.getInstance().getImage( IMAGE_PLAY );
-        BufferedImage pauseU = PhetCommonProjectConfig.getInstance().getImage( IMAGE_PAUSE );
-        BufferedImage stepU = PhetCommonProjectConfig.getInstance().getImage( IMAGE_STEP );
+        BufferedImage playU = PhetCommonResources.getInstance().getImage( IMAGE_PLAY );
+        BufferedImage pauseU = PhetCommonResources.getInstance().getImage( IMAGE_PAUSE );
+        BufferedImage stepU = PhetCommonResources.getInstance().getImage( IMAGE_STEP );
         playIcon = new ImageIcon( playU );
         pauseIcon = new ImageIcon( pauseU );
         ImageIcon stepIcon = new ImageIcon( stepU );

@@ -10,15 +10,17 @@
  */
 package edu.colorado.phet.molecularreactions;
 
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.SwingUtilities;
+
+import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.modules.RateExperimentsModule;
 import edu.colorado.phet.molecularreactions.modules.SimpleModule;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
-
-import javax.swing.*;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * edu.colorado.phet.molecularreactions.MRApplication
@@ -29,10 +31,8 @@ import java.lang.reflect.InvocationTargetException;
 //public class MRApplication extends PhetApplication {
 public class MRApplication extends PiccoloPhetApplication {
 
-    public MRApplication( String[] args ) {
-        super( args,
-               MRConfig.CONFIG,
-               new FrameSetup.CenteredWithSize( 1000, 700 ) );
+    public MRApplication( PhetApplicationConfig config ) {
+        super( config );
 
         addModule( new SimpleModule() );
         addModule( new ComplexModule() );
@@ -49,7 +49,10 @@ public class MRApplication extends PiccoloPhetApplication {
                 phetLookAndFeel.setFont( MRConfig.CONTROL_FONT );
                 phetLookAndFeel.setTitledBorderFont( MRConfig.CONTROL_FONT );
                 phetLookAndFeel.initLookAndFeel();
-                MRApplication application = new MRApplication( args );
+                
+                FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1000, 700 );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, frameSetup, MRConfig.RESOURCES );
+                MRApplication application = new MRApplication( config );
 
                 // Let 'er rip
                 application.startApplication();

@@ -68,7 +68,7 @@ public class RangeLimitedIntegerTextField extends JTextField {
         private void resetValue() {
             setText( new Integer( RangeLimitedIntegerTextField.this.maxValue ).toString() );
             JOptionPane.showMessageDialog( RangeLimitedIntegerTextField.this,
-                                           MRConfig.CONFIG.getString( "Util.maxValueExceeded" ) );
+                                           MRConfig.RESOURCES.getLocalizedString( "Util.maxValueExceeded" ) );
             requestFocus();
         }
     }

@@ -95,9 +95,9 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
         stoveSlider.setMinorTickSpacing( 10 );
         stoveSlider.setSnapToTicks( true );
         Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( 0 ), new JLabel( MRConfig.CONFIG.getString( "Control.0" ) ) );
-        labelTable.put( new Integer( -40 ), new MyJLabel( MRConfig.CONFIG.getString( "Control.Lower" ) ) );
-        labelTable.put( new Integer( 40 ), new MyJLabel( MRConfig.CONFIG.getString( "Control.Raise" ) ) );
+        labelTable.put( new Integer( 0 ), new JLabel( MRConfig.RESOURCES.getLocalizedString( "Control.0" ) ) );
+        labelTable.put( new Integer( -40 ), new MyJLabel( MRConfig.RESOURCES.getLocalizedString( "Control.Lower" ) ) );
+        labelTable.put( new Integer( 40 ), new MyJLabel( MRConfig.RESOURCES.getLocalizedString( "Control.Raise" ) ) );
         stoveSlider.setLabelTable( labelTable );
         stoveSlider.setPaintTicks( true );
         stoveSlider.setSnapToTicks( true );
@@ -131,7 +131,7 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
 //                                                            Color.black ),
 //                                          SimStrings.get( "Control.Heat_Control" ) );
 //        stovePanel.setBorder( border );
-        stovePanel.setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.CONFIG.getString( "Control.Heat_Control" ) ) );
+        stovePanel.setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.RESOURCES.getLocalizedString( "Control.Heat_Control" ) ) );
         Color background = MRConfig.SPATIAL_VIEW_BACKGROUND;
         stovePanel.setBackground( background );
         stoveSlider.setBackground( background );

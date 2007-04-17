@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
-import edu.colorado.phet.common.PhetCommonProjectConfig;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.resources.PhetCommonResources;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
@@ -29,8 +29,8 @@ public class GPLAboutPanel extends JPanel {
     public GPLAboutPanel( final PhetApplication phetApplication ) {
         this.phetApplication = phetApplication;
         setLayout( new BorderLayout() );
-        String javaVersion = PhetCommonProjectConfig.getInstance().getString( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
-        final String msg = phetApplication.getTitle() + "\n\n" + phetApplication.getDescription() + "\n\n" + PhetCommonProjectConfig.getInstance().getString( "Common.HelpMenu.VersionLabel" ) + ": " + phetApplication.getVersion() + "\n\n" + javaVersion + "\n";
+        String javaVersion = PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
+        final String msg = phetApplication.getTitle() + "\n\n" + phetApplication.getDescription() + "\n\n" + PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.VersionLabel" ) + ": " + phetApplication.getVersion() + "\n\n" + javaVersion + "\n";
         JTextArea info = new JTextArea() {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D)g;
@@ -44,7 +44,7 @@ public class GPLAboutPanel extends JPanel {
         info.setEditable( false );
         add( info, BorderLayout.CENTER );
 
-        Icon icon = new ImageIcon( PhetCommonProjectConfig.getInstance().getImage( PhetLookAndFeel.PHET_LOGO_120x50 ) );
+        Icon icon = new ImageIcon( PhetCommonResources.getInstance().getImage( PhetLookAndFeel.PHET_LOGO_120x50 ) );
         JLabel label = new JLabel( icon );
         add( label, BorderLayout.NORTH );
 

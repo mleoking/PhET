@@ -16,7 +16,7 @@ import java.text.MessageFormat;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.PhetCommonProjectConfig;
+import edu.colorado.phet.common.resources.PhetCommonResources;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 
 /**
@@ -35,7 +35,7 @@ public class SplashWindow extends JDialog {
         getRootPane().setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
 
         // Splash message
-        String labelFormat = PhetCommonProjectConfig.getInstance().getString( "PhetApplication.StartupDialog.message" );
+        String labelFormat = PhetCommonResources.getInstance().getLocalizedString( "PhetApplication.StartupDialog.message" );
         Object[] args = {title};
         String labelString = MessageFormat.format( labelFormat, args );
         JLabel label = new JLabel( labelString );
@@ -45,7 +45,7 @@ public class SplashWindow extends JDialog {
         progressBar.setIndeterminate( true );
 
         // Phet logo
-        BufferedImage image = PhetCommonProjectConfig.getInstance().getImage( PhetLookAndFeel.PHET_LOGO_120x50 );
+        BufferedImage image = PhetCommonResources.getInstance().getImage( PhetLookAndFeel.PHET_LOGO_120x50 );
         ImageIcon logo = new ImageIcon( image );
 
         // Layout

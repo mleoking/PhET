@@ -65,7 +65,7 @@ public class EnergyLine extends PNode implements Resetable {
 
         Font defaultFont = MRConfig.LABEL_FONT;
         Font labelFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
-        totalEnergyLegend = new PText( MRConfig.CONFIG.getString( "EnergyView.Legend.totalEnergy" ) );
+        totalEnergyLegend = new PText( MRConfig.RESOURCES.getLocalizedString( "EnergyView.Legend.totalEnergy" ) );
         totalEnergyLegend.setFont( labelFont );
         totalEnergyLegend.setTextPaint( MRConfig.TOTAL_ENERGY_COLOR );
         addChild( totalEnergyLegend );
@@ -114,6 +114,6 @@ public class EnergyLine extends PNode implements Resetable {
     }
 
     public void setLabel( String propertyName ) {
-        totalEnergyLegend.setText( MRConfig.CONFIG.getString( propertyName ) );
+        totalEnergyLegend.setText( MRConfig.RESOURCES.getLocalizedString( propertyName ) );
     }
 }

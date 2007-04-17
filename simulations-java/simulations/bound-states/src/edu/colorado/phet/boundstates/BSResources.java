@@ -4,55 +4,47 @@ package edu.colorado.phet.boundstates;
 
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.PhetCommonProjectConfig;
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
+import edu.colorado.phet.common.resources.PhetCommonResources;
+import edu.colorado.phet.common.resources.PhetResources;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 
 public class BSResources {
     
-    private static PhetProjectConfig _config;
+    private static PhetResources RESOURCES = PhetResources.forProject( "bound-states" );
     
     /* not intended for instantiation */
     private BSResources() {}
     
-    public static final void setConfig( PhetProjectConfig config ) {
-        _config = config;
-    }
-    
-    public static final PhetProjectConfig getConfig() {
-        return _config;
+    public static final PhetResources getResourceLoader() {
+        return RESOURCES;
     }
     
     public static final String getString( String name ) {
-        return _config.getString( name  );
+        return RESOURCES.getLocalizedString( name  );
     }
     
     public static final char getChar( String name, char defaultValue ) {
-        return _config.getChar( name, defaultValue );
+        return RESOURCES.getLocalizedChar( name, defaultValue );
     }
 
     public static final int getInt( String name, int defaultValue ) {
-        return _config.getInt( name, defaultValue );
-    }
-    
-    public static final String getVersion() {
-        return _config.getVersion().toString();
+        return RESOURCES.getLocalizedInt( name, defaultValue );
     }
     
     public static final BufferedImage getImage( String name ) {
-        return _config.getImage( name );
+        return RESOURCES.getImage( name );
     }
     
     public static final PImage getImageNode( String name ) {
-        return new PImage( _config.getImage( name ) );
+        return new PImage( RESOURCES.getImage( name ) );
     }
     
     public static final String getCommonString( String name ) {
-        return PhetCommonProjectConfig.getInstance().getString( name );
+        return PhetCommonResources.getInstance().getLocalizedString( name );
     }
     
     public static final BufferedImage getCommonImage( String name ) {
-        return PhetCommonProjectConfig.getInstance().getImage( name );
+        return PhetCommonResources.getInstance().getImage( name );
     }
 }

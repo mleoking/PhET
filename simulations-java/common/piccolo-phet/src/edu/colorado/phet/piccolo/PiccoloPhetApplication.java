@@ -11,9 +11,9 @@
 package edu.colorado.phet.piccolo;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.common.view.ITabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
 
 /**
  * PiccoloPhetApplication
@@ -46,6 +46,14 @@ public class PiccoloPhetApplication extends PhetApplication {
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
 
+    public PiccoloPhetApplication( PhetApplicationConfig config ) {
+        super( config, PHET_TABBED_PANE );
+    }
+
+    public PiccoloPhetApplication( PhetApplicationConfig config, TabbedPaneType tabbedPaneType ) {
+        super( config, tabbedPaneType );
+    }
+    
     /**
      * @param args
      * @param title
@@ -87,14 +95,6 @@ public class PiccoloPhetApplication extends PhetApplication {
     public PiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
         super( args, title, description, version, frameSetup );
         super.setTabbedPaneType(PHET_TABBED_PANE);
-    }
-
-    public PiccoloPhetApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup ) {
-        super( args, config, frameSetup, PHET_TABBED_PANE );
-    }
-
-    public PiccoloPhetApplication( String[] args, PhetProjectConfig config, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
-        super( args, config, frameSetup, tabbedPaneType );
     }
 
     /**

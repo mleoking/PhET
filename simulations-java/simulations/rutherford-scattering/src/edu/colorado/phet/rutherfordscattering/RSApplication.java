@@ -6,9 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 import edu.colorado.phet.rutherfordscattering.module.PlumPuddingAtomModule;
 import edu.colorado.phet.rutherfordscattering.module.RutherfordAtomModule;
@@ -26,14 +26,12 @@ public class RSApplication extends PiccoloPhetApplication {
     
     /**
      * Sole constructor.
-     * 
-     * @param args command line arguments
      */
-    public RSApplication( String[] args )
+    public RSApplication( PhetApplicationConfig config )
     {
-        super( args, RSResources.getConfig(), RSConstants.FRAME_SETUP );
+        super( config  );
         initModules();
-        initMenubar( args );
+        initMenubar( config.getCommandLineArgs() );
     }
     
     //----------------------------------------------------------------------------
@@ -84,8 +82,10 @@ public class RSApplication extends PiccoloPhetApplication {
                 PhetLookAndFeel laf = new PhetLookAndFeel();
                 laf.initLookAndFeel();
 
+                PhetApplicationConfig config = new PhetApplicationConfig( args, RSConstants.FRAME_SETUP, RSResources.getResourceLoader() );
+                
                 // Create the application.
-                RSApplication app = new RSApplication( args );
+                RSApplication app = new RSApplication( config );
                 
                 // Start the application.
                 app.startApplication();

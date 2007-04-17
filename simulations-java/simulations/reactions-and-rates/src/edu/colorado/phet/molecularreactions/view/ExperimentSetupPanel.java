@@ -94,11 +94,11 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         moleculeTypeToGenerator.put( MoleculeC.class, moleculeCParamGenerator );
 
         // Create the controls
-        JLabel topLineLbl = new JLabel( MRConfig.CONFIG.getString( "ExperimentSetup.topLine" ) );
-        JLabel numALbl = new JLabel( MRConfig.CONFIG.getString( "ExperimentSetup.numA" ) );
-        JLabel numBCLbl = new JLabel( MRConfig.CONFIG.getString( "ExperimentSetup.numBC" ) );
-        JLabel numABLbl = new JLabel( MRConfig.CONFIG.getString( "ExperimentSetup.numAB" ) );
-        JLabel numCLbl = new JLabel( MRConfig.CONFIG.getString( "ExperimentSetup.numC" ) );
+        JLabel topLineLbl = new JLabel( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.topLine" ) );
+        JLabel numALbl = new JLabel( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.numA" ) );
+        JLabel numBCLbl = new JLabel( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.numBC" ) );
+        JLabel numABLbl = new JLabel( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.numAB" ) );
+        JLabel numCLbl = new JLabel( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.numC" ) );
 
         // Make the text fields for the number of molecules
         int maxMolecules = MRConfig.MAX_MOLECULE_CNT;
@@ -111,7 +111,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         goButton = new JButton( new TogglingExperimentAction( module ) );
 
         // Add a border
-        setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.CONFIG.getString( "ExperimentSetup.title" ) ) );
+        setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.title" ) ) );
 
         // Lay out the controls
         GridBagConstraints c = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
@@ -130,7 +130,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         c.gridx = 0;
         c.gridwidth = 4;
         c.anchor = GridBagConstraints.WEST;
-        add( new JLabel( MRConfig.CONFIG.getString( "Control.selectReaction" ) ), c );
+        add( new JLabel( MRConfig.RESOURCES.getLocalizedString( "Control.selectReaction" ) ), c );
         c.anchor = GridBagConstraints.CENTER;
         add( new ReactionChooserComboBox( module ), c );
 
@@ -261,7 +261,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
 
         module.setExperimentRunning( false );
 
-        goButton.setText( MRConfig.CONFIG.getString( "ExperimentSetup.go" ) );
+        goButton.setText( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.go" ) );
 
         toggleInProgress = false;
     }
@@ -279,7 +279,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
 
         module.setExperimentRunning( true );
 
-        goButton.setText( MRConfig.CONFIG.getString( "ExperimentSetup.stop" ) );
+        goButton.setText( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.stop" ) );
 
         module.resetStripChart();
         module.getClock().start();
@@ -298,7 +298,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         private RateExperimentsModule module;
 
         public TogglingExperimentAction( RateExperimentsModule module ) {
-            super( MRConfig.CONFIG.getString( "ExperimentSetup.go" ) );
+            super( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.go" ) );
             this.module = module;
         }
 

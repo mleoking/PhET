@@ -4,8 +4,8 @@ package edu.colorado.phet.quantumtunneling;
 
 import java.awt.Image;
 
-import edu.colorado.phet.common.PhetCommonProjectConfig;
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
+import edu.colorado.phet.common.resources.PhetCommonResources;
+import edu.colorado.phet.common.resources.PhetResources;
 
 
 public class QTResources {
@@ -13,37 +13,33 @@ public class QTResources {
     /* not intended for instantiation */
     private QTResources() {}
     
-    private static final PhetProjectConfig CONFIG = PhetProjectConfig.forProject( "quantum-tunneling" );
+    private static final PhetResources RESOURCES = PhetResources.forProject( "quantum-tunneling" );
 
-    public static PhetProjectConfig getConfig() {
-        return CONFIG;
+    public static PhetResources getResourceLoader() {
+        return RESOURCES;
     }
     
     public static final String getString( String name ) {
-        return CONFIG.getString( name  );
+        return RESOURCES.getLocalizedString( name  );
     }
     
     public static final char getChar( String name, char defaultValue ) {
-        return CONFIG.getChar( name, defaultValue );
+        return RESOURCES.getLocalizedChar( name, defaultValue );
     }
 
     public static final int getInt( String name, int defaultValue ) {
-        return CONFIG.getInt( name, defaultValue );
-    }
-    
-    public static final String getVersion() {
-        return CONFIG.getVersion().toString();
+        return RESOURCES.getLocalizedInt( name, defaultValue );
     }
     
     public static final Image getImage( String name ) {
-        return CONFIG.getImage( name );
+        return RESOURCES.getImage( name );
     }
     
     public static final String getCommonString( String name ) {
-        return PhetCommonProjectConfig.getInstance().getString( name  );
+        return PhetCommonResources.getInstance().getLocalizedString( name  );
     }
     
     public static final Image getCommonImage( String name ) {
-        return PhetCommonProjectConfig.getInstance().getImage( name );
+        return PhetCommonResources.getInstance().getImage( name );
     }
 }

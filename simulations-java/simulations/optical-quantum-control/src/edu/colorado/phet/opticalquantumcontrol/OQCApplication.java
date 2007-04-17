@@ -19,6 +19,7 @@ import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.opticalquantumcontrol.help.ExplanationDialog;
 import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;
@@ -45,11 +46,9 @@ public class OQCApplication extends PhetApplication {
 
     /**
      * Sole constructor.
-     * 
-     * @param args command line arguments
      */
-    public OQCApplication( String[] args ) {
-        super( args, OQCResources.getConfig(), OQCConstants.FRAME_SETUP );
+    public OQCApplication( PhetApplicationConfig config ) {
+        super( config );
         initModules();
         initMenubar();
     }
@@ -115,8 +114,10 @@ public class OQCApplication extends PhetApplication {
      */
     public static void main( String[] args ) throws IOException {
 
+        PhetApplicationConfig config = new PhetApplicationConfig( args, OQCConstants.FRAME_SETUP, OQCResources.getResourceLoader() );
+        
         // Create the application.
-        OQCApplication app = new OQCApplication( args );
+        OQCApplication app = new OQCApplication( config );
         
         // Start the application.
         app.startApplication();

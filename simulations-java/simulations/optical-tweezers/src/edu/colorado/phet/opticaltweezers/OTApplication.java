@@ -9,11 +9,11 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.application.PhetApplicationConfig;
 import edu.colorado.phet.common.util.CommandLineUtils;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.PhetProjectConfig;
 import edu.colorado.phet.opticaltweezers.menu.DeveloperMenu;
 import edu.colorado.phet.opticaltweezers.menu.OptionsMenu;
 import edu.colorado.phet.opticaltweezers.module.DNAModule;
@@ -58,11 +58,11 @@ public class OTApplication extends PiccoloPhetApplication {
      * 
      * @param args command line arguments
      */
-    public OTApplication( String[] args )
+    public OTApplication( PhetApplicationConfig config )
     {
-        super( args, OTResources.getConfig(), OTConstants.FRAME_SETUP );
+        super( config );
         initModules();
-        initMenubar( args );
+        initMenubar( config.getCommandLineArgs() );
     }
     
     //----------------------------------------------------------------------------
@@ -148,7 +148,7 @@ public class OTApplication extends PiccoloPhetApplication {
         
         GlobalConfig config = appConfig.getGlobalConfig();
         
-        config.setVersionNumber( OTResources.getVersion() );
+        config.setVersionNumber( getApplicationConfig().getVersion().toString() );
     }
 
     /**
@@ -190,8 +190,10 @@ public class OTApplication extends PiccoloPhetApplication {
                 PhetLookAndFeel laf = new PhetLookAndFeel();
                 laf.initLookAndFeel();
 
+                PhetApplicationConfig config = new PhetApplicationConfig( args, OTConstants.FRAME_SETUP, OTResources.getResourceLoader() );
+                
                 // Create the application.
-                OTApplication app = new OTApplication( args );
+                OTApplication app = new OTApplication( config );
 
                 // Start the application.
                 app.startApplication();

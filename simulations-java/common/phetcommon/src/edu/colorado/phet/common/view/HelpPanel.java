@@ -22,9 +22,9 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.resources.PhetCommonResources;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.common.PhetCommonProjectConfig;
 
 /**
  * HelpPanel
@@ -34,9 +34,9 @@ import edu.colorado.phet.common.PhetCommonProjectConfig;
  */
 public class HelpPanel extends JPanel {
     private boolean miniHelpShowing = false;
-    private String showHelpStr = PhetCommonProjectConfig.getInstance().getString( "Common.HelpPanel.ShowHelp" );
-    private String hideHelpStr = PhetCommonProjectConfig.getInstance().getString( "Common.HelpPanel.HideHelp" );
-    private String megaHelpStr = PhetCommonProjectConfig.getInstance().getString( "Common.HelpPanel.MegaHelp" );
+    private String showHelpStr = PhetCommonResources.getInstance().getLocalizedString( "Common.HelpPanel.ShowHelp" );
+    private String hideHelpStr = PhetCommonResources.getInstance().getLocalizedString( "Common.HelpPanel.HideHelp" );
+    private String megaHelpStr = PhetCommonResources.getInstance().getLocalizedString( "Common.HelpPanel.MegaHelp" );
     private JButton miniHelpBtn;
     private JButton megaHelpBtn;
     private int padY = 2;
